@@ -34,6 +34,8 @@
     "@types/react-dom": "^16.8.4",
     "cli-spinner": "^0.2.10",
     "commander": "^2.20.0",
+    "electron": "^4.1.4",
+    "electron-packager": "^13.1.1",
     "enzyme": "^3.9.0",
     "konva": "^3.2.5",
     "localforage": "^1.7.3",
