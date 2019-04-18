@@ -1,0 +1,74 @@
+{
+  "name": "reactype",
+  "version": "1.0.0",
+  "description": "Prototyping tool for React/Typescript Applications",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
+    "start": "cross-env NODE_ENV=production electron .",
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
+    "electron": "cross-env NODE_ENV=development electron .",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
+    "build-bin": "electron-builder -mwl",
+    "test": "cross-env NODE_ENV=test jest",
+    "linter": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/team-reactype/ReacType.git"
+  },
+  "keywords": [
+    "React",
+    "Typescript"
+  ],
+  "author": "Christian Padilla, Tolga Mizrakci, Adam Singer, Shlomo Porges",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/team-reactype/ReacType/issues"
+  },
+  "homepage": "https://github.com/team-reactype/ReacType#readme",
+  "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
+    "cli-spinner": "^0.2.10",
+    "commander": "^2.20.0",
+    "enzyme": "^3.9.0",
+    "konva": "^3.2.5",
+    "localforage": "^1.7.3",
+    "lodash.throttle": "^4.1.1",
+    "prettier": "^1.17.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-draggable": "^3.2.1",
+    "react-konva": "^16.8.6",
+    "react-redux": "^7.0.2",
+    "react-sortable-tree": "^2.6.2",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "isomorphic-fetch": "^2.2.1",
+    "nodemon": "^1.18.11",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.4.3",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
