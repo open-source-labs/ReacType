@@ -1,8 +1,54 @@
 {
-  "name": "reactype",
+  "name": "teamreactype",
   "version": "1.0.0",
-  "description": "Prototyping tool for React/Typescript Applications",
-  "main": "index.js",
+  "description": "Prototyping tool for React/Typescript Applications.",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "build": {
+    "appId": "",
+    "copyright": "Copyright © 2018",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "maintainer": "blessingebowe@gmail.com"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg"
+    },
+    "nsis": {
+      "createStartMenuShortcut": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": true
+    },
+    "win": {
+      "target": "nsis-web"
+    },
+    "files": [
+      "main.js",
+      "build"
+    ],
+    "productName": "",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
   "scripts": {
     "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "start": "cross-env NODE_ENV=production electron .",
@@ -13,64 +59,79 @@
     "test": "cross-env NODE_ENV=test jest",
     "linter": "eslint src"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/team-reactype/ReacType.git"
+  "bin": {
+    "reactype": "./index.js"
   },
-  "keywords": [
-    "React",
-    "Typescript"
-  ],
-  "author": "Christian Padilla, Tolga Mizrakci, Adam Singer, Shlomo Porges",
+  "preferGlobal": true,
+  "contributors": [],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/team-reactype/ReacType/issues"
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "electron": "<rootDir>/__mocks__/electron.js"
+    },
+    "setupFiles": [
+      "./src/setupTests.js"
+    ]
   },
-  "homepage": "https://github.com/team-reactype/ReacType#readme",
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
-    "@types/react": "^16.8.13",
-    "@types/react-dom": "^16.8.4",
-    "cli-spinner": "^0.2.10",
-    "commander": "^2.20.0",
-    "electron": "^4.1.4",
-    "electron-packager": "^13.1.1",
-    "enzyme": "^3.9.0",
-    "konva": "^3.2.5",
-    "localforage": "^1.7.3",
+    "@material-ui/core": "^1.4.1",
+    "@material-ui/icons": "^2.0.0",
+    "autoprefixer": "^9.0.1",
+    "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
+    "cli-spinner": "^0.2.8",
+    "commander": "^2.17.1",
+    "enzyme": "^3.4.1",
+    "konva": "^2.1.7",
+    "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
-    "prettier": "^1.17.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-draggable": "^3.2.1",
-    "react-konva": "^16.8.6",
-    "react-redux": "^7.0.2",
-    "react-sortable-tree": "^2.6.2",
-    "redux": "^4.0.1",
-    "redux-devtools-extension": "^2.13.8",
+    "prettier": "^1.14.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-draggable": "^3.0.5",
+    "react-konva": "^1.7.12",
+    "react-redux": "^5.0.7",
+    "react-sortable-tree": "^2.2.0",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "electron": "^2.0.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
-    "babel-loader": "^8.0.5",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
-    "css-loader": "^2.1.1",
-    "file-loader": "^3.0.1",
-    "isomorphic-fetch": "^2.2.1",
-    "nodemon": "^1.18.11",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^0.23.1",
-    "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.4.3",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.3.1"
+    "css-loader": "^0.28.11",
+    "electron": "^2.0.7",
+    "electron-builder": "^20.28.1",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-installer-dmg": "^2.0.0",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.21.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-webpack-plugin": "^3.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.5.0",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.4.0",
+    "webpack-cli": "^3.3.0"
   }
 }
