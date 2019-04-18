@@ -1,16 +1,15 @@
 {
   "presets": [
-    "@babel/env",
-    "@babel/react",
-    "@babel/typescript",
-    // [
-    //   "env",
-    //   {
-    //     "modules": false
-    //   }
-    // ],
-    // "react",
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "react",
     "stage-0"
   ],
-  "plugins": ["transform-es2015-modules-commonjs"]
+  "plugins": [
+    "transform-es2015-modules-commonjs"
+  ]
 }
