@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.jsx';
-import MainContainer from './MainContainer.jsx';
-import RightContainer from './RightContainer.jsx';
+import LeftContainer from './LeftContainer.tsx';
+import MainContainer from './MainContainer.tsx';
+import RightContainer from './RightContainer.tsx';
 import convertIdsToObjs from '../utils/convertIdsToObjs.util';
 import theme from '../components/theme';
 import { loadInitData } from '../actions/components';
@@ -86,10 +86,10 @@ class AppContainer extends Component {
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
 
-AppContainer.propTypes = {
-  components: PropTypes.array.isRequired,
-  totalComponents: PropTypes.number.isRequired,
-  focusComponent: PropTypes.object.isRequired,
-  loadInitData: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-};
+// AppContainer.propTypes = {
+//   components: PropTypes.array.isRequired,
+//   totalComponents: PropTypes.number.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+//   loadInitData: PropTypes.func.isRequired,
+//   loading: PropTypes.bool,
+// };

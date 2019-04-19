@@ -3,8 +3,8 @@ import React, { Component, createRef } from 'react';
 import {
   Stage, Layer, Image, Group,
 } from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
-import Rectangle from './Rectangle.jsx';
+import TransformerComponent from './TransformerComponent.tsx';
+import Rectangle from './Rectangle.tsx';
 
 
 class KonvaStage extends Component {

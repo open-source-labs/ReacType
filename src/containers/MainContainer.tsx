@@ -10,7 +10,7 @@ import theme from '../components/theme';
 import {
   toggleDragging, openExpansionPanel, handleTransform, createApplication, changeImagePath,
 } from '../actions/components';
-import KonvaStage from '../components/KonvaStage.jsx';
+import KonvaStage from '../components/KonvaStage.tsx';
 // import MainContainerHeader from '../components/MainContainerHeader.jsx';
 // import createModal from '../utils/createModal.util';
 // import Info from '../components/Info.jsx';
