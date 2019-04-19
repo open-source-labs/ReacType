@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -87,11 +87,11 @@ class RightTabs extends Component {
           onChange={this.handleChange}
           classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
         >
-          <Tab
+          {/* <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Hierarchy"
-          />
+          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -107,8 +107,8 @@ class RightTabs extends Component {
             }
           />
         </Tabs>
-        {value === 0 && <SortableComponent components={components} />}
-        {value === 1 && <Props
+        {/* {value === 0 && <SortableComponent components={components} />} */}
+        {value === 0 && <Props
           rightColumnOpen={rightColumnOpen}
           focusComponent={focusComponent}
           deleteProp={deleteProp}
@@ -120,13 +120,13 @@ class RightTabs extends Component {
   }
 }
 
-RightTabs.propTypes = {
-  classes: PropTypes.object.isRequired,
-  components: PropTypes.array.isRequired,
-  focusComponent: PropTypes.object.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
-  rightColumnOpen: PropTypes.bool.isRequired,
-};
+// RightTabs.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   components: PropTypes.array.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+//   deleteProp: PropTypes.func.isRequired,
+//   addProp: PropTypes.func.isRequired,
+//   rightColumnOpen: PropTypes.bool.isRequired,
+// };
 
 export default withStyles(styles)(RightTabs);
