@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
   handleClose,
   deleteCompProp,
   addCompProp,
 } from '../actions/components';
-import Snackbars from '../components/Snackbars.jsx';
-import RightTabs from '../components/RightTabs.jsx';
+// import Snackbars from '../components/Snackbars.jsx';
+// import RightTabs from '../components/RightTabs.jsx';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -48,37 +48,37 @@ class RightContainer extends Component {
 
     return (
       <div className='column-right' style={{ width: `${this.props.width}%` }} >
-        <RightTabs
+        {/* <RightTabs
           components={components}
           focusComponent={focusComponent}
           deleteProp={deleteProp}
           addProp={addProp}
           rightColumnOpen={rightColumnOpen}
-        />
-        <Snackbars
+        /> */}
+        {/* <Snackbars
           successOpen={successOpen}
           errorOpen={errorOpen}
           handleNotificationClose={handleNotificationClose}
           msg={appDir}
           viewAppDir={this.viewAppDir}
-        />
+        /> */}
       </div>
     );
   }
 }
 
-RightContainer.propTypes = {
-  components: PropTypes.array.isRequired,
-  successOpen: PropTypes.bool.isRequired,
-  appDir: PropTypes.string,
-  errorOpen: PropTypes.bool.isRequired,
-  focusComponent: PropTypes.object.isRequired,
-  handleNotificationClose: PropTypes.func.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
-  width: PropTypes.number.isRequired,
-  rightColumnOpen: PropTypes.bool.isRequired,
-};
+// RightContainer.propTypes = {
+//   components: PropTypes.array.isRequired,
+//   successOpen: PropTypes.bool.isRequired,
+//   appDir: PropTypes.string,
+//   errorOpen: PropTypes.bool.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+//   handleNotificationClose: PropTypes.func.isRequired,
+//   deleteProp: PropTypes.func.isRequired,
+//   addProp: PropTypes.func.isRequired,
+//   width: PropTypes.number.isRequired,
+//   rightColumnOpen: PropTypes.bool.isRequired,
+// };
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(RightContainer);
