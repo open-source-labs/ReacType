@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../public/styles/style.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
-import AppContainer from '../containers/AppContainer.jsx';
+import AppContainer from '../containers/AppContainer.tsx';
 
 interface Adam {
   goodguy: boolean;

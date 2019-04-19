@@ -1,10 +1,10 @@
 import React, { Component, createRef } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
   Stage, Layer, Image, Group,
 } from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
-import Rectangle from './Rectangle.jsx';
+import TransformerComponent from './TransformerComponent.tsx';
+import Rectangle from './Rectangle.tsx';
 
 
 class KonvaStage extends Component {
@@ -42,6 +42,7 @@ class KonvaStage extends Component {
     }
   };
 
+  //  WAS ALREADY COMMENTED OUT
   // handleStageDrag = () => {
   //   // const mainWindowHeight = this.main.current.clientHeight;
   //   // const mainWindowWidth = this.main.current.clientWidth;
@@ -54,7 +55,7 @@ class KonvaStage extends Component {
   // }
 
   componentDidMount() {
-    this.props.setImage();
+    // this.props.setImage();
   }
 
   render() {
@@ -105,19 +106,19 @@ class KonvaStage extends Component {
   }
 }
 
-KonvaStage.propTypes = {
-  draggable: PropTypes.bool.isRequired,
-  components: PropTypes.array.isRequired,
-  handleTransform: PropTypes.func.isRequired,
-  image: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  scaleX: PropTypes.number.isRequired,
-  scaleY: PropTypes.number.isRequired,
-  openExpansionPanel: PropTypes.func.isRequired,
-  setImage: PropTypes.func.isRequired,
-  focusComponent: PropTypes.object.isRequired,
-};
+// KonvaStage.propTypes = {
+//   draggable: PropTypes.bool.isRequired,
+//   components: PropTypes.array.isRequired,
+//   handleTransform: PropTypes.func.isRequired,
+//   image: PropTypes.oneOfType([
+//     PropTypes.string,
+//     PropTypes.object,
+//   ]),
+//   scaleX: PropTypes.number.isRequired,
+//   scaleY: PropTypes.number.isRequired,
+//   openExpansionPanel: PropTypes.func.isRequired,
+//   setImage: PropTypes.func.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+// };
 
 export default KonvaStage;

@@ -1,32 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-import createModal from '../utils/createModal.util';
+// import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
+// import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
-  updateComponent:
-    ({
-      id, index, newParentId = null, color = null, stateful = null,
-    }) => dispatch(actions.updateComponent({
-      id, index, newParentId, color, stateful,
-    })),
-  deleteComponent: ({
-    index, id, parentIds,
-  }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
-  moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
-  moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
-  openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
-  deleteAllData: () => dispatch(actions.deleteAllData()),
+  // updateComponent:
+  //   ({
+  //     id, index, newParentId = null, color = null, stateful = null,
+  //   }) => dispatch(actions.updateComponent({
+  //     id, index, newParentId, color, stateful,
+  //   })),
+  // deleteComponent: ({
+  //   index, id, parentIds,
+  // }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
+  // moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
+  // moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
+  // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
+  // deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
 const styles = () => ({
@@ -72,7 +72,7 @@ const styles = () => ({
 class LeftContainer extends Component {
   state = {
     componentName: '',
-    modal: null,
+    // modal: null,
   }
 
   handleChange = (event) => {
@@ -81,10 +81,10 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = (component) => {
-    const { focusComponent } = this.props;
-    this.props.openExpansionPanel(focusComponent.id === component.id ? {} : component);
-  }
+  // handleExpansionPanelChange = (component) => {
+  //   const { focusComponent } = this.props;
+  //   this.props.openExpansionPanel(focusComponent.id === component.id ? {} : component);
+  // }
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
@@ -93,47 +93,46 @@ class LeftContainer extends Component {
     });
   }
 
-  closeModal = () => this.setState({ modal: null });
+  // closeModal = () => this.setState({ modal: null });
 
-  clearWorkspace = () => {
-    this.setState({
-      modal: createModal({
-        message: 'Are you sure want to delete all data?',
-        closeModal: this.closeModal,
-        secBtnLabel: 'Clear Workspace',
-        secBtnAction: () => { this.props.deleteAllData(); this.closeModal(); },
-      }),
-    });
-  }
+  // clearWorkspace = () => {
+  //   this.setState({
+  //     modal: createModal({
+  //       message: 'Are you sure want to delete all data?',
+  //       closeModal: this.closeModal,
+  //       secBtnLabel: 'Clear Workspace',
+  //       secBtnAction: () => { this.props.deleteAllData(); this.closeModal(); },
+  //     }),
+  //   });
+  // }
 
   render() {
     const {
-      components,
-      updateComponent,
-      deleteComponent,
-      moveToBottom,
-      moveToTop,
-      focusComponent,
-      totalComponents,
+      // components,
+      // updateComponent,
+      // deleteComponent,
+      // moveToBottom,
+      // moveToTop,
+      // focusComponent,
+      // totalComponents,
       classes,
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = components.map(
-      (component, i) => <LeftColExpansionPanel
-        key={component.id}
-        index={i}
-        id={component.id}
-        updateComponent={updateComponent}
-        deleteComponent={deleteComponent}
-        component={component}
-        focusComponent={focusComponent}
-        onExpansionPanelChange={this.handleExpansionPanelChange}
-        moveToBottom={moveToBottom}
-        moveToTop={moveToTop}
-      />,
-    );
-    // className={classes.root}
+    // const componentsExpansionPanel = components.map(
+    //   (component, i) => <LeftColExpansionPanel
+    //     key={component.id}
+    //     index={i}
+    //     id={component.id}
+    //     updateComponent={updateComponent}
+    //     deleteComponent={deleteComponent}
+    //     component={component}
+    //     focusComponent={focusComponent}
+    //     onExpansionPanelChange={this.handleExpansionPanelChange}
+    //     moveToBottom={moveToBottom}
+    //     moveToTop={moveToTop}
+    //   />,
+    // );
 
     return (
       <div className='column left'>
@@ -185,10 +184,10 @@ class LeftContainer extends Component {
             </Grid>
           </Grid>
         </FormControl>
-        <div className='expansionPanel'>
+        {/* <div className='expansionPanel'>
           {componentsExpansionPanel}
-        </div>
-        <Button
+        </div> */}
+        {/* <Button
           color='secondary'
           aria-label='Delete All'
           variant='contained'
@@ -197,7 +196,7 @@ class LeftContainer extends Component {
           className={classes.clearButton}
         >
           Clear workspace
-        </Button>
+        </Button> */}
         {modal}
       </div >
     );
@@ -206,16 +205,16 @@ class LeftContainer extends Component {
 
 export default compose(withStyles(styles), connect(null, mapDispatchToProps))(LeftContainer);
 
-LeftContainer.propTypes = {
-  components: PropTypes.array.isRequired,
-  addComponent: PropTypes.func.isRequired,
-  deleteComponent: PropTypes.func.isRequired,
-  updateComponent: PropTypes.func.isRequired,
-  deleteAllData: PropTypes.func.isRequired,
-  moveToBottom: PropTypes.func.isRequired,
-  moveToTop: PropTypes.func.isRequired,
-  focusComponent: PropTypes.object.isRequired,
-  openExpansionPanel: PropTypes.func.isRequired,
-  totalComponents: PropTypes.number.isRequired,
-  classes: PropTypes.object,
-};
+// LeftContainer.propTypes = {
+//   components: PropTypes.array.isRequired,
+//   addComponent: PropTypes.func.isRequired,
+//   deleteComponent: PropTypes.func.isRequired,
+//   updateComponent: PropTypes.func.isRequired,
+//   deleteAllData: PropTypes.func.isRequired,
+//   moveToBottom: PropTypes.func.isRequired,
+//   moveToTop: PropTypes.func.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+//   openExpansionPanel: PropTypes.func.isRequired,
+//   totalComponents: PropTypes.number.isRequired,
+//   classes: PropTypes.object,
+// };
