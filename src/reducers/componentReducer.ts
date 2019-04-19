@@ -1,6 +1,7 @@
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
+  ADD_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
   UPDATE_CHILDREN,
@@ -25,6 +26,7 @@ import {
 
 import {
   addComponent,
+  addChild,
   updateComponent,
   deleteComponent,
   updateChildren,
@@ -43,14 +45,52 @@ import {
   deleteProp,
 } from '../utils/componentReducer.util';
 
+interface Child {
+  childId: number;
+  componentRef: number; // references the component this child instance belongs to
+  position: object;
+}
+
+interface Component {
+  componentId: number;
+  title: string;
+  childrenArray: Child[];
+  nextChildId: number;
+  focusChild: Component;
+}
+
+const appComponent = {
+  id: '1',
+  stateful: false,
+  title: 'App',
+  parentIds: [],
+  color: '#FF6D00',
+  draggable: true,
+  childrenIds: [],
+  selectableParents: [],
+  expanded: true,
+  props: [],
+  nextPropId: 0,
+  position: {
+    x: 110,
+    y: 120,
+    width: 50,
+    height: 50,
+  },
+
+  childrenArray: [],
+  nextChildId: 1,
+  focusChild: null,
+}
+
 const initialApplicationState = {
-  totalComponents: 0,
-  nextId: 1,
-  imagePath: '',
+  totalComponents: 1,
+  nextId: 2,
+  // imagePath: '',
   successOpen: false,
   errorOpen: false,
   focusComponent: {},
-  components: [],
+  components: [appComponent],
   appDir: '',
   loading: false,
 };
@@ -68,6 +108,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
+    case ADD_CHILD:
+      return addChild(state, action.payload);
     case UPDATE_COMPONENT:
       return updateComponent(state, action.payload);
     case DELETE_COMPONENT:
