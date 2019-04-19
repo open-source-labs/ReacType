@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -20,6 +21,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -57,6 +59,7 @@ module.exports = {
       },
     ],
   },
+
   plugins: [
     // new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
