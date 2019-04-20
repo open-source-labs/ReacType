@@ -82,19 +82,9 @@ const styles = theme => ({
   },
 });
 
-const LeftColExpansionPanel = (props) => {
-  const {
-    index, classes, focusComponent, component, deleteComponent, addChild,
-  } = props;
-  const {
-    title,
-    id,
-    stateful,
-    color,
-    parents,
-    parentIds,
-    selectableParents,
-  } = component;
+const LeftColExpansionPanel = props => {
+  const { index, classes, focusComponent, component, deleteComponent, addChild } = props;
+  const { title, id, stateful, color, parents, parentIds, selectableParents } = component;
 
   const handleParentChange = (event, parentId = null) => {
     let newParentId = parentId;
@@ -110,36 +100,25 @@ const LeftColExpansionPanel = (props) => {
     });
   };
 
+  function isFocused() {
+    return focusComponent.title === title ? 'focused' : '';
+  }
+
   return (
     <div className={classes.root}>
-      <ExpansionPanel
-        className={classes.panel}
-        expanded={focusComponent.id === id}
-        onChange={() => onExpansionPanelChange(component)}
-        elevation={4}
-      >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
-          <Typography className={classes.light}>{title}</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='stateful'>Stateful?</InputLabel>
-            <Switch
-              checked={stateful}
-              onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
-              value='stateful'
-              color='primary'
-              id='stateful'
-            />
-          </div>
-          <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='boxColor'>Box Color</InputLabel>
-            <Input
-              type='color'
-              id='boxColor'
-              disableUnderline={true}
-              value={color}
-              onChange={event => updateComponent({ color: event.target.value, index, id })}
+      <Grid item xs={12} md={6}>
+        <List>
+          <ListItem button component="a">
+            <ListItemText
+              disableTypography
+              className={classes.light}
+              primary={
+                <Typography type="body2" style={{ color: '#FFFFFF' }}>
+                  {title}
+                </Typography>
+              }
+              secondary={isFocused()}
+              style={{ color }}
             />
             <ListItemSecondaryAction>
               <IconButton aria-label="Add">
@@ -147,7 +126,7 @@ const LeftColExpansionPanel = (props) => {
                   style={{ color, float: 'right' }}
                   onClick={() => {
                     console.log(title);
-                    addChild(title);
+                    addChild({ title });
                   }}
                 />
               </IconButton>
