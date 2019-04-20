@@ -84,15 +84,7 @@ const styles = theme => ({
 
 const LeftColExpansionPanel = (props) => {
   const {
-    index,
-    classes,
-    focusComponent,
-    component,
-    updateComponent,
-    deleteComponent,
-    onExpansionPanelChange,
-    moveToBottom,
-    moveToTop,
+    index, classes, focusComponent, component, deleteComponent, addChild,
   } = props;
   const {
     title,
@@ -149,71 +141,21 @@ const LeftColExpansionPanel = (props) => {
               value={color}
               onChange={event => updateComponent({ color: event.target.value, index, id })}
             />
-          </div>
-          <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='parentSelect'>selectedParents</InputLabel>
-            <Select
-              className={classes.light}
-              multiple
-              value={parents}
-              id='parentSelect'
-              name='parentName'
-              disabled={selectableParents.length < 1}
-              onChange={handleParentChange}
-              input={<Input id='parentSelect' />}
-              renderValue={selectedP => (
-                <div className={classes.chips}>
-                  {selectedP.map(parent => (
-                    <Chip
-                      key={parent.id}
-                      label={parent.title}
-                      className={classes.chip}
-                      onDelete={() => handleParentChange(null, parent.id)}
-                      deleteIcon={<RemoveCircleOutlineIcon className={classes.icon} />}
-                      />
-                  ))}
-                </div>
-              )}
-            >
-            {selectableParents.map(parentObj => (
-              <MenuItem key={parentObj.id} value={parentObj}>
-                <ListItemText primary={parentObj.title} />
-              </MenuItem>
-            ))}
-            </Select>
-          </div>
-        </ExpansionPanelDetails>
-        <Divider />
-        <ExpansionPanelActions className={classes.actions}>
-          <Tooltip title="move layer up">
-            <IconButton
-              className={classes.button}
-              onClick={() => moveToTop(id)}
-              aria-label='Flip to back'>
-              <FlipToFrontIcon className={classes.light} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="move layer down">
-            <IconButton
-              className={classes.button}
-              onClick={() => moveToBottom(id)}
-              aria-label='Flip to back'>
-              <FlipToBackIcon className={classes.light} />
-            </IconButton>
-          </Tooltip>
-          <IconButton
-            className={classes.button}
-            onClick={() => {
-              deleteComponent({
-                index, id, parentIds,
-              });
-            }}
-            aria-label='Delete'>
-            <DeleteIcon className={classes.light} />
-          </IconButton>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
-    </div >
+            <ListItemSecondaryAction>
+              <IconButton aria-label="Add">
+                <AddIcon
+                  style={{ color, float: 'right' }}
+                  onClick={() => {
+                    console.log(title);
+                    addChild(title);
+                  }}
+                />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </List>
+      </Grid>
+    </div>
   );
 };
 
