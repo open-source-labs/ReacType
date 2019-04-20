@@ -50,6 +50,35 @@ export const addComponent = (state, { title }) => {
   };
 };
 
+export const addChild = (state, { title }) => {
+  const strippedTitle = title
+    .replace(/[a-z]+/gi,
+      word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[-_\s0-9\W]+/gi, '');
+  const newComponent = {
+    ...initialComponentState,
+    title: strippedTitle,
+    id: state.nextId.toString(),
+    color: getColor(),
+  };
+
+  const components = [
+    ...state.components,
+    newComponent,
+  ];
+
+  const totalComponents = state.totalComponents + 1;
+  const nextId = state.nextId + 1;
+
+  return {
+    ...state,
+    totalComponents,
+    nextId,
+    components,
+    focusComponent: newComponent,
+  };
+};
+
 export const updateComponent = ((state, {
   id, newParentId = null, color = null, stateful = null, props = null,
 }) => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.tsx';
+import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.tsx';
 import RightContainer from './RightContainer.tsx';
 import convertIdsToObjs from '../utils/convertIdsToObjs.util';
@@ -23,7 +23,7 @@ class AppContainer extends Component {
   state = {
     width: 25,
     rightColumnOpen: true,
-  }
+  };
 
   collapseColumn = () => {
     if (this.state.width === 25) {
@@ -37,7 +37,7 @@ class AppContainer extends Component {
         rightColumnOpen: true,
       });
     }
-  }
+  };
 
   componentDidMount() {
     this.props.loadInitData();
@@ -45,17 +45,14 @@ class AppContainer extends Component {
 
   render() {
     const {
-      components,
-      totalComponents,
-      focusComponent,
-      loading,
+      components, totalComponents, focusComponent, loading,
     } = this.props;
     const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdsToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className='app-container'>
+        <div className="app-container">
           <LeftContainer
             components={updatedComponents}
             totalComponents={totalComponents}
@@ -74,17 +71,21 @@ class AppContainer extends Component {
             rightColumnOpen={rightColumnOpen}
             focusComponent={focusComponent}
           />
-          {
-            loading ? <div style={{ alignSelf: 'flex-end', position: 'fixed', width: '100%' }}>
-            <LinearProgress color="secondary" /></div> : null
-          }
+          {loading ? (
+            <div style={{ alignSelf: 'flex-end', position: 'fixed', width: '100%' }}>
+              <LinearProgress color="secondary" />
+            </div>
+          ) : null}
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppContainer);
 
 // AppContainer.propTypes = {
 //   components: PropTypes.array.isRequired,
