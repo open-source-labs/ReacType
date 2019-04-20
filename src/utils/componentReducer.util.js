@@ -163,6 +163,16 @@ export const deleteComponent = (state, { index, id }) => {
   };
 };
 
+export const changeFocusComponent = (state, { title }) => {
+  
+  let focusComp = state.components.filter((comp) => {if (comp.title === title) return comp})[0]
+
+  return {
+    ...state,
+    focusComponent: focusComp,
+  };
+};
+
 // Add or remove children
 export const updateChildren = ((state, { parentIds, childId }) => {
   const components = state.components.map((component) => {

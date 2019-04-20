@@ -4,6 +4,7 @@ import {
   ADD_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
+  CHANGE_FOCUS_COMPONENT,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -95,6 +96,10 @@ export const updateComponent = ({
   }
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
+};
+
+export const changeFocusComponent = ({ title }) => (dispatch) => {
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // export const exportFiles = ({ components, path }) => (dispatch) => {
