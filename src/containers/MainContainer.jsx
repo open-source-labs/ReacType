@@ -7,13 +7,7 @@ import { connect } from 'react-redux';
 // import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
-import {
-  toggleDragging,
-  openExpansionPanel,
-  handleTransform,
-  createApplication,
-  changeImagePath,
-} from '../actions/components';
+import { toggleDragging, openExpansionPanel, handleTransform } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 // import MainContainerHeader from '../components/MainContainerHeader.jsx';
 // import createModal from '../utils/createModal.util';
@@ -32,29 +26,17 @@ const mapDispatchToProps = dispatch => ({
       height,
     }),
   ),
-  toggleComponetDragging: status => dispatch(toggleDragging(status)),
+  toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
-  // createApp: ({
-  //   path, components, genOption, repoUrl,
-  // }) => dispatch(createApplication({
-  //   path, components, genOption, repoUrl,
-  // })),
-  // changeImagePath: path => dispatch(changeImagePath(path)),
 });
 
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
-  // imagePath: store.workspace.imagePath,
   focusComponent: store.workspace.focusComponent,
 });
 
 class MainContainer extends Component {
   state = {
-    // repoUrl: '',
-    // image: '',
-    // modal: null,
-    // genOptions: ['Export into existing project.', 'Export with starter repo.', 'Export with create-react-app.'],
-    // genOption: 0,
     draggable: false,
     toggleClass: true,
     scaleX: 1,
@@ -65,49 +47,9 @@ class MainContainer extends Component {
 
   constructor(props) {
     super(props);
-
-    // IPC.on('new-file', (event, file) => {
-    //   const image = new window.Image();
-    //   image.src = file;
-    //   this.props.changeImagePath(file);
-    //   image.onload = () => {
-    //     this.setState({ image });
-    //   };
-    //   this.draggableItems = [];
-    // });
-
-    // IPC.on('app_dir_selected', (event, path) => {
-    //   const { components } = this.props;
-    //   const { genOption, repoUrl } = this.state;
-    //   this.props.createApp({
-    //     path, components, genOption, repoUrl,
-    //   });
-    // });
   }
 
-  setImage = () => {
-    // const image = new window.Image();
-    // image.src = this.props.imagePath;
-    // image.onload = () => {
-    //   // setState will redraw layer
-    //   // because "image" property is changed
-    //   this.setState({
-    //     image,
-    //   });
-    // };
-  };
-
-  componentDidMount() {
-    // this.setImage();
-  }
-
-  // handleChange = (event) => {
-  //   this.setState({ repoUrl: event.target.value.trim() });
-  // }
-
-  // updateImage = () => {
-  //   IPC.send('update-file');
-  // }
+  componentDidMount() {}
 
   increaseHeight = () => {
     this.setState({
@@ -123,89 +65,13 @@ class MainContainer extends Component {
     });
   };
 
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  // closeModal = () => this.setState({ modal: null });
-
-  // chooseAppDir = () => IPC.send('choose_app_dir');
-
   toggleDrag = () => {
-    this.props.toggleComponetDragging(this.state.draggable);
+    this.props.toggleComponentDragging(this.state.draggable);
     this.setState({
       toggleClass: !this.state.toggleClass,
       draggable: !this.state.draggable,
     });
   };
-
-  // showImageDeleteModal = () => {
-  //   const { closeModal, deleteImage } = this;
-  //   this.setState({
-  //     modal: createModal({
-  //       closeModal,
-  //       message: 'Are you sure you want to delete image?',
-  //       secBtnLabel: 'Delete',
-  //       secBtnAction: () => { deleteImage(); closeModal(); },
-  //     }),
-  //   });
-  // }
-
-  // displayUrlModal = () => {
-  //   const { closeModal, chooseAppDir } = this;
-  //   const children = <TextField
-  //     id='url'
-  //     label='Repository URL'
-  //     placeholder='https://github.com/kriasoft/react-starter-kit.git'
-  //     margin='normal'
-  //     onChange={this.handleChange}
-  //     name='repoUrl'
-  //     style={{ width: '95%' }}
-  //   />;
-  //   this.setState({
-  //     modal: createModal({
-  //       closeModal,
-  //       children,
-  //       message: 'Enter repository URL:',
-  //       primBtnLabel: 'Accept',
-  //       primBtnAction: () => { chooseAppDir(); closeModal(); },
-  //       secBtnLabel: 'Cancel',
-  //       secBtnAction: () => { this.setState({ repoUrl: '' }); closeModal(); },
-  //     }),
-  //   });
-  // }
-
-  // chooseGenOptions = (genOption) => {
-  //   // set option
-  //   this.setState({ genOption });
-  //   // closeModal
-  //   this.closeModal();
-  //   if (genOption === 1) {
-  //     this.displayUrlModal();
-  //   } else {
-  //     // Choose app dir
-  //     this.chooseAppDir();
-  //   }
-  // }
-
-  // showGenerateAppModal = () => {
-  //   const { closeModal, chooseGenOptions } = this;
-  //   const { genOptions } = this.state;
-  //   const children = <List className='export-preference'>{genOptions.map(
-  //     (option, i) => <ListItem key={i} button onClick={() => chooseGenOptions(i)} style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}>
-  //       <ListItemText primary={option} style={{ textAlign: 'center' }} />
-  //     </ListItem>,
-  //   )}
-  //   </List>;
-  //   this.setState({
-  //     modal: createModal({
-  //       closeModal,
-  //       children,
-  //       message: 'Choose export preference:',
-  //     }),
-  //   });
-  // }
 
   render() {
     const {
@@ -235,23 +101,8 @@ class MainContainer extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
-          {/* <MainContainerHeader
-            image={image}
-            increaseHeight={increaseHeight}
-            decreaseHeight={decreaseHeight}
-            showImageDeleteModal={showImageDeleteModal}
-            showGenerateAppModal={showGenerateAppModal}
-            updateImage={updateImage}
-            toggleDrag={toggleDrag}
-            totalComponents={totalComponents}
-            collapseColumn={collapseColumn}
-            rightColumnOpen={rightColumnOpen}
-            components={components}
-            toggleClass={toggleClass}
-          /> */}
           <div className="main" ref={main}>
-            {// components.length > 0 || image ? (
-            components.length > 0 ? (
+            {components.length > 0 ? (
               <KonvaStage
                 scaleX={scaleX}
                 scaleY={scaleY}
@@ -261,36 +112,36 @@ class MainContainer extends Component {
                 handleTransform={handleTransformation}
                 openExpansionPanel={openPanel}
                 focusComponent={focusComponent}
-                // setImage={setImage}
               />
             ) : (
-              <p>hello catman!</p>
-            )
-            // ) : <Info />
-            }
+              <p>Add some components</p>
+            )}
           </div>
-          {/* {modal} */}
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-// MainContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   handleTransformation: PropTypes.func.isRequired,
-//   toggleComponetDragging: PropTypes.func.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   openPanel: PropTypes.func.isRequired,
-//   collapseColumn: PropTypes.func.isRequired,
-//   createApp: PropTypes.func.isRequired,
-//   changeImagePath: PropTypes.func.isRequired,
-//   imagePath: PropTypes.string.isRequired,
-//   rightColumnOpen: PropTypes.bool.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-// };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MainContainer);
+
+/*
+//Header component:
+<MainContainerHeader
+image={image}
+increaseHeight={increaseHeight}
+decreaseHeight={decreaseHeight}
+showImageDeleteModal={showImageDeleteModal}
+showGenerateAppModal={showGenerateAppModal}
+updateImage={updateImage}
+toggleDrag={toggleDrag}
+totalComponents={totalComponents}
+collapseColumn={collapseColumn}
+rightColumnOpen={rightColumnOpen}
+components={components}
+toggleClass={toggleClass}
+/>
+*/
