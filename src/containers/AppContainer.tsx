@@ -51,6 +51,8 @@ class AppContainer extends Component {
       loading,
     } = this.props;
     const { width, rightColumnOpen } = this.state;
+
+    // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     const updatedComponents = convertIdsToObjs(components);
 
     return (
