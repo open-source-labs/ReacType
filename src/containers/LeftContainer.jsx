@@ -31,6 +31,8 @@ const mapDispatchToProps = dispatch => ({
   // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   // deleteAllData: () => dispatch(actions.deleteAllData()),
   addChild: ({ title }) => dispatch(actions.addChild({ title })),
+  changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ title }) => dispatch(actions.changeFocusChild({ title })),
 });
 
 class LeftContainer extends Component {
@@ -46,6 +48,7 @@ class LeftContainer extends Component {
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
+    this.props.changeFocusChild({ title: this.state.componentName })
     this.setState({
       componentName: '',
     });
@@ -60,6 +63,7 @@ class LeftContainer extends Component {
       totalComponents,
       classes,
       addChild,
+      changeFocusComponent,
     } = this.props;
     const { componentName } = this.state;
 
@@ -72,6 +76,7 @@ class LeftContainer extends Component {
         component={component}
         focusComponent={focusComponent}
         addChild={addChild}
+        changeFocusComponent={changeFocusComponent}
       />
     ));
 

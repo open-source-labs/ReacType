@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 // import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 // import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -14,18 +14,32 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import { openExpansionPanel } from '../utils/componentReducer.util';
+import { changeFocusChild } from '../actions/components';
 
 const LeftColExpansionPanel = (props) => {
   const {
     index, classes, focusComponent, component, deleteComponent, addChild,
-  } = props;
+    changeFocusComponent } = props;
   const { title, id, color } = component;
 
   return (
     <div className={classes.root}>
-      <Grid item xs={12} md={6}>
-        <List>
-          <ListItem button component="a">
+      <Grid item xs={12} md={6} style={{color: 'red'}}>
+        <List
+          style={{color: 'red'}}
+        >
+          <ListItem button component="a"
+              // style={
+              //   if (components.find(comp => comp.title === focusComponent.title))
+              // }
+              style={{color: 'red'}}
+              onClick={()=> {
+                console.log({ title })                
+                changeFocusComponent({ title })
+
+              }}
+            >
             <ListItemText
               disableTypography
               className={classes.light}
@@ -44,6 +58,7 @@ const LeftColExpansionPanel = (props) => {
                   onClick={() => {
                     console.log(title);
                     addChild( { title } );
+                    changeFocusChild( { title } );
                   }}
                 />
               </IconButton>
@@ -90,15 +105,15 @@ export default withStyles(styles)(LeftColExpansionPanel);
 </div>
 */
 
-LeftColExpansionPanel.propTypes = {
-  classes: PropTypes.object.isRequired,
-  component: PropTypes.object,
-  index: PropTypes.number,
-  focusComponent: PropTypes.object.isRequired,
-  onExpansionPanelChange: PropTypes.func,
-  updateComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
-};
+// LeftColExpansionPanel.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   component: PropTypes.object,
+//   index: PropTypes.number,
+//   focusComponent: PropTypes.object.isRequired,
+//   onExpansionPanelChange: PropTypes.func,
+//   updateComponent: PropTypes.func,
+//   deleteComponent: PropTypes.func,
+// };
 
 function styles(theme) {
   return {
