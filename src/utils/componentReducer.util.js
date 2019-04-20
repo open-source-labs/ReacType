@@ -33,13 +33,12 @@ const initialChildState = {
     y: 120,
     width: 50,
     height: 50,
-  }
-}
+  },
+};
 
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
-    .replace(/[a-z]+/gi,
-      word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
   const newComponent = {
     ...initialComponentState,
@@ -48,10 +47,7 @@ export const addComponent = (state, { title }) => {
     color: getColor(),
   };
 
-  const components = [
-    ...state.components,
-    newComponent,
-  ];
+  const components = [...state.components, newComponent];
 
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
@@ -70,13 +66,14 @@ export const addComponent = (state, { title }) => {
 
 export const addChild = (state, { title }) => {
   const strippedTitle = title
-    .replace(/[a-z]+/gi,
-      word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
-  
-  let view = state.components.filter((comp) => {if (comp.title === state.focusComponent.title) return comp})[0];
 
-  console.log(view)
+  const view = state.components.filter((comp) => {
+    if (comp.title === state.focusComponent.title) return comp;
+  })[0];
+
+  console.log(view);
 
   const newChild = {
     childId: view.nextChildId.toString(),
@@ -86,13 +83,10 @@ export const addChild = (state, { title }) => {
       y: 120,
       width: 50,
       height: 50,
-    }
+    },
   };
 
-  const compsChildrenArr = [
-    ...view.childrenArray,
-    newChild
-  ]
+  const compsChildrenArr = [...view.childrenArray, newChild];
 
   const component = {
     ...view,
@@ -101,7 +95,9 @@ export const addChild = (state, { title }) => {
   };
 
   const components = [
-    ...state.components.filter((comp) => {if (comp.title !== view.title) return comp}),
+    ...state.components.filter((comp) => {
+      if (comp.title !== view.title) return comp;
+    }),
     component,
   ];
 
@@ -111,9 +107,12 @@ export const addChild = (state, { title }) => {
   };
 };
 
-export const updateComponent = ((state, {
-  id, newParentId = null, color = null, stateful = null, props = null,
-}) => {
+export const updateComponent = (
+  state,
+  {
+    id, newParentId = null, color = null, stateful = null, props = null,
+  },
+) => {
   let component;
   const components = state.components.map((comp) => {
     if (comp.id === id) {
@@ -143,15 +142,12 @@ export const updateComponent = ((state, {
     components,
     focusComponent: component,
   };
-});
+};
 
 // Delete component with the index for now, but will be adjusted to use id
 export const deleteComponent = (state, { index, id }) => {
   const { focusComponent } = state;
-  const components = [
-    ...state.components.slice(0, index),
-    ...state.components.slice(index + 1),
-  ];
+  const components = [...state.components.slice(0, index), ...state.components.slice(index + 1)];
 
   const totalComponents = state.totalComponents - 1;
 
@@ -174,7 +170,7 @@ export const changeFocusComponent = (state, { title }) => {
 };
 
 // Add or remove children
-export const updateChildren = ((state, { parentIds, childId }) => {
+export const updateChildren = (state, { parentIds, childId }) => {
   const components = state.components.map((component) => {
     if (parentIds.includes(component.id)) {
       const parentComp = { ...component };
@@ -195,7 +191,7 @@ export const updateChildren = ((state, { parentIds, childId }) => {
     ...state,
     components,
   };
-});
+};
 
 /**
  * Moves component to the end of the components effectively giving it the highest z-index
@@ -226,9 +222,8 @@ export const changeImagePath = (state, imagePath) => ({
   imagePath,
 });
 
-
 // Assign comp's children to comp's parent
-export const reassignParent = ((state, { index, id, parentIds = [] }) => {
+export const reassignParent = (state, { index, id, parentIds = [] }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
   const components = state.components.map((comp) => {
@@ -252,32 +247,32 @@ export const reassignParent = ((state, { index, id, parentIds = [] }) => {
     ...state,
     components,
   };
-});
+};
 
-export const setSelectableP = (state => ({
+export const setSelectableP = state => ({
   ...state,
   components: setSelectableParents(state.components),
-}));
+});
 
-export const exportFilesSuccess = ((state, { status, dir }) => ({
+export const exportFilesSuccess = (state, { status, dir }) => ({
   ...state,
   successOpen: status,
   appDir: dir,
   loading: false,
-}));
+});
 
-export const exportFilesError = ((state, { status, err }) => ({
+export const exportFilesError = (state, { status, err }) => ({
   ...state,
   errorOpen: status,
   appDir: err,
   loading: false,
-}));
+});
 
-export const handleClose = ((state, status) => ({
+export const handleClose = (state, status) => ({
   ...state,
   errorOpen: status,
   successOpen: status,
-}));
+});
 
 export const updatePosition = (state, { id, x, y }) => {
   const components = state.components.map((component) => {
@@ -387,10 +382,7 @@ export const openExpansionPanel = (state, { component }) => ({
 });
 
 export const addProp = (state, {
-  key,
-  value = null,
-  required,
-  type,
+  key, value = null, required, type,
 }) => {
   const { props, nextPropId, id } = state.focusComponent;
   const newProp = {

@@ -4,17 +4,8 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 import AppContainer from '../containers/AppContainer.jsx';
 
-// interface Adam {
-//   goodguy: boolean;
-//   haswine: boolean;
-// }
-
 class App extends Component {
   render() {
-    // const adamInstance: Adam = {
-    //   goodguy: true,
-    //   haswine: false,
-    // };
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app">
