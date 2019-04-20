@@ -1,7 +1,6 @@
-import React, { Component, createRef, Fragment } from 'react';
+import React, { Component, createRef } from 'react';
 // import PropTypes from 'prop-types';
-import { Stage, Layer, Image, Group, Label, Text, Tag } from 'react-konva';
-import Konva from 'konva';
+import { Stage, Layer, Image, Group } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
 
@@ -17,10 +16,6 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  // Christian - this function causes the expansionPanel of the clicked rect to open
-  // (and focusedComponent to change, which we don't want)
-  // could reuse this logic for affecting state of children array
-  // ADD FOCUS CHILD FUNCTIONALITY HERE
   handleStageMouseDown = e => {
     // clicked on stage - cler selection
     if (e.target === e.target.getStage()) {
@@ -44,9 +39,25 @@ class KonvaStage extends Component {
     }
   };
 
+  //  WAS ALREADY COMMENTED OUT
+  // handleStageDrag = () => {
+  //   // const mainWindowHeight = this.main.current.clientHeight;
+  //   // const mainWindowWidth = this.main.current.clientWidth;
+  //   // const groupX = this.refs.group.attrs.x;
+  //   // const groupY = this.refs.group.attrs.y;
+
+  //   // const componentX = (mainWindowWidth / 2) - groupX;
+  //   // const componentY = (mainWindowHeight / 2) - groupY;
+  //   // console.log(componentX, componentY);
+  // }
+
+  componentDidMount() {
+    // this.props.setImage();
+  }
+
   render() {
-    const { components, handleTransform, draggable, scaleX, scaleY, focusComponent } = this.props;
-    // const { selectedShapeName } = this.state;
+    const { components, handleTransform, image, draggable, scaleX, scaleY, focusComponent } = this.props;
+    const { selectedShapeName } = this.state;
 
     return (
       <Stage
@@ -66,37 +77,43 @@ class KonvaStage extends Component {
             }}
             draggable={draggable}
           >
+            <Image image={image} />
             {components.map((comp, i) => (
-              <Fragment key={i}>
-                <Rectangle
-                  draggable={comp.draggable}
-                  key={i}
-                  componentId={comp.id}
-                  x={comp.position.x}
-                  y={comp.position.y}
-                  width={comp.position.width}
-                  height={comp.position.height}
-                  title={comp.title}
-                  color={comp.color}
-                  handleTransform={handleTransform}
-                />
-                <Label x={comp.position.x} y={comp.position.y}>
-                  <Text
-                    text={`${comp.title},${comp.position.x.toPrecision(3)},${comp.position.y.toPrecision(3)}`}
-                    fontFamily="Calibri"
-                    fontSize={12}
-                    padding={5}
-                    fill="green"
-                  />
-                </Label>
-              </Fragment>
+              <Rectangle
+                draggable={comp.draggable}
+                selectedShapeName={selectedShapeName}
+                key={i}
+                componentId={comp.id}
+                x={comp.position.x}
+                y={comp.position.y}
+                width={comp.position.width}
+                height={comp.position.height}
+                title={comp.title}
+                color={comp.color}
+                handleTransform={handleTransform}
+              />
             ))}
-            <TransformerComponent focusComponent={focusComponent} />
+            <TransformerComponent focusComponent={focusComponent} selectedShapeName={selectedShapeName} />
           </Group>
         </Layer>
       </Stage>
     );
   }
 }
+
+// KonvaStage.propTypes = {
+//   draggable: PropTypes.bool.isRequired,
+//   components: PropTypes.array.isRequired,
+//   handleTransform: PropTypes.func.isRequired,
+//   image: PropTypes.oneOfType([
+//     PropTypes.string,
+//     PropTypes.object,
+//   ]),
+//   scaleX: PropTypes.number.isRequired,
+//   scaleY: PropTypes.number.isRequired,
+//   openExpansionPanel: PropTypes.func.isRequired,
+//   setImage: PropTypes.func.isRequired,
+//   focusComponent: PropTypes.object.isRequired,
+// };
 
 export default KonvaStage;
