@@ -19,27 +19,36 @@ import { changeFocusChild } from '../actions/components';
 
 const LeftColExpansionPanel = (props) => {
   const {
-    index, classes, focusComponent, component, deleteComponent, addChild,
-    changeFocusComponent } = props;
+    index,
+    classes,
+    focusComponent,
+    component,
+    deleteComponent,
+    addChild,
+    changeFocusComponent,
+  } = props;
   const { title, id, color } = component;
+
+  function isFocused() {
+    return focusComponent.title === title ? 'focused' : '';
+  }
 
   return (
     <div className={classes.root}>
-      <Grid item xs={12} md={6} style={{color: 'red'}}>
-        <List
-          style={{color: 'red'}}
-        >
-          <ListItem button component="a"
-              // style={
-              //   if (components.find(comp => comp.title === focusComponent.title))
-              // }
-              style={{color: 'red'}}
-              onClick={()=> {
-                console.log({ title })                
-                changeFocusComponent({ title })
-
-              }}
-            >
+      <Grid item xs={12} md={6} style={{ color: 'red' }}>
+        <List style={{ color: 'red' }}>
+          <ListItem
+            button
+            component="a"
+            // style={
+            //   if (components.find(comp => comp.title === focusComponent.title))
+            // }
+            style={{ color: 'red' }}
+            onClick={() => {
+              console.log({ title });
+              changeFocusComponent({ title });
+            }}
+          >
             <ListItemText
               disableTypography
               className={classes.light}
@@ -48,20 +57,24 @@ const LeftColExpansionPanel = (props) => {
                   {title}
                 </Typography>
               }
-              secondary={'focused'}
+              secondary={isFocused()}
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              <IconButton aria-label="Add">
-                <AddIcon
-                  style={{ color, float: 'right' }}
-                  onClick={() => {
-                    console.log(title);
-                    addChild( { title } );
-                    changeFocusChild( { title } );
-                  }}
-                />
-              </IconButton>
+              {isFocused() ? (
+                <div />
+              ) : (
+                <IconButton aria-label="Add">
+                  <AddIcon
+                    style={{ color, float: 'right' }}
+                    onClick={() => {
+                      console.log(title);
+                      addChild({ title });
+                      changeFocusChild({ title });
+                    }}
+                  />
+                </IconButton>
+              )}
             </ListItemSecondaryAction>
           </ListItem>
         </List>

@@ -6,7 +6,6 @@ import {
 import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
 
-
 class KonvaStage extends Component {
   state = {
     x: undefined,
@@ -60,7 +59,13 @@ class KonvaStage extends Component {
 
   render() {
     const {
-      components, handleTransform, image, draggable, scaleX, scaleY, focusComponent,
+      components,
+      handleTransform,
+      image,
+      draggable,
+      scaleX,
+      scaleY,
+      focusComponent,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -80,21 +85,23 @@ class KonvaStage extends Component {
             ref={(node) => {
               this.group = node;
             }}
-            draggable={draggable}>
-            <Image image={image} />
-            {components.map((comp, i) => <Rectangle
-              draggable={comp.draggable}
-              selectedShapeName={selectedShapeName}
-              key={i}
-              componentId={comp.id}
-              x={comp.position.x}
-              y={comp.position.y}
-              width={comp.position.width}
-              height={comp.position.height}
-              title={comp.title}
-              color={comp.color}
-              handleTransform={handleTransform}
-            />)}
+            draggable={draggable}
+          >
+            {components.map((comp, i) => (
+              <Rectangle
+                draggable={comp.draggable}
+                selectedShapeName={selectedShapeName}
+                key={i}
+                componentId={comp.id}
+                x={comp.position.x}
+                y={comp.position.y}
+                width={comp.position.width}
+                height={comp.position.height}
+                title={comp.title}
+                color={comp.color}
+                handleTransform={handleTransform}
+              />
+            ))}
             <TransformerComponent
               focusComponent={focusComponent}
               selectedShapeName={selectedShapeName}
