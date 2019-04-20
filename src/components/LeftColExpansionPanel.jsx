@@ -43,7 +43,7 @@ const LeftColExpansionPanel = (props) => {
                   style={{ color, float: 'right' }}
                   onClick={() => {
                     console.log(title);
-                    addChild(title);
+                    addChild( { title } );
                   }}
                 />
               </IconButton>

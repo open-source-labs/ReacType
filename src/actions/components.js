@@ -27,8 +27,8 @@ import {
 
 import { loadState } from '../localStorage';
 
-import createFiles from '../utils/createFiles.util';
-import createApplicationUtil from '../utils/createApplication.util';
+// import createFiles from '../utils/createFiles.util';
+// import createApplicationUtil from '../utils/createApplication.util';
 
 export const loadInitData = () => (dispatch) => {
   loadState()
@@ -60,7 +60,7 @@ export const parentReassignment = (({ index, id, parentIds }) => ({
 
 export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
-  dispatch({ type: SET_SELECTABLE_PARENTS });
+  // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
 export const addChild = ({ title }) => (dispatch) => {
@@ -167,10 +167,10 @@ export const toggleDragging = status => ({
 //   payload: componentId,
 // });
 
-// export const openExpansionPanel = component => ({
-//   type: OPEN_EXPANSION_PANEL,
-//   payload: { component },
-// });
+export const openExpansionPanel = component => ({
+  type: OPEN_EXPANSION_PANEL,
+  payload: { component },
+});
 
 // export const deleteAllData = () => ({
 //   type: DELETE_ALL_DATA,
