@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   // }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
   // moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
   // moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
-  // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
+  openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   // deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 

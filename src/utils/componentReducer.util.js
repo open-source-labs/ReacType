@@ -19,7 +19,22 @@ const initialComponentState = {
     width: 50,
     height: 50,
   },
+
+  childrenArray: [],
+  nextChildId: 1,
+  focusChild: null,
 };
+
+const initialChildState = {
+  childId: null,
+  componentName: null,
+  position: {
+    x: 110,
+    y: 120,
+    width: 50,
+    height: 50,
+  }
+}
 
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
@@ -50,32 +65,46 @@ export const addComponent = (state, { title }) => {
   };
 };
 
+// get title (aka the class associated with the new child)
+// get the focus component (aka the component were adding the child to)
+
 export const addChild = (state, { title }) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi,
       word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
-  const newComponent = {
-    ...initialComponentState,
-    title: strippedTitle,
-    id: state.nextId.toString(),
-    color: getColor(),
+  
+  const newChild = {
+    childId: state.components.nextChildId.toString(),
+    componentName: strippedTitle,
+    position: {
+      x: 110,
+      y: 120,
+      width: 50,
+      height: 50,
+    }
+  };
+
+  let view = state.focusComponent;
+
+  const compsChildrenArr = [
+    ...state.components.view.childrenArray,
+    newChild
+  ]
+
+  const component = {
+    ...state.components.view,
+    childrenArray: compsChildrenArr,
   };
 
   const components = [
     ...state.components,
-    newComponent,
+    component,
   ];
-
-  const totalComponents = state.totalComponents + 1;
-  const nextId = state.nextId + 1;
 
   return {
     ...state,
-    totalComponents,
-    nextId,
     components,
-    focusComponent: newComponent,
   };
 };
 
