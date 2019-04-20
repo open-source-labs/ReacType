@@ -23,6 +23,10 @@ const LeftColExpansionPanel = props => {
   const { index, classes, focusComponent, component, deleteComponent, addChild, changeFocusComponent } = props;
   const { title, id, color } = component;
 
+  function isFocused() {
+    return focusComponent.title === title ? 'focused' : '';
+  }
+
   return (
     <div className={classes.root}>
       <Grid item xs={12} md={6} style={{ color: 'red' }}>
