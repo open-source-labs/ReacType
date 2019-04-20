@@ -1,3 +1,4 @@
+
 const {
   app,
   BrowserWindow,
@@ -6,6 +7,8 @@ const {
   dialog,
   ipcMain,
 } = require('electron');
+
+require('electron-reload')(__dirname);
 
 // const isDev = true;
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
