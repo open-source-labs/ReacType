@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Rect } from 'react-konva';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
   extractPositionInfo(componentId, target) {
@@ -40,16 +40,16 @@ class Rectangle extends Component {
   }
 }
 
-Rectangle.propTypes = {
-  // title: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  handleTransform: PropTypes.func.isRequired,
-  x: PropTypes.number,
-  y: PropTypes.number,
-  height: PropTypes.number,
-  width: PropTypes.number,
-  componentId: PropTypes.string.isRequired,
-  draggable: PropTypes.bool.isRequired,
-};
+// Rectangle.propTypes = {
+//   // title: PropTypes.string.isRequired,
+//   color: PropTypes.string.isRequired,
+//   handleTransform: PropTypes.func.isRequired,
+//   x: PropTypes.number,
+//   y: PropTypes.number,
+//   height: PropTypes.number,
+//   width: PropTypes.number,
+//   componentId: PropTypes.string.isRequired,
+//   draggable: PropTypes.bool.isRequired,
+// };
 
 export default Rectangle;
