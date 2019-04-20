@@ -45,19 +45,19 @@ import {
   deleteProp,
 } from '../utils/componentReducer.util';
 
-interface Child {
-  childId: number;
-  componentRef: number; // references the component this child instance belongs to
-  position: object;
-}
+// interface Child {
+//   childId: number;
+//   componentRef: number; // references the component this child instance belongs to
+//   position: object;
+// }
 
-interface Component {
-  componentId: number;
-  title: string;
-  childrenArray: Child[];
-  nextChildId: number;
-  focusChild: Component;
-}
+// interface Component {
+//   componentId: number;
+//   title: string;
+//   childrenArray: Child[];
+//   nextChildId: number;
+//   focusChild: Component;
+// }
 
 const appComponent = {
   id: '1',

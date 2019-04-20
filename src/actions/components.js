@@ -64,7 +64,7 @@ export const addComponent = ({ title }) => (dispatch) => {
 };
 
 export const addChild = ({ title }) => (dispatch) => {
-  dispatch({ type: ADD_CHILD, payload: { title, view } });
+  dispatch({ type: ADD_CHILD, payload: { title } });
   // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 

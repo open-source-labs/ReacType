@@ -26,7 +26,7 @@ const initialComponentState = {
 };
 
 const initialChildState = {
-  childId: null,
+  childId: 0,
   componentName: null,
   position: {
     x: 110,
@@ -74,8 +74,12 @@ export const addChild = (state, { title }) => {
       word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
   
+  let view = state.components.filter((comp) => {if (comp.title === state.focusComponent.title) return comp})[0];
+
+  console.log(view)
+
   const newChild = {
-    childId: state.components.nextChildId.toString(),
+    childId: view.nextChildId.toString(),
     componentName: strippedTitle,
     position: {
       x: 110,
@@ -85,20 +89,19 @@ export const addChild = (state, { title }) => {
     }
   };
 
-  let view = state.focusComponent;
-
   const compsChildrenArr = [
-    ...state.components.view.childrenArray,
+    ...view.childrenArray,
     newChild
   ]
 
   const component = {
-    ...state.components.view,
+    ...view,
     childrenArray: compsChildrenArr,
+    nextChildId: view.nextChildId + 1,
   };
 
   const components = [
-    ...state.components,
+    ...state.components.filter((comp) => {if (comp.title !== view.title) return comp}),
     component,
   ];
 

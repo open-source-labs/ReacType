@@ -8,9 +8,13 @@ import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
 import {
-  toggleDragging, openExpansionPanel, handleTransform, createApplication, changeImagePath,
+  toggleDragging,
+  openExpansionPanel,
+  handleTransform,
+  createApplication,
+  changeImagePath,
 } from '../actions/components';
-import KonvaStage from '../components/KonvaStage.tsx';
+import KonvaStage from '../components/KonvaStage.jsx';
 // import MainContainerHeader from '../components/MainContainerHeader.jsx';
 // import createModal from '../utils/createModal.util';
 // import Info from '../components/Info.jsx';
@@ -20,9 +24,14 @@ const IPC = require('electron').ipcRenderer;
 const mapDispatchToProps = dispatch => ({
   handleTransformation: (id, {
     x, y, width, height,
-  }) => dispatch(handleTransform(id, {
-    x, y, width, height,
-  })),
+  }) => dispatch(
+    handleTransform(id, {
+      x,
+      y,
+      width,
+      height,
+    }),
+  ),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   // createApp: ({
@@ -86,7 +95,7 @@ class MainContainer extends Component {
     //     image,
     //   });
     // };
-  }
+  };
 
   componentDidMount() {
     // this.setImage();
@@ -105,14 +114,14 @@ class MainContainer extends Component {
       scaleX: this.state.scaleX * 1.5,
       scaleY: this.state.scaleY * 1.5,
     });
-  }
+  };
 
   decreaseHeight = () => {
     this.setState({
       scaleX: this.state.scaleX * 0.75,
       scaleY: this.state.scaleY * 0.75,
     });
-  }
+  };
 
   // deleteImage = () => {
   //   this.props.changeImagePath('');
@@ -129,7 +138,7 @@ class MainContainer extends Component {
       toggleClass: !this.state.toggleClass,
       draggable: !this.state.draggable,
     });
-  }
+  };
 
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
@@ -225,9 +234,7 @@ class MainContainer extends Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div
-          className="main-container"
-          style={{ cursor }}>
+        <div className="main-container" style={{ cursor }}>
           {/* <MainContainerHeader
             image={image}
             increaseHeight={increaseHeight}
@@ -243,22 +250,23 @@ class MainContainer extends Component {
             toggleClass={toggleClass}
           /> */}
           <div className="main" ref={main}>
-            {
-              // components.length > 0 || image ? (
-              components.length > 0 ? (
-                <KonvaStage
-                  scaleX={scaleX}
-                  scaleY={scaleY}
-                  image={image}
-                  draggable={draggable}
-                  components={components}
-                  handleTransform={handleTransformation}
-                  openExpansionPanel={openPanel}
-                  focusComponent={focusComponent}
-                  // setImage={setImage}
-                />
-              ) : <p>hello catman!</p>
-              // ) : <Info />
+            {// components.length > 0 || image ? (
+            components.length > 0 ? (
+              <KonvaStage
+                scaleX={scaleX}
+                scaleY={scaleY}
+                image={image}
+                draggable={draggable}
+                components={components}
+                handleTransform={handleTransformation}
+                openExpansionPanel={openPanel}
+                focusComponent={focusComponent}
+                // setImage={setImage}
+              />
+            ) : (
+              <p>hello catman!</p>
+            )
+            // ) : <Info />
             }
           </div>
           {/* {modal} */}
@@ -282,4 +290,7 @@ class MainContainer extends Component {
 //   focusComponent: PropTypes.object.isRequired,
 // };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MainContainer);
