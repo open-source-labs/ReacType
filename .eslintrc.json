@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "plugin:react/recommended",
-    "airbnb-base"
-  ],
+  "extends": ["plugin:react/recommended", "airbnb-base"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -10,13 +7,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "import",
-    "react",
-    "jest",
-    "jsx-a11y",
-    "babel"
-  ],
+  "plugins": ["import", "react", "jest", "jsx-a11y", "babel"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -25,6 +16,7 @@
     "jest": true
   },
   "rules": {
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "linebreak-style": 0
   }
 }
