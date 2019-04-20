@@ -21,6 +21,10 @@ const LeftColExpansionPanel = (props) => {
   } = props;
   const { title, id, color } = component;
 
+  function isFocused() {
+    return focusComponent.title === title ? 'focused' : '';
+  }
+
   return (
     <div className={classes.root}>
       <Grid item xs={12} md={6}>
@@ -34,7 +38,7 @@ const LeftColExpansionPanel = (props) => {
                   {title}
                 </Typography>
               }
-              secondary={'focused'}
+              secondary={isFocused()}
               style={{ color }}
             />
             <ListItemSecondaryAction>
@@ -43,7 +47,7 @@ const LeftColExpansionPanel = (props) => {
                   style={{ color, float: 'right' }}
                   onClick={() => {
                     console.log(title);
-                    addChild( { title } );
+                    addChild({ title });
                   }}
                 />
               </IconButton>
