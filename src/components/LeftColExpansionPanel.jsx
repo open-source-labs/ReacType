@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -14,91 +14,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Switch from '@material-ui/core/Switch';
 import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FlipToBackIcon from '@material-ui/icons/FlipToBack';
-import FlipToFrontIcon from '@material-ui/icons/FlipToFront';
-import Select from '@material-ui/core/Select';
-import Tooltip from '@material-ui/core/Tooltip';
-import InputLabel from '@material-ui/core/InputLabel';
-import Divider from '@material-ui/core/Divider';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: 10,
-    // backgroundColor: '#333333',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: theme.spacing.unit / 4,
-  },
-  panel: {
-    backgroundColor: '#333333',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  actions: {
-    padding: 0,
-  },
-  column: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  light: {
-    color: '#eee',
-    // opacity: '0.8',
-
-    '&:hover': {
-      color: '#1de9b6',
-    },
-  },
-  label: {
-    color: '#eee',
-    marginRight: '10px',
-  },
-  formControl: {
-    margin: theme.spacing.unit * 3,
-  },
-  group: {
-    margin: `${theme.spacing.unit}px 0`,
-  },
-  icon: {
-    fontSize: '20px',
-    color: '#000',
-    transition: 'all .2s ease',
-
-    '&:hover': {
-      color: 'red',
-    },
-  },
-});
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import { openExpansionPanel } from '../utils/componentReducer.util';
+import { changeFocusChild } from '../actions/components';
 
 const LeftColExpansionPanel = props => {
-  const { index, classes, focusComponent, component, deleteComponent, addChild } = props;
-  const { title, id, stateful, color, parents, parentIds, selectableParents } = component;
-
-  const handleParentChange = (event, parentId = null) => {
-    let newParentId = parentId;
-    if (event) {
-      const selectedParents = event.target.value;
-      newParentId = selectedParents[selectedParents.length - 1].id;
-    }
-
-    return updateComponent({
-      index,
-      id,
-      newParentId,
-    });
-  };
+  const { index, classes, focusComponent, component, deleteComponent, addChild, changeFocusComponent } = props;
+  const { title, id, color } = component;
 
   function isFocused() {
     return focusComponent.title === title ? 'focused' : '';
@@ -106,9 +29,20 @@ const LeftColExpansionPanel = props => {
 
   return (
     <div className={classes.root}>
-      <Grid item xs={12} md={6}>
-        <List>
-          <ListItem button component="a">
+      <Grid item xs={12} md={6} style={{ color: 'red' }}>
+        <List style={{ color: 'red' }}>
+          <ListItem
+            button
+            component="a"
+            // style={
+            //   if (components.find(comp => comp.title === focusComponent.title))
+            // }
+            style={{ color: 'red' }}
+            onClick={() => {
+              console.log({ title });
+              changeFocusComponent({ title });
+            }}
+          >
             <ListItemText
               disableTypography
               className={classes.light}
@@ -117,7 +51,7 @@ const LeftColExpansionPanel = props => {
                   {title}
                 </Typography>
               }
-              secondary={isFocused()}
+              secondary={'focused'}
               style={{ color }}
             />
             <ListItemSecondaryAction>
@@ -127,6 +61,7 @@ const LeftColExpansionPanel = props => {
                   onClick={() => {
                     console.log(title);
                     addChild({ title });
+                    changeFocusChild({ title });
                   }}
                 />
               </IconButton>
@@ -140,14 +75,62 @@ const LeftColExpansionPanel = props => {
 
 export default withStyles(styles)(LeftColExpansionPanel);
 
-LeftColExpansionPanel.propTypes = {
-  classes: PropTypes.object.isRequired,
-  component: PropTypes.object,
-  index: PropTypes.number,
-  focusComponent: PropTypes.object.isRequired,
-  onExpansionPanelChange: PropTypes.func,
-  updateComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
-  moveToBottom: PropTypes.func,
-  moveToTop: PropTypes.func,
-};
+/**
+//button and functionality for deleting a component:
+<IconButton
+  className={classes.button}
+  onClick={() => {
+    deleteComponent({
+      index,
+      id,
+      parentIds,
+    });
+  }}
+  aria-label="Delete"
+>
+  <DeleteIcon className={classes.light} />
+</IconButton>
+ */
+
+/*
+//expansion panel and some functionality
+<div className={classes.root}>
+  <ExpansionPanel
+    className={classes.panel}
+    expanded={focusComponent.id === id}
+    onChange={() => onExpansionPanelChange(component)}
+    elevation={4}
+  >
+    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
+      <Typography className={classes.light}>{title}</Typography>
+    </ExpansionPanelSummary>
+  </ExpansionPanel>
+</div>
+*/
+
+// LeftColExpansionPanel.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   component: PropTypes.object,
+//   index: PropTypes.number,
+//   focusComponent: PropTypes.object.isRequired,
+//   onExpansionPanelChange: PropTypes.func,
+//   updateComponent: PropTypes.func,
+//   deleteComponent: PropTypes.func,
+// };
+
+function styles(theme) {
+  return {
+    root: {
+      width: '100%',
+      flexGrow: 1,
+      marginTop: 10,
+      backgroundColor: '#333333',
+    },
+    light: {
+      color: '#eee',
+      '&:hover': {
+        color: '#1de9b6',
+      },
+    },
+  };
+}
