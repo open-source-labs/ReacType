@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 const LeftColExpansionPanel = (props) => {
   const {
-    index, classes, focusComponent, component, deleteComponent,
+    index, classes, focusComponent, component, deleteComponent, addChild,
   } = props;
   const { title, id, color } = component;
 
@@ -39,7 +39,13 @@ const LeftColExpansionPanel = (props) => {
             />
             <ListItemSecondaryAction>
               <IconButton aria-label="Add">
-                <AddIcon style={{ color, float: 'right' }} />
+                <AddIcon
+                  style={{ color, float: 'right' }}
+                  onClick={() => {
+                    console.log(title);
+                    addChild(title);
+                  }}
+                />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
