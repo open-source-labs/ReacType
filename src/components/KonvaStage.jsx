@@ -1,13 +1,15 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef } from 'react';
 // import PropTypes from 'prop-types';
-import { Stage, Layer, Image, Group } from "react-konva";
-import TransformerComponent from "./TransformerComponent.jsx";
-import Rectangle from "./Rectangle.jsx";
+import {
+  Stage, Layer, Image, Group,
+} from 'react-konva';
+import TransformerComponent from './TransformerComponent.jsx';
+import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
   state = {
     x: undefined,
-    y: undefined
+    y: undefined,
   };
 
   constructor(props) {
@@ -16,45 +18,23 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  // Christian - this function causes the expansionPanel of the clicked rect to open
-  // (and focusedComponent to change, which we don't want)
-  // could reuse this logic for affecting state of children array
-  // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
-  handleStageMouseDown = e => {
-    // // clicked on stage - cler selection
-    // if (e.target === e.target.getStage()) {
-    //   this.props.openExpansionPanel({});
-    //   return;
-    // }
+  handleStageMouseDown = (e) => {
+    // // clicked on stage - clear selection
+    if (e.target === e.target.getStage()) {
+      // add functionality for allowing no focusChild
+      return;
+    }
     // // clicked on transformer - do nothing
-    // const clickedOnTransformer = e.target.getParent().className === 'Transformer';
-    // if (clickedOnTransformer) {
-    //   return;
-    // }
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    if (clickedOnTransformer) {
+      return;
+    }
 
     // find clicked rect by its name
-    const id = e.target.name();
-    console.log(e.target);
-    const rect = this.props.components.find(r => r.id === id);
-
-    // if (rect) {
-    //   this.props.openExpansionPanel(rect || this.props.focusComponent);
-    // } else {
-    //   this.props.openExpansionPanel(this.props.focusComponent);
-    // }
+    const rectChildId = e.target.attrs.childId;
+    console.log('e.target : ', rectChildId);
+    this.props.changeFocusChild({ childId: rectChildId });
   };
-
-  //  WAS ALREADY COMMENTED OUT
-  // handleStageDrag = () => {
-  //   // const mainWindowHeight = this.main.current.clientHeight;
-  //   // const mainWindowWidth = this.main.current.clientWidth;
-  //   // const groupX = this.refs.group.attrs.x;
-  //   // const groupY = this.refs.group.attrs.y;
-
-  //   // const componentX = (mainWindowWidth / 2) - groupX;
-  //   // const componentY = (mainWindowHeight / 2) - groupY;
-  //   // console.log(componentX, componentY);
-  // }
 
   componentDidMount() {
     // this.props.setImage();
@@ -69,13 +49,14 @@ class KonvaStage extends Component {
       scaleX,
       scaleY,
       focusComponent,
-      focusChild
+      focusChild,
+      changeFocusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
     return (
       <Stage
-        ref={node => {
+        ref={(node) => {
           this.stage = node;
         }}
         onMouseDown={this.handleStageMouseDown}
@@ -86,7 +67,7 @@ class KonvaStage extends Component {
           <Group
             scaleX={scaleX}
             scaleY={scaleY}
-            ref={node => {
+            ref={(node) => {
               this.group = node;
             }}
             draggable={draggable}
@@ -97,7 +78,7 @@ class KonvaStage extends Component {
                 <Rectangle
                   draggable={child.draggable}
                   selectedShapeName={selectedShapeName}
-                  key={i + `${child.componentName}`}
+                  key={`${i}${child.componentName}`}
                   childId={child.childId}
                   componentId={focusComponent.id}
                   x={child.position.x}
