@@ -16,10 +16,10 @@ import KonvaStage from '../components/KonvaStage.jsx';
 const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
-  handleTransformation: (id, {
+  handleTransformation: (componentId, childId, {
     x, y, width, height,
   }) => dispatch(
-    handleTransform(id, {
+    handleTransform(componentId, childId, {
       x,
       y,
       width,
