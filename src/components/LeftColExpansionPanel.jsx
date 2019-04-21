@@ -17,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import { openExpansionPanel } from '../utils/componentReducer.util';
-import { changeFocusChild } from '../actions/components';
 
 const LeftColExpansionPanel = props => {
   const { index, classes, focusComponent, component, deleteComponent, addChild, changeFocusComponent } = props;
@@ -55,16 +54,19 @@ const LeftColExpansionPanel = props => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              <IconButton aria-label="Add">
-                <AddIcon
-                  style={{ color, float: 'right' }}
-                  onClick={() => {
-                    console.log(title);
-                    addChild({ title });
-                    changeFocusChild({ title });
-                  }}
-                />
-              </IconButton>
+              {isFocused() ? (
+                <div />
+              ) : (
+                <IconButton aria-label="Add">
+                  <AddIcon
+                    style={{ color, float: 'right' }}
+                    onClick={() => {
+                      console.log(title);
+                      addChild({ title });
+                    }}
+                  />
+                </IconButton>
+              )}
             </ListItemSecondaryAction>
           </ListItem>
         </List>
