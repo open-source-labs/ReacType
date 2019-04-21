@@ -33,9 +33,6 @@ const LeftColExpansionPanel = props => {
           <ListItem
             button
             component="a"
-            // style={
-            //   if (components.find(comp => comp.title === focusComponent.title))
-            // }
             style={{ color: 'red' }}
             onClick={() => {
               console.log({ title });
