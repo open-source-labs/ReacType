@@ -92,6 +92,7 @@ export const addChild = (state, { title }) => {
   const component = {
     ...state.components.view,
     childrenArray: compsChildrenArr,
+    nextChildId: view.nextChildId + 1,
   };
 
   const components = [
@@ -156,8 +157,9 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const changeFocusComponent = (state, { title }) => {
-  
-  let focusComp = state.components.filter((comp) => {if (comp.title === title) return comp})[0]
+  let focusComp = state.components.filter(comp => {
+    if (comp.title === title) return comp;
+  })[0];
 
   return {
     ...state,
@@ -234,7 +236,10 @@ export const reassignParent = (state, { index, id, parentIds = [] }) => {
     // Give the parent all children of it's to be deleted child
     if (parentIds.includes(comp.id)) {
       const prevChildrenIds = comp.childrenIds;
-      return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
+      return {
+        ...comp,
+        childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))],
+      };
     }
     return comp;
   });

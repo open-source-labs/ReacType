@@ -77,21 +77,6 @@ class KonvaStage extends Component {
             }}
             draggable={draggable}
           >
-            {/* {components.map((comp, i) => (
-              <Rectangle
-                draggable={comp.draggable}
-                selectedShapeName={selectedShapeName}
-                key={i}
-                componentId={comp.id}
-                x={comp.position.x}
-                y={comp.position.y}
-                width={comp.position.width}
-                height={comp.position.height}
-                title={comp.title}
-                color={comp.color}
-                handleTransform={handleTransform}
-              />
-            ))} */}
             {components
               .find(comp => comp.title === focusComponent.title)
               .childrenArray.map((child, i) => (
@@ -109,7 +94,6 @@ class KonvaStage extends Component {
                   handleTransform={handleTransform}
                 />
               ))}
-            {/* )} */}
             <TransformerComponent
               focusComponent={focusComponent}
               focusChild={focusChild}
