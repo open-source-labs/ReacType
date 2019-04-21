@@ -7,7 +7,12 @@ import { connect } from 'react-redux';
 // import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
-import { toggleDragging, openExpansionPanel, handleTransform } from '../actions/components';
+import {
+  toggleDragging,
+  openExpansionPanel,
+  handleTransform,
+  changeFocusChild,
+} from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 // import MainContainerHeader from '../components/MainContainerHeader.jsx';
 // import createModal from '../utils/createModal.util';
@@ -27,6 +32,7 @@ const mapDispatchToProps = dispatch => ({
     ),
   toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
+  changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
 });
 
 const mapStateToProps = store => ({
@@ -84,6 +90,7 @@ class MainContainer extends Component {
       rightColumnOpen,
       focusComponent,
       focusChild,
+      changeFocusChild,
     } = this.props;
     const {
       increaseHeight,
@@ -112,6 +119,7 @@ class MainContainer extends Component {
                 openExpansionPanel={openPanel}
                 focusComponent={focusComponent}
                 focusChild={focusChild}
+                changeFocusChild={changeFocusChild}
               />
             ) : (
               <p>Add some components</p>

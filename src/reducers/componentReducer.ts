@@ -5,6 +5,7 @@ import {
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
+  CHANGE_FOCUS_CHILD,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -31,6 +32,7 @@ import {
   updateComponent,
   deleteComponent,
   changeFocusComponent,
+  changeFocusChild,
   updateChildren,
   reassignParent,
   setSelectableP,
@@ -83,7 +85,7 @@ const appComponent = {
   childrenArray: [],
   nextChildId: 1,
   focusChild: null,
-}
+};
 
 const initialApplicationState = {
   totalComponents: 1,
@@ -92,7 +94,7 @@ const initialApplicationState = {
   successOpen: false,
   errorOpen: false,
   focusComponent: appComponent,
-  focusChild: {  
+  focusChild: {
     childId: 0,
     componentName: null,
     position: {
@@ -129,6 +131,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return deleteComponent(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
+    case CHANGE_FOCUS_CHILD:
+      return changeFocusChild(state, action.payload);
     case UPDATE_CHILDREN:
       return updateChildren(state, action.payload);
     case REASSIGN_PARENT:

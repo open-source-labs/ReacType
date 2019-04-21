@@ -212,13 +212,23 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const changeFocusComponent = (state, { title }) => {
-  const focusComp = state.components.filter(comp => {
-    if (comp.title === title) return comp;
-  })[0];
-
+  const newFocusComp = state.components.find(comp => comp.title === title);
   return {
     ...state,
-    focusComponent: focusComp,
+    focusComponent: newFocusComp,
+  };
+};
+
+export const changeFocusChild = (state, { title, childId }) => {
+  // just finds first child with given title, need to pass in specific childId somehow
+  // maybe default to title if childId is unknown
+  const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
+  console.log('erusbdfd', focComp, childId);
+  const newFocusChild = focComp.childrenArray.find(child => child.childId === childId) || state.focusChild;
+  console.log('trying to changeFocusChild', state.focusComponent.childrenArray);
+  return {
+    ...state,
+    focusChild: newFocusChild,
   };
 };
 
