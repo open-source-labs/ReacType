@@ -113,6 +113,51 @@ export const addChild = (state, { title }) => {
   };
 };
 
+export const handleTransform = (state, {
+  componentId, childId, x, y, width, height,
+}) => {
+  console.log('componentId and childId: ', componentId, childId);
+  console.log('state.focuscomponent: ', state.focusComponent);
+
+  const child = state.components
+    .find(comp => comp.id === componentId)
+    .childrenArray.find(child => child.childId === childId);
+
+  const transformedChild = {
+    ...child,
+    position: {
+      x,
+      y,
+      width,
+      height,
+    },
+  };
+
+  const children = [
+    ...state.components.find(comp => comp.id === componentId).childrenArray.filter((child) => {
+      if (child.childId !== childId) return child;
+    }),
+    transformedChild,
+  ];
+
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children,
+  };
+
+  const components = [
+    ...state.components.filter((comp) => {
+      if (comp.id !== componentId) return comp;
+    }),
+    component,
+  ];
+
+  return {
+    ...state,
+    components,
+  };
+};
+
 export const updateComponent = (
   state,
   {
@@ -255,7 +300,10 @@ export const reassignParent = (state, { index, id, parentIds = [] }) => {
     // Give the parent all children of it's to be deleted child
     if (parentIds.includes(comp.id)) {
       const prevChildrenIds = comp.childrenIds;
-      return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
+      return {
+        ...comp,
+        childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))],
+      };
     }
     return comp;
   });
@@ -291,26 +339,26 @@ export const handleClose = (state, status) => ({
   successOpen: status,
 });
 
-export const updatePosition = (state, { id, x, y }) => {
-  const components = state.components.map((component) => {
-    if (component.id === id) {
-      return {
-        ...component,
-        position: {
-          x,
-          y,
-          width: component.position.width,
-          height: component.position.height,
-        },
-      };
-    }
-    return component;
-  });
-  return {
-    ...state,
-    components,
-  };
-};
+// export const updatePosition = (state, { id, x, y }) => {
+//   const components = state.components.map(component => {
+//     if (component.id === id) {
+//       return {
+//         ...component,
+//         position: {
+//           x,
+//           y,
+//           width: component.position.width,
+//           height: component.position.height
+//         }
+//       };
+//     }
+//     return component;
+//   });
+//   return {
+//     ...state,
+//     components
+//   };
+// };
 
 /**
  * Applies the new x and y coordinates, as well as, the new width
@@ -326,32 +374,7 @@ export const updatePosition = (state, { id, x, y }) => {
  * @param {number} height - updated height
  */
 
-export const handleTransform = (state, {
-  componentId, childId, x, y, width, height,
-}) => {
-  console.log('componentId and childId: ', componentId, childId);
-  console.log('state.focuscomponent: ', state.focusComponent);
-  // const components = state.components
-  //   .find(comp => comp.id === componentId)
-  //   .childrenArray.map((child) => {
-  //     if (child.childId === childId) {
-  //       return {
-  //         ...child,
-  //         position: {
-  //           x,
-  //           y,
-  //           width,
-  //           height,
-  //         },
-  //       };
-  //     }
-  //     return child;
-  //   });
-  return {
-    ...state,
-    // components,
-  };
-};
+// handleTransform used to be here
 
 /**
  * Toggles the drag of the group, as well as all components. If the group is draggable the

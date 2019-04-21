@@ -18,12 +18,8 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  // Christian - this function causes the expansionPanel of the clicked rect to open
-  // (and focusedComponent to change, which we don't want)
-  // could reuse this logic for affecting state of children array
-  // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
   handleStageMouseDown = (e) => {
-    // // clicked on stage - cler selection
+    // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
       return;
@@ -38,24 +34,7 @@ class KonvaStage extends Component {
     const rectChildId = e.target.attrs.childId;
     console.log('e.target : ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
-    // if (rect) {
-    //   this.props.openExpansionPanel(rect || this.props.focusComponent);
-    // } else {
-    //   this.props.openExpansionPanel(this.props.focusComponent);
-    // }
   };
-
-  //  WAS ALREADY COMMENTED OUT
-  // handleStageDrag = () => {
-  //   // const mainWindowHeight = this.main.current.clientHeight;
-  //   // const mainWindowWidth = this.main.current.clientWidth;
-  //   // const groupX = this.refs.group.attrs.x;
-  //   // const groupY = this.refs.group.attrs.y;
-
-  //   // const componentX = (mainWindowWidth / 2) - groupX;
-  //   // const componentY = (mainWindowHeight / 2) - groupY;
-  //   // console.log(componentX, componentY);
-  // }
 
   componentDidMount() {
     // this.props.setImage();
@@ -99,7 +78,7 @@ class KonvaStage extends Component {
                 <Rectangle
                   draggable={child.draggable}
                   selectedShapeName={selectedShapeName}
-                  key={i + child.componentName}
+                  key={`${i}${child.componentName}`}
                   childId={child.childId}
                   componentId={focusComponent.id}
                   x={child.position.x}
