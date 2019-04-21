@@ -15,7 +15,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import { openExpansionPanel } from '../utils/componentReducer.util';
-import { changeFocusChild } from '../actions/components';
 
 const LeftColExpansionPanel = (props) => {
   const {
@@ -70,7 +69,6 @@ const LeftColExpansionPanel = (props) => {
                     onClick={() => {
                       console.log(title);
                       addChild({ title });
-                      changeFocusChild({ title });
                     }}
                   />
                 </IconButton>
