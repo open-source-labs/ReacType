@@ -124,7 +124,7 @@ export const handleTransform = (
 
   const child = state.components
     .find(comp => comp.id === componentId)
-    .childrenArray.find(child => child.child === childId);
+    .childrenArray.find(child => child.childId === childId);
 
   const transformedChild = {
     ...child,
