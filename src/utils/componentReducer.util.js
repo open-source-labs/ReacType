@@ -321,20 +321,22 @@ export const handleTransform = (state, {
 }) => {
   console.log('componentId and childId: ', componentId, childId);
   console.log('state.focuscomponent: ', state.focusComponent);
-  // const components = state.components.map((component) => {
-  //   if (component.id === id) {
-  //     return {
-  //       ...component,
-  //       position: {
-  //         x,
-  //         y,
-  //         width,
-  //         height,
-  //       },
-  //     };
-  //   }
-  //   return component;
-  // });
+  // const components = state.components
+  //   .find(comp => comp.id === componentId)
+  //   .childrenArray.map((child) => {
+  //     if (child.childId === childId) {
+  //       return {
+  //         ...child,
+  //         position: {
+  //           x,
+  //           y,
+  //           width,
+  //           height,
+  //         },
+  //       };
+  //     }
+  //     return child;
+  //   });
   return {
     ...state,
     // components,

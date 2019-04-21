@@ -130,13 +130,13 @@ export const handleClose = () => ({
   payload: false,
 });
 
-export const handleTransform = (componentId, id, {
+export const handleTransform = (componentId, childId, {
   x, y, width, height,
 }) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
-    id,
+    childId,
     x,
     y,
     width,
