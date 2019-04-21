@@ -70,11 +70,15 @@ export const addChild = (state, { title }) => {
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, "");
 
-  const view = state.components.filter(comp => {
-    if (comp.title === state.focusComponent.title) return comp;
-  })[0];
+  // view represents the component that this child will live (and be rendered) in
+  const view = state.components.find(
+    comp => comp.title === state.focusComponent.title
+  );
 
-  console.log(view);
+  // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
+  const parentComponent = state.components.find(comp => comp.title === title);
+
+  console.log("view from addChild: ", view);
 
   const newChild = {
     childId: view.nextChildId.toString(),
@@ -84,7 +88,9 @@ export const addChild = (state, { title }) => {
       y: 120,
       width: 50,
       height: 50
-    }
+    },
+    draggable: true,
+    color: parentComponent.color
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
@@ -106,6 +112,54 @@ export const addChild = (state, { title }) => {
     ...state,
     components,
     focusChild: newChild
+  };
+};
+
+export const handleTransform = (
+  state,
+  { componentId, childId, x, y, width, height }
+) => {
+  console.log("componentId and childId: ", componentId, childId);
+  console.log("state.focuscomponent: ", state.focusComponent);
+
+  const child = state.components
+    .find(comp => comp.id === componentId)
+    .childrenArray.find(child => child.child === childId);
+
+  const transformedChild = {
+    ...child,
+    position: {
+      x,
+      y,
+      width,
+      height
+    }
+  };
+
+  const children = [
+    ...state.components
+      .find(comp => comp.id === componentId)
+      .childrenArray.filter(child => {
+        if (child.childId !== childId) return child;
+      }),
+    transformedChild
+  ];
+
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children
+  };
+
+  const components = [
+    ...state.components.filter(comp => {
+      if (comp.id !== componentId) return comp;
+    }),
+    component
+  ];
+
+  return {
+    ...state,
+    components
   };
 };
 
@@ -163,7 +217,7 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const changeFocusComponent = (state, { title }) => {
-  let focusComp = state.components.filter(comp => {
+  const focusComp = state.components.filter(comp => {
     if (comp.title === title) return comp;
   })[0];
 
@@ -281,26 +335,26 @@ export const handleClose = (state, status) => ({
   successOpen: status
 });
 
-export const updatePosition = (state, { id, x, y }) => {
-  const components = state.components.map(component => {
-    if (component.id === id) {
-      return {
-        ...component,
-        position: {
-          x,
-          y,
-          width: component.position.width,
-          height: component.position.height
-        }
-      };
-    }
-    return component;
-  });
-  return {
-    ...state,
-    components
-  };
-};
+// export const updatePosition = (state, { id, x, y }) => {
+//   const components = state.components.map(component => {
+//     if (component.id === id) {
+//       return {
+//         ...component,
+//         position: {
+//           x,
+//           y,
+//           width: component.position.width,
+//           height: component.position.height
+//         }
+//       };
+//     }
+//     return component;
+//   });
+//   return {
+//     ...state,
+//     components
+//   };
+// };
 
 /**
  * Applies the new x and y coordinates, as well as, the new width
@@ -316,26 +370,7 @@ export const updatePosition = (state, { id, x, y }) => {
  * @param {number} height - updated height
  */
 
-export const handleTransform = (state, { id, x, y, width, height }) => {
-  const components = state.components.map(component => {
-    if (component.id === id) {
-      return {
-        ...component,
-        position: {
-          x,
-          y,
-          width,
-          height
-        }
-      };
-    }
-    return component;
-  });
-  return {
-    ...state,
-    components
-  };
-};
+// handleTransform used to be here
 
 /**
  * Toggles the drag of the group, as well as all components. If the group is draggable the
@@ -382,8 +417,8 @@ export const moveToBottom = (state, componentId) => {
  */
 
 export const openExpansionPanel = (state, { component }) => ({
-  ...state,
-  focusComponent: component
+  ...state
+  // focusComponent: component,
 });
 
 export const addProp = (state, { key, value = null, required, type }) => {

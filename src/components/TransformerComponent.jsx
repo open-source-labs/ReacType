@@ -15,7 +15,9 @@ export default class TransformerComponent extends Component {
     const stage = this.transformer.getStage();
     const { focusChild } = this.props;
     const selectedNode = stage.findOne(`.${focusChild.childId}`);
-
+    // console.log('selected node from within TransformerComponent: ', selectedNode);
+    // console.log('stage: ', stage);
+    // console.log('focusChild: ', focusChild, focusChild.childId, typeof focusChild.childId);
     if (selectedNode === this.transformer.node()) {
       return;
     }
