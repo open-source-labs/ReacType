@@ -32,6 +32,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
+  focusChild: store.workspace.focusChild,
 });
 
 class MainContainer extends Component {
@@ -82,6 +83,7 @@ class MainContainer extends Component {
       collapseColumn,
       rightColumnOpen,
       focusComponent,
+      focusChild,
     } = this.props;
     const {
       increaseHeight,
@@ -109,6 +111,7 @@ class MainContainer extends Component {
                 handleTransform={handleTransformation}
                 openExpansionPanel={openPanel}
                 focusComponent={focusComponent}
+                focusChild={focusChild}
               />
             ) : (
               <p>Add some components</p>

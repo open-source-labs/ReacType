@@ -32,7 +32,6 @@ const mapDispatchToProps = dispatch => ({
   // deleteAllData: () => dispatch(actions.deleteAllData()),
   addChild: ({ title }) => dispatch(actions.addChild({ title })),
   changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ title }) => dispatch(actions.changeFocusChild({ title })),
 });
 
 class LeftContainer extends Component {
@@ -48,7 +47,6 @@ class LeftContainer extends Component {
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
-    this.props.changeFocusChild({ title: this.state.componentName })
     this.setState({
       componentName: '',
     });
