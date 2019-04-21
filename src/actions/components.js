@@ -32,32 +32,31 @@ import { loadState } from '../localStorage';
 // import createApplicationUtil from '../utils/createApplication.util';
 
 export const loadInitData = () => (dispatch) => {
-  loadState()
-    .then(data => dispatch({
-      type: LOAD_INIT_DATA,
-      payload: {
-        data: data ? data.workspace : {},
-      },
-    }));
+  loadState().then(data => dispatch({
+    type: LOAD_INIT_DATA,
+    payload: {
+      data: data ? data.workspace : {},
+    },
+  }));
 };
 
-export const updateChildren = (({
-  parentIds, childIndex, childId,
-}) => ({
+export const updateChildren = ({ parentIds, childIndex, childId }) => ({
   type: UPDATE_CHILDREN,
   payload: {
-    parentIds, childIndex, childId,
+    parentIds,
+    childIndex,
+    childId,
   },
-}));
+});
 
-export const parentReassignment = (({ index, id, parentIds }) => ({
+export const parentReassignment = ({ index, id, parentIds }) => ({
   type: REASSIGN_PARENT,
   payload: {
     index,
     id,
     parentIds,
   },
-}));
+});
 
 export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
@@ -82,12 +81,20 @@ export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => 
 };
 
 export const updateComponent = ({
-  id, index, newParentId = null, color = null, stateful = null,
+  id,
+  index,
+  newParentId = null,
+  color = null,
+  stateful = null,
 }) => (dispatch) => {
   dispatch({
     type: UPDATE_COMPONENT,
     payload: {
-      id, index, newParentId, color, stateful,
+      id,
+      index,
+      newParentId,
+      color,
+      stateful,
     },
   });
 
@@ -123,12 +130,17 @@ export const handleClose = () => ({
   payload: false,
 });
 
-export const handleTransform = (id, {
+export const handleTransform = (componentId, childId, {
   x, y, width, height,
 }) => ({
   type: HANDLE_TRANSFORM,
   payload: {
-    id, x, y, width, height,
+    componentId,
+    childId,
+    x,
+    y,
+    width,
+    height,
   },
 });
 

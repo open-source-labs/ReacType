@@ -16,6 +16,10 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
+  // Christian - this function causes the expansionPanel of the clicked rect to open
+  // (and focusedComponent to change, which we don't want)
+  // could reuse this logic for affecting state of children array
+  // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
   handleStageMouseDown = e => {
     // // clicked on stage - cler selection
     // if (e.target === e.target.getStage()) {
@@ -30,13 +34,14 @@ class KonvaStage extends Component {
 
     // find clicked rect by its name
     const id = e.target.name();
+    console.log(e.target);
     const rect = this.props.components.find(r => r.id === id);
 
-    if (rect) {
-      this.props.openExpansionPanel(rect);
-    } else {
-      this.props.openExpansionPanel({});
-    }
+    // if (rect) {
+    //   this.props.openExpansionPanel(rect || this.props.focusComponent);
+    // } else {
+    //   this.props.openExpansionPanel(this.props.focusComponent);
+    // }
   };
 
   //  WAS ALREADY COMMENTED OUT
@@ -84,13 +89,14 @@ class KonvaStage extends Component {
                   draggable={child.draggable}
                   selectedShapeName={selectedShapeName}
                   key={i + child.componentName}
-                  componentId={child.id}
+                  childId={child.childId}
+                  componentId={focusComponent.id}
                   x={child.position.x}
                   y={child.position.y}
                   width={child.position.width}
                   height={child.position.height}
                   title={child.childId + child.componentName}
-                  color={'red'}
+                  color={child.color}
                   handleTransform={handleTransform}
                 />
               ))}

@@ -70,11 +70,13 @@ export const addChild = (state, { title }) => {
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
 
-  const view = state.components.filter(comp => {
-    if (comp.title === state.focusComponent.title) return comp;
-  })[0];
+  // view represents the component that this child will live (and be rendered) in
+  const view = state.components.find(comp => comp.title === state.focusComponent.title);
 
-  console.log(view);
+  // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
+  const parentComponent = state.components.find(comp => comp.title === title);
+
+  console.log('view from addChild: ', view);
 
   const newChild = {
     childId: state.components.nextChildId.toString(),
@@ -85,6 +87,8 @@ export const addChild = (state, { title }) => {
       width: 50,
       height: 50,
     },
+    draggable: true,
+    color: parentComponent.color,
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
@@ -157,7 +161,7 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const changeFocusComponent = (state, { title }) => {
-  let focusComp = state.components.filter(comp => {
+  const focusComp = state.components.filter(comp => {
     if (comp.title === title) return comp;
   })[0];
 
@@ -310,24 +314,28 @@ export const updatePosition = (state, { id, x, y }) => {
  * @param {number} height - updated height
  */
 
-export const handleTransform = (state, { id, x, y, width, height }) => {
-  const components = state.components.map(component => {
-    if (component.id === id) {
-      return {
-        ...component,
-        position: {
-          x,
-          y,
-          width,
-          height,
-        },
-      };
-    }
-    return component;
-  });
+export const handleTransform = (state, { componentId, childId, x, y, width, height }) => {
+  console.log('componentId and childId: ', componentId, childId);
+  console.log('state.focuscomponent: ', state.focusComponent);
+  // const components = state.components
+  //   .find(comp => comp.id === componentId)
+  //   .childrenArray.map((child) => {
+  //     if (child.childId === childId) {
+  //       return {
+  //         ...child,
+  //         position: {
+  //           x,
+  //           y,
+  //           width,
+  //           height,
+  //         },
+  //       };
+  //     }
+  //     return child;
+  //   });
   return {
     ...state,
-    components,
+    // components,
   };
 };
 
@@ -377,7 +385,7 @@ export const moveToBottom = (state, componentId) => {
 
 export const openExpansionPanel = (state, { component }) => ({
   ...state,
-  focusComponent: component,
+  // focusComponent: component,
 });
 
 export const addProp = (state, { key, value = null, required, type }) => {
