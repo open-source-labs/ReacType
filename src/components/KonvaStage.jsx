@@ -24,21 +24,20 @@ class KonvaStage extends Component {
   // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
   handleStageMouseDown = (e) => {
     // // clicked on stage - cler selection
-    // if (e.target === e.target.getStage()) {
-    //   this.props.openExpansionPanel({});
-    //   return;
-    // }
+    if (e.target === e.target.getStage()) {
+      // add functionality for allowing no focusChild
+      return;
+    }
     // // clicked on transformer - do nothing
-    // const clickedOnTransformer = e.target.getParent().className === 'Transformer';
-    // if (clickedOnTransformer) {
-    //   return;
-    // }
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    if (clickedOnTransformer) {
+      return;
+    }
 
     // find clicked rect by its name
-    const id = e.target.name();
-    console.log(e.target);
-    const rect = this.props.components.find(r => r.id === id);
-
+    const rectChildId = e.target.attrs.childId;
+    console.log('e.target : ', rectChildId);
+    this.props.changeFocusChild({ childId: rectChildId });
     // if (rect) {
     //   this.props.openExpansionPanel(rect || this.props.focusComponent);
     // } else {
@@ -72,6 +71,7 @@ class KonvaStage extends Component {
       scaleY,
       focusComponent,
       focusChild,
+      changeFocusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
