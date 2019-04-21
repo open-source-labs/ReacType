@@ -34,6 +34,7 @@ const initialChildState = {
     width: 50,
     height: 50,
   },
+  draggable: true,
 };
 
 export const addComponent = (state, { title }) => {
@@ -104,6 +105,7 @@ export const addChild = (state, { title }) => {
   return {
     ...state,
     components,
+    focusChild: newChild,
   };
 };
 

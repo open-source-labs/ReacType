@@ -19,16 +19,16 @@ class KonvaStage extends Component {
   }
 
   handleStageMouseDown = (e) => {
-    // clicked on stage - cler selection
-    if (e.target === e.target.getStage()) {
-      this.props.openExpansionPanel({});
-      return;
-    }
-    // clicked on transformer - do nothing
-    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
-    if (clickedOnTransformer) {
-      return;
-    }
+    // // clicked on stage - cler selection
+    // if (e.target === e.target.getStage()) {
+    //   this.props.openExpansionPanel({});
+    //   return;
+    // }
+    // // clicked on transformer - do nothing
+    // const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    // if (clickedOnTransformer) {
+    //   return;
+    // }
 
     // find clicked rect by its name
     const id = e.target.name();
@@ -66,6 +66,7 @@ class KonvaStage extends Component {
       scaleX,
       scaleY,
       focusComponent,
+      focusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -87,7 +88,7 @@ class KonvaStage extends Component {
             }}
             draggable={draggable}
           >
-            {components.map((comp, i) => (
+            {/* {components.map((comp, i) => (
               <Rectangle
                 draggable={comp.draggable}
                 selectedShapeName={selectedShapeName}
@@ -101,9 +102,25 @@ class KonvaStage extends Component {
                 color={comp.color}
                 handleTransform={handleTransform}
               />
-            ))}
+            ))} */}
+            {components.find((comp) => comp.title === focusComponent.title)
+              .childrenArray.map((child, i) => <Rectangle
+              draggable={child.draggable}
+              selectedShapeName={selectedShapeName}
+              key={i + child.componentName}
+              componentId={child.id}
+              x={child.position.x}
+              y={child.position.y}
+              width={child.position.width}
+              height={child.position.height}
+              title={child.childId + child.componentName}
+              color={'red'}
+              handleTransform={handleTransform}
+            />)}
+            {/* )} */}
             <TransformerComponent
               focusComponent={focusComponent}
+              focusChild={focusChild}
               selectedShapeName={selectedShapeName}
             />
           </Group>
