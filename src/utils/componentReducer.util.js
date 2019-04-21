@@ -113,7 +113,58 @@ export const addChild = (state, { title }) => {
   };
 };
 
-export const updateComponent = (state, { id, newParentId = null, color = null, stateful = null, props = null }) => {
+export const handleTransform = (
+  state,
+  { componentId, childId, x, y, width, height }
+) => {
+  console.log("componentId and childId: ", componentId, childId);
+  console.log("state.focuscomponent: ", state.focusComponent);
+
+  const child = state.components
+    .find(comp => comp.id === componentId)
+    .childrenArray.find(child => child.childId === childId);
+
+  const transformedChild = {
+    ...child,
+    position: {
+      x,
+      y,
+      width,
+      height
+    }
+  };
+
+  const children = [
+    ...state.components
+      .find(comp => comp.id === componentId)
+      .childrenArray.filter(child => {
+        if (child.childId !== childId) return child;
+      }),
+    transformedChild
+  ];
+
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children
+  };
+
+  const components = [
+    ...state.components.filter(comp => {
+      if (comp.id !== componentId) return comp;
+    }),
+    component
+  ];
+
+  return {
+    ...state,
+    components
+  };
+};
+
+export const updateComponent = (
+  state,
+  { id, newParentId = null, color = null, stateful = null, props = null }
+) => {
   let component;
   const components = state.components.map(comp => {
     if (comp.id === id) {
