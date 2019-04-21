@@ -1,15 +1,13 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from "react";
 // import PropTypes from 'prop-types';
-import {
-  Stage, Layer, Image, Group,
-} from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
-import Rectangle from './Rectangle.jsx';
+import { Stage, Layer, Image, Group } from "react-konva";
+import TransformerComponent from "./TransformerComponent.jsx";
+import Rectangle from "./Rectangle.jsx";
 
 class KonvaStage extends Component {
   state = {
     x: undefined,
-    y: undefined,
+    y: undefined
   };
 
   constructor(props) {
@@ -18,7 +16,7 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  handleStageMouseDown = (e) => {
+  handleStageMouseDown = e => {
     // // clicked on stage - cler selection
     // if (e.target === e.target.getStage()) {
     //   this.props.openExpansionPanel({});
@@ -66,13 +64,13 @@ class KonvaStage extends Component {
       scaleX,
       scaleY,
       focusComponent,
-      focusChild,
+      focusChild
     } = this.props;
     const { selectedShapeName } = this.state;
 
     return (
       <Stage
-        ref={(node) => {
+        ref={node => {
           this.stage = node;
         }}
         onMouseDown={this.handleStageMouseDown}
@@ -83,41 +81,28 @@ class KonvaStage extends Component {
           <Group
             scaleX={scaleX}
             scaleY={scaleY}
-            ref={(node) => {
+            ref={node => {
               this.group = node;
             }}
             draggable={draggable}
           >
-            {/* {components.map((comp, i) => (
-              <Rectangle
-                draggable={comp.draggable}
-                selectedShapeName={selectedShapeName}
-                key={i}
-                componentId={comp.id}
-                x={comp.position.x}
-                y={comp.position.y}
-                width={comp.position.width}
-                height={comp.position.height}
-                title={comp.title}
-                color={comp.color}
-                handleTransform={handleTransform}
-              />
-            ))} */}
-            {components.find((comp) => comp.title === focusComponent.title)
-              .childrenArray.map((child, i) => <Rectangle
-              draggable={child.draggable}
-              selectedShapeName={selectedShapeName}
-              key={i + child.componentName}
-              componentId={child.id}
-              x={child.position.x}
-              y={child.position.y}
-              width={child.position.width}
-              height={child.position.height}
-              title={child.childId + child.componentName}
-              color={'red'}
-              handleTransform={handleTransform}
-            />)}
-            {/* )} */}
+            {components
+              .find(comp => comp.title === focusComponent.title)
+              .childrenArray.map((child, i) => (
+                <Rectangle
+                  draggable={child.draggable}
+                  selectedShapeName={selectedShapeName}
+                  key={i + child.componentName}
+                  componentId={child.id}
+                  x={child.position.x}
+                  y={child.position.y}
+                  width={child.position.width}
+                  height={child.position.height}
+                  title={child.childId + child.componentName}
+                  color={"red"}
+                  handleTransform={handleTransform}
+                />
+              ))}
             <TransformerComponent
               focusComponent={focusComponent}
               focusChild={focusChild}
