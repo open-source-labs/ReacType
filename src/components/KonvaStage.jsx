@@ -1,15 +1,13 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from "react";
 // import PropTypes from 'prop-types';
-import {
-  Stage, Layer, Image, Group,
-} from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
-import Rectangle from './Rectangle.jsx';
+import { Stage, Layer, Image, Group } from "react-konva";
+import TransformerComponent from "./TransformerComponent.jsx";
+import Rectangle from "./Rectangle.jsx";
 
 class KonvaStage extends Component {
   state = {
     x: undefined,
-    y: undefined,
+    y: undefined
   };
 
   constructor(props) {
@@ -22,7 +20,7 @@ class KonvaStage extends Component {
   // (and focusedComponent to change, which we don't want)
   // could reuse this logic for affecting state of children array
   // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
-  handleStageMouseDown = (e) => {
+  handleStageMouseDown = e => {
     // // clicked on stage - cler selection
     // if (e.target === e.target.getStage()) {
     //   this.props.openExpansionPanel({});
@@ -71,13 +69,13 @@ class KonvaStage extends Component {
       scaleX,
       scaleY,
       focusComponent,
-      focusChild,
+      focusChild
     } = this.props;
     const { selectedShapeName } = this.state;
 
     return (
       <Stage
-        ref={(node) => {
+        ref={node => {
           this.stage = node;
         }}
         onMouseDown={this.handleStageMouseDown}
@@ -88,7 +86,7 @@ class KonvaStage extends Component {
           <Group
             scaleX={scaleX}
             scaleY={scaleY}
-            ref={(node) => {
+            ref={node => {
               this.group = node;
             }}
             draggable={draggable}
@@ -99,7 +97,7 @@ class KonvaStage extends Component {
                 <Rectangle
                   draggable={child.draggable}
                   selectedShapeName={selectedShapeName}
-                  key={i + child.componentName}
+                  key={i + `${child.componentName}`}
                   childId={child.childId}
                   componentId={focusComponent.id}
                   x={child.position.x}
