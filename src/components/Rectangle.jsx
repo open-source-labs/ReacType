@@ -6,20 +6,33 @@ import TransformerComponent from './TransformerComponent.jsx';
 // import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
-  handleResize(componentId, childId, target) {
+  handleResize(componentId, childId, target, components) {
+    const focChild = components
+      .find(comp => comp.id === componentId)
+      .childrenArray.find(child => child.childId === childId);
+
     const transformation = {
       width: target.width() * target.scaleX(),
       height: target.height() * target.scaleY(),
+      x: target.x() + focChild.position.x,
+      y: target.y() + focChild.position.y,
     };
+
     this.props.handleTransform(componentId, childId, transformation);
   }
 
   handleDrag(componentId, childId, target) {
+    console.log(target);
+
     const transformation = {
       x: target.x(),
       y: target.y(),
     };
     this.props.handleTransform(componentId, childId, transformation);
+  }
+
+  findDescendants(component) {
+
   }
 
   render() {
@@ -35,6 +48,7 @@ class Rectangle extends Component {
       title,
       focusChild,
       focusComponent,
+      components,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -52,8 +66,9 @@ class Rectangle extends Component {
       >
         <Rect
           name={`${childId}`}
-          // x={0}
-          // y={0}
+          x={0}
+          y={0}
+          // absolutePosition={{ x, y }}
           childId={childId}
           componentId={componentId}
           title={title}
@@ -65,7 +80,8 @@ class Rectangle extends Component {
           color={color}
           // fill={color}
           // opacity={0.8}
-          onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target, components)
+          }
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
@@ -73,6 +89,7 @@ class Rectangle extends Component {
         <Label>
           <Text text={title} fill={'white'} />
         </Label>
+        {}
         <Rect
           // replace with grandchildren rectangles
           scaleX={0.2}
