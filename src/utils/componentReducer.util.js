@@ -41,6 +41,13 @@ export const addComponent = (state, { title }) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
+
+  if (state.components.find(comp => comp.title === strippedTitle)) {
+    // alert the user that duplicate component names are not allowed
+    return {
+      ...state,
+    };
+  }
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,

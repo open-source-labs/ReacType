@@ -34,6 +34,9 @@ class Rectangle extends Component {
       focusChild,
       focusComponent,
     } = this.props;
+
+    // the Group is responsible for dragging of all children
+    // the Rect emits changes to child width and height with help from Transformer
     return (
       <Group
         draggable={true}
@@ -64,17 +67,6 @@ class Rectangle extends Component {
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
-
-          // use dragBoundFunc to bind children within parents
-          // (but if only children are rendered/movable, and parent is size of canvas, won't need this anyways )
-          // dragBoundFunc={function dragBoundFunc(pos) {
-          //   const newY = pos.y < 200 ? 200 : pos.y;
-          //   const newX = pos.x < 200 ? 200 : pos.x;
-          //   return {
-          //     x: newX,
-          //     y: newY,
-          //   };
-          // }}
         />
         <Label>
           <Text text={title} fill={'white'} />

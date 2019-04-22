@@ -35,7 +35,7 @@ const LeftColExpansionPanel = props => {
     return focusComponent.title === title ? 'focused' : '';
   }
 
-  function isAncestor() {
+  function isAncestorOfFocused() {
     // add logic for determining if given component is an ancestor of focusedComponent
     return false;
   }
@@ -64,7 +64,7 @@ const LeftColExpansionPanel = props => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              {isFocused() || isAncestor() ? (
+              {isFocused() || isAncestorOfFocused() ? (
                 <div />
               ) : (
                 <IconButton aria-label="Add">
