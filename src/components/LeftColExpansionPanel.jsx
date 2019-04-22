@@ -47,7 +47,6 @@ const LeftColExpansionPanel = (props) => {
             component="a"
             style={{ color: 'red' }}
             onClick={() => {
-              console.log({ title });
               changeFocusComponent({ title });
             }}
           >
@@ -70,10 +69,7 @@ const LeftColExpansionPanel = (props) => {
                   <AddIcon
                     style={{ color, float: 'right' }}
                     onClick={() => {
-                      console.log(title);
                       addChild({ title });
-                      // get childId somewhere, or call changeFocusChild within addChild (better idea)
-                      // changeFocusChild({ title });
                     }}
                   />
                 </IconButton>
