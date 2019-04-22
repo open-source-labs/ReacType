@@ -33,7 +33,7 @@ const LeftColExpansionPanel = (props) => {
     return focusComponent.title === title ? 'focused' : '';
   }
 
-  function isAncestor() {
+  function isAncestorOfFocused() {
     // add logic for determining if given component is an ancestor of focusedComponent
     return false;
   }
@@ -47,7 +47,6 @@ const LeftColExpansionPanel = (props) => {
             component="a"
             style={{ color: 'red' }}
             onClick={() => {
-              console.log({ title });
               changeFocusComponent({ title });
             }}
           >
@@ -63,17 +62,14 @@ const LeftColExpansionPanel = (props) => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              {isFocused() || isAncestor() ? (
+              {isFocused() || isAncestorOfFocused() ? (
                 <div />
               ) : (
                 <IconButton aria-label="Add">
                   <AddIcon
                     style={{ color, float: 'right' }}
                     onClick={() => {
-                      console.log(title);
                       addChild({ title });
-                      // get childId somewhere, or call changeFocusChild within addChild (better idea)
-                      // changeFocusChild({ title });
                     }}
                   />
                 </IconButton>

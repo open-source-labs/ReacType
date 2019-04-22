@@ -11,13 +11,12 @@ export default class TransformerComponent extends Component {
     this.checkNode();
   }
 
+  // this function makes sure the transformer follows along with the focusChild
   checkNode() {
     const stage = this.transformer.getStage();
     const { focusChild } = this.props;
     const selectedNode = stage.findOne(`.${focusChild.childId}`);
-    // console.log('selected node from within TransformerComponent: ', selectedNode);
-    // console.log('stage: ', stage);
-    // console.log('focusChild: ', focusChild, focusChild.childId, typeof focusChild.childId);
+
     if (selectedNode === this.transformer.node()) {
       return;
     }
