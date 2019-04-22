@@ -77,6 +77,7 @@ export const addChild = (state, { title }) => {
 
   const newChild = {
     childId: view.nextChildId.toString(),
+    childComponentId: parentComponent.id,
     componentName: strippedTitle,
     position: {
       x: 110,
@@ -85,8 +86,8 @@ export const addChild = (state, { title }) => {
       height: 50
     },
     draggable: true,
-    color: parentComponent.color,
-    ancestors: [focusComponent]
+    color: parentComponent.color
+    // ancestors: [focusComponent]
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
