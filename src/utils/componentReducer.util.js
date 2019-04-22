@@ -59,7 +59,7 @@ export const addComponent = (state, { title }) => {
 
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
-
+console.log(JSON.stringify(components))
   return {
     ...state,
     totalComponents,
