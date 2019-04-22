@@ -1,54 +1,93 @@
 import React, { Component } from 'react';
-import { Rect } from 'react-konva';
-import PropTypes from 'prop-types';
+import { Rect, Group, Label, Text } from 'react-konva';
+import TransformerComponent from './TransformerComponent.jsx';
+// import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
-  extractPositionInfo(componentId, childId, target) {
-    console.log('extracting position info, Rectanlge.jsx');
+  handleResize(componentId, childId, target) {
     const transformation = {
-      x: target.x(),
-      y: target.y(),
       width: target.width() * target.scaleX(),
       height: target.height() * target.scaleY(),
     };
+    this.props.handleTransform(componentId, childId, transformation);
+  }
 
+  handleDrag(componentId, childId, target) {
+    const transformation = {
+      x: target.x(),
+      y: target.y(),
+    };
     this.props.handleTransform(componentId, childId, transformation);
   }
 
   render() {
-    const { color, x, y, childId, componentId, draggable, width, height, title } = this.props;
-    console.log('childId in rectangle:', childId);
+    const {
+      color,
+      x,
+      y,
+      childId,
+      componentId,
+      draggable,
+      width,
+      height,
+      title,
+      focusChild,
+      focusComponent,
+    } = this.props;
+
+    // the Group is responsible for dragging of all children
+    // the Rect emits changes to child width and height with help from Transformer
     return (
-      <Rect
-        name={`${childId}`}
+      <Group
+        draggable={true}
         x={x}
         y={y}
-        childId={childId}
-        componentId={componentId}
-        title={title}
         scaleX={1}
         scaleY={1}
         width={width}
         height={height}
-        stroke={color}
-        strokeWidth={6}
-        strokeScaleEnabled={false}
-        onTransformEnd={event => this.extractPositionInfo(componentId, childId, event.target)}
-        onDragEnd={event => this.extractPositionInfo(componentId, childId, event.target)}
-        draggable={draggable}
-        color={color}
-        // use dragBoundFunc to bind children within parents
-        // (but if only children are rendered/movable, and parent is size of canvas, won't need this anyways )
-        // dragBoundFunc={function dragBoundFunc(pos) {
-        //   console.log('binding');
-        //   const newY = pos.y < 200 ? 200 : pos.y;
-        //   const newX = pos.x < 200 ? 200 : pos.x;
-        //   return {
-        //     x: newX,
-        //     y: newY,
-        //   };
-        // }}
-      />
+        onDragEnd={event => this.handleDrag(componentId, childId, event.target)}
+      >
+        <Rect
+          name={`${childId}`}
+          // x={0}
+          // y={0}
+          childId={childId}
+          componentId={componentId}
+          title={title}
+          scaleX={1}
+          scaleY={1}
+          width={width}
+          height={height}
+          stroke={color}
+          color={color}
+          // fill={color}
+          // opacity={0.8}
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
+          strokeWidth={4}
+          strokeScaleEnabled={false}
+          draggable={false}
+        />
+        <Label>
+          <Text text={title} fill={'white'} />
+        </Label>
+        <Rect
+          // replace with grandchildren rectangles
+          scaleX={0.2}
+          scaleY={0.2}
+          width={width}
+          height={height}
+          stroke={color}
+          color={color}
+          strokeWidth={4}
+          draggable={false}
+        />
+        {focusChild.childId === childId ? (
+          <TransformerComponent focusComponent={focusComponent} focusChild={focusChild} />
+        ) : (
+          <Label />
+        )}
+      </Group>
     );
   }
 }

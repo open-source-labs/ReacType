@@ -28,7 +28,14 @@ const initialComponentState = {
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, "");
+    .replace(/[-_\s0-9\W]+/gi, '');
+
+  if (state.components.find(comp => comp.title === strippedTitle)) {
+    // alert the user that duplicate component names are not allowed
+    return {
+      ...state,
+    };
+  }
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
@@ -152,22 +159,56 @@ export const handleTransform = (
   };
 };
 
-// export const updateComponent = (
-//   state,
-// ) => {
+export const handleTransform = (state, {
+  componentId, childId, x, y, width, height,
+}) => {
+  console.log('componentId and childId: ', componentId, childId);
+  console.log('state.focuscomponent: ', state.focusComponent);
 
-//   // lives on the state
-//   let currentAncestors = [state.focusChild];
+  const child = state.components
+    .find(comp => comp.id === componentId)
+    .childrenArray.find(child => child.childId === childId);
 
-//   for (let i=0; i<currentAncestors; i++) {
+  const transformedChild = {
+    ...child,
+    position: {
+      x: x || child.position.x,
+      y: y || child.position.y,
+      width: width || child.position.width,
+      height: height || child.position.height,
+    },
+  };
 
-//   }
+  const children = [
+    ...state.components.find(comp => comp.id === componentId).childrenArray.filter((child) => {
+      if (child.childId !== childId) return child;
+    }),
+    transformedChild,
+  ];
 
-// };
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children,
+  };
+
+  const components = [
+    ...state.components.filter((comp) => {
+      if (comp.id !== componentId) return comp;
+    }),
+    component,
+  ];
+
+  return {
+    ...state,
+    components,
+  };
+};
 
 export const updateComponent = (
   state,
-  { id, newParentId = null, color = null, stateful = null, props = null }
+  {
+    id, newParentId = null, color = null, stateful = null, props = null,
+  },
 ) => {
   let component;
   const components = state.components.map(comp => {
@@ -229,15 +270,8 @@ export const changeFocusComponent = (state, { title }) => {
 export const changeFocusChild = (state, { title, childId }) => {
   // just finds first child with given title, need to pass in specific childId somehow
   // maybe default to title if childId is unknown
-
-  const focComp = state.components.find(
-    comp => comp.title === state.focusComponent.title
-  );
-  console.log("erusbdfd", focComp, childId);
-  const newFocusChild =
-    focComp.childrenArray.find(child => child.childId === childId) ||
-    state.focusChild;
-  console.log("trying to changeFocusChild", state.focusComponent.childrenArray);
+  const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
+  const newFocusChild = focComp.childrenArray.find(child => child.childId === childId) || state.focusChild;
   return {
     ...state,
     focusChild: newFocusChild
