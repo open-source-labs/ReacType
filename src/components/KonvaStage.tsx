@@ -16,12 +16,8 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  // Christian - this function causes the expansionPanel of the clicked rect to open
-  // (and focusedComponent to change, which we don't want)
-  // could reuse this logic for affecting state of children array
-  // ADD CHANG FOCUS CHILD FUNCTIONALITY HERE
   handleStageMouseDown = e => {
-    // // clicked on stage - cler selection
+    // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
       return;
