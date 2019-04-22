@@ -58,19 +58,19 @@ class MainContainer extends Component {
 
   componentDidMount() {}
 
-  increaseHeight = () => {
-    this.setState({
-      scaleX: this.state.scaleX * 1.5,
-      scaleY: this.state.scaleY * 1.5,
-    });
-  };
+  // increaseHeight = () => {
+  //   this.setState({
+  //     scaleX: this.state.scaleX * 1.5,
+  //     scaleY: this.state.scaleY * 1.5,
+  //   });
+  // };
 
-  decreaseHeight = () => {
-    this.setState({
-      scaleX: this.state.scaleX * 0.75,
-      scaleY: this.state.scaleY * 0.75,
-    });
-  };
+  // decreaseHeight = () => {
+  //   this.setState({
+  //     scaleX: this.state.scaleX * 0.75,
+  //     scaleY: this.state.scaleY * 0.75,
+  //   });
+  // };
 
   toggleDrag = () => {
     this.props.toggleComponentDragging(this.state.draggable);
