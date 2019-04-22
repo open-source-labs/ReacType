@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 // import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 // import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -14,18 +14,42 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import { openExpansionPanel } from '../utils/componentReducer.util';
 
 const LeftColExpansionPanel = (props) => {
   const {
-    index, classes, focusComponent, component, deleteComponent, addChild,
+    index,
+    classes,
+    focusComponent,
+    component,
+    deleteComponent,
+    addChild,
+    changeFocusComponent,
+    changeFocusChild,
   } = props;
   const { title, id, color } = component;
 
+  function isFocused() {
+    return focusComponent.title === title ? 'focused' : '';
+  }
+
+  function isAncestorOfFocused() {
+    // add logic for determining if given component is an ancestor of focusedComponent
+    return false;
+  }
+
   return (
     <div className={classes.root}>
-      <Grid item xs={12} md={6}>
-        <List>
-          <ListItem button component="a">
+      <Grid item xs={12} md={6} style={{ color: 'red' }}>
+        <List style={{ color: 'red' }}>
+          <ListItem
+            button
+            component="a"
+            style={{ color: 'red' }}
+            onClick={() => {
+              changeFocusComponent({ title });
+            }}
+          >
             <ListItemText
               disableTypography
               className={classes.light}
@@ -34,19 +58,22 @@ const LeftColExpansionPanel = (props) => {
                   {title}
                 </Typography>
               }
-              secondary={'focused'}
+              secondary={isFocused()}
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              <IconButton aria-label="Add">
-                <AddIcon
-                  style={{ color, float: 'right' }}
-                  onClick={() => {
-                    console.log(title);
-                    addChild( { title } );
-                  }}
-                />
-              </IconButton>
+              {isFocused() || isAncestorOfFocused() ? (
+                <div />
+              ) : (
+                <IconButton aria-label="Add">
+                  <AddIcon
+                    style={{ color, float: 'right' }}
+                    onClick={() => {
+                      addChild({ title });
+                    }}
+                  />
+                </IconButton>
+              )}
             </ListItemSecondaryAction>
           </ListItem>
         </List>
@@ -90,15 +117,15 @@ export default withStyles(styles)(LeftColExpansionPanel);
 </div>
 */
 
-LeftColExpansionPanel.propTypes = {
-  classes: PropTypes.object.isRequired,
-  component: PropTypes.object,
-  index: PropTypes.number,
-  focusComponent: PropTypes.object.isRequired,
-  onExpansionPanelChange: PropTypes.func,
-  updateComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
-};
+// LeftColExpansionPanel.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   component: PropTypes.object,
+//   index: PropTypes.number,
+//   focusComponent: PropTypes.object.isRequired,
+//   onExpansionPanelChange: PropTypes.func,
+//   updateComponent: PropTypes.func,
+//   deleteComponent: PropTypes.func,
+// };
 
 function styles(theme) {
   return {

@@ -1,11 +1,10 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import {
-  Stage, Layer, Image, Group,
+  Stage, Layer, Group, Label, Text,
 } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
-
 
 class KonvaStage extends Component {
   state = {
@@ -20,39 +19,22 @@ class KonvaStage extends Component {
   }
 
   handleStageMouseDown = (e) => {
-    // clicked on stage - cler selection
+    // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
-      this.props.openExpansionPanel({});
+      // add functionality for allowing no focusChild
       return;
     }
-    // clicked on transformer - do nothing
+    // // clicked on transformer - do nothing
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
 
     // find clicked rect by its name
-    const id = e.target.name();
-    const rect = this.props.components.find(r => r.id === id);
-
-    if (rect) {
-      this.props.openExpansionPanel(rect);
-    } else {
-      this.props.openExpansionPanel({});
-    }
+    const rectChildId = e.target.attrs.childId;
+    console.log('e.target : ', rectChildId);
+    this.props.changeFocusChild({ childId: rectChildId });
   };
-
-  //  WAS ALREADY COMMENTED OUT
-  // handleStageDrag = () => {
-  //   // const mainWindowHeight = this.main.current.clientHeight;
-  //   // const mainWindowWidth = this.main.current.clientWidth;
-  //   // const groupX = this.refs.group.attrs.x;
-  //   // const groupY = this.refs.group.attrs.y;
-
-  //   // const componentX = (mainWindowWidth / 2) - groupX;
-  //   // const componentY = (mainWindowHeight / 2) - groupY;
-  //   // console.log(componentX, componentY);
-  // }
 
   componentDidMount() {
     // this.props.setImage();
@@ -60,7 +42,15 @@ class KonvaStage extends Component {
 
   render() {
     const {
-      components, handleTransform, image, draggable, scaleX, scaleY, focusComponent,
+      components,
+      handleTransform,
+      image,
+      draggable,
+      scaleX,
+      scaleY,
+      focusComponent,
+      focusChild,
+      changeFocusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -74,32 +64,26 @@ class KonvaStage extends Component {
         height={window.innerHeight}
       >
         <Layer>
-          <Group
-            scaleX={scaleX}
-            scaleY={scaleY}
-            ref={(node) => {
-              this.group = node;
-            }}
-            draggable={draggable}>
-            <Image image={image} />
-            {components.map((comp, i) => <Rectangle
-              draggable={comp.draggable}
-              selectedShapeName={selectedShapeName}
-              key={i}
-              componentId={comp.id}
-              x={comp.position.x}
-              y={comp.position.y}
-              width={comp.position.width}
-              height={comp.position.height}
-              title={comp.title}
-              color={comp.color}
-              handleTransform={handleTransform}
-            />)}
-            <TransformerComponent
-              focusComponent={focusComponent}
-              selectedShapeName={selectedShapeName}
-            />
-          </Group>
+          {components
+            .find(comp => comp.title === focusComponent.title)
+            .childrenArray.map((child, i) => (
+              <Rectangle
+                key={`${i}${child.componentName}`}
+                draggable={false}
+                selectedShapeName={selectedShapeName}
+                childId={child.childId}
+                focusChild={focusChild}
+                focusComponent={focusComponent}
+                componentId={focusComponent.id}
+                x={child.position.x}
+                y={child.position.y}
+                width={child.position.width}
+                height={child.position.height}
+                title={child.componentName + child.childId}
+                color={child.color}
+                handleTransform={handleTransform}
+              />
+            ))}
         </Layer>
       </Stage>
     );

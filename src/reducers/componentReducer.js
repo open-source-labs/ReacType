@@ -4,6 +4,8 @@ import {
   ADD_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
+  CHANGE_FOCUS_COMPONENT,
+  CHANGE_FOCUS_CHILD,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -29,6 +31,8 @@ import {
   addChild,
   updateComponent,
   deleteComponent,
+  changeFocusComponent,
+  changeFocusChild,
   updateChildren,
   reassignParent,
   setSelectableP,
@@ -81,7 +85,7 @@ const appComponent = {
   childrenArray: [],
   nextChildId: 1,
   focusChild: null,
-}
+};
 
 const initialApplicationState = {
   totalComponents: 1,
@@ -89,7 +93,18 @@ const initialApplicationState = {
   // imagePath: '',
   successOpen: false,
   errorOpen: false,
-  focusComponent: {},
+  focusComponent: appComponent,
+  focusChild: {
+    childId: 0,
+    componentName: null,
+    position: {
+      x: 110,
+      y: 120,
+      width: 50,
+      height: 50,
+    },
+    draggable: true,
+  },
   components: [appComponent],
   appDir: '',
   loading: false,
@@ -114,6 +129,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return updateComponent(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
+    case CHANGE_FOCUS_COMPONENT:
+      return changeFocusComponent(state, action.payload);
+    case CHANGE_FOCUS_CHILD:
+      return changeFocusChild(state, action.payload);
     case UPDATE_CHILDREN:
       return updateChildren(state, action.payload);
     case REASSIGN_PARENT:
