@@ -1,13 +1,15 @@
-import React, { Component, createRef, Fragment } from "react";
+import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
-import { Stage, Layer, Group, Label, Text } from "react-konva";
-import TransformerComponent from "./TransformerComponent.jsx";
-import Rectangle from "./Rectangle.jsx";
+import {
+  Stage, Layer, Group, Label, Text,
+} from 'react-konva';
+import TransformerComponent from './TransformerComponent.jsx';
+import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
   state = {
     x: undefined,
-    y: undefined
+    y: undefined,
   };
 
   constructor(props) {
@@ -16,22 +18,21 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  handleStageMouseDown = e => {
+  handleStageMouseDown = (e) => {
     // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer =
-      e.target.getParent().className === "Transformer";
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log("e.target : ", rectChildId);
+    console.log('e.target : ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
   };
 
@@ -49,13 +50,13 @@ class KonvaStage extends Component {
       scaleY,
       focusComponent,
       focusChild,
-      changeFocusChild
+      changeFocusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
     return (
       <Stage
-        ref={node => {
+        ref={(node) => {
           this.stage = node;
         }}
         onMouseDown={this.handleStageMouseDown}
