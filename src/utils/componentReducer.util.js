@@ -163,9 +163,9 @@ export const handleTransform = (
 export const handleTransform = (state, {
   componentId, childId, x, y, width, height,
 }) => {
-  console.log('componentId and childId: ', componentId, childId);
-  console.log('state.focuscomponent: ', state.focusComponent);
-
+  // console.log('componentId and childId: ', componentId, childId);
+  // console.log('state.focuscomponent: ', state.focusComponent);
+  console.log('incoming x and y: ', x, y);
   const child = state.components
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
