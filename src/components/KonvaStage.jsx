@@ -1,7 +1,7 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import {
-  Stage, Layer, Image, Group,
+  Stage, Layer, Group, Label, Text,
 } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
@@ -64,38 +64,26 @@ class KonvaStage extends Component {
         height={window.innerHeight}
       >
         <Layer>
-          <Group
-            scaleX={scaleX}
-            scaleY={scaleY}
-            ref={(node) => {
-              this.group = node;
-            }}
-            draggable={draggable}
-          >
-            {components
-              .find(comp => comp.title === focusComponent.title)
-              .childrenArray.map((child, i) => (
-                <Rectangle
-                  draggable={child.draggable}
-                  selectedShapeName={selectedShapeName}
-                  key={`${i}${child.componentName}`}
-                  childId={child.childId}
-                  componentId={focusComponent.id}
-                  x={child.position.x}
-                  y={child.position.y}
-                  width={child.position.width}
-                  height={child.position.height}
-                  title={child.childId + child.componentName}
-                  color={child.color}
-                  handleTransform={handleTransform}
-                />
-              ))}
-            <TransformerComponent
-              focusComponent={focusComponent}
-              focusChild={focusChild}
-              selectedShapeName={selectedShapeName}
-            />
-          </Group>
+          {components
+            .find(comp => comp.title === focusComponent.title)
+            .childrenArray.map((child, i) => (
+              <Rectangle
+                key={`${i}${child.componentName}`}
+                draggable={false}
+                selectedShapeName={selectedShapeName}
+                childId={child.childId}
+                focusChild={focusChild}
+                focusComponent={focusComponent}
+                componentId={focusComponent.id}
+                x={child.position.x}
+                y={child.position.y}
+                width={child.position.width}
+                height={child.position.height}
+                title={child.componentName + child.childId}
+                color={child.color}
+                handleTransform={handleTransform}
+              />
+            ))}
         </Layer>
       </Stage>
     );

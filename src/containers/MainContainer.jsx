@@ -111,22 +111,18 @@ class MainContainer extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
           <div className="main" ref={main}>
-            {components.length > 0 ? (
-              <KonvaStage
-                scaleX={scaleX}
-                scaleY={scaleY}
-                image={image}
-                draggable={draggable}
-                components={components}
-                handleTransform={handleTransformation}
-                openExpansionPanel={openPanel}
-                focusComponent={focusComponent}
-                focusChild={focusChild}
-                changeFocusChild={changeFocusChild}
-              />
-            ) : (
-              <p>Add some components</p>
-            )}
+            <KonvaStage
+              scaleX={scaleX}
+              scaleY={scaleY}
+              image={image}
+              draggable={draggable}
+              components={components}
+              handleTransform={handleTransformation}
+              openExpansionPanel={openPanel}
+              focusComponent={focusComponent}
+              focusChild={focusChild}
+              changeFocusChild={changeFocusChild}
+            />
           </div>
         </div>
       </MuiThemeProvider>
