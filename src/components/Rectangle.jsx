@@ -31,8 +31,15 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  findDescendants(component) {
-
+  findDescendants(component, components, descendants = []) {
+    // fix this stuff Adam
+    if (!component) return;
+    component.childrenArray.forEach((child) => {
+      descendants.push(child);
+      const childComponent = components.find(comp => comp.title === child.componentName);
+      this.findDescendants(childComponent, components, descendants);
+    });
+    return descendants;
   }
 
   render() {
@@ -89,7 +96,7 @@ class Rectangle extends Component {
         <Label>
           <Text text={title} fill={'white'} />
         </Label>
-        {}
+        {this.findDescendants().map}
         <Rect
           // replace with grandchildren rectangles
           scaleX={0.2}
