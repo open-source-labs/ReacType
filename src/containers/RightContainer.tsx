@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
-import {
-  handleClose,
-  deleteCompProp,
-  addCompProp,
-} from '../actions/components';
+import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
 // import Snackbars from '../components/Snackbars.jsx';
 // import RightTabs from '../components/RightTabs.jsx';
 
@@ -27,11 +23,11 @@ class RightContainer extends Component {
   state = {
     successOpen: false,
     errorOpen: false,
-  }
+  };
 
   viewAppDir = () => {
     IPC.send('view_app_dir', this.props.appDir);
-  }
+  };
 
   render() {
     const {
@@ -47,7 +43,7 @@ class RightContainer extends Component {
     } = this.props;
 
     return (
-      <div className='column-right' style={{ width: `${this.props.width}%` }} >
+      <div className="column-right" style={{ width: `${this.props.width}%` }}>
         {/* <RightTabs
           components={components}
           focusComponent={focusComponent}
@@ -80,5 +76,7 @@ class RightContainer extends Component {
 //   rightColumnOpen: PropTypes.bool.isRequired,
 // };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(RightContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RightContainer);
