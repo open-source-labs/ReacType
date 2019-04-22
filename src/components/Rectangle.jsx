@@ -96,7 +96,7 @@ class Rectangle extends Component {
         <Label>
           <Text text={title} fill={'white'} />
         </Label>
-        {this.findDescendants().map}
+        {/* {this.findDescendants().map} */}
         <Rect
           // replace with grandchildren rectangles
           scaleX={0.2}
