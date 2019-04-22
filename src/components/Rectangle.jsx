@@ -52,8 +52,8 @@ class Rectangle extends Component {
       >
         <Rect
           name={`${childId}`}
-          // x={0}
-          // y={0}
+          x={0}
+          y={0}
           childId={childId}
           componentId={componentId}
           title={title}
