@@ -71,6 +71,7 @@ class KonvaStage extends Component {
                 key={`${i}${child.componentName}`}
                 draggable={false}
                 selectedShapeName={selectedShapeName}
+                components={components}
                 childId={child.childId}
                 focusChild={focusChild}
                 focusComponent={focusComponent}
