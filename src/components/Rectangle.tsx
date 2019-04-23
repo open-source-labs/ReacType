@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
+import GrandchildRectangle from './GrandchildRectangle.jsx';
 // import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
@@ -95,36 +96,24 @@ class Rectangle extends Component {
         {components
           .find(comp => comp.title === componentName)
           .childrenArray.map((grandchild, i) => (
-            <Rectangle
+            <GrandchildRectangle
               key={i}
               components={components}
               componentId={componentId}
               componentName={grandchild.componentName}
               focusChild={focusChild}
-              childId={grandchild.childId}
-              x={grandchild.position.x}
-              y={grandchild.position.y}
+              // childId={childId}
+              x={grandchild.position.x * 0.8 + 10}
+              y={grandchild.position.y * 0.8 + 10}
               scaleX={0.8}
               scaleY={0.8}
               width={grandchild.position.width}
               height={grandchild.position.height}
               // title={child.componentName + child.childId}
               color={color}
-              handleTransform={() => {}}
               draggable={false}
             />
           ))}
-        {/* <Rect
-          // replace with grandchildren rectangles
-          scaleX={0.2}
-          scaleY={0.2}
-          width={width}
-          height={height}
-          stroke={color}
-          color={color}
-          strokeWidth={4}
-          draggable={false}
-        /> */}
         {focusChild.childId === childId && draggable ? (
           <TransformerComponent focusChild={focusChild} />
         ) : (
