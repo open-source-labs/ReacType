@@ -32,13 +32,15 @@ import { loadState } from '../localStorage';
 // import createFiles from '../utils/createFiles.util';
 // import createApplicationUtil from '../utils/createApplication.util';
 
-export const loadInitData = () => (dispatch) => {
-  loadState().then(data => dispatch({
-    type: LOAD_INIT_DATA,
-    payload: {
-      data: data ? data.workspace : {},
-    },
-  }));
+export const loadInitData = () => dispatch => {
+  loadState().then(data =>
+    dispatch({
+      type: LOAD_INIT_DATA,
+      payload: {
+        data: data ? data.workspace : {},
+      },
+    }),
+  );
 };
 
 export const updateChildren = ({ parentIds, childIndex, childId }) => ({
@@ -59,17 +61,17 @@ export const parentReassignment = ({ index, id, parentIds }) => ({
   },
 });
 
-export const addComponent = ({ title }) => (dispatch) => {
+export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
   // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const addChild = ({ title }) => (dispatch) => {
-  dispatch({ type: ADD_CHILD, payload: { title, view } });
+export const addChild = ({ title }) => dispatch => {
+  dispatch({ type: ADD_CHILD, payload: { title } });
   // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => {
+export const deleteComponent = ({ index, id, parentIds = [] }) => dispatch => {
   if (parentIds.length) {
     // Delete Component  from its parent if it has a parent.
     dispatch(updateChildren({ parentIds, childId: id, childIndex: index }));
@@ -81,13 +83,7 @@ export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => 
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const updateComponent = ({
-  id,
-  index,
-  newParentId = null,
-  color = null,
-  stateful = null,
-}) => (dispatch) => {
+export const updateComponent = ({ id, index, newParentId = null, color = null, stateful = null }) => dispatch => {
   dispatch({
     type: UPDATE_COMPONENT,
     payload: {
@@ -100,18 +96,24 @@ export const updateComponent = ({
   });
 
   if (newParentId) {
-    dispatch(updateChildren({ parentIds: [newParentId], childId: id, childIndex: index }));
+    dispatch(
+      updateChildren({
+        parentIds: [newParentId],
+        childId: id,
+        childIndex: index,
+      }),
+    );
   }
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const changeFocusComponent = ({ title }) => (dispatch) => {
+export const changeFocusComponent = ({ title }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ title, childId }) => (dispatch) => {
+export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
 };
 
@@ -136,9 +138,7 @@ export const handleClose = () => ({
   payload: false,
 });
 
-export const handleTransform = (componentId, childId, {
-  x, y, width, height,
-}) => ({
+export const handleTransform = (componentId, childId, { x, y, width, height }) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,

@@ -1,18 +1,16 @@
 import React, { Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+// import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Switch from '@material-ui/core/Switch';
-import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
@@ -20,24 +18,20 @@ import { openExpansionPanel } from '../utils/componentReducer.util';
 
 const LeftColExpansionPanel = props => {
   const {
-    index,
+    // index,
     classes,
     focusComponent,
     component,
-    deleteComponent,
+    // deleteComponent,
     addChild,
     changeFocusComponent,
-    changeFocusChild,
+    // changeFocusChild,
+    selectableChildren,
   } = props;
   const { title, id, color } = component;
 
   function isFocused() {
     return focusComponent.title === title ? 'focused' : '';
-  }
-
-  function isAncestorOfFocused() {
-    // add logic for determining if given component is an ancestor of focusedComponent
-    return false;
   }
 
   return (
@@ -64,7 +58,7 @@ const LeftColExpansionPanel = props => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              {isFocused() || isAncestorOfFocused() ? (
+              {isFocused() || !selectableChildren.includes(id) ? (
                 <div />
               ) : (
                 <IconButton aria-label="Add">
