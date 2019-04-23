@@ -4,8 +4,8 @@ import TransformerComponent from './TransformerComponent.jsx';
 // import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
-  handleResize(componentId, childId, target, components) {
-    const focChild = components
+  handleResize(componentId, childId, target) {
+    const focChild = this.props.components
       .find(comp => comp.id === componentId)
       .childrenArray.find(child => child.childId === childId);
 
@@ -29,15 +29,12 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  findDescendants(component, components, descendants = []) {
-    // fix this stuff Adam
-    if (!component) return;
-    component.childrenArray.forEach((child) => {
-      descendants.push(child);
-      const childComponent = components.find(comp => comp.title === child.componentName);
-      this.findDescendants(childComponent, components, descendants);
-    });
-    return descendants;
+  getComponentOfThisChild() {
+    console.log('title of this child: ', componentName);
+    console.log(
+      'component of this child: ',
+      this.props.components.find(comp => comp.title === componentName),
+    );
   }
 
   render() {
@@ -45,26 +42,28 @@ class Rectangle extends Component {
       color,
       x,
       y,
+      scaleX,
+      scaleY,
       childId,
       componentId,
-      draggable,
+      componentName,
       width,
       height,
       title,
       focusChild,
-      focusComponent,
       components,
+      draggable,
     } = this.props;
 
     // the Group is responsible for dragging of all children
     // the Rect emits changes to child width and height with help from Transformer
     return (
       <Group
-        draggable={true}
+        draggable={draggable}
         x={x}
         y={y}
-        scaleX={1}
-        scaleY={1}
+        scaleX={scaleX}
+        scaleY={scaleY}
         width={width}
         height={height}
         onDragEnd={event => this.handleDrag(componentId, childId, event.target)}
@@ -85,8 +84,7 @@ class Rectangle extends Component {
           color={color}
           // fill={color}
           // opacity={0.8}
-          onTransformEnd={event => this.handleResize(componentId, childId, event.target, components)
-          }
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
@@ -94,8 +92,29 @@ class Rectangle extends Component {
         <Label>
           <Text text={title} fill={'white'} />
         </Label>
-        {/* {this.findDescendants().map} */}
-        <Rect
+        {components
+          .find(comp => comp.title === componentName)
+          .childrenArray.map((grandchild, i) => (
+            <Rectangle
+              key={i}
+              components={components}
+              componentId={componentId}
+              componentName={grandchild.componentName}
+              focusChild={focusChild}
+              childId={grandchild.childId}
+              x={grandchild.position.x}
+              y={grandchild.position.y}
+              scaleX={0.8}
+              scaleY={0.8}
+              width={grandchild.position.width}
+              height={grandchild.position.height}
+              // title={child.componentName + child.childId}
+              color={color}
+              handleTransform={() => {}}
+              draggable={false}
+            />
+          ))}
+        {/* <Rect
           // replace with grandchildren rectangles
           scaleX={0.2}
           scaleY={0.2}
@@ -105,9 +124,9 @@ class Rectangle extends Component {
           color={color}
           strokeWidth={4}
           draggable={false}
-        />
-        {focusChild.childId === childId ? (
-          <TransformerComponent focusComponent={focusComponent} focusChild={focusChild} />
+        /> */}
+        {focusChild.childId === childId && draggable ? (
+          <TransformerComponent focusChild={focusChild} />
         ) : (
           <Label />
         )}
