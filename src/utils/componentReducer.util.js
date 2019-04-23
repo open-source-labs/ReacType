@@ -32,7 +32,9 @@ export const addComponent = (state, { title }) => {
     .replace(/[-_\s0-9\W]+/gi, '');
 
   if (state.components.find(comp => comp.title === strippedTitle)) {
-    // alert the user that duplicate component names are not allowed
+    window.alert(
+      `a component with the name: "${strippedTitle}" already exists.\n Please think of another name.`,
+    );
     return {
       ...state,
     };
@@ -68,17 +70,16 @@ export const addComponent = (state, { title }) => {
 // get the focus component (aka the component were adding the child to)
 
 export const addChild = (state, { title }) => {
-  const strippedTitle = title
-    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
+  const strippedTitle = title;
+  // .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+  // .replace(/[-_\s0-9\W]+/gi, "");
 
-  // view represents the component that this child will live (and be rendered) in
+  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
+  // we only add childrent (or do any action) to the focused omconent
   const view = state.components.find(comp => comp.title === state.focusComponent.title);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
   const parentComponent = state.components.find(comp => comp.title === title);
-
-  console.log('view from addChild: ', view);
 
   const newChild = {
     childId: view.nextChildId.toString(),
@@ -114,6 +115,48 @@ export const addChild = (state, { title }) => {
     ...state,
     components,
     focusChild: newChild,
+  };
+};
+
+export const deleteChild = (state, {}) => {
+  // The child to delete is the FOCUSED child
+  // THE parent is the FOCUSED component
+
+  if (!state.focusComponent.id) return window.alert('Cannot delete Child if Focused component id = ZERO');
+  if (!state.focusChild.childId) return window.alert('Cannot delete Child if Focused Child id = ZERO');
+  // I'm not sure what the "focused component" is (a reference, a copy or ?
+  // So, let's  get a reference to the focused component ..
+  const currFocusedComponent = state.components.find(c => c.id == state.focusComponent.id);
+
+  // copy the Children Array of the foxused component
+  const copyOfChildrenArray = [...currFocusedComponent.childrenArray];
+  // delete the SELECTED CHILD from the copied array
+  const indexToDelete = copyOfChildrenArray.findIndex(
+    elem => elem.childId == state.focusChild.childId,
+  );
+
+  if (indexToDelete < 0) return window.alert('DeleteChild speaking here. The chils u r trying to delete was not found');
+
+  copyOfChildrenArray.splice(indexToDelete, 1);
+
+  // Make a copy of the focused component - this is the one we will modify
+  const copyOfFocusedComponent = {
+    ...currFocusedComponent,
+    childrenArray: copyOfChildrenArray,
+  };
+
+  // copy the entire compoenents array from state
+  const modifiedComponentArray = [
+    ...state.components.filter(c => c.id !== currFocusedComponent.id), // all elements besides the one just changed
+    copyOfFocusedComponent,
+  ];
+
+  // RETURN - update state...
+  return {
+    ...state,
+    components: modifiedComponentArray,
+    focusComponent: copyOfFocusedComponent, // problem! the delete works on State.components, but not on FOcus component.. starnge..
+    focusChild: {}, // reset to blank.
   };
 };
 

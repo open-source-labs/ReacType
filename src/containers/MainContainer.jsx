@@ -12,6 +12,7 @@ import {
   openExpansionPanel,
   handleTransform,
   changeFocusChild,
+  deleteChild,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 // import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -34,6 +35,7 @@ const mapDispatchToProps = dispatch => ({
   toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
+  deleteChild: ({ childId }) => dispatch(deleteChild({ childId })),
 });
 
 const mapStateToProps = store => ({
@@ -58,20 +60,6 @@ class MainContainer extends Component {
 
   componentDidMount() {}
 
-  // increaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 1.5,
-  //     scaleY: this.state.scaleY * 1.5,
-  //   });
-  // };
-
-  // decreaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 0.75,
-  //     scaleY: this.state.scaleY * 0.75,
-  //   });
-  // };
-
   toggleDrag = () => {
     this.props.toggleComponentDragging(this.state.draggable);
     this.setState({
@@ -94,6 +82,7 @@ class MainContainer extends Component {
       focusComponent,
       focusChild,
       changeFocusChild,
+      deleteChild,
     } = this.props;
     const {
       increaseHeight,
@@ -122,8 +111,10 @@ class MainContainer extends Component {
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
+              deleteChild={deleteChild}
             />
           </div>
+          <button onClick={deleteChild}>`delete focused child`</button>
         </div>
       </MuiThemeProvider>
     );
