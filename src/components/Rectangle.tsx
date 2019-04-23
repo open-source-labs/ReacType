@@ -32,10 +32,7 @@ class Rectangle extends Component {
 
   getComponentOfThisChild() {
     console.log('title of this child: ', componentName);
-    console.log(
-      'component of this child: ',
-      this.props.components.find(comp => comp.title === componentName),
-    );
+    console.log('component of this child: ', this.props.components.find(comp => comp.title === componentName));
   }
 
   render() {
@@ -53,7 +50,7 @@ class Rectangle extends Component {
       title,
       focusChild,
       components,
-      draggable,
+      deleteChild,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -114,11 +111,7 @@ class Rectangle extends Component {
               draggable={false}
             />
           ))}
-        {focusChild.childId === childId && draggable ? (
-          <TransformerComponent focusChild={focusChild} />
-        ) : (
-          <Label />
-        )}
+        {focusChild.childId === childId && draggable ? <TransformerComponent focusChild={focusChild} /> : <Label />}
       </Group>
     );
   }
