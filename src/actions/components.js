@@ -2,6 +2,7 @@ import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
   ADD_CHILD,
+  DELETE_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
@@ -63,12 +64,14 @@ export const parentReassignment = ({ index, id, parentIds }) => ({
 
 export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
-  // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
 export const addChild = ({ title }) => dispatch => {
   dispatch({ type: ADD_CHILD, payload: { title } });
-  // dispatch({ type: SET_SELECTABLE_PARENTS });
+};
+
+export const deleteChild = ({ title }) => dispatch => {
+  dispatch({ type: DELETE_CHILD, payload: { title } });
 };
 
 export const deleteComponent = ({ index, id, parentIds = [] }) => dispatch => {
