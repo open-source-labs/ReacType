@@ -23,8 +23,8 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
-  DELETE_PROP,
-} from '../actionTypes';
+  DELETE_PROP
+} from "../actionTypes";
 
 import {
   addComponent,
@@ -46,8 +46,8 @@ import {
   openExpansionPanel,
   changeImagePath,
   addProp,
-  deleteProp,
-} from '../utils/componentReducer.util';
+  deleteProp
+} from "../utils/componentReducer.util";
 
 // interface Child {
 //   childId: number;
@@ -64,11 +64,11 @@ import {
 // }
 
 const appComponent = {
-  id: '1',
+  id: "1",
   stateful: false,
-  title: 'App',
+  title: "App",
   parentIds: [],
-  color: '#FF6D00',
+  color: "#FF6D00",
   draggable: true,
   childrenIds: [],
   selectableParents: [],
@@ -79,12 +79,12 @@ const appComponent = {
     x: 110,
     y: 120,
     width: 50,
-    height: 50,
+    height: 50
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChild: null
 };
 
 const initialApplicationState = {
@@ -94,6 +94,8 @@ const initialApplicationState = {
   successOpen: false,
   errorOpen: false,
   focusComponent: appComponent,
+  selectableChildren: [],
+  ancestors: [],
   focusChild: {
     childId: 0,
     componentName: null,
@@ -101,13 +103,13 @@ const initialApplicationState = {
       x: 110,
       y: 120,
       width: 50,
-      height: 50,
+      height: 50
     },
-    draggable: true,
+    draggable: true
   },
   components: [appComponent],
-  appDir: '',
-  loading: false,
+  appDir: "",
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -117,9 +119,9 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: '',
+        appDir: "",
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);

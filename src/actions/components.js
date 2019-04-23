@@ -24,21 +24,23 @@ import {
   DELETE_PROP,
   ADD_PROP,
   DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH,
-} from '../actionTypes/index';
+  CHANGE_IMAGE_PATH
+} from "../actionTypes/index";
 
-import { loadState } from '../localStorage';
+import { loadState } from "../localStorage";
 
 // import createFiles from '../utils/createFiles.util';
 // import createApplicationUtil from '../utils/createApplication.util';
 
-export const loadInitData = () => (dispatch) => {
-  loadState().then(data => dispatch({
-    type: LOAD_INIT_DATA,
-    payload: {
-      data: data ? data.workspace : {},
-    },
-  }));
+export const loadInitData = () => dispatch => {
+  loadState().then(data =>
+    dispatch({
+      type: LOAD_INIT_DATA,
+      payload: {
+        data: data ? data.workspace : {}
+      }
+    })
+  );
 };
 
 export const updateChildren = ({ parentIds, childIndex, childId }) => ({
@@ -46,8 +48,8 @@ export const updateChildren = ({ parentIds, childIndex, childId }) => ({
   payload: {
     parentIds,
     childIndex,
-    childId,
-  },
+    childId
+  }
 });
 
 export const parentReassignment = ({ index, id, parentIds }) => ({
@@ -55,21 +57,21 @@ export const parentReassignment = ({ index, id, parentIds }) => ({
   payload: {
     index,
     id,
-    parentIds,
-  },
+    parentIds
+  }
 });
 
-export const addComponent = ({ title }) => (dispatch) => {
+export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
   // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const addChild = ({ title }) => (dispatch) => {
+export const addChild = ({ title }) => dispatch => {
   dispatch({ type: ADD_CHILD, payload: { title } });
   // dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => {
+export const deleteComponent = ({ index, id, parentIds = [] }) => dispatch => {
   if (parentIds.length) {
     // Delete Component  from its parent if it has a parent.
     dispatch(updateChildren({ parentIds, childId: id, childIndex: index }));
@@ -86,8 +88,8 @@ export const updateComponent = ({
   index,
   newParentId = null,
   color = null,
-  stateful = null,
-}) => (dispatch) => {
+  stateful = null
+}) => dispatch => {
   dispatch({
     type: UPDATE_COMPONENT,
     payload: {
@@ -95,23 +97,29 @@ export const updateComponent = ({
       index,
       newParentId,
       color,
-      stateful,
-    },
+      stateful
+    }
   });
 
   if (newParentId) {
-    dispatch(updateChildren({ parentIds: [newParentId], childId: id, childIndex: index }));
+    dispatch(
+      updateChildren({
+        parentIds: [newParentId],
+        childId: id,
+        childIndex: index
+      })
+    );
   }
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const changeFocusComponent = ({ title }) => (dispatch) => {
+export const changeFocusComponent = ({ title }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ title, childId }) => (dispatch) => {
+export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
 };
 
@@ -133,12 +141,14 @@ export const changeFocusChild = ({ title, childId }) => (dispatch) => {
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false,
+  payload: false
 });
 
-export const handleTransform = (componentId, childId, {
-  x, y, width, height,
-}) => ({
+export const handleTransform = (
+  componentId,
+  childId,
+  { x, y, width, height }
+) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -146,8 +156,8 @@ export const handleTransform = (componentId, childId, {
     x,
     y,
     width,
-    height,
-  },
+    height
+  }
 });
 
 // export const createApplication = ({
@@ -177,7 +187,7 @@ export const handleTransform = (componentId, childId, {
 
 export const toggleDragging = status => ({
   type: TOGGLE_DRAGGING,
-  payload: status,
+  payload: status
 });
 
 // export const moveToBottom = componentId => ({
@@ -192,7 +202,7 @@ export const toggleDragging = status => ({
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component },
+  payload: { component }
 });
 
 // export const deleteAllData = () => ({
