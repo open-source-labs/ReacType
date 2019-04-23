@@ -2,20 +2,10 @@ import React, { Component } from 'react';
 import '../public/styles/style.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
-import AppContainer from '../containers/AppContainer.tsx';
-
-interface Adam {
-  goodguy: boolean;
-  haswine: boolean;
-}
+import AppContainer from '../containers/AppContainer.jsx';
 
 class App extends Component {
   render() {
-    const adamInstance: Adam = {
-      goodguy: true,
-      haswine: false,
-    };
-    console.log(adamInstance);
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app">

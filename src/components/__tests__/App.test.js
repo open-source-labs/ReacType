@@ -1,7 +1,7 @@
 import React from 'react';
 // import '../../setupTests';
 import { shallow } from 'enzyme';
-import App from '../App.tsx';
+import App from '../App.jsx';
 import AppContainer from '../../containers/AppContainer.jsx';
 
 it('contains a AppContainer', () => {

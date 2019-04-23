@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
@@ -11,10 +11,11 @@ export default class TransformerComponent extends Component {
     this.checkNode();
   }
 
+  // this function makes sure the transformer follows along with the focusChild
   checkNode() {
     const stage = this.transformer.getStage();
-    const { focusComponent } = this.props;
-    const selectedNode = stage.findOne(`.${focusComponent.id}`);
+    const { focusChild } = this.props;
+    const selectedNode = stage.findOne(`.${focusChild.childId}`);
 
     if (selectedNode === this.transformer.node()) {
       return;
@@ -40,6 +41,6 @@ export default class TransformerComponent extends Component {
   }
 }
 
-TransformerComponent.propTypes = {
-  focusComponent: PropTypes.object,
-};
+// TransformerComponent.propTypes = {
+//   focusComponent: PropTypes.object,
+// };

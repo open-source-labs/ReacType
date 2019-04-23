@@ -1,8 +1,11 @@
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
+  ADD_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
+  CHANGE_FOCUS_COMPONENT,
+  CHANGE_FOCUS_CHILD,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -20,13 +23,16 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
-  DELETE_PROP,
-} from '../actionTypes';
+  DELETE_PROP
+} from "../actionTypes";
 
 import {
   addComponent,
+  addChild,
   updateComponent,
   deleteComponent,
+  changeFocusComponent,
+  changeFocusChild,
   updateChildren,
   reassignParent,
   setSelectableP,
@@ -40,19 +46,70 @@ import {
   openExpansionPanel,
   changeImagePath,
   addProp,
-  deleteProp,
-} from '../utils/componentReducer.util';
+  deleteProp
+} from "../utils/componentReducer.util";
+
+// interface Child {
+//   childId: number;
+//   componentRef: number; // references the component this child instance belongs to
+//   position: object;
+// }
+
+// interface Component {
+//   componentId: number;
+//   title: string;
+//   childrenArray: Child[];
+//   nextChildId: number;
+//   focusChild: Component;
+// }
+
+const appComponent = {
+  id: "1",
+  stateful: false,
+  title: "App",
+  parentIds: [],
+  color: "#FF6D00",
+  draggable: true,
+  childrenIds: [],
+  selectableParents: [],
+  expanded: true,
+  props: [],
+  nextPropId: 0,
+  position: {
+    x: 110,
+    y: 120,
+    width: 50,
+    height: 50
+  },
+
+  childrenArray: [],
+  nextChildId: 1,
+  focusChild: null
+};
 
 const initialApplicationState = {
-  totalComponents: 0,
-  nextId: 1,
-  imagePath: '',
+  totalComponents: 1,
+  nextId: 2,
+  // imagePath: '',
   successOpen: false,
   errorOpen: false,
-  focusComponent: {},
-  components: [],
-  appDir: '',
-  loading: false,
+  focusComponent: appComponent,
+  selectableChildren: [],
+  ancestors: [],
+  focusChild: {
+    childId: 0,
+    componentName: null,
+    position: {
+      x: 110,
+      y: 120,
+      width: 50,
+      height: 50
+    },
+    draggable: true
+  },
+  components: [appComponent],
+  appDir: "",
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -62,16 +119,22 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: '',
+        appDir: "",
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
+    case ADD_CHILD:
+      return addChild(state, action.payload);
     case UPDATE_COMPONENT:
       return updateComponent(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
+    case CHANGE_FOCUS_COMPONENT:
+      return changeFocusComponent(state, action.payload);
+    case CHANGE_FOCUS_CHILD:
+      return changeFocusChild(state, action.payload);
     case UPDATE_CHILDREN:
       return updateChildren(state, action.payload);
     case REASSIGN_PARENT:
