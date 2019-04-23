@@ -30,12 +30,10 @@ function findAncestors(
         child => child.childComponentId
       );
 
-      console.log(components[i].id, components[i].title);
-      console.log("myChildren", myChilren);
+      // console.log(components[i].id, components[i].title);
+      // console.log("myChildren", myChilren);
 
       let found = currentCompArr.filter(comp => myChilren.includes(comp));
-
-      console.log("found", found);
 
       if (found.length) {
         ancestors.push(components[i].id);
@@ -49,9 +47,10 @@ function findAncestors(
       }
     }
   }
-  console.log("newancestors", newAncestors);
-  console.log("comptocheck", componentsToCheck);
-  console.log("cumulativeancestors", ancestors);
+  
+  // console.log("newancestors", newAncestors);
+  // console.log("comptocheck", componentsToCheck);
+  // console.log("cumulativeancestors", ancestors);
 
   return findAncestors(components, newAncestors, componentsToCheck, ancestors);
 }
