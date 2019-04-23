@@ -20,7 +20,7 @@ class KonvaStage extends Component {
     // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
-      console.log(e.target.getStage(), this.main, this.group);
+      console.log(e.target.getStage());
       return;
     }
     // // clicked on transformer - do nothing
@@ -77,7 +77,7 @@ class KonvaStage extends Component {
         //   this.stage = node;
         // }}
         onMouseDown={this.handleStageMouseDown}
-        width={window.innerWidth}
+        width={window.innerWidth / 2}
         height={window.innerHeight}
       >
         <Layer>
