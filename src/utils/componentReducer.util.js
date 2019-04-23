@@ -49,12 +49,18 @@ export const addComponent = (state, { title }) => {
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
 
+  let selectableChildren = state.components
+    .map(comp => comp.id)
+    .filter(id => id !== newComponent.id);
+
   return {
     ...state,
     totalComponents,
     nextId,
     components,
-    focusComponent: newComponent
+    focusComponent: newComponent,
+    ancestors: [],
+    selectableChildren: selectableChildren // new component so you everyone except yourself is available
   };
 };
 
