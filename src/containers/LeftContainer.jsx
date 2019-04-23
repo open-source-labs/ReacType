@@ -75,20 +75,24 @@ class LeftContainer extends Component {
     } = this.props;
     const { componentName } = this.state;
 
-    const componentsExpansionPanel = components.map((component, i) => (
-      <LeftColExpansionPanel
-        key={component.id}
-        index={i}
-        id={component.id}
-        updateComponent={updateComponent}
-        component={component}
-        focusComponent={focusComponent}
-        addChild={addChild}
-        changeFocusComponent={changeFocusComponent}
-        changeFocusChild={changeFocusChild}
-        selectableChildren={selectableChildren}
-      />
-    ));
+    console.log(components);
+
+    const componentsExpansionPanel = components
+      .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .map((component, i) => (
+        <LeftColExpansionPanel
+          key={component.id}
+          index={i}
+          id={component.id}
+          updateComponent={updateComponent}
+          component={component}
+          focusComponent={focusComponent}
+          addChild={addChild}
+          changeFocusComponent={changeFocusComponent}
+          changeFocusChild={changeFocusChild}
+          selectableChildren={selectableChildren}
+        />
+      ));
 
     return (
       <div className="column left">

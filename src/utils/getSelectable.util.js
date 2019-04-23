@@ -1,12 +1,8 @@
 function getSelectable(newFocusComponent, components) {
   let focusComponentId = newFocusComponent.id;
-
   let componentsToCheck = components
     .map(comp => comp.id)
     .filter(id => id !== focusComponentId);
-
-  console.log(componentsToCheck);
-
   return findAncestors(components, [focusComponentId], componentsToCheck);
 }
 
@@ -30,9 +26,12 @@ function findAncestors(
         child => child.childComponentId
       );
 
+<<<<<<< HEAD
       // console.log(components[i].id, components[i].title);
       // console.log("myChildren", myChilren);
 
+=======
+>>>>>>> fb1f985158be18ca3fc94b8978b45292fa8b1d28
       let found = currentCompArr.filter(comp => myChilren.includes(comp));
 
       if (found.length) {
@@ -47,11 +46,14 @@ function findAncestors(
       }
     }
   }
+<<<<<<< HEAD
   
   // console.log("newancestors", newAncestors);
   // console.log("comptocheck", componentsToCheck);
   // console.log("cumulativeancestors", ancestors);
 
+=======
+>>>>>>> fb1f985158be18ca3fc94b8978b45292fa8b1d28
   return findAncestors(components, newAncestors, componentsToCheck, ancestors);
 }
 
