@@ -70,7 +70,8 @@ class LeftContainer extends Component {
       classes,
       addChild,
       changeFocusComponent,
-      changeFocusChild
+      changeFocusChild,
+      selectableChildren
     } = this.props;
     const { componentName } = this.state;
 
@@ -85,6 +86,7 @@ class LeftContainer extends Component {
         addChild={addChild}
         changeFocusComponent={changeFocusComponent}
         changeFocusChild={changeFocusChild}
+        selectableChildren={selectableChildren}
       />
     ));
 
