@@ -1,4 +1,5 @@
 import setSelectableParents from "./setSelectableParents.util";
+import getSelectable from "./getSelectable.util";
 import getColor from "./colors.util";
 
 const initialComponentState = {
@@ -228,9 +229,14 @@ export const deleteComponent = (state, { index, id }) => {
 
 export const changeFocusComponent = (state, { title }) => {
   const newFocusComp = state.components.find(comp => comp.title === title);
+
+  let result = getSelectable(newFocusComp, state.components);
+
   return {
     ...state,
-    focusComponent: newFocusComp
+    focusComponent: newFocusComp,
+    selectableChildren: result.selectableChildren,
+    ancestors: result.ancestors
   };
 };
 
@@ -460,4 +466,8 @@ export const deleteProp = (state, { index }) => {
   const { props, id } = state.focusComponent;
   const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
   return updateComponent(state, { id, props: newProps });
+};
+
+export const getSelectableParents = state => {
+  let result = getSelectable();
 };
