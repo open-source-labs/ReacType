@@ -69,20 +69,21 @@ class KonvaStage extends Component {
             .childrenArray.map((child, i) => (
               <Rectangle
                 key={`${i}${child.componentName}`}
-                draggable={false}
-                selectedShapeName={selectedShapeName}
                 components={components}
-                childId={child.childId}
-                focusChild={focusChild}
-                focusComponent={focusComponent}
                 componentId={focusComponent.id}
+                componentName={child.componentName}
+                focusChild={focusChild}
+                childId={child.childId}
                 x={child.position.x}
                 y={child.position.y}
+                scaleX={1}
+                scaleY={1}
                 width={child.position.width}
                 height={child.position.height}
                 title={child.componentName + child.childId}
                 color={child.color}
                 handleTransform={handleTransform}
+                draggable={true}
               />
             ))}
         </Layer>
