@@ -2,6 +2,7 @@ import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
   ADD_CHILD,
+  DELETE_CHILD,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
@@ -29,6 +30,7 @@ import {
 import {
   addComponent,
   addChild,
+  deleteChild,
   updateComponent,
   deleteComponent,
   changeFocusComponent,
@@ -127,6 +129,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addComponent(state, action.payload);
     case ADD_CHILD:
       return addChild(state, action.payload);
+    case DELETE_CHILD:
+      return deleteChild(state, action.payload);
     case UPDATE_COMPONENT:
       return updateComponent(state, action.payload);
     case DELETE_COMPONENT:

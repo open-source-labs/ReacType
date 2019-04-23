@@ -56,6 +56,7 @@ class Rectangle extends Component {
       focusChild,
       focusComponent,
       components,
+      deleteChild
     } = this.props;
 
     // the Group is responsible for dragging of all children

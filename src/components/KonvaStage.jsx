@@ -51,6 +51,7 @@ class KonvaStage extends Component {
       focusComponent,
       focusChild,
       changeFocusChild,
+      deleteChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -83,6 +84,7 @@ class KonvaStage extends Component {
                 title={child.componentName + child.childId}
                 color={child.color}
                 handleTransform={handleTransform}
+                deleteChild={deleteChild}
               />
             ))}
         </Layer>
