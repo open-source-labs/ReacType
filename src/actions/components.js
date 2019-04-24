@@ -7,6 +7,7 @@ import {
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
+  CHANGE_COMPONENT_FOCUS_CHILD,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -124,6 +125,10 @@ export const changeFocusComponent = ({ title }) => dispatch => {
 // make sure childId is being sent in
 export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
+};
+
+export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch) => {
+  dispatch({ type: CHANGE_COMPONENT_FOCUS_CHILD, payload: { componentId, childId } });
 };
 
 // export const exportFiles = ({ components, path }) => (dispatch) => {

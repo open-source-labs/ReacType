@@ -57,6 +57,10 @@ class KonvaStage extends Component {
     const rectChildId = e.target.attrs.childId;
     console.log('e.target : ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
+    this.props.changeComponentFocusChild({
+      componentId: this.props.focusComponent.id,
+      childId: rectChildId,
+    });
     //  put individual component's focus child logic here
   };
 
@@ -71,7 +75,7 @@ class KonvaStage extends Component {
       focusComponent,
       focusChild,
       changeFocusChild,
-      deleteChild,
+      changeComponentFocusChild,
     } = this.props;
     const { selectedShapeName } = this.state;
 

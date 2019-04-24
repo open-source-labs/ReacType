@@ -102,6 +102,7 @@ export const addChild = (state, { title }) => {
   const component = {
     ...state.components.view,
     childrenArray: compsChildrenArr,
+    focusChildId: newChild.childId,
     nextChildId: view.nextChildId + 1,
   };
 
@@ -327,6 +328,16 @@ export const changeFocusChild = (state, { title, childId }) => {
   return {
     ...state,
     focusChild: newFocusChild,
+  };
+};
+
+export const changeComponentFocusChild = (state, { componentId, childId }) => {
+  const component = state.components.find(comp => comp.id == componentId);
+  component.focusChildId = childId;
+  const components = state.components.filter(comp => comp.id != componentId);
+  return {
+    ...state,
+    components: [component, ...components],
   };
 };
 

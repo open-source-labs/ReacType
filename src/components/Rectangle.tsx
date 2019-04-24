@@ -115,7 +115,11 @@ class Rectangle extends Component {
               color={grandchild.color}
             />
           ))}
-        {focusChild.childId === childId && draggable ? <TransformerComponent focusChild={focusChild} /> : <Label />}
+        {focusChild && focusChild.childId === childId && draggable ? (
+          <TransformerComponent focusChild={focusChild} />
+        ) : (
+          <Label />
+        )}
       </Group>
     );
   }
