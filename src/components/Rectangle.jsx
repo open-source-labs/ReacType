@@ -109,7 +109,7 @@ class Rectangle extends Component {
           strokeWidth={4}
           draggable={false}
         />
-        {focusChild.childId === childId ? (
+        {focusChild && focusChild.childId === childId ? (
           <TransformerComponent focusComponent={focusComponent} focusChild={focusChild} />
         ) : (
           <Label />
