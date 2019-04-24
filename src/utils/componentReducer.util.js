@@ -309,6 +309,8 @@ console.log(`Real delete component action here : id:${componentId}`)
 
 export const changeFocusComponent = (state, { title }) => {
   const newFocusComp = state.components.find(comp => comp.title === title);
+  // set the "focus child" to the focus child of this particular component . 
+  const newFocusChild = newFocusComp.focusChildId ; 
 
   const result = getSelectable(newFocusComp, state.components);
 
