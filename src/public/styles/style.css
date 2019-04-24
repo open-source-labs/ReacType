@@ -4,7 +4,6 @@
   box-sizing: inherit;
 }
 
-
 html {
   box-sizing: border-box;
   overflow: hidden;
@@ -13,7 +12,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Open sans", sans-serif;
+  font-family: 'Open sans', sans-serif;
   font-weight: 400;
 }
 
@@ -50,11 +49,9 @@ header {
   background-color: #252526;
 }
 
-
 /* .column-right-export-btn {
   transition: display 400ms ease-in-out 300ms;
 } */
-
 
 /*
 /////////////////////////////////////////// 
@@ -74,7 +71,7 @@ LEFT COLUMN
 
 .left {
   padding: 20px;
-  width: 22%;
+  width: 20%;
   display: flex;
   flex-direction: column;
 }
@@ -117,14 +114,13 @@ h1 {
 
 .main-header {
   display: flex;
-  /* border-left: 1px solid grey; */
-  /* border-right: 1px solid grey; */
-  /* border-bottom: 1px solid grey; */
+  /* border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey; */
   background-color: #212121;
-  box-shadow: 0 5px 7px -2px rgba(0,0,0, 0.4);
+  box-shadow: 0 5px 7px -2px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
-
 
 .main-header-buttons {
   display: flex;
@@ -143,7 +139,6 @@ h1 {
   /* justify-content: center;
   align-items: center; */
 }
-
 
 .draggable {
   position: relative;
@@ -201,7 +196,7 @@ RIGHT COLUMN
 .column-right {
   transition: width 250ms ease-in-out;
   height: 100%;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   background-color: #303030;
 }
@@ -235,11 +230,11 @@ div.rst__rowContents {
 
 .rst__rowContentsDragDisabled {
   background-color: #333333;
-  background-color: rgba(37, 37, 38, .4);
+  background-color: rgba(37, 37, 38, 0.4);
 }
 
-
-.rst__moveHandle, .rst__loadingHandle {
+.rst__moveHandle,
+.rst__loadingHandle {
   width: 40px;
 }
 
