@@ -7,6 +7,7 @@ import {
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
+  CHANGE_COMPONENT_FOCUS_CHILD,
   UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
@@ -34,6 +35,7 @@ import {
   updateComponent,
   deleteComponent,
   changeFocusComponent,
+  changeComponentFocusChild,
   changeFocusChild,
   updateChildren,
   reassignParent,
@@ -139,6 +141,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:
       return changeFocusChild(state, action.payload);
+    case CHANGE_COMPONENT_FOCUS_CHILD:
+      return changeComponentFocusChild(state, action.payload);
     case UPDATE_CHILDREN:
       return updateChildren(state, action.payload);
     case REASSIGN_PARENT:
