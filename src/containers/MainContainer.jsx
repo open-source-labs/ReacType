@@ -12,6 +12,7 @@ import {
   openExpansionPanel,
   handleTransform,
   changeFocusChild,
+  changeComponentFocusChild,
   deleteChild,
   deleteComponent,
 } from '../actions/components';
@@ -36,6 +37,7 @@ const mapDispatchToProps = dispatch => ({
   toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
+  changeComponentFocusChild: ({ componentId, childId }) => dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
   deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
 });
@@ -85,6 +87,7 @@ class MainContainer extends Component {
       focusComponent,
       focusChild,
       changeFocusChild,
+      changeComponentFocusChild,
       deleteChild,
       deleteComponent,
       stateComponents,
@@ -124,6 +127,7 @@ class MainContainer extends Component {
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
+              changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
             />
           </div>
