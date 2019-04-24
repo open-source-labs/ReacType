@@ -285,6 +285,10 @@ export const deleteComponent = (state, { componentId }) => {
 
 export const changeFocusComponent = (state, { title }) => {
   const newFocusComp = state.components.find(comp => comp.title === title);
+  // set the "focus child" to the focus child of this particular component . 
+  const newFocusChildId = newFocusComp.focusChildId ; 
+
+  const newFocusChild = newFocusComp.childrenArray.find( child => child.childId == newFocusChildId) ; 
 
   const result = getSelectable(newFocusComp, state.components);
 
@@ -293,6 +297,7 @@ export const changeFocusComponent = (state, { title }) => {
     focusComponent: newFocusComp,
     selectableChildren: result.selectableChildren,
     ancestors: result.ancestors,
+    focusChild: newFocusChild,
   };
 };
 
