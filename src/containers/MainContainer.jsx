@@ -12,6 +12,7 @@ import {
   openExpansionPanel,
   handleTransform,
   changeFocusChild,
+  changeComponentFocusChild,
   deleteChild,
   deleteComponent,
 } from '../actions/components';
@@ -36,8 +37,9 @@ const mapDispatchToProps = dispatch => ({
   toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
-  deleteChild: ({ }) => dispatch(deleteChild({ })), // if u send no prms, function will delete focus child.
-  deleteComponent: ({componentId ,stateComponents}) => dispatch(deleteComponent({ componentId ,stateComponents})),
+  changeComponentFocusChild: ({ componentId, childId }) => dispatch(changeComponentFocusChild({ componentId, childId })),
+  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
+  deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
 });
 
 const mapStateToProps = store => ({
@@ -63,20 +65,6 @@ class MainContainer extends Component {
 
   componentDidMount() {}
 
-  // increaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 1.5,
-  //     scaleY: this.state.scaleY * 1.5,
-  //   });
-  // };
-
-  // decreaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 0.75,
-  //     scaleY: this.state.scaleY * 0.75,
-  //   });
-  // };
-
   toggleDrag = () => {
     this.props.toggleComponentDragging(this.state.draggable);
     this.setState({
@@ -99,9 +87,10 @@ class MainContainer extends Component {
       focusComponent,
       focusChild,
       changeFocusChild,
+      changeComponentFocusChild,
       deleteChild,
       deleteComponent,
-      stateComponents ,
+      stateComponents,
     } = this.props;
     const {
       increaseHeight,
@@ -115,11 +104,13 @@ class MainContainer extends Component {
     } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
 
-    // show a string of all direct parents. SO the user can gaze at it. 
-    const directParents =  !focusComponent.id
-               ? `Waiting for a focused component`
-               : stateComponents.filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
-                  .map( comp => comp.title).join(',')
+    // show a string of all direct parents. SO the user can gaze at it.
+    const directParents = !focusComponent.id
+      ? 'Waiting for a focused component'
+      : stateComponents
+        .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
+        .map(comp => comp.title)
+        .join(',');
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -136,15 +127,18 @@ class MainContainer extends Component {
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
+              changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
             />
           </div>
-        
-          <p> 
-          { directParents ? `Used in: ${directParents}` : 'Not used in any other component'}
-           </p>
-          <button onClick={deleteChild} >delete focused child</button>
-          <button onClick={() => deleteComponent({componentId: focusComponent.id, stateComponents})} >delete focused components</button>
+
+          <p>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</p>
+          <button onClick={deleteChild}>delete focused child</button>
+          <button
+            onClick={() => deleteComponent({ componentId: focusComponent.id, stateComponents })}
+          >
+            delete focused components
+          </button>
         </div>
       </MuiThemeProvider>
     );

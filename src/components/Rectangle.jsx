@@ -3,11 +3,20 @@ import {
   Rect, Group, Label, Text,
 } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
+import GrandchildRectangle from './GrandchildRectangle.jsx';
 // import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
-  handleResize(componentId, childId, target, components) {
-    const focChild = components
+  getComponentColor(componentId) {
+    console.log('siodfbsldfk', componentId);
+    const color = this.props.components.find(comp => comp.id == componentId).color;
+    console.log(color);
+
+    return color;
+  }
+
+  handleResize(componentId, childId, target) {
+    const focChild = this.props.components
       .find(comp => comp.id === componentId)
       .childrenArray.find(child => child.childId === childId);
 
@@ -31,43 +40,34 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  findDescendants(component, components, descendants = []) {
-    // fix this stuff Adam
-    if (!component) return;
-    component.childrenArray.forEach((child) => {
-      descendants.push(child);
-      const childComponent = components.find(comp => comp.title === child.componentName);
-      this.findDescendants(childComponent, components, descendants);
-    });
-    return descendants;
-  }
-
   render() {
     const {
       color,
       x,
       y,
+      scaleX,
+      scaleY,
       childId,
       componentId,
-      draggable,
+      childComponentName,
+      childComponentId,
       width,
       height,
       title,
       focusChild,
-      focusComponent,
       components,
-      deleteChild
+      draggable,
     } = this.props;
 
     // the Group is responsible for dragging of all children
     // the Rect emits changes to child width and height with help from Transformer
     return (
       <Group
-        draggable={true}
+        draggable={draggable}
         x={x}
         y={y}
-        scaleX={1}
-        scaleY={1}
+        scaleX={scaleX}
+        scaleY={scaleY}
         width={width}
         height={height}
         onDragEnd={event => this.handleDrag(componentId, childId, event.target)}
@@ -85,11 +85,10 @@ class Rectangle extends Component {
           width={width}
           height={height}
           stroke={color}
-          color={color}
+          color={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
-          onTransformEnd={event => this.handleResize(componentId, childId, event.target, components)
-          }
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
@@ -97,20 +96,29 @@ class Rectangle extends Component {
         <Label>
           <Text text={title} fill={'white'} />
         </Label>
-        {/* {this.findDescendants().map} */}
-        <Rect
-          // replace with grandchildren rectangles
-          scaleX={0.2}
-          scaleY={0.2}
-          width={width}
-          height={height}
-          stroke={color}
-          color={color}
-          strokeWidth={4}
-          draggable={false}
-        />
-        {focusChild && focusChild.childId === childId ? (
-          <TransformerComponent focusComponent={focusComponent} focusChild={focusChild} />
+        {components
+          .find(comp => comp.title === childComponentName)
+          .childrenArray.map((grandchild, i) => (
+            <GrandchildRectangle
+              key={i}
+              components={components}
+              componentId={componentId}
+              childComponentName={grandchild.componentName}
+              childComponentId={grandchild.childComponentId}
+              focusChild={focusChild}
+              // childId={childId}
+              x={grandchild.position.x * (width / (window.innerWidth / 2))}
+              y={grandchild.position.y * (height / window.innerHeight)}
+              scaleX={1}
+              scaleY={1}
+              width={grandchild.position.width * (width / (window.innerWidth / 2))}
+              height={grandchild.position.height * (height / window.innerHeight)}
+              // title={child.componentName + child.childId}
+              color={grandchild.color}
+            />
+          ))}
+        {focusChild && focusChild.childId === childId && draggable ? (
+          <TransformerComponent focusChild={focusChild} />
         ) : (
           <Label />
         )}
