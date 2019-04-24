@@ -120,55 +120,39 @@ export const addChild = (state, { title }) => {
   };
 };
 
-export const deleteChild = (state, {} )=>{
- // The child to delete is the FOCUSED child 
- // THE parent is the FOCUSED component 
+export const deleteChild = (state,
+     {parentId = state.focusComponent.id
+      ,childId = state.focusChild.childId
+      ,calledFromDeleteComponent = false
+    })=>{
 
-  console.log((`Focused Component (parent) id:${state.focusComponent.id} title:${state.focusComponent.title}
- Focused Child (the one 2 be deleted) ChildID:${state.focusChild.childId}`)
-)
- 
- if (!state.focusComponent.id) return window.alert(`Cannot delete Child if Focused component id = ZERO`)
- if (!state.focusChild.childId) return window.alert(`Cannot delete Child if Focused Child id = ZERO`)
- // I'm not sure what the "focused component" is (a reference, a copy or ? 
- // So, let's  get a reference to the focused component .. 
- const currFocusedComponent = state.components.find( c => c.id == state.focusComponent.id) ; 
- console.log('currFocusedComponent: ' ,currFocusedComponent )
- // copy the Children Array of the foxused component 
- 
- console.log('Wtf ?')
- const copyOfChildrenArray = [...currFocusedComponent.childrenArray]
-console.log('copyOfChildrenArray',copyOfChildrenArray)
-console.log('after copy : state.focusChild.childId:',state.focusChild.childId)
- // delete the SELECTED CHILD from the copied array 
-  const indexToDelete = copyOfChildrenArray.findIndex( elem => elem.childId == state.focusChild.childId)
-  console.log(`Index to delete : ${indexToDelete}`)
+      //console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  state.focusComponent.id=${state.focusComponent.id}`)
+ /************************************************** 
+  if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS 
+  however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
+  Also when calling from DELETE components , we do not touch focusCOmponent. 
+ *************************************************************************************/
+  if (!parentId) { window.alert(`Cannot delete Child if parent id = ZERO `) ; return state }
+ if (!childId)  { window.alert(`Cannot delete Child if Child id = ZERO`) ; return state }
+  console.log(`delete child parentid: ${parentId} cildId: ${childId}`)
+ // make a DEEP copy of the parent component (the one thats about to loose a child)
+ const parentComponentCopy = JSON.parse(JSON.stringify(state.components.find( c => c.id == parentId))); 
 
-  if (indexToDelete < 0 ) return  window.alert(`DeleteChild speaking here. The chils u r trying to delete was not found`);
+  // delete the  CHILD from the copied array 
+  const indexToDelete = parentComponentCopy.childrenArray.findIndex( elem => elem.childId == childId)
+  if (indexToDelete < 0 ) return  window.alert(`DeleteChild speaking here. The child u r trying to delete was not found`);
+  parentComponentCopy.childrenArray.splice(indexToDelete,1)
 
-  copyOfChildrenArray.splice(indexToDelete,1)
-
-  //Make a copy of the focused component - this is the one we will modify 
-  const copyOfFocusedComponent = {
-    ...currFocusedComponent,
-    childrenArray: copyOfChildrenArray
-  }
-
-  console.log(`copyOfFocusedComponent:`)
-  console.log(copyOfFocusedComponent)
-  // copy the entire compoenents array from state 
   const modifiedComponentArray = [
-    ...state.components.filter( c => c.id !== currFocusedComponent.id ) , // all elements besides the one just changed 
-    copyOfFocusedComponent
+    ...state.components.filter( c => c.id !== parentId ) , // all elements besides the one just changed 
+    parentComponentCopy
   ]
-console.log('modifiedComponentArray')
-console.log(modifiedComponentArray)
 
   // RETURN - update state...
   return {
     ...state,
     components: modifiedComponentArray,
-    focusComponent: copyOfFocusedComponent, // problem! the delete works on State.components, but not on FOcus component.. starnge.. 
+    focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
     focusChild: {} // reset to blank. 
 
   }  
@@ -235,56 +219,61 @@ export const handleTransform = (
 
 // };
 
-export const updateComponent = (
-  state,
-  { id, newParentId = null, color = null, stateful = null, props = null }
-) => {
-  let component;
-  const components = state.components.map(comp => {
-    if (comp.id === id) {
-      component = { ...comp };
-      if (newParentId) {
-        const parentIdsSet = new Set(component.parentIds);
-        if (parentIdsSet.has(newParentId)) {
-          parentIdsSet.delete(newParentId);
-        } else {
-          parentIdsSet.add(newParentId);
-        }
-        component.parentIds = [...parentIdsSet];
-      }
-      if (props) {
-        component.props = props;
-        component.nextPropId += 1;
-      }
-      component.color = color || component.color;
-      component.stateful = stateful === null ? component.stateful : stateful;
-      return component;
-    }
-    return comp;
-  });
+// export const updateComponent = (
+//   state,
+//   { id, newParentId = null, color = null, stateful = null, props = null }
+// ) => {
+//   let component;
+//   const components = state.components.map(comp => {
+//     if (comp.id === id) {
+//       component = { ...comp };
+//       if (newParentId) {
+//         const parentIdsSet = new Set(component.parentIds);
+//         if (parentIdsSet.has(newParentId)) {
+//           parentIdsSet.delete(newParentId);
+//         } else {
+//           parentIdsSet.add(newParentId);
+//         }
+//         component.parentIds = [...parentIdsSet];
+//       }
+//       if (props) {
+//         component.props = props;
+//         component.nextPropId += 1;
+//       }
+//       component.color = color || component.color;
+//       component.stateful = stateful === null ? component.stateful : stateful;
+//       return component;
+//     }
+//     return comp;
+//   });
 
-  return {
-    ...state,
-    components,
-    focusComponent: component
-  };
-};
+//   return {
+//     ...state,
+//     components,
+//     focusComponent: component
+//   };
+// };
 
 // Delete component with the index for now, but will be adjusted to use id
-export const deleteComponent = (state, { index, id }) => {
-  const { focusComponent } = state;
-  const components = [
-    ...state.components.slice(0, index),
-    ...state.components.slice(index + 1)
-  ];
 
+export const deleteComponent = (state, { componentId }) => {
+  // const { focusComponent } = state;
+  // const components = [
+  //   ...state.components.slice(0, index),
+  //   ...state.components.slice(index + 1)
+  // ];
+  const indexToDelete = state.components.findIndex( comp => comp.id == componentId) ; 
+  console.log('index to delete: ', indexToDelete)
+
+  const componentsCopy = JSON.parse(JSON.stringify(state.components)) 
+  componentsCopy.splice(indexToDelete,1)
   const totalComponents = state.totalComponents - 1;
 
+console.log(`Real delete component action here : id:${componentId}`)
   return {
     ...state,
     totalComponents,
-    components,
-    focusComponent: focusComponent.id === id ? {} : focusComponent
+    components: componentsCopy ,
   };
 };
 
