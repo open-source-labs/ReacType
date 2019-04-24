@@ -5,6 +5,14 @@ import GrandchildRectangle from './GrandchildRectangle.jsx';
 // import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
+  getComponentColor(componentId) {
+    console.log('siodfbsldfk', componentId);
+    const color = this.props.components.find(comp => comp.id == componentId).color;
+    console.log(color);
+
+    return color;
+  }
+
   handleResize(componentId, childId, target) {
     const focChild = this.props.components
       .find(comp => comp.id === componentId)
@@ -30,11 +38,6 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  getComponentOfThisChild() {
-    console.log('title of this child: ', componentName);
-    console.log('component of this child: ', this.props.components.find(comp => comp.title === componentName));
-  }
-
   render() {
     const {
       color,
@@ -44,7 +47,8 @@ class Rectangle extends Component {
       scaleY,
       childId,
       componentId,
-      componentName,
+      childComponentName,
+      childComponentId,
       width,
       height,
       title,
@@ -79,7 +83,7 @@ class Rectangle extends Component {
           width={width}
           height={height}
           stroke={color}
-          color={color}
+          color={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
           onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
@@ -91,24 +95,24 @@ class Rectangle extends Component {
           <Text text={title} fill={'white'} />
         </Label>
         {components
-          .find(comp => comp.title === componentName)
+          .find(comp => comp.title === childComponentName)
           .childrenArray.map((grandchild, i) => (
             <GrandchildRectangle
               key={i}
               components={components}
               componentId={componentId}
-              componentName={grandchild.componentName}
+              childComponentName={grandchild.componentName}
+              childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               // childId={childId}
               x={grandchild.position.x * (width / (window.innerWidth / 2))}
-              y={grandchild.position.y * (height / (window.innerHeight))}
+              y={grandchild.position.y * (height / window.innerHeight)}
               scaleX={1}
               scaleY={1}
               width={grandchild.position.width * (width / (window.innerWidth / 2))}
-              height={grandchild.position.height * (height / (window.innerHeight))}
+              height={grandchild.position.height * (height / window.innerHeight)}
               // title={child.componentName + child.childId}
-              color={color}
-              draggable={false}
+              color={grandchild.color}
             />
           ))}
         {focusChild.childId === childId && draggable ? <TransformerComponent focusChild={focusChild} /> : <Label />}

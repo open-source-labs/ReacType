@@ -20,10 +20,9 @@ const initialComponentState = {
     width: 50,
     height: 50,
   },
-
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChildId: 0,
 };
 
 export const addComponent = (state, { title }) => {

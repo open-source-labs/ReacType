@@ -3,6 +3,14 @@ import { Rect, Group } from 'react-konva';
 // import PropTypes from 'prop-types';
 
 class GrandchildRectangle extends Component {
+  getComponentColor(componentId) {
+    console.log('siodfbsldfk', componentId);
+    const color = this.props.components.find(comp => comp.id == componentId).color;
+    console.log(color);
+
+    return color;
+  }
+
   render() {
     const {
       color,
@@ -12,12 +20,12 @@ class GrandchildRectangle extends Component {
       scaleY,
       childId,
       componentId,
-      componentName,
+      childComponentName,
+      childComponentId,
       width,
       height,
       focusChild,
       components,
-      draggable,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -44,7 +52,7 @@ class GrandchildRectangle extends Component {
           width={width}
           height={height}
           stroke={color}
-          color={color}
+          color={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
           strokeWidth={4}
@@ -52,13 +60,14 @@ class GrandchildRectangle extends Component {
           draggable={false}
         />
         {components
-          .find(comp => comp.title === componentName)
+          .find(comp => comp.title === childComponentName)
           .childrenArray.map((grandchild, i) => (
             <GrandchildRectangle
               key={i}
               components={components}
               componentId={componentId}
-              componentName={grandchild.componentName}
+              childComponentName={grandchild.componentName}
+              childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               // childId={grandchild.childId}
               x={grandchild.position.x * (width / (window.innerWidth / 2))}
