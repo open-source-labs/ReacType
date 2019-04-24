@@ -59,6 +59,7 @@ class KonvaStage extends Component {
     const rectChildId = e.target.attrs.childId;
     console.log('e.target : ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
+    //  put individual component's focus child logic here
   };
 
   render() {
@@ -96,13 +97,14 @@ class KonvaStage extends Component {
         >
           <Layer>
             {components
-              .find(comp => comp.title === focusComponent.title)
+              .find(comp => comp.id === focusComponent.id)
               .childrenArray.map((child, i) => (
                 <Rectangle
                   key={`${i}${child.componentName}`}
                   components={components}
                   componentId={focusComponent.id}
-                  componentName={child.componentName}
+                  childComponentName={child.componentName}
+                  childComponentId={child.childComponentId}
                   focusChild={focusChild}
                   childId={child.childId}
                   x={child.position.x}
