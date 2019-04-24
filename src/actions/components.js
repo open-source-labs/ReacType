@@ -68,20 +68,29 @@ export const addChild = ({ title }) => (dispatch) => {
   dispatch({ type: ADD_CHILD, payload: { title } });
 };
 
-export const deleteChild = ({ title }) => (dispatch) => {
-  dispatch({ type: DELETE_CHILD, payload: { title } });
+export const deleteChild = ({}) => (dispatch) => {
+  // with no payload, it will delete focusd child
+  dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
-export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => {
-  if (parentIds.length) {
-    // Delete Component  from its parent if it has a parent.
-    dispatch(updateChildren({ parentIds, childId: id, childIndex: index }));
-  }
-  // Reassign Component's children to its parent if it has one or make them orphans
-  dispatch(parentReassignment({ index, id, parentIds }));
+export const deleteComponent = ({ componentId, stateComponents }) => (dispatch) => {
+  console.log('Hello from component.js delete component.componentId= ', componentId);
 
-  dispatch({ type: DELETE_COMPONENT, payload: { index, id } });
-  dispatch({ type: SET_SELECTABLE_PARENTS });
+  // find all places where the "to be delted" is a child and do what u gotta do
+  stateComponents.forEach((parent) => {
+    parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
+      // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
+      dispatch({
+        type: DELETE_CHILD,
+        payload: { parentId: parent.id, childId: child.childId, calledFromDeleteComponent: true },
+      });
+    });
+  });
+
+  // change focus to APp
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
+  // after taking care of the children delete the component
+  dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
 export const updateComponent = ({
