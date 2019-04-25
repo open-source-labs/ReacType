@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import BottomPanel from '../components/BottomPanel.jsx';
+import Button from '@material-ui/core/Button';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemText from '@material-ui/core/ListItemText';
@@ -118,7 +120,7 @@ class MainContainer extends Component {
 
     // show a string of all direct parents. SO the user can gaze at it.
     const directParents = !focusComponent.id
-      ? `Waiting for a focused component`
+      ? 'Waiting for a focused component'
       : stateComponents
           .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
           .map(comp => comp.title)
@@ -144,11 +146,25 @@ class MainContainer extends Component {
             />
           </div>
 
-          <p>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</p>
-          <button onClick={deleteChild}>delete focused child</button>
-          <button onClick={() => deleteComponent({ componentId: focusComponent.id, stateComponents })}>
-            delete focused components
-          </button>
+          <div className="button-wrapper">
+            <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
+              delete child
+            </Button>
+
+            <Button
+              style={{ width: '180px', display: 'inline-block' }}
+              onClick={() =>
+                deleteComponent({
+                  componentId: focusComponent.id,
+                  stateComponents,
+                })
+              }
+            >
+              delete component
+            </Button>
+            <span>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</span>
+          </div>
+          <BottomPanel focusComponent={focusComponent} />
         </div>
       </MuiThemeProvider>
     );
