@@ -4,18 +4,28 @@ import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
-    this.checkNode();
+    this.checkNode(this.props.rectClass);
   }
 
   componentDidUpdate() {
-    this.checkNode();
+    this.checkNode(this.props.rectClass);
   }
 
   // this function makes sure the transformer follows along with the focusChild
-  checkNode() {
+  checkNode(rectClass) {
     const stage = this.transformer.getStage();
     const { focusChild } = this.props;
-    const selectedNode = stage.findOne(`.${focusChild.childId}`);
+
+    // depending on the rectClass prop, this transformer is either attached to
+    // a childRect or the focused component's componentRect
+    let selectedNode;
+    if (rectClass === 'componentRect') {
+      selectedNode = stage.findOne(`.${-1}`);
+    } else if (rectClass === 'childRect') {
+      selectedNode = stage.findOne(`.${focusChild.childId}`);
+    } else {
+      return;
+    }
 
     if (selectedNode === this.transformer.node()) {
       return;
@@ -32,10 +42,14 @@ export default class TransformerComponent extends Component {
     return (
       <Transformer
         rotateEnabled={false}
-        onMouseUp={this.handleMouseUp}
         ref={(node) => {
           this.transformer = node;
         }}
+        borderEnabled={false}
+        anchorFill={'grey'}
+        anchorStroke={'grey'}
+        anchorSize={8}
+        keepRatio={false}
       />
     );
   }
