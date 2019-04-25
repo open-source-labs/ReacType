@@ -132,9 +132,12 @@ class MainContainer extends Component {
             />
           </div>
 
-          <p>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</p>
-          <button onClick={deleteChild}>delete focused child</button>
+          <span>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</span>
+          <button 
+          style= {{width: '200px', display: 'inline-block'}}
+          onClick={deleteChild}>delete focused child</button>
           <button
+           style= {{width: '200px',display: 'inline-block'}}
             onClick={() => deleteComponent({ componentId: focusComponent.id, stateComponents })}
           >
             delete focused components
