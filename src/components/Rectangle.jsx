@@ -8,10 +8,7 @@ import GrandchildRectangle from './GrandchildRectangle.jsx';
 
 class Rectangle extends Component {
   getComponentColor(componentId) {
-    console.log('siodfbsldfk', componentId);
     const color = this.props.components.find(comp => comp.id == componentId).color;
-    console.log(color);
-
     return color;
   }
 
@@ -42,7 +39,6 @@ class Rectangle extends Component {
 
   render() {
     const {
-      color,
       x,
       y,
       scaleX,
@@ -84,8 +80,7 @@ class Rectangle extends Component {
           scaleY={1}
           width={width}
           height={height}
-          stroke={color}
-          color={this.getComponentColor(childComponentId)}
+          stroke={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
           onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
@@ -94,7 +89,15 @@ class Rectangle extends Component {
           draggable={false}
         />
         <Label>
-          <Text text={title} fill={'white'} />
+          <Text
+            text={title}
+            fill={'white'}
+            fontStyle={'bold'}
+            fontVariant={'small-caps'}
+            fontSize={10}
+            x={4}
+            y={4}
+          />
         </Label>
         {components
           .find(comp => comp.title === childComponentName)
@@ -114,14 +117,11 @@ class Rectangle extends Component {
               width={grandchild.position.width * (width / (window.innerWidth / 2))}
               height={grandchild.position.height * (height / window.innerHeight)}
               // title={child.componentName + child.childId}
-              color={grandchild.color}
             />
           ))}
-        {focusChild && focusChild.childId === childId && draggable ? (
-          <TransformerComponent focusChild={focusChild} />
-        ) : (
-          <Label />
-        )}
+        {focusChild
+          && focusChild.childId === childId
+          && draggable && <TransformerComponent focusChild={focusChild} />}
       </Group>
     );
   }

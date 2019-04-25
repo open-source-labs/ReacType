@@ -15,10 +15,10 @@ const initialComponentState = {
   props: [],
   nextPropId: 0,
   position: {
-    x: 110,
-    y: 120,
-    width: 50,
-    height: 50,
+    x: 50,
+    y: 50,
+    width: 600,
+    height: 600,
   },
   childrenArray: [],
   nextChildId: 1,
@@ -170,9 +170,6 @@ export const deleteChild = (
 export const handleTransform = (state, {
   componentId, childId, x, y, width, height,
 }) => {
-  // console.log('componentId and childId: ', componentId, childId);
-  // console.log('state.focuscomponent: ', state.focusComponent);
-  console.log('incoming x and y: ', x, y);
   const child = state.components
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
@@ -285,10 +282,10 @@ export const deleteComponent = (state, { componentId }) => {
 
 export const changeFocusComponent = (state, { title }) => {
   const newFocusComp = state.components.find(comp => comp.title === title);
-  // set the "focus child" to the focus child of this particular component . 
-  const newFocusChildId = newFocusComp.focusChildId ; 
+  // set the "focus child" to the focus child of this particular component .
+  const newFocusChildId = newFocusComp.focusChildId;
 
-  const newFocusChild = newFocusComp.childrenArray.find( child => child.childId == newFocusChildId) ; 
+  const newFocusChild = newFocusComp.childrenArray.find(child => child.childId == newFocusChildId);
 
   const result = getSelectable(newFocusComp, state.components);
 

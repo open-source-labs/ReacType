@@ -36,6 +36,11 @@ export default class TransformerComponent extends Component {
         ref={(node) => {
           this.transformer = node;
         }}
+        borderEnabled={false}
+        anchorFill={'grey'}
+        anchorStroke={'grey'}
+        anchorSize={8}
+        keepRatio={false}
       />
     );
   }
