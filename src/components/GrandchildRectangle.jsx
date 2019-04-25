@@ -4,16 +4,12 @@ import { Rect, Group } from 'react-konva';
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
-    console.log('siodfbsldfk', componentId);
     const color = this.props.components.find(comp => comp.id == componentId).color;
-    console.log(color);
-
     return color;
   }
 
   render() {
     const {
-      color,
       x,
       y,
       scaleX,
@@ -51,8 +47,7 @@ class GrandchildRectangle extends Component {
           scaleY={1}
           width={width}
           height={height}
-          stroke={color}
-          color={this.getComponentColor(childComponentId)}
+          stroke={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
           strokeWidth={4}
@@ -76,7 +71,6 @@ class GrandchildRectangle extends Component {
               scaleY={1}
               width={grandchild.position.width * (width / (window.innerWidth / 2))}
               height={grandchild.position.height * (height / window.innerHeight)}
-              color={color}
             />
           ))}
       </Group>

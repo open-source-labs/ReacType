@@ -1,10 +1,10 @@
 import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import {
-  Stage, Layer, Group, Label, Text,
+  Stage, Layer, Group, Label, Text, Rect, Transformer,
 } from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
+import TransformerComponent from './TransformerComponent.jsx';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -34,8 +34,6 @@ class KonvaStage extends Component {
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
-    console.log('setting width: ', this.state.stageWidth, width);
-    console.log('setting height: ', this.state.heightWidth, height);
     this.setState({
       stageWidth: width,
       stageHeight: height,
@@ -46,24 +44,28 @@ class KonvaStage extends Component {
     // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
-      console.log(e.target.getStage());
+      console.log('user clicked on canvas:');
       return;
     }
     // // clicked on transformer - do nothing
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
+      console.log('user clicked on transformer');
       return;
+    }
+
+    if (e.target.attrs.className === 'componentRect') {
+      console.log('user clicked on componentRect');
     }
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log('e.target : ', rectChildId);
+    console.log('user clicked on child rectangle with Id: ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
       childId: rectChildId,
     });
-    //  put individual component's focus child logic here
   };
 
   render() {
@@ -101,6 +103,38 @@ class KonvaStage extends Component {
           height={this.state.stageHeight - 10}
         >
           <Layer>
+            {focusComponent.title !== 'App' && (
+              <Group
+                draggable={true}
+                x={focusComponent.position.x}
+                y={focusComponent.position.y}
+                width={focusComponent.position.width}
+                height={focusComponent.position.height}
+              >
+                <Rect
+                  className={'componentRect'}
+                  stroke={focusComponent.color}
+                  x={0}
+                  y={0}
+                  name={'-1'}
+                  width={focusComponent.position.width}
+                  height={focusComponent.position.height}
+                  strokeWidth={2}
+                  strokeScaleEnabled={false}
+                />
+                <Label>
+                  <Text
+                    text={focusComponent.title}
+                    fill={focusComponent.color}
+                    fontStyle={'bold'}
+                    fontVariant={'small-caps'}
+                    fontSize={14}
+                    y={-15}
+                  />
+                </Label>
+                <TransformerComponent rectClass={'componentRect'} />
+              </Group>
+            )}
             {components
               .find(comp => comp.id === focusComponent.id)
               .childrenArray.map((child, i) => (
@@ -119,7 +153,6 @@ class KonvaStage extends Component {
                   width={child.position.width}
                   height={child.position.height}
                   title={child.componentName + child.childId}
-                  color={child.color}
                   handleTransform={handleTransform}
                   draggable={true}
                 />
