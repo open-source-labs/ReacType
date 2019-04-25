@@ -4,6 +4,7 @@ import {
   Stage, Layer, Group, Label, Text, Rect, Transformer,
 } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
+import TransformerComponent from './TransformerComponent.jsx';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -115,6 +116,7 @@ class KonvaStage extends Component {
                   stroke={focusComponent.color}
                   x={0}
                   y={0}
+                  name={'-1'}
                   width={focusComponent.position.width}
                   height={focusComponent.position.height}
                   strokeWidth={2}
@@ -130,6 +132,7 @@ class KonvaStage extends Component {
                     y={-15}
                   />
                 </Label>
+                <TransformerComponent rectClass={'componentRect'} />
               </Group>
             )}
             {components

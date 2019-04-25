@@ -70,6 +70,7 @@ class Rectangle extends Component {
       >
         <Rect
           name={`${childId}`}
+          className={'childRect'}
           x={0}
           y={0}
           // absolutePosition={{ x, y }}
@@ -121,7 +122,7 @@ class Rectangle extends Component {
           ))}
         {focusChild
           && focusChild.childId === childId
-          && draggable && <TransformerComponent focusChild={focusChild} />}
+          && draggable && <TransformerComponent focusChild={focusChild} rectClass={'childRect'} />}
       </Group>
     );
   }
