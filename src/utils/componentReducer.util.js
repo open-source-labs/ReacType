@@ -1,11 +1,11 @@
-import setSelectableParents from './setSelectableParents.util';
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
+import setSelectableParents from "./setSelectableParents.util";
+import getSelectable from "./getSelectable.util";
+import getColor from "./colors.util";
 
 const initialComponentState = {
   id: null,
   stateful: false,
-  title: '',
+  title: "",
   parentIds: [],
   color: getColor(),
   draggable: true,
@@ -13,34 +13,36 @@ const initialComponentState = {
   selectableParents: [],
   expanded: true,
   props: [],
-  nextPropId: 0,
+  nextPropId: 1,
   position: {
     x: 50,
     y: 50,
     width: 600,
-    height: 600,
+    height: 600
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
+  focusChildId: 0
 };
 
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
+    .replace(/[-_\s0-9\W]+/gi, "");
 
   if (state.components.find(comp => comp.title === strippedTitle)) {
-    window.alert(`a component with the name: "${strippedTitle}" already exists.\n Please think of another name.`);
+    window.alert(
+      `a component with the name: "${strippedTitle}" already exists.\n Please think of another name.`
+    );
     return {
-      ...state,
+      ...state
     };
   }
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
     id: state.nextId.toString(),
-    color: getColor(),
+    color: getColor()
   };
 
   const components = [...state.components, newComponent];
@@ -59,7 +61,7 @@ export const addComponent = (state, { title }) => {
     components,
     focusComponent: newComponent,
     ancestors: [],
-    selectableChildren, // new component so you everyone except yourself is available
+    selectableChildren // new component so you everyone except yourself is available
   };
 };
 
@@ -90,10 +92,10 @@ export const addChild = (state, { title }) => {
       x: 110 + view.nextChildId * 5,
       y: 120 + view.nextChildId * 5,
       width: 50,
-      height: 50,
+      height: 50
     },
     draggable: true,
-    color: parentComponent.color,
+    color: parentComponent.color
     // ancestors: [focusComponent]
   };
 
@@ -103,68 +105,81 @@ export const addChild = (state, { title }) => {
     ...state.components.view,
     childrenArray: compsChildrenArr,
     focusChildId: newChild.childId,
-    nextChildId: view.nextChildId + 1,
+    nextChildId: view.nextChildId + 1
   };
 
   const components = [
-    ...state.components.filter((comp) => {
+    ...state.components.filter(comp => {
       if (comp.title !== view.title) return comp;
     }),
-    component,
+    component
   ];
 
   return {
     ...state,
     components,
-    focusChild: newChild,
+    focusChild: newChild
   };
 };
 
-export const deleteChild = (state,
-     {parentId = state.focusComponent.id
-      ,childId = state.focusChild.childId
-      ,calledFromDeleteComponent = false
-    })=>{
-
-      //console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  state.focusComponent.id=${state.focusComponent.id}`)
- /************************************************** 
-  if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS 
+export const deleteChild = (
+  state,
+  {
+    parentId = state.focusComponent.id,
+    childId = state.focusChild.childId,
+    calledFromDeleteComponent = false
+  }
+) => {
+  // console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  state.focusComponent.id=${state.focusComponent.id}`)
+  /** ************************************************
+  if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
-  Also when calling from DELETE components , we do not touch focusCOmponent. 
- *************************************************************************************/
-  if (!parentId) { window.alert(`Cannot delete Child if parent id = ZERO `) ; return state }
- if (!childId)  { window.alert(`Cannot delete Child if Child id = ZERO`) ; return state }
-  console.log(`delete child parentid: ${parentId} cildId: ${childId}`)
- // make a DEEP copy of the parent component (the one thats about to loose a child)
- const parentComponentCopy = JSON.parse(JSON.stringify(state.components.find( c => c.id == parentId))); 
+  Also when calling from DELETE components , we do not touch focusCOmponent.
+ ************************************************************************************ */
+  if (!parentId) {
+    window.alert("Cannot delete Child if parent id = ZERO ");
+    return state;
+  }
+  if (!childId) {
+    window.alert("Cannot delete Child if Child id = ZERO");
+    return state;
+  }
+  console.log(`delete child parentid: ${parentId} cildId: ${childId}`);
+  // make a DEEP copy of the parent component (the one thats about to loose a child)
+  const parentComponentCopy = JSON.parse(
+    JSON.stringify(state.components.find(c => c.id == parentId))
+  );
 
-  // delete the  CHILD from the copied array 
-  const indexToDelete = parentComponentCopy.childrenArray.findIndex( elem => elem.childId == childId)
-  if (indexToDelete < 0 ) return  window.alert(`DeleteChild speaking here. The child u r trying to delete was not found`);
-  parentComponentCopy.childrenArray.splice(indexToDelete,1)
+  // delete the  CHILD from the copied array
+  const indexToDelete = parentComponentCopy.childrenArray.findIndex(
+    elem => elem.childId == childId
+  );
+  if (indexToDelete < 0)
+    return window.alert(
+      "DeleteChild speaking here. The child u r trying to delete was not found"
+    );
+  parentComponentCopy.childrenArray.splice(indexToDelete, 1);
 
   const modifiedComponentArray = [
-    ...state.components.filter( c => c.id !== parentId ) , // all elements besides the one just changed 
+    ...state.components.filter(c => c.id !== parentId), // all elements besides the one just changed
     parentComponentCopy
-  ]
+  ];
 
   // RETURN - update state...
   return {
     ...state,
     components: modifiedComponentArray,
-    focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
-    focusChild: {} // reset to blank. 
-
-  }  
-}
+    focusComponent: calledFromDeleteComponent
+      ? state.focusComponent
+      : parentComponentCopy, // when called from delete component we dont need want to touch the focus
+    focusChild: {} // reset to blank.
+  };
+};
 
 export const handleTransform = (
   state,
   { componentId, childId, x, y, width, height }
 ) => {
-  console.log("componentId and childId: ", componentId, childId);
-  console.log("state.focuscomponent: ", state.focusComponent);
-
   const child = state.components
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
@@ -175,32 +190,34 @@ export const handleTransform = (
       x: x || child.position.x,
       y: y || child.position.y,
       width: width || child.position.width,
-      height: height || child.position.height,
-    },
+      height: height || child.position.height
+    }
   };
 
   const children = [
-    ...state.components.find(comp => comp.id === componentId).childrenArray.filter((child) => {
-      if (child.childId !== childId) return child;
-    }),
-    transformedChild,
+    ...state.components
+      .find(comp => comp.id === componentId)
+      .childrenArray.filter(child => {
+        if (child.childId !== childId) return child;
+      }),
+    transformedChild
   ];
 
   const component = {
     ...state.components.find(comp => comp.id === componentId),
-    childrenArray: children,
+    childrenArray: children
   };
 
   const components = [
-    ...state.components.filter((comp) => {
+    ...state.components.filter(comp => {
       if (comp.id !== componentId) return comp;
     }),
-    component,
+    component
   ];
 
   return {
     ...state,
-    components,
+    components
   };
 };
 
@@ -289,8 +306,16 @@ export const deleteComponent = (state, { componentId }) => {
   //   ...state.components.slice(0, index),
   //   ...state.components.slice(index + 1)
   // ];
-  const indexToDelete = state.components.findIndex( comp => comp.id == componentId) ; 
-  console.log('index to delete: ', indexToDelete)
+  if (componentId == 1) {
+    return {
+      ...state
+    };
+  }
+
+  const indexToDelete = state.components.findIndex(
+    comp => comp.id == componentId
+  );
+  console.log("index to delete: ", indexToDelete);
 
   const componentsCopy = JSON.parse(JSON.stringify(state.components)) 
   componentsCopy.splice(indexToDelete,1)
@@ -300,7 +325,7 @@ console.log(`Real delete component action here : id:${componentId}`)
   return {
     ...state,
     totalComponents,
-    components: componentsCopy ,
+    components: componentsCopy
   };
 };
 
@@ -309,7 +334,9 @@ export const changeFocusComponent = (state, { title }) => {
   // set the "focus child" to the focus child of this particular component .
   const newFocusChildId = newFocusComp.focusChildId;
 
-  const newFocusChild = newFocusComp.childrenArray.find(child => child.childId == newFocusChildId);
+  const newFocusChild = newFocusComp.childrenArray.find(
+    child => child.childId == newFocusChildId
+  );
 
   const result = getSelectable(newFocusComp, state.components);
 
@@ -318,17 +345,22 @@ export const changeFocusComponent = (state, { title }) => {
     focusComponent: newFocusComp,
     selectableChildren: result.selectableChildren,
     ancestors: result.ancestors,
+    focusChild: newFocusChild
   };
 };
 
 export const changeFocusChild = (state, { title, childId }) => {
   // just finds first child with given title, need to pass in specific childId somehow
   // maybe default to title if childId is unknown
-  const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
-  const newFocusChild = focComp.childrenArray.find(child => child.childId === childId) || state.focusChild;
+  const focComp = state.components.find(
+    comp => comp.title === state.focusComponent.title
+  );
+  const newFocusChild =
+    focComp.childrenArray.find(child => child.childId === childId) ||
+    state.focusChild;
   return {
     ...state,
-    focusChild: newFocusChild,
+    focusChild: newFocusChild
   };
 };
 
@@ -338,13 +370,13 @@ export const changeComponentFocusChild = (state, { componentId, childId }) => {
   const components = state.components.filter(comp => comp.id != componentId);
   return {
     ...state,
-    components: [component, ...components],
+    components: [component, ...components]
   };
 };
 
 // Add or remove children
 export const updateChildren = (state, { parentIds, childId }) => {
-  const components = state.components.map((component) => {
+  const components = state.components.map(component => {
     if (parentIds.includes(component.id)) {
       const parentComp = { ...component };
       const childrenIdsSet = new Set(parentComp.childrenIds);
@@ -362,7 +394,7 @@ export const updateChildren = (state, { parentIds, childId }) => {
 
   return {
     ...state,
-    components,
+    components
   };
 };
 
@@ -380,7 +412,7 @@ export const moveToTop = (state, componentId) => {
 
   return {
     ...state,
-    components,
+    components
   };
 };
 
@@ -392,20 +424,20 @@ export const moveToTop = (state, componentId) => {
 
 export const changeImagePath = (state, imagePath) => ({
   ...state,
-  imagePath,
+  imagePath
 });
 
 // Assign comp's children to comp's parent
 export const reassignParent = (state, { index, id, parentIds = [] }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
-  const components = state.components.map((comp) => {
+  const components = state.components.map(comp => {
     // Give each child their previous parent's parent
     if (childrenIds.includes(comp.id)) {
       const prevParentIds = comp.parentIds.filter(parentId => parentId !== id);
       return {
         ...comp,
-        parentIds: [...new Set(prevParentIds.concat(parentIds))],
+        parentIds: [...new Set(prevParentIds.concat(parentIds))]
       };
     }
     // Give the parent all children of it's to be deleted child
@@ -413,7 +445,7 @@ export const reassignParent = (state, { index, id, parentIds = [] }) => {
       const prevChildrenIds = comp.childrenIds;
       return {
         ...comp,
-        childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))],
+        childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))]
       };
     }
     return comp;
@@ -421,33 +453,33 @@ export const reassignParent = (state, { index, id, parentIds = [] }) => {
 
   return {
     ...state,
-    components,
+    components
   };
 };
 
 export const setSelectableP = state => ({
   ...state,
-  components: setSelectableParents(state.components),
+  components: setSelectableParents(state.components)
 });
 
 export const exportFilesSuccess = (state, { status, dir }) => ({
   ...state,
   successOpen: status,
   appDir: dir,
-  loading: false,
+  loading: false
 });
 
 export const exportFilesError = (state, { status, err }) => ({
   ...state,
   errorOpen: status,
   appDir: err,
-  loading: false,
+  loading: false
 });
 
 export const handleClose = (state, status) => ({
   ...state,
   errorOpen: status,
-  successOpen: status,
+  successOpen: status
 });
 
 export const updatePosition = (state, { id, x, y }) => {
@@ -520,11 +552,11 @@ export const handleTransform = (state, { componentId, childId, x, y, width, heig
 export const toggleDragging = (state, status) => {
   const components = state.components.map(component => ({
     ...component,
-    draggable: status,
+    draggable: status
   }));
   return {
     ...state,
-    components,
+    components
   };
 };
 
@@ -542,7 +574,7 @@ export const moveToBottom = (state, componentId) => {
 
   return {
     ...state,
-    components,
+    components
   };
 };
 
@@ -555,23 +587,46 @@ export const moveToBottom = (state, componentId) => {
  */
 
 export const openExpansionPanel = (state, { component }) => ({
-  ...state,
+  ...state
   // focusComponent: component,
 });
 
-export const addProp = (state, {
-  key, value = null, required, type,
-}) => {
-  const { props, nextPropId, id } = state.focusComponent;
+export const addProp = (state, { key, value = null, required, type }) => {
+  if (!state.focusComponent.id) {
+    console.log("Add prop error. no focused component ");
+    return state;
+  }
+
+  const selectedComponent = state.components.find(
+    comp => comp.id == state.focusComponent.id
+  );
+
   const newProp = {
-    id: nextPropId.toString(),
+    id: selectedComponent.nextPropId.toString(),
     key,
     value: value || key,
     required,
-    type,
+    type
   };
-  const newProps = [...props, newProp];
-  return updateComponent(state, { id, props: newProps });
+  const newProps = [...selectedComponent.props, newProp];
+
+  const modifiedComponent = {
+    ...selectedComponent,
+    props: newProps,
+    nextPropId: selectedComponent.nextPropId + 1
+  };
+  // const { props, nextPropId, id } = state.focusComponent;
+
+  // const newProps = [...props, newProp];
+  // return updateComponent(state, { id, props: newProps });
+  const newComponents = state.components.filter(
+    comp => comp.id != selectedComponent.id
+  );
+  newComponents.push(modifiedComponent);
+  return {
+    ...state,
+    components: newComponents
+  };
 };
 
 export const deleteProp = (state, { index }) => {
@@ -580,6 +635,6 @@ export const deleteProp = (state, { index }) => {
   return updateComponent(state, { id, props: newProps });
 };
 
-export const getSelectableParents = (state) => {
+export const getSelectableParents = state => {
   const result = getSelectable();
 };
