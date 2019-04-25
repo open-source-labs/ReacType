@@ -67,12 +67,12 @@ class AppContainer extends Component {
             rightColumnOpen={rightColumnOpen}
             totalComponents={totalComponents}
           />
-          <RightContainer
+          {/* <RightContainer
             width={width}
             components={updatedComponents}
             rightColumnOpen={rightColumnOpen}
             focusComponent={focusComponent}
-          />
+          /> */}
           {loading ? (
             <div
               style={{
