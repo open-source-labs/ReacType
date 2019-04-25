@@ -78,7 +78,7 @@ const appComponent = {
   selectableParents: [],
   expanded: true,
   props: [],
-  nextPropId: 0,
+  nextPropId: 1,
   position: {
     x: 110,
     y: 120,
