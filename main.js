@@ -8,6 +8,15 @@ const {
   ipcMain,
 } = require('electron');
 
+const {
+  createIndexHtml,
+  createIndexTsx,
+  createPackage,
+  createBabel,
+  createWebpack,
+  createTsConfig,
+} = require('createApplication.util.js')
+
 require('electron-reload')(__dirname);
 
 // const isDev = true;
@@ -71,6 +80,20 @@ const createWindow = () => {
     submenu: [{
       label: 'Open File',
       accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
+      click() {
+        openFile();
+      },
+    },
+    {
+      label: 'Export Components',
+      accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+Shift+E',
+      click() {
+        openFile();
+      },
+    },
+    {
+      label: 'Export Application',
+      accelerator: process.platform === 'darwin' ? 'Cmd+A+E' : 'Ctrl+Shift+A+E',
       click() {
         openFile();
       },

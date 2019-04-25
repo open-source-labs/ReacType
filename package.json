@@ -87,6 +87,8 @@
     "electron": "^2.0.7",
     "electron-reload": "^1.4.0",
     "enzyme": "^3.4.1",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^7.0.1",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
