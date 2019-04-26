@@ -100,6 +100,16 @@ class Rectangle extends Component {
             y={4}
           />
         </Label>
+        {focusChild
+          && focusChild.childId === childId
+          && draggable && (
+            <TransformerComponent
+              focusChild={focusChild}
+              rectClass={'childRect'}
+              anchorSize={8}
+              color={'grey'}
+            />
+        )}
         {components
           .find(comp => comp.title === childComponentName)
           .childrenArray.map((grandchild, i) => (
@@ -120,9 +130,6 @@ class Rectangle extends Component {
               // title={child.componentName + child.childId}
             />
           ))}
-        {focusChild
-          && focusChild.childId === childId
-          && draggable && <TransformerComponent focusChild={focusChild} rectClass={'childRect'} />}
       </Group>
     );
   }

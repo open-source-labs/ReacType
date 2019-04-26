@@ -46,9 +46,9 @@ export default class TransformerComponent extends Component {
           this.transformer = node;
         }}
         borderEnabled={false}
-        anchorFill={'grey'}
-        anchorStroke={'grey'}
-        anchorSize={8}
+        anchorFill={this.props.color}
+        anchorStroke={this.props.color}
+        anchorSize={this.props.anchorSize}
         keepRatio={false}
       />
     );
