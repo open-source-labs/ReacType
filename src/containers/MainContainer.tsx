@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BottomPanel from '../components/BottomPanel.jsx';
 import Button from '@material-ui/core/Button';
 // import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemText from '@material-ui/core/ListItemText';
 // import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import BottomPanel from '../components/BottomPanel.jsx';
 import theme from '../components/theme';
 import {
   toggleDragging,

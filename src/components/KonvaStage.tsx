@@ -130,7 +130,13 @@ class KonvaStage extends Component {
                     y={-15}
                   />
                 </Label>
-                <TransformerComponent rectClass={'componentRect'} />
+                {!focusChild && (
+                  <TransformerComponent
+                    rectClass={'componentRect'}
+                    anchorSize={6}
+                    color={'white'}
+                  />
+                )}
               </Group>
             )}
             {components
