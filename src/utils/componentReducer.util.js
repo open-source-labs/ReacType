@@ -15,8 +15,8 @@ const initialComponentState = {
   props: [],
   nextPropId: 1,
   position: {
-    x: 50,
-    y: 50,
+    x: 25,
+    y: 25,
     width: 600,
     height: 400,
   },
