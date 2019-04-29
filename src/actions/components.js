@@ -204,16 +204,6 @@ export const handleTransform = (componentId, childId, {
 //   }
 // };
 
-// export const moveToBottom = componentId => ({
-//   type: MOVE_TO_BOTTOM,
-//   payload: componentId,
-// });
-
-// export const moveToTop = componentId => ({
-//   type: MOVE_TO_TOP,
-//   payload: componentId,
-// });
-
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
   payload: { component },
@@ -221,11 +211,6 @@ export const openExpansionPanel = component => ({
 
 // export const deleteAllData = () => ({
 //   type: DELETE_ALL_DATA,
-// });
-
-// export const changeImagePath = path => ({
-//   type: CHANGE_IMAGE_PATH,
-//   payload: path,
 // });
 
 export const deleteProp = ({ id, index }) => ({

@@ -58,7 +58,6 @@ const MainContainerHeader = (props) => {
     showGenerateAppModal,
     collapseColumn,
     rightColumnOpen,
-    toggleClass,
   } = props;
 
   return (
@@ -134,8 +133,6 @@ const MainContainerHeader = (props) => {
     </div>
   );
 };
-
-// style={{ borderLeft: '1px solid grey' }}
 
 MainContainerHeader.propTypes = {
   image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

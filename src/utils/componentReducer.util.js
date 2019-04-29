@@ -234,19 +234,6 @@ export const handleTransform = (state, {
 
 // export const updateComponent = (
 //   state,
-// ) => {
-
-//   // lives on the state
-//   let currentAncestors = [state.focusChild];
-
-//   for (let i=0; i<currentAncestors; i++) {
-
-//   }
-
-// };
-
-// export const updateComponent = (
-//   state,
 //   { id, newParentId = null, color = null, stateful = null, props = null }
 // ) => {
 //   let component;
@@ -477,8 +464,6 @@ export const handleClose = (state, status) => ({
 //   };
 // };
 
-// handleTransform used to be here
-
 /**
  * Moves component to the front of the components effectively giving it the lowest z-index
  * @param {object} state - The current state of the application
@@ -496,14 +481,6 @@ export const moveToBottom = (state, componentId) => {
     components,
   };
 };
-
-/**
- * Selects a component and sets it as the focusComponent. The focus component is used to
- * sync up expanding the panel, adding the transformer, and showing the components
- * corresponding props.
- * @param {object} state - The current state of the application
- * @param {object} component - The component we want to assign as the currently focused component
- */
 
 export const openExpansionPanel = (state, { component }) => ({
   ...state,
@@ -534,10 +511,7 @@ export const addProp = (state, {
     props: newProps,
     nextPropId: selectedComponent.nextPropId + 1,
   };
-  // const { props, nextPropId, id } = state.focusComponent;
 
-  // const newProps = [...props, newProp];
-  // return updateComponent(state, { id, props: newProps });
   const newComponents = state.components.filter(comp => comp.id != selectedComponent.id);
   newComponents.push(modifiedComponent);
   return {
