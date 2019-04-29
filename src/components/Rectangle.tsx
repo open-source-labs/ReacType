@@ -84,6 +84,8 @@ class Rectangle extends Component {
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
+          dashEnabled={childId === '-1'} // dash line only enabled for pseudochild
+          dash={[10, 3]} // 10px dashes with 3px gaps
         />
         <Label>
           <Text
