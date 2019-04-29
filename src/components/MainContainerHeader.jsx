@@ -12,7 +12,6 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 
-
 const styles = () => ({
   iconSmall: {
     fontSize: 10,
@@ -38,30 +37,6 @@ const styles = () => ({
       opacity: '0.3',
     },
   },
-  buttonDrag: {
-    // borderRight: '1px solid grey',
-    borderRadius: '0px',
-    backgroundColor: '#212121',
-    '&:hover > span > svg': {
-      color: '#1de9b6',
-    },
-
-    '&:hover': {
-      backgroundColor: '#212121',
-    },
-
-    '&:disabled': {
-      backgroundColor: '#424242',
-    },
-
-    '&:disabled > span > svg': {
-      color: '#eee',
-      opacity: '0.3',
-    },
-  },
-  buttonDragDark: {
-    backgroundColor: '#1de9b6',
-  },
   light: {
     color: '#eee',
     // opacity: '0.7',
@@ -79,7 +54,6 @@ const MainContainerHeader = (props) => {
     image,
     showImageDeleteModal,
     updateImage,
-    toggleDrag,
     totalComponents,
     showGenerateAppModal,
     collapseColumn,
@@ -92,30 +66,38 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" style={{ marginRight: 'auto' }}>
         <Tooltip title="zoom in">
           <div>
-            <Button disabled={!image} color="default" className={classes.button} onClick={increaseHeight}>
+            <Button
+              disabled={!image}
+              color="default"
+              className={classes.button}
+              onClick={increaseHeight}
+            >
               <ZoomInIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
         <Tooltip title="zoom out">
           <div>
-            <Button disabled={!image} color="default" className={classes.button} onClick={decreaseHeight}>
+            <Button
+              disabled={!image}
+              color="default"
+              className={classes.button}
+              onClick={decreaseHeight}
+            >
               <ZoomOutIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title="toggle drag">
-          <div>
-            <Button disabled={!image} color="default" className={toggleDrag ? classes.buttonDrag : classes.buttonDragDark} onClick={toggleDrag}>
-              <OpenWithIcon className={toggleClass ? classes.light : classes.dark} />
-            </Button>
-          </div>
-        </Tooltip>
       </div>
-      <div className="main-header-buttons" >
+      <div className="main-header-buttons">
         <Tooltip title="remove image">
           <div>
-            <Button disabled={!image} color="default" className={classes.button} onClick={showImageDeleteModal}>
+            <Button
+              disabled={!image}
+              color="default"
+              className={classes.button}
+              onClick={showImageDeleteModal}
+            >
               <DeleteOutlineIcon className={classes.light} />
             </Button>
           </div>
@@ -129,16 +111,23 @@ const MainContainerHeader = (props) => {
         </Tooltip>
         <Tooltip title={'export'}>
           <div>
-            <Button color='default' className={classes.button} disabled={totalComponents < 1} onClick={showGenerateAppModal}>
+            <Button
+              color="default"
+              className={classes.button}
+              disabled={totalComponents < 1}
+              onClick={showGenerateAppModal}
+            >
               <GetAppIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
         <div>
           <Button color="default" className={classes.button} onClick={() => collapseColumn()}>
-            {rightColumnOpen ? <KeyboardArrowRightIcon
-              className={classes.light} /> : <KeyboardArrowLeftIcon className={classes.light}
-              />}
+            {rightColumnOpen ? (
+              <KeyboardArrowRightIcon className={classes.light} />
+            ) : (
+              <KeyboardArrowLeftIcon className={classes.light} />
+            )}
           </Button>
         </div>
       </div>
@@ -149,16 +138,12 @@ const MainContainerHeader = (props) => {
 // style={{ borderLeft: '1px solid grey' }}
 
 MainContainerHeader.propTypes = {
-  image: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   classes: PropTypes.object.isRequired,
   increaseHeight: PropTypes.func.isRequired,
   decreaseHeight: PropTypes.func.isRequired,
   showImageDeleteModal: PropTypes.func.isRequired,
   updateImage: PropTypes.func.isRequired,
-  toggleDrag: PropTypes.func.isRequired,
   showGenerateAppModal: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   collapseColumn: PropTypes.func.isRequired,

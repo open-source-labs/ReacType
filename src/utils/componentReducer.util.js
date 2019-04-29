@@ -38,11 +38,29 @@ export const addComponent = (state, { title }) => {
       ...state,
     };
   }
+  const componentColor = getColor();
+  const componentId = state.nextId.toString();
+
+  const pseudoChild = {
+    childId: '-1',
+    childComponentId: componentId,
+    componentName: strippedTitle,
+    position: {
+      x: 25,
+      y: 25,
+      width: 600,
+      height: 400,
+    },
+    draggable: true,
+    color: componentColor,
+  };
+
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
-    id: state.nextId.toString(),
-    color: getColor(),
+    id: componentId,
+    color: componentColor,
+    childrenArray: [pseudoChild],
   };
 
   const components = [...state.components, newComponent];
@@ -110,6 +128,7 @@ export const addChild = (state, { title }) => {
     }),
     component,
   ];
+  console.log(components, newChild);
 
   return {
     ...state,
@@ -138,6 +157,10 @@ export const deleteChild = (
   }
   if (!childId) {
     window.alert('Cannot delete Child if Child id = ZERO');
+    return state;
+  }
+  if (childId === '-1') {
+    window.alert('Cannot delete component border (pseudochild)');
     return state;
   }
   console.log(`delete child parentid: ${parentId} cildId: ${childId}`);
@@ -454,39 +477,7 @@ export const handleClose = (state, status) => ({
 //   };
 // };
 
-/**
- * Applies the new x and y coordinates, as well as, the new width
- * and height the of components to the component with the provided id.
- * The transformation is calculated on component drags, as well as, whe the
- * component is resized
- * @param {object} state - The current state of the application
- * @param {object} transform - Object containing new transformation
- * @param {string} id - id of the component we want to apply the transformation to
- * @param {number} x - updated x coordinate
- * @param {number} y - updated y coordinate
- * @param {number} width - updated width
- * @param {number} height - updated height
- */
-
 // handleTransform used to be here
-
-/**
- * Toggles the drag of the group, as well as all components. If the group is draggable the
- * rectangles need to be undraggable so the user can drag the group from anywhere
- * @param {object} state - The current state of the application
- * @param {boolean} status - The boolean value to apply to all draggable components
- */
-
-export const toggleDragging = (state, status) => {
-  const components = state.components.map(component => ({
-    ...component,
-    draggable: status,
-  }));
-  return {
-    ...state,
-    components,
-  };
-};
 
 /**
  * Moves component to the front of the components effectively giving it the lowest z-index
