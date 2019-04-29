@@ -114,7 +114,7 @@ class Rectangle extends Component {
         {childId !== '-1'
           && components
             .find(comp => comp.title === childComponentName)
-            .childrenArray.slice(1)
+            .childrenArray.filter(child => child.childId !== '-1')
             .map((grandchild, i) => (
               <GrandchildRectangle
                 key={i}
@@ -123,7 +123,7 @@ class Rectangle extends Component {
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
-                // childId={childId}
+                childId={childId} // scary addition, grandchildren rects should default to childId of "direct" children
                 x={grandchild.position.x * (width / (window.innerWidth / 2))}
                 y={grandchild.position.y * (height / window.innerHeight)}
                 scaleX={1}

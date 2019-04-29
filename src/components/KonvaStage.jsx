@@ -104,7 +104,17 @@ class KonvaStage extends Component {
                   handleTransform={handleTransform}
                   draggable={true}
                 />
-              ))}
+              ))
+              .sort(
+                (rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height,
+              )
+            // reasoning for the sort:
+            // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
+            // as long as the smallest components are rendered last they will always be accessible over the big boys
+            // to guarantee they are rendered last, sort the array in reverse order by size
+            // THIS COULD BE A BIG PERFORMANCE PROBLEM (PROBABLY WILL BE!)
+            // TRY TO REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
+            }
           </Layer>
         </Stage>
       </div>
