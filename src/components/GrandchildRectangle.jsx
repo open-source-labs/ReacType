@@ -39,7 +39,7 @@ class GrandchildRectangle extends Component {
           name={`${childId}`}
           x={0}
           y={0}
-          // childId={childId}
+          childId={childId}
           componentId={componentId}
           scaleX={1}
           scaleY={1}
@@ -54,7 +54,7 @@ class GrandchildRectangle extends Component {
         />
         {components
           .find(comp => comp.title === childComponentName)
-          .childrenArray.slice(1)
+          .childrenArray.filter(child => child.childId !== '-1')
           .map((grandchild, i) => (
             <GrandchildRectangle
               key={i}
@@ -63,7 +63,7 @@ class GrandchildRectangle extends Component {
               childComponentName={grandchild.componentName}
               childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
-              // childId={grandchild.childId}
+              childId={childId}
               x={grandchild.position.x * (width / (window.innerWidth / 2))}
               y={grandchild.position.y * (height / window.innerHeight)}
               scaleX={1}
