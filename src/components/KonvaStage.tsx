@@ -47,10 +47,6 @@ class KonvaStage extends Component {
       return;
     }
 
-    if (e.target.attrs.className === 'componentRect') {
-      console.log('user clicked on componentRect');
-    }
-
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
     console.log('user clicked on child rectangle with Id: ', rectChildId);
