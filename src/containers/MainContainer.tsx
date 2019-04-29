@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BottomPanel from '../components/BottomPanel.jsx';
 import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import BottomPanel from '../components/BottomPanel.jsx';
 import theme from '../components/theme';
 import {
-  toggleDragging,
   openExpansionPanel,
   handleTransform,
   changeFocusChild,
@@ -19,9 +13,6 @@ import {
   deleteComponent,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
-// import MainContainerHeader from '../components/MainContainerHeader.jsx';
-// import createModal from '../utils/createModal.util';
-// import Info from '../components/Info.jsx';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -35,7 +26,6 @@ const mapDispatchToProps = dispatch => ({
         height,
       }),
     ),
-  toggleComponentDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
   changeComponentFocusChild: ({ componentId, childId }) =>
@@ -54,50 +44,18 @@ const mapStateToProps = store => ({
 class MainContainer extends Component {
   state = {
     draggable: false,
-    toggleClass: true,
-    scaleX: 1,
-    scaleY: 1,
-    x: undefined,
-    y: undefined,
   };
 
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {}
-
-  // increaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 1.5,
-  //     scaleY: this.state.scaleY * 1.5,
-  //   });
-  // };
-
-  // decreaseHeight = () => {
-  //   this.setState({
-  //     scaleX: this.state.scaleX * 0.75,
-  //     scaleY: this.state.scaleY * 0.75,
-  //   });
-  // };
-
-  toggleDrag = () => {
-    this.props.toggleComponentDragging(this.state.draggable);
-    this.setState({
-      toggleClass: !this.state.toggleClass,
-      draggable: !this.state.draggable,
-    });
-  };
-
   render() {
-    const { image, draggable, scaleX, scaleY, modal, toggleClass } = this.state;
+    const { draggable } = this.state;
     const {
       components,
       handleTransformation,
       openPanel,
-      totalComponents,
-      collapseColumn,
-      rightColumnOpen,
       focusComponent,
       focusChild,
       changeFocusChild,
@@ -106,16 +64,7 @@ class MainContainer extends Component {
       deleteComponent,
       stateComponents,
     } = this.props;
-    const {
-      increaseHeight,
-      decreaseHeight,
-      updateImage,
-      toggleDrag,
-      main,
-      showImageDeleteModal,
-      showGenerateAppModal,
-      setImage,
-    } = this;
+    const { main } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
 
     // show a string of all direct parents. SO the user can gaze at it.
@@ -131,9 +80,8 @@ class MainContainer extends Component {
         <div className="main-container" style={{ cursor }}>
           <div className="main" ref={main}>
             <KonvaStage
-              scaleX={scaleX}
-              scaleY={scaleY}
-              image={image}
+              scaleX={1}
+              scaleY={1}
               draggable={draggable}
               components={components}
               handleTransform={handleTransformation}
@@ -175,21 +123,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(MainContainer);
-
-/*
-//Header component:
-<MainContainerHeader
-image={image}
-increaseHeight={increaseHeight}
-decreaseHeight={decreaseHeight}
-showImageDeleteModal={showImageDeleteModal}
-showGenerateAppModal={showGenerateAppModal}
-updateImage={updateImage}
-toggleDrag={toggleDrag}
-totalComponents={totalComponents}
-collapseColumn={collapseColumn}
-rightColumnOpen={rightColumnOpen}
-components={components}
-toggleClass={toggleClass}
-/>
-*/
