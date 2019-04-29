@@ -4,7 +4,6 @@
   box-sizing: inherit;
 }
 
-
 html {
   box-sizing: border-box;
   overflow: hidden;
@@ -50,11 +49,9 @@ header {
   background-color: #252526;
 }
 
-
 /* .column-right-export-btn {
   transition: display 400ms ease-in-out 300ms;
 } */
-
 
 /*
 /////////////////////////////////////////// 
@@ -74,7 +71,7 @@ LEFT COLUMN
 
 .left {
   padding: 20px;
-  width: 22%;
+  width: 20%;
   display: flex;
   flex-direction: column;
 }
@@ -117,14 +114,13 @@ h1 {
 
 .main-header {
   display: flex;
-  /* border-left: 1px solid grey; */
-  /* border-right: 1px solid grey; */
-  /* border-bottom: 1px solid grey; */
+  /* border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey; */
   background-color: #212121;
-  box-shadow: 0 5px 7px -2px rgba(0,0,0, 0.4);
+  box-shadow: 0 5px 7px -2px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
-
 
 .main-header-buttons {
   display: flex;
@@ -143,7 +139,6 @@ h1 {
   /* justify-content: center;
   align-items: center; */
 }
-
 
 .draggable {
   position: relative;
@@ -198,17 +193,19 @@ RIGHT COLUMN
   flex-direction: row;
 }
 
-.column-right {
+.bottom-panel {
   transition: width 250ms ease-in-out;
-  height: 100%;
-  display: flex; 
-  flex-direction: column;
-  background-color: #303030;
+  width: 100%;
+  height: 33%;
+  /* display: flex;
+  flex-direction: row; */
+  background-color: #961d1d;
 }
 
 .props-container {
   margin-left: 10px;
-  height: 100%;
+  height: 33%;
+  width: 100%;
 }
 
 .props-input {
@@ -235,11 +232,11 @@ div.rst__rowContents {
 
 .rst__rowContentsDragDisabled {
   background-color: #333333;
-  background-color: rgba(37, 37, 38, .4);
+  background-color: rgba(37, 37, 38, 0.4);
 }
 
-
-.rst__moveHandle, .rst__loadingHandle {
+.rst__moveHandle,
+.rst__loadingHandle {
   width: 40px;
 }
 
