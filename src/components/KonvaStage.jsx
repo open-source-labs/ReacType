@@ -80,7 +80,7 @@ class KonvaStage extends Component {
           }}
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
-          height={this.state.stageHeight - 10}
+          height={this.state.stageHeight}
         >
           <Layer>
             {components
