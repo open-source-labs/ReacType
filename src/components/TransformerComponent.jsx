@@ -4,28 +4,19 @@ import { Transformer } from 'react-konva';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
-    this.checkNode(this.props.rectClass);
+    this.checkNode();
   }
 
   componentDidUpdate() {
-    this.checkNode(this.props.rectClass);
+    this.checkNode();
   }
 
   // this function makes sure the transformer follows along with the focusChild
-  checkNode(rectClass) {
+  checkNode() {
     const stage = this.transformer.getStage();
     const { focusChild } = this.props;
 
-    // depending on the rectClass prop, this transformer is either attached to
-    // a childRect or the focused component's componentRect
-    let selectedNode;
-    if (rectClass === 'componentRect') {
-      selectedNode = stage.findOne(`.${-1}`);
-    } else if (rectClass === 'childRect') {
-      selectedNode = stage.findOne(`.${focusChild.childId}`);
-    } else {
-      return;
-    }
+    const selectedNode = stage.findOne(`.${focusChild.childId}`);
 
     if (selectedNode === this.transformer.node()) {
       return;

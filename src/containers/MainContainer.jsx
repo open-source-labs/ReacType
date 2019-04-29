@@ -51,7 +51,7 @@ class MainContainer extends Component {
   }
 
   render() {
-    const { image, draggable } = this.state;
+    const { draggable } = this.state;
     const {
       components,
       handleTransformation,
@@ -82,7 +82,6 @@ class MainContainer extends Component {
             <KonvaStage
               scaleX={1}
               scaleY={1}
-              image={image}
               draggable={draggable}
               components={components}
               handleTransform={handleTransformation}
