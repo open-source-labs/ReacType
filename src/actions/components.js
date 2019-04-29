@@ -19,7 +19,6 @@ import {
   CREATE_APPLICATION,
   CREATE_APPLICATION_SUCCESS,
   CREATE_APPLICATION_ERROR,
-  TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
@@ -200,11 +199,6 @@ export const handleTransform = (componentId, childId, { x, y, width, height }) =
 //       }));
 //   }
 // };
-
-export const toggleDragging = status => ({
-  type: TOGGLE_DRAGGING,
-  payload: status,
-});
 
 // export const moveToBottom = componentId => ({
 //   type: MOVE_TO_BOTTOM,

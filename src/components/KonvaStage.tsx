@@ -2,19 +2,14 @@ import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import { Stage, Layer, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
-import TransformerComponent from './TransformerComponent.jsx';
 
 class KonvaStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      x: undefined,
-      y: undefined,
       stageWidth: 1000,
       stageHeight: 1000,
     };
-    this.main = createRef();
-    this.group = createRef();
   }
 
   componentDidMount() {
@@ -68,25 +63,14 @@ class KonvaStage extends Component {
 
   render() {
     const {
-      components,
-      handleTransform,
-      image,
-      draggable,
-      scaleX,
-      scaleY,
-      focusComponent,
-      focusChild,
-      changeFocusChild,
-      changeComponentFocusChild,
+      components, handleTransform, focusComponent, focusChild,
     } = this.props;
-    const { selectedShapeName } = this.state;
 
     return (
       <div
         style={{
           width: '100%',
           height: '100%',
-          // border: '1px solid grey',
         }}
         ref={node => {
           this.container = node;
@@ -101,44 +85,6 @@ class KonvaStage extends Component {
           height={this.state.stageHeight - 10}
         >
           <Layer>
-            {focusComponent.title !== 'App' && (
-              <Group
-                draggable={true}
-                x={focusComponent.position.x}
-                y={focusComponent.position.y}
-                width={focusComponent.position.width}
-                height={focusComponent.position.height}
-              >
-                <Rect
-                  className={'componentRect'}
-                  stroke={focusComponent.color}
-                  x={0}
-                  y={0}
-                  name={'-1'}
-                  width={focusComponent.position.width}
-                  height={focusComponent.position.height}
-                  strokeWidth={2}
-                  strokeScaleEnabled={false}
-                />
-                <Label>
-                  <Text
-                    text={focusComponent.title}
-                    fill={focusComponent.color}
-                    fontStyle={'bold'}
-                    fontVariant={'small-caps'}
-                    fontSize={14}
-                    y={-15}
-                  />
-                </Label>
-                {!focusChild && (
-                  <TransformerComponent
-                    rectClass={'componentRect'}
-                    anchorSize={6}
-                    color={'white'}
-                  />
-                )}
-              </Group>
-            )}
             {components
               .find(comp => comp.id === focusComponent.id)
               .childrenArray.map((child, i) => (
@@ -146,10 +92,10 @@ class KonvaStage extends Component {
                   key={`${i}${child.componentName}`}
                   components={components}
                   componentId={focusComponent.id}
-                  childComponentName={child.componentName}
                   childComponentId={child.childComponentId}
+                  childComponentName={child.componentName}
                   focusChild={focusChild}
-                  childId={child.childId}
+                  childId={child.childId} // '-1' for pseudoChild
                   x={child.position.x}
                   y={child.position.y}
                   scaleX={1}
@@ -167,20 +113,5 @@ class KonvaStage extends Component {
     );
   }
 }
-
-// KonvaStage.propTypes = {
-//   draggable: PropTypes.bool.isRequired,
-//   components: PropTypes.array.isRequired,
-//   handleTransform: PropTypes.func.isRequired,
-//   image: PropTypes.oneOfType([
-//     PropTypes.string,
-//     PropTypes.object,
-//   ]),
-//   scaleX: PropTypes.number.isRequired,
-//   scaleY: PropTypes.number.isRequired,
-//   openExpansionPanel: PropTypes.func.isRequired,
-//   setImage: PropTypes.func.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-// };
 
 export default KonvaStage;

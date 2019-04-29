@@ -56,7 +56,8 @@ class GrandchildRectangle extends Component {
         />
         {components
           .find(comp => comp.title === childComponentName)
-          .childrenArray.map((grandchild, i) => (
+          .childrenArray.slice(1)
+          .map((grandchild, i) => (
             <GrandchildRectangle
               key={i}
               components={components}

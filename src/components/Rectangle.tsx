@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import GrandchildRectangle from './GrandchildRectangle.jsx';
-// import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
   getComponentColor(componentId) {
@@ -71,7 +70,6 @@ class Rectangle extends Component {
           className={'childRect'}
           x={0}
           y={0}
-          // absolutePosition={{ x, y }}
           childId={childId}
           componentId={componentId}
           title={title}
@@ -89,13 +87,14 @@ class Rectangle extends Component {
         />
         <Label>
           <Text
-            text={title}
-            fill={'white'}
             fontStyle={'bold'}
             fontVariant={'small-caps'}
-            fontSize={10}
+            // pseudochild's label should look different than normal children:
+            text={childId === '-1' ? title.slice(0, title.length - 2) : title}
+            fill={childId === '-1' ? this.getComponentColor(childComponentId) : 'white'}
+            fontSize={childId === '-1' ? 15 : 10}
             x={4}
-            y={4}
+            y={childId === '-1' ? -15 : 5}
           />
         </Label>
         {focusChild
@@ -108,26 +107,28 @@ class Rectangle extends Component {
               color={'grey'}
             />
         )}
-        {components
-          .find(comp => comp.title === childComponentName)
-          .childrenArray.map((grandchild, i) => (
-            <GrandchildRectangle
-              key={i}
-              components={components}
-              componentId={componentId}
-              childComponentName={grandchild.componentName}
-              childComponentId={grandchild.childComponentId}
-              focusChild={focusChild}
-              // childId={childId}
-              x={grandchild.position.x * (width / (window.innerWidth / 2))}
-              y={grandchild.position.y * (height / window.innerHeight)}
-              scaleX={1}
-              scaleY={1}
-              width={grandchild.position.width * (width / (window.innerWidth / 2))}
-              height={grandchild.position.height * (height / window.innerHeight)}
-              // title={child.componentName + child.childId}
-            />
-          ))}
+        {childId !== '-1'
+          && components
+            .find(comp => comp.title === childComponentName)
+            .childrenArray.slice(1)
+            .map((grandchild, i) => (
+              <GrandchildRectangle
+                key={i}
+                components={components}
+                componentId={componentId}
+                childComponentName={grandchild.componentName}
+                childComponentId={grandchild.childComponentId}
+                focusChild={focusChild}
+                // childId={childId}
+                x={grandchild.position.x * (width / (window.innerWidth / 2))}
+                y={grandchild.position.y * (height / window.innerHeight)}
+                scaleX={1}
+                scaleY={1}
+                width={grandchild.position.width * (width / (window.innerWidth / 2))}
+                height={grandchild.position.height * (height / window.innerHeight)}
+                // title={child.componentName + child.childId}
+              />
+            ))}
       </Group>
     );
   }
