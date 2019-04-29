@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-// import PropTypes from 'prop-types';
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
@@ -40,7 +39,6 @@ class GrandchildRectangle extends Component {
           name={`${childId}`}
           x={0}
           y={0}
-          // absolutePosition={{ x, y }}
           // childId={childId}
           componentId={componentId}
           scaleX={1}

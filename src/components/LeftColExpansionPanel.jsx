@@ -1,12 +1,6 @@
 import React, { Fragment } from 'react';
-// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-// import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -17,17 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { openExpansionPanel } from '../utils/componentReducer.util';
 
 const LeftColExpansionPanel = props => {
-  const {
-    // index,
-    classes,
-    focusComponent,
-    component,
-    // deleteComponent,
-    addChild,
-    changeFocusComponent,
-    // changeFocusChild,
-    selectableChildren,
-  } = props;
+  const { classes, focusComponent, component, addChild, changeFocusComponent, selectableChildren } = props;
   const { title, id, color } = component;
 
   function isFocused() {
@@ -112,16 +96,6 @@ export default withStyles(styles)(LeftColExpansionPanel);
   </ExpansionPanel>
 </div>
 */
-
-// LeftColExpansionPanel.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   component: PropTypes.object,
-//   index: PropTypes.number,
-//   focusComponent: PropTypes.object.isRequired,
-//   onExpansionPanelChange: PropTypes.func,
-//   updateComponent: PropTypes.func,
-//   deleteComponent: PropTypes.func,
-// };
 
 function styles(theme) {
   return {
