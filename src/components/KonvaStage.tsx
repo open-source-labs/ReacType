@@ -1,7 +1,6 @@
 import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
-import { Stage, Layer, Group, Label, Text, Rect, Transformer } from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
+import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
@@ -10,7 +9,9 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
-      stage: null,
+      blockSnapSize: 5,
+      grid: [],
+      gridStroke: 1,
     };
   }
 
@@ -20,6 +21,7 @@ class KonvaStage extends Component {
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
     window.addEventListener('resize', this.checkSize);
+    this.createGrid();
   }
 
   componentWillUnmount() {
@@ -46,6 +48,7 @@ class KonvaStage extends Component {
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       console.log('user clicked on transformer');
+      console.log('HELLOOOO', e.target.getParent().className);
       return;
     }
 
@@ -56,6 +59,44 @@ class KonvaStage extends Component {
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
       childId: rectChildId,
+    });
+  };
+
+  createGrid = () => {
+    const output = [];
+    for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
+      output.push(
+        <Line
+          points={[
+            Math.round(i * this.state.blockSnapSize) + 0.5,
+            0,
+            Math.round(i * this.state.blockSnapSize) + 0.5,
+            this.state.stageHeight,
+          ]}
+          stroke={'#ddd'}
+          strokeWidth={this.state.gridStroke}
+          key={`${i}vertical`}
+        />,
+      );
+    }
+    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
+      output.push(
+        <Line
+          points={[
+            0,
+            Math.round(j * this.state.blockSnapSize),
+            this.state.stageWidth,
+            Math.round(j * this.state.blockSnapSize),
+          ]}
+          stroke={'#ddd'}
+          strokeWidth={this.state.gridStroke}
+          key={`${j}horizontal`}
+        />,
+      );
+    }
+    console.log('calling function to render grid');
+    this.setState({
+      grid: output,
     });
   };
 
@@ -73,6 +114,7 @@ class KonvaStage extends Component {
         }}
       >
         <Stage
+          className={'canvasStage'}
           ref={node => {
             this.stage = node;
           }}
@@ -80,7 +122,12 @@ class KonvaStage extends Component {
           width={this.state.stageWidth}
           height={this.state.stageHeight}
         >
-          <Layer>
+          <Layer
+            ref={node => {
+              this.layer = node;
+            }}
+          >
+            {this.state.grid}
             {components
               .find(comp => comp.id === focusComponent.id)
               .childrenArray.map((child, i) => (

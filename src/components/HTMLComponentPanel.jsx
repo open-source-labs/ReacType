@@ -16,7 +16,23 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
 class HTMLComponentPanel extends Component {
+  state = {
+    HtmlComponentName: ""
+  };
+
+  handleChange = event => {
+    this.setState({
+      HtmlComponentName: event.target.value
+    });
+  };
+
+  handleCreateComponent = componentType => {
+    let compNameAndType = this.state.componentName + componentType;
+    addChild(compNameAndType);
+  };
+
   render() {
+    const { addChild } = this.props;
     return (
       <Paper className={"htmlPanelz"}>
         <TextField
@@ -25,16 +41,9 @@ class HTMLComponentPanel extends Component {
           placeholder="Name of Component"
           margin="normal"
           autoFocus
-          // onChange={this.handleChange}
-          // onKeyPress={ev => {
-          //   if (ev.key === "Enter") {
-          //     // Do code here
-          //     this.handleAddComponent();
-          //     ev.preventDefault();
-          //   }
-          // }}
-          // value={componentName}
-          // name="componentName"
+          onChange={this.handleChange}
+          // value={HtmlComponentName}
+          // name="HtmlComponentName"
           // className={classes.light}
           // InputProps={{
           //   className: classes.input
@@ -45,7 +54,15 @@ class HTMLComponentPanel extends Component {
         />
         <Grid container spacing={24} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
-            <IconButton aria-label="Image">
+            <IconButton
+              aria-label="Image"
+              onClick={() => {
+                console.log(addChild);
+                // addChild({ title: "ImageX" });
+                // has to be the title of the focus component
+                // need to add another parameter for the type of the
+              }}
+            >
               <ImageIcon />
             </IconButton>
           </Grid>
