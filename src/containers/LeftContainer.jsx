@@ -139,8 +139,8 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left">
-        <Grid container alignItems="baseline" align="stretch">
-          <Grid item xs={10}>
+        <Grid container spacing={16} alignItems="baseline" align="stretch">
+          <Grid item xs={12}>
             <TextField
               id="title-input"
               label="Add class component"
@@ -166,7 +166,7 @@ class LeftContainer extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Button
               variant="fab"
               mini
