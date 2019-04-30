@@ -39,6 +39,7 @@ export default class TransformerComponent extends Component {
   render() {
     return (
       <Transformer
+        className={'Transformer'}
         rotateEnabled={false}
         ref={node => {
           this.transformer = node;
