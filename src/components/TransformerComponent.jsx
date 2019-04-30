@@ -26,13 +26,13 @@ export default class TransformerComponent extends Component {
     } else {
       this.transformer.detach();
     }
-    this.transformer.moveToTop(); // makes sure the transformer is always selectable
     this.transformer.getLayer().batchDraw();
   }
 
   render() {
     return (
       <Transformer
+        className={'Transformer'}
         rotateEnabled={false}
         ref={(node) => {
           this.transformer = node;

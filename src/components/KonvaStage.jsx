@@ -3,6 +3,7 @@ import React, { Component, createRef, Fragment } from 'react';
 import {
   Stage, Layer, Group, Label, Text, Rect, Transformer,
 } from 'react-konva';
+import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
@@ -11,6 +12,7 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
+      stage: null,
     };
   }
 
