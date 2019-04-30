@@ -116,7 +116,7 @@ class RightTabs extends Component {
         </Tabs>
         {/* {value === 0 && <SortableComponent components={components} />} */}
         {value === 0 && (
-          <Props
+          <Props 
           // rightColumnOpen={rightColumnOpen}
           // focusComponent={focusComponent}
           // deleteProp={deleteProp}

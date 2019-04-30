@@ -132,6 +132,7 @@ export const addChild = (state, { title }) => {
     ...state,
     components,
     focusChild: newChild,
+    focusComponent: component, // refresh the focus component so we have the new child 
   };
 };
 
@@ -153,7 +154,7 @@ export const deleteChild = (
     window.alert('Cannot delete Child if Child id = ZERO');
     return state;
   }
-  if (childId === '-1') {
+  if (!calledFromDeleteComponent && childId === '-1') {
     window.alert('Cannot delete component border (pseudochild)');
     return state;
   }
@@ -297,7 +298,11 @@ export const deleteComponent = (state, { componentId }) => {
   };
 };
 
-export const changeFocusComponent = (state, { title }) => {
+export const changeFocusComponent = (state, { title = state.focusComponent.title }) => {
+  /****************** 
+   * if the prm TITLE is a blank Object it means REFRESH focusd Components.
+   * sometimes we update state  like adding Children/Props etc and we want those changes to be reflected in focus component 
+  **************************************************/
   const newFocusComp = state.components.find(comp => comp.title === title);
   // set the "focus child" to the focus child of this particular component .
   const newFocusChildId = newFocusComp.focusChildId;
@@ -516,15 +521,41 @@ export const addProp = (state, { key, value = null, required, type }) => {
   return {
     ...state,
     components: newComponents,
+    focusComponent: modifiedComponent,
   };
 };
 
-export const deleteProp = (state, { index }) => {
-  const { props, id } = state.focusComponent;
-  const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
-  return updateComponent(state, { id, props: newProps });
-};
+export const deleteProp = (state,  propId) => {
+
+  console.log(`Hello. Delete prop talking. propId:${propId}`)
+  if (!state.focusComponent.id) {
+    console.log('Delete prop error. no focused component ');
+    return state;
+  }
+  // make a deep copy of focusCOmponent. we are gonne be modifying that copy 
+  const modifiedComponent = JSON.parse(JSON.stringify(state.components.find(comp => comp.id == state.focusComponent.id))); 
+
+
+  const indexToDelete = modifiedComponent.props.findIndex( prop => prop.id == propId )
+  if(indexToDelete < 0 ) {
+    console.log(`Delete prop Error. Prop id:${propId} not found in ${modifiedComponent.title}`);
+    return state; 
+  }
+
+  modifiedComponent.props.splice(indexToDelete,1)
+
+  const newComponentsArray = state.components.filter(comp => comp.id != modifiedComponent.id);
+  newComponentsArray.push(modifiedComponent) ; 
+
+  return {
+    ...state,
+    components: newComponentsArray,
+    focusComponent: modifiedComponent,
+  };
+
+} 
+  
 
 export const getSelectableParents = state => {
   const result = getSelectable();
-};
+}
