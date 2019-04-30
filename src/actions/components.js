@@ -28,10 +28,11 @@ import {
   CHANGE_IMAGE_PATH,
 } from '../actionTypes/index';
 
+
 import { loadState } from '../localStorage';
 
 import createFiles from '../utils/createFiles.util';
-import createApplicationUtil from '../utils/createApplication.util';
+import createApplicationUtil from '../utils/createApplication.util'
 
 export const loadInitData = () => (dispatch) => {
   loadState().then(data => dispatch({

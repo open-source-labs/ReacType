@@ -9,8 +9,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-// import createModal from '../utils/createModal.util';
+//import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
+// import MainContainerHeader from '../components/MainContainerHeader.jsx';
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
       color,
       stateful,
     }),
+    
   ),
   // deleteComponent: ({ index, id, parentIds }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
   // moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
@@ -87,8 +89,10 @@ class LeftContainer extends Component {
         />
       ));
 
+
     return (
       <div className="column left">
+
         <Grid container alignItems="baseline" align="stretch">
           <Grid item xs={10}>
             <TextField
