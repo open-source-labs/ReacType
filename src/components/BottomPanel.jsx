@@ -12,16 +12,16 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  successOpen: store.workspace.successOpen,
-  errorOpen: store.workspace.errorOpen,
-  appDir: store.workspace.appDir,
+  // successOpen: store.workspace.successOpen,
+  // errorOpen: store.workspace.errorOpen,
+  // appDir: store.workspace.appDir,
 });
 
 class BottomPanel extends Component {
-  state = {
-    successOpen: false,
-    errorOpen: false,
-  };
+  // state = {
+  //   successOpen: false,
+  //   errorOpen: false,
+  // };
 
   viewAppDir = () => {
     IPC.send('view_app_dir', this.props.appDir);

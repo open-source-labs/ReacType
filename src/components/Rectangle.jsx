@@ -11,34 +11,27 @@ class Rectangle extends Component {
     return color;
   }
 
-  getPseudoChild(grandchild) {
-    // example: Board with direct child Row (where Row has a child Box)
-    // grandchild is a reference to the Box child of Row
-    // pseudoParent is a reference to Row itself (whose size is determined by its pseudoChild)
-    // directParent refers to the instance of Row
+  getPseudoChild() {
     return this.props.components.find(comp => comp.id === this.props.childComponentId);
-
-    // const ratioObj = {
-    //   x:
-    //     ((grandchild.position.x - pseudoParent.position.x) * directParent.position.width)
-    //     / pseudoParent.position.width,
-    //   y:
-    //     ((grandchild.position.y - pseudoParent.position.y) * directParent.position.height)
-    //     / pseudoParent.position.height,
-    //   width: grandchild.position.width / pseudoParent.position.width,
-    //   height: grandchild.position.height / pseudoParent.position.height,
-    // };
-    // return ratioObj;
   }
 
-  handleResize(componentId, childId, target) {
+  handleResize(componentId, childId, target, blockSnapSize) {
     const focChild = this.props.components
       .find(comp => comp.id === componentId)
       .childrenArray.find(child => child.childId === childId);
 
     const transformation = {
-      width: target.width() * target.scaleX(),
-      height: target.height() * target.scaleY(),
+      // width:
+      //   Math.round((target.width() * target.scaleX()) / blockSnapSize) *
+      //   blockSnapSize,
+      // height:
+      //   Math.round((target.height() * target.scaleY()) / blockSnapSize) *
+      //   blockSnapSize,
+      // x: target.x() + focChild.position.x,
+      // y: target.y() + focChild.position.y
+
+      width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
+      height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y,
     };
@@ -46,13 +39,17 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId, childId, target) {
+  handleDrag(componentId, childId, target, blockSnapSize) {
     console.log(target);
+    console.log('blockSnapSize', blockSnapSize);
 
     const transformation = {
-      x: target.x(),
-      y: target.y(),
+      // x: target.x(),
+      // y: target.y()
+      x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
+      y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
     };
+    console.log(transformation);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -72,6 +69,7 @@ class Rectangle extends Component {
       focusChild,
       components,
       draggable,
+      blockSnapSize,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -85,7 +83,7 @@ class Rectangle extends Component {
         scaleY={scaleY}
         width={width}
         height={height}
-        onDragEnd={event => this.handleDrag(componentId, childId, event.target)}
+        onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
@@ -103,12 +101,15 @@ class Rectangle extends Component {
           stroke={this.getComponentColor(childComponentId)}
           // fill={color}
           // opacity={0.8}
-          onTransformEnd={event => this.handleResize(componentId, childId, event.target)}
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target, blockSnapSize)
+          }
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
-          dashEnabled={childId === '-1'} // dash line only enabled for pseudochild
-          dash={[10, 3]} // 10px dashes with 3px gaps
+          fill={childId === '-1' ? 'white' : null}
+          shadowBlur={childId === '-1' ? 6 : null}
+          // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
+          // dash={[10, 3]} // 10px dashes with 3px gaps
         />
         <Label>
           <Text
@@ -116,7 +117,7 @@ class Rectangle extends Component {
             fontVariant={'small-caps'}
             // pseudochild's label should look different than normal children:
             text={childId === '-1' ? title.slice(0, title.length - 2) : title}
-            fill={childId === '-1' ? this.getComponentColor(childComponentId) : 'white'}
+            fill={childId === '-1' ? this.getComponentColor(childComponentId) : 'black'}
             fontSize={childId === '-1' ? 15 : 10}
             x={4}
             y={childId === '-1' ? -15 : 5}

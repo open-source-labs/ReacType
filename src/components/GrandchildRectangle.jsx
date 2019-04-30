@@ -7,6 +7,10 @@ class GrandchildRectangle extends Component {
     return color;
   }
 
+  getPseudoChild() {
+    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+  }
+
   render() {
     const {
       x,
@@ -64,14 +68,20 @@ class GrandchildRectangle extends Component {
               childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               childId={childId}
-              x={grandchild.position.x * (width / window.innerWidth)}
-              y={grandchild.position.y * (height / window.innerHeight)}
-              width={grandchild.position.width * (width / window.innerWidth)}
-              height={grandchild.position.height * (height / window.innerHeight)}
-              // x={grandchild.position.x}
-              // y={grandchild.position.y}
-              // width={grandchild.position.width}
-              // height={grandchild.position.height}
+              // x={grandchild.position.x * (width / window.innerWidth)}
+              // y={grandchild.position.y * (height / window.innerHeight)}
+              // width={grandchild.position.width * (width / window.innerWidth)}
+              // height={grandchild.position.height * (height / window.innerHeight)}
+              width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+              height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
+              x={
+                (grandchild.position.x - this.getPseudoChild().position.x)
+                * (width / this.getPseudoChild().position.width)
+              }
+              y={
+                (grandchild.position.y - this.getPseudoChild().position.y)
+                * (height / this.getPseudoChild().position.height)
+              }
             />
           ))}
       </Group>
