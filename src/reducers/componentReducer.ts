@@ -78,27 +78,15 @@ const appComponent = {
   props: [],
   nextPropId: 1,
   position: {
-    x: 110,
-    y: 120,
-    width: 50,
-    height: 50,
+    x: 25,
+    y: 25,
+    width: 600,
+    height: 400,
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
-};
-
-const initialApplicationFocusChild = {
-  childId: 0,
-  componentName: null,
-  position: {
-    x: 110,
-    y: 120,
-    width: 50,
-    height: 50,
-  },
-  draggable: true,
+  focusChild: null,
 };
 
 const initialApplicationState = {
@@ -110,8 +98,17 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  initialApplicationFocusChild: initialApplicationFocusChild,
-  focusChild: JSON.parse(JSON.stringify(initialApplicationFocusChild)),
+  focusChild: {
+    childId: 0,
+    componentName: null,
+    position: {
+      x: 25,
+      y: 25,
+      width: 600,
+      height: 400,
+    },
+    draggable: true,
+  },
   components: [appComponent],
   appDir: '',
   loading: false,

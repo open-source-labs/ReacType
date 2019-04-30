@@ -1,6 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import { Stage, Layer, Group, Label, Text, Rect, Transformer } from 'react-konva';
+import TransformerComponent from './TransformerComponent.jsx';
 import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
@@ -9,6 +10,7 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
+      stage: null,
     };
   }
 
@@ -49,7 +51,7 @@ class KonvaStage extends Component {
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log('user clicked on child rectangle with Id: ', rectChildId);
+    console.log('user clicked on child rectangle with childId: ', rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
@@ -58,9 +60,7 @@ class KonvaStage extends Component {
   };
 
   render() {
-    const {
-      components, handleTransform, focusComponent, focusChild,
-    } = this.props;
+    const { components, handleTransform, focusComponent, focusChild } = this.props;
 
     return (
       <div
@@ -103,9 +103,7 @@ class KonvaStage extends Component {
                   draggable={true}
                 />
               ))
-              .sort(
-                (rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height,
-              )
+              .sort((rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height) // shouldnt this be subtraction instead of < ? see MDN
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
