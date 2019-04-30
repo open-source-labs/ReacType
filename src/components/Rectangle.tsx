@@ -9,6 +9,26 @@ class Rectangle extends Component {
     return color;
   }
 
+  getPseudoChild(grandchild) {
+    // example: Board with direct child Row (where Row has a child Box)
+    // grandchild is a reference to the Box child of Row
+    // pseudoParent is a reference to Row itself (whose size is determined by its pseudoChild)
+    // directParent refers to the instance of Row
+    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+
+    // const ratioObj = {
+    //   x:
+    //     ((grandchild.position.x - pseudoParent.position.x) * directParent.position.width)
+    //     / pseudoParent.position.width,
+    //   y:
+    //     ((grandchild.position.y - pseudoParent.position.y) * directParent.position.height)
+    //     / pseudoParent.position.height,
+    //   width: grandchild.position.width / pseudoParent.position.width,
+    //   height: grandchild.position.height / pseudoParent.position.height,
+    // };
+    // return ratioObj;
+  }
+
   handleResize(componentId, childId, target) {
     const focChild = this.props.components
       .find(comp => comp.id === componentId)
@@ -66,6 +86,7 @@ class Rectangle extends Component {
         onDragEnd={event => this.handleDrag(componentId, childId, event.target)}
       >
         <Rect
+          // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -99,6 +120,41 @@ class Rectangle extends Component {
             y={childId === '-1' ? -15 : 5}
           />
         </Label>
+        {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
+        childId !== '-1'
+          && components
+            .find(comp => comp.title === childComponentName)
+            .childrenArray.filter(child => child.childId !== '-1')
+            // .sort((a, b) => parseInt(a.childId) - parseInt(b.childId)) // using i within map below, sorting by childId might be necessary
+            .map((grandchild, i) => (
+              <GrandchildRectangle
+                key={i}
+                components={components}
+                componentId={componentId}
+                directParentName={childComponentName}
+                childComponentName={grandchild.componentName}
+                childComponentId={grandchild.childComponentId}
+                focusChild={focusChild}
+                childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
+                // x={this.getPseudoChild().position.x}
+                // y={}
+                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+                height={
+                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                }
+                x={
+                  (grandchild.position.x - this.getPseudoChild().position.x)
+                  * (width / this.getPseudoChild().position.width)
+                }
+                y={
+                  (grandchild.position.y - this.getPseudoChild().position.y)
+                  * (height / this.getPseudoChild().position.height)
+                }
+                // width={grandchild.position.width * (width / window.innerWidth)}
+                // height={grandchild.position.height * (height / window.innerHeight)}
+                // title={child.componentName + child.childId}
+              />
+            ))}
         {focusChild
           && focusChild.childId === childId
           && draggable && (
@@ -109,28 +165,6 @@ class Rectangle extends Component {
               color={'grey'}
             />
         )}
-        {childId !== '-1'
-          && components
-            .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== '-1')
-            .map((grandchild, i) => (
-              <GrandchildRectangle
-                key={i}
-                components={components}
-                componentId={componentId}
-                childComponentName={grandchild.componentName}
-                childComponentId={grandchild.childComponentId}
-                focusChild={focusChild}
-                childId={childId} // scary addition, grandchildren rects should default to childId of "direct" children
-                x={grandchild.position.x * (width / (window.innerWidth / 2))}
-                y={grandchild.position.y * (height / window.innerHeight)}
-                scaleX={1}
-                scaleY={1}
-                width={grandchild.position.width * (width / (window.innerWidth / 2))}
-                height={grandchild.position.height * (height / window.innerHeight)}
-                // title={child.componentName + child.childId}
-              />
-            ))}
       </Group>
     );
   }
