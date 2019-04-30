@@ -15,8 +15,8 @@ const initialComponentState = {
   props: [],
   nextPropId: 1,
   position: {
-    x: 50,
-    y: 50,
+    x: 25,
+    y: 25,
     width: 600,
     height: 400
   },
@@ -38,11 +38,29 @@ export const addComponent = (state, { title }) => {
       ...state
     };
   }
+  const componentColor = getColor();
+  const componentId = state.nextId.toString();
+
+  const pseudoChild = {
+    childId: "-1",
+    childComponentId: componentId,
+    componentName: strippedTitle,
+    position: {
+      x: 25,
+      y: 25,
+      width: 600,
+      height: 400
+    },
+    draggable: true,
+    color: componentColor
+  };
+
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
-    id: state.nextId.toString(),
-    color: getColor()
+    id: componentId,
+    color: componentColor,
+    childrenArray: [pseudoChild]
   };
 
   const components = [...state.components, newComponent];
@@ -112,6 +130,7 @@ export const addChild = (state, { title }) => {
     }),
     component
   ];
+  console.log(components, newChild);
 
   return {
     ...state,
@@ -140,6 +159,10 @@ export const deleteChild = (
   }
   if (!childId) {
     window.alert("Cannot delete Child if Child id = ZERO");
+    return state;
+  }
+  if (childId === "-1") {
+    window.alert("Cannot delete component border (pseudochild)");
     return state;
   }
   console.log(`delete child parentid: ${parentId} cildId: ${childId}`);
@@ -218,19 +241,6 @@ export const handleTransform = (
     components
   };
 };
-
-// export const updateComponent = (
-//   state,
-// ) => {
-
-//   // lives on the state
-//   let currentAncestors = [state.focusChild];
-
-//   for (let i=0; i<currentAncestors; i++) {
-
-//   }
-
-// };
 
 // export const updateComponent = (
 //   state,
@@ -473,40 +483,6 @@ export const handleClose = (state, status) => ({
 // };
 
 /**
- * Applies the new x and y coordinates, as well as, the new width
- * and height the of components to the component with the provided id.
- * The transformation is calculated on component drags, as well as, whe the
- * component is resized
- * @param {object} state - The current state of the application
- * @param {object} transform - Object containing new transformation
- * @param {string} id - id of the component we want to apply the transformation to
- * @param {number} x - updated x coordinate
- * @param {number} y - updated y coordinate
- * @param {number} width - updated width
- * @param {number} height - updated height
- */
-
-// handleTransform used to be here
-
-/**
- * Toggles the drag of the group, as well as all components. If the group is draggable the
- * rectangles need to be undraggable so the user can drag the group from anywhere
- * @param {object} state - The current state of the application
- * @param {boolean} status - The boolean value to apply to all draggable components
- */
-
-export const toggleDragging = (state, status) => {
-  const components = state.components.map(component => ({
-    ...component,
-    draggable: status
-  }));
-  return {
-    ...state,
-    components
-  };
-};
-
-/**
  * Moves component to the front of the components effectively giving it the lowest z-index
  * @param {object} state - The current state of the application
  * @param {string} componentId - The id of the component that is to be moved
@@ -523,14 +499,6 @@ export const moveToBottom = (state, componentId) => {
     components
   };
 };
-
-/**
- * Selects a component and sets it as the focusComponent. The focus component is used to
- * sync up expanding the panel, adding the transformer, and showing the components
- * corresponding props.
- * @param {object} state - The current state of the application
- * @param {object} component - The component we want to assign as the currently focused component
- */
 
 export const openExpansionPanel = (state, { component }) => ({
   ...state
@@ -561,10 +529,7 @@ export const addProp = (state, { key, value = null, required, type }) => {
     props: newProps,
     nextPropId: selectedComponent.nextPropId + 1
   };
-  // const { props, nextPropId, id } = state.focusComponent;
 
-  // const newProps = [...props, newProp];
-  // return updateComponent(state, { id, props: newProps });
   const newComponents = state.components.filter(
     comp => comp.id != selectedComponent.id
   );

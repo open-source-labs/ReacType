@@ -1,47 +1,38 @@
-import React, { Fragment } from "react";
-// import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-// import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Typography from "@material-ui/core/Typography";
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Divider from '@material-ui/core/Divider';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
-import { openExpansionPanel } from "../utils/componentReducer.util";
+import React, { Fragment } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import { openExpansionPanel } from '../utils/componentReducer.util';
 
-const LeftColExpansionPanel = props => {
+const LeftColExpansionPanel = (props) => {
   const {
-    // index,
     classes,
     focusComponent,
     component,
-    // deleteComponent,
     addChild,
     changeFocusComponent,
-    // changeFocusChild,
-    selectableChildren
+    selectableChildren,
   } = props;
   const { title, id, color } = component;
 
   function isFocused() {
-    return focusComponent.title === title ? "focused" : "";
+    return focusComponent.title === title ? 'focused' : '';
   }
 
   return (
     <div className={classes.root}>
-      <Grid item xs={12} md={6} style={{ color: "red" }}>
-        <List style={{ color: "red" }}>
+      <Grid item xs={12} md={6} style={{ color: 'red' }}>
+        <List style={{ color: 'red' }}>
           <ListItem
             button
             component="a"
-            style={{ color: "red" }}
+            style={{ color: 'red' }}
             onClick={() => {
               changeFocusComponent({ title });
             }}
@@ -50,7 +41,7 @@ const LeftColExpansionPanel = props => {
               disableTypography
               className={classes.light}
               primary={
-                <Typography type="body2" style={{ color: "#FFFFFF" }}>
+                <Typography type="body2" style={{ color: '#FFFFFF' }}>
                   {title}
                 </Typography>
               }
@@ -63,7 +54,7 @@ const LeftColExpansionPanel = props => {
               ) : (
                 <IconButton aria-label="Add">
                   <AddIcon
-                    style={{ color, float: "right" }}
+                    style={{ color, float: 'right' }}
                     onClick={() => {
                       addChild({ title });
                     }}
@@ -113,29 +104,19 @@ export default withStyles(styles)(LeftColExpansionPanel);
 </div>
 */
 
-// LeftColExpansionPanel.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   component: PropTypes.object,
-//   index: PropTypes.number,
-//   focusComponent: PropTypes.object.isRequired,
-//   onExpansionPanelChange: PropTypes.func,
-//   updateComponent: PropTypes.func,
-//   deleteComponent: PropTypes.func,
-// };
-
 function styles(theme) {
   return {
     root: {
-      width: "100%",
+      width: '100%',
       flexGrow: 1,
       marginTop: 10,
-      backgroundColor: "#333333"
+      backgroundColor: '#333333',
     },
     light: {
-      color: "#eee",
-      "&:hover": {
-        color: "#1de9b6"
-      }
-    }
+      color: '#eee',
+      '&:hover': {
+        color: '#1de9b6',
+      },
+    },
   };
 }

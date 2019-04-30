@@ -1,31 +1,24 @@
-import React, { Component } from 'react';
-import { Transformer } from 'react-konva';
+import React, { Component } from "react";
+import { Transformer } from "react-konva";
 // import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
-    this.checkNode(this.props.rectClass);
+    this.checkNode();
   }
 
   componentDidUpdate() {
-    this.checkNode(this.props.rectClass);
+    this.checkNode();
+    console.log(this.transformer.enabledAnchors());
+    console.log(this.transformer);
   }
 
   // this function makes sure the transformer follows along with the focusChild
-  checkNode(rectClass) {
+  checkNode() {
     const stage = this.transformer.getStage();
     const { focusChild } = this.props;
 
-    // depending on the rectClass prop, this transformer is either attached to
-    // a childRect or the focused component's componentRect
-    let selectedNode;
-    if (rectClass === 'componentRect') {
-      selectedNode = stage.findOne(`.${-1}`);
-    } else if (rectClass === 'childRect') {
-      selectedNode = stage.findOne(`.${focusChild.childId}`);
-    } else {
-      return;
-    }
+    const selectedNode = stage.findOne(`.${focusChild.childId}`);
 
     if (selectedNode === this.transformer.node()) {
       return;
@@ -38,18 +31,24 @@ export default class TransformerComponent extends Component {
     this.transformer.getLayer().batchDraw();
   }
 
+  // checkTransformerAnchor() {
+  //   console.log(this.transformer.enabledAnchors());
+  //   return this.transformer;
+  // }
+
   render() {
     return (
       <Transformer
         rotateEnabled={false}
-        ref={(node) => {
+        ref={node => {
           this.transformer = node;
         }}
         borderEnabled={false}
-        anchorFill={'grey'}
-        anchorStroke={'grey'}
-        anchorSize={8}
+        anchorFill={this.props.color}
+        anchorStroke={this.props.color}
+        anchorSize={this.props.anchorSize}
         keepRatio={false}
+        // onClick={checkTransformerAnchor()}
       />
     );
   }

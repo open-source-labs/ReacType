@@ -18,7 +18,6 @@ import {
   CREATE_APPLICATION_ERROR,
   HANDLE_CLOSE,
   HANDLE_TRANSFORM,
-  TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
@@ -44,7 +43,6 @@ import {
   exportFilesError,
   handleClose,
   handleTransform,
-  toggleDragging,
   moveToBottom,
   moveToTop,
   openExpansionPanel,
@@ -78,7 +76,7 @@ const appComponent = {
   selectableParents: [],
   expanded: true,
   props: [],
-  nextPropId: 0,
+  nextPropId: 1,
   position: {
     x: 110,
     y: 120,
@@ -161,8 +159,7 @@ const componentReducer = (state = initialApplicationState, action) => {
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case TOGGLE_DRAGGING:
-      return toggleDragging(state, action.payload);
+
     case MOVE_TO_BOTTOM:
       return moveToBottom(state, action.payload);
     case MOVE_TO_TOP:
