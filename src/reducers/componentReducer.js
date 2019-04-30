@@ -86,8 +86,21 @@ const appComponent = {
 
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChildId: 0,
 };
+
+const initialApplicationFocusChild =
+  {
+    childId: 0,
+    componentName: null,
+    position: {
+      x: 25,
+      y: 25,
+      width: 600,
+      height: 400,
+    },
+    draggable: true,
+  }
 
 const initialApplicationState = {
   totalComponents: 1,
@@ -98,17 +111,8 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  focusChild: {
-    childId: 0,
-    componentName: null,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-    draggable: true,
-  },
+  initialApplicationFocusChild: initialApplicationFocusChild,
+  focusChild: JSON.parse(JSON.stringify(  initialApplicationFocusChild)) ,
   components: [appComponent],
   appDir: '',
   loading: false,
@@ -141,12 +145,12 @@ const componentReducer = (state = initialApplicationState, action) => {
       return changeFocusChild(state, action.payload);
     case CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    case UPDATE_CHILDREN:
-      return updateChildren(state, action.payload);
-    case REASSIGN_PARENT:
-      return reassignParent(state, action.payload);
-    case SET_SELECTABLE_PARENTS:
-      return setSelectableP(state);
+    // case UPDATE_CHILDREN:
+    //   return updateChildren(state, action.payload);
+    // case REASSIGN_PARENT:
+    //   return reassignParent(state, action.payload);
+    // case SET_SELECTABLE_PARENTS:
+    //   return setSelectableP(state);
     case CREATE_APPLICATION:
     case EXPORT_FILES:
       return { ...state, loading: true };
