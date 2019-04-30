@@ -32,10 +32,10 @@ function dataTable(props) {
   const { classes , rowData, rowHeader , deletePropHandler } = props;
   
   // console.log(classes)
-  console.log(`rowHeader`)
-  console.log(rowHeader)
-   console.log(`rowData`)
-   console.log(rowData)
+  // console.log(`rowHeader`)
+  // console.log(rowHeader)
+  //  console.log(`rowData`)
+  //  console.log(rowData)
 
    const renderHeader = rowHeader.map( (col,idx) =>  {
     return <TableCell key={`head_+${idx}`}>{col}</TableCell>

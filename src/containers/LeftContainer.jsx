@@ -84,7 +84,7 @@ class LeftContainer extends Component {
           key={component.id}
           index={i}
           id={component.id}
-          updateComponent={updateComponent}
+          // updateComponent={updateComponent}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}
