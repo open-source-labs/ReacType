@@ -103,10 +103,10 @@ export const addChild = (state, { title }) => {
     childComponentId: parentComponent.id,
     componentName: strippedTitle,
     position: {
-      x: 110 + view.nextChildId * 5,
-      y: 120 + view.nextChildId * 5,
-      width: 50,
-      height: 50,
+      x: parentComponent.position.x + view.nextChildId * 5, // new children are offset by 5px, x and y
+      y: parentComponent.position.y + view.nextChildId * 5,
+      width: parentComponent.position.width * 0.9, // new children have an initial position of their parentComponent (maybe don't need 90%)
+      height: parentComponent.position.height * 0.9,
     },
     draggable: true,
     color: parentComponent.color,
@@ -214,10 +214,21 @@ export const handleTransform = (state, {
     transformedChild,
   ];
 
-  const component = {
-    ...state.components.find(comp => comp.id === componentId),
-    childrenArray: children,
-  };
+  let component;
+  if (childId === '-1') {
+    console.log('pseudo');
+    component = {
+      ...state.components.find(comp => comp.id === componentId),
+      childrenArray: children,
+      position: { ...transformedChild.position },
+    };
+  } else {
+    console.log('real');
+    component = {
+      ...state.components.find(comp => comp.id === componentId),
+      childrenArray: children,
+    };
+  }
 
   const components = [
     ...state.components.filter((comp) => {

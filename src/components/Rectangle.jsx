@@ -11,6 +11,42 @@ class Rectangle extends Component {
     return color;
   }
 
+  getGrandchildRatio(grandchild) {
+    // const childInstance = pseudoChildComp.childrenArray.find()
+    const pseudoParent = this.props.components.find(
+      comp => comp.title === this.props.childComponentName,
+    );
+    const childInstance = pseudoParent.childrenArray.find(
+      child => child.childId === grandchild.childId,
+    );
+    // console.log(
+    //   this.props.childId,
+    //   this.props.componentId,
+    //   this.props.childComponentName,
+    //   this.props.childComponentId,
+    // );
+    console.log(grandchild, pseudoParent, childInstance);
+    // console.log(childInstance.position.width / pseudoParent.position.width);
+    // console.log(childInstance.position.height / pseudoParent.position.height);
+
+    console.log(childInstance.position.x, pseudoParent.position.x);
+    console.log(childInstance.position.y, pseudoParent.position.y);
+    const ratioObj = {
+      // x:
+      //   grandchild.position.x
+      //   - (pseudoParent.position.x * childInstance.position.width) / pseudoParent.position.width,
+      // y:
+      //   grandchild.position.y
+      //   - (pseudoParent.position.y * childInstance.position.height) / pseudoParent.position.height,
+      x: childInstance.position.x - pseudoParent.position.x,
+      y: childInstance.position.y - pseudoParent.position.y,
+      width: childInstance.position.width / pseudoParent.position.width,
+      height: childInstance.position.height / pseudoParent.position.height,
+    };
+    // console.log('ratioObj', ratioObj);
+    return ratioObj;
+  }
+
   handleResize(componentId, childId, target) {
     const focChild = this.props.components
       .find(comp => comp.id === componentId)
@@ -123,13 +159,19 @@ class Rectangle extends Component {
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
-                childId={childId} // scary addition, grandchildren rects should default to childId of "direct" children
-                x={grandchild.position.x * (width / (window.innerWidth / 2))}
-                y={grandchild.position.y * (height / window.innerHeight)}
-                scaleX={1}
-                scaleY={1}
-                width={grandchild.position.width * (width / (window.innerWidth / 2))}
-                height={grandchild.position.height * (height / window.innerHeight)}
+                childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
+                // x={grandchild.position.x * (width / window.innerWidth)}
+                // y={grandchild.position.y * (height / window.innerHeight)}
+                // width={grandchild.position.width * (width / window.innerWidth)}
+                // height={grandchild.position.height * (height / window.innerHeight)}
+                x={this.getGrandchildRatio(grandchild).x}
+                y={this.getGrandchildRatio(grandchild).y}
+                width={width * this.getGrandchildRatio(grandchild).width}
+                height={height * this.getGrandchildRatio(grandchild).height}
+                // x={grandchild.position.x}
+                // y={grandchild.position.y}
+                // width={grandchild.position.width}
+                // height={grandchild.position.height}
                 // title={child.componentName + child.childId}
               />
             ))}
