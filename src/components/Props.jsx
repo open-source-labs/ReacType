@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 // import PropTypes from 'prop-types';
@@ -14,6 +14,7 @@ import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { addProp, deleteProp } from '../actions/components';
+import DataTable from "./DataTable.jsx";
 
 const styles = theme => ({
   root: {
@@ -68,12 +69,13 @@ const mapDispatchToProps = dispatch => ({
   }) => dispatch(addProp({
     key, value, required, type,
   })),
-  deleteProp: ({ componentId, stateComponents }) => dispatch(deleteProp({ componentId, stateComponents })),
+  deleteProp: ( propId ) => dispatch(deleteProp( propId )),
 });
 
 const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent,
 });
+
 
 const availablePropTypes = {
   string: 'STR',
@@ -118,21 +120,32 @@ class Props extends Component {
 
   handleAddProp = (event) => {
     event.preventDefault();
+
     const {
       propKey, propValue, propRequired, propType,
     } = this.state;
+
+     // check if prop exists with same key. CANNOT have doubles 
+    const savedPropKeys = this.props.focusComponent.props.map(p => p.key) ; 
+    if (savedPropKeys.includes(propKey)){
+      window.alert( `a prop with the name: "${propKey}" already exists.`);
+      return; 
+    }
+    
     this.props.addProp({
       key: propKey,
       value: propValue,
       required: propRequired,
       type: propType,
     });
+
     this.setState({
       propKey: '',
       propValue: '',
       propRequired: false,
       propType: '',
     });
+
   };
 
   render() {
@@ -140,6 +153,14 @@ class Props extends Component {
       focusComponent, classes, deleteProp, addProp,
     } = this.props;
 
+    const rowHeader =  ['_Key','Value','Type','Required'] ; 
+    // prepare the saved Props in a nice way, so you can sent them to TableData 
+    const propsRows = focusComponent.props.map( prop => {
+      return {_Key: prop.key, Value:prop.value, Type:prop.type, Required: prop.required ,id:prop.id}
+    })
+
+    // console.log(`savedProps`)
+    // console.log(propsRows)
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
       <div>
@@ -149,6 +170,7 @@ class Props extends Component {
             Click a component to view its props.
           </div>
         ) : (
+        <Fragment>
           <div className="props-container">
             <form className="props-input" onSubmit={this.handleAddProp}>
               <Grid container spacing={16}>
@@ -230,7 +252,7 @@ class Props extends Component {
                 </Grid>
               </Grid>
             </form>
-            <div className="chips">
+            {/* <div className="chips">
               {focusComponent.props.map(({
                 id, type, key, value, required,
               }, index) => (
@@ -245,10 +267,17 @@ class Props extends Component {
                   deleteIcon={<RemoveCircleOutlineIcon className={classes.icon} />}
                 />
               ))}
-            </div>
+            </div> */}
           </div>
+          <DataTable
+              rowHeader = {rowHeader}
+              rowData = {propsRows}
+              deletePropHandler = {deleteProp}
+          ></DataTable>
+        </Fragment>  
         )}
       </div>
+
     );
   }
 }
