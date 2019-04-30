@@ -99,7 +99,7 @@ const initialApplicationFocusChild =
       width: 600,
       height: 400,
     },
-    draggable: true,
+  //  draggable: true,
   }
 
 const initialApplicationState = {

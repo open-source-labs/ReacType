@@ -8,7 +8,7 @@ const initialComponentState = {
   title: '',
   parentIds: [],
   color: getColor(),
-  draggable: true,
+  //draggable: true,
   childrenIds: [],
   selectableParents: [],
   expanded: true,
@@ -113,7 +113,7 @@ export const addChild = (state, { title }) => {
       width: parentComponent.position.width * 0.9, // new children have an initial position of their parentComponent (maybe don't need 90%)
       height: parentComponent.position.height * 0.9,
     },
-    draggable: true,
+   // draggable: true,
     color: parentComponent.color,
     // ancestors: [focusComponent]
   };
