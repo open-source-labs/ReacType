@@ -64,12 +64,14 @@ class GrandchildRectangle extends Component {
               childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               childId={childId}
-              x={grandchild.position.x * (width / (window.innerWidth / 2))}
+              x={grandchild.position.x * (width / window.innerWidth)}
               y={grandchild.position.y * (height / window.innerHeight)}
-              scaleX={1}
-              scaleY={1}
-              width={grandchild.position.width * (width / (window.innerWidth / 2))}
+              width={grandchild.position.width * (width / window.innerWidth)}
               height={grandchild.position.height * (height / window.innerHeight)}
+              // x={grandchild.position.x}
+              // y={grandchild.position.y}
+              // width={grandchild.position.width}
+              // height={grandchild.position.height}
             />
           ))}
       </Group>

@@ -209,10 +209,11 @@ export const openExpansionPanel = component => ({
 //   type: DELETE_ALL_DATA,
 // });
 
-export const deleteProp = ({ id, index }) => ({
-  type: DELETE_PROP,
-  payload: { id, index },
-});
+
+
+export const deleteProp = ( propId ) => (dispatch) => {
+;    dispatch({ type: DELETE_PROP, payload:  propId  });
+};
 
 export const addProp = prop => ({
   type: ADD_PROP,
