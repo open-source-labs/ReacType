@@ -7,6 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
 
 
 const styles = theme => ({
@@ -58,9 +60,9 @@ function dataTable(props) {
         <TableRow key={`row-${row.id}`}>
         {renderRowCells(row)}    
          <TableCell>  
-          <button onClick={ ()=>deletePropHandler(row.id) } >
+          <Button onClick={ ()=>deletePropHandler(row.id) } >
           Delete
-          </button> 
+          </Button> 
         </TableCell> 
         </TableRow> 
  )

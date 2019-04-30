@@ -172,86 +172,97 @@ class Props extends Component {
         ) : (
         <Fragment>
           <div className="props-container">
-            <form className="props-input" onSubmit={this.handleAddProp}>
-              <Grid container spacing={16}>
-                <Grid item xs={3}>
-                  <TextField
-                    id="propKey"
-                    label="Key"
-                    margin="normal"
-                    autoFocus
-                    onChange={this.handleChange}
-                    value={this.state.propKey}
-                    required
-                    InputProps={{
-                      className: classes.input,
-                    }}
-                    InputLabelProps={{
-                      className: classes.input,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    id="propValue"
-                    label="Value"
-                    margin="normal"
-                    onChange={this.handleChange}
-                    InputProps={{
-                      className: classes.input,
-                    }}
-                    InputLabelProps={{
-                      className: classes.input,
-                    }}
-                    value={this.state.propValue}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <FormControl required>
-                    <InputLabel className={classes.light} htmlFor="propType">
-                      Type
-                    </InputLabel>
-                    <Select
-                      native
-                      className={classes.light}
-                      id="propType"
-                      placeholder="title"
+          <Grid container spacing={12}>
+            <Grid item xs={3}>
+              <form className="props-input" onSubmit={this.handleAddProp}>
+                <Grid container spacing={24}>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="propKey"
+                      label="Key"
+                      margin="normal"
+                      autoFocus
                       onChange={this.handleChange}
-                      value={this.state.propType}
+                      value={this.state.propKey}
                       required
-                    >
-                      {typeOptions}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={3}>
-                  <div className={classes.column}>
-                    <InputLabel className={classes.light} htmlFor="propRequired">
-                      Required?
-                    </InputLabel>
-                    <Switch
-                      checked={this.state.propRequired}
-                      onChange={this.togglePropRequired}
-                      value="propRequired"
-                      color="secondary"
-                      id="propRequired"
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      InputLabelProps={{
+                        className: classes.input,
+                      }}
                     />
-                  </div>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="propValue"
+                      label="Value"
+                      margin="normal"
+                      onChange={this.handleChange}
+                      InputProps={{
+                        className: classes.input,
+                      }}
+                      InputLabelProps={{
+                        className: classes.input,
+                      }}
+                      value={this.state.propValue}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl required>
+                      <InputLabel className={classes.light} htmlFor="propType">
+                        Type
+                      </InputLabel>
+                      <Select
+                        native
+                        className={classes.light}
+                        id="propType"
+                        placeholder="title"
+                        onChange={this.handleChange}
+                        value={this.state.propType}
+                        required
+                      >
+                        {typeOptions}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <div className={classes.column}>
+                      <InputLabel className={classes.light} htmlFor="propRequired">
+                        Required?
+                      </InputLabel>
+                      <Switch
+                        checked={this.state.propRequired}
+                        onChange={this.togglePropRequired}
+                        value="propRequired"
+                        color="secondary"
+                        id="propRequired"
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      color="primary"
+                      aria-label="Add"
+                      type="submit"
+                      disabled={!this.state.propKey || !this.state.propType}
+                      variant="contained"
+                      size="large"
+                    >
+                      ADD PROP
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Button
-                    color="primary"
-                    aria-label="Add"
-                    type="submit"
-                    disabled={!this.state.propKey || !this.state.propType}
-                    variant="contained"
-                    size="large"
-                  >
-                    ADD PROP
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
+              </form>
+            </Grid>
+            <Grid item xs={9}>
+              <DataTable
+                rowHeader = {rowHeader}
+                rowData = {propsRows}
+                deletePropHandler = {deleteProp}
+              ></DataTable>
+            </Grid>
+          </Grid>
             {/* <div className="chips">
               {focusComponent.props.map(({
                 id, type, key, value, required,
@@ -269,11 +280,7 @@ class Props extends Component {
               ))}
             </div> */}
           </div>
-          <DataTable
-              rowHeader = {rowHeader}
-              rowData = {propsRows}
-              deletePropHandler = {deleteProp}
-          ></DataTable>
+
         </Fragment>  
         )}
       </div>
