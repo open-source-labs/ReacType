@@ -89,6 +89,18 @@ const appComponent = {
   focusChild: null,
 };
 
+const initialApplicationFocusChild = {
+  childId: 0,
+  componentName: null,
+  position: {
+    x: 25,
+    y: 25,
+    width: 600,
+    height: 400,
+  },
+  //  draggable: true,
+};
+
 const initialApplicationState = {
   totalComponents: 1,
   nextId: 2,
