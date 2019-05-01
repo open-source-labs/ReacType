@@ -11,9 +11,11 @@ import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
 import ParagraphIcon from "@material-ui/icons/LocalParking";
 import theme from "../components/theme";
-
+import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+// import {HTMLelements,getSize} from "../utils/htmlElements.util";
+
 
 class HTMLComponentPanel extends Component {
   state = {
@@ -34,23 +36,26 @@ class HTMLComponentPanel extends Component {
     const { addChild } = this.props;
     return (
       <Paper className={"htmlPanelz"}>
-        <TextField
+        <Typography variant="title" component="h3">
+         Add HTML elements
+         </Typography>
+        {/* <TextField
           id="title-input"
           label="Add HTML component"
           placeholder="Name of Component"
           margin="normal"
           autoFocus
           onChange={this.handleChange}
-          // value={HtmlComponentName}
-          // name="HtmlComponentName"
-          // className={classes.light}
-          // InputProps={{
-          //   className: classes.input
-          // }}
-          // InputLabelProps={{
-          //   className: classes.input
-          // }}
-        />
+          value={HtmlComponentName}
+          name="HtmlComponentName"
+          className={classes.light}
+          InputProps={{
+            className: classes.input
+          }}
+          InputLabelProps={{
+            className: classes.input
+          }}
+        /> */}
         <Grid container spacing={24} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
             <IconButton

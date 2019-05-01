@@ -1,6 +1,7 @@
 //import setSelectableParents from "./setSelectableParents.util";
 import getSelectable from "./getSelectable.util";
 import getColor from "./colors.util";
+import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
 const initialComponentState = {
   id: null,
@@ -51,7 +52,7 @@ export const addComponent = (state, { title }) => {
       width: 600,
       height: 400
     },
-    draggable: true,
+    //draggable: true,
     color: componentColor,
     childType: "COMP"
   };
@@ -95,8 +96,7 @@ export const addComponent = (state, { title }) => {
 // get the focus component (aka the component were adding the child to)
 
 export const addChild = (state, { title, childType = "", HTMLInfo = {} }) => {
-  console.log(HTMLInfo);
-
+ 
   let strippedTitle = title;
 
   if (!childType) {
@@ -126,34 +126,30 @@ export const addChild = (state, { title, childType = "", HTMLInfo = {} }) => {
     console.log("inside if statement");
   }
 
-  // } else if (childType !== "COMP") {
-
-  //   console.log("inside else statement");
-  //   parentComponent = {
-  //     id: "888",
-  //     position: {
-  //       x: 25,
-  //       y: 25,
-  //       width: 600,
-  //       height: 400
-  //     },
-  //     color: "#000000"
-  //   };
-  // }
+  let htmlElemPosition; 
+  if(childType == 'HTML') {
+    htmlElemPosition = getSize(htmlElement)
+    // if above function doesnt reutn anything, it means html element is not in our database 
+    if (!htmlElemPosition.width) {
+      console.log(`Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`)
+      return; 
+    }
+    console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`)
+  }
 
   const newPosition =
     childType === "COMP"
       ? {
-          x: parentComponent.position.x + view.nextChildId * 5, // new children are offset by 5px, x and y
-          y: parentComponent.position.y + view.nextChildId * 5,
-          width: parentComponent.position.width * 0.9, // new children have an initial position of their parentComponent (maybe don't need 90%)
+          x: view.position.x + view.nextChildId * 5, // new children are offset by 5px, x and y
+          y: view.position.y + view.nextChildId * 5,
+          width: parentComponent.position.width * 0.9, // new children have an initial position of their CLASS (maybe don't need 90%)
           height: parentComponent.position.height * 0.9
         }
       : {
-          x: 25 + view.nextChildId * 5,
-          y: 25 + view.nextChildId * 5,
-          width: 600 * 0.9,
-          height: 400 * 0.9
+          x: view.position.x + view.nextChildId * 5,
+          y: view.position.y + view.nextChildId * 5,
+          width: htmlElemPosition.width,
+          height: htmlElemPosition.height
         };
 
   const newChild = {
@@ -162,7 +158,7 @@ export const addChild = (state, { title, childType = "", HTMLInfo = {} }) => {
     childComponentId: childType == "COMP" ? parentComponent.id : null, // only relevant fot children of type COMPONENT
     componentName: strippedTitle,
     position: newPosition,
-    draggable: true,
+    // draggable: true,
     color: null, // parentComponent.color, // only relevant fot children of type COMPONENT
     htmlElement: htmlElement, // only relevant fot children of type HTML
     HTMLInfo: HTMLInfo
