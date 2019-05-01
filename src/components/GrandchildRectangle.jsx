@@ -68,10 +68,6 @@ class GrandchildRectangle extends Component {
               childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               childId={childId}
-              // x={grandchild.position.x * (width / window.innerWidth)}
-              // y={grandchild.position.y * (height / window.innerHeight)}
-              // width={grandchild.position.width * (width / window.innerWidth)}
-              // height={grandchild.position.height * (height / window.innerHeight)}
               width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
               height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
               x={

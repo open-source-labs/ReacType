@@ -21,15 +21,6 @@ class Rectangle extends Component {
       .childrenArray.find(child => child.childId === childId);
 
     const transformation = {
-      // width:
-      //   Math.round((target.width() * target.scaleX()) / blockSnapSize) *
-      //   blockSnapSize,
-      // height:
-      //   Math.round((target.height() * target.scaleY()) / blockSnapSize) *
-      //   blockSnapSize,
-      // x: target.x() + focChild.position.x,
-      // y: target.y() + focChild.position.y
-
       width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
       height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
       x: target.x() + focChild.position.x,
@@ -40,16 +31,11 @@ class Rectangle extends Component {
   }
 
   handleDrag(componentId, childId, target, blockSnapSize) {
-    console.log(target);
-    console.log('blockSnapSize', blockSnapSize);
-
     const transformation = {
-      // x: target.x(),
-      // y: target.y()
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
     };
-    console.log(transformation);
+    console.log('drag transformation: ', transformation);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -139,8 +125,6 @@ class Rectangle extends Component {
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
-                // x={this.getPseudoChild().position.x}
-                // y={}
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
                 height={
                   grandchild.position.height * (height / this.getPseudoChild().position.height)
@@ -153,9 +137,6 @@ class Rectangle extends Component {
                   (grandchild.position.y - this.getPseudoChild().position.y)
                   * (height / this.getPseudoChild().position.height)
                 }
-                // width={grandchild.position.width * (width / window.innerWidth)}
-                // height={grandchild.position.height * (height / window.innerHeight)}
-                // title={child.componentName + child.childId}
               />
             ))}
         {focusChild

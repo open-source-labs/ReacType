@@ -79,7 +79,6 @@ export const deleteComponent = ({ componentId, stateComponents }) => (dispatch) 
   // find all places where the "to be delted" is a child and do what u gotta do
   stateComponents.forEach((parent) => {
     parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
-      // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
       dispatch({
         type: DELETE_CHILD,
         payload: {
@@ -213,10 +212,8 @@ export const openExpansionPanel = component => ({
 //   type: DELETE_ALL_DATA,
 // });
 
-
-
-export const deleteProp = ( propId ) => (dispatch) => {
-;    dispatch({ type: DELETE_PROP, payload:  propId  });
+export const deleteProp = propId => (dispatch) => {
+  dispatch({ type: DELETE_PROP, payload: propId });
 };
 
 export const addProp = prop => ({

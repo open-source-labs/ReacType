@@ -41,26 +41,34 @@ export const addComponent = (state, { title }) => {
   const componentColor = getColor();
   const componentId = state.nextId.toString();
 
-  const pseudoChild = {
-    childId: '-1',
-    childComponentId: componentId,
-    componentName: strippedTitle,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-    draggable: true,
-    color: componentColor,
-  };
+  // const pseudoChild = {
+  //   childId: '-1',
+  //   childComponentId: componentId,
+  //   componentName: strippedTitle,
+  //   position: {
+  //     x: 25,
+  //     y: 25,
+  //     width: 600,
+  //     height: 400,
+  //   },
+  //   draggable: true,
+  //   color: componentColor,
+  // };
+
+  // const newComponent = {
+  //   ...initialComponentState,
+  //   title: strippedTitle,
+  //   id: componentId,
+  //   color: componentColor,
+  //   childrenArray: [pseudoChild],
+  // };
 
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
     id: componentId,
     color: componentColor,
-    childrenArray: [pseudoChild],
+    childrenArray: [],
   };
 
   const components = [...state.components, newComponent];
@@ -128,7 +136,6 @@ export const addChild = (state, { title }) => {
     }),
     component,
   ];
-  console.log(components, newChild);
 
   return {
     ...state,
@@ -146,7 +153,6 @@ export const deleteChild = (
     calledFromDeleteComponent = false,
   },
 ) => {
-  // console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  state.focusComponent.id=${state.focusComponent.id}`)
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
@@ -194,6 +200,30 @@ export const deleteChild = (
 export const handleTransform = (state, {
   componentId, childId, x, y, width, height,
 }) => {
+  if (childId === '-1') {
+    // the pseudochild has been transformed, its position is stored in the component
+    const component = state.components.find(comp => comp.id === componentId);
+    const transformedComponent = {
+      ...component,
+      position: {
+        x: x || component.position.x,
+        y: y || component.position.y,
+        width: width || component.position.width,
+        height: height || component.position.height,
+      },
+    };
+
+    const components = [
+      ...state.components.filter((comp) => {
+        if (comp.id !== componentId) return comp;
+      }),
+      transformedComponent,
+    ];
+    console.log('trans pos: ', transformedComponent.position);
+    return { ...state, components };
+  }
+
+  // else, a normal child has been transformed, its position lives in the children array
   const child = state.components
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
@@ -215,21 +245,10 @@ export const handleTransform = (state, {
     transformedChild,
   ];
 
-  let component;
-  if (childId === '-1') {
-    console.log('pseudo');
-    component = {
-      ...state.components.find(comp => comp.id === componentId),
-      childrenArray: children,
-      position: { ...transformedChild.position },
-    };
-  } else {
-    console.log('real');
-    component = {
-      ...state.components.find(comp => comp.id === componentId),
-      childrenArray: children,
-    };
-  }
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children,
+  };
 
   const components = [
     ...state.components.filter((comp) => {

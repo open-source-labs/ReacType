@@ -68,8 +68,6 @@ class LeftContainer extends Component {
     } = this.props;
     const { componentName } = this.state;
 
-    // console.log(components);
-
     const componentsExpansionPanel = components
       .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
       .map((component, i) => (
