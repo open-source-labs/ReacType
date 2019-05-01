@@ -94,7 +94,7 @@ class MainContainer extends Component {
             />
           </div>
 
-          <div className="button-wrapper">
+          <div className="button-wrapper" style={{ background: 'rgba(76, 175, 80, 0)' }}>
             <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
               delete child
             </Button>

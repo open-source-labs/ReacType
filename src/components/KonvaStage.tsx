@@ -10,7 +10,9 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
-      stage: null,
+      blockSnapSize: 7,
+      grid: [],
+      gridStroke: 1,
     };
   }
 
@@ -20,6 +22,59 @@ class KonvaStage extends Component {
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
     window.addEventListener('resize', this.checkSize);
+  }
+
+  getDirectChildrenCopy(focusComponent) {
+    const component = this.props.components.find(comp => comp.id === focusComponent.id);
+
+    const childrenArr = component.childrenArray.filter(child => child.childId !== '-1');
+
+    let childrenArrCopy = this.cloneDeep(childrenArr);
+
+    const pseudoChild = {
+      childId: '-1',
+      childComponentId: component.id,
+      componentName: component.title,
+      position: {
+        x: component.position.x,
+        y: component.position.y,
+        width: component.position.width,
+        height: component.position.height,
+      },
+      draggable: true,
+      color: component.color,
+    };
+    childrenArrCopy = childrenArrCopy.concat(pseudoChild);
+    console.log('arr copy: ', childrenArrCopy);
+    return childrenArrCopy;
+  }
+
+  cloneDeep(value) {
+    let result;
+
+    if (Array.isArray(value)) {
+      result = [];
+      value.forEach(elm => {
+        if (typeof elm === 'object') {
+          result.push(this.cloneDeep(elm));
+        } else {
+          result.push(elm);
+        }
+      });
+      return result;
+    }
+    if (typeof value === 'object') {
+      result = {};
+      Object.keys(value).forEach(key => {
+        if (typeof value[key] === 'object') {
+          result[key] = this.cloneDeep(value[key]);
+        } else {
+          result[key] = value[key];
+        }
+      });
+      return result;
+    }
+    return value;
   }
 
   componentWillUnmount() {
@@ -80,10 +135,14 @@ class KonvaStage extends Component {
           width={this.state.stageWidth}
           height={this.state.stageHeight}
         >
-          <Layer>
-            {components
-              .find(comp => comp.id === focusComponent.id)
-              .childrenArray.map((child, i) => (
+          <Layer
+            ref={node => {
+              this.layer = node;
+            }}
+          >
+            {this.state.grid}
+            {this.getDirectChildrenCopy(focusComponent)
+              .map((child, i) => (
                 <Rectangle
                   key={`${i}${child.componentName}`}
                   components={components}

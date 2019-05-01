@@ -26,15 +26,7 @@ class GrandchildRectangle extends Component {
     // the Group is responsible for dragging of all children
     // the Rect emits changes to child width and height with help from Transformer
     return (
-      <Group
-        draggable={false}
-        x={x}
-        y={y}
-        scaleX={scaleX}
-        scaleY={scaleY}
-        width={width}
-        height={height}
-      >
+      <Group draggable={false} x={x} y={y} scaleX={scaleX} scaleY={scaleY} width={width} height={height}>
         <Rect
           name={`${childId}`}
           x={0}
@@ -64,14 +56,16 @@ class GrandchildRectangle extends Component {
               childComponentId={grandchild.childComponentId}
               focusChild={focusChild}
               childId={childId}
-              x={grandchild.position.x * (width / window.innerWidth)}
-              y={grandchild.position.y * (height / window.innerHeight)}
-              width={grandchild.position.width * (width / window.innerWidth)}
-              height={grandchild.position.height * (height / window.innerHeight)}
-              // x={grandchild.position.x}
-              // y={grandchild.position.y}
-              // width={grandchild.position.width}
-              // height={grandchild.position.height}
+              width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+              height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
+              x={
+                (grandchild.position.x - this.getPseudoChild().position.x) *
+                (width / this.getPseudoChild().position.width)
+              }
+              y={
+                (grandchild.position.y - this.getPseudoChild().position.y) *
+                (height / this.getPseudoChild().position.height)
+              }
             />
           ))}
       </Group>

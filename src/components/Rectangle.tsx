@@ -35,8 +35,8 @@ class Rectangle extends Component {
       .childrenArray.find(child => child.childId === childId);
 
     const transformation = {
-      width: target.width() * target.scaleX(),
-      height: target.height() * target.scaleY(),
+      width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
+      height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y,
     };
@@ -44,13 +44,12 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId, childId, target) {
-    console.log(target);
-
+  handleDrag(componentId, childId, target, blockSnapSize) {
     const transformation = {
-      x: target.x(),
-      y: target.y(),
+      x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
+      y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
     };
+    console.log('drag transformation: ', transformation);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -121,8 +120,8 @@ class Rectangle extends Component {
           />
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
-        childId !== '-1'
-          && components
+        childId !== '-1' &&
+          components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== '-1')
             // .sort((a, b) => parseInt(a.childId) - parseInt(b.childId)) // using i within map below, sorting by childId might be necessary
@@ -136,34 +135,20 @@ class Rectangle extends Component {
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
-                // x={this.getPseudoChild().position.x}
-                // y={}
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
-                height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
-                }
+                height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
                 x={
-                  (grandchild.position.x - this.getPseudoChild().position.x)
-                  * (width / this.getPseudoChild().position.width)
+                  (grandchild.position.x - this.getPseudoChild().position.x) *
+                  (width / this.getPseudoChild().position.width)
                 }
                 y={
-                  (grandchild.position.y - this.getPseudoChild().position.y)
-                  * (height / this.getPseudoChild().position.height)
+                  (grandchild.position.y - this.getPseudoChild().position.y) *
+                  (height / this.getPseudoChild().position.height)
                 }
-                // width={grandchild.position.width * (width / window.innerWidth)}
-                // height={grandchild.position.height * (height / window.innerHeight)}
-                // title={child.componentName + child.childId}
               />
             ))}
-        {focusChild
-          && focusChild.childId === childId
-          && draggable && (
-            <TransformerComponent
-              focusChild={focusChild}
-              rectClass={'childRect'}
-              anchorSize={8}
-              color={'grey'}
-            />
+        {focusChild && focusChild.childId === childId && draggable && (
+          <TransformerComponent focusChild={focusChild} rectClass={'childRect'} anchorSize={8} color={'grey'} />
         )}
       </Group>
     );

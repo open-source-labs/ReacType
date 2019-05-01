@@ -14,7 +14,7 @@ import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { addProp, deleteProp } from '../actions/components';
-import DataTable from "./DataTable.jsx";
+import DataTable from './DataTable.jsx';
 
 const styles = theme => ({
   root: {
@@ -66,16 +66,20 @@ const styles = theme => ({
 const mapDispatchToProps = dispatch => ({
   addProp: ({
     key, value, required, type,
-  }) => dispatch(addProp({
-    key, value, required, type,
-  })),
-  deleteProp: ( propId ) => dispatch(deleteProp( propId )),
+  }) => dispatch(
+    addProp({
+      key,
+      value,
+      required,
+      type,
+    }),
+  ),
+  deleteProp: propId => dispatch(deleteProp(propId)),
 });
 
 const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent,
 });
-
 
 const availablePropTypes = {
   string: 'STR',
@@ -125,13 +129,13 @@ class Props extends Component {
       propKey, propValue, propRequired, propType,
     } = this.state;
 
-     // check if prop exists with same key. CANNOT have doubles 
-    const savedPropKeys = this.props.focusComponent.props.map(p => p.key) ; 
-    if (savedPropKeys.includes(propKey)){
-      window.alert( `a prop with the name: "${propKey}" already exists.`);
-      return; 
+    // check if prop exists with same key. CANNOT have doubles
+    const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
+    if (savedPropKeys.includes(propKey)) {
+      window.alert(`a prop with the name: "${propKey}" already exists.`);
+      return;
     }
-    
+
     this.props.addProp({
       key: propKey,
       value: propValue,
@@ -145,7 +149,6 @@ class Props extends Component {
       propRequired: false,
       propType: '',
     });
-
   };
 
   render() {
@@ -153,14 +156,16 @@ class Props extends Component {
       focusComponent, classes, deleteProp, addProp,
     } = this.props;
 
-    const rowHeader =  ['_Key','Value','Type','Required'] ; 
-    // prepare the saved Props in a nice way, so you can sent them to TableData 
-    const propsRows = focusComponent.props.map( prop => {
-      return {_Key: prop.key, Value:prop.value, Type:prop.type, Required: prop.required ,id:prop.id}
-    })
+    const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
+    // prepare the saved Props in a nice way, so you can sent them to TableData
+    const propsRows = focusComponent.props.map(prop => ({
+      _Key: prop.key,
+      Value: prop.value,
+      Type: prop.type,
+      Required: prop.required,
+      id: prop.id,
+    }));
 
-    // console.log(`savedProps`)
-    // console.log(propsRows)
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
       <div>
@@ -170,100 +175,100 @@ class Props extends Component {
             Click a component to view its props.
           </div>
         ) : (
-        <Fragment>
-          <div className="props-container">
-          <Grid container spacing={12}>
-            <Grid item xs={3}>
-              <form className="props-input" onSubmit={this.handleAddProp}>
-                <Grid container spacing={24}>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="propKey"
-                      label="Key"
-                      margin="normal"
-                      autoFocus
-                      onChange={this.handleChange}
-                      value={this.state.propKey}
-                      required
-                      InputProps={{
-                        className: classes.input,
-                      }}
-                      InputLabelProps={{
-                        className: classes.input,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="propValue"
-                      label="Value"
-                      margin="normal"
-                      onChange={this.handleChange}
-                      InputProps={{
-                        className: classes.input,
-                      }}
-                      InputLabelProps={{
-                        className: classes.input,
-                      }}
-                      value={this.state.propValue}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl required>
-                      <InputLabel className={classes.light} htmlFor="propType">
-                        Type
-                      </InputLabel>
-                      <Select
-                        native
-                        className={classes.light}
-                        id="propType"
-                        placeholder="title"
-                        onChange={this.handleChange}
-                        value={this.state.propType}
-                        required
-                      >
-                        {typeOptions}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <div className={classes.column}>
-                      <InputLabel className={classes.light} htmlFor="propRequired">
-                        Required?
-                      </InputLabel>
-                      <Switch
-                        checked={this.state.propRequired}
-                        onChange={this.togglePropRequired}
-                        value="propRequired"
-                        color="secondary"
-                        id="propRequired"
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      color="primary"
-                      aria-label="Add"
-                      type="submit"
-                      disabled={!this.state.propKey || !this.state.propType}
-                      variant="contained"
-                      size="large"
-                    >
-                      ADD PROP
-                    </Button>
-                  </Grid>
+          <Fragment>
+            <div className="props-container">
+              <Grid container spacing={12}>
+                <Grid item xs={3}>
+                  <form className="props-input" onSubmit={this.handleAddProp}>
+                    <Grid container spacing={24}>
+                      <Grid item xs={6}>
+                        <TextField
+                          id="propKey"
+                          label="Key"
+                          margin="normal"
+                          autoFocus
+                          onChange={this.handleChange}
+                          value={this.state.propKey}
+                          required
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            className: classes.input,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          id="propValue"
+                          label="Value"
+                          margin="normal"
+                          onChange={this.handleChange}
+                          InputProps={{
+                            className: classes.input,
+                          }}
+                          InputLabelProps={{
+                            className: classes.input,
+                          }}
+                          value={this.state.propValue}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl required>
+                          <InputLabel className={classes.light} htmlFor="propType">
+                            Type
+                          </InputLabel>
+                          <Select
+                            native
+                            className={classes.light}
+                            id="propType"
+                            placeholder="title"
+                            onChange={this.handleChange}
+                            value={this.state.propType}
+                            required
+                          >
+                            {typeOptions}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <div className={classes.column}>
+                          <InputLabel className={classes.light} htmlFor="propRequired">
+                            Required?
+                          </InputLabel>
+                          <Switch
+                            checked={this.state.propRequired}
+                            onChange={this.togglePropRequired}
+                            value="propRequired"
+                            color="secondary"
+                            id="propRequired"
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
+                          disabled={!this.state.propKey || !this.state.propType}
+                          variant="contained"
+                          size="large"
+                        >
+                          ADD PROP
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
                 </Grid>
-              </form>
-            </Grid>
-            <Grid item xs={9}>
-              <DataTable
-                rowHeader = {rowHeader}
-                rowData = {propsRows}
-                deletePropHandler = {deleteProp}
-              ></DataTable>
-            </Grid>
-          </Grid>
-            {/* <div className="chips">
+                <Grid item xs={9}>
+                  <DataTable
+                    rowHeader={rowHeader}
+                    rowData={propsRows}
+                    deletePropHandler={deleteProp}
+                  />
+                </Grid>
+              </Grid>
+              {/* <div className="chips">
               {focusComponent.props.map(({
                 id, type, key, value, required,
               }, index) => (
@@ -279,12 +284,10 @@ class Props extends Component {
                 />
               ))}
             </div> */}
-          </div>
-
-        </Fragment>  
+            </div>
+          </Fragment>
         )}
       </div>
-
     );
   }
 }
