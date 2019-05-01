@@ -88,7 +88,8 @@ export const addComponent = (state, { title }) => {
 // get the focus component (aka the component were adding the child to)
 
 export const addChild = (state, { title }) => {
-  const strippedTitle = title;
+  let strippedTitle = title;
+
   // .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
   // .replace(/[-_\s0-9\W]+/gi, "");
 
@@ -97,7 +98,25 @@ export const addChild = (state, { title }) => {
   const view = state.components.find(comp => comp.title === state.focusComponent.title);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
-  const parentComponent = state.components.find(comp => comp.title === title);
+  let parentComponent;
+
+  // conditional if adding an HTML component
+  if (title[title.length - 1] !== 'X') {
+    parentComponent = state.components.find(comp => comp.title === title);
+    console.log('inside if statement');
+  } else if (title[title.length - 1] === 'X') {
+    console.log('inside else statement');
+    parentComponent = {
+      id: '888',
+      position: {
+        x: 25,
+        y: 25,
+        width: 600,
+        height: 400,
+      },
+      color: '#000000',
+    };
+  }
 
   // console.log("view from addChild: ", view);
 
