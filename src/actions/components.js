@@ -25,21 +25,23 @@ import {
   DELETE_PROP,
   ADD_PROP,
   DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH,
-} from '../actionTypes/index';
+  CHANGE_IMAGE_PATH
+} from "../actionTypes/index";
 
-import { loadState } from '../localStorage';
+import { loadState } from "../localStorage";
 
 // import createFiles from '../utils/createFiles.util';
 // import createApplicationUtil from '../utils/createApplication.util';
 
-export const loadInitData = () => (dispatch) => {
-  loadState().then(data => dispatch({
-    type: LOAD_INIT_DATA,
-    payload: {
-      data: data ? data.workspace : {},
-    },
-  }));
+export const loadInitData = () => dispatch => {
+  loadState().then(data =>
+    dispatch({
+      type: LOAD_INIT_DATA,
+      payload: {
+        data: data ? data.workspace : {}
+      }
+    })
+  );
 };
 
 // export const updateChildren = ({ parentIds, childIndex, childId }) => ({
@@ -60,39 +62,47 @@ export const loadInitData = () => (dispatch) => {
 //   },
 // });
 
-export const addComponent = ({ title }) => (dispatch) => {
+export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addChild = ({ title }) => (dispatch) => {
-  dispatch({ type: ADD_CHILD, payload: { title } });
+export const addChild = ({ title, childType, HTMLInfo }) => dispatch => {
+  dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => (dispatch) => {
+export const deleteChild = ({}) => dispatch => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
-export const deleteComponent = ({ componentId, stateComponents }) => (dispatch) => {
-  console.log('Hello from component.js delete component.componentId= ', componentId);
+export const deleteComponent = ({
+  componentId,
+  stateComponents
+}) => dispatch => {
+  console.log(
+    "Hello from component.js delete component.componentId= ",
+    componentId
+  );
 
   // find all places where the "to be delted" is a child and do what u gotta do
-  stateComponents.forEach((parent) => {
-    parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
-      // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
-      dispatch({
-        type: DELETE_CHILD,
-        payload: {
-          parentId: parent.id,
-          childId: child.childId,
-          calledFromDeleteComponent: true,
-        },
+  stateComponents.forEach(parent => {
+    parent.childrenArray
+      .filter(child => child.childComponentId == componentId)
+      .forEach(child => {
+        // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
+        dispatch({
+          type: DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            calledFromDeleteComponent: true
+          }
+        });
       });
-    });
   });
 
   // change focus to APp
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: "App" } });
   // after taking care of the children delete the component
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
@@ -128,19 +138,22 @@ export const deleteComponent = ({ componentId, stateComponents }) => (dispatch) 
 //   dispatch({ type: SET_SELECTABLE_PARENTS });
 // };
 
-export const changeFocusComponent = ({ title }) => (dispatch) => {
+export const changeFocusComponent = ({ title }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ title, childId }) => (dispatch) => {
+export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
 };
 
-export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch) => {
+export const changeComponentFocusChild = ({
+  componentId,
+  childId
+}) => dispatch => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId },
+    payload: { componentId, childId }
   });
 };
 
@@ -162,12 +175,14 @@ export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false,
+  payload: false
 });
 
-export const handleTransform = (componentId, childId, {
-  x, y, width, height,
-}) => ({
+export const handleTransform = (
+  componentId,
+  childId,
+  { x, y, width, height }
+) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -175,8 +190,8 @@ export const handleTransform = (componentId, childId, {
     x,
     y,
     width,
-    height,
-  },
+    height
+  }
 });
 
 // export const createApplication = ({
@@ -206,20 +221,18 @@ export const handleTransform = (componentId, childId, {
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component },
+  payload: { component }
 });
 
 // export const deleteAllData = () => ({
 //   type: DELETE_ALL_DATA,
 // });
 
-
-
-export const deleteProp = ( propId ) => (dispatch) => {
-;    dispatch({ type: DELETE_PROP, payload:  propId  });
+export const deleteProp = propId => dispatch => {
+  dispatch({ type: DELETE_PROP, payload: propId });
 };
 
 export const addProp = prop => ({
   type: ADD_PROP,
-  payload: { ...prop },
+  payload: { ...prop }
 });
