@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Transformer } from 'react-konva';
+import React, { Component } from "react";
+import { Transformer } from "react-konva";
 // import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
@@ -9,6 +9,8 @@ export default class TransformerComponent extends Component {
 
   componentDidUpdate() {
     this.checkNode();
+    console.log(this.transformer.enabledAnchors());
+    console.log(this.transformer);
   }
 
   // this function makes sure the transformer follows along with the focusChild
@@ -29,11 +31,17 @@ export default class TransformerComponent extends Component {
     this.transformer.getLayer().batchDraw();
   }
 
+  // checkTransformerAnchor() {
+  //   console.log(this.transformer.enabledAnchors());
+  //   return this.transformer;
+  // }
+
   render() {
     return (
       <Transformer
+        className={'Transformer'}
         rotateEnabled={false}
-        ref={(node) => {
+        ref={node => {
           this.transformer = node;
         }}
         borderEnabled={false}
@@ -41,6 +49,7 @@ export default class TransformerComponent extends Component {
         anchorStroke={this.props.color}
         anchorSize={this.props.anchorSize}
         keepRatio={false}
+        // onClick={checkTransformerAnchor()}
       />
     );
   }

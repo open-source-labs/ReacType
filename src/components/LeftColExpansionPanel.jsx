@@ -49,7 +49,7 @@ const LeftColExpansionPanel = (props) => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              {isFocused() || !selectableChildren.includes(id) ? (
+              { id == 1 || isFocused() || !selectableChildren.includes(id) ? (
                 <div />
               ) : (
                 <IconButton aria-label="Add">

@@ -13,7 +13,6 @@ import {
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild,
-  deleteComponent,
   createApplication,
   changeImagePath,
 } from '../actions/components';
@@ -21,22 +20,22 @@ import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
 
-const IPC = require('electron').ipcRenderer;
+const IPC = require("electron").ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
-  handleTransformation: (componentId, childId, {
-    x, y, width, height,
-  }) => dispatch(
-    handleTransform(componentId, childId, {
-      x,
-      y,
-      width,
-      height,
-    }),
-  ),
+  handleTransformation: (componentId, childId, {x, y, width, height}) => dispatch(
+      handleTransform(componentId, childId, {
+        x,
+        y,
+        width,
+        height
+      })
+    ),
   openPanel: component => dispatch(openExpansionPanel(component)),
-  changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
-  changeComponentFocusChild: ({ componentId, childId }) => dispatch(changeComponentFocusChild({ componentId, childId })),
+  changeFocusChild: ({ title, childId }) =>
+    dispatch(changeFocusChild({ title, childId })),
+  changeComponentFocusChild: ({ componentId, childId }) =>
+    dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
   deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
   createApp: ({
@@ -50,7 +49,7 @@ const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components,
+  stateComponents: store.workspace.components
 });
 
 // genOptions: ['Export into existing projectASSS.', 'Export with starter repo.', 'Export with create-react-app.'],
@@ -231,7 +230,7 @@ class MainContainer extends Component {
       changeComponentFocusChild,
       deleteChild,
       deleteComponent,
-      stateComponents,
+      stateComponents
     } = this.props;
     const {
       main,
@@ -242,11 +241,15 @@ class MainContainer extends Component {
 
     // show a string of all direct parents. SO the user can gaze at it.
     const directParents = !focusComponent.id
-      ? 'Waiting for a focused component'
+      ? "Waiting for a focused component"
       : stateComponents
-        .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
-        .map(comp => comp.title)
-        .join(',');
+          .filter(comp =>
+            comp.childrenArray.some(
+              kiddy => kiddy.childComponentId == focusComponent.id
+          )
+          )
+          .map(comp => comp.title)
+          .join(",");
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -273,23 +276,32 @@ class MainContainer extends Component {
             />
           </div>
 
-          <div className="button-wrapper">
-            <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
+          <div
+            className="button-wrapper"
+            style={{ background: "rgba(76, 175, 80, 0)" }}
+          >
+            <Button
+              onClick={deleteChild}
+              style={{ width: "150px", display: "inline-block" }}
+            >
               delete child
             </Button>
 
             <Button
-              style={{ width: '180px', display: 'inline-block' }}
-              onClick={() => deleteComponent({
-                componentId: focusComponent.id,
-                stateComponents,
-              })
+              style={{ width: "180px", display: "inline-block" }}
+              onClick={() =>
+                deleteComponent({
+                  componentId: focusComponent.id,
+                  stateComponents
+                })
               }
             >
               delete component
             </Button>
             <span>
-              {directParents ? `Used in: ${directParents}` : 'Not used in any other component'}
+              {directParents
+                ? `Used in: ${directParents}`
+                : "Not used in any other component"}
             </span>
             
           </div>
@@ -302,5 +314,5 @@ class MainContainer extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(MainContainer);
