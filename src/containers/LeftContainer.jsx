@@ -138,6 +138,7 @@ class LeftContainer extends Component {
         />
       ));
 
+
     return (
       <div className="column left">
         <Grid container spacing={16} alignItems="baseline" align="stretch">

@@ -30,8 +30,8 @@ import {
 
 import { loadState } from "../localStorage";
 
-// import createFiles from '../utils/createFiles.util';
-// import createApplicationUtil from '../utils/createApplication.util';
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util'
 
 export const loadInitData = () => dispatch => {
   loadState().then(data =>
@@ -157,21 +157,21 @@ export const changeComponentFocusChild = ({
   });
 };
 
-// export const exportFiles = ({ components, path }) => (dispatch) => {
-//   dispatch({
-//     type: EXPORT_FILES,
-//   });
+export const exportFiles = ({ components, path }) => (dispatch) => {
+  dispatch({
+    type: EXPORT_FILES,
+  });
 
-//   createFiles(components, path)
-//     .then(dir => dispatch({
-//       type: EXPORT_FILES_SUCCESS,
-//       payload: { status: true, dir: dir[0] },
-//     }))
-//     .catch(err => dispatch({
-//       type: EXPORT_FILES_ERROR,
-//       payload: { status: true, err },
-//     }));
-// };
+  createFiles(components, path)
+    .then(dir => dispatch({
+      type: EXPORT_FILES_SUCCESS,
+      payload: { status: true, dir: dir[0] },
+    }))
+    .catch(err => dispatch({
+      type: EXPORT_FILES_ERROR,
+      payload: { status: true, err },
+    }));
+};
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
@@ -194,30 +194,30 @@ export const handleTransform = (
   }
 });
 
-// export const createApplication = ({
-//   path, components = [], genOption, appName = 'proto_app', repoUrl,
-// }) => (dispatch) => {
-//   if (genOption === 0) {
-//     dispatch(exportFiles({ path, components }));
-//   } else if (genOption) {
-//     dispatch({
-//       type: CREATE_APPLICATION,
-//     });
-//     createApplicationUtil({
-//       path, appName, genOption, repoUrl,
-//     })
-//       .then(() => {
-//         dispatch({
-//           type: CREATE_APPLICATION_SUCCESS,
-//         });
-//         dispatch(exportFiles({ path: `${path}/${appName}`, components }));
-//       })
-//       .catch(err => dispatch({
-//         type: CREATE_APPLICATION_ERROR,
-//         payload: { status: true, err },
-//       }));
-//   }
-// };
+export const createApplication = ({
+  path, components = [], genOption, appName = 'proto_app', repoUrl,
+}) => (dispatch) => {
+  if (genOption === 0) {
+    dispatch(exportFiles({ path, components }));
+  } else if (genOption) {
+    dispatch({
+      type: CREATE_APPLICATION,
+    });
+    createApplicationUtil({
+      path, appName, genOption, repoUrl,
+    })
+      .then(() => {
+        dispatch({
+          type: CREATE_APPLICATION_SUCCESS,
+        });
+        dispatch(exportFiles({ path: `${path}/${appName}`, components }));
+      })
+      .catch(err => dispatch({
+        type: CREATE_APPLICATION_ERROR,
+        payload: { status: true, err },
+      }));
+  }
+};
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
