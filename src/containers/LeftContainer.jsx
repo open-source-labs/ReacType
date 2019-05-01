@@ -78,7 +78,8 @@ const mapDispatchToProps = dispatch => ({
   // moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   // deleteAllData: () => dispatch(actions.deleteAllData()),
-  addChild: ({ title }) => dispatch(actions.addChild({ title })),
+  addChild: ({ title, childType, HTMLInfo }) =>
+    dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }) =>
     dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ title, childId }) =>
@@ -127,7 +128,7 @@ class LeftContainer extends Component {
           key={component.id}
           index={i}
           id={component.id}
-          updateComponent={updateComponent}
+          // updateComponent={updateComponent}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}

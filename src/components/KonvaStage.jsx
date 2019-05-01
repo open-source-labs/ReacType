@@ -151,6 +151,7 @@ class KonvaStage extends Component {
               .find(comp => comp.id === focusComponent.id)
               .childrenArray.map((child, i) => (
                 <Rectangle
+                  childType={child.childType}
                   key={`${i}${child.componentName}`}
                   components={components}
                   componentId={focusComponent.id}

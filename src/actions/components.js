@@ -44,30 +44,30 @@ export const loadInitData = () => dispatch => {
   );
 };
 
-export const updateChildren = ({ parentIds, childIndex, childId }) => ({
-  type: UPDATE_CHILDREN,
-  payload: {
-    parentIds,
-    childIndex,
-    childId
-  }
-});
+// export const updateChildren = ({ parentIds, childIndex, childId }) => ({
+//   type: UPDATE_CHILDREN,
+//   payload: {
+//     parentIds,
+//     childIndex,
+//     childId,
+//   },
+// });
 
-export const parentReassignment = ({ index, id, parentIds }) => ({
-  type: REASSIGN_PARENT,
-  payload: {
-    index,
-    id,
-    parentIds
-  }
-});
+// export const parentReassignment = ({ index, id, parentIds }) => ({
+//   type: REASSIGN_PARENT,
+//   payload: {
+//     index,
+//     id,
+//     parentIds,
+//   },
+// });
 
 export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addChild = ({ title }) => dispatch => {
-  dispatch({ type: ADD_CHILD, payload: { title } });
+export const addChild = ({ title, childType, HTMLInfo }) => dispatch => {
+  dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
 export const deleteChild = ({}) => dispatch => {
@@ -107,36 +107,36 @@ export const deleteComponent = ({
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-export const updateComponent = ({
-  id,
-  index,
-  newParentId = null,
-  color = null,
-  stateful = null
-}) => dispatch => {
-  dispatch({
-    type: UPDATE_COMPONENT,
-    payload: {
-      id,
-      index,
-      newParentId,
-      color,
-      stateful
-    }
-  });
+// export const updateComponent = ({
+//   id,
+//   index,
+//   newParentId = null,
+//   color = null,
+//   stateful = null,
+// }) => (dispatch) => {
+//   dispatch({
+//     type: UPDATE_COMPONENT,
+//     payload: {
+//       id,
+//       index,
+//       newParentId,
+//       color,
+//       stateful,
+//     },
+//   });
 
-  if (newParentId) {
-    dispatch(
-      updateChildren({
-        parentIds: [newParentId],
-        childId: id,
-        childIndex: index
-      })
-    );
-  }
+//   if (newParentId) {
+//     dispatch(
+//       updateChildren({
+//         parentIds: [newParentId],
+//         childId: id,
+//         childIndex: index,
+//       }),
+//     );
+//   }
 
-  dispatch({ type: SET_SELECTABLE_PARENTS });
-};
+//   dispatch({ type: SET_SELECTABLE_PARENTS });
+// };
 
 export const changeFocusComponent = ({ title }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });

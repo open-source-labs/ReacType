@@ -56,7 +56,7 @@ const LeftColExpansionPanel = props => {
                   <AddIcon
                     style={{ color, float: "right" }}
                     onClick={() => {
-                      addChild({ title });
+                      addChild({ title, childType: "COMP" });
                     }}
                   />
                 </IconButton>
