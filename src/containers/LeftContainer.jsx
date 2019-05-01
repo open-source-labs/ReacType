@@ -9,9 +9,51 @@ import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-//import createModal from '../utils/createModal.util';
+import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
+
+// import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
-// import MainContainerHeader from '../components/MainContainerHeader.jsx';
+
+function styles() {
+  return {
+    cssLabel: {
+      color: 'white',
+
+      '&$cssFocused': {
+        color: 'green',
+      },
+    },
+    cssFocused: {},
+    input: {
+      color: '#fff',
+      opacity: '0.7',
+      marginBottom: '10px',
+    },
+    underline: {
+      color: 'white',
+      '&::before': {
+        color: 'white',
+      },
+    },
+    button: {
+      color: '#fff',
+
+      '&:disabled': {
+        color: 'grey',
+      },
+    },
+    clearButton: {
+      top: '96%',
+      position: 'sticky!important',
+      zIndex: '1',
+
+      '&:disabled': {
+        color: 'grey',
+        backgroundColor: '#424242',
+      },
+    },
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
@@ -77,7 +119,7 @@ class LeftContainer extends Component {
           key={component.id}
           index={i}
           id={component.id}
-          updateComponent={updateComponent}
+          // updateComponent={updateComponent}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}
@@ -89,12 +131,12 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left">
-        <Grid container alignItems="baseline" align="stretch">
-          <Grid item xs={10}>
+        <Grid container spacing={16} alignItems="baseline" align="stretch">
+          <Grid item xs={12}>
             <TextField
               id="title-input"
-              label="Add a new component"
-              placeholder="AppComponent"
+              label="Add class component"
+              placeholder="Name of component"
               margin="normal"
               autoFocus
               onChange={this.handleChange}
@@ -116,7 +158,7 @@ class LeftContainer extends Component {
               }}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Button
               variant="fab"
               mini
@@ -131,6 +173,9 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
+        <div className={'htmlPanel'}>
+          <HTMLComponentPanel focusComponent={focusComponent} addChild={addChild} />
+        </div>
       </div>
     );
   }
@@ -157,44 +202,3 @@ export default compose(
 //   totalComponents: PropTypes.number.isRequired,
 //   classes: PropTypes.object,
 // };
-
-function styles() {
-  return {
-    cssLabel: {
-      color: 'white',
-
-      '&$cssFocused': {
-        color: 'green',
-      },
-    },
-    cssFocused: {},
-    input: {
-      color: '#fff',
-      opacity: '0.7',
-      marginBottom: '10px',
-    },
-    underline: {
-      color: 'white',
-      '&::before': {
-        color: 'white',
-      },
-    },
-    button: {
-      color: '#fff',
-
-      '&:disabled': {
-        color: 'grey',
-      },
-    },
-    clearButton: {
-      top: '96%',
-      position: 'sticky!important',
-      zIndex: '1',
-
-      '&:disabled': {
-        color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
-  };
-}
