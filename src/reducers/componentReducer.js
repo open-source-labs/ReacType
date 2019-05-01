@@ -24,8 +24,8 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
-  DELETE_PROP,
-} from '../actionTypes';
+  DELETE_PROP
+} from "../actionTypes";
 
 import {
   addComponent,
@@ -48,8 +48,8 @@ import {
   openExpansionPanel,
   changeImagePath,
   addProp,
-  deleteProp,
-} from '../utils/componentReducer.util';
+  deleteProp
+} from "../utils/componentReducer.util";
 
 // interface Child {
 //   childId: number;
@@ -66,11 +66,11 @@ import {
 // }
 
 const appComponent = {
-  id: '1',
+  id: "1",
   stateful: false,
-  title: 'App',
+  title: "App",
   parentIds: [],
-  color: '#FF6D00',
+  color: "#FF6D00",
   draggable: true,
   childrenIds: [],
   selectableParents: [],
@@ -81,26 +81,26 @@ const appComponent = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400,
+    height: 400
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
+  focusChildId: 0
 };
 
-const initialApplicationFocusChild =
-  {
-    childId: 0,
-    componentName: null,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-  //  draggable: true,
-  }
+const initialApplicationFocusChild = {
+  childId: 0,
+  componentName: null,
+  position: {
+    x: 25,
+    y: 25,
+    width: 600,
+    height: 400
+  },
+  draggable: true,
+  childType: null
+};
 
 const initialApplicationState = {
   totalComponents: 1,
@@ -112,10 +112,10 @@ const initialApplicationState = {
   selectableChildren: [],
   ancestors: [],
   initialApplicationFocusChild: initialApplicationFocusChild,
-  focusChild: JSON.parse(JSON.stringify(  initialApplicationFocusChild)) ,
+  focusChild: JSON.parse(JSON.stringify(initialApplicationFocusChild)),
   components: [appComponent],
-  appDir: '',
-  loading: false,
+  appDir: "",
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -125,9 +125,9 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: '',
+        appDir: "",
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);

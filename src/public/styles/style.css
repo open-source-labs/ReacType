@@ -76,6 +76,17 @@ LEFT COLUMN
   flex-direction: column;
 }
 
+.htmlPanel {
+  position: absolute;
+  bottom: 0px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  left: 0px;
+  right: 0px;
+  width: 16%;
+}
+
 .component-input {
   bottom: 2.8%;
 }

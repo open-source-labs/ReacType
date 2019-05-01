@@ -7,6 +7,7 @@ const {
   ipcMain,
 } = require('electron');
 
+
 require('electron-reload')(__dirname);
 
 // const isDev = true;
@@ -32,6 +33,11 @@ function openFile() {
 
   // Send fileContent to renderer
   mainWindow.webContents.send('new-file', file);
+}
+
+// export files
+function exportComponents() {
+  console.log('hi from exportComponents');
 }
 
 // Choose directory
@@ -60,10 +66,15 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width,
     height,
+    show: false,
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/build/index.html`);
+  // load page once window is loaded
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   const template = [{
     label: 'File',
@@ -72,6 +83,13 @@ const createWindow = () => {
       accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
       click() {
         openFile();
+      },
+    },
+    {
+      label: 'Export Components',
+      accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+Shift+E',
+      click() {
+        exportComponents();
       },
     }],
   },

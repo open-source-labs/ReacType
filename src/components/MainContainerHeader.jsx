@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
@@ -46,10 +46,9 @@ const styles = () => ({
   },
 });
 
+
 const MainContainerHeader = (props) => {
   const {
-    increaseHeight,
-    decreaseHeight,
     classes,
     image,
     showImageDeleteModal,
@@ -62,32 +61,6 @@ const MainContainerHeader = (props) => {
 
   return (
     <div className="main-header">
-      <div className="main-header-buttons" style={{ marginRight: 'auto' }}>
-        <Tooltip title="zoom in">
-          <div>
-            <Button
-              disabled={!image}
-              color="default"
-              className={classes.button}
-              onClick={increaseHeight}
-            >
-              <ZoomInIcon className={classes.light} />
-            </Button>
-          </div>
-        </Tooltip>
-        <Tooltip title="zoom out">
-          <div>
-            <Button
-              disabled={!image}
-              color="default"
-              className={classes.button}
-              onClick={decreaseHeight}
-            >
-              <ZoomOutIcon className={classes.light} />
-            </Button>
-          </div>
-        </Tooltip>
-      </div>
       <div className="main-header-buttons">
         <Tooltip title="remove image">
           <div>
@@ -120,32 +93,23 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <div>
-          <Button color="default" className={classes.button} onClick={() => collapseColumn()}>
-            {rightColumnOpen ? (
-              <KeyboardArrowRightIcon className={classes.light} />
-            ) : (
-              <KeyboardArrowLeftIcon className={classes.light} />
-            )}
-          </Button>
-        </div>
       </div>
     </div>
   );
 };
 
-MainContainerHeader.propTypes = {
-  image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  classes: PropTypes.object.isRequired,
-  increaseHeight: PropTypes.func.isRequired,
-  decreaseHeight: PropTypes.func.isRequired,
-  showImageDeleteModal: PropTypes.func.isRequired,
-  updateImage: PropTypes.func.isRequired,
-  showGenerateAppModal: PropTypes.func.isRequired,
-  totalComponents: PropTypes.number.isRequired,
-  collapseColumn: PropTypes.func.isRequired,
-  rightColumnOpen: PropTypes.bool.isRequired,
-  toggleClass: PropTypes.bool.isRequired,
-};
+// MainContainerHeader.propTypes = {
+//   image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+//   classes: PropTypes.object.isRequired,
+//   increaseHeight: PropTypes.func.isRequired,
+//   decreaseHeight: PropTypes.func.isRequired,
+//   showImageDeleteModal: PropTypes.func.isRequired,
+//   updateImage: PropTypes.func.isRequired,
+//   showGenerateAppModal: PropTypes.func.isRequired,
+//   totalComponents: PropTypes.number.isRequired,
+//   collapseColumn: PropTypes.func.isRequired,
+//   rightColumnOpen: PropTypes.bool.isRequired,
+//   toggleClass: PropTypes.bool.isRequired,
+// };
 
 export default withStyles(styles)(MainContainerHeader);
