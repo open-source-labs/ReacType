@@ -24,6 +24,59 @@ class KonvaStage extends Component {
     this.createGrid();
   }
 
+  getDirectChildrenCopy(focusComponent) {
+    const component = this.props.components.find(comp => comp.id === focusComponent.id);
+
+    const childrenArr = component.childrenArray.filter(child => child.childId !== '-1');
+
+    let childrenArrCopy = this.cloneDeep(childrenArr);
+
+    const pseudoChild = {
+      childId: '-1',
+      childComponentId: component.id,
+      componentName: component.title,
+      position: {
+        x: component.position.x,
+        y: component.position.y,
+        width: component.position.width,
+        height: component.position.height,
+      },
+      draggable: true,
+      color: component.color,
+    };
+    // console.log('getDirectChildrenCopy, pseudoChild.position: ', pseudoChild.position);
+    childrenArrCopy = childrenArrCopy.concat(pseudoChild);
+    return childrenArrCopy;
+  }
+
+  cloneDeep(value) {
+    let result;
+
+    if (Array.isArray(value)) {
+      result = [];
+      value.forEach(elm => {
+        if (typeof elm === 'object') {
+          result.push(this.cloneDeep(elm));
+        } else {
+          result.push(elm);
+        }
+      });
+      return result;
+    }
+    if (typeof value === 'object') {
+      result = {};
+      Object.keys(value).forEach(key => {
+        if (typeof value[key] === 'object') {
+          result[key] = this.cloneDeep(value[key]);
+        } else {
+          result[key] = value[key];
+        }
+      });
+      return result;
+    }
+    return value;
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkSize);
   }

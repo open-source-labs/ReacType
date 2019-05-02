@@ -59,7 +59,7 @@ export const addComponent = (state, { title }) => {
     title: strippedTitle,
     id: componentId,
     color: componentColor,
-    childrenArray: [pseudoChild],
+    childrenArray: [],
   };
 
   const components = [...state.components, newComponent];
@@ -171,7 +171,6 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
     }),
     component,
   ];
-  console.log(components, newChild);
 
   return {
     ...state,
@@ -236,6 +235,30 @@ export const deleteChild = (
 };
 
 export const handleTransform = (state, { componentId, childId, x, y, width, height }) => {
+  if (childId === '-1') {
+    // the pseudochild has been transformed, its position is stored in the component
+    const component = state.components.find(comp => comp.id === componentId);
+    const transformedComponent = {
+      ...component,
+      position: {
+        x: x || component.position.x,
+        y: y || component.position.y,
+        width: width || component.position.width,
+        height: height || component.position.height,
+      },
+    };
+
+    const components = [
+      ...state.components.filter(comp => {
+        if (comp.id !== componentId) return comp;
+      }),
+      transformedComponent,
+    ];
+    // console.log('trans pos: ', transformedComponent.position);
+    return { ...state, components };
+  }
+
+  // else, a normal child has been transformed, its position lives in the children array
   const child = state.components
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
@@ -261,21 +284,10 @@ export const handleTransform = (state, { componentId, childId, x, y, width, heig
     transformedChild,
   ];
 
-  let component;
-  if (childId === '-1') {
-    console.log('pseudo');
-    component = {
-      ...state.components.find(comp => comp.id === componentId),
-      childrenArray: children,
-      position: { ...transformedChild.position },
-    };
-  } else {
-    console.log('real');
-    component = {
-      ...state.components.find(comp => comp.id === componentId),
-      childrenArray: children,
-    };
-  }
+  const component = {
+    ...state.components.find(comp => comp.id === componentId),
+    childrenArray: children,
+  };
 
   const components = [
     ...state.components.filter(comp => {
@@ -387,6 +399,7 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
 export const changeFocusChild = (state, { title, childId }) => {
   // just finds first child with given title, need to pass in specific childId somehow
   // maybe default to title if childId is unknown
+  console.log('change foc comp reducer: childId: ', childId);
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
   const newFocusChild = focComp.childrenArray.find(child => child.childId === childId) || state.focusChild;
   return {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
@@ -34,7 +34,7 @@ export default class TransformerComponent extends Component {
       <Transformer
         className={'Transformer'}
         rotateEnabled={false}
-        ref={(node) => {
+        ref={node => {
           this.transformer = node;
         }}
         borderEnabled={false}

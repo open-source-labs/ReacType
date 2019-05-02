@@ -80,19 +80,15 @@ export const deleteComponent = ({ componentId, stateComponents }) => dispatch =>
   console.log('Hello from component.js delete component.componentId= ', componentId);
 
   // find all places where the "to be delted" is a child and do what u gotta do
-  stateComponents.forEach(parent => {
-    parent.childrenArray
-      .filter(child => child.childComponentId == componentId)
-      .forEach(child => {
-        // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
-        dispatch({
-          type: DELETE_CHILD,
-          payload: {
-            parentId: parent.id,
-            childId: child.childId,
-            calledFromDeleteComponent: true,
-          },
-        });
+  stateComponents.forEach((parent) => {
+    parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
+      dispatch({
+        type: DELETE_CHILD,
+        payload: {
+          parentId: parent.id,
+          childId: child.childId,
+          calledFromDeleteComponent: true,
+        },
       });
   });
 
