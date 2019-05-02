@@ -22,13 +22,13 @@ class GrandchildRectangle extends Component {
       scaleY,
       childId,
       componentId,
+      childType,
       childComponentName,
       childComponentId,
       width,
       height,
       focusChild,
-      components,
-      childType
+      components
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -49,6 +49,7 @@ class GrandchildRectangle extends Component {
           y={0}
           childId={childId}
           componentId={componentId}
+          childType={childType}
           scaleX={1}
           scaleY={1}
           width={width}
@@ -73,14 +74,11 @@ class GrandchildRectangle extends Component {
                 key={i}
                 components={components}
                 componentId={componentId}
+                childType={grandchild.childType}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                // x={grandchild.position.x * (width / window.innerWidth)}
-                // y={grandchild.position.y * (height / window.innerHeight)}
-                // width={grandchild.position.width * (width / window.innerWidth)}
-                // height={grandchild.position.height * (height / window.innerHeight)}
                 width={
                   grandchild.position.width *
                   (width / this.getPseudoChild().position.width)

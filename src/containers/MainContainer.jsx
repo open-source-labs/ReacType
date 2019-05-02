@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.jsx';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import theme from '../components/theme';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import BottomPanel from "../components/BottomPanel.jsx";
+import theme from "../components/theme";
 import {
   openExpansionPanel,
   handleTransform,
@@ -15,16 +15,17 @@ import {
   deleteChild,
   deleteComponent,
   createApplication,
-  changeImagePath,
-} from '../actions/components';
-import KonvaStage from '../components/KonvaStage.jsx';
-import MainContainerHeader from '../components/MainContainerHeader.jsx';
-import createModal from '../utils/createModal.util';
+  changeImagePath
+} from "../actions/components";
+import KonvaStage from "../components/KonvaStage.jsx";
+// import MainContainerHeader from "../components/ApplicationActions.jsx/index.js";
+import createModal from "../utils/createModal.util";
 
 const IPC = require("electron").ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
-  handleTransformation: (componentId, childId, {x, y, width, height}) => dispatch(
+  handleTransformation: (componentId, childId, { x, y, width, height }) =>
+    dispatch(
       handleTransform(componentId, childId, {
         x,
         y,
@@ -38,12 +39,17 @@ const mapDispatchToProps = dispatch => ({
   changeComponentFocusChild: ({ componentId, childId }) =>
     dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
-  deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
-  createApp: ({
-    path, components, genOption, repoUrl,
-  }) => dispatch(createApplication({
-    path, components, genOption, repoUrl,
-  })),
+  deleteComponent: ({ componentId, stateComponents }) =>
+    dispatch(deleteComponent({ componentId, stateComponents })),
+  createApp: ({ path, components, genOption, repoUrl }) =>
+    dispatch(
+      createApplication({
+        path,
+        components,
+        genOption,
+        repoUrl
+      })
+    )
 });
 
 const mapStateToProps = store => ({
@@ -55,27 +61,29 @@ const mapStateToProps = store => ({
 
 // genOptions: ['Export into existing projectASSS.', 'Export with starter repo.', 'Export with create-react-app.'],
 
-
 class MainContainer extends Component {
   state = {
-    repoUrl: '',
-    image: '',
+    repoUrl: "",
+    image: "",
     draggable: false,
     modal: null,
-    genOptions: ['Export components', 'Export components with application files'],
+    genOptions: [
+      "Export components",
+      "Export components with application files"
+    ],
     genOption: 0,
     draggable: false,
     toggleClass: true,
     scaleX: 1,
     scaleY: 1,
     x: undefined,
-    y: undefined,
+    y: undefined
   };
 
   constructor(props) {
     super(props);
 
-    IPC.on('new-file', (event, file) => {
+    IPC.on("new-file", (event, file) => {
       const image = new window.Image();
       image.src = file;
       this.props.changeImagePath(file);
@@ -85,11 +93,14 @@ class MainContainer extends Component {
       this.draggableItems = [];
     });
 
-    IPC.on('app_dir_selected', (event, path) => {
+    IPC.on("app_dir_selected", (event, path) => {
       const { components } = this.props;
       const { genOption, repoUrl } = this.state;
       this.props.createApp({
-        path, components, genOption, repoUrl,
+        path,
+        components,
+        genOption,
+        repoUrl
       });
     });
   }
@@ -101,91 +112,102 @@ class MainContainer extends Component {
       // setState will redraw layer
       // because "image" property is changed
       this.setState({
-        image,
+        image
       });
     };
-  }
+  };
 
   componentDidMount() {
     this.setImage();
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ repoUrl: event.target.value.trim() });
-  }
+  };
 
   updateImage = () => {
-    IPC.send('update-file');
-  }
+    IPC.send("update-file");
+  };
 
   increaseHeight = () => {
     this.setState({
       scaleX: this.state.scaleX * 1.5,
-      scaleY: this.state.scaleY * 1.5,
+      scaleY: this.state.scaleY * 1.5
     });
-  }
+  };
 
   decreaseHeight = () => {
     this.setState({
       scaleX: this.state.scaleX * 0.75,
-      scaleY: this.state.scaleY * 0.75,
+      scaleY: this.state.scaleY * 0.75
     });
-  }
+  };
 
   deleteImage = () => {
-    this.props.changeImagePath('');
-    this.setState({ image: '' });
+    this.props.changeImagePath("");
+    this.setState({ image: "" });
   };
 
   closeModal = () => this.setState({ modal: null });
 
-  chooseAppDir = () => IPC.send('choose_app_dir');
+  chooseAppDir = () => IPC.send("choose_app_dir");
 
   toggleDrag = () => {
     this.props.toggleComponetDragging(this.state.draggable);
     this.setState({
       toggleClass: !this.state.toggleClass,
-      draggable: !this.state.draggable,
+      draggable: !this.state.draggable
     });
-  }
+  };
 
   showImageDeleteModal = () => {
     const { closeModal, deleteImage } = this;
     this.setState({
       modal: createModal({
         closeModal,
-        message: 'Are you sure you want to delete image?',
-        secBtnLabel: 'Delete',
-        secBtnAction: () => { deleteImage(); closeModal(); },
-      }),
+        message: "Are you sure you want to delete image?",
+        secBtnLabel: "Delete",
+        secBtnAction: () => {
+          deleteImage();
+          closeModal();
+        }
+      })
     });
-  }
+  };
 
   displayUrlModal = () => {
     const { closeModal, chooseAppDir } = this;
-    const children = <TextField
-      id='url'
-      label='Repository URL'
-      placeholder='https://github.com/kriasoft/react-starter-kit.git'
-      margin='normal'
-      onChange={this.handleChange}
-      name='repoUrl'
-      style={{ width: '95%' }}
-    />;
+    const children = (
+      <TextField
+        id="url"
+        label="Repository URL"
+        placeholder="https://github.com/kriasoft/react-starter-kit.git"
+        margin="normal"
+        onChange={this.handleChange}
+        name="repoUrl"
+        style={{ width: "95%" }}
+      />
+    );
     this.setState({
       modal: createModal({
         closeModal,
         children,
-        message: 'Enter repository URL:',
-        primBtnLabel: 'Accept',
-        primBtnAction: () => { chooseAppDir(); closeModal(); },
-        secBtnLabel: 'Cancel',
-        secBtnAction: () => { this.setState({ repoUrl: '' }); closeModal(); },
-      }),
+        message: "Enter repository URL:",
+        primBtnLabel: "Accept",
+        primBtnAction: () => {
+          chooseAppDir();
+          closeModal();
+        },
+        secBtnLabel: "Cancel",
+        secBtnAction: () => {
+          this.setState({ repoUrl: "" });
+          closeModal();
+        }
+      })
     });
-  }
+  };
 
-  chooseGenOptions = (genOption) => {
+  chooseGenOptions = genOption => {
     // set option
     this.setState({ genOption });
     // closeModal
@@ -196,31 +218,40 @@ class MainContainer extends Component {
       // Choose app dir
       this.chooseAppDir();
     }
-  }
+  };
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
-    const children = <List className='export-preference'>{genOptions.map(
-      (option, i) => <ListItem key={i} button onClick={() => chooseGenOptions(i)} style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}>
-        <ListItemText primary={option} style={{ textAlign: 'center' }} />
-      </ListItem>,
-    )}
-    </List>;
+    const children = (
+      <List className="export-preference">
+        {genOptions.map((option, i) => (
+          <ListItem
+            key={i}
+            button
+            onClick={() => chooseGenOptions(i)}
+            style={{
+              border: "1px solid #3f51b5",
+              marginBottom: "2%",
+              marginTop: "5%"
+            }}
+          >
+            <ListItemText primary={option} style={{ textAlign: "center" }} />
+          </ListItem>
+        ))}
+      </List>
+    );
     this.setState({
       modal: createModal({
         closeModal,
         children,
-        message: 'Choose export preference:',
-      }),
+        message: "Choose export preference:"
+      })
     });
-  }
-
-
-
+  };
 
   render() {
-    const { draggable, scaleX, scaleY, modal, toggleClass, } = this.state;
+    const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
     const {
       components,
       handleTransformation,
@@ -233,12 +264,8 @@ class MainContainer extends Component {
       deleteComponent,
       stateComponents
     } = this.props;
-    const {
-      main,
-      showImageDeleteModal,
-      showGenerateAppModal,
-    } = this;
-    const cursor = this.state.draggable ? 'move' : 'default';
+    const { main, showImageDeleteModal, showGenerateAppModal } = this;
+    const cursor = this.state.draggable ? "move" : "default";
 
     // show a string of all direct parents. SO the user can gaze at it.
     const directParents = !focusComponent.id
@@ -247,7 +274,7 @@ class MainContainer extends Component {
           .filter(comp =>
             comp.childrenArray.some(
               kiddy => kiddy.childComponentId == focusComponent.id
-          )
+            )
           )
           .map(comp => comp.title)
           .join(",");
@@ -255,12 +282,12 @@ class MainContainer extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
-        {modal}
-        <MainContainerHeader
-          showImageDeleteModal={showImageDeleteModal}
-          showGenerateAppModal={showGenerateAppModal}
-        />
-       
+          {modal}
+          {/* <MainContainerHeader
+            showImageDeleteModal={showImageDeleteModal}
+            showGenerateAppModal={showGenerateAppModal}
+          /> */}
+
           <div className="main" ref={main}>
             <KonvaStage
               scaleX={1}
@@ -277,7 +304,7 @@ class MainContainer extends Component {
             />
           </div>
 
-          <div
+          {/* <div
             className="button-wrapper"
             style={{ background: "rgba(76, 175, 80, 0)" }}
           >
@@ -289,23 +316,19 @@ class MainContainer extends Component {
             </Button>
 
             <Button
-              style={{ width: "180px", display: "inline-block" }}
-              onClick={() =>
-                deleteComponent({
-                  componentId: focusComponent.id,
-                  stateComponents
-                })
+              style={{ width: '180px', display: 'inline-block' }}
+              onClick={() => deleteComponent({
+                componentId: focusComponent.id,
+                stateComponents,
+              })
               }
             >
               delete component
             </Button>
             <span>
-              {directParents
-                ? `Used in: ${directParents}`
-                : "Not used in any other component"}
+              {directParents ? `Used in: ${directParents}` : 'Not used in any other component'}
             </span>
-            
-          </div>
+          </div> */}
           <BottomPanel focusComponent={focusComponent} />
         </div>
       </MuiThemeProvider>

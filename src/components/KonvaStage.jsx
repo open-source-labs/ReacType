@@ -1,4 +1,6 @@
 import React, { Component, createRef, Fragment } from "react";
+import Button from "@material-ui/core/Button";
+
 // import PropTypes from 'prop-types';
 import {
   Stage,
@@ -18,7 +20,7 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
-      blockSnapSize: 5,
+      blockSnapSize: 7,
       grid: [],
       gridStroke: 1
     };
@@ -31,6 +33,63 @@ class KonvaStage extends Component {
     // for simplicity I will just listen window resize
     window.addEventListener("resize", this.checkSize);
     this.createGrid();
+  }
+
+  getDirectChildrenCopy(focusComponent) {
+    const component = this.props.components.find(
+      comp => comp.id === focusComponent.id
+    );
+
+    const childrenArr = component.childrenArray.filter(
+      child => child.childId !== "-1"
+    );
+
+    let childrenArrCopy = this.cloneDeep(childrenArr);
+
+    const pseudoChild = {
+      childId: "-1",
+      childComponentId: component.id,
+      componentName: component.title,
+      position: {
+        x: component.position.x,
+        y: component.position.y,
+        width: component.position.width,
+        height: component.position.height
+      },
+      draggable: true,
+      color: component.color
+    };
+    // console.log('getDirectChildrenCopy, pseudoChild.position: ', pseudoChild.position);
+    childrenArrCopy = childrenArrCopy.concat(pseudoChild);
+    return childrenArrCopy;
+  }
+
+  cloneDeep(value) {
+    let result;
+
+    if (Array.isArray(value)) {
+      result = [];
+      value.forEach(elm => {
+        if (typeof elm === "object") {
+          result.push(this.cloneDeep(elm));
+        } else {
+          result.push(elm);
+        }
+      });
+      return result;
+    }
+    if (typeof value === "object" && value !== null) {
+      result = {};
+      Object.keys(value).forEach(key => {
+        if (typeof value[key] === "object") {
+          result[key] = this.cloneDeep(value[key]);
+        } else {
+          result[key] = value[key];
+        }
+      });
+      return result;
+    }
+    return value;
   }
 
   componentWillUnmount() {
@@ -58,7 +117,6 @@ class KonvaStage extends Component {
       e.target.getParent().className === "Transformer";
     if (clickedOnTransformer) {
       console.log("user clicked on transformer");
-      console.log("HELLOOOO", e.target.getParent().className);
       return;
     }
 
@@ -119,7 +177,8 @@ class KonvaStage extends Component {
       components,
       handleTransform,
       focusComponent,
-      focusChild
+      focusChild,
+      deleteChild
     } = this.props;
 
     return (
@@ -132,6 +191,18 @@ class KonvaStage extends Component {
           this.container = node;
         }}
       >
+        <Button
+          onClick={deleteChild}
+          style={{
+            width: "150px",
+            position: "relative",
+            float: "right",
+            background: "#dbdbdb",
+            zIndex: 2
+          }}
+        >
+          delete child
+        </Button>
         <Stage
           className={"canvasStage"}
           ref={node => {
@@ -147,9 +218,8 @@ class KonvaStage extends Component {
             }}
           >
             {this.state.grid}
-            {components
-              .find(comp => comp.id === focusComponent.id)
-              .childrenArray.map((child, i) => (
+            {this.getDirectChildrenCopy(focusComponent)
+              .map((child, i) => (
                 <Rectangle
                   childType={child.childType}
                   key={`${i}${child.componentName}`}

@@ -10,50 +10,10 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import LeftColExpansionPanel from "../components/LeftColExpansionPanel.jsx";
 import HTMLComponentPanel from "../components/HTMLComponentPanel.jsx";
+import ApplicationActions from "../components/ApplicationActions.jsx";
 
 // import createModal from '../utils/createModal.util';
 import * as actions from "../actions/components";
-
-function styles() {
-  return {
-    cssLabel: {
-      color: "white",
-
-      "&$cssFocused": {
-        color: "green"
-      }
-    },
-    cssFocused: {},
-    input: {
-      color: "#fff",
-      opacity: "0.7",
-      marginBottom: "10px"
-    },
-    underline: {
-      color: "white",
-      "&::before": {
-        color: "white"
-      }
-    },
-    button: {
-      color: "#fff",
-
-      "&:disabled": {
-        color: "grey"
-      }
-    },
-    clearButton: {
-      top: "96%",
-      position: "sticky!important",
-      zIndex: "1",
-
-      "&:disabled": {
-        color: "grey",
-        backgroundColor: "#424242"
-      }
-    }
-  };
-}
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
@@ -83,7 +43,9 @@ const mapDispatchToProps = dispatch => ({
   changeFocusComponent: ({ title }) =>
     dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ title, childId }) =>
-    dispatch(actions.changeFocusChild({ title, childId }))
+    dispatch(actions.changeFocusChild({ title, childId })),
+  deleteComponent: ({ componentId, stateComponents }) =>
+    dispatch(actions.deleteComponent({ componentId, stateComponents }))
 });
 
 class LeftContainer extends Component {
@@ -119,8 +81,6 @@ class LeftContainer extends Component {
     } = this.props;
     const { componentName } = this.state;
 
-    // console.log(components);
-
     const componentsExpansionPanel = components
       .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
       .map((component, i) => (
@@ -135,14 +95,15 @@ class LeftContainer extends Component {
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
           selectableChildren={selectableChildren}
+          deleteComponent={deleteComponent}
+          components={components}
         />
       ));
 
-
     return (
-      <div className="column left">
-        <Grid container spacing={16} alignItems="baseline" align="stretch">
-          <Grid item xs={12}>
+      <div className="column left" position="relative">
+        <Grid container spacing={24} alignItems="baseline" align="stretch">
+          <Grid item xs={8}>
             <TextField
               id="title-input"
               label="Add class component"
@@ -183,15 +144,64 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <div className={"htmlPanel"}>
-          <HTMLComponentPanel
-            focusComponent={focusComponent}
-            addChild={addChild}
-          />
-        </div>
+        {/* <div className={classes.htmlCompWrapper}> */}
+        <HTMLComponentPanel
+          className={classes.htmlCompWrapper}
+          focusComponent={focusComponent}
+          addChild={addChild}
+        />
+        <ApplicationActions
+        // showImageDeleteModal={showImageDeleteModal}
+        // showGenerateAppModal={showGenerateAppModal}
+        />
+        {/* </div> */}
       </div>
     );
   }
+}
+
+function styles() {
+  return {
+    htmlCompWrapper: {
+      bottom: 0
+    },
+    cssLabel: {
+      color: "white",
+
+      "&$cssFocused": {
+        color: "green"
+      }
+    },
+    cssFocused: {},
+    input: {
+      color: "#fff",
+      opacity: "0.7",
+      marginBottom: "10px"
+    },
+    underline: {
+      color: "white",
+      "&::before": {
+        color: "white"
+      }
+    },
+    button: {
+      color: "#fff",
+
+      "&:disabled": {
+        color: "grey"
+      }
+    },
+    clearButton: {
+      top: "96%",
+      position: "sticky!important",
+      zIndex: "1",
+
+      "&:disabled": {
+        color: "grey",
+        backgroundColor: "#424242"
+      }
+    }
+  };
 }
 
 export default compose(

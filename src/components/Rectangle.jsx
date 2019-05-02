@@ -20,20 +20,18 @@ class Rectangle extends Component {
   }
 
   handleResize(componentId, childId, target, blockSnapSize) {
-    const focChild = this.props.components
-      .find(comp => comp.id === componentId)
+    // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
+    // so, grab the position of the focusChild manually from the children array
+    let focChild = this.props.components
+      .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 
+    if (childId == "-1") {
+      focChild = this.props.components.find(
+        comp => comp.id === this.props.componentId
+      );
+    }
     const transformation = {
-      // width:
-      //   Math.round((target.width() * target.scaleX()) / blockSnapSize) *
-      //   blockSnapSize,
-      // height:
-      //   Math.round((target.height() * target.scaleY()) / blockSnapSize) *
-      //   blockSnapSize,
-      // x: target.x() + focChild.position.x,
-      // y: target.y() + focChild.position.y
-
       width:
         Math.round((target.width() * target.scaleX()) / blockSnapSize) *
         blockSnapSize,
@@ -44,20 +42,17 @@ class Rectangle extends Component {
       y: target.y() + focChild.position.y
     };
 
+    console.log(transformation);
+
     this.props.handleTransform(componentId, childId, transformation);
   }
 
   handleDrag(componentId, childId, target, blockSnapSize) {
-    console.log(target);
-    console.log("blockSnapSize", blockSnapSize);
-
     const transformation = {
-      // x: target.x(),
-      // y: target.y()
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
-    console.log(transformation);
+    console.log("drag transformation: ", transformation);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -156,13 +151,11 @@ class Rectangle extends Component {
                 components={components}
                 componentId={componentId}
                 directParentName={childComponentName}
+                childType={grandchild.childType}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
-                // x={this.getPseudoChild().position.x}
-                // y={}
-                childType={grandchild.childType}
                 width={
                   grandchild.position.width *
                   (width / this.getPseudoChild().position.width)
@@ -179,9 +172,6 @@ class Rectangle extends Component {
                   (grandchild.position.y - this.getPseudoChild().position.y) *
                   (height / this.getPseudoChild().position.height)
                 }
-                // width={grandchild.position.width * (width / window.innerWidth)}
-                // height={grandchild.position.height * (height / window.innerHeight)}
-                // title={child.componentName + child.childId}
               />
             ))}
         {focusChild &&
