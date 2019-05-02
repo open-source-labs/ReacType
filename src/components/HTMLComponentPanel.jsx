@@ -1,45 +1,43 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import ImageIcon from "@material-ui/icons/Image";
-import FormIcon from "@material-ui/icons/Description";
-import ButtonIcon from "@material-ui/icons/EditAttributes";
-import LinkIcon from "@material-ui/icons/Link";
-import ListIcon from "@material-ui/icons/List";
-import ParagraphIcon from "@material-ui/icons/LocalParking";
-import theme from "../components/theme";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ImageIcon from '@material-ui/icons/Image';
+import FormIcon from '@material-ui/icons/Description';
+import ButtonIcon from '@material-ui/icons/EditAttributes';
+import LinkIcon from '@material-ui/icons/Link';
+import ListIcon from '@material-ui/icons/List';
+import ParagraphIcon from '@material-ui/icons/LocalParking';
 import Typography from '@material-ui/core/Typography';
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import theme from './theme.ts';
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
-
 
 class HTMLComponentPanel extends Component {
   state = {
-    HtmlComponentName: ""
+    HtmlComponentName: '',
   };
 
   handleChange = event => {
     this.setState({
-      HtmlComponentName: event.target.value
+      HtmlComponentName: event.target.value,
     });
   };
 
-  handleCreateComponent = componentType => {
-    let compNameAndType = this.state.componentName + componentType;
-    addChild(compNameAndType);
+  handleCreateHTMLChild = type => {
+    this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
   render() {
     const { addChild } = this.props;
     return (
-      <Paper className={"htmlPanelz"}>
+      <Paper className={'htmlPanelz'}>
         <Typography variant="title" component="h3">
-         Add HTML elements
-         </Typography>
+          Add HTML elements
+        </Typography>
         {/* <TextField
           id="title-input"
           label="Add HTML component"
@@ -62,37 +60,59 @@ class HTMLComponentPanel extends Component {
             <IconButton
               aria-label="Image"
               onClick={() => {
-                console.log(addChild);
-                // addChild({ title: "ImageX" });
-                // has to be the title of the focus component
-                // need to add another parameter for the type of the
+                this.handleCreateHTMLChild('Image');
               }}
             >
               <ImageIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Form">
+            <IconButton
+              aria-label="Form"
+              onClick={() => {
+                this.handleCreateHTMLChild('Form');
+              }}
+            >
               <FormIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Button">
+            <IconButton
+              aria-label="Button"
+              onClick={() => {
+                this.handleCreateHTMLChild('Button');
+              }}
+            >
               <ButtonIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Link">
+            <IconButton
+              aria-label="Link"
+              onClick={() => {
+                this.handleCreateHTMLChild('Link');
+              }}
+            >
               <LinkIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="List">
+            <IconButton
+              aria-label="List"
+              onClick={() => {
+                this.handleCreateHTMLChild('List');
+              }}
+            >
               <ListIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="List">
+            <IconButton
+              aria-label="Paragraph"
+              onClick={() => {
+                this.handleCreateHTMLChild('Paragraph');
+              }}
+            >
               <ParagraphIcon />
             </IconButton>
           </Grid>

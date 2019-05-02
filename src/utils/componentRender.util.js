@@ -1,9 +1,6 @@
-const componentRender = (component) => {
+const componentRender = (component, data) => {
   const {
-    stateful,
-    children,
-    title,
-    props,
+    stateful, children, title, props,
   } = component;
 
   if (stateful) {
@@ -21,14 +18,22 @@ const componentRender = (component) => {
         const { ${props.map(p => `${p.key}`).join(', ')} } = this.props;
         return (
           <div>
-          ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+          ${children
+    .map(
+      child => `<${child.title} ${child.props
+        .map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ')}/>`,
+    )
+    .join('\n')}
           </div>
         )
         }
       }
 
       ${title}.propTypes = {
-        ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
+        ${props
+    .map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`)
+    .join('\n')}
       }
 
       export default ${title};
@@ -42,12 +47,20 @@ const componentRender = (component) => {
   
     const ${title} = props => (
       <div>
-        ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+        ${children
+    .map(
+      child => `<${child.title} ${child.props
+        .map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ')}/>`,
+    )
+    .join('\n')}
       </div>
     );
 
     ${title}.propTypes = {
-      ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
+      ${props
+    .map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`)
+    .join('\n')}
     }
 
     export default ${title};

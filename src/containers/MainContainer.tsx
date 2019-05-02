@@ -6,7 +6,8 @@ import BottomPanel from '../components/BottomPanel.jsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import theme from '../components/theme';
+import BottomPanel from '../components/BottomPanel.jsx';
+import theme from '../components/theme.ts';
 import {
   openExpansionPanel,
   handleTransform,
