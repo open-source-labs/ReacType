@@ -9,8 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -22,62 +20,46 @@ const styles = theme => ({
   },
 });
 
-
-/****************************
- * cannot have a row header or a key in the data  called "key" 
- * ,ust have unique id 
+/** **************************
+ * cannot have a row header or a key in the data  called "key"
+ * ,ust have unique id
  * ****************************** */
 
 function dataTable(props) {
-  const { classes , rowData, rowHeader , deletePropHandler } = props;
-  
-  // console.log(classes)
-  // console.log(`rowHeader`)
-  // console.log(rowHeader)
-  //  console.log(`rowData`)
-  //  console.log(rowData)
+  const {
+    classes, rowData, rowHeader, deletePropHandler,
+  } = props;
 
-   const renderHeader = rowHeader.map( (col,idx) =>  {
-    return <TableCell key={`head_+${idx}`}>{col}</TableCell>
-   })
+  const renderHeader = rowHeader.map((col, idx) => (
+    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+  ));
 
-  function renderRowCells  (row) {
-    if(!row) return; 
-    // for some reason we must put each value in a div. 
-    return (
-      rowHeader.map( (header,idx) => 
-        <TableCell key={'td_'+ idx}>
-          <div>
-            { typeof row[header] == 'string' ? row[header] : row[header].toString()  }
-          </div>
-          </TableCell>
-        )
-    )
- }
-  
-  const renderRows = 
-  rowData.map((row) => 
-        <TableRow key={`row-${row.id}`}>
-        {renderRowCells(row)}    
-         <TableCell>  
-          <Button onClick={ ()=>deletePropHandler(row.id) } >
-          Delete
-          </Button> 
-        </TableCell> 
-        </TableRow> 
- )
+  function renderRowCells(row) {
+    if (!row) return;
+    // for some reason we must put each value in a div.
+    return rowHeader.map((header, idx) => (
+      <TableCell key={`td_${idx}`}>
+        <div>{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div>
+      </TableCell>
+    ));
+  }
+
+  const renderRows = rowData.map(row => (
+    <TableRow key={`row-${row.id}`}>
+      {renderRowCells(row)}
+      <TableCell>
+        <Button onClick={() => deletePropHandler(row.id)}>Delete</Button>
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-           {renderHeader}
-          </TableRow>
+          <TableRow>{renderHeader}</TableRow>
         </TableHead>
-        <TableBody>
-          {renderRows}
-        </TableBody>
+        <TableBody>{renderRows}</TableBody>
       </Table>
     </Paper>
   );
