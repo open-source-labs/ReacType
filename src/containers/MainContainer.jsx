@@ -13,6 +13,7 @@ import {
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild,
+  deleteComponent,
   createApplication,
   changeImagePath,
 } from '../actions/components';
