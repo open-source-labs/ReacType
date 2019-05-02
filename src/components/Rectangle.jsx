@@ -126,6 +126,7 @@ class Rectangle extends Component {
                 components={components}
                 componentId={componentId}
                 directParentName={childComponentName}
+                childType={grandchild.childType}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
