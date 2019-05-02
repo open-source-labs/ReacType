@@ -3,7 +3,6 @@ import { Rect, Group } from 'react-konva';
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
-    console.log(componentId);
     const color = this.props.components.find(comp => comp.id == componentId).color;
     return color;
   }

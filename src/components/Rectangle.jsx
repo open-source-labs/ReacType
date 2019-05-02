@@ -19,16 +19,23 @@ class Rectangle extends Component {
   }
 
   handleResize(componentId, childId, target, blockSnapSize) {
-    const focChild = this.props.focusChild;
-    // const focChild = this.props.components.find(comp => comp.id === componentId).focusChild;
-    // .childrenArray.find(child => child.childId === childId);
+    // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
+    // so, grab the position of the focusChild manually from the children array
+    let focChild = this.props.components
+      .find(comp => comp.id === this.props.componentId)
+      .childrenArray.find(child => child.childId === childId);
 
+    if (childId == '-1') {
+      focChild = this.props.components.find(comp => comp.id === this.props.componentId);
+    }
     const transformation = {
       width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
       height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y,
     };
+
+    console.log(transformation);
 
     this.props.handleTransform(componentId, childId, transformation);
   }

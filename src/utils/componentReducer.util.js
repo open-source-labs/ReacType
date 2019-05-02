@@ -278,7 +278,7 @@ export const handleTransform = (state, {
       }),
       transformedComponent,
     ];
-    console.log('trans pos: ', transformedComponent.position);
+    // console.log('trans pos: ', transformedComponent.position);
     return { ...state, components };
   }
 
@@ -423,6 +423,7 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
 export const changeFocusChild = (state, { title, childId }) => {
   // just finds first child with given title, need to pass in specific childId somehow
   // maybe default to title if childId is unknown
+  console.log('change foc comp reducer: childId: ', childId);
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
   let newFocusChild = focComp.childrenArray.find(child => child.childId === childId);
 
