@@ -7,6 +7,10 @@ class GrandchildRectangle extends Component {
     return color;
   }
 
+  getPseudoChild() {
+    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+  }
+
   render() {
     const {
       x,
@@ -22,6 +26,7 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
+      childType,
     } = this.props;
 
     // the Group is responsible for dragging of all children
