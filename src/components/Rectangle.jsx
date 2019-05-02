@@ -162,6 +162,7 @@ class Rectangle extends Component {
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
                 // x={this.getPseudoChild().position.x}
                 // y={}
+                childType={grandchild.childType}
                 width={
                   grandchild.position.width *
                   (width / this.getPseudoChild().position.width)

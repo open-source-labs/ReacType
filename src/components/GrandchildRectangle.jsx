@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
-import { Rect, Group } from 'react-konva';
+import React, { Component } from "react";
+import { Rect, Group } from "react-konva";
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
-    const color = this.props.components.find(comp => comp.id == componentId).color;
+    const color = this.props.components.find(comp => comp.id == componentId)
+      .color;
     return color;
   }
 
   getPseudoChild() {
-    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+    return this.props.components.find(
+      comp => comp.id === this.props.childComponentId
+    );
   }
 
   render() {
@@ -25,6 +28,7 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
+      childType
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -49,41 +53,52 @@ class GrandchildRectangle extends Component {
           scaleY={1}
           width={width}
           height={height}
-          stroke={this.getComponentColor(childComponentId)}
+          stroke={
+            childType === "COMP"
+              ? this.getComponentColor(childComponentId)
+              : "#000000"
+          }
           // fill={color}
           // opacity={0.8}
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
         />
-        {components
-          .find(comp => comp.title === childComponentName)
-          .childrenArray.filter(child => child.childId !== '-1')
-          .map((grandchild, i) => (
-            <GrandchildRectangle
-              key={i}
-              components={components}
-              componentId={componentId}
-              childComponentName={grandchild.componentName}
-              childComponentId={grandchild.childComponentId}
-              focusChild={focusChild}
-              childId={childId}
-              // x={grandchild.position.x * (width / window.innerWidth)}
-              // y={grandchild.position.y * (height / window.innerHeight)}
-              // width={grandchild.position.width * (width / window.innerWidth)}
-              // height={grandchild.position.height * (height / window.innerHeight)}
-              width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
-              height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
-              x={
-                (grandchild.position.x - this.getPseudoChild().position.x)
-                * (width / this.getPseudoChild().position.width)
-              }
-              y={
-                (grandchild.position.y - this.getPseudoChild().position.y)
-                * (height / this.getPseudoChild().position.height)
-              }
-            />
-          ))}
+        {childType === "COMP" &&
+          components
+            .find(comp => comp.title === childComponentName)
+            .childrenArray.filter(child => child.childId !== "-1")
+            .map((grandchild, i) => (
+              <GrandchildRectangle
+                key={i}
+                components={components}
+                componentId={componentId}
+                childComponentName={grandchild.componentName}
+                childComponentId={grandchild.childComponentId}
+                focusChild={focusChild}
+                childId={childId}
+                // x={grandchild.position.x * (width / window.innerWidth)}
+                // y={grandchild.position.y * (height / window.innerHeight)}
+                // width={grandchild.position.width * (width / window.innerWidth)}
+                // height={grandchild.position.height * (height / window.innerHeight)}
+                width={
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
+                }
+                height={
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
+                }
+                x={
+                  (grandchild.position.x - this.getPseudoChild().position.x) *
+                  (width / this.getPseudoChild().position.width)
+                }
+                y={
+                  (grandchild.position.y - this.getPseudoChild().position.y) *
+                  (height / this.getPseudoChild().position.height)
+                }
+              />
+            ))}
       </Group>
     );
   }
