@@ -64,16 +64,15 @@ const styles = theme => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addProp: ({
-    key, value, required, type,
-  }) => dispatch(
-    addProp({
-      key,
-      value,
-      required,
-      type,
-    }),
-  ),
+  addProp: ({ key, value, required, type }) =>
+    dispatch(
+      addProp({
+        key,
+        value,
+        required,
+        type,
+      }),
+    ),
   deleteProp: propId => dispatch(deleteProp(propId)),
 });
 
@@ -110,7 +109,7 @@ class Props extends Component {
     propType: '',
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value.trim(),
     });
@@ -122,12 +121,10 @@ class Props extends Component {
     });
   };
 
-  handleAddProp = (event) => {
+  handleAddProp = event => {
     event.preventDefault();
 
-    const {
-      propKey, propValue, propRequired, propType,
-    } = this.state;
+    const { propKey, propValue, propRequired, propType } = this.state;
 
     // check if prop exists with same key. CANNOT have doubles
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -152,33 +149,31 @@ class Props extends Component {
   };
 
   render() {
-    const {
-      focusComponent, classes, deleteProp, addProp,
-    } = this.props;
+    const { focusComponent, classes, deleteProp, addProp } = this.props;
 
     const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData
-    const propsRows = focusComponent.props.map(prop => ({
-      _Key: prop.key,
-      Value: prop.value,
-      Type: prop.type,
-      Required: prop.required,
-      id: prop.id,
-    }));
+    const propsRows = focusComponent.props.map(prop => {
+      return {
+        _Key: prop.key,
+        Value: prop.value,
+        Type: prop.type,
+        Required: prop.required,
+        id: prop.id,
+      };
+    });
 
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
       <div>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', marginLeft: '20px' }}>
-            Click a component to view its props.
-          </div>
+          <div style={{ marginTop: '20px', marginLeft: '20px' }}>Click a component to view its props.</div>
         ) : (
           <Fragment>
             <div className="props-container">
-              <Grid container spacing={12}>
-                <Grid item xs={3}>
+              <Grid container spacing={16}>
+                <Grid item xs={5}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={24}>
                       <Grid item xs={6}>
@@ -260,12 +255,8 @@ class Props extends Component {
                     </Grid>
                   </form>
                 </Grid>
-                <Grid item xs={9}>
-                  <DataTable
-                    rowHeader={rowHeader}
-                    rowData={propsRows}
-                    deletePropHandler={deleteProp}
-                  />
+                <Grid item xs={11}>
+                  <DataTable rowHeader={rowHeader} rowData={propsRows} deletePropHandler={deleteProp} />
                 </Grid>
               </Grid>
               {/* <div className="chips">

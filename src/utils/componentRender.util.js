@@ -10,7 +10,7 @@ const componentRender = (component) => {
     return `
       import React, { Component } from 'react';
       import PropTypes from 'prop-types';
-      ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
+      ${children.map(child => `import ${child.title} from './${child.title}.tsx'`).join('\n')}
 
       class ${title} extends Component {
       constructor(props) {
@@ -38,7 +38,7 @@ const componentRender = (component) => {
   return `
     import React from 'react';
     import PropTypes from 'prop-types';
-    ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
+    ${children.map(child => `import ${child.title} from './${child.title}.tsx'`).join('\n')}
   
     const ${title} = props => (
       <div>
