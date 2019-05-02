@@ -177,10 +177,10 @@ class Props extends Component {
         ) : (
           <Fragment>
             <div className="props-container">
-              <Grid container spacing={16}>
-                <Grid item xs={5}>
+              <Grid container spacing={8}>
+                <Grid item xs={4}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
-                    <Grid container spacing={24}>
+                    <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <TextField
                           id="propKey"
@@ -260,7 +260,7 @@ class Props extends Component {
                     </Grid>
                   </form>
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={8}>
                   <DataTable
                     rowHeader={rowHeader}
                     rowData={propsRows}
