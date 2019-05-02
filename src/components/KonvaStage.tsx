@@ -44,8 +44,8 @@ class KonvaStage extends Component {
       draggable: true,
       color: component.color,
     };
+    // console.log('getDirectChildrenCopy, pseudoChild.position: ', pseudoChild.position);
     childrenArrCopy = childrenArrCopy.concat(pseudoChild);
-    console.log('arr copy: ', childrenArrCopy);
     return childrenArrCopy;
   }
 
