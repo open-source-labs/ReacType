@@ -65,7 +65,7 @@ class KonvaStage extends Component {
       });
       return result;
     }
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
       result = {};
       Object.keys(value).forEach((key) => {
         if (typeof value[key] === 'object') {
@@ -187,6 +187,7 @@ class KonvaStage extends Component {
             {this.getDirectChildrenCopy(focusComponent)
               .map((child, i) => (
                 <Rectangle
+                  childType={child.childType}
                   key={`${i}${child.componentName}`}
                   components={components}
                   componentId={focusComponent.id}
