@@ -10,7 +10,7 @@ import ButtonIcon from "@material-ui/icons/EditAttributes";
 import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
 import ParagraphIcon from "@material-ui/icons/LocalParking";
-import theme from "../components/theme";
+import theme from "../components/theme.ts";
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";

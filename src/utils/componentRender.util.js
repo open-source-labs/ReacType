@@ -1,7 +1,9 @@
-const componentRender = (component) => {
+const componentRender = (component, data) => {
   const {
     stateful,
-    children,
+    id,
+    position,
+    childrenArray,
     title,
     props,
   } = component;
@@ -10,8 +12,8 @@ const componentRender = (component) => {
     return `
       import React, { Component } from 'react';
       import PropTypes from 'prop-types';
-      ${children.map(child => `import ${child.title} from './${child.title}.tsx'`).join('\n')}
-
+      ${childrenArray.map(child => `import ${child.componentName} from './${child.componentName}.tsx'`).join('\n')}
+      
       class ${title} extends Component {
       constructor(props) {
         super(props);
@@ -21,7 +23,7 @@ const componentRender = (component) => {
         const { ${props.map(p => `${p.key}`).join(', ')} } = this.props;
         return (
           <div>
-          ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+          ${childrenArray.map(child => `<${child.componentName}/>`).join('\n')}
           </div>
         )
         }
@@ -38,11 +40,15 @@ const componentRender = (component) => {
   return `
     import React from 'react';
     import PropTypes from 'prop-types';
-    ${children.map(child => `import ${child.title} from './${child.title}.tsx'`).join('\n')}
-  
+    ${childrenArray.map(child => `import ${child.componentName} from './${child.componentName}.tsx'`).join('\n')}
+    
+
+    type Props = {
+      
+    }
     const ${title} = props => (
       <div>
-        ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+        ${childrenArray.map(child => `<${child.componentName}/>`).join('\n')}
       </div>
     );
 

@@ -44,6 +44,7 @@ function exportComponents() {
 ipcMain.on('choose_app_dir', (event) => {
   const directory = dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
+    buttonLabel: 'Export',
   });
 
   if (!directory) return;
