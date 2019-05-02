@@ -34,7 +34,7 @@ const LeftColExpansionPanel = props => {
     .join(",");
 
   function isFocused() {
-    return focusComponent.title === title ? "focused" : "";
+    return focusComponent.id == id ? "focused" : "";
   }
 
   return (
