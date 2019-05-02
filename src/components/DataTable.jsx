@@ -8,6 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { IconButton } from '@material-ui/core';
+
 
 const styles = theme => ({
   root: {
@@ -16,7 +19,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 500,
   },
 });
 
@@ -34,26 +37,33 @@ function dataTable(props) {
     if (!row) return;
     // for some reason we must put each value in a div.
     return rowHeader.map((header, idx) => (
-      <TableCell key={`td_${idx}`}>
-        <div>{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div>
+      <TableCell  align={'center'} key={`td_${idx}`}>
+        {/* <div  align={'center'} padding = {'none'} >{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div> */}
+      {/* {row[header]} */}
+      {typeof row[header] === 'string' ? row[header] : row[header].toString()}
       </TableCell>
     ));
   }
-
+//style={{height: 30}} 
   const renderRows = rowData.map(row => (
     <TableRow key={`row-${row.id}`}>
       {renderRowCells(row)}
-      <TableCell>
-        <Button onClick={() => deletePropHandler(row.id)}>Delete</Button>
+      <TableCell align={'center'} padding = {'none'}  >
+        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row.id)} >
+            <DeleteIcon/>
+        </IconButton>
+        {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}
       </TableCell>
     </TableRow>
   ));
 
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table}>
+      <Table className={classes.table}
+         selectable = {"true"}
+      >
         <TableHead>
-          <TableRow>{renderHeader}</TableRow>
+          <TableRow >{renderHeader}</TableRow>
         </TableHead>
         <TableBody>{renderRows}</TableBody>
       </Table>
