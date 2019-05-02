@@ -1,53 +1,52 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
-import ImageSearchIcon from '@material-ui/icons/ImageSearch';
-import OpenWithIcon from '@material-ui/icons/OpenWith';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
+import Button from "@material-ui/core/Button";
+import ZoomInIcon from "@material-ui/icons/ZoomIn";
+import ZoomOutIcon from "@material-ui/icons/ZoomOut";
+import ImageSearchIcon from "@material-ui/icons/ImageSearch";
+import OpenWithIcon from "@material-ui/icons/OpenWith";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import { withStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = () => ({
   iconSmall: {
-    fontSize: 10,
+    fontSize: 10
   },
   button: {
     // borderRight: '1px solid grey',
-    borderRadius: '0px',
-    backgroundColor: '#212121',
+    borderRadius: "0px",
+    backgroundColor: "#212121",
 
-    '&:hover > span > svg': {
-      color: '#1de9b6',
-      transition: 'all .2s ease',
+    "&:hover > span > svg": {
+      color: "#1de9b6",
+      transition: "all .2s ease"
     },
-    '&:hover': {
-      backgroundColor: '#212121',
+    "&:hover": {
+      backgroundColor: "#212121"
     },
-    '&:disabled': {
-      backgroundColor: '#424242',
+    "&:disabled": {
+      backgroundColor: "#424242"
     },
 
-    '&:disabled > span > svg': {
-      color: '#eee',
-      opacity: '0.3',
-    },
+    "&:disabled > span > svg": {
+      color: "#eee",
+      opacity: "0.3"
+    }
   },
   light: {
-    color: '#eee',
+    color: "#eee"
     // opacity: '0.7',
   },
   dark: {
-    color: '#1de9b6',
-  },
+    color: "#1de9b6"
+  }
 });
 
-
-const MainContainerHeader = (props) => {
+const MainContainerHeader = props => {
   const {
     classes,
     image,
@@ -56,7 +55,7 @@ const MainContainerHeader = (props) => {
     totalComponents,
     showGenerateAppModal,
     collapseColumn,
-    rightColumnOpen,
+    rightColumnOpen
   } = props;
 
   return (
@@ -74,14 +73,18 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title={image ? 'update image' : 'upload image'}>
+        <Tooltip title={image ? "update image" : "upload image"}>
           <div>
-            <Button color="default" className={classes.button} onClick={updateImage}>
+            <Button
+              color="default"
+              className={classes.button}
+              onClick={updateImage}
+            >
               <ImageSearchIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title={'export'}>
+        <Tooltip title={"export"}>
           <div>
             <Button
               color="default"
