@@ -32,10 +32,15 @@ class HTMLComponentPanel extends Component {
   };
 
   render() {
-    const { addChild } = this.props;
+    const { addChild, classes } = this.props;
     return (
+<<<<<<< HEAD
       <Paper className={'htmlPanelz'}>
         <Typography variant="title" component="h3">
+=======
+      <div className={classes.htmlPanel}>
+        <Typography variant="title" component="h4">
+>>>>>>> 639d41c977d8447f856680105bf8f2ff24b70055
           Add HTML elements
         </Typography>
         {/* <TextField
@@ -122,13 +127,29 @@ class HTMLComponentPanel extends Component {
             </IconButton>
           </Grid>
         </Grid>
-      </Paper>
+      </div>
     );
   }
 }
 
-function styles() {
-  return {};
+function styles(theme) {
+  return {
+    htmlPanel: {
+      width: "100%",
+      height: "33%",
+      // flexGrow: 1,
+      backgroundColor: "#333333",
+      // position: "absolute",
+      // marginTop: 10,
+      bottom: "0px"
+      // // marginRight: "20px",
+      // // marginLeft: "20px",
+      // // marginBottom: "20px",
+      // bottom: "0px",
+      // left: "0px",
+      // right: "0px"
+    }
+  };
 }
 
 export default withStyles(styles)(HTMLComponentPanel);
