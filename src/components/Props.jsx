@@ -153,15 +153,13 @@ class Props extends Component {
 
     const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData
-    const propsRows = focusComponent.props.map(prop => {
-      return {
-        _Key: prop.key,
-        Value: prop.value,
-        Type: prop.type,
-        Required: prop.required,
-        id: prop.id,
-      };
-    });
+    const propsRows = focusComponent.props.map(prop => ({
+      _Key: prop.key,
+      Value: prop.value,
+      Type: prop.type,
+      Required: prop.required,
+      id: prop.id,
+    }));
 
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>

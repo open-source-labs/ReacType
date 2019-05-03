@@ -179,6 +179,51 @@ class LeftContainer extends Component {
   }
 }
 
+function styles() {
+  return {
+    htmlCompWrapper: {
+      bottom: 0,
+      height: '20px',
+    },
+    cssLabel: {
+      color: 'white',
+
+      '&$cssFocused': {
+        color: 'green',
+      },
+    },
+    cssFocused: {},
+    input: {
+      color: '#fff',
+      opacity: '0.7',
+      marginBottom: '10px',
+    },
+    underline: {
+      color: 'white',
+      '&::before': {
+        color: 'white',
+      },
+    },
+    button: {
+      color: '#fff',
+
+      '&:disabled': {
+        color: 'grey',
+      },
+    },
+    clearButton: {
+      top: '96%',
+      position: 'sticky!important',
+      zIndex: '1',
+
+      '&:disabled': {
+        color: 'grey',
+        backgroundColor: '#424242',
+      },
+    },
+  };
+}
+
 export default compose(
   withStyles(styles),
   connect(

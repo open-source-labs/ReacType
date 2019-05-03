@@ -101,7 +101,7 @@ function styles(theme) {
   return {
     root: {
       width: '100%',
-      flexGrow: 1,
+      // flexGrow: 1,
       marginTop: 10,
       backgroundColor: '#333333',
     },
