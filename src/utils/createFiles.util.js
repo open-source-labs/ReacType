@@ -23,7 +23,7 @@ const createFiles = (data, path) => {
           trailingComma: 'es5',
           bracketSpacing: true,
           jsxBracketSameLine: true,
-          parser: 'babylon',
+          parser: 'typescript',
         }),
         (err) => {
           if (err) return reject(err.message);
