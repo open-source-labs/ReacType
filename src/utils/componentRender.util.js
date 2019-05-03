@@ -1,25 +1,20 @@
 const componentRender = (component, data) => {
-  const {
-    stateful, id, position, childrenArray, title, props,
-  } = component;
+  const { stateful, id, position, childrenArray, title, props } = component;
 
   // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
       import React, { Component } from 'react';
-      ${
-  // .filter(child => child.childType !== 'HTML')
-  childrenArray
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
-        return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')
-}
+      ${childrenArray
+        .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+        .reduce((acc, child) => {
+          if (!acc.includes(child)) {
+            acc.push(child);
+            return acc;
+          }
+          return acc;
+        }, [])
+        .join('\n')}
       
       class ${title} extends Component {
       constructor(props) {
@@ -42,19 +37,16 @@ const componentRender = (component, data) => {
 
   return `
     import React from 'react';
-    ${
-  // .filter(child => child.childType !== 'HTML')
-  childrenArray
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
+    ${childrenArray
+      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+      .reduce((acc, child) => {
+        if (!acc.includes(child)) {
+          acc.push(child);
+          return acc;
+        }
         return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')
-}
+      }, [])
+      .join('\n')}
     
 
     type Props = {
