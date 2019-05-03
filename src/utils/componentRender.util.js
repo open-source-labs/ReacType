@@ -7,7 +7,9 @@ const componentRender = (component, data) => {
   if (stateful) {
     return `
       import React, { Component } from 'react';
-      ${childrenArray
+      ${
+  // .filter(child => child.childType !== 'HTML')
+  childrenArray
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc, child) => {
       if (!acc.includes(child)) {
@@ -16,7 +18,8 @@ const componentRender = (component, data) => {
       }
       return acc;
     }, [])
-    .join('\n')}
+    .join('\n')
+}
       
       class ${title} extends Component {
       constructor(props) {
@@ -39,7 +42,9 @@ const componentRender = (component, data) => {
 
   return `
     import React from 'react';
-    ${childrenArray
+    ${
+  // .filter(child => child.childType !== 'HTML')
+  childrenArray
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc, child) => {
       if (!acc.includes(child)) {
@@ -48,7 +53,8 @@ const componentRender = (component, data) => {
       }
       return acc;
     }, [])
-    .join('\n')}
+    .join('\n')
+}
     
 
     type Props = {
