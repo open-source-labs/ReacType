@@ -54,7 +54,14 @@ const componentRender = (component, data) => {
 
     const ${title} = (props: Props) => (
       <div>
-        ${childrenArray.map(child => `<${child.componentName}/>`).join('\n')}
+        ${childrenArray
+    .map(
+      child => `<${child.componentName} ${data
+        .find(c => c.id === child.childComponentId)
+        .props.map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ')}/>`,
+    )
+    .join('\n')}
       </div>
     );
 
