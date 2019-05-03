@@ -15,7 +15,7 @@ const LeftColExpansionPanel = props => {
   const { title, id, color } = component;
 
   function isFocused() {
-    return focusComponent.title === title ? 'focused' : '';
+    return focusComponent.id == id ? 'focused' : '';
   }
 
   return (
@@ -101,7 +101,7 @@ function styles(theme) {
   return {
     root: {
       width: '100%',
-      flexGrow: 1,
+      // flexGrow: 1,
       marginTop: 10,
       backgroundColor: '#333333',
     },
