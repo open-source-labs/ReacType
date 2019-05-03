@@ -82,6 +82,7 @@ const mapStateToProps = store => ({
 
 const availablePropTypes = {
   string: 'STR',
+  number: 'NUM',
   object: 'OBJ',
   array: 'ARR',
   number: 'NUM',
@@ -90,6 +91,9 @@ const availablePropTypes = {
   symbol: 'SYM',
   node: 'NODE',
   element: 'ELEM',
+  any: 'ANY',
+  tuple: 'TUP',
+  enum: 'ENUM',
 };
 
 const typeOptions = [
