@@ -132,11 +132,11 @@ function styles(theme) {
     htmlPanel: {
       width: "100%",
       height: "33%",
-      flexGrow: 1,
+      // flexGrow: 1,
       backgroundColor: "#333333",
       // position: "absolute",
       // marginTop: 10,
-      bottom: 0
+      bottom: "0px"
       // // marginRight: "20px",
       // // marginLeft: "20px",
       // // marginBottom: "20px",
