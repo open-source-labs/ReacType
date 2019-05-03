@@ -38,6 +38,7 @@ const componentRender = (component, data) => {
     return `
       import React, { Component } from 'react';
       ${childrenArray
+    .filter(child => child.childType !== 'HTML')
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc, child) => {
       if (!acc.includes(child)) {
@@ -66,7 +67,6 @@ const componentRender = (component, data) => {
       export default ${title};
     `;
   }
-
   return `
     import React from 'react';
     ${childrenArray
@@ -81,9 +81,8 @@ const componentRender = (component, data) => {
     }, [])
     .join('\n')}
     
-
     type Props = {
-      ${props.map(p => `${p.key}: ${p.type}`).join('\n')}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
     }
 
     const ${title} = (props: Props) => (
