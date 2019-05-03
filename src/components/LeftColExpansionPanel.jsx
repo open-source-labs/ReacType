@@ -1,12 +1,6 @@
 import React, { Fragment } from "react";
-// import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-// import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from "@material-ui/core/Typography";
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Divider from '@material-ui/core/Divider';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
@@ -14,67 +8,108 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 import { openExpansionPanel } from "../utils/componentReducer.util";
 
 const LeftColExpansionPanel = props => {
   const {
-    // index,
     classes,
     focusComponent,
     component,
-    // deleteComponent,
     addChild,
     changeFocusComponent,
-    // changeFocusChild,
-    selectableChildren
+    selectableChildren,
+    components,
+    deleteComponent
   } = props;
   const { title, id, color } = component;
 
+  // show a string of all direct parents. SO the user can gaze at it.
+  const directParents = components
+    .filter(comp =>
+      comp.childrenArray.some(kiddy => kiddy.childComponentId == id)
+    )
+    .map(comp => comp.title)
+    .join(",");
+
   function isFocused() {
-    return focusComponent.title === title ? "focused" : "";
+    return focusComponent.id == id ? "focused" : "";
   }
 
   return (
-    <div className={classes.root}>
-      <Grid item xs={12} md={6} style={{ color: "red" }}>
-        <List style={{ color: "red" }}>
-          <ListItem
-            button
-            component="a"
-            style={{ color: "red" }}
-            onClick={() => {
-              changeFocusComponent({ title });
-            }}
-          >
-            <ListItemText
-              disableTypography
-              className={classes.light}
-              primary={
-                <Typography type="body2" style={{ color: "#FFFFFF" }}>
-                  {title}
-                </Typography>
-              }
-              secondary={isFocused()}
-              style={{ color }}
-            />
-            <ListItemSecondaryAction>
-              {isFocused() || !selectableChildren.includes(id) ? (
-                <div />
-              ) : (
-                <IconButton aria-label="Add">
-                  <AddIcon
-                    style={{ color, float: "right" }}
-                    onClick={() => {
-                      addChild({ title });
-                    }}
-                  />
-                </IconButton>
-              )}
-            </ListItemSecondaryAction>
-          </ListItem>
-        </List>
+    <Grid
+      container
+      spacing={16}
+      direction="row"
+      justify="flex-start"
+      alignItems="baseline"
+    >
+      <Grid item xs={9}>
+        <div className={classes.root}>
+          <Grid item xs={12} style={{ color: "red" }}>
+            <List style={{ color: "red" }}>
+              <ListItem
+                button
+                component="a"
+                style={{ color: "red" }}
+                onClick={() => {
+                  changeFocusComponent({ title });
+                }}
+              >
+                <ListItemText
+                  disableTypography
+                  className={classes.light}
+                  primary={
+                    <Typography type="body2" style={{ color: "#FFFFFF" }}>
+                      {title}
+                    </Typography>
+                  }
+                  secondary={isFocused()}
+                  style={{ color }}
+                />
+              </ListItem>
+            </List>
+          </Grid>
+          {id == 1 || !isFocused() ? (
+            <div />
+          ) : (
+            <Fragment>
+              <IconButton
+                style={{ display: "inline-block" }}
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components
+                  })
+                }
+              >
+                <DeleteIcon />
+              </IconButton>
+
+              <span>
+                {directParents ? `Used in: ${directParents}` : "Not used"}
+              </span>
+            </Fragment>
+          )}
+        </div>
       </Grid>
-    </div>
+
+      <Grid item xs={3}>
+        {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
+          <div />
+        ) : (
+          <IconButton aria-label="Add">
+            <AddIcon
+              style={{ color, float: "right" }}
+              onClick={() => {
+                addChild({ title, childType: "COMP" });
+              }}
+            />
+          </IconButton>
+        )}
+      </Grid>
+    </Grid>
   );
 };
 
@@ -113,21 +148,11 @@ export default withStyles(styles)(LeftColExpansionPanel);
 </div>
 */
 
-// LeftColExpansionPanel.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   component: PropTypes.object,
-//   index: PropTypes.number,
-//   focusComponent: PropTypes.object.isRequired,
-//   onExpansionPanelChange: PropTypes.func,
-//   updateComponent: PropTypes.func,
-//   deleteComponent: PropTypes.func,
-// };
-
 function styles(theme) {
   return {
     root: {
       width: "100%",
-      flexGrow: 1,
+      // flexGrow: 1,
       marginTop: 10,
       backgroundColor: "#333333"
     },

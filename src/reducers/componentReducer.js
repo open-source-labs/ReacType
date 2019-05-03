@@ -18,15 +18,14 @@ import {
   CREATE_APPLICATION_ERROR,
   HANDLE_CLOSE,
   HANDLE_TRANSFORM,
-  TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
-  DELETE_PROP,
-} from '../actionTypes';
+  DELETE_PROP
+} from "../actionTypes";
 
 import {
   addComponent,
@@ -44,14 +43,13 @@ import {
   exportFilesError,
   handleClose,
   handleTransform,
-  toggleDragging,
   moveToBottom,
   moveToTop,
   openExpansionPanel,
   changeImagePath,
   addProp,
-  deleteProp,
-} from '../utils/componentReducer.util';
+  deleteProp
+} from "../utils/componentReducer.util";
 
 // interface Child {
 //   childId: number;
@@ -68,11 +66,11 @@ import {
 // }
 
 const appComponent = {
-  id: '1',
+  id: "1",
   stateful: false,
-  title: 'App',
+  title: "App",
   parentIds: [],
-  color: '#FF6D00',
+  color: "#FF6D00",
   draggable: true,
   childrenIds: [],
   selectableParents: [],
@@ -80,15 +78,28 @@ const appComponent = {
   props: [],
   nextPropId: 1,
   position: {
-    x: 110,
-    y: 120,
-    width: 50,
-    height: 50,
+    x: 25,
+    y: 25,
+    width: 600,
+    height: 400
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChildId: 0
+};
+
+const initialApplicationFocusChild = {
+  childId: 0,
+  componentName: null,
+  position: {
+    x: 25,
+    y: 25,
+    width: 600,
+    height: 400
+  },
+  draggable: true,
+  childType: null
 };
 
 const initialApplicationState = {
@@ -100,20 +111,11 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  focusChild: {
-    childId: 0,
-    componentName: null,
-    position: {
-      x: 110,
-      y: 120,
-      width: 50,
-      height: 50,
-    },
-    draggable: true,
-  },
+  initialApplicationFocusChild: initialApplicationFocusChild,
+  focusChild: JSON.parse(JSON.stringify(initialApplicationFocusChild)),
   components: [appComponent],
-  appDir: '',
-  loading: false,
+  appDir: "",
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -123,9 +125,9 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: '',
+        appDir: "",
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -143,12 +145,12 @@ const componentReducer = (state = initialApplicationState, action) => {
       return changeFocusChild(state, action.payload);
     case CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    case UPDATE_CHILDREN:
-      return updateChildren(state, action.payload);
-    case REASSIGN_PARENT:
-      return reassignParent(state, action.payload);
-    case SET_SELECTABLE_PARENTS:
-      return setSelectableP(state);
+    // case UPDATE_CHILDREN:
+    //   return updateChildren(state, action.payload);
+    // case REASSIGN_PARENT:
+    //   return reassignParent(state, action.payload);
+    // case SET_SELECTABLE_PARENTS:
+    //   return setSelectableP(state);
     case CREATE_APPLICATION:
     case EXPORT_FILES:
       return { ...state, loading: true };
@@ -161,8 +163,7 @@ const componentReducer = (state = initialApplicationState, action) => {
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case TOGGLE_DRAGGING:
-      return toggleDragging(state, action.payload);
+
     case MOVE_TO_BOTTOM:
       return moveToBottom(state, action.payload);
     case MOVE_TO_TOP:
