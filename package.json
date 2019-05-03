@@ -79,6 +79,7 @@
     "@material-ui/icons": "^2.0.0",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.0.8",
     "autoprefixer": "^9.0.1",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
