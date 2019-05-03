@@ -163,7 +163,8 @@ class LeftContainer extends Component {
 function styles() {
   return {
     htmlCompWrapper: {
-      bottom: 0
+      bottom: 0,
+      height: "20px"
     },
     cssLabel: {
       color: "white",

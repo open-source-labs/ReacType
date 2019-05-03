@@ -5,7 +5,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // import Badge from "@material-ui/core/Badge";
 import Props from "./Props.jsx";
-import SortableComponent from "./SortableComponent.jsx";
+import HtmlAttr from "./HtmlAttr.jsx";
 
 const styles = theme => ({
   root: {
@@ -76,11 +76,17 @@ class RightTabs extends Component {
       components,
       focusComponent,
       deleteProp,
-      addProp
+      addProp,
+      focusChild
       // rightColumnOpen
     } = this.props;
     const { value } = this.state;
 
+    // display count on the tab. user can see without clicking into tab 
+    const propCount = focusComponent.props.length
+    const htmlAttribCount = focusComponent.childrenArray.filter( child => child.childType === 'HTML').length
+   
+    // const counters = focusComponent.ch
     return (
       <div className={classes.root}>
         <Tabs
@@ -91,39 +97,30 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Props"
-            // label={
-            //   focusComponent.props
-            //     ? <Badge
-            //       className={classes.padding}
-            //       color='primary'
-            //       badgeContent={focusComponent.props.length}
-            //     >
-            //       Props
-            //     </Badge> : 'Props'
-            // }
+            label="Application Tree"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="State"
+            label={`Component Props ${ propCount ? '('+propCount+')' : '' } ` }
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="HTML"
+            label="Component State"
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label={`HTML Element Attributes ${ htmlAttribCount ? '('+htmlAttribCount+')' : '' } ` }
           />
         </Tabs>
-        {/* {value === 0 && <SortableComponent components={components} />} */}
-        {value === 0 && (
-          <Props 
-          // rightColumnOpen={rightColumnOpen}
-          // focusComponent={focusComponent}
-          // deleteProp={deleteProp}
-          // addProp={addProp}
-          />
-          // <p>hello</p>
-        )}
+        {value === 1 && <Props />}
+        {value === 3 && focusChild.childType === "HTML" && <HtmlAttr />}
+        {value === 3 &&
+          focusChild.childType !== "HTML" && (
+            <p>Please select an HTML element to view attributes</p>
+          )}
       </div>
     );
   }
