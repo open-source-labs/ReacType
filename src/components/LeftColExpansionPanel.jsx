@@ -1,12 +1,6 @@
 import React, { Fragment } from 'react';
-// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-// import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -17,21 +11,11 @@ import AddIcon from '@material-ui/icons/Add';
 import { openExpansionPanel } from '../utils/componentReducer.util';
 
 const LeftColExpansionPanel = props => {
-  const {
-    // index,
-    classes,
-    focusComponent,
-    component,
-    // deleteComponent,
-    addChild,
-    changeFocusComponent,
-    // changeFocusChild,
-    selectableChildren,
-  } = props;
+  const { classes, focusComponent, component, addChild, changeFocusComponent, selectableChildren } = props;
   const { title, id, color } = component;
 
   function isFocused() {
-    return focusComponent.title === title ? 'focused' : '';
+    return focusComponent.id == id ? 'focused' : '';
   }
 
   return (
@@ -58,7 +42,7 @@ const LeftColExpansionPanel = props => {
               style={{ color }}
             />
             <ListItemSecondaryAction>
-              {isFocused() || !selectableChildren.includes(id) ? (
+              {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
                 <div />
               ) : (
                 <IconButton aria-label="Add">
@@ -113,21 +97,11 @@ export default withStyles(styles)(LeftColExpansionPanel);
 </div>
 */
 
-// LeftColExpansionPanel.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   component: PropTypes.object,
-//   index: PropTypes.number,
-//   focusComponent: PropTypes.object.isRequired,
-//   onExpansionPanelChange: PropTypes.func,
-//   updateComponent: PropTypes.func,
-//   deleteComponent: PropTypes.func,
-// };
-
 function styles(theme) {
   return {
     root: {
       width: '100%',
-      flexGrow: 1,
+      // flexGrow: 1,
       marginTop: 10,
       backgroundColor: '#333333',
     },

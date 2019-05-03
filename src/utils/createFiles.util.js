@@ -16,7 +16,7 @@ const createFiles = (data, path) => {
   const promises = [];
   data.forEach((component) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFile(`${dir}/${component.title}.jsx`,
+      fs.writeFile(`${dir}/${component.title}.tsx`,
         format(componentRender(component, data), {
           singleQuote: true,
           trailingComma: 'es5',

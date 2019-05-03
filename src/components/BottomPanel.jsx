@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import PropTypes from 'prop-types';
 import {
   handleClose,
   deleteCompProp,
   addCompProp
 } from "../actions/components";
-// import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from "./RightTabs.jsx";
+import { some } from "bluebird-lst";
 
 const IPC = require("electron").ipcRenderer;
 
@@ -18,16 +17,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  successOpen: store.workspace.successOpen,
-  errorOpen: store.workspace.errorOpen,
-  appDir: store.workspace.appDir
+  // successOpen: store.workspace.successOpen,
+  // errorOpen: store.workspace.errorOpen,
+  // appDir: store.workspace.appDir,
+  focusChild: store.workspace.focusChild
 });
 
 class BottomPanel extends Component {
-  state = {
-    successOpen: false,
-    errorOpen: false
-  };
+  // state = {
+  //   successOpen: false,
+  //   errorOpen: false,
+  // };
 
   viewAppDir = () => {
     IPC.send("view_app_dir", this.props.appDir);
@@ -42,7 +42,8 @@ class BottomPanel extends Component {
       appDir,
       focusComponent,
       deleteProp,
-      addProp
+      addProp,
+      focusChild
       // rightColumnOpen
     } = this.props;
 
@@ -53,6 +54,7 @@ class BottomPanel extends Component {
           focusComponent={focusComponent}
           deleteProp={deleteProp}
           addProp={addProp}
+          focusChild={focusChild}
           // rightColumnOpen={rightColumnOpen}
         />
         {/* <Snackbars
@@ -66,19 +68,6 @@ class BottomPanel extends Component {
     );
   }
 }
-
-// RightContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   successOpen: PropTypes.bool.isRequired,
-//   appDir: PropTypes.string,
-//   errorOpen: PropTypes.bool.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   handleNotificationClose: PropTypes.func.isRequired,
-//   deleteProp: PropTypes.func.isRequired,
-//   addProp: PropTypes.func.isRequired,
-//   width: PropTypes.number.isRequired,
-//   rightColumnOpen: PropTypes.bool.isRequired,
-// };
 
 export default connect(
   mapStateToProps,
