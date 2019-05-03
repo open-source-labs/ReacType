@@ -18,7 +18,7 @@ import {
   changeImagePath,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
-// import MainContainerHeader from "../components/ApplicationActions.jsx/index.js";
+import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
@@ -226,11 +226,7 @@ class MainContainer extends Component {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
-            style={{
-              border: '1px solid #3f51b5',
-              marginBottom: '2%',
-              marginTop: '5%',
-            }}
+            style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
@@ -277,10 +273,10 @@ class MainContainer extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
           {modal}
-          {/* <MainContainerHeader
+          <MainContainerHeader
             showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
-          /> */}
+          />
 
           <div className="main" ref={main}>
             <KonvaStage
@@ -298,14 +294,8 @@ class MainContainer extends Component {
             />
           </div>
 
-          {/* <div
-            className="button-wrapper"
-            style={{ background: "rgba(76, 175, 80, 0)" }}
-          >
-            <Button
-              onClick={deleteChild}
-              style={{ width: "150px", display: "inline-block" }}
-            >
+          {/* <div className="button-wrapper" style={{ background: 'rgba(76, 175, 80, 0)' }}>
+            <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
               delete child
             </Button>
 

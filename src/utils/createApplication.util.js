@@ -10,46 +10,47 @@
 import fs from 'fs';
 import { format } from 'prettier';
 
-function createApplicationUtil({
+function createIndexHtml() {
+  const fileName = 'index.html';
+  const data = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <div id='root'></div>
+    <script src='bundle.js'></script>
+  </body>
+  </html>
+  `;
+  fs.writeFile(
+    fileName,
+    format(data, {
+      singleQuote: true,
+      trailingComma: 'es5',
+      bracketSpacing: true,
+      jsxBracketSameLine: true,
+      parser: 'babel',
+    }),
+    (err) => {
+      if (err) {
+        console.log('index.html error:', err.message);
+      } else {
+        console.log('index.html written successfully');
+      }
+    },
+  );
+}
+
+async function createApplicationUtil({
   path, appName, genOption, repoUrl,
 }) {
-  function createIndexHtml() {
-    const fileName = 'index.html';
-    const data = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <meta http-equiv="X-UA-Compatible" content="ie=edge">
-          <title>Document</title>
-        </head>
-        <body>
-          <div id='root'></div>
-          <script src='bundle.js'></script>
-        </body>
-        </html>
-      `;
-    fs.writeFile(
-      fileName,
-      format(data, {
-        singleQuote: true,
-        trailingComma: 'es5',
-        bracketSpacing: true,
-        jsxBracketSameLine: true,
-        parser: 'babel',
-      }),
-      (err) => {
-        if (err) {
-          console.log('index.html error:', err.message);
-        } else {
-          console.log('index.html written successfully');
-        }
-      },
-    );
-  }
   if (genOption === 1) {
-    createIndexHtml();
+    await createIndexHtml();
   }
 }
 export default createApplicationUtil;
