@@ -1,8 +1,8 @@
 import React from 'react';
 // import '../../setupTests';
 import { shallow } from 'enzyme';
-import App from '../App.jsx';
-import AppContainer from '../../containers/AppContainer.jsx';
+import App from '../App.tsx';
+import AppContainer from '../../containers/AppContainer.tsx';
 
 it('contains a AppContainer', () => {
   // wrapped version of react component

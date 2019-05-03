@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import LeftColExpansionPanel from "../components/LeftColExpansionPanel.jsx";
 import HTMLComponentPanel from "../components/HTMLComponentPanel.jsx";
-import ApplicationActions from "../components/ApplicationActions.jsx";
+// import ApplicationActions from "../components/ApplicationActions.jsx";
 
 // import createModal from '../utils/createModal.util';
 import * as actions from "../actions/components";
@@ -150,10 +150,10 @@ class LeftContainer extends Component {
           focusComponent={focusComponent}
           addChild={addChild}
         />
-        <ApplicationActions
-        // showImageDeleteModal={showImageDeleteModal}
-        // showGenerateAppModal={showGenerateAppModal}
-        />
+        {/* <ApplicationActions
+        showImageDeleteModal={showImageDeleteModal}
+        showGenerateAppModal={showGenerateAppModal}
+        /> */}
         {/* </div> */}
       </div>
     );
