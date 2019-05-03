@@ -145,6 +145,7 @@ export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch
 };
 
 export const exportFiles = ({ components, path }) => (dispatch) => {
+  // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES,
   });
@@ -183,7 +184,7 @@ export const createApplication = ({
   path,
   components = [],
   genOption,
-  appName = 'proto_app',
+  appName = 'reactype_app',
   repoUrl,
 }) => (dispatch) => {
   if (genOption === 0) {
