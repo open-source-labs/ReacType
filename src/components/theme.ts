@@ -1,8 +1,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 // import teal from '@material-ui/core/colors/teal';
 import indigo from '@material-ui/core/colors/indigo';
+import { Palette } from '@material-ui/core/styles/createPalette';
 
-const theme = createMuiTheme({
+interface palette {
+  primary: object;
+  secondary: any;
+}
+
+interface theme {
+  palette: palette;
+}
+
+const theme: theme = createMuiTheme({
   palette: {
     primary: {
       light: '#00e676',
