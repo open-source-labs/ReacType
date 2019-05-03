@@ -3,11 +3,11 @@ const componentRender = (component, data) => {
     stateful, id, position, childrenArray, title, props,
   } = component;
 
-  // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
       import React, { Component } from 'react';
       ${childrenArray
+    .filter(child => child.childType !== 'HTML')
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc, child) => {
       if (!acc.includes(child)) {
@@ -36,10 +36,10 @@ const componentRender = (component, data) => {
       export default ${title};
     `;
   }
-
   return `
     import React from 'react';
     ${childrenArray
+    .filter(child => child.childType !== 'HTML')
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc, child) => {
       if (!acc.includes(child)) {
@@ -50,9 +50,8 @@ const componentRender = (component, data) => {
     }, [])
     .join('\n')}
     
-
     type Props = {
-      ${component.props.map(prop => `${prop.key}: ${prop.type}`).join('\n')}
+      ${props.map(prop => `${prop.key}: ${prop.type}`).join('\n')}
     }
 
     const ${title} = (props: Props) => (
