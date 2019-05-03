@@ -62,7 +62,7 @@ const MainContainerHeader = (props) => {
   return (
     <div className="main-header">
       <div className="main-header-buttons">
-        <Tooltip title="remove image">
+        {/* <Tooltip title="remove image">
           <div>
             <Button
               disabled={!image}
@@ -80,7 +80,7 @@ const MainContainerHeader = (props) => {
               <ImageSearchIcon className={classes.light} />
             </Button>
           </div>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title={'export'}>
           <div>
             <Button
