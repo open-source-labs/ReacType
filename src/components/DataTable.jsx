@@ -14,12 +14,13 @@ import { IconButton } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '80%',
     marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
+    // overflowX: 'auto',
   },
   table: {
     minWidth: 500,
+    maxWidth: 500,
   },
 });
 
