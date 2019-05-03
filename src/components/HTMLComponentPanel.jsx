@@ -34,8 +34,8 @@ class HTMLComponentPanel extends Component {
   render() {
     const { addChild } = this.props;
     return (
-      <Paper className={'htmlPanelz'}>
-        <Typography variant="title" component="h3">
+      <div className={classes.htmlPanel}>
+        <Typography variant="title" component="h4">
           Add HTML elements
         </Typography>
         {/* <TextField
