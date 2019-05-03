@@ -1,20 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
-import RightTabs from './RightTabs.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  handleClose,
+  deleteCompProp,
+  addCompProp
+} from "../actions/components";
+import RightTabs from "./RightTabs.jsx";
+import { some } from "bluebird-lst";
 
-const IPC = require('electron').ipcRenderer;
+const IPC = require("electron").ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop)),
+  addProp: prop => dispatch(addCompProp(prop))
 });
 
 const mapStateToProps = store => ({
   // successOpen: store.workspace.successOpen,
   // errorOpen: store.workspace.errorOpen,
   // appDir: store.workspace.appDir,
+  focusChild: store.workspace.focusChild
 });
 
 class BottomPanel extends Component {
@@ -24,7 +30,7 @@ class BottomPanel extends Component {
   // };
 
   viewAppDir = () => {
-    IPC.send('view_app_dir', this.props.appDir);
+    IPC.send("view_app_dir", this.props.appDir);
   };
 
   render() {
@@ -37,16 +43,18 @@ class BottomPanel extends Component {
       focusComponent,
       deleteProp,
       addProp,
+      focusChild
       // rightColumnOpen
     } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: '100%' }}>
+      <div className="bottom-panel" style={{ width: "100%" }}>
         <RightTabs
           components={components}
           focusComponent={focusComponent}
           deleteProp={deleteProp}
           addProp={addProp}
+          focusChild={focusChild}
           // rightColumnOpen={rightColumnOpen}
         />
         {/* <Snackbars
@@ -63,5 +71,5 @@ class BottomPanel extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(BottomPanel);
