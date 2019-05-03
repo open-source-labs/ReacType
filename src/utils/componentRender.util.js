@@ -3,6 +3,36 @@ const componentRender = (component, data) => {
     stateful, id, position, childrenArray, title, props,
   } = component;
 
+  function typeSwitcher(type) {
+    switch (type) {
+      case 'string':
+        return 'string';
+      case 'number':
+        return 'number';
+      case 'object':
+        return 'object';
+      case 'array':
+        return 'any[]';
+      case 'bool':
+        return 'boolean';
+      case 'function':
+        return '() => any';
+      // case 'symbol':
+      //   return 'string';
+      case 'node':
+        return 'string';
+      case 'element':
+        return 'string';
+      case 'tuple':
+        return '[any]';
+      case 'enum':
+        return '{}';
+      case 'any':
+        return 'any';
+      default:
+        return 'any';
+    }
+  }
   // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
