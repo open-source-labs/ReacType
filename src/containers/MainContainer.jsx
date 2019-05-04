@@ -15,7 +15,6 @@ import {
   deleteChild,
   deleteComponent,
   createApplication,
-  changeImagePath,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -114,6 +113,23 @@ class MainContainer extends Component {
   //   IPC.send('update-file');
   // };
 
+  // deleteImage = () => {
+  //   this.props.changeImagePath('');
+  //   this.setState({ image: '' });
+  // };
+
+  closeModal = () => this.setState({ modal: null });
+
+  chooseAppDir = () => IPC.send('choose_app_dir');
+
+  // toggleDrag = () => {
+  //   this.props.toggleComponetDragging(this.state.draggable);
+  //   this.setState({
+  //     toggleClass: !this.state.toggleClass,
+  //     draggable: !this.state.draggable,
+  //   });
+  // };
+
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -128,15 +144,6 @@ class MainContainer extends Component {
   //     }),
   //   });
   // };
-
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
 
   chooseGenOptions = (genOption) => {
     // set option
@@ -189,7 +196,7 @@ class MainContainer extends Component {
       deleteComponent,
       stateComponents,
     } = this.props;
-    const { main, showImageDeleteModal, showGenerateAppModal } = this;
+    const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
 
     // show a string of all direct parents. SO the user can gaze at it.
