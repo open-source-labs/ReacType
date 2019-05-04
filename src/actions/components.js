@@ -26,23 +26,21 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
-  UPDATE_HTML_ATTR
-} from "../actionTypes/index";
+  UPDATE_HTML_ATTR,
+} from '../actionTypes/index';
 
-import { loadState } from "../localStorage";
+import { loadState } from '../localStorage';
 
-import createFiles from "../utils/createFiles.util";
-import createApplicationUtil from "../utils/createApplication.util";
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util';
 
-export const loadInitData = () => dispatch => {
-  loadState().then(data =>
-    dispatch({
-      type: LOAD_INIT_DATA,
-      payload: {
-        data: data ? data.workspace : {}
-      }
-    })
-  );
+export const loadInitData = () => (dispatch) => {
+  loadState().then(data => dispatch({
+    type: LOAD_INIT_DATA,
+    payload: {
+      data: data ? data.workspace : {},
+    },
+  }));
 };
 
 // export const updateChildren = ({ parentIds, childIndex, childId }) => ({
@@ -63,47 +61,39 @@ export const loadInitData = () => dispatch => {
 //   },
 // });
 
-export const addComponent = ({ title }) => dispatch => {
+export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addChild = ({ title, childType, HTMLInfo }) => dispatch => {
+export const addChild = ({ title, childType, HTMLInfo }) => (dispatch) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => dispatch => {
+export const deleteChild = ({}) => (dispatch) => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
-export const deleteComponent = ({
-  componentId,
-  stateComponents
-}) => dispatch => {
-  console.log(
-    "Hello from component.js delete component.componentId= ",
-    componentId
-  );
+export const deleteComponent = ({ componentId, stateComponents }) => (dispatch) => {
+  console.log('Hello from component.js delete component.componentId= ', componentId);
 
   // find all places where the "to be delted" is a child and do what u gotta do
-  stateComponents.forEach(parent => {
-    parent.childrenArray
-      .filter(child => child.childComponentId == componentId)
-      .forEach(child => {
-        // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
-        dispatch({
-          type: DELETE_CHILD,
-          payload: {
-            parentId: parent.id,
-            childId: child.childId,
-            calledFromDeleteComponent: true
-          }
-        });
+  stateComponents.forEach((parent) => {
+    parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
+      // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
+      dispatch({
+        type: DELETE_CHILD,
+        payload: {
+          parentId: parent.id,
+          childId: child.childId,
+          calledFromDeleteComponent: true,
+        },
       });
+    });
   });
 
   // change focus to APp
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: "App" } });
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
   // after taking care of the children delete the component
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
@@ -139,60 +129,47 @@ export const deleteComponent = ({
 //   dispatch({ type: SET_SELECTABLE_PARENTS });
 // };
 
-export const changeFocusComponent = ({ title }) => dispatch => {
+export const changeFocusComponent = ({ title }) => (dispatch) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ title, childId }) => dispatch => {
+export const changeFocusChild = ({ title, childId }) => (dispatch) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
 };
 
-export const changeComponentFocusChild = ({
-  componentId,
-  childId
-}) => dispatch => {
+export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId }
+    payload: { componentId, childId },
   });
 };
 
-<<<<<<< HEAD
-export const exportFiles = ({ components, path }) => dispatch => {
-=======
 export const exportFiles = ({ components, path }) => (dispatch) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
->>>>>>> b7293e0b5086a0b3845de7570cc40c7eb47578af
   dispatch({
-    type: EXPORT_FILES
+    type: EXPORT_FILES,
   });
 
   createFiles(components, path)
-    .then(dir =>
-      dispatch({
-        type: EXPORT_FILES_SUCCESS,
-        payload: { status: true, dir: dir[0] }
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: EXPORT_FILES_ERROR,
-        payload: { status: true, err }
-      })
-    );
+    .then(dir => dispatch({
+      type: EXPORT_FILES_SUCCESS,
+      payload: { status: true, dir: dir[0] },
+    }))
+    .catch(err => dispatch({
+      type: EXPORT_FILES_ERROR,
+      payload: { status: true, err },
+    }));
 };
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false
+  payload: false,
 });
 
-export const handleTransform = (
-  componentId,
-  childId,
-  { x, y, width, height }
-) => ({
+export const handleTransform = (componentId, childId, {
+  x, y, width, height,
+}) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -200,71 +177,61 @@ export const handleTransform = (
     x,
     y,
     width,
-    height
-  }
+    height,
+  },
 });
 
 export const createApplication = ({
   path,
   components = [],
   genOption,
-<<<<<<< HEAD
-  appName = "proto_app",
-  repoUrl
-}) => dispatch => {
-=======
   appName = 'reactype_app',
-  repoUrl,
 }) => (dispatch) => {
->>>>>>> b7293e0b5086a0b3845de7570cc40c7eb47578af
   if (genOption === 0) {
     dispatch(exportFiles({ path, components }));
   } else if (genOption) {
     dispatch({
-      type: CREATE_APPLICATION
+      type: CREATE_APPLICATION,
     });
     createApplicationUtil({
       path,
       appName,
       genOption,
-      repoUrl
     })
       .then(() => {
         dispatch({
-          type: CREATE_APPLICATION_SUCCESS
+          type: CREATE_APPLICATION_SUCCESS,
         });
         dispatch(exportFiles({ path: `${path}/${appName}`, components }));
       })
-      .catch(err =>
-        dispatch({
-          type: CREATE_APPLICATION_ERROR,
-          payload: { status: true, err }
-        })
-      );
+      .catch(err => dispatch({
+        type: CREATE_APPLICATION_ERROR,
+        payload: { status: true, err },
+      }));
   }
 };
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component }
+  payload: { component },
 });
 
 // export const deleteAllData = () => ({
 //   type: DELETE_ALL_DATA,
 // });
 
-export const deleteProp = propId => dispatch => {
+export const deleteProp = propId => (dispatch) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
 export const addProp = prop => ({
   type: ADD_PROP,
-  payload: { ...prop }
+  payload: { ...prop },
 });
 
-export const updateHtmlAttr = ({ attr, value }) => dispatch => {
+export const updateHtmlAttr = ({ attr, value }) => (dispatch) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
-    payload: { attr, value }
+    payload: { attr, value },
   });
 };
