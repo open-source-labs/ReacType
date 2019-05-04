@@ -19,27 +19,78 @@ const LeftColExpansionPanel = props => {
   }
 
   return (
-    <div className={classes.root}>
-      <Grid item xs={12} md={6} style={{ color: 'red' }}>
-        <List style={{ color: 'red' }}>
-          <ListItem
-            button
-            component="a"
-            style={{ color: 'red' }}
-            onClick={() => {
-              changeFocusComponent({ title });
-            }}
-          >
-            <ListItemText
-              disableTypography
-              className={classes.light}
-              primary={
-                <Typography type="body2" style={{ color: '#FFFFFF' }}>
-                  {title}
-                </Typography>
-              }
-              secondary={'focused'}
-              style={{ color }}
+    <Grid
+      container
+      spacing={16}
+      direction="row"
+      justify="flex-start"
+      alignItems="baseline"
+    >
+      <Grid item xs={9}>
+        <div
+          className={classes.root}
+          style={
+            !isFocused() ? {} : { boxShadow: "0 10px 10px rgba(0,0,0,0.22)" }
+          }
+        >
+          <Grid item xs={12} style={{ color: "red" }}>
+            <List style={{ color: "red" }}>
+              <ListItem
+                button
+                component="a"
+                style={{ color: "red" }}
+                onClick={() => {
+                  changeFocusComponent({ title });
+                }}
+              >
+                <ListItemText
+                  disableTypography
+                  className={classes.light}
+                  primary={
+                    <Typography type="body2" style={{ color: color }}>
+                      {title}
+                    </Typography>
+                  }
+                  // secondary={isFocused()}
+                  style={{ color }}
+                />
+              </ListItem>
+            </List>
+          </Grid>
+          {id == 1 || !isFocused() ? (
+            <div />
+          ) : (
+            <Fragment>
+              <IconButton
+                style={{ display: "inline-block" }}
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components
+                  })
+                }
+              >
+                <DeleteIcon />
+              </IconButton>
+
+              <span>
+                {directParents ? `Used in: ${directParents}` : "Not used"}
+              </span>
+            </Fragment>
+          )}
+        </div>
+      </Grid>
+
+      <Grid item xs={3}>
+        {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
+          <div />
+        ) : (
+          <IconButton aria-label="Add">
+            <AddIcon
+              style={{ color, float: "right" }}
+              onClick={() => {
+                addChild({ title, childType: "COMP" });
+              }}
             />
             <ListItemSecondaryAction>
               {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
@@ -62,41 +113,6 @@ const LeftColExpansionPanel = props => {
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
-
-/**
-//button and functionality for deleting a component:
-<IconButton
-  className={classes.button}
-  onClick={() => {
-    deleteComponent({
-      index,
-      id,
-      parentIds,
-    });
-  }}
-  aria-label="Delete"
->
-  <DeleteIcon className={classes.light} />
-</IconButton>
- */
-
-/*
-//expansion panel and some functionality
-<div className={classes.root}>
-  <ExpansionPanel
-    className={classes.panel}
-    expanded={focusComponent.id === id}
-    onChange={() => onExpansionPanelChange(component)}
-    elevation={4}
-  >
-    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
-      <Typography className={classes.light}>{title}</Typography>
-    </ExpansionPanelSummary>
-  </ExpansionPanel>
-</div>
-*/
-
 function styles(theme) {
   return {
     root: {
@@ -113,3 +129,5 @@ function styles(theme) {
     },
   };
 }
+
+export default withStyles(styles)(LeftColExpansionPanel);

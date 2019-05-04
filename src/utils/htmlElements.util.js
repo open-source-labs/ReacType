@@ -8,27 +8,27 @@ const HTMLelements = {
   Button: {
     width: 75,
     height: 28,
-    attribute: ["ClassName", "id", "Text"]
+    attributes: ["ClassName", "id", "Text"]
   },
   Form: {
     width: 150,
     height: 150,
-    attribute: ["ClassName", "id", "Text"]
+    attributes: ["ClassName", "id", "Text"]
   },
   Paragraph: {
     width: 250,
     height: 75,
-    attribute: ["ClassName", "id", "Text"]
+    attributes: ["ClassName", "id", "Text"]
   },
   List: {
     width: 75,
     height: 75,
-    attribute: ["ClassName", "id", "Text"]
+    attributes: ["ClassName", "id", "Text"]
   },
   Link: {
     width: 50,
     height: 50,
-    attribute: ["ClassName", "id", "Text"]
+    attributes: ["ClassName", "id", "Text"]
   }
 };
 

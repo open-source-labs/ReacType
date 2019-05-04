@@ -26,13 +26,13 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  UPDATE_HTML_ATTR,
 } from '../actionTypes/index';
-
 
 import { loadState } from '../localStorage';
 
 import createFiles from '../utils/createFiles.util';
-import createApplicationUtil from '../utils/createApplication.util'
+import createApplicationUtil from '../utils/createApplication.util';
 
 export const loadInitData = () => dispatch => {
   loadState().then(data =>
@@ -67,8 +67,8 @@ export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addChild = ({ title }) => dispatch => {
-  dispatch({ type: ADD_CHILD, payload: { title } });
+export const addChild = ({ title, childType, HTMLInfo }) => dispatch => {
+  dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
 export const deleteChild = ({}) => dispatch => {
@@ -80,15 +80,19 @@ export const deleteComponent = ({ componentId, stateComponents }) => dispatch =>
   console.log('Hello from component.js delete component.componentId= ', componentId);
 
   // find all places where the "to be delted" is a child and do what u gotta do
-  stateComponents.forEach((parent) => {
-    parent.childrenArray.filter(child => child.childComponentId == componentId).forEach((child) => {
-      dispatch({
-        type: DELETE_CHILD,
-        payload: {
-          parentId: parent.id,
-          childId: child.childId,
-          calledFromDeleteComponent: true,
-        },
+  stateComponents.forEach(parent => {
+    parent.childrenArray
+      .filter(child => child.childComponentId == componentId)
+      .forEach(child => {
+        // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
+        dispatch({
+          type: DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            calledFromDeleteComponent: true,
+          },
+        });
       });
   });
 
@@ -145,20 +149,24 @@ export const changeComponentFocusChild = ({ componentId, childId }) => dispatch 
   });
 };
 
-export const exportFiles = ({ components, path }) => (dispatch) => {
+export const exportFiles = ({ components, path }) => dispatch => {
   dispatch({
     type: EXPORT_FILES,
   });
 
   createFiles(components, path)
-    .then(dir => dispatch({
-      type: EXPORT_FILES_SUCCESS,
-      payload: { status: true, dir: dir[0] },
-    }))
-    .catch(err => dispatch({
-      type: EXPORT_FILES_ERROR,
-      payload: { status: true, err },
-    }));
+    .then(dir =>
+      dispatch({
+        type: EXPORT_FILES_SUCCESS,
+        payload: { status: true, dir: dir[0] },
+      }),
+    )
+    .catch(err =>
+      dispatch({
+        type: EXPORT_FILES_ERROR,
+        payload: { status: true, err },
+      }),
+    );
 };
 
 export const handleClose = () => ({
@@ -178,9 +186,7 @@ export const handleTransform = (componentId, childId, { x, y, width, height }) =
   },
 });
 
-export const createApplication = ({
-  path, components = [], genOption, appName = 'proto_app', repoUrl,
-}) => (dispatch) => {
+export const createApplication = ({ path, components = [], genOption, appName = 'proto_app', repoUrl }) => dispatch => {
   if (genOption === 0) {
     dispatch(exportFiles({ path, components }));
   } else if (genOption) {
@@ -188,7 +194,10 @@ export const createApplication = ({
       type: CREATE_APPLICATION,
     });
     createApplicationUtil({
-      path, appName, genOption, repoUrl,
+      path,
+      appName,
+      genOption,
+      repoUrl,
     })
       .then(() => {
         dispatch({
@@ -196,10 +205,12 @@ export const createApplication = ({
         });
         dispatch(exportFiles({ path: `${path}/${appName}`, components }));
       })
-      .catch(err => dispatch({
-        type: CREATE_APPLICATION_ERROR,
-        payload: { status: true, err },
-      }));
+      .catch(err =>
+        dispatch({
+          type: CREATE_APPLICATION_ERROR,
+          payload: { status: true, err },
+        }),
+      );
   }
 };
 
@@ -220,3 +231,10 @@ export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
 });
+
+export const updateHtmlAttr = ({ attr, value }) => dispatch => {
+  dispatch({
+    type: UPDATE_HTML_ATTR,
+    payload: { attr, value },
+  });
+};
