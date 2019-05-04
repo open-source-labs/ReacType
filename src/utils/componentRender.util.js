@@ -44,6 +44,29 @@ const componentRender = (component, data) => {
     return '';
   }
 
+  function componentNameGenerator(child) {
+    if (child.childType === 'HTML') {
+      switch (child.componentName) {
+        case 'Image':
+          return 'img';
+        case 'Form':
+          return 'form';
+        case 'Button':
+          return 'button';
+        case 'Link':
+          return 'a href=""';
+        case 'List':
+          return 'ul';
+        case 'Paragraph':
+          return 'p';
+        default:
+          return 'div';
+      }
+    } else {
+      return child.componentName;
+    }
+  }
+
   // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
@@ -96,14 +119,17 @@ const componentRender = (component, data) => {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
     }
 
-    const ${title} = (props: Props) => (
-      <div>
-        ${childrenArray
-    .map(child => `<${child.componentName} ${propDrillTextGenerator(child)}/>`)
-    .join('\n')}
-      </div>
-    );
+    const ${title} = (props: Props) => {
+      const {${props.map(el => el.key).join(',\n')}} = props
 
+      return (
+        <div>
+          ${childrenArray
+    .map(child => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
+    .join('\n')}
+        </div>
+      );
+    }
     export default ${title};
   `;
 };
