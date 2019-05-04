@@ -15,7 +15,6 @@ import {
   deleteChild,
   deleteComponent,
   createApplication,
-  changeImagePath,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -101,119 +100,65 @@ class MainContainer extends Component {
     });
   }
 
-  setImage = () => {
-    const image = new window.Image();
-    image.src = this.props.imagePath;
-    image.onload = () => {
-      // setState will redraw layer
-      // because "image" property is changed
-      this.setState({
-        image,
-      });
-    };
-  };
+  // setImage = () => {
+  //   const image = new window.Image();
+  //   image.src = this.props.imagePath;
+  //   image.onload = () => {
+  //     // setState will redraw layer
+  //     // because "image" property is changed
+  //     this.setState({
+  //       image,
+  //     });
+  //   };
+  // };
 
-  componentDidMount() {
-    this.setImage();
-  }
+  // componentDidMount() {
+  //   this.setImage();
+  // }
 
-  handleChange = (event) => {
-    this.setState({ repoUrl: event.target.value.trim() });
-  };
+  // updateImage = () => {
+  //   IPC.send('update-file');
+  // };
 
-  updateImage = () => {
-    IPC.send('update-file');
-  };
-
-  increaseHeight = () => {
-    this.setState({
-      scaleX: this.state.scaleX * 1.5,
-      scaleY: this.state.scaleY * 1.5,
-    });
-  };
-
-  decreaseHeight = () => {
-    this.setState({
-      scaleX: this.state.scaleX * 0.75,
-      scaleY: this.state.scaleY * 0.75,
-    });
-  };
-
-  deleteImage = () => {
-    this.props.changeImagePath('');
-    this.setState({ image: '' });
-  };
+  // deleteImage = () => {
+  //   this.props.changeImagePath('');
+  //   this.setState({ image: '' });
+  // };
 
   closeModal = () => this.setState({ modal: null });
 
   chooseAppDir = () => IPC.send('choose_app_dir');
 
-  toggleDrag = () => {
-    this.props.toggleComponetDragging(this.state.draggable);
-    this.setState({
-      toggleClass: !this.state.toggleClass,
-      draggable: !this.state.draggable,
-    });
-  };
+  // toggleDrag = () => {
+  //   this.props.toggleComponetDragging(this.state.draggable);
+  //   this.setState({
+  //     toggleClass: !this.state.toggleClass,
+  //     draggable: !this.state.draggable,
+  //   });
+  // };
 
-  showImageDeleteModal = () => {
-    const { closeModal, deleteImage } = this;
-    this.setState({
-      modal: createModal({
-        closeModal,
-        message: 'Are you sure you want to delete image?',
-        secBtnLabel: 'Delete',
-        secBtnAction: () => {
-          deleteImage();
-          closeModal();
-        },
-      }),
-    });
-  };
-
-  displayUrlModal = () => {
-    const { closeModal, chooseAppDir } = this;
-    const children = (
-      <TextField
-        id="url"
-        label="Repository URL"
-        placeholder="https://github.com/kriasoft/react-starter-kit.git"
-        margin="normal"
-        onChange={this.handleChange}
-        name="repoUrl"
-        style={{ width: '95%' }}
-      />
-    );
-    this.setState({
-      modal: createModal({
-        closeModal,
-        children,
-        message: 'Enter repository URL:',
-        primBtnLabel: 'Accept',
-        primBtnAction: () => {
-          chooseAppDir();
-          closeModal();
-        },
-        secBtnLabel: 'Cancel',
-        secBtnAction: () => {
-          this.setState({ repoUrl: '' });
-          closeModal();
-        },
-      }),
-    });
-  };
+  // showImageDeleteModal = () => {
+  //   const { closeModal, deleteImage } = this;
+  //   this.setState({
+  //     modal: createModal({
+  //       closeModal,
+  //       message: 'Are you sure you want to delete image?',
+  //       secBtnLabel: 'Delete',
+  //       secBtnAction: () => {
+  //         deleteImage();
+  //         closeModal();
+  //       },
+  //     }),
+  //   });
+  // };
 
   chooseGenOptions = (genOption) => {
     // set option
     this.setState({ genOption });
     // closeModal
     this.closeModal();
-    if (genOption === 2) {
-      this.displayUrlModal();
-    } else {
-      // Choose app dir
-      this.chooseAppDir();
-    }
+    // Choose app dir
+    this.chooseAppDir();
   };
 
   showGenerateAppModal = () => {
@@ -258,7 +203,7 @@ class MainContainer extends Component {
       deleteComponent,
       stateComponents,
     } = this.props;
-    const { main, showImageDeleteModal, showGenerateAppModal } = this;
+    const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
 
     // show a string of all direct parents. SO the user can gaze at it.
@@ -274,7 +219,7 @@ class MainContainer extends Component {
         <div className="main-container" style={{ cursor }}>
           {modal}
           <MainContainerHeader
-            showImageDeleteModal={showImageDeleteModal}
+            // showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
           />
 
