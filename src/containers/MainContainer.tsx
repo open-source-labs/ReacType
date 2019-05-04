@@ -16,7 +16,6 @@ import {
   deleteChild,
   deleteComponent,
   createApplication,
-  changeImagePath,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -189,7 +188,7 @@ class MainContainer extends Component {
       deleteComponent,
       stateComponents,
     } = this.props;
-    const { main, showImageDeleteModal, showGenerateAppModal } = this;
+    const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
 
     // show a string of all direct parents. SO the user can gaze at it.
