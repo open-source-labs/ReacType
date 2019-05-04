@@ -27,31 +27,33 @@ function createIndexHtml() {
   </body>
   </html>
   `;
-  fs.writeFile(fileName, format(data, {
-    singleQuote: true,
-    trailingComma: 'es5',
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    parser: 'babel',
-  }),
-  (err) => {
-    if (err) {
-      console.log('index.html error:', err.message);
-    } else {
-      console.log('index.html written successfully');
-    }
-  });
+  fs.writeFile(
+    fileName,
+    format(data, {
+      singleQuote: true,
+      trailingComma: 'es5',
+      bracketSpacing: true,
+      jsxBracketSameLine: true,
+      parser: 'babel',
+    }),
+    (err) => {
+      if (err) {
+        console.log('index.html error:', err.message);
+      } else {
+        console.log('index.html written successfully');
+      }
+    },
+  );
 }
 
-async function createApplicationUtil({path, appName, genOption, repoUrl}) {
+async function createApplicationUtil({
+  path, appName, genOption, repoUrl,
+}) {
   if (genOption === 1) {
     await createIndexHtml();
   }
 }
 export default createApplicationUtil;
-
-
-
 
 // async function createApplicationUtil({
 //   path, appName, genOption, repoUrl,
@@ -65,14 +67,8 @@ export default createApplicationUtil;
 //       await execFile('touch', '.babelrc', { cwd: path }),
 //     ];
 //   }
-  // return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
+// return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
 // }
-
-
-
-
-
-
 
 // import util from 'util';
 
@@ -82,7 +78,6 @@ export default createApplicationUtil;
 // cosnt genOptions = [
 //   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
 // ];
-
 
 // async function createApplicationUtil({
 //   path, appName, genOption, repoUrl,
