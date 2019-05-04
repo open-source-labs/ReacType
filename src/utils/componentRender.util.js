@@ -33,6 +33,17 @@ const componentRender = (component, data) => {
         return 'any';
     }
   }
+
+  function propDrillTextGenerator(child) {
+    if (child.childType === 'COMP') {
+      return data
+        .find(c => c.id === child.childComponentId)
+        .props.map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ');
+    }
+    return '';
+  }
+
   // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
@@ -88,12 +99,7 @@ const componentRender = (component, data) => {
     const ${title} = (props: Props) => (
       <div>
         ${childrenArray
-    .map(
-      child => `<${child.componentName} ${data
-        .find(c => c.id === child.childComponentId)
-        .props.map(prop => `${prop.key}={${prop.value}}`)
-        .join(' ')}/>`,
-    )
+    .map(child => `<${child.componentName} ${propDrillTextGenerator(child)}/>`)
     .join('\n')}
       </div>
     );
