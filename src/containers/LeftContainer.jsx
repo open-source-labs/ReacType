@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-// import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,50 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
 import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
-
-// import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
-
-function styles() {
-  return {
-    cssLabel: {
-      color: 'white',
-
-      '&$cssFocused': {
-        color: 'green',
-      },
-    },
-    cssFocused: {},
-    input: {
-      color: '#fff',
-      opacity: '0.7',
-      marginBottom: '10px',
-    },
-    underline: {
-      color: 'white',
-      '&::before': {
-        color: 'white',
-      },
-    },
-    button: {
-      color: '#fff',
-
-      '&:disabled': {
-        color: 'grey',
-      },
-    },
-    clearButton: {
-      top: '96%',
-      position: 'sticky!important',
-      zIndex: '1',
-
-      '&:disabled': {
-        color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
-  };
-}
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
@@ -67,14 +23,11 @@ const mapDispatchToProps = dispatch => ({
         stateful,
       }),
     ),
-  // deleteComponent: ({ index, id, parentIds }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
-  // moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
-  // moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
-  // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
-  // deleteAllData: () => dispatch(actions.deleteAllData()),
-  addChild: ({ title }) => dispatch(actions.addChild({ title })),
+  addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ title, childId }) => dispatch(actions.changeFocusChild({ title, childId })),
+  deleteComponent: ({ componentId, stateComponents }) =>
+    dispatch(actions.deleteComponent({ componentId, stateComponents })),
 });
 
 class LeftContainer extends Component {
@@ -117,7 +70,6 @@ class LeftContainer extends Component {
           key={component.id}
           index={i}
           id={component.id}
-          // updateComponent={updateComponent}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}
@@ -171,9 +123,7 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <div className={'htmlPanel'}>
-          <HTMLComponentPanel focusComponent={focusComponent} addChild={addChild} />
-        </div>
+        <HTMLComponentPanel className={classes.htmlCompWrapper} focusComponent={focusComponent} addChild={addChild} />
       </div>
     );
   }
@@ -181,10 +131,10 @@ class LeftContainer extends Component {
 
 function styles() {
   return {
-    htmlCompWrapper: {
-      bottom: 0,
-      height: '20px',
-    },
+    // htmlCompWrapper: {
+    //   bottom: 0,
+    //   height: "200px"
+    // },
     cssLabel: {
       color: 'white',
 
@@ -231,17 +181,3 @@ export default compose(
     mapDispatchToProps,
   ),
 )(LeftContainer);
-
-// LeftContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   addComponent: PropTypes.func.isRequired,
-//   deleteComponent: PropTypes.func.isRequired,
-//   updateComponent: PropTypes.func.isRequired,
-//   deleteAllData: PropTypes.func.isRequired,
-//   moveToBottom: PropTypes.func.isRequired,
-//   moveToTop: PropTypes.func.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   openExpansionPanel: PropTypes.func.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   classes: PropTypes.object,
-// };
