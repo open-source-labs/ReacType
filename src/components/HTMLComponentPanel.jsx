@@ -19,6 +19,8 @@ import Chip from "@material-ui/core/Chip";
 
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
+// test
+
 class HTMLComponentPanel extends Component {
   state = {
     HtmlComponentName: ""
