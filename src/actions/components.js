@@ -145,13 +145,15 @@ export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch
   });
 };
 
-export const exportFiles = ({ components, path }) => (dispatch) => {
+export const exportFiles = ({
+  components, path, appName, exportAppBool,
+}) => (dispatch) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES,
   });
 
-  createFiles(components, path)
+  createFiles(components, path, appName, exportAppBool)
     .then(dir => dispatch({
       type: EXPORT_FILES_SUCCESS,
       payload: { status: true, dir: dir[0] },
@@ -186,10 +188,20 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
+  exportAppBool,
 }) => (dispatch) => {
   if (genOption === 0) {
-    dispatch(exportFiles({ path, components }));
+    exportAppBool = false;
+    dispatch(
+      exportFiles({
+        appName,
+        path,
+        components,
+        exportAppBool,
+      }),
+    );
   } else if (genOption) {
+    exportAppBool = true;
     dispatch({
       type: CREATE_APPLICATION,
     });
@@ -197,12 +209,20 @@ export const createApplication = ({
       path,
       appName,
       genOption,
+      exportAppBool,
     })
       .then(() => {
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
-        dispatch(exportFiles({ path: `${path}/${appName}`, components }));
+        dispatch(
+          exportFiles({
+            appName,
+            path,
+            components,
+            exportAppBool,
+          }),
+        );
       })
       .catch(err => dispatch({
         type: CREATE_APPLICATION_ERROR,
