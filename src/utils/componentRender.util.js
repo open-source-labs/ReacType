@@ -121,7 +121,7 @@ const componentRender = (component, data) => {
 
     const ${title} = (props: Props) => {
       const {${props.map(el => el.key).join(',\n')}} = props
-
+      
       return (
         <div>
           ${childrenArray
