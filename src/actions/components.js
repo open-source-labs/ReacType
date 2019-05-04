@@ -26,6 +26,7 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  UPDATE_HTML_ATTR,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
@@ -227,3 +228,10 @@ export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
 });
+
+export const updateHtmlAttr = ({ attr, value }) => (dispatch) => {
+  dispatch({
+    type: UPDATE_HTML_ATTR,
+    payload: { attr, value },
+  });
+};

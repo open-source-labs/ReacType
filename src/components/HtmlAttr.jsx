@@ -1,20 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
-import Select from "@material-ui/core/Select";
-import Switch from "@material-ui/core/Switch";
-import InputLabel from "@material-ui/core/InputLabel";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import { addProp, deleteProp } from "../actions/components";
-import DataTable from "./DataTable.jsx";
-import htmlElements from "../utils/htmlElements.util";
+import { updateHtmlAttr } from "../actions/components";
 import UpdateIcon from "@material-ui/icons/Update";
+import { HTMLelements, getSize } from "../utils/htmlElements.util";
 
 const styles = theme => ({
   root: {
@@ -50,9 +42,9 @@ const styles = theme => ({
   },
   cssFocused: {},
   input: {
-    color: "#eee",
-    marginBottom: "10px",
-    width: "60%"
+    color: "#fff",
+    opacity: "0.7",
+    marginBottom: "10px"
   },
   light: {
     color: "#eee"
@@ -64,16 +56,7 @@ const styles = theme => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addProp: ({ key, value, required, type }) =>
-    dispatch(
-      addProp({
-        key,
-        value,
-        required,
-        type
-      })
-    ),
-  deleteProp: propId => dispatch(deleteProp(propId))
+  updateHtmlAttr: ({ attr, value }) => dispatch(updateHtmlAttr({ attr, value }))
 });
 
 const mapStateToProps = store => ({
@@ -82,18 +65,26 @@ const mapStateToProps = store => ({
 });
 
 class HtmlAttr extends Component {
-  state = {
-    propKey: "",
-    propValue: "",
-    propRequired: false,
-    propType: ""
-  };
+  state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce(
+    (acc, attr) => {
+      acc[attr] = "";
+      return acc;
+    },
+    {}
+  );
 
   handleChange = event => {
+    console.log(event.target.id, event.target.value);
     this.setState({
       [event.target.id]: event.target.value.trim()
     });
   };
+
+  // setInitialState = () => {
+  //   HTMLelements[focusChildType].attributes.forEach(attr =>
+  //     this.setState({ attr: "" })
+  //   );
+  // };
 
   render() {
     const {
@@ -101,27 +92,47 @@ class HtmlAttr extends Component {
       classes,
       deleteProp,
       addProp,
-      focusChild
+      focusChild,
+      updateHtmlAttr
     } = this.props;
 
-    return (
-      <Fragment>
-        {/* {focusChild} */}
-        <Grid container spacing={8} alignItems="baseline" align="stretch">
+    const focusChildType = focusChild.htmlElement;
+
+    console.log(focusChild);
+
+    const HtmlForm = HTMLelements[focusChildType].attributes.map((attr, i) => {
+      return (
+        <Grid
+          container
+          spacing={8}
+          alignItems="baseline"
+          align="stretch"
+          key={i}
+        >
           <Grid item xs={6}>
             <TextField
-              id="classNane"
-              label="ClassName"
+              id={attr}
+              label={attr}
               margin="normal"
               autoFocus
+              // style={(marginLeft = "20px")}
               onChange={this.handleChange}
-              value={this.state.propKey}
+              value={this.state[attr]}
+              InputProps={{
+                className: classes.input
+              }}
+              InputLabelProps={{
+                className: classes.input
+              }}
             />
             <IconButton
               aria-label="Update"
               onClick={() => {
-                // this.handleCreateHTMLChild("List");
+                updateHtmlAttr({ attr, value: this.state[attr] });
               }}
+              // onClick={() => {
+              //   addChild({ title, childType: "COMP" });
+              // }}
             >
               <UpdateIcon />
             </IconButton>
@@ -130,8 +141,8 @@ class HtmlAttr extends Component {
             <TextField
               disabled
               id="filled-disabled"
-              label="Current Value"
-              defaultValue="image"
+              label={attr}
+              defaultValue={focusChild.HTMLInfo[attr]}
               style={{ background: "bcbcbc" }}
               className={classes.textField}
               margin="normal"
@@ -139,8 +150,11 @@ class HtmlAttr extends Component {
             />
           </Grid>
         </Grid>
-      </Fragment>
-    );
+      );
+    });
+    // console.log(HtmlForm);
+
+    return <div className={"htmlattr"}>{HtmlForm}</div>;
   }
 }
 

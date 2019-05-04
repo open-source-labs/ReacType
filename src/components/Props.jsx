@@ -177,7 +177,7 @@ class Props extends Component {
 
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
-      <div>
+      <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
           <div style={{ marginTop: '20px', marginLeft: '20px' }}>
