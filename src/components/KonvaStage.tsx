@@ -1,4 +1,6 @@
 import React, { Component, createRef, Fragment } from 'react';
+import Button from '@material-ui/core/Button';
+
 // import PropTypes from 'prop-types';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
@@ -44,8 +46,7 @@ class KonvaStage extends Component {
       draggable: true,
       color: component.color,
     };
-    // console.log('getDirectChildrenCopy, pseudoChild.position: ', pseudoChild.position);
-    childrenArrCopy = childrenArrCopy.concat(pseudoChild);
+    childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
     return childrenArrCopy;
   }
 
@@ -63,7 +64,7 @@ class KonvaStage extends Component {
       });
       return result;
     }
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
       result = {};
       Object.keys(value).forEach(key => {
         if (typeof value[key] === 'object') {
@@ -101,7 +102,6 @@ class KonvaStage extends Component {
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       console.log('user clicked on transformer');
-      console.log('HELLOOOO', e.target.getParent().className);
       return;
     }
 
@@ -154,7 +154,7 @@ class KonvaStage extends Component {
   };
 
   render() {
-    const { components, handleTransform, focusComponent, focusChild } = this.props;
+    const { components, handleTransform, focusComponent, focusChild, deleteChild } = this.props;
 
     return (
       <div
@@ -166,6 +166,18 @@ class KonvaStage extends Component {
           this.container = node;
         }}
       >
+        <Button
+          onClick={deleteChild}
+          style={{
+            width: '150px',
+            position: 'relative',
+            float: 'right',
+            background: '#dbdbdb',
+            zIndex: 2,
+          }}
+        >
+          delete child
+        </Button>
         <Stage
           className={'canvasStage'}
           ref={node => {
