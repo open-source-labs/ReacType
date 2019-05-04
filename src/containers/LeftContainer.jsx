@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-// import PropTypes from 'prop-types';
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -10,9 +9,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import LeftColExpansionPanel from "../components/LeftColExpansionPanel.jsx";
 import HTMLComponentPanel from "../components/HTMLComponentPanel.jsx";
-// import ApplicationActions from "../components/ApplicationActions.jsx";
-
-// import createModal from '../utils/createModal.util';
 import * as actions from "../actions/components";
 
 const mapDispatchToProps = dispatch => ({
@@ -33,11 +29,6 @@ const mapDispatchToProps = dispatch => ({
         stateful
       })
     ),
-  // deleteComponent: ({ index, id, parentIds }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
-  // moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
-  // moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
-  // openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
-  // deleteAllData: () => dispatch(actions.deleteAllData()),
   addChild: ({ title, childType, HTMLInfo }) =>
     dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }) =>
@@ -88,7 +79,6 @@ class LeftContainer extends Component {
           key={component.id}
           index={i}
           id={component.id}
-          // updateComponent={updateComponent}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}
@@ -144,17 +134,11 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        {/* <div className={classes.htmlCompWrapper}> */}
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
           addChild={addChild}
         />
-        {/* <ApplicationActions
-        showImageDeleteModal={showImageDeleteModal}
-        showGenerateAppModal={showGenerateAppModal}
-        /> */}
-        {/* </div> */}
       </div>
     );
   }
@@ -162,10 +146,10 @@ class LeftContainer extends Component {
 
 function styles() {
   return {
-    htmlCompWrapper: {
-      bottom: 0,
-      height: "20px"
-    },
+    // htmlCompWrapper: {
+    //   bottom: 0,
+    //   height: "200px"
+    // },
     cssLabel: {
       color: "white",
 
@@ -212,17 +196,3 @@ export default compose(
     mapDispatchToProps
   )
 )(LeftContainer);
-
-// LeftContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   addComponent: PropTypes.func.isRequired,
-//   deleteComponent: PropTypes.func.isRequired,
-//   updateComponent: PropTypes.func.isRequired,
-//   deleteAllData: PropTypes.func.isRequired,
-//   moveToBottom: PropTypes.func.isRequired,
-//   moveToTop: PropTypes.func.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   openExpansionPanel: PropTypes.func.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   classes: PropTypes.object,
-// };

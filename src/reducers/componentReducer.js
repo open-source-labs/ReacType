@@ -24,7 +24,8 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
-  DELETE_PROP
+  DELETE_PROP,
+  UPDATE_HTML_ATTR
 } from "../actionTypes";
 
 import {
@@ -48,8 +49,10 @@ import {
   openExpansionPanel,
   changeImagePath,
   addProp,
-  deleteProp
+  deleteProp,
+  updateHtmlAttr
 } from "../utils/componentReducer.util";
+//import { updateHtmlAttr } from "../actions/components";
 
 // interface Child {
 //   childId: number;
@@ -178,6 +181,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case UPDATE_HTML_ATTR:
+      return updateHtmlAttr(state, action.payload);
     default:
       return state;
   }
