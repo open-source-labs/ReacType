@@ -30,57 +30,92 @@ class HTMLComponentPanel extends Component {
     });
   };
 
-  handleCreateComponent = componentType => {
-    let compNameAndType = this.state.componentName + componentType;
-    addChild(compNameAndType);
+  handleCreateHTMLChild = type => {
+    this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
   render() {
     const { addChild } = this.props;
     return (
       <div className={classes.htmlPanel}>
-        <Tab
-          disableRipple
-          classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label="Add HTML elements"
-        />
+        <Typography variant="title" component="h4">
+          Add HTML elements
+        </Typography>
+        {/* <TextField
+          id="title-input"
+          label="Add HTML component"
+          placeholder="Name of Component"
+          margin="normal"
+          autoFocus
+          onChange={this.handleChange}
+          value={HtmlComponentName}
+          name="HtmlComponentName"
+          className={classes.light}
+          InputProps={{
+            className: classes.input
+          }}
+          InputLabelProps={{
+            className: classes.input
+          }}
+        /> */}
         <Grid container spacing={24} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
-            <div className="htmliconwrapper">
-              <IconButton
-                className="htmlicons"
-                aria-label="Image"
-                onClick={() => {
-                  this.handleCreateHTMLChild("Image");
-                }}
-              >
-                <ImageIcon />
-              </IconButton>
-              <Chip label="Image" className={classes.chip} variant="outlined" />
-            </div>
+            <IconButton
+              aria-label="Image"
+              onClick={() => {
+                this.handleCreateHTMLChild('Image');
+              }}
+            >
+              <ImageIcon />
+            </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Form">
+            <IconButton
+              aria-label="Form"
+              onClick={() => {
+                this.handleCreateHTMLChild('Form');
+              }}
+            >
               <FormIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Button">
+            <IconButton
+              aria-label="Button"
+              onClick={() => {
+                this.handleCreateHTMLChild('Button');
+              }}
+            >
               <ButtonIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Link">
+            <IconButton
+              aria-label="Link"
+              onClick={() => {
+                this.handleCreateHTMLChild('Link');
+              }}
+            >
               <LinkIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="List">
+            <IconButton
+              aria-label="List"
+              onClick={() => {
+                this.handleCreateHTMLChild('List');
+              }}
+            >
               <ListIcon />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="List">
+            <IconButton
+              aria-label="Paragraph"
+              onClick={() => {
+                this.handleCreateHTMLChild('Paragraph');
+              }}
+            >
               <ParagraphIcon />
             </IconButton>
           </Grid>
