@@ -13,8 +13,8 @@ import { IconButton } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
-    width: "80%",
-    marginTop: theme.spacing.unit * 3
+    width: '80%',
+    marginTop: theme.spacing.unit * 3,
     // overflowX: "auto"
   },
   table: {
@@ -28,9 +28,13 @@ const styles = theme => ({
  * ****************************** */
 
 function dataTable(props) {
-  const { classes, rowData, rowHeader, deletePropHandler } = props;
+  const {
+    classes, rowData, rowHeader, deletePropHandler,
+  } = props;
 
-  const renderHeader = rowHeader.map((col, idx) => <TableCell key={`head_+${idx}`}>{col}</TableCell>);
+  const renderHeader = rowHeader.map((col, idx) => (
+    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+  ));
 
   function renderRowCells(row) {
     if (!row) return;
@@ -43,7 +47,7 @@ function dataTable(props) {
       </TableCell>
     ));
   }
-  //style={{height: 30}}
+  // style={{height: 30}}
   const renderRows = rowData.map(row => (
     <TableRow key={`row-${row.id}`}>
       {renderRowCells(row)}
