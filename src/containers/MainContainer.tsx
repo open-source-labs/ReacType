@@ -39,13 +39,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
   deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
-  createApp: ({ path, components, genOption, repoUrl }) =>
+  createApp: ({ path, components, genOption }) =>
     dispatch(
       createApplication({
         path,
         components,
         genOption,
-        repoUrl,
       }),
     ),
 });
@@ -57,11 +56,8 @@ const mapStateToProps = store => ({
   stateComponents: store.workspace.components,
 });
 
-// genOptions: ['Export into existing projectASSS.', 'Export with starter repo.', 'Export with create-react-app.'],
-
 class MainContainer extends Component {
   state = {
-    repoUrl: '',
     image: '',
     draggable: false,
     modal: null,
@@ -90,12 +86,11 @@ class MainContainer extends Component {
 
     IPC.on('app_dir_selected', (event, path) => {
       const { components } = this.props;
-      const { genOption, repoUrl } = this.state;
+      const { genOption } = this.state;
       this.props.createApp({
         path,
         components,
         genOption,
-        repoUrl,
       });
     });
   }
@@ -120,23 +115,6 @@ class MainContainer extends Component {
   //   IPC.send('update-file');
   // };
 
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
-  // toggleDrag = () => {
-  //   this.props.toggleComponetDragging(this.state.draggable);
-  //   this.setState({
-  //     toggleClass: !this.state.toggleClass,
-  //     draggable: !this.state.draggable,
-  //   });
-  // };
-
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -151,6 +129,15 @@ class MainContainer extends Component {
   //     }),
   //   });
   // };
+
+  // deleteImage = () => {
+  //   this.props.changeImagePath('');
+  //   this.setState({ image: '' });
+  // };
+
+  closeModal = () => this.setState({ modal: null });
+
+  chooseAppDir = () => IPC.send('choose_app_dir');
 
   chooseGenOptions = genOption => {
     // set option

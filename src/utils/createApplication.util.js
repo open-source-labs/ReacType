@@ -64,7 +64,7 @@ async function createApplicationUtil({ path, appName, genOption }) {
 export default createApplicationUtil;
 
 // async function createApplicationUtil({
-//   path, appName, genOption, repoUrl,
+//   path, appName, genOption
 // }) {
 //   if (genOption === 1) {
 //     return [
@@ -75,7 +75,6 @@ export default createApplicationUtil;
 //       await execFile('touch', '.babelrc', { cwd: path }),
 //     ];
 //   }
-// return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
 // }
 
 // import util from 'util';
@@ -88,7 +87,7 @@ export default createApplicationUtil;
 // ];
 
 // async function createApplicationUtil({
-//   path, appName, genOption, repoUrl,
+//   path, appName, genOption
 // }) {
 //   if (genOption === 2) {
 //     return [
@@ -96,7 +95,6 @@ export default createApplicationUtil;
 //       await execFile('create-react-app', [appName], { cwd: path }),
 //     ];
 //   }
-//   return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
 // }
 
 // export default createApplicationUtil;
