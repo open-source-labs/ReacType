@@ -130,10 +130,16 @@ class Props extends Component {
 
     const { propKey, propValue, propRequired, propType } = this.state;
 
-    // check if prop exists with same key. CANNOT have doubles
+    // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
     if (savedPropKeys.includes(propKey)) {
-      window.alert(`a prop with the name: "${propKey}" already exists.`);
+      window.alert(`A prop with the name: "${propKey}" already exists.`);
+      return;
+    }
+
+    // check if prop starts with digits. Digits at string start breaks indexedDB
+    if (/^\d/.test(propKey)) {
+      window.alert('Props are not allowed to begin with digits');
       return;
     }
 
