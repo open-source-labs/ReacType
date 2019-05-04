@@ -185,7 +185,6 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
-  repoUrl,
 }) => (dispatch) => {
   if (genOption === 0) {
     dispatch(exportFiles({ path, components }));
@@ -197,7 +196,6 @@ export const createApplication = ({
       path,
       appName,
       genOption,
-      repoUrl,
     })
       .then(() => {
         dispatch({
