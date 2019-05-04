@@ -14,8 +14,8 @@ import { IconButton } from "@material-ui/core";
 const styles = theme => ({
   root: {
     width: "80%",
-    marginTop: theme.spacing.unit * 3,
-    overflowX: "auto"
+    marginTop: theme.spacing.unit * 3
+    // overflowX: "auto"
   },
   table: {
     minWidth: 500

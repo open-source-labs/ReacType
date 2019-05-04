@@ -46,7 +46,12 @@ const LeftColExpansionPanel = props => {
       alignItems="baseline"
     >
       <Grid item xs={9}>
-        <div className={classes.root}>
+        <div
+          className={classes.root}
+          style={
+            !isFocused() ? {} : { boxShadow: "0 10px 10px rgba(0,0,0,0.22)" }
+          }
+        >
           <Grid item xs={12} style={{ color: "red" }}>
             <List style={{ color: "red" }}>
               <ListItem
@@ -61,11 +66,11 @@ const LeftColExpansionPanel = props => {
                   disableTypography
                   className={classes.light}
                   primary={
-                    <Typography type="body2" style={{ color: "#FFFFFF" }}>
+                    <Typography type="body2" style={{ color: color }}>
                       {title}
                     </Typography>
                   }
-                  secondary={isFocused()}
+                  // secondary={isFocused()}
                   style={{ color }}
                 />
               </ListItem>
@@ -113,41 +118,6 @@ const LeftColExpansionPanel = props => {
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
-
-/**
-//button and functionality for deleting a component:
-<IconButton
-  className={classes.button}
-  onClick={() => {
-    deleteComponent({
-      index,
-      id,
-      parentIds,
-    });
-  }}
-  aria-label="Delete"
->
-  <DeleteIcon className={classes.light} />
-</IconButton>
- */
-
-/*
-//expansion panel and some functionality
-<div className={classes.root}>
-  <ExpansionPanel
-    className={classes.panel}
-    expanded={focusComponent.id === id}
-    onChange={() => onExpansionPanelChange(component)}
-    elevation={4}
-  >
-    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
-      <Typography className={classes.light}>{title}</Typography>
-    </ExpansionPanelSummary>
-  </ExpansionPanel>
-</div>
-*/
-
 function styles(theme) {
   return {
     root: {
@@ -164,3 +134,5 @@ function styles(theme) {
     }
   };
 }
+
+export default withStyles(styles)(LeftColExpansionPanel);
