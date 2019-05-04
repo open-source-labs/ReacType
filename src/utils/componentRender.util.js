@@ -96,14 +96,17 @@ const componentRender = (component, data) => {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
     }
 
-    const ${title} = (props: Props) => (
-      <div>
-        ${childrenArray
+    const ${title} = (props: Props) => {
+      const {${props.map(el => el.key).join(',\n')}} = props
+      
+      return (
+        <div>
+          ${childrenArray
     .map(child => `<${child.componentName} ${propDrillTextGenerator(child)}/>`)
     .join('\n')}
-      </div>
-    );
-
+        </div>
+      );
+    }
     export default ${title};
   `;
 };
