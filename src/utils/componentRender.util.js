@@ -94,12 +94,15 @@ const componentRender = (component, data) => {
       ${props.map(prop => `${prop.key}: ${prop.type}`).join('\n')}
     }
 
-    const ${title} = (props: Props) => (
-      <div>
-        ${childrenArray.map(child => `<${child.componentName} ${propDrillTextGenerator(child)}/>`).join('\n')}
-      </div>
-    );
-
+    const ${title} = (props: Props) => {
+      const {${props.map(el => el.key).join(',\n')}} = props
+      
+      return (
+        <div>
+          ${childrenArray.map(child => `<${child.componentName} ${propDrillTextGenerator(child)}/>`).join('\n')}
+        </div>
+      );
+    }
     export default ${title};
   `;
 };
