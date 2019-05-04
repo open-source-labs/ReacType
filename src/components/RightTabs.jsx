@@ -10,13 +10,15 @@ import HtmlAttr from "./HtmlAttr.jsx";
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#212121",
+    // backgroundColor: "#212121",
+    backgroundColor: "#333333",
     height: "100%",
     color: "#fff",
     boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
   },
   tabsRoot: {
-    // borderBottom: '1px solid #e8e8e8',
+    borderBottom: "0.5px solid #424242"
+    // backgroundColor: "#424242"
   },
   tabsIndicator: {
     backgroundColor: "#1de9b6"

@@ -1,33 +1,36 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import ImageIcon from '@material-ui/icons/Image';
-import FormIcon from '@material-ui/icons/Description';
-import ButtonIcon from '@material-ui/icons/EditAttributes';
-import LinkIcon from '@material-ui/icons/Link';
-import ListIcon from '@material-ui/icons/List';
-import ParagraphIcon from '@material-ui/icons/LocalParking';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import theme from './theme.ts';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import ImageIcon from "@material-ui/icons/Image";
+import FormIcon from "@material-ui/icons/Description";
+import ButtonIcon from "@material-ui/icons/EditAttributes";
+import LinkIcon from "@material-ui/icons/Link";
+import ListIcon from "@material-ui/icons/List";
+import ParagraphIcon from "@material-ui/icons/LocalParking";
+import theme from "../components/theme.ts";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Tab from "@material-ui/core/Tab";
+import Chip from "@material-ui/core/Chip";
+
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
 class HTMLComponentPanel extends Component {
   state = {
-    HtmlComponentName: '',
+    HtmlComponentName: ""
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
-      HtmlComponentName: event.target.value,
+      HtmlComponentName: event.target.value
     });
   };
 
-  handleCreateHTMLChild = (type) => {
+  handleCreateHTMLChild = type => {
     this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
@@ -35,47 +38,31 @@ class HTMLComponentPanel extends Component {
     const { addChild, classes } = this.props;
     return (
       <div className={classes.htmlPanel}>
-        <Typography variant="title" component="h4">
-          Add HTML elements
-        </Typography>
-        {/* <TextField
-          id="title-input"
-          label="Add HTML component"
-          placeholder="Name of Component"
-          margin="normal"
-          autoFocus
-          onChange={this.handleChange}
-          value={HtmlComponentName}
-          name="HtmlComponentName"
-          className={classes.light}
-          InputProps={{
-            className: classes.input
-          }}
-          InputLabelProps={{
-            className: classes.input
-          }}
-        /> */}
+        <Tab
+          disableRipple
+          classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+          label="Add HTML elements"
+        />
         <Grid container spacing={24} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
-            <IconButton
-              aria-label="Image"
-              onClick={() => {
-                this.handleCreateHTMLChild('Image');
-              }}
-
-              // onClick={() => {
-              //   console.log(addChild);
-              //   addChild({ title: "Image", childType: "Image" });
-              // }}
-            >
-              <ImageIcon />
-            </IconButton>
+            <div className="htmliconwrapper">
+              <IconButton
+                className="htmlicons"
+                aria-label="Image"
+                onClick={() => {
+                  this.handleCreateHTMLChild("Image");
+                }}
+              >
+                <ImageIcon />
+              </IconButton>
+              <Chip label="Image" className={classes.chip} variant="outlined" />
+            </div>
           </Grid>
           <Grid item xs={4}>
             <IconButton
               aria-label="Form"
               onClick={() => {
-                this.handleCreateHTMLChild('Form');
+                this.handleCreateHTMLChild("Form");
               }}
             >
               <FormIcon />
@@ -85,7 +72,7 @@ class HTMLComponentPanel extends Component {
             <IconButton
               aria-label="Button"
               onClick={() => {
-                this.handleCreateHTMLChild('Button');
+                this.handleCreateHTMLChild("Button");
               }}
             >
               <ButtonIcon />
@@ -95,7 +82,7 @@ class HTMLComponentPanel extends Component {
             <IconButton
               aria-label="Link"
               onClick={() => {
-                this.handleCreateHTMLChild('Link');
+                this.handleCreateHTMLChild("Link");
               }}
             >
               <LinkIcon />
@@ -105,7 +92,7 @@ class HTMLComponentPanel extends Component {
             <IconButton
               aria-label="List"
               onClick={() => {
-                this.handleCreateHTMLChild('List');
+                this.handleCreateHTMLChild("List");
               }}
             >
               <ListIcon />
@@ -115,7 +102,7 @@ class HTMLComponentPanel extends Component {
             <IconButton
               aria-label="Paragraph"
               onClick={() => {
-                this.handleCreateHTMLChild('Paragraph');
+                this.handleCreateHTMLChild("Paragraph");
               }}
             >
               <ParagraphIcon />
@@ -130,20 +117,28 @@ class HTMLComponentPanel extends Component {
 function styles(theme) {
   return {
     htmlPanel: {
-      width: '100%',
-      height: '33%',
-      // flexGrow: 1,
-      backgroundColor: '#333333',
-      // position: "absolute",
-      // marginTop: 10,
-      bottom: '0px',
-      // // marginRight: "20px",
-      // // marginLeft: "20px",
-      // // marginBottom: "20px",
-      // bottom: "0px",
-      // left: "0px",
-      // right: "0px"
+      width: "100%",
+      height: "33%",
+      backgroundColor: "#333333",
+      bottom: "0px",
+      padding: "20px"
     },
+    chip: {
+      background: "rgba(193, 66, 66, 0)"
+    },
+    htmliconwrapper: {
+      verticalAlign: "baseline"
+    },
+    htmlicons: {
+      color: "#ffffff"
+    },
+    tabRoot: {
+      textTransform: "initial",
+      minWidth: 100,
+      fontWeight: theme.typography.fontWeightRegular,
+      marginRight: theme.spacing.unit * 4,
+      color: "#ffffff"
+    }
   };
 }
 
