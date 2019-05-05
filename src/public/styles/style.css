@@ -12,7 +12,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Open sans", sans-serif;
+  font-family: 'Open sans', sans-serif;
   font-weight: 400;
 }
 
@@ -268,4 +268,8 @@ div.rst__rowContents {
 
 .rst__rowLabel {
   padding-right: 5px;
+}
+
+.closeIcon:hover {
+  cursor: pointer;
 }
