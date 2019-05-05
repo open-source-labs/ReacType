@@ -26,7 +26,6 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
-      childType,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -54,7 +53,7 @@ class GrandchildRectangle extends Component {
         {childType === 'COMP' &&
           components
             .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== '-1')
+            .childrenArray.filter(child => child.childId !== -1)
             .map((grandchild, i) => (
               <GrandchildRectangle
                 key={i}

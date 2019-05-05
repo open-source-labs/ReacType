@@ -23,7 +23,7 @@ class Rectangle extends Component {
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 
-    if (childId == '-1') {
+    if (childId == -1) {
       focChild = this.props.components.find(comp => comp.id === this.props.componentId);
     }
     const transformation = {
@@ -110,8 +110,8 @@ class Rectangle extends Component {
           strokeWidth={4}
           strokeScaleEnabled={false}
           draggable={false}
-          fill={childId === '-1' ? 'white' : null}
-          shadowBlur={childId === '-1' ? 6 : null}
+          fill={childId === -1 ? 'white' : null}
+          shadowBlur={childId === -1 ? 6 : null}
           // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
           // dash={[10, 3]} // 10px dashes with 3px gaps
         />
@@ -120,19 +120,19 @@ class Rectangle extends Component {
             fontStyle={'bold'}
             fontVariant={'small-caps'}
             // pseudochild's label should look different than normal children:
-            text={childId === '-1' ? title.slice(0, title.length - 2) : title}
-            fill={childId === '-1' ? this.getComponentColor(childComponentId) : '#000000'}
-            fontSize={childId === '-1' ? 15 : 10}
+            text={childId === -1 ? title.slice(0, title.length - 2) : title}
+            fill={childId === -1 ? this.getComponentColor(childComponentId) : '#000000'}
+            fontSize={childId === -1 ? 15 : 10}
             x={4}
-            y={childId === '-1' ? -20 : -12}
+            y={childId === -1 ? -20 : -12}
           />
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
-        childId !== '-1' &&
+        childId !== -1 &&
           childType == 'COMP' &&
           components
             .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== '-1')
+            .childrenArray.filter(child => child.childId !== -1)
             // .sort((a, b) => parseInt(a.childId) - parseInt(b.childId)) // using i within map below, sorting by childId might be necessary
             .map((grandchild, i) => (
               <GrandchildRectangle
