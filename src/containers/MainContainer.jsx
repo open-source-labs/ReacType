@@ -18,7 +18,7 @@ import {
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
-import createModal from '../utils/createModal.util';
+// import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -122,14 +122,6 @@ class MainContainer extends Component {
 
   chooseAppDir = () => IPC.send('choose_app_dir');
 
-  // toggleDrag = () => {
-  //   this.props.toggleComponetDragging(this.state.draggable);
-  //   this.setState({
-  //     toggleClass: !this.state.toggleClass,
-  //     draggable: !this.state.draggable,
-  //   });
-  // };
-
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -171,13 +163,13 @@ class MainContainer extends Component {
         ))}
       </List>
     );
-    this.setState({
-      modal: createModal({
-        closeModal,
-        children,
-        message: 'Choose export preference:',
-      }),
-    });
+    // this.setState({
+    //   modal: createModal({
+    //     closeModal,
+    //     children,
+    //     message: 'Choose export preference:',
+    //   }),
+    // });
   };
 
   render() {

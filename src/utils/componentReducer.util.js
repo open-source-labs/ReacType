@@ -129,14 +129,14 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
 
   const newPosition = childType === 'COMP'
     ? {
-      x: view.position.x + view.nextChildId * 5, // new children are offset by 5px, x and y
-      y: view.position.y + view.nextChildId * 5,
+      x: view.position.x + view.nextChildId * 16, // new children are offset by 5px, x and y
+      y: view.position.y + view.nextChildId * 16,
       width: parentComponent.position.width * 0.9, // new children have an initial position of their CLASS (maybe don't need 90%)
       height: parentComponent.position.height * 0.9,
     }
     : {
-      x: view.position.x + view.nextChildId * 5,
-      y: view.position.y + view.nextChildId * 5,
+      x: view.position.x + view.nextChildId * 16,
+      y: view.position.y + view.nextChildId * 16,
       width: htmlElemPosition.width,
       height: htmlElemPosition.height,
     };
@@ -203,6 +203,7 @@ export const deleteChild = (
     return state;
   }
   if (!calledFromDeleteComponent && childId === '-1') {
+    window.alert('Cannot delete root child of a component');
     return state;
   }
   // make a DEEP copy of the parent component (the one thats about to loose a child)
