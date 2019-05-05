@@ -28,32 +28,28 @@ const initialComponentState = {
 };
 
 export const addComponent = (state, { title }) => {
+  // remove whitespace and digits, capitalize first char
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
 
+  // duplicate component names not allowed
   if (state.components.find(comp => comp.title === strippedTitle)) {
     window.alert(`A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`);
     return {
       ...state,
     };
   }
+
+  // empty component name not allowed
+  if (strippedTitle === '') {
+    return {
+      ...state,
+    };
+  }
+
   const componentColor = getColor();
   const componentId = state.nextId.toString();
-
-  const pseudoChild = {
-    childId: '-1',
-    childComponentId: componentId,
-    componentName: strippedTitle,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-    //draggable: true,
-    color: componentColor,
-  };
 
   const newComponent = {
     ...initialComponentState,
