@@ -71,8 +71,6 @@ export const addComponent = (state, { title }) => {
 
   // reset focused child
   const newFocusChild = JSON.parse(JSON.stringify(state.initialApplicationFocusChild));
-  console.log('FFFF');
-  console.log(newFocusChild);
   return {
     ...state,
     totalComponents,
@@ -113,7 +111,6 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
   // conditional if adding an HTML component
   if (childType === 'COMP') {
     parentComponent = state.components.find(comp => comp.title === title);
-    console.log('inside if statement');
   }
 
   let htmlElemPosition;
@@ -203,7 +200,6 @@ export const deleteChild = (
     // window.alert('Cannot delete component border (pseudochild)');
     return state;
   }
-  console.log(`delete child parentid: ${parentId} cildId: ${childId}`);
   // make a DEEP copy of the parent component (the one thats about to loose a child)
   const parentComponentCopy = JSON.parse(JSON.stringify(state.components.find(c => c.id == parentId)));
 
@@ -253,7 +249,6 @@ export const handleTransform = (state, { componentId, childId, x, y, width, heig
       }),
       transformedComponent,
     ];
-    // console.log('trans pos: ', transformedComponent.position);
     return { ...state, components };
   }
 
@@ -652,26 +647,21 @@ export const updateHtmlAttr = (state, { attr, value }) => {
     console.log('Update HTML error. no focused child ');
     return state;
   }
-  console.log(`updateHTML. `);
 
-  console.log(attr, value);
-
-  let modifiedChild = JSON.parse(JSON.stringify(state.focusChild));
+  const modifiedChild = JSON.parse(JSON.stringify(state.focusChild));
   modifiedChild.HTMLInfo[attr] = value;
 
-  console.log(modifiedChild);
-
   // make a deep copy of focusCOmponent. we are gonne be modifying that copy
-  let modifiedComponent = JSON.parse(JSON.stringify(state.components.find(comp => comp.id == state.focusComponent.id)));
+  const modifiedComponent = JSON.parse(
+    JSON.stringify(state.components.find(comp => comp.id == state.focusComponent.id)),
+  );
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     child => child.childId != modifiedChild.childId,
   );
   modifiedComponent.childrenArray.push(modifiedChild);
 
-  console.log(modifiedComponent);
-
-  let newComponentsArray = state.components.filter(comp => comp.id != modifiedComponent.id);
+  const newComponentsArray = state.components.filter(comp => comp.id != modifiedComponent.id);
   newComponentsArray.push(modifiedComponent);
 
   return {

@@ -147,7 +147,6 @@ class KonvaStage extends Component {
         />,
       );
     }
-    console.log('calling function to render grid');
     this.setState({
       grid: output,
     });
