@@ -79,17 +79,13 @@ class RightTabs extends Component {
 
     for (let i = 0; i < component.childrenArray.length; i++) {
       const name = component.childrenArray[i].componentName;
-
       const newTree = {
         name,
         attributes: {},
         children: [],
       };
-
       newChildrenArray.push(newTree);
-
       tree.children = newChildrenArray;
-
       if (component.childrenArray[i].childType === 'COMP') {
         const newFocusComp = components.find(
           comp => comp.title === component.childrenArray[i].componentName,
@@ -97,6 +93,20 @@ class RightTabs extends Component {
         this.findChildren(newFocusComp, components, newTree);
       }
     }
+    return tree;
+  }
+
+  generateTree(componentId, components) {
+    const component = components.find(comp => comp.id === componentId);
+    const tree = { name: component.title, attributes: {}, children: [] };
+
+    component.childrenArray.forEach((child) => {
+      if (child.childType === 'COMP') {
+        tree.children.push(this.generateTree(child.childComponentId, components));
+      } else {
+        tree.children.push({ name: child.componentName, attributes: {}, children: [] });
+      }
+    });
     return tree;
   }
 
@@ -149,7 +159,10 @@ class RightTabs extends Component {
 
         {value === 0 && (
           <div id="treeWrapper" style={{ width: '50em', height: '20em' }}>
-            <Tree data={[this.findChildren(focusComponent, components, tree)]} />
+            <Tree
+              data={[this.findChildren(focusComponent, components, tree)]}
+              // data={[this.generateTree(focusComponent.id, components)]}
+            />
           </div>
         )}
         {value === 1 && <Props />}

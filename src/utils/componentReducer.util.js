@@ -2,6 +2,7 @@
 import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
 import { HTMLelements, getSize } from './htmlElements.util';
+import cloneDeep from './cloneDeep.ts';
 
 const initialComponentState = {
   id: null,
@@ -70,7 +71,7 @@ export const addComponent = (state, { title }) => {
   const selectableChildren = state.components.map(comp => comp.id).filter(id => id !== newComponent.id);
 
   // reset focused child
-  const newFocusChild = JSON.parse(JSON.stringify(state.initialApplicationFocusChild));
+  const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
   return {
     ...state,
     totalComponents,
@@ -201,12 +202,12 @@ export const deleteChild = (
     return state;
   }
   // make a DEEP copy of the parent component (the one thats about to loose a child)
-  const parentComponentCopy = JSON.parse(JSON.stringify(state.components.find(c => c.id == parentId)));
+  const parentComponentCopy = cloneDeep(state.components.find(c => c.id == parentId));
 
   // delete the  CHILD from the copied array
   const indexToDelete = parentComponentCopy.childrenArray.findIndex(elem => elem.childId == childId);
   if (indexToDelete < 0) {
-    return window.alert('DeleteChild speaking here. The child u r trying to delete was not found in the parent');
+    return window.alert('No such child component found');
   }
   parentComponentCopy.childrenArray.splice(indexToDelete, 1);
 
@@ -225,7 +226,7 @@ export const deleteChild = (
     ...state,
     components: modifiedComponentArray,
     focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
-    focusChild: JSON.parse(JSON.stringify(state.initialApplicationFocusChild)), // reset
+    focusChild: cloneDeep(state.initialApplicationFocusChild), // reset
   };
 };
 
@@ -348,7 +349,7 @@ export const deleteComponent = (state, { componentId }) => {
   const indexToDelete = state.components.findIndex(comp => comp.id == componentId);
   console.log('index to delete: ', indexToDelete);
 
-  const componentsCopy = JSON.parse(JSON.stringify(state.components));
+  const componentsCopy = cloneDeep(state.components);
   componentsCopy.splice(indexToDelete, 1);
   const totalComponents = state.totalComponents - 1;
 
@@ -376,7 +377,7 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
 
   // if no docus child found .. reset
   if (!newFocusChild) {
-    newFocusChild = JSON.parse(JSON.stringify(state.initialApplicationFocusChild));
+    newFocusChild = cloneDeep(state.initialApplicationFocusChild);
   }
 
   const result = getSelectable(newFocusComp, state.components);
@@ -620,9 +621,7 @@ export const deleteProp = (state, propId) => {
     return state;
   }
   // make a deep copy of focusCOmponent. we are gonne be modifying that copy
-  const modifiedComponent = JSON.parse(
-    JSON.stringify(state.components.find(comp => comp.id == state.focusComponent.id)),
-  );
+  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id == state.focusComponent.id));
 
   const indexToDelete = modifiedComponent.props.findIndex(prop => prop.id == propId);
   if (indexToDelete < 0) {
@@ -648,13 +647,11 @@ export const updateHtmlAttr = (state, { attr, value }) => {
     return state;
   }
 
-  const modifiedChild = JSON.parse(JSON.stringify(state.focusChild));
+  const modifiedChild = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
   // make a deep copy of focusCOmponent. we are gonne be modifying that copy
-  const modifiedComponent = JSON.parse(
-    JSON.stringify(state.components.find(comp => comp.id == state.focusComponent.id)),
-  );
+  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id == state.focusComponent.id));
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     child => child.childId != modifiedChild.childId,
