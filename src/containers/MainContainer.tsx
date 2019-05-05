@@ -115,6 +115,15 @@ class MainContainer extends Component {
   //   IPC.send('update-file');
   // };
 
+  // deleteImage = () => {
+  //   this.props.changeImagePath('');
+  //   this.setState({ image: '' });
+  // };
+
+  closeModal = () => this.setState({ modal: null });
+
+  chooseAppDir = () => IPC.send('choose_app_dir');
+
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -149,6 +158,7 @@ class MainContainer extends Component {
   };
 
   showGenerateAppModal = () => {
+    console.log('clicked on export button');
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (

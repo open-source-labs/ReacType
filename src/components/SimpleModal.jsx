@@ -46,14 +46,17 @@ const SimpleModal = (props) => {
         onClose={closeModal}
         open={open}
       >
-        <div style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }} className={classes.paper}>
+        <div
+          style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          className={classes.paper}
+        >
           <Icon
             onClick={closeModal}
-            className='closeIcon'
+            className="closeIcon"
             style={{
               position: 'absolute',
               top: '2%',
@@ -61,24 +64,34 @@ const SimpleModal = (props) => {
               fontSize: '17px',
               fontWeight: 'bold',
             }}
-          >close</Icon>
+          >
+            close
+          </Icon>
           <Typography variant="title" id="modal-title">
             {message}
           </Typography>
+          <div>{children}</div>
           <div>
-            {children}
-          </div>
-          <div>
-            {
-              secBtnLabel ? <Button variant='extendedFab' color="secondary" className={classes.button} onClick={secBtnAction}>
+            {secBtnLabel ? (
+              <Button
+                variant="extendedFab"
+                color="secondary"
+                className={classes.button}
+                onClick={secBtnAction}
+              >
                 {secBtnLabel}
-              </Button> : null
-            }
-            {
-              primBtnLabel ? <Button variant='extendedFab' color="primary" className={classes.button} onClick={primBtnAction}>
+              </Button>
+            ) : null}
+            {primBtnLabel ? (
+              <Button
+                variant="extendedFab"
+                color="primary"
+                className={classes.button}
+                onClick={primBtnAction}
+              >
                 {primBtnLabel}
-              </Button> : null
-            }
+              </Button>
+            ) : null}
           </div>
         </div>
       </Modal>

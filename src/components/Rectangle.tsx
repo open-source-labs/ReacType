@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import GrandchildRectangle from './GrandchildRectangle.jsx';
@@ -81,9 +81,17 @@ class Rectangle extends Component {
         width={width}
         height={height}
         onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
+        ref={node => {
+          this.group = node;
+        }}
+        tabIndex="0" // required for keypress event to be heard by this.group
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
+          ref={node => {
+            this.rect = node;
+          }}
+          tabIndex="0" // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -116,7 +124,7 @@ class Rectangle extends Component {
             fill={childId === '-1' ? this.getComponentColor(childComponentId) : '#000000'}
             fontSize={childId === '-1' ? 15 : 10}
             x={4}
-            y={childId === '-1' ? -15 : 5}
+            y={childId === '-1' ? -20 : -12}
           />
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
