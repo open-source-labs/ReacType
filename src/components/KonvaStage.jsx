@@ -1,11 +1,10 @@
 import React, { Component, createRef, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
-
-// import PropTypes from 'prop-types';
 import {
   Stage, Layer, Line, Group, Label, Text, Rect, Transformer,
 } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -33,7 +32,7 @@ class KonvaStage extends Component {
 
     const childrenArr = component.childrenArray.filter(child => child.childId !== '-1');
 
-    let childrenArrCopy = this.cloneDeep(childrenArr);
+    let childrenArrCopy = cloneDeep(childrenArr);
 
     const pseudoChild = {
       childId: '-1',
@@ -52,33 +51,33 @@ class KonvaStage extends Component {
     return childrenArrCopy;
   }
 
-  cloneDeep(value) {
-    let result;
+  // cloneDeep(value) {
+  //   let result;
 
-    if (Array.isArray(value)) {
-      result = [];
-      value.forEach((elm) => {
-        if (typeof elm === 'object') {
-          result.push(this.cloneDeep(elm));
-        } else {
-          result.push(elm);
-        }
-      });
-      return result;
-    }
-    if (typeof value === 'object' && value !== null) {
-      result = {};
-      Object.keys(value).forEach((key) => {
-        if (typeof value[key] === 'object') {
-          result[key] = this.cloneDeep(value[key]);
-        } else {
-          result[key] = value[key];
-        }
-      });
-      return result;
-    }
-    return value;
-  }
+  //   if (Array.isArray(value)) {
+  //     result = [];
+  //     value.forEach((elm) => {
+  //       if (typeof elm === 'object') {
+  //         result.push(this.cloneDeep(elm));
+  //       } else {
+  //         result.push(elm);
+  //       }
+  //     });
+  //     return result;
+  //   }
+  //   if (typeof value === 'object' && value !== null) {
+  //     result = {};
+  //     Object.keys(value).forEach((key) => {
+  //       if (typeof value[key] === 'object') {
+  //         result[key] = this.cloneDeep(value[key]);
+  //       } else {
+  //         result[key] = value[key];
+  //       }
+  //     });
+  //     return result;
+  //   }
+  //   return value;
+  // }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkSize);

@@ -25,8 +25,8 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
-  UPDATE_HTML_ATTR
-} from "../actionTypes";
+  UPDATE_HTML_ATTR,
+} from '../actionTypes';
 
 import {
   addComponent,
@@ -50,9 +50,11 @@ import {
   changeImagePath,
   addProp,
   deleteProp,
-  updateHtmlAttr
-} from "../utils/componentReducer.util";
-//import { updateHtmlAttr } from "../actions/components";
+  updateHtmlAttr,
+} from '../utils/componentReducer.util';
+import cloneDeep from '../utils/cloneDeep.ts';
+
+// import { updateHtmlAttr } from "../actions/components";
 
 // interface Child {
 //   childId: number;
@@ -69,11 +71,11 @@ import {
 // }
 
 const appComponent = {
-  id: "1",
+  id: '1',
   stateful: false,
-  title: "App",
+  title: 'App',
   parentIds: [],
-  color: "#FF6D00",
+  color: '#FF6D00',
   draggable: true,
   childrenIds: [],
   selectableParents: [],
@@ -84,12 +86,12 @@ const appComponent = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild = {
@@ -99,10 +101,10 @@ const initialApplicationFocusChild = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
   draggable: true,
-  childType: null
+  childType: null,
 };
 
 const initialApplicationState = {
@@ -114,11 +116,12 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  initialApplicationFocusChild: initialApplicationFocusChild,
-  focusChild: JSON.parse(JSON.stringify(initialApplicationFocusChild)),
+  initialApplicationFocusChild,
+  focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
-  loading: false
+  appDir: '',
+  loading: false,
+  componentTree: { name: 'App', attributes: {}, children: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -128,9 +131,9 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
-        errorOpen: false
+        errorOpen: false,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);

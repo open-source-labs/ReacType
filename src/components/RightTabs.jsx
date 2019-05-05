@@ -67,6 +67,17 @@ class RightTabs extends Component {
     value: 0,
   };
 
+  componentDidMount() {
+    // dynamically center the tree based on the div size
+    const dimensions = this.treeWrapper.getBoundingClientRect();
+    this.setState({
+      translate: {
+        x: dimensions.width / 12,
+        y: dimensions.height / 2.2,
+      },
+    });
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -79,17 +90,13 @@ class RightTabs extends Component {
 
     for (let i = 0; i < component.childrenArray.length; i++) {
       const name = component.childrenArray[i].componentName;
-
       const newTree = {
         name,
         attributes: {},
         children: [],
       };
-
       newChildrenArray.push(newTree);
-
       tree.children = newChildrenArray;
-
       if (component.childrenArray[i].childType === 'COMP') {
         const newFocusComp = components.find(
           comp => comp.title === component.childrenArray[i].componentName,
@@ -97,6 +104,20 @@ class RightTabs extends Component {
         this.findChildren(newFocusComp, components, newTree);
       }
     }
+    return tree;
+  }
+
+  generateComponentTree(componentId, components) {
+    const component = components.find(comp => comp.id === componentId);
+    const tree = { name: component.title, attributes: {}, children: [] };
+
+    component.childrenArray.forEach((child) => {
+      if (child.childType === 'COMP') {
+        tree.children.push(this.generateComponentTree(child.childComponentId, components));
+      } else {
+        tree.children.push({ name: child.componentName, attributes: {}, children: [] });
+      }
+    });
     return tree;
   }
 
@@ -148,8 +169,39 @@ class RightTabs extends Component {
         </Tabs>
 
         {value === 0 && (
-          <div id="treeWrapper" style={{ width: '50em', height: '20em' }}>
-            <Tree data={[this.findChildren(focusComponent, components, tree)]} />
+          <div
+            id="treeWrapper"
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+            ref={node => (this.treeWrapper = node)}
+          >
+            <Tree
+              data={[this.findChildren(focusComponent, components, tree)]}
+              // data={[this.generateComponentTree(focusComponent.id, components)]}
+              separation={{ siblings: 0.2, nonSiblings: 0.3 }}
+              transitionDuration={350}
+              translate={this.state.translate}
+              styles={{
+                nodes: {
+                  node: {
+                    name: {
+                      fill: '#D3D3D3',
+                      stroke: '#D3D3D3',
+                      strokeWidth: 1,
+                    },
+                  },
+                  leafNode: {
+                    name: {
+                      fill: '#D3D3D3',
+                      stroke: '#D3D3D3',
+                      strokeWidth: 1,
+                    },
+                  },
+                },
+              }}
+            />
           </div>
         )}
         {value === 1 && <Props />}
