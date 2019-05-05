@@ -10,19 +10,10 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
-      blockSnapSize: 5,
+      blockSnapSize: 10,
       grid: [],
       gridStroke: 1,
     };
-  }
-
-  componentDidMount() {
-    this.checkSize();
-    // here we should add listener for "container" resize
-    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
-    // for simplicity I will just listen window resize
-    window.addEventListener('resize', this.checkSize);
-    this.createGrid();
   }
 
   getDirectChildrenCopy(focusComponent) {
@@ -49,36 +40,19 @@ class KonvaStage extends Component {
     return childrenArrCopy;
   }
 
-  // cloneDeep(value) {
-  //   let result;
-
-  //   if (Array.isArray(value)) {
-  //     result = [];
-  //     value.forEach((elm) => {
-  //       if (typeof elm === 'object') {
-  //         result.push(this.cloneDeep(elm));
-  //       } else {
-  //         result.push(elm);
-  //       }
-  //     });
-  //     return result;
-  //   }
-  //   if (typeof value === 'object' && value !== null) {
-  //     result = {};
-  //     Object.keys(value).forEach((key) => {
-  //       if (typeof value[key] === 'object') {
-  //         result[key] = this.cloneDeep(value[key]);
-  //       } else {
-  //         result[key] = value[key];
-  //       }
-  //     });
-  //     return result;
-  //   }
-  //   return value;
-  // }
+  componentDidMount() {
+    this.checkSize();
+    // here we should add listener for "container" resize
+    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
+    // for simplicity I will just listen window resize
+    window.addEventListener('resize', this.checkSize);
+    this.container.addEventListener('keydown', this.handleKeyDown);
+    this.createGrid();
+  }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkSize);
+    this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
   checkSize = () => {
@@ -88,6 +62,12 @@ class KonvaStage extends Component {
       stageWidth: width,
       stageHeight: height,
     });
+  };
+
+  handleKeyDown = e => {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      this.props.deleteChild({});
+    }
   };
 
   handleStageMouseDown = e => {
@@ -157,12 +137,13 @@ class KonvaStage extends Component {
     return (
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: '95%',
+          height: '95%',
         }}
         ref={node => {
           this.container = node;
         }}
+        tabIndex="0" // required for keydown event to be heard by this.container
       >
         <Button
           onClick={deleteChild}

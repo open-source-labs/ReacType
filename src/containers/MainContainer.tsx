@@ -19,7 +19,7 @@ import {
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
-import createModal from '../utils/createModal.util';
+// import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -115,6 +115,15 @@ class MainContainer extends Component {
   //   IPC.send('update-file');
   // };
 
+  // deleteImage = () => {
+  //   this.props.changeImagePath('');
+  //   this.setState({ image: '' });
+  // };
+
+  closeModal = () => this.setState({ modal: null });
+
+  chooseAppDir = () => IPC.send('choose_app_dir');
+
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -165,13 +174,13 @@ class MainContainer extends Component {
         ))}
       </List>
     );
-    this.setState({
-      modal: createModal({
-        closeModal,
-        children,
-        message: 'Choose export preference:',
-      }),
-    });
+    // this.setState({
+    //   modal: createModal({
+    //     closeModal,
+    //     children,
+    //     message: 'Choose export preference:',
+    //   }),
+    // });
   };
 
   render() {
