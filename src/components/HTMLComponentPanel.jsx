@@ -19,8 +19,6 @@ import theme from './theme.ts';
 
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
-// test
-
 class HTMLComponentPanel extends Component {
   state = {
     HtmlComponentName: '',
@@ -61,52 +59,57 @@ class HTMLComponentPanel extends Component {
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Form"
               onClick={() => {
                 this.handleCreateHTMLChild('Form');
               }}
             >
-              <FormIcon />
+              <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Button"
               onClick={() => {
                 this.handleCreateHTMLChild('Button');
               }}
             >
-              <ButtonIcon />
+              <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Link"
               onClick={() => {
                 this.handleCreateHTMLChild('Link');
               }}
             >
-              <LinkIcon />
+              <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="List"
               onClick={() => {
                 this.handleCreateHTMLChild('List');
               }}
             >
-              <ListIcon />
+              <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Paragraph"
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
               }}
             >
-              <ParagraphIcon />
+              <ParagraphIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
         </Grid>
