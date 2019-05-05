@@ -34,7 +34,7 @@ export const addComponent = (state, { title }) => {
 
   if (state.components.find(comp => comp.title === strippedTitle)) {
     window.alert(
-      `a component with the name: "${strippedTitle}" already exists.\n Please think of another name.`,
+      `A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`,
     );
     return {
       ...state,
@@ -207,15 +207,14 @@ export const deleteChild = (
   Also when calling from DELETE components , we do not touch focusCOmponent.
  ************************************************************************************ */
   if (!parentId) {
-    window.alert('Cannot delete Child if parent id = ZERO ');
+    window.alert('Cannot delete root child of a component');
     return state;
   }
   if (!childId) {
-    window.alert('No child Selected');
+    window.alert('No child selected');
     return state;
   }
   if (!calledFromDeleteComponent && childId === '-1') {
-    // window.alert('Cannot delete component border (pseudochild)');
     return state;
   }
   // make a DEEP copy of the parent component (the one thats about to loose a child)
@@ -226,9 +225,7 @@ export const deleteChild = (
     elem => elem.childId == childId,
   );
   if (indexToDelete < 0) {
-    return window.alert(
-      'No such child component found',
-    );
+    return window.alert('No such child component found');
   }
   parentComponentCopy.childrenArray.splice(indexToDelete, 1);
 
