@@ -40,36 +40,24 @@ class HTMLComponentPanel extends Component {
     const { addChild } = this.props;
     return (
       <div className={classes.htmlPanel}>
-        <Typography variant="title" component="h4">
-          Add HTML elements
-        </Typography>
-        {/* <TextField
-          id="title-input"
-          label="Add HTML component"
-          placeholder="Name of Component"
-          margin="normal"
-          autoFocus
-          onChange={this.handleChange}
-          value={HtmlComponentName}
-          name="HtmlComponentName"
-          className={classes.light}
-          InputProps={{
-            className: classes.input
-          }}
-          InputLabelProps={{
-            className: classes.input
-          }}
-        /> */}
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Tab
+          disableRipple
+          classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+          label="Add HTML elements"
+        />
+        <Grid container spacing={8} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
-            <IconButton
-              aria-label="Image"
-              onClick={() => {
-                this.handleCreateHTMLChild('Image');
-              }}
-            >
-              <ImageIcon />
-            </IconButton>
+            <div className="htmliconwrapper">
+              <IconButton
+                className="htmlicons"
+                aria-label="Image"
+                onClick={() => {
+                  this.handleCreateHTMLChild("Image");
+                }}
+              >
+                <ImageIcon style={{ color: "#e0e0e0" }} />
+              </IconButton>
+            </div>
           </Grid>
           <Grid item xs={4}>
             <IconButton
@@ -131,13 +119,17 @@ function styles(theme) {
   return {
     htmlPanel: {
       width: "100%",
-      height: "33%",
-      backgroundColor: "#333333",
+      height: "30%",
+      // backgroundColor: "#333333",
+      borderStyle: "solid",
+      borderWidth: "0.5px",
+      borderRadius: "1px",
+      borderColor: "#424242",
       bottom: "0px",
       padding: "20px"
     },
     chip: {
-      background: "rgba(193, 66, 66, 0)"
+      color: "rgba(193, 66, 66, 0)"
     },
     htmliconwrapper: {
       verticalAlign: "baseline"
@@ -149,7 +141,7 @@ function styles(theme) {
       textTransform: "initial",
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
-      marginRight: theme.spacing.unit * 4,
+      // marginRight: theme.spacing.unit * 4,
       color: "#ffffff"
     }
   };
