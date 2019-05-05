@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import ImageIcon from "@material-ui/icons/Image";
-import FormIcon from "@material-ui/icons/Description";
-import ButtonIcon from "@material-ui/icons/EditAttributes";
-import LinkIcon from "@material-ui/icons/Link";
-import ListIcon from "@material-ui/icons/List";
-import ParagraphIcon from "@material-ui/icons/LocalParking";
-import theme from "../components/theme.ts";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Tab from "@material-ui/core/Tab";
-import Chip from "@material-ui/core/Chip";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ImageIcon from '@material-ui/icons/Image';
+import FormIcon from '@material-ui/icons/Description';
+import ButtonIcon from '@material-ui/icons/EditAttributes';
+import LinkIcon from '@material-ui/icons/Link';
+import ListIcon from '@material-ui/icons/List';
+import ParagraphIcon from '@material-ui/icons/LocalParking';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Tab from '@material-ui/core/Tab';
+import Chip from '@material-ui/core/Chip';
+import theme from './theme.ts';
 
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
@@ -26,13 +26,13 @@ class HTMLComponentPanel extends Component {
     HtmlComponentName: '',
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       HtmlComponentName: event.target.value,
     });
   };
 
-  handleCreateHTMLChild = type => {
+  handleCreateHTMLChild = (type) => {
     this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
@@ -52,10 +52,10 @@ class HTMLComponentPanel extends Component {
                 className="htmlicons"
                 aria-label="Image"
                 onClick={() => {
-                  this.handleCreateHTMLChild("Image");
+                  this.handleCreateHTMLChild('Image');
                 }}
               >
-                <ImageIcon style={{ color: "#e0e0e0" }} />
+                <ImageIcon style={{ color: '#e0e0e0' }} />
               </IconButton>
             </div>
           </Grid>
@@ -118,32 +118,32 @@ class HTMLComponentPanel extends Component {
 function styles(theme) {
   return {
     htmlPanel: {
-      width: "100%",
-      height: "30%",
+      width: '100%',
+      height: '30%',
       // backgroundColor: "#333333",
-      borderStyle: "solid",
-      borderWidth: "0.5px",
-      borderRadius: "1px",
-      borderColor: "#424242",
-      bottom: "0px",
-      padding: "20px"
+      borderStyle: 'solid',
+      borderWidth: '0.5px',
+      borderRadius: '1px',
+      borderColor: '#424242',
+      bottom: '0px',
+      padding: '20px',
     },
     chip: {
-      color: "rgba(193, 66, 66, 0)"
+      color: 'rgba(193, 66, 66, 0)',
     },
     htmliconwrapper: {
-      verticalAlign: "baseline"
+      verticalAlign: 'baseline',
     },
     htmlicons: {
-      color: "#ffffff"
+      color: '#ffffff',
     },
     tabRoot: {
-      textTransform: "initial",
+      textTransform: 'initial',
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
       // marginRight: theme.spacing.unit * 4,
-      color: "#ffffff"
-    }
+      color: '#ffffff',
+    },
   };
 }
 
