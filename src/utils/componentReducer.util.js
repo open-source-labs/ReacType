@@ -51,7 +51,7 @@ export const addComponent = (state, { title }) => {
   }
 
   const componentColor = getColor();
-  const componentId = state.nextId.toString();
+  const componentId = state.nextId;
 
   const newComponent = {
     ...initialComponentState,
@@ -80,7 +80,7 @@ export const addComponent = (state, { title }) => {
     focusComponent: newComponent,
     focusChild: newFocusChild,
     ancestors: [],
-    selectableChildren, // new component so you everyone except yourself is available
+    selectableChildren, // new component so everyone except yourself is available
   };
 };
 
@@ -142,7 +142,7 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
     };
 
   const newChild = {
-    childId: view.nextChildId.toString(),
+    childId: view.nextChildId,
     childType,
     childComponentId: childType == 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
     componentName: strippedTitle,
@@ -202,7 +202,7 @@ export const deleteChild = (
     window.alert('No child selected');
     return state;
   }
-  if (!calledFromDeleteComponent && childId === '-1') {
+  if (!calledFromDeleteComponent && childId === -1) {
     window.alert('Cannot delete root child of a component');
     return state;
   }
@@ -240,7 +240,7 @@ export const deleteChild = (
 export const handleTransform = (state, {
   componentId, childId, x, y, width, height,
 }) => {
-  if (childId === '-1') {
+  if (childId === -1) {
     // the pseudochild has been transformed, its position is stored in the component
     const component = state.components.find(comp => comp.id === componentId);
     const transformedComponent = {
@@ -409,7 +409,7 @@ export const changeFocusChild = (state, { title, childId }) => {
 
   if (!newFocusChild) {
     newFocusChild = {
-      childId: '-1',
+      childId: -1,
       childComponentId: focComp.id,
       componentName: focComp.title,
       position: {
@@ -602,7 +602,7 @@ export const addProp = (state, {
   const selectedComponent = state.components.find(comp => comp.id == state.focusComponent.id);
 
   const newProp = {
-    id: selectedComponent.nextPropId.toString(),
+    id: selectedComponent.nextPropId,
     key,
     value: value || key,
     required,

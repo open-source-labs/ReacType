@@ -71,7 +71,7 @@ import cloneDeep from '../utils/cloneDeep.ts';
 // }
 
 const appComponent = {
-  id: '1',
+  id: 1,
   stateful: false,
   title: 'App',
   parentIds: [],
