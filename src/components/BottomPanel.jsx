@@ -20,7 +20,8 @@ const mapStateToProps = store => ({
   // successOpen: store.workspace.successOpen,
   // errorOpen: store.workspace.errorOpen,
   // appDir: store.workspace.appDir,
-  focusChild: store.workspace.focusChild
+  focusChild: store.workspace.focusChild,
+  components: store.workspace.components
 });
 
 class BottomPanel extends Component {
@@ -46,6 +47,8 @@ class BottomPanel extends Component {
       focusChild
       // rightColumnOpen
     } = this.props;
+
+    console.log(components);
 
     return (
       <div className="bottom-panel" style={{ width: "100%" }}>

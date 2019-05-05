@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-// import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-// import Badge from "@material-ui/core/Badge";
 import Props from "./Props.jsx";
 import HtmlAttr from "./HtmlAttr.jsx";
+// import Tree from "./Tree.jsx";
+import Tree from "react-d3-tree";
 
 const styles = theme => ({
   root: {
@@ -72,6 +72,59 @@ class RightTabs extends Component {
     this.setState({ value });
   };
 
+  findChildren(component, components, tree) {
+    console.log("hello");
+    console.log("component", component);
+    console.log("components", components);
+    console.log("tree", tree);
+
+    // console.log(component.childrenArray.length)
+    if (!component.childrenArray.length) {
+      return tree;
+    }
+    let newChildrenArray = [];
+
+    for (let i = 0; i < component.childrenArray.length; i++) {
+      let name;
+
+      name = component.childrenArray[i].componentName;
+
+      // if(component.childrenArray[i].childType === "HTML") {
+      //   name = component.childrenArray[i].componentName
+      // } else {
+      //   name = component.childrenArray[i].title
+      // }
+
+      let newTree = {
+        name: name,
+        attributes: {},
+        children: []
+      };
+
+      newChildrenArray.push(newTree);
+
+      tree.children = newChildrenArray;
+
+      // console.log('hello', component.childrenArray[i])
+
+      // console.log(component.childrenArray[i].componentName)
+
+      if (component.childrenArray[i].childType === "HTML") {
+        console.log("im html");
+      } else {
+        let newFocusComp = components.find(
+          comp => comp.title === component.childrenArray[i].componentName
+        );
+
+        // console.log(newFocusComp)
+        console.log(tree);
+
+        this.findChildren(newFocusComp, components, newTree);
+      }
+    }
+    return tree;
+  }
+
   render() {
     const {
       classes,
@@ -83,6 +136,93 @@ class RightTabs extends Component {
       // rightColumnOpen
     } = this.props;
     const { value } = this.state;
+
+    console.log(components);
+
+    let tree = {
+      name: focusComponent.title,
+      attributes: {},
+      children: []
+    };
+
+    let treeExample = [
+      {
+        name: "App",
+        attributes: {},
+        children: [
+          { name: "Image", attributes: {}, children: [] },
+          {
+            name: "Board",
+            attributes: {},
+            children: [
+              {
+                name: "Row",
+                attributes: {},
+                children: [
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  }
+                ]
+              },
+              {
+                name: "Row",
+                attributes: {},
+                children: [
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  }
+                ]
+              },
+              {
+                name: "Row",
+                attributes: {},
+                children: [
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  },
+                  {
+                    name: "Box",
+                    attributes: {},
+                    children: [{ name: "Button", attributes: {}, children: [] }]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
 
     return (
       <div className={classes.root}>
@@ -112,6 +252,15 @@ class RightTabs extends Component {
             label="HTML Element Attributes"
           />
         </Tabs>
+
+        {value === 0 && (
+          <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
+            <Tree
+              data={[this.findChildren(focusComponent, components, tree)]}
+              // data={treeExample}
+            />
+          </div>
+        )}
         {value === 1 && <Props />}
         {value === 3 && focusChild.childType === "HTML" && <HtmlAttr />}
         {value === 3 &&
@@ -122,14 +271,5 @@ class RightTabs extends Component {
     );
   }
 }
-
-// RightTabs.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   components: PropTypes.array.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   deleteProp: PropTypes.func.isRequired,
-//   addProp: PropTypes.func.isRequired,
-//   rightColumnOpen: PropTypes.bool.isRequired,
-// };
 
 export default withStyles(styles)(RightTabs);
