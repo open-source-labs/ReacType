@@ -3,8 +3,6 @@ import { format } from 'prettier';
 import componentRender from './componentRender.util';
 
 const createFiles = (data, path, appName, exportAppBool) => {
-  console.log('createFiles AppName:', appName);
-  console.log('createFiles exportAppBool:', exportAppBool);
   // if (!dir.match(/`${appName}`|\*$/)) {
   let dir = path;
   if (exportAppBool === false) {
@@ -18,10 +16,8 @@ const createFiles = (data, path, appName, exportAppBool) => {
       }
     }
   } else if (exportAppBool) {
-    console.log('export appName:', appName);
     if (!dir.match(/${appName}|\*$/)) {
       dir = `${dir}/${appName}/src/components`;
-      console.log('the dir', dir);
     }
     // dir = `${dir}/${appName}/src/components`;
     // if (!fs.existsSync(dir)) {
