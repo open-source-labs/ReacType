@@ -181,7 +181,7 @@ class RightTabs extends Component {
               data={[this.findChildren(focusComponent, components, tree)]}
               // data={[this.generateComponentTree(focusComponent.id, components)]}
               separation={{ siblings: 0.2, nonSiblings: 0.3 }}
-              transitionDuration={350}
+              transitionDuration={0}
               translate={this.state.translate}
               styles={{
                 nodes: {
