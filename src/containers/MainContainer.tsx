@@ -19,7 +19,7 @@ import {
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
-// import createModal from '../utils/createModal.util';
+import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -158,6 +158,7 @@ class MainContainer extends Component {
   };
 
   showGenerateAppModal = () => {
+    console.log('clicked on export button');
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
@@ -174,13 +175,13 @@ class MainContainer extends Component {
         ))}
       </List>
     );
-    // this.setState({
-    //   modal: createModal({
-    //     closeModal,
-    //     children,
-    //     message: 'Choose export preference:',
-    //   }),
-    // });
+    this.setState({
+      modal: createModal({
+        closeModal,
+        children,
+        message: 'Choose export preference:',
+      }),
+    });
   };
 
   render() {

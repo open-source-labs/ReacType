@@ -269,3 +269,7 @@ div.rst__rowContents {
 .rst__rowLabel {
   padding-right: 5px;
 }
+
+.closeIcon:hover {
+  cursor: pointer;
+}
