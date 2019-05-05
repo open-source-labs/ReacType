@@ -158,12 +158,8 @@ export const changeComponentFocusChild = ({
   });
 };
 
-<<<<<<< HEAD
 export const exportFiles = ({ components, path }) => dispatch => {
-=======
-export const exportFiles = ({ components, path }) => (dispatch) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
->>>>>>> b7293e0b5086a0b3845de7570cc40c7eb47578af
   dispatch({
     type: EXPORT_FILES
   });
@@ -208,15 +204,9 @@ export const createApplication = ({
   path,
   components = [],
   genOption,
-<<<<<<< HEAD
-  appName = "proto_app",
+  appName = "reactype_app",
   repoUrl
 }) => dispatch => {
-=======
-  appName = 'reactype_app',
-  repoUrl,
-}) => (dispatch) => {
->>>>>>> b7293e0b5086a0b3845de7570cc40c7eb47578af
   if (genOption === 0) {
     dispatch(exportFiles({ path, components }));
   } else if (genOption) {

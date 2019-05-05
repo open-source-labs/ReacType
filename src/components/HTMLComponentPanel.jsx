@@ -45,7 +45,7 @@ class HTMLComponentPanel extends Component {
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
           label="Add HTML elements"
         />
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton
@@ -55,9 +55,8 @@ class HTMLComponentPanel extends Component {
                   this.handleCreateHTMLChild("Image");
                 }}
               >
-                <ImageIcon />
+                <ImageIcon style={{ color: "#e0e0e0" }} />
               </IconButton>
-              <Chip label="Image" className={classes.chip} variant="outlined" />
             </div>
           </Grid>
           <Grid item xs={4}>
@@ -120,13 +119,17 @@ function styles(theme) {
   return {
     htmlPanel: {
       width: "100%",
-      height: "33%",
-      backgroundColor: "#333333",
+      height: "30%",
+      // backgroundColor: "#333333",
+      borderStyle: "solid",
+      borderWidth: "0.5px",
+      borderRadius: "1px",
+      borderColor: "#424242",
       bottom: "0px",
       padding: "20px"
     },
     chip: {
-      background: "rgba(193, 66, 66, 0)"
+      color: "rgba(193, 66, 66, 0)"
     },
     htmliconwrapper: {
       verticalAlign: "baseline"
@@ -138,7 +141,7 @@ function styles(theme) {
       textTransform: "initial",
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
-      marginRight: theme.spacing.unit * 4,
+      // marginRight: theme.spacing.unit * 4,
       color: "#ffffff"
     }
   };

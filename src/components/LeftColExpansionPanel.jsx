@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Fab from "@material-ui/core/Fab";
 
 import { openExpansionPanel } from "../utils/componentReducer.util";
 
@@ -80,7 +81,54 @@ const LeftColExpansionPanel = props => {
             <div />
           ) : (
             <Fragment>
-              <IconButton
+              <span>
+                {directParents ? (
+                  <p
+                    style={{
+                      marginLeft: "10px",
+                      color: "white",
+                      fontSize: "12px",
+                      marginTop: "1px"
+                    }}
+                  >
+                    Used in: {directParents}
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      marginLeft: "10px",
+                      color: "white",
+                      fontSize: "12px",
+                      marginTop: "1px"
+                    }}
+                  >
+                    Not used
+                  </p>
+                )}
+              </span>
+              <Fab
+                variant="extended"
+                size="small"
+                color="inherit"
+                aria-label="Delete"
+                className={classes.margin}
+                style={{
+                  marginLeft: "10px",
+                  marginTop: "5px",
+                  marginBottom: "10px"
+                }}
+                // style={{ maxWidth: "20px" }}
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components
+                  })
+                }
+              >
+                <DeleteIcon className={classes.extendedIcon} />
+                Delete
+              </Fab>
+              {/* <IconButton
                 style={{ display: "inline-block" }}
                 onClick={() =>
                   deleteComponent({
@@ -90,11 +138,7 @@ const LeftColExpansionPanel = props => {
                 }
               >
                 <DeleteIcon />
-              </IconButton>
-
-              <span>
-                {directParents ? `Used in: ${directParents}` : "Not used"}
-              </span>
+              </IconButton> */}
             </Fragment>
           )}
         </div>
