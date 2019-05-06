@@ -75,6 +75,14 @@ class HtmlAttr extends Component {
     {}
   );
 
+  handleSave = attr => {
+    console.log(attr, this.state[attr]);
+    this.props.updateHtmlAttr({ attr, value: this.state[attr] });
+    this.setState({
+      [attr]: ""
+    });
+  };
+
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value.trim()
@@ -169,9 +177,10 @@ class HtmlAttr extends Component {
               marginBottom: "10px"
             }}
             // style={{ maxWidth: "20px" }}
-            onClick={() => {
-              updateHtmlAttr({ attr, value: this.state[attr] });
-            }}
+            // onClick={() => {
+            //   updateHtmlAttr({ attr, value: this.state[attr] });
+            // }}
+            onClick={() => this.handleSave(attr)}
           >
             <SaveIcon className={classes.extendedIcon} />
             Save
