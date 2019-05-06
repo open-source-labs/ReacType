@@ -1,22 +1,85 @@
 const componentRender = (component, data) => {
-  const {
-    stateful, id, position, childrenArray, title, props,
-  } = component;
+  const { stateful, id, position, childrenArray, title, props } = component;
+
+  function typeSwitcher(type) {
+    switch (type) {
+      case 'string':
+        return 'string';
+      case 'number':
+        return 'number';
+      case 'object':
+        return 'object';
+      case 'array':
+        return 'any[]';
+      case 'bool':
+        return 'boolean';
+      case 'function':
+        return '() => any';
+      // case 'symbol':
+      //   return 'string';
+      case 'node':
+        return 'string';
+      case 'element':
+        return 'string';
+      case 'tuple':
+        return '[any]';
+      case 'enum':
+        return '{}';
+      case 'any':
+        return 'any';
+      default:
+        return 'any';
+    }
+  }
+
+  function propDrillTextGenerator(child) {
+    if (child.childType === 'COMP') {
+      return data
+        .find(c => c.id === child.childComponentId)
+        .props.map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ');
+    }
+    return '';
+  }
+
+  function componentNameGenerator(child) {
+    if (child.childType === 'HTML') {
+      switch (child.componentName) {
+        case 'Image':
+          return 'img';
+        case 'Form':
+          return 'form';
+        case 'Button':
+          return 'button';
+        case 'Link':
+          return 'a href=""';
+        case 'List':
+          return 'ul';
+        case 'Paragraph':
+          return 'p';
+        default:
+          return 'div';
+      }
+    } else {
+      return child.componentName;
+    }
+  }
 
   // need to filter with reduce the import, copy from below
   if (stateful) {
     return `
       import React, { Component } from 'react';
       ${childrenArray
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
-        return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')}
+        .filter(child => child.childType !== 'HTML')
+        .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+        .reduce((acc, child) => {
+          if (!acc.includes(child)) {
+            acc.push(child);
+            return acc;
+          }
+          return acc;
+        }, [])
+        .join('\n')}
       
       class ${title} extends Component {
       constructor(props) {
@@ -36,31 +99,35 @@ const componentRender = (component, data) => {
       export default ${title};
     `;
   }
-
   return `
     import React from 'react';
     ${childrenArray
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
+      .filter(child => child.childType !== 'HTML')
+      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+      .reduce((acc, child) => {
+        if (!acc.includes(child)) {
+          acc.push(child);
+          return acc;
+        }
         return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')}
+      }, [])
+      .join('\n')}
     
-
     type Props = {
-      ${component.props.map(prop => `${prop.key}: ${prop.type}`).join('\n')}
+      ${props.map(prop => `${prop.key}: ${prop.type}`).join('\n')}
     }
 
-    const ${title} = (props: Props) => (
-      <div>
-        ${childrenArray.map(child => `<${child.componentName}/>`).join('\n')}
-      </div>
-    );
-
+    const ${title} = (props: Props) => {
+      const {${props.map(el => el.key).join(',\n')}} = props
+      
+      return (
+        <div>
+          ${childrenArray
+            .map(child => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
+            .join('\n')}
+        </div>
+      );
+    }
     export default ${title};
   `;
 };

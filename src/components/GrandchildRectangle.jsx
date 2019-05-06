@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
+// import findComponentById from '../utils/findComponentById.ts';
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
-    const color = this.props.components.find(comp => comp.id == componentId).color;
+    // const color = findComponentById(componentId, this.props.components).color;
+    const color = this.props.components.find(comp => comp.id === componentId).color;
     return color;
   }
 
@@ -26,7 +28,6 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
-      childType,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -54,7 +55,7 @@ class GrandchildRectangle extends Component {
         {childType === 'COMP' &&
           components
             .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== '-1')
+            .childrenArray.filter(child => child.childId !== -1)
             .map((grandchild, i) => (
               <GrandchildRectangle
                 key={i}

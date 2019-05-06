@@ -10,10 +10,13 @@ import ButtonIcon from '@material-ui/icons/EditAttributes';
 import LinkIcon from '@material-ui/icons/Link';
 import ListIcon from '@material-ui/icons/List';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
-import theme from '../components/theme';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Tab from '@material-ui/core/Tab';
+import Chip from '@material-ui/core/Chip';
+import theme from './theme.ts';
+
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
 class HTMLComponentPanel extends Component {
@@ -21,78 +24,92 @@ class HTMLComponentPanel extends Component {
     HtmlComponentName: '',
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       HtmlComponentName: event.target.value,
     });
   };
 
-  handleCreateComponent = componentType => {
-    let compNameAndType = this.state.componentName + componentType;
-    addChild(compNameAndType);
+  handleCreateHTMLChild = (type) => {
+    this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
   render() {
     const { addChild } = this.props;
     return (
-      <Paper className={'htmlPanelz'}>
-        <Typography variant="title" component="h3">
-          Add HTML elements
-        </Typography>
-        {/* <TextField
-          id="title-input"
-          label="Add HTML component"
-          placeholder="Name of Component"
-          margin="normal"
-          autoFocus
-          onChange={this.handleChange}
-          value={HtmlComponentName}
-          name="HtmlComponentName"
-          className={classes.light}
-          InputProps={{
-            className: classes.input
-          }}
-          InputLabelProps={{
-            className: classes.input
-          }}
-        /> */}
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+      <div className={classes.htmlPanel}>
+        <Tab
+          disableRipple
+          classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+          label="Add HTML elements"
+        />
+        <Grid container spacing={8} alignItems="baseline" align="stretch">
+          <Grid item xs={4}>
+            <div className="htmliconwrapper">
+              <IconButton
+                className="htmlicons"
+                aria-label="Image"
+                onClick={() => {
+                  this.handleCreateHTMLChild('Image');
+                }}
+              >
+                <ImageIcon style={{ color: '#e0e0e0' }} />
+              </IconButton>
+            </div>
+          </Grid>
           <Grid item xs={4}>
             <IconButton
-              aria-label="Image"
+              className="htmlicons"
+              aria-label="Form"
               onClick={() => {
-                console.log(addChild);
-                // addChild({ title: "ImageX" });
-                // has to be the title of the focus component
-                // need to add another parameter for the type of the
+                this.handleCreateHTMLChild('Form');
               }}
             >
-              <ImageIcon />
+              <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Form">
-              <FormIcon />
+            <IconButton
+              className="htmlicons"
+              aria-label="Button"
+              onClick={() => {
+                this.handleCreateHTMLChild('Button');
+              }}
+            >
+              <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Button">
-              <ButtonIcon />
+            <IconButton
+              className="htmlicons"
+              aria-label="Link"
+              onClick={() => {
+                this.handleCreateHTMLChild('Link');
+              }}
+            >
+              <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="Link">
-              <LinkIcon />
+            <IconButton
+              className="htmlicons"
+              aria-label="List"
+              onClick={() => {
+                this.handleCreateHTMLChild('List');
+              }}
+            >
+              <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <IconButton aria-label="List">
-              <ListIcon />
-            </IconButton>
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton aria-label="List">
-              <ParagraphIcon />
+            <IconButton
+              className="htmlicons"
+              aria-label="Paragraph"
+              onClick={() => {
+                this.handleCreateHTMLChild('Paragraph');
+              }}
+            >
+              <ParagraphIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
         </Grid>
@@ -105,18 +122,30 @@ function styles(theme) {
   return {
     htmlPanel: {
       width: '100%',
-      height: '33%',
-      // flexGrow: 1,
-      backgroundColor: '#333333',
-      // position: "absolute",
-      // marginTop: 10,
+      height: '30%',
+      // backgroundColor: "#333333",
+      borderStyle: 'solid',
+      borderWidth: '0.5px',
+      borderRadius: '1px',
+      borderColor: '#424242',
       bottom: '0px',
-      // // marginRight: "20px",
-      // // marginLeft: "20px",
-      // // marginBottom: "20px",
-      // bottom: "0px",
-      // left: "0px",
-      // right: "0px"
+      padding: '20px',
+    },
+    chip: {
+      color: 'rgba(193, 66, 66, 0)',
+    },
+    htmliconwrapper: {
+      verticalAlign: 'baseline',
+    },
+    htmlicons: {
+      color: '#ffffff',
+    },
+    tabRoot: {
+      textTransform: 'initial',
+      minWidth: 100,
+      fontWeight: theme.typography.fontWeightRegular,
+      // marginRight: theme.spacing.unit * 4,
+      color: '#ffffff',
     },
   };
 }

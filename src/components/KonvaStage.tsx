@@ -1,7 +1,8 @@
 import React, { Component, createRef, Fragment } from 'react';
-// import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -9,30 +10,21 @@ class KonvaStage extends Component {
     this.state = {
       stageWidth: 1000,
       stageHeight: 1000,
-      blockSnapSize: 5,
+      blockSnapSize: 10,
       grid: [],
       gridStroke: 1,
     };
   }
 
-  componentDidMount() {
-    this.checkSize();
-    // here we should add listener for "container" resize
-    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
-    // for simplicity I will just listen window resize
-    window.addEventListener('resize', this.checkSize);
-    this.createGrid();
-  }
-
   getDirectChildrenCopy(focusComponent) {
     const component = this.props.components.find(comp => comp.id === focusComponent.id);
 
-    const childrenArr = component.childrenArray.filter(child => child.childId !== '-1');
+    const childrenArr = component.childrenArray.filter(child => child.childId !== -1);
 
-    let childrenArrCopy = this.cloneDeep(childrenArr);
+    let childrenArrCopy = cloneDeep(childrenArr);
 
     const pseudoChild = {
-      childId: '-1',
+      childId: -1,
       childComponentId: component.id,
       componentName: component.title,
       position: {
@@ -44,41 +36,23 @@ class KonvaStage extends Component {
       draggable: true,
       color: component.color,
     };
-    // console.log('getDirectChildrenCopy, pseudoChild.position: ', pseudoChild.position);
-    childrenArrCopy = childrenArrCopy.concat(pseudoChild);
+    childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
     return childrenArrCopy;
   }
 
-  cloneDeep(value) {
-    let result;
-
-    if (Array.isArray(value)) {
-      result = [];
-      value.forEach(elm => {
-        if (typeof elm === 'object') {
-          result.push(this.cloneDeep(elm));
-        } else {
-          result.push(elm);
-        }
-      });
-      return result;
-    }
-    if (typeof value === 'object') {
-      result = {};
-      Object.keys(value).forEach(key => {
-        if (typeof value[key] === 'object') {
-          result[key] = this.cloneDeep(value[key]);
-        } else {
-          result[key] = value[key];
-        }
-      });
-      return result;
-    }
-    return value;
+  componentDidMount() {
+    this.checkSize();
+    // here we should add listener for "container" resize
+    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
+    // for simplicity I will just listen window resize
+    window.addEventListener('resize', this.checkSize);
+    this.container.addEventListener('keydown', this.handleKeyDown);
+    this.createGrid();
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.checkSize);
+    this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
   checkSize = () => {
@@ -88,6 +62,12 @@ class KonvaStage extends Component {
       stageWidth: width,
       stageHeight: height,
     });
+  };
+
+  handleKeyDown = e => {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      this.props.deleteChild({});
+    }
   };
 
   handleStageMouseDown = e => {
@@ -101,7 +81,6 @@ class KonvaStage extends Component {
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       console.log('user clicked on transformer');
-      console.log('HELLOOOO', e.target.getParent().className);
       return;
     }
 
@@ -147,25 +126,37 @@ class KonvaStage extends Component {
         />,
       );
     }
-    console.log('calling function to render grid');
     this.setState({
       grid: output,
     });
   };
 
   render() {
-    const { components, handleTransform, focusComponent, focusChild } = this.props;
+    const { components, handleTransform, focusComponent, focusChild, deleteChild } = this.props;
 
     return (
       <div
         style={{
-          width: '100%',
-          height: '100%',
+          width: '95%',
+          height: '95%',
         }}
         ref={node => {
           this.container = node;
         }}
+        tabIndex="0" // required for keydown event to be heard by this.container
       >
+        <Button
+          onClick={deleteChild}
+          style={{
+            width: '150px',
+            position: 'relative',
+            float: 'right',
+            background: '#dbdbdb',
+            zIndex: 2,
+          }}
+        >
+          delete child
+        </Button>
         <Stage
           className={'canvasStage'}
           ref={node => {
@@ -191,7 +182,7 @@ class KonvaStage extends Component {
                   childComponentId={child.childComponentId}
                   childComponentName={child.componentName}
                   focusChild={focusChild}
-                  childId={child.childId} // '-1' for pseudoChild
+                  childId={child.childId} // -1 for pseudoChild
                   x={child.position.x}
                   y={child.position.y}
                   scaleX={1}

@@ -14,13 +14,7 @@
 //     { idd: 2, title: 'row1', count: 60 },
 //   ];
 
-//   // console.log(`ract data grid: rows`)
-//   // console.log(rows)
-//   // console.log(`ract data grid: columns`)
-//   // console.log(columns)
-
 //   function getRow(i) {
-//     console.log(`i=${i} rows{i}= ${rows[i]}`);
 //     return rows[i];
 //   }
 

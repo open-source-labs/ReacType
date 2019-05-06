@@ -25,6 +25,7 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
+  UPDATE_HTML_ATTR,
 } from '../actionTypes';
 
 import {
@@ -49,7 +50,11 @@ import {
   changeImagePath,
   addProp,
   deleteProp,
+  updateHtmlAttr,
 } from '../utils/componentReducer.util';
+import cloneDeep from '../utils/cloneDeep.ts';
+
+// import { updateHtmlAttr } from "../actions/components";
 
 interface Child {
   childId: number;
@@ -66,7 +71,7 @@ interface Component {
 }
 
 const appComponent = {
-  id: '1',
+  id: 1,
   stateful: false,
   title: 'App',
   parentIds: [],
@@ -74,7 +79,6 @@ const appComponent = {
   draggable: true,
   childrenIds: [],
   selectableParents: [],
-  expanded: true,
   props: [],
   nextPropId: 1,
   position: {
@@ -86,7 +90,7 @@ const appComponent = {
 
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild = {
@@ -98,7 +102,8 @@ const initialApplicationFocusChild = {
     width: 600,
     height: 400,
   },
-  //  draggable: true,
+  draggable: true,
+  childType: null,
 };
 
 const initialApplicationState = {
@@ -110,20 +115,12 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  focusChild: {
-    childId: 0,
-    componentName: null,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-    draggable: true,
-  },
+  initialApplicationFocusChild,
+  focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
   loading: false,
+  componentTree: { name: 'App', attributes: {}, children: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -186,6 +183,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case UPDATE_HTML_ATTR:
+      return updateHtmlAttr(state, action.payload);
     default:
       return state;
   }

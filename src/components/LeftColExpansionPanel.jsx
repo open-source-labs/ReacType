@@ -8,38 +8,141 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
+
 import { openExpansionPanel } from '../utils/componentReducer.util';
 
-const LeftColExpansionPanel = props => {
-  const { classes, focusComponent, component, addChild, changeFocusComponent, selectableChildren } = props;
+const LeftColExpansionPanel = (props) => {
+  const {
+    classes,
+    focusComponent,
+    component,
+    addChild,
+    changeFocusComponent,
+    selectableChildren,
+    components,
+    deleteComponent,
+  } = props;
   const { title, id, color } = component;
 
+  // show a string of all direct parents. SO the user can gaze at it.
+  const directParents = components
+    .filter(comp => comp.childrenArray.some(child => child.childComponentId === id))
+    .map(comp => comp.title)
+    .join(',');
+
   function isFocused() {
-    return focusComponent.id == id ? 'focused' : '';
+    return focusComponent.id === id ? 'focused' : '';
   }
 
   return (
-    <div className={classes.root}>
-      <Grid item xs={12} md={6} style={{ color: 'red' }}>
-        <List style={{ color: 'red' }}>
-          <ListItem
-            button
-            component="a"
-            style={{ color: 'red' }}
-            onClick={() => {
-              changeFocusComponent({ title });
-            }}
-          >
-            <ListItemText
-              disableTypography
-              className={classes.light}
-              primary={
-                <Typography type="body2" style={{ color: '#FFFFFF' }}>
-                  {title}
-                </Typography>
-              }
-              secondary={'focused'}
-              style={{ color }}
+    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="baseline">
+      <Grid item xs={9}>
+        <div
+          className={classes.root}
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.22)' }}
+        >
+          <Grid item xs={12} style={{ color: 'red' }}>
+            <List style={{ color: 'red' }}>
+              <ListItem
+                button
+                component="a"
+                style={{ color: 'red' }}
+                onClick={() => {
+                  changeFocusComponent({ title });
+                }}
+              >
+                <ListItemText
+                  disableTypography
+                  className={classes.light}
+                  primary={
+                    <Typography type="body2" style={{ color }}>
+                      {title}
+                    </Typography>
+                  }
+                  // secondary={isFocused()}
+                  style={{ color }}
+                />
+              </ListItem>
+            </List>
+          </Grid>
+          {id === 1 || !isFocused() ? (
+            <div />
+          ) : (
+            <Fragment>
+              <span>
+                {directParents ? (
+                  <p
+                    style={{
+                      marginLeft: '10px',
+                      color: 'white',
+                      fontSize: '12px',
+                      marginTop: '1px',
+                    }}
+                  >
+                    Used in: {directParents}
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      marginLeft: '10px',
+                      color: 'white',
+                      fontSize: '12px',
+                      marginTop: '1px',
+                    }}
+                  >
+                    Not used
+                  </p>
+                )}
+              </span>
+              <Fab
+                variant="extended"
+                size="small"
+                color="inherit"
+                aria-label="Delete"
+                className={classes.margin}
+                style={{
+                  marginLeft: '10px',
+                  marginTop: '5px',
+                  marginBottom: '10px',
+                }}
+                // style={{ maxWidth: "20px" }}
+                onClick={() => deleteComponent({
+                  componentId: id,
+                  stateComponents: components,
+                })
+                }
+              >
+                <DeleteIcon className={classes.extendedIcon} />
+                Delete
+              </Fab>
+              {/* <IconButton
+                style={{ display: "inline-block" }}
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components
+                  })
+                }
+              >
+                <DeleteIcon />
+              </IconButton> */}
+            </Fragment>
+          )}
+        </div>
+      </Grid>
+
+      <Grid item xs={3}>
+        {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
+          <div />
+        ) : (
+          <IconButton aria-label="Add">
+            <AddIcon
+              style={{ color, float: 'right' }}
+              onClick={() => {
+                addChild({ title, childType: 'COMP' });
+              }}
             />
             <ListItemSecondaryAction>
               {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
@@ -62,41 +165,6 @@ const LeftColExpansionPanel = props => {
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
-
-/**
-//button and functionality for deleting a component:
-<IconButton
-  className={classes.button}
-  onClick={() => {
-    deleteComponent({
-      index,
-      id,
-      parentIds,
-    });
-  }}
-  aria-label="Delete"
->
-  <DeleteIcon className={classes.light} />
-</IconButton>
- */
-
-/*
-//expansion panel and some functionality
-<div className={classes.root}>
-  <ExpansionPanel
-    className={classes.panel}
-    expanded={focusComponent.id === id}
-    onChange={() => onExpansionPanelChange(component)}
-    elevation={4}
-  >
-    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
-      <Typography className={classes.light}>{title}</Typography>
-    </ExpansionPanelSummary>
-  </ExpansionPanel>
-</div>
-*/
-
 function styles(theme) {
   return {
     root: {
@@ -113,3 +181,5 @@ function styles(theme) {
     },
   };
 }
+
+export default withStyles(styles)(LeftColExpansionPanel);

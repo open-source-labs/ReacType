@@ -46,12 +46,11 @@ const styles = () => ({
   },
 });
 
-
 const MainContainerHeader = (props) => {
   const {
     classes,
     image,
-    showImageDeleteModal,
+    // showImageDeleteModal,
     updateImage,
     totalComponents,
     showGenerateAppModal,
