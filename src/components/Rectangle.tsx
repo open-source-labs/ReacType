@@ -8,7 +8,7 @@ class Rectangle extends Component {
     if (componentId === '888') {
       return '#000000';
     }
-    const color = this.props.components.find(comp => comp.id == componentId).color;
+    const color = this.props.components.find(comp => comp.id === componentId).color;
     return color;
   }
 
@@ -23,7 +23,7 @@ class Rectangle extends Component {
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 
-    if (childId == -1) {
+    if (childId === -1) {
       focChild = this.props.components.find(comp => comp.id === this.props.componentId);
     }
     const transformation = {
@@ -129,7 +129,7 @@ class Rectangle extends Component {
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
         childId !== -1 &&
-          childType == 'COMP' &&
+          childType === 'COMP' &&
           components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== -1)

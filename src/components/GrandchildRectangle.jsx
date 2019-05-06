@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
+// import findComponentById from '../utils/findComponentById.ts';
 
 class GrandchildRectangle extends Component {
   getComponentColor(componentId) {
-    const color = this.props.components.find(comp => comp.id == componentId).color;
+    // const color = findComponentById(componentId, this.props.components).color;
+    const color = this.props.components.find(comp => comp.id === componentId).color;
     return color;
   }
 

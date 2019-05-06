@@ -13,7 +13,6 @@ const initialComponentState = {
   //draggable: true,
   childrenIds: [],
   selectableParents: [],
-  expanded: true,
   props: [],
   nextPropId: 1,
   position: {
@@ -111,7 +110,7 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
   }
 
   let htmlElemPosition;
-  if (childType == 'HTML') {
+  if (childType === 'HTML') {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
     if (!htmlElemPosition.width) {
@@ -139,7 +138,7 @@ export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
   const newChild = {
     childId: view.nextChildId,
     childType,
-    childComponentId: childType == 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
+    childComponentId: childType === 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
     componentName: strippedTitle,
     position: newPosition,
     // draggable: true,
@@ -198,17 +197,17 @@ export const deleteChild = (
     return state;
   }
   // make a DEEP copy of the parent component (the one thats about to loose a child)
-  const parentComponentCopy = cloneDeep(state.components.find(c => c.id == parentId));
+  const parentComponentCopy = cloneDeep(state.components.find(c => c.id === parentId));
 
   // delete the  CHILD from the copied array
-  const indexToDelete = parentComponentCopy.childrenArray.findIndex(elem => elem.childId == childId);
+  const indexToDelete = parentComponentCopy.childrenArray.findIndex(elem => elem.childId === childId);
   if (indexToDelete < 0) {
     return window.alert('No such child component found');
   }
   parentComponentCopy.childrenArray.splice(indexToDelete, 1);
 
   // if deleted child is selected, reset it
-  if (parentComponentCopy.focusChildId == childId) {
+  if (parentComponentCopy.focusChildId === childId) {
     parentComponentCopy.focusChildId = 0;
   }
 
@@ -336,7 +335,7 @@ export const deleteComponent = (state, { componentId }) => {
   //   ...state.components.slice(0, index),
   //   ...state.components.slice(index + 1)
   // ];
-  if (componentId == 1) {
+  if (componentId === 1) {
     return {
       ...state,
     };
@@ -368,7 +367,7 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
 
   let newFocusChild; // check if the components has a child saved as a Focus child
   if (newFocusComp.focusChildId > 0) {
-    newFocusChild = newFocusComp.childrenArray.find(child => child.childId == newFocusComp.focusChildId);
+    newFocusChild = newFocusComp.childrenArray.find(child => child.childId === newFocusComp.focusChildId);
   }
 
   // if no docus child found .. reset
@@ -417,9 +416,9 @@ export const changeFocusChild = (state, { title, childId }) => {
 };
 
 export const changeComponentFocusChild = (state, { componentId, childId }) => {
-  const component = state.components.find(comp => comp.id == componentId);
+  const component = state.components.find(comp => comp.id === componentId);
   component.focusChildId = childId;
-  const components = state.components.filter(comp => comp.id != componentId);
+  const components = state.components.filter(comp => comp.id !== componentId);
   return {
     ...state,
     components: [component, ...components],
@@ -584,7 +583,7 @@ export const addProp = (state, { key, value = null, required, type }) => {
     return state;
   }
 
-  const selectedComponent = state.components.find(comp => comp.id == state.focusComponent.id);
+  const selectedComponent = state.components.find(comp => comp.id === state.focusComponent.id);
 
   const newProp = {
     id: selectedComponent.nextPropId,
@@ -617,9 +616,9 @@ export const deleteProp = (state, propId) => {
     return state;
   }
   // make a deep copy of focusCOmponent. we are gonne be modifying that copy
-  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id == state.focusComponent.id));
+  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id === state.focusComponent.id));
 
-  const indexToDelete = modifiedComponent.props.findIndex(prop => prop.id == propId);
+  const indexToDelete = modifiedComponent.props.findIndex(prop => prop.id === propId);
   if (indexToDelete < 0) {
     console.log(`Delete prop Error. Prop id:${propId} not found in ${modifiedComponent.title}`);
     return state;
@@ -627,7 +626,7 @@ export const deleteProp = (state, propId) => {
 
   modifiedComponent.props.splice(indexToDelete, 1);
 
-  const newComponentsArray = state.components.filter(comp => comp.id != modifiedComponent.id);
+  const newComponentsArray = state.components.filter(comp => comp.id !== modifiedComponent.id);
   newComponentsArray.push(modifiedComponent);
 
   return {
@@ -647,14 +646,14 @@ export const updateHtmlAttr = (state, { attr, value }) => {
   modifiedChild.HTMLInfo[attr] = value;
 
   // make a deep copy of focusCOmponent. we are gonne be modifying that copy
-  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id == state.focusComponent.id));
+  const modifiedComponent = cloneDeep(state.components.find(comp => comp.id === state.focusComponent.id));
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
-    child => child.childId != modifiedChild.childId,
+    child => child.childId !== modifiedChild.childId,
   );
   modifiedComponent.childrenArray.push(modifiedChild);
 
-  const newComponentsArray = state.components.filter(comp => comp.id != modifiedComponent.id);
+  const newComponentsArray = state.components.filter(comp => comp.id !== modifiedComponent.id);
   newComponentsArray.push(modifiedComponent);
 
   return {

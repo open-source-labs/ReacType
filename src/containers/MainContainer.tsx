@@ -205,7 +205,7 @@ class MainContainer extends Component {
     const directParents = !focusComponent.id
       ? 'Waiting for a focused component'
       : stateComponents
-          .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
+          .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId === focusComponent.id))
           .map(comp => comp.title)
           .join(',');
 

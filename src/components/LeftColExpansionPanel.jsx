@@ -28,12 +28,12 @@ const LeftColExpansionPanel = (props) => {
 
   // show a string of all direct parents. SO the user can gaze at it.
   const directParents = components
-    .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == id))
+    .filter(comp => comp.childrenArray.some(child => child.childComponentId === id))
     .map(comp => comp.title)
     .join(',');
 
   function isFocused() {
-    return focusComponent.id == id ? 'focused' : '';
+    return focusComponent.id === id ? 'focused' : '';
   }
 
   return (
@@ -67,7 +67,7 @@ const LeftColExpansionPanel = (props) => {
               </ListItem>
             </List>
           </Grid>
-          {id == 1 || !isFocused() ? (
+          {id === 1 || !isFocused() ? (
             <div />
           ) : (
             <Fragment>
@@ -134,7 +134,7 @@ const LeftColExpansionPanel = (props) => {
       </Grid>
 
       <Grid item xs={3}>
-        {id == 1 || isFocused() || !selectableChildren.includes(id) ? (
+        {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
           <IconButton aria-label="Add">

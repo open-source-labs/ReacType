@@ -79,7 +79,6 @@ const appComponent = {
   draggable: true,
   childrenIds: [],
   selectableParents: [],
-  expanded: true,
   props: [],
   nextPropId: 1,
   position: {
