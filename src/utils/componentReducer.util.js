@@ -385,7 +385,7 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
   };
 };
 
-export const changeFocusChild = (state, { title, childId }) => {
+export const changeFocusChild = (state, { childId }) => {
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
   let newFocusChild = focComp.childrenArray.find(child => child.childId === childId);
 

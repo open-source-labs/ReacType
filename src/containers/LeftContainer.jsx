@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
     ),
   addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ title, childId }) => dispatch(actions.changeFocusChild({ title, childId })),
+  changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({ componentId, stateComponents }) =>
     dispatch(actions.deleteComponent({ componentId, stateComponents })),
 });

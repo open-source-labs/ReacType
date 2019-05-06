@@ -132,8 +132,13 @@ export const changeFocusComponent = ({ title }) => dispatch => {
 };
 
 // make sure childId is being sent in
+<<<<<<< HEAD
 export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
+=======
+export const changeFocusChild = ({ childId }) => (dispatch) => {
+  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
+>>>>>>> c532596... reducer cleanup, working version
 };
 
 export const changeComponentFocusChild = ({ componentId, childId }) => dispatch => {
