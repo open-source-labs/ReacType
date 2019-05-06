@@ -31,9 +31,9 @@ interface Component {
   parentIds: number[];
   color: string;
   draggable: boolean;
-  childrenIds: number[];
-  selectableParents?: any[]; // unused
-  expanded?: boolean; // unused
+  // childrenIds: number[];
+  // selectableParents?: any[]; // unused
+  // expanded?: boolean; // unused
   props: Prop[];
   nextPropId: number;
   position: Position;

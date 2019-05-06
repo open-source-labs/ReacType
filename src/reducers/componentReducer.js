@@ -169,10 +169,10 @@ const componentReducer = (state = initialApplicationState, action) => {
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
 
-    case MOVE_TO_BOTTOM:
-      return moveToBottom(state, action.payload);
-    case MOVE_TO_TOP:
-      return moveToTop(state, action.payload);
+    // case MOVE_TO_BOTTOM:
+    //   return moveToBottom(state, action.payload);
+    // case MOVE_TO_TOP:
+    //   return moveToTop(state, action.payload);
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
