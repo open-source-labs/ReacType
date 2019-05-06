@@ -82,14 +82,18 @@ const mapStateToProps = store => ({
 
 const availablePropTypes = {
   string: 'STR',
+  number: 'NUM',
   object: 'OBJ',
   array: 'ARR',
   number: 'NUM',
-  bool: 'BOOL',
-  func: 'FUNC',
+  boolean: 'BOOL',
+  function: 'FUNC',
   symbol: 'SYM',
   node: 'NODE',
   element: 'ELEM',
+  any: 'ANY',
+  tuple: 'TUP',
+  enum: 'ENUM',
 };
 
 const typeOptions = [
@@ -105,7 +109,7 @@ class Props extends Component {
   state = {
     propKey: '',
     propValue: '',
-    propRequired: false,
+    propRequired: true,
     propType: '',
   };
 
@@ -126,10 +130,16 @@ class Props extends Component {
 
     const { propKey, propValue, propRequired, propType } = this.state;
 
-    // check if prop exists with same key. CANNOT have doubles
+    // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
     if (savedPropKeys.includes(propKey)) {
-      window.alert(`a prop with the name: "${propKey}" already exists.`);
+      window.alert(`A prop with the name: "${propKey}" already exists.`);
+      return;
+    }
+
+    // check if prop starts with digits. Digits at string start breaks indexedDB
+    if (/^\d/.test(propKey)) {
+      window.alert('Props are not allowed to begin with digits');
       return;
     }
 
@@ -143,7 +153,7 @@ class Props extends Component {
     this.setState({
       propKey: '',
       propValue: '',
-      propRequired: false,
+      propRequired: true,
       propType: '',
     });
   };
@@ -163,7 +173,7 @@ class Props extends Component {
 
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
-      <div>
+      <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
           <div style={{ marginTop: '20px', marginLeft: '20px' }}>Click a component to view its props.</div>
@@ -233,7 +243,7 @@ class Props extends Component {
                             checked={this.state.propRequired}
                             onChange={this.togglePropRequired}
                             value="propRequired"
-                            color="secondary"
+                            color="primary"
                             id="propRequired"
                           />
                         </div>
@@ -243,7 +253,7 @@ class Props extends Component {
                           color="primary"
                           aria-label="Add"
                           type="submit"
-                          disabled={!this.state.propKey || !this.state.propType}
+                          // disabled={!this.state.propKey || !this.state.propType}
                           variant="contained"
                           size="large"
                         >

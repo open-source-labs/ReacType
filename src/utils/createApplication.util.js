@@ -10,48 +10,61 @@
 import fs from 'fs';
 import { format } from 'prettier';
 
-function createApplicationUtil({path, appName, genOption, repoUrl}) {
+function createIndexHtml(data, path) {
+  // let dir = path;
+  // if (!dir.match(/application|\*$/)) {
+  //   if (fs.existsSync(`${dir}/src`)) {
+  //     dir = `${dir}/src`;
+  //   }
+  //   dir = `${dir}/components`;
+  //   if (!fs.existsSync(dir)) {
+  //     fs.mkdirSync(dir);
+  //   }
+  // }
+  // const fileName = 'index.html';
+  // const data = `
+  // <!DOCTYPE html>
+  // <html lang="en">
+  // <head>
+  //   <meta charset="UTF-8">
+  //   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  //   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  //   <title>Document</title>
+  // </head>
+  // <body>
+  //   <div id='root'></div>
+  //   <script src='bundle.js'></script>
+  // </body>
+  // </html>
+  // `;
+  // fs.writeFile(
+  //   fileName,
+  //   format(data, {
+  //     singleQuote: true,
+  //     trailingComma: 'es5',
+  //     bracketSpacing: true,
+  //     jsxBracketSameLine: true,
+  //     parser: 'babel',
+  //   }),
+  //   (err) => {
+  //     if (err) {
+  //       console.log('index.html error:', err.message);
+  //     } else {
+  //       console.log('index.html written successfully');
+  //     }
+  //   },
+  // );
+}
+
+async function createApplicationUtil({ path, appName, genOption }) {
   if (genOption === 1) {
-    return [
-      function createIndexHtml() {
-        const fileName = 'index.html';
-        const data = `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>Document</title>
-          </head>
-          <body>
-            <div id='root'></div>
-            <script src='bundle.js'></script>
-          </body>
-          </html>
-        `;
-        fs.writeFile(fileName, format(data, {
-          singleQuote: true,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          jsxBracketSameLine: true,
-          parser: 'babel',
-        }),
-        (err) => {
-          if (err) {
-            console.log('index.html error:', err.message);
-          } else {
-            console.log('index.html written successfully');
-          }
-        });
-      },
-    ];
+    await createIndexHtml();
   }
 }
 export default createApplicationUtil;
 
 // async function createApplicationUtil({
-//   path, appName, genOption, repoUrl,
+//   path, appName, genOption
 // }) {
 //   if (genOption === 1) {
 //     return [
@@ -62,14 +75,7 @@ export default createApplicationUtil;
 //       await execFile('touch', '.babelrc', { cwd: path }),
 //     ];
 //   }
-  // return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
 // }
-
-
-
-
-
-
 
 // import util from 'util';
 
@@ -80,9 +86,8 @@ export default createApplicationUtil;
 //   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
 // ];
 
-
 // async function createApplicationUtil({
-//   path, appName, genOption, repoUrl,
+//   path, appName, genOption
 // }) {
 //   if (genOption === 2) {
 //     return [
@@ -90,7 +95,6 @@ export default createApplicationUtil;
 //       await execFile('create-react-app', [appName], { cwd: path }),
 //     ];
 //   }
-//   return repoUrl ? execFile('git', ['clone', repoUrl, appName], { cwd: path }) : null;
 // }
 
 // export default createApplicationUtil;
