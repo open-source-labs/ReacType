@@ -104,6 +104,7 @@ class HtmlAttr extends Component {
       focusChild
     } = this.props;
 
+    console.log('focusChild')
     return (
       <Fragment>
         {/* {focusChild} */}
