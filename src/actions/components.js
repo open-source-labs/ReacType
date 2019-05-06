@@ -131,8 +131,8 @@ export const changeFocusComponent = ({ title }) => (dispatch) => {
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ title, childId }) => (dispatch) => {
-  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
+export const changeFocusChild = ({ childId }) => (dispatch) => {
+  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
 
 export const changeComponentFocusChild = ({ componentId, childId }) => (dispatch) => {
