@@ -70,7 +70,7 @@ class HtmlAttr extends Component {
     return acc;
   }, {});
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value.trim(),
     });
@@ -83,9 +83,7 @@ class HtmlAttr extends Component {
   // };
 
   render() {
-    const {
-      focusComponent, classes, deleteProp, addProp, focusChild, updateHtmlAttr,
-    } = this.props;
+    const { focusComponent, classes, deleteProp, addProp, focusChild, updateHtmlAttr } = this.props;
 
     const focusChildType = focusChild.htmlElement;
 
