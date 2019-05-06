@@ -85,6 +85,7 @@ class GrandchildRectangle extends Component {
                 //     ? this.setImage(grandchild.HTMLInfo.Src)
                 //     : null
                 // }
+                // test test
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
                 height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
                 x={
