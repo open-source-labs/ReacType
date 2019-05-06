@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
     }),
   ),
   openPanel: component => dispatch(openExpansionPanel(component)),
-  changeFocusChild: ({ title, childId }) => dispatch(changeFocusChild({ title, childId })),
+  changeFocusChild: ({ childId }) => dispatch(changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }) => dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
   deleteComponent: ({ componentId, stateComponents }) => dispatch(deleteComponent({ componentId, stateComponents })),
@@ -196,7 +196,7 @@ class MainContainer extends Component {
     const directParents = !focusComponent.id
       ? 'Waiting for a focused component'
       : stateComponents
-        .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId == focusComponent.id))
+        .filter(comp => comp.childrenArray.some(kiddy => kiddy.childComponentId === focusComponent.id))
         .map(comp => comp.title)
         .join(',');
 

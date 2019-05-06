@@ -71,7 +71,7 @@ import cloneDeep from '../utils/cloneDeep.ts';
 // }
 
 const appComponent = {
-  id: '1',
+  id: 1,
   stateful: false,
   title: 'App',
   parentIds: [],
@@ -79,7 +79,6 @@ const appComponent = {
   draggable: true,
   childrenIds: [],
   selectableParents: [],
-  expanded: true,
   props: [],
   nextPropId: 1,
   position: {
