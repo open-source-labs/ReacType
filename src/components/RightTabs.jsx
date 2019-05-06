@@ -133,6 +133,11 @@ class RightTabs extends Component {
     } = this.props;
     const { value } = this.state;
 
+    // display count on the tab. user can see without clicking into tab 
+    const propCount = focusComponent.props.length
+    const htmlAttribCount = focusComponent.childrenArray.filter( child => child.childType === 'HTML').length
+   
+    // const counters = focusComponent.ch
     const tree = {
       name: focusComponent.title,
       attributes: {},
@@ -154,7 +159,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Props"
+            label={`Component Props ${ propCount ? '('+propCount+')' : '' } ` }
           />
           <Tab
             disableRipple
@@ -164,7 +169,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="HTML Element Attributes"
+            label={`HTML Element Attributes ${ htmlAttribCount ? '('+htmlAttribCount+')' : '' } ` }
           />
         </Tabs>
 
