@@ -370,7 +370,6 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
     newFocusChild = newFocusComp.childrenArray.find(child => child.childId === newFocusComp.focusChildId);
   }
 
-  // if no docus child found .. reset
   if (!newFocusChild) {
     newFocusChild = cloneDeep(state.initialApplicationFocusChild);
   }
@@ -387,9 +386,6 @@ export const changeFocusComponent = (state, { title = state.focusComponent.title
 };
 
 export const changeFocusChild = (state, { title, childId }) => {
-  // just finds first child with given title, need to pass in specific childId somehow
-  // maybe default to title if childId is unknown
-  console.log('change foc comp reducer: childId: ', childId);
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
   let newFocusChild = focComp.childrenArray.find(child => child.childId === childId);
 
@@ -417,11 +413,12 @@ export const changeFocusChild = (state, { title, childId }) => {
 
 export const changeComponentFocusChild = (state, { componentId, childId }) => {
   const component = state.components.find(comp => comp.id === componentId);
-  component.focusChildId = childId;
+  const modifiedComponent = cloneDeep(component);
+  modifiedComponent.focusChildId = childId;
   const components = state.components.filter(comp => comp.id !== componentId);
   return {
     ...state,
-    components: [component, ...components],
+    components: [modifiedComponent, ...components],
   };
 };
 
@@ -600,7 +597,7 @@ export const addProp = (state, { key, value = null, required, type }) => {
     nextPropId: selectedComponent.nextPropId + 1,
   };
 
-  const newComponents = state.components.filter(comp => comp.id != selectedComponent.id);
+  const newComponents = state.components.filter(comp => comp.id !== selectedComponent.id);
   newComponents.push(modifiedComponent);
   return {
     ...state,
@@ -610,16 +607,15 @@ export const addProp = (state, { key, value = null, required, type }) => {
 };
 
 export const deleteProp = (state, propId) => {
-  console.log(`Hello. Delete prop talking. propId:${propId}`);
   if (!state.focusComponent.id) {
     console.log('Delete prop error. no focused component ');
     return state;
   }
-  // make a deep copy of focusCOmponent. we are gonne be modifying that copy
+
   const modifiedComponent = cloneDeep(state.components.find(comp => comp.id === state.focusComponent.id));
 
   const indexToDelete = modifiedComponent.props.findIndex(prop => prop.id === propId);
-  if (indexToDelete < 0) {
+  if (indexToDelete === -1) {
     console.log(`Delete prop Error. Prop id:${propId} not found in ${modifiedComponent.title}`);
     return state;
   }
@@ -645,7 +641,6 @@ export const updateHtmlAttr = (state, { attr, value }) => {
   const modifiedChild = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
-  // make a deep copy of focusCOmponent. we are gonne be modifying that copy
   const modifiedComponent = cloneDeep(state.components.find(comp => comp.id === state.focusComponent.id));
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
