@@ -52,7 +52,9 @@ import {
   deleteProp,
   updateHtmlAttr,
 } from '../utils/componentReducer.util';
-//import { updateHtmlAttr } from "../actions/components";
+import cloneDeep from '../utils/cloneDeep.ts';
+
+// import { updateHtmlAttr } from "../actions/components";
 
 interface Child {
   childId: number;
@@ -89,7 +91,7 @@ const appComponent = {
 
   childrenArray: [],
   nextChildId: 1,
-  focusChild: null,
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild = {
@@ -101,7 +103,8 @@ const initialApplicationFocusChild = {
     width: 600,
     height: 400,
   },
-  //  draggable: true,
+  draggable: true,
+  childType: null,
 };
 
 const initialApplicationState = {
@@ -113,20 +116,12 @@ const initialApplicationState = {
   focusComponent: appComponent,
   selectableChildren: [],
   ancestors: [],
-  focusChild: {
-    childId: 0,
-    componentName: null,
-    position: {
-      x: 25,
-      y: 25,
-      width: 600,
-      height: 400,
-    },
-    draggable: true,
-  },
+  initialApplicationFocusChild,
+  focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
   loading: false,
+  componentTree: { name: 'App', attributes: {}, children: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action) => {

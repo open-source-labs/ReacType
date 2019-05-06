@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent.jsx';
 import GrandchildRectangle from './GrandchildRectangle.jsx';
@@ -27,22 +27,11 @@ class Rectangle extends Component {
       focChild = this.props.components.find(comp => comp.id === this.props.componentId);
     }
     const transformation = {
-      // width:
-      //   Math.round((target.width() * target.scaleX()) / blockSnapSize) *
-      //   blockSnapSize,
-      // height:
-      //   Math.round((target.height() * target.scaleY()) / blockSnapSize) *
-      //   blockSnapSize,
-      // x: target.x() + focChild.position.x,
-      // y: target.y() + focChild.position.y
-
       width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
       height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y,
     };
-
-    console.log(transformation);
 
     this.props.handleTransform(componentId, childId, transformation);
   }
@@ -57,7 +46,6 @@ class Rectangle extends Component {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
     };
-    console.log('drag transformation: ', transformation);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -78,6 +66,7 @@ class Rectangle extends Component {
       components,
       draggable,
       blockSnapSize,
+      childType,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -92,9 +81,17 @@ class Rectangle extends Component {
         width={width}
         height={height}
         onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
+        ref={node => {
+          this.group = node;
+        }}
+        tabIndex="0" // required for keypress event to be heard by this.group
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
+          ref={node => {
+            this.rect = node;
+          }}
+          tabIndex="0" // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -106,7 +103,7 @@ class Rectangle extends Component {
           scaleY={1}
           width={width}
           height={height}
-          stroke={this.getComponentColor(childComponentId)}
+          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
           // fill={color}
           // opacity={0.8}
           onTransformEnd={event => this.handleResize(componentId, childId, event.target, blockSnapSize)}
@@ -124,14 +121,15 @@ class Rectangle extends Component {
             fontVariant={'small-caps'}
             // pseudochild's label should look different than normal children:
             text={childId === '-1' ? title.slice(0, title.length - 2) : title}
-            fill={childId === '-1' ? this.getComponentColor(childComponentId) : 'black'}
+            fill={childId === '-1' ? this.getComponentColor(childComponentId) : '#000000'}
             fontSize={childId === '-1' ? 15 : 10}
             x={4}
-            y={childId === '-1' ? -15 : 5}
+            y={childId === '-1' ? -20 : -12}
           />
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
         childId !== '-1' &&
+          childType == 'COMP' &&
           components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== '-1')

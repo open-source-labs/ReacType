@@ -77,14 +77,11 @@ export const deleteChild = ({}) => dispatch => {
 };
 
 export const deleteComponent = ({ componentId, stateComponents }) => dispatch => {
-  console.log('Hello from component.js delete component.componentId= ', componentId);
-
   // find all places where the "to be delted" is a child and do what u gotta do
   stateComponents.forEach(parent => {
     parent.childrenArray
       .filter(child => child.childComponentId == componentId)
       .forEach(child => {
-        // console.log(`Should delete ${child.childId} from component id:${parent.id} ${parent.title}`)
         dispatch({
           type: DELETE_CHILD,
           payload: {
@@ -149,13 +146,13 @@ export const changeComponentFocusChild = ({ componentId, childId }) => dispatch 
   });
 };
 
-export const exportFiles = ({ components, path }) => dispatch => {
+export const exportFiles = ({ components, path, appName, exportAppBool }) => dispatch => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES,
   });
 
-  createFiles(components, path)
+  createFiles(components, path, appName, exportAppBool)
     .then(dir =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
@@ -192,10 +189,18 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
-  repoUrl,
+  exportAppBool,
 }) => dispatch => {
   if (genOption === 0) {
-    dispatch(exportFiles({ path, components }));
+    exportAppBool = false;
+    dispatch(
+      exportFiles({
+        appName,
+        path,
+        components,
+        exportAppBool,
+      }),
+    );
   } else if (genOption) {
     dispatch({
       type: CREATE_APPLICATION,
@@ -204,13 +209,20 @@ export const createApplication = ({
       path,
       appName,
       genOption,
-      repoUrl,
+      exportAppBool,
     })
       .then(() => {
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
-        dispatch(exportFiles({ path: `${path}/${appName}`, components }));
+        dispatch(
+          exportFiles({
+            appName,
+            path,
+            components,
+            exportAppBool,
+          }),
+        );
       })
       .catch(err =>
         dispatch({

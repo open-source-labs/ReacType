@@ -109,7 +109,7 @@ class Props extends Component {
   state = {
     propKey: '',
     propValue: '',
-    propRequired: false,
+    propRequired: true,
     propType: '',
   };
 
@@ -153,7 +153,7 @@ class Props extends Component {
     this.setState({
       propKey: '',
       propValue: '',
-      propRequired: false,
+      propRequired: true,
       propType: '',
     });
   };
@@ -243,7 +243,7 @@ class Props extends Component {
                             checked={this.state.propRequired}
                             onChange={this.togglePropRequired}
                             value="propRequired"
-                            color="secondary"
+                            color="primary"
                             id="propRequired"
                           />
                         </div>
@@ -253,7 +253,7 @@ class Props extends Component {
                           color="primary"
                           aria-label="Add"
                           type="submit"
-                          disabled={!this.state.propKey || !this.state.propType}
+                          // disabled={!this.state.propKey || !this.state.propType}
                           variant="contained"
                           size="large"
                         >
