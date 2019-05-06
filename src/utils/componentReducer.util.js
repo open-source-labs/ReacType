@@ -285,9 +285,16 @@ export const handleTransform = (state, {
     transformedChild,
   ];
 
+  let newFocusChild = state.focusChild; 
+  if(state.focusChild.childId ==  childId) {
+    console.log('it is me')
+    newFocusChild= transformedChild;
+  }
+
   const component = {
     ...state.components.find(comp => comp.id === componentId),
     childrenArray: children,
+    focusCHild: newFocusChild, 
   };
 
   const components = [
