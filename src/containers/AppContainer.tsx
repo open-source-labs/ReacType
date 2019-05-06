@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.jsx';
 // import RightContainer from './RightContainer.jsx';
-import convertIdsToObjs from '../utils/convertIdsToObjs.util';
+// import convertIdsToObjs from '../utils/convertIdsToObjs.util';
 import theme from '../components/theme.ts';
 import { loadInitData } from '../actions/components';
 
@@ -45,27 +45,27 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components, totalComponents, focusComponent, loading, selectableChildren } = this.props;
+    const { components, focusComponent, loading, selectableChildren } = this.props;
     const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
-    const updatedComponents = convertIdsToObjs(components);
+    //const updatedComponents = convertIdsToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app-container">
           <LeftContainer
-            components={updatedComponents}
-            totalComponents={totalComponents}
+            components={components}
+            // totalComponents={totalComponents}
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
           <MainContainer
-            components={updatedComponents}
+            components={components}
             collapseColumn={this.collapseColumn}
             width={width}
             rightColumnOpen={rightColumnOpen}
-            totalComponents={totalComponents}
+            // totalComponents={totalComponents}
           />
           {/* <RightContainer
             width={width}

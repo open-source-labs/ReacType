@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  totalComponents: store.workspace.totalComponents,
+ // totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
