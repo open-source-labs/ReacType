@@ -5,9 +5,9 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.jsx';
-import RightContainer from './RightContainer.jsx';
+// import RightContainer from './RightContainer.jsx';
 import convertIdsToObjs from '../utils/convertIdsToObjs.util';
-import theme from '../components/theme';
+import theme from '../components/theme.ts';
 import { loadInitData } from '../actions/components';
 
 const mapStateToProps = store => ({

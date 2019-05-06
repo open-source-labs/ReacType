@@ -25,3 +25,4 @@ export const DELETE_PROP = 'DELETE_PROP';
 export const ADD_PROP = 'ADD_PROP';
 export const DELETE_ALL_DATA = 'DELETE_ALL_DATA';
 export const CHANGE_IMAGE_PATH = 'CHANGE_IMAGE_PATH';
+export const UPDATE_HTML_ATTR = 'UPDATE_HTML_ATTR';

@@ -1,26 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  handleClose,
-  deleteCompProp,
-  addCompProp
-} from "../actions/components";
-import RightTabs from "./RightTabs.jsx";
-import { some } from "bluebird-lst";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { some } from 'bluebird-lst';
+import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
+import RightTabs from './RightTabs.jsx';
 
-const IPC = require("electron").ipcRenderer;
+const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop))
+  addProp: prop => dispatch(addCompProp(prop)),
 });
 
 const mapStateToProps = store => ({
   // successOpen: store.workspace.successOpen,
   // errorOpen: store.workspace.errorOpen,
   // appDir: store.workspace.appDir,
-  focusChild: store.workspace.focusChild
+  focusChild: store.workspace.focusChild,
+  components: store.workspace.components,
 });
 
 class BottomPanel extends Component {
@@ -30,7 +27,7 @@ class BottomPanel extends Component {
   // };
 
   viewAppDir = () => {
-    IPC.send("view_app_dir", this.props.appDir);
+    IPC.send('view_app_dir', this.props.appDir);
   };
 
   render() {
@@ -43,12 +40,12 @@ class BottomPanel extends Component {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild
+      focusChild,
       // rightColumnOpen
     } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: "100%" }}>
+      <div className="bottom-panel" style={{ width: '100%' }}>
         <RightTabs
           components={components}
           focusComponent={focusComponent}
@@ -71,5 +68,5 @@ class BottomPanel extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(BottomPanel);
