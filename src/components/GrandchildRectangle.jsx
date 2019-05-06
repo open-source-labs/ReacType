@@ -13,6 +13,15 @@ class GrandchildRectangle extends Component {
     return this.props.components.find(comp => comp.id === this.props.childComponentId);
   }
 
+  setImage = imageSource => {
+    //console.log("IMAGE SOURCE", imageSource);
+    if (!imageSource) return;
+    const image = new window.Image();
+    image.src = imageSource;
+    if (!image.height) return null;
+    return image;
+  };
+
   render() {
     const {
       x,
@@ -28,6 +37,7 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
+      imageSource,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -46,6 +56,7 @@ class GrandchildRectangle extends Component {
           width={width}
           height={height}
           stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
+          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
           // fill={color}
           // opacity={0.8}
           strokeWidth={4}
@@ -62,10 +73,18 @@ class GrandchildRectangle extends Component {
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
+                imageSource={
+                  grandchild.htmlElement == 'Image' && grandchild.HTMLInfo.Src ? grandchild.HTMLInfo.Src : null
+                }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
+                // fillPatternImage={
+                //   grandchild.HTMLInfo.Src
+                //     ? this.setImage(grandchild.HTMLInfo.Src)
+                //     : null
+                // }
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
                 height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
                 x={
