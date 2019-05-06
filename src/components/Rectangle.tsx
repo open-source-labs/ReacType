@@ -98,7 +98,7 @@ class Rectangle extends Component {
       childType,
       imageSource,
     } = this.props;
-    console.log('first call props', imageSource);
+    //console.log("first call props", imageSource);
 
     // const { rectImage } = this.state;
 
