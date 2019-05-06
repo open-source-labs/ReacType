@@ -19,12 +19,12 @@ class KonvaStage extends Component {
   getDirectChildrenCopy(focusComponent) {
     const component = this.props.components.find(comp => comp.id === focusComponent.id);
 
-    const childrenArr = component.childrenArray.filter(child => child.childId !== '-1');
+    const childrenArr = component.childrenArray.filter(child => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
 
     const pseudoChild = {
-      childId: '-1',
+      childId: -1,
       childComponentId: component.id,
       componentName: component.title,
       position: {
@@ -182,7 +182,7 @@ class KonvaStage extends Component {
                   childComponentId={child.childComponentId}
                   childComponentName={child.componentName}
                   focusChild={focusChild}
-                  childId={child.childId} // '-1' for pseudoChild
+                  childId={child.childId} // -1 for pseudoChild
                   x={child.position.x}
                   y={child.position.y}
                   scaleX={1}
