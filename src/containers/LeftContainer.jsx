@@ -60,10 +60,8 @@ class LeftContainer extends Component {
   render() {
     const {
       components,
-      updateComponent,
       deleteComponent,
       focusComponent,
-      totalComponents,
       classes,
       addChild,
       changeFocusComponent,
