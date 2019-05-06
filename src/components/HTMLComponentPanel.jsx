@@ -1,36 +1,36 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import ImageIcon from "@material-ui/icons/Image";
-import FormIcon from "@material-ui/icons/Description";
-import ButtonIcon from "@material-ui/icons/EditAttributes";
-import LinkIcon from "@material-ui/icons/Link";
-import ListIcon from "@material-ui/icons/List";
-import ParagraphIcon from "@material-ui/icons/LocalParking";
-import theme from "../components/theme.ts";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Tab from "@material-ui/core/Tab";
-import Chip from "@material-ui/core/Chip";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ImageIcon from '@material-ui/icons/Image';
+import FormIcon from '@material-ui/icons/Description';
+import ButtonIcon from '@material-ui/icons/EditAttributes';
+import LinkIcon from '@material-ui/icons/Link';
+import ListIcon from '@material-ui/icons/List';
+import ParagraphIcon from '@material-ui/icons/LocalParking';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Tab from '@material-ui/core/Tab';
+import Chip from '@material-ui/core/Chip';
+import theme from './theme.ts';
 
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 
 class HTMLComponentPanel extends Component {
   state = {
-    HtmlComponentName: ""
+    HtmlComponentName: '',
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      HtmlComponentName: event.target.value
+      HtmlComponentName: event.target.value,
     });
   };
 
-  handleCreateHTMLChild = type => {
+  handleCreateHTMLChild = (type) => {
     this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
@@ -43,69 +43,73 @@ class HTMLComponentPanel extends Component {
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
           label="Add HTML elements"
         />
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems="baseline" align="stretch">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton
                 className="htmlicons"
                 aria-label="Image"
                 onClick={() => {
-                  this.handleCreateHTMLChild("Image");
+                  this.handleCreateHTMLChild('Image');
                 }}
               >
-                <ImageIcon />
+                <ImageIcon style={{ color: '#e0e0e0' }} />
               </IconButton>
-              <Chip label="Image" className={classes.chip} variant="outlined" />
             </div>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Form"
               onClick={() => {
-                this.handleCreateHTMLChild("Form");
+                this.handleCreateHTMLChild('Form');
               }}
             >
-              <FormIcon />
+              <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Button"
               onClick={() => {
-                this.handleCreateHTMLChild("Button");
+                this.handleCreateHTMLChild('Button');
               }}
             >
-              <ButtonIcon />
+              <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Link"
               onClick={() => {
-                this.handleCreateHTMLChild("Link");
+                this.handleCreateHTMLChild('Link');
               }}
             >
-              <LinkIcon />
+              <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="List"
               onClick={() => {
-                this.handleCreateHTMLChild("List");
+                this.handleCreateHTMLChild('List');
               }}
             >
-              <ListIcon />
+              <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
           <Grid item xs={4}>
             <IconButton
+              className="htmlicons"
               aria-label="Paragraph"
               onClick={() => {
-                this.handleCreateHTMLChild("Paragraph");
+                this.handleCreateHTMLChild('Paragraph');
               }}
             >
-              <ParagraphIcon />
+              <ParagraphIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
           </Grid>
         </Grid>
@@ -117,28 +121,32 @@ class HTMLComponentPanel extends Component {
 function styles(theme) {
   return {
     htmlPanel: {
-      width: "100%",
-      height: "33%",
-      backgroundColor: "#333333",
-      bottom: "0px",
-      padding: "20px"
+      width: '100%',
+      height: '30%',
+      // backgroundColor: "#333333",
+      borderStyle: 'solid',
+      borderWidth: '0.5px',
+      borderRadius: '1px',
+      borderColor: '#424242',
+      bottom: '0px',
+      padding: '20px',
     },
     chip: {
-      background: "rgba(193, 66, 66, 0)"
+      color: 'rgba(193, 66, 66, 0)',
     },
     htmliconwrapper: {
-      verticalAlign: "baseline"
+      verticalAlign: 'baseline',
     },
     htmlicons: {
-      color: "#ffffff"
+      color: '#ffffff',
     },
     tabRoot: {
-      textTransform: "initial",
+      textTransform: 'initial',
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
-      marginRight: theme.spacing.unit * 4,
-      color: "#ffffff"
-    }
+      // marginRight: theme.spacing.unit * 4,
+      color: '#ffffff',
+    },
   };
 }
 

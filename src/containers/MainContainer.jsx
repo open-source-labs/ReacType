@@ -122,14 +122,6 @@ class MainContainer extends Component {
 
   chooseAppDir = () => IPC.send('choose_app_dir');
 
-  // toggleDrag = () => {
-  //   this.props.toggleComponetDragging(this.state.draggable);
-  //   this.setState({
-  //     toggleClass: !this.state.toggleClass,
-  //     draggable: !this.state.draggable,
-  //   });
-  // };
-
   // showImageDeleteModal = () => {
   //   const { closeModal, deleteImage } = this;
   //   this.setState({
@@ -155,6 +147,7 @@ class MainContainer extends Component {
   };
 
   showGenerateAppModal = () => {
+    console.log('clicked on export button');
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
