@@ -1,23 +1,29 @@
-import {ComponentInt, ComponentsInt, ChildInt } from './Interfaces.ts';
+import { ComponentInt, ComponentsInt, ChildInt } from "./interfaces.ts";
 
+interface getSelectableInt {
+  [key: string]: Array<number>;
+}
 
-function getSelectable(newFocusComponent:ComponentInt, components:ComponentsInt) {
+function getSelectable(
+  newFocusComponent: ComponentInt,
+  components: ComponentsInt
+) {
   const focusComponentId = newFocusComponent.id;
   const componentsToCheck = components
     .map((comp: ComponentInt) => comp.id)
-    .filter((id: Number) => id !== focusComponentId);
+    .filter((id: number) => id !== focusComponentId);
   return findAncestors(components, [focusComponentId], componentsToCheck);
 }
 
 function findAncestors(
-  components :ComponentsInt,
+  components: ComponentsInt,
   currentCompArr: ComponentsInt,
   componentsToCheck: ComponentsInt,
-  ancestors : Array<Number> = []
-) :Object {
+  ancestors: Array<number> = []
+): getSelectableInt {
   if (!currentCompArr.length) {
     return {
-      ancestors,
+      ancestors: ancestors,
       selectableChildren: componentsToCheck
     };
   }
@@ -30,7 +36,9 @@ function findAncestors(
         (child: ChildInt) => child.childComponentId
       );
 
-      const found = currentCompArr.filter((comp: ComponentInt) => myChildren.includes(comp));
+      const found = currentCompArr.filter((comp: ComponentInt) =>
+        myChildren.includes(comp)
+      );
 
       if (found.length) {
         ancestors.push(components[i].id);
