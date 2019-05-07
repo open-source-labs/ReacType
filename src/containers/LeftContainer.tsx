@@ -10,13 +10,10 @@ import { withStyles } from '@material-ui/core/styles';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
 import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
 import * as actions from '../actions/components';
-
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
-  updateComponent: ({ id, index, newParentId = null, color = null, stateful = null }) =>
     dispatch(
       actions.updateComponent({
-        id,
         index,
         newParentId,
         color,
