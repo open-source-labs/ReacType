@@ -1,5 +1,15 @@
 // our "database" of HTML elements that the user can chose from
-const HTMLelements = {
+interface htmlElementInt {
+  width: number;
+  height: number;
+  attributes: Array<string>;
+}
+
+interface htmlElementsInt {
+  [key: string]: htmlElementInt;
+}
+
+const HTMLelements: htmlElementsInt = {
   Image: {
     width: 100,
     height: 100,
@@ -32,13 +42,7 @@ const HTMLelements = {
   }
 };
 
-const attributes = {
-  Classname: { type: "freeText" },
-  Id: { type: "freeText" },
-  TextJustify: { type: "select", values: "Left,Right,Center" }
-};
-
-function getSize(htmlElement) {
+function getSize(htmlElement: string): object {
   const localHTMLelements = HTMLelements;
 
   if (!(htmlElement in localHTMLelements)) {
