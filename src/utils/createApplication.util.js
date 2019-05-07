@@ -77,7 +77,30 @@ export default createApplicationUtil;
 //   }
 // }
 
-// import util from 'util';
+module.exports = {
+  target: 'web',
+  mode: 'development',
+  entry: './index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js'
+  },
+  module: { rules },
+  resolve: {extensions: ['.ts', '.tsx', '.js', '.jsx']},
+  devServer: {
+    contentBase: './',
+    port: 5000
+  }
+}
+  `;
+  fs.writeFile(filePath, data, (err) => {
+    if (err) {
+      console.log('webpack error:', err.message);
+    } else {
+      console.log('webpack written successfully');
+    }
+  });
+};
 
 // const execFile = util.promisify(require('child_process').execFile);
 
