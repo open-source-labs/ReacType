@@ -12,7 +12,7 @@ import {
 } from "./interfaces";
 
 const initialComponentState: ComponentInt = {
-  id: null,
+  id: 0,
   stateful: false,
   title: "",
   color: getColor(),
@@ -115,7 +115,7 @@ export const addChild = (
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
-  const view = state.components.find(
+  const view : ComponentInt = state.components.find(
     comp => comp.title === state.focusComponent.title
   );
 
@@ -389,7 +389,7 @@ export const changeFocusComponent = (
   // set the "focus child" to the focus child of this particular component .
   // const newFocusChildId = newFocusComp.focusChildId;
 
-  let newFocusChild; // check if the components has a child saved as a Focus child
+  let newFocusChild: ChildInt|any; // check if the components has a child saved as a Focus child
   if (newFocusComp.focusChildId > 0) {
     newFocusChild = newFocusComp.childrenArray.find(
       child => child.childId === newFocusComp.focusChildId
@@ -517,7 +517,7 @@ export const addProp = (
     comp => comp.id === state.focusComponent.id
   );
 
-  const newProp = {
+  const newProp:PropInt = {
     id: selectedComponent.nextPropId,
     key,
     value: value || key,
@@ -579,18 +579,19 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const updateHtmlAttr = (state, { attr, value }) => {
+export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: {attr:string, value:string}) => {
   if (!state.focusChild.childId) {
     console.log("Update HTML error. no focused child ");
     return state;
   }
 
-  const modifiedChild = cloneDeep(state.focusChild);
+  const modifiedChild:any = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
-  const modifiedComponent = cloneDeep(
-    state.components.find(comp => comp.id === state.focusComponent.id)
-  );
+  // let modifiedComponent = cloneDeep(
+  //   state.components.find(comp => comp.id === state.focusComponent.id)
+  // ); 
+ let modifiedComponent: ComponentInt = JSON.parse(JSON.stringify(( state.components.find(comp => comp.id === state.focusComponent.id)))) ;
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     child => child.childId !== modifiedChild.childId
