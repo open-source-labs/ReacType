@@ -56,6 +56,7 @@ const MainContainerHeader = (props) => {
     showGenerateAppModal,
     collapseColumn,
     rightColumnOpen,
+    clearWorkspace,
   } = props;
 
   return (
@@ -89,6 +90,16 @@ const MainContainerHeader = (props) => {
               onClick={showGenerateAppModal}
             >
               <GetAppIcon className={classes.light} />
+            </Button>
+            <Button
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
+              onClick={clearWorkspace}
+              disabled={totalComponents < 1}
+              className={classes.clearButton}
+            >
+              Clear workspace
             </Button>
           </div>
         </Tooltip>
