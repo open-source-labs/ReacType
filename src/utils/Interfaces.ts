@@ -1,4 +1,4 @@
-interface Prop {
+export interface PropInt {
   id: number;
   key: string;
   value: string;

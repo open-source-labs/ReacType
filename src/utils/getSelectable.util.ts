@@ -1,5 +1,9 @@
 import { ComponentInt, ComponentsInt, ChildInt } from "./interfaces.ts";
 
+interface getSelectableInt {
+  [key: string]: Array<number>;
+}
+
 function getSelectable(
   newFocusComponent: ComponentInt,
   components: ComponentsInt
@@ -7,7 +11,7 @@ function getSelectable(
   const focusComponentId = newFocusComponent.id;
   const componentsToCheck = components
     .map((comp: ComponentInt) => comp.id)
-    .filter((id: Number) => id !== focusComponentId);
+    .filter((id: number) => id !== focusComponentId);
   return findAncestors(components, [focusComponentId], componentsToCheck);
 }
 
@@ -15,11 +19,11 @@ function findAncestors(
   components: ComponentsInt,
   currentCompArr: ComponentsInt,
   componentsToCheck: ComponentsInt,
-  ancestors: Array<Number> = []
-): Object {
+  ancestors: Array<number> = []
+): getSelectableInt {
   if (!currentCompArr.length) {
     return {
-      ancestors,
+      ancestors: ancestors,
       selectableChildren: componentsToCheck
     };
   }
