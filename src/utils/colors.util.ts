@@ -1,4 +1,5 @@
-const colors = [
+
+const colors: Array<String> = [
   '#E27D60',
   '#E3AFBC',
   '#E8A87C',
@@ -24,6 +25,6 @@ const colors = [
   '#61892F',
 ];
 
-const getColor = () => colors[Math.floor(Math.random() * colors.length)];
+const getColor = ():String =>  colors[Math.floor(Math.random() * colors.length)];
 
 export default getColor;
