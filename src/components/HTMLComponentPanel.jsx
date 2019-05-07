@@ -37,13 +37,13 @@ class HTMLComponentPanel extends Component {
   render() {
     const { addChild, classes } = this.props;
     return (
-      <div className={classes.htmlPanel}>
+      <div className={classes.htmlPanel} alignItems="flex-start" align="center">
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
           label="Add HTML elements"
         />
-        <Grid container spacing={8} alignItems="baseline" align="stretch">
+        <Grid container spacing={4} alignItems="baseline" align="center">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton
@@ -53,8 +53,23 @@ class HTMLComponentPanel extends Component {
                   this.handleCreateHTMLChild('Image');
                 }}
               >
-                <ImageIcon style={{ color: '#e0e0e0' }} />
+                <ImageIcon
+                  style={{
+                    color: '#e0e0e0',
+                  }}
+                />
               </IconButton>
+              <Chip
+                label="Image"
+                className={classes.chip}
+                variant="outlined"
+                style={{
+                  color: 'white',
+                  borderColor: '#424242',
+                  borderWidth: '0.0px',
+                  fontSize: '50%',
+                }}
+              />
             </div>
           </Grid>
           <Grid item xs={4}>
@@ -67,6 +82,17 @@ class HTMLComponentPanel extends Component {
             >
               <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
+            <Chip
+              label="Form"
+              className={classes.chip}
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: '#424242',
+                borderWidth: '0.0px',
+                fontSize: '50%',
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
             <IconButton
@@ -78,6 +104,17 @@ class HTMLComponentPanel extends Component {
             >
               <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
+            <Chip
+              label="Button"
+              className={classes.chip}
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: '#424242',
+                borderWidth: '0.0px',
+                fontSize: '50%',
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
             <IconButton
@@ -89,6 +126,17 @@ class HTMLComponentPanel extends Component {
             >
               <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
+            <Chip
+              label="Link"
+              className={classes.chip}
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: '#424242',
+                borderWidth: '0.0px',
+                fontSize: '50%',
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
             <IconButton
@@ -100,6 +148,17 @@ class HTMLComponentPanel extends Component {
             >
               <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
+            <Chip
+              label="List"
+              className={classes.chip}
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: '#424242',
+                borderWidth: '0.0px',
+                fontSize: '50%',
+              }}
+            />
           </Grid>
           <Grid item xs={4}>
             <IconButton
@@ -111,6 +170,17 @@ class HTMLComponentPanel extends Component {
             >
               <ParagraphIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
+            <Chip
+              label="Paragraph"
+              className={classes.chip}
+              variant="outlined"
+              style={{
+                color: 'white',
+                borderColor: '#424242',
+                borderWidth: '0.0px',
+                fontSize: '50%',
+              }}
+            />
           </Grid>
         </Grid>
       </div>
@@ -123,13 +193,18 @@ function styles(theme) {
     htmlPanel: {
       width: '100%',
       height: '30%',
-      // backgroundColor: "#333333",
+      backgroundColor: '#212121',
       borderStyle: 'solid',
       borderWidth: '0.5px',
       borderRadius: '1px',
       borderColor: '#424242',
       bottom: '0px',
-      padding: '20px',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+      paddingBottom: '25px',
+      paddingTop: '2px',
+      boxShadow: '0 6px 6px rgba(0,0,0,0.23)',
+      // paddingBottom: "10px"
     },
     chip: {
       color: 'rgba(193, 66, 66, 0)',

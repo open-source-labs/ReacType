@@ -1,10 +1,17 @@
-import React, { Component, createRef, Fragment } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { Component, createRef, Fragment } from "react";
+import Button from "@material-ui/core/Button";
 import {
-  Stage, Layer, Line, Group, Label, Text, Rect, Transformer,
-} from 'react-konva';
-import Rectangle from './Rectangle.jsx';
-import cloneDeep from '../utils/cloneDeep.ts';
+  Stage,
+  Layer,
+  Line,
+  Group,
+  Label,
+  Text,
+  Rect,
+  Transformer
+} from "react-konva";
+import Rectangle from "./Rectangle.jsx";
+import cloneDeep from "../utils/cloneDeep.ts";
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -14,14 +21,18 @@ class KonvaStage extends Component {
       stageHeight: 1000,
       blockSnapSize: 10,
       grid: [],
-      gridStroke: 1,
+      gridStroke: 1
     };
   }
 
   getDirectChildrenCopy(focusComponent) {
-    const component = this.props.components.find(comp => comp.id === focusComponent.id);
+    const component = this.props.components.find(
+      comp => comp.id === focusComponent.id
+    );
 
-    const childrenArr = component.childrenArray.filter(child => child.childId !== -1);
+    const childrenArr = component.childrenArray.filter(
+      child => child.childId !== -1
+    );
 
     let childrenArrCopy = cloneDeep(childrenArr);
 
@@ -33,10 +44,10 @@ class KonvaStage extends Component {
         x: component.position.x,
         y: component.position.y,
         width: component.position.width,
-        height: component.position.height,
+        height: component.position.height
       },
       draggable: true,
-      color: component.color,
+      color: component.color
     };
     childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
     return childrenArrCopy;
@@ -47,14 +58,14 @@ class KonvaStage extends Component {
     // here we should add listener for "container" resize
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
-    window.addEventListener('resize', this.checkSize);
-    this.container.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener("resize", this.checkSize);
+    this.container.addEventListener("keydown", this.handleKeyDown);
     this.createGrid();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.checkSize);
-    this.container.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener("resize", this.checkSize);
+    this.container.removeEventListener("keydown", this.handleKeyDown);
   }
 
   checkSize = () => {
@@ -62,37 +73,38 @@ class KonvaStage extends Component {
     const height = this.container.offsetHeight;
     this.setState({
       stageWidth: width,
-      stageHeight: height,
+      stageHeight: height
     });
   };
 
-  handleKeyDown = (e) => {
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+  handleKeyDown = e => {
+    if (e.keyCode === 46 || e.keyCode === 8) {
       this.props.deleteChild({});
     }
   };
 
-  handleStageMouseDown = (e) => {
+  handleStageMouseDown = e => {
     // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
-      console.log('user clicked on canvas:');
+      console.log("user clicked on canvas:");
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    const clickedOnTransformer =
+      e.target.getParent().className === "Transformer";
     if (clickedOnTransformer) {
-      console.log('user clicked on transformer');
+      console.log("user clicked on transformer");
       return;
     }
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log('user clicked on child rectangle with childId: ', rectChildId);
+    // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
-      childId: rectChildId,
+      childId: rectChildId
     });
   };
 
@@ -105,46 +117,54 @@ class KonvaStage extends Component {
             Math.round(i * this.state.blockSnapSize) + 0.5,
             0,
             Math.round(i * this.state.blockSnapSize) + 0.5,
-            this.state.stageHeight,
+            this.state.stageHeight
           ]}
-          stroke={'#ddd'}
+          stroke={"#ddd"}
           strokeWidth={this.state.gridStroke}
           key={`${i}vertical`}
-        />,
+        />
       );
     }
-    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
+    for (
+      let j = 0;
+      j < this.state.stageHeight / this.state.blockSnapSize;
+      j++
+    ) {
       output.push(
         <Line
           points={[
             0,
             Math.round(j * this.state.blockSnapSize),
             this.state.stageWidth,
-            Math.round(j * this.state.blockSnapSize),
+            Math.round(j * this.state.blockSnapSize)
           ]}
-          stroke={'#ddd'}
+          stroke={"#ddd"}
           strokeWidth={this.state.gridStroke}
           key={`${j}horizontal`}
-        />,
+        />
       );
     }
     this.setState({
-      grid: output,
+      grid: output
     });
   };
 
   render() {
     const {
-      components, handleTransform, focusComponent, focusChild, deleteChild,
+      components,
+      handleTransform,
+      focusComponent,
+      focusChild,
+      deleteChild
     } = this.props;
 
     return (
       <div
         style={{
-          width: '95%',
-          height: '95%',
+          width: "95%",
+          height: "95%"
         }}
-        ref={(node) => {
+        ref={node => {
           this.container = node;
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
@@ -152,18 +172,18 @@ class KonvaStage extends Component {
         <Button
           onClick={deleteChild}
           style={{
-            width: '150px',
-            position: 'relative',
-            float: 'right',
-            background: '#dbdbdb',
-            zIndex: 2,
+            width: "150px",
+            position: "relative",
+            float: "right",
+            background: "#dbdbdb",
+            zIndex: 2
           }}
         >
           delete child
         </Button>
         <Stage
-          className={'canvasStage'}
-          ref={(node) => {
+          className={"canvasStage"}
+          ref={node => {
             this.stage = node;
           }}
           onMouseDown={this.handleStageMouseDown}
@@ -171,7 +191,7 @@ class KonvaStage extends Component {
           height={this.state.stageHeight}
         >
           <Layer
-            ref={(node) => {
+            ref={node => {
               this.layer = node;
             }}
           >
@@ -197,10 +217,17 @@ class KonvaStage extends Component {
                   handleTransform={handleTransform}
                   draggable={true}
                   blockSnapSize={this.state.blockSnapSize}
+                  imageSource={
+                    child.htmlElement == "Image" && child.HTMLInfo.Src
+                      ? child.HTMLInfo.Src
+                      : null
+                  }
                 />
               ))
               .sort(
-                (rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height,
+                (rectA, rectB) =>
+                  rectA.props.width * rectA.props.height <
+                  rectB.props.width * rectB.props.height
               ) // shouldnt this be subtraction instead of < ? see MDN
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order

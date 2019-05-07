@@ -1,70 +1,77 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
-import * as actions from '../actions/components';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import LeftColExpansionPanel from "../components/LeftColExpansionPanel.jsx";
+import HTMLComponentPanel from "../components/HTMLComponentPanel.jsx";
+import * as actions from "../actions/components";
 
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent: ({
-    id, index, newParentId = null, color = null, stateful = null,
-  }) => dispatch(
-    actions.updateComponent({
-      id,
-      index,
-      newParentId,
-      color,
-      stateful,
-    }),
-  ),
-  addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+    id,
+    index,
+    newParentId = null,
+    color = null,
+    stateful = null
+  }) =>
+    dispatch(
+      actions.updateComponent({
+        id,
+        index,
+        newParentId,
+        color,
+        stateful
+      })
+    ),
+  addChild: ({ title, childType, HTMLInfo }) =>
+    dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeFocusComponent: ({ title }) =>
+    dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ childId }) =>
+    dispatch(actions.changeFocusChild({ childId })),
+  deleteComponent: ({ componentId, stateComponents }) =>
+    dispatch(actions.deleteComponent({ componentId, stateComponents }))
 });
 
 class LeftContainer extends Component {
   state = {
-    componentName: '',
+    componentName: ""
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   };
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
     this.setState({
-      componentName: '',
+      componentName: ""
     });
   };
 
   render() {
     const {
       components,
-      updateComponent,
       deleteComponent,
       focusComponent,
-      totalComponents,
       classes,
       addChild,
       changeFocusComponent,
       changeFocusChild,
-      selectableChildren,
+      selectableChildren
     } = this.props;
     const { componentName } = this.state;
 
     const componentsExpansionPanel = components
-      .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .sort((b, a) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
           key={component.id}
@@ -83,7 +90,13 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left" position="relative">
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Grid
+          container
+          spacing={8}
+          alignItems="baseline"
+          align="stretch"
+          direction="row"
+        >
           <Grid item xs={8}>
             <TextField
               id="title-input"
@@ -92,8 +105,8 @@ class LeftContainer extends Component {
               margin="normal"
               autoFocus
               onChange={this.handleChange}
-              onKeyPress={(ev) => {
-                if (ev.key === 'Enter') {
+              onKeyPress={ev => {
+                if (ev.key === "Enter") {
                   // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
@@ -103,10 +116,10 @@ class LeftContainer extends Component {
               name="componentName"
               className={classes.light}
               InputProps={{
-                className: classes.input,
+                className: classes.input
               }}
               InputLabelProps={{
-                className: classes.input,
+                className: classes.input
               }}
             />
           </Grid>
@@ -142,41 +155,41 @@ function styles() {
     //   height: "200px"
     // },
     cssLabel: {
-      color: 'white',
+      color: "white",
 
-      '&$cssFocused': {
-        color: 'green',
-      },
+      "&$cssFocused": {
+        color: "green"
+      }
     },
     cssFocused: {},
     input: {
-      color: '#fff',
-      opacity: '0.7',
-      marginBottom: '10px',
+      color: "#fff",
+      opacity: "0.7",
+      marginBottom: "10px"
     },
     underline: {
-      color: 'white',
-      '&::before': {
-        color: 'white',
-      },
+      color: "white",
+      "&::before": {
+        color: "white"
+      }
     },
     button: {
-      color: '#fff',
+      color: "#fff",
 
-      '&:disabled': {
-        color: 'grey',
-      },
+      "&:disabled": {
+        color: "grey"
+      }
     },
     clearButton: {
-      top: '96%',
-      position: 'sticky!important',
-      zIndex: '1',
+      top: "96%",
+      position: "sticky!important",
+      zIndex: "1",
 
-      '&:disabled': {
-        color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
+      "&:disabled": {
+        color: "grey",
+        backgroundColor: "#424242"
+      }
+    }
   };
 }
 
@@ -184,6 +197,6 @@ export default compose(
   withStyles(styles),
   connect(
     null,
-    mapDispatchToProps,
-  ),
+    mapDispatchToProps
+  )
 )(LeftContainer);
