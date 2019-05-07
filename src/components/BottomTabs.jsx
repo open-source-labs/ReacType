@@ -5,6 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
 import Props from './Props.jsx';
 import HtmlAttr from './HtmlAttr.jsx';
+import CodePreview from './CodePreview.tsx';
 // import Tree from "./Tree.jsx";
 
 const styles = theme => ({
@@ -172,6 +173,11 @@ class BottomTabs extends Component {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Code Preview"
+          />
         </Tabs>
 
         {value === 0 && (
@@ -216,6 +222,7 @@ class BottomTabs extends Component {
           && focusChild.childType !== 'HTML' && (
             <p>Please select an HTML element to view attributes</p>
         )}
+        {value === 4 && <CodePreview focusComponent={focusComponent} components={components} />}
       </div>
     );
   }
