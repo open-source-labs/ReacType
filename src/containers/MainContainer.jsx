@@ -19,6 +19,7 @@ import {
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
+import SortChildren from '../components/SortChildren.jsx';
 
 const IPC = require('electron').ipcRenderer;
 
