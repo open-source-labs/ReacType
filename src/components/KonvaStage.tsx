@@ -221,7 +221,7 @@ class KonvaStage extends Component {
                   imageSource={child.htmlElement == 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null}
                 />
               ))
-              .sort((rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height) // shouldnt this be subtraction instead of < ? see MDN
+              .sort((rectA, rectB) => rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height)
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
