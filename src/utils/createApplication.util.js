@@ -142,7 +142,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: { rules },
-  resolve: {extensions: ['.ts', '.txs', '.js', 'jsx.']},
+  resolve: {extensions: ['.ts', '.tsx', '.js', '.jsx']},
   devServer: {
     contentBase: './',
     port: 5000
