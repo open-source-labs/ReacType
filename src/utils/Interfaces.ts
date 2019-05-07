@@ -32,7 +32,7 @@ export interface ComponentInt {
   title: string;
   color: string;
   // draggable: boolean;
-  props: Prop[];
+  props: PropInt[];
   nextPropId: number;
   position: Position;
   childrenArray: ChildInt[];
