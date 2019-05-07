@@ -78,7 +78,7 @@ class KonvaStage extends Component {
   };
 
   handleKeyDown = e => {
-    if (e.key === "Delete" || e.key === "Backspace") {
+    if (e.keyCode === 46 || e.keyCode === 8) {
       this.props.deleteChild({});
     }
   };
