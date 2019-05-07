@@ -152,7 +152,7 @@ class Rectangle extends Component {
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
-          strokeWidth={4}
+          strokeWidth={childType === "COMP" ? 4 : 1}
           strokeScaleEnabled={false}
           draggable={false}
           fill={childId === -1 ? "white" : null}
