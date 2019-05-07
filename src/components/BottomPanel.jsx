@@ -12,35 +12,23 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  // successOpen: store.workspace.successOpen,
-  // errorOpen: store.workspace.errorOpen,
-  // appDir: store.workspace.appDir,
   focusChild: store.workspace.focusChild,
   components: store.workspace.components,
 });
 
 class BottomPanel extends Component {
-  // state = {
-  //   successOpen: false,
-  //   errorOpen: false,
-  // };
 
-  viewAppDir = () => {
-    IPC.send('view_app_dir', this.props.appDir);
-  };
+  // viewAppDir = () => {
+  //   IPC.send('view_app_dir', this.props.appDir);
+  // };
 
   render() {
     const {
       components,
-      successOpen,
-      errorOpen,
-      handleNotificationClose,
-      appDir,
       focusComponent,
       deleteProp,
       addProp,
       focusChild,
-      // rightColumnOpen
     } = this.props;
 
     return (
@@ -51,15 +39,7 @@ class BottomPanel extends Component {
           deleteProp={deleteProp}
           addProp={addProp}
           focusChild={focusChild}
-          // rightColumnOpen={rightColumnOpen}
         />
-        {/* <Snackbars
-          successOpen={successOpen}
-          errorOpen={errorOpen}
-          handleNotificationClose={handleNotificationClose}
-          msg={appDir}
-          viewAppDir={this.viewAppDir}
-        /> */}
       </div>
     );
   }
