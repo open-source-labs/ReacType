@@ -17,8 +17,6 @@ import Tab from "@material-ui/core/Tab";
 import Chip from "@material-ui/core/Chip";
 import theme from "./theme.ts";
 
-// import {HTMLelements,getSize} from "../utils/htmlElements.util";
-
 class HTMLComponentPanel extends Component {
   state = {
     HtmlComponentName: ""
@@ -53,7 +51,11 @@ class HTMLComponentPanel extends Component {
                   this.handleCreateHTMLChild("Image");
                 }}
               >
-                <ImageIcon style={{ color: "#e0e0e0" }} />
+                <ImageIcon
+                  style={{
+                    color: "#e0e0e0"
+                  }}
+                />
               </IconButton>
               <Chip
                 label="Image"
@@ -62,7 +64,8 @@ class HTMLComponentPanel extends Component {
                 style={{
                   color: "white",
                   borderColor: "#424242",
-                  borderWidth: "0.5px"
+                  borderWidth: "0.0px",
+                  fontSize: "50%"
                 }}
               />
             </div>
@@ -84,7 +87,8 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: "white",
                 borderColor: "#424242",
-                borderWidth: "0.5px"
+                borderWidth: "0.0px",
+                fontSize: "50%"
               }}
             />
           </Grid>
@@ -105,7 +109,8 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: "white",
                 borderColor: "#424242",
-                borderWidth: "0.5px"
+                borderWidth: "0.0px",
+                fontSize: "50%"
               }}
             />
           </Grid>
@@ -126,7 +131,8 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: "white",
                 borderColor: "#424242",
-                borderWidth: "0.5px"
+                borderWidth: "0.0px",
+                fontSize: "50%"
               }}
             />
           </Grid>
@@ -147,7 +153,8 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: "white",
                 borderColor: "#424242",
-                borderWidth: "0.5px"
+                borderWidth: "0.0px",
+                fontSize: "50%"
               }}
             />
           </Grid>
@@ -168,7 +175,8 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: "white",
                 borderColor: "#424242",
-                borderWidth: "0.5px"
+                borderWidth: "0.0px",
+                fontSize: "50%"
               }}
             />
           </Grid>
@@ -189,7 +197,10 @@ function styles(theme) {
       borderRadius: "1px",
       borderColor: "#424242",
       bottom: "0px",
-      padding: "10px",
+      paddingLeft: "10px",
+      paddingRight: "10px",
+      paddingBottom: "25px",
+      paddingTop: "2px",
       boxShadow: "0 6px 6px rgba(0,0,0,0.23)"
       // paddingBottom: "10px"
     },
