@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.jsx';
-import MainContainer from './MainContainer.jsx';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
 // import RightContainer from './RightContainer.jsx';
 import convertIdsToObjs from '../utils/convertIdsToObjs.util';
-import theme from '../components/theme.ts';
+import theme from '../components/theme';
 import { loadInitData } from '../actions/components';
 
 const mapStateToProps = store => ({
