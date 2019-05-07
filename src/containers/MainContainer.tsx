@@ -19,6 +19,7 @@ import {
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
+import SortChildren from '../components/SortChildren.jsx';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -48,7 +49,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
- // totalComponents: store.workspace.totalComponents,
+  // totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
@@ -157,7 +158,11 @@ class MainContainer extends Component {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
-            style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}
+            style={{
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%',
+            }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
@@ -188,6 +193,7 @@ class MainContainer extends Component {
       deleteChild,
       deleteComponent,
       stateComponents,
+      classes,
     } = this.props;
     const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
@@ -222,6 +228,7 @@ class MainContainer extends Component {
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
+              classes={classes}
             />
           </div>
 

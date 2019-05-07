@@ -4,9 +4,16 @@
   box-sizing: inherit;
 }
 
+/* * {
+  overflow: hidden;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */
+
 html {
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
@@ -14,6 +21,7 @@ body {
   padding: 0;
   font-family: 'Open sans', sans-serif;
   font-weight: 400;
+  overflow: hidden;
 }
 
 /*
@@ -72,6 +80,7 @@ LEFT COLUMN
 .left {
   padding: 10px;
   width: 20%;
+  /* min-width: 50px; */
   display: flex;
   flex-direction: column;
   position: relative;
