@@ -4,6 +4,10 @@ import TransformerComponent from './TransformerComponent.jsx';
 import GrandchildRectangle from './GrandchildRectangle.jsx';
 
 class Rectangle extends Component {
+  state = {
+    rectImage: null,
+  };
+
   getComponentColor(componentId) {
     if (componentId === '888') {
       return '#000000';
@@ -49,6 +53,31 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
+  setImage = imageSource => {
+    console.log('IMAGE SOURCE', imageSource);
+    if (!imageSource) return;
+    const image = new window.Image();
+    // image.src = this.props.imagePath;
+    // image.src =
+    //   "/Users/tolgamizrakci/Traceroll/01_Product/02_UI&UX/Assets/Sample Content/Images/71tWqG7nD-L._SX355_.jpg";
+
+    // image.src =
+    //   "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202019/Magazine/04April/CR-Cars-InlineHero-TopTen-BMW-X5-2-18v3";
+
+    image.src = imageSource;
+    console.log('Image:');
+    console.log('image.height', image.height);
+    // if there was an error grtting img; heigth should b Zero
+    if (!image.height) return null;
+    return image;
+
+    // image.onload = () => {
+    //   // setState will redraw layer
+    //   // because "image" property is changed
+    //   return image;
+    // };
+  };
+
   render() {
     const {
       x,
@@ -67,7 +96,11 @@ class Rectangle extends Component {
       draggable,
       blockSnapSize,
       childType,
+      imageSource,
     } = this.props;
+    //console.log("first call props", imageSource);
+
+    // const { rectImage } = this.state;
 
     // the Group is responsible for dragging of all children
     // the Rect emits changes to child width and height with help from Transformer
@@ -112,6 +145,9 @@ class Rectangle extends Component {
           draggable={false}
           fill={childId === -1 ? 'white' : null}
           shadowBlur={childId === -1 ? 6 : null}
+          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
+
+          // fillPatternImage={null}
           // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
           // dash={[10, 3]} // 10px dashes with 3px gaps
         />
@@ -141,6 +177,9 @@ class Rectangle extends Component {
                 componentId={componentId}
                 directParentName={childComponentName}
                 childType={grandchild.childType}
+                imageSource={
+                  grandchild.htmlElement == 'Image' && grandchild.HTMLInfo.Src ? grandchild.HTMLInfo.Src : null
+                }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}

@@ -88,7 +88,7 @@ class KonvaStage extends Component {
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log('user clicked on child rectangle with childId: ', rectChildId);
+    // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
@@ -194,6 +194,8 @@ class KonvaStage extends Component {
                   title={child.componentName + child.childId}
                   handleTransform={handleTransform}
                   draggable={true}
+                  blockSnapSize={this.state.blockSnapSize}
+                  imageSource={child.htmlElement == 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null}
                 />
               ))
               .sort((rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height) // shouldnt this be subtraction instead of < ? see MDN
