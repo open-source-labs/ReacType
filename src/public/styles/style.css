@@ -4,22 +4,22 @@
   box-sizing: inherit;
 }
 
-* {
+/* * {
   overflow: hidden;
   overflow-y: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+} */
 
 html {
   box-sizing: border-box;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Open sans", sans-serif;
+  font-family: 'Open sans', sans-serif;
   font-weight: 400;
   overflow: hidden;
 }

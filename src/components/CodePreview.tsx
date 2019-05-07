@@ -19,7 +19,13 @@ class CodePreview extends Component {
         }}
       >
         <pre style={{ direction: 'ltr' }}>
-          {format(componentRender(focusComponent, components))}
+          {format(componentRender(focusComponent, components), {
+            singleQuote: true,
+            trailingComma: 'es5',
+            bracketSpacing: true,
+            jsxBracketSameLine: true,
+            parser: 'typescript',
+          })}
         </pre>
       </div>
     );
