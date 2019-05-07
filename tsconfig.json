@@ -6,8 +6,8 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
-    // "strict": true,
-    // "alwaysStrict": true, 
+    "strict": true,
+    "alwaysStrict": true
     //these two options are recommended but don't work, maybe an issue with awesome-typsecript-loader vs babel
     // "esModuleInterop": true
     // "allowSyntheticDefaultImports": true
