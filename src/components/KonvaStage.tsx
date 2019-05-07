@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
 import cloneDeep from '../utils/cloneDeep.ts';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -132,7 +134,7 @@ class KonvaStage extends Component {
   };
 
   render() {
-    const { components, handleTransform, focusComponent, focusChild, deleteChild } = this.props;
+    const { components, handleTransform, focusComponent, focusChild, deleteChild, classes } = this.props;
 
     return (
       <div
@@ -145,7 +147,7 @@ class KonvaStage extends Component {
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
       >
-        <Button
+        {/* <Button
           onClick={deleteChild}
           style={{
             width: '150px',
@@ -156,7 +158,30 @@ class KonvaStage extends Component {
           }}
         >
           delete child
-        </Button>
+        </Button> */}
+        <Fab
+          variant="extended"
+          size="small"
+          color="inherit"
+          aria-label="Delete"
+          // className={classes.margin}
+          style={{
+            width: '150px',
+            position: 'relative',
+            float: 'right',
+            marginTop: '10px',
+            marginLeft: '10px',
+            // background: "#dbdbdb",
+            zIndex: 2,
+          }}
+          // style={{ maxWidth: "20px" }}
+          onClick={deleteChild}
+        >
+          <DeleteIcon />
+          Delete Child
+          {/* {`Delete 
+          ${focusChild.}`} */}
+        </Fab>
         <Stage
           className={'canvasStage'}
           ref={node => {

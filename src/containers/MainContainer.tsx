@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.jsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -51,7 +50,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
- // totalComponents: store.workspace.totalComponents,
+  // totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
@@ -140,15 +139,6 @@ class MainContainer extends Component {
   //   });
   // };
 
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
   chooseGenOptions = genOption => {
     // set option
     this.setState({ genOption });
@@ -169,7 +159,11 @@ class MainContainer extends Component {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
-            style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}
+            style={{
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%',
+            }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
@@ -198,6 +192,7 @@ class MainContainer extends Component {
       deleteChild,
       deleteComponent,
       stateComponents,
+      classes,
     } = this.props;
     const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
@@ -232,6 +227,7 @@ class MainContainer extends Component {
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
+              classes={classes}
             />
           </div>
 
