@@ -13,9 +13,7 @@ module.exports = {
   context: SRC_DIR,
   entry: {
     app: ['babel-polyfill', './index.js'],
-    vendor: [
-      '@material-ui/core',
-    ],
+    vendor: ['@material-ui/core'],
   },
   output: {
     filename: 'js/bundle.js',
@@ -23,6 +21,8 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
+      { test: /\.ts?$/, exclude: /node-modules/, loader: 'babel-loader' },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
