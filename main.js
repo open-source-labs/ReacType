@@ -86,35 +86,27 @@ const createWindow = () => {
             openFile();
           },
         },
-        {
-          label: 'Export Components',
-          accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+Shift+E',
-          click() {
-            exportComponents();
-          },
-        },
       ],
     },
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'pasteandmatchstyle' },
-        { role: 'delete' },
-        { role: 'selectall' },
-      ],
-    },
+    // {
+    //   label: 'Edit',
+    //   submenu: [
+    //     { role: 'undo' },
+    //     { role: 'redo' },
+    //     { type: 'separator' },
+    //     { role: 'cut' },
+    //     { role: 'copy' },
+    //     { role: 'paste' },
+    //     { role: 'pasteandmatchstyle' },
+    //     { role: 'delete' },
+    //     { role: 'selectall' },
+    //   ],
+    // },
     {
       label: 'View',
       submenu: [
         { role: 'reload' },
         { role: 'forcereload' },
-        { role: 'toggledevtools' },
         { type: 'separator' },
         { role: 'resetzoom' },
         { role: 'zoomin' },
