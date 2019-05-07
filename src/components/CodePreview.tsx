@@ -7,10 +7,20 @@ class CodePreview extends Component {
   render(): JSX.Element {
     const { focusComponent, components } = this.props;
     return (
-      <div>
-        {/* <p> */}
-        <pre>{format(componentRender(focusComponent, components))}</pre>
-        {/* </p> */}
+      <div
+        style={{
+          width: '500px',
+          height: '290px',
+          direction: 'rtl',
+          paddingLeft: '20px',
+          color: '#D3D3D3',
+          fontSize: 16,
+          overflow: 'auto',
+        }}
+      >
+        <pre style={{ direction: 'ltr' }}>
+          {format(componentRender(focusComponent, components))}
+        </pre>
       </div>
     );
   }
