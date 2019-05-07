@@ -1,13 +1,8 @@
 const {
-  app,
-  BrowserWindow,
-  Menu,
-  shell,
-  dialog,
-  ipcMain,
+  app, BrowserWindow, Menu, shell, dialog, ipcMain,
 } = require('electron');
 
-
+// Uncomment below for hot reloading during development
 require('electron-reload')(__dirname);
 
 // const isDev = true;
@@ -22,9 +17,12 @@ function openFile() {
   // Opens file dialog looking for markdown
   const files = dialog.showOpenDialog(mainWindow, {
     properties: ['openFile'],
-    filters: [{
-      name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
-    }],
+    filters: [
+      {
+        name: 'Images',
+        extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
+      },
+    ],
   });
 
   // if no files
@@ -77,77 +75,81 @@ const createWindow = () => {
     mainWindow.show();
   });
 
-  const template = [{
-    label: 'File',
-    submenu: [{
-      label: 'Open File',
-      accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
-      click() {
-        openFile();
-      },
+  const template = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Open File',
+          accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
+          click() {
+            openFile();
+          },
+        },
+        {
+          label: 'Export Components',
+          accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+Shift+E',
+          click() {
+            exportComponents();
+          },
+        },
+      ],
     },
     {
-      label: 'Export Components',
-      accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+Shift+E',
-      click() {
-        exportComponents();
-      },
-    }],
-  },
-  {
-    label: 'Edit',
-    submenu: [
-      { role: 'undo' },
-      { role: 'redo' },
-      { type: 'separator' },
-      { role: 'cut' },
-      { role: 'copy' },
-      { role: 'paste' },
-      { role: 'pasteandmatchstyle' },
-      { role: 'delete' },
-      { role: 'selectall' },
-    ],
-  },
-  {
-    label: 'View',
-    submenu: [
-      { role: 'reload' },
-      { role: 'forcereload' },
-      { role: 'toggledevtools' },
-      { type: 'separator' },
-      { role: 'resetzoom' },
-      { role: 'zoomin' },
-      { role: 'zoomout' },
-      { type: 'separator' },
-      { role: 'togglefullscreen' },
-    ],
-  },
-  {
-    role: 'window',
-    submenu: [
-      { role: 'minimize' },
-      { role: 'close' },
-    ],
-  },
-  {
-    role: 'help',
-    submenu: [{
-      label: 'Learn More',
-      click() {
-        shell.openExternal('https://electronjs.org');
-      },
-    }],
-  },
-  {
-    label: 'Developer',
-    submenu: [{
-      label: 'Toggle Developer Tools',
-      accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-      click() {
-        mainWindow.webContents.toggleDevTools();
-      },
-    }],
-  },
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { role: 'toggledevtools' },
+        { type: 'separator' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    {
+      role: 'window',
+      submenu: [{ role: 'minimize' }, { role: 'close' }],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click() {
+            shell.openExternal('https://electronjs.org');
+          },
+        },
+      ],
+    },
+    {
+      label: 'Developer',
+      submenu: [
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+          click() {
+            mainWindow.webContents.toggleDevTools();
+          },
+        },
+      ],
+    },
   ];
 
   if (process.platform === 'darwin') {
@@ -167,12 +169,15 @@ const createWindow = () => {
     });
 
     // Edit menu
-    template[2].submenu.push({
-      type: 'separator',
-    }, {
-      label: 'Speech',
-      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-    });
+    template[2].submenu.push(
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Speech',
+        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+      },
+    );
 
     // Window menu
     template[4].submenu = [
