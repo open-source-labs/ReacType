@@ -1,6 +1,6 @@
 // import setSelectableParents from "./setSelectableParents.util";
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
+import getSelectable from './getSelectable.util.ts';
+import getColor from './colors.util.ts';
 import { HTMLelements, getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep.ts';
 
