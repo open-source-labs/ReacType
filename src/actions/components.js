@@ -240,9 +240,9 @@ export const openExpansionPanel = component => ({
   payload: { component },
 });
 
-// export const deleteAllData = () => ({
-//   type: DELETE_ALL_DATA,
-// });
+export const deleteAllData = () => ({
+  type: DELETE_ALL_DATA,
+});
 
 export const deleteProp = propId => dispatch => {
   dispatch({ type: DELETE_PROP, payload: propId });
