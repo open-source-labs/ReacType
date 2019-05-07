@@ -50,10 +50,8 @@ class LeftContainer extends Component {
   render() {
     const {
       components,
-      updateComponent,
       deleteComponent,
       focusComponent,
-      totalComponents,
       classes,
       addChild,
       changeFocusComponent,
@@ -63,7 +61,7 @@ class LeftContainer extends Component {
     const { componentName } = this.state;
 
     const componentsExpansionPanel = components
-      .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .sort((b, a) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
           key={component.id}
@@ -82,7 +80,7 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left" position="relative">
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems="baseline" align="stretch" direction="row">
           <Grid item xs={8}>
             <TextField
               id="title-input"
