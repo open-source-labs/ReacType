@@ -6,8 +6,8 @@ import BottomPanel from '../components/BottomPanel.jsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import BottomPanel from '../components/BottomPanel.jsx';
-import theme from '../components/theme.ts';
+import BottomPanel from '../components/BottomPanel';
+import theme from '../components/theme';
 import {
   openExpansionPanel,
   handleTransform,
@@ -17,8 +17,8 @@ import {
   deleteComponent,
   createApplication,
 } from '../actions/components';
-import KonvaStage from '../components/KonvaStage.jsx';
-import MainContainerHeader from '../components/MainContainerHeader.jsx';
+import KonvaStage from '../components/KonvaStage';
+import MainContainerHeader from '../components/MainContainerHeader';
 import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;

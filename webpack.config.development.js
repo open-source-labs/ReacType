@@ -15,6 +15,9 @@ module.exports = {
   context: SRC_DIR,
   entry: ['babel-polyfill', './index.js'],
   devtool: 'eval-source-map',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
   output: {
     path: BUILD_DIR,
     filename: 'js/bundle.js',

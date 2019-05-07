@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
 import Chip from '@material-ui/core/Chip';
-import theme from './theme.ts';
+import theme from './theme';
 
 // import {HTMLelements,getSize} from "../utils/htmlElements.util";
 

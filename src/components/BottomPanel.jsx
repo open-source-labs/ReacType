@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { some } from 'bluebird-lst';
 import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
-import RightTabs from './RightTabs.jsx';
+import RightTabs from './RightTabs';
 
 const IPC = require('electron').ipcRenderer;
 
