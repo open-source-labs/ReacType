@@ -8,7 +8,7 @@ import MainContainer from './MainContainer';
 // import RightContainer from './RightContainer.jsx';
 // import convertIdsToObjs from '../utils/convertIdsToObjs.util';
 import theme from '../components/theme';
-import { loadInitData } from '../actions/components';
+import { loadInitData } from '../actions/components.js';
 
 const mapStateToProps = store => ({
   components: store.workspace.components,
