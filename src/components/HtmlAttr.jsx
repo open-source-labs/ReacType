@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from "@material-ui/icons/Save";
 import { updateHtmlAttr } from "../actions/components";
-import { HTMLelements, getSize } from "../utils/htmlElements.util";
+import { HTMLelements, getSize } from "../utils/htmlElements.util.ts";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 
@@ -92,12 +92,6 @@ class HtmlAttr extends Component {
   componentDidUpdate() {
     console.log("focuschild", this.props.focusChild);
   }
-
-  // setInitialState = () => {
-  //   HTMLelements[focusChildType].attributes.forEach(attr =>
-  //     this.setState({ attr: "" })
-  //   );
-  // };
 
   render() {
     const {
