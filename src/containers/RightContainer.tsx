@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
 // import Snackbars from '../components/Snackbars.jsx';
-// import RightTabs from '../components/RightTabs.jsx';
+// import BottomTabs from '../components/BottomTabs.jsx';
 
 const IPC = require('electron').ipcRenderer;
 

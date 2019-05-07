@@ -62,7 +62,7 @@ const styles = theme => ({
   },
 });
 
-class RightTabs extends Component {
+class BottomTabs extends Component {
   state = {
     value: 0,
   };
@@ -98,9 +98,7 @@ class RightTabs extends Component {
       newChildrenArray.push(newTree);
       tree.children = newChildrenArray;
       if (component.childrenArray[i].childType === 'COMP') {
-        const newFocusComp = components.find(
-          comp => comp.title === component.childrenArray[i].componentName,
-        );
+        const newFocusComp = components.find(comp => comp.title === component.childrenArray[i].componentName);
         this.findChildren(newFocusComp, components, newTree);
       }
     }
@@ -111,7 +109,7 @@ class RightTabs extends Component {
     const component = components.find(comp => comp.id === componentId);
     const tree = { name: component.title, attributes: {}, children: [] };
 
-    component.childrenArray.forEach((child) => {
+    component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
         tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
@@ -133,6 +131,11 @@ class RightTabs extends Component {
     } = this.props;
     const { value } = this.state;
 
+    // display count on the tab. user can see without clicking into tab
+    const propCount = focusComponent.props.length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML').length;
+
+    // const counters = focusComponent.ch
     const tree = {
       name: focusComponent.title,
       attributes: {},
@@ -154,7 +157,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Props"
+            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
@@ -164,7 +167,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="HTML Element Attributes"
+            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
         </Tabs>
 
@@ -206,13 +209,10 @@ class RightTabs extends Component {
         )}
         {value === 1 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-        {value === 3
-          && focusChild.childType !== 'HTML' && (
-            <p>Please select an HTML element to view attributes</p>
-        )}
+        {value === 3 && focusChild.childType !== 'HTML' && <p>Please select an HTML element to view attributes</p>}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(RightTabs);
+export default withStyles(styles)(BottomTabs);

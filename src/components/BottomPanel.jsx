@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
-import RightTabs from './RightTabs';
+import BottomTabs from './BottomTabs';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -45,7 +45,7 @@ class BottomPanel extends Component {
 
     return (
       <div className="bottom-panel" style={{ width: '100%' }}>
-        <RightTabs
+        <BottomTabs
           components={components}
           focusComponent={focusComponent}
           deleteProp={deleteProp}
