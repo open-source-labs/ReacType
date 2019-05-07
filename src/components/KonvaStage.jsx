@@ -205,7 +205,7 @@ class KonvaStage extends Component {
                 />
               ))
               .sort(
-                (rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height,
+                (rectA, rectB) => rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height,
               ) // shouldnt this be subtraction instead of < ? see MDN
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
