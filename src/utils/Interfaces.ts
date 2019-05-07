@@ -1,3 +1,7 @@
+
+
+
+
 interface Prop {
   id: number;
   key: string;
@@ -13,7 +17,7 @@ interface Position {
   height: number;
 }
 
-interface Child {
+export interface ChildInt {
   childId: number;
   childType: string;
   childComponentId: number;
@@ -24,11 +28,11 @@ interface Child {
   HTMLInfo: object; // replace with HTMLinfo specifics
 }
 
-interface Component {
+export interface ComponentInt {
   id: number;
   stateful: boolean;
   title: string;
-  parentIds: number[];
+  //parentIds: number[];
   color: string;
   draggable: boolean;
   // childrenIds: number[];
@@ -42,7 +46,10 @@ interface Component {
   focusChildId: number;
 }
 
-function findComponentById(id: number, components: Component[]) {
+export interface ComponentsInt extends Array<ComponentInt> {}
+
+
+function findComponentById(id: number, components: ComponentInt[]) {
   return components.find(comp => comp.id === id);
 }
 
