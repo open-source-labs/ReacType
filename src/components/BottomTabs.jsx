@@ -62,7 +62,7 @@ const styles = theme => ({
   },
 });
 
-class RightTabs extends Component {
+class BottomTabs extends Component {
   state = {
     value: 0,
   };
@@ -133,10 +133,11 @@ class RightTabs extends Component {
     } = this.props;
     const { value } = this.state;
 
-    // display count on the tab. user can see without clicking into tab 
-    const propCount = focusComponent.props.length
-    const htmlAttribCount = focusComponent.childrenArray.filter( child => child.childType === 'HTML').length
-   
+    // display count on the tab. user can see without clicking into tab
+    const propCount = focusComponent.props.length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+      .length;
+
     // const counters = focusComponent.ch
     const tree = {
       name: focusComponent.title,
@@ -159,7 +160,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${ propCount ? '('+propCount+')' : '' } ` }
+            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
@@ -169,7 +170,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${ htmlAttribCount ? '('+htmlAttribCount+')' : '' } ` }
+            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
         </Tabs>
 
@@ -220,4 +221,4 @@ class RightTabs extends Component {
   }
 }
 
-export default withStyles(styles)(RightTabs);
+export default withStyles(styles)(BottomTabs);
