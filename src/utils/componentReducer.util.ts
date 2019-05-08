@@ -548,5 +548,7 @@ export const updateChildrenSort = (
   // console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
   return {
     ...state,
+    components: modifiedComponentsArray,
+    focusComponent: modifiedComponent,
   };
 };

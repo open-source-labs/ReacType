@@ -40,15 +40,9 @@ export const loadInitData = () => dispatch => {
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
-<<<<<<< HEAD
-        data: data ? data.workspace : {},
-      },
-    }),
-=======
         data: data ? data.workspace : {}
       }
     })
->>>>>>> fcd32cb... finished ts changes to util files
   );
 };
 
@@ -83,14 +77,10 @@ export const deleteChild = ({}) => dispatch => {
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
-<<<<<<< HEAD
-export const deleteComponent = ({ componentId, stateComponents }) => dispatch => {
-=======
 export const deleteComponent = ({
   componentId,
   stateComponents
 }) => dispatch => {
->>>>>>> fcd32cb... finished ts changes to util files
   // find all places where the "to be delted" is a child and do what u gotta do
   stateComponents.forEach(parent => {
     parent.childrenArray
@@ -325,9 +315,16 @@ export const updateHtmlAttr = ({ attr, value }) => dispatch => {
   });
 };
 
+<<<<<<< HEAD
 export const updateChildrenSort = ({ newChildrenArray }) => dispatch => {
   dispatch({
     type: UPDATE_CHILDREN_SORT,
     payload: { newChildrenArray }
+=======
+export const updateChildrenSort = ({ newSortValues }) => (dispatch) => {
+  dispatch({
+    type: UPDATE_CHILDREN_SORT,
+    payload: { newSortValues },
+>>>>>>> 29b23c438a735dda0a220e39c9795d2ca252eb6d
   });
 };
