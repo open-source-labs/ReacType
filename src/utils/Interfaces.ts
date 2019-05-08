@@ -15,6 +15,7 @@ interface Position {
 
 export interface ChildInt {
   childId: number;
+  childSort: number;
   childType: string;
   childComponentId: number;
   componentName: string;
@@ -31,7 +32,6 @@ export interface ComponentInt {
   stateful: boolean;
   title: string;
   color: string;
-  // draggable: boolean;
   props: PropInt[];
   nextPropId: number;
   position: Position;
