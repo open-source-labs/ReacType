@@ -279,7 +279,6 @@ class LeftContainer extends Component<Props> {
               variant="contained"
               fullWidth
               onClick={this.showGenerateAppModal}
-              // disabled={totalComponents === 1}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
