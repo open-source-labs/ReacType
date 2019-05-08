@@ -55,7 +55,15 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  deleteAllData: () => dispatch(actions.deleteAllData())
+  deleteAllData: () => dispatch(actions.deleteAllData()),
+  createApp: ({ path, components, genOption }) =>
+    dispatch(
+      actions.createApplication({
+        path,
+        components,
+        genOption
+      })
+    )
 });
 
 class LeftContainer extends Component<Props> {
@@ -65,8 +73,23 @@ class LeftContainer extends Component<Props> {
     genOptions: [
       "Export components",
       "Export components with application files"
-    ]
+    ],
+    genOption: 0
   };
+
+  constructor(props) {
+    super(props);
+
+    IPC.on("app_dir_selected", (event, path) => {
+      const { components } = this.props;
+      const { genOption } = this.state;
+      this.props.createApp({
+        path,
+        components,
+        genOption
+      });
+    });
+  }
 
   handleChange = event => {
     this.setState({

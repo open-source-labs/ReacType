@@ -1,15 +1,6 @@
-// import util from 'util';
-
-// const execFile = util.promisify(require('child_process').execFile);
-
-// Application generation options
-// cosnt genOptions = [
-//   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
-// ];
-
 import fs from "fs";
 import { format } from "prettier";
-import componentRender from "./componentRender.util.ts";
+import componentRender from "./componentRender.util";
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -91,7 +82,7 @@ export const createPackage = (path, appName) => {
 },
 "keywords": [],
 "author": "",
-"license": "ISC",
+"license": "MIT",
 "depenencies": {
   "react": "^16.4.1",
   "react-dom": "^16.4.1",

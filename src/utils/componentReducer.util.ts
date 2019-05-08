@@ -76,7 +76,7 @@ export const addComponent = (
     .map(comp => comp.id)
     .filter(id => id !== newComponent.id);
 
-  let ancestors: Array<number> = [];
+  const ancestors: Array<number> = [];
 
   // reset focused child
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
@@ -143,16 +143,16 @@ export const addChild = (
       );
       return;
     }
-    //console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
+    // console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
   const newPosition =
     childType === "COMP"
       ? {
-          x: view.position.x + view.nextChildId * 16, // new children are offset by 5px, x and y
-          y: view.position.y + view.nextChildId * 16,
-          width: parentComponent.position.width * 0.9, // new children have an initial position of their CLASS (maybe don't need 90%)
-          height: parentComponent.position.height * 0.9
+          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
+          y: view.position.y + ((view.nextChildId * 16) % 150),
+          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
+          height: parentComponent.position.height - 1
         }
       : {
           x: view.position.x + view.nextChildId * 16,
@@ -214,7 +214,7 @@ export const deleteChild = (
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
-  Also when calling from DELETE components , we do not touch focusCOmponent.
+  Also when calling from DELETE components , we do not touch focusComponent.
  ************************************************************************************ */
   if (!parentId) {
     window.alert("Cannot delete root child of a component");
@@ -259,7 +259,11 @@ export const deleteChild = (
     focusComponent: calledFromDeleteComponent
       ? state.focusComponent
       : parentComponentCopy, // when called from delete component we dont need want to touch the focus
-    focusChild: cloneDeep(state.initialApplicationFocusChild) // reset
+    focusChild: calledFromDeleteComponent
+      ? cloneDeep(state.initialApplicationFocusChild)
+      : parentComponentCopy.childrenArray[
+          parentComponentCopy.childrenArray.length - 1
+        ]
   };
 };
 
@@ -339,7 +343,7 @@ export const handleTransform = (
   const component = {
     ...state.components.find(comp => comp.id === componentId),
     childrenArray: children,
-    focusCHild: newFocusChild
+    focusChild: newFocusChild
   };
 
   const components: ComponentsInt = [
@@ -408,7 +412,7 @@ export const changeFocusComponent = (
   }
 
   const result = getSelectable(newFocusComp, state.components);
-  //const {selectableChildren, ancestors }: {selectableChildren: } = result;
+  // const {selectableChildren, ancestors }: {selectableChildren: } = result;
 
   return {
     ...state,
@@ -641,7 +645,7 @@ export const updateChildrenSort = (
   //  const newSort = newChildrenArray.findIndex( (newChild:ChildInt) => newChild.childId === child.childId) + 1 ;
   //   console.log(`new sort: ${newSort}`)
   // })
-  //console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
+  // console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
   return {
     ...state
   };

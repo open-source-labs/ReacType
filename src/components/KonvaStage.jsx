@@ -158,19 +158,7 @@ class KonvaStage extends Component {
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
       >
-        {/* <Button
-          onClick={deleteChild}
-          style={{
-            width: '150px',
-            position: 'relative',
-            float: 'right',
-            background: '#dbdbdb',
-            zIndex: 2,
-          }}
-        >
-          delete child
-        </Button> */}
-        <Fab
+        {/* <Fab
           variant="extended"
           size="small"
           color="inherit"
@@ -190,7 +178,7 @@ class KonvaStage extends Component {
         >
           <DeleteIcon />
           Delete Child
-        </Fab>
+        </Fab> */}
         <Stage
           className={'canvasStage'}
           ref={(node) => {

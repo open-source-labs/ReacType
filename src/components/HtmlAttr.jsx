@@ -97,7 +97,7 @@ class HtmlAttr extends Component {
                 input: classes.input
               }
             }}
-            style={{ background: "#424242", height: "80%" }}
+            style={{ background: "#424242", height: "70%" }}
             label={attr}
             variant="outlined"
             id={attr}
@@ -108,7 +108,7 @@ class HtmlAttr extends Component {
         <Grid item xs={1}>
           <Fab
             variant="extended"
-            size="large"
+            size="small"
             color="default"
             aria-label="Save"
             style={{
@@ -123,7 +123,7 @@ class HtmlAttr extends Component {
           </Fab>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.root} style={{ height: "80%" }}>
+          <Paper className={classes.root} style={{ height: "70%" }}>
             <p style={{ color: "black" }}>
               {focusChild.HTMLInfo[attr]
                 ? focusChild.HTMLInfo[attr]
