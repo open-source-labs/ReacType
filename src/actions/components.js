@@ -27,6 +27,7 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   UPDATE_HTML_ATTR,
+  UPDATE_CHILDREN_SORT,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
@@ -250,5 +251,12 @@ export const updateHtmlAttr = ({ attr, value }) => (dispatch) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
     payload: { attr, value },
+  });
+};
+
+export const updateChildrenSort = ({ newChildrenArray }) => (dispatch) => {
+  dispatch({
+    type: UPDATE_CHILDREN_SORT,
+    payload: { newChildrenArray },
   });
 };

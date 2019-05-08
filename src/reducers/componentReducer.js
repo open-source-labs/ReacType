@@ -20,7 +20,8 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
-  UPDATE_HTML_ATTR
+  UPDATE_HTML_ATTR,
+  UPDATE_CHILDREN_SORT,
 } from "../actionTypes";
 
 import {
@@ -40,7 +41,8 @@ import {
   changeImagePath,
   addProp,
   deleteProp,
-  updateHtmlAttr
+  updateHtmlAttr,
+  updateChildrenSort,
 } from "../utils/componentReducer.util.ts";
 import cloneDeep from "../utils/cloneDeep.ts";
 
@@ -147,6 +149,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return deleteProp(state, action.payload);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
+    case UPDATE_CHILDREN_SORT:
+      return updateChildrenSort(state, action.payload);
     default:
       return state;
   }
