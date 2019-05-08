@@ -16,6 +16,8 @@ class CodePreview extends Component<Props> {
    const components : ComponentsInt  = this.props.components;
  
    return (
+     <Fragment>
+       <SortChildren/>
       <div
         style={{
           width: '500px',
@@ -37,6 +39,7 @@ class CodePreview extends Component<Props> {
           })}
         </pre>
       </div>
+      </Fragment>
     );
   }
 }
