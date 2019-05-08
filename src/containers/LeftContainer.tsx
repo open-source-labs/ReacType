@@ -15,28 +15,32 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import createModal from '../utils/createModal.util';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
-const IPC = require('electron').ipcRenderer;
+type Props = {
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  selectableChildren: Array<number>;
+  classes: any;
 
-const mapDispatchToProps = dispatch => ({
-  addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
-    dispatch(
-      actions.updateComponent({
-        index,
-        newParentId,
-        color,
-        stateful,
-      }),
-    ),
-  addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  deleteAllData: () => dispatch(actions.deleteAllData()),
+  addComponent: any;
+  addChild: any;
+  changeFocusComponent: any;
+  changeFocusChild: any;
+  deleteComponent: any;
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
+  addChild: ({ title, childType, HTMLInfo }: { title: string; childType: string; HTMLInfo: object }) =>
+    dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
+  deleteComponent: ({ componentId, stateComponents }: { componentId: number; stateComponents: ComponentsInt }) =>
+    dispatch(actions.deleteComponent({ componentId, stateComponents })),
 });
 
-class LeftContainer extends Component {
+class LeftContainer extends Component<Props> {
   state = {
     componentName: '',
     modal: null,
@@ -56,65 +60,7 @@ class LeftContainer extends Component {
     });
   };
 
-  closeModal = () => this.setState({ modal: null });
-
-  clearWorkspace = () => {
-    this.setState({
-      modal: createModal({
-        message: 'Are you sure want to delete all data?',
-        closeModal: this.closeModal,
-        secBtnLabel: 'Clear Workspace',
-        secBtnAction: () => {
-          this.props.deleteAllData();
-          this.closeModal();
-        },
-      }),
-    });
-  };
-
-  chooseGenOptions = (genOption) => {
-    // set option
-    this.setState({ genOption });
-    // closeModal
-    this.closeModal();
-    // Choose app dir
-    this.chooseAppDir();
-  };
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
-  showGenerateAppModal = () => {
-    console.log('clicked on export button');
-    const { closeModal, chooseGenOptions } = this;
-    const { genOptions } = this.state;
-    const children = (
-      <List className="export-preference">
-        {genOptions.map((option, i) => (
-          <ListItem
-            key={i}
-            button
-            onClick={() => chooseGenOptions(i)}
-            style={{
-              border: '1px solid #3f51b5',
-              marginBottom: '2%',
-              marginTop: '5%',
-            }}
-          >
-            <ListItemText primary={option} style={{ textAlign: 'center' }} />
-          </ListItem>
-        ))}
-      </List>
-    );
-    this.setState({
-      modal: createModal({
-        closeModal,
-        children,
-        message: 'Choose export preference:',
-      }),
-    });
-  };
-
-  render() {
+  render(): JSX.Element {
     const {
       components,
       updateComponent,
@@ -132,7 +78,7 @@ class LeftContainer extends Component {
     const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components
-      .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
           key={component.id}
@@ -191,11 +137,7 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <HTMLComponentPanel
-          className={classes.htmlCompWrapper}
-          focusComponent={focusComponent}
-          addChild={addChild}
-        />
+        <HTMLComponentPanel className={classes.htmlCompWrapper} focusComponent={focusComponent} addChild={addChild} />
 
         <div
           style={{
@@ -241,10 +183,7 @@ class LeftContainer extends Component {
               onClick={this.showGenerateAppModal}
               style={{ borderRadius: 0 }}
             >
-              <GetAppIcon
-                className={classes.light}
-                style={{ paddingLeft: '0px', paddingRight: '0px' }}
-              />
+              <GetAppIcon className={classes.light} style={{ paddingLeft: '0px', paddingRight: '0px' }} />
               Export Project
             </Button>
           </div>
@@ -258,10 +197,6 @@ class LeftContainer extends Component {
 
 function styles() {
   return {
-    // htmlCompWrapper: {
-    //   bottom: 0,
-    //   height: "200px"
-    // },
     cssLabel: {
       color: 'white',
 

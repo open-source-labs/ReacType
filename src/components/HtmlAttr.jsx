@@ -131,22 +131,6 @@ class HtmlAttr extends Component {
             onChange={this.handleChange}
             value={this.state[attr]}
           />
-
-          {/* <TextField
-            id={attr}
-            label={attr}
-            margin="normal"
-            autoFocus
-            // style={(marginLeft = "20px")}
-            onChange={this.handleChange}
-            value={this.state[attr]}
-            InputProps={{
-              className: classes.input
-            }}
-            InputLabelProps={{
-              className: classes.input
-            }}
-          /> */}
         </Grid>
         <Grid item xs={4}>
           <Fab
@@ -160,24 +144,11 @@ class HtmlAttr extends Component {
               marginTop: '5px',
               marginBottom: '10px',
             }}
-            // style={{ maxWidth: "20px" }}
-            // onClick={() => {
-            //   updateHtmlAttr({ attr, value: this.state[attr] });
-            // }}
             onClick={() => this.handleSave(attr)}
           >
             <SaveIcon className={classes.extendedIcon} />
             Save
           </Fab>
-
-          {/* <IconButton
-            aria-label="Update"
-            onClick={() => {
-              updateHtmlAttr({ attr, value: this.state[attr] });
-            }}
-          >
-            <SaveIcon style={{ color: "white" }} />
-          </IconButton> */}
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.root} elevation={1}>
@@ -188,17 +159,6 @@ class HtmlAttr extends Component {
             <p style={{ color: 'black' }}>
               {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : 'no attribute assigned'}
             </p>
-
-            {/* <TextField
-              disabled
-              id="filled-disabled"
-              label={attr}
-              value={focusChild.HTMLInfo[attr]}
-              style={{ maxWidth: "20px" }}
-              className={classes.textField}
-              margin="normal"
-              // variant="filled"
-            /> */}
           </Paper>
         </Grid>
       </Grid>

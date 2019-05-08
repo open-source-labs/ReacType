@@ -137,7 +137,7 @@ export const addChild = (
       );
       return;
     }
-    console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
+    //console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
   const newPosition =
@@ -157,6 +157,7 @@ export const addChild = (
 
   const newChild: ChildInt = {
     childId: view.nextChildId,
+    childSort: view.nextChildId,
     childType,
     childComponentId: childType === "COMP" ? parentComponent.id : null, // only relevant fot children of type COMPONENT
     componentName: strippedTitle,
@@ -608,5 +609,21 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: {att
     components: newComponentsArray,
     focusComponent: modifiedComponent,
     focusChild: modifiedChild
+  };
+};
+
+
+export const updateChildrenSort = (state: ApplicationStateInt, { newChildrenArray }: {newChildrenArray: ChildrenInt }) => {
+  console.log('hello from updateChildrenSort. newChildrenArray: ',newChildrenArray )
+// the new Array has the same data exactly. the array index is the new sort...
+  // const modifiedChldrenArray = cloneDeep(state.focusComponent.childrenArray)
+  // modifiedChldrenArray.forEach( (child: ChildInt, idx:number, arr:any ) => {
+  //   console.log(`chidl id:${child.childId} currSort:${child.childSort}`)
+  //  const newSort = newChildrenArray.findIndex( (newChild:ChildInt) => newChild.childId === child.childId) + 1 ;
+  //   console.log(`new sort: ${newSort}`)
+  // })
+  //console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
+  return {
+    ...state,
   };
 };

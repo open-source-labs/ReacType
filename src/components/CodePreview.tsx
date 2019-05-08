@@ -12,11 +12,12 @@ type Props = {
 
 class CodePreview extends Component<Props> {
   render(): JSX.Element {
-   //const {focusComponent, components } : {focusComponent:ComponentInt, components:ComponentsInt }  = this.props;
    const focusComponent : ComponentInt  = this.props.focusComponent;
    const components : ComponentsInt  = this.props.components;
  
    return (
+     <Fragment>
+       <SortChildren/>
       <div
         style={{
           width: '500px',
@@ -38,6 +39,7 @@ class CodePreview extends Component<Props> {
           })}
         </pre>
       </div>
+      </Fragment>
     );
   }
 }
