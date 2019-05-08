@@ -613,17 +613,31 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: {att
 };
 
 
-export const updateChildrenSort = (state: ApplicationStateInt, { newChildrenArray }: {newChildrenArray: ChildrenInt }) => {
-  console.log('hello from updateChildrenSort. newChildrenArray: ',newChildrenArray )
-// the new Array has the same data exactly. the array index is the new sort...
-  // const modifiedChldrenArray = cloneDeep(state.focusComponent.childrenArray)
-  // modifiedChldrenArray.forEach( (child: ChildInt, idx:number, arr:any ) => {
-  //   console.log(`chidl id:${child.childId} currSort:${child.childSort}`)
-  //  const newSort = newChildrenArray.findIndex( (newChild:ChildInt) => newChild.childId === child.childId) + 1 ;
-  //   console.log(`new sort: ${newSort}`)
-  // })
-  //console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
+export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }: {newSortValues: any }) => {
+  console.log('hello from updateChildrenSort. newSortValues: ',newSortValues )
+
+  //const modifiedChildrenArray:ChildrenInt = JSON.parse(JSON.stringify(state.focusComponent.childrenArray)) ; 
+  const modifiedChildrenArray:ChildrenInt = cloneDeep(state.focusComponent.childrenArray)
+
+for (let i = 0 ; i < modifiedChildrenArray.length; i+=1){
+  const currChild = modifiedChildrenArray[i] 
+  const currChildId = currChild.childId 
+  const newValueObj =  newSortValues.find( (n:any) => n.childId === currChildId)
+  const newSortValue =  newValueObj.childSort ; 
+   console.log(` currChildId  ${ currChildId } currSortValue: ${  currChild.childSort} newSortValue:${newSortValue}`) 
+  currChild.childSort = newSortValue ; 
+}
+
+
+const modifiedComponent = state.components.find( comp => comp.id === state.focusComponent.id) 
+modifiedComponent.childrenArray = modifiedChildrenArray ; 
+
+const modifiedComponentsArray = state.components.filter( comp => comp.id !== state.focusComponent.id)
+modifiedComponentsArray.push(modifiedComponent) ; 
+
   return {
     ...state,
+    components:modifiedComponentsArray,
+    focusComponent: modifiedComponent, 
   };
 };
