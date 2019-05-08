@@ -7,8 +7,13 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Tooltip from '@material-ui/core/Tooltip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
@@ -38,6 +43,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 class LeftContainer extends Component<Props> {
   state = {
     componentName: '',
+    modal: null,
+    genOptions: ['Export components', 'Export components with application files'],
   };
 
   handleChange = event => {
@@ -65,8 +72,10 @@ class LeftContainer extends Component<Props> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
+      deleteAllData,
+      totalComponents,
     } = this.props;
-    const { componentName } = this.state;
+    const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
@@ -129,6 +138,58 @@ class LeftContainer extends Component<Props> {
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
         <HTMLComponentPanel className={classes.htmlCompWrapper} focusComponent={focusComponent} addChild={addChild} />
+
+        <div
+          style={{
+            width: '100%',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <Button
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
+              fullwidth={true}
+              onClick={this.clearWorkspace}
+              disabled={totalComponents === 1}
+              className={classes.clearButton}
+              style={{ borderRadius: 0 }}
+            >
+              Clear Workspace
+            </Button>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              fullwidth={true}
+              className={classes.clearButton}
+              disabled={totalComponents < 1}
+              onClick={this.showGenerateAppModal}
+              style={{ borderRadius: 0 }}
+            >
+              <GetAppIcon className={classes.light} style={{ paddingLeft: '0px', paddingRight: '0px' }} />
+              Export Project
+            </Button>
+          </div>
+        </div>
+
+        {modal}
       </div>
     );
   }

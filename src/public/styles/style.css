@@ -80,22 +80,22 @@ LEFT COLUMN
 .left {
   padding: 20px;
   width: 20%;
-  /* min-width: 50px; */
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
 .htmlPanel {
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
   margin-right: 50px;
   margin-left: 50px;
-  /* margin-bottom: 50px; */
+  margin-bottom: 50px;
   left: 0px;
   right: 0px;
   width: 100%;
-  padding: 1%;
+  padding: 1%; */
 }
 
 .component-input {
@@ -136,7 +136,7 @@ h1 {
 }
 
 .main-header {
-  display: flex;
+  /* display: flex; */
   /* border-left: 1px solid grey;
   border-right: 1px solid grey;
   border-bottom: 1px solid grey; */
@@ -229,7 +229,7 @@ RIGHT COLUMN
 .htmlattr {
   /* background-size: auto; */
   height: 80%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   margin-left: 50px;
 }
 
