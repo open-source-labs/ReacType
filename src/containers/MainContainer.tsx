@@ -20,7 +20,6 @@ import {
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
-import SortChildren from '../components/SortChildren.jsx';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -51,7 +50,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  // totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
@@ -96,49 +94,6 @@ class MainContainer extends Component {
     });
   }
 
-  // setImage = () => {
-  //   const image = new window.Image();
-  //   image.src = this.props.imagePath;
-  //   image.onload = () => {
-  //     // setState will redraw layer
-  //     // because "image" property is changed
-  //     this.setState({
-  //       image,
-  //     });
-  //   };
-  // };
-
-  // componentDidMount() {
-  //   this.setImage();
-  // }
-
-  // updateImage = () => {
-  //   IPC.send('update-file');
-  // };
-
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
-  // showImageDeleteModal = () => {
-  //   const { closeModal, deleteImage } = this;
-  //   this.setState({
-  //     modal: createModal({
-  //       closeModal,
-  //       message: 'Are you sure you want to delete image?',
-  //       secBtnLabel: 'Delete',
-  //       secBtnAction: () => {
-  //         deleteImage();
-  //         closeModal();
-  //       },
-  //     }),
-  //   });
-  // };
 
   chooseGenOptions = (genOption) => {
     // set option
@@ -248,26 +203,6 @@ class MainContainer extends Component {
               classes={classes}
             />
           </div>
-
-          {/* <div className="button-wrapper" style={{ background: 'rgba(76, 175, 80, 0)' }}>
-            <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
-              delete child
-            </Button>
-
-            <Button
-              style={{ width: '180px', display: 'inline-block' }}
-              onClick={() => deleteComponent({
-                componentId: focusComponent.id,
-                stateComponents,
-              })
-              }
-            >
-              delete component
-            </Button>
-            <span>
-              {directParents ? `Used in: ${directParents}` : 'Not used in any other component'}
-            </span>
-          </div> */}
           <BottomPanel focusComponent={focusComponent} />
         </div>
       </MuiThemeProvider>
