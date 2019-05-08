@@ -229,7 +229,7 @@ RIGHT COLUMN
 .htmlattr {
   /* background-size: auto; */
   height: 80%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   margin-left: 50px;
 }
 

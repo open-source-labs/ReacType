@@ -111,7 +111,7 @@ const LeftColExpansionPanel = (props) => {
                 })
                 }
               >
-                <DeleteIcon className={classes.extendedIcon} />
+                <DeleteIcon />
                 Delete
               </Fab>
               {/* <IconButton
