@@ -201,7 +201,8 @@ class LeftContainer extends Component<Props> {
             <Button
               color="primary"
               variant="contained"
-              fullwidth={true}
+              fullWidth
+              onClick={this.showGenerateAppModal}
               className={classes.clearButton}
               disabled={totalComponents < 1}
               onClick={this.showGenerateAppModal}
