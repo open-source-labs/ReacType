@@ -176,10 +176,10 @@ class Props extends Component {
       <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', width: '60%' }}>Click a component to view its props.</div>
+          <div style={{ marginTop: '20px', width: '90%' }}>Click a component to view its props.</div>
         ) : (
           <Fragment>
-            <div className="props-container" style={{ marginTop: '20px', width: '90%' }}>
+            <div className="props-container" style={{ marginTop: '20px', width: '90%', height: '80%' }}>
               <Grid container spacing={8}>
                 <Grid item xs={4}>
                   <form className="props-input" onSubmit={this.handleAddProp}>

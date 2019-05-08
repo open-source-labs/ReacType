@@ -210,7 +210,7 @@ RIGHT COLUMN
 .htmlattr {
   /* background-size: auto; */
   height: 80%;
-  overflow-y: hidden;
+  overflow-y: scroll;
   margin-left: 50px;
 }
 
