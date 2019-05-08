@@ -4,9 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
-import UpdateIcon from '@material-ui/icons/Update';
+import SaveIcon from '@material-ui/icons/Save';
 import { updateHtmlAttr } from '../actions/components';
-import { HTMLelements, getSize } from '../utils/htmlElements.util';
+import { HTMLelements, getSize } from '../utils/htmlElements.util.ts';
+import Paper from '@material-ui/core/Paper';
+import Fab from '@material-ui/core/Fab';
 
 const styles = theme => ({
   root: {
@@ -70,68 +72,94 @@ class HtmlAttr extends Component {
     return acc;
   }, {});
 
-  handleChange = (event) => {
+  handleSave = attr => {
+    console.log(attr, this.state[attr]);
+    this.props.updateHtmlAttr({ attr, value: this.state[attr] });
+    this.setState({
+      [attr]: '',
+    });
+  };
+
+  handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value.trim(),
     });
   };
 
-  // setInitialState = () => {
-  //   HTMLelements[focusChildType].attributes.forEach(attr =>
-  //     this.setState({ attr: "" })
-  //   );
-  // };
+  componentDidUpdate() {
+    console.log('focuschild', this.props.focusChild);
+  }
 
   render() {
-    const {
-      focusComponent, classes, deleteProp, addProp, focusChild, updateHtmlAttr,
-    } = this.props;
+    const { focusComponent, classes, deleteProp, addProp, focusChild, updateHtmlAttr } = this.props;
 
     const focusChildType = focusChild.htmlElement;
 
-    console.log(focusChild);
+    // console.log(focusChild);
 
     const HtmlForm = HTMLelements[focusChildType].attributes.map((attr, i) => (
-      <Grid container spacing={8} alignItems="baseline" align="stretch" key={i}>
-        <Grid item xs={6}>
+      <Grid
+        container
+        spacing={0}
+        alignItems="stretch"
+        // align="stretch"
+        key={i}
+        direction="row"
+        justify="flex-start"
+        style={{ marginTop: '10px', marginRight: '20px' }}
+      >
+        <Grid item xs={4}>
           <TextField
-            id={attr}
+            className={classes.margin}
+            InputLabelProps={{
+              classes: {
+                root: classes.cssLabel,
+                focused: classes.cssFocused,
+              },
+            }}
+            InputProps={{
+              classes: {
+                root: classes.cssOutlinedInput,
+                focused: classes.cssFocused,
+                notchedOutline: classes.notchedOutline,
+              },
+            }}
+            style={{ background: '#424242' }}
             label={attr}
-            margin="normal"
-            autoFocus
-            // style={(marginLeft = "20px")}
+            variant="outlined"
+            id={attr}
             onChange={this.handleChange}
             value={this.state[attr]}
-            InputProps={{
-              className: classes.input,
-            }}
-            InputLabelProps={{
-              className: classes.input,
-            }}
           />
-          <IconButton
-            aria-label="Update"
-            onClick={() => {
-              updateHtmlAttr({ attr, value: this.state[attr] });
-            }}
-            // onClick={() => {
-            //   addChild({ title, childType: "COMP" });
-            // }}
-          >
-            <UpdateIcon />
-          </IconButton>
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            disabled
-            id="filled-disabled"
-            label={attr}
-            defaultValue={focusChild.HTMLInfo[attr]}
-            style={{ background: 'bcbcbc' }}
-            className={classes.textField}
-            margin="normal"
-            variant="filled"
-          />
+        <Grid item xs={4}>
+          <Fab
+            variant="extended"
+            size="small"
+            color="default"
+            aria-label="Delete"
+            className={classes.margin}
+            style={{
+              marginLeft: '10px',
+              marginTop: '5px',
+              marginBottom: '10px',
+            }}
+            onClick={() => this.handleSave(attr)}
+          >
+            <SaveIcon className={classes.extendedIcon} />
+            Save
+          </Fab>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper className={classes.root} elevation={1}>
+            <p style={{ color: 'gray' }}>
+              {attr}
+              {':  '}
+            </p>
+            <p style={{ color: 'black' }}>
+              {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : 'no attribute assigned'}
+            </p>
+          </Paper>
         </Grid>
       </Grid>
     ));

@@ -1,21 +1,27 @@
 {
-  "name": "teamreactype",
+  "name": "reactype",
   "version": "1.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "main": "main.js",
+  "contributors": [
+    "Christian Padilla",
+    "Tolga Mizrakci",
+    "Shlomo Porges",
+    "Adam Singer"
+  ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/team-reactype/ReacType"
   },
   "build": {
-    "appId": "",
+    "appId": "com.team-reactype.reactype",
     "copyright": "Copyright © 2018",
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "maintainer": "blessingebowe@gmail.com"
+      "maintainer": "spincycle01@yahoo.com"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
@@ -63,7 +69,6 @@
     "reactype": "./index.js"
   },
   "preferGlobal": true,
-  "contributors": [],
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {
@@ -86,9 +91,8 @@
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
     "d3": "^5.9.2",
-    "electron": "^2.0.7",
-    "electron-reload": "^1.4.0",
     "enzyme": "^3.4.1",
+    "electron-reload": "^1.4.0",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",

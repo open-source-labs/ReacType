@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.jsx';
 import cloneDeep from '../utils/cloneDeep.ts';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Fab from '@material-ui/core/Fab';
 
 class KonvaStage extends Component {
   constructor(props) {
@@ -65,7 +67,7 @@ class KonvaStage extends Component {
   };
 
   handleKeyDown = e => {
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (e.keyCode === 46 || e.keyCode === 8) {
       this.props.deleteChild({});
     }
   };
@@ -86,7 +88,7 @@ class KonvaStage extends Component {
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    console.log('user clicked on child rectangle with childId: ', rectChildId);
+    // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
@@ -132,7 +134,7 @@ class KonvaStage extends Component {
   };
 
   render() {
-    const { components, handleTransform, focusComponent, focusChild, deleteChild } = this.props;
+    const { components, handleTransform, focusComponent, focusChild, deleteChild, classes } = this.props;
 
     return (
       <div
@@ -145,7 +147,7 @@ class KonvaStage extends Component {
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
       >
-        <Button
+        {/* <Button
           onClick={deleteChild}
           style={{
             width: '150px',
@@ -156,7 +158,30 @@ class KonvaStage extends Component {
           }}
         >
           delete child
-        </Button>
+        </Button> */}
+        <Fab
+          variant="extended"
+          size="small"
+          color="inherit"
+          aria-label="Delete"
+          // className={classes.margin}
+          style={{
+            width: '150px',
+            position: 'relative',
+            float: 'right',
+            marginTop: '10px',
+            marginLeft: '10px',
+            // background: "#dbdbdb",
+            zIndex: 2,
+          }}
+          // style={{ maxWidth: "20px" }}
+          onClick={deleteChild}
+        >
+          <DeleteIcon />
+          Delete Child
+          {/* {`Delete 
+          ${focusChild.}`} */}
+        </Fab>
         <Stage
           className={'canvasStage'}
           ref={node => {
@@ -192,9 +217,11 @@ class KonvaStage extends Component {
                   title={child.componentName + child.childId}
                   handleTransform={handleTransform}
                   draggable={true}
+                  blockSnapSize={this.state.blockSnapSize}
+                  imageSource={child.htmlElement == 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null}
                 />
               ))
-              .sort((rectA, rectB) => rectA.props.width * rectA.props.height < rectB.props.width * rectB.props.height) // shouldnt this be subtraction instead of < ? see MDN
+              .sort((rectA, rectB) => rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height)
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys

@@ -1,6 +1,6 @@
 // import setSelectableParents from "./setSelectableParents.util";
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
+import getSelectable from './getSelectable.util.ts';
+import getColor from './colors.util.ts';
 import { HTMLelements, getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep.ts';
 
@@ -274,9 +274,16 @@ export const handleTransform = (state, { componentId, childId, x, y, width, heig
     transformedChild,
   ];
 
+  let newFocusChild = state.focusChild; 
+  if(state.focusChild.childId ==  childId) {
+    console.log('it is me')
+    newFocusChild= transformedChild;
+  }
+
   const component = {
     ...state.components.find(comp => comp.id === componentId),
     childrenArray: children,
+    focusCHild: newFocusChild, 
   };
 
   const components = [
@@ -510,19 +517,19 @@ export const changeImagePath = (state, imagePath) => ({
 //   components: setSelectableParents(state.components)
 // });
 
-export const exportFilesSuccess = (state, { status, dir }) => ({
-  ...state,
-  successOpen: status,
-  appDir: dir,
-  loading: false,
-});
+// export const exportFilesSuccess = (state, { status, dir }) => ({
+//   ...state,
+//   successOpen: status,
+//   appDir: dir,
+//   loading: false,
+// });
 
-export const exportFilesError = (state, { status, err }) => ({
-  ...state,
-  errorOpen: status,
-  appDir: err,
-  loading: false,
-});
+// export const exportFilesError = (state, { status, err }) => ({
+//   ...state,
+//   errorOpen: status,
+//   appDir: err,
+//   loading: false,
+// });
 
 export const handleClose = (state, status) => ({
   ...state,

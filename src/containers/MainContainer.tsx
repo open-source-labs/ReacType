@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.jsx';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import BottomPanel from '../components/BottomPanel.jsx';
-import theme from '../components/theme.ts';
+import BottomPanel from '../components/BottomPanel';
+import theme from '../components/theme';
 import {
   openExpansionPanel,
   handleTransform,
@@ -15,10 +14,11 @@ import {
   changeComponentFocusChild,
   deleteChild,
   deleteComponent,
+  deleteAllData,
   createApplication,
 } from '../actions/components';
-import KonvaStage from '../components/KonvaStage.jsx';
-import MainContainerHeader from '../components/MainContainerHeader.jsx';
+import KonvaStage from '../components/KonvaStage';
+import MainContainerHeader from '../components/MainContainerHeader';
 import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
@@ -47,10 +47,10 @@ const mapDispatchToProps = dispatch => ({
         genOption,
       }),
     ),
+  deleteAllData: () => dispatch(deleteAllData()),
 });
 
 const mapStateToProps = store => ({
-  totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
@@ -95,59 +95,6 @@ class MainContainer extends Component {
     });
   }
 
-  // setImage = () => {
-  //   const image = new window.Image();
-  //   image.src = this.props.imagePath;
-  //   image.onload = () => {
-  //     // setState will redraw layer
-  //     // because "image" property is changed
-  //     this.setState({
-  //       image,
-  //     });
-  //   };
-  // };
-
-  // componentDidMount() {
-  //   this.setImage();
-  // }
-
-  // updateImage = () => {
-  //   IPC.send('update-file');
-  // };
-
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
-  // showImageDeleteModal = () => {
-  //   const { closeModal, deleteImage } = this;
-  //   this.setState({
-  //     modal: createModal({
-  //       closeModal,
-  //       message: 'Are you sure you want to delete image?',
-  //       secBtnLabel: 'Delete',
-  //       secBtnAction: () => {
-  //         deleteImage();
-  //         closeModal();
-  //       },
-  //     }),
-  //   });
-  // };
-
-  // deleteImage = () => {
-  //   this.props.changeImagePath('');
-  //   this.setState({ image: '' });
-  // };
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
   chooseGenOptions = genOption => {
     // set option
     this.setState({ genOption });
@@ -168,7 +115,11 @@ class MainContainer extends Component {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
-            style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}
+            style={{
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%',
+            }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
@@ -180,6 +131,20 @@ class MainContainer extends Component {
         closeModal,
         children,
         message: 'Choose export preference:',
+      }),
+    });
+  };
+
+  clearWorkspace = () => {
+    this.setState({
+      modal: createModal({
+        message: 'Are you sure want to delete all data?',
+        closeModal: this.closeModal,
+        secBtnLabel: 'Clear Workspace',
+        secBtnAction: () => {
+          this.props.deleteAllData();
+          this.closeModal();
+        },
       }),
     });
   };
@@ -197,6 +162,7 @@ class MainContainer extends Component {
       deleteChild,
       deleteComponent,
       stateComponents,
+      classes,
     } = this.props;
     const { main, showGenerateAppModal } = this;
     const cursor = this.state.draggable ? 'move' : 'default';
@@ -216,6 +182,7 @@ class MainContainer extends Component {
           <MainContainerHeader
             // showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
+            clearWorkspace={this.clearWorkspace}
           />
 
           <div className="main" ref={main}>
@@ -231,26 +198,8 @@ class MainContainer extends Component {
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
+              classes={classes}
             />
-          </div>
-
-          <div className="button-wrapper" style={{ background: 'rgba(76, 175, 80, 0)' }}>
-            <Button onClick={deleteChild} style={{ width: '150px', display: 'inline-block' }}>
-              delete child
-            </Button>
-
-            <Button
-              style={{ width: '180px', display: 'inline-block' }}
-              onClick={() =>
-                deleteComponent({
-                  componentId: focusComponent.id,
-                  stateComponents,
-                })
-              }
-            >
-              delete component
-            </Button>
-            <span>{directParents ? `Used in: ${directParents}` : 'Not used in any other component'}</span>
           </div>
           <BottomPanel focusComponent={focusComponent} />
         </div>

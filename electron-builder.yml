@@ -2,7 +2,7 @@ directories:
   output: dist
   buildResources: build
 appId: reactype
-copyright: Copyright © 2019
+copyright: Copyright © 2018
 linux:
   target:
     - AppImage
@@ -20,7 +20,7 @@ win:
 files:
   - main.js
   - build
-productName: reactype
+productName: ReacType
 dmg:
   contents:
     - x: 110

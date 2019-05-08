@@ -4,6 +4,10 @@ import TransformerComponent from './TransformerComponent.jsx';
 import GrandchildRectangle from './GrandchildRectangle.jsx';
 
 class Rectangle extends Component {
+  state = {
+    rectImage: null,
+  };
+
   getComponentColor(componentId) {
     if (componentId === '888') {
       return '#000000';
@@ -49,6 +53,16 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
+  setImage = imageSource => {
+    if (!imageSource) return;
+    const image = new window.Image();
+
+    image.src = imageSource;
+    // if there was an error grtting img; heigth should b Zero
+    if (!image.height) return null;
+    return image;
+  };
+
   render() {
     const {
       x,
@@ -67,6 +81,7 @@ class Rectangle extends Component {
       draggable,
       blockSnapSize,
       childType,
+      imageSource,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -107,11 +122,14 @@ class Rectangle extends Component {
           // fill={color}
           // opacity={0.8}
           onTransformEnd={event => this.handleResize(componentId, childId, event.target, blockSnapSize)}
-          strokeWidth={4}
+          strokeWidth={childType === 'COMP' ? 4 : 1}
           strokeScaleEnabled={false}
           draggable={false}
           fill={childId === -1 ? 'white' : null}
           shadowBlur={childId === -1 ? 6 : null}
+          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
+
+          // fillPatternImage={null}
           // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
           // dash={[10, 3]} // 10px dashes with 3px gaps
         />
@@ -133,7 +151,6 @@ class Rectangle extends Component {
           components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== -1)
-            // .sort((a, b) => parseInt(a.childId) - parseInt(b.childId)) // using i within map below, sorting by childId might be necessary
             .map((grandchild, i) => (
               <GrandchildRectangle
                 key={i}
@@ -141,6 +158,9 @@ class Rectangle extends Component {
                 componentId={componentId}
                 directParentName={childComponentName}
                 childType={grandchild.childType}
+                imageSource={
+                  grandchild.htmlElement == 'Image' && grandchild.HTMLInfo.Src ? grandchild.HTMLInfo.Src : null
+                }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
