@@ -17,6 +17,8 @@ import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
 import createModal from '../utils/createModal.util';
 
+const IPC = require('electron').ipcRenderer;
+
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
     dispatch(
@@ -79,6 +81,8 @@ class LeftContainer extends Component {
     this.chooseAppDir();
   };
 
+  chooseAppDir = () => IPC.send('choose_app_dir');
+
   showGenerateAppModal = () => {
     console.log('clicked on export button');
     const { closeModal, chooseGenOptions } = this;
@@ -123,7 +127,6 @@ class LeftContainer extends Component {
       changeFocusChild,
       selectableChildren,
       deleteAllData,
-      showGenerateAppModal,
       totalComponents,
     } = this.props;
     const { componentName, modal } = this.state;
@@ -193,34 +196,60 @@ class LeftContainer extends Component {
           focusComponent={focusComponent}
           addChild={addChild}
         />
-        <Button
-          color="secondary"
-          aria-label="Delete All"
-          variant="contained"
-          onClick={this.clearWorkspace}
-          disabled={totalComponents === 1}
-          className={classes.clearButton}
+
+        <div
+          style={{
+            width: '100%',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+          }}
         >
-          Clear Workspace
-        </Button>
-        {/* <Tooltip title={'export'}>
-          <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <Button
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
+              fullwidth={true}
+              onClick={this.clearWorkspace}
+              disabled={totalComponents === 1}
+              className={classes.clearButton}
+              style={{ borderRadius: 0 }}
+            >
+              Clear Workspace
+            </Button>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <Button
               color="primary"
-              variant="text"
-              // variant="outlined"
+              variant="contained"
+              fullwidth={true}
               className={classes.clearButton}
               disabled={totalComponents < 1}
               onClick={this.showGenerateAppModal}
+              style={{ borderRadius: 0 }}
             >
               <GetAppIcon
                 className={classes.light}
-                style={{ paddingLeft: '5px', paddingRight: '5px' }}
+                style={{ paddingLeft: '0px', paddingRight: '0px' }}
               />
               Export Project
             </Button>
           </div>
-        </Tooltip> */}
+        </div>
+
         {modal}
       </div>
     );
