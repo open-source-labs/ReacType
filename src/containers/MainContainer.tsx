@@ -14,7 +14,6 @@ import {
   changeComponentFocusChild,
   deleteChild,
   deleteComponent,
-  deleteAllData,
   createApplication,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
@@ -47,7 +46,6 @@ const mapDispatchToProps = dispatch => ({
         genOption,
       }),
     ),
-  deleteAllData: () => dispatch(deleteAllData()),
 });
 
 const mapStateToProps = store => ({
@@ -139,20 +137,6 @@ class MainContainer extends Component {
     });
   };
 
-  clearWorkspace = () => {
-    this.setState({
-      modal: createModal({
-        message: 'Are you sure want to delete all data?',
-        closeModal: this.closeModal,
-        secBtnLabel: 'Clear Workspace',
-        secBtnAction: () => {
-          this.props.deleteAllData();
-          this.closeModal();
-        },
-      }),
-    });
-  };
-
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
     const {
@@ -183,11 +167,10 @@ class MainContainer extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
           {modal}
-          <MainContainerHeader
+          {/* <MainContainerHeader
             // showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
-            clearWorkspace={this.clearWorkspace}
-          />
+          /> */}
 
           <div className="main" ref={main}>
             <KonvaStage
