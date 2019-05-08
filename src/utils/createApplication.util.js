@@ -91,7 +91,7 @@ export const createPackage = (path, appName) => {
 },
 "keywords": [],
 "author": "",
-"license": "ISC",
+"license": "MIT",
 "depenencies": {
   "react": "^16.4.1",
   "react-dom": "^16.4.1",
