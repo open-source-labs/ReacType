@@ -80,22 +80,10 @@ LEFT COLUMN
 .left {
   padding: 10px;
   width: 20%;
-  min-width: 350px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-.htmlPanel {
-  /* position: absolute;
-  bottom: 0;
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-bottom: 50px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  padding: 1%; */
 }
 
 .component-input {
