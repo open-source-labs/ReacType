@@ -78,7 +78,7 @@ const LeftColExpansionPanel = props => {
             <div />
           ) : (
             <Fragment>
-              <span>
+              {/* <span>
                 {directParents ? (
                   <p
                     style={{
@@ -104,7 +104,7 @@ const LeftColExpansionPanel = props => {
                     Not used
                   </p>
                 )}
-              </span>
+              </span> */}
               <Button
                 variant="text"
                 size="small"
@@ -125,7 +125,7 @@ const LeftColExpansionPanel = props => {
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
-                Delete
+                Delete Component
               </Button>
               {/* <IconButton
                 style={{ display: "inline-block" }}
