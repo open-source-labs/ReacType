@@ -35,13 +35,13 @@ class HTMLComponentPanel extends Component {
   render() {
     const { addChild, classes } = this.props;
     return (
-      <div className={'htmlPanel'} alignItems="flex-start" align="center">
+      <div className={'htmlPanel'} align="center">
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
           label="Add HTML elements"
         />
-        <Grid container spacing={4} alignItems="baseline" align="center">
+        <Grid container spacing={8} align="center">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton

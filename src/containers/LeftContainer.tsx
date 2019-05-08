@@ -14,31 +14,48 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 import createModal from '../utils/createModal.util';
 
 const IPC = require('electron').ipcRenderer;
 
-const mapDispatchToProps = dispatch => ({
-  addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
-  updateComponent: ({
-    id, index, newParentId = null, color = null, stateful = null,
-  }) => dispatch(
-    actions.updateComponent({
-      id,
-      index,
-      newParentId,
-      color,
-      stateful,
-    }),
-  ),
-  addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+type Props = {
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  selectableChildren: Array<number>;
+  classes: any;
+
+  addComponent: any;
+  addChild: any;
+  changeFocusComponent: any;
+  changeFocusChild: any;
+  deleteComponent: any;
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
+  addChild: ({
+    title,
+    childType,
+    HTMLInfo,
+  }: {
+  title: string;
+  childType: string;
+  HTMLInfo: object;
+  }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
+  deleteComponent: ({
+    componentId,
+    stateComponents,
+  }: {
+  componentId: number;
+  stateComponents: ComponentsInt;
+  }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
-class LeftContainer extends Component {
+class LeftContainer extends Component<Props> {
   state = {
     componentName: '',
     modal: null,
@@ -116,7 +133,7 @@ class LeftContainer extends Component {
     });
   };
 
-  render() {
+  render(): JSX.Element {
     const {
       components,
       deleteComponent,
@@ -132,7 +149,7 @@ class LeftContainer extends Component {
     const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components
-      .sort((b, a) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
           key={component.id}
@@ -151,7 +168,7 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left" position="relative">
-        <Grid container spacing={8} alignItems="baseline" align="stretch" direction="row">
+        <Grid container spacing={8} align="stretch" direction="row">
           <Grid item xs={8}>
             <TextField
               id="title-input"
@@ -180,7 +197,7 @@ class LeftContainer extends Component {
           </Grid>
           <Grid item xs={4}>
             <Button
-              variant="fab"
+              // variant="fab"
               mini
               color="primary"
               className={classes.button}
@@ -218,7 +235,7 @@ class LeftContainer extends Component {
               color="secondary"
               aria-label="Delete All"
               variant="contained"
-              fullwidth={true}
+              fullWidth
               onClick={this.clearWorkspace}
               disabled={totalComponents === 1}
               className={classes.clearButton}
@@ -236,17 +253,15 @@ class LeftContainer extends Component {
           >
             <Button
               color="primary"
+              aria-label="Export Code"
               variant="contained"
-              fullwidth={true}
-              className={classes.clearButton}
-              disabled={totalComponents < 1}
+              fullWidth
               onClick={this.showGenerateAppModal}
+              // disabled={totalComponents === 1}
+              className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
-              <GetAppIcon
-                className={classes.light}
-                style={{ paddingLeft: '0px', paddingRight: '0px' }}
-              />
+              <GetAppIcon style={{ paddingRight: '5px' }} />
               Export Project
             </Button>
           </div>
@@ -260,10 +275,6 @@ class LeftContainer extends Component {
 
 function styles() {
   return {
-    // htmlCompWrapper: {
-    //   bottom: 0,
-    //   height: "200px"
-    // },
     cssLabel: {
       color: 'white',
 
