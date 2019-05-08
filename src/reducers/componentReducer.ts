@@ -8,9 +8,6 @@ import {
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
-  UPDATE_CHILDREN,
-  REASSIGN_PARENT,
-  SET_SELECTABLE_PARENTS,
   EXPORT_FILES,
   CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
@@ -18,15 +15,13 @@ import {
   CREATE_APPLICATION_ERROR,
   HANDLE_CLOSE,
   HANDLE_TRANSFORM,
-  MOVE_TO_BOTTOM,
-  MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
-  UPDATE_HTML_ATTR
-} from "../actionTypes";
+  UPDATE_HTML_ATTR,
+} from '../actionTypes';
 
 import {
   addComponent,
@@ -37,45 +32,24 @@ import {
   changeFocusComponent,
   changeComponentFocusChild,
   changeFocusChild,
-  updateChildren,
-  reassignParent,
-  setSelectableP,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
   handleTransform,
-  moveToBottom,
-  moveToTop,
   openExpansionPanel,
   changeImagePath,
   addProp,
   deleteProp,
-  updateHtmlAttr
-} from "../utils/componentReducer.util.ts";
-import cloneDeep from "../utils/cloneDeep.ts";
-
-// import { updateHtmlAttr } from "../actions/components";
-
-interface Child {
-  childId: number;
-  componentRef: number; // references the component this child instance belongs to
-  position: object;
-}
-
-interface Component {
-  componentId: number;
-  title: string;
-  childrenArray: Child[];
-  nextChildId: number;
-  focusChild: Component;
-}
+  updateHtmlAttr,
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent = {
   id: 1,
   stateful: false,
-  title: "App",
+  title: 'App',
   parentIds: [],
-  color: "#FF6D00",
+  color: '#FF6D00',
   draggable: true,
   childrenIds: [],
   selectableParents: [],
@@ -85,12 +59,12 @@ const appComponent = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild = {
@@ -100,10 +74,10 @@ const initialApplicationFocusChild = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
   draggable: true,
-  childType: null
+  childType: null,
 };
 
 const initialApplicationState = {
@@ -117,9 +91,9 @@ const initialApplicationState = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
+  appDir: '',
   loading: false,
-  componentTree: { name: "App", attributes: {}, children: {} }
+  componentTree: { name: 'App', attributes: {}, children: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
@@ -129,9 +103,9 @@ const componentReducer = (state = initialApplicationState, action) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
-        errorOpen: false
+        errorOpen: false,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -149,12 +123,6 @@ const componentReducer = (state = initialApplicationState, action) => {
       return changeFocusChild(state, action.payload);
     case CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    // case UPDATE_CHILDREN:
-    //   return updateChildren(state, action.payload);
-    // case REASSIGN_PARENT:
-    //   return reassignParent(state, action.payload);
-    // case SET_SELECTABLE_PARENTS:
-    //   return setSelectableP(state);
     case CREATE_APPLICATION:
     case EXPORT_FILES:
       return { ...state, loading: true };
@@ -167,11 +135,6 @@ const componentReducer = (state = initialApplicationState, action) => {
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-
-    // case MOVE_TO_BOTTOM:
-    //   return moveToBottom(state, action.payload);
-    // case MOVE_TO_TOP:
-    //   return moveToTop(state, action.payload);
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
