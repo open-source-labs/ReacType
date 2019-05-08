@@ -1,12 +1,3 @@
-// import util from 'util';
-
-// const execFile = util.promisify(require('child_process').execFile);
-
-// Application generation options
-// cosnt genOptions = [
-//   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
-// ];
-
 import fs from 'fs';
 import { format } from 'prettier';
 import componentRender from './componentRender.util';
