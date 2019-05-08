@@ -181,7 +181,6 @@ class HTMLComponentPanel extends Component {
             <IconButton
               className="htmlicons"
               aria-label="Paragraph"
-              label="cat"
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
               }}
