@@ -150,8 +150,8 @@ class KonvaStage extends Component {
     return (
       <div
         style={{
-          width: '95%',
-          height: '95%',
+          width: '100%',
+          height: '100%',
         }}
         ref={(node) => {
           this.container = node;
@@ -190,8 +190,6 @@ class KonvaStage extends Component {
         >
           <DeleteIcon />
           Delete Child
-          {/* {`Delete
-          ${focusChild.}`} */}
         </Fab>
         <Stage
           className={'canvasStage'}
@@ -201,6 +199,7 @@ class KonvaStage extends Component {
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
           height={this.state.stageHeight}
+          style={{ width: '100%' }}
         >
           <Layer
             ref={(node) => {
