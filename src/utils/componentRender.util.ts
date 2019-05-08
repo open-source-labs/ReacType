@@ -1,4 +1,5 @@
 import { ComponentInt, ChildInt, ChildrenInt, PropInt } from "./Interfaces";
+import cloneDeep from "./cloneDeep";
 
 const componentRender = (component: ComponentInt, data: any) => {
   const {
@@ -142,14 +143,15 @@ const componentRender = (component: ComponentInt, data: any) => {
       
       return (
         <div>
-          ${childrenArray
-            .map(
-              child =>
-                `<${componentNameGenerator(child)} ${propDrillTextGenerator(
-                  child
-                )}/>`
-            )
-            .join("\n")}
+        ${cloneDeep(childrenArray)
+          .sort((a, b) => a.childSort - b.childSort)
+          .map(
+            child =>
+              `<${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child
+              )}/>`
+          )
+          .join("\n")}
         </div>
       );
     }

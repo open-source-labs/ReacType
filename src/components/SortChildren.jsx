@@ -1,14 +1,18 @@
+// "use strict" ;
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateChildrenSort } from "../actions/components.ts";
+import { updateChildrenSort } from "../actions/components";
+import { width } from "window-size";
+import cloneDeep from "../utils/cloneDeep";
 
 const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateChildrenSort: ({ newChildrenArray }) =>
-    dispatch(updateChildrenSort({ newChildrenArray }))
+  updateChildrenSort: ({ newSortValues }) =>
+    dispatch(updateChildrenSort({ newSortValues }))
 });
 
 class SortChildren extends Component {
@@ -16,55 +20,69 @@ class SortChildren extends Component {
     super(props);
 
     this.state = {
-      localChildrenArray: this.setLocalArray()
-      //localChildrenArray: this.props.focusComponent.childrenArray,
-      //shortArray: this.setLocalArray()
+      draggedIndex: null,
+      draggedOverIndex: null
     };
-  }
+  } // end constrcutor
 
   setLocalArray = () => {
     const localArray = this.props.focusComponent.childrenArray.map(
       (child, idx) => {
-        return { Childid: child.childId, childSort: child.childSort };
+        return { childId: child.childId, childSort: child.childSort };
       }
     );
     return localArray;
   };
 
   onDragStart = (e, idx) => {
-    console.log("dragging index: ", idx);
-    this.draggedIndex = idx;
+    this.setState({ draggedIndex: idx });
+
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", e.target.parentNode);
     e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
 
-  onDragOver = draggedOverIndex => {
-    //const draggedOverIndex = idx;
+  onDragOver = idx => {
+    this.setState({ draggedOverIndex: idx });
+    // console.log(`onDragOver idx=${idx}  this.state.draggedOverIndex:${this.state.draggedOverIndex}`)
+  };
 
-    // if the item is dragged over itself, ignore
-    if (this.draggedIndex === draggedOverIndex) {
+  onDragEnd(e) {
+    console.log(`dragEnd this
+      state.draggedIndex: ${this.state.draggedIndex}
+      this.state.draggedOverIndex: ${this.state.draggedOverIndex}`);
+    //const {draggedIndex, draggedOverIndex } = this.state;
+    if (
+      this.state.draggedIndex === this.state.draggedOverIndex
+      // ||  !this.state.draggedIndex || this.state.draggedOverIndex
+    ) {
       return;
     }
 
-    //console.log(`OnDrageOver: draggedOverIndex: ${draggedOverIndex} this.draggedIndex:${this.draggedIndex}`)
-    // filter out the currently dragged item
-    let draggedChild = this.state.localChildrenArray[this.draggedIndex];
-    //console.log(`dragged item:`,draggedChild)
+    let currentSortValues = this.setLocalArray();
+    // console.log(`currentSortValues`,JSON.stringify((currentSortValues)))
 
-    let localChildrenArray = [...this.state.localChildrenArray];
-    //console.log('localChildrenArray BEFORE removing ',JSON.stringify(localChildrenArray))
+    // remove the dragged Item and save it, we will use add it back in a moment.
+    const draggedBaby = currentSortValues[this.state.draggedIndex];
+    currentSortValues.splice(this.state.draggedIndex, 1);
 
-    localChildrenArray.splice(this.draggedIndex, 1);
-    //console.log('localChildrenArray after removing ',JSON.stringify(localChildrenArray))
+    // put back the dragge item after the dragged Over
+    currentSortValues.splice(this.state.draggedOverIndex, 0, draggedBaby);
+    //console.log(`currentSortValues after reAdding the dragged baby `,JSON.stringify(currentSortValues))
 
-    //add the dragged item after the dragged over item
-    localChildrenArray.splice(draggedOverIndex, 0, draggedChild);
-    //console.log('localChildrenArray final:  ',JSON.stringify(localChildrenArray))
-    this.setState({ localChildrenArray });
+    currentSortValues = currentSortValues.map((child, idx) => {
+      return { childId: child.childId, childSort: idx + 1 };
+    });
 
-    this.props.updateChildrenSort({ newChildrenArray: localChildrenArray });
-  };
+    console.log(
+      `currentSortValues after updating the sort  `,
+      JSON.stringify(currentSortValues)
+    );
+
+    this.props.updateChildrenSort({ newSortValues: currentSortValues });
+
+    this.setState({ draggedIndex: 0, draggedOverIndex: 0 });
+  }
 
   render() {
     const ulStyle = {
@@ -82,39 +100,57 @@ class SortChildren extends Component {
       lineHeight: 1,
       cursor: "move"
     };
-    const children = this.props.focusComponent.childrenArray;
-    const List = children
+    //const children = this.props.focusComponent.childrenArray;
+    // const List = children
+    const List = cloneDeep(this.props.focusComponent.childrenArray)
       .sort((a, b) => a.childSort - b.childSort)
       .map((child, idx) => {
-        //console.log(`mappping...... ${idx}   ${child.componentName + child.childId} childSort ${child.childSort}`)
         return (
-          <li style={liStyle} id={child.Childid} key={idx}>
+          <li style={liStyle} id={child.childId} key={idx}>
             <div
               className="drag"
               draggable
               onDragStart={e => this.onDragStart(e, idx)}
               onDragOver={e => this.onDragOver(idx)}
+              onDragEnd={e => this.onDragEnd()}
             >
               {child.componentName + child.childId}
             </div>
           </li>
         );
       });
-    console.log("children");
-    console.log(children);
-    console.log("List");
-    console.log(List);
     return (
       <div
         style={{
+          minWidth: "200px",
           position: "relative",
-          float: "right",
+          float: "left",
           marginTop: "20px",
           marginRIght: "20px"
         }}
       >
         <h3>Childrens List</h3>
-        <ul style={ulStyle}>{List}</ul>
+        <ul style={ulStyle}>
+          {cloneDeep(this.props.focusComponent.childrenArray)
+            .sort((a, b) => a.childSort - b.childSort)
+            .map((child, idx) => {
+              return (
+                <li style={liStyle} id={child.childId} key={idx}>
+                  <div
+                    className="drag"
+                    draggable
+                    onDragStart={e => this.onDragStart(e, idx)}
+                    onDragOver={e => this.onDragOver(idx)}
+                    onDragEnd={e => this.onDragEnd()}
+                  >
+                    {child.componentName + child.childId}
+                  </div>
+                </li>
+              );
+            })}
+
+          {/* {List} */}
+        </ul>
       </div>
     );
   }

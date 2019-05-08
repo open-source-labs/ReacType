@@ -232,9 +232,9 @@ export const updateHtmlAttr = ({ attr, value }) => dispatch => {
   });
 };
 
-export const updateChildrenSort = ({ newChildrenArray }) => dispatch => {
+export const updateChildrenSort = ({ newSortValues }) => dispatch => {
   dispatch({
     type: UPDATE_CHILDREN_SORT,
-    payload: { newChildrenArray }
+    payload: { newSortValues }
   });
 };
