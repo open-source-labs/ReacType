@@ -2,11 +2,21 @@ import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
+import {ComponentInt,ComponentsInt} from '../utils/interfaces'
+import SortChildren from './SortChildren.jsx'
 
-class CodePreview extends Component {
+type Props = {
+  focusComponent: ComponentInt;
+  components: ComponentsInt;
+};
+
+class CodePreview extends Component<Props> {
   render(): JSX.Element {
-    const { focusComponent, components } = this.props;
-    return (
+   //const {focusComponent, components } : {focusComponent:ComponentInt, components:ComponentsInt }  = this.props;
+   const focusComponent : ComponentInt  = this.props.focusComponent;
+   const components : ComponentsInt  = this.props.components;
+ 
+   return (
       <div
         style={{
           width: '500px',
