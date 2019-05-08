@@ -86,18 +86,6 @@ LEFT COLUMN
   position: relative;
 }
 
-.htmlPanel {
-  /* position: absolute;
-  bottom: 0;
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-bottom: 50px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  padding: 1%; */
-}
-
 .component-input {
   bottom: 2.8%;
 }

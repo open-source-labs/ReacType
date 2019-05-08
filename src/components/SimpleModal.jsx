@@ -78,7 +78,7 @@ const SimpleModal = (props) => {
           <div>
             {secBtnLabel ? (
               <Button
-                variant="extendedFab"
+                variant="contained"
                 color="secondary"
                 className={classes.button}
                 onClick={secBtnAction}
@@ -88,7 +88,7 @@ const SimpleModal = (props) => {
             ) : null}
             {primBtnLabel ? (
               <Button
-                variant="extendedFab"
+                variant="contained"
                 color="primary"
                 className={classes.button}
                 onClick={primBtnAction}
