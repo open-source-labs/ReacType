@@ -137,7 +137,7 @@ export const addChild = (
       );
       return;
     }
-    console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
+    //console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
   const newPosition =
