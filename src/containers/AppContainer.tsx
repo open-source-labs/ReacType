@@ -6,8 +6,18 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
 import { loadInitData } from '../actions/components.js';
+import {ComponentInt, ComponentsInt, ChildInt} from '../utils/interfaces'
 
-const mapStateToProps = store => ({
+type Props = {
+  components: ComponentsInt,
+  focusComponent: ComponentInt,
+  totalComponents: number,
+  loading: boolean,
+  selectableChildren: Array<number>,
+  loadInitData: any
+};
+
+const mapStateToProps = (store:any) => ({
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
@@ -17,31 +27,31 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = { loadInitData };
 
-class AppContainer extends Component {
+class AppContainer extends Component<Props> {
   state = {
     width: 25,
     rightColumnOpen: true,
   };
 
-  collapseColumn = () => {
-    if (this.state.width === 25) {
-      this.setState({
-        width: 0,
-        rightColumnOpen: false,
-      });
-    } else {
-      this.setState({
-        width: 25,
-        rightColumnOpen: true,
-      });
-    }
-  };
+  // collapseColumn = () => {
+  //   if (this.state.width === 25) {
+  //     this.setState({
+  //       width: 0,
+  //       rightColumnOpen: false,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       width: 25,
+  //       rightColumnOpen: true,
+  //     });
+  //   }
+  // };
 
   componentDidMount() {
     this.props.loadInitData();
   }
 
-  render() {
+  render() : JSX.Element  {
     const {
       components, focusComponent, loading, selectableChildren,
     } = this.props;
@@ -55,23 +65,15 @@ class AppContainer extends Component {
         <div className="app-container">
           <LeftContainer
             components={components}
-            // totalComponents={totalComponents}
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
           <MainContainer
             components={components}
-            collapseColumn={this.collapseColumn}
+           // collapseColumn={this.collapseColumn}
             width={width}
             rightColumnOpen={rightColumnOpen}
-            // totalComponents={totalComponents}
           />
-          {/* <RightContainer
-            width={width}
-            components={updatedComponents}
-            rightColumnOpen={rightColumnOpen}
-            focusComponent={focusComponent}
-          /> */}
           {loading ? (
             <div
               style={{

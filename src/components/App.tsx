@@ -14,15 +14,3 @@ export const App: React.SFC = () => (
 
 export default App;
 
-//  class App extends Component {
-//     // render() {
-//       return (
-//         <div className="app">
-//           <div>
-//             <header style={{ height: '40px', width: '100%' }}>ReacType</header>
-//             <AppContainer />
-//           </div>
-//         </div>
-//       );
-//     }
-//   }
