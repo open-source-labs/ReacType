@@ -1,3 +1,6 @@
+import cloneDeep from "./cloneDeep"; 
+
+
 const componentRender = (component, data) => {
   const {
     stateful, id, position, childrenArray, title, props,
@@ -124,7 +127,8 @@ const componentRender = (component, data) => {
       
       return (
         <div>
-          ${childrenArray
+          ${cloneDeep(childrenArray)
+    .sort( (a,b) => a.childSort - b.childSort )       
     .map(child => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
     .join('\n')}
         </div>
