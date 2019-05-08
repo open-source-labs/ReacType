@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Fab from "@material-ui/core/Fab";
+import React, { Fragment } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
 
 const LeftColExpansionPanel = props => {
   const {
@@ -82,10 +82,11 @@ const LeftColExpansionPanel = props => {
                 {directParents ? (
                   <p
                     style={{
-                      marginLeft: "10px",
-                      color: "white",
-                      fontSize: "12px",
-                      marginTop: "1px"
+                      padding: '0px',
+                      marginTop: '0px',
+                      marginLeft: '15px',
+                      color: '#D3D3D3',
+                      fontSize: '12px',
                     }}
                   >
                     Used in: {directParents}
@@ -93,38 +94,39 @@ const LeftColExpansionPanel = props => {
                 ) : (
                   <p
                     style={{
-                      marginLeft: "10px",
-                      color: "white",
-                      fontSize: "12px",
-                      marginTop: "1px"
+                      padding: '0px',
+                      marginTop: '0px',
+                      marginLeft: '15px',
+                      color: '#D3D3D3',
+                      fontSize: '12px',
                     }}
                   >
                     Not used
                   </p>
                 )}
               </span>
-              <Fab
-                variant="extended"
+              <Button
+                variant="text"
                 size="small"
-                color="inherit"
+                color="default"
                 aria-label="Delete"
                 className={classes.margin}
-                style={{
-                  marginLeft: "10px",
-                  marginTop: "5px",
-                  marginBottom: "10px"
-                }}
-                // style={{ maxWidth: "20px" }}
-                onClick={() =>
-                  deleteComponent({
-                    componentId: id,
-                    stateComponents: components
-                  })
+                onClick={() => deleteComponent({
+                  componentId: id,
+                  stateComponents: components,
+                })
                 }
+                style={{
+                  color: '#D3D3D3',
+                  marginBottom: '10px',
+                  marginTop: '0px',
+                  marginLeft: '11px',
+                  padding: '0px',
+                }}
               >
-                <DeleteIcon />
+                <DeleteIcon style={{ color: '#D3D3D3' }} />
                 Delete
-              </Fab>
+              </Button>
               {/* <IconButton
                 style={{ display: "inline-block" }}
                 onClick={() =>

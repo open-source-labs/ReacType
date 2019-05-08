@@ -80,22 +80,10 @@ LEFT COLUMN
 .left {
   padding: 20px;
   width: 20%;
-  min-width: 350px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-.htmlPanel {
-  /* position: absolute;
-  bottom: 0;
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-bottom: 50px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  padding: 1%; */
 }
 
 .component-input {
@@ -282,3 +270,9 @@ div.rst__rowContents {
 .closeIcon:hover {
   cursor: pointer;
 }
+
+/* @media only screen and (max-width: 560px) {
+  .app-container {
+    width: 80%;
+  }
+} */
