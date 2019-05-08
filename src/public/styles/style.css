@@ -80,7 +80,7 @@ LEFT COLUMN
 .left {
   padding: 10px;
   width: 20%;
-  min-width: 350px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
