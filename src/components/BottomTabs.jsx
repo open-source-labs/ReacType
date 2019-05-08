@@ -5,6 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
 import Props from './Props.jsx';
 import HtmlAttr from './HtmlAttr.jsx';
+import CodePreview from './CodePreview.tsx';
 // import Tree from "./Tree.jsx";
 
 const styles = theme => ({
@@ -62,7 +63,7 @@ const styles = theme => ({
   },
 });
 
-class RightTabs extends Component {
+class BottomTabs extends Component {
   state = {
     value: 0,
   };
@@ -133,6 +134,12 @@ class RightTabs extends Component {
     } = this.props;
     const { value } = this.state;
 
+    // display count on the tab. user can see without clicking into tab
+    const propCount = focusComponent.props.length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+      .length;
+
+    // const counters = focusComponent.ch
     const tree = {
       name: focusComponent.title,
       attributes: {},
@@ -154,7 +161,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Props"
+            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
@@ -164,7 +171,12 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="HTML Element Attributes"
+            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Code Preview"
           />
         </Tabs>
 
@@ -210,9 +222,10 @@ class RightTabs extends Component {
           && focusChild.childType !== 'HTML' && (
             <p>Please select an HTML element to view attributes</p>
         )}
+        {value === 4 && <CodePreview focusComponent={focusComponent} components={components} />}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(RightTabs);
+export default withStyles(styles)(BottomTabs);

@@ -1,36 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
+import {ComponentInt, ComponentsInt, ChildInt} from '../utils/interfaces'
 
-const mapDispatchToProps = dispatch => ({
-  addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
-  updateComponent: ({
-    id, index, newParentId = null, color = null, stateful = null,
-  }) => dispatch(
-    actions.updateComponent({
-      id,
-      index,
-      newParentId,
-      color,
-      stateful,
-    }),
-  ),
-  addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+type Props = {
+  components: ComponentsInt,
+  focusComponent: ComponentInt,
+  selectableChildren: Array<number>,
+  classes:any,
+  
+  addComponent: any,
+  addChild: any,
+  changeFocusComponent:any,
+  changeFocusChild: any,
+  deleteComponent: any,
+};
+
+const mapDispatchToProps = (dispatch:any) => ({
+  addComponent: ({ title } :{title:string}) => dispatch(actions.addComponent({ title })),
+  addChild: ({ title, childType, HTMLInfo }:{title:string, childType:string, HTMLInfo:object }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeFocusComponent: ({ title }:{title:string}) => dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ childId }:{childId:number}) => dispatch(actions.changeFocusChild({ childId })),
+  deleteComponent: ({ componentId, stateComponents }:{ componentId:number, stateComponents :ComponentsInt}) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
 });
 
-class LeftContainer extends Component {
+class LeftContainer extends Component<Props> {
   state = {
     componentName: '',
   };
@@ -48,13 +50,11 @@ class LeftContainer extends Component {
     });
   };
 
-  render() {
+  render()  : JSX.Element  {
     const {
       components,
-      updateComponent,
       deleteComponent,
       focusComponent,
-      totalComponents,
       classes,
       addChild,
       changeFocusComponent,
@@ -64,7 +64,7 @@ class LeftContainer extends Component {
     const { componentName } = this.state;
 
     const componentsExpansionPanel = components
-      .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
+      .sort((b:ComponentInt, a:ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
           key={component.id}
@@ -83,7 +83,7 @@ class LeftContainer extends Component {
 
     return (
       <div className="column left" position="relative">
-        <Grid container spacing={24} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems="baseline" align="stretch" direction="row">
           <Grid item xs={8}>
             <TextField
               id="title-input"
@@ -137,10 +137,6 @@ class LeftContainer extends Component {
 
 function styles() {
   return {
-    // htmlCompWrapper: {
-    //   bottom: 0,
-    //   height: "200px"
-    // },
     cssLabel: {
       color: 'white',
 

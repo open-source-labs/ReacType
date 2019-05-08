@@ -3,16 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import indigo from '@material-ui/core/colors/indigo';
 import { Palette } from '@material-ui/core/styles/createPalette';
 
-interface palette {
-  primary: object;
-  secondary: any;
-}
-
-interface theme {
-  palette: palette;
-}
-
-const theme: theme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#00e676',
