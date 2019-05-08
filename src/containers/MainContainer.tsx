@@ -72,70 +72,70 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
 
-    IPC.on('new-file', (event, file) => {
-      const image = new window.Image();
-      image.src = file;
-      this.props.changeImagePath(file);
-      image.onload = () => {
-        this.setState({ image });
-      };
-      this.draggableItems = [];
-    });
+    //   IPC.on('new-file', (event, file) => {
+    //     const image = new window.Image();
+    //     image.src = file;
+    //     this.props.changeImagePath(file);
+    //     image.onload = () => {
+    //       this.setState({ image });
+    //     };
+    //     this.draggableItems = [];
+    //   });
 
-    IPC.on('app_dir_selected', (event, path) => {
-      const { components } = this.props;
-      const { genOption } = this.state;
-      this.props.createApp({
-        path,
-        components,
-        genOption,
-      });
-    });
+    //   IPC.on('app_dir_selected', (event, path) => {
+    //     const { components } = this.props;
+    //     const { genOption } = this.state;
+    //     this.props.createApp({
+    //       path,
+    //       components,
+    //       genOption,
+    //     });
+    //   });
+    // }
+
+    // closeModal = () => this.setState({ modal: null });
+
+    // chooseAppDir = () => IPC.send('choose_app_dir');
+
+    // chooseGenOptions = (genOption) => {
+    //   // set option
+    //   this.setState({ genOption });
+    //   // closeModal
+    //   this.closeModal();
+    //   // Choose app dir
+    //   this.chooseAppDir();
+    // };
+
+    // showGenerateAppModal = () => {
+    //   console.log('clicked on export button');
+    //   const { closeModal, chooseGenOptions } = this;
+    //   const { genOptions } = this.state;
+    //   const children = (
+    //     <List className="export-preference">
+    //       {genOptions.map((option, i) => (
+    //         <ListItem
+    //           key={i}
+    //           button
+    //           onClick={() => chooseGenOptions(i)}
+    //           style={{
+    //             border: '1px solid #3f51b5',
+    //             marginBottom: '2%',
+    //             marginTop: '5%',
+    //           }}
+    //         >
+    //           <ListItemText primary={option} style={{ textAlign: 'center' }} />
+    //         </ListItem>
+    //       ))}
+    //     </List>
+    //   );
+    //   this.setState({
+    //     modal: createModal({
+    //       closeModal,
+    //       children,
+    //       message: 'Choose export preference:',
+    //     }),
+    //   });
   }
-
-  closeModal = () => this.setState({ modal: null });
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-
-  chooseGenOptions = genOption => {
-    // set option
-    this.setState({ genOption });
-    // closeModal
-    this.closeModal();
-    // Choose app dir
-    this.chooseAppDir();
-  };
-
-  showGenerateAppModal = () => {
-    console.log('clicked on export button');
-    const { closeModal, chooseGenOptions } = this;
-    const { genOptions } = this.state;
-    const children = (
-      <List className="export-preference">
-        {genOptions.map((option, i) => (
-          <ListItem
-            key={i}
-            button
-            onClick={() => chooseGenOptions(i)}
-            style={{
-              border: '1px solid #3f51b5',
-              marginBottom: '2%',
-              marginTop: '5%',
-            }}
-          >
-            <ListItemText primary={option} style={{ textAlign: 'center' }} />
-          </ListItem>
-        ))}
-      </List>
-    );
-    this.setState({
-      modal: createModal({
-        closeModal,
-        children,
-        message: 'Choose export preference:',
-      }),
-    });
-  };
 
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;

@@ -33,9 +33,9 @@ class HTMLComponentPanel extends Component {
   };
 
   render() {
-    const { addChild } = this.props;
+    const { classes } = this.props;
     return (
-      <div className={'htmlPanel'} alignItems="flex-start" align="center">
+      <div align="center">
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -67,7 +67,7 @@ class HTMLComponentPanel extends Component {
                 variant="outlined"
                 style={{
                   color: 'white',
-                  fontSize: '50%',
+                  fontSize: '80%',
                   margin: 0,
                   padding: 0,
                 }}
@@ -94,7 +94,7 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '50%',
+                fontSize: '80%',
               }}
             />
           </Grid>
@@ -118,7 +118,7 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '50%',
+                fontSize: '80%',
               }}
             />
           </Grid>
@@ -142,7 +142,7 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '50%',
+                fontSize: '80%',
               }}
             />
           </Grid>
@@ -166,11 +166,18 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '50%',
+                fontSize: '80%',
               }}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid
+            item
+            xs={4}
+            style={{
+              margin: 0,
+              padding: 0,
+            }}
+          >
             <IconButton
               className="htmlicons"
               aria-label="Paragraph"
@@ -182,7 +189,9 @@ class HTMLComponentPanel extends Component {
                 padding: 0,
               }}
             >
-              <ParagraphIcon style={{ color: '#e0e0e0' }} />
+              <ParagraphIcon
+                style={{ color: '#e0e0e0', paddingRight: '0px', marginRight: '0px' }}
+              />
             </IconButton>
             <Chip
               label="Paragraph"
@@ -190,7 +199,9 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '50%',
+                fontSize: '62%',
+                padding: '0px',
+                margin: '0px',
               }}
             />
           </Grid>
