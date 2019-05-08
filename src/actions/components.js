@@ -27,22 +27,28 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
-} from '../actionTypes/index';
+  UPDATE_CHILDREN_SORT
+} from "../actionTypes/index";
 
-import { loadState } from '../localStorage';
+import { loadState } from "../localStorage";
 
-import createFiles from '../utils/createFiles.util';
-import createApplicationUtil from '../utils/createApplication.util';
+import createFiles from "../utils/createFiles.util.ts";
+import createApplicationUtil from "../utils/createApplication.util.ts";
 
 export const loadInitData = () => dispatch => {
   loadState().then(data =>
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
+<<<<<<< HEAD
         data: data ? data.workspace : {},
       },
     }),
+=======
+        data: data ? data.workspace : {}
+      }
+    })
+>>>>>>> fcd32cb... finished ts changes to util files
   );
 };
 
@@ -77,22 +83,32 @@ export const deleteChild = ({}) => dispatch => {
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
+<<<<<<< HEAD
 export const deleteComponent = ({ componentId, stateComponents }) => dispatch => {
+=======
+export const deleteComponent = ({
+  componentId,
+  stateComponents
+}) => dispatch => {
+>>>>>>> fcd32cb... finished ts changes to util files
   // find all places where the "to be delted" is a child and do what u gotta do
-  stateComponents.forEach((parent) => {
-    parent.childrenArray.filter(child => child.childComponentId === componentId).forEach((child) => {
-      dispatch({
-        type: DELETE_CHILD,
-        payload: {
-          parentId: parent.id,
-          childId: child.childId,
-          calledFromDeleteComponent: true,
-        },
+  stateComponents.forEach(parent => {
+    parent.childrenArray
+      .filter(child => child.childComponentId === componentId)
+      .forEach(child => {
+        dispatch({
+          type: DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            calledFromDeleteComponent: true
+          }
+        });
       });
   });
 
   // change focus to APp
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: "App" } });
   // after taking care of the children delete the component
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
@@ -134,48 +150,86 @@ export const changeFocusComponent = ({ title }) => dispatch => {
 
 // make sure childId is being sent in
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const changeFocusChild = ({ title, childId }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
 =======
 export const changeFocusChild = ({ childId }) => (dispatch) => {
+=======
+export const changeFocusChild = ({ childId }) => dispatch => {
+>>>>>>> fcd32cb... finished ts changes to util files
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 >>>>>>> c532596... reducer cleanup, working version
 };
 
+<<<<<<< HEAD
 export const changeComponentFocusChild = ({ componentId, childId }) => dispatch => {
+=======
+export const changeComponentFocusChild = ({
+  componentId,
+  childId
+}) => dispatch => {
+>>>>>>> fcd32cb... finished ts changes to util files
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId },
+    payload: { componentId, childId }
   });
 };
 
+<<<<<<< HEAD
 export const exportFiles = ({ components, path, appName, exportAppBool }) => dispatch => {
+=======
+export const exportFiles = ({
+  components,
+  path,
+  appName,
+  exportAppBool
+}) => dispatch => {
+>>>>>>> fcd32cb... finished ts changes to util files
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
-    type: EXPORT_FILES,
+    type: EXPORT_FILES
   });
 
   createFiles(components, path, appName, exportAppBool)
     .then(dir =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
+<<<<<<< HEAD
         payload: { status: true, dir: dir[0] },
       }),
+=======
+        payload: { status: true, dir: dir[0] }
+      })
+>>>>>>> fcd32cb... finished ts changes to util files
     )
     .catch(err =>
       dispatch({
         type: EXPORT_FILES_ERROR,
+<<<<<<< HEAD
         payload: { status: true, err },
       }),
+=======
+        payload: { status: true, err }
+      })
+>>>>>>> fcd32cb... finished ts changes to util files
     );
 };
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false,
+  payload: false
 });
 
+<<<<<<< HEAD
 export const handleTransform = (componentId, childId, { x, y, width, height }) => ({
+=======
+export const handleTransform = (
+  componentId,
+  childId,
+  { x, y, width, height }
+) => ({
+>>>>>>> fcd32cb... finished ts changes to util files
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -183,16 +237,21 @@ export const handleTransform = (componentId, childId, { x, y, width, height }) =
     x,
     y,
     width,
-    height,
-  },
+    height
+  }
 });
 
 export const createApplication = ({
   path,
   components = [],
   genOption,
+<<<<<<< HEAD
   appName = 'reactype_app',
   exportAppBool,
+=======
+  appName = "reactype_app",
+  exportAppBool
+>>>>>>> fcd32cb... finished ts changes to util files
 }) => dispatch => {
   if (genOption === 0) {
     exportAppBool = false;
@@ -201,48 +260,53 @@ export const createApplication = ({
         appName,
         path,
         components,
-        exportAppBool,
-      }),
+        exportAppBool
+      })
     );
   } else if (genOption) {
     dispatch({
-      type: CREATE_APPLICATION,
+      type: CREATE_APPLICATION
     });
     createApplicationUtil({
       path,
       appName,
       genOption,
-      exportAppBool,
+      exportAppBool
     })
       .then(() => {
         dispatch({
-          type: CREATE_APPLICATION_SUCCESS,
+          type: CREATE_APPLICATION_SUCCESS
         });
         dispatch(
           exportFiles({
             appName,
             path,
             components,
-            exportAppBool,
-          }),
+            exportAppBool
+          })
         );
       })
       .catch(err =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
+<<<<<<< HEAD
           payload: { status: true, err },
         }),
+=======
+          payload: { status: true, err }
+        })
+>>>>>>> fcd32cb... finished ts changes to util files
       );
   }
 };
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component },
+  payload: { component }
 });
 
 export const deleteAllData = () => ({
-  type: DELETE_ALL_DATA,
+  type: DELETE_ALL_DATA
 });
 
 export const deleteProp = propId => dispatch => {
@@ -251,19 +315,19 @@ export const deleteProp = propId => dispatch => {
 
 export const addProp = prop => ({
   type: ADD_PROP,
-  payload: { ...prop },
+  payload: { ...prop }
 });
 
 export const updateHtmlAttr = ({ attr, value }) => dispatch => {
   dispatch({
     type: UPDATE_HTML_ATTR,
-    payload: { attr, value },
+    payload: { attr, value }
   });
 };
 
-export const updateChildrenSort = ({ newChildrenArray }) => (dispatch) => {
+export const updateChildrenSort = ({ newChildrenArray }) => dispatch => {
   dispatch({
     type: UPDATE_CHILDREN_SORT,
-    payload: { newChildrenArray },
+    payload: { newChildrenArray }
   });
 };

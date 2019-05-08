@@ -1,6 +1,6 @@
 import getSelectable from "./getSelectable.util";
 import getColor from "./colors.util";
-import { getSize } from "./htmlElements.util.ts";
+import { getSize } from "./htmlElements.util";
 import cloneDeep from "./cloneDeep";
 import {
   ComponentInt,
@@ -8,7 +8,8 @@ import {
   ChildrenInt,
   ChildInt,
   ComponentsInt,
-  PropInt
+  PropInt,
+  PositionInt
 } from "./interfaces";
 
 const initialComponentState: ComponentInt = {
@@ -115,7 +116,7 @@ export const addChild = (
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
-  const view : ComponentInt = state.components.find(
+  const view: ComponentInt = state.components.find(
     comp => comp.title === state.focusComponent.title
   );
 
@@ -127,7 +128,12 @@ export const addChild = (
     parentComponent = state.components.find(comp => comp.title === title);
   }
 
-  let htmlElemPosition;
+  interface htmlElemPositionInt {
+    width: number;
+    height: number;
+  }
+
+  let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
   if (childType === "HTML") {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
@@ -390,7 +396,7 @@ export const changeFocusComponent = (
   // set the "focus child" to the focus child of this particular component .
   // const newFocusChildId = newFocusComp.focusChildId;
 
-  let newFocusChild: ChildInt|any; // check if the components has a child saved as a Focus child
+  let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
   if (newFocusComp.focusChildId > 0) {
     newFocusChild = newFocusComp.childrenArray.find(
       child => child.childId === newFocusComp.focusChildId
@@ -436,6 +442,7 @@ export const changeFocusChild = (
         height: focComp.position.height
       },
       // draggable: true,
+      childSort: 0,
       color: focComp.color,
       childType: "",
       htmlElement: "",
@@ -518,7 +525,7 @@ export const addProp = (
     comp => comp.id === state.focusComponent.id
   );
 
-  const newProp:PropInt = {
+  const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
     value: value || key,
@@ -580,19 +587,26 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: {attr:string, value:string}) => {
+export const updateHtmlAttr = (
+  state: ApplicationStateInt,
+  { attr, value }: { attr: string; value: string }
+) => {
   if (!state.focusChild.childId) {
     console.log("Update HTML error. no focused child ");
     return state;
   }
 
-  const modifiedChild:any = cloneDeep(state.focusChild);
+  const modifiedChild: any = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
   // let modifiedComponent = cloneDeep(
   //   state.components.find(comp => comp.id === state.focusComponent.id)
-  // ); 
- let modifiedComponent: ComponentInt = JSON.parse(JSON.stringify(( state.components.find(comp => comp.id === state.focusComponent.id)))) ;
+  // );
+  let modifiedComponent: ComponentInt = JSON.parse(
+    JSON.stringify(
+      state.components.find(comp => comp.id === state.focusComponent.id)
+    )
+  );
 
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     child => child.childId !== modifiedChild.childId
@@ -612,10 +626,15 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: {att
   };
 };
 
-
-export const updateChildrenSort = (state: ApplicationStateInt, { newChildrenArray }: {newChildrenArray: ChildrenInt }) => {
-  console.log('hello from updateChildrenSort. newChildrenArray: ',newChildrenArray )
-// the new Array has the same data exactly. the array index is the new sort...
+export const updateChildrenSort = (
+  state: ApplicationStateInt,
+  { newChildrenArray }: { newChildrenArray: ChildrenInt }
+) => {
+  console.log(
+    "hello from updateChildrenSort. newChildrenArray: ",
+    newChildrenArray
+  );
+  // the new Array has the same data exactly. the array index is the new sort...
   // const modifiedChldrenArray = cloneDeep(state.focusComponent.childrenArray)
   // modifiedChldrenArray.forEach( (child: ChildInt, idx:number, arr:any ) => {
   //   console.log(`chidl id:${child.childId} currSort:${child.childSort}`)
@@ -624,6 +643,6 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newChildrenArra
   // })
   //console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
   return {
-    ...state,
+    ...state
   };
 };
