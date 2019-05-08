@@ -209,10 +209,10 @@ class MainContainer extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
           {modal}
-          <MainContainerHeader
+          {/* <MainContainerHeader
             // showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
-          />
+          /> */}
 
           <div className="main" ref={main}>
             <KonvaStage
