@@ -14,12 +14,11 @@ import {
   changeComponentFocusChild,
   deleteChild,
   deleteComponent,
-  deleteAllData,
   createApplication
-} from "../actions/components";
+} from "../actions/components.ts";
 import KonvaStage from "../components/KonvaStage.jsx";
 import MainContainerHeader from "../components/MainContainerHeader.jsx";
-import createModal from "../utils/createModal.util.tsx";
+import createModal from "../utils/createModal.util";
 
 const IPC = require("electron").ipcRenderer;
 
@@ -47,8 +46,7 @@ const mapDispatchToProps = dispatch => ({
         components,
         genOption
       })
-    ),
-  deleteAllData: () => dispatch(deleteAllData())
+    )
 });
 
 const mapStateToProps = store => ({
@@ -143,20 +141,6 @@ class MainContainer extends Component {
     });
   };
 
-  clearWorkspace = () => {
-    this.setState({
-      modal: createModal({
-        message: "Are you sure want to delete all data?",
-        closeModal: this.closeModal,
-        secBtnLabel: "Clear Workspace",
-        secBtnAction: () => {
-          this.props.deleteAllData();
-          this.closeModal();
-        }
-      })
-    });
-  };
-
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
     const {
@@ -191,11 +175,10 @@ class MainContainer extends Component {
       <MuiThemeProvider theme={theme}>
         <div className="main-container" style={{ cursor }}>
           {modal}
-          <MainContainerHeader
+          {/* <MainContainerHeader
             // showImageDeleteModal={showImageDeleteModal}
             showGenerateAppModal={showGenerateAppModal}
-            clearWorkspace={this.clearWorkspace}
-          />
+          /> */}
 
           <div className="main" ref={main}>
             <KonvaStage

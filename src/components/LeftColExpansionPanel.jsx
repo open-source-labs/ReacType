@@ -41,7 +41,7 @@ const LeftColExpansionPanel = props => {
       spacing={16}
       direction="row"
       justify="flex-start"
-      alignItems="baseline"
+      alignItems="center"
     >
       <Grid item xs={9}>
         <div
@@ -122,7 +122,7 @@ const LeftColExpansionPanel = props => {
                   })
                 }
               >
-                <DeleteIcon className={classes.extendedIcon} />
+                <DeleteIcon />
                 Delete
               </Fab>
               {/* <IconButton

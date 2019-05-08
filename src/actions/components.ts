@@ -1,16 +1,22 @@
 import {
+  ComponentInt,
+  ChildInt,
+  ApplicationStateInt
+} from "../utils/interfaces";
+
+import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
   ADD_CHILD,
   DELETE_CHILD,
-  UPDATE_COMPONENT,
+  // UPDATE_COMPONENT,
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
-  UPDATE_CHILDREN,
-  REASSIGN_PARENT,
-  SET_SELECTABLE_PARENTS,
+  // UPDATE_CHILDREN,
+  // REASSIGN_PARENT,
+  // SET_SELECTABLE_PARENTS,
   EXPORT_FILES,
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
@@ -19,21 +25,21 @@ import {
   CREATE_APPLICATION,
   CREATE_APPLICATION_SUCCESS,
   CREATE_APPLICATION_ERROR,
-  MOVE_TO_BOTTOM,
-  MOVE_TO_TOP,
+  // MOVE_TO_BOTTOM,
+  // MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
   DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH,
+  // CHANGE_IMAGE_PATH,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
 } from "../actionTypes/index";
 
 import { loadState } from "../localStorage";
 
-import createFiles from "../utils/createFiles.util.ts";
-import createApplicationUtil from "../utils/createApplication.util.ts";
+import createFiles from "../utils/createFiles.util";
+import createApplicationUtil from "../utils/createApplication.util";
 
 export const loadInitData = () => dispatch => {
   loadState().then(data =>
@@ -45,24 +51,6 @@ export const loadInitData = () => dispatch => {
     })
   );
 };
-
-// export const updateChildren = ({ parentIds, childIndex, childId }) => ({
-//   type: UPDATE_CHILDREN,
-//   payload: {
-//     parentIds,
-//     childIndex,
-//     childId,
-//   },
-// });
-
-// export const parentReassignment = ({ index, id, parentIds }) => ({
-//   type: REASSIGN_PARENT,
-//   payload: {
-//     index,
-//     id,
-//     parentIds,
-//   },
-// });
 
 export const addComponent = ({ title }) => dispatch => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
@@ -102,37 +90,6 @@ export const deleteComponent = ({
   // after taking care of the children delete the component
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
-
-// export const updateComponent = ({
-//   id,
-//   index,
-//   newParentId = null,
-//   color = null,
-//   stateful = null,
-// }) => (dispatch) => {
-//   dispatch({
-//     type: UPDATE_COMPONENT,
-//     payload: {
-//       id,
-//       index,
-//       newParentId,
-//       color,
-//       stateful,
-//     },
-//   });
-
-//   if (newParentId) {
-//     dispatch(
-//       updateChildren({
-//         parentIds: [newParentId],
-//         childId: id,
-//         childIndex: index,
-//       }),
-//     );
-//   }
-
-//   dispatch({ type: SET_SELECTABLE_PARENTS });
-// };
 
 export const changeFocusComponent = ({ title }) => dispatch => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });

@@ -161,22 +161,22 @@ class BottomTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
+            label="Code Preview"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component State"
+            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
           />
+          {/* <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Component State"
+          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
           />
         </Tabs>
 
@@ -216,13 +216,13 @@ class BottomTabs extends Component {
             />
           </div>
         )}
-        {value === 1 && <Props />}
+        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3
           && focusChild.childType !== 'HTML' && (
             <p>Please select an HTML element to view attributes</p>
         )}
-        {value === 4 && <CodePreview focusComponent={focusComponent} components={components} />}
       </div>
     );
   }
