@@ -103,18 +103,4 @@ const MainContainerHeader = (props) => {
   );
 };
 
-// MainContainerHeader.propTypes = {
-//   image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-//   classes: PropTypes.object.isRequired,
-//   increaseHeight: PropTypes.func.isRequired,
-//   decreaseHeight: PropTypes.func.isRequired,
-//   showImageDeleteModal: PropTypes.func.isRequired,
-//   updateImage: PropTypes.func.isRequired,
-//   showGenerateAppModal: PropTypes.func.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   collapseColumn: PropTypes.func.isRequired,
-//   rightColumnOpen: PropTypes.bool.isRequired,
-//   toggleClass: PropTypes.bool.isRequired,
-// };
-
 export default withStyles(styles)(MainContainerHeader);
