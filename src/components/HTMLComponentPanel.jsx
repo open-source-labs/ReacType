@@ -33,9 +33,9 @@ class HTMLComponentPanel extends Component {
   };
 
   render() {
-    const { addChild } = this.props;
+    const { classes } = this.props;
     return (
-      <div className={'htmlPanel'} alignItems="flex-start" align="center">
+      <div align="center">
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}

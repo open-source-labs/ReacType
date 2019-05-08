@@ -162,13 +162,13 @@ class BottomTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component State"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
+          {/* <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Component State"
+          /> */}
         </Tabs>
 
         {value === 0 && (
