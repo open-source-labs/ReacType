@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
@@ -83,7 +84,7 @@ class HtmlAttr extends Component {
                 input: classes.input,
               },
             }}
-            style={{ background: '#424242' }}
+            style={{ background: '#424242', height: '80%' }}
             label={attr}
             variant="outlined"
             id={attr}
@@ -109,12 +110,8 @@ class HtmlAttr extends Component {
           </Fab>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.root} elevation={1}>
+          <Paper className={classes.root} style={{ height: '80%' }}>
             <p style={{ color: 'black' }}>
-              {attr}
-              {':  '}
-            </p>
-            <p style={{ color: 'grey' }}>
               {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : ' no attribute assigned'}
             </p>
           </Paper>
