@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { updateHtmlAttr } from '../actions/components';
 import { HTMLelements, getSize } from '../utils/htmlElements.util.ts';
@@ -80,7 +81,7 @@ class HtmlAttr extends Component {
                 notchedOutline: classes.notchedOutline,
               },
             }}
-            style={{ background: '#424242' }}
+            style={{ background: '#424242', height: '80%' }}
             label={attr}
             variant="outlined"
             id={attr}
@@ -106,13 +107,9 @@ class HtmlAttr extends Component {
           </Fab>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.root} elevation={1}>
-            <p style={{ color: 'gray' }}>
-              {attr}
-              {':  '}
-            </p>
+          <Paper className={classes.root} style={{ height: '80%' }}>
             <p style={{ color: 'black' }}>
-              {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : 'no attribute assigned'}
+              {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : ' no attribute assigned'}
             </p>
           </Paper>
         </Grid>
