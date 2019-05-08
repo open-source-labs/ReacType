@@ -65,6 +65,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width,
     height,
+    webPreferences: {
+      zoomFactor: 0.8,
+      'node-Integration': false,
+    },
     show: false,
   });
 

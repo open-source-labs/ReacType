@@ -270,3 +270,9 @@ div.rst__rowContents {
 .closeIcon:hover {
   cursor: pointer;
 }
+
+/* @media only screen and (max-width: 560px) {
+  .app-container {
+    width: 80%;
+  }
+} */
