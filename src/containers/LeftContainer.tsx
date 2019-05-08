@@ -38,6 +38,15 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({ componentId, stateComponents }: { componentId: number; stateComponents: ComponentsInt }) =>
     dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  deleteAllData: () => dispatch(actions.deleteAllData()),
+  createApp: ({ path, components, genOption }) =>
+    dispatch(
+      actions.createApplication({
+        path,
+        components,
+        genOption,
+      }),
+    ),
 });
 
 class LeftContainer extends Component<Props> {
@@ -45,7 +54,22 @@ class LeftContainer extends Component<Props> {
     componentName: '',
     modal: null,
     genOptions: ['Export components', 'Export components with application files'],
+    genOption: 0,
   };
+
+  constructor(props) {
+    super(props);
+
+    IPC.on('app_dir_selected', (event, path) => {
+      const { components } = this.props;
+      const { genOption } = this.state;
+      this.props.createApp({
+        path,
+        components,
+        genOption,
+      });
+    });
+  }
 
   handleChange = event => {
     this.setState({
