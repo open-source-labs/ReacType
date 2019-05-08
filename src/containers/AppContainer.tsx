@@ -42,7 +42,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components, focusComponent, loading, selectableChildren } = this.props;
+    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
     const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
@@ -53,7 +53,7 @@ class AppContainer extends Component {
         <div className="app-container">
           <LeftContainer
             components={components}
-            // totalComponents={totalComponents}
+            totalComponents={totalComponents}
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />

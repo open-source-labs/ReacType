@@ -56,7 +56,6 @@ const MainContainerHeader = (props) => {
     showGenerateAppModal,
     collapseColumn,
     rightColumnOpen,
-    clearWorkspace,
   } = props;
 
   return (
@@ -84,22 +83,18 @@ const MainContainerHeader = (props) => {
         <Tooltip title={'export'}>
           <div>
             <Button
-              color="default"
-              className={classes.button}
+              color="primary"
+              variant="text"
+              // variant="outlined"
+              className={classes.clearButton}
               disabled={totalComponents < 1}
               onClick={showGenerateAppModal}
             >
-              <GetAppIcon className={classes.light} />
-            </Button>
-            <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
-              onClick={clearWorkspace}
-              disabled={totalComponents < 1}
-              className={classes.clearButton}
-            >
-              Clear workspace
+              <GetAppIcon
+                className={classes.light}
+                style={{ paddingLeft: '5px', paddingRight: '5px' }}
+              />
+              Export Project
             </Button>
           </div>
         </Tooltip>

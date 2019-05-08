@@ -7,9 +7,16 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.jsx';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Tooltip from '@material-ui/core/Tooltip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
+import createModal from '../utils/createModal.util';
+
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
     dispatch(
@@ -23,13 +30,15 @@ const mapDispatchToProps = dispatch => ({
   addChild: ({ title, childType, HTMLInfo }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }) =>
-    dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  deleteComponent: ({ componentId, stateComponents }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
 class LeftContainer extends Component {
   state = {
     componentName: '',
+    modal: null,
+    genOptions: ['Export components', 'Export components with application files'],
   };
 
   handleChange = event => {
@@ -45,6 +54,62 @@ class LeftContainer extends Component {
     });
   };
 
+  closeModal = () => this.setState({ modal: null });
+
+  clearWorkspace = () => {
+    this.setState({
+      modal: createModal({
+        message: 'Are you sure want to delete all data?',
+        closeModal: this.closeModal,
+        secBtnLabel: 'Clear Workspace',
+        secBtnAction: () => {
+          this.props.deleteAllData();
+          this.closeModal();
+        },
+      }),
+    });
+  };
+
+  chooseGenOptions = (genOption) => {
+    // set option
+    this.setState({ genOption });
+    // closeModal
+    this.closeModal();
+    // Choose app dir
+    this.chooseAppDir();
+  };
+
+  showGenerateAppModal = () => {
+    console.log('clicked on export button');
+    const { closeModal, chooseGenOptions } = this;
+    const { genOptions } = this.state;
+    const children = (
+      <List className="export-preference">
+        {genOptions.map((option, i) => (
+          <ListItem
+            key={i}
+            button
+            onClick={() => chooseGenOptions(i)}
+            style={{
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%',
+            }}
+          >
+            <ListItemText primary={option} style={{ textAlign: 'center' }} />
+          </ListItem>
+        ))}
+      </List>
+    );
+    this.setState({
+      modal: createModal({
+        closeModal,
+        children,
+        message: 'Choose export preference:',
+      }),
+    });
+  };
+
   render() {
     const {
       components,
@@ -57,8 +122,11 @@ class LeftContainer extends Component {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
+      deleteAllData,
+      showGenerateAppModal,
+      totalComponents,
     } = this.props;
-    const { componentName } = this.state;
+    const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components
       .sort((a, b) => parseInt(b.id) - parseInt(a.id)) // sort by id value of comp
@@ -120,7 +188,40 @@ class LeftContainer extends Component {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <HTMLComponentPanel className={classes.htmlCompWrapper} focusComponent={focusComponent} addChild={addChild} />
+        <HTMLComponentPanel
+          className={classes.htmlCompWrapper}
+          focusComponent={focusComponent}
+          addChild={addChild}
+        />
+        <Button
+          color="secondary"
+          aria-label="Delete All"
+          variant="contained"
+          onClick={this.clearWorkspace}
+          disabled={totalComponents === 1}
+          className={classes.clearButton}
+        >
+          Clear Workspace
+        </Button>
+        {/* <Tooltip title={'export'}>
+          <div>
+            <Button
+              color="primary"
+              variant="text"
+              // variant="outlined"
+              className={classes.clearButton}
+              disabled={totalComponents < 1}
+              onClick={this.showGenerateAppModal}
+            >
+              <GetAppIcon
+                className={classes.light}
+                style={{ paddingLeft: '5px', paddingRight: '5px' }}
+              />
+              Export Project
+            </Button>
+          </div>
+        </Tooltip> */}
+        {modal}
       </div>
     );
   }
