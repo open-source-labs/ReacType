@@ -2,14 +2,7 @@ import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
 import { getSize } from './htmlElements.util.ts';
 import cloneDeep from './cloneDeep';
-import {
-  ComponentInt,
-  ApplicationStateInt,
-  ChildrenInt,
-  ChildInt,
-  ComponentsInt,
-  PropInt,
-} from './interfaces';
+import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './interfaces';
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -37,9 +30,7 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
 
   // duplicate component names not allowed
   if (state.components.find(comp => comp.title === strippedTitle)) {
-    window.alert(
-      `A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`,
-    );
+    window.alert(`A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`);
     return {
       ...state,
     };
@@ -68,9 +59,7 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
 
-  const selectableChildren = state.components
-    .map(comp => comp.id)
-    .filter(id => id !== newComponent.id);
+  const selectableChildren = state.components.map(comp => comp.id).filter(id => id !== newComponent.id);
 
   const ancestors: Array<number> = [];
 
@@ -108,9 +97,7 @@ export const addChild = (
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
-  const view: ComponentInt = state.components.find(
-    comp => comp.title === state.focusComponent.title,
-  );
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
   let parentComponent;
@@ -125,27 +112,26 @@ export const addChild = (
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
     if (!htmlElemPosition.width) {
-      console.log(
-        `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`,
-      );
+      console.log(`Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`);
       return;
     }
     // console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
-  const newPosition = childType === 'COMP'
-    ? {
-      x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
-      y: view.position.y + ((view.nextChildId * 16) % 150),
-      width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
-      height: parentComponent.position.height - 1,
-    }
-    : {
-      x: view.position.x + view.nextChildId * 16,
-      y: view.position.y + view.nextChildId * 16,
-      width: htmlElemPosition.width,
-      height: htmlElemPosition.height,
-    };
+  const newPosition =
+    childType === 'COMP'
+      ? {
+          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
+          y: view.position.y + ((view.nextChildId * 16) % 150),
+          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
+          height: parentComponent.position.height - 1,
+        }
+      : {
+          x: view.position.x + view.nextChildId * 16,
+          y: view.position.y + view.nextChildId * 16,
+          width: htmlElemPosition.width,
+          height: htmlElemPosition.height,
+        };
 
   const newChild: ChildInt = {
     childId: view.nextChildId,
@@ -169,7 +155,7 @@ export const addChild = (
   };
 
   const components = [
-    ...state.components.filter((comp) => {
+    ...state.components.filter(comp => {
       if (comp.title !== view.title) return comp;
     }),
     component,
@@ -185,16 +171,12 @@ export const addChild = (
 
 export const deleteChild = (
   state: ApplicationStateInt,
-  {
-    parentId = state.focusComponent.id,
-    childId = state.focusChild.childId,
-    calledFromDeleteComponent = false,
-  },
+  { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
 ) => {
   console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  
    state.focusComponent.id=${
-  state.focusComponent.id
-}  myPrms: parentId:${parentId} childId${childId} calledFromDeleteComponent:${calledFromDeleteComponent}`);
+     state.focusComponent.id
+   }  myPrms: parentId:${parentId} childId${childId} calledFromDeleteComponent:${calledFromDeleteComponent}`);
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
@@ -216,9 +198,7 @@ export const deleteChild = (
   const parentComponentCopy: any = cloneDeep(state.components.find(c => c.id === parentId));
 
   // delete the  CHILD from the copied array
-  const indexToDelete = parentComponentCopy.childrenArray.findIndex(
-    (elem: ChildInt) => elem.childId === childId,
-  );
+  const indexToDelete = parentComponentCopy.childrenArray.findIndex((elem: ChildInt) => elem.childId === childId);
   if (indexToDelete < 0) {
     return window.alert('No such child component found');
   }
@@ -255,12 +235,12 @@ export const handleTransform = (
     width,
     height,
   }: {
-  componentId: number;
-  childId: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+    componentId: number;
+    childId: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
   },
 ) => {
   if (childId === -1) {
@@ -277,7 +257,7 @@ export const handleTransform = (
     };
 
     const components = [
-      ...state.components.filter((comp) => {
+      ...state.components.filter(comp => {
         if (comp.id !== componentId) return comp;
       }),
       transformedComponent,
@@ -305,9 +285,11 @@ export const handleTransform = (
   };
 
   const children = [
-    ...state.components.find(comp => comp.id === componentId).childrenArray.filter((child) => {
-      if (child.childId !== childId) return child;
-    }),
+    ...state.components
+      .find(comp => comp.id === componentId)
+      .childrenArray.filter(child => {
+        if (child.childId !== childId) return child;
+      }),
     transformedChild,
   ];
 
@@ -323,7 +305,7 @@ export const handleTransform = (
   };
 
   const components: ComponentsInt = [
-    ...state.components.filter((comp) => {
+    ...state.components.filter(comp => {
       if (comp.id !== componentId) return comp;
     }),
     component,
@@ -335,10 +317,7 @@ export const handleTransform = (
   };
 };
 
-export const deleteComponent = (
-  state: ApplicationStateInt,
-  { componentId }: { componentId: number },
-) => {
+export const deleteComponent = (state: ApplicationStateInt, { componentId }: { componentId: number }) => {
   if (componentId === 1) {
     return {
       ...state,
@@ -374,9 +353,7 @@ export const changeFocusComponent = (
 
   let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
   if (newFocusComp.focusChildId > 0) {
-    newFocusChild = newFocusComp.childrenArray.find(
-      child => child.childId === newFocusComp.focusChildId,
-    );
+    newFocusChild = newFocusComp.childrenArray.find(child => child.childId === newFocusComp.focusChildId);
   }
 
   if (!newFocusChild) {
@@ -411,6 +388,7 @@ export const changeFocusChild = (state: ApplicationStateInt, { childId }: { chil
         height: focComp.position.height,
       },
       // draggable: true,
+      childSort: 0,
       color: focComp.color,
       childType: '',
       htmlElement: '',
@@ -438,20 +416,14 @@ export const changeComponentFocusChild = (
   };
 };
 
-export const exportFilesSuccess = (
-  state: ApplicationStateInt,
-  { status, dir }: { status: boolean; dir: string },
-) => ({
+export const exportFilesSuccess = (state: ApplicationStateInt, { status, dir }: { status: boolean; dir: string }) => ({
   ...state,
   successOpen: status,
   appDir: dir,
   loading: false,
 });
 
-export const exportFilesError = (
-  state: ApplicationStateInt,
-  { status, err }: { status: boolean; err: string },
-) => ({
+export const exportFilesError = (state: ApplicationStateInt, { status, err }: { status: boolean; err: string }) => ({
   ...state,
   errorOpen: status,
   appDir: err,
@@ -464,21 +436,13 @@ export const handleClose = (state: ApplicationStateInt, status: string) => ({
   successOpen: status,
 });
 
-export const openExpansionPanel = (
-  state: ApplicationStateInt,
-  { component }: { component: ComponentInt },
-) => ({
+export const openExpansionPanel = (state: ApplicationStateInt, { component }: { component: ComponentInt }) => ({
   ...state,
 });
 
 export const addProp = (
   state: ApplicationStateInt,
-  {
-    key,
-    value = null,
-    required,
-    type,
-  }: { key: string; value: string; required: boolean; type: string },
+  { key, value = null, required, type }: { key: string; value: string; required: boolean; type: string },
 ) => {
   if (!state.focusComponent.id) {
     console.log('Add prop error. no focused component ');
@@ -502,9 +466,7 @@ export const addProp = (
     nextPropId: selectedComponent.nextPropId + 1,
   };
 
-  const newComponents: ComponentsInt = state.components.filter(
-    comp => comp.id !== selectedComponent.id,
-  );
+  const newComponents: ComponentsInt = state.components.filter(comp => comp.id !== selectedComponent.id);
   newComponents.push(modifiedComponent);
   return {
     ...state,
@@ -519,9 +481,7 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
     return state;
   }
 
-  const modifiedComponent: any = cloneDeep(
-    state.components.find(comp => comp.id === state.focusComponent.id),
-  );
+  const modifiedComponent: any = cloneDeep(state.components.find(comp => comp.id === state.focusComponent.id));
 
   const indexToDelete = modifiedComponent.props.findIndex((prop: PropInt) => prop.id === propId);
   if (indexToDelete === -1) {
@@ -541,10 +501,7 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const updateHtmlAttr = (
-  state: ApplicationStateInt,
-  { attr, value }: { attr: string; value: string },
-) => {
+export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: { attr: string; value: string }) => {
   if (!state.focusChild.childId) {
     console.log('Update HTML error. no focused child ');
     return state;
@@ -591,5 +548,7 @@ export const updateChildrenSort = (
   // console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
   return {
     ...state,
+    components: modifiedComponentsArray,
+    focusComponent: modifiedComponent,
   };
 };

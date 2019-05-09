@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces';
+import createModal from '../utils/createModal.util';
 
-type Props = {
+const IPC = require('electron').ipcRenderer;
+
+interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
   classes: any;
-
   addComponent: any;
   addChild: any;
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
-};
+  createApp: any;
+  deleteAllData: any;
+}
+
+interface StateInt {
+  componentName: string;
+  modal: any;
+  genOptions: Array<string>;
+  genOption: number;
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
@@ -39,28 +49,32 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteComponent: ({ componentId, stateComponents }: { componentId: number; stateComponents: ComponentsInt }) =>
     dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  createApp: ({ path, components, genOption }) =>
+  createApp: ({ path, components, genOption }: { path: string; components: ComponentsInt; genOption: number }) =>
     dispatch(
       actions.createApplication({
         path,
         components,
         genOption,
+        appName: 'reactype_app',
+        exportAppBool: null,
       }),
     ),
 });
 
-class LeftContainer extends Component<Props> {
-  state = {
-    componentName: '',
-    modal: null,
-    genOptions: ['Export components', 'Export components with application files'],
-    genOption: 0,
-  };
+class LeftContainer extends Component<PropsInt, StateInt> {
+  state: StateInt;
 
-  constructor(props) {
+  constructor(props: PropsInt) {
     super(props);
 
-    IPC.on('app_dir_selected', (event, path) => {
+    this.state = {
+      componentName: '',
+      modal: null,
+      genOptions: ['Export components', 'Export components with application files'],
+      genOption: 0,
+    };
+
+    IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
@@ -71,9 +85,10 @@ class LeftContainer extends Component<Props> {
     });
   }
 
-  handleChange = event => {
+  handleChange = (event: any) => {
+    let newValue: string = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value,
+      componentName: newValue,
     });
   };
 
@@ -81,6 +96,73 @@ class LeftContainer extends Component<Props> {
     this.props.addComponent({ title: this.state.componentName });
     this.setState({
       componentName: '',
+    });
+  };
+
+  closeModal = () => this.setState({ modal: null });
+
+  clearWorkspace = () => {
+    this.setState({
+      modal: createModal({
+        message: 'Are you sure want to delete all data?',
+        closeModal: this.closeModal,
+        secBtnLabel: 'Clear Workspace',
+        open: true,
+        children: null,
+        primBtnAction: null,
+        primBtnLabel: null,
+        secBtnAction: () => {
+          this.props.deleteAllData();
+          this.closeModal();
+        },
+      }),
+    });
+  };
+
+  chooseGenOptions = (genOption: number) => {
+    // set option
+    this.setState({ genOption });
+    // closeModal
+    this.closeModal();
+    // Choose app dir
+    this.chooseAppDir();
+  };
+
+  chooseAppDir = () => IPC.send('choose_app_dir');
+
+  showGenerateAppModal = () => {
+    console.log('clicked on export button');
+    const { closeModal, chooseGenOptions } = this;
+    const { genOptions } = this.state;
+    const children = (
+      <List className="export-preference">
+        {genOptions.map((option, i) => (
+          <ListItem
+            key={i}
+            button
+            onClick={() => chooseGenOptions(i)}
+            style={{
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%',
+            }}
+          >
+            <ListItemText primary={option} style={{ textAlign: 'center' }} />
+          </ListItem>
+        ))}
+      </List>
+    );
+    this.setState({
+      modal: createModal({
+        closeModal,
+        children,
+        message: 'Choose export preference:',
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true,
+      }),
     });
   };
 
@@ -96,12 +178,12 @@ class LeftContainer extends Component<Props> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
-      deleteAllData,
-      totalComponents,
+      // deleteAllData,
+      // totalComponents
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = components
+    const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
@@ -119,8 +201,8 @@ class LeftContainer extends Component<Props> {
 
     return (
       <div className="column left">
-        <Grid container spacing={16} alignItems="baseline" align="stretch">
-          <Grid item xs={12}>
+        <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
+          <Grid item xs={8}>
             <TextField
               id="title-input"
               label="Add class component"
@@ -130,7 +212,6 @@ class LeftContainer extends Component<Props> {
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {
-                  // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
                 }
@@ -147,17 +228,16 @@ class LeftContainer extends Component<Props> {
             />
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="fab"
-              mini
-              color="primary"
+            <Fab
+              size="small"
+              color="secondary"
               className={classes.button}
               aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
               <AddIcon />
-            </Button>
+            </Fab>
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
@@ -184,7 +264,7 @@ class LeftContainer extends Component<Props> {
               variant="contained"
               fullwidth={true}
               onClick={this.clearWorkspace}
-              disabled={totalComponents === 1}
+              disabled={this.props.components.length === 1}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
@@ -201,7 +281,8 @@ class LeftContainer extends Component<Props> {
             <Button
               color="primary"
               variant="contained"
-              fullwidth={true}
+              fullWidth
+              onClick={this.showGenerateAppModal}
               className={classes.clearButton}
               disabled={totalComponents < 1}
               onClick={this.showGenerateAppModal}
@@ -219,7 +300,7 @@ class LeftContainer extends Component<Props> {
   }
 }
 
-function styles() {
+function styles(): any {
   return {
     cssLabel: {
       color: 'white',
