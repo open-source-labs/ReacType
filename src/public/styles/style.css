@@ -12,7 +12,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open sans', sans-serif;
+  font-family: "Open sans", sans-serif;
   font-weight: 400;
   overflow: hidden;
 }
@@ -219,6 +219,7 @@ RIGHT COLUMN
   flex-direction: row; */
   background-color: #fcfcfc;
   /* box-shadow: 0 -5px 7px 2px rgb(255, 0, 0); */
+  margin-right: 100px;
 }
 
 .htmlattr {

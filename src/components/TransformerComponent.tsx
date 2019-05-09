@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Transformer } from "react-konva";
-// import PropTypes from 'prop-types';
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
 interface PropsInt {
@@ -52,7 +51,3 @@ export default class TransformerComponent extends Component<PropsInt> {
     );
   }
 }
-
-// TransformerComponent.propTypes = {
-//   focusComponent: PropTypes.object,
-// };
