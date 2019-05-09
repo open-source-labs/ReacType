@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer';
-import MainContainer from './MainContainer';
-import theme from '../components/theme';
-import { loadInitData } from '../actions/components.js';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import LeftContainer from "./LeftContainer";
+import MainContainer from "./MainContainer";
+import theme from "../components/theme";
+import { loadInitData } from "../actions/components";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
 type Props = {
   components: ComponentsInt;
@@ -22,7 +22,7 @@ const mapStateToProps = (store: any) => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren,
+  selectableChildren: store.workspace.selectableChildren
 });
 
 const mapDispatchToProps = { loadInitData };
@@ -30,22 +30,8 @@ const mapDispatchToProps = { loadInitData };
 class AppContainer extends Component<Props> {
   state = {
     width: 25,
-    rightColumnOpen: true,
+    rightColumnOpen: true
   };
-
-  // collapseColumn = () => {
-  //   if (this.state.width === 25) {
-  //     this.setState({
-  //       width: 0,
-  //       rightColumnOpen: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       width: 25,
-  //       rightColumnOpen: true,
-  //     });
-  //   }
-  // };
 
   componentDidMount() {
     this.props.loadInitData();
@@ -53,7 +39,11 @@ class AppContainer extends Component<Props> {
 
   render(): JSX.Element {
     const {
-      components, focusComponent, loading, selectableChildren, totalComponents,
+      components,
+      focusComponent,
+      loading,
+      selectableChildren,
+      totalComponents
     } = this.props;
     const { width, rightColumnOpen } = this.state;
 
@@ -71,16 +61,15 @@ class AppContainer extends Component<Props> {
           />
           <MainContainer
             components={components}
-            // collapseColumn={this.collapseColumn}
-            width={width}
-            rightColumnOpen={rightColumnOpen}
+            // width={width}
+            // rightColumnOpen={rightColumnOpen}
           />
           {loading ? (
             <div
               style={{
-                alignSelf: 'flex-end',
-                position: 'fixed',
-                width: '100%',
+                alignSelf: "flex-end",
+                position: "fixed",
+                width: "100%"
               }}
             >
               <LinearProgress color="secondary" />
@@ -94,13 +83,5 @@ class AppContainer extends Component<Props> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AppContainer);
-
-// AppContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   loadInitData: PropTypes.func.isRequired,
-//   loading: PropTypes.bool,
-// };

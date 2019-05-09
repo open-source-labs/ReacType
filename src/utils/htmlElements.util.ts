@@ -9,6 +9,11 @@ interface htmlElementsInt {
   [key: string]: htmlElementInt;
 }
 
+interface htmlElemPositionInt {
+  width: number;
+  height: number;
+}
+
 const HTMLelements: htmlElementsInt = {
   Image: {
     width: 100,
@@ -42,7 +47,7 @@ const HTMLelements: htmlElementsInt = {
   }
 };
 
-function getSize(htmlElement: string): object {
+function getSize(htmlElement: string): htmlElemPositionInt {
   const localHTMLelements = HTMLelements;
 
   if (!(htmlElement in localHTMLelements)) {

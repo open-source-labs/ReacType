@@ -1,99 +1,126 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import Tooltip from '@material-ui/core/Tooltip';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
-import HTMLComponentPanel from '../components/HTMLComponentPanel';
-import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
-import createModal from '../utils/createModal.util';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import LeftColExpansionPanel from "../components/LeftColExpansionPanel";
+import HTMLComponentPanel from "../components/HTMLComponentPanel";
+import * as actions from "../actions/components";
+import { ComponentInt, ComponentsInt } from "../utils/interfaces";
+import createModal from "../utils/createModal.util";
 
-const IPC = require('electron').ipcRenderer;
+const IPC = require("electron").ipcRenderer;
 
-type Props = {
+interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
   classes: any;
-
   addComponent: any;
   addChild: any;
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
-};
+  createApp: any;
+  deleteAllData: any;
+}
+
+interface StateInt {
+  componentName: string;
+  modal: any;
+  genOptions: Array<string>;
+  genOption: number;
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
+  addComponent: ({ title }: { title: string }) =>
+    dispatch(actions.addComponent({ title })),
   addChild: ({
     title,
     childType,
-    HTMLInfo,
+    HTMLInfo
   }: {
-  title: string;
-  childType: string;
-  HTMLInfo: object;
+    title: string;
+    childType: string;
+    HTMLInfo: object;
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
+  changeFocusComponent: ({ title }: { title: string }) =>
+    dispatch(actions.changeFocusComponent({ title })),
+  changeFocusChild: ({ childId }: { childId: number }) =>
+    dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({
     componentId,
-    stateComponents,
+    stateComponents
   }: {
-  componentId: number;
-  stateComponents: ComponentsInt;
+    componentId: number;
+    stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  createApp: ({ path, components, genOption }) => dispatch(
-    actions.createApplication({
-      path,
-      components,
-      genOption,
-    }),
-  ),
+  createApp: ({
+    path,
+    components,
+    genOption
+  }: {
+    path: string;
+    components: ComponentsInt;
+    genOption: number;
+  }) =>
+    dispatch(
+      actions.createApplication({
+        path,
+        components,
+        genOption,
+        appName: "reactype_app",
+        exportAppBool: null
+      })
+    )
 });
 
-class LeftContainer extends Component<Props> {
-  state = {
-    componentName: '',
-    modal: null,
-    genOptions: ['Export components', 'Export components with application files'],
-    genOption: 0,
-  };
+class LeftContainer extends Component<PropsInt, StateInt> {
+  state: StateInt;
 
-  constructor(props) {
+  constructor(props: PropsInt) {
     super(props);
 
-    IPC.on('app_dir_selected', (event, path) => {
+    this.state = {
+      componentName: "",
+      modal: null,
+      genOptions: [
+        "Export components",
+        "Export components with application files"
+      ],
+      genOption: 0
+    };
+
+    IPC.on("app_dir_selected", (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
         path,
         components,
-        genOption,
+        genOption
       });
     });
   }
 
-  handleChange = (event) => {
+  handleChange = (event: any) => {
+    let newValue: string = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value,
+      componentName: newValue
     });
   };
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
     this.setState({
-      componentName: '',
+      componentName: ""
     });
   };
 
@@ -102,18 +129,22 @@ class LeftContainer extends Component<Props> {
   clearWorkspace = () => {
     this.setState({
       modal: createModal({
-        message: 'Are you sure want to delete all data?',
+        message: "Are you sure want to delete all data?",
         closeModal: this.closeModal,
-        secBtnLabel: 'Clear Workspace',
+        secBtnLabel: "Clear Workspace",
+        open: true,
+        children: null,
+        primBtnAction: null,
+        primBtnLabel: null,
         secBtnAction: () => {
           this.props.deleteAllData();
           this.closeModal();
-        },
-      }),
+        }
+      })
     });
   };
 
-  chooseGenOptions = (genOption) => {
+  chooseGenOptions = (genOption: number) => {
     // set option
     this.setState({ genOption });
     // closeModal
@@ -122,10 +153,10 @@ class LeftContainer extends Component<Props> {
     this.chooseAppDir();
   };
 
-  chooseAppDir = () => IPC.send('choose_app_dir');
+  chooseAppDir = () => IPC.send("choose_app_dir");
 
   showGenerateAppModal = () => {
-    console.log('clicked on export button');
+    console.log("clicked on export button");
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
@@ -136,12 +167,12 @@ class LeftContainer extends Component<Props> {
             button
             onClick={() => chooseGenOptions(i)}
             style={{
-              border: '1px solid #3f51b5',
-              marginBottom: '2%',
-              marginTop: '5%',
+              border: "1px solid #3f51b5",
+              marginBottom: "2%",
+              marginTop: "5%"
             }}
           >
-            <ListItemText primary={option} style={{ textAlign: 'center' }} />
+            <ListItemText primary={option} style={{ textAlign: "center" }} />
           </ListItem>
         ))}
       </List>
@@ -150,8 +181,13 @@ class LeftContainer extends Component<Props> {
       modal: createModal({
         closeModal,
         children,
-        message: 'Choose export preference:',
-      }),
+        message: "Choose export preference:",
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
     });
   };
 
@@ -164,9 +200,9 @@ class LeftContainer extends Component<Props> {
       addChild,
       changeFocusComponent,
       changeFocusChild,
-      selectableChildren,
-      deleteAllData,
-      totalComponents,
+      selectableChildren
+      // deleteAllData,
+      // totalComponents
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -189,8 +225,14 @@ class LeftContainer extends Component<Props> {
       ));
 
     return (
-      <div className="column left" position="relative">
-        <Grid container spacing={8} align="stretch" direction="row">
+      <div className="column left">
+        <Grid
+          container
+          spacing={8}
+          align="stretch"
+          direction="row"
+          alignItems="center"
+        >
           <Grid item xs={8}>
             <TextField
               id="title-input"
@@ -199,8 +241,8 @@ class LeftContainer extends Component<Props> {
               margin="normal"
               autoFocus
               onChange={this.handleChange}
-              onKeyPress={(ev) => {
-                if (ev.key === 'Enter') {
+              onKeyPress={ev => {
+                if (ev.key === "Enter") {
                   // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
@@ -210,18 +252,18 @@ class LeftContainer extends Component<Props> {
               name="componentName"
               className={classes.light}
               InputProps={{
-                className: classes.input,
+                className: classes.input
               }}
               InputLabelProps={{
-                className: classes.input,
+                className: classes.input
               }}
             />
           </Grid>
           <Grid item xs={4}>
             <Button
-              // variant="fab"
+              variant="fab"
               mini
-              color="primary"
+              color="secondary"
               className={classes.button}
               aria-label="Add"
               onClick={this.handleAddComponent}
@@ -240,17 +282,17 @@ class LeftContainer extends Component<Props> {
 
         <div
           style={{
-            width: '100%',
-            position: 'absolute',
+            width: "100%",
+            position: "absolute",
             bottom: 0,
-            left: 0,
+            left: 0
           }}
         >
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column"
             }}
           >
             <Button
@@ -259,7 +301,7 @@ class LeftContainer extends Component<Props> {
               variant="contained"
               fullWidth
               onClick={this.clearWorkspace}
-              disabled={totalComponents === 1}
+              disabled={this.props.components.length === 1}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
@@ -268,9 +310,9 @@ class LeftContainer extends Component<Props> {
           </div>
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column"
             }}
           >
             <Button
@@ -283,7 +325,7 @@ class LeftContainer extends Component<Props> {
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
-              <GetAppIcon style={{ paddingRight: '5px' }} />
+              <GetAppIcon style={{ paddingRight: "5px" }} />
               Export Project
             </Button>
           </div>
@@ -295,44 +337,44 @@ class LeftContainer extends Component<Props> {
   }
 }
 
-function styles() {
+function styles(): any {
   return {
     cssLabel: {
-      color: 'white',
+      color: "white",
 
-      '&$cssFocused': {
-        color: 'green',
-      },
+      "&$cssFocused": {
+        color: "green"
+      }
     },
     cssFocused: {},
     input: {
-      color: '#fff',
-      opacity: '0.7',
-      marginBottom: '10px',
+      color: "#fff",
+      opacity: "0.7",
+      marginBottom: "10px"
     },
     underline: {
-      color: 'white',
-      '&::before': {
-        color: 'white',
-      },
+      color: "white",
+      "&::before": {
+        color: "white"
+      }
     },
     button: {
-      color: '#fff',
+      color: "#fff",
 
-      '&:disabled': {
-        color: 'grey',
-      },
+      "&:disabled": {
+        color: "grey"
+      }
     },
     clearButton: {
-      top: '96%',
-      position: 'sticky!important',
-      zIndex: '1',
+      top: "96%",
+      position: "sticky!important",
+      zIndex: "1",
 
-      '&:disabled': {
-        color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
+      "&:disabled": {
+        color: "grey",
+        backgroundColor: "#424242"
+      }
+    }
   };
 }
 
@@ -340,6 +382,6 @@ export default compose(
   withStyles(styles),
   connect(
     null,
-    mapDispatchToProps,
-  ),
+    mapDispatchToProps
+  )
 )(LeftContainer);
