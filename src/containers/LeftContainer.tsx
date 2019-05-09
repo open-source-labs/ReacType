@@ -7,30 +7,37 @@ import AddIcon from "@material-ui/icons/Add";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import Tooltip from "@material-ui/core/Tooltip";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import LeftColExpansionPanel from "../components/LeftColExpansionPanel";
 import HTMLComponentPanel from "../components/HTMLComponentPanel";
-import * as actions from "../actions/components.ts";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import * as actions from "../actions/components";
+import { ComponentInt, ComponentsInt } from "../utils/interfaces";
 import createModal from "../utils/createModal.util";
 
 const IPC = require("electron").ipcRenderer;
 
-type Props = {
+interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
   classes: any;
-
   addComponent: any;
   addChild: any;
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
-};
+  createApp: any;
+  deleteAllData: any;
+}
+
+interface StateInt {
+  componentName: string;
+  modal: any;
+  genOptions: Array<string>;
+  genOption: number;
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
@@ -56,31 +63,43 @@ const mapDispatchToProps = (dispatch: any) => ({
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  createApp: ({ path, components, genOption }) =>
+  createApp: ({
+    path,
+    components,
+    genOption
+  }: {
+    path: string;
+    components: ComponentsInt;
+    genOption: number;
+  }) =>
     dispatch(
       actions.createApplication({
         path,
         components,
-        genOption
+        genOption,
+        appName: "reactype_app",
+        exportAppBool: null
       })
     )
 });
 
-class LeftContainer extends Component<Props> {
-  state = {
-    componentName: "",
-    modal: null,
-    genOptions: [
-      "Export components",
-      "Export components with application files"
-    ],
-    genOption: 0
-  };
+class LeftContainer extends Component<PropsInt, StateInt> {
+  state: StateInt;
 
-  constructor(props) {
+  constructor(props: PropsInt) {
     super(props);
 
-    IPC.on("app_dir_selected", (event, path) => {
+    this.state = {
+      componentName: "",
+      modal: null,
+      genOptions: [
+        "Export components",
+        "Export components with application files"
+      ],
+      genOption: 0
+    };
+
+    IPC.on("app_dir_selected", (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
@@ -91,9 +110,10 @@ class LeftContainer extends Component<Props> {
     });
   }
 
-  handleChange = event => {
+  handleChange = (event: any) => {
+    let newValue: string = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
+      componentName: newValue
     });
   };
 
@@ -112,6 +132,10 @@ class LeftContainer extends Component<Props> {
         message: "Are you sure want to delete all data?",
         closeModal: this.closeModal,
         secBtnLabel: "Clear Workspace",
+        open: true,
+        children: null,
+        primBtnAction: null,
+        primBtnLabel: null,
         secBtnAction: () => {
           this.props.deleteAllData();
           this.closeModal();
@@ -120,7 +144,7 @@ class LeftContainer extends Component<Props> {
     });
   };
 
-  chooseGenOptions = genOption => {
+  chooseGenOptions = (genOption: number) => {
     // set option
     this.setState({ genOption });
     // closeModal
@@ -157,7 +181,12 @@ class LeftContainer extends Component<Props> {
       modal: createModal({
         closeModal,
         children,
-        message: "Choose export preference:"
+        message: "Choose export preference:",
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
       })
     });
   };
@@ -171,9 +200,9 @@ class LeftContainer extends Component<Props> {
       addChild,
       changeFocusComponent,
       changeFocusChild,
-      selectableChildren,
-      deleteAllData,
-      totalComponents
+      selectableChildren
+      // deleteAllData,
+      // totalComponents
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -196,7 +225,7 @@ class LeftContainer extends Component<Props> {
       ));
 
     return (
-      <div className="column left" position="relative">
+      <div className="column left">
         <Grid
           container
           spacing={8}
@@ -272,7 +301,7 @@ class LeftContainer extends Component<Props> {
               variant="contained"
               fullWidth
               onClick={this.clearWorkspace}
-              disabled={totalComponents === 1}
+              disabled={this.props.components.length === 1}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
@@ -308,7 +337,7 @@ class LeftContainer extends Component<Props> {
   }
 }
 
-function styles() {
+function styles(): any {
   return {
     cssLabel: {
       color: "white",

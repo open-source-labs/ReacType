@@ -190,7 +190,15 @@ export const createTsConfig = (path, appName) => {
   });
 };
 
-async function createApplicationUtil({ path, appName, genOption }) {
+async function createApplicationUtil({
+  path,
+  appName,
+  genOption
+}: {
+  path: string;
+  appName: string;
+  genOption: number;
+}) {
   if (genOption === 1) {
     await createIndexHtml(path, appName);
     await createIndexTsx(path, appName);

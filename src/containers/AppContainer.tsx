@@ -5,7 +5,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import LeftContainer from "./LeftContainer";
 import MainContainer from "./MainContainer";
 import theme from "../components/theme";
-import { loadInitData } from "../actions/components.ts";
+import { loadInitData } from "../actions/components";
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
 type Props = {
@@ -32,20 +32,6 @@ class AppContainer extends Component<Props> {
     width: 25,
     rightColumnOpen: true
   };
-
-  // collapseColumn = () => {
-  //   if (this.state.width === 25) {
-  //     this.setState({
-  //       width: 0,
-  //       rightColumnOpen: false,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       width: 25,
-  //       rightColumnOpen: true,
-  //     });
-  //   }
-  // };
 
   componentDidMount() {
     this.props.loadInitData();
@@ -75,9 +61,8 @@ class AppContainer extends Component<Props> {
           />
           <MainContainer
             components={components}
-            // collapseColumn={this.collapseColumn}
-            width={width}
-            rightColumnOpen={rightColumnOpen}
+            // width={width}
+            // rightColumnOpen={rightColumnOpen}
           />
           {loading ? (
             <div
@@ -100,11 +85,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AppContainer);
-
-// AppContainer.propTypes = {
-//   components: PropTypes.array.isRequired,
-//   totalComponents: PropTypes.number.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   loadInitData: PropTypes.func.isRequired,
-//   loading: PropTypes.bool,
-// };

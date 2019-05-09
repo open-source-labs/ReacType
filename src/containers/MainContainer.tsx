@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Button from "@material-ui/core/Button";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import BottomPanel from "../components/BottomPanel.jsx";
-import theme from "../components/theme.ts";
+import theme from "../components/theme";
 import {
   openExpansionPanel,
   handleTransform,
@@ -17,8 +13,30 @@ import {
   createApplication
 } from "../actions/components.ts";
 import KonvaStage from "../components/KonvaStage.jsx";
-import MainContainerHeader from "../components/MainContainerHeader.jsx";
-import createModal from "../utils/createModal.util";
+import { ComponentInt, ComponentsInt } from "../utils/interfaces";
+// import MainContainerHeader from "../components/MainContainerHeader.jsx";
+// import createModal from "../utils/createModal.util";
+
+interface PropsInt {
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  selectableChildren: Array<number>;
+  classes: any;
+  addComponent: any;
+  addChild: any;
+  changeFocusComponent: any;
+  changeFocusChild: any;
+  deleteComponent: any;
+  createApp: any;
+  deleteAllData: any;
+}
+
+interface StateInt {
+  componentName: string;
+  modal: any;
+  genOptions: Array<string>;
+  genOption: number;
+}
 
 const IPC = require("electron").ipcRenderer;
 
@@ -32,21 +50,21 @@ const mapDispatchToProps = dispatch => ({
         height
       })
     ),
-  openPanel: component => dispatch(openExpansionPanel(component)),
+  // openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ childId }) => dispatch(changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }) =>
     dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
-  deleteComponent: ({ componentId, stateComponents }) =>
-    dispatch(deleteComponent({ componentId, stateComponents })),
-  createApp: ({ path, components, genOption }) =>
-    dispatch(
-      createApplication({
-        path,
-        components,
-        genOption
-      })
-    )
+  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child.
+  // deleteComponent: ({ componentId, stateComponents }) =>
+  //   dispatch(deleteComponent({ componentId, stateComponents })),
+  // createApp: ({ path, components, genOption }) =>
+  //   dispatch(
+  //     createApplication({
+  //       path,
+  //       components,
+  //       genOption
+  //     })
+  //   )
 });
 
 const mapStateToProps = store => ({
@@ -57,15 +75,15 @@ const mapStateToProps = store => ({
 
 class MainContainer extends Component {
   state = {
-    image: "",
+    // image: "",
     draggable: false,
-    modal: null,
-    genOptions: [
-      "Export components",
-      "Export components with application files"
-    ],
-    genOption: 0,
-    draggable: false,
+    // modal: null,
+    // genOptions: [
+    //   "Export components",
+    //   "Export components with application files"
+    // ],
+    // genOption: 0,
+    // draggable: false,
     toggleClass: true,
     scaleX: 1,
     scaleY: 1,
@@ -146,34 +164,34 @@ class MainContainer extends Component {
     const {
       components,
       handleTransformation,
-      openPanel,
+      // openPanel,
       focusComponent,
       focusChild,
       changeFocusChild,
       changeComponentFocusChild,
       deleteChild,
-      deleteComponent,
-      stateComponents,
+      // deleteComponent,
+      // stateComponents,
       classes
     } = this.props;
-    const { main, showGenerateAppModal } = this;
-    const cursor = this.state.draggable ? "move" : "default";
+    const { main } = this;
+    // const cursor = this.state.draggable ? "move" : "default";
 
     // show a string of all direct parents. SO the user can gaze at it.
-    const directParents = !focusComponent.id
-      ? "Waiting for a focused component"
-      : stateComponents
-          .filter(comp =>
-            comp.childrenArray.some(
-              kiddy => kiddy.childComponentId === focusComponent.id
-            )
-          )
-          .map(comp => comp.title)
-          .join(",");
+    // const directParents = !focusComponent.id
+    //   ? "Waiting for a focused component"
+    //   : stateComponents
+    //       .filter(comp =>
+    //         comp.childrenArray.some(
+    //           kiddy => kiddy.childComponentId === focusComponent.id
+    //         )
+    //       )
+    //       .map(comp => comp.title)
+    //       .join(",");
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="main-container" style={{ cursor }}>
+        <div className="main-container">
           {modal}
           {/* <MainContainerHeader
             // showImageDeleteModal={showImageDeleteModal}
@@ -187,7 +205,7 @@ class MainContainer extends Component {
               draggable={draggable}
               components={components}
               handleTransform={handleTransformation}
-              openExpansionPanel={openPanel}
+              // openExpansionPanel={openPanel}
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
