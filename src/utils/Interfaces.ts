@@ -55,7 +55,6 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
-  componentTree: object;
 }
 
 function findComponentById(id: number, components: ComponentInt[]) {

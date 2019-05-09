@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import BottomPanel from "../components/BottomPanel.jsx";
+import BottomPanel from "../components/BottomPanel.tsx";
 import theme from "../components/theme";
 import {
   // openExpansionPanel,

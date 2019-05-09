@@ -7,14 +7,17 @@ import AddIcon from "@material-ui/icons/Add";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
+import Tooltip from "@material-ui/core/Tooltip";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import LeftColExpansionPanel from "../components/LeftColExpansionPanel.tsx";
-import HTMLComponentPanel from "../components/HTMLComponentPanel.tsx";
+import Fab from "@material-ui/core/Fab";
+import LeftColExpansionPanel from "../components/LeftColExpansionPanel";
+import HTMLComponentPanel from "../components/HTMLComponentPanel";
 import * as actions from "../actions/components";
-import { ComponentInt, ComponentsInt } from "../utils/interfaces";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 import createModal from "../utils/createModal.util";
+import cloneDeep from "../utils/cloneDeep.ts";
 
 const IPC = require("electron").ipcRenderer;
 
@@ -111,7 +114,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   }
 
   handleChange = (event: any) => {
-    let newValue: string = event.target.value;
+    const newValue: string = event.target.value;
     this.setState({
       componentName: newValue
     });
@@ -206,7 +209,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = components
+    const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
@@ -243,7 +246,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === "Enter") {
-                  // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
                 }
@@ -260,9 +262,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             />
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="fab"
-              mini
+            <Fab
+              size="small"
               color="secondary"
               className={classes.button}
               aria-label="Add"
@@ -270,7 +271,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               disabled={!this.state.componentName}
             >
               <AddIcon />
-            </Button>
+            </Fab>
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
@@ -321,7 +322,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               variant="contained"
               fullWidth
               onClick={this.showGenerateAppModal}
-              // disabled={totalComponents === 1}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >

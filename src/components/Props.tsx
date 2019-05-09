@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-
-// import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
@@ -14,16 +12,24 @@ import Switch from "@material-ui/core/Switch";
 import InputLabel from "@material-ui/core/InputLabel";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import { addProp, deleteProp } from "../actions/components.ts";
-import DataTable from "./DataTable.jsx";
+import DataTable from "./DataTable.tsx";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-const styles = theme => ({
+interface PropInt {
+  addProp: any;
+  focusComponent: ComponentInt;
+  classes: any;
+  deleteProp: any;
+}
+
+const styles = (theme: any): any => ({
   root: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap"
   },
   chip: {
-    margin: theme.spacing.unit,
+    // margin: theme.spacing.unit,
     color: "#eee",
     backgroundColor: "#333333"
   },
@@ -63,8 +69,18 @@ const styles = theme => ({
   }
 });
 
-const mapDispatchToProps = dispatch => ({
-  addProp: ({ key, value, required, type }) =>
+const mapDispatchToProps = (dispatch: any) => ({
+  addProp: ({
+    key,
+    value,
+    required,
+    type
+  }: {
+    key: string;
+    value: string;
+    required: boolean;
+    type: string;
+  }) =>
     dispatch(
       addProp({
         key,
@@ -73,10 +89,10 @@ const mapDispatchToProps = dispatch => ({
         type
       })
     ),
-  deleteProp: propId => dispatch(deleteProp(propId))
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent
 });
 
@@ -104,7 +120,7 @@ const typeOptions = [
   ))
 ];
 
-class Props extends Component {
+class Props extends Component<PropInt> {
   state = {
     propKey: "",
     propValue: "",
@@ -112,7 +128,7 @@ class Props extends Component {
     propType: ""
   };
 
-  handleChange = event => {
+  handleChange = (event: any) => {
     this.setState({
       [event.target.id]: event.target.value.trim()
     });
@@ -124,7 +140,7 @@ class Props extends Component {
     });
   };
 
-  handleAddProp = event => {
+  handleAddProp = (event: any) => {
     event.preventDefault();
 
     const { propKey, propValue, propRequired, propType } = this.state;
@@ -175,12 +191,15 @@ class Props extends Component {
       <div className={"htmlattr"}>
         {" "}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+          <div style={{ marginTop: "20px", width: "90%" }}>
             Click a component to view its props.
           </div>
         ) : (
           <Fragment>
-            <div className="props-container">
+            <div
+              className="props-container"
+              style={{ marginTop: "20px", width: "90%", height: "80%" }}
+            >
               <Grid container spacing={8}>
                 <Grid item xs={4}>
                   <form className="props-input" onSubmit={this.handleAddProp}>

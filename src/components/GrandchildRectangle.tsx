@@ -1,9 +1,31 @@
 import React, { Component } from "react";
 import { Rect, Group } from "react-konva";
 // import findComponentById from '../utils/findComponentById.ts';
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-class GrandchildRectangle extends Component {
-  getComponentColor(componentId) {
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
+
+class GrandchildRectangle extends Component<PropsInt> {
+  getComponentColor(componentId: number) {
     // const color = findComponentById(componentId, this.props.components).color;
     const color = this.props.components.find(comp => comp.id === componentId)
       .color;
@@ -16,7 +38,7 @@ class GrandchildRectangle extends Component {
     );
   }
 
-  setImage = imageSource => {
+  setImage = (imageSource: string) => {
     //console.log("IMAGE SOURCE", imageSource);
     if (!imageSource) return;
     const image = new window.Image();
@@ -74,7 +96,7 @@ class GrandchildRectangle extends Component {
           fillPatternImage={imageSource ? this.setImage(imageSource) : null}
           // fill={color}
           // opacity={0.8}
-          strokeWidth={4}
+          strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
         />

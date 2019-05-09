@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { format } from "prettier";
-import componentRender from "../utils/componentRender.util.ts";
+import componentRender from "../utils/componentRender.util";
 import { ComponentInt, ComponentsInt } from "../utils/interfaces";
-import SortChildren from "./SortChildren.jsx";
+// import SortChildren from './SortChildren.jsx';
 
 type Props = {
   focusComponent: ComponentInt;
@@ -17,10 +17,10 @@ class CodePreview extends Component<Props> {
 
     return (
       <Fragment>
-        <SortChildren />
+        {/* <SortChildren /> */}
         <div
           style={{
-            width: "500px",
+            width: "800px",
             height: "290px",
             direction: "rtl",
             paddingLeft: "20px",

@@ -1,17 +1,36 @@
 import React, { Component, Fragment } from "react";
 import { Rect, Group, Label, Text } from "react-konva";
-import TransformerComponent from "./TransformerComponent.jsx";
-import GrandchildRectangle from "./GrandchildRectangle.jsx";
+import TransformerComponent from "./TransformerComponent.tsx";
+import GrandchildRectangle from "./GrandchildRectangle.tsx";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-class Rectangle extends Component {
-  state = {
-    rectImage: null
-  };
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
 
-  getComponentColor(componentId) {
-    if (componentId === "888") {
-      return "#000000";
-    }
+class Rectangle extends Component<PropsInt> {
+  // state = {
+  //   rectImage: null
+  // };
+
+  getComponentColor(componentId: number) {
     const color = this.props.components.find(comp => comp.id === componentId)
       .color;
     return color;
@@ -23,10 +42,15 @@ class Rectangle extends Component {
     );
   }
 
-  handleResize(componentId, childId, target, blockSnapSize) {
+  handleResize(
+    componentId: number,
+    childId: number,
+    target: any,
+    blockSnapSize: number
+  ) {
     // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
     // so, grab the position of the focusChild manually from the children array
-    let focChild = this.props.components
+    let focChild: ChildInt = this.props.components
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 
@@ -49,7 +73,12 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId, childId, target, blockSnapSize) {
+  handleDrag(
+    componentId: number,
+    childId: number,
+    target: any,
+    blockSnapSize: any
+  ) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
@@ -57,10 +86,10 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  setImage = imageSource => {
+  setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
- 
+
     image.src = imageSource;
     // if there was an error grtting img; heigth should b Zero
     if (!image.height) return null;
