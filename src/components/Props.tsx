@@ -10,7 +10,7 @@ import Switch from "@material-ui/core/Switch";
 import InputLabel from "@material-ui/core/InputLabel";
 import { addProp, deleteProp } from "../actions/components.ts";
 import DataTable from "./DataTable.tsx";
-import { ComponentInt } from "../utils/interfaces";
+import { ComponentInt } from "../utils/interfaces.ts";
 
 interface PropInt {
   addProp: any;

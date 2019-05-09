@@ -1,25 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  handleClose,
-  deleteCompProp,
-  addCompProp
-} from "../actions/components.ts";
-import BottomTabs from "./BottomTabs.tsx";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { handleClose, deleteCompProp, addCompProp } from '../actions/components.ts';
+import BottomTabs from './BottomTabs.tsx';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
-const IPC = require("electron").ipcRenderer;
+const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }: { id: number; index: number }) =>
-    dispatch(deleteCompProp({ id, index })),
-  addProp: (prop: any) => dispatch(addCompProp(prop))
+  deleteProp: ({ id, index }: { id: number; index: number }) => dispatch(deleteCompProp({ id, index })),
+  addProp: (prop: any) => dispatch(addCompProp(prop)),
 });
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components
+  components: store.workspace.components,
 });
 
 interface PropsInt {
@@ -31,18 +26,13 @@ interface PropsInt {
 }
 
 class BottomPanel extends Component<PropsInt> {
-
   render() {
     const {
-      components,
-      focusComponent,
-      deleteProp,
-      addProp,
-      focusChild
+      components, focusComponent, deleteProp, addProp, focusChild,
     } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: "100%" }}>
+      <div className="bottom-panel" style={{ width: '100%' }}>
         <BottomTabs
           components={components}
           focusComponent={focusComponent}
@@ -57,5 +47,5 @@ class BottomPanel extends Component<PropsInt> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(BottomPanel);

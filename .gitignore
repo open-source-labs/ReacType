@@ -480,7 +480,7 @@ ASALocalRun/
 .mfractor/
 
 # DMG File
-React-Proto.dmg
+reactype.dmg
 installers/
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
