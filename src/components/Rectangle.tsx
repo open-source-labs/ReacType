@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
-import TransformerComponent from './TransformerComponent.jsx';
-import GrandchildRectangle from './GrandchildRectangle.jsx';
+import TransformerComponent from './TransformerComponent.tsx';
+import GrandchildRectangle from './GrandchildRectangle.tsx';
+import { ComponentsInt, ChildInt } from '../utils/interfaces';
 
 class Rectangle extends Component {
   state = {
@@ -20,10 +21,8 @@ class Rectangle extends Component {
     return this.props.components.find(comp => comp.id === this.props.childComponentId);
   }
 
-  handleResize(componentId, childId, target, blockSnapSize) {
-    // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
-    // so, grab the position of the focusChild manually from the children array
-    let focChild = this.props.components
+  handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
+    let focChild: ChildInt = this.props.components
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 

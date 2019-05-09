@@ -86,7 +86,7 @@ export const createPackage = (path, appName) => {
 "license": "ISC",
 "depenencies": {
   "react": "^16.4.1",
-  "react-dom": "^16.4.1",
+  "react-dom": "^16.4.1"
 },
 "devDependencies": {
   "@babel/preset-typescript": "^7.3.3",

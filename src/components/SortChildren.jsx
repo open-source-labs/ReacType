@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateChildrenSort } from '../actions/components';
-import { width } from 'window-size';
 import cloneDeep from '../utils/cloneDeep';
 
 const mapStateToProps = store => ({

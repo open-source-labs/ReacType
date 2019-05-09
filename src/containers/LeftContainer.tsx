@@ -14,8 +14,9 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 import createModal from '../utils/createModal.util';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -177,8 +178,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
-      // deleteAllData,
-      // totalComponents
     } = this.props;
     const { componentName, modal } = this.state;
 
