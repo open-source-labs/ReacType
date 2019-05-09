@@ -11,7 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
-const LeftColExpansionPanel = props => {
+const LeftColExpansionPanel = (props: any) => {
   const {
     classes,
     focusComponent,
@@ -26,10 +26,12 @@ const LeftColExpansionPanel = props => {
 
   // show a string of all direct parents. SO the user can gaze at it.
   const directParents = components
-    .filter(comp =>
-      comp.childrenArray.some(child => child.childComponentId === id)
+    .filter((comp: ComponentInt) =>
+      comp.childrenArray.some(
+        (child: ChildInt) => child.childComponentId === id
+      )
     )
-    .map(comp => comp.title)
+    .map((comp: ComponentInt) => comp.title)
     .join(",");
 
   function isFocused() {
@@ -53,7 +55,7 @@ const LeftColExpansionPanel = props => {
             <List style={{ color: "red" }}>
               <ListItem
                 button
-                component="a"
+                // component="a"
                 style={{ color: "red" }}
                 onClick={() => {
                   changeFocusComponent({ title });
@@ -135,7 +137,7 @@ const LeftColExpansionPanel = props => {
   );
 };
 
-function styles(theme) {
+function styles(): any {
   return {
     root: {
       width: "100%",
