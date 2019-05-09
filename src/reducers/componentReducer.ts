@@ -1,8 +1,4 @@
-import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt
-} from "../utils/interfaces";
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -27,8 +23,8 @@ import {
   ADD_PROP,
   DELETE_PROP,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT
-} from "../actionTypes";
+  UPDATE_CHILDREN_SORT,
+} from '../actionTypes';
 
 import {
   addComponent,
@@ -48,16 +44,16 @@ import {
   addProp,
   deleteProp,
   updateHtmlAttr,
-  updateChildrenSort
-} from "../utils/componentReducer.util";
-import cloneDeep from "../utils/cloneDeep";
+  updateChildrenSort,
+} from '../utils/componentReducer.util';
+import cloneDeep from '../utils/cloneDeep';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
-  title: "App",
+  title: 'App',
   // parentIds: [],
-  color: "#FF6D00",
+  color: '#FF6D00',
   // draggable: true,
   // childrenIds: [],
   // selectableParents: [],
@@ -67,12 +63,12 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
 
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -82,7 +78,7 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
   // draggable: true,
   childType: null,
@@ -90,7 +86,7 @@ const initialApplicationFocusChild: ChildInt = {
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null
+  HTMLInfo: null,
 };
 
 const initialApplicationState: ApplicationStateInt = {
@@ -104,9 +100,8 @@ const initialApplicationState: ApplicationStateInt = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
+  appDir: '',
   loading: false,
-  componentTree: { name: "App", attributes: {}, children: {} }
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -116,9 +111,9 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
-        errorOpen: false
+        errorOpen: false,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
