@@ -199,7 +199,7 @@ class Props extends Component<PropInt> {
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
@@ -288,6 +288,7 @@ class Props extends Component<PropInt> {
                     deletePropHandler={deleteProp}
                   />
                 </Grid>
+                <Grid item xs={1} />
               </Grid>
             </div>
           </Fragment>
