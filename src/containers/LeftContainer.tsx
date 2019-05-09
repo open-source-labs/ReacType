@@ -152,7 +152,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   chooseAppDir = () => IPC.send('choose_app_dir');
 
   showGenerateAppModal = () => {
-    console.log('clicked on export button');
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (

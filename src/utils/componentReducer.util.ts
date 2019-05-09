@@ -22,8 +22,8 @@ const initialComponentState: ComponentInt = {
   position: {
     x: 25,
     y: 25,
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 550,
   },
   childrenArray: [],
   nextChildId: 1,
@@ -136,7 +136,6 @@ export const addChild = (
       );
       return;
     }
-    // console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
   const newPosition = childType === 'COMP'
@@ -197,10 +196,6 @@ export const deleteChild = (
     calledFromDeleteComponent = false,
   },
 ) => {
-  console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  
-   state.focusComponent.id=${
-  state.focusComponent.id
-}  myPrms: parentId:${parentId} childId${childId} calledFromDeleteComponent:${calledFromDeleteComponent}`);
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
@@ -354,13 +349,11 @@ export const deleteComponent = (
   }
 
   const indexToDelete = state.components.findIndex(comp => comp.id == componentId);
-  console.log('index to delete: ', indexToDelete);
 
   const componentsCopy = cloneDeep(state.components);
   componentsCopy.splice(indexToDelete, 1);
   const totalComponents = state.totalComponents - 1;
 
-  console.log(`Real delete component action here : id:${componentId}`);
   return {
     ...state,
     totalComponents,
@@ -589,9 +582,6 @@ export const updateChildrenSort = (
   state: ApplicationStateInt,
   { newSortValues }: { newSortValues: any },
 ) => {
-  console.log('hello from updateChildrenSort. newSortValues: ', newSortValues);
-
-  // const modifiedChildrenArray:ChildrenInt = JSON.parse(JSON.stringify(state.focusComponent.childrenArray)) ;
   const modifiedChildrenArray: ChildrenInt = cloneDeep(state.focusComponent.childrenArray);
 
   for (let i = 0; i < modifiedChildrenArray.length; i += 1) {

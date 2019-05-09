@@ -33,11 +33,6 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
-// export files
-function exportComponents() {
-  console.log('hi from exportComponents');
-}
-
 // Choose directory
 ipcMain.on('choose_app_dir', (event) => {
   const directory = dialog.showOpenDialog(mainWindow, {
