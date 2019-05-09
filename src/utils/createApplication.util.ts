@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { format } from 'prettier';
-import componentRender from './componentRender.util';
+import componentRender from './componentRender.util.ts';
 
 function createIndexHtml(path, appName) {
   let dir = path;
