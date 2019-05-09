@@ -44,14 +44,12 @@ class SortChildren extends Component {
 
   onDragOver = idx => {
     this.setState({ draggedOverIndex: idx });
-    // console.log(`onDragOver idx=${idx}  this.state.draggedOverIndex:${this.state.draggedOverIndex}`)
   };
 
   onDragEnd(e) {
     console.log(`dragEnd this
       state.draggedIndex: ${this.state.draggedIndex}
       this.state.draggedOverIndex: ${this.state.draggedOverIndex}`);
-    //const {draggedIndex, draggedOverIndex } = this.state;
     if (
       this.state.draggedIndex === this.state.draggedOverIndex
       // ||  !this.state.draggedIndex || this.state.draggedOverIndex
@@ -60,7 +58,6 @@ class SortChildren extends Component {
     }
 
     let currentSortValues = this.setLocalArray();
-    // console.log(`currentSortValues`,JSON.stringify((currentSortValues)))
 
     // remove the dragged Item and save it, we will use add it back in a moment.
     const draggedBaby = currentSortValues[this.state.draggedIndex];
@@ -68,7 +65,6 @@ class SortChildren extends Component {
 
     // put back the dragge item after the dragged Over
     currentSortValues.splice(this.state.draggedOverIndex, 0, draggedBaby);
-    //console.log(`currentSortValues after reAdding the dragged baby `,JSON.stringify(currentSortValues))
 
     currentSortValues = currentSortValues.map((child, idx) => {
       return { childId: child.childId, childSort: idx + 1 };
