@@ -22,7 +22,7 @@ export interface ChildInt {
   position: PositionInt;
   color: string | null; // maybe optional instead, look up null vs undefined
   htmlElement: string | null; // maybe should be optional instead
-  HTMLInfo: { [index: string]: { info: any } }; // replace with HTMLinfo specifics
+  HTMLInfo: { [index: string]: string }; // replace with HTMLinfo specifics
 }
 
 export interface ChildrenInt extends Array<ChildInt> {}

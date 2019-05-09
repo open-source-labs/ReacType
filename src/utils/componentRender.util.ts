@@ -57,9 +57,16 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
     if (child.childType === 'HTML') {
       const keys: string[] = Object.keys(child.HTMLInfo);
-      return keys.map(key => `${key}={${child.HTMLInfo[key]}}`).join(' ');
+      return keys.map(key => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`).join(' ');
     }
     return '';
+  }
+
+  function htmlAttrSanitizer(element: string) {
+    // this shouldn't be needed, but some characters make localForage unhappy
+    return element
+      .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+      .replace(/[-_\s0-9\W]+/gi, '');
   }
 
   function componentNameGenerator(child: ChildInt) {

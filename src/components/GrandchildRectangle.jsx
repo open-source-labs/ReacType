@@ -1,28 +1,29 @@
-import React, { Component } from "react";
-import { Rect, Group } from "react-konva";
+import React, { Component } from 'react';
+import { Rect, Group } from 'react-konva';
 // import findComponentById from '../utils/findComponentById.ts';
 
 class GrandchildRectangle extends Component {
+  state = {
+    image: null,
+    imageHeight: 0,
+    imageWidth: 0,
+  };
+
   getComponentColor(componentId) {
-    // const color = findComponentById(componentId, this.props.components).color;
-    const color = this.props.components.find(comp => comp.id === componentId)
-      .color;
+    const color = this.props.components.find(comp => comp.id === componentId).color;
     return color;
   }
 
   getPseudoChild() {
-    return this.props.components.find(
-      comp => comp.id === this.props.childComponentId
-    );
+    return this.props.components.find(comp => comp.id === this.props.childComponentId);
   }
 
-  setImage = imageSource => {
-    //console.log("IMAGE SOURCE", imageSource);
+  setImage = (imageSource) => {
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -40,7 +41,7 @@ class GrandchildRectangle extends Component {
       height,
       focusChild,
       components,
-      imageSource
+      imageSource,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -66,20 +67,16 @@ class GrandchildRectangle extends Component {
           scaleY={1}
           width={width}
           height={height}
-          stroke={
-            childType === "COMP"
-              ? this.getComponentColor(childComponentId)
-              : "#000000"
-          }
-          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
-          // fill={color}
-          // opacity={0.8}
-          strokeWidth={4}
+          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
+          fillPatternImage={this.state.image ? this.state.image : this.setImage(imageSource)}
+          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
+          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
         />
-        {childType === "COMP" &&
-          components
+        {childType === 'COMP'
+          && components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== -1)
             .map((grandchild, i) => (
@@ -88,36 +85,22 @@ class GrandchildRectangle extends Component {
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
-                imageSource={
-                  grandchild.htmlElement == "Image" && grandchild.HTMLInfo.Src
-                    ? grandchild.HTMLInfo.Src
-                    : null
-                }
+                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                // fillPatternImage={
-                //   grandchild.HTMLInfo.Src
-                //     ? this.setImage(grandchild.HTMLInfo.Src)
-                //     : null
-                // }
-                // test test
-                width={
-                  grandchild.position.width *
-                  (width / this.getPseudoChild().position.width)
-                }
+                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
                 height={
-                  grandchild.position.height *
-                  (height / this.getPseudoChild().position.height)
+                  grandchild.position.height * (height / this.getPseudoChild().position.height)
                 }
                 x={
-                  (grandchild.position.x - this.getPseudoChild().position.x) *
-                  (width / this.getPseudoChild().position.width)
+                  (grandchild.position.x - this.getPseudoChild().position.x)
+                  * (width / this.getPseudoChild().position.width)
                 }
                 y={
-                  (grandchild.position.y - this.getPseudoChild().position.y) *
-                  (height / this.getPseudoChild().position.height)
+                  (grandchild.position.y - this.getPseudoChild().position.y)
+                  * (height / this.getPseudoChild().position.height)
                 }
               />
             ))}

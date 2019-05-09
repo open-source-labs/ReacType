@@ -247,7 +247,8 @@ export const deleteChild = (
     focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
     focusChild: calledFromDeleteComponent
       ? cloneDeep(state.initialApplicationFocusChild)
-      : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1],
+      : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1]
+        || cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
   };
 };
 
