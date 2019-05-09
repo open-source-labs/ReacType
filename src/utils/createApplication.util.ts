@@ -193,15 +193,22 @@ export const createTsConfig = (path, appName) => {
   });
 };
 
-// async function createApplicationUtil({
-//   path, appName, genOption
-// }) {
-//   if (genOption === 2) {
-//     return [
-//       await execFile('npm', ['i', '-g', 'create-react-app'], { cwd: path }),
-//       await execFile('create-react-app', [appName], { cwd: path }),
-//     ];
-//   }
-// }
-
-// export default createApplicationUtil;
+async function createApplicationUtil({
+  path,
+  appName,
+  genOption
+}: {
+  path: string;
+  appName: string;
+  genOption: number;
+}) {
+  if (genOption === 1) {
+    await createIndexHtml(path, appName);
+    await createIndexTsx(path, appName);
+    await createPackage(path, appName);
+    await createWebpack(path, appName);
+    await createBabel(path, appName);
+    await createTsConfig(path, appName);
+  }
+}
+export default createApplicationUtil;
