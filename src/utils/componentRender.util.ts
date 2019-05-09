@@ -147,8 +147,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       return (
         <div>
         ${cloneDeep(childrenArray)
-    .sort((a, b) => a.childSort - b.childSort)
-    .map(child => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
+    .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
+    .map(
+      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
+    )
     .join('\n')}
         </div>
       );
