@@ -25,7 +25,7 @@ class CodePreview extends Component<Props> {
             direction: 'rtl',
             paddingLeft: '20px',
             color: '#D3D3D3',
-            fontSize: 16,
+            fontSize: 15,
             overflow: 'auto',
           }}
         >
