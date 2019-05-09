@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../public/styles/style.css';
-// import { MuiThemeProvider } from '@material-ui/core/styles';
-import AppContainer from '../containers/AppContainer';
+import AppContainer from '../containers/AppContainer.tsx';
 
 export const App: React.SFC = () => (
   <div className="app">
@@ -13,4 +12,3 @@ export const App: React.SFC = () => (
 );
 
 export default App;
-

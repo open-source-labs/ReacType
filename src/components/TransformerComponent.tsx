@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import { Transformer } from "react-konva";
-// import PropTypes from 'prop-types';
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import React, { Component } from 'react';
+import { Transformer } from 'react-konva';
+import { ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
   focusChild: ChildInt;
@@ -37,9 +36,9 @@ export default class TransformerComponent extends Component<PropsInt> {
   render() {
     return (
       <Transformer
-        className={"Transformer"}
+        className={'Transformer'}
         rotateEnabled={false}
-        ref={node => {
+        ref={(node) => {
           this.transformer = node;
         }}
         borderEnabled={false}
@@ -47,12 +46,7 @@ export default class TransformerComponent extends Component<PropsInt> {
         anchorStroke={this.props.color}
         anchorSize={this.props.anchorSize}
         keepRatio={false}
-        // onClick={checkTransformerAnchor()}
       />
     );
   }
 }
-
-// TransformerComponent.propTypes = {
-//   focusComponent: PropTypes.object,
-// };
