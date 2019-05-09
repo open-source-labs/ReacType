@@ -9,7 +9,7 @@
 
 Download for [MacOS](), [Windows](), [Linux]().
 
-![Image of ReacType Application](https://i.imgur.com/FGlkjIc.png)
+![Image of ReacType Application](https://imgur.com/2sefnAk)
 
 ### How to use
 
