@@ -24,7 +24,7 @@ Download for [MacOS](), [Windows](), [Linux]().
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
 - To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
 
-![Image of ReacType Application 2](https://i.imgur.com/FGlkjIc.png)
+![Image of ReacType Application 2](https://imgur.com/Qsc9xcr)
 
 ### To Export Files
 
