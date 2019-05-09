@@ -20,7 +20,7 @@ class CodePreview extends Component<Props> {
         {/* <SortChildren /> */}
         <div
           style={{
-            width: '500px',
+            width: '800px',
             height: '290px',
             direction: 'rtl',
             paddingLeft: '20px',
