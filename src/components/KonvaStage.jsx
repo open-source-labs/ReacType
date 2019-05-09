@@ -12,8 +12,8 @@ class KonvaStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stageWidth: 1500,
-      stageHeight: 1500,
+      stageWidth: 1800,
+      stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
       gridStroke: 1,
