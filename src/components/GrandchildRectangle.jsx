@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-// import findComponentById from '../utils/findComponentById.ts';
+import { ComponentsInt } from '../utils/interfaces';
 
 class GrandchildRectangle extends Component {
   state = {
@@ -8,8 +8,7 @@ class GrandchildRectangle extends Component {
     imageWidth: 0,
   };
 
-  getComponentColor(componentId) {
-    // const color = findComponentById(componentId, this.props.components).color;
+  getComponentColor(componentId: number) {
     const color = this.props.components.find(comp => comp.id === componentId).color;
     return color;
   }

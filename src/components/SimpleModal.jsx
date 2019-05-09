@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import Modal from '@material-ui/core/Modal';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -29,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-const SimpleModal = (props) => {
+const SimpleModal = props => {
   const {
     classes,
     open,
@@ -77,22 +76,12 @@ const SimpleModal = (props) => {
           <div>{children}</div>
           <div>
             {secBtnLabel ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                onClick={secBtnAction}
-              >
+              <Button variant="contained" color="secondary" className={classes.button} onClick={secBtnAction}>
                 {secBtnLabel}
               </Button>
             ) : null}
             {primBtnLabel ? (
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={primBtnAction}
-              >
+              <Button variant="contained" color="primary" className={classes.button} onClick={primBtnAction}>
                 {primBtnLabel}
               </Button>
             ) : null}
@@ -102,17 +91,5 @@ const SimpleModal = (props) => {
     </Fragment>
   );
 };
-
-// SimpleModal.propTypes = {
-//   open: PropTypes.bool.isRequired,
-//   classes: PropTypes.object.isRequired,
-//   secBtnAction: PropTypes.func,
-//   closeModal: PropTypes.func.isRequired,
-//   primBtnAction: PropTypes.func,
-//   children: PropTypes.object,
-//   message: PropTypes.string,
-//   primBtnLabel: PropTypes.string,
-//   secBtnLabel: PropTypes.string,
-// };
 
 export default withStyles(styles)(SimpleModal);
