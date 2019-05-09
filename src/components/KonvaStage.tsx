@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
 import Rectangle from './Rectangle.tsx';
 import cloneDeep from '../utils/cloneDeep.ts';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
   components: ComponentsInt;

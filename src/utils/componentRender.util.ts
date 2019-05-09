@@ -1,5 +1,5 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
-import cloneDeep from './cloneDeep';
+import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces.ts';
+import cloneDeep from './cloneDeep.ts';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
@@ -79,7 +79,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       return child.componentName;
     }
   }
-
 
   return `
     import React from 'react';

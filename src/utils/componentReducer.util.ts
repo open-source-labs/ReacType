@@ -1,7 +1,7 @@
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
-import { getSize } from './htmlElements.util';
-import cloneDeep from './cloneDeep';
+import getSelectable from './getSelectable.util.ts';
+import getColor from './colors.util.ts';
+import { getSize } from './htmlElements.util.ts';
+import cloneDeep from './cloneDeep.ts';
 import {
   ComponentInt,
   ApplicationStateInt,
@@ -9,7 +9,7 @@ import {
   ChildInt,
   ComponentsInt,
   PropInt,
-} from './interfaces';
+} from './Interfaces.ts';
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -362,7 +362,7 @@ export const changeFocusComponent = (
   }
 
   const result = getSelectable(newFocusComp, state.components);
-  
+
   return {
     ...state,
     focusComponent: newFocusComp,

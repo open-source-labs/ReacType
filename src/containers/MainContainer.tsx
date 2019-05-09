@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.jsx';
-import theme from '../components/theme';
+import BottomPanel from '../components/BottomPanel.tsx';
+import theme from '../components/theme.ts';
 import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components.ts';
 import KonvaStage from '../components/KonvaStage.tsx';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
   components: ComponentsInt;
