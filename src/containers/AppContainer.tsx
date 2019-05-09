@@ -6,7 +6,7 @@ import LeftContainer from "./LeftContainer";
 import MainContainer from "./MainContainer";
 import theme from "../components/theme";
 import { loadInitData } from "../actions/components";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import { ComponentInt, ComponentsInt } from "../utils/interfaces";
 
 type Props = {
   components: ComponentsInt;
@@ -45,10 +45,9 @@ class AppContainer extends Component<Props> {
       selectableChildren,
       totalComponents
     } = this.props;
-    const { width, rightColumnOpen } = this.state;
+   // const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
-    // const updatedComponents = convertIdsToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -61,8 +60,6 @@ class AppContainer extends Component<Props> {
           />
           <MainContainer
             components={components}
-            // width={width}
-            // rightColumnOpen={rightColumnOpen}
           />
           {loading ? (
             <div

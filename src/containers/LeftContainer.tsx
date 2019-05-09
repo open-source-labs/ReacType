@@ -7,7 +7,6 @@ import AddIcon from "@material-ui/icons/Add";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import Tooltip from "@material-ui/core/Tooltip";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -203,8 +202,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren
-      // deleteAllData,
-      // totalComponents
     } = this.props;
     const { componentName, modal } = this.state;
 

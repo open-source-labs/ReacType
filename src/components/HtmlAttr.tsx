@@ -3,14 +3,12 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import SaveIcon from "@material-ui/icons/Save";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
 import { updateHtmlAttr } from "../actions/components.ts";
-import { HTMLelements, getSize } from "../utils/htmlElements.util.ts";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import { HTMLelements } from "../utils/htmlElements.util.ts";
+import { ComponentInt, ChildInt } from "../utils/interfaces";
 
 interface PropsInt {
   updateHtmlAttr: any;
@@ -62,7 +60,6 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
   );
 
   handleSave = (attr: string) => {
-    console.log(attr, this.state[attr]);
     this.props.updateHtmlAttr({ attr, value: this.state[attr] });
     this.setState({
       [attr]: ""
@@ -77,12 +74,8 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
 
   render() {
     const {
-      focusComponent,
       classes,
-      deleteProp,
-      addProp,
       focusChild,
-      updateHtmlAttr
     } = this.props;
 
     const focusChildType = focusChild.htmlElement;

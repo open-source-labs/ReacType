@@ -7,7 +7,6 @@ import Props from "./Props.tsx";
 import HtmlAttr from "./HtmlAttr.tsx";
 import CodePreview from "./CodePreview.tsx";
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
-// import Tree from "./Tree.jsx";
 
 interface PropsInt {
   focusChild: ChildInt;
@@ -18,11 +17,6 @@ interface PropsInt {
   classes: any;
 }
 
-// interface TreeAttributesInt {
-//   key: string;
-//   value: string;
-// }
-
 interface TreeInt {
   name: string;
   attributes: { [key: string]: { value: string } };
@@ -32,7 +26,6 @@ interface TreeInt {
 const styles = (theme: any): any => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: "#212121",
     backgroundColor: "#333333",
     height: "100%",
     color: "#fff",
@@ -40,7 +33,6 @@ const styles = (theme: any): any => ({
   },
   tabsRoot: {
     borderBottom: "0.5px solid #424242"
-    // backgroundColor: "#424242"
   },
   tabsIndicator: {
     backgroundColor: "#1de9b6"
