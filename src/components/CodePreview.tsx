@@ -21,11 +21,11 @@ class CodePreview extends Component<Props> {
         <div
           style={{
             width: '500px',
-            height: '260px',
+            height: '290px',
             direction: 'rtl',
             paddingLeft: '20px',
             color: '#D3D3D3',
-            fontSize: 15,
+            fontSize: 16,
             overflow: 'auto',
           }}
         >

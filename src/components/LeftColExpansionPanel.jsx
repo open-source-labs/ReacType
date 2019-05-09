@@ -35,7 +35,7 @@ const LeftColExpansionPanel = (props) => {
   }
 
   return (
-    <Grid container spacing={16} direction="row" justify="flex-start">
+    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
         <div
           className={classes.root}

@@ -1,4 +1,10 @@
 import {
+  ComponentInt,
+  ChildInt,
+  ApplicationStateInt
+} from "../utils/interfaces";
+
+import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
   ADD_CHILD,
@@ -21,14 +27,14 @@ import {
   ADD_PROP,
   DELETE_PROP,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
+  UPDATE_CHILDREN_SORT
 } from "../actionTypes";
 
 import {
   addComponent,
   addChild,
   deleteChild,
-  updateComponent,
+  // updateComponent,
   deleteComponent,
   changeFocusComponent,
   changeComponentFocusChild,
@@ -38,23 +44,23 @@ import {
   handleClose,
   handleTransform,
   openExpansionPanel,
-  changeImagePath,
+  // changeImagePath,
   addProp,
   deleteProp,
   updateHtmlAttr,
-  updateChildrenSort,
-} from "../utils/componentReducer.util.ts";
-import cloneDeep from "../utils/cloneDeep.ts";
+  updateChildrenSort
+} from "../utils/componentReducer.util";
+import cloneDeep from "../utils/cloneDeep";
 
-const appComponent = {
+const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
   title: "App",
-  parentIds: [],
+  // parentIds: [],
   color: "#FF6D00",
-  draggable: true,
-  childrenIds: [],
-  selectableParents: [],
+  // draggable: true,
+  // childrenIds: [],
+  // selectableParents: [],
   props: [],
   nextPropId: 1,
   position: {
@@ -69,7 +75,7 @@ const appComponent = {
   focusChildId: 0
 };
 
-const initialApplicationFocusChild = {
+const initialApplicationFocusChild: ChildInt = {
   childId: 0,
   componentName: null,
   position: {
@@ -78,11 +84,16 @@ const initialApplicationFocusChild = {
     width: 600,
     height: 400
   },
-  draggable: true,
-  childType: null
+  // draggable: true,
+  childType: null,
+  childSort: 0,
+  childComponentId: 0,
+  color: null,
+  htmlElement: null,
+  HTMLInfo: null
 };
 
-const initialApplicationState = {
+const initialApplicationState: ApplicationStateInt = {
   totalComponents: 1,
   nextId: 2,
   successOpen: false,
@@ -98,7 +109,7 @@ const initialApplicationState = {
   componentTree: { name: "App", attributes: {}, children: {} }
 };
 
-const componentReducer = (state = initialApplicationState, action) => {
+const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return {
@@ -115,8 +126,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addChild(state, action.payload);
     case DELETE_CHILD:
       return deleteChild(state, action.payload);
-    case UPDATE_COMPONENT:
-      return updateComponent(state, action.payload);
+    // case UPDATE_COMPONENT:
+    //   return updateComponent(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
@@ -141,8 +152,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
       return initialApplicationState;
-    case CHANGE_IMAGE_PATH:
-      return changeImagePath(state, action.payload);
+    // case CHANGE_IMAGE_PATH:
+    //   return changeImagePath(state, action.payload);
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:

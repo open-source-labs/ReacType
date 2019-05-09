@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/components';
+import { updateHtmlAttr } from '../actions/components.ts';
 import { HTMLelements, getSize } from '../utils/htmlElements.util.ts';
 
 const styles = theme => ({

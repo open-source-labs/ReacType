@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { addProp, deleteProp } from '../actions/components';
+import { addProp, deleteProp } from '../actions/components.ts';
 import DataTable from './DataTable.jsx';
 
 const styles = theme => ({
