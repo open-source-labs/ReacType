@@ -73,8 +73,8 @@ const styles = theme => ({
   },
 });
 
-const mapDispatchToProps = dispatch => ({
-  addProp: ({ key, value, required, type }) =>
+const mapDispatchToProps = (dispatch: any) => ({
+  addProp: ({ key, value, required, type }: { key: string, value: string, required: boolean, type: string }) =>
     dispatch(
       addProp({
         key,
@@ -83,10 +83,10 @@ const mapDispatchToProps = dispatch => ({
         type,
       }),
     ),
-  deleteProp: propId => dispatch(deleteProp(propId)),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
 });
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent,
 });
 
@@ -95,10 +95,9 @@ const availablePropTypes = {
   number: 'NUM',
   object: 'OBJ',
   array: 'ARR',
-  number: 'NUM',
   boolean: 'BOOL',
   function: 'FUNC',
-  symbol: 'SYM',
+  // symbol: 'SYM',
   node: 'NODE',
   element: 'ELEM',
   any: 'ANY',
