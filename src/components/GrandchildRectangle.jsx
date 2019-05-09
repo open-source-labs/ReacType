@@ -3,6 +3,11 @@ import { Rect, Group } from 'react-konva';
 // import findComponentById from '../utils/findComponentById.ts';
 
 class GrandchildRectangle extends Component {
+  state = {
+    imageHeight: 0,
+    imageWidth: 0,
+  };
+
   getComponentColor(componentId) {
     // const color = findComponentById(componentId, this.props.components).color;
     const color = this.props.components.find(comp => comp.id === componentId).color;
@@ -14,11 +19,12 @@ class GrandchildRectangle extends Component {
   }
 
   setImage = imageSource => {
-    //console.log("IMAGE SOURCE", imageSource);
+    // console.log("IMAGE SOURCE", imageSource);
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
     if (!image.height) return null;
+    this.setState({ imageHeight: image.height, imageWidth: image.width });
     return image;
   };
 
@@ -57,11 +63,15 @@ class GrandchildRectangle extends Component {
           height={height}
           stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
           fillPatternImage={imageSource ? this.setImage(imageSource) : null}
+          fillPatternScaleX={0.1}
+          fillPatternScaleY={0.1}
           // fill={color}
           // opacity={0.8}
-          strokeWidth={4}
+          strokeWidth={10}
           strokeScaleEnabled={false}
           draggable={false}
+          // centerScaling={true}
+          // enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
         />
         {childType === 'COMP' &&
           components

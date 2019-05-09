@@ -37,7 +37,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props) {
     super(props);
     this.state = {
-      stageWidth: 1500,
+      stageWidth: 1800,
       stageHeight: 1500,
       blockSnapSize: 10,
       grid: [],
@@ -74,13 +74,13 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     // here we should add listener for "container" resize
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
-    // window.addEventListener('resize', this.checkSize);
+    window.addEventListener('resize', this.checkSize);
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.checkSize);
+    window.removeEventListener('resize', this.checkSize);
     this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 

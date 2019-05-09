@@ -1,8 +1,16 @@
 import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
-import { getSize } from './htmlElements.util.ts';
+import { getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep';
-import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './interfaces';
+import {
+  ComponentInt,
+  ApplicationStateInt,
+  ChildrenInt,
+  ChildInt,
+  ComponentsInt,
+  PropInt,
+  PositionInt,
+} from './interfaces';
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -14,8 +22,8 @@ const initialComponentState: ComponentInt = {
   position: {
     x: 25,
     y: 25,
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 550,
   },
   childrenArray: [],
   nextChildId: 1,
@@ -107,7 +115,12 @@ export const addChild = (
     parentComponent = state.components.find(comp => comp.title === title);
   }
 
-  let htmlElemPosition;
+  interface htmlElemPositionInt {
+    width: number;
+    height: number;
+  }
+
+  let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
   if (childType === 'HTML') {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
@@ -115,7 +128,6 @@ export const addChild = (
       console.log(`Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`);
       return;
     }
-    // console.log(`htmlElemPosition: ${JSON.stringify(htmlElemPosition)}`);
   }
 
   const newPosition =
@@ -173,10 +185,6 @@ export const deleteChild = (
   state: ApplicationStateInt,
   { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
 ) => {
-  console.log(`delete child here. state.focusChild.childId = ${state.focusChild.childId}  
-   state.focusComponent.id=${
-     state.focusComponent.id
-   }  myPrms: parentId:${parentId} childId${childId} calledFromDeleteComponent:${calledFromDeleteComponent}`);
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
@@ -314,6 +322,7 @@ export const handleTransform = (
   return {
     ...state,
     components,
+    focusChild: newFocusChild,
   };
 };
 
@@ -325,13 +334,11 @@ export const deleteComponent = (state: ApplicationStateInt, { componentId }: { c
   }
 
   const indexToDelete = state.components.findIndex(comp => comp.id == componentId);
-  console.log('index to delete: ', indexToDelete);
 
   const componentsCopy = cloneDeep(state.components);
   componentsCopy.splice(indexToDelete, 1);
   const totalComponents = state.totalComponents - 1;
 
-  console.log(`Real delete component action here : id:${componentId}`);
   return {
     ...state,
     totalComponents,
@@ -533,19 +540,24 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: { at
   };
 };
 
-export const updateChildrenSort = (
-  state: ApplicationStateInt,
-  { newChildrenArray }: { newChildrenArray: ChildrenInt },
-) => {
-  console.log('hello from updateChildrenSort. newChildrenArray: ', newChildrenArray);
-  // the new Array has the same data exactly. the array index is the new sort...
-  // const modifiedChldrenArray = cloneDeep(state.focusComponent.childrenArray)
-  // modifiedChldrenArray.forEach( (child: ChildInt, idx:number, arr:any ) => {
-  //   console.log(`chidl id:${child.childId} currSort:${child.childSort}`)
-  //  const newSort = newChildrenArray.findIndex( (newChild:ChildInt) => newChild.childId === child.childId) + 1 ;
-  //   console.log(`new sort: ${newSort}`)
-  // })
-  // console.log('modifiedCHildArrrrrr',modifiedChldrenArray)
+export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }: { newSortValues: any }) => {
+  const modifiedChildrenArray: ChildrenInt = cloneDeep(state.focusComponent.childrenArray);
+
+  for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
+    const currChild = modifiedChildrenArray[i];
+    const currChildId = currChild.childId;
+    const newValueObj = newSortValues.find((n: any) => n.childId === currChildId);
+    const newSortValue = newValueObj.childSort;
+    console.log(` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`);
+    currChild.childSort = newSortValue;
+  }
+
+  const modifiedComponent = state.components.find(comp => comp.id === state.focusComponent.id);
+  modifiedComponent.childrenArray = modifiedChildrenArray;
+
+  const modifiedComponentsArray = state.components.filter(comp => comp.id !== state.focusComponent.id);
+  modifiedComponentsArray.push(modifiedComponent);
+
   return {
     ...state,
     components: modifiedComponentsArray,
