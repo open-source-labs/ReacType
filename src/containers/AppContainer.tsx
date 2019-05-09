@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import LeftContainer from "./LeftContainer";
-import MainContainer from "./MainContainer";
-import theme from "../components/theme";
-import { loadInitData } from "../actions/components";
-import { ComponentInt, ComponentsInt } from "../utils/interfaces";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import LeftContainer from './LeftContainer.tsx';
+import MainContainer from './MainContainer.tsx';
+import theme from '../components/theme.ts';
+import { loadInitData } from '../actions/components.ts';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 
 type Props = {
   components: ComponentsInt;
@@ -22,7 +22,7 @@ const mapStateToProps = (store: any) => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren
+  selectableChildren: store.workspace.selectableChildren,
 });
 
 const mapDispatchToProps = { loadInitData };
@@ -30,7 +30,7 @@ const mapDispatchToProps = { loadInitData };
 class AppContainer extends Component<Props> {
   state = {
     width: 25,
-    rightColumnOpen: true
+    rightColumnOpen: true,
   };
 
   componentDidMount() {
@@ -39,13 +39,9 @@ class AppContainer extends Component<Props> {
 
   render(): JSX.Element {
     const {
-      components,
-      focusComponent,
-      loading,
-      selectableChildren,
-      totalComponents
+      components, focusComponent, loading, selectableChildren, totalComponents,
     } = this.props;
-   // const { width, rightColumnOpen } = this.state;
+    // const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
 
@@ -58,15 +54,13 @@ class AppContainer extends Component<Props> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          <MainContainer
-            components={components}
-          />
+          <MainContainer components={components} />
           {loading ? (
             <div
               style={{
-                alignSelf: "flex-end",
-                position: "fixed",
-                width: "100%"
+                alignSelf: 'flex-end',
+                position: 'fixed',
+                width: '100%',
               }}
             >
               <LinearProgress color="secondary" />
@@ -80,5 +74,5 @@ class AppContainer extends Component<Props> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(AppContainer);
