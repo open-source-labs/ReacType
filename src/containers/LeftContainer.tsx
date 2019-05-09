@@ -16,6 +16,10 @@ import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import createModal from '../utils/createModal.util';
+import cloneDeep from '../utils/cloneDeep.ts';
+
+const IPC = require('electron').ipcRenderer;
 
 type Props = {
   components: ComponentsInt;
@@ -101,7 +105,7 @@ class LeftContainer extends Component<Props> {
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = components
+    const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
@@ -130,7 +134,6 @@ class LeftContainer extends Component<Props> {
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {
-                  // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
                 }

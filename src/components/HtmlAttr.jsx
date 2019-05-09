@@ -26,7 +26,7 @@ const styles = theme => ({
   input: {
     color: '#fff',
     opacity: '0.7',
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 });
 
@@ -72,6 +72,7 @@ class HtmlAttr extends Component {
               classes: {
                 root: classes.cssLabel,
                 focused: classes.cssFocused,
+                input: classes.input,
               },
             }}
             InputProps={{
