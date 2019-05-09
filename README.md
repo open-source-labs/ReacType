@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="100" src="https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/256x256.png?raw=true">
+  <img width="50" src="https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/256x256.png?raw=true">
   <h1 align="center">ReacType </h1>
 </p>
 
