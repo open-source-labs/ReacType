@@ -17,7 +17,7 @@ class CodePreview extends Component<Props> {
 
     return (
       <Fragment>
-        <SortChildren />
+        {/* <SortChildren /> */}
         <div
           style={{
             width: '500px',
