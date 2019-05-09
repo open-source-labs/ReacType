@@ -1,4 +1,5 @@
 # ReacType
+![ReacType Logo](https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/64x64.png?raw=true)
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
