@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { format } from 'prettier';
-import componentRender from './componentRender.util';
+import componentRender from './componentRender.util.ts';
 
-const createFiles = (data, path, appName, exportAppBool) => {
+const createFiles = (data: any, path: string, appName: string, exportAppBool: boolean) => {
   // if (!dir.match(/`${appName}`|\*$/)) {
   let dir = path;
   if (!dir.match(/components|\*$/)) {
@@ -14,8 +14,27 @@ const createFiles = (data, path, appName, exportAppBool) => {
       dir = `${dir}/${appName}/src/components`;
     }
   }
-  const promises = [];
-  data.forEach(component => {
+  // if (dir.match(/${appName}|\*$/)) {
+  // dir = `${dir}/${appName}/src`;
+  // if (!dir.match(/components|\*$/)) {
+  //   dir = `${dir}/components`;
+  //   if (!fs.existsSync(dir)) {
+  //     fs.mkdirSync(dir);
+  //   }
+  // }
+
+  // if (!dir.match(/${appName}|\*$/)) {
+  //   dir = `${dir}/${appName}/src`;
+  //   if (!dir.match(/components|\*$/)) {
+  //     dir = `${dir}/components`;
+  //     if (!fs.existsSync(dir)) {
+  //       fs.mkdirSync(dir);
+  //     }
+  //   }
+  // }
+
+  const promises: Array<any> = [];
+  data.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
       fs.writeFile(
         `${dir}/${component.title}.tsx`,
@@ -26,7 +45,7 @@ const createFiles = (data, path, appName, exportAppBool) => {
           jsxBracketSameLine: true,
           parser: 'typescript',
         }),
-        err => {
+        (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
         },
