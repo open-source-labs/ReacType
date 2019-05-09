@@ -26,7 +26,7 @@ const styles = theme => ({
   input: {
     color: '#fff',
     opacity: '0.7',
-    marginBottom: '15px',
+    marginBottom: '17px',
   },
 });
 
@@ -46,7 +46,6 @@ class HtmlAttr extends Component {
   }, {});
 
   handleSave = attr => {
-    console.log(attr, this.state[attr]);
     this.props.updateHtmlAttr({ attr, value: this.state[attr] });
     this.setState({
       [attr]: '',
