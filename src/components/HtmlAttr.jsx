@@ -19,9 +19,9 @@ const styles = theme => ({
   },
   cssLabel: {
     color: 'white',
-    '&$cssFocused': {
-      color: 'green',
-    },
+  },
+  cssFocused: {
+    color: 'green',
   },
   input: {
     color: '#fff',
@@ -66,7 +66,7 @@ class HtmlAttr extends Component {
 
     const HtmlForm = HTMLelements[focusChildType].attributes.map((attr, i) => (
       <Grid container spacing={0} key={i} style={{ marginTop: '10px', marginRight: '20px' }}>
-        <Grid item xs={1.5}>
+        <Grid item xs={2}>
           <TextField
             InputLabelProps={{
               classes: {
