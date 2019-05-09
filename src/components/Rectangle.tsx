@@ -25,10 +25,14 @@ interface PropsInt {
   handleTransform: any;
 }
 
-class Rectangle extends Component<PropsInt> {
-  // state = {
-  //   rectImage: null
-  // };
+interface StateInt {
+  image: any;
+}
+
+class Rectangle extends Component<PropsInt, StateInt> {
+  state = {
+    image: null
+  };
 
   getComponentColor(componentId: number) {
     const color = this.props.components.find(comp => comp.id === componentId)
@@ -89,11 +93,9 @@ class Rectangle extends Component<PropsInt> {
   setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
-
     image.src = imageSource;
-    // if there was an error grtting img; heigth should b Zero
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -158,21 +160,23 @@ class Rectangle extends Component<PropsInt> {
               ? this.getComponentColor(childComponentId)
               : "#000000"
           }
-          // fill={color}
-          // opacity={0.8}
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
-          strokeWidth={childType === "COMP" ? 4 : 1}
+          strokeWidth={childType === "COMP" ? 4 : 2}
           strokeScaleEnabled={false}
           draggable={false}
           fill={childId === -1 ? "white" : null}
           shadowBlur={childId === -1 ? 6 : null}
-          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
-
-          // fillPatternImage={null}
-          // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
-          // dash={[10, 3]} // 10px dashes with 3px gaps
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
         />
         <Label>
           <Text
@@ -204,9 +208,7 @@ class Rectangle extends Component<PropsInt> {
                 directParentName={childComponentName}
                 childType={grandchild.childType}
                 imageSource={
-                  grandchild.htmlElement == "Image" && grandchild.HTMLInfo.Src
-                    ? grandchild.HTMLInfo.Src
-                    : null
+                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
                 }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}

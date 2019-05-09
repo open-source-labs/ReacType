@@ -24,7 +24,15 @@ interface PropsInt {
   handleTransform: any;
 }
 
-class GrandchildRectangle extends Component<PropsInt> {
+interface StateInt {
+  image: any;
+}
+
+class GrandchildRectangle extends Component<PropsInt, StateInt> {
+  state = {
+    image: null
+  };
+
   getComponentColor(componentId: number) {
     // const color = findComponentById(componentId, this.props.components).color;
     const color = this.props.components.find(comp => comp.id === componentId)
@@ -39,12 +47,11 @@ class GrandchildRectangle extends Component<PropsInt> {
   }
 
   setImage = (imageSource: string) => {
-    //console.log("IMAGE SOURCE", imageSource);
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -93,9 +100,15 @@ class GrandchildRectangle extends Component<PropsInt> {
               ? this.getComponentColor(childComponentId)
               : "#000000"
           }
-          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
-          // fill={color}
-          // opacity={0.8}
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
           strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
@@ -111,20 +124,12 @@ class GrandchildRectangle extends Component<PropsInt> {
                 componentId={componentId}
                 childType={grandchild.childType}
                 imageSource={
-                  grandchild.htmlElement == "Image" && grandchild.HTMLInfo.Src
-                    ? grandchild.HTMLInfo.Src
-                    : null
+                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
                 }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                // fillPatternImage={
-                //   grandchild.HTMLInfo.Src
-                //     ? this.setImage(grandchild.HTMLInfo.Src)
-                //     : null
-                // }
-                // test test
                 width={
                   grandchild.position.width *
                   (width / this.getPseudoChild().position.width)

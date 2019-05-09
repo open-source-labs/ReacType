@@ -47,7 +47,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     super(props);
     this.state = {
       stageWidth: 1800,
-      stageHeight: 1500,
+      stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
       gridStroke: 1
@@ -261,8 +261,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   blockSnapSize={this.state.blockSnapSize}
                   imageSource={
                     child.htmlElement === "Image" && child.HTMLInfo.Src
-                      ? child.HTMLInfo.Src
-                      : null
                   }
                 />
               ))
