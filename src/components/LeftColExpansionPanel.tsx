@@ -1,15 +1,15 @@
-import React, { Fragment } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import React, { Fragment } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const LeftColExpansionPanel = (props: any) => {
   const {
@@ -49,9 +49,7 @@ const LeftColExpansionPanel = (props: any) => {
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={
-            !isFocused() ? {} : { boxShadow: "0 10px 10px rgba(0,0,0,0.22)" }
-          }
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
         >
           <Grid item xs={12} style={{ color: "red" }}>
             <List style={{ color: "red" }}>
@@ -81,33 +79,6 @@ const LeftColExpansionPanel = (props: any) => {
             <div />
           ) : (
             <Fragment>
-              <span>
-                {directParents ? (
-                  <p
-                    style={{
-                      padding: '0px',
-                      marginTop: '0px',
-                      marginLeft: '15px',
-                      color: '#D3D3D3',
-                      fontSize: '12px',
-                    }}
-                  >
-                    Used in: {directParents}
-                  </p>
-                ) : (
-                  <p
-                    style={{
-                      padding: '0px',
-                      marginTop: '0px',
-                      marginLeft: '15px',
-                      color: '#D3D3D3',
-                      fontSize: '12px',
-                    }}
-                  >
-                    Not used
-                  </p>
-                )}
-              </span>
               <Button
                 variant="text"
                 size="small"
@@ -128,7 +99,7 @@ const LeftColExpansionPanel = (props: any) => {
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
-                Delete
+                Delete Component
               </Button>
               {/* <IconButton
                 style={{ display: "inline-block" }}
@@ -150,14 +121,16 @@ const LeftColExpansionPanel = (props: any) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <IconButton
-            aria-label="Add"
-            onClick={() => {
-              addChild({ title, childType: "COMP" });
-            }}
-          >
-            <AddIcon style={{ color, float: "right" }} />
-          </IconButton>
+          <Tooltip title="add as child" aria-label="add as child" placement="left">
+            <IconButton
+              aria-label="Add"
+              onClick={() => {
+                addChild({ title, childType: 'COMP' });
+              }}
+            >
+              <AddIcon style={{ color, float: 'right' }} />
+            </IconButton>
+          </Tooltip>
         )}
       </Grid>
     </div>

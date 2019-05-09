@@ -10,8 +10,9 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
+import Fab from '@material-ui/core/Fab';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces';
 import createModal from '../utils/createModal.util';
@@ -182,7 +183,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = components
+    const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component, i) => (
         <LeftColExpansionPanel
@@ -211,7 +212,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {
-                  // Do code here
                   this.handleAddComponent();
                   ev.preventDefault();
                 }
@@ -228,17 +228,16 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             />
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="fab"
-              mini
-              color="primary"
+            <Fab
+              size="small"
+              color="secondary"
               className={classes.button}
               aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
               <AddIcon />
-            </Button>
+            </Fab>
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
@@ -282,7 +281,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             <Button
               color="primary"
               variant="contained"
-              fullwidth={true}
+              fullWidth
+              onClick={this.showGenerateAppModal}
               className={classes.clearButton}
               disabled={totalComponents < 1}
               onClick={this.showGenerateAppModal}

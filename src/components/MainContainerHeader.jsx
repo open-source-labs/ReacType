@@ -46,7 +46,7 @@ const styles = () => ({
   },
 });
 
-const MainContainerHeader = (props) => {
+const MainContainerHeader = props => {
   const {
     classes,
     image,
@@ -63,12 +63,7 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons">
         <Tooltip title="remove image">
           <div>
-            <Button
-              disabled={!image}
-              color="default"
-              className={classes.button}
-              onClick={showImageDeleteModal}
-            >
+            <Button disabled={!image} color="default" className={classes.button} onClick={showImageDeleteModal}>
               <DeleteOutlineIcon className={classes.light} />
             </Button>
           </div>
@@ -79,25 +74,21 @@ const MainContainerHeader = (props) => {
               <ImageSearchIcon className={classes.light} />
             </Button>
           </div>
-        </Tooltip>
-        <Tooltip title={'export'}>
-          <div>
-            <Button
-              color="primary"
-              variant="text"
-              // variant="outlined"
-              className={classes.clearButton}
-              disabled={totalComponents < 1}
-              onClick={showGenerateAppModal}
-            >
-              <GetAppIcon
-                className={classes.light}
-                style={{ paddingLeft: '5px', paddingRight: '5px' }}
-              />
-              Export Project
-            </Button>
-          </div>
-        </Tooltip>
+        </Tooltip>{' '}
+        */}
+        <div>
+          <Button
+            color="primary"
+            variant="text"
+            // variant="outlined"
+            className={classes.clearButton}
+            disabled={totalComponents < 1}
+            onClick={showGenerateAppModal}
+          >
+            <GetAppIcon className={classes.light} style={{ paddingLeft: '5px', paddingRight: '5px' }} />
+            Export Project
+          </Button>
+        </div>
       </div>
     </div>
   );
