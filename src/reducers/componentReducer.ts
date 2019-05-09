@@ -1,4 +1,4 @@
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces.ts';
 
 import {
   LOAD_INIT_DATA,
@@ -30,7 +30,6 @@ import {
   addComponent,
   addChild,
   deleteChild,
-  updateComponent,
   deleteComponent,
   changeFocusComponent,
   changeComponentFocusChild,
@@ -40,23 +39,18 @@ import {
   handleClose,
   handleTransform,
   openExpansionPanel,
-  changeImagePath,
   addProp,
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-} from '../utils/componentReducer.util';
-import cloneDeep from '../utils/cloneDeep';
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent = {
   id: 1,
   stateful: false,
   title: 'App',
-  // parentIds: [],
   color: '#FF6D00',
-  // draggable: true,
-  // childrenIds: [],
-  // selectableParents: [],
   props: [],
   nextPropId: 1,
   position: {
@@ -65,7 +59,6 @@ const appComponent = {
     width: 600,
     height: 400,
   },
-
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
@@ -77,10 +70,9 @@ const initialApplicationFocusChild = {
   position: {
     x: 25,
     y: 25,
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 550,
   },
-  draggable: true,
   childType: null,
   childSort: 0,
   childComponentId: 0,
@@ -121,8 +113,6 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addChild(state, action.payload);
     case DELETE_CHILD:
       return deleteChild(state, action.payload);
-    case UPDATE_COMPONENT:
-      return updateComponent(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
@@ -147,8 +137,6 @@ const componentReducer = (state = initialApplicationState, action) => {
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
       return initialApplicationState;
-    case CHANGE_IMAGE_PATH:
-      return changeImagePath(state, action.payload);
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:

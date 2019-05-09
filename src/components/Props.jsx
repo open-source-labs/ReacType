@@ -1,5 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import Switch from '@material-ui/core/Switch';
+import InputLabel from '@material-ui/core/InputLabel';
+import { addProp, deleteProp } from '../actions/components.ts';
+import DataTable from './DataTable.tsx';
+import { ComponentInt } from '../utils/interfaces.ts';
 
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,7 +34,6 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   chip: {
-    // margin: theme.spacing.unit,
     color: '#eee',
     backgroundColor: '#333333',
   },
@@ -63,8 +73,8 @@ const styles = theme => ({
   },
 });
 
-const mapDispatchToProps = dispatch => ({
-  addProp: ({ key, value, required, type }) =>
+const mapDispatchToProps = (dispatch: any) => ({
+  addProp: ({ key, value, required, type }: { key: string, value: string, required: boolean, type: string }) =>
     dispatch(
       addProp({
         key,
@@ -73,10 +83,10 @@ const mapDispatchToProps = dispatch => ({
         type,
       }),
     ),
-  deleteProp: propId => dispatch(deleteProp(propId)),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
 });
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent,
 });
 
@@ -85,10 +95,9 @@ const availablePropTypes = {
   number: 'NUM',
   object: 'OBJ',
   array: 'ARR',
-  number: 'NUM',
   boolean: 'BOOL',
   function: 'FUNC',
-  symbol: 'SYM',
+  // symbol: 'SYM',
   node: 'NODE',
   element: 'ELEM',
   any: 'ANY',
@@ -172,7 +181,6 @@ class Props extends Component {
     }));
 
     return (
-      // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
       <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
@@ -268,22 +276,6 @@ class Props extends Component {
                 </Grid>
                 <Grid item xs={1} />
               </Grid>
-              {/* <div className="chips">
-              {focusComponent.props.map(({
-                id, type, key, value, required,
-              }, index) => (
-                <Chip
-                  key={id}
-                  avatar={<Avatar className={classes.avatar}>{availablePropTypes[type]}</Avatar>}
-                  label={`${key}: ${value}`}
-                  onDelete={() => deleteProp({ id, index })}
-                  className={classes.chip}
-                  elevation={6}
-                  color={required ? 'secondary' : 'primary'}
-                  deleteIcon={<RemoveCircleOutlineIcon className={classes.icon} />}
-                />
-              ))}
-            </div> */}
             </div>
           </Fragment>
         )}
@@ -291,16 +283,6 @@ class Props extends Component {
     );
   }
 }
-
-// Props.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   focusComponent: PropTypes.object.isRequired,
-//   deleteProp: PropTypes.func.isRequired,
-//   addProp: PropTypes.func.isRequired,
-//   rightColumnOpen: PropTypes.bool.isRequired,
-// };
-
-// export default withStyles(styles)(Props);
 
 export default connect(
   mapStateToProps,

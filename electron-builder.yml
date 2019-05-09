@@ -7,7 +7,7 @@ linux:
   target:
     - AppImage
     - deb
-  maintainer: test@gmail.com
+  maintainer: spincycle01@yahoo.com
 mac:
   category: public.app-category.developer-tools
   target: dmg

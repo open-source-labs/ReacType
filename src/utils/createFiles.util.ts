@@ -3,7 +3,6 @@ import { format } from 'prettier';
 import componentRender from './componentRender.util.ts';
 
 const createFiles = (data: any, path: string, appName: string, exportAppBool: boolean) => {
-  // if (!dir.match(/`${appName}`|\*$/)) {
   let dir = path;
   if (!dir.match(/components|\*$/)) {
     if (fs.existsSync(`${dir}/src`)) {
@@ -14,24 +13,6 @@ const createFiles = (data: any, path: string, appName: string, exportAppBool: bo
       dir = `${dir}/${appName}/src/components`;
     }
   }
-  // if (dir.match(/${appName}|\*$/)) {
-  // dir = `${dir}/${appName}/src`;
-  // if (!dir.match(/components|\*$/)) {
-  //   dir = `${dir}/components`;
-  //   if (!fs.existsSync(dir)) {
-  //     fs.mkdirSync(dir);
-  //   }
-  // }
-
-  // if (!dir.match(/${appName}|\*$/)) {
-  //   dir = `${dir}/${appName}/src`;
-  //   if (!dir.match(/components|\*$/)) {
-  //     dir = `${dir}/components`;
-  //     if (!fs.existsSync(dir)) {
-  //       fs.mkdirSync(dir);
-  //     }
-  //   }
-  // }
 
   const promises: Array<any> = [];
   data.forEach((component: any) => {

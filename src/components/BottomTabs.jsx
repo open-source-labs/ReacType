@@ -3,14 +3,29 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
-import Props from './Props.jsx';
-import HtmlAttr from './HtmlAttr.jsx';
-// import Tree from "./Tree.jsx";
+import Props from './Props.tsx';
+import HtmlAttr from './HtmlAttr.tsx';
+import CodePreview from './CodePreview.tsx';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
-const styles = theme => ({
+interface PropsInt {
+  focusChild: ChildInt;
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  deleteProp: any;
+  addProp: any;
+  classes: any;
+}
+
+interface TreeInt {
+  name: string;
+  attributes: { [key: string]: { value: string } };
+  children: TreeInt[];
+}
+
+const styles = (theme: any): any => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: "#212121",
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
@@ -18,7 +33,6 @@ const styles = theme => ({
   },
   tabsRoot: {
     borderBottom: '0.5px solid #424242',
-    // backgroundColor: "#424242"
   },
   tabsIndicator: {
     backgroundColor: '#1de9b6',
@@ -113,7 +127,11 @@ class BottomTabs extends Component {
       if (child.childType === 'COMP') {
         tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
-        tree.children.push({ name: child.componentName, attributes: {}, children: [] });
+        tree.children.push({
+          name: child.componentName,
+          attributes: {},
+          children: [],
+        });
       }
     });
     return tree;
@@ -154,6 +172,7 @@ class BottomTabs extends Component {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Application Tree"
           />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Code Preview" />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -207,7 +226,8 @@ class BottomTabs extends Component {
             />
           </div>
         )}
-        {value === 1 && <Props />}
+        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3 && focusChild.childType !== 'HTML' && <p>Please select an HTML element to view attributes</p>}
       </div>

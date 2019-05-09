@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer';
-import MainContainer from './MainContainer';
-import theme from '../components/theme';
-import { loadInitData } from '../actions/components';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import LeftContainer from './LeftContainer.tsx';
+import MainContainer from './MainContainer.tsx';
+import theme from '../components/theme.ts';
+import { loadInitData } from '../actions/components.ts';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 
 type Props = {
   components: ComponentsInt;
@@ -38,11 +38,10 @@ class AppContainer extends Component<Props> {
   }
 
   render(): JSX.Element {
-    const { components, focusComponent, loading, selectableChildren } = this.props;
-    const { width, rightColumnOpen } = this.state;
+    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
+    // const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
-    //const updatedComponents = convertIdsToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -52,11 +51,7 @@ class AppContainer extends Component<Props> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          <MainContainer
-            components={components}
-            // width={width}
-            // rightColumnOpen={rightColumnOpen}
-          />
+          <MainContainer components={components} />
           {loading ? (
             <div
               style={{
