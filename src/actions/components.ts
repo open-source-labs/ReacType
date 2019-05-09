@@ -1,16 +1,20 @@
 import {
+  ComponentInt,
+  ChildInt,
+  ApplicationStateInt,
+  ComponentsInt,
+  PropInt
+} from "../utils/interfaces";
+
+import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
   ADD_CHILD,
   DELETE_CHILD,
-  UPDATE_COMPONENT,
   DELETE_COMPONENT,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
-  UPDATE_CHILDREN,
-  REASSIGN_PARENT,
-  SET_SELECTABLE_PARENTS,
   EXPORT_FILES,
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
@@ -19,24 +23,20 @@ import {
   CREATE_APPLICATION,
   CREATE_APPLICATION_SUCCESS,
   CREATE_APPLICATION_ERROR,
-  MOVE_TO_BOTTOM,
-  MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
   DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
 } from "../actionTypes/index";
 
 import { loadState } from "../localStorage";
+import createFiles from "../utils/createFiles.util";
+import createApplicationUtil from "../utils/createApplication.util";
 
-import createFiles from "../utils/createFiles.util.ts";
-import createApplicationUtil from "../utils/createApplication.util.ts";
-
-export const loadInitData = () => dispatch => {
-  loadState().then(data =>
+export const loadInitData = () => (dispatch: any) => {
+  loadState().then((data: any) =>
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
@@ -46,33 +46,25 @@ export const loadInitData = () => dispatch => {
   );
 };
 
-// export const updateChildren = ({ parentIds, childIndex, childId }) => ({
-//   type: UPDATE_CHILDREN,
-//   payload: {
-//     parentIds,
-//     childIndex,
-//     childId,
-//   },
-// });
-
-// export const parentReassignment = ({ index, id, parentIds }) => ({
-//   type: REASSIGN_PARENT,
-//   payload: {
-//     index,
-//     id,
-//     parentIds,
-//   },
-// });
-
-export const addComponent = ({ title }) => dispatch => {
+export const addComponent = ({ title }: { title: string }) => (
+  dispatch: any
+) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addChild = ({ title, childType, HTMLInfo }) => dispatch => {
+export const addChild = ({
+  title,
+  childType,
+  HTMLInfo
+}: {
+  title: string;
+  childType: string;
+  HTMLInfo: object;
+}) => (dispatch: any) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => dispatch => {
+export const deleteChild = ({}) => (dispatch: any) => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
@@ -80,7 +72,10 @@ export const deleteChild = ({}) => dispatch => {
 export const deleteComponent = ({
   componentId,
   stateComponents
-}) => dispatch => {
+}: {
+  componentId: number;
+  stateComponents: ComponentsInt;
+}) => (dispatch: any) => {
   // find all places where the "to be delted" is a child and do what u gotta do
   stateComponents.forEach(parent => {
     parent.childrenArray
@@ -103,79 +98,43 @@ export const deleteComponent = ({
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-// export const updateComponent = ({
-//   id,
-//   index,
-//   newParentId = null,
-//   color = null,
-//   stateful = null,
-// }) => (dispatch) => {
-//   dispatch({
-//     type: UPDATE_COMPONENT,
-//     payload: {
-//       id,
-//       index,
-//       newParentId,
-//       color,
-//       stateful,
-//     },
-//   });
-
-//   if (newParentId) {
-//     dispatch(
-//       updateChildren({
-//         parentIds: [newParentId],
-//         childId: id,
-//         childIndex: index,
-//       }),
-//     );
-//   }
-
-//   dispatch({ type: SET_SELECTABLE_PARENTS });
-// };
-
-export const changeFocusComponent = ({ title }) => dispatch => {
+export const changeFocusComponent = ({ title }: { title: string }) => (
+  dispatch: any
+) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-<<<<<<< HEAD
-<<<<<<< HEAD
-export const changeFocusChild = ({ title, childId }) => dispatch => {
-  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { title, childId } });
-=======
-export const changeFocusChild = ({ childId }) => (dispatch) => {
-=======
-export const changeFocusChild = ({ childId }) => dispatch => {
->>>>>>> fcd32cb... finished ts changes to util files
+export const changeFocusChild = ({ childId }: { childId: number }) => (
+  dispatch: any
+) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
->>>>>>> c532596... reducer cleanup, working version
 };
 
-<<<<<<< HEAD
-export const changeComponentFocusChild = ({ componentId, childId }) => dispatch => {
-=======
 export const changeComponentFocusChild = ({
   componentId,
   childId
-}) => dispatch => {
->>>>>>> fcd32cb... finished ts changes to util files
+}: {
+  componentId: number;
+  childId: number;
+}) => (dispatch: any) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
     payload: { componentId, childId }
   });
 };
 
-<<<<<<< HEAD
-export const exportFiles = ({ components, path, appName, exportAppBool }) => dispatch => {
-=======
 export const exportFiles = ({
   components,
   path,
   appName,
   exportAppBool
-}) => dispatch => {
->>>>>>> fcd32cb... finished ts changes to util files
+}: {
+  components: ComponentsInt;
+  path: string;
+  appName: string;
+  exportAppBool: boolean;
+}) => (dispatch: any) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES
@@ -185,24 +144,14 @@ export const exportFiles = ({
     .then(dir =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
-<<<<<<< HEAD
-        payload: { status: true, dir: dir[0] },
-      }),
-=======
         payload: { status: true, dir: dir[0] }
       })
->>>>>>> fcd32cb... finished ts changes to util files
     )
     .catch(err =>
       dispatch({
         type: EXPORT_FILES_ERROR,
-<<<<<<< HEAD
-        payload: { status: true, err },
-      }),
-=======
         payload: { status: true, err }
       })
->>>>>>> fcd32cb... finished ts changes to util files
     );
 };
 
@@ -211,15 +160,16 @@ export const handleClose = () => ({
   payload: false
 });
 
-<<<<<<< HEAD
-export const handleTransform = (componentId, childId, { x, y, width, height }) => ({
-=======
 export const handleTransform = (
-  componentId,
-  childId,
-  { x, y, width, height }
+  componentId: number,
+  childId: number,
+  {
+    x,
+    y,
+    width,
+    height
+  }: { x: number; y: number; width: number; height: number }
 ) => ({
->>>>>>> fcd32cb... finished ts changes to util files
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -235,14 +185,15 @@ export const createApplication = ({
   path,
   components = [],
   genOption,
-<<<<<<< HEAD
-  appName = 'reactype_app',
-  exportAppBool,
-=======
   appName = "reactype_app",
   exportAppBool
->>>>>>> fcd32cb... finished ts changes to util files
-}) => dispatch => {
+}: {
+  path: string;
+  components: ComponentsInt;
+  genOption: number;
+  appName: string;
+  exportAppBool: boolean;
+}) => (dispatch: any) => {
   if (genOption === 0) {
     exportAppBool = false;
     dispatch(
@@ -254,14 +205,15 @@ export const createApplication = ({
       })
     );
   } else if (genOption) {
+    exportAppBool = true;
     dispatch({
       type: CREATE_APPLICATION
     });
     createApplicationUtil({
       path,
       appName,
-      genOption,
-      exportAppBool
+      genOption
+      // exportAppBool
     })
       .then(() => {
         dispatch({
@@ -279,18 +231,13 @@ export const createApplication = ({
       .catch(err =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
-<<<<<<< HEAD
-          payload: { status: true, err },
-        }),
-=======
           payload: { status: true, err }
         })
->>>>>>> fcd32cb... finished ts changes to util files
       );
   }
 };
 
-export const openExpansionPanel = component => ({
+export const openExpansionPanel = (component: ComponentInt) => ({
   type: OPEN_EXPANSION_PANEL,
   payload: { component }
 });
@@ -299,32 +246,35 @@ export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
 
-export const deleteProp = propId => dispatch => {
+export const deleteProp = (propId: number) => (dispatch: any) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const addProp = prop => ({
+export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
   payload: { ...prop }
 });
 
-export const updateHtmlAttr = ({ attr, value }) => dispatch => {
+export const updateHtmlAttr = ({
+  attr,
+  value
+}: {
+  attr: string;
+  value: string;
+}) => (dispatch: any) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
     payload: { attr, value }
   });
 };
 
-<<<<<<< HEAD
-export const updateChildrenSort = ({ newChildrenArray }) => dispatch => {
+export const updateChildrenSort = ({
+  newSortValues
+}: {
+  newSortValues: any;
+}) => (dispatch: any) => {
   dispatch({
     type: UPDATE_CHILDREN_SORT,
-    payload: { newChildrenArray }
-=======
-export const updateChildrenSort = ({ newSortValues }) => (dispatch) => {
-  dispatch({
-    type: UPDATE_CHILDREN_SORT,
-    payload: { newSortValues },
->>>>>>> 29b23c438a735dda0a220e39c9795d2ca252eb6d
+    payload: { newSortValues }
   });
 };

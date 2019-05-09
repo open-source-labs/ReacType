@@ -388,6 +388,7 @@ export const changeFocusChild = (state: ApplicationStateInt, { childId }: { chil
         height: focComp.position.height,
       },
       // draggable: true,
+      childSort: 0,
       color: focComp.color,
       childType: '',
       htmlElement: '',

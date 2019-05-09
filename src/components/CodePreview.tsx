@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
+import componentRender from '../utils/componentRender.util.ts';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces';
 import SortChildren from './SortChildren.jsx';
 
@@ -21,11 +21,11 @@ class CodePreview extends Component<Props> {
         <div
           style={{
             width: '500px',
-            height: '260px',
+            height: '290px',
             direction: 'rtl',
             paddingLeft: '20px',
             color: '#D3D3D3',
-            fontSize: 15,
+            fontSize: 16,
             overflow: 'auto',
           }}
         >
