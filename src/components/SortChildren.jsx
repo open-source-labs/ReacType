@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { width } from 'window-size';
 import { updateChildrenSort } from '../actions/components';
 import cloneDeep from '../utils/cloneDeep';
 

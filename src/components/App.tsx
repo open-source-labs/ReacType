@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../public/styles/style.css';
-// import { MuiThemeProvider } from '@material-ui/core/styles';
 import AppContainer from '../containers/AppContainer';
 
 export const App: React.SFC = () => (
