@@ -1,13 +1,14 @@
-import { ComponentInt, ChildInt, ChildrenInt, PropInt } from "./Interfaces";
+import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
+import cloneDeep from './cloneDeep';
 
-const componentRender = (component: ComponentInt, data: any) => {
+const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
     // stateful,
     // id,
     // position,
     childrenArray,
     title,
-    props
+    props,
   }: {
     childrenArray: ChildrenInt;
     title: string;
@@ -16,62 +17,66 @@ const componentRender = (component: ComponentInt, data: any) => {
 
   function typeSwitcher(type: string) {
     switch (type) {
-      case "string":
-        return "string";
-      case "number":
-        return "number";
-      case "object":
-        return "object";
-      case "array":
-        return "any[]";
-      case "bool":
-        return "boolean";
-      case "function":
-        return "() => any";
+      case 'string':
+        return 'string';
+      case 'number':
+        return 'number';
+      case 'object':
+        return 'object';
+      case 'array':
+        return 'any[]';
+      case 'bool':
+        return 'boolean';
+      case 'function':
+        return '() => any';
       // case 'symbol':
       //   return 'string';
-      case "node":
-        return "string";
-      case "element":
-        return "string";
-      case "tuple":
-        return "[any]";
-      case "enum":
-        return "{}";
-      case "any":
-        return "any";
+      case 'node':
+        return 'string';
+      case 'element':
+        return 'string';
+      case 'tuple':
+        return '[any]';
+      case 'enum':
+        return '{}';
+      case 'any':
+        return 'any';
       default:
-        return "any";
+        return 'any';
     }
   }
 
   function propDrillTextGenerator(child: ChildInt) {
-    if (child.childType === "COMP") {
-      return data
+    if (child.childType === 'COMP') {
+      return components
         .find((c: any) => c.id === child.childComponentId)
         .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
-        .join(" ");
+        .join(' ');
     }
-    return "";
+    if (child.childType === 'HTML') {
+      const keys: string[] = Object.keys(child.HTMLInfo);
+      return keys.map(key => `${key}={${child.HTMLInfo[key]}}`).join(' ');
+    }
+    return '';
   }
 
   function componentNameGenerator(child: ChildInt) {
-    if (child.childType === "HTML") {
+    if (child.childType === 'HTML') {
       switch (child.componentName) {
-        case "Image":
-          return "img";
-        case "Form":
-          return "form";
-        case "Button":
-          return "button";
-        case "Link":
+        case 'Image':
+          return 'img';
+        case 'Form':
+          return 'form';
+        case 'Button':
+          return 'button';
+        case 'Link':
           return 'a href=""';
-        case "List":
-          return "ul";
-        case "Paragraph":
-          return "p";
+        case 'List':
+          return 'ul';
+        case 'Paragraph':
+          return 'p';
         default:
-          return "div";
+          return 'div';
       }
     } else {
       return child.componentName;
@@ -119,11 +124,8 @@ const componentRender = (component: ComponentInt, data: any) => {
   return `
     import React from 'react';
     ${childrenArray
-      .filter(child => child.childType !== "HTML")
-      .map(
-        child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`
-      )
+      .filter(child => child.childType !== 'HTML')
+      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -131,25 +133,21 @@ const componentRender = (component: ComponentInt, data: any) => {
         }
         return acc;
       }, [])
-      .join("\n")}
+      .join('\n')}
     
     type Props = {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join("\n")}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
     }
 
     const ${title} = (props: Props) => {
-      const {${props.map(el => el.key).join(",\n")}} = props
+      const {${props.map(el => el.key).join(',\n')}} = props
       
       return (
         <div>
-          ${childrenArray
-            .map(
-              child =>
-                `<${componentNameGenerator(child)} ${propDrillTextGenerator(
-                  child
-                )}/>`
-            )
-            .join("\n")}
+        ${cloneDeep(childrenArray)
+          .sort((a, b) => a.childSort - b.childSort)
+          .map(child => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
+          .join('\n')}
         </div>
       );
     }

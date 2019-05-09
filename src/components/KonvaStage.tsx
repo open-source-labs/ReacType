@@ -10,8 +10,8 @@ class KonvaStage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stageWidth: 1000,
-      stageHeight: 1000,
+      stageWidth: 1500,
+      stageHeight: 1500,
       blockSnapSize: 10,
       grid: [],
       gridStroke: 1,
@@ -47,13 +47,13 @@ class KonvaStage extends Component {
     // here we should add listener for "container" resize
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
-    window.addEventListener('resize', this.checkSize);
+    // window.addEventListener('resize', this.checkSize);
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.checkSize);
+    // window.removeEventListener('resize', this.checkSize);
     this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -67,15 +67,17 @@ class KonvaStage extends Component {
   };
 
   handleKeyDown = e => {
-    if (e.keyCode === 46 || e.keyCode === 8) {
+    // backspace and delete keys are keyCode 8 and 46, respectively
+    // this function is only used for deleting children atm, could be used for other things
+    if (e.keyCode === 8 || e.keyCode === 46) {
       this.props.deleteChild({});
     }
   };
 
   handleStageMouseDown = e => {
-    // // clicked on stage - clear selection
+    // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
-      // add functionality for allowing no focusChild
+      // TODO add functionality for allowing no focusChild
       console.log('user clicked on canvas:');
       return;
     }
@@ -205,14 +207,20 @@ class KonvaStage extends Component {
                   handleTransform={handleTransform}
                   draggable={true}
                   blockSnapSize={this.state.blockSnapSize}
-                  imageSource={child.htmlElement == 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null}
+                  imageSource={child.htmlElement === 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null}
                 />
               ))
-              .sort((rectA, rectB) => rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height)
+              .sort((rectA, rectB) => {
+                if (rectB.props.childId === -1) {
+                  return 1;
+                }
+                return rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height;
+              })
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
             // to guarantee they are rendered last, sort the array in reverse order by size
+            // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
             // THIS COULD BE A BIG PERFORMANCE PROBLEM (PROBABLY WILL BE!)
             // TRY TO REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
             }
