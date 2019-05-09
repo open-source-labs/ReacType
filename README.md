@@ -1,6 +1,5 @@
 # ReacType
 
-
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
@@ -8,7 +7,9 @@
 
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
- Download for [MacOS](), [Windows](), [Linux]().
+Download for [MacOS](), [Windows](), [Linux]().
+
+![Image of ReacType Application](https://i.imgur.com/2sefnAk.jpg)
 
 ### How to use
 
@@ -19,9 +20,11 @@
 - The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
-- To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key or click the 'DELETE CHILD' button.
+- To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
 - To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
+
+![Image of ReacType Application 2](https://i.imgur.com/OCJ8nnw.png)
 
 ### To Export Files
 

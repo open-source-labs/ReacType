@@ -1,11 +1,9 @@
 import React, { Component, createRef, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import Fab from '@material-ui/core/Fab';
-import Rectangle from './Rectangle.jsx';
+import Rectangle from './Rectangle.tsx';
 import cloneDeep from '../utils/cloneDeep.ts';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
   components: ComponentsInt;
@@ -104,14 +102,11 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   handleStageMouseDown = e => {
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
-      // TODO add functionality for allowing no focusChild
-      console.log('user clicked on canvas:');
       return;
     }
     // // clicked on transformer - do nothing
     const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
-      console.log('user clicked on transformer');
       return;
     }
 
@@ -176,27 +171,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
       >
-        {/* <Fab
-          variant="extended"
-          size="small"
-          color="inherit"
-          aria-label="Delete"
-          // className={classes.margin}
-          style={{
-            width: '150px',
-            position: 'relative',
-            float: 'right',
-            marginTop: '10px',
-            marginLeft: '10px',
-            // background: "#dbdbdb",
-            zIndex: 2,
-          }}
-          // style={{ maxWidth: "20px" }}
-          onClick={deleteChild}
-        >
-          <DeleteIcon />
-          Delete Child
-        </Fab> */}
         <Stage
           className={'canvasStage'}
           ref={node => {

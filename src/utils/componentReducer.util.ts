@@ -1,7 +1,7 @@
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
-import { getSize } from './htmlElements.util';
-import cloneDeep from './cloneDeep';
+import getSelectable from './getSelectable.util.ts';
+import getColor from './colors.util.ts';
+import { getSize } from './htmlElements.util.ts';
+import cloneDeep from './cloneDeep.ts';
 import {
   ComponentInt,
   ApplicationStateInt,
@@ -9,8 +9,7 @@ import {
   ChildInt,
   ComponentsInt,
   PropInt,
-  PositionInt,
-} from './interfaces';
+} from './Interfaces.ts';
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -278,10 +277,6 @@ export const handleTransform = (
     .find(comp => comp.id === componentId)
     .childrenArray.find(child => child.childId === childId);
 
-  // console.log(
-  //   `handleTransform here. componentId=${componentId} childId=${childId}`
-  // );
-
   const transformedChild = {
     ...child,
     position: {
@@ -356,7 +351,6 @@ export const changeFocusComponent = (
    ************************************************* */
   const newFocusComp: ComponentInt = state.components.find(comp => comp.title === title);
   // set the "focus child" to the focus child of this particular component .
-  // const newFocusChildId = newFocusComp.focusChildId;
 
   let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
   if (newFocusComp.focusChildId > 0) {
@@ -368,7 +362,6 @@ export const changeFocusComponent = (
   }
 
   const result = getSelectable(newFocusComp, state.components);
-  // const {selectableChildren, ancestors }: {selectableChildren: } = result;
 
   return {
     ...state,
@@ -394,7 +387,6 @@ export const changeFocusChild = (state: ApplicationStateInt, { childId }: { chil
         width: focComp.position.width,
         height: focComp.position.height,
       },
-      // draggable: true,
       childSort: 0,
       color: focComp.color,
       childType: '',
@@ -517,9 +509,6 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: { at
   const modifiedChild: any = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
-  // let modifiedComponent = cloneDeep(
-  //   state.components.find(comp => comp.id === state.focusComponent.id)
-  // );
   const modifiedComponent: ComponentInt = JSON.parse(
     JSON.stringify(state.components.find(comp => comp.id === state.focusComponent.id)),
   );

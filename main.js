@@ -1,9 +1,11 @@
+const path = require('path');
+
 const {
   app, BrowserWindow, Menu, shell, dialog, ipcMain,
 } = require('electron');
 
 // Uncomment below for hot reloading during development
-require('electron-reload')(__dirname);
+// require('electron-reload')(__dirname);
 
 // const isDev = true;
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -65,6 +67,7 @@ const createWindow = () => {
       'node-Integration': false,
     },
     show: false,
+    icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
   });
 
   // and load the index.html of the app.
