@@ -1,16 +1,17 @@
-import React, { Fragment } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
+import React, { Fragment } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-const LeftColExpansionPanel = props => {
+const LeftColExpansionPanel = (props: any) => {
   const {
     classes,
     focusComponent,
@@ -25,10 +26,12 @@ const LeftColExpansionPanel = props => {
 
   // show a string of all direct parents. SO the user can gaze at it.
   const directParents = components
-    .filter(comp =>
-      comp.childrenArray.some(child => child.childComponentId === id)
+    .filter((comp: ComponentInt) =>
+      comp.childrenArray.some(
+        (child: ChildInt) => child.childComponentId === id
+      )
     )
-    .map(comp => comp.title)
+    .map((comp: ComponentInt) => comp.title)
     .join(",");
 
   function isFocused() {
@@ -54,7 +57,7 @@ const LeftColExpansionPanel = props => {
             <List style={{ color: "red" }}>
               <ListItem
                 button
-                component="a"
+                // component="a"
                 style={{ color: "red" }}
                 onClick={() => {
                   changeFocusComponent({ title });
@@ -161,7 +164,7 @@ const LeftColExpansionPanel = props => {
   );
 };
 
-function styles(theme) {
+function styles(): any {
   return {
     root: {
       width: "100%",

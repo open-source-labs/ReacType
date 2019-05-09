@@ -1,12 +1,39 @@
 import React, { Component, createRef, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import Fab from '@material-ui/core/Fab';
 import Rectangle from './Rectangle.jsx';
 import cloneDeep from '../utils/cloneDeep.ts';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Fab from '@material-ui/core/Fab';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
-class KonvaStage extends Component {
+interface PropsInt {
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  selectableChildren: Array<number>;
+  classes: any;
+  addComponent: any;
+  addChild: any;
+  changeFocusComponent: any;
+  changeFocusChild: any;
+  deleteComponent: any;
+  createApp: any;
+  deleteAllData: any;
+  handleTransform: any;
+  focusChild: any;
+  changeComponentFocusChild: any;
+  deleteChild: any;
+}
+
+interface StateInt {
+  stageWidth: number;
+  stageHeight: number;
+  blockSnapSize: number;
+  grid: [];
+  gridStroke: number;
+}
+
+class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +45,7 @@ class KonvaStage extends Component {
     };
   }
 
-  getDirectChildrenCopy(focusComponent) {
+  getDirectChildrenCopy(focusComponent: ComponentInt) {
     const component = this.props.components.find(comp => comp.id === focusComponent.id);
 
     const childrenArr = component.childrenArray.filter(child => child.childId !== -1);
@@ -67,12 +94,14 @@ class KonvaStage extends Component {
   };
 
   handleKeyDown = e => {
-    if (e.keyCode === 46 || e.keyCode === 8) {
+    // backspace and delete keys are keyCode 8 and 46, respectively
+    if (e.keyCode === 8 || e.keyCode === 46) {
+      console.log(e);
       this.props.deleteChild({});
     }
   };
 
-  handleStageMouseDown = e => {
+  handleStageMouseDown = (e: any) => {
     // // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       // add functionality for allowing no focusChild
@@ -184,9 +213,8 @@ class KonvaStage extends Component {
             }}
           >
             {this.state.grid}
-            {components
-              .find(comp => comp.id === focusComponent.id)
-              .childrenArray.map((child, i) => (
+            {this.getDirectChildrenCopy(focusComponent)
+              .map((child: ChildInt, i: number) => (
                 <Rectangle
                   key={`${i}${child.componentName}`}
                   components={components}
