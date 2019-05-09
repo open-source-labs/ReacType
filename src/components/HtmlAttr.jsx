@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/components';
+import { updateHtmlAttr } from '../actions/components.ts';
 import { HTMLelements, getSize } from '../utils/htmlElements.util.ts';
 
 const styles = theme => ({
@@ -19,14 +19,14 @@ const styles = theme => ({
   },
   cssLabel: {
     color: 'white',
-    '&$cssFocused': {
-      color: 'green',
-    },
+  },
+  cssFocused: {
+    color: 'green',
   },
   input: {
     color: '#fff',
     opacity: '0.7',
-    marginBottom: '10px',
+    marginBottom: '15px',
   },
 });
 
@@ -68,12 +68,13 @@ class HtmlAttr extends Component {
 
     const HtmlForm = HTMLelements[focusChildType].attributes.map((attr, i) => (
       <Grid container spacing={0} key={i} style={{ marginTop: '10px', marginRight: '20px' }}>
-        <Grid item xs={1.5}>
+        <Grid item xs={2}>
           <TextField
             InputLabelProps={{
               classes: {
                 root: classes.cssLabel,
                 focused: classes.cssFocused,
+                input: classes.input,
               },
             }}
             InputProps={{

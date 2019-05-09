@@ -80,24 +80,22 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip> */}
-        <Tooltip title={'export'}>
-          <div>
-            <Button
-              color="primary"
-              variant="text"
-              // variant="outlined"
-              className={classes.clearButton}
-              disabled={totalComponents < 1}
-              onClick={showGenerateAppModal}
-            >
-              <GetAppIcon
-                className={classes.light}
-                style={{ paddingLeft: '5px', paddingRight: '5px' }}
-              />
-              Export Project
-            </Button>
-          </div>
-        </Tooltip>
+        <div>
+          <Button
+            color="primary"
+            variant="text"
+            // variant="outlined"
+            className={classes.clearButton}
+            disabled={totalComponents < 1}
+            onClick={showGenerateAppModal}
+          >
+            <GetAppIcon
+              className={classes.light}
+              style={{ paddingLeft: '5px', paddingRight: '5px' }}
+            />
+            Export Project
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { addProp, deleteProp } from '../actions/components';
+import { addProp, deleteProp } from '../actions/components.ts';
 import DataTable from './DataTable.jsx';
 
 const styles = theme => ({
@@ -23,7 +23,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   chip: {
-    margin: theme.spacing.unit,
+    // margin: theme.spacing.unit,
     color: '#eee',
     backgroundColor: '#333333',
   },
@@ -180,12 +180,15 @@ class Props extends Component {
       <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', marginLeft: '20px' }}>
+          <div style={{ marginTop: '20px', width: '90%' }}>
             Click a component to view its props.
           </div>
         ) : (
           <Fragment>
-            <div className="props-container">
+            <div
+              className="props-container"
+              style={{ marginTop: '20px', width: '90%', height: '80%' }}
+            >
               <Grid container spacing={8}>
                 <Grid item xs={4}>
                   <form className="props-input" onSubmit={this.handleAddProp}>

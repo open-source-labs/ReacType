@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { handleClose, deleteCompProp, addCompProp } from '../actions/components';
-import BottomTabs from './BottomTabs';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  handleClose,
+  deleteCompProp,
+  addCompProp
+} from "../actions/components.ts";
+import BottomTabs from "./BottomTabs";
 
-const IPC = require('electron').ipcRenderer;
+const IPC = require("electron").ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop)),
+  addProp: prop => dispatch(addCompProp(prop))
 });
 
 const mapStateToProps = store => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components,
+  components: store.workspace.components
 });
 
 class BottomPanel extends Component {
-
   // viewAppDir = () => {
   //   IPC.send('view_app_dir', this.props.appDir);
   // };
@@ -28,11 +31,11 @@ class BottomPanel extends Component {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild,
+      focusChild
     } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: '100%' }}>
+      <div className="bottom-panel" style={{ width: "100%" }}>
         <BottomTabs
           components={components}
           focusComponent={focusComponent}
@@ -47,5 +50,5 @@ class BottomPanel extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(BottomPanel);
