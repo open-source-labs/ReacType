@@ -1,19 +1,11 @@
-// import util from 'util';
-
-// const execFile = util.promisify(require('child_process').execFile);
-
-// Application generation options
-// cosnt genOptions = [
-//   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
-// ];
-
-import fs from "fs";
-import { format } from "prettier";
-import componentRender from "./componentRender.util.ts";
+import fs from 'fs';
+import { format } from 'prettier';
+import componentRender from './componentRender.util';
 
 function createIndexHtml(path, appName) {
   let dir = path;
   let dirSrc;
+  let dirServer;
   let dirComponent;
   if (!dir.match(/`${appName}`|\*$/)) {
     dir = `${dir}/${appName}`;
@@ -21,6 +13,8 @@ function createIndexHtml(path, appName) {
       fs.mkdirSync(dir);
       dirSrc = `${dir}/src`;
       fs.mkdirSync(dirSrc);
+      dirServer = `${dir}/server`;
+      fs.mkdirSync(dirServer);
       dirComponent = `${dirSrc}/components`;
       fs.mkdirSync(dirComponent);
     }
@@ -28,43 +22,44 @@ function createIndexHtml(path, appName) {
 
   const filePath: string = `${dir}/index.html`;
   const data: string = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-  <div id='root'></div>
-  <script src='bundle.js'></script>
-</body>
-</html>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <title>ReacType App</title>
+    </head>
+    <body>
+      <div id="root"></div>
+      <script src="./build/bundle.js"></script>
+    </body>
+  </html>
   `;
   fs.writeFileSync(filePath, data, err => {
     if (err) {
-      console.log("index.html error:", err.message);
+      console.log('index.html error:', err.message);
     } else {
-      console.log("index.html written successfully");
+      console.log('index.html written successfully');
     }
   });
 }
 
-async function createApplicationUtil({ path, appName, genOption }) {
-  if (genOption === 1) {
-    await createIndexHtml();
-  }
-
-const root = document.getElementById('root')
+export const createIndexTsx = (path, appName) => {
+  const filePath = `${path}/${appName}/src/index.tsx`;
+  const data = `
+  import * as React from 'react';
+  import * as ReactDOM from 'react-dom';
   
-ReactDOM.render(<App />, root)
+  import { App } from './components/App';
+  
+  ReactDOM.render(<App />, document.getElementById('root'));
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log("index.tsx error:", err.message);
+      console.log('index.tsx error:', err.message);
     } else {
-      console.log("index.tsx written successfully");
+      console.log('index.tsx written successfully');
     }
   });
 };
@@ -86,7 +81,7 @@ export const createPackage = (path, appName) => {
 "license": "ISC",
 "depenencies": {
   "react": "^16.4.1",
-  "react-dom": "^16.4.1",
+  "react-dom": "^16.4.1"
 },
 "devDependencies": {
   "@babel/preset-typescript": "^7.3.3",
@@ -106,48 +101,65 @@ export const createPackage = (path, appName) => {
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log("package.json error:", err.message);
+      console.log('package.json error:', err.message);
     } else {
-      console.log("package.json written successfully");
+      console.log('package.json written successfully');
     }
   });
 };
 
-// async function createApplicationUtil({
-//   path, appName, genOption
-// }) {
-//   if (genOption === 1) {
-//     return [
-//       await execFile('npm', ['init', '-y'], { cwd: path }),
-//       await execFile('touch', 'index.tsx', { cwd: path }),
-//       await execFile('touch', 'index.html', { cwd: path }),
-//       await execFile('touch', 'webpack.config.js', { cwd: path }),
-//       await execFile('touch', '.babelrc', { cwd: path }),
-//     ];
-//   }
-// }
-
-module.exports = {
-  target: 'web',
-  mode: 'development',
-  entry: './index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
-  },
-  module: { rules },
-  resolve: {extensions: ['.ts', '.tsx', '.js', '.jsx']},
-  devServer: {
-    contentBase: './',
-    port: 5000
-  }
-}
+export const createWebpack = (path, appName) => {
+  const filePath = `${path}/${appName}/webpack.config.js`;
+  const data = `
+  var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
+  var path = require('path');
+  
+  module.exports = {
+    entry: './src/index.tsx',
+    output: {
+      path: path.resolve(__dirname, 'build'),
+      filename: 'bundle.js',
+    },
+  
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: 'source-map',
+  
+    resolve: {
+      // Add '.ts' and '.tsx' as resolvable extensions.
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+    mode: status,
+    devServer: {
+      publicPath: '/build/',
+      // proxy: {
+      //   '/testDev': 'http://localhost:3000',
+      // },
+    },
+  
+    module: {
+      rules: [
+        // All files with a '.ts' or '.tsx' extension will be handled by babel-loader
+        { test: /.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
+  
+        // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+        { enforce: 'pre', test: /.js$/, exclude: /node-modules/, loader: 'source-map-loader' },
+        {
+          test: /.scss$/,
+          use: [
+            'style-loader', // creates style nodes from JS strings
+            'css-loader', // translates CSS into CommonJS
+            'sass-loader', // compiles Sass to CSS, using Node Sass by default
+          ],
+        },
+      ],
+    },
+  };
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log("webpack error:", err.message);
+      console.log('webpack error:', err.message);
     } else {
-      console.log("webpack written successfully");
+      console.log('webpack written successfully');
     }
   });
 };
@@ -161,9 +173,9 @@ export const createBabel = (path, appName) => {
 `;
   fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log("babelrc error:", err.message);
+      console.log('babelrc error:', err.message);
     } else {
-      console.log("babelrc written successfully");
+      console.log('babelrc written successfully');
     }
   });
 };
@@ -171,24 +183,55 @@ export const createBabel = (path, appName) => {
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   const data = `
-{
-  "compilerOptions": {
-    "outDir": "./build/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es6",
-    "jsx": "react"
-  },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
+  {
+    "compilerOptions": {
+      "outDir": "./build/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "module": "commonjs",
+      "target": "es6",
+      "jsx": "react"
+    },
+    "include": ["./src/**/*"],
+    "exclude": ["node_modules"]
+  }
 `;
   fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log("TSConfig error:", err.message);
+      console.log('TSConfig error:', err.message);
     } else {
-      console.log("TSConfig written successfully");
+      console.log('TSConfig written successfully');
+    }
+  });
+};
+
+export const createServer = (path, appName) => {
+  const filePath = `${path}/${appName}/server/server.js`;
+  const data = `
+  const express = require('express');
+  const path = require('path');
+  const app = express();
+  
+  app.get('/testDev', (req, res) => {
+    res.send({ dev: 'testDev endpoint hit' });
+  });
+  
+  // statically serve everything in the build folder on the route '/build'
+  app.use('/build', express.static(path.join(__dirname, '../build')));
+  // serve index.html on the route '/'
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
+  });
+  
+  app.listen(3000, () => {
+    console.log('listening on port 3000');
+  }); //listens on port 3000 -> http://localhost:3000/
+`;
+  fs.writeFile(filePath, data, err => {
+    if (err) {
+      console.log('server file error:', err.message);
+    } else {
+      console.log('server file written successfully');
     }
   });
 };
@@ -196,7 +239,7 @@ export const createTsConfig = (path, appName) => {
 async function createApplicationUtil({
   path,
   appName,
-  genOption
+  genOption,
 }: {
   path: string;
   appName: string;
@@ -209,6 +252,7 @@ async function createApplicationUtil({
     await createWebpack(path, appName);
     await createBabel(path, appName);
     await createTsConfig(path, appName);
+    await createServer(path, appName);
   }
 }
 export default createApplicationUtil;

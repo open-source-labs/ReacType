@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateChildrenSort } from '../actions/components';
-import { width } from 'window-size';
 import cloneDeep from '../utils/cloneDeep';
 
 const mapStateToProps = store => ({
@@ -25,9 +24,10 @@ class SortChildren extends Component {
   } // end constrcutor
 
   setLocalArray = () => {
-    const localArray = this.props.focusComponent.childrenArray.map((child, idx) => {
-      return { childId: child.childId, childSort: child.childSort };
-    });
+    const localArray = this.props.focusComponent.childrenArray.map((child, idx) => ({
+      childId: child.childId,
+      childSort: child.childSort,
+    }));
     return localArray;
   };
 
@@ -63,11 +63,12 @@ class SortChildren extends Component {
     // put back the dragge item after the dragged Over
     currentSortValues.splice(this.state.draggedOverIndex, 0, draggedBaby);
 
-    currentSortValues = currentSortValues.map((child, idx) => {
-      return { childId: child.childId, childSort: idx + 1 };
-    });
+    currentSortValues = currentSortValues.map((child, idx) => ({
+      childId: child.childId,
+      childSort: idx + 1,
+    }));
 
-    console.log(`currentSortValues after updating the sort  `, JSON.stringify(currentSortValues));
+    console.log('currentSortValues after updating the sort  ', JSON.stringify(currentSortValues));
 
     this.props.updateChildrenSort({ newSortValues: currentSortValues });
 
@@ -90,25 +91,23 @@ class SortChildren extends Component {
       lineHeight: 1,
       cursor: 'move',
     };
-    //const children = this.props.focusComponent.childrenArray;
+    // const children = this.props.focusComponent.childrenArray;
     // const List = children
     const List = cloneDeep(this.props.focusComponent.childrenArray)
       .sort((a, b) => a.childSort - b.childSort)
-      .map((child, idx) => {
-        return (
-          <li style={liStyle} id={child.childId} key={idx}>
-            <div
-              className="drag"
-              draggable
-              onDragStart={e => this.onDragStart(e, idx)}
-              onDragOver={e => this.onDragOver(idx)}
-              onDragEnd={e => this.onDragEnd()}
-            >
-              {child.componentName + child.childId}
-            </div>
-          </li>
-        );
-      });
+      .map((child, idx) => (
+        <li style={liStyle} id={child.childId} key={idx}>
+          <div
+            className="drag"
+            draggable
+            onDragStart={e => this.onDragStart(e, idx)}
+            onDragOver={e => this.onDragOver(idx)}
+            onDragEnd={e => this.onDragEnd()}
+          >
+            {child.componentName + child.childId}
+          </div>
+        </li>
+      ));
     return (
       <div
         style={{
@@ -123,21 +122,19 @@ class SortChildren extends Component {
         <ul style={ulStyle}>
           {cloneDeep(this.props.focusComponent.childrenArray)
             .sort((a, b) => a.childSort - b.childSort)
-            .map((child, idx) => {
-              return (
-                <li style={liStyle} id={child.childId} key={idx}>
-                  <div
-                    className="drag"
-                    draggable
-                    onDragStart={e => this.onDragStart(e, idx)}
-                    onDragOver={e => this.onDragOver(idx)}
-                    onDragEnd={e => this.onDragEnd()}
-                  >
-                    {child.componentName + child.childId}
-                  </div>
-                </li>
-              );
-            })}
+            .map((child, idx) => (
+              <li style={liStyle} id={child.childId} key={idx}>
+                <div
+                  className="drag"
+                  draggable
+                  onDragStart={e => this.onDragStart(e, idx)}
+                  onDragOver={e => this.onDragOver(idx)}
+                  onDragEnd={e => this.onDragEnd()}
+                >
+                  {child.componentName + child.childId}
+                </div>
+              </li>
+            ))}
 
           {/* {List} */}
         </ul>
