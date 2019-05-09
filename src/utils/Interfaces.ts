@@ -6,7 +6,7 @@ export interface PropInt {
   type: string;
 }
 
-interface Position {
+export interface PositionInt {
   x: number;
   y: number;
   width: number;
@@ -15,13 +15,14 @@ interface Position {
 
 export interface ChildInt {
   childId: number;
+  childSort: number;
   childType: string;
   childComponentId: number;
   componentName: string;
-  position: Position;
+  position: PositionInt;
   color: string | null; // maybe optional instead, look up null vs undefined
   htmlElement: string | null; // maybe should be optional instead
-  HTMLInfo: object; // replace with HTMLinfo specifics
+  HTMLInfo: { [index: string]: { info: any } }; // replace with HTMLinfo specifics
 }
 
 export interface ChildrenInt extends Array<ChildInt> {}
@@ -31,10 +32,9 @@ export interface ComponentInt {
   stateful: boolean;
   title: string;
   color: string;
-  // draggable: boolean;
   props: PropInt[];
   nextPropId: number;
-  position: Position;
+  position: PositionInt;
   childrenArray: ChildInt[];
   nextChildId: number;
   focusChildId: number;
@@ -48,14 +48,13 @@ export interface ApplicationStateInt {
   successOpen: boolean;
   errorOpen: boolean;
   focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
-  ancestors: Array<number>;
+  selectableChildren: number[];
+  ancestors: number[];
   initialApplicationFocusChild: ChildInt;
   focusChild: ChildInt;
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
-  componentTree: object;
 }
 
 function findComponentById(id: number, components: ComponentInt[]) {
