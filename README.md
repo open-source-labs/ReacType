@@ -9,7 +9,7 @@
 
 Download for [MacOS](), [Windows](), [Linux]().
 
-![Image of ReacType Application]()
+![Image of ReacType Application](src/public/images/TreeImageComponent.png)
 
 ### How to use
 
