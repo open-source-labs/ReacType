@@ -217,7 +217,7 @@ class KonvaStage extends Component {
                   draggable={true}
                   blockSnapSize={this.state.blockSnapSize}
                   imageSource={
-                    child.htmlElement == 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null
+                    child.htmlElement === 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null
                   }
                 />
               ))

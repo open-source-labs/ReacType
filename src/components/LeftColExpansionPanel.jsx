@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const LeftColExpansionPanel = (props) => {
   const {
@@ -110,14 +111,16 @@ const LeftColExpansionPanel = (props) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <IconButton
-            aria-label="Add"
-            onClick={() => {
-              addChild({ title, childType: 'COMP' });
-            }}
-          >
-            <AddIcon style={{ color, float: 'right' }} />
-          </IconButton>
+          <Tooltip title="add as child" aria-label="add as child" placement="left">
+            <IconButton
+              aria-label="Add"
+              onClick={() => {
+                addChild({ title, childType: 'COMP' });
+              }}
+            >
+              <AddIcon style={{ color, float: 'right' }} />
+            </IconButton>
+          </Tooltip>
         )}
       </Grid>
     </Grid>
