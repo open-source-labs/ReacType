@@ -1,6 +1,6 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import SimpleModal from "../components/SimpleModal.jsx";
+import SimpleModal from "../components/SimpleModal.tsx";
 
 type Props = {
   closeModal: any;

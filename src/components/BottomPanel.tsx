@@ -5,22 +5,32 @@ import {
   deleteCompProp,
   addCompProp
 } from "../actions/components.ts";
-import BottomTabs from "./BottomTabs";
+import BottomTabs from "./BottomTabs.tsx";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
 const IPC = require("electron").ipcRenderer;
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop))
+  deleteProp: ({ id, index }: { id: number; index: number }) =>
+    dispatch(deleteCompProp({ id, index })),
+  addProp: (prop: any) => dispatch(addCompProp(prop))
 });
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
   components: store.workspace.components
 });
 
-class BottomPanel extends Component {
+interface PropsInt {
+  focusChild: ChildInt;
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  deleteProp: any;
+  addProp: any;
+}
+
+class BottomPanel extends Component<PropsInt> {
   // viewAppDir = () => {
   //   IPC.send('view_app_dir', this.props.appDir);
   // };
