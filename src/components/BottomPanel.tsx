@@ -31,9 +31,6 @@ interface PropsInt {
 }
 
 class BottomPanel extends Component<PropsInt> {
-  // viewAppDir = () => {
-  //   IPC.send('view_app_dir', this.props.appDir);
-  // };
 
   render() {
     const {

@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import { format } from "prettier";
 import componentRender from "../utils/componentRender.util";
 import { ComponentInt, ComponentsInt } from "../utils/interfaces";
-// import SortChildren from './SortChildren.jsx';
+/****   SortCHildren will be fixed , dont XXX the file  *** */
+import SortChildren from './SortChildren.jsx';
 
 type Props = {
   focusComponent: ComponentInt;

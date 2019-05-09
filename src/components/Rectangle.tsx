@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Rect, Group, Label, Text } from "react-konva";
 import TransformerComponent from "./TransformerComponent.tsx";
 import GrandchildRectangle from "./GrandchildRectangle.tsx";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
+import {  ComponentsInt, ChildInt } from "../utils/interfaces";
 
 interface PropsInt {
   x: number;
@@ -52,8 +52,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
     target: any,
     blockSnapSize: number
   ) {
-    // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
-    // so, grab the position of the focusChild manually from the children array
+
     let focChild: ChildInt = this.props.components
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);

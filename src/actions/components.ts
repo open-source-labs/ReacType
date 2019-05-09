@@ -1,7 +1,5 @@
 import {
   ComponentInt,
-  ChildInt,
-  ApplicationStateInt,
   ComponentsInt,
   PropInt
 } from "../utils/interfaces";

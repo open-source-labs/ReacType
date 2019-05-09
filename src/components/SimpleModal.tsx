@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-// import PropTypes from 'prop-types';
 import Modal from "@material-ui/core/Modal";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -102,17 +101,5 @@ const SimpleModal = (props: any) => {
     </Fragment>
   );
 };
-
-// SimpleModal.propTypes = {
-//   open: PropTypes.bool.isRequired,
-//   classes: PropTypes.object.isRequired,
-//   secBtnAction: PropTypes.func,
-//   closeModal: PropTypes.func.isRequired,
-//   primBtnAction: PropTypes.func,
-//   children: PropTypes.object,
-//   message: PropTypes.string,
-//   primBtnLabel: PropTypes.string,
-//   secBtnLabel: PropTypes.string,
-// };
 
 export default withStyles(styles)(SimpleModal);
