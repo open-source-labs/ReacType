@@ -69,7 +69,6 @@ const LeftColExpansionPanel = (props: any) => {
                       {title}
                     </Typography>
                   }
-                  // secondary={isFocused()}
                   style={{ color }}
                 />
               </ListItem>
@@ -101,17 +100,6 @@ const LeftColExpansionPanel = (props: any) => {
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
                 Delete Component
               </Button>
-              {/* <IconButton
-                style={{ display: "inline-block" }}
-                onClick={() =>
-                  deleteComponent({
-                    componentId: id,
-                    stateComponents: components
-                  })
-                }
-              >
-                <DeleteIcon />
-              </IconButton> */}
             </Fragment>
           )}
         </div>

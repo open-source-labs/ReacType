@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
-// import TextField from '@material-ui/core/TextField';
 import IconButton from "@material-ui/core/IconButton";
 import ImageIcon from "@material-ui/icons/Image";
 import FormIcon from "@material-ui/icons/Description";
@@ -10,12 +7,10 @@ import ButtonIcon from "@material-ui/icons/EditAttributes";
 import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
 import ParagraphIcon from "@material-ui/icons/LocalParking";
-// import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-// import Paper from '@material-ui/core/Paper';
 import Tab from "@material-ui/core/Tab";
 import Chip from "@material-ui/core/Chip";
-// import theme from './theme.ts';
+
 
 interface PropsInt {
   classes: any;
