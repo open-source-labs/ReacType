@@ -1,15 +1,6 @@
-// import util from 'util';
-
-// const execFile = util.promisify(require('child_process').execFile);
-
-// Application generation options
-// cosnt genOptions = [
-//   'Export into existing project.', 'Export with starter repo', 'Export with create-react-app.'
-// ];
-
-import fs from 'fs';
-import { format } from 'prettier';
-import componentRender from './componentRender.util';
+import fs from "fs";
+import { format } from "prettier";
+import componentRender from "./componentRender.util";
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -26,8 +17,8 @@ function createIndexHtml(path, appName) {
     }
   }
 
-  const filePath = `${dir}/index.html`;
-  const data = `
+  const filePath: string = `${dir}/index.html`;
+  const data: string = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,11 +33,11 @@ function createIndexHtml(path, appName) {
 </body>
 </html>
   `;
-  fs.writeFileSync(filePath, data, (err) => {
+  fs.writeFileSync(filePath, data, err => {
     if (err) {
-      console.log('index.html error:', err.message);
+      console.log("index.html error:", err.message);
     } else {
-      console.log('index.html written successfully');
+      console.log("index.html written successfully");
     }
   });
 }
@@ -68,11 +59,11 @@ const root = document.getElementById('root')
   
 ReactDOM.render(<App />, root)
   `;
-  fs.writeFile(filePath, data, (err) => {
+  fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log('index.tsx error:', err.message);
+      console.log("index.tsx error:", err.message);
     } else {
-      console.log('index.tsx written successfully');
+      console.log("index.tsx written successfully");
     }
   });
 };
@@ -91,7 +82,7 @@ export const createPackage = (path, appName) => {
 },
 "keywords": [],
 "author": "",
-"license": "ISC",
+"license": "MIT",
 "depenencies": {
   "react": "^16.4.1",
   "react-dom": "^16.4.1",
@@ -112,11 +103,11 @@ export const createPackage = (path, appName) => {
   } 
 }
   `;
-  fs.writeFile(filePath, data, (err) => {
+  fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log('package.json error:', err.message);
+      console.log("package.json error:", err.message);
     } else {
-      console.log('package.json written successfully');
+      console.log("package.json written successfully");
     }
   });
 };
@@ -149,11 +140,11 @@ module.exports = {
   }
 }
   `;
-  fs.writeFile(filePath, data, (err) => {
+  fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log('webpack error:', err.message);
+      console.log("webpack error:", err.message);
     } else {
-      console.log('webpack written successfully');
+      console.log("webpack written successfully");
     }
   });
 };
@@ -165,11 +156,11 @@ export const createBabel = (path, appName) => {
   "presets": ["@babel/env", "@babel/react", "@babel/typescript"]
 }
 `;
-  fs.writeFile(filePath, data, (err) => {
+  fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log('babelrc error:', err.message);
+      console.log("babelrc error:", err.message);
     } else {
-      console.log('babelrc written successfully');
+      console.log("babelrc written successfully");
     }
   });
 };
@@ -190,16 +181,24 @@ export const createTsConfig = (path, appName) => {
   "exclude": ["node_modules"]
 }
 `;
-  fs.writeFile(filePath, data, (err) => {
+  fs.writeFile(filePath, data, err => {
     if (err) {
-      console.log('TSConfig error:', err.message);
+      console.log("TSConfig error:", err.message);
     } else {
-      console.log('TSConfig written successfully');
+      console.log("TSConfig written successfully");
     }
   });
 };
 
-async function createApplicationUtil({ path, appName, genOption }) {
+async function createApplicationUtil({
+  path,
+  appName,
+  genOption
+}: {
+  path: string;
+  appName: string;
+  genOption: number;
+}) {
   if (genOption === 1) {
     await createIndexHtml(path, appName);
     await createIndexTsx(path, appName);

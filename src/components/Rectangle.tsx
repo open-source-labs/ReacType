@@ -1,17 +1,40 @@
 import React, { Component, Fragment } from "react";
 import { Rect, Group, Label, Text } from "react-konva";
-import TransformerComponent from "./TransformerComponent.jsx";
-import GrandchildRectangle from "./GrandchildRectangle.jsx";
+import TransformerComponent from "./TransformerComponent.tsx";
+import GrandchildRectangle from "./GrandchildRectangle.tsx";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-class Rectangle extends Component {
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
+
+interface StateInt {
+  image: any;
+}
+
+class Rectangle extends Component<PropsInt, StateInt> {
   state = {
-    rectImage: null
+    image: null
   };
 
-  getComponentColor(componentId) {
-    if (componentId === "888") {
-      return "#000000";
-    }
+  getComponentColor(componentId: number) {
     const color = this.props.components.find(comp => comp.id === componentId)
       .color;
     return color;
@@ -23,10 +46,15 @@ class Rectangle extends Component {
     );
   }
 
-  handleResize(componentId, childId, target, blockSnapSize) {
+  handleResize(
+    componentId: number,
+    childId: number,
+    target: any,
+    blockSnapSize: number
+  ) {
     // focusChild is not being reliably updated (similar problem with focusComponent sometimes)
     // so, grab the position of the focusChild manually from the children array
-    let focChild = this.props.components
+    let focChild: ChildInt = this.props.components
       .find(comp => comp.id === this.props.componentId)
       .childrenArray.find(child => child.childId === childId);
 
@@ -49,7 +77,12 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId, childId, target, blockSnapSize) {
+  handleDrag(
+    componentId: number,
+    childId: number,
+    target: any,
+    blockSnapSize: any
+  ) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
@@ -57,14 +90,12 @@ class Rectangle extends Component {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  setImage = imageSource => {
+  setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
- 
     image.src = imageSource;
-    // if there was an error grtting img; heigth should b Zero
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -129,21 +160,23 @@ class Rectangle extends Component {
               ? this.getComponentColor(childComponentId)
               : "#000000"
           }
-          // fill={color}
-          // opacity={0.8}
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
-          strokeWidth={childType === "COMP" ? 4 : 1}
+          strokeWidth={childType === "COMP" ? 4 : 2}
           strokeScaleEnabled={false}
           draggable={false}
           fill={childId === -1 ? "white" : null}
           shadowBlur={childId === -1 ? 6 : null}
-          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
-
-          // fillPatternImage={null}
-          // dashEnabled={childId === "-1"} // dash line only enabled for pseudochild
-          // dash={[10, 3]} // 10px dashes with 3px gaps
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
         />
         <Label>
           <Text
@@ -175,9 +208,7 @@ class Rectangle extends Component {
                 directParentName={childComponentName}
                 childType={grandchild.childType}
                 imageSource={
-                  grandchild.htmlElement == "Image" && grandchild.HTMLInfo.Src
-                    ? grandchild.HTMLInfo.Src
-                    : null
+                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
                 }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}

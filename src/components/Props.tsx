@@ -1,136 +1,149 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import Switch from "@material-ui/core/Switch";
+import InputLabel from "@material-ui/core/InputLabel";
+import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
+import { addProp, deleteProp } from "../actions/components.ts";
+import DataTable from "./DataTable.tsx";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-// import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { addProp, deleteProp } from '../actions/components';
-import DataTable from './DataTable.jsx';
+interface PropInt {
+  addProp: any;
+  focusComponent: ComponentInt;
+  classes: any;
+  deleteProp: any;
+}
 
-const styles = theme => ({
+const styles = (theme: any): any => ({
   root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap"
   },
   chip: {
-    margin: theme.spacing.unit,
-    color: '#eee',
-    backgroundColor: '#333333',
+    // margin: theme.spacing.unit,
+    color: "#eee",
+    backgroundColor: "#333333"
   },
   column: {
-    display: 'inline-flex',
-    alignItems: 'baseline',
+    display: "inline-flex",
+    alignItems: "baseline"
   },
   icon: {
-    fontSize: '20px',
-    color: '#eee',
-    opacity: '0.7',
-    transition: 'all .2s ease',
+    fontSize: "20px",
+    color: "#eee",
+    opacity: "0.7",
+    transition: "all .2s ease",
 
-    '&:hover': {
-      color: 'red',
-    },
+    "&:hover": {
+      color: "red"
+    }
   },
   cssLabel: {
-    color: 'white',
+    color: "white",
 
-    '&$cssFocused': {
-      color: 'green',
-    },
+    "&$cssFocused": {
+      color: "green"
+    }
   },
   cssFocused: {},
   input: {
-    color: '#eee',
-    marginBottom: '10px',
-    width: '60%',
+    color: "#eee",
+    marginBottom: "10px",
+    width: "60%"
   },
   light: {
-    color: '#eee',
+    color: "#eee"
   },
   avatar: {
-    color: '#eee',
-    fontSize: '10px',
-  },
+    color: "#eee",
+    fontSize: "10px"
+  }
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: any) => ({
   addProp: ({
-    key, value, required, type,
-  }) => dispatch(
-    addProp({
-      key,
-      value,
-      required,
-      type,
-    }),
-  ),
-  deleteProp: propId => dispatch(deleteProp(propId)),
+    key,
+    value,
+    required,
+    type
+  }: {
+    key: string;
+    value: string;
+    required: boolean;
+    type: string;
+  }) =>
+    dispatch(
+      addProp({
+        key,
+        value,
+        required,
+        type
+      })
+    ),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
-const mapStateToProps = store => ({
-  focusComponent: store.workspace.focusComponent,
+const mapStateToProps = (store: any) => ({
+  focusComponent: store.workspace.focusComponent
 });
 
 const availablePropTypes = {
-  string: 'STR',
-  number: 'NUM',
-  object: 'OBJ',
-  array: 'ARR',
-  boolean: 'BOOL',
-  function: 'FUNC',
+  string: "STR",
+  number: "NUM",
+  object: "OBJ",
+  array: "ARR",
+  boolean: "BOOL",
+  function: "FUNC",
   // symbol: 'SYM',
-  node: 'NODE',
-  element: 'ELEM',
-  any: 'ANY',
-  tuple: 'TUP',
-  enum: 'ENUM',
+  node: "NODE",
+  element: "ELEM",
+  any: "ANY",
+  tuple: "TUP",
+  enum: "ENUM"
 };
 
 const typeOptions = [
   <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
-    <option value={type} key={type} style={{ color: '#000' }}>
+    <option value={type} key={type} style={{ color: "#000" }}>
       {type}
     </option>
-  )),
+  ))
 ];
 
-class Props extends Component {
+class Props extends Component<PropInt> {
   state = {
-    propKey: '',
-    propValue: '',
+    propKey: "",
+    propValue: "",
     propRequired: true,
-    propType: '',
+    propType: ""
   };
 
-  handleChange = (event) => {
+  handleChange = (event: any) => {
     this.setState({
-      [event.target.id]: event.target.value.trim(),
+      [event.target.id]: event.target.value.trim()
     });
   };
 
   togglePropRequired = () => {
     this.setState({
-      propRequired: !this.state.propRequired,
+      propRequired: !this.state.propRequired
     });
   };
 
-  handleAddProp = (event) => {
+  handleAddProp = (event: any) => {
     event.preventDefault();
 
-    const {
-      propKey, propValue, propRequired, propType,
-    } = this.state;
+    const { propKey, propValue, propRequired, propType } = this.state;
 
     // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -141,7 +154,7 @@ class Props extends Component {
 
     // check if prop starts with digits. Digits at string start breaks indexedDB
     if (/^\d/.test(propKey)) {
-      window.alert('Props are not allowed to begin with digits');
+      window.alert("Props are not allowed to begin with digits");
       return;
     }
 
@@ -149,43 +162,44 @@ class Props extends Component {
       key: propKey,
       value: propValue,
       required: propRequired,
-      type: propType,
+      type: propType
     });
 
     this.setState({
-      propKey: '',
-      propValue: '',
+      propKey: "",
+      propValue: "",
       propRequired: true,
-      propType: '',
+      propType: ""
     });
   };
 
   render() {
-    const {
-      focusComponent, classes, deleteProp, addProp,
-    } = this.props;
+    const { focusComponent, classes, deleteProp, addProp } = this.props;
 
-    const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
+    const rowHeader = ["_Key", "Value", "Type", "Required"];
     // prepare the saved Props in a nice way, so you can sent them to TableData
     const propsRows = focusComponent.props.map(prop => ({
       _Key: prop.key,
       Value: prop.value,
       Type: prop.type,
       Required: prop.required,
-      id: prop.id,
+      id: prop.id
     }));
 
     return (
       // <div style={{ display: rightColumnOpen ? "inline" : "none" }}>
-      <div className={'htmlattr'}>
-        {' '}
+      <div className={"htmlattr"}>
+        {" "}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', marginLeft: '20px' }}>
+          <div style={{ marginTop: "20px", width: "90%" }}>
             Click a component to view its props.
           </div>
         ) : (
           <Fragment>
-            <div className="props-container">
+            <div
+              className="props-container"
+              style={{ marginTop: "20px", width: "90%", height: "80%" }}
+            >
               <Grid container spacing={8}>
                 <Grid item xs={4}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
@@ -200,10 +214,10 @@ class Props extends Component {
                           value={this.state.propKey}
                           required
                           InputProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           InputLabelProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                         />
                       </Grid>
@@ -214,17 +228,20 @@ class Props extends Component {
                           margin="normal"
                           onChange={this.handleChange}
                           InputProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           InputLabelProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           value={this.state.propValue}
                         />
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl required>
-                          <InputLabel className={classes.light} htmlFor="propType">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propType"
+                          >
                             Type
                           </InputLabel>
                           <Select
@@ -242,7 +259,10 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <div className={classes.column}>
-                          <InputLabel className={classes.light} htmlFor="propRequired">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propRequired"
+                          >
                             Required?
                           </InputLabel>
                           <Switch
@@ -313,5 +333,5 @@ class Props extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(withStyles(styles)(Props));

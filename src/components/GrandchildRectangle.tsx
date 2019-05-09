@@ -1,9 +1,39 @@
 import React, { Component } from "react";
 import { Rect, Group } from "react-konva";
 // import findComponentById from '../utils/findComponentById.ts';
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/interfaces";
 
-class GrandchildRectangle extends Component {
-  getComponentColor(componentId) {
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
+
+interface StateInt {
+  image: any;
+}
+
+class GrandchildRectangle extends Component<PropsInt, StateInt> {
+  state = {
+    image: null
+  };
+
+  getComponentColor(componentId: number) {
     // const color = findComponentById(componentId, this.props.components).color;
     const color = this.props.components.find(comp => comp.id === componentId)
       .color;
@@ -16,13 +46,12 @@ class GrandchildRectangle extends Component {
     );
   }
 
-  setImage = imageSource => {
-    //console.log("IMAGE SOURCE", imageSource);
+  setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -71,10 +100,16 @@ class GrandchildRectangle extends Component {
               ? this.getComponentColor(childComponentId)
               : "#000000"
           }
-          fillPatternImage={imageSource ? this.setImage(imageSource) : null}
-          // fill={color}
-          // opacity={0.8}
-          strokeWidth={4}
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
+          strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
         />
@@ -89,20 +124,12 @@ class GrandchildRectangle extends Component {
                 componentId={componentId}
                 childType={grandchild.childType}
                 imageSource={
-                  grandchild.htmlElement == "Image" && grandchild.HTMLInfo.Src
-                    ? grandchild.HTMLInfo.Src
-                    : null
+                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
                 }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                // fillPatternImage={
-                //   grandchild.HTMLInfo.Src
-                //     ? this.setImage(grandchild.HTMLInfo.Src)
-                //     : null
-                // }
-                // test test
                 width={
                   grandchild.position.width *
                   (width / this.getPseudoChild().position.width)

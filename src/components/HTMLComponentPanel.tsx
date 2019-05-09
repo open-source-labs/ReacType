@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+// import TextField from '@material-ui/core/TextField';
 import IconButton from "@material-ui/core/IconButton";
 import ImageIcon from "@material-ui/icons/Image";
 import FormIcon from "@material-ui/icons/Description";
@@ -10,14 +10,23 @@ import ButtonIcon from "@material-ui/icons/EditAttributes";
 import LinkIcon from "@material-ui/icons/Link";
 import ListIcon from "@material-ui/icons/List";
 import ParagraphIcon from "@material-ui/icons/LocalParking";
-import Typography from "@material-ui/core/Typography";
+// import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+// import Paper from '@material-ui/core/Paper';
 import Tab from "@material-ui/core/Tab";
 import Chip from "@material-ui/core/Chip";
-import theme from "./theme.ts";
+// import theme from './theme.ts';
 
-class HTMLComponentPanel extends Component {
+interface PropsInt {
+  classes: any;
+  addChild: any;
+}
+
+interface StateInt {
+  HtmlComponentName: string;
+}
+
+class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   state = {
     HtmlComponentName: ""
   };
@@ -33,15 +42,16 @@ class HTMLComponentPanel extends Component {
   };
 
   render() {
-    const { addChild, classes } = this.props;
+    const { classes } = this.props;
     return (
-      <div className={classes.htmlPanel} alignItems="flex-start" align="center">
+      <div align="center">
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
           label="Add HTML elements"
+          style={{ cursor: 'default' }}
         />
-        <Grid container spacing={4} alignItems="baseline" align="center">
+        <Grid container spacing={8} align="center">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton
@@ -49,6 +59,10 @@ class HTMLComponentPanel extends Component {
                 aria-label="Image"
                 onClick={() => {
                   this.handleCreateHTMLChild("Image");
+                }}
+                style={{
+                  margin: 0,
+                  padding: 0
                 }}
               >
                 <ImageIcon
@@ -63,9 +77,12 @@ class HTMLComponentPanel extends Component {
                 variant="outlined"
                 style={{
                   color: "white",
-                  borderColor: "#424242",
-                  borderWidth: "0.0px",
-                  fontSize: "50%"
+                  fontSize: "80%",
+                  margin: 0,
+                  padding: 0
+                }}
+                onClick={() => {
+                  this.handleCreateHTMLChild('Image');
                 }}
               />
             </div>
@@ -77,6 +94,10 @@ class HTMLComponentPanel extends Component {
               onClick={() => {
                 this.handleCreateHTMLChild("Form");
               }}
+              style={{
+                margin: 0,
+                padding: 0
+              }}
             >
               <FormIcon style={{ color: "#e0e0e0" }} />
             </IconButton>
@@ -86,9 +107,10 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: "white",
-                borderColor: "#424242",
-                borderWidth: "0.0px",
-                fontSize: "50%"
+                fontSize: "80%"
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Form');
               }}
             />
           </Grid>
@@ -99,6 +121,10 @@ class HTMLComponentPanel extends Component {
               onClick={() => {
                 this.handleCreateHTMLChild("Button");
               }}
+              style={{
+                margin: 0,
+                padding: 0
+              }}
             >
               <ButtonIcon style={{ color: "#e0e0e0" }} />
             </IconButton>
@@ -108,9 +134,10 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: "white",
-                borderColor: "#424242",
-                borderWidth: "0.0px",
-                fontSize: "50%"
+                fontSize: "80%"
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Button');
               }}
             />
           </Grid>
@@ -121,6 +148,10 @@ class HTMLComponentPanel extends Component {
               onClick={() => {
                 this.handleCreateHTMLChild("Link");
               }}
+              style={{
+                margin: 0,
+                padding: 0
+              }}
             >
               <LinkIcon style={{ color: "#e0e0e0" }} />
             </IconButton>
@@ -130,9 +161,10 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: "white",
-                borderColor: "#424242",
-                borderWidth: "0.0px",
-                fontSize: "50%"
+                fontSize: "80%"
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Link');
               }}
             />
           </Grid>
@@ -143,6 +175,10 @@ class HTMLComponentPanel extends Component {
               onClick={() => {
                 this.handleCreateHTMLChild("List");
               }}
+              style={{
+                margin: 0,
+                padding: 0
+              }}
             >
               <ListIcon style={{ color: "#e0e0e0" }} />
             </IconButton>
@@ -152,21 +188,39 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: "white",
-                borderColor: "#424242",
-                borderWidth: "0.0px",
-                fontSize: "50%"
+                fontSize: "80%"
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('List');
               }}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid
+            item
+            xs={4}
+            style={{
+              margin: 0,
+              padding: 0
+            }}
+          >
             <IconButton
               className="htmlicons"
               aria-label="Paragraph"
               onClick={() => {
                 this.handleCreateHTMLChild("Paragraph");
               }}
+              style={{
+                margin: 0,
+                padding: 0
+              }}
             >
-              <ParagraphIcon style={{ color: "#e0e0e0" }} />
+              <ParagraphIcon
+                style={{
+                  color: "#e0e0e0",
+                  paddingRight: "0px",
+                  marginRight: "0px"
+                }}
+              />
             </IconButton>
             <Chip
               label="Paragraph"
@@ -174,9 +228,12 @@ class HTMLComponentPanel extends Component {
               variant="outlined"
               style={{
                 color: "white",
-                borderColor: "#424242",
-                borderWidth: "0.0px",
-                fontSize: "50%"
+                fontSize: "62%",
+                padding: "0px",
+                margin: "0px"
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Paragraph');
               }}
             />
           </Grid>
@@ -186,7 +243,7 @@ class HTMLComponentPanel extends Component {
   }
 }
 
-function styles(theme) {
+function styles(theme): any {
   return {
     htmlPanel: {
       width: "100%",
