@@ -70,8 +70,8 @@ const initialApplicationFocusChild: ChildInt = {
   position: {
     x: 25,
     y: 25,
-    width: 600,
-    height: 400,
+    width: 800,
+    height: 550,
   },
   childType: null,
   childSort: 0,
