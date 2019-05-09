@@ -22,7 +22,7 @@ export interface ChildInt {
   position: PositionInt;
   color: string | null; // maybe optional instead, look up null vs undefined
   htmlElement: string | null; // maybe should be optional instead
-  HTMLInfo: object; // replace with HTMLinfo specifics
+  HTMLInfo: { [index: string]: string }; // replace with HTMLinfo specifics
 }
 
 export interface ChildrenInt extends Array<ChildInt> {}
@@ -48,8 +48,8 @@ export interface ApplicationStateInt {
   successOpen: boolean;
   errorOpen: boolean;
   focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
-  ancestors: Array<number>;
+  selectableChildren: number[];
+  ancestors: number[];
   initialApplicationFocusChild: ChildInt;
   focusChild: ChildInt;
   components: ComponentsInt;

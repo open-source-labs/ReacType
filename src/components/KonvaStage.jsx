@@ -49,13 +49,13 @@ class KonvaStage extends Component {
     // here we should add listener for "container" resize
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
-    // window.addEventListener('resize', this.checkSize);
+    window.addEventListener('resize', this.checkSize);
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('resize', this.checkSize);
+    window.removeEventListener('resize', this.checkSize);
     this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -216,9 +216,7 @@ class KonvaStage extends Component {
                   handleTransform={handleTransform}
                   draggable={true}
                   blockSnapSize={this.state.blockSnapSize}
-                  imageSource={
-                    child.htmlElement === 'Image' && child.HTMLInfo.Src ? child.HTMLInfo.Src : null
-                  }
+                  imageSource={child.htmlElement === 'Image' && child.HTMLInfo.Src}
                 />
               ))
               .sort((rectA, rectB) => {
