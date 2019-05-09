@@ -181,7 +181,7 @@ class Props extends Component {
           <Fragment>
             <div className="props-container" style={{ marginTop: '20px', width: '90%', height: '80%' }}>
               <Grid container spacing={8}>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
@@ -266,6 +266,7 @@ class Props extends Component {
                 <Grid item xs={8}>
                   <DataTable rowHeader={rowHeader} rowData={propsRows} deletePropHandler={deleteProp} />
                 </Grid>
+                <Grid item xs={1} />
               </Grid>
               {/* <div className="chips">
               {focusComponent.props.map(({
