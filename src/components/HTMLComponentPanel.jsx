@@ -71,6 +71,9 @@ class HTMLComponentPanel extends Component {
                   margin: 0,
                   padding: 0,
                 }}
+                onClick={() => {
+                  this.handleCreateHTMLChild('Image');
+                }}
               />
             </div>
           </Grid>
@@ -96,6 +99,9 @@ class HTMLComponentPanel extends Component {
                 color: 'white',
                 fontSize: '80%',
               }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Form');
+              }}
             />
           </Grid>
           <Grid item xs={4}>
@@ -119,6 +125,9 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: 'white',
                 fontSize: '80%',
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Button');
               }}
             />
           </Grid>
@@ -144,6 +153,9 @@ class HTMLComponentPanel extends Component {
                 color: 'white',
                 fontSize: '80%',
               }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Link');
+              }}
             />
           </Grid>
           <Grid item xs={4}>
@@ -167,6 +179,9 @@ class HTMLComponentPanel extends Component {
               style={{
                 color: 'white',
                 fontSize: '80%',
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('List');
               }}
             />
           </Grid>
@@ -202,6 +217,9 @@ class HTMLComponentPanel extends Component {
                 fontSize: '62%',
                 padding: '0px',
                 margin: '0px',
+              }}
+              onClick={() => {
+                this.handleCreateHTMLChild('Paragraph');
               }}
             />
           </Grid>

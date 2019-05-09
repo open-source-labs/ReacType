@@ -10,6 +10,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
@@ -227,17 +228,16 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             />
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="fab"
-              mini
-              color="primary"
+            <Fab
+              size="small"
+              color="secondary"
               className={classes.button}
               aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
               <AddIcon />
-            </Button>
+            </Fab>
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>

@@ -1,3 +1,5 @@
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
+
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -43,18 +45,18 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-} from '../utils/componentReducer.util.ts';
-import cloneDeep from '../utils/cloneDeep.ts';
+} from '../utils/componentReducer.util';
+import cloneDeep from '../utils/cloneDeep';
 
 const appComponent = {
   id: 1,
   stateful: false,
   title: 'App',
-  parentIds: [],
+  // parentIds: [],
   color: '#FF6D00',
-  draggable: true,
-  childrenIds: [],
-  selectableParents: [],
+  // draggable: true,
+  // childrenIds: [],
+  // selectableParents: [],
   props: [],
   nextPropId: 1,
   position: {
@@ -80,6 +82,11 @@ const initialApplicationFocusChild = {
   },
   draggable: true,
   childType: null,
+  childSort: 0,
+  childComponentId: 0,
+  color: null,
+  htmlElement: null,
+  HTMLInfo: null,
 };
 
 const initialApplicationState = {
@@ -95,7 +102,6 @@ const initialApplicationState = {
   components: [appComponent],
   appDir: '',
   loading: false,
-  componentTree: { name: 'App', attributes: {}, children: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action) => {

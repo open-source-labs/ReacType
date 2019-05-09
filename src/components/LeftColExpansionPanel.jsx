@@ -47,7 +47,7 @@ const LeftColExpansionPanel = props => {
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.45)' }}
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
         >
           <Grid item xs={12} style={{ color: "red" }}>
             <List style={{ color: "red" }}>
