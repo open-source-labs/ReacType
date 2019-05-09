@@ -1,8 +1,6 @@
 const path = require('path');
 
-const {
-  app, BrowserWindow, Menu, shell, dialog, ipcMain,
-} = require('electron');
+const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
 
 // Uncomment below for hot reloading during development
 // require('electron-reload')(__dirname);
@@ -36,7 +34,7 @@ function openFile() {
 }
 
 // Choose directory
-ipcMain.on('choose_app_dir', (event) => {
+ipcMain.on('choose_app_dir', event => {
   const directory = dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
     buttonLabel: 'Export',
@@ -63,7 +61,7 @@ const createWindow = () => {
     width,
     height,
     webPreferences: {
-      zoomFactor: 0.9,
+      zoomFactor: 0.7,
       'node-Integration': false,
     },
     show: false,
@@ -200,11 +198,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if (isDev) {
-    const {
-      default: installExtension,
-      REACT_DEVELOPER_TOOLS,
-      REDUX_DEVTOOLS,
-    } = require('electron-devtools-installer');
+    const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then(() => {
