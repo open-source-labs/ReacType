@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateChildrenSort } from '../actions/components';
-import cloneDeep from '../utils/cloneDeep';
+import { updateChildrenSort } from '../actions/components.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent,

@@ -1,4 +1,4 @@
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces.ts';
 
 import {
   LOAD_INIT_DATA,
@@ -43,8 +43,8 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-} from '../utils/componentReducer.util';
-import cloneDeep from '../utils/cloneDeep';
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
