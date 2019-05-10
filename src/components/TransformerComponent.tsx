@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Transformer } from "react-konva";
-import { ChildInt } from "../utils/interfaces";
+import { ChildInt } from "../utils/interfaces.ts";
 
 interface PropsInt {
   focusChild: ChildInt;
