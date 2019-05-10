@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 const {
   app,
@@ -10,11 +10,7 @@ const {
 } = require("electron");
 
 // Uncomment below for hot reloading during development
-<<<<<<< HEAD
-require("electron-reload")(__dirname);
-=======
 // require('electron-reload')(__dirname);
->>>>>>> 11e0643d114b6c294dc2b66c3fd4727ffb173825
 
 // const isDev = true;
 const isDev =
@@ -77,11 +73,11 @@ const createWindow = () => {
       "node-Integration": false
     },
     show: false,
-    icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
+    icon: path.join(__dirname, "/src/public/icons/mac/icon.icns"),
     win: {
-      icon: path.join(__dirname, '/src/public/icons/win/icon.ico'),
-      target: ['portable'],
-    },
+      icon: path.join(__dirname, "/src/public/icons/win/icon.ico"),
+      target: ["portable"]
+    }
   });
 
   // and load the index.html of the app.
