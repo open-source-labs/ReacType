@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 const {
   app, BrowserWindow, Menu, shell, dialog, ipcMain,
@@ -63,11 +63,15 @@ const createWindow = () => {
     width,
     height,
     webPreferences: {
-      zoomFactor: 0.9,
+      zoomFactor: 0.7,
       'node-Integration': false,
     },
     show: false,
-    icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
+    icon: path.join(__dirname, "/src/public/icons/mac/icon.icns"),
+    win: {
+      icon: path.join(__dirname, "/src/public/icons/win/icon.ico"),
+      target: ["portable"]
+    }
   });
 
   // and load the index.html of the app.
