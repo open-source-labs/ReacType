@@ -74,8 +74,6 @@ yarn run dev
 yarn run electron
 ```
 
-### Logo Design
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/team-reactype/ReacType/blob/development/LICENSE.md) file for details.
