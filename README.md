@@ -15,7 +15,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 * **Mac users only**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
-![Image of ReacType Application](https://i.imgur.com/2sefnAk.jpg)
+![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
 
 ### How to use
 
