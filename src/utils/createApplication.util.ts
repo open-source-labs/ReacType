@@ -1,6 +1,4 @@
 import fs from 'fs';
-import { format } from 'prettier';
-import componentRender from './componentRender.util.ts';
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -22,19 +20,17 @@ function createIndexHtml(path, appName) {
 
   const filePath: string = `${dir}/index.html`;
   const data: string = `
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-      <title>ReacType App</title>
-    </head>
-    <body>
-      <div id="root"></div>
-      <script src="./build/bundle.js"></script>
-    </body>
-  </html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ReacType App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./build/bundle.js"></script>
+  </body>
+</html>
   `;
   fs.writeFileSync(filePath, data, err => {
     if (err) {
@@ -48,12 +44,12 @@ function createIndexHtml(path, appName) {
 export const createIndexTsx = (path, appName) => {
   const filePath = `${path}/${appName}/src/index.tsx`;
   const data = `
-  import * as React from 'react';
-  import * as ReactDOM from 'react-dom';
-  
-  import { App } from './components/App';
-  
-  ReactDOM.render(<App />, document.getElementById('root'));
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+
+import App from './components/App.tsx';
+
+ReactDOM.render(<App />, document.getElementById('root'));
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
@@ -68,36 +64,57 @@ export const createPackage = (path, appName) => {
   const filePath = `${path}/${appName}/package.json`;
   const data = `
 {
-  "name": "reacType-boiler-plate",
+  "name": "reactype",
   "version": "1.0.0",
   "description": "",
-  "main": "index.tsx",
+  "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack"
-},
-"keywords": [],
-"author": "",
-"license": "ISC",
-"depenencies": {
-  "react": "^16.4.1",
-  "react-dom": "^16.4.1"
-},
-"devDependencies": {
-  "@babel/preset-typescript": "^7.3.3",
-  "@types/react": "^16.8.14",
-  "@types/react-dom": "^16.8.4",
-  "babel-core": "^6.26.3",
-  "babel-eslint": "^8.2.6",
-  "babel-loader": "^7.1.4",
-  "babel-preset-env": "^1.6.1",
-  "babel-preset-react": "^6.24.1",
-  "typescript": "^3.4.4",
-  "webpack": "^4.4.0",
-  "webpack-cli": "^3.3.0",
-  "webpack-dev-server": "^3.3.1"
-  } 
-}
+    "start": "node server/server.js",
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "nodemon server/server.js & cross-env NODE_ENV=development webpack-dev-server --open"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "build",
+      "src"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
+    "express": "^4.16.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "webpack": "^4.29.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "isomorphic-fetch": "^2.2.1",
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.4.3",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
+  }
+}  
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
@@ -111,49 +128,49 @@ export const createPackage = (path, appName) => {
 export const createWebpack = (path, appName) => {
   const filePath = `${path}/${appName}/webpack.config.js`;
   const data = `
-  var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
-  var path = require('path');
-  
-  module.exports = {
-    entry: './src/index.tsx',
-    output: {
-      path: path.resolve(__dirname, 'build'),
-      filename: 'bundle.js',
-    },
-  
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: 'source-map',
-  
-    resolve: {
-      // Add '.ts' and '.tsx' as resolvable extensions.
-      extensions: ['.ts', '.tsx', '.js', '.json'],
-    },
-    mode: status,
-    devServer: {
-      publicPath: '/build/',
-      // proxy: {
-      //   '/testDev': 'http://localhost:3000',
-      // },
-    },
-  
-    module: {
-      rules: [
-        // All files with a '.ts' or '.tsx' extension will be handled by babel-loader
-        { test: /.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
-  
-        // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-        { enforce: 'pre', test: /.js$/, exclude: /node-modules/, loader: 'source-map-loader' },
-        {
-          test: /.scss$/,
-          use: [
-            'style-loader', // creates style nodes from JS strings
-            'css-loader', // translates CSS into CommonJS
-            'sass-loader', // compiles Sass to CSS, using Node Sass by default
-          ],
-        },
-      ],
-    },
-  };
+var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
+var path = require('path');
+
+module.exports = {
+  entry: './src/index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+  },
+
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: 'source-map',
+
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+  },
+  mode: status,
+  devServer: {
+    publicPath: '/build/',
+    // proxy: {
+    //   '/testDev': 'http://localhost:3000',
+    // },
+  },
+
+  module: {
+    rules: [
+      // All files with a '.ts' or '.tsx' extension will be handled by babel-loader
+      { test: /.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
+
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      { enforce: 'pre', test: /.js$/, exclude: /node-modules/, loader: 'source-map-loader' },
+      {
+        test: /.scss$/,
+        use: [
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS, using Node Sass by default
+        ],
+      },
+    ],
+  },
+};
   `;
   fs.writeFile(filePath, data, err => {
     if (err) {
@@ -183,18 +200,17 @@ export const createBabel = (path, appName) => {
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   const data = `
-  {
-    "compilerOptions": {
-      "outDir": "./build/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "target": "es6",
-      "jsx": "react"
-    },
-    "include": ["./src/**/*"],
-    "exclude": ["node_modules"]
-  }
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react"
+  },
+  "include": ["./src/**/*"]
+}
 `;
   fs.writeFile(filePath, data, err => {
     if (err) {
@@ -205,27 +221,59 @@ export const createTsConfig = (path, appName) => {
   });
 };
 
+export const createTsLint = (path, appName) => {
+  const filePath = `${path}/${appName}/tslint.json`;
+  const data = `
+{
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "tslint.autoFixOnSave": true,
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+  },
+  "rules": {
+    "quotemark": [true, "single", "avoid-escape", "avoid-template", "jsx-double"],
+    "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "no-console": false,
+    "ordered-imports": false,
+    "comment-format": false
+    // "jsx-key": false,
+  }
+}
+`;
+  fs.writeFile(filePath, data, err => {
+    if (err) {
+      console.log('TSLint error:', err.message);
+    } else {
+      console.log('TSLint written successfully');
+    }
+  });
+};
+
 export const createServer = (path, appName) => {
   const filePath = `${path}/${appName}/server/server.js`;
   const data = `
-  const express = require('express');
-  const path = require('path');
-  const app = express();
-  
-  app.get('/testDev', (req, res) => {
-    res.send({ dev: 'testDev endpoint hit' });
-  });
-  
-  // statically serve everything in the build folder on the route '/build'
-  app.use('/build', express.static(path.join(__dirname, '../build')));
-  // serve index.html on the route '/'
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
-  });
-  
-  app.listen(3000, () => {
-    console.log('listening on port 3000');
-  }); //listens on port 3000 -> http://localhost:3000/
+const express = require('express');
+const path = require('path');
+const app = express();
+
+app.get('/testDev', (req, res) => {
+  res.send({ dev: 'testDev endpoint hit' });
+});
+
+// statically serve everything in the build folder on the route '/build'
+app.use('/build', express.static(path.join(__dirname, '../build')));
+// serve index.html on the route '/'
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+app.listen(3000, () => {
+  console.log('listening on port 3000');
+}); //listens on port 3000 -> http://localhost:3000/
 `;
   fs.writeFile(filePath, data, err => {
     if (err) {
@@ -252,6 +300,7 @@ async function createApplicationUtil({
     await createWebpack(path, appName);
     await createBabel(path, appName);
     await createTsConfig(path, appName);
+    await createTsLint(path, appName);
     await createServer(path, appName);
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import { ChildInt } from '../utils/interfaces.ts';
+import { ChildInt } from '../utils/interfaces';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
