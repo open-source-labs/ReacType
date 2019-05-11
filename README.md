@@ -40,13 +40,13 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 #### Authors
 
-[Christian Padilla](linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
+[Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
-[Tolga Mizrakci](linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
+[Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
 
-[Shlomo Porges](linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
+[Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
-[Adam Singer](linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
+[Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
 
 ## To Run Your Own Version
 
