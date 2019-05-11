@@ -2,7 +2,7 @@ import fs from 'fs';
 import { format } from 'prettier';
 import componentRender from './componentRender.util.ts';
 
-const createFiles = (data: any, path: string, appName: string, exportAppBool: boolean) => {
+const createFiles = (components: any, path: string, appName: string, exportAppBool: boolean) => {
   let dir = path;
   if (!dir.match(/components|\*$/)) {
     if (fs.existsSync(`${dir}/src`)) {
@@ -15,11 +15,11 @@ const createFiles = (data: any, path: string, appName: string, exportAppBool: bo
   }
 
   const promises: Array<any> = [];
-  data.forEach((component: any) => {
+  components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
       fs.writeFile(
         `${dir}/${component.title}.tsx`,
-        format(componentRender(component, data), {
+        format(componentRender(component, components), {
           singleQuote: true,
           trailingComma: 'es5',
           bracketSpacing: true,
