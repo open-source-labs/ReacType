@@ -11,9 +11,11 @@
 
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/PC.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
+Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
 
-![Image of ReacType Application](https://i.imgur.com/2sefnAk.jpg)
+* **Mac users only**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
+
+![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
 
 ### How to use
 
@@ -38,13 +40,13 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 #### Authors
 
-[Christian Padilla](linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
+[Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
-[Tolga Mizrakci](linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
+[Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
 
-[Shlomo Porges](linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
+[Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
-[Adam Singer](linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
+[Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
 
 ## To Run Your Own Version
 
@@ -73,8 +75,6 @@ yarn run dev
 ```bash
 yarn run electron
 ```
-
-### Logo Design
 
 ## License
 
