@@ -63,7 +63,7 @@ const createWindow = () => {
     width,
     height,
     webPreferences: {
-      zoomFactor: 0.8,
+      zoomFactor: 0.7,
       'node-Integration': false,
     },
     show: false,
