@@ -27,6 +27,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 ![Gif of adding](https://imgur.com/sZloD8o.gif)
 
 - The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
+
+![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
+
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
 
@@ -41,8 +44,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - Once finished setting up the application template, press the green 'EXPORT PROJECT' button at the bottom of the left panel and choose between two options to export your files:
   1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
   1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
-  
-![Gif of export & tree](https://imgur.com/KZb2UTO.gif)
 
 #### Authors
 
