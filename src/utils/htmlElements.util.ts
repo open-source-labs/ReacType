@@ -18,32 +18,32 @@ const HTMLelements: htmlElementsInt = {
   Image: {
     width: 100,
     height: 100,
-    attributes: ["ClassName", "id", "Src"]
+    attributes: ['className', 'id', 'src']
   },
   Button: {
     width: 75,
     height: 28,
-    attributes: ["ClassName", "id", "Text"]
+    attributes: ['className', 'id', 'text']
   },
   Form: {
     width: 150,
     height: 150,
-    attributes: ["ClassName", "id", "Text"]
+    attributes: ['className', 'id', 'text']
   },
   Paragraph: {
     width: 250,
     height: 75,
-    attributes: ["ClassName", "id", "Text"]
+    attributes: ['className', 'id', 'text']
   },
   List: {
     width: 75,
     height: 75,
-    attributes: ["ClassName", "id", "Text"]
+    attributes: ['className', 'id', 'text']
   },
   Link: {
     width: 50,
     height: 50,
-    attributes: ["ClassName", "id", "Text"]
+    attributes: ['className', 'id', 'text']
   }
 };
 
