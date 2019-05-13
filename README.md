@@ -9,7 +9,7 @@
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
 
-**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
+**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
 
