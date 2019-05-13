@@ -24,13 +24,13 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
 - To add draggable HTML elements, select the image icons on the lower left panel.
 
-![Gif of adding](https://imgur.com/e5669a4c-9260-4e01-ad78-f0a60bfb8de9.gif)
+![Gif of adding](https://imgur.com/sZloD8o.gif)
 
 - The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
 
-![Gif of attr & props](https://imgur.com/24dc312c-3344-4848-a88f-a571a6b2ee5e.gif)
+![Gif of attr & props](https://imgur.com/JgCiBE9.gif)
 
 - To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
