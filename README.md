@@ -23,20 +23,26 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
 - To add draggable HTML elements, select the image icons on the lower left panel.
+
+![Gif of adding](https://imgur.com/e5669a4c-9260-4e01-ad78-f0a60bfb8de9)
+
 - The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
+
+![Gif of attr & props](https://imgur.com/24dc312c-3344-4848-a88f-a571a6b2ee5e)
+
 - To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
 - To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
-
-![Image of ReacType Application 2](https://i.imgur.com/OCJ8nnw.png)
 
 ### To Export Files
 
 - Once finished setting up the application template, press the green 'EXPORT PROJECT' button at the bottom of the left panel and choose between two options to export your files:
   1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
   1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
+  
+![Gif of export & tree](https://imgur.com/3c3a5257-d0c6-4568-ade6-9906ec3e321c)
 
 #### Authors
 
