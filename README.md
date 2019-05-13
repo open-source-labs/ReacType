@@ -22,11 +22,11 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
 - To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
-- To add draggable HTML elements, select the image icons on the lower left panel.
+- To add draggable **HTML elements**, select the image icons on the lower left panel.
 
 ![Gif of adding](https://imgur.com/sZloD8o.gif)
 
-- The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
+- The bottom panel allows the user to toggle between 4 different views: a **tree diagram of the application**, a **real-time preview of the exportable code**, a form to enter component props, and a form to add HTML attributes.
 
 ![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
 
