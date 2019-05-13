@@ -42,7 +42,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
   1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
   1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
   
-![Gif of export & tree](https://imgur.com/3c3a5257-d0c6-4568-ade6-9906ec3e321c)
+![Gif of export & tree](https://imgur.com/KZb2UTO)
 
 #### Authors
 
