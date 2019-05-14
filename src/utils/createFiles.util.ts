@@ -1,14 +1,8 @@
-import fs from "fs";
-import { format } from "prettier";
-import componentRender from "./componentRender.util.ts";
+import fs from 'fs';
+import { format } from 'prettier';
+import componentRender from './componentRender.util.ts';
 
-const createFiles = (
-  data: any,
-  path: string,
-  appName: string,
-  exportAppBool: boolean
-) => {
-  // if (!dir.match(/`${appName}`|\*$/)) {
+const createFiles = (components: any, path: string, appName: string, exportAppBool: boolean) => {
   let dir = path;
   if (exportAppBool === false) {
     if (!dir.match(/components|\*$/)) {
@@ -24,46 +18,24 @@ const createFiles = (
     if (!dir.match(/${appName}|\*$/)) {
       dir = `${dir}/${appName}/src/components`;
     }
-    // dir = `${dir}/${appName}/src/components`;
-    // if (!fs.existsSync(dir)) {
-    //   fs.mkdirSync(dir);
-    // }
   }
-  // if (dir.match(/${appName}|\*$/)) {
-  // dir = `${dir}/${appName}/src`;
-  // if (!dir.match(/components|\*$/)) {
-  //   dir = `${dir}/components`;
-  //   if (!fs.existsSync(dir)) {
-  //     fs.mkdirSync(dir);
-  //   }
-  // }
-
-  // if (!dir.match(/${appName}|\*$/)) {
-  //   dir = `${dir}/${appName}/src`;
-  //   if (!dir.match(/components|\*$/)) {
-  //     dir = `${dir}/components`;
-  //     if (!fs.existsSync(dir)) {
-  //       fs.mkdirSync(dir);
-  //     }
-  //   }
-  // }
 
   const promises: Array<any> = [];
-  data.forEach((component: any) => {
+  components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
       fs.writeFile(
         `${dir}/${component.title}.tsx`,
-        format(componentRender(component, data), {
+        format(componentRender(component, components), {
           singleQuote: true,
-          trailingComma: "es5",
+          trailingComma: 'es5',
           bracketSpacing: true,
           jsxBracketSameLine: true,
-          parser: "typescript"
+          parser: 'typescript',
         }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        }
+        },
       );
     });
 
