@@ -3,7 +3,7 @@ import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util.ts';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
-import SortChildren from './SortChildren.jsx';
+// import SortChildren from './SortChildren.jsx';
 
 type Props = {
   focusComponent: ComponentInt;
