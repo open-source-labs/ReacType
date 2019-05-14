@@ -6,12 +6,10 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
-    "lib": ["es6", "dom", "es2017"]
+    "lib": ["es6", "dom", "es2017"],
     // "strict": true,
     // "alwaysStrict": true
-    //these two options are recommended but don't work, maybe an issue with awesome-typsecript-loader vs babel
-    // "esModuleInterop": true
-    // "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*"]
 }

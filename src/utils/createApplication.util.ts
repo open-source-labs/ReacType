@@ -44,10 +44,9 @@ function createIndexHtml(path, appName) {
 export const createIndexTsx = (path, appName) => {
   const filePath = `${path}/${appName}/src/index.tsx`;
   const data = `
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
-import App from './components/App.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
 
 ReactDOM.render(<App />, document.getElementById('root'));
   `;
@@ -71,7 +70,7 @@ export const createPackage = (path, appName) => {
   "scripts": {
     "start": "node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "nodemon server/server.js & cross-env NODE_ENV=development webpack-dev-server --open"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server"
   },
   "nodemonConfig": {
     "ignore": [
@@ -148,9 +147,6 @@ module.exports = {
   mode: status,
   devServer: {
     publicPath: '/build/',
-    // proxy: {
-    //   '/testDev': 'http://localhost:3000',
-    // },
   },
 
   module: {
@@ -207,7 +203,8 @@ export const createTsConfig = (path, appName) => {
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es6",
-    "jsx": "react"
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*"]
 }
@@ -271,9 +268,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
 
-app.listen(3000, () => {
-  console.log('listening on port 3000');
-}); //listens on port 3000 -> http://localhost:3000/
+app.listen(8080, () => {
+  console.log('listening on port 8080');
+}); //listens on port 8080 -> http://localhost:8080/
 `;
   fs.writeFile(filePath, data, err => {
     if (err) {
