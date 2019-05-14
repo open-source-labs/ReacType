@@ -17,12 +17,9 @@ function openFile() {
   // Opens file dialog looking for markdown
   const files = dialog.showOpenDialog(mainWindow, {
     properties: ['openFile'],
-    filters: [
-      {
-        name: 'Images',
-        extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
-      },
-    ],
+    filters: [{
+      name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
+    }],
   });
 
   // if no files
@@ -160,15 +157,12 @@ const createWindow = () => {
     });
 
     // Edit menu
-    template[2].submenu.push(
-      {
-        type: 'separator',
-      },
-      {
-        label: 'Speech',
-        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-      },
-    );
+    template[2].submenu.push({
+      type: 'separator',
+    }, {
+      label: 'Speech',
+      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+    });
 
     // Window menu
     template[4].submenu = [

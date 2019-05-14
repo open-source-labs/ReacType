@@ -1,5 +1,5 @@
 {
-  "name": "reactype",
+  "name": "teamreactype",
   "version": "1.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "main": "main.js",
@@ -108,7 +108,8 @@
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "electron": "^2.0.7"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",

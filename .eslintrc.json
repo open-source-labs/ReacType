@@ -16,7 +16,6 @@
     "jest": true
   },
   "rules": {
-    "class-methods-use-this": "off",
-    "linebreak-style": 0
+    "class-methods-use-this": "off"
   }
 }
