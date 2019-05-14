@@ -7,9 +7,10 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
+**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**. 
+In other words, **you can draw prototypes and export React / Typescript code!**
 
-**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
+**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
 
@@ -22,11 +23,14 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
 - To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
-- To add draggable HTML elements, select the image icons on the lower left panel.
+- To add draggable **HTML elements**, select the image icons on the lower left panel.
 
 ![Gif of adding](https://imgur.com/sZloD8o.gif)
 
-- The bottom panel allows the user to toggle between 4 different views: a tree diagram of the application, a preview of the exportable code, a form to enter component props, and a form to add HTML attributes.
+- The bottom panel allows the user to toggle between 4 different views: a **tree diagram of the application**, a **real-time preview of the exportable code**, a form to enter component props, and a form to add HTML attributes.
+
+![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
+
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
 
@@ -41,8 +45,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 - Once finished setting up the application template, press the green 'EXPORT PROJECT' button at the bottom of the left panel and choose between two options to export your files:
   1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
   1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
-  
-![Gif of export & tree](https://imgur.com/KZb2UTO.gif)
 
 #### Authors
 
