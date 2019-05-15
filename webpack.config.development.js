@@ -15,18 +15,26 @@ module.exports = {
   context: SRC_DIR,
   entry: ['babel-polyfill', './index.js'],
   devtool: 'eval-source-map',
+<<<<<<< HEAD
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
+=======
+>>>>>>> development
   output: {
     path: BUILD_DIR,
     filename: 'js/bundle.js',
   },
+<<<<<<< HEAD
   resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   module: {
     rules: [
       { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
       { test: /\.ts?$/, exclude: /node-modules/, loader: 'babel-loader' },
+=======
+  module: {
+    rules: [
+>>>>>>> development
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,

@@ -1,8 +1,6 @@
 const path = require('path');
 
-const {
-  app, BrowserWindow, Menu, shell, dialog, ipcMain,
-} = require('electron');
+const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
 
 // Uncomment below for hot reloading during development
 // require('electron-reload')(__dirname);
@@ -19,9 +17,12 @@ function openFile() {
   // Opens file dialog looking for markdown
   const files = dialog.showOpenDialog(mainWindow, {
     properties: ['openFile'],
-    filters: [{
-      name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
-    }],
+    filters: [
+      {
+        name: 'Images',
+        extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
+      },
+    ],
   });
 
   // if no files
@@ -33,7 +34,7 @@ function openFile() {
 }
 
 // Choose directory
-ipcMain.on('choose_app_dir', (event) => {
+ipcMain.on('choose_app_dir', event => {
   const directory = dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
     buttonLabel: 'Export',
@@ -164,12 +165,15 @@ const createWindow = () => {
     });
 
     // Edit menu
-    template[2].submenu.push({
-      type: 'separator',
-    }, {
-      label: 'Speech',
-      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-    });
+    template[2].submenu.push(
+      {
+        type: 'separator',
+      },
+      {
+        label: 'Speech',
+        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+      },
+    );
 
     // Window menu
     template[4].submenu = [
@@ -198,11 +202,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if (isDev) {
-    const {
-      default: installExtension,
-      REACT_DEVELOPER_TOOLS,
-      REDUX_DEVTOOLS,
-    } = require('electron-devtools-installer');
+    const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then(() => {
