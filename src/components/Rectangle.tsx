@@ -4,7 +4,32 @@ import TransformerComponent from './TransformerComponent.tsx';
 import GrandchildRectangle from './GrandchildRectangle.tsx';
 import { ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
-class Rectangle extends Component {
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
+
+interface StateInt {
+  image: any;
+}
+
+class Rectangle extends Component<PropsInt, StateInt> {
   state = {
     image: null,
   };
@@ -38,22 +63,18 @@ class Rectangle extends Component {
 
   handleDrag(componentId: number, childId: number, target: any, blockSnapSize: any) {
     const transformation = {
-      // x: target.x(),
-      // y: target.y()
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  setImage = imageSource => {
+  setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
-
     image.src = imageSource;
-    // if there was an error grtting img; heigth should b Zero
     if (!image.height) return null;
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -164,9 +185,11 @@ class Rectangle extends Component {
                 }
               />
             ))}
-        {focusChild && focusChild.childId === childId && draggable && (
-          <TransformerComponent focusChild={focusChild} rectClass={'childRect'} anchorSize={8} color={'grey'} />
-        )}
+        {focusChild &&
+          focusChild.childId === childId &&
+          draggable && (
+            <TransformerComponent focusChild={focusChild} rectClass={'childRect'} anchorSize={8} color={'grey'} />
+          )}
       </Group>
     );
   }

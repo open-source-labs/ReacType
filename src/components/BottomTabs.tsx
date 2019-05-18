@@ -76,7 +76,7 @@ const styles = (theme: any): any => ({
   },
 });
 
-class BottomTabs extends Component {
+class BottomTabs extends Component<PropsInt> {
   state = {
     value: 0,
   };
@@ -92,11 +92,11 @@ class BottomTabs extends Component {
     });
   }
 
-  handleChange = (event, value) => {
+  handleChange = (event: any, value: number) => {
     this.setState({ value });
   };
 
-  findChildren(component, components, tree) {
+  findChildren(component: ComponentInt, components: ComponentsInt, tree: any) {
     if (!component.childrenArray.length) {
       return tree;
     }
@@ -104,7 +104,7 @@ class BottomTabs extends Component {
 
     for (let i = 0; i < component.childrenArray.length; i++) {
       const name = component.childrenArray[i].componentName;
-      const newTree = {
+      const newTree: TreeInt = {
         name,
         attributes: {},
         children: [],
@@ -112,18 +112,20 @@ class BottomTabs extends Component {
       newChildrenArray.push(newTree);
       tree.children = newChildrenArray;
       if (component.childrenArray[i].childType === 'COMP') {
-        const newFocusComp = components.find(comp => comp.title === component.childrenArray[i].componentName);
+        const newFocusComp = components.find(
+          comp => comp.title === component.childrenArray[i].componentName,
+        );
         this.findChildren(newFocusComp, components, newTree);
       }
     }
     return tree;
   }
 
-  generateComponentTree(componentId, components) {
+  generateComponentTree(componentId: number, components: ComponentsInt) {
     const component = components.find(comp => comp.id === componentId);
     const tree = { name: component.title, attributes: {}, children: [] };
 
-    component.childrenArray.forEach(child => {
+    component.childrenArray.forEach((child) => {
       if (child.childType === 'COMP') {
         tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
@@ -151,7 +153,8 @@ class BottomTabs extends Component {
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML').length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+      .length;
 
     // const counters = focusComponent.ch
     const tree = {
@@ -172,7 +175,11 @@ class BottomTabs extends Component {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Application Tree"
           />
-          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Code Preview" />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Code Preview"
+          />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -229,7 +236,10 @@ class BottomTabs extends Component {
         {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
         {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-        {value === 3 && focusChild.childType !== 'HTML' && <p>Please select an HTML element to view attributes</p>}
+        {value === 3
+          && focusChild.childType !== 'HTML' && (
+            <p>Please select an HTML element to view attributes</p>
+        )}
       </div>
     );
   }

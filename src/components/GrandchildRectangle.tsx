@@ -2,7 +2,32 @@ import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
 import { ComponentsInt } from '../utils/interfaces.ts';
 
-class GrandchildRectangle extends Component {
+interface PropsInt {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  childId: number;
+  componentId: number;
+  childComponentName: string;
+  childComponentId: number;
+  width: number;
+  height: number;
+  title: string;
+  focusChild: any;
+  components: ComponentsInt;
+  draggable: boolean;
+  blockSnapSize: number;
+  childType: string;
+  imageSource: string;
+  handleTransform: any;
+}
+
+interface StateInt {
+  image: any;
+}
+
+class GrandchildRectangle extends Component<PropsInt, StateInt> {
   state = {
     image: null,
   };
@@ -16,14 +41,12 @@ class GrandchildRectangle extends Component {
     return this.props.components.find(comp => comp.id === this.props.childComponentId);
   }
 
-  setImage = imageSource => {
-    // console.log("IMAGE SOURCE", imageSource);
+  setImage = (imageSource: string) => {
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
     if (!image.height) return null;
-    this.setState({ imageHeight: image.height, imageWidth: image.width });
-    return image;
+    this.setState({ image });
   };
 
   render() {
@@ -47,7 +70,15 @@ class GrandchildRectangle extends Component {
     // the Group is responsible for dragging of all children
     // the Rect emits changes to child width and height with help from Transformer
     return (
-      <Group draggable={false} x={x} y={y} scaleX={scaleX} scaleY={scaleY} width={width} height={height}>
+      <Group
+        draggable={false}
+        x={x}
+        y={y}
+        scaleX={scaleX}
+        scaleY={scaleY}
+        width={width}
+        height={height}
+      >
         <Rect
           name={`${childId}`}
           x={0}
@@ -66,11 +97,9 @@ class GrandchildRectangle extends Component {
           strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
-          // centerScaling={true}
-          // enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
         />
-        {childType === 'COMP' &&
-          components
+        {childType === 'COMP'
+          && components
             .find(comp => comp.title === childComponentName)
             .childrenArray.filter(child => child.childId !== -1)
             .map((grandchild, i) => (
@@ -85,14 +114,16 @@ class GrandchildRectangle extends Component {
                 focusChild={focusChild}
                 childId={childId}
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
-                height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
+                height={
+                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                }
                 x={
-                  (grandchild.position.x - this.getPseudoChild().position.x) *
-                  (width / this.getPseudoChild().position.width)
+                  (grandchild.position.x - this.getPseudoChild().position.x)
+                  * (width / this.getPseudoChild().position.width)
                 }
                 y={
-                  (grandchild.position.y - this.getPseudoChild().position.y) *
-                  (height / this.getPseudoChild().position.height)
+                  (grandchild.position.y - this.getPseudoChild().position.y)
+                  * (height / this.getPseudoChild().position.height)
                 }
               />
             ))}
