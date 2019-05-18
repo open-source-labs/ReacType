@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import { ChildInt } from '../utils/interfaces';
+import { ChildInt } from '../utils/interfaces.ts';
 
-export default class TransformerComponent extends Component {
+interface PropsInt {
+  focusChild: ChildInt;
+}
+
+export default class TransformerComponent extends Component<PropsInt> {
   componentDidMount() {
     this.checkNode();
   }

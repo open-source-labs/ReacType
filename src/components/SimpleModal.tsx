@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-const styles = theme => ({
+const styles = (theme: any): any => ({
   paper: {
     position: 'absolute',
     width: 'auto',
@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-const SimpleModal = (props) => {
+const SimpleModal = (props: any) => {
   const {
     classes,
     open,
@@ -76,12 +76,22 @@ const SimpleModal = (props) => {
           <div>{children}</div>
           <div>
             {secBtnLabel ? (
-              <Button variant="contained" color="secondary" className={classes.button} onClick={secBtnAction}>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                onClick={secBtnAction}
+              >
                 {secBtnLabel}
               </Button>
             ) : null}
             {primBtnLabel ? (
-              <Button variant="contained" color="primary" className={classes.button} onClick={primBtnAction}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={primBtnAction}
+              >
                 {primBtnLabel}
               </Button>
             ) : null}

@@ -46,7 +46,7 @@ import {
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
-const appComponent = {
+const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
   title: 'App',
@@ -64,7 +64,7 @@ const appComponent = {
   focusChildId: 0,
 };
 
-const initialApplicationFocusChild = {
+const initialApplicationFocusChild: ChildInt = {
   childId: 0,
   componentName: null,
   position: {
@@ -81,7 +81,7 @@ const initialApplicationFocusChild = {
   HTMLInfo: null,
 };
 
-const initialApplicationState = {
+const initialApplicationState: ApplicationStateInt = {
   totalComponents: 1,
   nextId: 2,
   successOpen: false,
@@ -96,7 +96,7 @@ const initialApplicationState = {
   loading: false,
 };
 
-const componentReducer = (state = initialApplicationState, action) => {
+const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return {

@@ -87,7 +87,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   }
 
   handleChange = (event: any) => {
-    let newValue: string = event.target.value;
+    const newValue: string = event.target.value;
     this.setState({
       componentName: newValue,
     });
@@ -169,10 +169,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   render(): JSX.Element {
     const {
       components,
-      updateComponent,
       deleteComponent,
       focusComponent,
-      totalComponents,
       classes,
       addChild,
       changeFocusComponent,
@@ -194,6 +192,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
           selectableChildren={selectableChildren}
+          deleteComponent={deleteComponent}
+          components={components}
         />
       ));
 
@@ -260,7 +260,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               color="secondary"
               aria-label="Delete All"
               variant="contained"
-              fullwidth="true"
+              fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
               className={classes.clearButton}
@@ -278,12 +278,11 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           >
             <Button
               color="primary"
+              aria-label="Export Code"
               variant="contained"
-              fullwidth="true"
+              fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
-              disabled={totalComponents < 1}
-              onClick={this.showGenerateAppModal}
               style={{ borderRadius: 0 }}
             >
               <GetAppIcon style={{ paddingRight: '5px' }} />

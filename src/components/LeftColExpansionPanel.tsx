@@ -25,6 +25,12 @@ const LeftColExpansionPanel = (props: any) => {
   } = props;
   const { title, id, color } = component;
 
+  // show a string of all direct parents. SO the user can gaze at it.
+  const directParents = components
+    .filter((comp: ComponentInt) => comp.childrenArray.some((child: ChildInt) => child.childComponentId === id))
+    .map((comp: ComponentInt) => comp.title)
+    .join(',');
+
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }

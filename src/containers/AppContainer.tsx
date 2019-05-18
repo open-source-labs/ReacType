@@ -48,6 +48,7 @@ class AppContainer extends Component<Props> {
         <div className="app-container">
           <LeftContainer
             components={components}
+            totalComponents={totalComponents}
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
