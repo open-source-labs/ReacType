@@ -56,7 +56,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 [Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
 
-[Nel Malikova](https://www.linkedin.com/in/gmalikova/) [gmal1](https://github.com/gmal1)
+[Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
 
 ## To Run Your Own Version
 
