@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-const SimpleModal = props => {
+const SimpleModal = (props) => {
   const {
     classes,
     open,

@@ -25,12 +25,6 @@ const LeftColExpansionPanel = (props: any) => {
   } = props;
   const { title, id, color } = component;
 
-  // show a string of all direct parents. SO the user can gaze at it.
-  const directParents = components
-    .filter((comp: ComponentInt) => comp.childrenArray.some((child: ChildInt) => child.childComponentId === id))
-    .map((comp: ComponentInt) => comp.title)
-    .join(',');
-
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
@@ -38,10 +32,7 @@ const LeftColExpansionPanel = (props: any) => {
   return (
     <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
-        <div
-          className={classes.root}
-          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
-        >
+        <div className={classes.root} style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}>
           <Grid item xs={12} style={{ color: 'red' }}>
             <List style={{ color: 'red' }}>
               <ListItem
@@ -75,10 +66,11 @@ const LeftColExpansionPanel = (props: any) => {
                 color="default"
                 aria-label="Delete"
                 className={classes.margin}
-                onClick={() => deleteComponent({
-                  componentId: id,
-                  stateComponents: components,
-                })
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components,
+                  })
                 }
                 style={{
                   color: '#D3D3D3',
@@ -112,7 +104,7 @@ const LeftColExpansionPanel = (props: any) => {
           </Tooltip>
         )}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

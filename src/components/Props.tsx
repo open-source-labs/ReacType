@@ -12,21 +12,6 @@ import { addProp, deleteProp } from '../actions/components.ts';
 import DataTable from './DataTable.tsx';
 import { ComponentInt } from '../utils/interfaces.ts';
 
-// import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { addProp, deleteProp } from '../actions/components';
-import DataTable from './DataTable.jsx';
-
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -74,8 +59,9 @@ const styles = theme => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addProp: ({ key, value, required, type }: { key: string, value: string, required: boolean, type: string }) =>
-    dispatch(
+  addProp: ({
+ key, value, required, type 
+}: { key: string, value: string, required: boolean, type: string }) => dispatch(
       addProp({
         key,
         value,
@@ -122,7 +108,7 @@ class Props extends Component {
     propType: '',
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       [event.target.id]: event.target.value.trim(),
     });
@@ -134,10 +120,12 @@ class Props extends Component {
     });
   };
 
-  handleAddProp = event => {
+  handleAddProp = (event) => {
     event.preventDefault();
 
-    const { propKey, propValue, propRequired, propType } = this.state;
+    const {
+ propKey, propValue, propRequired, propType 
+} = this.state;
 
     // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -168,7 +156,9 @@ class Props extends Component {
   };
 
   render() {
-    const { focusComponent, classes, deleteProp, addProp } = this.props;
+    const {
+ focusComponent, classes, deleteProp, addProp 
+} = this.props;
 
     const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData

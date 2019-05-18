@@ -233,7 +233,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
             />
           </Grid>
         </Grid>
-      </Paper>
+      </div>
     );
   }
 }

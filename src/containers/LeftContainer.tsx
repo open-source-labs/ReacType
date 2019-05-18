@@ -260,7 +260,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               color="secondary"
               aria-label="Delete All"
               variant="contained"
-              fullwidth={true}
+              fullwidth="true"
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
               className={classes.clearButton}
@@ -279,7 +279,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             <Button
               color="primary"
               variant="contained"
-              fullWidth
+              fullwidth="true"
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
               disabled={totalComponents < 1}
