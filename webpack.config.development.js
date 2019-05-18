@@ -22,7 +22,6 @@ module.exports = {
     path: BUILD_DIR,
     filename: 'js/bundle.js',
   },
-  resolve: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
   module: {
     rules: [
       { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },

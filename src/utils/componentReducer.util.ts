@@ -2,14 +2,7 @@ import getSelectable from './getSelectable.util.ts';
 import getColor from './colors.util.ts';
 import { getSize } from './htmlElements.util.ts';
 import cloneDeep from './cloneDeep.ts';
-import {
-  ComponentInt,
-  ApplicationStateInt,
-  ChildrenInt,
-  ChildInt,
-  ComponentsInt,
-  PropInt,
-} from './Interfaces.ts';
+import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './Interfaces.ts';
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -228,7 +221,8 @@ export const deleteChild = (
     focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
     focusChild: calledFromDeleteComponent
       ? cloneDeep(state.initialApplicationFocusChild)
-      : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1],
+      : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1] ||
+        cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
   };
 };
 
@@ -288,11 +282,9 @@ export const handleTransform = (
   };
 
   const children = [
-    ...state.components
-      .find(comp => comp.id === componentId)
-      .childrenArray.filter(child => {
-        if (child.childId !== childId) return child;
-      }),
+    ...state.components.find(comp => comp.id === componentId).childrenArray.filter(child => {
+      if (child.childId !== childId) return child;
+    }),
     transformedChild,
   ];
 
