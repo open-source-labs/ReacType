@@ -63,7 +63,8 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
-    "linter": "eslint src"
+    "linter": "eslint src",
+    "develop": "concurrently \"yarn run dev\" \"yarn run electron\""
   },
   "bin": {
     "reactype": "./index.js"
@@ -91,8 +92,8 @@
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
     "d3": "^5.9.2",
-    "enzyme": "^3.4.1",
     "electron-reload": "^1.4.0",
+    "enzyme": "^3.4.1",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
@@ -105,6 +106,7 @@
     "react-konva": "^1.7.12",
     "react-redux": "^5.0.7",
     "react-sortable-tree": "^2.2.0",
+    "react-syntax-highlighter": "^10.2.1",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
