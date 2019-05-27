@@ -96,31 +96,6 @@ class BottomTabs extends Component<PropsInt> {
     this.setState({ value });
   };
 
-  findChildren(component: ComponentInt, components: ComponentsInt, tree: any) {
-    if (!component.childrenArray.length) {
-      return tree;
-    }
-    const newChildrenArray = [];
-
-    for (let i = 0; i < component.childrenArray.length; i++) {
-      const name = component.childrenArray[i].componentName;
-      const newTree: TreeInt = {
-        name,
-        attributes: {},
-        children: [],
-      };
-      newChildrenArray.push(newTree);
-      tree.children = newChildrenArray;
-      if (component.childrenArray[i].childType === 'COMP') {
-        const newFocusComp = components.find(
-          comp => comp.title === component.childrenArray[i].componentName,
-        );
-        this.findChildren(newFocusComp, components, newTree);
-      }
-    }
-    return tree;
-  }
-
   generateComponentTree(componentId: number, components: ComponentsInt) {
     const component = components.find(comp => comp.id === componentId);
     const tree = { name: component.title, attributes: {}, children: [] };
@@ -141,13 +116,7 @@ class BottomTabs extends Component<PropsInt> {
 
   render() {
     const {
-      classes,
-      components,
-      focusComponent,
-      deleteProp,
-      addProp,
-      focusChild,
-      // rightColumnOpen
+      classes, components, focusComponent, deleteProp, addProp, focusChild,
     } = this.props;
     const { value } = this.state;
 
@@ -155,13 +124,6 @@ class BottomTabs extends Component<PropsInt> {
     const propCount = focusComponent.props.length;
     const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
       .length;
-
-    // const counters = focusComponent.ch
-    const tree = {
-      name: focusComponent.title,
-      attributes: {},
-      children: [],
-    };
 
     return (
       <div className={classes.root}>
@@ -207,8 +169,7 @@ class BottomTabs extends Component<PropsInt> {
             ref={node => (this.treeWrapper = node)}
           >
             <Tree
-              data={[this.findChildren(focusComponent, components, tree)]}
-              // data={[this.generateComponentTree(focusComponent.id, components)]}
+              data={[this.generateComponentTree(focusComponent.id, components)]}
               separation={{ siblings: 0.3, nonSiblings: 0.3 }}
               transitionDuration={0}
               translate={this.state.translate}

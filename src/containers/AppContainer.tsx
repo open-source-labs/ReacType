@@ -38,11 +38,12 @@ class AppContainer extends Component<Props> {
   }
 
   render(): JSX.Element {
-    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
+    const {
+      components, focusComponent, loading, selectableChildren, totalComponents,
+    } = this.props;
     // const { width, rightColumnOpen } = this.state;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
-
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app-container">
