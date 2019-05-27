@@ -1,8 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { Rect, Group, Label, Text } from 'react-konva';
+import React, { Component } from 'react';
+import {
+  Rect, Group, Label, Text,
+} from 'react-konva';
 import TransformerComponent from './TransformerComponent.tsx';
 import GrandchildRectangle from './GrandchildRectangle.tsx';
 import { ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import { ComponentInt } from '../utils/Interfaces';
 
 interface PropsInt {
   x: number;
@@ -35,21 +38,25 @@ class Rectangle extends Component<PropsInt, StateInt> {
   };
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find(comp => comp.id === componentId).color;
+    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
     return color;
   }
 
   getPseudoChild() {
-    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+    return this.props.components.find(
+      (comp: ComponentInt) => comp.id === this.props.childComponentId,
+    );
   }
 
   handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
     let focChild: ChildInt = this.props.components
-      .find(comp => comp.id === this.props.componentId)
-      .childrenArray.find(child => child.childId === childId);
+      .find((comp: ComponentInt) => comp.id === this.props.componentId)
+      .childrenArray.find((child: ChildInt) => child.childId === childId);
 
     if (childId === -1) {
-      focChild = this.props.components.find(comp => comp.id === this.props.componentId);
+      focChild = this.props.components.find(
+        (comp: ComponentInt) => comp.id === this.props.componentId,
+      );
     }
     const transformation = {
       width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
@@ -69,7 +76,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  setImage = (imageSource: string) => {
+  setImage = (imageSource: string): void => {
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
@@ -110,14 +117,14 @@ class Rectangle extends Component<PropsInt, StateInt> {
         width={width}
         height={height}
         onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
-        ref={node => {
+        ref={(node) => {
           this.group = node;
         }}
         tabIndex="0" // required for keypress event to be heard by this.group
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
-          ref={node => {
+          ref={(node) => {
             this.rect = node;
           }}
           tabIndex="0" // required for keypress event to be heard by this.group
@@ -133,7 +140,8 @@ class Rectangle extends Component<PropsInt, StateInt> {
           width={width}
           height={height}
           stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
-          onTransformEnd={event => this.handleResize(componentId, childId, event.target, blockSnapSize)}
+          onTransformEnd={event => this.handleResize(componentId, childId, event.target, blockSnapSize)
+          }
           strokeWidth={childType === 'COMP' ? 4 : 2}
           strokeScaleEnabled={false}
           draggable={false}
@@ -156,12 +164,12 @@ class Rectangle extends Component<PropsInt, StateInt> {
           />
         </Label>
         {// for all children other than the pseudoChild, find their component's children array and recursively render the children found there
-        childId !== -1 &&
-          childType === 'COMP' &&
-          components
-            .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== -1)
-            .map((grandchild, i) => (
+        childId !== -1
+          && childType === 'COMP'
+          && components
+            .find((comp: ComponentInt) => comp.title === childComponentName)
+            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
+            .map((grandchild: ChildInt, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}
@@ -174,22 +182,29 @@ class Rectangle extends Component<PropsInt, StateInt> {
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
                 width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
-                height={grandchild.position.height * (height / this.getPseudoChild().position.height)}
+                height={
+                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                }
                 x={
-                  (grandchild.position.x - this.getPseudoChild().position.x) *
-                  (width / this.getPseudoChild().position.width)
+                  (grandchild.position.x - this.getPseudoChild().position.x)
+                  * (width / this.getPseudoChild().position.width)
                 }
                 y={
-                  (grandchild.position.y - this.getPseudoChild().position.y) *
-                  (height / this.getPseudoChild().position.height)
+                  (grandchild.position.y - this.getPseudoChild().position.y)
+                  * (height / this.getPseudoChild().position.height)
                 }
               />
             ))}
-        {focusChild &&
-          focusChild.childId === childId &&
-          draggable && (
-            <TransformerComponent focusChild={focusChild} rectClass={'childRect'} anchorSize={8} color={'grey'} />
-          )}
+        {focusChild
+          && focusChild.childId === childId
+          && draggable && (
+            <TransformerComponent
+              focusChild={focusChild}
+              rectClass={'childRect'}
+              anchorSize={8}
+              color={'grey'}
+            />
+        )}
       </Group>
     );
   }

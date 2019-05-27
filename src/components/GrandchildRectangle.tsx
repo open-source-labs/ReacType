@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-import { ComponentsInt } from '../utils/interfaces.ts';
+import { ComponentsInt, ComponentInt, ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
   x: number;
@@ -33,15 +33,17 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
   };
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find(comp => comp.id === componentId).color;
+    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
     return color;
   }
 
   getPseudoChild() {
-    return this.props.components.find(comp => comp.id === this.props.childComponentId);
+    return this.props.components.find(
+      (comp: ComponentInt) => comp.id === this.props.childComponentId,
+    );
   }
 
-  setImage = (imageSource: string) => {
+  setImage = (imageSource: string): void => {
     if (!imageSource) return;
     const image = new window.Image();
     image.src = imageSource;
@@ -100,9 +102,9 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
         />
         {childType === 'COMP'
           && components
-            .find(comp => comp.title === childComponentName)
-            .childrenArray.filter(child => child.childId !== -1)
-            .map((grandchild, i) => (
+            .find((comp: ComponentInt) => comp.title === childComponentName)
+            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
+            .map((grandchild: ChildInt, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}

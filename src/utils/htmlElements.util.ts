@@ -1,4 +1,4 @@
-// our "database" of HTML elements that the user can chose from
+// HTML elements that the user can choose from
 interface htmlElementInt {
   width: number;
   height: number;
