@@ -60,15 +60,23 @@ const styles = theme => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: ({
- key, value, required, type 
-}: { key: string, value: string, required: boolean, type: string }) => dispatch(
-      addProp({
-        key,
-        value,
-        required,
-        type,
-      }),
-    ),
+    key,
+    value,
+    required,
+    type,
+  }: {
+  key: string;
+  value: string;
+  required: boolean;
+  type: string;
+  }) => dispatch(
+    addProp({
+      key,
+      value,
+      required,
+      type,
+    }),
+  ),
   deleteProp: (propId: number) => dispatch(deleteProp(propId)),
 });
 
@@ -124,8 +132,8 @@ class Props extends Component {
     event.preventDefault();
 
     const {
- propKey, propValue, propRequired, propType 
-} = this.state;
+      propKey, propValue, propRequired, propType,
+    } = this.state;
 
     // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -157,8 +165,8 @@ class Props extends Component {
 
   render() {
     const {
- focusComponent, classes, deleteProp, addProp 
-} = this.props;
+      focusComponent, classes, deleteProp, addProp,
+    } = this.props;
 
     const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData
@@ -174,10 +182,15 @@ class Props extends Component {
       <div className={'htmlattr'}>
         {' '}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', width: '90%' }}>Click a component to view its props.</div>
+          <div style={{ marginTop: '20px', width: '90%' }}>
+            Click a component to view its props.
+          </div>
         ) : (
           <Fragment>
-            <div className="props-container" style={{ marginTop: '20px', width: '90%', height: '80%' }}>
+            <div
+              className="props-container"
+              style={{ marginTop: '20px', width: '90%', height: '80%' }}
+            >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
@@ -262,7 +275,11 @@ class Props extends Component {
                   </form>
                 </Grid>
                 <Grid item xs={8}>
-                  <DataTable rowHeader={rowHeader} rowData={propsRows} deletePropHandler={deleteProp} />
+                  <DataTable
+                    rowHeader={rowHeader}
+                    rowData={propsRows}
+                    deletePropHandler={deleteProp}
+                  />
                 </Grid>
                 <Grid item xs={1} />
               </Grid>

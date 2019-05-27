@@ -1,4 +1,4 @@
-// this typing for objects is called index signatures
+// index signatures
 function cloneDeep(value: { [key: string]: any } | any[]): { [key: string]: any } | any[] {
   if (Array.isArray(value)) {
     const result: any[] = [];

@@ -56,9 +56,3 @@ export interface ApplicationStateInt {
   appDir: string;
   loading: boolean;
 }
-
-function findComponentById(id: number, components: ComponentInt[]) {
-  return components.find(comp => comp.id === id);
-}
-
-export default findComponentById;

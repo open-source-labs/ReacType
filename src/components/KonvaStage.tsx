@@ -1,6 +1,5 @@
-import React, { Component, createRef, Fragment } from 'react';
-import Button from '@material-ui/core/Button';
-import { Stage, Layer, Line, Group, Label, Text, Rect, Transformer } from 'react-konva';
+import React, { Component } from 'react';
+import { Stage, Layer, Line } from 'react-konva';
 import Rectangle from './Rectangle.tsx';
 import cloneDeep from '../utils/cloneDeep.ts';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
@@ -32,7 +31,7 @@ interface StateInt {
 }
 
 class KonvaStage extends Component<PropsInt, StateInt> {
-  constructor(props) {
+  constructor(props: PropsInt) {
     super(props);
     this.state = {
       stageWidth: 1800,
@@ -44,9 +43,11 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   }
 
   getDirectChildrenCopy(focusComponent: ComponentInt) {
-    const component = this.props.components.find(comp => comp.id === focusComponent.id);
+    const component = this.props.components.find(
+      (comp: ComponentInt) => comp.id === focusComponent.id,
+    );
 
-    const childrenArr = component.childrenArray.filter(child => child.childId !== -1);
+    const childrenArr = component.childrenArray.filter((child: ChildInt) => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
 
@@ -91,7 +92,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     });
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e: any) => {
     // backspace and delete keys are keyCode 8 and 46, respectively
     // this function is only used for deleting children atm, could be used for other things
     if (e.keyCode === 8 || e.keyCode === 46) {
@@ -99,7 +100,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     }
   };
 
-  handleStageMouseDown = e => {
+  handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       return;
@@ -158,7 +159,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   };
 
   render() {
-    const { components, handleTransform, focusComponent, focusChild, deleteChild, classes } = this.props;
+    const {
+      components,
+      handleTransform,
+      focusComponent,
+      focusChild,
+      deleteChild,
+      classes,
+    } = this.props;
 
     return (
       <div
@@ -166,14 +174,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           width: '100%',
           height: '100%',
         }}
-        ref={node => {
+        ref={(node) => {
           this.container = node;
         }}
         tabIndex="0" // required for keydown event to be heard by this.container
       >
         <Stage
           className={'canvasStage'}
-          ref={node => {
+          ref={(node) => {
             this.stage = node;
           }}
           onMouseDown={this.handleStageMouseDown}
@@ -182,7 +190,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           style={{ width: '100%' }}
         >
           <Layer
-            ref={node => {
+            ref={(node) => {
               this.layer = node;
             }}
           >
@@ -215,15 +223,17 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                 if (rectB.props.childId === -1) {
                   return 1;
                 }
-                return rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height;
+                return (
+                  rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
+                );
               })
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
             // to guarantee they are rendered last, sort the array in reverse order by size
             // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
-            // THIS COULD BE A BIG PERFORMANCE PROBLEM (PROBABLY WILL BE!)
-            // TRY TO REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
+            //
+            // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
             }
           </Layer>
         </Stage>

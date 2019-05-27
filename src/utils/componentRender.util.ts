@@ -1,4 +1,6 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces.ts';
+import {
+  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
+} from './Interfaces.ts';
 import cloneDeep from './cloneDeep.ts';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
@@ -7,9 +9,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     title,
     props,
   }: {
-    childrenArray: ChildrenInt;
-    title: string;
-    props: PropInt[];
+  childrenArray: ChildrenInt;
+  title: string;
+  props: PropInt[];
   } = component;
 
   function typeSwitcher(type: string) {
@@ -58,8 +60,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   }
 
   function htmlAttrSanitizer(element: string) {
+    // TODO: debug localForage unhappiness to renable image imports
     // this shouldn't be needed, but some characters make localForage unhappy
-    return element.replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1)).replace(/[-_\s0-9\W]+/gi, '');
+    return element
+      .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+      .replace(/[-_\s0-9\W]+/gi, '');
   }
 
   function componentNameGenerator(child: ChildInt) {
@@ -88,16 +93,16 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   return `
     import React from 'react';
     ${childrenArray
-      .filter(child => child.childType !== 'HTML')
-      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-      .reduce((acc: Array<string>, child) => {
-        if (!acc.includes(child)) {
-          acc.push(child);
-          return acc;
-        }
+    .filter(child => child.childType !== 'HTML')
+    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+    .reduce((acc: Array<string>, child) => {
+      if (!acc.includes(child)) {
+        acc.push(child);
         return acc;
-      }, [])
-      .join('\n')}
+      }
+      return acc;
+    }, [])
+    .join('\n')}
     
     type Props = {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
@@ -109,9 +114,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       return (
         <div>
         ${cloneDeep(childrenArray)
-          .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
-          .map((child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`)
-          .join('\n')}
+    .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
+    .map(
+      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
+    )
+    .join('\n')}
         </div>
       );
     }

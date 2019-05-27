@@ -43,23 +43,42 @@ interface StateInt {
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
-  addChild: ({ title, childType, HTMLInfo }: { title: string; childType: string; HTMLInfo: object }) =>
-    dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  addChild: ({
+    title,
+    childType,
+    HTMLInfo,
+  }: {
+  title: string;
+  childType: string;
+  HTMLInfo: object;
+  }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({ componentId, stateComponents }: { componentId: number; stateComponents: ComponentsInt }) =>
-    dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  deleteComponent: ({
+    componentId,
+    stateComponents,
+  }: {
+  componentId: number;
+  stateComponents: ComponentsInt;
+  }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  createApp: ({ path, components, genOption }: { path: string; components: ComponentsInt; genOption: number }) =>
-    dispatch(
-      actions.createApplication({
-        path,
-        components,
-        genOption,
-        appName: 'reactype_app',
-        exportAppBool: null,
-      }),
-    ),
+  createApp: ({
+    path,
+    components,
+    genOption,
+  }: {
+  path: string;
+  components: ComponentsInt;
+  genOption: number;
+  }) => dispatch(
+    actions.createApplication({
+      path,
+      components,
+      genOption,
+      appName: 'reactype_app',
+      exportAppBool: null,
+    }),
+  ),
 });
 
 class LeftContainer extends Component<PropsInt, StateInt> {
@@ -181,7 +200,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
     const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
-      .map((component, i) => (
+      .map((component: ComponentInt, i: number) => (
         <LeftColExpansionPanel
           key={component.id}
           index={i}
@@ -208,7 +227,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               margin="normal"
               autoFocus
               onChange={this.handleChange}
-              onKeyPress={ev => {
+              onKeyPress={(ev) => {
                 if (ev.key === 'Enter') {
                   this.handleAddComponent();
                   ev.preventDefault();
@@ -239,7 +258,11 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <HTMLComponentPanel className={classes.htmlCompWrapper} focusComponent={focusComponent} addChild={addChild} />
+        <HTMLComponentPanel
+          className={classes.htmlCompWrapper}
+          focusComponent={focusComponent}
+          addChild={addChild}
+        />
 
         <div
           style={{

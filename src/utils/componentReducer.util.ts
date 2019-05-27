@@ -29,7 +29,7 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
     .replace(/[-_\s0-9\W]+/gi, '');
 
   // duplicate component names not allowed
-  if (state.components.find(comp => comp.title === strippedTitle)) {
+  if (state.components.find((comp: ComponentInt) => comp.title === strippedTitle)) {
     window.alert(`A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`);
     return {
       ...state,
@@ -76,9 +76,6 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
     selectableChildren, // new component so everyone except yourself is available
   };
 };
-
-// get title (aka the class associated with the new child)
-// get the focus component (aka the component were adding the child to)
 
 export const addChild = (
   state: ApplicationStateInt,
@@ -214,7 +211,6 @@ export const deleteChild = (
     parentComponentCopy,
   ];
 
-  // RETURN - update state...
   return {
     ...state,
     components: modifiedComponentArray,
