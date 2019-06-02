@@ -7,8 +7,6 @@
     "target": "es6",
     "jsx": "react",
     "lib": ["es6", "dom", "es2017"],
-    // "strict": true,
-    // "alwaysStrict": true
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*"]
