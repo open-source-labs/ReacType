@@ -1,5 +1,6 @@
 const path = require('path');
 // adding a comment to test github notifications
+// adding new comment
 
 const {
   app,
