@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateChildrenSort } from '../actions/components.ts';
+import { updateChildrenSort } from '../actions/applicationActions.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
 const mapStateToProps = store => ({

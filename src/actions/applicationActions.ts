@@ -25,7 +25,7 @@ import {
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
-} from '../actionTypes/index.js';
+} from '../actionTypes/applicationActionTypes.js';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';

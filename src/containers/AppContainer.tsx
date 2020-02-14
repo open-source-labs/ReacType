@@ -5,7 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.tsx';
 import MainContainer from './MainContainer.tsx';
 import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/components.ts';
+import { loadInitData } from '../actions/applicationActions.ts';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 
 type Props = {

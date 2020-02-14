@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import BottomPanel from '../components/BottomPanel.tsx';
 import theme from '../components/theme.ts';
-import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components.ts';
+import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/applicationActions';
 import KonvaStage from '../components/KonvaStage.tsx';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 

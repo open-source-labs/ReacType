@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteCompProp, addCompProp } from '../actions/components.ts';
+import { handleClose, deleteCompProp, addCompProp } from '../actions/applicationActions.ts';
 import BottomTabs from './BottomTabs.tsx';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
