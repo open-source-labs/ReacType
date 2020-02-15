@@ -1,20 +1,38 @@
 const path = require('path');
-// adding a comment to test github notifications
-// adding new comment
+//sfsdfsdfsdfasdasd
+//sdfasdfsadf
+
+// ** electron notes:
+// IPCMain and IPCRenderer are used to send messages between main and renderer processes.
+// IPCMain - The main process takes care of starting and running your app. It is the entry point for an application.
+// IPCRenderer - The renderer process takes care of showing your app in the Chromium browser
 
 const {
+  // ** look into how this is working - the code is the same here as in react proto **
   app,
+  //app - the lifecycle of the application is managed through electron.app
   BrowserWindow,
+  // BrowserWindow - windows can be created using the electron.BrowserWindow class
   Menu,
+  // Menu - allows you to create native application menus and context menus.
   shell,
+  // shell - Manage files and URLs using their default applications — The shell module provides functions related to desktop integration. An example of opening a URL in the user's default browser.
   dialog,
+  // dialog - Display native system dialogs for opening and saving files, alerting, etc
   ipcMain
+  // ipcMain - Communicate asynchronously from the main process to renderer processes. It is an event emitter.
 } = require('electron');
 
-// Uncomment below for hot reloading during development
+// ** Uncomment below for hot reloading during development **
+
+// below hard-resets the entire electron process so is more of a catch-all in terms of dev mode
+require('electron-reload')(__dirname, {
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+});
+
+// below loads contents of all active BrowserWindows within electron when the source files are changed:
 // require('electron-reload')(__dirname);
 
-// const isDev = true;
 const isDev =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
@@ -26,6 +44,7 @@ let mainWindow;
 function openFile() {
   // Opens file dialog looking for markdown
   const files = dialog.showOpenDialog(mainWindow, {
+    // dialog.showOpenDialog - allows you to open files / folders
     properties: ['openFile'],
     filters: [
       {

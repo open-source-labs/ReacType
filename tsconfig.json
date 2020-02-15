@@ -3,9 +3,11 @@
     "outDir": "./build/",
     "sourceMap": true,
     "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
     "jsx": "react",
     "lib": ["dom", "esnext"],
-    "module": "esnext",
+    // "module": "esnext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
@@ -13,4 +15,15 @@
   "exclude": ["node_modules"]
 }
 
-
+// {
+//   "compilerOptions": {
+//     "outDir": "./build/",
+//     "noImplicitAny": true,
+//     // "module": "es6",
+//     "module": "commonjs",
+//     "target": "es5",
+//     "jsx": "react",
+//     "allowJs": true,
+//     "lib": ["es6", "dom", "es2017"],
+//     "allowSyntheticDefaultImports": true
+//   }

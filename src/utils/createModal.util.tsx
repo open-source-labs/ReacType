@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleModal from '../components/SimpleModal.tsx';
+import SimpleModal from '../components/SimpleModal';
 
 type Props = {
   closeModal: any;
@@ -20,7 +20,7 @@ const createModal = ({
   secBtnAction = null,
   secBtnLabel = null,
   children = null,
-  open = true,
+  open = true
 }: Props) => (
   <SimpleModal
     open={open}

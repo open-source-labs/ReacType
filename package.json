@@ -14,6 +14,7 @@
     "url": "https://github.com/team-reactype/ReacType"
   },
   "build": {
+
     "appId": "com.team-reactype.reactype",
     "copyright": "Copyright © 2018",
     "linux": {
@@ -97,7 +98,6 @@
     "konva": "^4.1.4",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
-    "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-d3-tree": "^1.12.3",
@@ -128,7 +128,7 @@
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "electron": "^2.0.7",
+    "electron": "^2.0.18",
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",

@@ -1,4 +1,8 @@
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces.ts';
+import {
+  ComponentInt,
+  ChildInt,
+  ApplicationStateInt
+} from '../utils/interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -22,7 +26,7 @@ import {
   ADD_PROP,
   DELETE_PROP,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
+  UPDATE_CHILDREN_SORT
 } from '../actionTypes';
 
 import {
@@ -41,7 +45,7 @@ import {
   addProp,
   deleteProp,
   updateHtmlAttr,
-  updateChildrenSort,
+  updateChildrenSort
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
@@ -56,11 +60,11 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400,
+    height: 400
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
+  focusChildId: 0
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -70,14 +74,14 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550,
+    height: 550
   },
   childType: null,
   childSort: 0,
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null,
+  HTMLInfo: null
 };
 
 const initialApplicationState: ApplicationStateInt = {
@@ -92,7 +96,7 @@ const initialApplicationState: ApplicationStateInt = {
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
-  loading: false,
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -104,7 +108,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
