@@ -1,17 +1,24 @@
 import {
-  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
-} from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+  ComponentInt,
+  ComponentsInt,
+  ChildInt,
+  ChildrenInt,
+  PropInt
+} from './Interfaces';
+import cloneDeep from './cloneDeep';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+const componentRender = (
+  component: ComponentInt,
+  components: ComponentsInt
+) => {
   const {
     childrenArray,
     title,
-    props,
+    props
   }: {
-  childrenArray: ChildrenInt;
-  title: string;
-  props: PropInt[];
+    childrenArray: ChildrenInt;
+    title: string;
+    props: PropInt[];
   } = component;
 
   function typeSwitcher(type: string) {
@@ -54,7 +61,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
     if (child.childType === 'HTML') {
       const keys: string[] = Object.keys(child.HTMLInfo);
-      return keys.map(key => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`).join(' ');
+      return keys
+        .map((key) => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`)
+        .join(' ');
     }
     return '';
   }
@@ -63,7 +72,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     // TODO: debug localForage unhappiness to renable image imports
     // this shouldn't be needed, but some characters make localForage unhappy
     return element
-      .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+      .replace(/[a-z]+/gi, (word) => word[0].toUpperCase() + word.slice(1))
       .replace(/[-_\s0-9\W]+/gi, '');
   }
 
@@ -93,32 +102,40 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   return `
     import React from 'react';
     ${childrenArray
-    .filter(child => child.childType !== 'HTML')
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc: Array<string>, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
+      .filter((child) => child.childType !== 'HTML')
+      .map(
+        (child) =>
+          `import ${child.componentName} from './${child.componentName}.tsx'`
+      )
+      .reduce((acc: Array<string>, child) => {
+        if (!acc.includes(child)) {
+          acc.push(child);
+          return acc;
+        }
         return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')}
+      }, [])
+      .join('\n')}
     
     type Props = {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
+      ${props
+        .map((prop) => `${prop.key}: ${typeSwitcher(prop.type)}`)
+        .join('\n')}
     }
 
     const ${title} = (props: Props) => {
-      const {${props.map(el => el.key).join(',\n')}} = props
+      const {${props.map((el) => el.key).join(',\n')}} = props
       
       return (
         <div>
         ${cloneDeep(childrenArray)
-    .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
-    .map(
-      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
-    )
-    .join('\n')}
+          .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
+          .map(
+            (child: ChildInt) =>
+              `<${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child
+              )}/>`
+          )
+          .join('\n')}
         </div>
       );
     }
