@@ -1,9 +1,0 @@
-// ** Component specific action types
-export const UPDATE_CHILDREN: string = 'UPDATE_CHILDREN';
-export const REASSIGN_PARENT: string = 'REASSIGN_PARENT';
-export const SET_SELECTABLE_PARENTS: string = 'SET_SELECTABLE_PARENTS';
-export const OPEN_EXPANSION_PANEL: string = 'OPEN_EXPANSION_PANEL';
-export const MOVE_TO_TOP: string = 'MOVE_TO_TOP';
-export const MOVE_TO_BOTTOM: string = 'MOVE_TO_BOTTOM';
-export const DELETE_PROP: string = 'DELETE_PROP';
-export const ADD_PROP: string = 'ADD_PROP';
