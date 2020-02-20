@@ -51,7 +51,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
   handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
     let focChild: ChildInt = this.props.components
       .find((comp: ComponentInt) => comp.id === this.props.componentId)
-      .childrenArray.find((child: ChildInt) => child.childId === childId);
+      .children.find((child: ChildInt) => child.childId === childId);
 
     if (childId === -1) {
       focChild = this.props.components.find(
@@ -168,7 +168,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
           && childType === 'COMP'
           && components
             .find((comp: ComponentInt) => comp.title === childComponentName)
-            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
+            .children.filter((child: ChildInt) => child.childId !== -1)
             .map((grandchild: ChildInt, i: number) => (
               <GrandchildRectangle
                 key={i}

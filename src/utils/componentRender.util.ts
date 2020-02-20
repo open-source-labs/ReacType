@@ -1,17 +1,11 @@
-import {
-  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
-} from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+import { ComponentState, ChildState, Prop } from '../types/types';
+import {cloneDeep} from './index.util';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
-  const {
-    childrenArray,
-    title,
-    props,
-  }: {
-  childrenArray: ChildrenInt;
+const componentRender = (component: ComponentState, components: Component[]) => {
+  const { children, title, props } : {
+  children: ChildState[];
   title: string;
-  props: PropInt[];
+  props: Prop[];
   } = component;
 
   function typeSwitcher(type: string) {
@@ -45,11 +39,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
-  function propDrillTextGenerator(child: ChildInt) {
+  function propDrillTextGenerator(child: ChildState) {
     if (child.childType === 'COMP') {
       return components
         .find((c: any) => c.id === child.childComponentId)
-        .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
+        .props.map((prop: Prop) => `${prop.key}={${prop.value}}`)
         .join(' ');
     }
     if (child.childType === 'HTML') {
@@ -67,7 +61,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       .replace(/[-_\s0-9\W]+/gi, '');
   }
 
-  function componentNameGenerator(child: ChildInt) {
+  function componentNameGenerator(child: ChildState) {
     if (child.childType === 'HTML') {
       switch (child.componentName) {
         case 'Image':
@@ -92,7 +86,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   return `
     import React from 'react';
-    ${childrenArray
+    ${children
     .filter(child => child.childType !== 'HTML')
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
     .reduce((acc: Array<string>, child) => {
@@ -113,10 +107,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       
       return (
         <div>
-        ${cloneDeep(childrenArray)
-    .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
+        ${cloneDeep(children)
+    .sort((a: ChildState, b: ChildState) => a.childSort - b.childSort)
     .map(
-      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
+      (child: ChildState) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
     )
     .join('\n')}
         </div>

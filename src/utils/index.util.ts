@@ -20,7 +20,8 @@ export const updateArray = (array: any[], itemId: number, callback: any, update?
   return updatedArray;
 }
 
-export const removeFromArray = (array, itemId) => {
+export const removeFromArray = (array, itemId: number) => {
+  // ** filter out items that don't match the conditional below
   const updatedArray = array.filter((item) => {
     return item.id !== itemId;
   });
@@ -61,95 +62,3 @@ export const getColor = (): string => {
   const colors: string[] = ['#E27D60', '#E3AFBC', '#E8A87C', '#C38D9E', '#41B3A3', '#D12FA2', '#F64C72', '#DAAD86', '#8EE4AF', '#5CDB95','#7395AE', '#b90061','#AFD275', '#45A29E', '#D79922', '#C5CBE3', '#FFCB9A', '#E98074', '#8860D0', '#5AB9EA', '#5860E9', '#84CEEB', '#61892F'];
   return colors[Math.floor(Math.random() * colors.length)];
 }
-// state: ApplicationStateInt,
-  // { title, childType = '', HTMLInfo = {} }: { title: string; childType: string; HTMLInfo: object }
-
-export const addChild = (state, { title, childType = '', HTMLInfo = {} }) => {
-  const strippedTitle = title;
-
-  if (!childType) window.alert('addChild Error! no type specified');
-
-  const htmlElement = childType !== 'COMP' ? childType : null;
-  if (childType !== 'COMP') {
-    childType = 'HTML';
-  }
-
-  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
-  // we only add childrent (or do any action) to the focused omconent
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-
-  // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
-  let parentComponent;
-
-  // conditional if adding an HTML component
-  if (childType === 'COMP') {
-    parentComponent = state.components.find(comp => comp.title === title);
-  }
-
-  interface htmlElemPositionInt {
-    width: number;
-    height: number;
-  }
-
-  let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
-  if (childType === 'HTML') {
-    htmlElemPosition = getSize(htmlElement);
-    // if above function doesnt reutn anything, it means html element is not in our database
-    if (!htmlElemPosition.width) {
-      console.log(`Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`);
-      return;
-    }
-  }
-
-  const newPosition =
-    childType === 'COMP'
-      ? {
-          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
-          y: view.position.y + ((view.nextChildId * 16) % 150),
-          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
-          height: parentComponent.position.height - 1,
-        }
-      : {
-          x: view.position.x + view.nextChildId * 16,
-          y: view.position.y + view.nextChildId * 16,
-          width: htmlElemPosition.width,
-          height: htmlElemPosition.height,
-        };
-
-  const newChild: ChildInt = {
-    childId: view.nextChildId,
-    childSort: view.nextChildId,
-    childType,
-    childComponentId: childType === 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
-    componentName: strippedTitle,
-    position: newPosition,
-    color: null, // parentComponent.color, // only relevant fot children of type COMPONENT
-    htmlElement, // only relevant fot children of type HTML
-    HTMLInfo,
-  };
-
-  const compsChildrenArr = [...view.childrenArray, newChild];
-
-  const component = {
-    ...view,
-    childrenArray: compsChildrenArr,
-    focusChildId: newChild.childId,
-    nextChildId: view.nextChildId + 1,
-  };
-
-  const components = [
-    ...state.components.filter(comp => {
-      if (comp.title !== view.title) return comp;
-    }),
-    component,
-  ];
-
-  return {
-    ...state,
-    components,
-    focusChild: newChild,
-    focusComponent: component, // refresh the focus component so we have the new child
-  };
-};
-
-

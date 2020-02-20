@@ -4,6 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import InputLabel from '@material-ui/core/InputLabel';
+import Switch from '@material-ui/core/Switch';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
@@ -18,23 +22,25 @@ const LeftColExpansionPanel = (props: any) => {
     focusComponent,
     component,
     addChild,
+    toggleExpansionPanel,
     changeFocusComponent,
+    updateComponent,
     selectableChildren,
     components,
     deleteComponent,
   } = props;
-  const { title, id, color } = component;
+  const { title, id, color, expanded, stateful, children } = component;
 
-  function isFocused() {
-    return focusComponent.id === id ? 'focused' : '';
-  }
+  // function isFocused() {
+  //   return focusComponent.id === id ? 'focused' : '';
+  // }
 
   return (
     <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
+          style={!expanded ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
         >
           <Grid item xs={12} style={{ color: 'red' }}>
             <List style={{ color: 'red' }}>
@@ -42,14 +48,15 @@ const LeftColExpansionPanel = (props: any) => {
                 button
                 style={{ color: 'red' }}
                 onClick={() => {
-                  changeFocusComponent({ title });
+                  // changeFocusComponent({ title });
+                  toggleExpansionPanel(id);
                 }}
               >
                 <ListItemText
                   disableTypography
                   className={classes.light}
                   primary={
-                    <Typography type="body2" style={{ color }}>
+                    <Typography type="body2" style={{ color, fontSize: '20px', paddingBottom: '0px' }}>
                       {title}
                     </Typography>
                   }
@@ -58,20 +65,67 @@ const LeftColExpansionPanel = (props: any) => {
               </ListItem>
             </List>
           </Grid>
-          {id === 1 || !isFocused() ? (
+          {!expanded? (
             <div />
           ) : (
             <Fragment>
+              <div className={classes.margin}>
+                <InputLabel 
+                  className={classes.light} 
+                  htmlFor='stateful'
+                  style={{
+                    color: '#D3D3D3',
+                    marginBottom: '10px',
+                    marginTop: '0px',
+                    marginLeft: '11px',
+                    padding: '0px',
+                    fontSize: '18px',
+                  }}
+                >State?</InputLabel>
+                <Switch
+                  checked={stateful}
+                  onChange={(e) => updateComponent(id, { stateful: e.target.checked })}
+                  value='stateful'
+                  color='primary'
+                  id='stateful'
+                />
+              </div>
+              <div className={classes.margin}>
+                <InputLabel 
+                  id="label" 
+                  className={classes.light}
+                  style={{
+                    color: '#D3D3D3',
+                    marginBottom: '10px',
+                    marginTop: '0px',
+                    marginLeft: '11px',
+                    padding: '0px',
+                    fontSize: '18px',
+                  }}>
+                    Component Type</InputLabel>
+                <Select 
+                  id="select" 
+                  value="class"
+                  className={classes.light}
+                  style={{
+                    color: '#D3D3D3',
+                    marginBottom: '10px',
+                    marginTop: '0px',
+                    marginLeft: '11px',
+                    padding: '0px',
+                    fontSize: '18px',
+                  }}>
+                    <MenuItem value="class">Class</MenuItem>
+                    <MenuItem value="functional">Functional</MenuItem>
+                </Select>
+              </div>
               <Button
                 variant="text"
                 size="small"
                 color="default"
                 aria-label="Delete"
                 className={classes.margin}
-                onClick={() => deleteComponent({
-                  componentId: id,
-                  stateComponents: components,
-                })
+                onClick={() => deleteComponent(id)
                 }
                 style={{
                   color: '#D3D3D3',
@@ -90,10 +144,10 @@ const LeftColExpansionPanel = (props: any) => {
       </Grid>
 
       <Grid item xs={3}>
-        {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
+        {expanded || children.includes(id) ? (
           <div />
         ) : (
-          <Tooltip title="add as child" aria-label="add as child" placement="left">
+          <Tooltip title="Add Child" aria-label="Add Child" placement="left">
             <IconButton
               aria-label="Add"
               onClick={() => {

@@ -29,7 +29,7 @@ function findAncestors(
 
   for (let i = 0; i < components.length; i++) {
     if (componentsToCheck.includes(components[i].id)) {
-      const myChildren = components[i].childrenArray.map(
+      const myChildren = components[i].children.map(
         (child: ChildInt) => child.childComponentId,
       );
 

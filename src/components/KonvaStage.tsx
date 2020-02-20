@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
 import Rectangle from './Rectangle.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
+import { cloneDeep } from '../utils/index.util';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
@@ -47,7 +47,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       (comp: ComponentInt) => comp.id === focusComponent.id,
     );
 
-    const childrenArr = component.childrenArray.filter((child: ChildInt) => child.childId !== -1);
+    const childrenArr = component.children.filter((child: ChildInt) => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
 

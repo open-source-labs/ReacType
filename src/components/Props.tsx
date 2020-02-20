@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/applicationActions.ts';
+import { addProp, deleteProp } from '../actions/actions.ts';
 import DataTable from './DataTable.tsx';
 import { ComponentInt } from '../utils/interfaces.ts';
 
@@ -81,7 +81,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
+  focusComponent: store.application.focusComponent,
 });
 
 const availablePropTypes = {

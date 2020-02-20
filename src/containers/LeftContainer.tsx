@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TextField from '@material-ui/core/TextField';
@@ -11,22 +11,24 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
-import * as actions from '../actions/applicationActions.ts';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
+import * as actions from '../actions/actions';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
-import createModal from '../utils/createModal.util.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
+import createModal from '../utils/createModal.util';
+import { cloneDeep } from '../utils/index.util';
 
 const IPC = require('electron').ipcRenderer;
 
-interface PropsInt {
+type Props = {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
   classes: any;
   addComponent: any;
   addChild: any;
+  updateComponent: any;
+  toggleExpansionPanel: any;
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
@@ -34,7 +36,7 @@ interface PropsInt {
   deleteAllData: any;
 }
 
-interface StateInt {
+type State = {
   componentName: string;
   modal: any;
   genOptions: Array<string>;
@@ -42,7 +44,10 @@ interface StateInt {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
+  toggleExpansionPanel: (id: number) => dispatch(actions.toggleExpansionPanel(id)),
+  addComponent: (title: string) => dispatch(actions.addComponent(title)),
+  updateComponent: (id: number, update: {}) => dispatch(actions.updateComponent(id, update)),
+  deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
   addChild: ({
     title,
     childType,
@@ -54,13 +59,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({
-    componentId,
-    stateComponents,
-  }: {
-  componentId: number;
-  stateComponents: ComponentsInt;
-  }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   createApp: ({
     path,
@@ -81,10 +79,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   ),
 });
 
-class LeftContainer extends Component<PropsInt, StateInt> {
+class LeftContainer extends Component<Props, State> {
   state: StateInt;
-
-  constructor(props: PropsInt) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -93,6 +90,9 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       genOptions: ['Export components', 'Export components with application files'],
       genOption: 0,
     };
+
+    // ** create a ref for the material ui input component to have access to it's attributes
+    this.componentNameRef = createRef<HTMLInputElement>();
 
     IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components } = this.props;
@@ -103,19 +103,12 @@ class LeftContainer extends Component<PropsInt, StateInt> {
         genOption,
       });
     });
-  }
+}
 
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
       componentName: newValue,
-    });
-  };
-
-  handleAddComponent = () => {
-    this.props.addComponent({ title: this.state.componentName });
-    this.setState({
-      componentName: '',
     });
   };
 
@@ -189,9 +182,11 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     const {
       components,
       deleteComponent,
+      updateComponent,
       focusComponent,
       classes,
       addChild,
+      toggleExpansionPanel,
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
@@ -202,17 +197,19 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component: ComponentInt, i: number) => (
         <LeftColExpansionPanel
-          key={component.id}
+          key={`component-${component.id}`}
           index={i}
           id={component.id}
           component={component}
+          components={components}
+          updateComponent={updateComponent}
+          toggleExpansionPanel={toggleExpansionPanel}
           focusComponent={focusComponent}
           addChild={addChild}
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
           selectableChildren={selectableChildren}
           deleteComponent={deleteComponent}
-          components={components}
         />
       ));
 
@@ -220,17 +217,20 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       <div className="column left">
         <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
           <Grid item xs={8}>
-            <TextField
+            <TextField ref={this.componentNameRef}
               id="title-input"
-              label="Add class component"
-              placeholder="Name of component"
+              label="Add Component"
+              placeholder="Component Name"
               margin="normal"
               autoFocus
               onChange={this.handleChange}
-              onKeyPress={(ev) => {
-                if (ev.key === 'Enter') {
-                  this.handleAddComponent();
-                  ev.preventDefault();
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  const { value } = this.componentNameRef.current.props;
+                  this.props.addComponent(value);
+                  this.setState({
+                    componentName: '',
+                  });
                 }
               }}
               value={componentName}
@@ -250,7 +250,13 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               color="secondary"
               className={classes.button}
               aria-label="Add"
-              onClick={this.handleAddComponent}
+              onClick={() => {
+                const { value } = this.componentNameRef.current.props;
+                this.props.addComponent(value);
+                this.setState({
+                  componentName: '',
+                });
+              }}
               disabled={!this.state.componentName}
             >
               <AddIcon />

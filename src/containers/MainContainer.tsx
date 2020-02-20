@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import BottomPanel from '../components/BottomPanel.tsx';
-import theme from '../components/theme.ts';
-import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/applicationActions';
+import theme from '../utils/theme.ts';
+import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/actions';
 import KonvaStage from '../components/KonvaStage.tsx';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
 
@@ -59,36 +59,47 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
-  focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components,
+  focusComponent: store.application.focusComponent,
+  focusChild: store.application.focusChild,
+  components: store.application.components,
 });
 
 class MainContainer extends Component<PropsInt, StateInt> {
-  state = {
-    draggable: false,
-    toggleClass: true,
-    scaleX: 1,
-    scaleY: 1,
-    x: 0,
-    y: 0,
-    modal: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      draggable: false,
+      toggleClass: true,
+      scaleX: 1,
+      scaleY: 1,
+      x: 0,
+      y: 0,
+      modal: '',
+    };
+  }
 
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
-    const {
-      components,
-      handleTransformation,
-      focusComponent,
-      focusChild,
-      changeFocusChild,
-      changeComponentFocusChild,
-      deleteChild,
-      classes,
-    } = this.props;
+    const { components, handleTransformation, focusComponent, focusChild,changeFocusChild, changeComponentFocusChild, deleteChild, classes } = this.props;
     const { main }: { main: HTMLDivElement } = this;
-
+    const comp = {
+      id: 0,
+      stateful: false,
+      title: '',
+      expanded: false,
+      color: null,
+      props: [],
+      nextPropId: 0,
+      position: {
+        x: 25,
+        y: 25,
+        width: 800,
+        height: 550,
+      },
+      children: [],
+      nextChildId: 1,
+      focusChildId: 0,
+    }
     return (
       <MuiThemeProvider theme={theme}>
         <div className="main-container">

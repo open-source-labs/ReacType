@@ -1,38 +1,54 @@
-// import {
-//   ComponentInt, ComponentsInt, PropInt, ChildInt,
-// } from '../utils/Interfaces.ts';
-
-import * as types from '../types/actionTypes';
 import { createComponent } from '../utils/reducer.util';
+import { ComponentState } from '../types/types';
+import * as types from '../types/actionTypes';
+import { loadState } from '../localStorage.js';
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util';
 
-// import { loadState } from '../../localStorage';
-// import createFiles from '../utils/createFiles.util.ts';
-// import createApplicationUtil from '../utils/createApplication.util.ts';
+// ** ACTION CREATORS ** \\
 
-export const loadInitData = () => (dispatch: any) => {
-  loadState().then((data: any) => dispatch({
-    type: LOAD_INIT_DATA,
-    payload: {
-      data: data ? data.workspace : {},
-    },
-  }));
+// ** openExpansionPanel just takes the id of the current component and toggles the expanded value to either true or false
+export const toggleExpansionPanel = (id: number) => ({
+  type: types.TOGGLE_EXPANSION_PANEL,
+  payload: { id },
+});
+
+// ! Redux thunk action
+export const loadInitData = () => {
+  return (dispatch: any) => {
+    loadState().then((data: any) => dispatch({
+      type: types.LOAD_INIT_DATA,
+      payload: {
+        data: data ? data.application : {},
+      },
+    }));
+  }
 };
 
+// ! Redux thunk action
 // ** addComponent waits for createComponent to dispatch then createComponent returns a promise with the new component object created
-export const addComponent = (title) => {
+export const addComponent = (title: string) => {
   return (dispatch, getState) => {
-    const componentId = getState().application.components.length;
-    dispatch(createComponent(componentId, title))
-    .then((component) => {
-      dispatch({ 
-        type: types.ADD_COMPONENT, 
-        payload: { component } 
-      })
-    });
+    // ** grab state from our reducer to see how many components currently exist in our array
+    const appComponentState = getState().application.components;
+    // ** Conditionally assigning a variable componentId. If any components exist in the array find the last component's id and increment it else initialize at 1.
+    const componentId = appComponentState.length ? appComponentState[appComponentState.length - 1].id + 1 : 1;
+    dispatch(createComponent(componentId, title, appComponentState))
+    .then((component: ComponentState) => {
+      // ** the dispatch to createComponent will return a promise. The promise will return either the new createdComponent or just the generic state object (which will have an id of 0 by default)
+      if (component.id !== 0) {
+        dispatch({ 
+          type: types.ADD_COMPONENT, 
+          payload: { component } 
+        });
+      }
+    })
+    .catch((err: Error) => console.log(err));
   };
 }
 
-export const updateComponent = (id, update) => ({
+// ** updateComponent updates one of the values that can be updated from a component
+export const updateComponent = (id: number, update: {}) => ({
   type: types.UPDATE_COMPONENT,
   payload: {
     id,
@@ -40,215 +56,187 @@ export const updateComponent = (id, update) => ({
   }
 });
 
-export const deleteComponent = (id) => ({
+// ** deleteComponent deletes a component from our global state component array
+export const deleteComponent = (id: number) => ({
   type: types.DELETE_COMPONENT,
   payload: { id }
 });
 
-// export const addChild = ({
-//   title,
-//   childType,
-//   HTMLInfo,
-// }: {
-// title: string;
-// childType: string;
-// HTMLInfo: object;
-// }) => (dispatch: any) => {
-//   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
-// };
+export const addChild = ({
+  title,
+  childType,
+  HTMLInfo,
+}: {
+title: string;
+childType: string;
+HTMLInfo: object;
+}) => (dispatch: any) => {
+  dispatch({ type: types.ADD_CHILD, payload: { title, childType, HTMLInfo } });
+};
 
-// export const deleteChild = ({}) => (dispatch: any) => {
-//   // with no payload, it will delete focusd child
-//   dispatch({ type: DELETE_CHILD, payload: {} });
-// };
+export const deleteChild = ({}) => (dispatch: any) => {
+  // with no payload, it will delete focusd child
+  dispatch({ type: types.DELETE_CHILD, payload: {} });
+};
 
-// export const deleteComponent = ({
-//   componentId,
-//   stateComponents,
-// }: {
-// componentId: number;
-// stateComponents: ComponentsInt;
-// }) => (dispatch: any) => {
-//   // find all places where the "to be deleted" is a child and do what u gotta do
-//   stateComponents.forEach((parent: ComponentInt) => {
-//     parent.childrenArray
-//       .filter((child: ChildInt) => child.childComponentId === componentId)
-//       .forEach((child: ChildInt) => {
-//         dispatch({
-//           type: DELETE_CHILD,
-//           payload: {
-//             parentId: parent.id,
-//             childId: child.childId,
-//             calledFromDeleteComponent: true,
-//           },
-//         });
-//       });
-//   });
+export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: any) => {
+  dispatch({ type: types.CHANGE_FOCUS_COMPONENT, payload: { title } });
+};
 
-  // change focus to app
-//   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
-//   // after taking care of the children delete the component
-//   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
-// };
+// make sure childId is being sent in
+export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: any) => {
+  dispatch({ type: types.CHANGE_FOCUS_CHILD, payload: { childId } });
+};
 
-// export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: any) => {
-//   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
-// };
+export const changeComponentFocusChild = ({
+  componentId,
+  childId,
+}: {
+componentId: number;
+childId: number;
+}) => (dispatch: any) => {
+  dispatch({
+    type: types.CHANGE_COMPONENT_FOCUS_CHILD,
+    payload: { componentId, childId },
+  });
+};
 
-// // make sure childId is being sent in
-// export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: any) => {
-//   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
-// };
+export const exportFiles = ({
+  components,
+  path,
+  appName,
+  exportAppBool,
+}: {
+components: ComponentState;
+path: string;
+appName: string;
+exportAppBool: boolean;
+}) => (dispatch: any) => {
+  // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
+  dispatch({
+    type: types.EXPORT_FILES,
+  });
 
-// export const changeComponentFocusChild = ({
-//   componentId,
-//   childId,
-// }: {
-// componentId: number;
-// childId: number;
-// }) => (dispatch: any) => {
-//   dispatch({
-//     type: CHANGE_COMPONENT_FOCUS_CHILD,
-//     payload: { componentId, childId },
-//   });
-// };
+  createFiles(components, path, appName, exportAppBool)
+    .then(dir => dispatch({
+      type: types.EXPORT_FILES_SUCCESS,
+      payload: { status: true, dir: dir[0] },
+    }))
+    .catch(err => dispatch({
+      type: types.EXPORT_FILES_ERROR,
+      payload: { status: true, err },
+    }));
+};
 
-// export const exportFiles = ({
-//   components,
-//   path,
-//   appName,
-//   exportAppBool,
-// }: {
-// components: ComponentsInt;
-// path: string;
-// appName: string;
-// exportAppBool: boolean;
-// }) => (dispatch: any) => {
-//   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
-//   dispatch({
-//     type: EXPORT_FILES,
-//   });
+export const handleClose = () => ({
+  type: types.HANDLE_CLOSE,
+  payload: false,
+});
 
-//   createFiles(components, path, appName, exportAppBool)
-//     .then(dir => dispatch({
-//       type: EXPORT_FILES_SUCCESS,
-//       payload: { status: true, dir: dir[0] },
-//     }))
-//     .catch(err => dispatch({
-//       type: EXPORT_FILES_ERROR,
-//       payload: { status: true, err },
-//     }));
-// };
+export const handleTransform = (
+  componentId: number,
+  childId: number,
+  {
+    x, y, width, height,
+  }: { x: number; y: number; width: number; height: number },
+) => ({
+  type: types.HANDLE_TRANSFORM,
+  payload: {
+    componentId,
+    childId,
+    x,
+    y,
+    width,
+    height,
+  },
+});
 
-// export const handleClose = () => ({
-//   type: HANDLE_CLOSE,
-//   payload: false,
-// });
-
-// export const handleTransform = (
-//   componentId: number,
-//   childId: number,
-//   {
-//     x, y, width, height,
-//   }: { x: number; y: number; width: number; height: number },
-// ) => ({
-//   type: HANDLE_TRANSFORM,
-//   payload: {
-//     componentId,
-//     childId,
-//     x,
-//     y,
-//     width,
-//     height,
-//   },
-// });
-
-// export const createApplication = ({
-//   path,
-//   components = [],
-//   genOption,
-//   appName = 'reactype_app',
-//   exportAppBool,
-// }: {
-// path: string;
-// components: ComponentsInt;
-// genOption: number;
-// appName: string;
-// exportAppBool: boolean;
-// }) => (dispatch: any) => {
-//   if (genOption === 0) {
-//     exportAppBool = false;
-//     dispatch(
-//       exportFiles({
-//         appName,
-//         path,
-//         components,
-//         exportAppBool,
-//       }),
-//     );
-//   } else if (genOption) {
-//     exportAppBool = true;
-//     dispatch({
-//       type: CREATE_APPLICATION,
-//     });
-//     createApplicationUtil({
-//       path,
-//       appName,
-//       genOption,
-//       // exportAppBool
-//     })
-//       .then(() => {
-//         dispatch({
-//           type: CREATE_APPLICATION_SUCCESS,
-//         });
-//         dispatch(
-//           exportFiles({
-//             appName,
-//             path,
-//             components,
-//             exportAppBool,
-//           }),
-//         );
-//       })
-//       .catch(err => dispatch({
-//         type: CREATE_APPLICATION_ERROR,
-//         payload: { status: true, err },
-//       }));
-//   }
-// };
+export const createApplication = ({
+  path,
+  components = [],
+  genOption,
+  appName = 'reactype_app',
+  exportAppBool,
+}: {
+path: string;
+components: ComponentState;
+genOption: number;
+appName: string;
+exportAppBool: boolean;
+}) => (dispatch: any) => {
+  if (genOption === 0) {
+    exportAppBool = false;
+    dispatch(
+      exportFiles({
+        appName,
+        path,
+        components,
+        exportAppBool,
+      }),
+    );
+  } else if (genOption) {
+    exportAppBool = true;
+    dispatch({
+      type: types.CREATE_APPLICATION,
+    });
+    createApplicationUtil({
+      path,
+      appName,
+      genOption,
+      // exportAppBool
+    })
+      .then(() => {
+        dispatch({
+          type: types.CREATE_APPLICATION_SUCCESS,
+        });
+        dispatch(
+          exportFiles({
+            appName,
+            path,
+            components,
+            exportAppBool,
+          }),
+        );
+      })
+      .catch(err => dispatch({
+        type: types.CREATE_APPLICATION_ERROR,
+        payload: { status: true, err },
+      }));
+  }
+};
 
 // export const openExpansionPanel = (component: ComponentInt) => ({
 //   type: OPEN_EXPANSION_PANEL,
 //   payload: { component },
 // });
 
-// export const deleteAllData = () => ({
-//   type: DELETE_ALL_DATA,
-// });
+export const deleteAllData = () => ({
+  type: types.DELETE_ALL_DATA,
+});
 
-// export const deleteProp = (propId: number) => (dispatch: any) => {
-//   dispatch({ type: DELETE_PROP, payload: propId });
-// };
+export const deleteProp = (propId: number) => (dispatch: any) => {
+  dispatch({ type: types.DELETE_PROP, payload: propId });
+};
 
-// export const addProp = (prop: PropInt) => ({
-//   type: ADD_PROP,
-//   payload: { ...prop },
-// });
+export const addProp = (prop: PropInt) => ({
+  type: types.ADD_PROP,
+  payload: { ...prop },
+});
 
-// export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-//   dispatch: any,
-// ) => {
-//   dispatch({
-//     type: UPDATE_HTML_ATTR,
-//     payload: { attr, value },
-//   });
-// };
+export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
+  dispatch: any,
+) => {
+  dispatch({
+    type: types.UPDATE_HTML_ATTR,
+    payload: { attr, value },
+  });
+};
 
-// export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
-//   dispatch: any,
-// ) => {
-//   dispatch({
-//     type: UPDATE_CHILDREN_SORT,
-//     payload: { newSortValues },
-//   });
-// };
+export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
+  dispatch: any,
+) => {
+  dispatch({
+    type: types.UPDATE_CHILDREN_SORT,
+    payload: { newSortValues },
+  });
+};

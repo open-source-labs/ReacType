@@ -107,7 +107,7 @@ LEFT COLUMN
   padding: 1%;
 }
 
-.clear-workspace {
+.clear-application {
   top: 96%;
   position: sticky !important;
   z-index: 1;

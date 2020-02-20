@@ -1,50 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.tsx';
+// import LinearProgress from '@material-ui/core/LinearProgress';
+import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/applicationActions.ts';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
+import theme from '../utils/theme';
+import { loadInitData } from '../actions/actions.ts';
+import { ComponentState } from '../utils/index.util';
 
 type Props = {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
+  components: ComponentState[];
+  focusComponent: ComponentState;
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
   loadInitData: any;
 };
 
-const mapStateToProps = (store: any) => ({
-  components: store.workspace.components,
-  totalComponents: store.workspace.totalComponents,
-  focusComponent: store.workspace.focusComponent,
-  loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren,
+const mapStateToProps = (state: any) => ({
+  components: state.application.components,
+  totalComponents: state.application.totalComponents,
+  focusComponent: state.application.focusComponent,
+  loading: state.application.loading,
+  selectableChildren: state.application.selectableChildren,
 });
 
 const mapDispatchToProps = { loadInitData };
 
 class AppContainer extends Component<Props> {
-  state = {
-    width: 25,
-    rightColumnOpen: true,
-  };
+  constructor(props) {
+    super(props);
+    // ** state here to create a collapsable right column where bottom panel currently lives
+    this.state = {
+      width: 25,
+      rightColumnOpen: true,
+    };
+  }
 
   componentDidMount() {
-    this.props.loadInitData();
+    // this.props.loadInitData();
   }
 
   render(): JSX.Element {
-    const {
-      components, focusComponent, loading, selectableChildren, totalComponents,
-    } = this.props;
-    // const { width, rightColumnOpen } = this.state;
-
-    // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
+    // ** destructuring some state props to prop drill into left and main container
+    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
     return (
+      // ** MuiThemeProvider allows a theme to be passed into material ui
       <MuiThemeProvider theme={theme}>
         <div className="app-container">
           <LeftContainer
@@ -53,8 +54,8 @@ class AppContainer extends Component<Props> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          <MainContainer components={components} />
-          {loading ? (
+          {/* <MainContainer components={components} /> */}
+          {/* {loading ? (
             <div
               style={{
                 alignSelf: 'flex-end',
@@ -64,7 +65,7 @@ class AppContainer extends Component<Props> {
             >
               <LinearProgress color="secondary" />
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       </MuiThemeProvider>
     );

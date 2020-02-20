@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteCompProp, addCompProp } from '../actions/applicationActions.ts';
+import { handleClose, deleteCompProp, addCompProp } from '../actions/actions.ts';
 import BottomTabs from './BottomTabs.tsx';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const mapStateToProps = (store: any) => ({
-  focusChild: store.workspace.focusChild,
-  components: store.workspace.components,
+  focusChild: store.application.focusChild,
+  components: store.application.components,
 });
 
 interface PropsInt {

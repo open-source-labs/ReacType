@@ -13,7 +13,7 @@ export type Position = {
   height: number;
 }
 
-export type Child = {
+export type ChildState = {
   childId: number;
   childSort: number;
   childType: string;
@@ -21,7 +21,7 @@ export type Child = {
   componentName: string;
   position: Position;
   color: string | null; // maybe optional instead, look up null vs undefined
-  htmlElement: string | null; // maybe should be optional instead
+  htmlElement? : string; // maybe should be optional instead
   HTMLInfo: { [index: string]: string }; // replace with HTMLinfo specifics
 }
 
@@ -32,9 +32,9 @@ export type ApplicationState = {
   focusComponent: ComponentState | {};
   selectableChildren: number[];
   ancestors: number[];
-  initialApplicationFocusChild: Child;
-  focusChild: Child;
-  components: ComponentState;
+  applicationFocusChild: ChildState | {};
+  focusChild: ChildState | {};
+  components: ComponentState[];
   appDir: string;
   loading: boolean;
 }
@@ -46,10 +46,9 @@ export type ComponentState = {
   expanded: boolean;
   color: string;
   props: Prop[];
-  parentId: number[];
   nextPropId: number;
   position: Position;
-  childrenArray: Child[];
+  children: ChildState[];
   nextChildId: number;
   focusChildId: number;
 }

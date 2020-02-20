@@ -100,7 +100,7 @@ class BottomTabs extends Component<PropsInt> {
     const component = components.find(comp => comp.id === componentId);
     const tree = { name: component.title, attributes: {}, children: [] };
 
-    component.childrenArray.forEach((child) => {
+    component.children.forEach((child) => {
       if (child.childType === 'COMP') {
         tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
@@ -122,7 +122,7 @@ class BottomTabs extends Component<PropsInt> {
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+    const htmlAttribCount = focusComponent.children.filter(child => child.childType === 'HTML')
       .length;
 
     return (
