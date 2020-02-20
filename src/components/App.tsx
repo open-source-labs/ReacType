@@ -3,6 +3,7 @@ import '../public/styles/style.css';
 import AppContainer from '../containers/AppContainer';
 
 export const App: React.SFC = () => (
+  //renders the main App Container component
   <div className="app">
     <div>
       <header style={{ height: '40px', width: '100%' }}>ReacType</header>
