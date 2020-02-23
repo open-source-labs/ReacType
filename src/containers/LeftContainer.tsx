@@ -209,7 +209,7 @@ class LeftContainer extends Component<Props, State> {
       ));
 
     return (
-      <div className="column left" style={{ backgroundColor: '#303030' }}>
+      <div className="column left-container" style={{ backgroundColor: '#303030' }}>
         <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
           <Grid item xs={8}>
             <TextField ref={this.componentNameRef}

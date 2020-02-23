@@ -31,10 +31,6 @@ const LeftColExpansionPanel = (props: any) => {
   } = props;
   const { title, id, color, expanded, stateful, children } = component;
 
-  // function isFocused() {
-  //   return focusComponent.id === id ? 'focused' : '';
-  // }
-
   return (
     <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
@@ -144,7 +140,8 @@ const LeftColExpansionPanel = (props: any) => {
       </Grid>
 
       <Grid item xs={3}>
-        {expanded || children.includes(id) ? (
+        {/* checks to see if the current component pane is expanded, if the children of the current component has the id of any of the current components or if every component is currently not expanded */ }
+        {expanded || children.find((childId: number) => childId === id) || components.every((comp) => !comp.expanded) ? (
           <div />
         ) : (
           <Tooltip title="Add Child" aria-label="Add Child" placement="left">
