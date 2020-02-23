@@ -37,18 +37,18 @@ class Rectangle extends Component<PropsInt, StateInt> {
     image: null,
   };
 
-  getComponentColor(componentId: number) {
+  getComponentColor = (componentId: number) => {
     const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
     return color;
   }
 
-  getPseudoChild() {
+  getPseudoChild = () => {
     return this.props.components.find(
       (comp: ComponentInt) => comp.id === this.props.childComponentId,
     );
   }
 
-  handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
+  handleResize = (componentId: number, childId: number, target: any, blockSnapSize: number) => {
     let focChild: ChildInt = this.props.components
       .find((comp: ComponentInt) => comp.id === this.props.componentId)
       .children.find((child: ChildInt) => child.childId === childId);
@@ -68,7 +68,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId: number, childId: number, target: any, blockSnapSize: any) {
+  handleDrag = (componentId: number, childId: number, target: any, blockSnapSize: any) => {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
