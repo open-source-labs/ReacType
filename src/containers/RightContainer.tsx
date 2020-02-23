@@ -30,10 +30,10 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 // ** RightContainer is now a functional component since it doesn't track state internally nor have any need for specific class methods
-const RightContainer: React.FC = (props: Props) => {
+const RightContainer: React.FC<Props> = (props) => {
   const { components, focusComponent, deleteProp, addProp, focusChild } = props;
   return (
-    <div className="column right" style={{ backgroundColor: '#303030' }}>
+    <div className="column right-container" style={{ backgroundColor: '#303030' }}>
       <RightTabs
         components={components}
         focusComponent={focusComponent}

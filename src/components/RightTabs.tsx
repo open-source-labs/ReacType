@@ -3,15 +3,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
-import Props from './Props.tsx';
-import HtmlAttr from './HtmlAttr.tsx';
-import CodePreview from './CodePreview.tsx';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import Props from './Props';
+import HtmlAttr from './HtmlAttr';
+import CodePreview from './CodePreview';
+import { ComponentState, ChildState } from '../types/types';
 
 interface PropsInt {
-  focusChild: ChildInt;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
+  focusChild: ChildState;
+  components: ComponentState[];
+  focusComponent: ComponentState;
   deleteProp: any;
   addProp: any;
   classes: any;
@@ -26,10 +26,8 @@ interface TreeInt {
 const styles = (theme: any): any => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   tabsRoot: {
     borderBottom: '0.5px solid #424242',
@@ -76,42 +74,51 @@ const styles = (theme: any): any => ({
   },
 });
 
-class BottomTabs extends Component<PropsInt> {
+class RightTabs extends Component<PropsInt> {
   state = {
     value: 0,
   };
 
   componentDidMount() {
     // dynamically center the tree based on the div size
-    const dimensions = this.treeWrapper.getBoundingClientRect();
-    this.setState({
-      translate: {
-        x: dimensions.width / 12,
-        y: dimensions.height / 2.2,
-      },
-    });
+    // const dimensions = this.treeWrapper.getBoundingClientRect();
+    // this.setState({
+    //   translate: {
+    //     x: dimensions.width / 12,
+    //     y: dimensions.height / 2.2,
+    //   },
+    // });
   }
 
   handleChange = (event: any, value: number) => {
     this.setState({ value });
   };
 
-  generateComponentTree(componentId: number, components: ComponentsInt) {
-    const component = components.find(comp => comp.id === componentId);
-    const tree = { name: component.title, attributes: {}, children: [] };
+  isEmpty = (obj) => {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+}
 
-    component.children.forEach((child) => {
-      if (child.childType === 'COMP') {
-        tree.children.push(this.generateComponentTree(child.childComponentId, components));
-      } else {
-        tree.children.push({
-          name: child.componentName,
-          attributes: {},
-          children: [],
-        });
-      }
-    });
-    return tree;
+  generateComponentTree(componentId: number, components: ComponentState[]) {
+    if (components.length > 0) {
+      const component = components.find(comp => comp.id === componentId);
+      const tree = { name: component.title, attributes: {}, children: [] };
+
+      component.children.forEach((child) => {
+        if (child.childType === 'COMP') {
+          tree.children.push(this.generateComponentTree(child.childComponentId, components));
+        } else {
+          tree.children.push({
+            name: child.componentName,
+            attributes: {},
+            children: [],
+          });
+        }
+      });
+      return tree;
+    }
   }
 
   render() {
@@ -119,10 +126,9 @@ class BottomTabs extends Component<PropsInt> {
       classes, components, focusComponent, deleteProp, addProp, focusChild,
     } = this.props;
     const { value } = this.state;
-
     // display count on the tab. user can see without clicking into tab
-    const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.children.filter(child => child.childType === 'HTML')
+    const propCount = !this.isEmpty(focusComponent) && focusComponent.props.length;
+    const htmlAttribCount = !this.isEmpty(focusComponent) && focusComponent.children.filter(child => child.childType === 'HTML')
       .length;
 
     return (
@@ -158,52 +164,53 @@ class BottomTabs extends Component<PropsInt> {
             label="Component State"
           /> */}
         </Tabs>
-
-        {value === 0 && (
-          <div
-            id="treeWrapper"
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-            ref={node => (this.treeWrapper = node)}
-          >
-            <Tree
-              data={[this.generateComponentTree(focusComponent.id, components)]}
-              separation={{ siblings: 0.3, nonSiblings: 0.3 }}
-              transitionDuration={0}
-              translate={this.state.translate}
-              styles={{
-                nodes: {
-                  node: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                  leafNode: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                },
+        {!this.isEmpty(focusComponent) && (
+          {value === 0 && (
+            <div
+              id="treeWrapper"
+              style={{
+                width: '100%',
+                height: '100%',
               }}
-            />
-          </div>
-        )}
-        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
-        {value === 2 && <Props />}
-        {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-        {value === 3
-          && focusChild.childType !== 'HTML' && (
-            <p>Please select an HTML element to view attributes</p>
+              ref={node => (this.treeWrapper = node)}
+            >
+              <Tree
+                data={[this.generateComponentTree(focusComponent.id, components)]}
+                separation={{ siblings: 0.3, nonSiblings: 0.3 }}
+                transitionDuration={0}
+                translate={this.state.translate}
+                styles={{
+                  nodes: {
+                    node: {
+                      name: {
+                        fill: '#D3D3D3',
+                        stroke: '#D3D3D3',
+                        strokeWidth: 1,
+                      },
+                    },
+                    leafNode: {
+                      name: {
+                        fill: '#D3D3D3',
+                        stroke: '#D3D3D3',
+                        strokeWidth: 1,
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          )}
+          {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+          {value === 2 && <Props />}
+          {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
+          {value === 3
+            && focusChild.childType !== 'HTML' && (
+              <p>Please select an HTML element to view attributes</p>
+          )}
         )}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(BottomTabs);
+export default withStyles(styles)(RightTabs);
