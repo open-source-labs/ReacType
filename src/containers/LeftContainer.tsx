@@ -1,29 +1,21 @@
 import React, { Component, createRef } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Fab from '@material-ui/core/Fab';
+import { connect } from 'react-redux';
+import { TextField, Button, AddIcon, Grid, withStyles, GetAppIcon, List, ListItem, ListItemText, Fab } from '../utils/material.util';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
-import * as actions from '../actions/actions';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 import createModal from '../utils/createModal.util';
+import { ComponentState } from '../types/types';
 import { cloneDeep } from '../utils/index.util';
+import * as actions from '../actions/actions';
 
 const IPC = require('electron').ipcRenderer;
 
+// ** Left Container props definitions
 type Props = {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
+  components: ComponentState[];
+  focusComponent: ComponentState;
+  selectableChildren: number[];
   classes: any;
   addComponent: any;
   addChild: any;
@@ -32,44 +24,31 @@ type Props = {
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
-  createApp: any;
+  createApplication: any;
   deleteAllData: any;
 }
 
+// ** Left Container state definitions
 type State = {
   componentName: string;
   modal: any;
-  genOptions: Array<string>;
+  genOptions: string[];
   genOption: number;
 }
 
+// ** Redux state mapping to props
 const mapDispatchToProps = (dispatch: any) => ({
   toggleExpansionPanel: (id: number) => dispatch(actions.toggleExpansionPanel(id)),
   addComponent: (title: string) => dispatch(actions.addComponent(title)),
   updateComponent: (id: number, update: {}) => dispatch(actions.updateComponent(id, update)),
   deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
-  addChild: ({
-    title,
-    childType,
-    HTMLInfo,
-  }: {
-  title: string;
-  childType: string;
-  HTMLInfo: object;
+  addChild: ({ title, childType, HTMLInfo }: 
+    { title: string; childType: string; HTMLInfo: object;
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
   changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  createApp: ({
-    path,
-    components,
-    genOption,
-  }: {
-  path: string;
-  components: ComponentsInt;
-  genOption: number;
-  }) => dispatch(
-    actions.createApplication({
+  createApplication: ({ path, components, genOption }: { path: string; components: ComponentState; genOption: number; }) => dispatch(actions.createApplication({
       path,
       components,
       genOption,
@@ -80,7 +59,6 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 class LeftContainer extends Component<Props, State> {
-  state: StateInt;
   constructor(props: Props) {
     super(props);
 
@@ -94,17 +72,18 @@ class LeftContainer extends Component<Props, State> {
     // ** create a ref for the material ui input component to have access to it's attributes
     this.componentNameRef = createRef<HTMLInputElement>();
 
+    // ** IPC on is an Electron event listener method that takes a trigger and a callback function to fire
     IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
-      this.props.createApp({
+      this.props.createApplication({
         path,
         components,
         genOption,
       });
     });
 }
-
+  // ** the function that runs while the onChange event is fired on the component name input
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
@@ -112,8 +91,19 @@ class LeftContainer extends Component<Props, State> {
     });
   };
 
+  // ** this method adds a new ComponentPanel to the left container
+  addComponentPanel = () => {
+    const { value } = this.componentNameRef.current.props;
+    this.props.addComponent(value);
+    this.setState({
+      componentName: '',
+    });
+  }
+
+  // ** this method is used to close the modal from either the clearworkspace prompt or the chooseGenOptions prompt
   closeModal = () => this.setState({ modal: null });
 
+  // ** this method is used to clear the workspace in our application
   clearWorkspace = () => {
     this.setState({
       modal: createModal({
@@ -132,18 +122,21 @@ class LeftContainer extends Component<Props, State> {
     });
   };
 
+  // ** this method is used to choose which export option you want when you export project
   chooseGenOptions = (genOption: number) => {
-    // set option
+    // ** set option
     this.setState({ genOption });
-    // closeModal
+    // ** closeModal
     this.closeModal();
-    // Choose app dir
+    // ** Choose app dir
     this.chooseAppDir();
   };
 
+  // ** this method calls the IPC (Electron) method 'send' to choose the app directory to save to
   chooseAppDir = () => IPC.send('choose_app_dir');
 
-  showGenerateAppModal = () => {
+  // ** this method displays the modal when the export project button is clicked
+  generateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
@@ -164,6 +157,7 @@ class LeftContainer extends Component<Props, State> {
         ))}
       </List>
     );
+
     this.setState({
       modal: createModal({
         closeModal,
@@ -178,7 +172,7 @@ class LeftContainer extends Component<Props, State> {
     });
   };
 
-  render(): JSX.Element {
+  render() {
     const {
       components,
       deleteComponent,
@@ -193,9 +187,10 @@ class LeftContainer extends Component<Props, State> {
     } = this.props;
     const { componentName, modal } = this.state;
 
+    // ** Cloning our current components, sorting components by id and mapping a new LeftColExpansionPanel component instance
     const componentsExpansionPanel = cloneDeep(components)
-      .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
-      .map((component: ComponentInt, i: number) => (
+      .sort((b: ComponentState, a: ComponentState) => b.id - a.id) // sort by id value of comp
+      .map((component: ComponentState, i: number) => (
         <LeftColExpansionPanel
           key={`component-${component.id}`}
           index={i}
@@ -214,7 +209,7 @@ class LeftContainer extends Component<Props, State> {
       ));
 
     return (
-      <div className="column left">
+      <div className="column left" style={{ backgroundColor: '#303030' }}>
         <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
           <Grid item xs={8}>
             <TextField ref={this.componentNameRef}
@@ -226,11 +221,7 @@ class LeftContainer extends Component<Props, State> {
               onChange={this.handleChange}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  const { value } = this.componentNameRef.current.props;
-                  this.props.addComponent(value);
-                  this.setState({
-                    componentName: '',
-                  });
+                  this.addComponentPanel();
                 }
               }}
               value={componentName}
@@ -251,11 +242,7 @@ class LeftContainer extends Component<Props, State> {
               className={classes.button}
               aria-label="Add"
               onClick={() => {
-                const { value } = this.componentNameRef.current.props;
-                this.props.addComponent(value);
-                this.setState({
-                  componentName: '',
-                });
+                this.addComponentPanel();
               }}
               disabled={!this.state.componentName}
             >
@@ -263,13 +250,14 @@ class LeftContainer extends Component<Props, State> {
             </Fab>
           </Grid>
         </Grid>
-        <div className="expansionPanel">{componentsExpansionPanel}</div>
+        <div className="expansionPanel">
+          {componentsExpansionPanel}
+        </div>
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
           addChild={addChild}
         />
-
         <div
           style={{
             width: '100%',
@@ -310,7 +298,7 @@ class LeftContainer extends Component<Props, State> {
               aria-label="Export Code"
               variant="contained"
               fullWidth
-              onClick={this.showGenerateAppModal}
+              onClick={this.generateAppModal}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
@@ -319,7 +307,6 @@ class LeftContainer extends Component<Props, State> {
             </Button>
           </div>
         </div>
-
         {modal}
       </div>
     );

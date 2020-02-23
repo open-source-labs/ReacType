@@ -1,34 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-// import LinearProgress from '@material-ui/core/LinearProgress';
+import { MuiThemeProvider, LinearProgress } from '../utils/material.util';
 import LeftContainer from './LeftContainer';
-import MainContainer from './MainContainer.tsx';
+import MainContainer from './MainContainer';
+import RightContainer from './RightContainer';
 import theme from '../utils/theme';
-import { loadInitData } from '../actions/actions.ts';
-import { ComponentState } from '../utils/index.util';
+import { ComponentState } from '../types/types';
+import * as actions from '../actions/actions';
 
+// ** App Container props definitions
 type Props = {
   components: ComponentState[];
   focusComponent: ComponentState;
   totalComponents: number;
-  loading: boolean;
   selectableChildren: Array<number>;
   loadInitData: any;
 };
 
+// ** App Container state definitions
+type State = {
+  width: number, 
+  rightColumnOpen: boolean
+}
+
+// ** Redux state mapping to props
 const mapStateToProps = (state: any) => ({
   components: state.application.components,
   totalComponents: state.application.totalComponents,
   focusComponent: state.application.focusComponent,
-  loading: state.application.loading,
   selectableChildren: state.application.selectableChildren,
 });
 
-const mapDispatchToProps = { loadInitData };
+// ** Redux dispatch mapping to props
+const mapDispatchToProps = (dispatch: any) => ({
+  loadInitData: () => dispatch(actions.loadInitData()),
+});
 
-class AppContainer extends Component<Props> {
-  constructor(props) {
+class AppContainer extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     // ** state here to create a collapsable right column where bottom panel currently lives
     this.state = {
@@ -37,13 +46,14 @@ class AppContainer extends Component<Props> {
     };
   }
 
+  // ** loading the last instance of the ReacType application. Probably want to look into this for save ReacType files for reuse
   componentDidMount() {
-    // this.props.loadInitData();
+    this.props.loadInitData();
   }
 
-  render(): JSX.Element {
+  render() {
     // ** destructuring some state props to prop drill into left and main container
-    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
+    const { components, focusComponent, selectableChildren, totalComponents } = this.props;
     return (
       // ** MuiThemeProvider allows a theme to be passed into material ui
       <MuiThemeProvider theme={theme}>
@@ -54,18 +64,8 @@ class AppContainer extends Component<Props> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          {/* <MainContainer components={components} /> */}
-          {/* {loading ? (
-            <div
-              style={{
-                alignSelf: 'flex-end',
-                position: 'fixed',
-                width: '100%',
-              }}
-            >
-              <LinearProgress color="secondary" />
-            </div>
-          ) : null} */}
+          <MainContainer components={components} />
+          <RightContainer focusComponent={focusComponent} />
         </div>
       </MuiThemeProvider>
     );
