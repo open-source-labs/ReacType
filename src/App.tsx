@@ -3,13 +3,10 @@ import './public/styles/style.css';
 import AppContainer from './containers/AppContainer';
 // import Test from './components/Test';
 
-export const App: React.SFC = () => (
+const App: React.FC = () => (
   <div className="app">
-    <div>
-      <header style={{ height: '40px', width: '100%' }}>ReacType</header>
-      <AppContainer />
-      {/* <Test /> */}
-    </div>
+    <AppContainer />
+    {/* <Test /> */}
   </div>
 );
 
