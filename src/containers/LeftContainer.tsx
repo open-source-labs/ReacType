@@ -192,7 +192,7 @@ class LeftContainer extends Component<Props, State> {
       .sort((b: ComponentState, a: ComponentState) => b.id - a.id) // sort by id value of comp
       .map((component: ComponentState, i: number) => (
         <LeftColExpansionPanel
-          key={`component-${component.id}`}
+          key={`component${component.id}`}
           index={i}
           id={component.id}
           component={component}
@@ -209,8 +209,8 @@ class LeftContainer extends Component<Props, State> {
       ));
 
     return (
-      <div className="column left-container" style={{ backgroundColor: '#303030' }}>
-        <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
+      <div className="column left-container" style={{ maxWidth: '300px'}}>
+        <Grid container spacing={8} align="stretch" direction="row" alignItems="center" style={{ padding: '10px' }}>
           <Grid item xs={8}>
             <TextField ref={this.componentNameRef}
               id="title-input"
@@ -250,6 +250,9 @@ class LeftContainer extends Component<Props, State> {
             </Fab>
           </Grid>
         </Grid>
+        <strong
+          style={{ padding: '10px 10px 10px 5px', color: '#fff' }}
+        >Components</strong>
         <div className="expansionPanel">
           {componentsExpansionPanel}
         </div>

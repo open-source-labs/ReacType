@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const RightContainer: React.FC<Props> = (props) => {
   const { components, focusComponent, deleteProp, addProp, focusChild } = props;
   return (
-    <div className="column right-container" style={{ backgroundColor: '#303030' }}>
+    <div className="column right-container">
       <RightTabs
         components={components}
         focusComponent={focusComponent}

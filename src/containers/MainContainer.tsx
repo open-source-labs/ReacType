@@ -102,7 +102,7 @@ class MainContainer extends Component<Props, State> {
     return (
       <div className="main-container">
         {modal}
-        <div className="main" style={{ backgroundColor: '#262626' }}>
+        <div className="main" style={{ backgroundColor: '#171725' }}>
           {main}
         </div>
       </div>
