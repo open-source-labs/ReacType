@@ -167,8 +167,7 @@ class RightTabs extends Component<Props> {
             label="Component State"
           /> */}
         </Tabs>
-        {!isEmpty(focusComponent) && (
-          {value === 0 && (
+          {!isEmpty(focusComponent) && value === 0 && (
             <div
               id="treeWrapper"
               style={{
@@ -203,10 +202,15 @@ class RightTabs extends Component<Props> {
               />
             </div>
           )}
-          {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
-          {value === 2 && <Props />}
-          {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-          {value === 3 && focusChild.childType !== 'HTML' && (
+          {!isEmpty(focusComponent) && value === 1 && (
+            <CodePreview 
+              focusComponent={focusComponent} 
+              components={components} 
+            />
+          )}
+          {!isEmpty(focusComponent) && value === 2 && <Props />}
+          {!isEmpty(focusComponent) && value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
+          {!isEmpty(focusComponent) && value === 3 && focusChild.childType !== 'HTML' && (
               <p>Please select an HTML element to view attributes</p>
           )}
         )}
