@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+// ** need to update the material UI imports as several are deprecated **
+
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
+import { isEmpty } from '../utils/index.util';
 import { ComponentState, ChildState } from '../types/types';
 
-interface PropsInt {
+type Props = {
   focusChild: ChildState;
   components: ComponentState[];
   focusComponent: ComponentState;
@@ -17,10 +20,10 @@ interface PropsInt {
   classes: any;
 }
 
-interface TreeInt {
+type Tree = {
   name: string;
   attributes: { [key: string]: { value: string } };
-  children: TreeInt[];
+  children: Tree[];
 }
 
 const styles = (theme: any): any => ({
@@ -30,10 +33,10 @@ const styles = (theme: any): any => ({
     color: '#fff',
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242',
+    borderBottom: '0.5px solid #424242'
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6',
+    backgroundColor: '#1de9b6'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -51,32 +54,32 @@ const styles = (theme: any): any => ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+      '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
       color: '#1de9b6',
-      opacity: 1,
+      opacity: 1
     },
     '&$tabSelected': {
       color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: '#4aedc4',
-    },
+      color: '#4aedc4'
+    }
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`,
-  },
+    padding: `0 ${theme.spacing.unit * 2}px`
+  }
 });
 
-class RightTabs extends Component<PropsInt> {
+class RightTabs extends Component<Props> {
   state = {
-    value: 0,
+    value: 0
   };
 
   componentDidMount() {
@@ -93,13 +96,6 @@ class RightTabs extends Component<PropsInt> {
   handleChange = (event: any, value: number) => {
     this.setState({ value });
   };
-
-  isEmpty = (obj) => {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) return false;
-    }
-    return true;
-}
 
   generateComponentTree(componentId: number, components: ComponentState[]) {
     if (components.length > 0) {
@@ -123,12 +119,17 @@ class RightTabs extends Component<PropsInt> {
 
   render() {
     const {
-      classes, components, focusComponent, deleteProp, addProp, focusChild,
+      classes,
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+      focusChild
     } = this.props;
     const { value } = this.state;
     // display count on the tab. user can see without clicking into tab
-    const propCount = !this.isEmpty(focusComponent) && focusComponent.props.length;
-    const htmlAttribCount = !this.isEmpty(focusComponent) && focusComponent.children.filter(child => child.childType === 'HTML')
+    const propCount = !isEmpty(focusComponent) && focusComponent.props.length;
+    const htmlAttribCount = !isEmpty(focusComponent) && focusComponent.children.filter(child => child.childType === 'HTML')
       .length;
 
     return (
@@ -156,7 +157,9 @@ class RightTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+            label={`HTML Element Attributes ${
+              htmlAttribCount ? `(${htmlAttribCount})` : ''
+            } `}
           />
           {/* <Tab
             disableRipple
@@ -164,7 +167,7 @@ class RightTabs extends Component<PropsInt> {
             label="Component State"
           /> */}
         </Tabs>
-        {!this.isEmpty(focusComponent) && (
+        {!isEmpty(focusComponent) && (
           {value === 0 && (
             <div
               id="treeWrapper"
@@ -203,8 +206,7 @@ class RightTabs extends Component<PropsInt> {
           {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
           {value === 2 && <Props />}
           {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-          {value === 3
-            && focusChild.childType !== 'HTML' && (
+          {value === 3 && focusChild.childType !== 'HTML' && (
               <p>Please select an HTML element to view attributes</p>
           )}
         )}

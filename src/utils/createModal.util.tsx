@@ -20,7 +20,7 @@ const createModal = ({
   secBtnAction = null,
   secBtnLabel = null,
   children = null,
-  open = true,
+  open = true
 }: Props) => (
   <SimpleModal
     open={open}
