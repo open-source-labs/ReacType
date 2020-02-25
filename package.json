@@ -83,7 +83,7 @@
     ]
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
+    "@material-ui/core": "^3.9.4",
     "@material-ui/icons": "^2.0.0",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
