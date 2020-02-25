@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Line } from 'react-konva';
+import { Stage, Layer, Image, Line } from 'react-konva';
 import Rectangle from './Rectangle.tsx';
 import { cloneDeep } from '../utils/index.util';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
 interface PropsInt {
+  image: any;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
@@ -33,6 +34,7 @@ interface StateInt {
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
     super(props);
+    console.log("props.image: ", this.props.image);
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
@@ -41,6 +43,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       gridStroke: 1,
     };
   }
+
+
 
   getDirectChildrenCopy(focusComponent: ComponentInt) {
     const component = this.props.components.find(
@@ -76,6 +80,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     window.addEventListener('resize', this.checkSize);
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
+    // this.props.setImage();
   }
 
   componentWillUnmount() {
@@ -158,8 +163,11 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     });
   };
 
+
+
   render() {
     const {
+      image,
       components,
       handleTransform,
       focusComponent,
@@ -194,7 +202,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
               this.layer = node;
             }}
           >
+
             {this.state.grid}
+            <Image image={image} />
             {this.getDirectChildrenCopy(focusComponent)
               .map((child: ChildInt, i: number) => (
                 <Rectangle
@@ -227,17 +237,17 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
                 );
               })
-            // reasoning for the sort:
-            // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
-            // as long as the smallest components are rendered last they will always be accessible over the big boys
-            // to guarantee they are rendered last, sort the array in reverse order by size
-            // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
-            //
-            // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
+              // reasoning for the sort:
+              // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
+              // as long as the smallest components are rendered last they will always be accessible over the big boys
+              // to guarantee they are rendered last, sort the array in reverse order by size
+              // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
+              //
+              // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
             }
           </Layer>
         </Stage>
-      </div>
+      </div >
     );
   }
 }

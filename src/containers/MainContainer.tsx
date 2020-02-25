@@ -31,6 +31,7 @@ type Props = {
 
 // ** Main Container state definitions
 type State = {
+  image: HTMLImageElement;
   draggable: boolean;
   toggleClass: boolean;
   scaleX: number;
@@ -50,20 +51,21 @@ const mapStateToProps = (state: any) => ({
 // ** Redux dispatch mapping to props
 const mapDispatchToProps = (dispatch: any) => ({
   handleTransform: (componentId: number, childId: number,
-    { x, y, width, height }: { x: number; y: number; width: number; height: number }) => dispatch(actions.handleTransform(componentId, childId, 
+    { x, y, width, height }: { x: number; y: number; width: number; height: number }) => dispatch(actions.handleTransform(componentId, childId,
       { x, y, width, height }),
     ),
   changeImagePath: (path: string) => dispatch(actions.changeImagePath(path)),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
     dispatch(actions.changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(actions.deleteChild({})), // if u send no prms, function will delete focus child.
+  deleteChild: ({ }) => dispatch(actions.deleteChild({})), // if u send no prms, function will delete focus child.
 });
 
 class MainContainer extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      image: null,
       draggable: false,
       toggleClass: true,
       scaleX: 1,
@@ -72,17 +74,59 @@ class MainContainer extends Component<Props, State> {
       y: 0,
       modal: '',
     };
+    IPC.on('new-file', (event, file) => {
+      const image = new window.Image();
+      image.src = file;
+      console.log(image.src);
+      // this.props.changeImagePath(file);
+      image.onload = () => {
+        // update state when the image has been uploaded
+        this.setState({ image });
+      };
+    });
+    IPC.on('app_dir_selected', (event, path) => {
+      //IPC.on is an event listener for electron
+      const { components } = this.props;
+      const { genOption, repoUrl } = this.state;
+      this.props.createApp({
+        path,
+        components,
+        genOption,
+        repoUrl
+      });
+    });
+  }
+
+
+
+  setImage = () => {
+    const image: any = new window.Image();
+    console.log("image in setImage: ", image.src)
+    image.onload = () => {
+      // setState will redraw layer
+      // because "image" property is changed
+      this.setState({
+        image
+      });
+    };
+  };
+
+  componentDidMount() {
+    console.log("in component did mount: ", this.state.image)
+    this.setImage();
   }
 
   render() {
-    const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
-    const { components, handleTransform, focusComponent, focusChild,changeFocusChild, changeComponentFocusChild, deleteChild, classes, changeImagePath } = this.props;
+    const { draggable, scaleX, scaleY, modal, toggleClass, image } = this.state;
+    const { components, handleTransform, focusComponent, focusChild, changeFocusChild, changeComponentFocusChild, deleteChild, classes, changeImagePath } = this.props;
+    const { setImage } = this;
     // const { main }: { main: HTMLDivElement } = this;
     // ** will conditionally render KonvaStage, DropZone or neither component based on the following condition
     let main;
     if (components.length > 0 && components.some((comp) => comp.expanded)) {
-      main = ( 
+      main = (
         <KonvaStage
+          image={image}
           scaleX={1}
           scaleY={1}
           draggable={draggable}
@@ -94,10 +138,11 @@ class MainContainer extends Component<Props, State> {
           changeComponentFocusChild={changeComponentFocusChild}
           deleteChild={deleteChild}
           classes={classes}
+          setImage={setImage}
         />
       )
     } else {
-      main = <Dropzone changeImagePath={changeImagePath}/>
+      main = <Dropzone changeImagePath={changeImagePath} />
     }
     return (
       <div className="main-container">
