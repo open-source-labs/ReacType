@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.tsx';
-import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import theme from '../components/theme';
+import { loadInitData } from '../actions/components';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces';
 
 type Props = {
   components: ComponentsInt;

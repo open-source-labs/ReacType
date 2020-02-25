@@ -2,28 +2,25 @@
   "compilerOptions": {
     "outDir": "./build/",
     "sourceMap": true,
-    "noImplicitAny": true,
+    // uncomment line below to flag errors for implicit any types
+    // "noImplicitAny": true,
+    //uncomment line below for strict type checking. This will add 'use strict' to every file:
+    // "alwaysStrict": true,
     "module": "es6",
     "target": "es5",
     "jsx": "react",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     // "module": "esnext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
-
-// {
-//   "compilerOptions": {
-//     "outDir": "./build/",
-//     "noImplicitAny": true,
-//     // "module": "es6",
-//     "module": "commonjs",
-//     "target": "es5",
-//     "jsx": "react",
-//     "allowJs": true,
-//     "lib": ["es6", "dom", "es2017"],
-//     "allowSyntheticDefaultImports": true
-//   }

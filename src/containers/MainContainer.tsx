@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.tsx';
-import theme from '../components/theme.ts';
-import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components.ts';
-import KonvaStage from '../components/KonvaStage.tsx';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
+import BottomPanel from '../components/BottomPanel';
+import theme from '../components/theme';
+import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components';
+import KonvaStage from '../components/KonvaStage';
+import { ComponentInt, ComponentsInt } from '../utils/interfaces';
+const IPC = require('electron').ipcRenderer;
 
 interface PropsInt {
   components: ComponentsInt;
@@ -26,6 +27,7 @@ interface PropsInt {
 }
 
 interface StateInt {
+  image: any;
   draggable: boolean;
   toggleClass: boolean;
   scaleX: number;
@@ -35,7 +37,6 @@ interface StateInt {
   modal: any;
 }
 
-const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleTransformation: (
@@ -55,7 +56,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
     dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
+  deleteChild: ({ }) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
 });
 
 const mapStateToProps = (store: any) => ({
@@ -68,6 +69,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
   state = {
     draggable: false,
     toggleClass: true,
+    image: '', // just added
     scaleX: 1,
     scaleY: 1,
     x: 0,
@@ -75,8 +77,54 @@ class MainContainer extends Component<PropsInt, StateInt> {
     modal: '',
   };
 
+  constructor(props) {
+    super(props)
+    // allows user to upload a new local file
+    IPC.on('new-file', (event, file) => {
+      const image = new window.Image();
+      image.src = file;
+      console.log(image.src);
+      // image.src = 'https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq'
+      // this.props.changeImagePath(file);
+      image.onload = () => {
+        // update state when the image has been uploaded
+        this.setState({ image });
+      };
+    });
+    IPC.on('app_dir_selected', (event, path) => {
+      //IPC.on is an event listener for electron
+      const { components } = this.props;
+      const { genOption, repoUrl } = this.state;
+      this.props.createApp({
+        path,
+        components,
+        genOption,
+        repoUrl
+      });
+    });
+
+  }
+
+  setImage = () => {
+    const image: any = new window.Image();
+    console.log("image in setImage: ", image.src)
+    // image.src = 'https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq'
+    image.onload = () => {
+      // setState will redraw layer
+      // because "image" property is changed
+      this.setState({
+        image
+      });
+    };
+  };
+
+  componentDidMount() {
+    console.log("in component did mount: ", this.state.image)
+    this.setImage();
+  }
+
   render() {
-    const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
+    const { image, draggable, scaleX, scaleY, modal, toggleClass } = this.state;
     const {
       components,
       handleTransformation,
@@ -88,6 +136,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
       classes,
     } = this.props;
     const { main }: { main: HTMLDivElement } = this;
+    const { setImage } = this;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -95,6 +144,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
           {modal}
           <div className="main" ref={main}>
             <KonvaStage
+              image={image} //added recently
               scaleX={1}
               scaleY={1}
               draggable={draggable}
@@ -106,6 +156,8 @@ class MainContainer extends Component<PropsInt, StateInt> {
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
               classes={classes}
+              setImage={setImage}
+
             />
           </div>
           <BottomPanel focusComponent={focusComponent} />
