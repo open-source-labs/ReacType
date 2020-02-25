@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/components.ts';
+import { updateHtmlAttr } from '../actions/actions.ts';
 import { HTMLelements } from '../utils/htmlElements.util.ts';
 import { ComponentInt, ChildInt } from '../utils/interfaces.ts';
 
@@ -45,8 +45,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
-  focusChild: store.workspace.focusChild,
+  focusComponent: store.application.focusComponent,
+  focusChild: store.application.focusChild,
 });
 
 class HtmlAttr extends Component<PropsInt, StateInt> {

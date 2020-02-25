@@ -118,7 +118,7 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
         {childType === 'COMP' &&
           components
             .find((comp: ComponentInt) => comp.title === childComponentName)
-            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
+            .children.filter((child: ChildInt) => child.childId !== -1)
             .map((grandchild: ChildInt, i: number) => (
               <GrandchildRectangle
                 key={i}

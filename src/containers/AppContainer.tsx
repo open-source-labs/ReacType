@@ -1,50 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import LeftContainer from './LeftContainer.tsx';
-import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
+import { MuiThemeProvider, LinearProgress } from '../utils/material.util';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import RightContainer from './RightContainer';
+import theme from '../utils/theme';
+import { ComponentState } from '../types/types';
+import * as actions from '../actions/actions';
 
+// ** App Container props definitions
 type Props = {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
+  components: ComponentState[];
+  focusComponent: ComponentState;
   totalComponents: number;
-  loading: boolean;
   selectableChildren: Array<number>;
   loadInitData: any;
 };
 
-const mapStateToProps = (store: any) => ({
-  components: store.workspace.components,
-  totalComponents: store.workspace.totalComponents,
-  focusComponent: store.workspace.focusComponent,
-  loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren,
+// ** App Container state definitions
+type State = {
+  width: number, 
+  rightColumnOpen: boolean
+}
+
+// ** Redux state mapping to props
+const mapStateToProps = (state: any) => ({
+  components: state.application.components,
+  totalComponents: state.application.totalComponents,
+  focusComponent: state.application.focusComponent,
+  selectableChildren: state.application.selectableChildren,
 });
 
-const mapDispatchToProps = { loadInitData };
+// ** Redux dispatch mapping to props
+const mapDispatchToProps = (dispatch: any) => ({
+  loadInitData: () => dispatch(actions.loadInitData()),
+});
 
-class AppContainer extends Component<Props> {
-  state = {
-    width: 25,
-    rightColumnOpen: true,
-  };
+class AppContainer extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    // ** state here to create a collapsable right column where bottom panel currently lives
+    this.state = {
+      width: 25,
+      rightColumnOpen: true,
+    };
+  }
 
+  // ** loading the last instance of the ReacType application. Probably want to look into this for save ReacType files for reuse
   componentDidMount() {
     this.props.loadInitData();
   }
 
-  render(): JSX.Element {
-    const {
-      components, focusComponent, loading, selectableChildren, totalComponents,
-    } = this.props;
-    // const { width, rightColumnOpen } = this.state;
-
-    // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
+  render() {
+    // ** destructuring some state props to prop drill into left and main container
+    const { components, focusComponent, selectableChildren, totalComponents } = this.props;
     return (
+      // ** MuiThemeProvider allows a theme to be passed into material ui
       <MuiThemeProvider theme={theme}>
         <div className="app-container">
           <LeftContainer
@@ -54,17 +65,7 @@ class AppContainer extends Component<Props> {
             selectableChildren={selectableChildren}
           />
           <MainContainer components={components} />
-          {loading ? (
-            <div
-              style={{
-                alignSelf: 'flex-end',
-                position: 'fixed',
-                width: '100%',
-              }}
-            >
-              <LinearProgress color="secondary" />
-            </div>
-          ) : null}
+          <RightContainer focusComponent={focusComponent} />
         </div>
       </MuiThemeProvider>
     );

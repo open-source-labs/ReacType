@@ -2,19 +2,30 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateChildrenSort } from '../actions/components';
-import cloneDeep from '../utils/cloneDeep';
+import { cloneDeep } from '../utils/index.util';
+import { ComponentState } from '../types/types';
+import { updateChildrenSort } from '../actions/actions';
 
-const mapStateToProps = (store) => ({
-  focusComponent: store.workspace.focusComponent
+type Props = {
+  focusComponent: ComponentState,
+  updateChildrenSort: any,
+};
+
+type State = {
+  draggedIndex: number | null,
+  draggedOverIndex: number | null
+}
+
+const mapStateToProps = (state: any) => ({
+  focusComponent: state.application.focusComponent,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: any) => ({
   updateChildrenSort: ({ newSortValues }) =>
     dispatch(updateChildrenSort({ newSortValues }))
 });
 
-class SortChildren extends Component {
+class SortChildren extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -25,12 +36,10 @@ class SortChildren extends Component {
   } // end constrcutor
 
   setLocalArray = () => {
-    const localArray = this.props.focusComponent.childrenArray.map(
-      (child, idx) => ({
-        childId: child.childId,
-        childSort: child.childSort
-      })
-    );
+    const localArray = this.props.focusComponent.children.map((child, idx) => ({
+      childId: child.childId,
+      childSort: child.childSort,
+    }));
     return localArray;
   };
 
@@ -97,9 +106,9 @@ class SortChildren extends Component {
       lineHeight: 1,
       cursor: 'move'
     };
-    // const children = this.props.focusComponent.childrenArray;
+    // const children = this.props.focusComponent.children;
     // const List = children
-    const List = cloneDeep(this.props.focusComponent.childrenArray)
+    const List = cloneDeep(this.props.focusComponent.children)
       .sort((a, b) => a.childSort - b.childSort)
       .map((child, idx) => (
         <li style={liStyle} id={child.childId} key={idx}>
@@ -126,7 +135,7 @@ class SortChildren extends Component {
       >
         <h3>Childrens List</h3>
         <ul style={ulStyle}>
-          {cloneDeep(this.props.focusComponent.childrenArray)
+          {cloneDeep(this.props.focusComponent.children)
             .sort((a, b) => a.childSort - b.childSort)
             .map((child, idx) => (
               <li style={liStyle} id={child.childId} key={idx}>

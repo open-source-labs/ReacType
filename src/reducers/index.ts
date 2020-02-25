@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-
-import componentReducer from './componentReducer.ts';
+import applicationReducer from './application';
 
 const reducers = combineReducers({
-  workspace: componentReducer,
+  application: applicationReducer,
 });
 
 export default reducers;

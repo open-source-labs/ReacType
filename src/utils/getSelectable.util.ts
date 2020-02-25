@@ -1,26 +1,15 @@
-import { ComponentInt, ComponentsInt, ChildInt } from './interfaces';
+import { ComponentState, ChildState } from '../types/types';
 
-interface getSelectableInt {
-  [key: string]: Array<number>;
+type getSelectableInt =  {
+  [key: string]: number[];
 }
 
-function getSelectable(
-  newFocusComponent: ComponentInt,
-  components: ComponentsInt
-) {
-  const focusComponentId = newFocusComponent.id;
-  const componentsToCheck = components
-    .map((comp: ComponentInt) => comp.id)
-    .filter((id: number) => id !== focusComponentId);
-  return findAncestors(components, [focusComponentId], componentsToCheck);
-}
-
-function findAncestors(
-  components: ComponentsInt,
-  currentCompArr: ComponentsInt,
-  componentsToCheck: ComponentsInt,
+const findAncestors = (
+  components: ComponentState[],
+  currentCompArr: number[],
+  componentsToCheck: number[],
   ancestors: Array<number> = []
-): getSelectableInt {
+): getSelectableInt => {
   if (!currentCompArr.length) {
     return {
       ancestors,
@@ -28,15 +17,15 @@ function findAncestors(
     };
   }
 
-  const newAncestors: Array<Number> = [];
+  const newAncestors: number[] = [];
 
   for (let i = 0; i < components.length; i++) {
     if (componentsToCheck.includes(components[i].id)) {
-      const myChildren = components[i].childrenArray.map(
-        (child: ChildInt) => child.childComponentId
+      const myChildren = components[i].children.map(
+        (child: ChildState) => child.childComponentId,
       );
 
-      const found = currentCompArr.filter((comp: ComponentInt) =>
+      const found = currentCompArr.filter((comp: ComponentState) =>
         myChildren.includes(comp)
       );
 
@@ -53,6 +42,17 @@ function findAncestors(
     }
   }
   return findAncestors(components, newAncestors, componentsToCheck, ancestors);
+}
+
+const getSelectable = (
+  newFocusComponent: ComponentState,
+  components: ComponentState[]
+) => {
+  const focusComponentId = newFocusComponent.id;
+  const componentsToCheck = components
+    .map((comp: ComponentState) => comp.id)
+    .filter((id: number) => id !== focusComponentId);
+  return findAncestors(components, [focusComponentId], componentsToCheck);
 }
 
 export default getSelectable;

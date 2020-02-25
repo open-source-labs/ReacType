@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.tsx';
-import theme from '../components/theme.ts';
-import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components.ts';
-import KonvaStage from '../components/KonvaStage.tsx';
-import { ComponentInt, ComponentsInt } from '../utils/interfaces.ts';
+import KonvaStage from '../components/KonvaStage';
+import Dropzone from '../components/Dropzone';
+import theme from '../utils/theme';
+import { ComponentState } from '../types/types';
+import * as actions from '../actions/actions';
 
-interface PropsInt {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
+// ** Used with electron to render
+const IPC = require('electron').ipcRenderer;
+
+// ** Main Container props definitions
+type Props = {
+  components: ComponentState[];
+  focusComponent: ComponentState;
   selectableChildren: Array<number>;
   classes: any;
   addComponent: any;
@@ -19,13 +23,14 @@ interface PropsInt {
   deleteComponent: any;
   createApp: any;
   deleteAllData: any;
-  handleTransformation: any;
+  handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
 }
 
-interface StateInt {
+// ** Main Container state definitions
+type State = {
   draggable: boolean;
   toggleClass: boolean;
   scaleX: number;
@@ -35,82 +40,72 @@ interface StateInt {
   modal: any;
 }
 
-const IPC = require('electron').ipcRenderer;
+// ** Redux state mapping to props
+const mapStateToProps = (state: any) => ({
+  focusComponent: state.application.focusComponent,
+  focusChild: state.application.focusChild,
+  components: state.application.components,
+});
 
+// ** Redux dispatch mapping to props
 const mapDispatchToProps = (dispatch: any) => ({
-  handleTransformation: (
-    componentId: number,
-    childId: number,
-    { x, y, width, height }: { x: number; y: number; width: number; height: number },
-  ) =>
-    dispatch(
-      handleTransform(componentId, childId, {
-        x,
-        y,
-        width,
-        height,
-      }),
+  handleTransform: (componentId: number, childId: number,
+    { x, y, width, height }: { x: number; y: number; width: number; height: number }) => dispatch(actions.handleTransform(componentId, childId, 
+      { x, y, width, height }),
     ),
-  // openPanel: component => dispatch(openExpansionPanel(component)),
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
+  changeImagePath: (path: string) => dispatch(actions.changeImagePath(path)),
+  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
-    dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
+    dispatch(actions.changeComponentFocusChild({ componentId, childId })),
+  deleteChild: ({}) => dispatch(actions.deleteChild({})), // if u send no prms, function will delete focus child.
 });
 
-const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
-  focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components,
-});
-
-class MainContainer extends Component<PropsInt, StateInt> {
-  state = {
-    draggable: false,
-    toggleClass: true,
-    scaleX: 1,
-    scaleY: 1,
-    x: 0,
-    y: 0,
-    modal: '',
-  };
+class MainContainer extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      draggable: false,
+      toggleClass: true,
+      scaleX: 1,
+      scaleY: 1,
+      x: 0,
+      y: 0,
+      modal: '',
+    };
+  }
 
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
-    const {
-      components,
-      handleTransformation,
-      focusComponent,
-      focusChild,
-      changeFocusChild,
-      changeComponentFocusChild,
-      deleteChild,
-      classes,
-    } = this.props;
-    const { main }: { main: HTMLDivElement } = this;
-
+    const { components, handleTransform, focusComponent, focusChild,changeFocusChild, changeComponentFocusChild, deleteChild, classes, changeImagePath } = this.props;
+    // const { main }: { main: HTMLDivElement } = this;
+    // ** will conditionally render KonvaStage, DropZone or neither component based on the following condition
+    let main;
+    if (components.length > 0 && components.some((comp) => comp.expanded)) {
+      main = ( 
+        <KonvaStage
+          scaleX={1}
+          scaleY={1}
+          draggable={draggable}
+          components={components}
+          handleTransform={handleTransform}
+          focusComponent={focusComponent}
+          focusChild={focusChild}
+          changeFocusChild={changeFocusChild}
+          changeComponentFocusChild={changeComponentFocusChild}
+          deleteChild={deleteChild}
+          classes={classes}
+        />
+      )
+    } else {
+      main = <Dropzone changeImagePath={changeImagePath}/>
+    }
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="main-container">
-          {modal}
-          <div className="main" ref={main}>
-            <KonvaStage
-              scaleX={1}
-              scaleY={1}
-              draggable={draggable}
-              components={components}
-              handleTransform={handleTransformation}
-              focusComponent={focusComponent}
-              focusChild={focusChild}
-              changeFocusChild={changeFocusChild}
-              changeComponentFocusChild={changeComponentFocusChild}
-              deleteChild={deleteChild}
-              classes={classes}
-            />
-          </div>
-          <BottomPanel focusComponent={focusComponent} />
+      <div className="main-container">
+        {modal}
+        <div className="main" style={{ backgroundColor: '#171725' }}>
+          {main}
         </div>
-      </MuiThemeProvider>
+      </div>
     );
   }
 }
