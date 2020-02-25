@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Image, Line } from 'react-konva';
-import Rectangle from './Rectangle.tsx';
+import Rectangle from './Rectangle';
 import { cloneDeep } from '../utils/index.util';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import { ComponentState, ChildState } from '../types/types';
 
-interface PropsInt {
+type Props = {
   image: any;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
+  components: ComponentState[];
+  focusComponent: ComponentState;
+  selectableChildren: number[];
   classes: any;
   addComponent: any;
   addChild: any;
@@ -23,7 +23,7 @@ interface PropsInt {
   deleteChild: any;
 }
 
-interface StateInt {
+type State = {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
@@ -31,8 +31,8 @@ interface StateInt {
   gridStroke: number;
 }
 
-class KonvaStage extends Component<PropsInt, StateInt> {
-  constructor(props: PropsInt) {
+class KonvaStage extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     console.log("props.image: ", this.props.image);
     this.state = {
@@ -44,14 +44,12 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     };
   }
 
-
-
-  getDirectChildrenCopy(focusComponent: ComponentInt) {
+  getDirectChildrenCopy(focusComponent: ComponentState) {
     const component = this.props.components.find(
-      (comp: ComponentInt) => comp.id === focusComponent.id,
+      (comp: ComponentState) => comp.id === focusComponent.id,
     );
 
-    const childrenArr = component.children.filter((child: ChildInt) => child.childId !== -1);
+    const childrenArr = component.children.filter((child: ChildState) => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
 
@@ -163,8 +161,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     });
   };
 
-
-
   render() {
     const {
       image,
@@ -206,7 +202,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             {this.state.grid}
             <Image image={image} />
             {this.getDirectChildrenCopy(focusComponent)
-              .map((child: ChildInt, i: number) => (
+              .map((child: ChildState, i: number) => (
                 <Rectangle
                   childType={child.childType}
                   key={`${i}${child.componentName}`}

@@ -74,6 +74,7 @@ class MainContainer extends Component<Props, State> {
       y: 0,
       modal: '',
     };
+
     IPC.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
@@ -84,6 +85,7 @@ class MainContainer extends Component<Props, State> {
         this.setState({ image });
       };
     });
+    
     IPC.on('app_dir_selected', (event, path) => {
       //IPC.on is an event listener for electron
       const { components } = this.props;
@@ -97,7 +99,10 @@ class MainContainer extends Component<Props, State> {
     });
   }
 
-
+  componentDidMount() {
+    console.log("in component did mount: ", this.state.image)
+    this.setImage();
+  }
 
   setImage = () => {
     const image: any = new window.Image();
@@ -110,11 +115,6 @@ class MainContainer extends Component<Props, State> {
       });
     };
   };
-
-  componentDidMount() {
-    console.log("in component did mount: ", this.state.image)
-    this.setImage();
-  }
 
   render() {
     const { draggable, scaleX, scaleY, modal, toggleClass, image } = this.state;
