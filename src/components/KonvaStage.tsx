@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Stage, Layer, Line } from 'react-konva';
+import { Stage, Layer, Line, Group } from 'react-konva';
 import Rectangle from './Rectangle';
 import { cloneDeep } from '../utils/index.util';
 import { ComponentState, ChildState } from '../types/types';
@@ -26,7 +26,7 @@ interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [];
+  grid: any;
   gridStroke: number;
 }
 
@@ -75,7 +75,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     // for simplicity I will just listen window resize
     window.addEventListener('resize', this.checkSize);
     this.container.addEventListener('keydown', this.handleKeyDown);
-    this.createGrid();
+    
   }
 
   componentWillUnmount() {
@@ -90,6 +90,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       stageWidth: width,
       stageHeight: height,
     });
+    this.createGrid();
   };
 
   handleKeyDown = (e: any) => {
@@ -122,9 +123,13 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   };
 
   createGrid = () => {
-    const output = [];
+    if (this.state.grid !== []) {
+      const grid = this.state.grid;
+      grid.destroyChildren;
+    }
+    const gridArr = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
-      output.push(
+      gridArr.push(
         <Line
           points={[
             Math.round(i * this.state.blockSnapSize) + 0.5,
@@ -139,7 +144,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       );
     }
     for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
-      output.push(
+      gridArr.push(
         <Line
           points={[
             0,
@@ -153,6 +158,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
         />,
       );
     }
+    const output = <Group>{gridArr}</Group>;
     this.setState({
       grid: output,
     });
