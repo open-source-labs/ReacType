@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
 // Konva = JavaScript library for drawing complex canvas graphics using React
-import { ComponentsInt, ComponentInt, ChildInt } from '../utils/interfaces';
+import { ComponentState, ChildState } from '../types/types';
 
 // ** this file might restrict you from making the child of a component one of its references - prevents circular references
 
@@ -18,7 +18,7 @@ interface PropsInt {
   height: number;
   title: string;
   focusChild: any;
-  components: ComponentsInt;
+  components: Array<ComponentState>;
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -37,14 +37,14 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
 
   getComponentColor(componentId: number) {
     const color = this.props.components.find(
-      (comp: ComponentInt) => comp.id === componentId
+      (comp: ComponentState) => comp.id === componentId
     ).color;
     return color;
   }
 
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId
+      (comp: ComponentState) => comp.id === this.props.childComponentId
     );
   }
 
@@ -117,9 +117,9 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
         />
         {childType === 'COMP' &&
           components
-            .find((comp: ComponentInt) => comp.title === childComponentName)
-            .children.filter((child: ChildInt) => child.childId !== -1)
-            .map((grandchild: ChildInt, i: number) => (
+            .find((comp: ComponentState) => comp.title === childComponentName)
+            .children.filter((child: ChildState) => child.childId !== -1)
+            .map((grandchild: ChildState, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}

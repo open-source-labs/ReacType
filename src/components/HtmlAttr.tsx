@@ -6,17 +6,17 @@ import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/actions.ts';
-import { HTMLelements } from '../utils/htmlElements.util.ts';
-import { ComponentInt, ChildInt } from '../utils/interfaces.ts';
+import { updateHtmlAttr } from '../actions/actions';
+import { HTMLelements } from '../utils/htmlElements.util';
+import { ComponentState, ChildState } from '../types/types';
 
 interface PropsInt {
   updateHtmlAttr: any;
-  focusComponent: ComponentInt;
+  focusComponent: ComponentState;
   classes: any;
   deleteProp: any;
   addProp: any;
-  focusChild: ChildInt;
+  focusChild: ChildState;
 }
 
 interface StateInt {}

@@ -12,7 +12,7 @@ const IPC = require('electron').ipcRenderer;
 
 // ** Main Container props definitions
 type Props = {
-  components: ComponentState[];
+  components: Array<ComponentState>;
   focusComponent: ComponentState;
   selectableChildren: Array<number>;
   classes: any;

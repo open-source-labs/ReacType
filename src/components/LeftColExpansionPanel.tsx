@@ -16,7 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+
 
 const LeftColExpansionPanel: React.FC<Props> = (props) => {
   const {

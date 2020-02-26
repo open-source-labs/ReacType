@@ -4,7 +4,7 @@ import Dropzone from "react-dropzone";
 const IPC = require('electron').ipcRenderer;
 
 class FileDrop extends React.Component { 
-  onDrop = (file) => {
+  onDrop = (file:any) => {
     const { path } = file[0];
     console.log(path);
   };

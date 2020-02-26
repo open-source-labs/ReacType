@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
-import Rectangle from './Rectangle.tsx';
+import Rectangle from './Rectangle';
 import { cloneDeep } from '../utils/index.util';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import { ComponentState, ChildState } from '../types/types';
 
 interface PropsInt {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
+  components: Array<ComponentState>;
+  focusComponent: ComponentState;
   selectableChildren: Array<number>;
   classes: any;
   addComponent: any;
@@ -42,12 +42,12 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     };
   }
 
-  getDirectChildrenCopy(focusComponent: ComponentInt) {
+  getDirectChildrenCopy(focusComponent: ComponentState) {
     const component = this.props.components.find(
-      (comp: ComponentInt) => comp.id === focusComponent.id,
+      (comp: ComponentState) => comp.id === focusComponent.id,
     );
 
-    const childrenArr = component.children.filter((child: ChildInt) => child.childId !== -1);
+    const childrenArr = component.children.filter((child: ChildState) => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
 
@@ -196,7 +196,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           >
             {this.state.grid}
             {this.getDirectChildrenCopy(focusComponent)
-              .map((child: ChildInt, i: number) => (
+              .map((child: ChildState, i: number) => (
                 <Rectangle
                   childType={child.childType}
                   key={`${i}${child.componentName}`}

@@ -10,7 +10,7 @@ import * as actions from '../actions/actions';
 
 // ** App Container props definitions
 type Props = {
-  components: ComponentState[];
+  components: Array<ComponentState>;
   focusComponent: ComponentState;
   totalComponents: number;
   selectableChildren: Array<number>;

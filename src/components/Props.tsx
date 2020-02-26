@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/actions.ts';
-import DataTable from './DataTable.tsx';
-import { ComponentInt } from '../utils/interfaces.ts';
+import { addProp, deleteProp } from '../actions/actions';
+import DataTable from './DataTable';
+// import { ComponentState } from '../types/types';
 
 const styles = theme => ({
   root: {
