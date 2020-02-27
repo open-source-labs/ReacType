@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { Stage, Layer, Image, Line } from 'react-konva';
 import Rectangle from './Rectangle';
-import { cloneDeep } from '../utils/index.util';
+import { cloneDeep, isEmpty } from '../utils/index.util';
 import { ComponentState, ChildState } from '../types/types';
 
 type Props = {
@@ -21,11 +21,11 @@ type Props = {
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
+  width: number;
+  height: number;
 }
 
 type State = {
-  stageWidth: number;
-  stageHeight: number;
   blockSnapSize: number;
   grid: [];
   gridStroke: number;
@@ -34,14 +34,12 @@ type State = {
 class KonvaStage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    console.log("props.image: ", this.props.image);
     this.state = {
-      stageWidth: 1800,
-      stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
       gridStroke: 1,
     };
+    this.stage = createRef<Stage>();
   }
 
   getDirectChildrenCopy(focusComponent: ComponentState) {
@@ -71,29 +69,13 @@ class KonvaStage extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.checkSize();
-    // here we should add listener for "container" resize
-    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
-    // for simplicity I will just listen window resize
-    window.addEventListener('resize', this.checkSize);
-    this.container.addEventListener('keydown', this.handleKeyDown);
+    this.stage.current.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
-    // this.props.setImage();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.checkSize);
-    this.container.removeEventListener('keydown', this.handleKeyDown);
+    this.stage.current.removeEventListener('keydown', this.handleKeyDown);
   }
-
-  checkSize = () => {
-    const width = this.container.offsetWidth;
-    const height = this.container.offsetHeight;
-    this.setState({
-      stageWidth: width,
-      stageHeight: height,
-    });
-  };
 
   handleKeyDown = (e: any) => {
     // backspace and delete keys are keyCode 8 and 46, respectively
@@ -126,14 +108,14 @@ class KonvaStage extends Component<Props, State> {
 
   createGrid = () => {
     const output = [];
-    for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
+    for (let i = 0; i < this.props.width / this.state.blockSnapSize; i++) {
       output.push(
         <Line
           points={[
             Math.round(i * this.state.blockSnapSize) + 0.5,
             0,
             Math.round(i * this.state.blockSnapSize) + 0.5,
-            this.state.stageHeight,
+            this.props.height,
           ]}
           stroke={'#ddd'}
           strokeWidth={this.state.gridStroke}
@@ -141,13 +123,13 @@ class KonvaStage extends Component<Props, State> {
         />,
       );
     }
-    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
+    for (let j = 0; j < this.props.height / this.state.blockSnapSize; j++) {
       output.push(
         <Line
           points={[
             0,
             Math.round(j * this.state.blockSnapSize),
-            this.state.stageWidth,
+            this.props.width,
             Math.round(j * this.state.blockSnapSize),
           ]}
           stroke={'#ddd'}
@@ -170,80 +152,68 @@ class KonvaStage extends Component<Props, State> {
       focusChild,
       deleteChild,
       classes,
+      width,
+      height
     } = this.props;
 
     return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-        ref={(node) => {
-          this.container = node;
-        }}
-        tabIndex="0" // required for keydown event to be heard by this.container
+      <Stage
+        className={'canvasStage'}
+        ref={this.stage}
+        onMouseDown={this.handleStageMouseDown}
+        width={width}
+        height={height}
+        style={{ width: '100%' }}
       >
-        <Stage
-          className={'canvasStage'}
+        <Layer
           ref={(node) => {
-            this.stage = node;
+            this.layer = node;
           }}
-          onMouseDown={this.handleStageMouseDown}
-          width={this.state.stageWidth}
-          height={this.state.stageHeight}
-          style={{ width: '100%' }}
         >
-          <Layer
-            ref={(node) => {
-              this.layer = node;
-            }}
-          >
-
-            {this.state.grid}
-            <Image image={image} />
-            {this.getDirectChildrenCopy(focusComponent)
-              .map((child: ChildState, i: number) => (
-                <Rectangle
-                  childType={child.childType}
-                  key={`${i}${child.componentName}`}
-                  components={components}
-                  componentId={focusComponent.id}
-                  childComponentId={child.childComponentId}
-                  childComponentName={child.componentName}
-                  focusChild={focusChild}
-                  childId={child.childId} // -1 for pseudoChild
-                  x={child.position.x}
-                  y={child.position.y}
-                  scaleX={1}
-                  scaleY={1}
-                  width={child.position.width}
-                  height={child.position.height}
-                  title={child.componentName + child.childId}
-                  handleTransform={handleTransform}
-                  draggable={true}
-                  blockSnapSize={this.state.blockSnapSize}
-                  imageSource={child.htmlElement === 'Image' && child.HTMLInfo.Src}
-                />
-              ))
-              .sort((rectA, rectB) => {
-                if (rectB.props.childId === -1) {
-                  return 1;
-                }
-                return (
-                  rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
-                );
-              })
-              // reasoning for the sort:
-              // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
-              // as long as the smallest components are rendered last they will always be accessible over the big boys
-              // to guarantee they are rendered last, sort the array in reverse order by size
-              // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
-              //
-              // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
-            }
-          </Layer>
-        </Stage>
-      </div >
+          {/* {this.state.grid} */}
+          <Image image={image} draggable />
+          { !isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent)
+            .map((child: ChildState, i: number) => (
+              <Rectangle
+                childType={child.childType}
+                key={`${i}${child.componentName}`}
+                components={components}
+                componentId={focusComponent.id}
+                childComponentId={child.childComponentId}
+                childComponentName={child.componentName}
+                focusChild={focusChild}
+                childId={child.childId} // -1 for pseudoChild
+                x={child.position.x}
+                y={child.position.y}
+                scaleX={1}
+                scaleY={1}
+                width={child.position.width}
+                height={child.position.height}
+                title={child.componentName + child.childId}
+                handleTransform={handleTransform}
+                draggable
+                blockSnapSize={this.state.blockSnapSize}
+                imageSource={child.htmlElement === 'Image' && child.HTMLInfo.Src}
+              />
+            ))
+            .sort((rectA, rectB) => {
+              if (rectB.props.childId === -1) {
+                return 1;
+              }
+              return (
+                rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
+              );
+            })
+            // reasoning for the sort:
+            // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
+            // as long as the smallest components are rendered last they will always be accessible over the big boys
+            // to guarantee they are rendered last, sort the array in reverse order by size
+            // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
+            //
+            // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
+          }
+        </Layer>
+      </Stage>
     );
   }
 }
