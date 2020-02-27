@@ -130,9 +130,9 @@ class Rectangle extends Component<Props, State> {
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
-          ref={(node) => {
-            this.rect = node;
-          }}
+          // ref={(node) => {
+          //   this.rect = node;
+          // }}
           tabIndex="0" // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}

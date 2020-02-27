@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
 // Konva = JavaScript library for drawing complex canvas graphics using React
-import { ComponentsInt, ComponentInt, ChildInt } from '../utils/interfaces';
+import { ComponentState, ChildState } from '../types/types';
 
 // ** this file might restrict you from making the child of a component one of its references - prevents circular references
 
-interface PropsInt {
+type Props = {
   x: number;
   y: number;
   scaleX: number;
@@ -18,7 +18,7 @@ interface PropsInt {
   height: number;
   title: string;
   focusChild: any;
-  components: ComponentsInt;
+  components: ComponentState[];
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -26,25 +26,28 @@ interface PropsInt {
   handleTransform: any;
 }
 
-interface StateInt {
-  image: any;
+type State = {
+  image: HTMLImageElement | null;
 }
 
-class GrandchildRectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null
-  };
+class GrandchildRectangle extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      image: null
+    };
+  }
 
   getComponentColor(componentId: number) {
     const color = this.props.components.find(
-      (comp: ComponentInt) => comp.id === componentId
+      (comp: ComponentState) => comp.id === componentId
     ).color;
     return color;
   }
 
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId
+      (comp: ComponentState) => comp.id === this.props.childComponentId
     );
   }
 
@@ -117,9 +120,9 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
         />
         {childType === 'COMP' &&
           components
-            .find((comp: ComponentInt) => comp.title === childComponentName)
-            .children.filter((child: ChildInt) => child.childId !== -1)
-            .map((grandchild: ChildInt, i: number) => (
+            .find((comp: ComponentState) => comp.title === childComponentName)
+            .children.filter((child: ChildState) => child.childId !== -1)
+            .map((grandchild: ChildState, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}

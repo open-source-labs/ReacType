@@ -1,11 +1,11 @@
 import React, { Component, createRef } from 'react';
-import { Stage, Layer, Image, Line } from 'react-konva';
+import { Stage, Layer, Image, Line, Group} from 'react-konva';
 import Rectangle from './Rectangle';
 import { cloneDeep, isEmpty } from '../utils/index.util';
 import { ComponentState, ChildState } from '../types/types';
 
 type Props = {
-  image: any;
+  image: HTMLImageElement;
   components: ComponentState[];
   focusComponent: ComponentState;
   selectableChildren: number[];
@@ -27,7 +27,7 @@ type Props = {
 
 type State = {
   blockSnapSize: number;
-  grid: [];
+  grid: any;
   gridStroke: number;
 }
 
@@ -70,7 +70,6 @@ class KonvaStage extends Component<Props, State> {
 
   componentDidMount() {
     this.stage.current.addEventListener('keydown', this.handleKeyDown);
-    this.createGrid();
   }
 
   componentWillUnmount() {
@@ -107,9 +106,13 @@ class KonvaStage extends Component<Props, State> {
   };
 
   createGrid = () => {
-    const output = [];
+    if (this.state.grid !== []) {
+      const grid = this.state.grid;
+      grid.destroyChildren;
+    }
+    const gridArr = [];
     for (let i = 0; i < this.props.width / this.state.blockSnapSize; i++) {
-      output.push(
+      gridArr.push(
         <Line
           points={[
             Math.round(i * this.state.blockSnapSize) + 0.5,
@@ -124,7 +127,7 @@ class KonvaStage extends Component<Props, State> {
       );
     }
     for (let j = 0; j < this.props.height / this.state.blockSnapSize; j++) {
-      output.push(
+      gridArr.push(
         <Line
           points={[
             0,
@@ -138,6 +141,7 @@ class KonvaStage extends Component<Props, State> {
         />,
       );
     }
+    const output = <Group>{gridArr}</Group>;
     this.setState({
       grid: output,
     });
@@ -166,11 +170,11 @@ class KonvaStage extends Component<Props, State> {
         style={{ width: '100%' }}
       >
         <Layer
-          ref={(node) => {
-            this.layer = node;
-          }}
+          // ref={(node) => {
+          //   this.layer = node;
+          // }}
         >
-          {/* {this.state.grid} */}
+          {this.state.grid}
           <Image image={image} draggable />
           { !isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent)
             .map((child: ChildState, i: number) => (

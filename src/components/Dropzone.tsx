@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 
 const IPC = require('electron').ipcRenderer;
@@ -7,8 +7,8 @@ type Props = {
   changeImagePath: any;
 }
 
-class FileDrop extends React.Component<Props> { 
-  onDrop = (file) => {
+class FileDrop extends Component<Props> { 
+  onDrop = (file: any) => {
     const { path } = file[0];
     this.props.changeImagePath(path);
   };
