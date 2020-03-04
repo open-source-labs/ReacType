@@ -26,6 +26,7 @@ export type ChildState = {
 }
 
 export type ApplicationState = {
+  imageSource: string;
   totalComponents: number;
   successOpen: boolean;
   errorOpen: boolean;
@@ -52,7 +53,3 @@ export type ComponentState = {
   nextChildId: number;
   focusChildId: number;
 }
-
-// export interface ComponentsInt extends Array<ComponentInt> {}
-
-// export interface ChildrenInt extends Array<ChildInt> {}

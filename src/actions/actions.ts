@@ -7,12 +7,6 @@ import createApplicationUtil from '../utils/createApplication.util';
 
 // ** ACTION CREATORS ** \\
 
-// ** openExpansionPanel just takes the id of the current component and toggles the expanded value to either true or false
-export const toggleExpansionPanel = (id: number) => ({
-  type: types.TOGGLE_EXPANSION_PANEL,
-  payload: { id },
-});
-
 // ! Redux thunk action
 export const loadInitData = () => {
   return (dispatch: any) => {
@@ -24,6 +18,17 @@ export const loadInitData = () => {
     }));
   }
 };
+
+// ** openExpansionPanel just takes the id of the current component and toggles the expanded value to either true or false
+export const toggleExpansionPanel = (id: number) => ({
+  type: types.TOGGLE_EXPANSION_PANEL,
+  payload: { id },
+});
+
+export const changeImagePath = (imageSource: string) => ({
+  type: types.CHANGE_IMAGE_SOURCE,
+  payload: { imageSource },
+})
 
 // ! Redux thunk action
 // ** addComponent waits for createComponent to dispatch then createComponent returns a promise with the new component object created

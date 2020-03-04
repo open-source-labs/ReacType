@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent';
 import GrandchildRectangle from './GrandchildRectangle';
-import { ComponentsInt, ChildInt } from '../utils/interfaces';
-import { ComponentInt } from '../utils/Interfaces';
+import { ComponentState, ChildState } from '../types/types';
 
-interface PropsInt {
+type Props = {
   x: number;
   y: number;
   scaleX: number;
@@ -18,7 +17,7 @@ interface PropsInt {
   height: number;
   title: string;
   focusChild: any;
-  components: ComponentsInt;
+  components: ComponentState[];
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -26,34 +25,37 @@ interface PropsInt {
   handleTransform: any;
 }
 
-interface StateInt {
-  image: any;
+type State = {
+  image: HTMLImageElement | null;
 }
 
-class Rectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null
-  };
+class Rectangle extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      image: null
+    };
+  }
 
   getComponentColor = (componentId: number) => {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find((comp: ComponentState) => comp.id === componentId).color;
     return color;
   }
 
   getPseudoChild = () => {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId
+      (comp: ComponentState) => comp.id === this.props.childComponentId
     );
   }
 
   handleResize = (componentId: number, childId: number, target: any, blockSnapSize: number) => {
-    let focChild: ChildInt = this.props.components
-      .find((comp: ComponentInt) => comp.id === this.props.componentId)
-      .children.find((child: ChildInt) => child.childId === childId);
+    let focChild: ChildState = this.props.components
+      .find((comp: ComponentState) => comp.id === this.props.componentId)
+      .children.find((child: ChildState) => child.childId === childId);
 
     if (childId === -1) {
       focChild = this.props.components.find(
-        (comp: ComponentInt) => comp.id === this.props.componentId
+        (comp: ComponentState) => comp.id === this.props.componentId
       );
     }
     const transformation = {
@@ -128,9 +130,9 @@ class Rectangle extends Component<PropsInt, StateInt> {
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
-          ref={(node) => {
-            this.rect = node;
-          }}
+          // ref={(node) => {
+          //   this.rect = node;
+          // }}
           tabIndex="0" // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
@@ -143,19 +145,14 @@ class Rectangle extends Component<PropsInt, StateInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={
-            childType === 'COMP'
-              ? this.getComponentColor(childComponentId)
-              : '#000000'
-          }
+          stroke={this.getComponentColor(childComponentId)}
           onTransformEnd={(event) =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
-          strokeWidth={childType === 'COMP' ? 4 : 2}
+          strokeWidth={childType === 'COMP' ? 6 : 3}
           strokeScaleEnabled={false}
           draggable={false}
-          fill={childId === -1 ? 'white' : null}
-          shadowBlur={childId === -1 ? 6 : null}
+          fill={null}
           fillPatternImage={
             this.state.image ? this.state.image : this.setImage(imageSource)
           }
@@ -186,9 +183,9 @@ class Rectangle extends Component<PropsInt, StateInt> {
         childId !== -1 &&
           childType === 'COMP' &&
           components
-            .find((comp: ComponentInt) => comp.title === childComponentName)
-            .children.filter((child: ChildInt) => child.childId !== -1)
-            .map((grandchild: ChildInt, i: number) => (
+            .find((comp: ComponentState) => comp.title === childComponentName)
+            .children.filter((child: ChildState) => child.childId !== -1)
+            .map((grandchild: ChildState, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}

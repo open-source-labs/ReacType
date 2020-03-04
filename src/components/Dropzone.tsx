@@ -1,12 +1,16 @@
-import React from "react";
+import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 
 const IPC = require('electron').ipcRenderer;
 
-class FileDrop extends React.Component { 
-  onDrop = (file) => {
+type Props = {
+  changeImagePath: any;
+}
+
+class FileDrop extends Component<Props> { 
+  onDrop = (file: any) => {
     const { path } = file[0];
-    console.log(path);
+    this.props.changeImagePath(path);
   };
 
   render() {

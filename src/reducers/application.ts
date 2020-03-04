@@ -5,6 +5,7 @@ import { updateCurrentComponent, togglePanel, closeExpanded, addChild, deleteChi
 import * as types from '../types/actionTypes';
 
 const initialApplicationState: ApplicationState = {
+  imageSource: '',
   totalComponents: 0,
   successOpen: false,
   errorOpen: false,
@@ -44,6 +45,9 @@ const applicationReducer = (state = initialApplicationState, action: any) => {
         components: updatedComponents,
         focusComponent: currentComponent.expanded ? currentComponent : {}, 
       });
+    }
+    case types.CHANGE_IMAGE_SOURCE: {
+      return updateState(state, { imageSource: action.payload.imageSource });
     }
     case types.ADD_COMPONENT: {
       const { component } = action.payload;
