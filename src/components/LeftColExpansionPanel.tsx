@@ -15,14 +15,15 @@ type Props = {
   components: ComponentState[];
   deleteComponent: any;
   isFocusChild: boolean;
+  checkChild: boolean;
 };
 
 class LeftColExpansionPanel extends Component<Props> {
   render() {
-    const { classes, component, addChild, deleteChild, toggleExpansionPanel, updateComponent, components, deleteComponent, isFocusChild } = this.props;
+    const { classes, component, addChild, deleteChild, toggleExpansionPanel, updateComponent, components, deleteComponent, isFocusChild, checkChild } = this.props;
     const { title, id, color, expanded, stateful } = component;
     const addOrRemoveChildButton = () => {
-      if (expanded || components.every((comp) => !comp.expanded)) {
+      if (expanded || checkChild || components.every((comp) => !comp.expanded)) {
         return <div></div>;
       } 
       if (!isFocusChild) {
