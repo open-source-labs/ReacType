@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react';
 import Modal from '@material-ui/core/Modal';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import { withStyles, Button, Typography, IconButton, CloseIcon } from '../utils/material.util';
 
 const styles = (theme: any): any => ({
   paper: {

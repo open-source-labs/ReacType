@@ -1,122 +1,123 @@
-import {
-  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
-} from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+import { cloneDeep } from './index.util';
+import { ComponentState, ChildState, Prop } from '../types/types';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
-  const {
-    childrenArray,
-    title,
-    props,
-  }: {
-  childrenArray: ChildrenInt;
-  title: string;
-  props: PropInt[];
-  } = component;
+const typeSwitcher = (type: string) => {
+  switch (type) {
+    case 'string':
+      return 'string';
+    case 'number':
+      return 'number';
+    case 'object':
+      return 'object';
+    case 'array':
+      return 'any[]';
+    case 'bool':
+      return 'boolean';
+    case 'function':
+      return '() => any';
+    // case 'symbol':
+    //   return 'string';
+    case 'node':
+      return 'string';
+    case 'element':
+      return 'string';
+    case 'tuple':
+      return '[any]';
+    case 'enum':
+      return '{}';
+    case 'any':
+      return 'any';
+    default:
+      return 'any';
+  }
+}
 
-  function typeSwitcher(type: string) {
-    switch (type) {
-      case 'string':
-        return 'string';
-      case 'number':
-        return 'number';
-      case 'object':
-        return 'object';
-      case 'array':
-        return 'any[]';
-      case 'bool':
-        return 'boolean';
-      case 'function':
-        return '() => any';
-      // case 'symbol':
-      //   return 'string';
-      case 'node':
-        return 'string';
-      case 'element':
-        return 'string';
-      case 'tuple':
-        return '[any]';
-      case 'enum':
-        return '{}';
-      case 'any':
-        return 'any';
+const htmlAttrSanitizer = (element: string) => {
+  // TODO: debug localForage unhappiness to renable image imports
+  // this shouldn't be needed, but some characters make localForage unhappy
+  return element
+    .replace(/[a-z]+/gi, (word) => word[0].toUpperCase() + word.slice(1))
+    .replace(/[-_\s0-9\W]+/gi, '');
+}
+
+const propDrillTextGenerator = (child: ChildState, components: ComponentState[]) => {
+  if (child.childType === 'COMP') {
+    return components
+      .find((c: any) => c.id === child.childComponentId)
+      .props.map((prop: Prop) => `${prop.key}={${prop.value}}`)
+      .join(' ');
+  }
+  if (child.childType === 'HTML') {
+    const keys: string[] = Object.keys(child.HTMLInfo);
+    return keys
+      .map((key) => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`)
+      .join(' ');
+  }
+  return '';
+}
+
+const componentNameGenerator = (child: ChildState) => {
+  if (child.childType === 'HTML') {
+    switch (child.componentName) {
+      case 'Image':
+        return 'img';
+      case 'Form':
+        return 'form';
+      case 'Button':
+        return 'button';
+      case 'Link':
+        return 'a href=""';
+      case 'List':
+        return 'ul';
+      case 'Paragraph':
+        return 'p';
       default:
-        return 'any';
+        return 'div';
     }
+  } else {
+    return child.componentName;
   }
+}
 
-  function propDrillTextGenerator(child: ChildInt) {
-    if (child.childType === 'COMP') {
-      return components
-        .find((c: any) => c.id === child.childComponentId)
-        .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
-        .join(' ');
-    }
-    if (child.childType === 'HTML') {
-      const keys: string[] = Object.keys(child.HTMLInfo);
-      return keys.map(key => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`).join(' ');
-    }
-    return '';
-  }
-
-  function htmlAttrSanitizer(element: string) {
-    // TODO: debug localForage unhappiness to renable image imports
-    // this shouldn't be needed, but some characters make localForage unhappy
-    return element
-      .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-      .replace(/[-_\s0-9\W]+/gi, '');
-  }
-
-  function componentNameGenerator(child: ChildInt) {
-    if (child.childType === 'HTML') {
-      switch (child.componentName) {
-        case 'Image':
-          return 'img';
-        case 'Form':
-          return 'form';
-        case 'Button':
-          return 'button';
-        case 'Link':
-          return 'a href=""';
-        case 'List':
-          return 'ul';
-        case 'Paragraph':
-          return 'p';
-        default:
-          return 'div';
-      }
-    } else {
-      return child.componentName;
-    }
-  }
+//Given a component's state (obtained via iteration through state object)
+//This generates a React component file using template literals
+//(Including import statements, component props, and a render function)
+//The other functions in this file are subsidiary to the below
+const componentRender = (component: ComponentState, components: ComponentState[]) => {
+  const { children, title, props } : {
+  children: ChildState[];
+  title: string;
+  props: Prop[];
+  } = component;
 
   return `
     import React from 'react';
-    ${childrenArray
+    ${children
     .filter(child => child.childType !== 'HTML')
     .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc: Array<string>, child) => {
+    .reduce((acc: string[], child) => {
       if (!acc.includes(child)) {
         acc.push(child);
         return acc;
       }
-      return acc;
     }, [])
     .join('\n')}
     
     type Props = {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
+      ${props
+        .map((prop) => `${prop.key}: ${typeSwitcher(prop.type)}`)
+        .join('\n')}
     }
 
     const ${title} = (props: Props) => {
-      const {${props.map(el => el.key).join(',\n')}} = props
+      const {${props.map((el) => el.key).join(',\n')}} = props
       
       return (
         <div>
-        ${cloneDeep(childrenArray)
-    .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
+        ${cloneDeep(children)
+    .sort((a: ChildState, b: ChildState) => a.childSort - b.childSort)
     .map(
-      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
+      (child: ChildState) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child, components)}/>`,
     )
     .join('\n')}
         </div>

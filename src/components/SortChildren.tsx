@@ -2,29 +2,41 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateChildrenSort } from '../actions/components.ts';
-import cloneDeep from '../utils/cloneDeep.ts';
+import { cloneDeep } from '../utils/index.util';
+import { ComponentState } from '../types/types';
+import { updateChildrenSort } from '../actions/actions';
 
-const mapStateToProps = store => ({
-  focusComponent: store.workspace.focusComponent,
+type Props = {
+  focusComponent: ComponentState,
+  updateChildrenSort: any,
+};
+
+type State = {
+  draggedIndex: number | null,
+  draggedOverIndex: number | null
+}
+
+const mapStateToProps = (state: any) => ({
+  focusComponent: state.application.focusComponent,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateChildrenSort: ({ newSortValues }) => dispatch(updateChildrenSort({ newSortValues })),
+const mapDispatchToProps = (dispatch: any) => ({
+  updateChildrenSort: ({ newSortValues }) =>
+    dispatch(updateChildrenSort({ newSortValues }))
 });
 
-class SortChildren extends Component {
+class SortChildren extends Component<Props, State> {
   constructor(props) {
     super(props);
 
     this.state = {
       draggedIndex: null,
-      draggedOverIndex: null,
+      draggedOverIndex: null
     };
   } // end constrcutor
 
   setLocalArray = () => {
-    const localArray = this.props.focusComponent.childrenArray.map((child, idx) => ({
+    const localArray = this.props.focusComponent.children.map((child, idx) => ({
       childId: child.childId,
       childSort: child.childSort,
     }));
@@ -39,7 +51,7 @@ class SortChildren extends Component {
     e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
 
-  onDragOver = idx => {
+  onDragOver = (idx) => {
     this.setState({ draggedOverIndex: idx });
   };
 
@@ -65,10 +77,13 @@ class SortChildren extends Component {
 
     currentSortValues = currentSortValues.map((child, idx) => ({
       childId: child.childId,
-      childSort: idx + 1,
+      childSort: idx + 1
     }));
 
-    console.log('currentSortValues after updating the sort  ', JSON.stringify(currentSortValues));
+    console.log(
+      'currentSortValues after updating the sort  ',
+      JSON.stringify(currentSortValues)
+    );
 
     this.props.updateChildrenSort({ newSortValues: currentSortValues });
 
@@ -79,7 +94,7 @@ class SortChildren extends Component {
     const ulStyle = {
       margin: 0,
       padding: 0,
-      listStyle: 'none',
+      listStyle: 'none'
     };
 
     const liStyle = {
@@ -89,20 +104,20 @@ class SortChildren extends Component {
       display: 'flex',
       alignItems: 'flex-start',
       lineHeight: 1,
-      cursor: 'move',
+      cursor: 'move'
     };
-    // const children = this.props.focusComponent.childrenArray;
+    // const children = this.props.focusComponent.children;
     // const List = children
-    const List = cloneDeep(this.props.focusComponent.childrenArray)
+    const List = cloneDeep(this.props.focusComponent.children)
       .sort((a, b) => a.childSort - b.childSort)
       .map((child, idx) => (
         <li style={liStyle} id={child.childId} key={idx}>
           <div
             className="drag"
             draggable
-            onDragStart={e => this.onDragStart(e, idx)}
-            onDragOver={e => this.onDragOver(idx)}
-            onDragEnd={e => this.onDragEnd()}
+            onDragStart={(e) => this.onDragStart(e, idx)}
+            onDragOver={(e) => this.onDragOver(idx)}
+            onDragEnd={(e) => this.onDragEnd()}
           >
             {child.componentName + child.childId}
           </div>
@@ -115,21 +130,21 @@ class SortChildren extends Component {
           position: 'relative',
           float: 'left',
           marginTop: '20px',
-          marginRIght: '20px',
+          marginRIght: '20px'
         }}
       >
         <h3>Childrens List</h3>
         <ul style={ulStyle}>
-          {cloneDeep(this.props.focusComponent.childrenArray)
+          {cloneDeep(this.props.focusComponent.children)
             .sort((a, b) => a.childSort - b.childSort)
             .map((child, idx) => (
               <li style={liStyle} id={child.childId} key={idx}>
                 <div
                   className="drag"
                   draggable
-                  onDragStart={e => this.onDragStart(e, idx)}
-                  onDragOver={e => this.onDragOver(idx)}
-                  onDragEnd={e => this.onDragEnd()}
+                  onDragStart={(e) => this.onDragStart(e, idx)}
+                  onDragOver={(e) => this.onDragOver(idx)}
+                  onDragEnd={(e) => this.onDragEnd()}
                 >
                   {child.componentName + child.childId}
                 </div>
@@ -143,7 +158,4 @@ class SortChildren extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SortChildren);
+export default connect(mapStateToProps, mapDispatchToProps)(SortChildren);
