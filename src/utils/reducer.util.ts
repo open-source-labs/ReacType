@@ -1,16 +1,16 @@
 import getSelectable from './getSelectable.util';
 import { getColor, updateState, cloneDeep } from './index.util';
 import { ComponentState, ChildState, ApplicationState, Prop } from '../types/types';
+import { getSize } from './htmlElements.util';
 import * as types from '../types/actionTypes';
-import { Component } from 'react';
 
 // ** initial state for components
 export const initialComponentState: ComponentState = {
   id: 0,
   stateful: false,
-  title: '',
+  title: 'App',
   expanded: false,
-  color: null,
+  color: '#ffffff',
   props: [],
   nextPropId: 0,
   position: {
@@ -41,6 +41,11 @@ export const initialChildState: ChildState = {
   htmlElement: null,
   HTMLInfo: null,
 };
+
+type htmlElemPosition = {
+  width: number;
+  height: number;
+}
 
 // ** FOLLOWING UTILITY FUNCTIONS ARE CALLED IN EITHER THE APPLICATION REDUCER OR THE ACTION CREATOR ** \\
 
@@ -102,6 +107,7 @@ export const closeExpanded = (components: ComponentState[], id? : number): void 
   });
 }
 
+<<<<<<< HEAD
 // This action adds a child to the current focusComponent 
 // (The component currently selected in LeftContainer)
 export const addChild = (
@@ -200,6 +206,8 @@ export const addChild = (
   };
 };
 
+=======
+>>>>>>> dev
 export const deleteChild = (
   state: ApplicationState,
   { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
@@ -209,51 +217,7 @@ export const deleteChild = (
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
   Also when calling from DELETE components , we do not touch focusComponent.
  ************************************************************************************ */
-  if (!parentId) {
-    window.alert('Cannot delete root child of a component');
-    return state;
-  }
-  if (!childId) {
-    window.alert('No child selected');
-    return state;
-  }
-  if (!calledFromDeleteComponent && childId === -1) {
-    window.alert('Cannot delete root child of a component');
-    return state;
-  }
-  // make a DEEP copy of the parent component (the one thats about to loose a child)
-  const parentComponentCopy: any = cloneDeep(
-    state.components.find((c) => c.id === parentId)
-  );
-
-  // delete the  CHILD from the copied array
-  const indexToDelete = parentComponentCopy.children.findIndex((elem: ChildState) => elem.childId === childId);
-  if (indexToDelete < 0) {
-    return window.alert('No such child component found');
-  }
-  parentComponentCopy.children.splice(indexToDelete, 1);
-
-  // if deleted child is selected, reset it
-  if (parentComponentCopy.focusChildId === childId) {
-    parentComponentCopy.focusChildId = 0;
-  }
-
-  const modifiedComponentArray = [
-    ...state.components.filter((c) => c.id !== parentId), // all elements besides the one just changed
-    parentComponentCopy
-  ];
-
-  return {
-    ...state,
-    components: modifiedComponentArray,
-    focusComponent: calledFromDeleteComponent
-      ? state.focusComponent
-      : parentComponentCopy, // when called from delete component we dont need want to touch the focus
-    focusChild: calledFromDeleteComponent
-      ? cloneDeep(state.applicationFocusChild)
-      : parentComponentCopy.children[parentComponentCopy.children.length - 1] ||
-        cloneDeep(state.applicationFocusChild), // guard in case final child is deleted
-  };
+  
 };
 
 export const handleTransform = (

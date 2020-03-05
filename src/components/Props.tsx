@@ -1,18 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/actions.ts';
-import DataTable from './DataTable.tsx';
-import { ComponentInt } from '../utils/interfaces.ts';
+import { withStyles, FormControl, InputLabel, Switch, Select, Grid, Button } from '../utils/material.util';
+import { addProp, deleteProp } from '../actions/actions';
+import DataTable from './DataTable';
+import { ComponentState } from '../types/types';
 
-const styles = theme => ({
+type Props = {
+  focusComponent: ComponentState;
+  classes: any;
+  deleteProp: any; 
+  addProp: any;
+}
+
+type State = {
+  propKey: string;
+  propValue: string;
+  propRequired: boolean;
+  propType: string;
+}
+
+const styles = (theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -108,13 +115,16 @@ const typeOptions = [
   )),
 ];
 
-class Props extends Component {
-  state = {
-    propKey: '',
-    propValue: '',
-    propRequired: true,
-    propType: '',
-  };
+class ComponentProps extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      propKey: '',
+      propValue: '',
+      propRequired: true,
+      propType: '',
+    };
+  }
 
   handleChange = (event) => {
     this.setState({
@@ -294,4 +304,4 @@ class Props extends Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(styles)(Props));
+)(withStyles(styles)(ComponentProps));

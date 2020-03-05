@@ -32,7 +32,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   };
 
   handleCreateHTMLChild = (type: string) => {
-    this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
+    this.props.addChild(type, type, {});
   };
 
   render() {

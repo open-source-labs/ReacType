@@ -1,10 +1,11 @@
-import { ApplicationState } from '../types/types';
 import { cloneDeep, updateState, updateArray, removeFromArray } from '../utils/index.util';
-import { updateCurrentComponent, togglePanel, closeExpanded, addChild, deleteChild, handleTransform, changeFocusComponent, changeFocusChild, changeComponentFocusChild, exportFilesSuccess, exportFilesError, handleClose, addProp, deleteProp, updateHtmlAttr, updateChildrenSort } from '../utils/reducer.util';
-
+import { updateCurrentComponent, togglePanel, closeExpanded, handleTransform, changeFocusComponent, changeFocusChild, changeComponentFocusChild, exportFilesSuccess, exportFilesError, handleClose, addProp, deleteProp, updateHtmlAttr, updateChildrenSort } from '../utils/reducer.util';
+import { getSize } from '../utils/htmlElements.util';
+import { ApplicationState, ChildState } from '../types/types';
 import * as types from '../types/actionTypes';
 
 const initialApplicationState: ApplicationState = {
+  imageSource: '',
   totalComponents: 0,
   successOpen: false,
   errorOpen: false,
@@ -16,6 +17,7 @@ const initialApplicationState: ApplicationState = {
   focusChild: {}, // cloneDeep(applicationFocusChild)
   appDir: '',
   loading: false,
+  nextComponentId: 0,
 };
 
 const applicationReducer = (state = initialApplicationState, action: any) => {
@@ -45,6 +47,9 @@ const applicationReducer = (state = initialApplicationState, action: any) => {
         focusComponent: currentComponent.expanded ? currentComponent : {}, 
       });
     }
+    case types.CHANGE_IMAGE_SOURCE: {
+      return updateState(state, { imageSource: action.payload.imageSource });
+    }
     case types.ADD_COMPONENT: {
       const { component } = action.payload;
       // ** creating deep clone of the state component array
@@ -55,7 +60,8 @@ const applicationReducer = (state = initialApplicationState, action: any) => {
       return updateState(state, { 
         focusComponent: component,
         components, 
-        totalComponents: state.totalComponents + 1 
+        totalComponents: state.totalComponents + 1,
+        nextComponentId: state.nextComponentId + 1
       });
     }
     case types.UPDATE_COMPONENT: {
@@ -84,10 +90,116 @@ const applicationReducer = (state = initialApplicationState, action: any) => {
       });
     }
     case types.ADD_CHILD: {
-      return addChild(state, action.payload);
+      let { title, childType = '', HTMLInfo = {} } = action.payload;
+      const strippedTitle = title;
+
+      const htmlElement = childType !== 'COMP' ? childType : null;
+      if (childType !== 'COMP') childType = 'HTML';
+
+      //* view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
+      //* we only add childrent (or do any action) to the focused omconent
+      const view = state.components.find(comp => comp.id === state.focusComponent.id);
+
+      //* parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
+      let parentComponent;
+
+      //* conditional if adding an HTML component
+      if (childType === 'COMP') {
+        parentComponent = state.components.find((comp) => comp.title === title);
+      }
+
+      type htmlElemPosition = {
+        width: number;
+        height: number;
+      }
+
+      let htmlElemPosition: htmlElemPosition = { width: null, height: null };
+
+      if (childType === 'HTML') {
+        htmlElemPosition = getSize(htmlElement);
+        //* if above function doesnt reutn anything, it means html element is not in our database
+        if (!htmlElemPosition.width) {
+          console.log(
+            `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
+          );
+          return;
+        }
+      }
+
+      const newPosition = childType === 'COMP' ? {
+        x: view.position.x + ((view.nextChildId * 16) % 150), //* new children are offset by some amount, map of 150px
+        y: view.position.y + ((view.nextChildId * 16) % 150),
+        width: parentComponent.position.width - 1, //* new children have an initial position of their CLASS (maybe don't need 90%)
+        height: parentComponent.position.height - 1
+      } : {
+        x: view.position.x + view.nextChildId * 16,
+        y: view.position.y + view.nextChildId * 16,
+        width: htmlElemPosition.width,
+        height: htmlElemPosition.height
+      };
+
+      const newChild = {
+        childId: view.nextChildId,
+        childSort: view.nextChildId,
+        childType,
+        childComponentId: childType === 'COMP' ? parentComponent.id : null, //* only relevant fot children of type COMPONENT
+        componentName: strippedTitle,
+        position: newPosition,
+        color: null, //* parentComponent.color, // only relevant fot children of type COMPONENT
+        htmlElement, //* only relevant fot children of type HTML
+        HTMLInfo
+      };
+
+      const compsChildrenArr = [...view.children, newChild];
+
+      const component = {
+        ...view,
+        children: compsChildrenArr,
+        focusChildId: newChild.childId,
+        nextChildId: view.nextChildId + 1
+      };
+
+      const components = [
+        ...state.components.filter((comp) => {
+          if (comp.title !== view.title) return comp;
+        }),
+        component
+      ];
+
+      return updateState(state, { 
+        components,
+        focusChild: newChild,
+        focusComponent: component //* refresh the focus component so we have the new child
+      });
     };
     case types.DELETE_CHILD: {
-      return deleteChild(state, action.payload);
+      const { parentId, childId } = action.payload;
+      //* make a DEEP copy of the parent component (the one thats about to loose a child)
+      const parentComponentCopy = cloneDeep(
+        state.components.find((component) => component.id === parentId)
+      );
+      //* delete the  CHILD from the copied array
+      const indexToDelete = parentComponentCopy.children.findIndex((elem: ChildState) => elem.childId === childId);
+
+      if (indexToDelete < 0) return window.alert('No such child component found');
+
+      parentComponentCopy.children.splice(indexToDelete, 1);
+    
+      // if deleted child is selected, reset it
+      if (parentComponentCopy.focusChildId === childId) {
+        parentComponentCopy.focusChildId = 0;
+      }
+    
+      const modifiedComponentArray = [
+        ...state.components.filter((component) => component.id !== parentId), // all elements besides the one just changed
+        parentComponentCopy
+      ];
+
+      return updateState(state, {
+        components: modifiedComponentArray,
+        focusComponent: state.focusComponent,
+        focusChild: parentComponentCopy.focusChildId === 0 && {}
+      });
     };
     case types.CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { RightTabs } from '../utils/material.util';
 import { connect } from 'react-redux';
-import RightTabs from '../components/RightTabs';
 import { ComponentState, ChildState } from '../types/types';
 import * as actions from '../actions/actions';
 
@@ -10,7 +10,7 @@ const IPC = require('electron').ipcRenderer;
 // ** Right Container props definitions
 type Props = {
   focusChild: ChildState;
-  components: ComponentState[];
+  components: Array<ComponentState>;
   focusComponent: ComponentState;
   deleteProp: any;
   addProp: any;
@@ -25,8 +25,8 @@ const mapStateToProps = (store: any) => ({
 // ** Redux dispatch mapping to props
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(actions.handleClose()),
-  deleteProp: ({ id, index }: { id: number; index: number }) => dispatch(actions.deleteCompProp({ id, index })),
-  addProp: (prop: any) => dispatch(actions.addCompProp(prop)),
+  deleteProp: ({ id, index }: { id: number; index: number }) => dispatch(actions.deleteProp({ id, index })),
+  addProp: (prop: any) => dispatch(actions.addProp(prop)),
 });
 
 // ** RightContainer is now a functional component since it doesn't track state internally nor have any need for specific class methods

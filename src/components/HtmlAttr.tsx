@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import SaveIcon from '@material-ui/icons/Save';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/actions.ts';
-import { HTMLelements } from '../utils/htmlElements.util.ts';
-import { ComponentInt, ChildInt } from '../utils/interfaces.ts';
+import { withStyles, Grid, TextField, SaveIcon, Paper, Fab } from '../utils/material.util';
+import { updateHtmlAttr } from '../actions/actions';
+import { HTMLelements } from '../utils/htmlElements.util';
+import { ComponentState, ChildState } from '../types/types';
 
-interface PropsInt {
+type Props = {
   updateHtmlAttr: any;
-  focusComponent: ComponentInt;
+  focusComponent: ComponentState;
   classes: any;
   deleteProp: any;
   addProp: any;
-  focusChild: ChildInt;
+  focusChild: ChildState;
 }
 
-interface StateInt {}
+type State = { }
 
 const styles = (theme: any): any => ({
   root: {
@@ -49,11 +44,14 @@ const mapStateToProps = (store: any) => ({
   focusChild: store.application.focusChild,
 });
 
-class HtmlAttr extends Component<PropsInt, StateInt> {
-  state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce((acc, attr) => {
-    acc[attr] = '';
-    return acc;
-  }, {});
+class HtmlAttr extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce((acc, attr) => {
+      acc[attr] = '';
+      return acc;
+    }, {});
+  }
 
   handleSave = (attr: string) => {
     this.props.updateHtmlAttr({ attr, value: this.state[attr] });

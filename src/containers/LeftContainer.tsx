@@ -6,19 +6,21 @@ import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import createModal from '../utils/createModal.util';
 import { ComponentState } from '../types/types';
-import { cloneDeep } from '../utils/index.util';
+import { cloneDeep, isEmpty } from '../utils/index.util';
 import * as actions from '../actions/actions';
 
 const IPC = require('electron').ipcRenderer;
 
 // ** Left Container props definitions
 type Props = {
+  imageSource: string;
   components: ComponentState[];
   focusComponent: ComponentState;
   selectableChildren: number[];
   classes: any;
   addComponent: any;
   addChild: any;
+  deleteChild: any;
   updateComponent: any;
   toggleExpansionPanel: any;
   changeFocusComponent: any;
@@ -26,6 +28,7 @@ type Props = {
   deleteComponent: any;
   createApplication: any;
   deleteAllData: any;
+  clearImage: any;
 }
 
 // ** Left Container state definitions
@@ -42,11 +45,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   addComponent: (title: string) => dispatch(actions.addComponent(title)),
   updateComponent: (id: number, update: {}) => dispatch(actions.updateComponent(id, update)),
   deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
-  addChild: ({ title, childType, HTMLInfo }: 
-    { title: string; childType: string; HTMLInfo: object;
-  }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
+  addChild: (title: string, childType: string, HTMLInfo: {}) => dispatch(actions.addChild(title, childType, HTMLInfo)),
+  deleteChild: (id: number) => dispatch(actions.deleteChild(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   createApplication: ({ path, components, genOption }: { path: string; components: ComponentState; genOption: number; }) => dispatch(actions.createApplication({
       path,
@@ -99,6 +99,8 @@ class LeftContainer extends Component<Props, State> {
       componentName: '',
     });
   }
+
+  addImage = () => IPC.send('update-file');
 
   // ** this method is used to close the modal from either the clearworkspace prompt or the chooseGenOptions prompt
   closeModal = () => this.setState({ modal: null });
@@ -174,39 +176,44 @@ class LeftContainer extends Component<Props, State> {
 
   render() {
     const {
+      imageSource,
       components,
       deleteComponent,
       updateComponent,
       focusComponent,
       classes,
       addChild,
+      deleteChild,
       toggleExpansionPanel,
       changeFocusComponent,
       changeFocusChild,
-      selectableChildren,
+      clearImage
     } = this.props;
     const { componentName, modal } = this.state;
-
+    const { generateAppModal, clearWorkspace, addComponentPanel, addImage } = this;
     // ** Cloning our current components, sorting components by id and mapping a new LeftColExpansionPanel component instance
     const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentState, a: ComponentState) => b.id - a.id) // sort by id value of comp
-      .map((component: ComponentState, i: number) => (
-        <LeftColExpansionPanel
-          key={`component${component.id}`}
-          index={i}
-          id={component.id}
-          component={component}
-          components={components}
-          updateComponent={updateComponent}
-          toggleExpansionPanel={toggleExpansionPanel}
-          focusComponent={focusComponent}
-          addChild={addChild}
-          changeFocusComponent={changeFocusComponent}
-          changeFocusChild={changeFocusChild}
-          selectableChildren={selectableChildren}
-          deleteComponent={deleteComponent}
-        />
-      ));
+      .map((component: ComponentState, i: number) => {
+        return (
+          <LeftColExpansionPanel
+            key={`component${component.id}`}
+            index={i}
+            id={component.id}
+            component={component}
+            components={components}
+            updateComponent={updateComponent}
+            toggleExpansionPanel={toggleExpansionPanel}
+            addChild={addChild}
+            deleteChild={deleteChild}
+            isFocusChild={!isEmpty(focusComponent) && focusComponent.children.some((child) => child.childComponentId === component.id)}
+            checkChild={component.children.some((child) => child.childComponentId === focusComponent.id)}
+            changeFocusComponent={changeFocusComponent}
+            changeFocusChild={changeFocusChild}
+            deleteComponent={deleteComponent}
+          />
+        )
+      });
 
     return (
       <div className="column left-container" style={{ maxWidth: '300px'}}>
@@ -220,9 +227,7 @@ class LeftContainer extends Component<Props, State> {
               autoFocus
               onChange={this.handleChange}
               onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  this.addComponentPanel();
-                }
+                if (e.key === 'Enter') addComponentPanel();
               }}
               value={componentName}
               name="componentName"
@@ -241,9 +246,7 @@ class LeftContainer extends Component<Props, State> {
               color="secondary"
               className={classes.button}
               aria-label="Add"
-              onClick={() => {
-                this.addComponentPanel();
-              }}
+              onClick={() => addComponentPanel()}
               disabled={!this.state.componentName}
             >
               <AddIcon />
@@ -261,54 +264,66 @@ class LeftContainer extends Component<Props, State> {
           focusComponent={focusComponent}
           addChild={addChild}
         />
-        <div
+        <div 
+          className="action-buttons"
           style={{
-            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
             position: 'absolute',
             bottom: 0,
             left: 0,
+            width: '100%',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
+          { 
+            imageSource ? (
+              <Button
+                aria-label="Remove Image"
+                variant="contained"
+                fullWidth
+                onClick={clearImage}
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Remove Image
+              </Button> 
+            ) : (
+              <Button
+                aria-label="Upload Image"
+                variant="contained"
+                fullWidth
+                onClick={addImage}
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Upload Image
+              </Button> 
+            )
+          }
+          <Button
+            color="secondary"
+            aria-label="Delete All"
+            variant="contained"
+            fullWidth
+            onClick={clearWorkspace}
+            disabled={components.length === 0}
+            className={classes.clearButton}
+            style={{ borderRadius: 0, top: 0 }}
           >
-            <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
-              fullWidth
-              onClick={this.clearWorkspace}
-              disabled={this.props.components.length === 1}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
-              Clear Workspace
-            </Button>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
+            Clear Workspace
+          </Button>
+          <Button
+            color="primary"
+            aria-label="Export Code"
+            variant="contained"
+            fullWidth
+            onClick={generateAppModal}
+            className={classes.clearButton}
+            style={{ borderRadius: 0, top: 0 }}
           >
-            <Button
-              color="primary"
-              aria-label="Export Code"
-              variant="contained"
-              fullWidth
-              onClick={this.generateAppModal}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
-              <GetAppIcon style={{ paddingRight: '5px' }} />
-              Export Project
-            </Button>
-          </div>
+            <GetAppIcon style={{ paddingRight: '5px' }} />
+            Export Project
+          </Button>
         </div>
         {modal}
       </div>

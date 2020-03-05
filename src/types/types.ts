@@ -26,6 +26,7 @@ export type ChildState = {
 }
 
 export type ApplicationState = {
+  imageSource: string;
   totalComponents: number;
   successOpen: boolean;
   errorOpen: boolean;
@@ -37,6 +38,7 @@ export type ApplicationState = {
   components: ComponentState[];
   appDir: string;
   loading: boolean;
+  nextComponentId: number;
 }
 
 export type ComponentState = {
@@ -52,7 +54,3 @@ export type ComponentState = {
   nextChildId: number;
   focusChildId: number;
 }
-
-// export interface ComponentsInt extends Array<ComponentInt> {}
-
-// export interface ChildrenInt extends Array<ChildInt> {}

@@ -19,9 +19,9 @@ const {
 // ** Uncomment below for hot reloading during development **
 
 // below hard-resets the entire electron process so is more of a catch-all in terms of dev mode:
-// require('electron-reload')(__dirname, {
-//   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-// });
+require('electron-reload')(__dirname, {
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+});
 
 // below loads contents of all active BrowserWindows within electron when the source files are changed. 
 // ** You'll want to use this one when working in most files other than main.js
