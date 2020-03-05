@@ -4,6 +4,9 @@ import { Rect, Group } from 'react-konva';
 import { ComponentState, ChildState } from '../types/types';
 
 // ** this file might restrict you from making the child of a component one of its references - prevents circular references
+// Component does enable nesting of arbitrary numbers of child components, but it does NOT prevent circular references
+// Only check for that is in LeftColExpansionPanel on or around line 138
+
 
 type Props = {
   x: number;

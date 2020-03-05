@@ -49,7 +49,9 @@ class KonvaStage extends Component<Props, State> {
     const childrenArr = component.children.filter((child: ChildState) => child.childId !== -1);
 
     let childrenArrCopy = cloneDeep(childrenArr);
-
+    
+    //pseudoChild is a convenience object; other than its childID, it is a copy of the parent
+    //Not intended to be rendered
     const pseudoChild = {
       childId: -1,
       childComponentId: component.id,
@@ -83,7 +85,9 @@ class KonvaStage extends Component<Props, State> {
       deleteComponent(focusComponent.id);
     }
   };
-
+  //Handles a user click event on the Konva Stage (see line 199)
+  //Changes the focusChild of the selected component
+  //The focusChild's props may be changed in the right tab
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
@@ -95,7 +99,7 @@ class KonvaStage extends Component<Props, State> {
       return;
     }
 
-    // find clicked rect by its name
+    // find clicked rect by its childId
     const rectChildId = e.target.attrs.childId;
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
@@ -104,6 +108,9 @@ class KonvaStage extends Component<Props, State> {
     });
   };
 
+  //Generates an array of Konva Line components (vertical and horizontal) spaced by blockSnapSize pixels
+  //Rectangle components are aligned to this grid
+  //blockSnapSize is used elsewhere to snap same to nearest grid line
   createGrid = () => {
     if (this.state.grid !== []) {
       const grid = this.state.grid;

@@ -107,6 +107,107 @@ export const closeExpanded = (components: ComponentState[], id? : number): void 
   });
 }
 
+<<<<<<< HEAD
+// This action adds a child to the current focusComponent 
+// (The component currently selected in LeftContainer)
+export const addChild = (
+  state: ApplicationState,
+  { title, childType = '', HTMLInfo = {} }: { title: string; childType: string; HTMLInfo: object },
+) => {
+  const strippedTitle = title;
+
+  if (!childType) {
+    window.alert('addChild Error! no type specified');
+  }
+
+  const htmlElement = childType !== 'COMP' ? childType : null;
+  if (childType !== 'COMP') {
+    childType = 'HTML';
+  }
+
+  // view represents the current FOCUSED COMPONENT - this is the component where the child is being added to
+  // we only add children (perform any action) to the focused component
+  const view: ComponentState = state.components.find(comp => comp.title === state.focusComponent.title);
+
+  // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
+  let parentComponent;
+
+  // conditional if adding an HTML component
+  if (childType === 'COMP') {
+    parentComponent = state.components.find((comp) => comp.title === title);
+  }
+
+  interface htmlElemPositionInt {
+    width: number;
+    height: number;
+  }
+
+  let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
+  if (childType === 'HTML') {
+    htmlElemPosition = getSize(htmlElement);
+    // if above function doesn't return anything, it means html element is not yet implemented
+    if (!htmlElemPosition.width) {
+      console.log(
+        `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
+      );
+      return;
+    }
+  }
+  // The postion of the new child is dependent on its parent, the focusComponent (called view here)
+  const newPosition =
+    childType === 'COMP'
+      ? {
+          //In order to avoid the overlap of newly added children, this adds an x and y offset
+          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
+          y: view.position.y + ((view.nextChildId * 16) % 150),
+          width: parentComponent.position.width - 1, // the size of new children is based on that of parent component
+          height: parentComponent.position.height - 1
+        }
+      : {
+          x: view.position.x + view.nextChildId * 16,
+          y: view.position.y + view.nextChildId * 16,
+          width: htmlElemPosition.width,
+          height: htmlElemPosition.height
+        };
+  // Creation of the actual new child object with all data necessary to render a Rectangle
+  const newChild: ChildState = {
+    childId: view.nextChildId,
+    childSort: view.nextChildId,
+    childType,
+    childComponentId: childType === 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
+    componentName: strippedTitle,
+    position: newPosition,
+    color: null, // parentComponent.color, // only relevant for children of type COMPONENT 
+    htmlElement, // only relevant fot children of type HTML
+    HTMLInfo
+  };
+
+  const compsChildrenArr = [...view.children, newChild];
+
+  const component = {
+    ...view,
+    children: compsChildrenArr,
+    focusChildId: newChild.childId,
+    nextChildId: view.nextChildId + 1
+  };
+
+  const components = [
+    ...state.components.filter((comp) => {
+      if (comp.title !== view.title) return comp;
+    }),
+    component
+  ];
+
+  return {
+    ...state,
+    components,
+    focusChild: newChild,
+    focusComponent: component // refresh the focus component so we have the new child
+  };
+};
+
+=======
+>>>>>>> dev
 export const deleteChild = (
   state: ApplicationState,
   { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },

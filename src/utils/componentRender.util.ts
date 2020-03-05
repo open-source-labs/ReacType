@@ -79,6 +79,10 @@ const componentNameGenerator = (child: ChildState) => {
   }
 }
 
+//Given a component's state (obtained via iteration through state object)
+//This generates a React component file using template literals
+//(Including import statements, component props, and a render function)
+//The other functions in this file are subsidiary to the below
 const componentRender = (component: ComponentState, components: ComponentState[]) => {
   const { children, title, props } : {
   children: ChildState[];
