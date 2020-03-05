@@ -1,16 +1,16 @@
 import getSelectable from './getSelectable.util';
 import { getColor, updateState, cloneDeep } from './index.util';
 import { ComponentState, ChildState, ApplicationState, Prop } from '../types/types';
+import { getSize } from './htmlElements.util';
 import * as types from '../types/actionTypes';
-import { Component } from 'react';
 
 // ** initial state for components
 export const initialComponentState: ComponentState = {
   id: 0,
   stateful: false,
-  title: '',
+  title: 'App',
   expanded: false,
-  color: null,
+  color: '#ffffff',
   props: [],
   nextPropId: 0,
   position: {
@@ -41,6 +41,11 @@ export const initialChildState: ChildState = {
   htmlElement: null,
   HTMLInfo: null,
 };
+
+type htmlElemPosition = {
+  width: number;
+  height: number;
+}
 
 // ** FOLLOWING UTILITY FUNCTIONS ARE CALLED IN EITHER THE APPLICATION REDUCER OR THE ACTION CREATOR ** \\
 
@@ -102,101 +107,6 @@ export const closeExpanded = (components: ComponentState[], id? : number): void 
   });
 }
 
-export const addChild = (
-  state: ApplicationState,
-  { title, childType = '', HTMLInfo = {} }: { title: string; childType: string; HTMLInfo: object },
-) => {
-  const strippedTitle = title;
-
-  if (!childType) {
-    window.alert('addChild Error! no type specified');
-  }
-
-  const htmlElement = childType !== 'COMP' ? childType : null;
-  if (childType !== 'COMP') {
-    childType = 'HTML';
-  }
-
-  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
-  // we only add childrent (or do any action) to the focused omconent
-  const view: ComponentState = state.components.find(comp => comp.title === state.focusComponent.title);
-
-  // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
-  let parentComponent;
-
-  // conditional if adding an HTML component
-  if (childType === 'COMP') {
-    parentComponent = state.components.find((comp) => comp.title === title);
-  }
-
-  interface htmlElemPositionInt {
-    width: number;
-    height: number;
-  }
-
-  let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
-  if (childType === 'HTML') {
-    htmlElemPosition = getSize(htmlElement);
-    // if above function doesnt reutn anything, it means html element is not in our database
-    if (!htmlElemPosition.width) {
-      console.log(
-        `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
-      );
-      return;
-    }
-  }
-
-  const newPosition =
-    childType === 'COMP'
-      ? {
-          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
-          y: view.position.y + ((view.nextChildId * 16) % 150),
-          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
-          height: parentComponent.position.height - 1
-        }
-      : {
-          x: view.position.x + view.nextChildId * 16,
-          y: view.position.y + view.nextChildId * 16,
-          width: htmlElemPosition.width,
-          height: htmlElemPosition.height
-        };
-
-  const newChild: ChildState = {
-    childId: view.nextChildId,
-    childSort: view.nextChildId,
-    childType,
-    childComponentId: childType === 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
-    componentName: strippedTitle,
-    position: newPosition,
-    color: null, // parentComponent.color, // only relevant fot children of type COMPONENT
-    htmlElement, // only relevant fot children of type HTML
-    HTMLInfo
-  };
-
-  const compsChildrenArr = [...view.children, newChild];
-
-  const component = {
-    ...view,
-    children: compsChildrenArr,
-    focusChildId: newChild.childId,
-    nextChildId: view.nextChildId + 1
-  };
-
-  const components = [
-    ...state.components.filter((comp) => {
-      if (comp.title !== view.title) return comp;
-    }),
-    component
-  ];
-
-  return {
-    ...state,
-    components,
-    focusChild: newChild,
-    focusComponent: component // refresh the focus component so we have the new child
-  };
-};
-
 export const deleteChild = (
   state: ApplicationState,
   { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
@@ -206,51 +116,7 @@ export const deleteChild = (
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
   Also when calling from DELETE components , we do not touch focusComponent.
  ************************************************************************************ */
-  if (!parentId) {
-    window.alert('Cannot delete root child of a component');
-    return state;
-  }
-  if (!childId) {
-    window.alert('No child selected');
-    return state;
-  }
-  if (!calledFromDeleteComponent && childId === -1) {
-    window.alert('Cannot delete root child of a component');
-    return state;
-  }
-  // make a DEEP copy of the parent component (the one thats about to loose a child)
-  const parentComponentCopy: any = cloneDeep(
-    state.components.find((c) => c.id === parentId)
-  );
-
-  // delete the  CHILD from the copied array
-  const indexToDelete = parentComponentCopy.children.findIndex((elem: ChildState) => elem.childId === childId);
-  if (indexToDelete < 0) {
-    return window.alert('No such child component found');
-  }
-  parentComponentCopy.children.splice(indexToDelete, 1);
-
-  // if deleted child is selected, reset it
-  if (parentComponentCopy.focusChildId === childId) {
-    parentComponentCopy.focusChildId = 0;
-  }
-
-  const modifiedComponentArray = [
-    ...state.components.filter((c) => c.id !== parentId), // all elements besides the one just changed
-    parentComponentCopy
-  ];
-
-  return {
-    ...state,
-    components: modifiedComponentArray,
-    focusComponent: calledFromDeleteComponent
-      ? state.focusComponent
-      : parentComponentCopy, // when called from delete component we dont need want to touch the focus
-    focusChild: calledFromDeleteComponent
-      ? cloneDeep(state.applicationFocusChild)
-      : parentComponentCopy.children[parentComponentCopy.children.length - 1] ||
-        cloneDeep(state.applicationFocusChild), // guard in case final child is deleted
-  };
+  
 };
 
 export const handleTransform = (

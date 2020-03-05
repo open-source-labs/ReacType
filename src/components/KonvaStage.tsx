@@ -20,7 +20,6 @@ type Props = {
   handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
-  deleteChild: any;
   width: number;
   height: number;
 }
@@ -69,18 +68,19 @@ class KonvaStage extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.stage.current.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    this.stage.current.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   handleKeyDown = (e: any) => {
     // backspace and delete keys are keyCode 8 and 46, respectively
     // this function is only used for deleting children atm, could be used for other things
     if (e.keyCode === 8 || e.keyCode === 46) {
-      this.props.deleteChild({});
+      const { focusComponent, deleteComponent } = this.props;
+      deleteComponent(focusComponent.id);
     }
   };
 
@@ -97,7 +97,6 @@ class KonvaStage extends Component<Props, State> {
 
     // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
-    // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,

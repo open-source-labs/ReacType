@@ -6,7 +6,7 @@ import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import createModal from '../utils/createModal.util';
 import { ComponentState } from '../types/types';
-import { cloneDeep } from '../utils/index.util';
+import { cloneDeep, isEmpty } from '../utils/index.util';
 import * as actions from '../actions/actions';
 
 const IPC = require('electron').ipcRenderer;
@@ -20,6 +20,7 @@ type Props = {
   classes: any;
   addComponent: any;
   addChild: any;
+  deleteChild: any;
   updateComponent: any;
   toggleExpansionPanel: any;
   changeFocusComponent: any;
@@ -44,11 +45,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   addComponent: (title: string) => dispatch(actions.addComponent(title)),
   updateComponent: (id: number, update: {}) => dispatch(actions.updateComponent(id, update)),
   deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
-  addChild: ({ title, childType, HTMLInfo }: 
-    { title: string; childType: string; HTMLInfo: object;
-  }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
+  addChild: (title: string, childType: string, HTMLInfo: {}) => dispatch(actions.addChild(title, childType, HTMLInfo)),
+  deleteChild: (id: number) => dispatch(actions.deleteChild(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   createApplication: ({ path, components, genOption }: { path: string; components: ComponentState; genOption: number; }) => dispatch(actions.createApplication({
       path,
@@ -185,35 +183,36 @@ class LeftContainer extends Component<Props, State> {
       focusComponent,
       classes,
       addChild,
+      deleteChild,
       toggleExpansionPanel,
       changeFocusComponent,
       changeFocusChild,
-      selectableChildren,
       clearImage
     } = this.props;
     const { componentName, modal } = this.state;
     const { generateAppModal, clearWorkspace, addComponentPanel, addImage } = this;
-
     // ** Cloning our current components, sorting components by id and mapping a new LeftColExpansionPanel component instance
     const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentState, a: ComponentState) => b.id - a.id) // sort by id value of comp
-      .map((component: ComponentState, i: number) => (
-        <LeftColExpansionPanel
-          key={`component${component.id}`}
-          index={i}
-          id={component.id}
-          component={component}
-          components={components}
-          updateComponent={updateComponent}
-          toggleExpansionPanel={toggleExpansionPanel}
-          focusComponent={focusComponent}
-          addChild={addChild}
-          changeFocusComponent={changeFocusComponent}
-          changeFocusChild={changeFocusChild}
-          selectableChildren={selectableChildren}
-          deleteComponent={deleteComponent}
-        />
-      ));
+      .map((component: ComponentState, i: number) => {
+        return (
+          <LeftColExpansionPanel
+            key={`component${component.id}`}
+            index={i}
+            id={component.id}
+            component={component}
+            components={components}
+            updateComponent={updateComponent}
+            toggleExpansionPanel={toggleExpansionPanel}
+            addChild={addChild}
+            deleteChild={deleteChild}
+            isFocusChild={!isEmpty(focusComponent) && focusComponent.children.some((child) => child.childComponentId === component.id)}
+            changeFocusComponent={changeFocusComponent}
+            changeFocusChild={changeFocusChild}
+            deleteComponent={deleteComponent}
+          />
+        )
+      });
 
     return (
       <div className="column left-container" style={{ maxWidth: '300px'}}>

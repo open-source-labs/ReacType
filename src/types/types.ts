@@ -38,6 +38,7 @@ export type ApplicationState = {
   components: ComponentState[];
   appDir: string;
   loading: boolean;
+  nextComponentId: number;
 }
 
 export type ComponentState = {

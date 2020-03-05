@@ -30,6 +30,7 @@ type State = {
 
 // ** Redux state mapping to props
 const mapStateToProps = (state: any) => ({
+  test: state.application,
   imageSource: state.application.imageSource,
   components: state.application.components,
   totalComponents: state.application.totalComponents,
@@ -64,9 +65,9 @@ class AppContainer extends Component<Props, State> {
   }
 
   // ** loading the last instance of the ReacType application. Probably want to look into this for save ReacType files for reuse
-  componentDidMount() {
-    this.props.loadInitData();
-  }
+  // componentDidMount() {
+  //   this.props.loadInitData();
+  // }
 
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
@@ -96,7 +97,7 @@ class AppContainer extends Component<Props, State> {
 
   render() {
     // ** destructuring some state props to prop drill into left and main container
-    const { components, focusComponent, selectableChildren, totalComponents, imageSource } = this.props;
+    const { components, focusComponent, totalComponents, imageSource } = this.props;
     const { image } = this.state;
     return (
       // ** MuiThemeProvider allows a theme to be passed into material ui
@@ -106,7 +107,6 @@ class AppContainer extends Component<Props, State> {
             components={components}
             totalComponents={totalComponents}
             focusComponent={focusComponent}
-            selectableChildren={selectableChildren}
             imageSource={imageSource}
             clearImage={this.clearImage}
             setImage={this.setImage}
