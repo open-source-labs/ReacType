@@ -207,6 +207,7 @@ class LeftContainer extends Component<Props, State> {
             addChild={addChild}
             deleteChild={deleteChild}
             isFocusChild={!isEmpty(focusComponent) && focusComponent.children.some((child) => child.childComponentId === component.id)}
+            checkChild={component.children.some((child) => child.childComponentId === focusComponent.id)}
             changeFocusComponent={changeFocusComponent}
             changeFocusChild={changeFocusChild}
             deleteComponent={deleteComponent}
