@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { RightTabs } from '../utils/material.util';
 import { connect } from 'react-redux';
-import RightTabs from '../components/RightTabs';
 import { ComponentState, ChildState } from '../types/types';
 import * as actions from '../actions/actions';
 

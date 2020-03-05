@@ -1,5 +1,5 @@
 import { createComponent } from '../utils/reducer.util';
-import { ComponentState } from '../types/types';
+import { ComponentState, ChildState } from '../types/types';
 import * as types from '../types/actionTypes';
 import { loadState } from '../localStorage.js';
 import createFiles from '../utils/createFiles.util';
@@ -35,18 +35,16 @@ export const changeImagePath = (imageSource: string) => ({
 export const addComponent = (title: string) => {
   return (dispatch, getState) => {
     // ** grab state from our reducer to see how many components currently exist in our array
-    const appComponentState = getState().application.components;
-    // ** Conditionally assigning a variable componentId. If any components exist in the array find the last component's id and increment it else initialize at 1.
-    const componentId = appComponentState.length ? appComponentState[appComponentState.length - 1].id + 1 : 1;
-    dispatch(createComponent(componentId, title, appComponentState))
+    const app = getState().application;
+    const componentId = app.nextComponentId;
+    const components = app.components;
+    dispatch(createComponent(componentId, title, components))
     .then((component: ComponentState) => {
-      // ** the dispatch to createComponent will return a promise. The promise will return either the new createdComponent or just the generic state object (which will have an id of 0 by default)
-      if (component.id !== 0) {
-        dispatch({ 
-          type: types.ADD_COMPONENT, 
-          payload: { component } 
-        });
-      }
+      // ** the dispatch to createComponent will return a promise. The promise will return either the new createdComponent.
+      dispatch({ 
+        type: types.ADD_COMPONENT, 
+        payload: { component } 
+      });
     })
     .catch((err: Error) => console.log(err));
   };
@@ -62,26 +60,47 @@ export const updateComponent = (id: number, update: {}) => ({
 });
 
 // ** deleteComponent deletes a component from our global state component array
-export const deleteComponent = (id: number) => ({
-  type: types.DELETE_COMPONENT,
-  payload: { id }
-});
-
-export const addChild = ({
-  title,
-  childType,
-  HTMLInfo,
-}: {
-title: string;
-childType: string;
-HTMLInfo: object;
-}) => (dispatch: any) => {
-  dispatch({ type: types.ADD_CHILD, payload: { title, childType, HTMLInfo } });
+export const deleteComponent = (id: number) => {
+  return (dispatch, getState) => {
+    const appComponents = getState().application.components;
+    appComponents.forEach((parent: ComponentState) => {
+      parent.children
+      .filter((child: ChildState) => child.childComponentId === id)
+      .forEach((child: ChildState) => {
+        dispatch({
+          type: types.DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            // calledFromDeleteComponent: true,
+          },
+        });
+      });
+    });
+    dispatch({
+      type: types.DELETE_COMPONENT,
+      payload: { id }
+    });
+  }
 };
 
-export const deleteChild = ({}) => (dispatch: any) => {
-  // with no payload, it will delete focusd child
-  dispatch({ type: types.DELETE_CHILD, payload: {} });
+export const addChild = (title: string, childType: string, HTMLInfo?: {}) => ({
+  type: types.ADD_CHILD, 
+  payload: { title, childType, HTMLInfo } 
+});
+
+export const deleteChild = (id: number) => { 
+  return (dispatch, getState) => {
+    const parent = getState().application.focusComponent;
+    const child = parent.children.find((currentChild: ChildState) => id === currentChild.childComponentId);
+    dispatch({
+      type: types.DELETE_CHILD,
+      payload: {
+        parentId: parent.id,
+        childId: child.childId,
+      },
+    });
+  }
 };
 
 export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: any) => {

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import SaveIcon from '@material-ui/icons/Save';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
+import { withStyles, Grid, TextField, SaveIcon, Paper, Fab } from '../utils/material.util';
 import { updateHtmlAttr } from '../actions/actions';
 import { HTMLelements } from '../utils/htmlElements.util';
 import { ComponentState, ChildState } from '../types/types';

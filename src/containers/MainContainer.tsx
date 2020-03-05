@@ -1,9 +1,7 @@
 import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import KonvaStage from '../components/KonvaStage';
 import Dropzone from '../components/Dropzone';
-import theme from '../utils/theme';
 import { ComponentState } from '../types/types';
 import * as actions from '../actions/actions';
 
@@ -28,7 +26,6 @@ type Props = {
   handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
-  deleteChild: any;
 }
 
 // ** Main Container state definitions
@@ -58,10 +55,10 @@ const mapDispatchToProps = (dispatch: any) => ({
       { x, y, width, height }),
     ),
   changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+  deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
-    dispatch(actions.changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({ }) => dispatch(actions.deleteChild({})), // if u send no prms, function will delete focus child.
+    dispatch(actions.changeComponentFocusChild({ componentId, childId }))
 });
 
 class MainContainer extends Component<Props, State> {
@@ -117,7 +114,7 @@ class MainContainer extends Component<Props, State> {
 
   render() {
     const { draggable, width, height, scaleX, scaleY, modal, toggleClass } = this.state;
-    const { image, components, handleTransform, focusComponent, focusChild, changeFocusChild, changeComponentFocusChild, deleteChild, classes, changeImagePath } = this.props;
+    const { image, components, handleTransform, focusComponent, focusChild, deleteComponent, changeFocusChild, changeComponentFocusChild, classes, changeImagePath } = this.props;
     return (
       <div className="main-container" ref={this.main}>
         {modal}
@@ -133,11 +130,11 @@ class MainContainer extends Component<Props, State> {
               draggable={draggable}
               components={components}
               handleTransform={handleTransform}
+              deleteComponent={deleteComponent}
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
-              deleteChild={deleteChild}
               classes={classes}
             />
           ) : <Dropzone changeImagePath={changeImagePath} />
