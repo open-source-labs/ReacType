@@ -4,6 +4,7 @@ import Rectangle from './Rectangle.tsx';
 import { cloneDeep } from '../utils/index.util';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
 
+//Props are intended to totally describe configuration of a single Rectangle
 interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
@@ -43,14 +44,20 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   }
 
   getDirectChildrenCopy(focusComponent: ComponentInt) {
+    //Finds the component currently selected by the user
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id,
     );
-
+    // Removes the pseudoChild from the array
     const childrenArr = component.children.filter((child: ChildInt) => child.childId !== -1);
-
+    
+    //childrenArr is a different array than component children
+    //However, it may have nested references (to original component.children array)
+    //Therefore, a deep copy is necessary to ensure that state is not accidentally mutated
     let childrenArrCopy = cloneDeep(childrenArr);
-
+    
+    //pseudoChild is a convenience object; other than its childID, it is a copy of the parent
+    //Not intended to be rendered
     const pseudoChild = {
       childId: -1,
       childComponentId: component.id,
@@ -99,7 +106,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       this.props.deleteChild({});
     }
   };
-
+  //Handles a user click event on the Konva Stage (see line 199)
+  //Changes the focusChild of the selected component
+  //The focusChild's props may be changed in the right tab
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
@@ -111,7 +120,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       return;
     }
 
-    // find clicked rect by its name
+    // find clicked rect by its childId
     const rectChildId = e.target.attrs.childId;
     // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
@@ -121,6 +130,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     });
   };
 
+  //Generates an array of Konva Line components (vertical and horizontal) spaced by blockSnapSize pixels
+  //Rectangle components are aligned to this grid
+  //blockSnapSize is used elsewhere to snap same to nearest grid line
   createGrid = () => {
     const output = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
@@ -195,6 +207,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
+            {// Given the current focusComponent (selected by clicking in LeftContainer),
+             // the below code maps over its children and renders a Rectangle component for each
+            }
             {this.getDirectChildrenCopy(focusComponent)
               .map((child: ChildInt, i: number) => (
                 <Rectangle

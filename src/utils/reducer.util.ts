@@ -102,6 +102,8 @@ export const closeExpanded = (components: ComponentState[], id? : number): void 
   });
 }
 
+// This action adds a child to the current focusComponent 
+// (The component currently selected in LeftContainer)
 export const addChild = (
   state: ApplicationState,
   { title, childType = '', HTMLInfo = {} }: { title: string; childType: string; HTMLInfo: object },
@@ -117,8 +119,8 @@ export const addChild = (
     childType = 'HTML';
   }
 
-  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
-  // we only add childrent (or do any action) to the focused omconent
+  // view represents the current FOCUSED COMPONENT - this is the component where the child is being added to
+  // we only add children (perform any action) to the focused component
   const view: ComponentState = state.components.find(comp => comp.title === state.focusComponent.title);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
@@ -137,7 +139,7 @@ export const addChild = (
   let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
   if (childType === 'HTML') {
     htmlElemPosition = getSize(htmlElement);
-    // if above function doesnt reutn anything, it means html element is not in our database
+    // if above function doesn't return anything, it means html element is not yet implemented
     if (!htmlElemPosition.width) {
       console.log(
         `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
@@ -145,13 +147,14 @@ export const addChild = (
       return;
     }
   }
-
+  // The postion of the new child is dependent on its parent, the focusComponent (called view here)
   const newPosition =
     childType === 'COMP'
       ? {
+          //In order to avoid the overlap of newly added children, this adds an x and y offset
           x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
           y: view.position.y + ((view.nextChildId * 16) % 150),
-          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
+          width: parentComponent.position.width - 1, // the size of new children is based on that of parent component
           height: parentComponent.position.height - 1
         }
       : {
@@ -160,7 +163,7 @@ export const addChild = (
           width: htmlElemPosition.width,
           height: htmlElemPosition.height
         };
-
+  // Creation of the actual new child object with all data necessary to render a Rectangle
   const newChild: ChildState = {
     childId: view.nextChildId,
     childSort: view.nextChildId,
@@ -168,7 +171,7 @@ export const addChild = (
     childComponentId: childType === 'COMP' ? parentComponent.id : null, // only relevant fot children of type COMPONENT
     componentName: strippedTitle,
     position: newPosition,
-    color: null, // parentComponent.color, // only relevant fot children of type COMPONENT
+    color: null, // parentComponent.color, // only relevant for children of type COMPONENT 
     htmlElement, // only relevant fot children of type HTML
     HTMLInfo
   };
