@@ -1,9 +1,14 @@
 {
   "name": "reactype",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "main": "main.js",
   "contributors": [
+    "Chelsey Fewer",
+    "Mitchel Severe",
+    "Sophia Huttner",
+    "Charles Finocchiaro",
+    "Natalie Vick",
     "Christian Padilla",
     "Tolga Mizrakci",
     "Shlomo Porges",
@@ -20,8 +25,7 @@
       "target": [
         "AppImage",
         "deb"
-      ],
-      "maintainer": "spincycle01@yahoo.com"
+      ]
     },
     "mac": {
       "category": "public.app-category.developer-tools",
@@ -61,10 +65,8 @@
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "electron": "cross-env NODE_ENV=development electron .",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
-    "linter": "eslint src",
-    "develop": "concurrently \"yarn run dev\" \"yarn run electron\""
+    "linter": "eslint src"
   },
   "bin": {
     "reactype": "./index.js"
@@ -81,7 +83,7 @@
     ]
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
+    "@material-ui/core": "^3.9.4",
     "@material-ui/icons": "^2.0.0",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
@@ -97,12 +99,12 @@
     "konva": "^4.1.4",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
-    "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-d3-tree": "^1.12.3",
     "react-dom": "^16.4.1",
     "react-draggable": "^3.0.5",
+    "react-dropzone": "^10.2.1",
     "react-konva": "^16.12.0-0",
     "react-redux": "^5.0.7",
     "react-sortable-tree": "^2.2.0",
@@ -128,7 +130,7 @@
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "electron": "^2.0.7",
+    "electron": "^2.0.18",
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
@@ -146,8 +148,9 @@
     "jest": "^23.5.0",
     "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
+    "prettier": "^1.19.1",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
-    "typescript": "^3.4.4"
+    "typescript": "^2.8.3"
   }
 }

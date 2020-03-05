@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-import { ComponentsInt, ComponentInt, ChildInt } from '../utils/interfaces.ts';
+// Konva = JavaScript library for drawing complex canvas graphics using React
+import { ComponentState, ChildState } from '../types/types';
 
-interface PropsInt {
+// ** this file might restrict you from making the child of a component one of its references - prevents circular references
+// Component does enable nesting of arbitrary numbers of child components, but it does NOT prevent circular references
+// Only check for that is in LeftColExpansionPanel on or around line 138
+
+
+type Props = {
   x: number;
   y: number;
   scaleX: number;
@@ -15,7 +21,7 @@ interface PropsInt {
   height: number;
   title: string;
   focusChild: any;
-  components: ComponentsInt;
+  components: ComponentState[];
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -23,23 +29,28 @@ interface PropsInt {
   handleTransform: any;
 }
 
-interface StateInt {
-  image: any;
+type State = {
+  image: HTMLImageElement | null;
 }
 
-class GrandchildRectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null,
-  };
+class GrandchildRectangle extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      image: null
+    };
+  }
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find(
+      (comp: ComponentState) => comp.id === componentId
+    ).color;
     return color;
   }
 
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId,
+      (comp: ComponentState) => comp.id === this.props.childComponentId
     );
   }
 
@@ -66,7 +77,7 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
       height,
       focusChild,
       components,
-      imageSource,
+      imageSource
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -92,40 +103,56 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
-          fillPatternImage={this.state.image ? this.state.image : this.setImage(imageSource)}
-          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
-          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          stroke={
+            childType === 'COMP'
+              ? this.getComponentColor(childComponentId)
+              : '#000000'
+          }
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
           strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
         />
-        {childType === 'COMP'
-          && components
-            .find((comp: ComponentInt) => comp.title === childComponentName)
-            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
-            .map((grandchild: ChildInt, i: number) => (
+        {childType === 'COMP' &&
+          components
+            .find((comp: ComponentState) => comp.title === childComponentName)
+            .children.filter((child: ChildState) => child.childId !== -1)
+            .map((grandchild: ChildState, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
-                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
+                imageSource={
+                  grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src
+                }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+                width={
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
+                }
                 height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
                 }
                 x={
-                  (grandchild.position.x - this.getPseudoChild().position.x)
-                  * (width / this.getPseudoChild().position.width)
+                  (grandchild.position.x - this.getPseudoChild().position.x) *
+                  (width / this.getPseudoChild().position.width)
                 }
                 y={
-                  (grandchild.position.y - this.getPseudoChild().position.y)
-                  * (height / this.getPseudoChild().position.height)
+                  (grandchild.position.y - this.getPseudoChild().position.y) *
+                  (height / this.getPseudoChild().position.height)
                 }
               />
             ))}
