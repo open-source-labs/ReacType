@@ -1,90 +1,63 @@
-import React, { Fragment, Component } from 'react';
-import { ComponentState } from '../types/types';
-import { withStyles, Typography, KeyboardArrowRightRoundedIcon, KeyboardArrowDownRoundedIcon, List, ListItem, ListItemText, InputLabel, Switch, Select, MenuItem, IconButton, Grid, AddCircleIcon, RemoveCircleIcon, DeleteIcon, Button, Tooltip } from '../utils/material.util';
+import React, { Fragment } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
 
-type Props = {
-  classes: any;
-  focusComponent: ComponentState;
-  component: ComponentState;
-  addChild: any;
-  deleteChild: any;
-  toggleExpansionPanel: any;
-  changeFocusComponent: any;
-  updateComponent: any;
-  selectableChildren: any;
-  components: ComponentState[];
-  deleteComponent: any;
-  isFocusChild: boolean;
-  checkChild: boolean;
-};
+const LeftColExpansionPanel = (props: any) => {
+  const {
+    classes,
+    focusComponent,
+    component,
+    addChild,
+    changeFocusComponent,
+    selectableChildren,
+    components,
+    deleteComponent
+  } = props;
+  const { title, id, color } = component;
 
-class LeftColExpansionPanel extends Component<Props> {
-  render() {
-    const { classes, component, addChild, deleteChild, toggleExpansionPanel, updateComponent, components, deleteComponent, isFocusChild, checkChild } = this.props;
-    const { title, id, color, expanded, stateful } = component;
-    const addOrRemoveChildButton = () => {
-      if (expanded || checkChild || components.every((comp) => !comp.expanded)) {
-        return <div></div>;
-      } 
-      if (!isFocusChild) {
-        return (
-          <Tooltip 
-            title="Add Child" 
-            aria-label="Add Child" 
-            placement="left"
-            style={{ position: 'absolute', right: '0', top: '0', bottom: '0' }}
-          >
-            <IconButton
-              aria-label="Add"
-              onClick={() => {
-                addChild(title, 'COMP');
-              }}
-            >
-              <AddCircleIcon style={{ color }} />
-            </IconButton>
-          </Tooltip>
-        )
-      } else {
-        return (
-          <Tooltip 
-            title="Remove Child" 
-            aria-label="Remove Child" 
-            placement="left"
-            style={{ position: 'absolute', right: '0', top: '0', bottom: '0' }}
-          >
-            <IconButton
-              aria-label="Remove"
-              onClick={() => {
-                deleteChild(id);
-              }}
-            >
-              <RemoveCircleIcon style={{ color }} />
-            </IconButton>
-          </Tooltip>
-        )
-      }
-    }
-    return (
-      <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center" style={{ position: 'relative', margin: '5px 0', width: '100%', backgroundColor: '#303147', borderRadius: '6px'}}>
-        <Grid 
-          item xs={12}
-          style={!expanded ? { padding: '0' } : { backgroundColor: color, borderRadius: '6px', color: '#fff', padding: '0 10px 20px' }}
+  function isFocused() {
+    return focusComponent.id === id ? "focused" : "";
+  }
+
+  return (
+    <Grid
+      container
+      spacing={16}
+      direction="row"
+      justify="flex-start"
+      alignItems="center"
+    >
+      <Grid item xs={9}>
+        <div
+          className={classes.root}
+          style={
+            !isFocused() ? {} : { boxShadow: "0 10px 10px rgba(0,0,0,0.25)" }
+          }
         >
-          <Grid item xs={12}>
-            <List>
+          <Grid item xs={12} style={{ color: "red" }}>
+            <List style={{ color: "red" }}>
               <ListItem
                 button
+                style={{ color: "red" }}
                 onClick={() => {
-                  toggleExpansionPanel(id);
+                  changeFocusComponent({ title });
                 }}
-                style={{ padding: '10px'}}
               >
                 <ListItemText
                   disableTypography
                   className={classes.light}
                   primary={
-                    <Typography type="body2" style={!expanded ? { display:'flex', alignItems: 'center', fontSize: '16px', color } : { display:'flex', alignItems: 'center', fontSize: '16px', color: '#fff' }}>
-                      {!expanded ? <KeyboardArrowRightRoundedIcon style={{ fontSize: '24px', marginRight: '5px', color }} /> : <KeyboardArrowDownRoundedIcon style={{ fontSize: '24px', marginRight: '5px', color: '#fff' }} />}
+                    <Typography type="body2" style={{ color }}>
                       {title}
                     </Typography>
                   }
@@ -93,99 +66,75 @@ class LeftColExpansionPanel extends Component<Props> {
               </ListItem>
             </List>
           </Grid>
-          {!expanded? (
+          {id === 1 || !isFocused() ? (
             <div />
           ) : (
             <Fragment>
-              <div className={classes.margin}>
-                <InputLabel 
-                  htmlFor='stateful'
-                  style={{
-                    color: '#fff',
-                    marginBottom: '10px',
-                    marginTop: '0px',
-                    marginLeft: '11px',
-                    padding: '0px',
-                    fontSize: '18px',
-                  }}
-                >State?</InputLabel>
-                <Switch
-                  checked={stateful}
-                  onChange={(e) => updateComponent(id, { stateful: e.target.checked })}
-                  value='stateful'
-                  color='primary'
-                  id='stateful'
-                />
-              </div>
-              <div className={classes.margin}>
-                <InputLabel 
-                  id="label" 
-                  style={{
-                    color: '#fff',
-                    marginBottom: '10px',
-                    marginTop: '0px',
-                    marginLeft: '11px',
-                    padding: '0px',
-                    fontSize: '18px',
-                  }}>
-                    Component Type</InputLabel>
-                <Select 
-                  id="select" 
-                  value="class"
-                  style={{
-                    color: '#fff',
-                    marginBottom: '10px',
-                    marginTop: '0px',
-                    marginLeft: '11px',
-                    padding: '0px',
-                    fontSize: '18px',
-                  }}>
-                    <MenuItem value="class">Class</MenuItem>
-                    <MenuItem value="functional">Functional</MenuItem>
-                </Select>
-              </div>
               <Button
                 variant="text"
                 size="small"
                 color="default"
                 aria-label="Delete"
                 className={classes.margin}
-                onClick={() => deleteComponent(id)
+                onClick={() =>
+                  deleteComponent({
+                    componentId: id,
+                    stateComponents: components
+                  })
                 }
                 style={{
-                  color: '#fff',
-                  marginBottom: '10px',
-                  marginTop: '0px',
-                  marginLeft: '11px',
-                  padding: '0px',
+                  color: "#D3D3D3",
+                  marginBottom: "10px",
+                  marginTop: "0px",
+                  marginLeft: "11px",
+                  padding: "0px"
                 }}
               >
-                <DeleteIcon style={{ color: '#fff' }} />
+                <DeleteIcon style={{ color: "#D3D3D3" }} />
                 Delete Component
               </Button>
             </Fragment>
           )}
-          {/* checks to see if the current component pane is expanded, if the children of the current component has the id of any of the current components or if every component is currently not expanded */ }
-          {addOrRemoveChildButton()}
-        </Grid>
+        </div>
       </Grid>
-    );
-  }
+
+      <Grid item xs={3}>
+        {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
+          <div />
+        ) : (
+          <Tooltip
+            title="add as child"
+            aria-label="add as child"
+            placement="left"
+          >
+            <IconButton
+              aria-label="Add"
+              onClick={() => {
+                addChild({ title, childType: "COMP" });
+              }}
+            >
+              <AddIcon style={{ color, float: "right" }} />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Grid>
+    </Grid>
+  );
 };
 
 function styles(): any {
   return {
     root: {
-      width: '100%',
+      width: "100%",
       marginTop: 10,
-      backgroundColor: '#333333',
+      backgroundColor: "#333333"
     },
     light: {
-      color: '#eee',
-      '&:hover': {
-        color: '#1de9b6',
-      },
-    },
+      color: "#eee",
+      "&:hover": {
+        color: "#1de9b6"
+      }
+    }
   };
 }
 

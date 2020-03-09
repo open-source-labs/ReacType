@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
-import { Rect, Group } from 'react-konva';
-// Konva = JavaScript library for drawing complex canvas graphics using React
-import { ComponentState, ChildState } from '../types/types';
+import React, { Component } from "react";
+import { Rect, Group } from "react-konva";
+import { ComponentsInt, ComponentInt, ChildInt } from "../utils/Interfaces.ts";
 
-// ** this file might restrict you from making the child of a component one of its references - prevents circular references
-// Component does enable nesting of arbitrary numbers of child components, but it does NOT prevent circular references
-// Only check for that is in LeftColExpansionPanel on or around line 138
-
-
-type Props = {
+interface PropsInt {
   x: number;
   y: number;
   scaleX: number;
@@ -21,7 +15,7 @@ type Props = {
   height: number;
   title: string;
   focusChild: any;
-  components: ComponentState[];
+  components: ComponentsInt;
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -29,28 +23,25 @@ type Props = {
   handleTransform: any;
 }
 
-type State = {
-  image: HTMLImageElement | null;
+interface StateInt {
+  image: any;
 }
 
-class GrandchildRectangle extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      image: null
-    };
-  }
+class GrandchildRectangle extends Component<PropsInt, StateInt> {
+  state = {
+    image: null
+  };
 
   getComponentColor(componentId: number) {
     const color = this.props.components.find(
-      (comp: ComponentState) => comp.id === componentId
+      (comp: ComponentInt) => comp.id === componentId
     ).color;
     return color;
   }
 
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentState) => comp.id === this.props.childComponentId
+      (comp: ComponentInt) => comp.id === this.props.childComponentId
     );
   }
 
@@ -104,9 +95,9 @@ class GrandchildRectangle extends Component<Props, State> {
           width={width}
           height={height}
           stroke={
-            childType === 'COMP'
+            childType === "COMP"
               ? this.getComponentColor(childComponentId)
-              : '#000000'
+              : "#000000"
           }
           fillPatternImage={
             this.state.image ? this.state.image : this.setImage(imageSource)
@@ -121,18 +112,18 @@ class GrandchildRectangle extends Component<Props, State> {
           strokeScaleEnabled={false}
           draggable={false}
         />
-        {childType === 'COMP' &&
+        {childType === "COMP" &&
           components
-            .find((comp: ComponentState) => comp.title === childComponentName)
-            .children.filter((child: ChildState) => child.childId !== -1)
-            .map((grandchild: ChildState, i: number) => (
+            .find((comp: ComponentInt) => comp.title === childComponentName)
+            .childrenArray.filter((child: ChildInt) => child.childId !== -1)
+            .map((grandchild: ChildInt, i: number) => (
               <GrandchildRectangle
                 key={i}
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
                 imageSource={
-                  grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src
+                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
                 }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}

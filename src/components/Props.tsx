@@ -1,68 +1,61 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { withStyles, FormControl, InputLabel, Switch, Select, Grid, Button } from '../utils/material.util';
-import { addProp, deleteProp } from '../actions/actions';
-import DataTable from './DataTable';
-import { ComponentState } from '../types/types';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import Switch from "@material-ui/core/Switch";
+import InputLabel from "@material-ui/core/InputLabel";
+import { addProp, deleteProp } from "../actions/components.ts";
+import DataTable from "./DataTable.tsx";
+import { ComponentInt } from "../utils/Interfaces.ts";
 
-type Props = {
-  focusComponent: ComponentState;
-  classes: any;
-  deleteProp: any; 
-  addProp: any;
-}
-
-type State = {
-  propKey: string;
-  propValue: string;
-  propRequired: boolean;
-  propType: string;
-}
-
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap"
   },
   chip: {
-    color: '#eee',
-    backgroundColor: '#333333',
+    color: "#eee",
+    backgroundColor: "#333333"
   },
   column: {
-    display: 'inline-flex',
-    alignItems: 'baseline',
+    display: "inline-flex",
+    alignItems: "baseline"
   },
   icon: {
-    fontSize: '20px',
-    color: '#eee',
-    opacity: '0.7',
-    transition: 'all .2s ease',
+    fontSize: "20px",
+    color: "#eee",
+    opacity: "0.7",
+    transition: "all .2s ease",
 
-    '&:hover': {
-      color: 'red',
-    },
+    "&:hover": {
+      color: "red"
+    }
   },
   cssLabel: {
-    color: 'white',
+    color: "white",
 
-    '&$cssFocused': {
-      color: 'green',
-    },
+    "&$cssFocused": {
+      color: "green"
+    }
   },
   cssFocused: {},
   input: {
-    color: '#eee',
-    marginBottom: '10px',
-    width: '60%',
+    color: "#eee",
+    marginBottom: "10px",
+    width: "60%"
   },
   light: {
-    color: '#eee',
+    color: "#eee"
   },
   avatar: {
-    color: '#eee',
-    fontSize: '10px',
-  },
+    color: "#eee",
+    fontSize: "10px"
+  }
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -70,80 +63,82 @@ const mapDispatchToProps = (dispatch: any) => ({
     key,
     value,
     required,
-    type,
+    type
   }: {
-  key: string;
-  value: string;
-  required: boolean;
-  type: string;
-  }) => dispatch(
-    addProp({
-      key,
-      value,
-      required,
-      type,
-    }),
-  ),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
+    key: string;
+    value: string;
+    required: boolean;
+    type: string;
+  }) =>
+    dispatch(
+      addProp({
+        key,
+        value,
+        required,
+        type
+      })
+    ),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.application.focusComponent,
+  focusComponent: store.workspace.focusComponent
 });
 
 const availablePropTypes = {
-  string: 'STR',
-  number: 'NUM',
-  object: 'OBJ',
-  array: 'ARR',
-  boolean: 'BOOL',
-  function: 'FUNC',
+  string: "STR",
+  number: "NUM",
+  object: "OBJ",
+  array: "ARR",
+  boolean: "BOOL",
+  function: "FUNC",
   // symbol: 'SYM',
-  node: 'NODE',
-  element: 'ELEM',
-  any: 'ANY',
-  tuple: 'TUP',
-  enum: 'ENUM',
+  node: "NODE",
+  element: "ELEM",
+  any: "ANY",
+  tuple: "TUP",
+  enum: "ENUM"
 };
 
 const typeOptions = [
   <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
-    <option value={type} key={type} style={{ color: '#000' }}>
+    <option value={type} key={type} style={{ color: "#000" }}>
       {type}
     </option>
-  )),
+  ))
 ];
 
-class ComponentProps extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      propKey: '',
-      propValue: '',
-      propRequired: true,
-      propType: '',
-    };
-  }
+class Props extends Component {
+  state = {
+    propKey: "",
+    propValue: "",
+    propRequired: true,
+    propType: ""
+  };
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.id]: event.target.value.trim(),
-    });
+  handleChange = event => {
+    if (event.target.id === "propKey") {
+      this.setState({
+        [event.target.id]: event.target.value.trim()
+      });
+    } else {
+      this.setState({
+        [event.target.id]: event.target.value
+      });
+    }
   };
 
   togglePropRequired = () => {
     this.setState({
-      propRequired: !this.state.propRequired,
+      propRequired: !this.state.propRequired
     });
   };
 
-  handleAddProp = (event) => {
+  handleAddProp = event => {
     event.preventDefault();
 
-    const {
-      propKey, propValue, propRequired, propType,
-    } = this.state;
+    const { propKey, propValue, propRequired, propType } = this.state;
 
     // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -154,7 +149,7 @@ class ComponentProps extends Component<Props, State> {
 
     // check if prop starts with digits. Digits at string start breaks indexedDB
     if (/^\d/.test(propKey)) {
-      window.alert('Props are not allowed to begin with digits');
+      window.alert("Props are not allowed to begin with digits");
       return;
     }
 
@@ -162,44 +157,42 @@ class ComponentProps extends Component<Props, State> {
       key: propKey,
       value: propValue,
       required: propRequired,
-      type: propType,
+      type: propType
     });
 
     this.setState({
-      propKey: '',
-      propValue: '',
+      propKey: "",
+      propValue: "",
       propRequired: true,
-      propType: '',
+      propType: ""
     });
   };
 
   render() {
-    const {
-      focusComponent, classes, deleteProp, addProp,
-    } = this.props;
+    const { focusComponent, classes, deleteProp, addProp } = this.props;
 
-    const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
+    const rowHeader = ["_Key", "Value", "Type", "Required"];
     // prepare the saved Props in a nice way, so you can sent them to TableData
     const propsRows = focusComponent.props.map(prop => ({
       _Key: prop.key,
       Value: prop.value,
       Type: prop.type,
       Required: prop.required,
-      id: prop.id,
+      id: prop.id
     }));
 
     return (
-      <div className={'htmlattr'}>
-        {' '}
+      <div className={"htmlattr"}>
+        {" "}
         {Object.keys(focusComponent).length < 1 ? (
-          <div style={{ marginTop: '20px', width: '90%' }}>
+          <div style={{ marginTop: "20px", width: "90%" }}>
             Click a component to view its props.
           </div>
         ) : (
           <Fragment>
             <div
               className="props-container"
-              style={{ marginTop: '20px', width: '90%', height: '80%' }}
+              style={{ marginTop: "20px", width: "90%", height: "80%" }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
@@ -215,10 +208,10 @@ class ComponentProps extends Component<Props, State> {
                           value={this.state.propKey}
                           required
                           InputProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           InputLabelProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                         />
                       </Grid>
@@ -229,17 +222,20 @@ class ComponentProps extends Component<Props, State> {
                           margin="normal"
                           onChange={this.handleChange}
                           InputProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           InputLabelProps={{
-                            className: classes.input,
+                            className: classes.input
                           }}
                           value={this.state.propValue}
                         />
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl required>
-                          <InputLabel className={classes.light} htmlFor="propType">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propType"
+                          >
                             Type
                           </InputLabel>
                           <Select
@@ -257,7 +253,10 @@ class ComponentProps extends Component<Props, State> {
                       </Grid>
                       <Grid item xs={6}>
                         <div className={classes.column}>
-                          <InputLabel className={classes.light} htmlFor="propRequired">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propRequired"
+                          >
                             Required?
                           </InputLabel>
                           <Switch
@@ -303,5 +302,5 @@ class ComponentProps extends Component<Props, State> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles)(ComponentProps));
+  mapDispatchToProps
+)(withStyles(styles)(Props));
