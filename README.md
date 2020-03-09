@@ -1,3 +1,4 @@
+
 <p align="center">
   <img width="50" src="https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/256x256.png?raw=true">
   <h1 align="center">ReacType </h1>
@@ -6,14 +7,14 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
+**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**. 
 In other words, **you can draw prototypes and export React / Typescript code!**
 
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
 
-- **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
+* **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
 ![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
 
@@ -46,6 +47,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
   1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
 
 #### Contributors
+
 [Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
 
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
@@ -66,17 +68,36 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
 
-
 ## To Run Your Own Version
 
 - **Fork** and **Clone** Repository.
 - Open project directory
 - Install dependencies
 
+- npm works in place of yarn as well.
+
+```bash
+yarn install
+```
+
+- Run application
+
+```bash
+yarn start
+```
+
+- For development experience, in one terminal...
+
+```bash
+yarn run dev
+```
+
+- and on another terminal
+
+```bash
+yarn run electron
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/team-reactype/ReacType/blob/development/LICENSE.md) file for details.
-
-```
-
-```
