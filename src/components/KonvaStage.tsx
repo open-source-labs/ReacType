@@ -1,14 +1,13 @@
-import React, { Component, createRef } from 'react';
-import { Stage, Layer, Image, Line, Group} from 'react-konva';
-import Rectangle from './Rectangle';
-import { cloneDeep, isEmpty } from '../utils/index.util';
-import { ComponentState, ChildState } from '../types/types';
+import React, { Component } from "react";
+import { Stage, Layer, Line } from "react-konva";
+import Rectangle from "./Rectangle.tsx";
+import cloneDeep from "../utils/cloneDeep.ts";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
 
-type Props = {
-  image: HTMLImageElement;
-  components: ComponentState[];
-  focusComponent: ComponentState;
-  selectableChildren: number[];
+interface PropsInt {
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+  selectableChildren: Array<number>;
   classes: any;
   addComponent: any;
   addChild: any;
@@ -20,38 +19,40 @@ type Props = {
   handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
-  width: number;
-  height: number;
+  deleteChild: any;
 }
 
-type State = {
+interface StateInt {
+  stageWidth: number;
+  stageHeight: number;
   blockSnapSize: number;
-  grid: any;
+  grid: [];
   gridStroke: number;
 }
 
-class KonvaStage extends Component<Props, State> {
-  constructor(props: Props) {
+class KonvaStage extends Component<PropsInt, StateInt> {
+  constructor(props: PropsInt) {
     super(props);
     this.state = {
+      stageWidth: 1800,
+      stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
-      gridStroke: 1,
+      gridStroke: 1
     };
-    this.stage = createRef<Stage>();
   }
 
-  getDirectChildrenCopy(focusComponent: ComponentState) {
+  getDirectChildrenCopy(focusComponent: ComponentInt) {
     const component = this.props.components.find(
-      (comp: ComponentState) => comp.id === focusComponent.id,
+      (comp: ComponentInt) => comp.id === focusComponent.id
     );
 
-    const childrenArr = component.children.filter((child: ChildState) => child.childId !== -1);
+    const childrenArr = component.childrenArray.filter(
+      (child: ChildInt) => child.childId !== -1
+    );
 
     let childrenArrCopy = cloneDeep(childrenArr);
-    
-    //pseudoChild is a convenience object; other than its childID, it is a copy of the parent
-    //Not intended to be rendered
+
     const pseudoChild = {
       childId: -1,
       childComponentId: component.id,
@@ -60,160 +61,182 @@ class KonvaStage extends Component<Props, State> {
         x: component.position.x,
         y: component.position.y,
         width: component.position.width,
-        height: component.position.height,
+        height: component.position.height
       },
       draggable: true,
-      color: component.color,
+      color: component.color
     };
     childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
     return childrenArrCopy;
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+    this.checkSize();
+    // here we should add listener for "container" resize
+    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
+    // for simplicity I will just listen window resize
+    window.addEventListener("resize", this.checkSize);
+    this.container.addEventListener("keydown", this.handleKeyDown);
+    this.createGrid();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener("resize", this.checkSize);
+    this.container.removeEventListener("keydown", this.handleKeyDown);
   }
+
+  checkSize = () => {
+    const width = this.container.offsetWidth;
+    const height = this.container.offsetHeight;
+    this.setState({
+      stageWidth: width,
+      stageHeight: height
+    });
+  };
 
   handleKeyDown = (e: any) => {
     // backspace and delete keys are keyCode 8 and 46, respectively
     // this function is only used for deleting children atm, could be used for other things
     if (e.keyCode === 8 || e.keyCode === 46) {
-      const { focusComponent, deleteComponent } = this.props;
-      deleteComponent(focusComponent.id);
+      this.props.deleteChild({});
     }
   };
-  //Handles a user click event on the Konva Stage (see line 199)
-  //Changes the focusChild of the selected component
-  //The focusChild's props may be changed in the right tab
+
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
     if (e.target === e.target.getStage()) {
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    const clickedOnTransformer =
+      e.target.getParent().className === "Transformer";
     if (clickedOnTransformer) {
       return;
     }
 
-    // find clicked rect by its childId
+    // find clicked rect by its name
     const rectChildId = e.target.attrs.childId;
+    // console.log("user clicked on child rectangle with childId: ", rectChildId);
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
-      childId: rectChildId,
+      childId: rectChildId
     });
   };
 
-  //Generates an array of Konva Line components (vertical and horizontal) spaced by blockSnapSize pixels
-  //Rectangle components are aligned to this grid
-  //blockSnapSize is used elsewhere to snap same to nearest grid line
   createGrid = () => {
-    if (this.state.grid !== []) {
-      const grid = this.state.grid;
-      grid.destroyChildren;
-    }
-    const gridArr = [];
-    for (let i = 0; i < this.props.width / this.state.blockSnapSize; i++) {
-      gridArr.push(
+    const output = [];
+    for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
+      output.push(
         <Line
           points={[
             Math.round(i * this.state.blockSnapSize) + 0.5,
             0,
             Math.round(i * this.state.blockSnapSize) + 0.5,
-            this.props.height,
+            this.state.stageHeight
           ]}
-          stroke={'#ddd'}
+          stroke={"#ddd"}
           strokeWidth={this.state.gridStroke}
           key={`${i}vertical`}
-        />,
+        />
       );
     }
-    for (let j = 0; j < this.props.height / this.state.blockSnapSize; j++) {
-      gridArr.push(
+    for (
+      let j = 0;
+      j < this.state.stageHeight / this.state.blockSnapSize;
+      j++
+    ) {
+      output.push(
         <Line
           points={[
             0,
             Math.round(j * this.state.blockSnapSize),
-            this.props.width,
-            Math.round(j * this.state.blockSnapSize),
+            this.state.stageWidth,
+            Math.round(j * this.state.blockSnapSize)
           ]}
-          stroke={'#ddd'}
+          stroke={"#ddd"}
           strokeWidth={this.state.gridStroke}
           key={`${j}horizontal`}
-        />,
+        />
       );
     }
-    const output = <Group>{gridArr}</Group>;
     this.setState({
-      grid: output,
+      grid: output
     });
   };
 
   render() {
     const {
-      image,
       components,
       handleTransform,
       focusComponent,
       focusChild,
       deleteChild,
-      classes,
-      width,
-      height
+      classes
     } = this.props;
 
     return (
-      <Stage
-        className={'canvasStage'}
-        ref={this.stage}
-        onMouseDown={this.handleStageMouseDown}
-        width={width}
-        height={height}
-        style={{ width: '100%' }}
+      <div
+        style={{
+          width: "100%",
+          height: "100%"
+        }}
+        ref={node => {
+          this.container = node;
+        }}
+        tabIndex="0" // required for keydown event to be heard by this.container
       >
-        <Layer
-          // ref={(node) => {
-          //   this.layer = node;
-          // }}
+        <Stage
+          className={"canvasStage"}
+          ref={node => {
+            this.stage = node;
+          }}
+          onMouseDown={this.handleStageMouseDown}
+          width={this.state.stageWidth}
+          height={this.state.stageHeight}
+          style={{ width: "100%" }}
         >
-          {this.state.grid}
-          <Image image={image} draggable />
-          { !isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent)
-            .map((child: ChildState, i: number) => (
-              <Rectangle
-                childType={child.childType}
-                key={`${i}${child.componentName}`}
-                components={components}
-                componentId={focusComponent.id}
-                childComponentId={child.childComponentId}
-                childComponentName={child.componentName}
-                focusChild={focusChild}
-                childId={child.childId} // -1 for pseudoChild
-                x={child.position.x}
-                y={child.position.y}
-                scaleX={1}
-                scaleY={1}
-                width={child.position.width}
-                height={child.position.height}
-                title={child.componentName + child.childId}
-                handleTransform={handleTransform}
-                draggable
-                blockSnapSize={this.state.blockSnapSize}
-                imageSource={child.htmlElement === 'Image' && child.HTMLInfo.Src}
-              />
-            ))
-            .sort((rectA, rectB) => {
-              if (rectB.props.childId === -1) {
-                return 1;
-              }
-              return (
-                rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
-              );
-            })
+          <Layer
+            ref={node => {
+              this.layer = node;
+            }}
+          >
+            {this.state.grid}
+            {this.getDirectChildrenCopy(focusComponent)
+              .map((child: ChildInt, i: number) => (
+                <Rectangle
+                  childType={child.childType}
+                  key={`${i}${child.componentName}`}
+                  components={components}
+                  componentId={focusComponent.id}
+                  childComponentId={child.childComponentId}
+                  childComponentName={child.componentName}
+                  focusChild={focusChild}
+                  childId={child.childId} // -1 for pseudoChild
+                  x={child.position.x}
+                  y={child.position.y}
+                  scaleX={1}
+                  scaleY={1}
+                  width={child.position.width}
+                  height={child.position.height}
+                  title={child.componentName + child.childId}
+                  handleTransform={handleTransform}
+                  draggable={true}
+                  blockSnapSize={this.state.blockSnapSize}
+                  imageSource={
+                    child.htmlElement === "Image" && child.HTMLInfo.Src
+                  }
+                />
+              ))
+              .sort((rectA, rectB) => {
+                if (rectB.props.childId === -1) {
+                  return 1;
+                }
+                return (
+                  rectB.props.width * rectB.props.height -
+                  rectA.props.width * rectA.props.height
+                );
+              })
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
@@ -221,9 +244,10 @@ class KonvaStage extends Component<Props, State> {
             // only exception is the pseudochild, which should always be rendered first for UX, regardless of size
             //
             // TODO: REFACTOR TO ONLY CHANGE ORDER OF RENDERING IF A BOX IS RESIZED
-          }
-        </Layer>
-      </Stage>
+            }
+          </Layer>
+        </Stage>
+      </div>
     );
   }
 }

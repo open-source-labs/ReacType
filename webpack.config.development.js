@@ -1,8 +1,10 @@
 /* eslint-disable linebreak-style */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
@@ -22,8 +24,8 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, exclude: /node-modules/, loader: 'ts-loader' },
-      { test: /\.ts?$/, exclude: /node-modules/, loader: 'ts-loader' },
+      { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
+      { test: /\.ts?$/, exclude: /node-modules/, loader: 'babel-loader' },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -63,6 +65,7 @@ module.exports = {
   },
 
   plugins: [
+    // new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
