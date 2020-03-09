@@ -21,6 +21,7 @@ import cloneDeep from "../utils/cloneDeep.ts";
 const IPC = require("electron").ipcRenderer;
 
 interface PropsInt {
+  imageSource: string;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
@@ -156,6 +157,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   };
 
   chooseAppDir = () => IPC.send("choose_app_dir");
+  addImage = () => IPC.send('update-file');
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
@@ -194,6 +196,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
   render(): JSX.Element {
     const {
+      imageSource,
       components,
       deleteComponent,
       focusComponent,
@@ -222,6 +225,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           components={components}
         />
       ));
+      const { addImage } = this;
 
     return (
       <div className="column left">
@@ -292,6 +296,31 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               flexDirection: "column"
             }}
           >
+             { 
+            imageSource ? (
+              <Button
+                aria-label="Remove Image"
+                variant="contained"
+                fullWidth
+                onClick={clearImage}
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Remove Image
+              </Button> 
+            ) : (
+              <Button
+                aria-label="Upload Image"
+                variant="contained"
+                fullWidth
+                onClick={addImage}
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Upload Image
+              </Button> 
+            )
+          }
             <Button
               color="secondary"
               aria-label="Delete All"

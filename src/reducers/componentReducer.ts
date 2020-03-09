@@ -85,6 +85,7 @@ const initialApplicationFocusChild: ChildInt = {
 };
 
 const initialApplicationState: ApplicationStateInt = {
+  imageSource: '',
   totalComponents: 1,
   nextId: 2,
   successOpen: false,

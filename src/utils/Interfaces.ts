@@ -43,6 +43,7 @@ export interface ComponentInt {
 export interface ComponentsInt extends Array<ComponentInt> {}
 
 export interface ApplicationStateInt {
+  imageSource: String;
   totalComponents: number;
   nextId: number;
   successOpen: boolean;

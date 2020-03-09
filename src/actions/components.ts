@@ -25,11 +25,17 @@ import {
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
+  CHANGE_IMAGE_SOURCE
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
 import createApplicationUtil from '../utils/createApplication.util.ts';
+
+export const changeImagePath = (imageSource: string) => ({
+  type: CHANGE_IMAGE_SOURCE,
+  payload: { imageSource },
+})
 
 export const loadInitData = () => (dispatch: any) => {
   loadState().then((data: any) => dispatch({

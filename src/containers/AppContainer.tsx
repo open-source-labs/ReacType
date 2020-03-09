@@ -1,14 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import LeftContainer from "./LeftContainer.tsx";
-import MainContainer from "./MainContainer.tsx";
-import theme from "../components/theme.ts";
-import { loadInitData } from "../actions/components.ts";
-import { ComponentInt, ComponentsInt } from "../utils/Interfaces.ts";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import LeftContainer from './LeftContainer.tsx';
+import MainContainer from './MainContainer.tsx';
+import theme from '../components/theme.ts';
+import { loadInitData } from '../actions/components.ts';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
+import * as actions from '../actions/components';
+
 
 type Props = {
+  imageSource: string;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   totalComponents: number;
@@ -18,6 +21,7 @@ type Props = {
 };
 
 const mapStateToProps = (store: any) => ({
+  imageSource: store.workspace.imageSource,
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
@@ -25,7 +29,11 @@ const mapStateToProps = (store: any) => ({
   selectableChildren: store.workspace.selectableChildren
 });
 
-const mapDispatchToProps = { loadInitData };
+const mapDispatchToProps = (dispatch: any) => ({
+  loadInitData,
+  //CHECK
+  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+});
 
 class AppContainer extends Component<Props> {
   state = {
@@ -61,9 +69,9 @@ class AppContainer extends Component<Props> {
           {loading ? (
             <div
               style={{
-                alignSelf: "flex-end",
-                position: "fixed",
-                width: "100%"
+                alignSelf: 'flex-end',
+                position: 'fixed',
+                width: '100%'
               }}
             >
               <LinearProgress color="secondary" />
@@ -75,7 +83,4 @@ class AppContainer extends Component<Props> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
