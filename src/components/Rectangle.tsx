@@ -167,9 +167,17 @@ class Rectangle extends Component<PropsInt, StateInt> {
           draggable={false}
           fill={null}
           shadowBlur={childId === -1 ? 6 : null}
+<<<<<<< HEAD
           fillPatternImage={this.state.image ? this.state.image : null}
           fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
           fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+=======
+
+          fillPatternImage={this.state.image ? this.state.image : null}
+          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
+          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+
+>>>>>>> e51db579b0759ac9d502e6bfaea52067bd942eb6
           _useStrictMode
         />
         <Label>

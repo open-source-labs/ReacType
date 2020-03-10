@@ -164,11 +164,18 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   chooseAppDir = () => IPC.send("choose_app_dir");
   addImage = () => IPC.send('update-file');
 =======
   chooseAppDir = () => IPC.send('choose_app_dir');
 >>>>>>> 5b06f9594f8f844e2ac13ae8e5c94fa9d71dfd80
+=======
+
+  chooseAppDir = () => IPC.send("choose_app_dir");
+  addImage = () => IPC.send('update-file');
+
+>>>>>>> e51db579b0759ac9d502e6bfaea52067bd942eb6
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
