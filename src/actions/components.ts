@@ -27,7 +27,7 @@ import {
   UPDATE_CHILDREN_SORT,
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
-} from '../actionTypes/index.js';
+} from '../actionTypes/index.ts';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
