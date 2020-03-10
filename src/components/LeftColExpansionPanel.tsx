@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Switch from '@material-ui/core/Switch'; // for state toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
+import Select from '@material-ui/core/Select'; // for Class/Functional drop down
+import MenuItem from '@material-ui/core/MenuItem'; // for drop down item selections
 
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces'; // unused
 
@@ -86,6 +88,36 @@ const LeftColExpansionPanel = (props: any) => {
                         color='primary'
                         id='stateful'
                       />
+                      <div>
+                        <InputLabel
+                          id='label'
+                          style={{
+                            color: '#fff',
+                            marginBottom: '10px',
+                            marginTop: '0px',
+                            marginLeft: '11px',
+                            padding: '0px',
+                            fontSize: '18px'
+                          }}
+                        >
+                          Component Type
+                        </InputLabel>
+                        <Select
+                          id='select'
+                          value='class'
+                          style={{
+                            color: '#fff',
+                            marginBottom: '10px',
+                            marginTop: '0px',
+                            marginLeft: '11px',
+                            padding: '0px',
+                            fontSize: '18px'
+                          }}
+                        >
+                          <MenuItem value='class'>Class</MenuItem>
+                          <MenuItem value='functional'>Functional</MenuItem>
+                        </Select>
+                      </div>
                     </div>
                   }
                   style={{ color }}
