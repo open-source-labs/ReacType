@@ -34,7 +34,7 @@ import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: { imageSource },
+  payload: imageSource,
 })
 
 export const loadInitData = () => (dispatch: any) => {

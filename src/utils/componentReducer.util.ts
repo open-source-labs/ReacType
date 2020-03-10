@@ -309,6 +309,14 @@ export const handleTransform = (
     focusChild: newFocusChild,
   };
 };
+export const changeImageSource = (state: ApplicationStateInt, { src }: { src: string }) => {
+  return {
+    ...state, 
+    imageSource: src
+  }
+}
+
+
 
 //Reducer that deletes the component selected
 export const deleteComponent = (state: ApplicationStateInt, { componentId }: { componentId: number }) => {

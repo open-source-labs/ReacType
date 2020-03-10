@@ -302,7 +302,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
                 aria-label="Remove Image"
                 variant="contained"
                 fullWidth
-                onClick={clearImage}
+                onClick={() => {}}
                 className={classes.clearButton}
                 style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
               >
