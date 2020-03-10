@@ -310,14 +310,13 @@ export const handleTransform = (
   };
 };
 
+//change image source
 export const changeImageSource = (state: ApplicationStateInt,  src :string) => {
   return {
     ...state, 
     imageSource: src
   }
 }
-
-
 
 //Reducer that deletes the component selected
 export const deleteComponent = (state: ApplicationStateInt, { componentId }: { componentId: number }) => {

@@ -1,3 +1,6 @@
+//The main container includes both the Konva stage for creating component wireframes and 
+//the bottom panel. 
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -64,7 +67,6 @@ const mapDispatchToProps = (dispatch: any) => ({
         height
       })
     ),
-  // openPanel: component => dispatch(openExpansionPanel(component)),
   changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
 
   changeFocusChild: ({ childId }: { childId: number }) =>

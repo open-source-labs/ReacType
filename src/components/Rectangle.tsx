@@ -62,7 +62,6 @@ class Rectangle extends Component<PropsInt, StateInt> {
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y
     };
-    console.log('width:', transformation.width, 'height:', transformation.height, 'x', transformation.x, 'y', transformation.y);
     this.props.handleTransform(componentId, childId, transformation);
   }
 
@@ -144,7 +143,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
           strokeWidth={childType === 'COMP' ? 4 : 2}
           strokeScaleEnabled={false}
           draggable={false}
-          fill={childId === -1 ? 'white' : null}
+          fill={null}
           shadowBlur={childId === -1 ? 6 : null}
           fillPatternImage={this.state.image ? this.state.image : null}
           fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}

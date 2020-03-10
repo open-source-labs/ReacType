@@ -129,7 +129,6 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return changeComponentFocusChild(state, action.payload);
     case CHANGE_IMAGE_SOURCE:
       return changeImageSource(state, action.payload);
-    // case CREATE_APPLICATION:
     case EXPORT_FILES:
       return { ...state, loading: true };
     case EXPORT_FILES_SUCCESS:
