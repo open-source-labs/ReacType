@@ -43,6 +43,20 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
+  /*
+  Function: propDrillTextGenerator
+
+  Input:  child - the element of type  'ChildInt' that is being added to the code preview
+
+  Output: a string literal to be used in the code preview section fro the prop -drilled components and 
+    the HTML attributes 
+    
+  Description: Fucntion that getnerates the code preview for both the prop drilled properties 
+    as well as HTML attributes
+    added a conditional that checks whether the html  prop is 'src' if so it doesnt 
+    use htmlAttrSanitizer.
+    This leaves special characters in the source link of the image
+  */
   function propDrillTextGenerator(child: ChildInt) {
     if (child.childType === 'COMP') {
       return components
@@ -52,7 +66,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
     if (child.childType === 'HTML') {
       const keys: string[] = Object.keys(child.HTMLInfo);
-      return keys.map(key => `${key}={${htmlAttrSanitizer(child.HTMLInfo[key])}}`).join(' ');
+      return keys
+        .map(key => {
+          if (key !== 'src') {
+            return `${key}='${htmlAttrSanitizer(child.HTMLInfo[key])}'`;
+          } else {
+            return `${key}='${child.HTMLInfo[key]}'`;
+          }
+        })
+        .join(' ');
     }
     return '';
   }
