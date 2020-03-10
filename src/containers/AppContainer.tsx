@@ -85,6 +85,14 @@ class AppContainer extends Component<Props, State> {
     };
   };
 
+  clearImage = () => {
+    const { changeImagePath } = this.props;
+    changeImagePath('');
+    this.setState({
+      image: null
+    })
+  }
+
   componentDidMount() {
     this.props.loadInitData();
   }

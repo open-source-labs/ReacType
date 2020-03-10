@@ -309,7 +309,8 @@ export const handleTransform = (
     focusChild: newFocusChild,
   };
 };
-export const changeImageSource = (state: ApplicationStateInt, { src }: { src: string }) => {
+
+export const changeImageSource = (state: ApplicationStateInt,  src :string) => {
   return {
     ...state, 
     imageSource: src
