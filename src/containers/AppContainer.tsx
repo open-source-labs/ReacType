@@ -21,11 +21,13 @@ type Props = {
   selectableChildren: Array<number>;
   loadInitData: any;
   changeImagePath: any;
+  changed: boolean;
 };
 
 type State = {
   image: HTMLImageElement | null;
   width: number;
+  changed: boolean;
 }
 
 const mapStateToProps = (store: any) => ({
@@ -50,6 +52,7 @@ class AppContainer extends Component<Props, State> {
     this.state = {
       image: null,
       width: 25,
+      changed: false
     };
 
     IPC.on('new-file', (event, file: string) => {
@@ -69,25 +72,30 @@ class AppContainer extends Component<Props, State> {
   // };
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
-    if (imageSource !== prevProps.imageSource) {
+    const {changed} = this.state;
+    if (imageSource == '' && changed) {
+      this.setState({...this.state, image:null, changed:false});
+
+    }
+    else if (imageSource !== prevProps.imageSource) {
       this.setImage(imageSource);
     }
   }
 
   setImage = (imageSource: string) => {
+    if (imageSource) {
     let image: HTMLImageElement;
     image = new window.Image();
     image.src = imageSource;
     image.onload = () => {
       // setState will redraw layer
       // because "image" property is changed
-      this.setState({ image });
+      this.setState({ image, changed: true });
     };
+  }
   };
 
   clearImage = () => {
-    const { changeImagePath } = this.props;
-    changeImagePath('');
     this.setState({
       image: null
     })
@@ -117,6 +125,7 @@ class AppContainer extends Component<Props, State> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
             setImage={this.setImage}
+            clearImage={this.clearImage}
           />
           <MainContainer components={components} image={this.state.image} 
             imageSource={this.props.imageSource}/>

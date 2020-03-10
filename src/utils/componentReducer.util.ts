@@ -223,6 +223,13 @@ export const deleteChild = (
   };
 };
 
+export const deleteImage = (state: ApplicationStateInt) => {
+  return {
+    ...state,
+    imageSource: ''
+  }
+}
+
 export const handleTransform = (
   state: ApplicationStateInt,
   {

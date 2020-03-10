@@ -25,7 +25,8 @@ import {
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
-  CHANGE_IMAGE_SOURCE
+  CHANGE_IMAGE_SOURCE,
+  DELETE_IMAGE
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -117,6 +118,12 @@ childId: number;
     payload: { componentId, childId },
   });
 };
+
+export const deleteImage = () => ({
+  type: DELETE_IMAGE,
+  payload: ''
+})
+
 
 export const exportFiles = ({
   components,

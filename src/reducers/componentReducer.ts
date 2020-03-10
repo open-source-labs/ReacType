@@ -14,6 +14,7 @@ import {
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
   CHANGE_IMAGE_SOURCE,
+  DELETE_IMAGE,
   EXPORT_FILES,
   CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
@@ -35,6 +36,7 @@ import {
   addChild,
   deleteChild,
   deleteComponent,
+  deleteImage,
   changeFocusComponent,
   changeComponentFocusChild,
   changeFocusChild,
@@ -131,6 +133,8 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return changeImageSource(state, action.payload);
     case EXPORT_FILES:
       return { ...state, loading: true };
+    case DELETE_IMAGE:
+      return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
     case CREATE_APPLICATION_ERROR:
