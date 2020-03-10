@@ -66,10 +66,6 @@ class AppContainer extends Component<Props, State> {
     });
   }
 
-  // state = {
-  //   width: 25,
-  //   rightColumnOpen: true
-  // };
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
     const {changed} = this.state;
@@ -95,12 +91,6 @@ class AppContainer extends Component<Props, State> {
   }
   };
 
-  clearImage = () => {
-    this.setState({
-      image: null
-    })
-  }
-
   componentDidMount() {
     this.props.loadInitData();
   }
@@ -124,8 +114,6 @@ class AppContainer extends Component<Props, State> {
             totalComponents={totalComponents}
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
-            setImage={this.setImage}
-            clearImage={this.clearImage}
           />
           <MainContainer components={components} image={this.state.image} 
             imageSource={this.props.imageSource}/>

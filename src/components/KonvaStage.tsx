@@ -113,8 +113,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     if (e.target === e.target.getStage()) {
       return;
     }
-    console.log(this.props.image.width);
-
     // // clicked on transformer - do nothing
     const clickedOnTransformer =
       e.target.getParent().className === "Transformer";
