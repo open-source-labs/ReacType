@@ -11,8 +11,10 @@ import {
 } from "../actions/components.ts";
 import KonvaStage from "../components/KonvaStage.tsx";
 import { ComponentInt, ComponentsInt } from "../utils/Interfaces.ts";
+import * as actions from '../actions/components';
 
 interface PropsInt {
+  image: HTMLImageElement | null;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
@@ -21,6 +23,7 @@ interface PropsInt {
   addChild: any;
   changeFocusComponent: any;
   changeFocusChild: any;
+  changeImagePath: any;
   deleteComponent: any;
   createApp: any;
   deleteAllData: any;
@@ -62,6 +65,8 @@ const mapDispatchToProps = (dispatch: any) => ({
       })
     ),
   // openPanel: component => dispatch(openExpansionPanel(component)),
+  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+
   changeFocusChild: ({ childId }: { childId: number }) =>
     dispatch(changeFocusChild({ childId })),
   changeComponentFocusChild: ({
@@ -101,8 +106,10 @@ class MainContainer extends Component<PropsInt, StateInt> {
       changeFocusChild,
       changeComponentFocusChild,
       deleteChild,
-      classes
+      classes,
+      image
     } = this.props;
+
     const { main }: { main: HTMLDivElement } = this;
 
     return (
@@ -111,6 +118,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
           {modal}
           <div className="main" ref={main}>
             <KonvaStage
+              image={image}
               scaleX={1}
               scaleY={1}
               draggable={draggable}

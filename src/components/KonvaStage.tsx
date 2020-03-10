@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Stage, Layer, Line } from "react-konva";
+import { Stage, Layer, Line, Image } from "react-konva";
 import Rectangle from "./Rectangle.tsx";
 import cloneDeep from "../utils/cloneDeep.ts";
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
+import isEmpty from '../utils/isEmpty';
 
 interface PropsInt {
+  image: HTMLImageElement;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
@@ -107,6 +109,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     if (e.target === e.target.getStage()) {
       return;
     }
+    console.log(this.props.image.width);
+
     // // clicked on transformer - do nothing
     const clickedOnTransformer =
       e.target.getParent().className === "Transformer";
@@ -167,6 +171,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
 
   render() {
     const {
+      image,
       components,
       handleTransform,
       focusComponent,
@@ -202,7 +207,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
-            {this.getDirectChildrenCopy(focusComponent)
+            <Image image={image} draggable width={this.state.stageWidth*0.8} height={this.state.stageHeight*0.9}/>
+            {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
               .map((child: ChildInt, i: number) => (
                 <Rectangle
                   childType={child.childType}
