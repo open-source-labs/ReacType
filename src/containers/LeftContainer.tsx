@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import Grid from "@material-ui/core/Grid";
-import { withStyles } from "@material-ui/core/styles";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Fab from "@material-ui/core/Fab";
-import LeftColExpansionPanel from "../components/LeftColExpansionPanel.tsx";
-import HTMLComponentPanel from "../components/HTMLComponentPanel.tsx";
-import * as actions from "../actions/components.ts";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
-import createModal from "../utils/createModal.util.tsx";
-import cloneDeep from "../utils/cloneDeep.ts";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Fab from '@material-ui/core/Fab';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
+import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
+import * as actions from '../actions/components.ts';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
+import createModal from '../utils/createModal.util.tsx';
+import cloneDeep from '../utils/cloneDeep.ts';
 
-const IPC = require("electron").ipcRenderer;
+const IPC = require('electron').ipcRenderer;
 
 interface PropsInt {
   imageSource: string;
@@ -86,7 +86,7 @@ const mapDispatchToProps = (dispatch: any) => ({
         path,
         components,
         genOption,
-        appName: "reactype_app",
+        appName: 'reactype_app',
         exportAppBool: null
       })
     )
@@ -99,17 +99,17 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     super(props);
 
     this.state = {
-      componentName: "",
+      componentName: '',
       modal: null,
       genOptions: [
-        "Export components",
-        "Export components with application files"
+        'Export components',
+        'Export components with application files'
       ],
       genOption: 0.,
       imageSource: this.props.imageSource
     };
 
-    IPC.on("app_dir_selected", (event: any, path: string) => {
+    IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
@@ -130,7 +130,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
     this.setState({
-      componentName: ""
+      componentName: ''
     });
   };
 
@@ -139,9 +139,9 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   clearWorkspace = () => {
     this.setState({
       modal: createModal({
-        message: "Are you sure want to delete all data?",
+        message: 'Are you sure want to delete all data?',
         closeModal: this.closeModal,
-        secBtnLabel: "Clear Workspace",
+        secBtnLabel: 'Clear Workspace',
         open: true,
         children: null,
         primBtnAction: null,
@@ -163,26 +163,28 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.chooseAppDir();
   };
 
+
   chooseAppDir = () => IPC.send("choose_app_dir");
   addImage = () => IPC.send('update-file');
+
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
-      <List className="export-preference">
+      <List className='export-preference'>
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
             style={{
-              border: "1px solid #3f51b5",
-              marginBottom: "2%",
-              marginTop: "5%"
+              border: '1px solid #3f51b5',
+              marginBottom: '2%',
+              marginTop: '5%'
             }}
           >
-            <ListItemText primary={option} style={{ textAlign: "center" }} />
+            <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
         ))}
       </List>
@@ -191,7 +193,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       modal: createModal({
         closeModal,
         children,
-        message: "Choose export preference:",
+        message: 'Choose export preference:',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -236,30 +238,30 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       const { addImage, clearImage } = this;
 
     return (
-      <div className="column left">
+      <div className='column left'>
         <Grid
           container
           spacing={8}
-          align="stretch"
-          direction="row"
-          alignItems="center"
+          align='stretch'
+          direction='row'
+          alignItems='center'
         >
           <Grid item xs={8}>
             <TextField
-              id="title-input"
-              label="Add class component"
-              placeholder="Name of component"
-              margin="normal"
+              id='title-input'
+              label='Add class component'
+              placeholder='Name of component'
+              margin='normal'
               autoFocus
               onChange={this.handleChange}
               onKeyPress={ev => {
-                if (ev.key === "Enter") {
+                if (ev.key === 'Enter') {
                   this.handleAddComponent();
                   ev.preventDefault();
                 }
               }}
               value={componentName}
-              name="componentName"
+              name='componentName'
               className={classes.light}
               InputProps={{
                 className: classes.input
@@ -271,10 +273,10 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <Fab
-              size="small"
-              color="secondary"
+              size='small'
+              color='secondary'
               className={classes.button}
-              aria-label="Add"
+              aria-label='Add'
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
@@ -282,7 +284,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className="expansionPanel">{componentsExpansionPanel}</div>
+        <div className='expansionPanel'>{componentsExpansionPanel}</div>
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
@@ -291,17 +293,17 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
         <div
           style={{
-            width: "100%",
-            position: "absolute",
+            width: '100%',
+            position: 'absolute',
             bottom: 0,
             left: 0
           }}
         >
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column"
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column'
             }}
           >
              { 
@@ -331,9 +333,9 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             )
           }
             <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
+              color='secondary'
+              aria-label='Delete All'
+              variant='contained'
               fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
@@ -345,21 +347,21 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </div>
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column"
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column'
             }}
           >
             <Button
-              color="primary"
-              aria-label="Export Code"
-              variant="contained"
+              color='primary'
+              aria-label='Export Code'
+              variant='contained'
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
               style={{ borderRadius: 0 }}
             >
-              <GetAppIcon style={{ paddingRight: "5px" }} />
+              <GetAppIcon style={{ paddingRight: '5px' }} />
               Export Project
             </Button>
           </div>
@@ -374,39 +376,39 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 function styles(): any {
   return {
     cssLabel: {
-      color: "white",
+      color: 'white',
 
-      "&$cssFocused": {
-        color: "green"
+      '&$cssFocused': {
+        color: 'green'
       }
     },
     cssFocused: {},
     input: {
-      color: "#fff",
-      opacity: "0.7",
-      marginBottom: "10px"
+      color: '#fff',
+      opacity: '0.7',
+      marginBottom: '10px'
     },
     underline: {
-      color: "white",
-      "&::before": {
-        color: "white"
+      color: 'white',
+      '&::before': {
+        color: 'white'
       }
     },
     button: {
-      color: "#fff",
+      color: '#fff',
 
-      "&:disabled": {
-        color: "grey"
+      '&:disabled': {
+        color: 'grey'
       }
     },
     clearButton: {
-      top: "96%",
-      position: "sticky!important",
-      zIndex: "1",
+      top: '96%',
+      position: 'sticky!important',
+      zIndex: '1',
 
-      "&:disabled": {
-        color: "grey",
-        backgroundColor: "#424242"
+      '&:disabled': {
+        color: 'grey',
+        backgroundColor: '#424242'
       }
     }
   };
@@ -414,8 +416,10 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
+
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
+
 )(LeftContainer);
