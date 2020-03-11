@@ -1,5 +1,5 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt, Action
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt
 } from '../utils/Interfaces.ts';
 
 import {
@@ -33,20 +33,20 @@ import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
 import createApplicationUtil from '../utils/createApplication.util.ts';
 
+
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
   payload: { imageSource },
 })
 
 export const loadInitData = () => (dispatch: (arg: Action) => void) => {
-  loadState().then((data: any) => {
+  loadState().then((data: ApplicationStateInt) => {
     dispatch({
     type: LOAD_INIT_DATA,
     payload: {
       data: data ? data.workspace : {},
     },
   });
-  console.log(data);
 });
 };
 
