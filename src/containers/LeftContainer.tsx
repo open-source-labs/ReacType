@@ -21,6 +21,7 @@ import cloneDeep from '../utils/cloneDeep';
 const IPC = require('electron').ipcRenderer;
 
 interface PropsInt {
+  imageSource: string;
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
@@ -33,6 +34,7 @@ interface PropsInt {
   createApp: any;
   deleteAllData: any;
   toggleComponentState: any;
+  deleteImage: any;
 }
 
 interface StateInt {
@@ -41,6 +43,10 @@ interface StateInt {
   genOptions: Array<string>;
   genOption: number;
 }
+
+const mapStateToProps = (store: any) => ({
+  imageSource: store.workspace.imageSource
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
@@ -68,6 +74,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   toggleComponentState: (id: string) =>
     dispatch(actions.toggleComponentState(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
+  deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
     path,
     components,
@@ -101,7 +108,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
         'Export components',
         'Export components with application files'
       ],
-      genOption: 0
+      genOption: 0.,
+      imageSource: this.props.imageSource
     };
 
     IPC.on('app_dir_selected', (event: any, path: string) => {
@@ -160,7 +168,10 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.chooseAppDir();
   };
 
-  chooseAppDir = () => IPC.send('choose_app_dir');
+
+  chooseAppDir = () => IPC.send("choose_app_dir");
+  addImage = () => IPC.send('update-file');
+
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
@@ -199,6 +210,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
   render(): JSX.Element {
     const {
+      imageSource,
       components,
       deleteComponent,
       focusComponent,
@@ -207,7 +219,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
-      toggleComponentState
+      toggleComponentState,
+      deleteImage
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -229,6 +242,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           toggleComponentState={toggleComponentState}
         />
       ));
+      const { addImage, clearImage } = this;
 
     return (
       <div className='column left'>
@@ -299,6 +313,32 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               flexDirection: 'column'
             }}
           >
+             { 
+            imageSource ? (
+              <Button
+                aria-label="Remove Image"
+                variant="contained"
+                fullWidth
+                onClick={deleteImage
+                }
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Remove Image
+              </Button> 
+            ) : (
+              <Button
+                aria-label="Upload Image"
+                variant="contained"
+                fullWidth
+                onClick={addImage}
+                className={classes.clearButton}
+                style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
+              >
+                Upload Image
+              </Button> 
+            )
+          }
             <Button
               color='secondary'
               aria-label='Delete All'
@@ -383,5 +423,10 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-  connect(null, mapDispatchToProps)
+
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+
 )(LeftContainer);

@@ -4,6 +4,7 @@ import {
   ApplicationStateInt
 } from '../utils/Interfaces';
 
+
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -14,6 +15,8 @@ import {
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
+  CHANGE_IMAGE_SOURCE,
+  DELETE_IMAGE,
   EXPORT_FILES,
   CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
@@ -28,16 +31,19 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
-} from '../actionTypes/';
+} from '../actionTypes';
+
 
 import {
   addComponent,
   addChild,
   deleteChild,
   deleteComponent,
+  deleteImage,
   changeFocusComponent,
   changeComponentFocusChild,
   changeFocusChild,
+  changeImageSource,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
@@ -48,6 +54,7 @@ import {
   updateHtmlAttr,
   updateChildrenSort,
   toggleComponentState
+
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
@@ -87,6 +94,7 @@ const initialApplicationFocusChild: ChildInt = {
 };
 
 const initialApplicationState: ApplicationStateInt = {
+  imageSource: '',
   totalComponents: 1,
   nextId: 2,
   successOpen: false,
@@ -128,9 +136,12 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return changeFocusChild(state, action.payload);
     case CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    case CREATE_APPLICATION:
+    case CHANGE_IMAGE_SOURCE:
+      return changeImageSource(state, action.payload);
     case EXPORT_FILES:
       return { ...state, loading: true };
+    case DELETE_IMAGE:
+      return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
     case CREATE_APPLICATION_ERROR:
