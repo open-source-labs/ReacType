@@ -319,10 +319,10 @@ export const handleTransform = (
 };
 
 //change image source
-export const changeImageSource = (state: ApplicationStateInt,  src :string) => {
+export const changeImageSource = (state: ApplicationStateInt,  { imageSource }: { imageSource: string }) => {
   return {
     ...state, 
-    imageSource: src
+    imageSource
   }
 }
 

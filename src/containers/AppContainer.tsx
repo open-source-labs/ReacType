@@ -19,8 +19,8 @@ type Props = {
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
-  loadInitData: any;
-  changeImagePath: any;
+  loadInitData: () => void;
+  changeImagePath: () => void;
   changed: boolean;
 };
 

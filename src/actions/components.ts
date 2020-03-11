@@ -1,5 +1,5 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt,
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action
 } from '../utils/Interfaces.ts';
 
 import {
@@ -35,10 +35,10 @@ import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: imageSource,
+  payload: { imageSource },
 })
 
-export const loadInitData = () => (dispatch: any) => {
+export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   loadState().then((data: any) => dispatch({
     type: LOAD_INIT_DATA,
     payload: {
@@ -47,7 +47,7 @@ export const loadInitData = () => (dispatch: any) => {
   }));
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: any) => {
+export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -59,11 +59,11 @@ export const addChild = ({
 title: string;
 childType: string;
 HTMLInfo: object;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => (dispatch: any) => {
+export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
@@ -74,7 +74,7 @@ export const deleteComponent = ({
 }: {
 componentId: number;
 stateComponents: ComponentsInt;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
     parent.childrenArray
@@ -97,12 +97,12 @@ stateComponents: ComponentsInt;
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: any) => {
+export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: any) => {
+export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
 
@@ -112,7 +112,7 @@ export const changeComponentFocusChild = ({
 }: {
 componentId: number;
 childId: number;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
     payload: { componentId, childId },
@@ -120,8 +120,7 @@ childId: number;
 };
 
 export const deleteImage = () => ({
-  type: DELETE_IMAGE,
-  payload: ''
+  type: DELETE_IMAGE
 })
 
 
@@ -135,7 +134,7 @@ components: ComponentsInt;
 path: string;
 appName: string;
 exportAppBool: boolean;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES,
@@ -187,7 +186,7 @@ components: ComponentsInt;
 genOption: number;
 appName: string;
 exportAppBool: boolean;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   if (genOption === 0) {
     exportAppBool = false;
     dispatch(
@@ -207,7 +206,6 @@ exportAppBool: boolean;
       path,
       appName,
       genOption,
-      // exportAppBool
     })
       .then(() => {
         dispatch({
@@ -238,7 +236,7 @@ export const deleteAllData = () => ({
   type: DELETE_ALL_DATA,
 });
 
-export const deleteProp = (propId: number) => (dispatch: any) => {
+export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
@@ -248,7 +246,7 @@ export const addProp = (prop: PropInt) => ({
 });
 
 export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-  dispatch: any,
+  dispatch: (arg: Action) => void,
 ) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
@@ -257,7 +255,7 @@ export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string })
 };
 
 export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
-  dispatch: any,
+  dispatch: (arg: Action) => void,
 ) => {
   dispatch({
     type: UPDATE_CHILDREN_SORT,
