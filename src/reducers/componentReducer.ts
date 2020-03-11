@@ -1,4 +1,10 @@
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ChildInt,
+  ApplicationStateInt,
+  Action
+} from '../utils/Interfaces';
+
 
 import {
   LOAD_INIT_DATA,
@@ -105,7 +111,7 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false
 };
 
-const componentReducer = (state = initialApplicationState, action: any) => {
+const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return {

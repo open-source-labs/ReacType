@@ -44,7 +44,7 @@ export interface ComponentInt {
 export interface ComponentsInt extends Array<ComponentInt> {}
 
 export interface ApplicationStateInt {
-  imageSource: String;
+  imageSource: string;
   totalComponents: number;
   nextId: number;
   successOpen: boolean;
@@ -61,5 +61,15 @@ export interface ApplicationStateInt {
 
 export interface Action {
   type: string;
-  payload: object;
+  payload?: any;
+}
+
+export interface LoadInitData {
+  type: string;
+  payload: { data: ApplicationStateInt | object }
+}
+
+export interface AddComponent {
+  type: string;
+  payload: { title : string }
 }
