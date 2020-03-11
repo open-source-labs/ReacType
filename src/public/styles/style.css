@@ -102,7 +102,7 @@ LEFT COLUMN
   display: flex;
   /* max-height: 80%; */
   height: 60%;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   padding: 1%;
 }
