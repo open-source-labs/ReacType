@@ -149,6 +149,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
           fillPatternImage={this.state.image ? this.state.image : this.setImage(imageSource)}
           fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
           fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          _useStrictMode
         />
         <Label>
           <Text
@@ -194,16 +195,14 @@ class Rectangle extends Component<PropsInt, StateInt> {
                 }
               />
             ))}
-        {focusChild &&
-          focusChild.childId === childId &&
-          draggable && (
-            <TransformerComponent
-              focusChild={focusChild}
-              rectClass={'childRect'}
-              anchorSize={8}
-              color={'grey'}
-            />
-          )}
+        {focusChild && focusChild.childId === childId && draggable && (
+          <TransformerComponent
+            focusChild={focusChild}
+            rectClass={'childRect'}
+            anchorSize={8}
+            color={'grey'}
+          />
+        )}
       </Group>
     );
   }

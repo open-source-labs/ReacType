@@ -5,13 +5,17 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   const {
     childrenArray,
     title,
-    props
+    props,
+    stateful,
+    classBased
   }: {
     childrenArray: ChildrenInt;
     title: string;
     props: PropInt[];
+    stateful: boolean;
+    classBased: boolean;
   } = component;
-
+  let stateful1 = true;
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -112,7 +116,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   }
 
   return `
-    import React from 'react';
+    ${classBased ? `import React, {Component, useState} from 'react';` : ``}
+    ${stateful && !classBased ? `import React, {useState} from 'react';` : ``}
+    ${!stateful && !classBased ? `import React from 'react';` : ``}
+
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
       .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
@@ -129,9 +136,19 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-    const ${title} = (props: Props) => {
+      ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
+      ${stateful ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");` : ``}
+      ${
+        true
+          ? `constructor(props) {
+        super(props);
+        this.state = {}
+       }`
+          : ``
+      }
+
       const {${props.map(el => el.key).join(', ')}} = props;
-      
+      ${true ? `render() {` : ``}
       return (
         <div>
         ${cloneDeep(childrenArray)
@@ -144,6 +161,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         </div>
       );
     }
+    ${true ? `}` : ``}
     export default ${title};
   `;
 };

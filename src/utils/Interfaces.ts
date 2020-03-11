@@ -30,6 +30,7 @@ export interface ChildrenInt extends Array<ChildInt> {}
 export interface ComponentInt {
   id: number;
   stateful: boolean;
+  classBased: boolean;
   title: string;
   color: string;
   props: PropInt[];

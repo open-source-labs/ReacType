@@ -26,7 +26,7 @@ class CodePreview extends Component<Props> {
         }}
       >
         <SyntaxHighlighter style={hybrid}>
-          {format(componentRender(focusComponent, components))}
+          {componentRender(focusComponent, components)}
         </SyntaxHighlighter>
       </div>
     );
