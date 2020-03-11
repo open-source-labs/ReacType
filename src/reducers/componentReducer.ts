@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   ComponentInt,
   ChildInt,
@@ -5,6 +6,9 @@ import {
   Action
 } from '../utils/Interfaces';
 
+=======
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/Interfaces';
+>>>>>>> 8ba7c2096cd63a22e916fe1c390ab30a4df2c14a
 
 import {
   LOAD_INIT_DATA,
@@ -34,7 +38,6 @@ import {
   UPDATE_CHILDREN_SORT
 } from '../actionTypes';
 
-
 import {
   addComponent,
   addChild,
@@ -55,13 +58,13 @@ import {
   updateHtmlAttr,
   updateChildrenSort,
   toggleComponentState
-
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
+  classBased: false,
   title: 'App',
   color: '#FF6D00',
   props: [],

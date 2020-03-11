@@ -25,7 +25,6 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
-
   UPDATE_CHILDREN_SORT,
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
@@ -127,7 +126,6 @@ export const deleteImage = () => ({
   type: DELETE_IMAGE
 })
 
-
 export const exportFiles = ({
   components,
   path,
@@ -167,12 +165,7 @@ export const handleClose = () => ({
 export const handleTransform = (
   componentId: number,
   childId: number,
-  {
-    x,
-    y,
-    width,
-    height
-  }: { x: number; y: number; width: number; height: number }
+  { x, y, width, height }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {

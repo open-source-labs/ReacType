@@ -50,8 +50,7 @@ const mapStateToProps = (store: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addComponent: ({ title }: { title: string }) =>
-    dispatch(actions.addComponent({ title })),
+  addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
   addChild: ({
     title,
     childType,
@@ -72,8 +71,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  toggleComponentState: (id: string) =>
-    dispatch(actions.toggleComponentState(id)),
+  toggleComponentState: (id: string) => dispatch(actions.toggleComponentState(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -105,11 +103,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.state = {
       componentName: '',
       modal: null,
-      genOptions: [
-        'Export components',
-        'Export components with application files'
-      ],
-      genOption: 0.,
+      genOptions: ['Export components', 'Export components with application files'],
+      genOption: 0,
       imageSource: this.props.imageSource
     };
 
@@ -169,15 +164,14 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.chooseAppDir();
   };
 
-  chooseAppDir = () => IPC.send("choose_app_dir");
+  chooseAppDir = () => IPC.send('choose_app_dir');
   addImage = () => IPC.send('update-file');
-
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
-      <List className='export-preference'>
+      <List className="export-preference">
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
@@ -242,23 +236,17 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           toggleComponentState={toggleComponentState}
         />
       ));
-      const { addImage, clearImage } = this;
+    const { addImage, clearImage } = this;
 
     return (
-      <div className='column left'>
-        <Grid
-          container
-          spacing={8}
-          align='stretch'
-          direction='row'
-          alignItems='center'
-        >
+      <div className="column left">
+        <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
           <Grid item xs={8}>
             <TextField
-              id='title-input'
-              label='Add component'
-              placeholder='Name of component'
-              margin='normal'
+              id="title-input"
+              label="Add component"
+              placeholder="Name of component"
+              margin="normal"
               autoFocus
               onChange={this.handleChange}
               onKeyPress={ev => {
@@ -268,7 +256,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
                 }
               }}
               value={componentName}
-              name='componentName'
+              name="componentName"
               className={classes.light}
               InputProps={{
                 className: classes.input
@@ -280,10 +268,10 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <Fab
-              size='small'
-              color='secondary'
+              size="small"
+              color="secondary"
               className={classes.button}
-              aria-label='Add'
+              aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
@@ -291,7 +279,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className='expansionPanel'>{componentsExpansionPanel}</div>
+        <div className="expansionPanel">{componentsExpansionPanel}</div>
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
@@ -313,19 +301,17 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               flexDirection: 'column'
             }}
           >
-             { 
-            imageSource ? (
+            {imageSource ? (
               <Button
                 aria-label="Remove Image"
                 variant="contained"
                 fullWidth
-                onClick={deleteImage
-                }
+                onClick={deleteImage}
                 className={classes.clearButton}
                 style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
               >
                 Remove Image
-              </Button> 
+              </Button>
             ) : (
               <Button
                 aria-label="Upload Image"
@@ -336,13 +322,12 @@ class LeftContainer extends Component<PropsInt, StateInt> {
                 style={{ borderRadius: 0, top: 0, backgroundColor: '#dc004e', color: '#fff' }}
               >
                 Upload Image
-              </Button> 
-            )
-          }
+              </Button>
+            )}
             <Button
-              color='secondary'
-              aria-label='Delete All'
-              variant='contained'
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
               fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
@@ -360,9 +345,9 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             }}
           >
             <Button
-              color='primary'
-              aria-label='Export Code'
-              variant='contained'
+              color="primary"
+              aria-label="Export Code"
+              variant="contained"
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
@@ -423,8 +408,4 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(LeftContainer);
+  connect(mapStateToProps, mapDispatchToProps))(LeftContainer);

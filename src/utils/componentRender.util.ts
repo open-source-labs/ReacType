@@ -1,26 +1,20 @@
-import {
-  ComponentInt,
-  ComponentsInt,
-  ChildInt,
-  ChildrenInt,
-  PropInt
-} from './Interfaces';
+import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
-const componentRender = (
-  component: ComponentInt,
-  components: ComponentsInt
-) => {
+const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
     childrenArray,
     title,
-    props
+    props,
+    stateful,
+    classBased
   }: {
     childrenArray: ChildrenInt;
     title: string;
     props: PropInt[];
+    stateful: boolean;
+    classBased: boolean;
   } = component;
-
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -121,13 +115,13 @@ const componentRender = (
   }
 
   return `
-    import React from 'react';
+    ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
+    ${classBased ? `import React, {Component, useState} from 'react';` : ''}
+    ${!stateful && !classBased ? `import React from 'react';` : ''}
+
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(
-        child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`
-      )
+      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -141,23 +135,32 @@ const componentRender = (
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-    const ${title} = (props: Props) => {
+      ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
+      ${stateful ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");` : ``}
+      ${
+        classBased
+          ? `constructor(props) {
+        super(props);
+        this.state = {}
+       }`
+          : ``
+      }
+
       const {${props.map(el => el.key).join(', ')}} = props;
-      
+      ${true ? `render() {` : ``}
       return (
         <div>
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map(
             (child: ChildInt) =>
-              `<${componentNameGenerator(child)} ${propDrillTextGenerator(
-                child
-              )}/>`
+              `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`
           )
           .join('\n')}
         </div>
       );
     }
+    ${true ? `}` : ``}
     export default ${title};
   `;
 };
