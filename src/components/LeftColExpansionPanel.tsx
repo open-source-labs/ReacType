@@ -10,13 +10,12 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import Switch from '@material-ui/core/Switch'; // for state toggling
+import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import Select from '@material-ui/core/Select'; // for Class/Functional drop down
-import MenuItem from '@material-ui/core/MenuItem'; // for drop down item selections
 
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces'; // unused
 
+// TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: any) => {
   const {
     classes,
@@ -26,8 +25,10 @@ const LeftColExpansionPanel = (props: any) => {
     changeFocusComponent,
     selectableChildren,
     components,
-    deleteComponent
+    deleteComponent,
+    toggleComponentState
   } = props;
+
   const { title, id, color } = component;
 
   function isFocused() {
@@ -66,6 +67,7 @@ const LeftColExpansionPanel = (props: any) => {
                       <Typography type='body2' style={{ color }}>
                         {title}
                       </Typography>
+                      {/* TOGGLE FOR STATEFULNESS */}
                       <InputLabel
                         htmlFor='stateful'
                         style={{
@@ -80,17 +82,16 @@ const LeftColExpansionPanel = (props: any) => {
                         State?
                       </InputLabel>
                       <Switch
-                        // checked={stateful}
-                        // onChange={e => ONCHANGE FUNCTION PENDING ON STATE REDUCER
-                        //   updateComponent(id, { stateful: e.target.checked })
-                        // }
+                        onChange={e => toggleComponentState(props.id)}
                         value='stateful'
                         color='primary'
-                        id='stateful'
+                        id={props.id.toString()}
+                        // id={props.index.toString()}
                       />
                       <div>
+                        {/* TOGGLE FOR CLASS BASED */}
                         <InputLabel
-                          id='label'
+                          htmlFor='classBased'
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
@@ -100,23 +101,17 @@ const LeftColExpansionPanel = (props: any) => {
                             fontSize: '18px'
                           }}
                         >
-                          Component Type
+                          Class?
                         </InputLabel>
-                        <Select
-                          id='select'
-                          value='class'
-                          style={{
-                            color: '#fff',
-                            marginBottom: '10px',
-                            marginTop: '0px',
-                            marginLeft: '11px',
-                            padding: '0px',
-                            fontSize: '18px'
-                          }}
-                        >
-                          <MenuItem value='class'>Class</MenuItem>
-                          <MenuItem value='functional'>Functional</MenuItem>
-                        </Select>
+                        <Switch
+                          // checked={classBased}
+                          // onChange={e => ONCHANGE FUNCTION PENDING ON CLASS REDUCER
+                          //   updateComponent(id, { classBased: e.target.checked })
+                          // }
+                          value='classBased'
+                          color='primary'
+                          id={props.index.toString()}
+                        />
                       </div>
                     </div>
                   }

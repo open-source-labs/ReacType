@@ -11,12 +11,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
-import * as actions from '../actions/components.ts';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
-import createModal from '../utils/createModal.util.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
+import * as actions from '../actions/components';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+import createModal from '../utils/createModal.util';
+import cloneDeep from '../utils/cloneDeep';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -33,6 +33,7 @@ interface PropsInt {
   deleteComponent: any;
   createApp: any;
   deleteAllData: any;
+  toggleComponentState: any;
   deleteImage: any;
 }
 
@@ -71,6 +72,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  toggleComponentState: (id: string) =>
+    dispatch(actions.toggleComponentState(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -130,6 +133,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
+
+    // reset the currently added componentName state field to blank after adding
     this.setState({
       componentName: ''
     });
@@ -214,6 +219,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
+      toggleComponentState,
       deleteImage
     } = this.props;
     const { componentName, modal } = this.state;
@@ -233,6 +239,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           selectableChildren={selectableChildren}
           deleteComponent={deleteComponent}
           components={components}
+          toggleComponentState={toggleComponentState}
         />
       ));
       const { addImage, clearImage } = this;
@@ -249,7 +256,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           <Grid item xs={8}>
             <TextField
               id='title-input'
-              label='Add class component'
+              label='Add component'
               placeholder='Name of component'
               margin='normal'
               autoFocus

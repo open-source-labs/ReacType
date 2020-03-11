@@ -8,6 +8,7 @@ import {
   ADD_CHILD,
   DELETE_CHILD,
   DELETE_COMPONENT,
+  TOGGLE_STATE,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -24,6 +25,7 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
+
   UPDATE_CHILDREN_SORT,
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
@@ -57,7 +59,7 @@ export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: A
 export const addChild = ({
   title,
   childType,
-  HTMLInfo,
+  HTMLInfo
 }: {
 title: string;
 childType: string;
@@ -73,7 +75,7 @@ export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
 
 export const deleteComponent = ({
   componentId,
-  stateComponents,
+  stateComponents
 }: {
 componentId: number;
 stateComponents: ComponentsInt;
@@ -88,8 +90,8 @@ stateComponents: ComponentsInt;
           payload: {
             parentId: parent.id,
             childId: child.childId,
-            calledFromDeleteComponent: true,
-          },
+            calledFromDeleteComponent: true
+          }
         });
       });
   });
@@ -111,14 +113,14 @@ export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch:
 
 export const changeComponentFocusChild = ({
   componentId,
-  childId,
+  childId
 }: {
 componentId: number;
 childId: number;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId },
+    payload: { componentId, childId }
   });
 };
 
@@ -131,7 +133,7 @@ export const exportFiles = ({
   components,
   path,
   appName,
-  exportAppBool,
+  exportAppBool
 }: {
 components: ComponentsInt;
 path: string;
@@ -140,31 +142,38 @@ exportAppBool: boolean;
 }) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
-    type: EXPORT_FILES,
+    type: EXPORT_FILES
   });
 
   createFiles(components, path, appName, exportAppBool)
-    .then(dir => dispatch({
-      type: EXPORT_FILES_SUCCESS,
-      payload: { status: true, dir: dir[0] },
-    }))
-    .catch(err => dispatch({
-      type: EXPORT_FILES_ERROR,
-      payload: { status: true, err },
-    }));
+    .then(dir =>
+      dispatch({
+        type: EXPORT_FILES_SUCCESS,
+        payload: { status: true, dir: dir[0] }
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: EXPORT_FILES_ERROR,
+        payload: { status: true, err }
+      })
+    );
 };
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false,
+  payload: false
 });
 
 export const handleTransform = (
   componentId: number,
   childId: number,
   {
-    x, y, width, height,
-  }: { x: number; y: number; width: number; height: number },
+    x,
+    y,
+    width,
+    height
+  }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {
@@ -173,8 +182,8 @@ export const handleTransform = (
     x,
     y,
     width,
-    height,
-  },
+    height
+  }
 });
 
 export const createApplication = ({
@@ -182,7 +191,7 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
-  exportAppBool,
+  exportAppBool
 }: {
 path: string;
 components: ComponentsInt;
@@ -197,13 +206,13 @@ exportAppBool: boolean;
         appName,
         path,
         components,
-        exportAppBool,
-      }),
+        exportAppBool
+      })
     );
   } else if (genOption) {
     exportAppBool = true;
     dispatch({
-      type: CREATE_APPLICATION,
+      type: CREATE_APPLICATION
     });
     createApplicationUtil({
       path,
@@ -212,40 +221,46 @@ exportAppBool: boolean;
     })
       .then(() => {
         dispatch({
-          type: CREATE_APPLICATION_SUCCESS,
+          type: CREATE_APPLICATION_SUCCESS
         });
         dispatch(
           exportFiles({
             appName,
             path,
             components,
-            exportAppBool,
-          }),
+            exportAppBool
+          })
         );
       })
-      .catch(err => dispatch({
-        type: CREATE_APPLICATION_ERROR,
-        payload: { status: true, err },
-      }));
+      .catch(err =>
+        dispatch({
+          type: CREATE_APPLICATION_ERROR,
+          payload: { status: true, err }
+        })
+      );
   }
 };
 
 export const openExpansionPanel = (component: ComponentInt) => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component },
+  payload: { component }
 });
 
 export const deleteAllData = () => ({
-  type: DELETE_ALL_DATA,
+  type: DELETE_ALL_DATA
 });
 
 export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
+export const toggleComponentState = (index: string) => (dispatch: any) => {
+  dispatch({ type: TOGGLE_STATE, payload: index });
+};
+
 export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
-  payload: { ...prop },
+  payload: { ...prop }
 });
 
 export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
@@ -253,7 +268,7 @@ export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string })
 ) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
-    payload: { attr, value },
+    payload: { attr, value }
   });
 };
 

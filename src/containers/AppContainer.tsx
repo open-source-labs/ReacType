@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+
 import LeftContainer from './LeftContainer.tsx';
 import MainContainer from './MainContainer.tsx';
 import theme from '../components/theme.ts';
@@ -108,7 +109,7 @@ class AppContainer extends Component<Props, State> {
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="app-container">
+        <div className='app-container'>
           <LeftContainer
             components={components}
             totalComponents={totalComponents}
@@ -125,7 +126,7 @@ class AppContainer extends Component<Props, State> {
                 width: '100%'
               }}
             >
-              <LinearProgress color="secondary" />
+              <LinearProgress color='secondary' />
             </div>
           ) : null}
         </div>
