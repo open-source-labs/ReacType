@@ -1,14 +1,5 @@
 import {
-<<<<<<< HEAD
   ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt, LoadInitData, AddComponent
-=======
-  ComponentInt,
-  ComponentsInt,
-  PropInt,
-  ChildInt,
-  Action,
-  ApplicationStateInt
->>>>>>> f83af9065420b5f7bd3ed2f414d8f7aa2045dce7
 } from '../utils/Interfaces.ts';
 
 import {
@@ -49,14 +40,8 @@ export const changeImagePath = (imageSource: string) => ({
   payload: { imageSource }
 });
 
-<<<<<<< HEAD
-export const loadInitData = () => (dispatch: any) => {
-  loadState().then((data: any) => {
-=======
 export const loadInitData = () => (dispatch: (arg: Action) => void) => {
-  loadState().then((data: ApplicationStateInt) => {
-    console.log('data.workspace', data.workspace);
->>>>>>> f83af9065420b5f7bd3ed2f414d8f7aa2045dce7
+  loadState().then((data: any) => {
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
