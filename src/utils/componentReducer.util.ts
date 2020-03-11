@@ -211,6 +211,7 @@ export const deleteChild = (
     window.alert('Cannot delete root child of a component');
     return state;
   }
+
   // make a DEEP copy of the parent component (the one thats about to loose a child)
   const parentComponentCopy: any = cloneDeep(
     state.components.find((comp: ComponentInt) => comp.id === parentId)
@@ -343,10 +344,13 @@ export const handleTransform = (
 };
 
 //change image source
-export const changeImageSource = (state: ApplicationStateInt, src: string) => {
+export const changeImageSource = (
+  state: ApplicationStateInt,
+  { imageSource }: { imageSource: string }
+) => {
   return {
     ...state,
-    imageSource: src
+    imageSource
   };
 };
 
@@ -438,6 +442,7 @@ export const changeFocusComponent = (
   const newFocusComp: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === title
   );
+
   // set the "focus child" to the focus child of this particular component .
 
   let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
