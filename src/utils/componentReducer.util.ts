@@ -415,7 +415,6 @@ export const toggleComponentState = (
       element.stateful = !element.stateful;
     }
   });
-
   // return state and updated components array
   return {
     ...state,
