@@ -1,8 +1,4 @@
-import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt
-} from "../utils/Interfaces.ts";
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -10,9 +6,12 @@ import {
   ADD_CHILD,
   DELETE_CHILD,
   DELETE_COMPONENT,
+  TOGGLE_STATE,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
+  CHANGE_IMAGE_SOURCE,
+  DELETE_IMAGE,
   EXPORT_FILES,
   CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
@@ -27,16 +26,18 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
-} from "../actionTypes";
+} from '../actionTypes';
 
 import {
   addComponent,
   addChild,
   deleteChild,
   deleteComponent,
+  deleteImage,
   changeFocusComponent,
   changeComponentFocusChild,
   changeFocusChild,
+  changeImageSource,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
@@ -45,15 +46,17 @@ import {
   addProp,
   deleteProp,
   updateHtmlAttr,
-  updateChildrenSort
-} from "../utils/componentReducer.util.ts";
-import cloneDeep from "../utils/cloneDeep.ts";
+  updateChildrenSort,
+  toggleComponentState
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
-  title: "App",
-  color: "#FF6D00",
+  classBased: false,
+  title: 'App',
+  color: '#FF6D00',
   props: [],
   nextPropId: 1,
   position: {
@@ -85,6 +88,7 @@ const initialApplicationFocusChild: ChildInt = {
 };
 
 const initialApplicationState: ApplicationStateInt = {
+  imageSource: '',
   totalComponents: 1,
   nextId: 2,
   successOpen: false,
@@ -95,7 +99,7 @@ const initialApplicationState: ApplicationStateInt = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
+  appDir: '',
   loading: false
 };
 
@@ -106,7 +110,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
         errorOpen: false
       };
@@ -118,18 +122,23 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
+    case TOGGLE_STATE:
+      return toggleComponentState(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:
       return changeFocusChild(state, action.payload);
     case CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    case CREATE_APPLICATION:
+    case CHANGE_IMAGE_SOURCE:
+      return changeImageSource(state, action.payload);
     case EXPORT_FILES:
       return { ...state, loading: true };
+    case DELETE_IMAGE:
+      return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    case CREATE_APPLICATION_ERROR:
+    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:

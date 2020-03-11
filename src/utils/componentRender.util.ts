@@ -1,5 +1,5 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
+import cloneDeep from './cloneDeep';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
@@ -15,7 +15,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     stateful: boolean;
     classBased: boolean;
   } = component;
-  let stateful1 = true;
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -116,9 +115,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   }
 
   return `
-    ${classBased ? `import React, {Component, useState} from 'react';` : ``}
-    ${stateful && !classBased ? `import React, {useState} from 'react';` : ``}
-    ${!stateful && !classBased ? `import React from 'react';` : ``}
+    ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
+    ${classBased ? `import React, {Component, useState} from 'react';` : ''}
+    ${!stateful && !classBased ? `import React from 'react';` : ''}
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
@@ -139,7 +138,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
       ${stateful ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");` : ``}
       ${
-        true
+        classBased
           ? `constructor(props) {
         super(props);
         this.state = {}
