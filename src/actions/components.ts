@@ -257,11 +257,12 @@ export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string })
   });
 };
 
-export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
-  dispatch: (arg: Action) => void,
-) => {
-  dispatch({
-    type: UPDATE_CHILDREN_SORT,
-    payload: { newSortValues },
-  });
-};
+//Action reserved for SortChildren component not written yet
+// export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
+//   dispatch: (arg: Action) => void,
+// ) => {
+//   dispatch({
+//     type: UPDATE_CHILDREN_SORT,
+//     payload: { newSortValues },
+//   });
+// };
