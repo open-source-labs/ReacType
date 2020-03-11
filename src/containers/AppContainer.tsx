@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import LeftContainer from "./LeftContainer.tsx";
-import MainContainer from "./MainContainer.tsx";
-import theme from "../components/theme.ts";
-import { loadInitData } from "../actions/components.ts";
-import { ComponentInt, ComponentsInt } from "../utils/Interfaces.ts";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import theme from '../components/theme';
+import { loadInitData } from '../actions/components';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 
 type Props = {
   components: ComponentsInt;
@@ -50,7 +50,7 @@ class AppContainer extends Component<Props> {
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="app-container">
+        <div className='app-container'>
           <LeftContainer
             components={components}
             totalComponents={totalComponents}
@@ -61,12 +61,12 @@ class AppContainer extends Component<Props> {
           {loading ? (
             <div
               style={{
-                alignSelf: "flex-end",
-                position: "fixed",
-                width: "100%"
+                alignSelf: 'flex-end',
+                position: 'fixed',
+                width: '100%'
               }}
             >
-              <LinearProgress color="secondary" />
+              <LinearProgress color='secondary' />
             </div>
           ) : null}
         </div>
@@ -75,7 +75,4 @@ class AppContainer extends Component<Props> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

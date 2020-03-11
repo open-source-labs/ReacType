@@ -1,7 +1,16 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+import {
+  ComponentInt,
+  ComponentsInt,
+  ChildInt,
+  ChildrenInt,
+  PropInt
+} from './Interfaces';
+import cloneDeep from './cloneDeep';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+const componentRender = (
+  component: ComponentInt,
+  components: ComponentsInt
+) => {
   const {
     childrenArray,
     title,
@@ -115,7 +124,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     import React from 'react';
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+      .map(
+        child =>
+          `import ${child.componentName} from './${child.componentName}.tsx'`
+      )
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -138,7 +150,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map(
             (child: ChildInt) =>
-              `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`
+              `<${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child
+              )}/>`
           )
           .join('\n')}
         </div>

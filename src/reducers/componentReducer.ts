@@ -2,7 +2,7 @@ import {
   ComponentInt,
   ChildInt,
   ApplicationStateInt
-} from "../utils/Interfaces.ts";
+} from '../utils/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -10,6 +10,7 @@ import {
   ADD_CHILD,
   DELETE_CHILD,
   DELETE_COMPONENT,
+  TOGGLE_STATE,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -27,7 +28,7 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
-} from "../actionTypes";
+} from '../actionTypes/';
 
 import {
   addComponent,
@@ -45,15 +46,16 @@ import {
   addProp,
   deleteProp,
   updateHtmlAttr,
-  updateChildrenSort
-} from "../utils/componentReducer.util.ts";
-import cloneDeep from "../utils/cloneDeep.ts";
+  updateChildrenSort,
+  toggleComponentState
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
-  title: "App",
-  color: "#FF6D00",
+  title: 'App',
+  color: '#FF6D00',
   props: [],
   nextPropId: 1,
   position: {
@@ -95,7 +97,7 @@ const initialApplicationState: ApplicationStateInt = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
+  appDir: '',
   loading: false
 };
 
@@ -106,7 +108,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
         errorOpen: false
       };
@@ -118,6 +120,8 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
+    case TOGGLE_STATE:
+      return toggleComponentState(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:
