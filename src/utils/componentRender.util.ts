@@ -136,7 +136,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     };
 
       ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
-      ${stateful && !classBased ? `const  hey = useState(INITIAL VALUE FOR PROP);` : ``}
+      ${
+        stateful && !classBased
+          ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
+          : ``
+      }
       ${
         classBased && stateful
           ? `constructor(props) {
@@ -146,8 +150,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           : ``
       }
 
-      const {${props.map(el => el.key).join(', ')}} = props;
-      ${classBased ? `render() {` : ``}
+      ${classBased ? `render(): JSX.Element {` : ``}
+      const {${props.map(el => el.key).join(', ')}} = ${classBased ? `this.props` : `props`};
       return (
         <div>
         ${cloneDeep(childrenArray)
