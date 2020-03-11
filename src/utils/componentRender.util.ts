@@ -136,11 +136,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     };
 
       ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
-      ${
-        stateful && !classBased
-          ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");`
-          : ``
-      }
+      ${stateful && !classBased ? `const  hey = useState(INITIAL VALUE FOR PROP);` : ``}
       ${
         classBased && stateful
           ? `constructor(props) {
