@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -30,25 +30,19 @@ const LeftColExpansionPanel = (props: any) => {
   } = props;
 
   const { title, id, color } = component;
+  useEffect(() => {
+    console.log('title: ', title);
+  });
 
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
-
   return (
-    <Grid
-      container
-      spacing={16}
-      direction='row'
-      justify='flex-start'
-      alignItems='center'
-    >
+    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={
-            !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
-          }
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
         >
           <Grid item xs={12} style={{ color: 'red' }}>
             <List style={{ color: 'red' }}>
@@ -64,12 +58,12 @@ const LeftColExpansionPanel = (props: any) => {
                   className={classes.light}
                   primary={
                     <div>
-                      <Typography type='body2' style={{ color }}>
+                      <Typography type="body2" style={{ color }}>
                         {title}
                       </Typography>
                       {/* TOGGLE FOR STATEFULNESS */}
                       <InputLabel
-                        htmlFor='stateful'
+                        htmlFor="stateful"
                         style={{
                           color: '#fff',
                           marginBottom: '10px',
@@ -81,17 +75,25 @@ const LeftColExpansionPanel = (props: any) => {
                       >
                         State?
                       </InputLabel>
+                      {/* 
+                          Have to change focus component after toggling state 
+                          in order to properly change the code that appears in the code 
+                          peview
+                      */}
                       <Switch
-                        onChange={e => toggleComponentState(props.id)}
-                        value='stateful'
-                        color='primary'
+                        onChange={e => {
+                          toggleComponentState(props.id);
+                          changeFocusComponent(title);
+                        }}
+                        value="stateful"
+                        color="primary"
                         id={props.id.toString()}
                         // id={props.index.toString()}
                       />
                       <div>
                         {/* TOGGLE FOR CLASS BASED */}
                         <InputLabel
-                          htmlFor='classBased'
+                          htmlFor="classBased"
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
@@ -108,8 +110,8 @@ const LeftColExpansionPanel = (props: any) => {
                           // onChange={e => ONCHANGE FUNCTION PENDING ON CLASS REDUCER
                           //   updateComponent(id, { classBased: e.target.checked })
                           // }
-                          value='classBased'
-                          color='primary'
+                          value="classBased"
+                          color="primary"
                           id={props.index.toString()}
                         />
                       </div>
@@ -125,10 +127,10 @@ const LeftColExpansionPanel = (props: any) => {
           ) : (
             <Fragment>
               <Button
-                variant='text'
-                size='small'
-                color='default'
-                aria-label='Delete'
+                variant="text"
+                size="small"
+                color="default"
+                aria-label="Delete"
                 className={classes.margin}
                 onClick={() =>
                   deleteComponent({
@@ -156,13 +158,9 @@ const LeftColExpansionPanel = (props: any) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <Tooltip
-            title='add as child'
-            aria-label='add as child'
-            placement='left'
-          >
+          <Tooltip title="add as child" aria-label="add as child" placement="left">
             <IconButton
-              aria-label='Add'
+              aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}

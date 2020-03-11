@@ -1,9 +1,4 @@
-import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt
-} from '../utils/Interfaces';
-
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -33,7 +28,6 @@ import {
   UPDATE_CHILDREN_SORT
 } from '../actionTypes';
 
-
 import {
   addComponent,
   addChild,
@@ -54,13 +48,13 @@ import {
   updateHtmlAttr,
   updateChildrenSort,
   toggleComponentState
-
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
+  classBased: false,
   title: 'App',
   color: '#FF6D00',
   props: [],
@@ -144,7 +138,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    case CREATE_APPLICATION_ERROR:
+    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:
