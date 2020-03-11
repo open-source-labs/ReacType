@@ -30,3 +30,4 @@ export const UPDATE_CHILDREN_SORT: string = 'UPDATE_CHILDREN_SORT';
 export const CHANGE_IMAGE_SOURCE: string = 'CHANGE_IMAGE_SOURCE';
 export const DELETE_IMAGE: string = 'DELETE_IMAGE';
 export const TOGGLE_STATE: string = 'TOGGLE_STATE';
+export const TOGGLE_CLASS: string = 'TOGGLE_CLASS';
