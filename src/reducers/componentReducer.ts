@@ -13,6 +13,7 @@ import {
   DELETE_CHILD,
   DELETE_COMPONENT,
   TOGGLE_STATE,
+  TOGGLE_CLASS,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -53,7 +54,8 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-  toggleComponentState
+  toggleComponentState,
+  toggleComponentClass
 } from '../utils/componentReducer.util.ts';
 import cloneDeep from '../utils/cloneDeep.ts';
 
@@ -130,6 +132,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return deleteComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
+    case TOGGLE_CLASS:
+      return toggleComponentClass(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:

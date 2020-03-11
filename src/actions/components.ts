@@ -1,5 +1,14 @@
 import {
+<<<<<<< HEAD
   ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt, LoadInitData, AddComponent
+=======
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  Action,
+  ApplicationStateInt
+>>>>>>> f83af9065420b5f7bd3ed2f414d8f7aa2045dce7
 } from '../utils/Interfaces.ts';
 
 import {
@@ -9,6 +18,7 @@ import {
   DELETE_CHILD,
   DELETE_COMPONENT,
   TOGGLE_STATE,
+  TOGGLE_CLASS,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -36,18 +46,24 @@ import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: { imageSource },
-})
+  payload: { imageSource }
+});
 
+<<<<<<< HEAD
 export const loadInitData = () => (dispatch: any) => {
   loadState().then((data: any) => {
+=======
+export const loadInitData = () => (dispatch: (arg: Action) => void) => {
+  loadState().then((data: ApplicationStateInt) => {
+    console.log('data.workspace', data.workspace);
+>>>>>>> f83af9065420b5f7bd3ed2f414d8f7aa2045dce7
     dispatch({
-    type: LOAD_INIT_DATA,
-    payload: {
-      data: data ? data.workspace : {},
-    },
+      type: LOAD_INIT_DATA,
+      payload: {
+        data: data ? data.workspace : {}
+      }
+    });
   });
-});
 };
 
 export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: AddComponent) => void) => {
@@ -59,9 +75,9 @@ export const addChild = ({
   childType,
   HTMLInfo
 }: {
-title: string;
-childType: string;
-HTMLInfo: object;
+  title: string;
+  childType: string;
+  HTMLInfo: object;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
@@ -75,8 +91,8 @@ export const deleteComponent = ({
   componentId,
   stateComponents
 }: {
-componentId: number;
-stateComponents: ComponentsInt;
+  componentId: number;
+  stateComponents: ComponentsInt;
 }) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
@@ -100,12 +116,16 @@ stateComponents: ComponentsInt;
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
+export const changeFocusComponent = ({ title }: { title: string }) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: (arg: Action) => void) => {
+export const changeFocusChild = ({ childId }: { childId: number }) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
 
@@ -113,8 +133,8 @@ export const changeComponentFocusChild = ({
   componentId,
   childId
 }: {
-componentId: number;
-childId: number;
+  componentId: number;
+  childId: number;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
@@ -124,7 +144,7 @@ childId: number;
 
 export const deleteImage = () => ({
   type: DELETE_IMAGE
-})
+});
 
 export const exportFiles = ({
   components,
@@ -132,10 +152,10 @@ export const exportFiles = ({
   appName,
   exportAppBool
 }: {
-components: ComponentsInt;
-path: string;
-appName: string;
-exportAppBool: boolean;
+  components: ComponentsInt;
+  path: string;
+  appName: string;
+  exportAppBool: boolean;
 }) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
@@ -185,11 +205,11 @@ export const createApplication = ({
   appName = 'reactype_app',
   exportAppBool
 }: {
-path: string;
-components: ComponentsInt;
-genOption: number;
-appName: string;
-exportAppBool: boolean;
+  path: string;
+  components: ComponentsInt;
+  genOption: number;
+  appName: string;
+  exportAppBool: boolean;
 }) => (dispatch: (arg: Action) => void) => {
   if (genOption === 0) {
     exportAppBool = false;
@@ -209,7 +229,7 @@ exportAppBool: boolean;
     createApplicationUtil({
       path,
       appName,
-      genOption,
+      genOption
     })
       .then(() => {
         dispatch({
@@ -246,8 +266,12 @@ export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) 
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (index: string) => (dispatch: (arg: Action) => void) => {
-  dispatch({ type: TOGGLE_STATE, payload: index });
+export const toggleComponentState = (id: string) => (dispatch: (arg: Action) => void) => {
+  dispatch({ type: TOGGLE_STATE, payload: id });
+};
+
+export const toggleComponentClass = (id: string) => (dispatch: (arg: Action) => void) => {
+  dispatch({ type: TOGGLE_CLASS, payload: id });
 };
 
 export const addProp = (prop: PropInt) => ({
@@ -256,7 +280,7 @@ export const addProp = (prop: PropInt) => ({
 });
 
 export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({
     type: UPDATE_HTML_ATTR,

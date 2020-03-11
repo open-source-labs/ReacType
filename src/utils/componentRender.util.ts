@@ -116,7 +116,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
-    ${classBased ? `import React, {Component, useState} from 'react';` : ''}
+    ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
 
     ${childrenArray
@@ -136,9 +136,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     };
 
       ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
-      ${stateful ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");` : ``}
       ${
-        classBased
+        stateful && !classBased
+          ? `const ['PROP', 'setPROP'] = useState("INITIAL VALUE FOR PROP");`
+          : ``
+      }
+      ${
+        classBased && stateful
           ? `constructor(props) {
         super(props);
         this.state = {}
@@ -147,7 +151,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       }
 
       const {${props.map(el => el.key).join(', ')}} = props;
-      ${true ? `render() {` : ``}
+      ${classBased ? `render() {` : ``}
       return (
         <div>
         ${cloneDeep(childrenArray)
@@ -160,7 +164,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         </div>
       );
     }
-    ${true ? `}` : ``}
+    ${classBased ? `}` : ``}
     export default ${title};
   `;
 };

@@ -26,10 +26,11 @@ const LeftColExpansionPanel = (props: any) => {
     selectableChildren,
     components,
     deleteComponent,
-    toggleComponentState
+    toggleComponentState,
+    toggleComponentClass
   } = props;
 
-  const { title, id, color } = component;
+  const { title, id, color, stateful, classBased } = component;
   useEffect(() => {
     console.log('title: ', title);
   });
@@ -81,8 +82,9 @@ const LeftColExpansionPanel = (props: any) => {
                           peview
                       */}
                       <Switch
+                        checked={stateful}
                         onChange={e => {
-                          toggleComponentState(props.id);
+                          toggleComponentState(id);
                           changeFocusComponent(title);
                         }}
                         value="stateful"
@@ -106,13 +108,13 @@ const LeftColExpansionPanel = (props: any) => {
                           Class?
                         </InputLabel>
                         <Switch
-                          // checked={classBased}
-                          // onChange={e => ONCHANGE FUNCTION PENDING ON CLASS REDUCER
-                          //   updateComponent(id, { classBased: e.target.checked })
-                          // }
+                          checked={classBased}
+                          onChange={e => {
+                            toggleComponentClass(id);
+                            changeFocusComponent(title);
+                          }}
                           value="classBased"
                           color="primary"
-                          id={props.index.toString()}
                         />
                       </div>
                     </div>

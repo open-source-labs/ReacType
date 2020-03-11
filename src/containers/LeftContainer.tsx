@@ -34,6 +34,7 @@ interface PropsInt {
   createApp: any;
   deleteAllData: any;
   toggleComponentState: any;
+  toggleComponentClass: any;
   deleteImage: any;
 }
 
@@ -72,6 +73,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
   toggleComponentState: (id: string) => dispatch(actions.toggleComponentState(id)),
+  toggleComponentClass: (id: string) => dispatch(actions.toggleComponentClass(id)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -214,6 +216,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       changeFocusChild,
       selectableChildren,
       toggleComponentState,
+      toggleComponentClass,
       deleteImage
     } = this.props;
     const { componentName, modal } = this.state;
@@ -234,6 +237,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           deleteComponent={deleteComponent}
           components={components}
           toggleComponentState={toggleComponentState}
+          toggleComponentClass={toggleComponentClass}
         />
       ));
     const { addImage, clearImage } = this;
@@ -408,4 +412,5 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps))(LeftContainer);
+  connect(mapStateToProps, mapDispatchToProps)
+)(LeftContainer);
