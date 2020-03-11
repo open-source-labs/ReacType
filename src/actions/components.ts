@@ -39,12 +39,15 @@ export const changeImagePath = (imageSource: string) => ({
 })
 
 export const loadInitData = () => (dispatch: (arg: Action) => void) => {
-  loadState().then((data: any) => dispatch({
+  loadState().then((data: any) => {
+    dispatch({
     type: LOAD_INIT_DATA,
     payload: {
       data: data ? data.workspace : {},
     },
-  }));
+  });
+  console.log(data);
+});
 };
 
 export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
