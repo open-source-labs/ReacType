@@ -3,7 +3,7 @@ import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
-// import SortChildren from './SortChildren.jsx';
+// import SortChildren from './SortChildren.tsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { hybrid } from 'react-syntax-highlighter/dist/styles/hljs/';
 

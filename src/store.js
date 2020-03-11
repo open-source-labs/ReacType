@@ -3,7 +3,7 @@ import throttle from 'lodash.throttle';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import reducers from './reducers';
+import reducers from './reducers/index.ts';
 import { saveState } from './localStorage';
 
 let composer;

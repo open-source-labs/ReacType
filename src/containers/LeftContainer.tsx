@@ -42,6 +42,7 @@ interface StateInt {
   modal: any;
   genOptions: Array<string>;
   genOption: number;
+  imageSource: string;
 }
 
 const mapStateToProps = (store: any) => ({
@@ -167,7 +168,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     // Choose app dir
     this.chooseAppDir();
   };
-
 
   chooseAppDir = () => IPC.send("choose_app_dir");
   addImage = () => IPC.send('update-file');
@@ -423,10 +423,8 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
-
 )(LeftContainer);
