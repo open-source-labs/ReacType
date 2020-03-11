@@ -7,7 +7,7 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, Action } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
@@ -20,9 +20,8 @@ type Props = {
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
-  loadInitData: any;
-  changeImagePath: any;
-  changed: boolean;
+  loadInitData: () => void;
+  changeImagePath: () => void;
 };
 
 type State = {
@@ -40,7 +39,7 @@ const mapStateToProps = (store: any) => ({
   selectableChildren: store.workspace.selectableChildren
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: (arg: a) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
   // loadInitData: () => {},
   changeImagePath: (imageSource: string) => 

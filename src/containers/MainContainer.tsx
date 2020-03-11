@@ -4,23 +4,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import BottomPanel from "../components/BottomPanel.tsx";
-import theme from "../components/theme.ts";
+import BottomPanel from "../components/BottomPanel";
+import theme from "../components/theme";
 import {
   handleTransform,
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild
-} from "../actions/components.ts";
-import KonvaStage from "../components/KonvaStage.tsx";
-import { ComponentInt, ComponentsInt } from "../utils/Interfaces.ts";
+} from "../actions/components";
+import KonvaStage from "../components/KonvaStage";
+import { ComponentInt, ComponentsInt } from "../utils/Interfaces";
 import * as actions from '../actions/components';
 
 interface PropsInt {
   image: HTMLImageElement | null;
   components: ComponentsInt;
   focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
   classes: any;
   addComponent: any;
   addChild: any;
@@ -34,6 +33,7 @@ interface PropsInt {
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
+  imageSource: string;
 }
 
 interface StateInt {

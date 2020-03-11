@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   ComponentInt,
   ChildInt,
@@ -6,9 +5,6 @@ import {
   Action
 } from '../utils/Interfaces';
 
-=======
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/Interfaces';
->>>>>>> 8ba7c2096cd63a22e916fe1c390ab30a4df2c14a
 
 import {
   LOAD_INIT_DATA,
