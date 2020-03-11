@@ -1,7 +1,8 @@
 import {
   ComponentInt,
   ChildInt,
-  ApplicationStateInt
+  ApplicationStateInt,
+  Action
 } from '../utils/Interfaces';
 
 
@@ -109,7 +110,7 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false
 };
 
-const componentReducer = (state = initialApplicationState, action: any) => {
+const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return {
@@ -144,7 +145,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    case CREATE_APPLICATION_ERROR:
+    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:

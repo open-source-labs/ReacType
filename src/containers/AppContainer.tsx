@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import LeftContainer from './LeftContainer.tsx';
-import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
@@ -20,8 +20,8 @@ type Props = {
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
-  loadInitData: () => void;
-  changeImagePath: () => void;
+  loadInitData: any;
+  changeImagePath: any;
   changed: boolean;
 };
 
@@ -42,7 +42,9 @@ const mapStateToProps = (store: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+  // loadInitData: () => {},
+  changeImagePath: (imageSource: string) => 
+  dispatch(actions.changeImagePath(imageSource)),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -56,12 +58,12 @@ class AppContainer extends Component<Props, State> {
       changed: false
     };
 
-    IPC.on('new-file', (event, file: string) => {
+    IPC.on('new-file', (event: any, file: string) => {
       const image = new window.Image();
       image.src = file;
       image.onload = () => {
         // update state when the image has been uploaded
-        this.props.changeImagePath(file);
+        this.props.changeImagePath(image.src);
         this.setState({ image });
       };
     });
@@ -70,11 +72,11 @@ class AppContainer extends Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
     const {changed} = this.state;
-    if (imageSource == '' && changed) {
-      this.setState({...this.state, image:null, changed:false});
+    if (imageSource === '' && changed) {
+      this.setState({image:null, changed:false});
 
     }
-    else if (imageSource !== prevProps.imageSource) {
+    else if (imageSource !== prevProps.imageSource && imageSource !== '') {
       this.setImage(imageSource);
     }
   }

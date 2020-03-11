@@ -1,5 +1,5 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt, LoadInitData, AddComponent
 } from '../utils/Interfaces.ts';
 
 import {
@@ -35,14 +35,13 @@ import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
 import createApplicationUtil from '../utils/createApplication.util.ts';
 
-
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
   payload: { imageSource },
 })
 
-export const loadInitData = () => (dispatch: (arg: Action) => void) => {
-  loadState().then((data: ApplicationStateInt) => {
+export const loadInitData = () => (dispatch: any) => {
+  loadState().then((data: any) => {
     dispatch({
     type: LOAD_INIT_DATA,
     payload: {
@@ -52,7 +51,7 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
 });
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
+export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: AddComponent) => void) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -146,13 +145,13 @@ exportAppBool: boolean;
   });
 
   createFiles(components, path, appName, exportAppBool)
-    .then(dir =>
+    .then((dir: string) =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
         payload: { status: true, dir: dir[0] }
       })
     )
-    .catch(err =>
+    .catch((err: string) =>
       dispatch({
         type: EXPORT_FILES_ERROR,
         payload: { status: true, err }
@@ -232,7 +231,7 @@ exportAppBool: boolean;
           })
         );
       })
-      .catch(err =>
+      .catch((err: string) =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
           payload: { status: true, err }
@@ -254,7 +253,7 @@ export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) 
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (index: string) => (dispatch: any) => {
+export const toggleComponentState = (index: string) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: TOGGLE_STATE, payload: index });
 };
 
