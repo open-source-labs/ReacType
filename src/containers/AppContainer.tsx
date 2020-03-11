@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.tsx';
 import MainContainer from './MainContainer.tsx';
 import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/components.ts';
+// import { loadInitData } from '../actions/components.ts';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
 import * as actions from '../actions/components';
 
@@ -20,8 +20,8 @@ type Props = {
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
-  loadInitData: any;
-  changeImagePath: any;
+  loadInitData: () => void;
+  changeImagePath: () => void;
   changed: boolean;
 };
 
@@ -41,7 +41,7 @@ const mapStateToProps = (store: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  loadInitData,
+  loadInitData: () => dispatch(actions.loadInitData()),
   changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
 });
 

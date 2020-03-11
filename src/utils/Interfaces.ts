@@ -58,3 +58,8 @@ export interface ApplicationStateInt {
   appDir: string;
   loading: boolean;
 }
+
+export interface Action {
+  type: string;
+  payload: object;
+}

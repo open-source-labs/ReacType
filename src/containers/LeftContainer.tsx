@@ -42,6 +42,7 @@ interface StateInt {
   modal: any;
   genOptions: Array<string>;
   genOption: number;
+  imageSource: string;
 }
 
 const mapStateToProps = (store: any) => ({
@@ -407,6 +408,4 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-
-  connect(mapStateToProps, mapDispatchToProps)
-)(LeftContainer);
+  connect(mapStateToProps, mapDispatchToProps))(LeftContainer);

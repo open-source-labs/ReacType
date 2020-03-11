@@ -1,4 +1,6 @@
-import { ComponentInt, ComponentsInt, PropInt, ChildInt } from '../utils/Interfaces.ts';
+import {
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt
+} from '../utils/Interfaces.ts';
 
 import {
   LOAD_INIT_DATA,
@@ -26,7 +28,7 @@ import {
   UPDATE_CHILDREN_SORT,
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
-} from '../actionTypes/index.js';
+} from '../actionTypes/index.ts';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
@@ -34,21 +36,21 @@ import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: imageSource
-});
+  payload: { imageSource },
+})
 
-export const loadInitData = () => (dispatch: any) => {
-  loadState().then((data: any) =>
+export const loadInitData = () => (dispatch: (arg: Action) => void) => {
+  loadState().then((data: ApplicationStateInt) => {
     dispatch({
-      type: LOAD_INIT_DATA,
-      payload: {
-        data: data ? data.workspace : {}
-      }
-    })
-  );
+    type: LOAD_INIT_DATA,
+    payload: {
+      data: data ? data.workspace : {},
+    },
+  });
+});
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: any) => {
+export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -57,14 +59,14 @@ export const addChild = ({
   childType,
   HTMLInfo
 }: {
-  title: string;
-  childType: string;
-  HTMLInfo: object;
-}) => (dispatch: any) => {
+title: string;
+childType: string;
+HTMLInfo: object;
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => (dispatch: any) => {
+export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
@@ -73,9 +75,9 @@ export const deleteComponent = ({
   componentId,
   stateComponents
 }: {
-  componentId: number;
-  stateComponents: ComponentsInt;
-}) => (dispatch: any) => {
+componentId: number;
+stateComponents: ComponentsInt;
+}) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
     parent.childrenArray
@@ -98,12 +100,12 @@ export const deleteComponent = ({
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: any) => {
+export const changeFocusComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: any) => {
+export const changeFocusChild = ({ childId }: { childId: number }) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
 
@@ -111,9 +113,9 @@ export const changeComponentFocusChild = ({
   componentId,
   childId
 }: {
-  componentId: number;
-  childId: number;
-}) => (dispatch: any) => {
+componentId: number;
+childId: number;
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
     payload: { componentId, childId }
@@ -121,9 +123,8 @@ export const changeComponentFocusChild = ({
 };
 
 export const deleteImage = () => ({
-  type: DELETE_IMAGE,
-  payload: ''
-});
+  type: DELETE_IMAGE
+})
 
 export const exportFiles = ({
   components,
@@ -131,11 +132,11 @@ export const exportFiles = ({
   appName,
   exportAppBool
 }: {
-  components: ComponentsInt;
-  path: string;
-  appName: string;
-  exportAppBool: boolean;
-}) => (dispatch: any) => {
+components: ComponentsInt;
+path: string;
+appName: string;
+exportAppBool: boolean;
+}) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES
@@ -184,12 +185,12 @@ export const createApplication = ({
   appName = 'reactype_app',
   exportAppBool
 }: {
-  path: string;
-  components: ComponentsInt;
-  genOption: number;
-  appName: string;
-  exportAppBool: boolean;
-}) => (dispatch: any) => {
+path: string;
+components: ComponentsInt;
+genOption: number;
+appName: string;
+exportAppBool: boolean;
+}) => (dispatch: (arg: Action) => void) => {
   if (genOption === 0) {
     exportAppBool = false;
     dispatch(
@@ -208,8 +209,7 @@ export const createApplication = ({
     createApplicationUtil({
       path,
       appName,
-      genOption
-      // exportAppBool
+      genOption,
     })
       .then(() => {
         dispatch({
@@ -242,7 +242,7 @@ export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
 
-export const deleteProp = (propId: number) => (dispatch: any) => {
+export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
@@ -256,7 +256,7 @@ export const addProp = (prop: PropInt) => ({
 });
 
 export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-  dispatch: any
+  dispatch: (arg: Action) => void,
 ) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
@@ -264,11 +264,12 @@ export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string })
   });
 };
 
-export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
-  dispatch: any
-) => {
-  dispatch({
-    type: UPDATE_CHILDREN_SORT,
-    payload: { newSortValues }
-  });
-};
+//Action reserved for SortChildren component not written yet
+// export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
+//   dispatch: (arg: Action) => void,
+// ) => {
+//   dispatch({
+//     type: UPDATE_CHILDREN_SORT,
+//     payload: { newSortValues },
+//   });
+// };
