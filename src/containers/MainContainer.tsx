@@ -15,6 +15,7 @@ import {
 import KonvaStage from "../components/KonvaStage";
 import { ComponentInt, ComponentsInt } from "../utils/Interfaces";
 import * as actions from '../actions/components';
+import { changeImageSource } from "../utils/componentReducer.util";
 
 interface PropsInt {
   image: HTMLImageElement | null;

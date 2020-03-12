@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import Konva from 'konva';
 import { Rect, Group, Label, Text } from 'react-konva';
-import TransformerComponent from './TransformerComponent.tsx';
-import GrandchildRectangle from './GrandchildRectangle.tsx';
-import { ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
-import { ComponentInt } from '../utils/Interfaces.ts';
+import TransformerComponent from './TransformerComponent';
+import GrandchildRectangle from './GrandchildRectangle';
+import { ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt } from '../utils/Interfaces';
 
 interface PropsInt {
   x: number;
@@ -22,18 +23,12 @@ interface PropsInt {
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
-  imageSource: string;
   handleTransform: any;
+  image: HTMLImageElement;
 }
 
-interface StateInt {
-  image: any;
-}
 
-class Rectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null
-  };
+class Rectangle extends Component<PropsInt> {
 
   getComponentColor(componentId: number) {
     const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
@@ -46,8 +41,8 @@ class Rectangle extends Component<PropsInt, StateInt> {
     );
   }
 
-  handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
-    let focChild: ChildInt = this.props.components
+  handleResize(componentId: number, childId: number, target: Konva.Group, blockSnapSize: number) {
+    let focChild: ChildInt | ComponentInt = this.props.components
       .find((comp: ComponentInt) => comp.id === this.props.componentId)
       .childrenArray.find((child: ChildInt) => child.childId === childId);
 
@@ -65,21 +60,13 @@ class Rectangle extends Component<PropsInt, StateInt> {
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId: number, childId: number, target: any, blockSnapSize: any) {
+  handleDrag(componentId: number, childId: number, target: Konva.Group, blockSnapSize: number) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
-
-  setImage = (imageSource: string): void => {
-    if (!imageSource) return;
-    const image = new window.Image();
-    image.src = imageSource;
-    if (!image.height) return null;
-    this.setState({ image });
-  };
 
   render() {
     const {
@@ -98,8 +85,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
       components,
       draggable,
       blockSnapSize,
-      childType,
-      imageSource
+      childType
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -145,9 +131,9 @@ class Rectangle extends Component<PropsInt, StateInt> {
           draggable={false}
           fill={null}
           shadowBlur={childId === -1 ? 6 : null}
-          fillPatternImage={this.state.image ? this.state.image : null}
-          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
-          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          fillPatternImage={childId === -1  ? this.props.image : null} //spooky addition, image if uploaded will only be background of App component
+          fillPatternScaleX={this.props.image ? width / this.props.image.width : 1}
+          fillPatternScaleY={this.props.image? height / this.props.image.height : 1}
           _useStrictMode
         />
         <Label>
@@ -175,7 +161,6 @@ class Rectangle extends Component<PropsInt, StateInt> {
                 componentId={componentId}
                 directParentName={childComponentName}
                 childType={grandchild.childType}
-                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
@@ -195,7 +180,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
               />
             ))}
         {focusChild && focusChild.childId === childId && draggable && (
-          <TransformerComponent
+          <TransformerComponent //This is the component that binds the Rect nodes to the Transformer node so they can be resized.
             focusChild={focusChild}
             rectClass={'childRect'}
             anchorSize={8}

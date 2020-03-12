@@ -2,10 +2,10 @@
 //and also the parent rectangle components.
 
 import React, { Component } from "react";
-import { Stage, Layer, Line, Image } from "react-konva";
-import Rectangle from "./Rectangle.tsx";
-import cloneDeep from "../utils/cloneDeep.ts";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
+import { Stage, Layer, Line } from "react-konva";
+import Rectangle from "./Rectangle";
+import cloneDeep from "../utils/cloneDeep";
+import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces";
 import isEmpty from '../utils/isEmpty';
 
 interface PropsInt {
@@ -25,6 +25,9 @@ interface PropsInt {
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
+  scaleX: number;
+  scaleY: number;
+  draggable: boolean;
 }
 
 interface StateInt {
@@ -208,9 +211,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
-            <Image image={this.props.focusComponent.id === 1 ? image : null //only display background image if the focused component is <App>
-            } draggable width={this.state.stageWidth*0.8} height={this.state.stageHeight*0.9 } //for background image uploaded, fix to fit screen
-            />
             {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
               .map((child: ChildInt, i: number) => (
                 <Rectangle
@@ -232,9 +232,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   handleTransform={handleTransform}
                   draggable={true}
                   blockSnapSize={this.state.blockSnapSize}
-                  imageSource={
-                    child.htmlElement === "Image" && child.HTMLInfo.Src
-                  }
+                  image={this.props.focusComponent.id === 1 ? image : null}
                 />
               ))
               .sort((rectA, rectB) => {
