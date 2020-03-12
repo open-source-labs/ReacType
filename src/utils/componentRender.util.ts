@@ -142,9 +142,6 @@ const componentRender = (
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-    // this function is making the actual HTML elements & passing down 
-    // the HTML element names & attributes
-
     const ${title} = (props: Props) => {
       const {${props.map(el => el.key).join(', ')}} = props;
       
@@ -153,12 +150,12 @@ const componentRender = (
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            console.log('this is childrenArray', childrenArray);
+            console.log('this is childrenArray', child.HTMLInfo);
             if (child.componentName == 'Button') {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
-              )}></${componentNameGenerator(child)}>`;
+              )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
             } else
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(

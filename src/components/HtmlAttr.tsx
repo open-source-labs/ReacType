@@ -157,9 +157,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
           key={i}
           style={{ marginTop: '10px', marginRight: '20px' }}
         >
-          {/* delete whenever production is ready */}
-          {/* {console.log(attr)} */}
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             {/* if the attr being rendered for the HTMLForm is a button, then give it a special 
           condition to render a "select" component rather than a text-input component */}
             {attr == 'type' ? (
@@ -210,7 +208,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               />
             )}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={2}>
             <Fab
               variant='extended'
               size='small'
@@ -234,7 +232,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               Save
             </Fab>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <Paper className={classes.root} style={{ height: '70%' }}>
               <p style={{ color: 'black' }}>
                 {focusChild.HTMLInfo[attr]
