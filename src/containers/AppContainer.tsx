@@ -28,7 +28,7 @@ type State = {
   image: HTMLImageElement | null;
   width: number;
   changed: boolean;
-}
+};
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
@@ -42,12 +42,11 @@ const mapStateToProps = (store: any) => ({
 const mapDispatchToProps = (dispatch: (arg: a) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
   // loadInitData: () => {},
-  changeImagePath: (imageSource: string) => 
-  dispatch(actions.changeImagePath(imageSource)),
+  changeImagePath: (imageSource: string) =>
+    dispatch(actions.changeImagePath(imageSource))
 });
 
 class AppContainer extends Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     // ** state here to create a collapsable right column where bottom panel currently lives
@@ -70,27 +69,25 @@ class AppContainer extends Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
-    const {changed} = this.state;
+    const { changed } = this.state;
     if (imageSource === '' && changed) {
-      this.setState({image:null, changed:false});
-
-    }
-    else if (imageSource !== prevProps.imageSource && imageSource !== '') {
+      this.setState({ image: null, changed: false });
+    } else if (imageSource !== prevProps.imageSource && imageSource !== '') {
       this.setImage(imageSource);
     }
   }
 
   setImage = (imageSource: string) => {
     if (imageSource) {
-    let image: HTMLImageElement;
-    image = new window.Image();
-    image.src = imageSource;
-    image.onload = () => {
-      // setState will redraw layer
-      // because "image" property is changed
-      this.setState({ image, changed: true });
-    };
-  }
+      let image: HTMLImageElement;
+      image = new window.Image();
+      image.src = imageSource;
+      image.onload = () => {
+        // setState will redraw layer
+        // because "image" property is changed
+        this.setState({ image, changed: true });
+      };
+    }
   };
 
   componentDidMount() {
@@ -117,8 +114,11 @@ class AppContainer extends Component<Props, State> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          <MainContainer components={components} image={this.state.image} 
-            imageSource={this.props.imageSource}/>
+          <MainContainer
+            components={components}
+            image={this.state.image}
+            imageSource={this.props.imageSource}
+          />
           {loading ? (
             <div
               style={{

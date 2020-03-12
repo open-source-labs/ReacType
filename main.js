@@ -1,12 +1,20 @@
 const path = require('path');
 
-const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  shell,
+  dialog,
+  ipcMain
+} = require('electron');
 
 // Uncomment below for hot reloading during development
 // require('electron-reload')(__dirname);
 
 // const isDev = true;
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isDev =
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,9 +28,9 @@ function openFile() {
     filters: [
       {
         name: 'Images',
-        extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
-      },
-    ],
+        extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf']
+      }
+    ]
   });
 
   // if no files
@@ -37,7 +45,7 @@ function openFile() {
 ipcMain.on('choose_app_dir', event => {
   const directory = dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
-    buttonLabel: 'Export',
+    buttonLabel: 'Export'
   });
 
   if (!directory) return;
@@ -62,14 +70,14 @@ const createWindow = () => {
     height,
     webPreferences: {
       zoomFactor: 0.7,
-      'node-Integration': false,
+      'node-Integration': false
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
     win: {
       icon: path.join(__dirname, '/src/public/icons/win/icon.ico'),
-      target: ['portable'],
-    },
+      target: ['portable']
+    }
   });
 
   // and load the index.html of the app.
@@ -88,9 +96,9 @@ const createWindow = () => {
           accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
           click() {
             openFile();
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     // {
     //   label: 'Edit',
@@ -116,12 +124,12 @@ const createWindow = () => {
         { role: 'zoomin' },
         { role: 'zoomout' },
         { type: 'separator' },
-        { role: 'togglefullscreen' },
-      ],
+        { role: 'togglefullscreen' }
+      ]
     },
     {
       role: 'window',
-      submenu: [{ role: 'minimize' }, { role: 'close' }],
+      submenu: [{ role: 'minimize' }, { role: 'close' }]
     },
     {
       role: 'help',
@@ -130,22 +138,23 @@ const createWindow = () => {
           label: 'Learn More',
           click() {
             shell.openExternal('https://electronjs.org');
-          },
-        },
-      ],
+          }
+        }
+      ]
     },
     {
       label: 'Developer',
       submenu: [
         {
           label: 'Toggle Developer Tools',
-          accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+          accelerator:
+            process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
           click() {
             mainWindow.webContents.toggleDevTools();
-          },
-        },
-      ],
-    },
+          }
+        }
+      ]
+    }
   ];
 
   if (process.platform === 'darwin') {
@@ -160,19 +169,19 @@ const createWindow = () => {
         { role: 'hideothers' },
         { role: 'unhide' },
         { type: 'separator' },
-        { role: 'quit' },
-      ],
+        { role: 'quit' }
+      ]
     });
 
     // Edit menu
     template[2].submenu.push(
       {
-        type: 'separator',
+        type: 'separator'
       },
       {
         label: 'Speech',
-        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-      },
+        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }]
+      }
     );
 
     // Window menu
@@ -181,7 +190,7 @@ const createWindow = () => {
       { role: 'minimize' },
       { role: 'zoom' },
       { type: 'separator' },
-      { role: 'front' },
+      { role: 'front' }
     ];
   }
 
@@ -195,6 +204,9 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  // dev tools opened on every browser creation
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -202,7 +214,11 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if (isDev) {
-    const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS,
+      REDUX_DEVTOOLS
+    } = require('electron-devtools-installer');
 
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then(() => {
