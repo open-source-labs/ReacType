@@ -112,8 +112,6 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
       buttonTypeTemp = event.target.value;
     }
 
-    // console.log('this is buttonType from handleChange', buttonTypeTemp);
-
     this.setState({
       [event.target.id]: event.target.value
     });
@@ -122,21 +120,12 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
   // if button type, then create conditional where the value will be returned if attr === button
   // then return the button.value
   handleSave = (attr: any) => {
-    // console.log('this is attribute upon saving', attr.value);
     if (attr == 'type') {
       this.props.updateHtmlAttr({ attr, value: buttonTypeTemp });
       this.setState({
         [attr]: ''
       });
-      // console.log(attr.value);
-    }
-    // console.log(
-    //   'from handleSave\nthis is attr:',
-    //   attr,
-    //   ' this is value: ',
-    //   value
-    // );
-    else {
+    } else {
       this.props.updateHtmlAttr({ attr, value: this.state[attr] });
       this.setState({
         [attr]: ''
@@ -226,10 +215,6 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               }}
               onClick={e => {
                 e.preventDefault();
-                // console.log('attr from save button', attr);
-                if (attr === 'type') {
-                  // attr = buttonTypeTemp;
-                }
                 this.handleSave(attr);
               }}
             >
