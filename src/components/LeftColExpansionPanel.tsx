@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -35,12 +35,21 @@ const LeftColExpansionPanel = (props: any) => {
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
+
   return (
-    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
+    <Grid
+      container
+      spacing={16}
+      direction='row'
+      justify='flex-start'
+      alignItems='center'
+    >
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
+          style={
+            !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
+          }
         >
           <Grid item xs={12} style={{ color: 'red' }}>
             <List style={{ color: 'red' }}>
@@ -56,12 +65,12 @@ const LeftColExpansionPanel = (props: any) => {
                   className={classes.light}
                   primary={
                     <div>
-                      <Typography type="body2" style={{ color }}>
+                      <Typography type='body2' style={{ color }}>
                         {title}
                       </Typography>
                       {/* TOGGLE FOR STATEFULNESS */}
                       <InputLabel
-                        htmlFor="stateful"
+                        htmlFor='stateful'
                         style={{
                           color: '#fff',
                           marginBottom: '10px',
@@ -92,7 +101,7 @@ const LeftColExpansionPanel = (props: any) => {
                       <div>
                         {/* TOGGLE FOR CLASS BASED */}
                         <InputLabel
-                          htmlFor="classBased"
+                          htmlFor='classBased'
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
@@ -126,10 +135,10 @@ const LeftColExpansionPanel = (props: any) => {
           ) : (
             <Fragment>
               <Button
-                variant="text"
-                size="small"
-                color="default"
-                aria-label="Delete"
+                variant='text'
+                size='small'
+                color='default'
+                aria-label='Delete'
                 className={classes.margin}
                 onClick={() =>
                   deleteComponent({
@@ -157,9 +166,13 @@ const LeftColExpansionPanel = (props: any) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <Tooltip title="add as child" aria-label="add as child" placement="left">
+          <Tooltip
+            title='add as child'
+            aria-label='add as child'
+            placement='left'
+          >
             <IconButton
-              aria-label="Add"
+              aria-label='Add'
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}

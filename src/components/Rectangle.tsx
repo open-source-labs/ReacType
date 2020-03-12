@@ -31,7 +31,9 @@ interface PropsInt {
 class Rectangle extends Component<PropsInt> {
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find(
+      (comp: ComponentInt) => comp.id === componentId
+    ).color;
     return color;
   }
 
@@ -52,8 +54,12 @@ class Rectangle extends Component<PropsInt> {
       );
     }
     const transformation = {
-      width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
-      height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
+      width:
+        Math.round((target.width() * target.scaleX()) / blockSnapSize) *
+        blockSnapSize,
+      height:
+        Math.round((target.height() * target.scaleY()) / blockSnapSize) *
+        blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y
     };
@@ -99,18 +105,20 @@ class Rectangle extends Component<PropsInt> {
         scaleY={scaleY}
         width={width}
         height={height}
-        onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
+        onDragEnd={event =>
+          this.handleDrag(componentId, childId, event.target, blockSnapSize)
+        }
         ref={node => {
           this.group = node;
         }}
-        tabIndex="0" // required for keypress event to be heard by this.group
+        tabIndex='0' // required for keypress event to be heard by this.group
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
           ref={node => {
             this.rect = node;
           }}
-          tabIndex="0" // required for keypress event to be heard by this.group
+          tabIndex='0' // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -122,7 +130,11 @@ class Rectangle extends Component<PropsInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
+          stroke={
+            childType === 'COMP'
+              ? this.getComponentColor(childComponentId)
+              : '#000000'
+          }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
@@ -142,7 +154,11 @@ class Rectangle extends Component<PropsInt> {
             fontVariant={'small-caps'}
             // pseudochild's label should look different than normal children:
             text={childId === -1 ? title.slice(0, title.length - 2) : title}
-            fill={childId === -1 ? this.getComponentColor(childComponentId) : '#000000'}
+            fill={
+              childId === -1
+                ? this.getComponentColor(childComponentId)
+                : '#000000'
+            }
             fontSize={childId === -1 ? 15 : 10}
             x={4}
             y={childId === -1 ? -20 : -12}
@@ -165,9 +181,13 @@ class Rectangle extends Component<PropsInt> {
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
-                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+                width={
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
+                }
                 height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
                 }
                 x={
                   (grandchild.position.x - this.getPseudoChild().position.x) *
