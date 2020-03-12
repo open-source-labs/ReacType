@@ -70,7 +70,7 @@ const SimpleModal = (props: any) => {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="title" id="modal-title">
+          <Typography variant="h6" id="modal-title">
             {message}
           </Typography>
           <div>{children}</div>
