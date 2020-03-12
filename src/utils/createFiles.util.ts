@@ -41,7 +41,7 @@ const createFiles = (components: any, path: string, appName: string, exportAppBo
 
     promises.push(newPromise);
   });
-
+  console.log(promises);
   return Promise.all(promises);
 };
 

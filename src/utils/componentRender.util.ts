@@ -150,8 +150,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           : ``
       }
 
-      const {${props.map(el => el.key).join(', ')}} = props;
+
       ${classBased ? `render() {` : ``}
+      const {${props.map(el => el.key).join(', ')}} = ${classBased ? `this.props;` : `props;`}
       return (
         <div>
         ${cloneDeep(childrenArray)

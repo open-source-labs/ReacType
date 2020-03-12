@@ -31,9 +31,6 @@ const LeftColExpansionPanel = (props: any) => {
   } = props;
 
   const { title, id, color, stateful, classBased } = component;
-  useEffect(() => {
-    console.log('title: ', title);
-  });
 
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
