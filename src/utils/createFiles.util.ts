@@ -46,7 +46,6 @@ const createFiles = (
 
     promises.push(newPromise);
   });
-
   return Promise.all(promises);
 };
 

@@ -146,7 +146,6 @@ export const exportFiles = ({
   dispatch({
     type: EXPORT_FILES
   });
-
   createFiles(components, path, appName, exportAppBool)
     .then((dir: string) =>
       dispatch({
