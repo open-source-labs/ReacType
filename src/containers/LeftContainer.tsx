@@ -26,16 +26,16 @@ interface PropsInt {
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
   classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
-  changeFocusChild: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
-  toggleComponentState: any;
-  toggleComponentClass: any;
-  deleteImage: any;
+  addComponent: (arg: { title: string }) => void;
+  addChild: (arg: { title: string; childType: string; HTMLInfo: object }) => void;
+  changeFocusComponent: (arg: { title: string }) => void;
+  changeFocusChild: (arg: { childId: number }) => void;
+  deleteComponent: (arg: { componentId: number; stateComponents: ComponentsInt }) => void;
+  createApp: (arg: { path: string; components: ComponentsInt; genOption: number }) => void;
+  deleteAllData: () => void;
+  toggleComponentState: (arg: string) => void;
+  toggleComponentClass: (arg: string) => void;
+  deleteImage: () => void;
 }
 
 interface StateInt {
@@ -240,7 +240,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           toggleComponentClass={toggleComponentClass}
         />
       ));
-    const { addImage, clearImage } = this;
+    const { addImage } = this;
 
     return (
       <div className="column left">
