@@ -30,7 +30,7 @@ export interface ChildrenInt extends Array<ChildInt> {}
 export interface ComponentInt {
   id: number;
   stateful: boolean;
-  // class: boolean;
+  classBased: boolean;
   title: string;
   color: string;
   props: PropInt[];
@@ -44,7 +44,7 @@ export interface ComponentInt {
 export interface ComponentsInt extends Array<ComponentInt> {}
 
 export interface ApplicationStateInt {
-  imageSource: String;
+  imageSource: string;
   totalComponents: number;
   nextId: number;
   successOpen: boolean;
@@ -57,4 +57,19 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
+}
+
+export interface Action {
+  type: string;
+  payload?: any;
+}
+
+export interface LoadInitData {
+  type: string;
+  payload: { data: ApplicationStateInt | object };
+}
+
+export interface AddComponent {
+  type: string;
+  payload: { title: string };
 }

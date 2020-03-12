@@ -1,8 +1,5 @@
 import {
-  ComponentInt,
-  ComponentsInt,
-  PropInt,
-  ChildInt
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt, LoadInitData, AddComponent
 } from '../utils/Interfaces.ts';
 
 import {
@@ -12,6 +9,7 @@ import {
   DELETE_CHILD,
   DELETE_COMPONENT,
   TOGGLE_STATE,
+  TOGGLE_CLASS,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -31,7 +29,7 @@ import {
   UPDATE_CHILDREN_SORT,
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
-} from '../actionTypes/index.js';
+} from '../actionTypes/index.ts';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util.ts';
@@ -39,23 +37,21 @@ import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: imageSource
+  payload: { imageSource }
 });
 
-export const loadInitData = () => (dispatch: any) => {
-  loadState().then((data: any) =>
+export const loadInitData = () => (dispatch: (arg: Action) => void) => {
+  loadState().then((data: any) => {
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
         data: data ? data.workspace : {}
       }
-    })
-  );
+    });
+  });
 };
 
-export const addComponent = ({ title }: { title: string }) => (
-  dispatch: any
-) => {
+export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: AddComponent) => void) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -67,11 +63,11 @@ export const addChild = ({
   title: string;
   childType: string;
   HTMLInfo: object;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => (dispatch: any) => {
+export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
   // with no payload, it will delete focusd child
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
@@ -82,7 +78,7 @@ export const deleteComponent = ({
 }: {
   componentId: number;
   stateComponents: ComponentsInt;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
     parent.childrenArray
@@ -106,14 +102,14 @@ export const deleteComponent = ({
 };
 
 export const changeFocusComponent = ({ title }: { title: string }) => (
-  dispatch: any
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
 export const changeFocusChild = ({ childId }: { childId: number }) => (
-  dispatch: any
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
@@ -124,7 +120,7 @@ export const changeComponentFocusChild = ({
 }: {
   componentId: number;
   childId: number;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
     payload: { componentId, childId }
@@ -132,8 +128,7 @@ export const changeComponentFocusChild = ({
 };
 
 export const deleteImage = () => ({
-  type: DELETE_IMAGE,
-  payload: ''
+  type: DELETE_IMAGE
 });
 
 export const exportFiles = ({
@@ -146,20 +141,20 @@ export const exportFiles = ({
   path: string;
   appName: string;
   exportAppBool: boolean;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
     type: EXPORT_FILES
   });
 
   createFiles(components, path, appName, exportAppBool)
-    .then(dir =>
+    .then((dir: string) =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
         payload: { status: true, dir: dir[0] }
       })
     )
-    .catch(err =>
+    .catch((err: string) =>
       dispatch({
         type: EXPORT_FILES_ERROR,
         payload: { status: true, err }
@@ -175,12 +170,7 @@ export const handleClose = () => ({
 export const handleTransform = (
   componentId: number,
   childId: number,
-  {
-    x,
-    y,
-    width,
-    height
-  }: { x: number; y: number; width: number; height: number }
+  { x, y, width, height }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {
@@ -205,7 +195,7 @@ export const createApplication = ({
   genOption: number;
   appName: string;
   exportAppBool: boolean;
-}) => (dispatch: any) => {
+}) => (dispatch: (arg: Action) => void) => {
   if (genOption === 0) {
     exportAppBool = false;
     dispatch(
@@ -225,7 +215,6 @@ export const createApplication = ({
       path,
       appName,
       genOption
-      // exportAppBool
     })
       .then(() => {
         dispatch({
@@ -240,7 +229,7 @@ export const createApplication = ({
           })
         );
       })
-      .catch(err =>
+      .catch((err: string) =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
           payload: { status: true, err }
@@ -258,12 +247,16 @@ export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
 
-export const deleteProp = (propId: number) => (dispatch: any) => {
+export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (index: string) => (dispatch: any) => {
-  dispatch({ type: TOGGLE_STATE, payload: index });
+export const toggleComponentState = (id: string) => (dispatch: (arg: Action) => void) => {
+  dispatch({ type: TOGGLE_STATE, payload: id });
+};
+
+export const toggleComponentClass = (id: string) => (dispatch: (arg: Action) => void) => {
+  dispatch({ type: TOGGLE_CLASS, payload: id });
 };
 
 export const addProp = (prop: PropInt) => ({
@@ -271,28 +264,21 @@ export const addProp = (prop: PropInt) => ({
   payload: { ...prop }
 });
 
-export const updateHtmlAttr = ({
-  attr,
-  value
-}: {
-  attr: string;
-  value: string;
-}) => (dispatch: any) => {
-  // can console log delete whenever
-  // console.log("updating HTML attr");
+export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
     payload: { attr, value }
   });
 };
 
-export const updateChildrenSort = ({
-  newSortValues
-}: {
-  newSortValues: any;
-}) => (dispatch: any) => {
-  dispatch({
-    type: UPDATE_CHILDREN_SORT,
-    payload: { newSortValues }
-  });
-};
+//Action reserved for SortChildren component not written yet
+// export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
+//   dispatch: (arg: Action) => void,
+// ) => {
+//   dispatch({
+//     type: UPDATE_CHILDREN_SORT,
+//     payload: { newSortValues },
+//   });
+// };

@@ -26,10 +26,11 @@ const LeftColExpansionPanel = (props: any) => {
     selectableChildren,
     components,
     deleteComponent,
-    toggleComponentState
+    toggleComponentState,
+    toggleComponentClass
   } = props;
 
-  const { title, id, color } = component;
+  const { title, id, color, stateful, classBased } = component;
 
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
@@ -81,10 +82,19 @@ const LeftColExpansionPanel = (props: any) => {
                       >
                         State?
                       </InputLabel>
+                      {/* 
+                          Have to change focus component after toggling state 
+                          in order to properly change the code that appears in the code 
+                          peview
+                      */}
                       <Switch
-                        onChange={e => toggleComponentState(props.id)}
-                        value='stateful'
-                        color='primary'
+                        checked={stateful}
+                        onChange={e => {
+                          toggleComponentState(id);
+                          changeFocusComponent(title);
+                        }}
+                        value="stateful"
+                        color="primary"
                         id={props.id.toString()}
                         // id={props.index.toString()}
                       />
@@ -104,13 +114,13 @@ const LeftColExpansionPanel = (props: any) => {
                           Class?
                         </InputLabel>
                         <Switch
-                          // checked={classBased}
-                          // onChange={e => ONCHANGE FUNCTION PENDING ON CLASS REDUCER
-                          //   updateComponent(id, { classBased: e.target.checked })
-                          // }
-                          value='classBased'
-                          color='primary'
-                          id={props.index.toString()}
+                          checked={classBased}
+                          onChange={e => {
+                            toggleComponentClass(id);
+                            changeFocusComponent(title);
+                          }}
+                          value="classBased"
+                          color="primary"
                         />
                       </div>
                     </div>

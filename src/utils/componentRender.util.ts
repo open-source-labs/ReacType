@@ -14,13 +14,16 @@ const componentRender = (
   const {
     childrenArray,
     title,
-    props
+    props,
+    stateful,
+    classBased
   }: {
     childrenArray: ChildrenInt;
     title: string;
     props: PropInt[];
+    stateful: boolean;
+    classBased: boolean;
   } = component;
-
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -94,7 +97,7 @@ const componentRender = (
     //Deleted touppercase for word[0] --Tony I
     return element
       .replace(/[a-z]+/gi, word => word[0] + word.slice(1))
-      .replace(/[-_0-9\W]+/gi, '');
+      .replace(/[-_\s0-9\W]+/gi, '');
   }
 
   function componentNameGenerator(child: ChildInt) {
@@ -121,7 +124,10 @@ const componentRender = (
   }
 
   return `
-    import React from 'react';
+    ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
+    ${classBased ? `import React, {Component} from 'react';` : ''}
+    ${!stateful && !classBased ? `import React from 'react';` : ''}
+
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
       .map(
@@ -136,15 +142,34 @@ const componentRender = (
         return acc;
       }, [])
       .join('\n')}
-
     
     type Props = {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-    const ${title} = (props: Props) => {
-      const {${props.map(el => el.key).join(', ')}} = props;
-      
+      ${
+        classBased
+          ? `class ${title} extends Component {`
+          : `const ${title} = (props: Props) => {`
+      }
+      ${
+        stateful && !classBased
+          ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
+          : ``
+      }
+      ${
+        classBased && stateful
+          ? `constructor(props) {
+        super(props);
+        this.state = {}
+       }`
+          : ``
+      }
+
+      ${classBased ? `render(): JSX.Element {` : ``}
+      const {${props.map(el => el.key).join(', ')}} = ${
+    classBased ? `this.props` : `props`
+  };
       return (
         <div>
         ${cloneDeep(childrenArray)
@@ -166,6 +191,7 @@ const componentRender = (
         </div>
       );
     }
+    ${classBased ? `}` : ``}
     export default ${title};
   `;
 };

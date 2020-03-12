@@ -145,7 +145,7 @@ class Props extends Component {
 
     let { propKey, propValue, propRequired, propType } = this.state;
     propKey = propKey.replace(/\W+/gi, '');
-    propValue = propKey.replace(/\W+/gi, '');
+    propValue = propValue.replace(/\W+/gi, '');
 
     // check if prop exists with same key. CANNOT have duplicates
     const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
@@ -307,7 +307,4 @@ class Props extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Props));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Props));

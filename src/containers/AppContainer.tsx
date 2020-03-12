@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import LeftContainer from './LeftContainer.tsx';
-import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
-import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import theme from '../components/theme';
+// import { loadInitData } from '../actions/components.ts';
+import { ComponentInt, ComponentsInt, Action } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
@@ -20,16 +20,15 @@ type Props = {
   totalComponents: number;
   loading: boolean;
   selectableChildren: Array<number>;
-  loadInitData: any;
-  changeImagePath: any;
-  changed: boolean;
+  loadInitData: () => void;
+  changeImagePath: () => void;
 };
 
 type State = {
   image: HTMLImageElement | null;
   width: number;
   changed: boolean;
-}
+};
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
@@ -40,13 +39,14 @@ const mapStateToProps = (store: any) => ({
   selectableChildren: store.workspace.selectableChildren
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  loadInitData,
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+const mapDispatchToProps = (dispatch: (arg: a) => void) => ({
+  loadInitData: () => dispatch(actions.loadInitData()),
+  // loadInitData: () => {},
+  changeImagePath: (imageSource: string) =>
+    dispatch(actions.changeImagePath(imageSource))
 });
 
 class AppContainer extends Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     // ** state here to create a collapsable right column where bottom panel currently lives
@@ -56,12 +56,12 @@ class AppContainer extends Component<Props, State> {
       changed: false
     };
 
-    IPC.on('new-file', (event, file: string) => {
+    IPC.on('new-file', (event: any, file: string) => {
       const image = new window.Image();
       image.src = file;
       image.onload = () => {
         // update state when the image has been uploaded
-        this.props.changeImagePath(file);
+        this.props.changeImagePath(image.src);
         this.setState({ image });
       };
     });
@@ -69,27 +69,25 @@ class AppContainer extends Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const { imageSource } = this.props;
-    const {changed} = this.state;
-    if (imageSource == '' && changed) {
-      this.setState({...this.state, image:null, changed:false});
-
-    }
-    else if (imageSource !== prevProps.imageSource) {
+    const { changed } = this.state;
+    if (imageSource === '' && changed) {
+      this.setState({ image: null, changed: false });
+    } else if (imageSource !== prevProps.imageSource && imageSource !== '') {
       this.setImage(imageSource);
     }
   }
 
   setImage = (imageSource: string) => {
     if (imageSource) {
-    let image: HTMLImageElement;
-    image = new window.Image();
-    image.src = imageSource;
-    image.onload = () => {
-      // setState will redraw layer
-      // because "image" property is changed
-      this.setState({ image, changed: true });
-    };
-  }
+      let image: HTMLImageElement;
+      image = new window.Image();
+      image.src = imageSource;
+      image.onload = () => {
+        // setState will redraw layer
+        // because "image" property is changed
+        this.setState({ image, changed: true });
+      };
+    }
   };
 
   componentDidMount() {
@@ -116,8 +114,11 @@ class AppContainer extends Component<Props, State> {
             focusComponent={focusComponent}
             selectableChildren={selectableChildren}
           />
-          <MainContainer components={components} image={this.state.image} 
-            imageSource={this.props.imageSource}/>
+          <MainContainer
+            components={components}
+            image={this.state.image}
+            imageSource={this.props.imageSource}
+          />
           {loading ? (
             <div
               style={{

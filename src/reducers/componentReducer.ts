@@ -1,10 +1,10 @@
 import {
   ComponentInt,
   ChildInt,
-  ApplicationStateInt
-} from "../utils/Interfaces";
+  ApplicationStateInt,
+  Action
+} from '../utils/Interfaces';
 
-// have both action types & reducers imported
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -12,6 +12,7 @@ import {
   DELETE_CHILD,
   DELETE_COMPONENT,
   TOGGLE_STATE,
+  TOGGLE_CLASS,
   CHANGE_FOCUS_COMPONENT,
   CHANGE_FOCUS_CHILD,
   CHANGE_COMPONENT_FOCUS_CHILD,
@@ -31,7 +32,7 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT
-} from "../actionTypes";
+} from '../actionTypes';
 
 import {
   addComponent,
@@ -52,16 +53,17 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-  toggleComponentState
-} from "../utils/componentReducer.util.ts";
-
-import cloneDeep from "../utils/cloneDeep.ts";
+  toggleComponentState,
+  toggleComponentClass
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
-  title: "App",
-  color: "#FF6D00",
+  classBased: false,
+  title: 'App',
+  color: '#FF6D00',
   props: [],
   nextPropId: 1,
   position: {
@@ -93,7 +95,7 @@ const initialApplicationFocusChild: ChildInt = {
 };
 
 const initialApplicationState: ApplicationStateInt = {
-  imageSource: "",
+  imageSource: '',
   totalComponents: 1,
   nextId: 2,
   successOpen: false,
@@ -104,18 +106,18 @@ const initialApplicationState: ApplicationStateInt = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
-  appDir: "",
+  appDir: '',
   loading: false
 };
 
-const componentReducer = (state = initialApplicationState, action: any) => {
+const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return {
         ...state,
         ...action.payload.data,
         loading: false,
-        appDir: "",
+        appDir: '',
         successOpen: false,
         errorOpen: false
       };
@@ -129,6 +131,8 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
+    case TOGGLE_CLASS:
+      return toggleComponentClass(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:
@@ -143,7 +147,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    case CREATE_APPLICATION_ERROR:
+    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:

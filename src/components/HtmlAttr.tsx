@@ -45,7 +45,6 @@ const styles = (theme: any): any => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateHtmlAttr: ({ attr, value }: { attr: string; value: string }) => {
-    console.log('this is attr from mapDispatchToProps for HtmlAttr', attr);
     dispatch(updateHtmlAttr({ attr, value }));
   }
 });
