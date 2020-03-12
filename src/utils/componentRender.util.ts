@@ -94,7 +94,7 @@ const componentRender = (
     //Deleted touppercase for word[0] --Tony I
     return element
       .replace(/[a-z]+/gi, word => word[0] + word.slice(1))
-      .replace(/[-_\s0-9\W]+/gi, '');
+      .replace(/[-_0-9\W]+/gi, '');
   }
 
   function componentNameGenerator(child: ChildInt) {

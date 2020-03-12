@@ -2,7 +2,12 @@ import fs from 'fs';
 import { format } from 'prettier';
 import componentRender from './componentRender.util.ts';
 
-const createFiles = (components: any, path: string, appName: string, exportAppBool: boolean) => {
+const createFiles = (
+  components: any,
+  path: string,
+  appName: string,
+  exportAppBool: boolean
+) => {
   let dir = path;
   if (exportAppBool === false) {
     if (!dir.match(/components|\*$/)) {
@@ -30,12 +35,12 @@ const createFiles = (components: any, path: string, appName: string, exportAppBo
           trailingComma: 'es5',
           bracketSpacing: true,
           jsxBracketSameLine: true,
-          parser: 'typescript',
+          parser: 'typescript'
         }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        },
+        }
       );
     });
 

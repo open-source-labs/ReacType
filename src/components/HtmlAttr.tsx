@@ -67,7 +67,7 @@ const buttonTypeOptions = [
   <option value='' key='' />,
   ...Object.keys(availableButtonTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
-      {type}
+      {type == null ? '' : type}
     </option>
   ))
 ];
@@ -171,11 +171,16 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
                   id='htmlType'
                   placeholder='title'
                   onChange={this.handleChange}
-                  value={this.state[attr]}
+                  value={buttonTypeTemp}
+                  defaultValue={'button'}
                   style={{
                     background: '#424242',
-                    height: '70%',
-                    width: '170px'
+                    height: '43px',
+                    width: '146px',
+                    marginBottom: '23px',
+                    marginTop: '0px',
+                    color: '#fff',
+                    paddingLeft: '14px'
                   }}
                   required
                 >
