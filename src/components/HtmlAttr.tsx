@@ -175,7 +175,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
                   defaultValue={'button'}
                   style={{
                     background: '#424242',
-                    height: '43px',
+                    height: '45px',
                     width: '146px',
                     marginBottom: '23px',
                     marginTop: '0px',
