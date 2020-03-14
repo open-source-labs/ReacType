@@ -704,7 +704,7 @@ export const updateChildrenSort = (
   state: ApplicationStateInt,
   { newSortValues }: { newSortValues: any }
 ) => {
-  const modifiedChildrenArray: ChildrenInt = cloneDeep(
+  const modifiedChildrenArray: any = cloneDeep(
     state.focusComponent.childrenArray
   );
 

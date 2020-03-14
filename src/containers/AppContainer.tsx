@@ -7,7 +7,7 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt, Action } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
