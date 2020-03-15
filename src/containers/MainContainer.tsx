@@ -21,14 +21,14 @@ interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
+  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // addChild: any; **It's expecting this prop in the interface, but is never used.**
+  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
   changeImagePath: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
+  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // createApp: any; **It's expecting this prop in the interface, but is never used.**
+  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
   handleTransformation: any;
   focusChild: any;
   changeComponentFocusChild: any;

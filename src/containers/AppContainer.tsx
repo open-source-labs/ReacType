@@ -128,18 +128,20 @@ class AppContainer extends Component<Props, State> {
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme} //I'm assuming this is some material-UI theme thing
+      >  
         <div className='app-container'>
-          <LeftContainer
+          <LeftContainer //The left side-bar that contains the component cards and the buttons.
             components={components}
             totalComponents={totalComponents}
-            focusComponent={focusComponent}
-            selectableChildren={selectableChildren}
+            focusComponent={focusComponent} //'focused' just means it's the one currently selected.
+            selectableChildren={selectableChildren} //this toggles whether a component can be added as a child to the focused component
           />
           <MainContainer
             components={components}
             image={this.state.image}
             imageSource={this.props.imageSource}
+            classes = {null} //placeholder, for some reason it's expecting this prop
           />
           {loading ? ( //This is triggered when files are being exported. Unsure if it actually does anything.
             <div
@@ -149,7 +151,9 @@ class AppContainer extends Component<Props, State> {
                 width: '100%'
               }}
             >
-              <LinearProgress color='secondary' />
+              <LinearProgress color='secondary' //Pretty sure this is a loading bar component from Material-UI, 
+                                                //never seen it in action though.
+              />
             </div>
           ) : null}
         </div>
