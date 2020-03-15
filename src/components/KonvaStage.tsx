@@ -12,22 +12,22 @@ interface PropsInt {
   image: HTMLImageElement;
   components: ComponentsInt;
   focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
+  // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
   classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
+  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // addChild: any; **It's expecting this prop in the interface, but is never used.**
+  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
+  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // createApp: any; **It's expecting this prop in the interface, but is never used.**
+  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
   handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
   scaleX: number;
   scaleY: number;
-  draggable: boolean;
+  // draggable: boolean; **THIS ONE is actually never passed down from the parent but reassigned in a seperate object below in this file.**
 }
 
 interface StateInt {
@@ -41,6 +41,10 @@ interface StateInt {
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
     super(props);
+    //the main purpose of this state, although not supposed to be here per redux rules I believe, 
+    //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
+    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do 
+    //anything, and the gridStroke is the stroke width of the squares. 
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
@@ -180,8 +184,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       handleTransform,
       focusComponent,
       focusChild,
-      deleteChild,
-      classes
+      // deleteChild, **neither of these are read**
+      // classes
     } = this.props;
 
     return (

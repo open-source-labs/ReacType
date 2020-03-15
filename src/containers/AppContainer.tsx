@@ -36,8 +36,9 @@ type State = {
 
 //I'm still trying to figure out the typing for the 'workspace' property,
 //feel free to assign it the correct type. It seems to point to componentReducer.
+//Details on some of these are listed in the render where they are passed down.
 const mapStateToProps = (store: {workspace: any}) => ({
-  imageSource: store.workspace.imageSource,
+  imageSource: store.workspace.imageSource, 
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
