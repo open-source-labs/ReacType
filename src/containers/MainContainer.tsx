@@ -25,7 +25,7 @@ interface PropsInt {
   // addChild: any; **It's expecting this prop in the interface, but is never used.**
   // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
-  changeImagePath: any;
+  // changeImagePath: any; **It's declared but function below doesn't do anything**
   // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
   // createApp: any; **It's expecting this prop in the interface, but is never used.**
   // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**

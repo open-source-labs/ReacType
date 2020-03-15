@@ -82,6 +82,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     return childrenArrCopy;
   }
 
+  //currently, only the handlekeydown event listener does anything.
   componentDidMount() {
     this.checkSize();
     // here we should add listener for "container" resize
@@ -92,11 +93,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     this.createGrid();
   }
 
+  // I wonder if this lifecycle method is necessary. When I remove it,
+  //I can't find any noticable changes. Possibly to prevent memory leaks?
   componentWillUnmount() {
     window.removeEventListener("resize", this.checkSize);
     this.container.removeEventListener("keydown", this.handleKeyDown);
   }
 
+  //something about the logic here isn't working. Will need to check some other time. 
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -135,7 +139,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       childId: rectChildId
     });
   };
-
+  //this function creates a grid with those 10x10 squares. 
+  //it first draws a grid or horizaontal lines, and then 
+  //draws the vertical ones. 
   createGrid = () => {
     const output = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
