@@ -1,4 +1,4 @@
-const colors: Array<string> = [
+const colors: string[] = [
   '#e27d60',
   '#575757',
   '#e8a87c',
