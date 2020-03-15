@@ -35,6 +35,7 @@ const LeftColExpansionPanel = (props: any) => {
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
+
   return (
     <Grid
       container

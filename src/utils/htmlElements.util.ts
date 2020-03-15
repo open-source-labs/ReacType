@@ -23,27 +23,27 @@ const HTMLelements: htmlElementsInt = {
   Button: {
     width: 75,
     height: 28,
-    attributes: ['className', 'id', 'type'] // changed 'text' to 'type' for more accurate html element attributes
+    attributes: ['className', 'id', 'type', 'value']
   },
   Form: {
     width: 150,
     height: 150,
-    attributes: ['className', 'id', 'text']
+    attributes: ['className', 'id']
   },
   Paragraph: {
     width: 250,
     height: 75,
-    attributes: ['className', 'id', 'text']
+    attributes: ['className', 'id']
   },
   List: {
     width: 75,
     height: 75,
-    attributes: ['className', 'id', 'text']
+    attributes: ['className', 'id', 'value']
   },
   Link: {
     width: 50,
     height: 50,
-    attributes: ['className', 'id', 'text']
+    attributes: ['className', 'id', 'href']
   }
 };
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import Konva from 'konva';
 import { Rect, Group, Label, Text } from 'react-konva';
-import TransformerComponent from './TransformerComponent.tsx';
-import GrandchildRectangle from './GrandchildRectangle.tsx';
-import { ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
-import { ComponentInt } from '../utils/Interfaces.ts';
+import TransformerComponent from './TransformerComponent';
+import GrandchildRectangle from './GrandchildRectangle';
+import { ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt } from '../utils/Interfaces';
 
 interface PropsInt {
   x: number;
@@ -22,21 +23,17 @@ interface PropsInt {
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
-  imageSource: string;
   handleTransform: any;
+  image: HTMLImageElement;
 }
 
-interface StateInt {
-  image: any;
-}
 
-class Rectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null
-  };
+class Rectangle extends Component<PropsInt> {
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find(
+      (comp: ComponentInt) => comp.id === componentId
+    ).color;
     return color;
   }
 
@@ -46,8 +43,8 @@ class Rectangle extends Component<PropsInt, StateInt> {
     );
   }
 
-  handleResize(componentId: number, childId: number, target: any, blockSnapSize: number) {
-    let focChild: ChildInt = this.props.components
+  handleResize(componentId: number, childId: number, target: Konva.Group, blockSnapSize: number) {
+    let focChild: ChildInt | ComponentInt = this.props.components
       .find((comp: ComponentInt) => comp.id === this.props.componentId)
       .childrenArray.find((child: ChildInt) => child.childId === childId);
 
@@ -57,29 +54,25 @@ class Rectangle extends Component<PropsInt, StateInt> {
       );
     }
     const transformation = {
-      width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
-      height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
+      width:
+        Math.round((target.width() * target.scaleX()) / blockSnapSize) *
+        blockSnapSize,
+      height:
+        Math.round((target.height() * target.scaleY()) / blockSnapSize) *
+        blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
 
-  handleDrag(componentId: number, childId: number, target: any, blockSnapSize: any) {
+  handleDrag(componentId: number, childId: number, target: Konva.Group, blockSnapSize: number) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
-
-  setImage = (imageSource: string): void => {
-    if (!imageSource) return;
-    const image = new window.Image();
-    image.src = imageSource;
-    if (!image.height) return null;
-    this.setState({ image });
-  };
 
   render() {
     const {
@@ -98,8 +91,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
       components,
       draggable,
       blockSnapSize,
-      childType,
-      imageSource
+      childType
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -113,18 +105,20 @@ class Rectangle extends Component<PropsInt, StateInt> {
         scaleY={scaleY}
         width={width}
         height={height}
-        onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
+        onDragEnd={event =>
+          this.handleDrag(componentId, childId, event.target, blockSnapSize)
+        }
         ref={node => {
           this.group = node;
         }}
-        tabIndex="0" // required for keypress event to be heard by this.group
+        tabIndex='0' // required for keypress event to be heard by this.group
       >
         <Rect
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
           ref={node => {
             this.rect = node;
           }}
-          tabIndex="0" // required for keypress event to be heard by this.group
+          tabIndex='0' // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -136,7 +130,11 @@ class Rectangle extends Component<PropsInt, StateInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
+          stroke={
+            childType === 'COMP'
+              ? this.getComponentColor(childComponentId)
+              : '#000000'
+          }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
           }
@@ -145,9 +143,9 @@ class Rectangle extends Component<PropsInt, StateInt> {
           draggable={false}
           fill={null}
           shadowBlur={childId === -1 ? 6 : null}
-          fillPatternImage={this.state.image ? this.state.image : null}
-          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
-          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          fillPatternImage={childId === -1  ? this.props.image : null} //spooky addition, image if uploaded will only be background of App component
+          fillPatternScaleX={this.props.image ? width / this.props.image.width : 1}
+          fillPatternScaleY={this.props.image? height / this.props.image.height : 1}
           _useStrictMode
         />
         <Label>
@@ -156,7 +154,11 @@ class Rectangle extends Component<PropsInt, StateInt> {
             fontVariant={'small-caps'}
             // pseudochild's label should look different than normal children:
             text={childId === -1 ? title.slice(0, title.length - 2) : title}
-            fill={childId === -1 ? this.getComponentColor(childComponentId) : '#000000'}
+            fill={
+              childId === -1
+                ? this.getComponentColor(childComponentId)
+                : '#000000'
+            }
             fontSize={childId === -1 ? 15 : 10}
             x={4}
             y={childId === -1 ? -20 : -12}
@@ -175,14 +177,17 @@ class Rectangle extends Component<PropsInt, StateInt> {
                 componentId={componentId}
                 directParentName={childComponentName}
                 childType={grandchild.childType}
-                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
-                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+                width={
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
+                }
                 height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
                 }
                 x={
                   (grandchild.position.x - this.getPseudoChild().position.x) *
@@ -195,7 +200,7 @@ class Rectangle extends Component<PropsInt, StateInt> {
               />
             ))}
         {focusChild && focusChild.childId === childId && draggable && (
-          <TransformerComponent
+          <TransformerComponent //This is the component that binds the Rect nodes to the Transformer node so they can be resized.
             focusChild={focusChild}
             rectClass={'childRect'}
             anchorSize={8}

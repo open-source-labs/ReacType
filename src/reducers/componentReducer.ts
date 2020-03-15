@@ -5,7 +5,6 @@ import {
   Action
 } from '../utils/Interfaces';
 
-
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,

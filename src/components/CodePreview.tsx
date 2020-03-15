@@ -26,7 +26,13 @@ class CodePreview extends Component<Props> {
         }}
       >
         <SyntaxHighlighter style={hybrid}>
-          {format(componentRender(focusComponent, components))}}
+          {format(componentRender(focusComponent, components), {
+          singleQuote: true,
+          trailingComma: 'es5',
+          bracketSpacing: true,
+          jsxBracketSameLine: true,
+          parser: 'typescript'
+        })}
         </SyntaxHighlighter>
       </div>
     );

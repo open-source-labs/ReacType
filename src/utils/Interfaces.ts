@@ -66,10 +66,10 @@ export interface Action {
 
 export interface LoadInitData {
   type: string;
-  payload: { data: ApplicationStateInt | object }
+  payload: { data: ApplicationStateInt | object };
 }
 
 export interface AddComponent {
   type: string;
-  payload: { title : string }
+  payload: { title: string };
 }
