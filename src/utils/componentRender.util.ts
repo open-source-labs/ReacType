@@ -1,16 +1,7 @@
-import {
-  ComponentInt,
-  ComponentsInt,
-  ChildInt,
-  ChildrenInt,
-  PropInt
-} from './Interfaces';
+import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
-const componentRender = (
-  component: ComponentInt,
-  components: ComponentsInt
-) => {
+const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
     childrenArray,
     title,
@@ -130,10 +121,7 @@ const componentRender = (
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(
-        child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`
-      )
+      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -147,11 +135,7 @@ const componentRender = (
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-      ${
-        classBased
-          ? `class ${title} extends Component {`
-          : `const ${title} = (props: Props) => {`
-      }
+      ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
       ${
         stateful && !classBased
           ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
@@ -165,11 +149,9 @@ const componentRender = (
        }`
           : ``
       }
-
       ${classBased ? `render(): JSX.Element {` : ``}
-      const {${props.map(el => el.key).join(', ')}} = ${
-    classBased ? `this.props` : `props`
-  };
+      const {${props.map(el => el.key).join(', ')}} = ${classBased ? `this.props` : `props`};
+      
       return (
         <div>
         ${cloneDeep(childrenArray)
@@ -178,14 +160,12 @@ const componentRender = (
             //console.log('this is childrenArray', child.HTMLInfo); //Did someone leave this here?//
             if (child.componentName == 'Button') {
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(
-                child
-              )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}>${
+                child.HTMLInfo.value
+              }</${componentNameGenerator(child)}>`;
             } else
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(
-                child
-              )}/>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`;
           })
           .join('\n')}
         </div>
