@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/components.ts';
-import DataTable from './DataTable.tsx';
-import { ComponentInt } from '../utils/Interfaces.ts';
+import { addProp, deleteProp } from '../actions/components';
+import DataTable from './DataTable';
+import { ComponentInt } from '../utils/Interfaces';
 
 const styles = theme => ({
   root: {
@@ -94,8 +94,8 @@ const availablePropTypes = {
   boolean: 'BOOL',
   function: 'FUNC',
   // symbol: 'SYM',
-  node: 'NODE',
-  element: 'ELEM',
+  // node: 'NODE',
+  // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
   enum: 'ENUM'

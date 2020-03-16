@@ -53,12 +53,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   handleTransformation: (
     componentId: number,
     childId: number,
-    {
-      x,
-      y,
-      width,
-      height
-    }: { x: number; y: number; width: number; height: number }
+    { x, y, width, height }: { x: number; y: number; width: number; height: number }
   ) =>
     dispatch(
       handleTransform(componentId, childId, {
@@ -68,25 +63,18 @@ const mapDispatchToProps = (dispatch: any) => ({
         height
       })
     ),
-    //this doesn't do anything here
+  //this doesn't do anything here
   // changeImagePath: (imageSource: string) =>
   //   dispatch(actions.changeImagePath(imageSource)),
 
-
   //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
-  changeFocusChild: ({ childId }: { childId: number }) =>
-    dispatch(changeFocusChild({ childId })),
+  changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
 
   //the difference between this dispatch function and the one above, is that this once alters the focused child status within the array of components,
   //vs the one above changes the focusChild property in the state
-  changeComponentFocusChild: ({
-    componentId,
-    childId
-  }: {
-    componentId: number;
-    childId: number;
-  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means. 
+  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
+    dispatch(changeComponentFocusChild({ componentId, childId })),
+  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
 const mapStateToProps = (store: any) => ({
@@ -109,7 +97,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
   // };
 
   render() {
-    //const { draggable, modal } = this.state; //this is being destructured but never read. 
+    //const { draggable, modal } = this.state; //this is being destructured but never read.
     const {
       components,
       handleTransformation,
@@ -126,9 +114,10 @@ class MainContainer extends Component<PropsInt, StateInt> {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className='main-container'>
+        <div className="main-container">
           {/* {modal} */}
-          <div className='main' //ref={main} **no function, commenting out**
+          <div
+            className="main" //ref={main} **no function, commenting out**
           >
             <KonvaStage
               image={image}
