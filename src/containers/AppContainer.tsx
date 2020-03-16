@@ -7,7 +7,7 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, ApplicationStateInt, Action } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
@@ -15,7 +15,7 @@ const IPC = require('electron').ipcRenderer;
 
 //This is the Props type for the props being passed into AppContainer
 //Since this is the parent container, all props are coming from the global store.
-type Props = {
+interface Props {
   imageSource: string;
   components: ComponentsInt;
   focusComponent: ComponentInt;
@@ -28,16 +28,14 @@ type Props = {
 
 //Type for the state that should not be assigned within the 
 //component below. 
-type State = {
+interface State {
   image: HTMLImageElement | null;
   width: number;
   changed: boolean;
 };
 
-//I'm still trying to figure out the typing for the 'workspace' property,
-//feel free to assign it the correct type. It seems to point to componentReducer.
 //Details on some of these are listed in the render where they are passed down.
-const mapStateToProps = (store: {workspace: any}) => ({
+const mapStateToProps = (store: {workspace: ApplicationStateInt}) => ({
   imageSource: store.workspace.imageSource, 
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
@@ -49,6 +47,9 @@ const mapStateToProps = (store: {workspace: any}) => ({
 //Dispatch functions for loading data where user left off
 //when they closed the app, and to change the path of the image 
 //if uploaded for template.
+
+//TODO: Create an interface for dispatch function
+
 const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
   changeImagePath: (imageSource: string) =>
@@ -60,7 +61,9 @@ class AppContainer extends Component<Props, State> {
     super(props);
     // THIS STATE SHOULD NOT EXIST HERE. 
     //First rule of Redux is to have a single source of truth, and state being assigned right
-    //here braks that rule. Big nono.
+    //here breaks that rule if it gets pased down to any other component.
+
+    //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
       width: 25,
@@ -70,6 +73,8 @@ class AppContainer extends Component<Props, State> {
     //This function is invoked upon a new file being uploaded to the app.
     //it changes the imagesource in the global state to be whatever filepath it is
     //on the user's comp.
+
+    //TODO Fix event typing?
     IPC.on('new-file', (event: any, file: string) => {
       const image = new window.Image();
       image.src = file;
