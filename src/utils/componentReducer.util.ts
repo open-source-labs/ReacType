@@ -401,6 +401,7 @@ export const deleteComponent = (
   state: ApplicationStateInt,
   { componentId }: { componentId: number }
 ) => {
+  console.log('invoked');
   //select the component from list of components
   const compName = state.components.filter(
     (value: ComponentInt) => value.id === componentId

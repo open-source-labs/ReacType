@@ -81,7 +81,7 @@ export const deleteComponent = ({
 }) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
-    parent.childrenArrayChildInt
+    parent.childrenArray
       .filter((child: ChildInt) => child.childComponentId === componentId)
       .forEach((child: ChildInt) => {
         dispatch({

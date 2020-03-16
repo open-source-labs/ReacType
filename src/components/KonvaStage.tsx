@@ -7,6 +7,7 @@ import Rectangle from "./Rectangle";
 import cloneDeep from "../utils/cloneDeep";
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces";
 import isEmpty from '../utils/isEmpty';
+import Konva from "konva";
 
 
 //TODO check if these types are necessary
@@ -36,9 +37,11 @@ interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [];
+  grid: [] | JSX.Element[];
   gridStroke: number;
 }
+
+
 
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
@@ -54,7 +57,12 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       grid: [],
       gridStroke: 1
     };
+    
   }
+  
+  stage: Stage;
+  layer: Konva.Layer;
+  container: HTMLDivElement;
 
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
@@ -89,6 +97,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     return childrenArrCopy;
   }
 
+
   //currently, only the handlekeydown event listener does anything.
   componentDidMount() {
     this.checkSize();
@@ -108,7 +117,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     this.container.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  //something about the logic here isn't working. Will need to check some other time. 
+  //something about the logic here might not be working. Will need to check some other time. 
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -129,6 +138,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   //event handler to handle mouse click
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
+    //logic here doesn't seem to be working
     if (e.target === e.target.getStage()) {
       return;
     }
@@ -209,14 +219,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           height: "100%"
         }}
         ref={node => {
-          this.container = node;
+          this.container= node;
         }}
-        tabIndex="0" // required for keydown event to be heard by this.container
+        tabIndex= {0} // required for keydown event to be heard by this.container
       >
         <Stage
           className={"canvasStage"}
           ref={node => {
-            this.stage = node;
+            this.stage = node;  
           }}
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
@@ -242,7 +252,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   childComponentName={child.componentName}
                   focusChild={focusChild}
                   childId={child.childId} // -1 for pseudoChild
-                  x={child.position.x}
+                  x={child.position.x} 
                   y={child.position.y}
                   scaleX={1}
                   scaleY={1}
@@ -255,7 +265,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   image={this.props.focusComponent.id === 1 ? image : null}
                 />
               ))
-              .sort((rectA, rectB) => {
+              .sort((rectA: Rectangle, rectB: Rectangle) => {
                 if (rectB.props.childId === -1) {
                   return 1;
                 }
