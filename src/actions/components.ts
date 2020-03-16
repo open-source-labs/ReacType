@@ -1,5 +1,9 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt, Action
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  Action
 } from '../utils/Interfaces';
 
 import {
@@ -26,12 +30,12 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
- // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
+  // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
 } from '../actionTypes/index';
 
-import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
+import { loadState } from '../localStorage.ts'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
 
@@ -51,7 +55,9 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   });
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
+export const addComponent = ({ title }: { title: string }) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 

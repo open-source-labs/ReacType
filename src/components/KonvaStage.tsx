@@ -253,7 +253,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                     }
                   />
                 ))
-                .sort((rectA, rectB) => {
+                .sort((rectA: Rectangle, rectB) => {
                   if (rectB.props.childId === -1) {
                     return 1;
                   }
