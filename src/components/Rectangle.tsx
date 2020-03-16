@@ -38,9 +38,7 @@ class Rectangle extends Component<PropsInt> {
   }
 
   //this grabs the component ID of the child component when in the parent component's display mode
-  //mysteriously name pseudochild although it is the true child of the component currently rendered on the stage...
-  //maybe some poeple don't consider children to be real children, kind of how my grandmother treated me better than 
-  //she treated my mother
+  //named pseudochild because it isn't saved as a child in the childrenArray.
   getPseudoChild() {
     return this.props.components.find(
       (comp: ComponentInt) => comp.id === this.props.childComponentId
@@ -158,7 +156,7 @@ class Rectangle extends Component<PropsInt> {
           stroke={
             childType === 'COMP'
               ? this.getComponentColor(childComponentId)
-              : '#000000' //sets the parent component color to black, this logic actually doesn't need to exist at the level of this component
+              : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)

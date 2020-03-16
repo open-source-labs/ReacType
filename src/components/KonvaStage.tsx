@@ -54,17 +54,21 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     };
   }
 
+  //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
+    //assign component to the docused component
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
-
+    //assign childrenArr to an array of all the children of focused component
     const childrenArr = component.childrenArray.filter(
       (child: ChildInt) => child.childId !== -1
     );
 
+    //deep clone of childrenArr so addition of parent doesn't mutate the children saved in the state
     let childrenArrCopy = cloneDeep(childrenArr);
 
+    //adds a pseudochild witrh the parent component's property to the copied children array
     const pseudoChild = {
       childId: -1,
       childComponentId: component.id,
@@ -79,6 +83,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       color: component.color
     };
     childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
+    //returns that new childrenArr + parent component
     return childrenArrCopy;
   }
 
@@ -221,6 +226,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
+            {/* {The logic hereis that it creates a new rectangle or each component that belongs to this parent component, plus the parent component.
+            The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
             {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
               .map((child: ChildInt, i: number) => (
                 <Rectangle
