@@ -12,22 +12,22 @@ interface PropsInt {
   image: HTMLImageElement;
   components: ComponentsInt;
   focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
+  // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
   classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
+  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // addChild: any; **It's expecting this prop in the interface, but is never used.**
+  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
+  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // createApp: any; **It's expecting this prop in the interface, but is never used.**
+  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
   handleTransform: any;
   focusChild: any;
   changeComponentFocusChild: any;
   deleteChild: any;
   scaleX: number;
   scaleY: number;
-  draggable: boolean;
+  // draggable: boolean; **THIS ONE is actually never passed down from the parent but reassigned in a seperate object below in this file.**
 }
 
 interface StateInt {
@@ -41,6 +41,10 @@ interface StateInt {
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
     super(props);
+    //the main purpose of this state, although not supposed to be here per redux rules I believe, 
+    //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
+    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do 
+    //anything, and the gridStroke is the stroke width of the squares. 
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
@@ -50,17 +54,21 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     };
   }
 
+  //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
+    //assign component to the docused component
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
-
+    //assign childrenArr to an array of all the children of focused component
     const childrenArr = component.childrenArray.filter(
       (child: ChildInt) => child.childId !== -1
     );
 
+    //deep clone of childrenArr so addition of parent doesn't mutate the children saved in the state
     let childrenArrCopy = cloneDeep(childrenArr);
 
+    //adds a pseudochild witrh the parent component's property to the copied children array
     const pseudoChild = {
       childId: -1,
       childComponentId: component.id,
@@ -75,9 +83,11 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       color: component.color
     };
     childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
+    //returns that new childrenArr + parent component
     return childrenArrCopy;
   }
 
+  //currently, only the handlekeydown event listener does anything.
   componentDidMount() {
     this.checkSize();
     // here we should add listener for "container" resize
@@ -88,11 +98,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     this.createGrid();
   }
 
+  // I wonder if this lifecycle method is necessary. When I remove it,
+  //I can't find any noticable changes. Possibly to prevent memory leaks?
   componentWillUnmount() {
     window.removeEventListener("resize", this.checkSize);
     this.container.removeEventListener("keydown", this.handleKeyDown);
   }
 
+  //something about the logic here isn't working. Will need to check some other time. 
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -131,7 +144,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       childId: rectChildId
     });
   };
-
+  //this function creates a grid with those 10x10 squares. 
+  //it first draws a grid or horizaontal lines, and then 
+  //draws the vertical ones. 
   createGrid = () => {
     const output = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
@@ -180,8 +195,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       handleTransform,
       focusComponent,
       focusChild,
-      deleteChild,
-      classes
+      // deleteChild, **neither of these are read**
+      // classes
     } = this.props;
 
     return (
@@ -211,6 +226,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
+            {/* {The logic hereis that it creates a new rectangle or each component that belongs to this parent component, plus the parent component.
+            The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
             {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
               .map((child: ChildInt, i: number) => (
                 <Rectangle

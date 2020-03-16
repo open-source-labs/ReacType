@@ -1,4 +1,5 @@
 import {
+<<<<<<< HEAD
   ComponentInt,
   ComponentsInt,
   PropInt,
@@ -7,6 +8,9 @@ import {
   ApplicationStateInt,
   LoadInitData,
   AddComponent
+=======
+  ComponentInt, ComponentsInt, PropInt, ChildInt, Action
+>>>>>>> 879a79ab127239023143128b74bc26e7034e561f
 } from '../utils/Interfaces';
 
 import {
@@ -33,12 +37,12 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
+ // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE
 } from '../actionTypes/index';
 
-import { loadState } from '../localStorage';
+import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
 
@@ -58,9 +62,13 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   });
 };
 
+<<<<<<< HEAD
 export const addComponent = ({ title }: { title: string }) => (
   dispatch: (arg: AddComponent) => void
 ) => {
+=======
+export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
+>>>>>>> 879a79ab127239023143128b74bc26e7034e561f
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -90,7 +98,7 @@ export const deleteComponent = ({
 }) => (dispatch: (arg: Action) => void) => {
   // find all places where the "to be deleted" is a child and do what u gotta do
   stateComponents.forEach((parent: ComponentInt) => {
-    parent.childrenArray
+    parent.childrenArrayChildInt
       .filter((child: ChildInt) => child.childComponentId === componentId)
       .forEach((child: ChildInt) => {
         dispatch({
@@ -156,7 +164,7 @@ export const exportFiles = ({
     type: EXPORT_FILES
   });
   createFiles(components, path, appName, exportAppBool)
-    .then((dir: string) =>
+    .then((dir: any) =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
         payload: { status: true, dir: dir[0] }
@@ -208,7 +216,7 @@ export const createApplication = ({
   genOption: number;
   appName: string;
   exportAppBool: boolean;
-}) => (dispatch: (arg: Action) => void) => {
+}) => (dispatch: (arg: any) => void) => {
   if (genOption === 0) {
     exportAppBool = false;
     dispatch(
