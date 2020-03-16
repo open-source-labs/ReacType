@@ -73,7 +73,7 @@ const createWindow = () => {
       'node-Integration': false
     },
     show: false,
-    icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
+    icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
     win: {
       icon: path.join(__dirname, '/src/public/icons/win/icon.ico'),
       target: ['portable']

@@ -1,20 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  handleClose,
-  deleteCompProp,
-  addCompProp
-} from "../actions/components.ts";
-import BottomTabs from "./BottomTabs.tsx";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { handleClose, deleteProp, addProp } from '../actions/components';
+import BottomTabs from './BottomTabs';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
 
-const IPC = require("electron").ipcRenderer;
+const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }: { id: number; index: number }) =>
-    dispatch(deleteCompProp({ id, index })),
-  addProp: (prop: any) => dispatch(addCompProp(prop))
+  deleteProp: (id: number) => dispatch(deleteProp(id)),
+  addProp: (prop: any) => dispatch(addProp(prop))
 });
 
 const mapStateToProps = (store: any) => ({
@@ -32,16 +27,10 @@ interface PropsInt {
 
 class BottomPanel extends Component<PropsInt> {
   render() {
-    const {
-      components,
-      focusComponent,
-      deleteProp,
-      addProp,
-      focusChild
-    } = this.props;
+    const { components, focusComponent, deleteProp, addProp, focusChild } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: "100%" }}>
+      <div className="bottom-panel" style={{ width: '100%' }}>
         <BottomTabs
           components={components}
           focusComponent={focusComponent}
@@ -54,7 +43,4 @@ class BottomPanel extends Component<PropsInt> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BottomPanel);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomPanel);
