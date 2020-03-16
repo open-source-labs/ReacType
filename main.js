@@ -1,12 +1,20 @@
 const path = require('path');
 
-const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  shell,
+  dialog,
+  ipcMain
+} = require('electron');
 
 // Uncomment below for hot reloading during development
 // require('electron-reload')(__dirname);
 
 // const isDev = true;
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isDev =
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -139,7 +147,8 @@ const createWindow = () => {
       submenu: [
         {
           label: 'Toggle Developer Tools',
-          accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+          accelerator:
+            process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
           click() {
             mainWindow.webContents.toggleDevTools();
           }
@@ -195,6 +204,9 @@ const createWindow = () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  // dev tools opened on every browser creation
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

@@ -85,6 +85,7 @@ const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent
 });
 
+// available types for select drop-down for button types
 const availablePropTypes = {
   string: 'STR',
   number: 'NUM',
@@ -100,8 +101,9 @@ const availablePropTypes = {
   enum: 'ENUM'
 };
 
+// generates the various options for the prop type selection
 const typeOptions = [
-  <option value="" key="" />,
+  <option value='' key='' />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
@@ -117,7 +119,7 @@ class Props extends Component {
     propType: ''
   };
 
-  handleChange = event => {
+  handleChange = (event: MouseEvent) => {
     if (event.target.id === 'propKey') {
       this.setState({
         [event.target.id]: event.target.value.trim()
@@ -138,7 +140,7 @@ class Props extends Component {
   // function that handles the addition of props to a given componnent
   // added regex to strip usr input from non alpha numeric properties
   // presence of these characters crashes the app and should not be a valid input anyways
-  handleAddProp = event => {
+  handleAddProp = (event: MouseEvent) => {
     event.preventDefault();
 
     let { propKey, propValue, propRequired, propType } = this.state;
@@ -196,18 +198,18 @@ class Props extends Component {
         ) : (
           <Fragment>
             <div
-              className="props-container"
+              className='props-container'
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className="props-input" onSubmit={this.handleAddProp}>
+                  <form className='props-input' onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <TextField
-                          id="propKey"
-                          label="Key"
-                          margin="normal"
+                          id='propKey'
+                          label='Key'
+                          margin='normal'
                           autoFocus
                           onChange={this.handleChange}
                           value={this.state.propKey}
@@ -222,9 +224,9 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <TextField
-                          id="propValue"
-                          label="Value"
-                          margin="normal"
+                          id='propValue'
+                          label='Value'
+                          margin='normal'
                           onChange={this.handleChange}
                           InputProps={{
                             className: classes.input
@@ -237,14 +239,17 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl required>
-                          <InputLabel className={classes.light} htmlFor="propType">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor='propType'
+                          >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.light}
-                            id="propType"
-                            placeholder="title"
+                            id='propType'
+                            placeholder='title'
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -255,26 +260,29 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <div className={classes.column}>
-                          <InputLabel className={classes.light} htmlFor="propRequired">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor='propRequired'
+                          >
                             Required?
                           </InputLabel>
                           <Switch
                             checked={this.state.propRequired}
                             onChange={this.togglePropRequired}
-                            value="propRequired"
-                            color="primary"
-                            id="propRequired"
+                            value='propRequired'
+                            color='primary'
+                            id='propRequired'
                           />
                         </div>
                       </Grid>
                       <Grid item>
                         <Button
-                          color="primary"
-                          aria-label="Add"
-                          type="submit"
+                          color='primary'
+                          aria-label='Add'
+                          type='submit'
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant="contained"
-                          size="large"
+                          variant='contained'
+                          size='large'
                         >
                           ADD PROP
                         </Button>

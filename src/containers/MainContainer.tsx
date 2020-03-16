@@ -21,14 +21,14 @@ interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
+  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // addChild: any; **It's expecting this prop in the interface, but is never used.**
+  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
-  changeImagePath: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
+  // changeImagePath: any; **It's declared but function below doesn't do anything**
+  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
+  // createApp: any; **It's expecting this prop in the interface, but is never used.**
+  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
   handleTransformation: any;
   focusChild: any;
   changeComponentFocusChild: any;
@@ -46,9 +46,10 @@ interface StateInt {
   modal: any;
 }
 
-const IPC = require('electron').ipcRenderer;
+// const IPC = require('electron').ipcRenderer; **Variable declared but never used**
 
 const mapDispatchToProps = (dispatch: any) => ({
+  //this passes the coordinate info from any component bound to the Konva Transformer to the store
   handleTransformation: (
     componentId: number,
     childId: number,
@@ -62,12 +63,18 @@ const mapDispatchToProps = (dispatch: any) => ({
         height
       })
     ),
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+  //this doesn't do anything here
+  // changeImagePath: (imageSource: string) =>
+  //   dispatch(actions.changeImagePath(imageSource)),
 
+  //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
+
+  //the difference between this dispatch function and the one above, is that this once alters the focused child status within the array of components,
+  //vs the one above changes the focusChild property in the state
   changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
     dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child.
+  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
 const mapStateToProps = (store: any) => ({
@@ -77,18 +84,20 @@ const mapStateToProps = (store: any) => ({
 });
 
 class MainContainer extends Component<PropsInt, StateInt> {
-  state = {
-    draggable: false,
-    toggleClass: true,
-    scaleX: 1,
-    scaleY: 1,
-    x: 0,
-    y: 0,
-    modal: ''
-  };
+  //Again, state should not be created outside of the single source of truth
+  //Actually upon further examination, it looks like this state isn't manipulated at all.
+  // state = {
+  //   draggable: false,
+  //   toggleClass: true,
+  //   scaleX: 1,
+  //   scaleY: 1,
+  //   x: 0,
+  //   y: 0,
+  //   modal: ''
+  // };
 
   render() {
-    const { draggable, scaleX, scaleY, modal, toggleClass } = this.state;
+    //const { draggable, modal } = this.state; //this is being destructured but never read.
     const {
       components,
       handleTransformation,
@@ -101,18 +110,20 @@ class MainContainer extends Component<PropsInt, StateInt> {
       image
     } = this.props;
 
-    const { main }: { main: HTMLDivElement } = this;
+    // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**
 
     return (
       <MuiThemeProvider theme={theme}>
         <div className="main-container">
-          {modal}
-          <div className="main" ref={main}>
+          {/* {modal} */}
+          <div
+            className="main" //ref={main} **no function, commenting out**
+          >
             <KonvaStage
               image={image}
               scaleX={1}
               scaleY={1}
-              draggable={draggable}
+              // draggable={draggable} this is also from this local state but never read past this container
               components={components}
               handleTransform={handleTransformation}
               focusComponent={focusComponent}
