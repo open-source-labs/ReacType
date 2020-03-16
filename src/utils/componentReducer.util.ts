@@ -5,11 +5,13 @@ import cloneDeep from './cloneDeep';
 import {
   ComponentInt,
   ApplicationStateInt,
-  ChildrenInt,
+  //ChildrenInt, //unused import//
   ChildInt,
   ComponentsInt,
   PropInt
 } from './Interfaces';
+
+//this is the default values for any component added to the app.
 
 const initialComponentState: ComponentInt = {
   id: 0,
@@ -58,9 +60,12 @@ export const addComponent = (
     };
   }
 
+  //chooses a color for the component from the random color generator
   const componentColor = getColor();
+  //assigns the componentID to whatever issupposed to be next
   const componentId = state.nextId;
 
+  //creates a newcomponent and prepares it to be added to an array of components in the store
   const newComponent: ComponentInt = {
     ...initialComponentState,
     title: strippedTitle,
@@ -71,16 +76,21 @@ export const addComponent = (
 
   const components = [...state.components, newComponent];
 
+  //increments both total components and the nextID
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
 
+
+  //creates an array of component IDs that can be added as children to this newly created component.
+  //the newly created component and the App component are never selectable.
   const selectableChildren = state.components
     .map((comp: ComponentInt) => comp.id)
     .filter((id: number) => id !== newComponent.id);
 
   const ancestors: Array<number> = [];
 
-  // reset focused child
+  // reset focused child to null values so when focused component is assigned to the newly created component, 
+  //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
   return {
     ...state,
@@ -94,6 +104,7 @@ export const addComponent = (
   };
 };
 
+//reducer function to add component or HTML child to currently focused component
 export const addChild = (
   state: ApplicationStateInt,
   {
@@ -104,10 +115,12 @@ export const addChild = (
 ) => {
   const strippedTitle = title;
 
+  //is this warning even possible to trigger witht he current flow?
   if (!childType) {
     window.alert('addChild Error! no type specified');
   }
 
+  //weird use of a ternary operator, could've wrapped it in one if statement
   const htmlElement = childType !== 'COMP' ? childType : null;
   if (childType !== 'COMP') {
     childType = 'HTML';
@@ -138,6 +151,8 @@ export const addChild = (
   if (childType === 'HTML') {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
+    //looks like the group that originally worked on this app planend to have a back end that accessed a DB with element types.
+    //I don't think this error does anything anymore either. 
     if (!htmlElemPosition.width) {
       console.log(
         `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
@@ -145,7 +160,8 @@ export const addChild = (
       return;
     }
   }
-
+  //intersting how they decided to offset the next child to be placed on the stage by multiplying
+  //the next child ID by 16. I mean I guess it makes sense. 
   const newPosition =
     childType === 'COMP'
       ? {
@@ -160,7 +176,7 @@ export const addChild = (
           width: htmlElemPosition.width,
           height: htmlElemPosition.height
         };
-
+  
   const newChild: ChildInt = {
     childId: view.nextChildId,
     childSort: view.nextChildId,
@@ -174,7 +190,9 @@ export const addChild = (
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
+  
 
+  //values to put into the focus component so it is updated along with the components array
   const component = {
     ...view,
     childrenArray: compsChildrenArr,
@@ -261,6 +279,10 @@ export const deleteChild = (
   };
 };
 
+//Simple function that changes the imageSource in the global state.
+//Should be refactored to also store image data not just source,
+//since currently HTML image lives in a local state of AppContainer ( a big no-no)
+//and if a user clicks on 'clear workspace', the button doesn't reset
 export const deleteImage = (state: ApplicationStateInt) => {
   return {
     ...state,
@@ -268,6 +290,7 @@ export const deleteImage = (state: ApplicationStateInt) => {
   };
 };
 
+//the function that handles the transformation of all children in the stage
 export const handleTransform = (
   state: ApplicationStateInt,
   {
@@ -291,6 +314,8 @@ export const handleTransform = (
     const component = state.components.find(
       (comp: ComponentInt) => comp.id === componentId
     );
+
+    //first check if changed, if falsy then assign the original values 
     const transformedComponent = {
       ...component,
       position: {
@@ -301,6 +326,7 @@ export const handleTransform = (
       }
     };
 
+    //return state with updated component values
     const components = [
       ...state.components.filter((comp: ComponentInt) => {
         if (comp.id !== componentId) return comp;
@@ -704,7 +730,7 @@ export const updateChildrenSort = (
   state: ApplicationStateInt,
   { newSortValues }: { newSortValues: any }
 ) => {
-  const modifiedChildrenArray: ChildrenInt = cloneDeep(
+  const modifiedChildrenArray: any = cloneDeep(
     state.focusComponent.childrenArray
   );
 

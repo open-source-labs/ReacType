@@ -175,7 +175,7 @@ const componentRender = (
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            console.log('this is childrenArray', child.HTMLInfo);
+            //console.log('this is childrenArray', child.HTMLInfo); //Did someone leave this here?//
             if (child.componentName == 'Button') {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
