@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import { Rect, Group } from "react-konva";
 import { ComponentsInt, ComponentInt, ChildInt } from "../utils/Interfaces.ts";
 
+//////////////////////////////////////////////////////////////////////////////
+/////Logic in this component is mainly the same as Rectangle.tsx./////////////
+/////Not going to bother commenting too much in here for this reason./////////
+//////////////////////////////////////////////////////////////////////////////
+
 interface PropsInt {
   x: number;
   y: number;
@@ -45,6 +50,7 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
     );
   }
 
+  //pretty sure this does nothing here because an image source is never passed down this deep...
   setImage = (imageSource: string): void => {
     if (!imageSource) return;
     const image = new window.Image();
@@ -75,7 +81,7 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
     // the Rect emits changes to child width and height with help from Transformer
     return (
       <Group
-        draggable={false}
+        draggable={false} //this logic is necessary to make sure the user can't click on any grandchildren
         x={x}
         y={y}
         scaleX={scaleX}
