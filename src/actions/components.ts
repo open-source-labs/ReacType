@@ -1,5 +1,12 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt, Action, ApplicationStateInt, LoadInitData, AddComponent
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  Action,
+  ApplicationStateInt,
+  LoadInitData,
+  AddComponent
 } from '../utils/Interfaces.ts';
 
 import {
@@ -51,7 +58,9 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   });
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: AddComponent) => void) => {
+export const addComponent = ({ title }: { title: string }) => (
+  dispatch: (arg: AddComponent) => void
+) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
@@ -170,7 +179,12 @@ export const handleClose = () => ({
 export const handleTransform = (
   componentId: number,
   childId: number,
-  { x, y, width, height }: { x: number; y: number; width: number; height: number }
+  {
+    x,
+    y,
+    width,
+    height
+  }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {
@@ -247,15 +261,21 @@ export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
 
-export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
+export const deleteProp = (propId: number) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (id: string) => (dispatch: (arg: Action) => void) => {
+export const toggleComponentState = (id: string) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: TOGGLE_STATE, payload: id });
 };
 
-export const toggleComponentClass = (id: string) => (dispatch: (arg: Action) => void) => {
+export const toggleComponentClass = (id: string) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: TOGGLE_CLASS, payload: id });
 };
 
@@ -264,9 +284,13 @@ export const addProp = (prop: PropInt) => ({
   payload: { ...prop }
 });
 
-export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-  dispatch: (arg: Action) => void
-) => {
+export const updateHtmlAttr = ({
+  attr,
+  value
+}: {
+  attr: string;
+  value: string;
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
     payload: { attr, value }

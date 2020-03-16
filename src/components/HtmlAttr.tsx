@@ -79,15 +79,11 @@ let buttonTypeTemp;
 class HtmlAttr extends Component<PropsInt, StateInt> {
   state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce(
     (acc, attr) => {
-      // if ((attr = 'button' || 'submit' || 'reset')) acc[attr] = '';
-      // else
       acc[attr] = '';
-
       return acc;
     },
     {}
   );
-
   // looks like:
   // className: '',
   // id: '',
@@ -147,7 +143,9 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
         >
           <Grid item xs={1}>
             {/* if the attr being rendered for the HTMLForm is a button, then give it a special 
-          condition to render a "select" component rather than a text-input component */}
+          condition to render a "select" component rather than a text-input component 
+          TODO: look into the overload error
+          */}
             {attr == 'type' ? (
               <FormControl required>
                 <InputLabel className={classes.light} htmlFor='htmlType'>
