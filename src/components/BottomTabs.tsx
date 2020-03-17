@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Tree from "react-d3-tree";
-import Props from "./Props.tsx";
-import HtmlAttr from "./HtmlAttr.tsx";
-import CodePreview from "./CodePreview.tsx";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces.ts";
+import React, { Component } from 'react';
+import { withStyles, Theme } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Tree from 'react-d3-tree';
+import Props from './Props.tsx';
+import HtmlAttr from './HtmlAttr.tsx';
+import CodePreview from './CodePreview.tsx';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
 
 interface PropsInt {
   focusChild: ChildInt;
@@ -23,48 +23,48 @@ interface TreeInt {
   children: TreeInt[];
 }
 
-const styles = (theme: any): any => ({
+const styles = (theme: Theme): any => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#333333",
-    height: "100%",
-    color: "#fff",
-    boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"
+    backgroundColor: '#333333',
+    height: '100%',
+    color: '#fff',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   tabsRoot: {
-    borderBottom: "0.5px solid #424242"
+    borderBottom: '0.5px solid #424242'
   },
   tabsIndicator: {
-    backgroundColor: "#1de9b6"
+    backgroundColor: '#1de9b6'
   },
   tabRoot: {
-    textTransform: "initial",
+    textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing.unit * 4,
 
     fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
+      '-apple-system',
+      'BlinkMacSystemFont',
       '"Segoe UI"',
-      "Roboto",
+      'Roboto',
       '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
+      'Arial',
+      'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"'
-    ].join(","),
-    "&:hover": {
-      color: "#1de9b6",
+    ].join(','),
+    '&:hover': {
+      color: '#1de9b6',
       opacity: 1
     },
-    "&$tabSelected": {
-      color: "#33eb91",
+    '&$tabSelected': {
+      color: '#33eb91',
       fontWeight: theme.typography.fontWeightMedium
     },
-    "&:focus": {
-      color: "#4aedc4"
+    '&:focus': {
+      color: '#4aedc4'
     }
   },
   tabSelected: {},
@@ -101,10 +101,8 @@ class BottomTabs extends Component<PropsInt> {
     const tree = { name: component.title, attributes: {}, children: [] };
 
     component.childrenArray.forEach(child => {
-      if (child.childType === "COMP") {
-        tree.children.push(
-          this.generateComponentTree(child.childComponentId, components)
-        );
+      if (child.childType === 'COMP') {
+        tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
         tree.children.push({
           name: child.componentName,
@@ -117,21 +115,13 @@ class BottomTabs extends Component<PropsInt> {
   }
 
   render() {
-    const {
-      classes,
-      components,
-      focusComponent,
-      deleteProp,
-      addProp,
-      focusChild
-    } = this.props;
+    const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(
-      child => child.childType === "HTML"
-    ).length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+      .length;
 
     return (
       <div className={classes.root}>
@@ -153,14 +143,12 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ""} `}
+            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${
-              htmlAttribCount ? `(${htmlAttribCount})` : ""
-            } `}
+            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
           {/* <Tab
             disableRipple
@@ -173,8 +161,8 @@ class BottomTabs extends Component<PropsInt> {
           <div
             id="treeWrapper"
             style={{
-              width: "100%",
-              height: "100%"
+              width: '100%',
+              height: '100%'
             }}
             ref={node => (this.treeWrapper = node)}
           >
@@ -187,15 +175,15 @@ class BottomTabs extends Component<PropsInt> {
                 nodes: {
                   node: {
                     name: {
-                      fill: "#D3D3D3",
-                      stroke: "#D3D3D3",
+                      fill: '#D3D3D3',
+                      stroke: '#D3D3D3',
                       strokeWidth: 1
                     }
                   },
                   leafNode: {
                     name: {
-                      fill: "#D3D3D3",
-                      stroke: "#D3D3D3",
+                      fill: '#D3D3D3',
+                      stroke: '#D3D3D3',
                       strokeWidth: 1
                     }
                   }
@@ -204,18 +192,12 @@ class BottomTabs extends Component<PropsInt> {
             />
           </div>
         )}
-        {value === 1 && (
-          <CodePreview
-            focusComponent={focusComponent}
-            components={components}
-          />
-        )}
+        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
         {value === 2 && <Props />}
-        {value === 3 && focusChild.childType === "HTML" && <HtmlAttr />}
-        {value === 3 &&
-          focusChild.childType !== "HTML" && (
-            <p>Please select an HTML element to view attributes</p>
-          )}
+        {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
+        {value === 3 && focusChild.childType !== 'HTML' && (
+          <p>Please select an HTML element to view attributes</p>
+        )}
       </div>
     );
   }

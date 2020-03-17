@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,17 +9,17 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from '@material-ui/core';
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   root: {
     width: '80%',
     marginTop: theme.spacing.unit * 3,
-    marginRight: '100px',
+    marginRight: '100px'
     // overflowX: "auto"
   },
   table: {
     minWidth: 500,
-    marginRight: '100px',
-  },
+    marginRight: '100px'
+  }
 });
 
 /** **************************
@@ -30,7 +30,9 @@ const styles = (theme: any) => ({
 function dataTable(props: any) {
   const { classes, rowData, rowHeader, deletePropHandler } = props;
 
-  const renderHeader = rowHeader.map((col: any, idx: number) => <TableCell key={`head_+${idx}`}>{col}</TableCell>);
+  const renderHeader = rowHeader.map((col: any, idx: number) => (
+    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+  ));
 
   function renderRowCells(row: any) {
     if (!row) return;
