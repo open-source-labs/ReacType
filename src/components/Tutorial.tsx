@@ -64,7 +64,7 @@ class Tutorial extends Component<Props> {
         <div
           style={{
             gridColumnStart: 'col2',
-            gridColumnEnd: 'col5',
+            gridColumnEnd: 'col6',
             gridRowStart: 'row2',
             gridRowEnd: 'row3',
             backgroundColor: theme.palette.background.paper,
@@ -84,6 +84,9 @@ class Tutorial extends Component<Props> {
           </h1>
           <h2 id="transition-modal-description">
             Give your component a name add click '+' to add it to your collection of components.
+          </h2>
+          <h2 id="transition-modal-description">
+            You can also make each component you create stateful or not stateful, and functional or as a class component as well.
           </h2>
           <h2 id="transition-modal-description">
             Once you've added your component, while in the view of the component you would like to make the parent of your new component, click '+' next to the new component you created to make it a child. 
