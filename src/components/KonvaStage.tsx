@@ -14,7 +14,7 @@ interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
-  classes: any;
+  // classes: any;
   // addComponent: any; **It's expecting this prop in the interface, but is never used.**
   // addChild: any; **It's expecting this prop in the interface, but is never used.**
   // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**

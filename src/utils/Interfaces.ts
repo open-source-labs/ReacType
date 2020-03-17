@@ -8,6 +8,12 @@ export interface PropInt {
   type: string;
 }
 
+export interface PropsInt {
+  focusChild: ChildInt;
+  components: ComponentsInt;
+  focusComponent: ComponentInt;
+}
+
 //This is the interface for the position and size for the Rect components from Konva.
 export interface PositionInt {
   x: number;

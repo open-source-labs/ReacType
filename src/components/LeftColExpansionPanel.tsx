@@ -37,21 +37,13 @@ const LeftColExpansionPanel = (props: any) => {
   }
 
   return (
-    <Grid
-      container
-      spacing={16}
-      direction='row'
-      justify='flex-start'
-      alignItems='center'
-    >
+    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={
-            !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
-          }
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
         >
-          <Grid item xs={12} style={{ color: 'red' }}>
+          <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
             <List style={{ color: 'red' }}>
               <ListItem
                 button
@@ -65,19 +57,27 @@ const LeftColExpansionPanel = (props: any) => {
                   className={classes.light}
                   primary={
                     <div>
-                      <Typography type='body2' style={{ color }}>
+                      <Typography
+                        type="body2"
+                        style={{
+                          color: '#fff',
+                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
+                          fontSize: '1.40rem'
+                        }}
+                      >
                         {title}
                       </Typography>
                       {/* TOGGLE FOR STATEFULNESS */}
                       <InputLabel
-                        htmlFor='stateful'
+                        htmlFor="stateful"
                         style={{
                           color: '#fff',
                           marginBottom: '10px',
                           marginTop: '0px',
                           marginLeft: '11px',
                           padding: '0px',
-                          fontSize: '18px'
+                          fontSize: '18px',
+                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                         }}
                       >
                         State?
@@ -101,14 +101,15 @@ const LeftColExpansionPanel = (props: any) => {
                       <div>
                         {/* TOGGLE FOR CLASS BASED */}
                         <InputLabel
-                          htmlFor='classBased'
+                          htmlFor="classBased"
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
                             marginTop: '0px',
                             marginLeft: '11px',
                             padding: '0px',
-                            fontSize: '18px'
+                            fontSize: '18px',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                           }}
                         >
                           Class?
@@ -135,10 +136,10 @@ const LeftColExpansionPanel = (props: any) => {
           ) : (
             <Fragment>
               <Button
-                variant='text'
-                size='small'
-                color='default'
-                aria-label='Delete'
+                variant="text"
+                size="small"
+                color="default"
+                aria-label="Delete"
                 className={classes.margin}
                 onClick={() =>
                   deleteComponent({
@@ -149,7 +150,7 @@ const LeftColExpansionPanel = (props: any) => {
                 style={{
                   color: '#D3D3D3',
                   marginBottom: '10px',
-                  marginTop: '0px',
+                  marginTop: '4px',
                   marginLeft: '11px',
                   padding: '0px'
                 }}
@@ -166,13 +167,9 @@ const LeftColExpansionPanel = (props: any) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <Tooltip
-            title='add as child'
-            aria-label='add as child'
-            placement='left'
-          >
+          <Tooltip title="add as child" aria-label="add as child" placement="left">
             <IconButton
-              aria-label='Add'
+              aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}
