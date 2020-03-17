@@ -53,6 +53,10 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       gridStroke: 1
     };
   }
+  // creating typescript types for these props
+  container: HTMLDivElement;
+  stage: Stage;
+  layer: Layer;
 
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
