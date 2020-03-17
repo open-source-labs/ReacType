@@ -93,10 +93,6 @@ class AppContainer extends Component<Props, State> {
     });
   }
 
-  handleClose = () => {
-    this.setState({ tutorial: 0 });
-  };
-
   handleNext = (tutorial: number) => {
     this.setState({ tutorial });
   }
@@ -152,7 +148,6 @@ class AppContainer extends Component<Props, State> {
       >
         <Tutorial //Tutorial modal that is triggered upon selecting menu item
           tutorial={this.state.tutorial}
-          handleClose={this.handleClose}
           handleNext={this.handleNext}
         />
         <div className="app-container">

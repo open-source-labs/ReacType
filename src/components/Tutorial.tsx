@@ -7,13 +7,12 @@ import Button from '@material-ui/core/Button';
 
 interface Props {
   tutorial: number;
-  handleClose(): void;
   handleNext(tutorial: number): void;
 }
 
 class Tutorial extends Component<Props> {
   render(): JSX.Element {
-    const { tutorial, handleClose, handleNext } = this.props;
+    const { tutorial, handleNext } = this.props;
 
     let dialog;
     if (!tutorial) dialog = (<div />);
@@ -64,8 +63,8 @@ class Tutorial extends Component<Props> {
       dialog = (
         <div
           style={{
-            gridColumnStart: 'col3',
-            gridColumnEnd: 'col6',
+            gridColumnStart: 'col2',
+            gridColumnEnd: 'col5',
             gridRowStart: 'row2',
             gridRowEnd: 'row3',
             backgroundColor: theme.palette.background.paper,
@@ -175,7 +174,7 @@ class Tutorial extends Component<Props> {
           </h2>
           <Button
             onClick={() => {
-              handleClose();
+              handleNext(0);
             }}
             variant="contained"
             color="inherit"
@@ -191,7 +190,7 @@ class Tutorial extends Component<Props> {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={tutorial !== 0}
-        onClose={handleClose}
+        onClose={() => handleNext(0)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
