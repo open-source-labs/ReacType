@@ -12,7 +12,7 @@ const styles = (theme: any) => {};
 
 // Eliot: make sure to add back in the "styles" aka classes with their OWN css properties
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: any) => ({
   addProp: ({
     key,
     value,
@@ -21,18 +21,70 @@ const mapDispatchToProps = (dispatch: any) => {
   }: {
     key: string;
     value: string;
-    reuired: boolean;
+    required: boolean;
     type: string;
-  }) => dispatch(addProp({ key, value, required, type }));
+  }) =>
+    dispatch(
+      addProp({
+        key,
+        value,
+        required,
+        type
+      })
+    ),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
+});
+
+const mapStateToProps = (store: any) => {
+  focusComponent: store.workspace.focusComponent;
 };
 
-const mapStateToProps = (store: any) => {};
+const availableChildPropTypes = {
+  string: 'STR',
+  number: 'NUM',
+  object: 'OBJ',
+  array: 'ARR',
+  boolean: 'BOOL',
+  function: 'FUNC',
+  any: 'ANY',
+  tuple: 'TUP',
+  enum: 'ENUM'
+};
+
+// generates the various options for the prop type selection via DROPDOWN
+const typeOptions = [
+  <option value='' key='' />,
+  ...Object.keys(availableChildPropTypes).map(type => (
+    <option value={type} key={type} style={{ color: '#000' }}>
+      {type}
+    </option>
+  ))
+];
 
 // This class is resonsible for creating the interface when clicking "Add Child State"
 class AddChildState extends Component {
-  state = {};
+  state = {
+    propKey: '',
+    propValue: '',
+    propRequired: true,
+    propType: ''
+  };
+
+  handleChange = (event: MouseEvent | any) => {
+    if (event.target.id === 'propKey') {
+      this.setState({
+        [event.target.id]: event.target.value.trim()
+      });
+    } else {
+      this.setState({
+        [event.target.id]: event.target.value
+      });
+    }
+  };
 
   render() {
+    const { focusComponent, classes, deleteProp, addProp } = this.props;
+
     return <div>Hello</div>;
   }
 }
