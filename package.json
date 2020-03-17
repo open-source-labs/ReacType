@@ -1,32 +1,36 @@
 {
   "name": "reactype",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "main": "main.js",
   "contributors": [
-    "Chelsey Fewer",
-    "Mitchel Severe",
-    "Sophia Huttner",
+    "Adam Singer",
     "Charles Finocchiaro",
-    "Natalie Vick",
+    "Chelsey Fewer",
     "Christian Padilla",
-    "Tolga Mizrakci",
+    "Eliot Nguyen",
+    "Jesse Zuniga",
+    "Mitchel Severe",
+    "Natalie Vick",
+    "Sean Sadykoff",
     "Shlomo Porges",
-    "Adam Singer"
-  ],
+    "Sophia Huttner",
+    "Tolga Mizrakci",  
+    "Tony Ito-Cole"
+    ],
   "repository": {
     "type": "git",
     "url": "https://github.com/team-reactype/ReacType"
   },
   "build": {
     "appId": "com.team-reactype.reactype",
-    "copyright": "Copyright © 2018",
+    "copyright": "Copyright © 2020",
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "maintainer": "spincycle01@yahoo.com"
+      "maintainer": "tonyitocole@gmail.com"
     },
     "mac": {
       "category": "public.app-category.developer-tools",

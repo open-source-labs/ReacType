@@ -171,9 +171,9 @@ class AppContainer extends Component<Props, State> {
               // padding: theme.spacing(2, 4, 3)
             }
           }>
-            <h2 id="transition-modal-title">Welcome to the tutorial!</h2>
-            <p id="transition-modal-description">I made the tutorial modal, so now I'm just waiting on Eliot to finish making the actual step-by-step instructions.</p>
-            <p id="transition-modal-description">If you're still seeing this message, you can blame Eliot! Please visit our site by clicking 'Learn More' under the help menu.</p>
+            <h1 id="transition-modal-title">Welcome to the tutorial!</h1>
+            <h2 id="transition-modal-description">I made the tutorial modal, so now I'm just waiting on Eliot to finish making the actual step-by-step instructions.</h2>
+            <h2 id="transition-modal-description">If you're still seeing this message, you can blame Eliot! Please visit our site by clicking 'Learn More' under the help menu.</h2>
           </div>
         </Fade>
       </Modal>
