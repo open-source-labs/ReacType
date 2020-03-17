@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import Fade from '@material-ui/core/Fade'
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Backdrop from '@material-ui/core/Backdrop';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
@@ -23,14 +25,14 @@ interface Props {
   loading: boolean;
   selectableChildren: Array<number>;
   loadInitData(): void;
-  changeImagePath(): void;
+  changeImagePath(imageSource: string): void;
 };
 
 //Type for the state that should not be assigned within the 
 //component below. 
 interface State {
   image: HTMLImageElement | null;
-  width: number;
+  tutorial: boolean;
   changed: boolean;
 };
 
@@ -56,6 +58,8 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
     dispatch(actions.changeImagePath(imageSource))
 });
 
+
+
 class AppContainer extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -66,25 +70,32 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      width: 25,
+      tutorial: false,
       changed: false
     };
-
+    
     //This function is invoked upon a new file being uploaded to the app.
     //it changes the imagesource in the global state to be whatever filepath it is
     //on the user's comp.
 
     //TODO Fix event typing?
-    IPC.on('new-file', (event: any, file: string) => {
+    IPC.on('new-file', (event: string, file: string) => {
       const image = new window.Image();
       image.src = file;
       image.onload = () => {
         // update state when the image has been uploaded
-        this.props.changeImagePath(image.src); //I think this warning is a glitch, if you look at the action function above, it takes 1 argument
+        this.props.changeImagePath(image.src); 
         this.setState({ image, changed: true });
       };
     });
+    IPC.on('tutorial_clicked', () => {
+      this.setState({tutorial: true});
+    });
   }
+
+  handleClose = () => {
+    this.setState({tutorial: false});
+  };
 
   //This sets checks if the image was removed via the clear image button on the left container. 
   //Technically this logic should be done in the reducer, not here. 
@@ -135,7 +146,37 @@ class AppContainer extends Component<Props, State> {
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     return (
       <MuiThemeProvider theme={theme} //I'm assuming this is some material-UI theme thing
-      >  
+      >  <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={this.state.tutorial}
+        onClose={this.handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Fade in={this.state.tutorial}>
+          <div style={
+            {
+              backgroundColor: theme.palette.background.paper,
+              border: '2px solid #000',
+              boxShadow: theme.shadows[5],
+              // padding: theme.spacing(2, 4, 3)
+            }
+          }>
+            <h2 id="transition-modal-title">Welcome to the tutorial!</h2>
+            <p id="transition-modal-description">I made the tutorial modal, so now I'm just waiting on Eliot to finish making the actual step-by-step instructions.</p>
+            <p id="transition-modal-description">If you're still seeing this message, you can blame Eliot! Please visit our site by clicking 'Learn More' under the help menu.</p>
+          </div>
+        </Fade>
+      </Modal>
         <div className='app-container'>
           <LeftContainer //The left side-bar that contains the component cards and the buttons.
             components={components}
