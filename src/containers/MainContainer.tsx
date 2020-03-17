@@ -18,15 +18,14 @@ import * as actions from '../actions/components';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
-  changeFocusChild(childId: { childId: number }): void;
+  // imageSource: string;
   handleTransformation(
     componentId: number,
     childId: number,
     dimensions: { x: number; y: number; width: number; height: number }
   ): void;
-  changeComponentFocusChild(ids: { componentId: number; childId: number }): void;
+  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
   deleteChild(obj: object): void;
-  imageSource: string;
 }
 
 interface StateInt {

@@ -12,6 +12,8 @@ export interface PropsInt {
   focusChild: ChildInt;
   components: ComponentsInt;
   focusComponent: ComponentInt;
+  imageSource?: string;
+  changeFocusChild?: (arg: { childId: number }) => void;
 }
 
 //This is the interface for the position and size for the Rect components from Konva.
