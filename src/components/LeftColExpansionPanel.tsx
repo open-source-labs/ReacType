@@ -15,6 +15,10 @@ import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/clas
 
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces'; // unused
 
+interface TypographyProps {
+  type: string;
+}
+
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: any) => {
   const {
@@ -56,10 +60,11 @@ const LeftColExpansionPanel = (props: any) => {
             focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
           }
         >
+          {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED */}
           <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
             <List style={{ color: 'red' }}>
               <ListItem
-                button
+                // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
                 style={{ color: 'red' }}
                 onClick={() => {
                   changeFocusComponent({ title });
@@ -184,7 +189,7 @@ const LeftColExpansionPanel = (props: any) => {
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
-                Delete Component
+                <span style={{ marginTop: '3px' }}>Delete Component</span>
               </Button>
             </Fragment>
           )}
