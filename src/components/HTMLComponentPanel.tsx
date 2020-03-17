@@ -22,12 +22,12 @@ interface StateInt {
 
 class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   state = {
-    HtmlComponentName: '',
+    HtmlComponentName: ''
   };
 
   handleChange = (event: any) => {
     this.setState({
-      HtmlComponentName: event.target.value,
+      HtmlComponentName: event.target.value
     });
   };
 
@@ -38,42 +38,42 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   render() {
     const { classes } = this.props;
     return (
-      <div align="center">
+      <div align='center'>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label="Add HTML elements"
+          label='Add HTML elements'
           style={{ cursor: 'default' }}
         />
-        <Grid container spacing={8} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems='baseline' align='stretch'>
           <Grid item xs={4}>
-            <div className="htmliconwrapper">
+            <div className='htmliconwrapper'>
               <IconButton
-                className="htmlicons"
-                aria-label="Image"
+                className='htmlicons'
+                aria-label='Image'
                 onClick={() => {
                   this.handleCreateHTMLChild('Image');
                 }}
                 style={{
                   margin: 0,
-                  padding: 0,
+                  padding: 0
                 }}
               >
                 <ImageIcon
                   style={{
-                    color: '#e0e0e0',
+                    color: '#e0e0e0'
                   }}
                 />
               </IconButton>
               <Chip
-                label="Image"
+                label='Image'
                 className={classes.chip}
-                variant="outlined"
+                variant='outlined'
                 style={{
                   color: 'white',
                   fontSize: '80%',
                   margin: 0,
-                  padding: 0,
+                  padding: 0
                 }}
                 onClick={() => {
                   this.handleCreateHTMLChild('Image');
@@ -83,25 +83,25 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Form"
+              className='htmlicons'
+              aria-label='Form'
               onClick={() => {
                 this.handleCreateHTMLChild('Form');
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Form"
+              label='Form'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Form');
@@ -110,25 +110,25 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Button"
+              className='htmlicons'
+              aria-label='Button'
               onClick={() => {
                 this.handleCreateHTMLChild('Button');
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Button"
+              label='Button'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Button');
@@ -137,25 +137,25 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Link"
+              className='htmlicons'
+              aria-label='Link'
               onClick={() => {
                 this.handleCreateHTMLChild('Link');
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Link"
+              label='Link'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Link');
@@ -164,25 +164,25 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="List"
+              className='htmlicons'
+              aria-label='List'
               onClick={() => {
                 this.handleCreateHTMLChild('List');
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="List"
+              label='List'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('List');
@@ -194,37 +194,37 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
             xs={4}
             style={{
               margin: 0,
-              padding: 0,
+              padding: 0
             }}
           >
             <IconButton
-              className="htmlicons"
-              aria-label="Paragraph"
+              className='htmlicons'
+              aria-label='Paragraph'
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ParagraphIcon
                 style={{
                   color: '#e0e0e0',
                   paddingRight: '0px',
-                  marginRight: '0px',
+                  marginRight: '0px'
                 }}
               />
             </IconButton>
             <Chip
-              label="Paragraph"
+              label='Paragraph'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '62%',
                 padding: '0px',
-                margin: '0px',
+                margin: '0px'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
@@ -252,23 +252,23 @@ function styles(theme): any {
       paddingRight: '10px',
       paddingBottom: '25px',
       paddingTop: '2px',
-      boxShadow: '0 6px 6px rgba(0,0,0,0.23)',
+      boxShadow: '0 6px 6px rgba(0,0,0,0.23)'
     },
     chip: {
-      color: 'rgba(193, 66, 66, 0)',
+      color: 'rgba(193, 66, 66, 0)'
     },
     htmliconwrapper: {
-      verticalAlign: 'baseline',
+      verticalAlign: 'baseline'
     },
     htmlicons: {
-      color: '#ffffff',
+      color: '#ffffff'
     },
     tabRoot: {
       textTransform: 'initial',
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
-      color: '#ffffff',
-    },
+      color: '#ffffff'
+    }
   };
 }
 
