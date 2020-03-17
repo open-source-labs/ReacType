@@ -28,8 +28,13 @@ interface PropsInt {
 }
 
 class Rectangle extends Component<PropsInt> {
+<<<<<<< HEAD
   rect: Konva.Rect;
   group: Konva.Group;
+=======
+  group: Konva.Group;
+  rect: Konva.Rect;
+>>>>>>> 8d3e4f4c23dafa91da6a8b2d98504fd83e174144
 
   //This assigns the color to the Rect based on componentId's color in the state
   getComponentColor(componentId: number) {
