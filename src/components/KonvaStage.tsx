@@ -6,7 +6,7 @@ import { Stage, Layer, Line } from 'react-konva';
 import Konva from 'konva';
 import Rectangle from './Rectangle';
 import cloneDeep from '../utils/cloneDeep';
-import { ComponentInt, ComponentsInt, ChildInt, PropsInt } from '../utils/Interfaces';
+import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
 import isEmpty from '../utils/isEmpty';
 // import BottomPan from './BottomPanel';
 
