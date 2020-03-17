@@ -2,6 +2,7 @@
 //and also the parent rectangle components.
 
 import React, { Component } from 'react';
+import Konva from 'konva';
 import { Stage, Layer, Line } from 'react-konva';
 import Rectangle from './Rectangle';
 import cloneDeep from '../utils/cloneDeep';
@@ -56,7 +57,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   // creating typescript types for these props
   container: HTMLDivElement;
   stage: Stage;
-  layer: Layer;
+  layer: Konva.Layer;
 
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
