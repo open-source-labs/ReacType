@@ -84,21 +84,13 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
     },
     {}
   );
-  // looks like:
+  // state looks like:
   // className: '',
   // id: '',
   // type: '',
   // propType: ''
 
   handleChange = (event: MouseEvent) => {
-    // delete whenever you see this
-    // just for testing
-    // switch(event.target.id )
-    // console.log(
-    //   'EVENT.TARGET.VALUE DATA FROM HANDLECHANGE',
-    //   event.target.value
-    // );
-
     if (
       event.target.value == 'button' ||
       event.target.value == 'submit' ||
