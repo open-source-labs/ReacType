@@ -62,6 +62,7 @@ const availableButtonTypes = {
 };
 
 // function for generating the button types for select dropdown
+// uses Object.keys method on object of drop down types
 const buttonTypeOptions = [
   <option value='' key='' />,
   ...Object.keys(availableButtonTypes).map(type => (

@@ -121,8 +121,14 @@ class Props extends Component {
     propType: ''
   };
 
-  handleChange = (event: MouseEvent) => {
+  handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propKey') {
+      console.log(
+        'this is target value',
+        event.target.value,
+        '\n this is id',
+        event.target.id
+      );
       this.setState({
         [event.target.id]: event.target.value.trim()
       });
