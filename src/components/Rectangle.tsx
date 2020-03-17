@@ -5,7 +5,6 @@ import TransformerComponent from './TransformerComponent';
 import GrandchildRectangle from './GrandchildRectangle';
 import { ComponentsInt, ChildInt } from '../utils/Interfaces';
 import { ComponentInt } from '../utils/Interfaces';
-import KonvaStage from './KonvaStage';
 
 interface PropsInt {
   x: number;
@@ -29,15 +28,9 @@ interface PropsInt {
 }
 
 class Rectangle extends Component<PropsInt> {
-<<<<<<< HEAD
-
-  group: Konva.Group;
-  rect: Konva.Rect;
-=======
   rect: Konva.Rect;
   group: Konva.Group;
 
->>>>>>> d11dfd95d0c0df1f455d2e23132814a83788e097
   //This assigns the color to the Rect based on componentId's color in the state
   getComponentColor(componentId: number) {
     const color = this.props.components.find(

@@ -54,6 +54,7 @@ export interface ComponentsInt extends Array<ComponentInt> {}
 
 //Important interface for the global state of the app. \
 export interface ApplicationStateInt {
+  tutorial: number;
   imageSource: string;
   totalComponents: number;
   nextId: number;

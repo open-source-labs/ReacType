@@ -28,18 +28,20 @@ interface Props {
   selectableChildren: number[];
   loadInitData(): void;
   changeImagePath(imageSource: string): void;
+  changeTutorial(tutorial: number): void;
+  tutorial: number;
 }
 
 //Type for the state that should not be assigned within the
 //component below.
 interface State {
   image: HTMLImageElement | null;
-  tutorial: number;
   changed: boolean;
 }
 
 //Details on some of these are listed in the render where they are passed down.
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
+  tutorial: store.workspace.tutorial,
   imageSource: store.workspace.imageSource,
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
@@ -58,6 +60,10 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
   changeImagePath: (imageSource: string) =>
     dispatch(actions.changeImagePath(imageSource)),
+    //function to change the tutorial step 
+  changeTutorial: (tutorial: number) => 
+    dispatch(actions.changeTutorial(tutorial))
+
 });
 
 class AppContainer extends Component<Props, State> {
@@ -70,7 +76,6 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      tutorial: 0,
       changed: false,
     };
 
@@ -89,12 +94,12 @@ class AppContainer extends Component<Props, State> {
       };
     });
     IPC.on('tutorial_clicked', () => {
-      this.setState({ tutorial: 1 });
+      this.props.changeTutorial(1);
     });
   }
 
   handleNext = (tutorial: number) => {
-    this.setState({ tutorial });
+    this.props.changeTutorial(tutorial);
   }
 
   //This sets checks if the image was removed via the clear image button on the left container.
@@ -139,6 +144,7 @@ class AppContainer extends Component<Props, State> {
       loading,
       selectableChildren,
       totalComponents,
+      tutorial
     } = this.props;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
@@ -147,7 +153,7 @@ class AppContainer extends Component<Props, State> {
         theme={theme} //I'm assuming this is some material-UI theme thing
       >
         <Tutorial //Tutorial modal that is triggered upon selecting menu item
-          tutorial={this.state.tutorial}
+          tutorial={tutorial}
           handleNext={this.handleNext}
         />
         <div className="app-container">
