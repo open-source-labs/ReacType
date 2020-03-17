@@ -3,44 +3,37 @@
 
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
+import Konva from 'konva';
 import Rectangle from './Rectangle';
 import cloneDeep from '../utils/cloneDeep';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, ChildInt, PropsInt } from '../utils/Interfaces';
 import isEmpty from '../utils/isEmpty';
-import BottomPan from './BottomPanel';
+// import BottomPan from './BottomPanel';
 
-interface PropsInt {
+interface KonvaStagePropsInt extends PropsInt {
   image: HTMLImageElement;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
-  // classes: any;
-  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // addChild: any; **It's expecting this prop in the interface, but is never used.**
-  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
-  changeFocusChild: any;
-  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // createApp: any; **It's expecting this prop in the interface, but is never used.**
-  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
-  handleTransform: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
-  deleteChild: any;
+  handleTransform(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
+  focusChild: ChildInt;
+  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  deleteChild(arg: object): void;
   scaleX: number;
   scaleY: number;
-  // draggable: boolean; **THIS ONE is actually never passed down from the parent but reassigned in a seperate object below in this file.**
 }
 
 interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [];
+  grid: JSX.Element[];
   gridStroke: number;
 }
 
-class KonvaStage extends Component<PropsInt, StateInt> {
-  constructor(props: PropsInt) {
+class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
+  constructor(props: KonvaStagePropsInt) {
     super(props);
     //the main purpose of this state, although not supposed to be here per redux rules I believe,
     //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
@@ -54,7 +47,10 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       gridStroke: 1
     };
   }
+
+  container: HTMLDivElement;
   stage: Stage;
+  layer: Konva.Layer;
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
     //assign component to the docused component
