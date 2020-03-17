@@ -12,6 +12,8 @@ import { addProp, deleteProp } from '../actions/components';
 import DataTable from './DataTable';
 import { ComponentInt } from '../utils/Interfaces';
 
+// this the "styles" used for this Props component
+// used with withStyles function
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -191,6 +193,7 @@ class Props extends Component {
     return (
       <div className={'htmlattr'}>
         {' '}
+        {/* if no focus component in state, then render message */}
         {Object.keys(focusComponent).length < 1 ? (
           <div style={{ marginTop: '20px', width: '90%' }}>
             Click a component to view its props.
@@ -307,4 +310,7 @@ class Props extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Props));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Props));
