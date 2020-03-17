@@ -23,7 +23,7 @@ interface Props {
   focusComponent: ComponentInt;
   totalComponents: number;
   loading: boolean;
-  selectableChildren: Array<number>;
+  selectableChildren: number[]; 
   loadInitData(): void;
   changeImagePath(imageSource: string): void;
 };
