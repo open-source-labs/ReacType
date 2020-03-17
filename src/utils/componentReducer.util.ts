@@ -80,7 +80,6 @@ export const addComponent = (
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
 
-
   //creates an array of component IDs that can be added as children to this newly created component.
   //the newly created component and the App component are never selectable.
   const selectableChildren = state.components
@@ -89,7 +88,7 @@ export const addComponent = (
 
   const ancestors: Array<number> = [];
 
-  // reset focused child to null values so when focused component is assigned to the newly created component, 
+  // reset focused child to null values so when focused component is assigned to the newly created component,
   //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
   return {
@@ -152,7 +151,7 @@ export const addChild = (
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
     //looks like the group that originally worked on this app planend to have a back end that accessed a DB with element types.
-    //I don't think this error does anything anymore either. 
+    //I don't think this error does anything anymore either.
     if (!htmlElemPosition.width) {
       console.log(
         `Did not add html child: ${htmlElement} the GetSize function indicated that it isnt in our DB`
@@ -161,7 +160,7 @@ export const addChild = (
     }
   }
   //intersting how they decided to offset the next child to be placed on the stage by multiplying
-  //the next child ID by 16. I mean I guess it makes sense. 
+  //the next child ID by 16. I mean I guess it makes sense.
   const newPosition =
     childType === 'COMP'
       ? {
@@ -176,7 +175,7 @@ export const addChild = (
           width: htmlElemPosition.width,
           height: htmlElemPosition.height
         };
-  
+
   const newChild: ChildInt = {
     childId: view.nextChildId,
     childSort: view.nextChildId,
@@ -190,7 +189,6 @@ export const addChild = (
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
-  
 
   //values to put into the focus component so it is updated along with the components array
   const component = {
@@ -315,7 +313,7 @@ export const handleTransform = (
       (comp: ComponentInt) => comp.id === componentId
     );
 
-    //first check if changed, if falsy then assign the original values 
+    //first check if changed, if falsy then assign the original values
     const transformedComponent = {
       ...component,
       position: {

@@ -123,12 +123,6 @@ class Props extends Component {
 
   handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propKey') {
-      console.log(
-        'this is target value',
-        event.target.value,
-        '\n this is id',
-        event.target.id
-      );
       this.setState({
         [event.target.id]: event.target.value.trim()
       });
@@ -152,11 +146,11 @@ class Props extends Component {
     event.preventDefault();
 
     let { propKey, propValue, propRequired, propType } = this.state;
-    propKey = propKey.replace(/\W+/gi, '');
-    propValue = propValue.replace(/\W+/gi, '');
+    propKey = propKey.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
+    propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
 
     // check if prop exists with same key. CANNOT have duplicates
-    const savedPropKeys = this.props.focusComponent.props.map(p => p.key);
+    const savedPropKeys = this.props.focusComponent.props.map(prop => prop.key);
     if (savedPropKeys.includes(propKey)) {
       window.alert(`A prop with the name: "${propKey}" already exists.`);
       return;
