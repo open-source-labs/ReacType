@@ -36,6 +36,10 @@ const LeftColExpansionPanel = (props: any) => {
     return focusComponent.id === id ? 'focused' : '';
   }
 
+  // boolean flag to determine if the component card is focused or not
+  // state/class toggles will be displayed when a component is focused
+  const focusedToggle = isFocused() === 'focused' ? true : false;
+
   return (
     <Grid
       container
@@ -48,7 +52,8 @@ const LeftColExpansionPanel = (props: any) => {
         <div
           className={classes.root}
           style={
-            !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
+            // shadow to highlight the focused component card
+            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
           }
         >
           <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
@@ -75,40 +80,16 @@ const LeftColExpansionPanel = (props: any) => {
                       >
                         {title}
                       </Typography>
-                      {/* TOGGLE FOR STATEFULNESS */}
-                      <InputLabel
-                        htmlFor='stateful'
-                        style={{
-                          color: '#fff',
-                          marginBottom: '10px',
-                          marginTop: '0px',
-                          marginLeft: '11px',
-                          padding: '0px',
-                          fontSize: '18px'
-                        }}
-                      >
-                        State?
-                      </InputLabel>
-                      {/* 
-                          Have to change focus component after toggling state 
-                          in order to properly change the code that appears in the code 
-                          peview
+
+                      {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
+                      
+                        TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
-                      <Switch
-                        checked={stateful}
-                        onChange={e => {
-                          toggleComponentState(id);
-                          changeFocusComponent(title);
-                        }}
-                        value='stateful'
-                        color='primary'
-                        id={props.id.toString()}
-                        // id={props.index.toString()}
-                      />
-                      <div>
-                        {/* TOGGLE FOR CLASS BASED */}
+
+                      {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
+                      {focusedToggle ? (
                         <InputLabel
-                          htmlFor='classBased'
+                          htmlFor='stateful'
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
@@ -118,17 +99,58 @@ const LeftColExpansionPanel = (props: any) => {
                             fontSize: '18px'
                           }}
                         >
-                          Class?
+                          State?
                         </InputLabel>
+                      ) : (
+                        ''
+                      )}
+
+                      {focusedToggle ? (
                         <Switch
-                          checked={classBased}
+                          checked={stateful}
                           onChange={e => {
-                            toggleComponentClass(id);
+                            toggleComponentState(id);
                             changeFocusComponent(title);
                           }}
-                          value='classBased'
+                          value='stateful'
                           color='primary'
+                          id={props.id.toString()}
                         />
+                      ) : (
+                        ''
+                      )}
+                      <div>
+                        {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
+                        {focusedToggle ? (
+                          <InputLabel
+                            htmlFor='classBased'
+                            style={{
+                              color: '#fff',
+                              marginBottom: '10px',
+                              marginTop: '0px',
+                              marginLeft: '11px',
+                              padding: '0px',
+                              fontSize: '18px'
+                            }}
+                          >
+                            Class?
+                          </InputLabel>
+                        ) : (
+                          ''
+                        )}
+                        {focusedToggle ? (
+                          <Switch
+                            checked={classBased}
+                            onChange={e => {
+                              toggleComponentClass(id);
+                              changeFocusComponent(title);
+                            }}
+                            value='classBased'
+                            color='primary'
+                          />
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </div>
                   }
