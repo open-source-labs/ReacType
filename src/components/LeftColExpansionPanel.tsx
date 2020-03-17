@@ -51,7 +51,7 @@ const LeftColExpansionPanel = (props: any) => {
             !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
           }
         >
-          <Grid item xs={12} style={{ color: 'red' }}>
+          <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
             <List style={{ color: 'red' }}>
               <ListItem
                 button
@@ -65,7 +65,14 @@ const LeftColExpansionPanel = (props: any) => {
                   className={classes.light}
                   primary={
                     <div>
-                      <Typography type='body2' style={{ color }}>
+                      <Typography
+                        type='body2'
+                        style={{
+                          color: '#fff',
+                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
+                          fontSize: '1.40rem'
+                        }}
+                      >
                         {title}
                       </Typography>
                       {/* TOGGLE FOR STATEFULNESS */}
@@ -93,8 +100,8 @@ const LeftColExpansionPanel = (props: any) => {
                           toggleComponentState(id);
                           changeFocusComponent(title);
                         }}
-                        value="stateful"
-                        color="primary"
+                        value='stateful'
+                        color='primary'
                         id={props.id.toString()}
                         // id={props.index.toString()}
                       />
@@ -119,8 +126,8 @@ const LeftColExpansionPanel = (props: any) => {
                             toggleComponentClass(id);
                             changeFocusComponent(title);
                           }}
-                          value="classBased"
-                          color="primary"
+                          value='classBased'
+                          color='primary'
                         />
                       </div>
                     </div>
@@ -149,7 +156,7 @@ const LeftColExpansionPanel = (props: any) => {
                 style={{
                   color: '#D3D3D3',
                   marginBottom: '10px',
-                  marginTop: '0px',
+                  marginTop: '4px',
                   marginLeft: '11px',
                   padding: '0px'
                 }}
