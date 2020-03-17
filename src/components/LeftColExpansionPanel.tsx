@@ -76,7 +76,7 @@ const LeftColExpansionPanel = (props: any) => {
                   primary={
                     <div>
                       <Typography
-                        type='body2'
+                        //type='body2'
                         style={{
                           color: '#fff',
                           textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',

@@ -7,7 +7,10 @@ import Rectangle from "./Rectangle";
 import cloneDeep from "../utils/cloneDeep";
 import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces";
 import isEmpty from '../utils/isEmpty';
+import Konva from "konva";
 
+
+//TODO check if these types are necessary
 interface PropsInt {
   image: HTMLImageElement;
   components: ComponentsInt;
@@ -34,9 +37,11 @@ interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [];
+  grid: [] | JSX.Element[];
   gridStroke: number;
 }
+
+
 
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
@@ -52,11 +57,16 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       grid: [],
       gridStroke: 1
     };
+    
   }
+  
+  stage: Stage;
+  layer: Konva.Layer;
+  container: HTMLDivElement;
 
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
-    //assign component to the docused component
+    //assign component to the focused component
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
@@ -87,6 +97,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     return childrenArrCopy;
   }
 
+
   //currently, only the handlekeydown event listener does anything.
   componentDidMount() {
     this.checkSize();
@@ -94,6 +105,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
     window.addEventListener("resize", this.checkSize);
+    //TODO: Typing of this.container
     this.container.addEventListener("keydown", this.handleKeyDown);
     this.createGrid();
   }
@@ -105,7 +117,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     this.container.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  //something about the logic here isn't working. Will need to check some other time. 
+  //something about the logic here might not be working. Will need to check some other time. 
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -126,6 +138,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   //event handler to handle mouse click
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
+    //logic here doesn't seem to be working
     if (e.target === e.target.getStage()) {
       return;
     }
@@ -206,14 +219,14 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           height: "100%"
         }}
         ref={node => {
-          this.container = node;
+          this.container= node;
         }}
-        tabIndex="0" // required for keydown event to be heard by this.container
+        tabIndex= {0} // required for keydown event to be heard by this.container
       >
         <Stage
           className={"canvasStage"}
           ref={node => {
-            this.stage = node;
+            this.stage = node;  
           }}
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
@@ -226,7 +239,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
-            {/* {The logic hereis that it creates a new rectangle or each component that belongs to this parent component, plus the parent component.
+            {/* {The logic here is that it creates a new rectangle for each component that belongs to this parent component, plus the parent component.
             The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
             {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
               .map((child: ChildInt, i: number) => (
@@ -239,7 +252,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   childComponentName={child.componentName}
                   focusChild={focusChild}
                   childId={child.childId} // -1 for pseudoChild
-                  x={child.position.x}
+                  x={child.position.x} 
                   y={child.position.y}
                   scaleX={1}
                   scaleY={1}
@@ -252,7 +265,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                   image={this.props.focusComponent.id === 1 ? image : null}
                 />
               ))
-              .sort((rectA, rectB) => {
+              .sort((rectA: Rectangle, rectB: Rectangle) => {
                 if (rectB.props.childId === -1) {
                   return 1;
                 }

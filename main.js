@@ -41,6 +41,10 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+function toggleTutorial() {
+  mainWindow.webContents.send('tutorial_clicked');
+}
+
 // Choose directory
 ipcMain.on('choose_app_dir', event => {
   const directory = dialog.showOpenDialog(mainWindow, {
@@ -92,7 +96,7 @@ const createWindow = () => {
       label: 'File',
       submenu: [
         {
-          label: 'Open File',
+          label: 'Open Image',
           accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
           click() {
             openFile();
@@ -100,20 +104,20 @@ const createWindow = () => {
         }
       ]
     },
-    // {
-    //   label: 'Edit',
-    //   submenu: [
-    //     { role: 'undo' },
-    //     { role: 'redo' },
-    //     { type: 'separator' },
-    //     { role: 'cut' },
-    //     { role: 'copy' },
-    //     { role: 'paste' },
-    //     { role: 'pasteandmatchstyle' },
-    //     { role: 'delete' },
-    //     { role: 'selectall' },
-    //   ],
-    // },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
+      ],
+    },
     {
       label: 'View',
       submenu: [
@@ -137,7 +141,13 @@ const createWindow = () => {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://electronjs.org');
+            shell.openExternal('https://reactype.io');
+          }
+        },
+        {
+            label: 'Tutorial',
+            click() {
+              toggleTutorial();
           }
         }
       ]

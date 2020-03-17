@@ -13,7 +13,7 @@ import {
   deleteChild
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, ApplicationStateInt } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 interface PropsInt {
@@ -21,14 +21,7 @@ interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   classes: any;
-  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // addChild: any; **It's expecting this prop in the interface, but is never used.**
-  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
   changeFocusChild: any;
-  // changeImagePath: any; **It's declared but function below doesn't do anything**
-  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // createApp: any; **It's expecting this prop in the interface, but is never used.**
-  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
   handleTransformation: any;
   focusChild: any;
   changeComponentFocusChild: any;
@@ -77,15 +70,14 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
-const mapStateToProps = (store: any) => ({
+const mapStateToProps = (store: {workspace: ApplicationStateInt}) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components
 });
 
 class MainContainer extends Component<PropsInt, StateInt> {
-  //Again, state should not be created outside of the single source of truth
-  //Actually upon further examination, it looks like this state isn't manipulated at all.
+  //It looks like this state isn't manipulated at all.
   // state = {
   //   draggable: false,
   //   toggleClass: true,
