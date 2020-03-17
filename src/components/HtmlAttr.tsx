@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
 import InputLabel from '@material-ui/core/InputLabel';
-import { updateHtmlAttr } from '../actions/components.ts';
-import { HTMLelements } from '../utils/htmlElements.util.ts';
-import { ComponentInt, ChildInt } from '../utils/Interfaces.ts';
+import { updateHtmlAttr } from '../actions/components';
+import { HTMLelements } from '../utils/htmlElements.util';
+import { ComponentInt, ChildInt } from '../utils/Interfaces';
 
 interface PropsInt {
   updateHtmlAttr: any;
@@ -72,7 +72,7 @@ const buttonTypeOptions = [
 ];
 
 // this is a variable to save temp state for button types
-let buttonTypeTemp;
+let buttonTypeTemp: string;
 
 // HtmlAttr is creating attributes grabbed from htmlElement & placing them
 // as the new state
@@ -114,7 +114,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
 
   // if button type, then create conditional where the value will be returned if attr === button
   // then return the button.value
-  handleSave = (attr: any) => {
+  handleSave = (attr: string | any) => {
     if (attr == 'type') {
       this.props.updateHtmlAttr({ attr, value: buttonTypeTemp });
       this.setState({

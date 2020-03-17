@@ -35,7 +35,7 @@ import {
   DELETE_IMAGE
 } from '../actionTypes/index';
 
-import { loadState } from '../localStorage.ts'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
+import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
 

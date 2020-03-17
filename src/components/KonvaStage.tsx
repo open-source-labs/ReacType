@@ -1,11 +1,11 @@
 //This component includes a component for the background image to be uploaded as reference for drawing components
 //and also the parent rectangle components.
 
-import React, { Component } from "react";
-import { Stage, Layer, Line } from "react-konva";
-import Rectangle from "./Rectangle";
-import cloneDeep from "../utils/cloneDeep";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces";
+import React, { Component } from 'react';
+import { Stage, Layer, Line } from 'react-konva';
+import Rectangle from './Rectangle';
+import cloneDeep from '../utils/cloneDeep';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
 import isEmpty from '../utils/isEmpty';
 
 interface PropsInt {
@@ -41,10 +41,10 @@ interface StateInt {
 class KonvaStage extends Component<PropsInt, StateInt> {
   constructor(props: PropsInt) {
     super(props);
-    //the main purpose of this state, although not supposed to be here per redux rules I believe, 
+    //the main purpose of this state, although not supposed to be here per redux rules I believe,
     //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
-    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do 
-    //anything, and the gridStroke is the stroke width of the squares. 
+    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do
+    //anything, and the gridStroke is the stroke width of the squares.
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
@@ -105,7 +105,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  //something about the logic here isn't working. Will need to check some other time. 
+  //something about the logic here isn't working. Will need to check some other time.
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -131,7 +131,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     }
     // // clicked on transformer - do nothing
     const clickedOnTransformer =
-      e.target.getParent().className === "Transformer";
+      e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
@@ -144,9 +144,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       childId: rectChildId
     });
   };
-  //this function creates a grid with those 10x10 squares. 
-  //it first draws a grid or horizaontal lines, and then 
-  //draws the vertical ones. 
+  //this function creates a grid with those 10x10 squares.
+  //it first draws a grid or horizaontal lines, and then
+  //draws the vertical ones.
   createGrid = () => {
     const output = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
@@ -194,7 +194,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       components,
       handleTransform,
       focusComponent,
-      focusChild,
+      focusChild
       // deleteChild, **neither of these are read**
       // classes
     } = this.props;
@@ -253,7 +253,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                     }
                   />
                 ))
-                .sort((rectA: Rectangle, rectB) => {
+                .sort((rectA: Rectangle, rectB: Rectangle) => {
                   if (rectB.props.childId === -1) {
                     return 1;
                   }
@@ -275,5 +275,6 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       </div>
     );
   }
+}
 
 export default KonvaStage;
