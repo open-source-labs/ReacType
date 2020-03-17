@@ -6,6 +6,7 @@ import { Tree, ReactD3TreeTranslate } from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
+import ComponentState from './ComponentState';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
 
 interface PropsInt {
