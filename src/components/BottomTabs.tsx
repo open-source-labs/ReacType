@@ -6,7 +6,7 @@ import { Tree, ReactD3TreeTranslate } from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import ComponentState from './ComponentState';
+import AddChildState from './AddChildState';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
 
 interface PropsInt {
@@ -173,7 +173,7 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Component State'
+            label='Add Child State'
           />
         </Tabs>
 
