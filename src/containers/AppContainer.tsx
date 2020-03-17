@@ -28,7 +28,7 @@ interface Props {
   changeImagePath(imageSource: string): void;
 };
 
-//Type for the state that should not be assigned within the 
+//Type for the state that should not be assigned within the
 //component below. 
 interface State {
   image: HTMLImageElement | null;
