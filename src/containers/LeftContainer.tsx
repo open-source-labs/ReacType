@@ -29,8 +29,8 @@ interface LeftContPropsInt extends PropsInt {
   deleteComponent(arg: { componentId: number; stateComponents: ComponentsInt }): void;
   createApp(arg: { path: string; components: ComponentsInt; genOption: number }): void;
   deleteAllData(): void;
-  toggleComponentState(arg: string): void;
-  toggleComponentClass(arg: string): void;
+  toggleComponentState(arg: number): void;
+  toggleComponentClass(arg: number): void;
   deleteImage(): void;
 }
 

@@ -10,7 +10,6 @@ import ParagraphIcon from '@material-ui/icons/LocalParking';
 import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 import Chip from '@material-ui/core/Chip';
-import { MuiThemeProviderProps } from '@material-ui/core/styles/MuiThemeProvider';
 
 interface HTMLCompPropsInt {
   classes: any;

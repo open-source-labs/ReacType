@@ -13,18 +13,27 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 
-// import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces'; // unused
+import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+interface LeftColExpPanPropsInt extends PropsInt {
+  classes: any;
+  component: ComponentInt;
+  addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
+  changeFocusComponent(arg: { title: string }): void;
+  selectableChildren: number[];
+  deleteComponent(arg: { componentId: number; stateComponents: ComponentsInt }): void;
+  toggleComponentState(arg: number): void;
+  toggleComponentClass(arg: number): void;
+}
 
-// TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
-const LeftColExpansionPanel = (props: any) => {
+const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const {
     classes,
     focusComponent,
+    components,
     component,
     addChild,
     changeFocusComponent,
     selectableChildren,
-    components,
     deleteComponent,
     toggleComponentState,
     toggleComponentClass
@@ -91,11 +100,11 @@ const LeftColExpansionPanel = (props: any) => {
                         checked={stateful}
                         onChange={e => {
                           toggleComponentState(id);
-                          changeFocusComponent(title);
+                          changeFocusComponent({ title: title.toString() });
                         }}
                         value="stateful"
                         color="primary"
-                        id={props.id.toString()}
+                        id={id.toString()}
                         // id={props.index.toString()}
                       />
                       <div>
@@ -118,7 +127,7 @@ const LeftColExpansionPanel = (props: any) => {
                           checked={classBased}
                           onChange={e => {
                             toggleComponentClass(id);
-                            changeFocusComponent(title);
+                            changeFocusComponent({ title: title.toString() });
                           }}
                           value="classBased"
                           color="primary"
