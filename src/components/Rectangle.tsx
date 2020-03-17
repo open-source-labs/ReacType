@@ -3,10 +3,9 @@ import Konva from 'konva';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent';
 import GrandchildRectangle from './GrandchildRectangle';
-import { ComponentsInt, ChildInt } from '../utils/Interfaces';
-import { ComponentInt } from '../utils/Interfaces';
+import { ComponentInt, PropsInt, ChildInt } from '../utils/Interfaces';
 
-interface PropsInt {
+interface RectanglePorpsInt extends PropsInt {
   x: number;
   y: number;
   scaleX: number;
@@ -18,8 +17,6 @@ interface PropsInt {
   width: number;
   height: number;
   title: string;
-  focusChild: any;
-  components: ComponentsInt;
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
@@ -27,7 +24,7 @@ interface PropsInt {
   image: HTMLImageElement;
 }
 
-class Rectangle extends Component<PropsInt> {
+class Rectangle extends Component<RectanglePorpsInt> {
   rect: Konva.Rect;
   group: Konva.Group;
   //This assigns the color to the Rect based on componentId's color in the state
