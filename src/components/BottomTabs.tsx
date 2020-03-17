@@ -20,7 +20,7 @@ interface PropsInt {
 
 interface TreeInt {
   name: string;
-  attributes: { [key: string]: { value: string } };
+  attributes: { [key: string]: { value: number } };
   children: TreeInt[];
 }
 
@@ -223,6 +223,7 @@ class BottomTabs extends Component<PropsInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
+        {value === 4 && focusChild.childType === 'HTML' && <AddChildState />}
       </div>
     );
   }
