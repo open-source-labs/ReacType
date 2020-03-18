@@ -129,51 +129,76 @@ class AddChildProps extends Component {
   render() {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
 
+    // const propsRows = focusComponent.props.map(prop => ({
+    //   Prop: prop.key,
+    //   Value: prop.value,
+    //   Type: prop.type,
+    //   Required: prop.required,
+    //   id: prop.id
+    // // }));
+
+    console.log('this is focuscomponent props', focusComponent.props);
+    console.log(
+      'this is focuscomponent childrenArray',
+      focusComponent.childrenArray
+    );
     console.log('this is focus component FROM ADDCHILDPROPS', focusComponent);
+
+    const dataForMaterialData = [
+      { childrenArray: focusComponent.childrenArray },
+      { parentProps: focusComponent.props }
+    ];
+
+    console.log('data combined', dataForMaterialData);
     return (
-      <div style={{ maxWidth: '100%' }}>
+      <div>
         <MaterialTable
           tableRef={this.tableRef}
           columns={[
             {
-              title: 'Component Name',
+              title: 'Name',
               field: 'name',
-              render: rowData => (
-                // <img
-                //   style={{ height: 36, borderRadius: '50%' }}
-                //   src={rowData.name}
-                // />
-                <h1>{}</h1>
-              )
+              cellStyle: {
+                width: 250,
+                minWidth: 250
+              }
+              // render: dataRows => (
+              //   <p>{`${dataRows.childrenArray.componentName}`}</p>
+              // )
             },
-            { title: 'Key', field: 'key' },
-            { title: 'Value', field: 'Type' },
-            { title: 'Last Name', field: 'last_name' }
+            {
+              title: 'Props To Add To Child',
+              field: 'prop'
+              // render: dataRows => <p>{`${dataRows.parentProps}`}</p>
+            }
           ]}
-          data={query =>
-            new Promise((resolve, reject) => {
-              let url = 'https://reqres.in/api/users?';
-              url += 'per_page=' + query.pageSize;
-              url += '&page=' + (query.page + 1);
-              fetch(url)
-                .then(response => response.json())
-                .then(result => {
-                  resolve({
-                    data: result.data,
-                    page: result.page - 1,
-                    totalCount: result.total
-                  });
-                });
-            })
-          }
-          title='All Child Components'
+          // data={query =>
+          //   new Promise((resolve, reject) => {
+          //     let url = 'https://reqres.in/api/users?';
+          //     url += 'per_page=' + query.pageSize;
+          //     url += '&page=' + (query.page + 1);
+          //     fetch(url)
+          //       .then(response => response.json())
+          //       .then(result => {
+          //         console.log('RESULT FROM QUERY MATERIAL DATA', result);
+          //         resolve({
+          //           data: result.data,
+          //           page: result.page - 1,
+          //           totalCount: result.total
+          //         });
+          //       });
+          //   })
+          // }
+          data={dataForMaterialData}
+          title='Add Your Child Props Here!'
         />
+
         <button
           onClick={() => {
             this.tableRef.current.onQueryChange();
           }}
         >
-          Click Me! NOT
+          Sean Sucks
         </button>
       </div>
     );

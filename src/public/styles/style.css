@@ -17,14 +17,29 @@ body {
   overflow: hidden;
 }
 
-/* for Material React Table */
-
-.designHeaderTable {
-  width: 50%;
-  background-color: #ddd;
-  height: 10;
-  text-align: center;
+/* for Material React Table found in Add Child Props */
+div.Component-horizontalScrollContainer-543 {
+  height: 210px;
 }
+
+/* for Material React Table Gutter */
+/* .MuiToolbar-gutters-437 {
+  padding: 30px !important;
+  width: 0;
+} */
+
+/* FOR: Material React Table Cells
+.MuiTableCell-root {
+
+  height: auto;
+  padding: 30px;
+} */
+
+/* header for adding Child Props */
+/* .addChildProp_header {
+  text-align: left;
+  font-size: 10px;
+} */
 
 /*
 /////////////////////////////////////////// 
@@ -220,6 +235,8 @@ RIGHT COLUMN
   flex-direction: row;
 }
 
+/* BOTTOM PANEL */
+
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
@@ -252,6 +269,8 @@ RIGHT COLUMN
   height: 55%;
   overflow: auto;
 }
+
+/* Material-UI */
 
 /* Sortable tree sorting */
 .sortable-tree {
