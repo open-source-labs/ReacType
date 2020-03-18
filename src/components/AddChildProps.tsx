@@ -144,12 +144,12 @@ class AddChildProps extends Component {
     );
     console.log('this is focus component FROM ADDCHILDPROPS', focusComponent);
 
-    const dataForMaterialData = [
-      { childrenArray: focusComponent.childrenArray },
-      { parentProps: focusComponent.props }
-    ];
+    // const dataForMaterialData = [
+    //   { childrenArray: focusComponent.childrenArray },
+    //   { parentProps: focusComponent.props }
+    // ];
 
-    console.log('data combined', dataForMaterialData);
+    console.log('data combined');
     return (
       <div>
         <MaterialTable
@@ -161,15 +161,21 @@ class AddChildProps extends Component {
               cellStyle: {
                 width: 250,
                 minWidth: 250
-              }
-              // render: dataRows => (
-              //   <p>{`${dataRows}`}</p>
-              // )
+              },
+              render: dataRows => (
+                <p>
+                  {console.log(
+                    'this is dataROWs from render',
+                    dataRows.componentName
+                  )}
+                  {`${dataRows.componentName}`}
+                </p>
+              )
             },
             {
               title: 'Props To Add To Child',
               field: 'prop'
-              // render: dataRows => <p>{`${dataRows}`}</p>
+              // render: dataRows => <span>{`${[...dataRows]}`}</span>
             }
           ]}
           // data={query =>
@@ -189,7 +195,7 @@ class AddChildProps extends Component {
           //       });
           //   })
           // }
-          data={dataForMaterialData}
+          data={focusComponent.childrenArray}
           title='Add Your Child Props Here!'
         />
 
