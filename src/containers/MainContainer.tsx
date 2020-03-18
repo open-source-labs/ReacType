@@ -13,27 +13,17 @@ import {
   deleteChild
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
-import * as actions from '../actions/components';
+import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
 
-interface PropsInt {
+interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  classes: any;
-  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // addChild: any; **It's expecting this prop in the interface, but is never used.**
-  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
-  changeFocusChild: any;
-  // changeImagePath: any; **It's declared but function below doesn't do anything**
-  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // createApp: any; **It's expecting this prop in the interface, but is never used.**
-  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
-  handleTransformation: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
-  deleteChild: any;
-  imageSource: string;
+  handleTransformation(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
+  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  deleteChild(obj: object): void;
 }
 
 interface StateInt {
@@ -88,13 +78,13 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
-const mapStateToProps = (store: any) => ({
+const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components
 });
 
-class MainContainer extends Component<PropsInt, StateInt> {
+class MainContainer extends Component<MainContPropsInt, StateInt> {
   //Again, state should not be created outside of the single source of truth
   //Actually upon further examination, it looks like this state isn't manipulated at all.
   // state = {
@@ -117,7 +107,6 @@ class MainContainer extends Component<PropsInt, StateInt> {
       changeFocusChild,
       changeComponentFocusChild,
       deleteChild,
-      classes,
       image
     } = this.props;
 
@@ -142,7 +131,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
-              classes={classes}
+              /*  classes={classes}  commented out because not used anywhere*/
             />
           </div>
           <BottomPanel focusComponent={focusComponent} />

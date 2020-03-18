@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import FormIcon from '@material-ui/icons/Description';
@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 import Chip from '@material-ui/core/Chip';
 
-interface PropsInt {
+interface HTMLCompPropsInt {
   classes: any;
   addChild: any;
 }
@@ -20,7 +20,7 @@ interface StateInt {
   HtmlComponentName: string;
 }
 
-class HTMLComponentPanel extends Component<PropsInt, StateInt> {
+class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
   state = {
     HtmlComponentName: ''
   };
@@ -35,7 +35,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
     this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
-  render() {
+  render(): JSX.Element {
     const { classes } = this.props;
     return (
       <div align='center'>
@@ -237,7 +237,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   }
 }
 
-function styles(theme): any {
+function styles(theme: Theme): any {
   return {
     htmlPanel: {
       width: '100%',

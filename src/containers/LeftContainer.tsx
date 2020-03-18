@@ -14,34 +14,30 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces';
 import createModal from '../utils/createModal.util';
 import cloneDeep from '../utils/cloneDeep';
 
 const IPC = require('electron').ipcRenderer;
 
-interface PropsInt {
-  imageSource: string;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
+interface LeftContPropsInt extends PropsInt {
+  selectableChildren: number[];
   classes: any;
-  addComponent: (arg: { title: string }) => void;
-  addChild: (arg: { title: string; childType: string; HTMLInfo: object }) => void;
-  changeFocusComponent: (arg: { title: string }) => void;
-  changeFocusChild: (arg: { childId: number }) => void;
-  deleteComponent: (arg: { componentId: number; stateComponents: ComponentsInt }) => void;
-  createApp: (arg: { path: string; components: ComponentsInt; genOption: number }) => void;
-  deleteAllData: () => void;
-  toggleComponentState: (arg: string) => void;
-  toggleComponentClass: (arg: string) => void;
-  deleteImage: () => void;
+  addComponent(arg: { title: string }): void;
+  addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
+  changeFocusComponent(arg: { title: string }): void;
+  deleteComponent(arg: { componentId: number; stateComponents: ComponentsInt }): void;
+  createApp(arg: { path: string; components: ComponentsInt; genOption: number }): void;
+  deleteAllData(): void;
+  toggleComponentState(arg: number): void;
+  toggleComponentClass(arg: number): void;
+  deleteImage(): void;
 }
 
 interface StateInt {
   componentName: string;
   modal: any;
-  genOptions: Array<string>;
+  genOptions: string[];
   genOption: number;
   imageSource: string;
 }
@@ -96,10 +92,10 @@ const mapDispatchToProps = (dispatch: any) => ({
     )
 });
 
-class LeftContainer extends Component<PropsInt, StateInt> {
+class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   state: StateInt;
 
-  constructor(props: PropsInt) {
+  constructor(props: LeftContPropsInt) {
     super(props);
 
     this.state = {
@@ -226,8 +222,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       .map((component: ComponentInt, i: number) => (
         <LeftColExpansionPanel
           key={component.id}
-          index={i}
-          id={component.id}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}

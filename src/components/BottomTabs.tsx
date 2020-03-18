@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import AddChildProps from './AddChildProps';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Tree, ReactD3TreeTranslate } from 'react-d3-tree';
+import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, PropInt, PropsInt } from '../utils/Interfaces';
 
-import AddChildProps from './AddChildProps';
-
-interface PropsInt {
-  focusChild: ChildInt;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  deleteProp: any;
-  addProp: any;
+interface BottomTabsPropsInt extends PropsInt {
+  deleteProp(id: number): void;
+  addProp(prop: PropInt): void;
   classes: any;
 }
 
-interface TreeInt {
-  name: string;
-  attributes: { [key: string]: { value: number } };
-  children: TreeInt[];
+// interface TreeInt {
+//   name: string;
+//   attributes: { [key: string]: { value: string } };
+//   children: TreeInt[];
+// }
+
+interface StateInt {
+  value: number;
+  translate: { x: number; y: number };
 }
 
-const styles = (theme: any): any => ({
+const styles = (theme: Theme): any => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#333333',
@@ -78,14 +79,15 @@ const styles = (theme: any): any => ({
   }
 });
 
-class BottomTabs extends Component<PropsInt> {
-  state = {
-    value: 0
-  };
-
-  treeWrapper: HTMLElement;
-  translate: ReactD3TreeTranslate;
-
+class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
+  constructor(props: BottomTabsPropsInt) {
+    super(props);
+    this.state = {
+      value: 0,
+      translate: { x: 0, y: 0 }
+    };
+  }
+  treeWrapper: HTMLDivElement;
   componentDidMount() {
     // dynamically center the tree based on the div size
     const dimensions = this.treeWrapper.getBoundingClientRect();
@@ -102,16 +104,12 @@ class BottomTabs extends Component<PropsInt> {
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
-    const component = components.find(
-      (comp: ComponentInt) => comp.id === componentId
-    );
-    const tree = { name: component.title, attributes: {}, children: [] };
+    const component = components.find(comp => comp.id === componentId);
+    const tree: any = { name: component.title, attributes: {}, children: [] };
 
-    component.childrenArray.forEach((child: ChildInt) => {
+    component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
-        tree.children.push(
-          this.generateComponentTree(child.childComponentId, components)
-        );
+        tree.children.push(this.generateComponentTree(child.childComponentId, components));
       } else {
         tree.children.push({
           name: child.componentName,
@@ -123,24 +121,14 @@ class BottomTabs extends Component<PropsInt> {
     return tree;
   }
 
-  render() {
-    const {
-      classes,
-      components,
-      focusComponent,
-      deleteProp,
-      addProp,
-      focusChild
-    } = this.props;
+  render(): JSX.Element {
+    const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-
-    // this function is creating the HTML attribute count that you see in parenthese
-    const htmlAttribCount = focusComponent.childrenArray.filter(
-      (child: ChildInt) => child.childType === 'HTML'
-    ).length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
+      .length;
 
     return (
       <div className={classes.root}>
@@ -167,9 +155,7 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${
-              htmlAttribCount ? `(${htmlAttribCount})` : ''
-            } `}
+            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
           <Tab
             disableRipple
@@ -213,12 +199,7 @@ class BottomTabs extends Component<PropsInt> {
             />
           </div>
         )}
-        {value === 1 && (
-          <CodePreview
-            focusComponent={focusComponent}
-            components={components}
-          />
-        )}
+        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
         {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3 && focusChild.childType !== 'HTML' && (

@@ -2,45 +2,38 @@
 //and also the parent rectangle components.
 
 import React, { Component } from 'react';
-import Konva from 'konva';
 import { Stage, Layer, Line } from 'react-konva';
+import Konva from 'konva';
 import Rectangle from './Rectangle';
 import cloneDeep from '../utils/cloneDeep';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
 import isEmpty from '../utils/isEmpty';
+// import BottomPan from './BottomPanel';
 
-interface PropsInt {
+interface KonvaStagePropsInt extends PropsInt {
   image: HTMLImageElement;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
-  classes: any;
-  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // addChild: any; **It's expecting this prop in the interface, but is never used.**
-  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
-  changeFocusChild: any;
-  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // createApp: any; **It's expecting this prop in the interface, but is never used.**
-  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
-  handleTransform: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
-  deleteChild: any;
+  handleTransform(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
+  focusChild: ChildInt;
+  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  deleteChild(arg: object): void;
   scaleX: number;
   scaleY: number;
-  // draggable: boolean; **THIS ONE is actually never passed down from the parent but reassigned in a seperate object below in this file.**
 }
 
 interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [];
+  grid: JSX.Element[];
   gridStroke: number;
 }
 
-class KonvaStage extends Component<PropsInt, StateInt> {
-  constructor(props: PropsInt) {
+class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
+  constructor(props: KonvaStagePropsInt) {
     super(props);
     //the main purpose of this state, although not supposed to be here per redux rules I believe,
     //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
@@ -59,16 +52,18 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   stage: Stage;
   layer: Konva.Layer;
 
+  stage: Stage;
+  layer: Konva.Layer;
+  container: HTMLDivElement;
+
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
-    //assign component to the docused component
+    //assign component to the focused component
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
     //assign childrenArr to an array of all the children of focused component
-    const childrenArr = component.childrenArray.filter(
-      (child: ChildInt) => child.childId !== -1
-    );
+    const childrenArr = component.childrenArray.filter((child: ChildInt) => child.childId !== -1);
 
     //deep clone of childrenArr so addition of parent doesn't mutate the children saved in the state
     let childrenArrCopy = cloneDeep(childrenArr);
@@ -99,6 +94,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
     window.addEventListener('resize', this.checkSize);
+    //TODO: Typing of this.container
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
@@ -131,12 +127,12 @@ class KonvaStage extends Component<PropsInt, StateInt> {
   //event handler to handle mouse click
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
+    //logic here doesn't seem to be working
     if (e.target === e.target.getStage()) {
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer =
-      e.target.getParent().className === 'Transformer';
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
@@ -169,11 +165,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
         />
       );
     }
-    for (
-      let j = 0;
-      j < this.state.stageHeight / this.state.blockSnapSize;
-      j++
-    ) {
+    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
       output.push(
         <Line
           points={[
@@ -213,7 +205,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
         ref={node => {
           this.container = node;
         }}
-        tabIndex='0' // required for keydown event to be heard by this.container
+        tabIndex={0} // required for keydown event to be heard by this.container
       >
         <Stage
           className={'canvasStage'}
@@ -231,6 +223,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             }}
           >
             {this.state.grid}
+            {/* {The logic here is that it creates a new rectangle for each component that belongs to this parent component, plus the parent component.
+            The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
             {!isEmpty(focusComponent) &&
               this.getDirectChildrenCopy(focusComponent)
                 .map((child: ChildInt, i: number) => (
@@ -253,9 +247,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                     handleTransform={handleTransform}
                     draggable={true}
                     blockSnapSize={this.state.blockSnapSize}
-                    imageSource={
-                      child.htmlElement === 'Image' && child.HTMLInfo.Src
-                    }
+                    image={this.props.focusComponent.id === 1 ? image : null}
                   />
                 ))
                 .sort((rectA: Rectangle, rectB: Rectangle) => {
@@ -263,8 +255,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
                     return 1;
                   }
                   return (
-                    rectB.props.width * rectB.props.height -
-                    rectA.props.width * rectA.props.height
+                    rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
                   );
                 })
             // reasoning for the sort:

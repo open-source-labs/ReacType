@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -10,11 +10,15 @@ import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import { addProp, deleteProp } from '../actions/components';
 import DataTable from './DataTable';
-import { ComponentInt } from '../utils/Interfaces';
+import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces';
 
-// this the "styles" used for this Props component
-// used with withStyles function
-const styles = theme => ({
+interface PropsPropsInt extends PropsInt {
+  classes: any;
+  addProp(arg: PropInt): void;
+  deleteProp(propId: number): void;
+}
+
+const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -61,25 +65,7 @@ const styles = theme => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addProp: ({
-    key,
-    value,
-    required,
-    type
-  }: {
-    key: string;
-    value: string;
-    required: boolean;
-    type: string;
-  }) =>
-    dispatch(
-      addProp({
-        key,
-        value,
-        required,
-        type
-      })
-    ),
+  addProp: (prop: PropInt) => dispatch(addProp(prop)),
   deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
@@ -112,14 +98,22 @@ const typeOptions = [
     </option>
   ))
 ];
-
-class Props extends Component {
-  state = {
-    propVariables: '',
-    propValue: '',
-    propRequired: true,
-    propType: ''
-  };
+interface StateInt {
+  propVariable: string;
+  propValue: string;
+  propRequired: boolean;
+  propType: string;
+}
+class Props extends Component<PropsPropsInt, StateInt> {
+  constructor(props: PropsPropsInt) {
+    super(props);
+    this.state = {
+      propVariable: '',
+      propValue: '',
+      propRequired: true,
+      propType: ''
+    };
+  }
 
   handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propVariable') {
@@ -182,12 +176,13 @@ class Props extends Component {
   };
 
   render() {
-    const { focusComponent, classes, deleteProp, addProp } = this.props;
+    const { focusComponent, classes, deleteProp } = this.props;
 
     console.log('this is focus component', focusComponent);
 
-    const rowHeader = ['Prop', 'Value', 'Type', 'Required'];
-    // const rowHeader = ['Props', 'Required'];
+    // this will display the two fields of data at the focused component level
+    const rowHeader = ['Prop', 'Type'];
+
     // prepare the saved Props in a nice way, so you can sent them to TableData
     const propsRows = focusComponent.props.map(prop => ({
       Prop: prop.key,

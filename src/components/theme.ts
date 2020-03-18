@@ -14,7 +14,7 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: indigo,
-  },
+  }
 });
 
 export default theme;

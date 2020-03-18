@@ -78,6 +78,31 @@ div.Component-horizontalScrollContainer-543 {
   > button {
   font-size: 20px;
 }
+
+/******* 
+
+******** Component Props 
+
+********/
+
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div
+  > div
+  > div.MuiGrid-root-395.MuiGrid-item-397.MuiGrid-grid-xs-8-437
+  > div
+  > table
+  > thead
+  > tr
+  th {
+  text-align: center;
+}
 /*
 /////////////////////////////////////////// 
 Remove focus styling

@@ -13,18 +13,33 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 
-// import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces'; // unused
+import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+interface LeftColExpPanPropsInt extends PropsInt {
+  classes: any;
+  id?: number;
+  component: ComponentInt;
+  addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
+  changeFocusComponent(arg: { title: string }): void;
+  selectableChildren: number[];
+  deleteComponent(arg: { componentId: number; stateComponents: ComponentsInt }): void;
+  toggleComponentState(arg: number): void;
+  toggleComponentClass(arg: number): void;
+}
+
+interface TypographyProps {
+  type: string;
+}
 
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
-const LeftColExpansionPanel = (props: any) => {
+const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const {
     classes,
     focusComponent,
+    components,
     component,
     addChild,
     changeFocusComponent,
     selectableChildren,
-    components,
     deleteComponent,
     toggleComponentState,
     toggleComponentClass
@@ -36,25 +51,25 @@ const LeftColExpansionPanel = (props: any) => {
     return focusComponent.id === id ? 'focused' : '';
   }
 
+  // boolean flag to determine if the component card is focused or not
+  // state/class toggles will be displayed when a component is focused
+  const focusedToggle = isFocused() === 'focused' ? true : false;
+
   return (
-    <Grid
-      container
-      spacing={16}
-      direction='row'
-      justify='flex-start'
-      alignItems='center'
-    >
+    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
       <Grid item xs={9}>
         <div
           className={classes.root}
           style={
-            !isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }
+            // shadow to highlight the focused component card
+            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
           }
         >
+          {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED */}
           <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
             <List style={{ color: 'red' }}>
               <ListItem
-                button
+                // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
                 style={{ color: 'red' }}
                 onClick={() => {
                   changeFocusComponent({ title });
@@ -66,7 +81,7 @@ const LeftColExpansionPanel = (props: any) => {
                   primary={
                     <div>
                       <Typography
-                        type='body2'
+                        //type='body2'
                         style={{
                           color: '#fff',
                           textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
@@ -75,60 +90,78 @@ const LeftColExpansionPanel = (props: any) => {
                       >
                         {title}
                       </Typography>
-                      {/* TOGGLE FOR STATEFULNESS */}
-                      <InputLabel
-                        htmlFor='stateful'
-                        style={{
-                          color: '#fff',
-                          marginBottom: '10px',
-                          marginTop: '0px',
-                          marginLeft: '11px',
-                          padding: '0px',
-                          fontSize: '18px'
-                        }}
-                      >
-                        State?
-                      </InputLabel>
-                      {/* 
-                          Have to change focus component after toggling state 
-                          in order to properly change the code that appears in the code 
-                          peview
+
+                      {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
+                      
+                        TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
-                      <Switch
-                        checked={stateful}
-                        onChange={e => {
-                          toggleComponentState(id);
-                          changeFocusComponent(title);
-                        }}
-                        value='stateful'
-                        color='primary'
-                        id={props.id.toString()}
-                        // id={props.index.toString()}
-                      />
-                      <div>
-                        {/* TOGGLE FOR CLASS BASED */}
+
+                      {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
+                      {focusedToggle ? (
                         <InputLabel
-                          htmlFor='classBased'
+                          htmlFor="stateful"
                           style={{
                             color: '#fff',
                             marginBottom: '10px',
                             marginTop: '0px',
                             marginLeft: '11px',
                             padding: '0px',
-                            fontSize: '18px'
+                            fontSize: '18px',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                           }}
                         >
-                          Class?
+                          State?
                         </InputLabel>
+                      ) : (
+                        ''
+                      )}
+
+                      {focusedToggle ? (
                         <Switch
-                          checked={classBased}
+                          checked={stateful}
                           onChange={e => {
-                            toggleComponentClass(id);
-                            changeFocusComponent(title);
+                            toggleComponentState(id);
+                            changeFocusComponent({ title });
                           }}
-                          value='classBased'
-                          color='primary'
+                          value="stateful"
+                          color="primary"
+                          // id={props.id.toString()}
                         />
+                      ) : (
+                        ''
+                      )}
+                      <div>
+                        {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
+                        {focusedToggle ? (
+                          <InputLabel
+                            htmlFor="classBased"
+                            style={{
+                              color: '#fff',
+                              marginBottom: '10px',
+                              marginTop: '0px',
+                              marginLeft: '11px',
+                              padding: '0px',
+                              fontSize: '18px'
+                            }}
+                          >
+                            Class?
+                          </InputLabel>
+                        ) : (
+                          ''
+                        )}
+                        {focusedToggle ? (
+                          <Switch
+                            checked={classBased}
+                            onChange={e => {
+                              toggleComponentClass(id);
+                              changeFocusComponent({ title });
+                            }}
+                            value="classBased"
+                            color="primary"
+                          />
+                        ) : (
+                          ''
+                        )}
                       </div>
                     </div>
                   }
@@ -142,10 +175,10 @@ const LeftColExpansionPanel = (props: any) => {
           ) : (
             <Fragment>
               <Button
-                variant='text'
-                size='small'
-                color='default'
-                aria-label='Delete'
+                variant="text"
+                size="small"
+                color="default"
+                aria-label="Delete"
                 className={classes.margin}
                 onClick={() =>
                   deleteComponent({
@@ -162,7 +195,7 @@ const LeftColExpansionPanel = (props: any) => {
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
-                Delete Component
+                <span style={{ marginTop: '3px' }}>Delete Component</span>
               </Button>
             </Fragment>
           )}
@@ -173,13 +206,9 @@ const LeftColExpansionPanel = (props: any) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <Tooltip
-            title='add as child'
-            aria-label='add as child'
-            placement='left'
-          >
+          <Tooltip title="add as child" aria-label="add as child" placement="left">
             <IconButton
-              aria-label='Add'
+              aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}

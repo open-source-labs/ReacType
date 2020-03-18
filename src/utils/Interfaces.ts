@@ -1,11 +1,19 @@
 //This itnerface seems to be very specific to the prop argument passed into the reducer function 'addProp'.
 //It actually might not make too muich sense being in this file.
 export interface PropInt {
-  id: number;
+  id?: number;
   key: string;
   value: string;
   required: boolean;
   type: string;
+}
+
+export interface PropsInt {
+  focusChild?: ChildInt;
+  components: ComponentsInt;
+  focusComponent?: ComponentInt;
+  imageSource?: string;
+  changeFocusChild?: (arg: { childId: number }) => void;
 }
 
 //This is the interface for the position and size for the Rect components from Konva.
@@ -47,12 +55,14 @@ export interface ComponentInt {
   childrenArray: ChildInt[];
   nextChildId: number;
   focusChildId: number;
+  childrenArrayChildInt: any;
 }
 
 export interface ComponentsInt extends Array<ComponentInt> {}
 
 //Important interface for the global state of the app. \
 export interface ApplicationStateInt {
+  tutorial: number;
   imageSource: string;
   totalComponents: number;
   nextId: number;
