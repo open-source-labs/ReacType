@@ -10,7 +10,8 @@ import {
   handleTransform,
   changeFocusChild,
   changeComponentFocusChild,
-  deleteChild
+  deleteChild,
+  changeFocusComponent
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
 import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
@@ -24,6 +25,7 @@ interface MainContPropsInt extends PropsInt {
   ): void;
   changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
   deleteChild(obj: object): void;
+  changeFocusComponent(arg: { title: string }): void;
 }
 
 interface StateInt {
@@ -56,6 +58,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   //this doesn't do anything here
   // changeImagePath: (imageSource: string) =>
   //   dispatch(actions.changeImagePath(imageSource)),
+
+  changeFocusComponent: ({ title }: { title: string }) => dispatch(changeFocusComponent({ title })),
 
   //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
@@ -94,6 +98,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       focusComponent,
       focusChild,
       changeFocusChild,
+      changeFocusComponent,
       changeComponentFocusChild,
       deleteChild,
       image
@@ -123,7 +128,10 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
               /*  classes={classes}  commented out because not used anywhere*/
             />
           </div>
-          <BottomPanel focusComponent={focusComponent} />
+          <BottomPanel
+            focusComponent={focusComponent}
+            changeFocusComponent={changeFocusComponent}
+          />
         </div>
       </MuiThemeProvider>
     );
