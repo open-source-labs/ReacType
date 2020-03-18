@@ -18,7 +18,7 @@ interface PropsPropsInt extends PropsInt {
   deleteProp(propId: number): void;
 }
 
-const styles = (theme: Theme) => ({
+const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -172,7 +172,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
   };
 
   render() {
-    const { focusComponent, classes, deleteProp, addProp } = this.props;
+    const { focusComponent, classes, deleteProp } = this.props;
 
     const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData

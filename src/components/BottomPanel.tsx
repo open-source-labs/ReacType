@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleClose, deleteProp, addProp } from '../actions/components';
 import BottomTabs from './BottomTabs';
-import { ComponentInt, ComponentsInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
+import { PropsInt, PropInt } from '../utils/Interfaces';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -17,12 +17,12 @@ const mapStateToProps = (store: any) => ({
   components: store.workspace.components
 });
 
-interface BottomPannelPropsInt extends PropsInt {
+interface BottomPanelPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
 }
 
-class BottomPanel extends Component<BottomPannelPropsInt> {
+class BottomPanel extends Component<BottomPanelPropsInt> {
   render() {
     const { components, focusComponent, deleteProp, addProp, focusChild } = this.props;
 

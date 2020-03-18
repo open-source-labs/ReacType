@@ -21,7 +21,7 @@ import cloneDeep from '../utils/cloneDeep';
 const IPC = require('electron').ipcRenderer;
 
 interface LeftContPropsInt extends PropsInt {
-  selectableChildren: Array<number>;
+  selectableChildren: number[];
   classes: any;
   addComponent(arg: { title: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
@@ -37,7 +37,7 @@ interface LeftContPropsInt extends PropsInt {
 interface StateInt {
   componentName: string;
   modal: any;
-  genOptions: Array<string>;
+  genOptions: string[];
   genOption: number;
   imageSource: string;
 }
