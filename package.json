@@ -86,8 +86,8 @@
     ]
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^2.0.0",
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
     "@types/prettier": "^1.19.0",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
@@ -104,6 +104,7 @@
     "konva": "^4.1.6",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
+    "material-table": "^1.25.2",
     "prettier": "^1.19.1",
     "prop-types": "^15.6.2",
     "react": "^16.13.0",
@@ -155,5 +156,11 @@
     "typescript": "^3.4.4",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
