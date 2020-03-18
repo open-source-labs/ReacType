@@ -32,110 +32,76 @@ const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent
 });
 
-// available types for select drop-down for button types
-const availablePropTypes = {
-  string: 'STR',
-  number: 'NUM',
-  object: 'OBJ',
-  array: 'ARR',
-  boolean: 'BOOL',
-  function: 'FUNC',
-  // symbol: 'SYM',
-  // node: 'NODE',
-  // element: 'ELEM',
-  any: 'ANY',
-  tuple: 'TUP',
-  enum: 'ENUM'
-};
-
-// generates the various options for the prop type selection
-const typeOptions = [
-  <option value='' key='' />,
-  ...Object.keys(availablePropTypes).map(type => (
-    <option value={type} key={type} style={{ color: '#000' }}>
-      {type}
-    </option>
-  ))
-];
-
 class AddChildProps extends Component {
   tableRef = React.createRef();
-  state = {
-    propVariables: '',
-    propValue: '',
-    propRequired: true,
-    propType: ''
-  };
+  // state = {
+  //   propVariables: '',
+  //   propValue: '',
+  //   propRequired: true,
+  //   propType: ''
+  // };
 
-  handleChange = (event: MouseEvent | any) => {
-    if (event.target.id === 'propVariable') {
-      this.setState({
-        [event.target.id]: event.target.value.trim()
-      });
-    } else {
-      this.setState({
-        [event.target.id]: event.target.value
-      });
-    }
-  };
+  // handleChange = (event: MouseEvent | any) => {
+  //   if (event.target.id === 'propVariable') {
+  //     this.setState({
+  //       [event.target.id]: event.target.value.trim()
+  //     });
+  //   } else {
+  //     this.setState({
+  //       [event.target.id]: event.target.value
+  //     });
+  //   }
+  // };
 
-  togglePropRequired = () => {
-    this.setState({
-      propRequired: !this.state.propRequired
-    });
-  };
+  // togglePropRequired = () => {
+  //   this.setState({
+  //     propRequired: !this.state.propRequired
+  //   });
+  // };
 
   // function that handles the addition of props to a given componnent
   // added regex to strip usr input from non alpha numeric properties
   // presence of these characters crashes the app and should not be a valid input anyways
-  handleAddProp = (event: MouseEvent) => {
-    event.preventDefault();
+  // handleAddProp = (event: MouseEvent) => {
+  //   event.preventDefault();
 
-    // destructuring from local state
-    // if change here, make sure to change local state props to match
-    let { propVariable, propValue, propRequired, propType } = this.state;
-    propVariable = propVariable.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
-    propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
+  //   // destructuring from local state
+  //   // if change here, make sure to change local state props to match
+  //   let { propVariable, propValue, propRequired, propType } = this.state;
+  //   propVariable = propVariable.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
+  //   propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
 
-    // check if prop exists with same key. CANNOT have duplicates
-    const savedVariableKeys = this.props.focusComponent.props.map(
-      prop => prop.key
-    );
-    if (savedVariableKeys.includes(propVariable)) {
-      window.alert(`A prop with the name: "${propVariable}" already exists.`);
-      return;
-    }
+  //   // check if prop exists with same key. CANNOT have duplicates
+  //   const savedVariableKeys = this.props.focusComponent.props.map(
+  //     prop => prop.key
+  //   );
+  //   if (savedVariableKeys.includes(propVariable)) {
+  //     window.alert(`A prop with the name: "${propVariable}" already exists.`);
+  //     return;
+  //   }
 
-    // check if prop starts with digits. Digits at string start breaks indexedDB
-    if (/^\d/.test(propVariable)) {
-      window.alert('Props are not allowed to begin with digits');
-      return;
-    }
+  //   // check if prop starts with digits. Digits at string start breaks indexedDB
+  //   if (/^\d/.test(propVariable)) {
+  //     window.alert('Props are not allowed to begin with digits');
+  //     return;
+  //   }
 
-    this.props.addProp({
-      key: propVariable,
-      value: propValue,
-      required: propRequired,
-      type: propType
-    });
+  //   this.props.addProp({
+  //     key: propVariable,
+  //     value: propValue,
+  //     required: propRequired,
+  //     type: propType
+  //   });
 
-    this.setState({
-      propVariable: '',
-      propValue: '',
-      propRequired: true,
-      propType: ''
-    });
-  };
+  //   this.setState({
+  //     propVariable: '',
+  //     propValue: '',
+  //     propRequired: true,
+  //     propType: ''
+  //   });
+  // };
   render() {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
-
-    // const propsRows = focusComponent.props.map(prop => ({
-    //   Prop: prop.key,
-    //   Value: prop.value,
-    //   Type: prop.type,
-    //   Required: prop.required,
-    //   id: prop.id
-    // // }));
 
     console.log('this is focuscomponent props', focusComponent.props);
     console.log(
@@ -146,21 +112,30 @@ class AddChildProps extends Component {
 
     // Array to be used to populate HTML form elements
     const arrayPropsAvailable = [];
+
     // IIFE : so that it runs without needing to be invoked
     (() => {
-      // focusComponent.props.map(prop => {
-      // console.log('this is component Name from props array', prop.key);
-      // arrayPropsAvailable.push(
-      //   <>
-      //     <span>
-      //       <input type='checkbox' value={prop.key}>
-      //         {prop.key}
-      //       </input>
-      //     </span>
-      //   </>
-      // );
-      // });
+      focusComponent.props.map(prop => {
+        // console.log('this is component Name from props array', prop.key);
+        arrayPropsAvailable.push(
+          <span>
+            <input
+              type='checkbox'
+              id={`${prop}checkbox-${prop.key}`}
+              name={`${prop}checkbox-${prop.key}`}
+            />
+            <label
+              className={`labelForPropsToAddToChild`}
+              for={`${prop}checkbox-${prop.key}`}
+            >
+              {prop.key}
+            </label>
+          </span>
+        );
+      });
     })();
+
+    console.log('this is the array of props available', arrayPropsAvailable);
 
     return (
       <div>
@@ -174,39 +149,14 @@ class AddChildProps extends Component {
                 width: 250,
                 minWidth: 250
               },
-              render: dataRows => (
-                <p>
-                  {/* {console.log(
-                    'this is dataROWs from render',
-                    dataRows.componentName
-                  )} */}
-                  {`${dataRows.componentName}`}
-                </p>
-              )
+              render: dataRows => <p>{`${dataRows.componentName}`}</p>
             },
             {
               title: 'Props To Add To Child',
-              field: 'prop'
-              // render: dataRows => <div>{arrayPropsAvailable}</div>
+              field: 'prop',
+              render: () => <span>{arrayPropsAvailable}</span>
             }
           ]}
-          // data={query =>
-          //   new Promise((resolve, reject) => {
-          //     let url = 'https://reqres.in/api/users?';
-          //     url += 'per_page=' + query.pageSize;
-          //     url += '&page=' + (query.page + 1);
-          //     fetch(url)
-          //       .then(response => response.json())
-          //       .then(result => {
-          //         console.log('RESULT FROM QUERY MATERIAL DATA', result);
-          //         resolve({
-          //           data: result.data,
-          //           page: result.page - 1,
-          //           totalCount: result.total
-          //         });
-          //       });
-          //   })
-          // }
           data={focusComponent.childrenArray}
           title='Add Your Child Props Here!'
         />

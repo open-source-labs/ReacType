@@ -16,31 +16,68 @@ body {
   font-weight: 400;
   overflow: hidden;
 }
+/**************
+* 
+* for Material React Table found in Add Child Props 
+*
+***************/
 
-/* for Material React Table found in Add Child Props */
 div.Component-horizontalScrollContainer-543 {
   height: 210px;
 }
 
-/* for Material React Table Gutter */
-/* .MuiToolbar-gutters-437 {
-  padding: 30px !important;
-  width: 0;
-} */
+.labelForPropsToAddToChild {
+  margin-right: 15px;
+}
 
-/* FOR: Material React Table Cells
-.MuiTableCell-root {
+/* label for search */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > div
+  > div.MuiToolbar-root-436.MuiToolbar-regular-438.MTableToolbar-root-429.MuiToolbar-gutters-437
+  > div.MuiFormControl-root-471.MuiTextField-root-470.MTableToolbar-searchField-434
+  > div {
+  width: 300px;
+}
 
-  height: auto;
-  padding: 30px;
-} */
+/* search tag */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > div
+  > div.MuiToolbar-root-436.MuiToolbar-regular-438.MTableToolbar-root-429.MuiToolbar-gutters-437
+  > div.MuiFormControl-root-471.MuiTextField-root-470.MTableToolbar-searchField-434
+  > div
+  > div.MuiInputAdornment-root-507.MuiInputAdornment-positionStart-509
+  > span {
+  margin-right: 5px;
+  z-index: 99;
+  width: 100%;
+}
 
-/* header for adding Child Props */
-/* .addChildProp_header {
-  text-align: left;
-  font-size: 10px;
-} */
-
+/* Sean sucks button */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > button {
+  font-size: 20px;
+}
 /*
 /////////////////////////////////////////// 
 Remove focus styling

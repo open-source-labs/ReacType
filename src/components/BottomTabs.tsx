@@ -174,7 +174,7 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child State'
+            label='Add Child Props'
           />
         </Tabs>
 
