@@ -282,7 +282,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 addChild({ title, childType: 'COMP' });
               }}
             >
-              <AddIcon style={{ color, float: 'right' }} />
+              <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
             </IconButton>
           </Tooltip>
         )}
