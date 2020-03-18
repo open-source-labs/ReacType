@@ -144,12 +144,24 @@ class AddChildProps extends Component {
     );
     console.log('this is focus component FROM ADDCHILDPROPS', focusComponent);
 
-    // const dataForMaterialData = [
-    //   { childrenArray: focusComponent.childrenArray },
-    //   { parentProps: focusComponent.props }
-    // ];
+    // Array to be used to populate HTML form elements
+    const arrayPropsAvailable = [];
+    // IIFE : so that it runs without needing to be invoked
+    (() => {
+      // focusComponent.props.map(prop => {
+      // console.log('this is component Name from props array', prop.key);
+      // arrayPropsAvailable.push(
+      //   <>
+      //     <span>
+      //       <input type='checkbox' value={prop.key}>
+      //         {prop.key}
+      //       </input>
+      //     </span>
+      //   </>
+      // );
+      // });
+    })();
 
-    console.log('data combined');
     return (
       <div>
         <MaterialTable
@@ -164,10 +176,10 @@ class AddChildProps extends Component {
               },
               render: dataRows => (
                 <p>
-                  {console.log(
+                  {/* {console.log(
                     'this is dataROWs from render',
                     dataRows.componentName
-                  )}
+                  )} */}
                   {`${dataRows.componentName}`}
                 </p>
               )
@@ -175,7 +187,7 @@ class AddChildProps extends Component {
             {
               title: 'Props To Add To Child',
               field: 'prop'
-              // render: dataRows => <span>{`${[...dataRows]}`}</span>
+              // render: dataRows => <div>{arrayPropsAvailable}</div>
             }
           ]}
           // data={query =>
