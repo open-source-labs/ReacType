@@ -12,6 +12,7 @@ interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
   classes: any;
+  changeFocusComponent(arg: { title: string }): void;
 }
 
 // interface TreeInt {
@@ -102,6 +103,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     this.setState({ value });
   };
 
+  handleClick = (event: any, node: any) => {
+    this.props.changeFocusComponent({ title: event.name });
+  };
+
   generateComponentTree(componentId: number, components: ComponentsInt) {
     const component = components.find(comp => comp.id === componentId);
     const tree: any = { name: component.title, attributes: {}, children: [] };
@@ -177,6 +182,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               separation={{ siblings: 0.3, nonSiblings: 0.3 }}
               transitionDuration={0}
               translate={this.state.translate}
+              onClick={this.handleClick}
               styles={{
                 nodes: {
                   node: {

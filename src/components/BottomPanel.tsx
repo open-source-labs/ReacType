@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { handleClose, deleteProp, addProp } from '../actions/components';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../utils/Interfaces';
+import { changeFocusComponent } from '../utils/componentReducer.util';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -20,11 +21,19 @@ const mapStateToProps = (store: any) => ({
 interface BottomPanelPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
+  changeFocusComponent(arg: { title: string }): void;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
   render() {
-    const { components, focusComponent, deleteProp, addProp, focusChild } = this.props;
+    const {
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+      focusChild,
+      changeFocusComponent
+    } = this.props;
 
     return (
       <div className="bottom-panel" style={{ width: '100%' }}>
@@ -34,6 +43,7 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           deleteProp={deleteProp}
           addProp={addProp}
           focusChild={focusChild}
+          changeFocusComponent={changeFocusComponent}
         />
       </div>
     );
