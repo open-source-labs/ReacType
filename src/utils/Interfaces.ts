@@ -9,9 +9,9 @@ export interface PropInt {
 }
 
 export interface PropsInt {
-  focusChild: ChildInt;
+  focusChild?: ChildInt;
   components: ComponentsInt;
-  focusComponent: ComponentInt;
+  focusComponent?: ComponentInt;
   imageSource?: string;
   changeFocusChild?: (arg: { childId: number }) => void;
 }

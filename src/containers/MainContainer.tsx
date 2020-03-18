@@ -14,11 +14,9 @@ import {
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
 import { PropsInt } from '../utils/Interfaces';
-import * as actions from '../actions/components';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
-  // imageSource: string;
   handleTransformation(
     componentId: number,
     childId: number,

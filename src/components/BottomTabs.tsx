@@ -3,24 +3,26 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
-import Props from './Props.tsx';
-import HtmlAttr from './HtmlAttr.tsx';
-import CodePreview from './CodePreview.tsx';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces.ts';
+import Props from './Props';
+import HtmlAttr from './HtmlAttr';
+import CodePreview from './CodePreview';
+import { ComponentInt, ComponentsInt, PropInt, PropsInt } from '../utils/Interfaces';
 
-interface PropsInt {
-  focusChild: ChildInt;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  deleteProp: any;
-  addProp: any;
+interface BottomTabsPropsInt extends PropsInt {
+  deleteProp(id: number): void;
+  addProp(prop: PropInt): void;
   classes: any;
 }
 
-interface TreeInt {
-  name: string;
-  attributes: { [key: string]: { value: string } };
-  children: TreeInt[];
+// interface TreeInt {
+//   name: string;
+//   attributes: { [key: string]: { value: string } };
+//   children: TreeInt[];
+// }
+
+interface StateInt {
+  value: number;
+  translate: { x: number; y: number };
 }
 
 const styles = (theme: Theme): any => ({
@@ -76,11 +78,15 @@ const styles = (theme: Theme): any => ({
   }
 });
 
-class BottomTabs extends Component<PropsInt> {
-  state = {
-    value: 0
-  };
-
+class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
+  constructor(props: BottomTabsPropsInt) {
+    super(props);
+    this.state = {
+      value: 0,
+      translate: { x: 0, y: 0 }
+    };
+  }
+  treeWrapper: HTMLDivElement;
   componentDidMount() {
     // dynamically center the tree based on the div size
     const dimensions = this.treeWrapper.getBoundingClientRect();
@@ -98,7 +104,7 @@ class BottomTabs extends Component<PropsInt> {
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
     const component = components.find(comp => comp.id === componentId);
-    const tree = { name: component.title, attributes: {}, children: [] };
+    const tree: any = { name: component.title, attributes: {}, children: [] };
 
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
@@ -114,7 +120,7 @@ class BottomTabs extends Component<PropsInt> {
     return tree;
   }
 
-  render() {
+  render(): JSX.Element {
     const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
     const { value } = this.state;
 

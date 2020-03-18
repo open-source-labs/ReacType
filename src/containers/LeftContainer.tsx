@@ -222,8 +222,6 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       .map((component: ComponentInt, i: number) => (
         <LeftColExpansionPanel
           key={component.id}
-          index={i}
-          id={component.id}
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}

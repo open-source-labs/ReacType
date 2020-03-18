@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleClose, deleteProp, addProp } from '../actions/components';
 import BottomTabs from './BottomTabs';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
 
 const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  addProp: (prop: any) => dispatch(addProp(prop))
+  addProp: (prop: PropInt) => dispatch(addProp(prop))
 });
 
 const mapStateToProps = (store: any) => ({
@@ -17,15 +17,12 @@ const mapStateToProps = (store: any) => ({
   components: store.workspace.components
 });
 
-interface PropsInt {
-  focusChild: ChildInt;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  deleteProp: any;
-  addProp: any;
+interface BottomPannelPropsInt extends PropsInt {
+  deleteProp(id: number): void;
+  addProp(prop: PropInt): void;
 }
 
-class BottomPanel extends Component<PropsInt> {
+class BottomPanel extends Component<BottomPannelPropsInt> {
   render() {
     const { components, focusComponent, deleteProp, addProp, focusChild } = this.props;
 

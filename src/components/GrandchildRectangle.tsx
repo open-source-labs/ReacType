@@ -1,46 +1,48 @@
-import React, { Component } from "react";
-import { Rect, Group } from "react-konva";
-import { ComponentsInt, ComponentInt, ChildInt } from "../utils/Interfaces.ts";
+import React, { Component } from 'react';
+import { Rect, Group } from 'react-konva';
+import { ComponentsInt, ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
 
 //////////////////////////////////////////////////////////////////////////////
 /////Logic in this component is mainly the same as Rectangle.tsx./////////////
 /////Not going to bother commenting too much in here for this reason./////////
 //////////////////////////////////////////////////////////////////////////////
 
-interface PropsInt {
+interface GrandChRectPropsInt extends PropsInt {
   x: number;
   y: number;
-  scaleX: number;
-  scaleY: number;
+  scaleX?: number;
+  scaleY?: number;
   childId: number;
   componentId: number;
   childComponentName: string;
   childComponentId: number;
   width: number;
   height: number;
-  title: string;
-  focusChild: any;
-  components: ComponentsInt;
-  draggable: boolean;
-  blockSnapSize: number;
+  title?: string;
+  draggable?: boolean;
+  blockSnapSize?: number;
   childType: string;
-  imageSource: string;
-  handleTransform: any;
+  handleTransform?(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
 }
 
 interface StateInt {
-  image: any;
+  image: HTMLImageElement | null;
 }
 
-class GrandchildRectangle extends Component<PropsInt, StateInt> {
-  state = {
-    image: null
-  };
+class GrandchildRectangle extends Component<GrandChRectPropsInt, StateInt> {
+  constructor(props: GrandChRectPropsInt) {
+    super(props);
+    this.state = {
+      image: null
+    };
+  }
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find(
-      (comp: ComponentInt) => comp.id === componentId
-    ).color;
+    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
     return color;
   }
 
@@ -100,25 +102,15 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={
-            childType === "COMP"
-              ? this.getComponentColor(childComponentId)
-              : "#000000"
-          }
-          fillPatternImage={
-            this.state.image ? this.state.image : this.setImage(imageSource)
-          }
-          fillPatternScaleX={
-            this.state.image ? width / this.state.image.width : 1
-          }
-          fillPatternScaleY={
-            this.state.image ? height / this.state.image.height : 1
-          }
+          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
+          fillPatternImage={this.state.image ? this.state.image : this.setImage(imageSource)}
+          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
+          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
           strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
         />
-        {childType === "COMP" &&
+        {childType === 'COMP' &&
           components
             .find((comp: ComponentInt) => comp.title === childComponentName)
             .childrenArray.filter((child: ChildInt) => child.childId !== -1)
@@ -128,20 +120,14 @@ class GrandchildRectangle extends Component<PropsInt, StateInt> {
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
-                imageSource={
-                  grandchild.htmlElement === "Image" && grandchild.HTMLInfo.Src
-                }
+                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                width={
-                  grandchild.position.width *
-                  (width / this.getPseudoChild().position.width)
-                }
+                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
                 height={
-                  grandchild.position.height *
-                  (height / this.getPseudoChild().position.height)
+                  grandchild.position.height * (height / this.getPseudoChild().position.height)
                 }
                 x={
                   (grandchild.position.x - this.getPseudoChild().position.x) *

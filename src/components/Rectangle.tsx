@@ -20,7 +20,11 @@ interface RectanglePorpsInt extends PropsInt {
   draggable: boolean;
   blockSnapSize: number;
   childType: string;
-  handleTransform: any;
+  handleTransform(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width?: number; height?: number }
+  ): void;
   image: HTMLImageElement;
 }
 
@@ -185,7 +189,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
                 key={i}
                 components={components}
                 componentId={componentId}
-                directParentName={childComponentName}
+                // directParentName={childComponentName}
                 childType={grandchild.childType}
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
@@ -214,7 +218,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
         draggable && ( //this conditional logic binds the transformer to the focused child, and Draggable is checked to make sure grandchildren can't be selected
             <TransformerComponent //This is the component that binds the Rect nodes to the Transformer node so they can be resized.
               focusChild={focusChild}
-              rectClass={'childRect'}
+              {/*rectClass={'childRect'}*/}
               anchorSize={8}
               color={'grey'}
             />

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import { ChildInt } from '../utils/Interfaces.ts';
+import { ChildInt } from '../utils/Interfaces';
+import Konva from 'konva';
 
-interface PropsInt {
+interface TCompPropsInt {
   focusChild: ChildInt;
+  color: string;
+  anchorSize: number;
 }
 
-export default class TransformerComponent extends Component<PropsInt> {
+export default class TransformerComponent extends Component<TCompPropsInt> {
   componentDidMount() {
     this.checkNode();
   }
@@ -14,7 +17,7 @@ export default class TransformerComponent extends Component<PropsInt> {
   componentDidUpdate() {
     this.checkNode();
   }
-
+  transformer: Konva.Transformer;
   // this function makes sure the transformer follows along with the focusChild
   checkNode() {
     const stage = this.transformer.getStage();
