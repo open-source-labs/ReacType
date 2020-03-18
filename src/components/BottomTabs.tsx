@@ -6,8 +6,9 @@ import { Tree, ReactD3TreeTranslate } from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import AddChildState from './AddChildState';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/Interfaces';
+
+import AddChildProps from './AddChildProps';
 
 interface PropsInt {
   focusChild: ChildInt;
@@ -223,7 +224,7 @@ class BottomTabs extends Component<PropsInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
-        {value === 4 && <AddChildState />}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }

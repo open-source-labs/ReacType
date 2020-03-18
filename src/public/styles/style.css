@@ -17,6 +17,15 @@ body {
   overflow: hidden;
 }
 
+/* for Material React Table */
+
+.designHeaderTable {
+  width: 50%;
+  background-color: #ddd;
+  height: 10;
+  text-align: center;
+}
+
 /*
 /////////////////////////////////////////// 
 Remove focus styling

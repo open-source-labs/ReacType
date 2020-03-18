@@ -115,14 +115,14 @@ const typeOptions = [
 
 class Props extends Component {
   state = {
-    propKey: '',
+    propVariables: '',
     propValue: '',
     propRequired: true,
     propType: ''
   };
 
   handleChange = (event: MouseEvent | any) => {
-    if (event.target.id === 'propKey') {
+    if (event.target.id === 'propVariable') {
       this.setState({
         [event.target.id]: event.target.value.trim()
       });
@@ -145,32 +145,36 @@ class Props extends Component {
   handleAddProp = (event: MouseEvent) => {
     event.preventDefault();
 
-    let { propKey, propValue, propRequired, propType } = this.state;
-    propKey = propKey.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
+    // destructuring from local state
+    // if change here, make sure to change local state props to match
+    let { propVariable, propValue, propRequired, propType } = this.state;
+    propVariable = propVariable.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
     propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
 
     // check if prop exists with same key. CANNOT have duplicates
-    const savedPropKeys = this.props.focusComponent.props.map(prop => prop.key);
-    if (savedPropKeys.includes(propKey)) {
-      window.alert(`A prop with the name: "${propKey}" already exists.`);
+    const savedVariableKeys = this.props.focusComponent.props.map(
+      prop => prop.key
+    );
+    if (savedVariableKeys.includes(propVariable)) {
+      window.alert(`A prop with the name: "${propVariable}" already exists.`);
       return;
     }
 
     // check if prop starts with digits. Digits at string start breaks indexedDB
-    if (/^\d/.test(propKey)) {
+    if (/^\d/.test(propVariable)) {
       window.alert('Props are not allowed to begin with digits');
       return;
     }
 
     this.props.addProp({
-      key: propKey,
+      key: propVariable,
       value: propValue,
       required: propRequired,
       type: propType
     });
 
     this.setState({
-      propKey: '',
+      propVariable: '',
       propValue: '',
       propRequired: true,
       propType: ''
@@ -180,10 +184,13 @@ class Props extends Component {
   render() {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
 
-    const rowHeader = ['_Key', 'Value', 'Type', 'Required'];
+    console.log('this is focus component', focusComponent);
+
+    const rowHeader = ['Prop', 'Value', 'Type', 'Required'];
+    // const rowHeader = ['Props', 'Required'];
     // prepare the saved Props in a nice way, so you can sent them to TableData
     const propsRows = focusComponent.props.map(prop => ({
-      _Key: prop.key,
+      Prop: prop.key,
       Value: prop.value,
       Type: prop.type,
       Required: prop.required,
@@ -210,12 +217,12 @@ class Props extends Component {
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <TextField
-                          id='propKey'
-                          label='Key'
+                          id='propVariable'
+                          label='Props'
                           margin='normal'
                           autoFocus
                           onChange={this.handleChange}
-                          value={this.state.propKey}
+                          value={this.state.propVariable}
                           required
                           InputProps={{
                             className: classes.input
