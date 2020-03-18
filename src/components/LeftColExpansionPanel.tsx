@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 
@@ -26,9 +27,10 @@ interface LeftColExpPanPropsInt extends PropsInt {
   toggleComponentClass(arg: number): void;
 }
 
-interface TypographyProps {
-  type: string;
-}
+//interface created but never used
+// interface TypographyProps {
+//   type: string;
+// }
 
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
@@ -62,11 +64,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           className={classes.root}
           style={
             // shadow to highlight the focused component card
-            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
+            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)'} : {}
           }
         >
           {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED */}
-          <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
+          <Collapse in={focusedToggle} collapsedHeight={70}>
+          <Grid item xs={12} style={{ color: 'red', backgroundColor: color, borderRadius: '10px'}}>
             <List style={{ color: 'red' }}>
               <ListItem
                 // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
@@ -84,8 +87,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         //type='body2'
                         style={{
                           color: '#fff',
-                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
-                          fontSize: '1.40rem'
+                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                          fontSize: '1.40rem',
                         }}
                       >
                         {title}
@@ -141,7 +144,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               marginTop: '0px',
                               marginLeft: '11px',
                               padding: '0px',
-                              fontSize: '18px'
+                              fontSize: '18px',
+                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                             }}
                           >
                             Class?
@@ -162,6 +166,31 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         ) : (
                           ''
                         )}
+                        {focusedToggle ? (
+                                        <Button
+                                        variant="text"
+                                        size="small"
+                                        color="default"
+                                        aria-label="Delete"
+                                        className={classes.margin}
+                                        onClick={() =>
+                                          deleteComponent({
+                                            componentId: id,
+                                            stateComponents: components
+                                          })
+                                        }
+                                        style={{
+                                          color: '#D3D3D3',
+                                          marginBottom: '0px',
+                                          marginTop: '4px',
+                                          marginLeft: '0px',
+                                          padding: '0px',
+                                        }}
+                                      >
+                                        <DeleteIcon style={{ color: '#e25848', textShadow:'1px 1px 2px rgba(0, 0, 0, 0.5)' }} />
+                                        <span style={{ marginTop: '3px', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)' }}>Delete Component</span>
+                                      </Button>
+                        ) : ('')}
                       </div>
                     </div>
                   }
@@ -170,7 +199,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
               </ListItem>
             </List>
           </Grid>
-          {id === 1 || !isFocused() ? (
+          </Collapse>
+          {/* {id === 1 || !isFocused() ? (           Removed sepearate delete icon and     
+                                                      made it part of card
             <div />
           ) : (
             <Fragment>
@@ -198,7 +229,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 <span style={{ marginTop: '3px' }}>Delete Component</span>
               </Button>
             </Fragment>
-          )}
+          )} */}
         </div>
       </Grid>
 
