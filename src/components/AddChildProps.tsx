@@ -163,13 +163,13 @@ class AddChildProps extends Component {
                 minWidth: 250
               }
               // render: dataRows => (
-              //   <p>{`${dataRows.childrenArray.componentName}`}</p>
+              //   <p>{`${dataRows}`}</p>
               // )
             },
             {
               title: 'Props To Add To Child',
               field: 'prop'
-              // render: dataRows => <p>{`${dataRows.parentProps}`}</p>
+              // render: dataRows => <p>{`${dataRows}`}</p>
             }
           ]}
           // data={query =>
