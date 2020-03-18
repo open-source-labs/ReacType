@@ -81,7 +81,7 @@ div.Component-horizontalScrollContainer-543 {
 
 /******* 
 
-******** Component Props 
+* Component Props 
 
 ********/
 
@@ -103,6 +103,83 @@ div.Component-horizontalScrollContainer-543 {
   th {
   text-align: center;
 }
+
+/* affects component props layout in Component Props Tab */
+.MuiGrid-root-395.MuiGrid-container-396.MuiGrid-spacing-xs-8-425 {
+  display: flex;
+  align-items: center;
+  margin-top: -5rem;
+}
+
+/* affects prop input */
+input#propVariable {
+  background: #fff;
+  border-radius: 11px;
+  height: 30px;
+  color: #000;
+  min-width: 147px;
+  max-width: 250px;
+  overflow-wrap: break-word;
+  margin-top: 15px;
+  padding: 8px;
+}
+
+/* affects text input on Component Props */
+.MuiInputBase-root-537.MuiInput-root-523.MuiInput-underline-528.Props-input-392.MuiInputBase-formControl-538.MuiInput-formControl-524 {
+  width: 150px;
+  margin-top: 80px;
+}
+
+/* affects props label */
+label#propVariable-label {
+  margin-top: 46px;
+}
+
+/* affects type input */
+.MuiInputBase-root-537.MuiInput-root-523.MuiInput-underline-528.Props-light-393.MuiInputBase-formControl-538.MuiInput-formControl-524 {
+  border-radius: 11px;
+  height: 45px;
+  margin-bottom: -45px;
+  margin-top: 48px;
+  background: lightslategray;
+  color: #fff;
+  padding-left: 8px;
+}
+/*
+/////////////////////////////////////////// 
+
+Component Props Labels
+
+/////////////////////////////////////////////
+*/
+/* All Props History Header */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1)
+  > span:nth-child(2)
+  > span {
+  padding-left: 18rem;
+}
+
+/* Props Headers Container */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1) {
+  margin: 2rem 2rem 3rem 1rem;
+}
+
 /*
 /////////////////////////////////////////// 
 Remove focus styling

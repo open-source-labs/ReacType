@@ -186,9 +186,9 @@ class Props extends Component<PropsPropsInt, StateInt> {
     // prepare the saved Props in a nice way, so you can sent them to TableData
     const propsRows = focusComponent.props.map(prop => ({
       Prop: prop.key,
-      Value: prop.value,
+      // Value: prop.value,
       Type: prop.type,
-      Required: prop.required,
+      // Required: prop.required,
       id: prop.id
     }));
 
@@ -202,6 +202,38 @@ class Props extends Component<PropsPropsInt, StateInt> {
           </div>
         ) : (
           <Fragment>
+            <div>
+              <span>
+                <span
+                  style={{
+                    fontSize: '30px',
+                    textAlign: 'left'
+                  }}
+                >
+                  {`Add Prop`}{' '}
+                  <span
+                    style={{
+                      color: '#319431',
+                      paddingLeft: '1rem',
+                      paddingRight: '1rem'
+                    }}
+                  >
+                    And
+                  </span>
+                  <span>{`Types`}</span>
+                </span>
+              </span>
+              <span>
+                <span
+                  style={{
+                    fontSize: '30px',
+                    textAlign: 'left'
+                  }}
+                >
+                  {`All Props History`}
+                </span>
+              </span>
+            </div>
             <div
               className='props-container'
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
@@ -211,23 +243,33 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   <form className='props-input' onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
-                        <TextField
-                          id='propVariable'
-                          label='Props'
-                          margin='normal'
-                          autoFocus
-                          onChange={this.handleChange}
-                          value={this.state.propVariable}
-                          required
-                          InputProps={{
-                            className: classes.input
-                          }}
-                          InputLabelProps={{
-                            className: classes.input
-                          }}
-                        />
+                        <FormControl>
+                          {/* <InputLabel
+                            className={classes.light}
+                            htmlFor='propVariable'
+                          >
+                            Props
+                          </InputLabel> */}
+                          <TextField
+                            native
+                            id='propVariable'
+                            label='Prop'
+                            margin='normal'
+                            autoFocus
+                            onChange={this.handleChange}
+                            value={this.state.propVariable}
+                            required
+                            InputProps={{
+                              className: classes.input
+                            }}
+                            InputLabelProps={{
+                              className: classes.input
+                            }}
+                          />
+                        </FormControl>
                       </Grid>
-                      <Grid item xs={6}>
+                      {/* code for  */}
+                      {/* <Grid item xs={6}>
                         <TextField
                           id='propValue'
                           label='Value'
@@ -241,7 +283,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           }}
                           value={this.state.propValue}
                         />
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6}>
                         <FormControl required>
                           <InputLabel
@@ -263,7 +305,8 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           </Select>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={6}>
+                      {/* MAYBE not needed for React Components? */}
+                      {/* <Grid item xs={6}>
                         <div className={classes.column}>
                           <InputLabel
                             className={classes.light}
@@ -279,7 +322,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                             id='propRequired'
                           />
                         </div>
-                      </Grid>
+                      </Grid> */}
                       <Grid item>
                         <Button
                           color='primary'
