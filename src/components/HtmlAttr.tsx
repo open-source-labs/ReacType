@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -9,22 +9,20 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
 import InputLabel from '@material-ui/core/InputLabel';
-import { updateHtmlAttr } from '../actions/components.ts';
-import { HTMLelements } from '../utils/htmlElements.util.ts';
-import { ComponentInt, ChildInt } from '../utils/Interfaces.ts';
+import { updateHtmlAttr } from '../actions/components';
+import { HTMLelements } from '../utils/htmlElements.util';
+import { ComponentInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
 
-interface PropsInt {
-  updateHtmlAttr: any;
-  focusComponent: ComponentInt;
+interface HTMLAttrPropsInt extends PropsInt {
+  updateHtmlAttr(arg: { attr: string; value: string }): void;
   classes: any;
-  deleteProp: any;
-  addProp: any;
-  focusChild: ChildInt;
+  deleteProp(id: number): void;
+  addProp(prop: PropInt): void;
 }
 
 interface StateInt {}
 
-const styles = (theme: any): any => ({
+const styles = (theme: Theme): any => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -63,7 +61,7 @@ const availableButtonTypes = {
 
 // function for generating the button types for select dropdown
 const buttonTypeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availableButtonTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type == null ? '' : type}
@@ -72,21 +70,16 @@ const buttonTypeOptions = [
 ];
 
 // this is a variable to save temp state for button types
-let buttonTypeTemp;
+let buttonTypeTemp: string;
 
 // HtmlAttr is creating attributes grabbed from htmlElement & placing them
 // as the new state
-class HtmlAttr extends Component<PropsInt, StateInt> {
-  state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce(
-    (acc, attr) => {
-      // if ((attr = 'button' || 'submit' || 'reset')) acc[attr] = '';
-      // else
-      acc[attr] = '';
+class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
+  state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce((acc, attr) => {
+    acc[attr] = '';
 
-      return acc;
-    },
-    {}
-  );
+    return acc;
+  }, {});
 
   // looks like:
   // className: '',
@@ -137,108 +130,96 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
 
     const focusChildType = focusChild.htmlElement;
 
-    const HtmlForm = HTMLelements[focusChildType].attributes.map(
-      (attr: string, i: number) => (
-        <Grid
-          container
-          spacing={0}
-          key={i}
-          style={{ marginTop: '10px', marginRight: '20px' }}
-        >
-          <Grid item xs={1}>
-            {/* if the attr being rendered for the HTMLForm is a button, then give it a special 
+    const HtmlForm = HTMLelements[focusChildType].attributes.map((attr: string, i: number) => (
+      <Grid container spacing={0} key={i} style={{ marginTop: '10px', marginRight: '20px' }}>
+        <Grid item xs={1}>
+          {/* if the attr being rendered for the HTMLForm is a button, then give it a special 
           condition to render a "select" component rather than a text-input component */}
-            {attr == 'type' ? (
-              <FormControl required>
-                <InputLabel className={classes.light} htmlFor='htmlType'>
-                  Type
-                </InputLabel>
-                <Select
-                  native
-                  className={classes.light}
-                  id='htmlType'
-                  placeholder='title'
-                  onChange={this.handleChange}
-                  value={buttonTypeTemp}
-                  defaultValue={'button'}
-                  style={{
-                    background: '#424242',
-                    height: '45px',
-                    width: '146px',
-                    marginBottom: '23px',
-                    marginTop: '0px',
-                    color: '#fff',
-                    paddingLeft: '14px'
-                  }}
-                  required
-                >
-                  {buttonTypeOptions}
-                </Select>
-              </FormControl>
-            ) : (
-              <TextField
-                InputLabelProps={{
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                    input: classes.input
-                  }
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                    input: classes.input
-                  }
-                }}
-                style={{ background: '#424242', height: '70%' }}
-                label={attr}
-                variant='outlined'
-                id={attr}
+          {attr == 'type' ? (
+            <FormControl required>
+              <InputLabel className={classes.light} htmlFor="htmlType">
+                Type
+              </InputLabel>
+              <Select
+                native
+                className={classes.light}
+                id="htmlType"
+                placeholder="title"
                 onChange={this.handleChange}
-                value={this.state[attr]}
-              />
-            )}
-          </Grid>
-          <Grid item xs={2}>
-            <Fab
-              variant='extended'
-              size='small'
-              color='default'
-              aria-label='Save'
-              style={{
-                marginLeft: '10px',
-                marginTop: '5px',
-                marginBottom: '10px'
+                value={buttonTypeTemp}
+                defaultValue={'button'}
+                style={{
+                  background: '#424242',
+                  height: '45px',
+                  width: '146px',
+                  marginBottom: '23px',
+                  marginTop: '0px',
+                  color: '#fff',
+                  paddingLeft: '14px'
+                }}
+                required
+              >
+                {buttonTypeOptions}
+              </Select>
+            </FormControl>
+          ) : (
+            <TextField
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                  input: classes.input
+                }
               }}
-              onClick={e => {
-                e.preventDefault();
-                this.handleSave(attr);
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                  input: classes.input
+                }
               }}
-            >
-              <SaveIcon />
-              Save
-            </Fab>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.root} style={{ height: '70%' }}>
-              <p style={{ color: 'black' }}>
-                {focusChild.HTMLInfo[attr]
-                  ? focusChild.HTMLInfo[attr]
-                  : ' no attribute assigned'}
-              </p>
-            </Paper>
-          </Grid>
+              style={{ background: '#424242', height: '70%' }}
+              label={attr}
+              variant="outlined"
+              id={attr}
+              onChange={this.handleChange}
+              value={this.state[attr]}
+            />
+          )}
         </Grid>
-      )
-    );
+        <Grid item xs={2}>
+          <Fab
+            variant="extended"
+            size="small"
+            color="default"
+            aria-label="Save"
+            style={{
+              marginLeft: '10px',
+              marginTop: '5px',
+              marginBottom: '10px'
+            }}
+            onClick={e => {
+              e.preventDefault();
+              this.handleSave(attr);
+            }}
+          >
+            <SaveIcon />
+            Save
+          </Fab>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.root} style={{ height: '70%' }}>
+            <p style={{ color: 'black' }}>
+              {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : ' no attribute assigned'}
+            </p>
+          </Paper>
+        </Grid>
+      </Grid>
+    ));
 
     return <div className={'htmlattr'}>{HtmlForm}</div>;
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(HtmlAttr));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HtmlAttr));

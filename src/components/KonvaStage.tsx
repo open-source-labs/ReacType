@@ -1,55 +1,44 @@
 //This component includes a component for the background image to be uploaded as reference for drawing components
 //and also the parent rectangle components.
 
-import React, { Component } from "react";
-import { Stage, Layer, Line } from "react-konva";
-import Rectangle from "./Rectangle";
-import cloneDeep from "../utils/cloneDeep";
-import { ComponentInt, ComponentsInt, ChildInt } from "../utils/Interfaces";
+import React, { Component } from 'react';
+import { Stage, Layer, Line } from 'react-konva';
+import Konva from 'konva';
+import Rectangle from './Rectangle';
+import cloneDeep from '../utils/cloneDeep';
+import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
 import isEmpty from '../utils/isEmpty';
-import Konva from "konva";
+// import BottomPan from './BottomPanel';
 
-
-//TODO check if these types are necessary
-interface PropsInt {
+interface KonvaStagePropsInt extends PropsInt {
   image: HTMLImageElement;
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  // selectableChildren: Array<number>; **It's expecting this prop in the interface, but is never used.**
-  classes: any;
-  // addComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // addChild: any; **It's expecting this prop in the interface, but is never used.**
-  // changeFocusComponent: any; **It's expecting this prop in the interface, but is never used.**
-  changeFocusChild: any;
-  // deleteComponent: any; **It's expecting this prop in the interface, but is never used.**
-  // createApp: any; **It's expecting this prop in the interface, but is never used.**
-  // deleteAllData: any; **It's expecting this prop in the interface, but is never used.**
-  handleTransform: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
-  deleteChild: any;
+  handleTransform(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
+  focusChild: ChildInt;
+  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  deleteChild(arg: object): void;
   scaleX: number;
   scaleY: number;
-  // draggable: boolean; **THIS ONE is actually never passed down from the parent but reassigned in a seperate object below in this file.**
 }
 
 interface StateInt {
   stageWidth: number;
   stageHeight: number;
   blockSnapSize: number;
-  grid: [] | JSX.Element[];
+  grid: JSX.Element[];
   gridStroke: number;
 }
 
-
-
-class KonvaStage extends Component<PropsInt, StateInt> {
-  constructor(props: PropsInt) {
+class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
+  constructor(props: KonvaStagePropsInt) {
     super(props);
-    //the main purpose of this state, although not supposed to be here per redux rules I believe, 
+    //the main purpose of this state, although not supposed to be here per redux rules I believe,
     //is to initialize the values of the canvas height and width in pixels, and 'blockSnapSize' refers to
-    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do 
-    //anything, and the gridStroke is the stroke width of the squares. 
+    //the height and width of the squares on the grid so it looks like graphing paper. The grid property doesn't do
+    //anything, and the gridStroke is the stroke width of the squares.
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
@@ -57,9 +46,8 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       grid: [],
       gridStroke: 1
     };
-    
   }
-  
+
   stage: Stage;
   layer: Konva.Layer;
   container: HTMLDivElement;
@@ -71,9 +59,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
     //assign childrenArr to an array of all the children of focused component
-    const childrenArr = component.childrenArray.filter(
-      (child: ChildInt) => child.childId !== -1
-    );
+    const childrenArr = component.childrenArray.filter((child: ChildInt) => child.childId !== -1);
 
     //deep clone of childrenArr so addition of parent doesn't mutate the children saved in the state
     let childrenArrCopy = cloneDeep(childrenArr);
@@ -97,27 +83,26 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     return childrenArrCopy;
   }
 
-
   //currently, only the handlekeydown event listener does anything.
   componentDidMount() {
     this.checkSize();
     // here we should add listener for "container" resize
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
-    window.addEventListener("resize", this.checkSize);
+    window.addEventListener('resize', this.checkSize);
     //TODO: Typing of this.container
-    this.container.addEventListener("keydown", this.handleKeyDown);
+    this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
 
   // I wonder if this lifecycle method is necessary. When I remove it,
   //I can't find any noticable changes. Possibly to prevent memory leaks?
   componentWillUnmount() {
-    window.removeEventListener("resize", this.checkSize);
-    this.container.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener('resize', this.checkSize);
+    this.container.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  //something about the logic here might not be working. Will need to check some other time. 
+  //something about the logic here isn't working. Will need to check some other time.
   checkSize = () => {
     const width = this.container.offsetWidth;
     const height = this.container.offsetHeight;
@@ -143,8 +128,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer =
-      e.target.getParent().className === "Transformer";
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
@@ -157,9 +141,9 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       childId: rectChildId
     });
   };
-  //this function creates a grid with those 10x10 squares. 
-  //it first draws a grid or horizaontal lines, and then 
-  //draws the vertical ones. 
+  //this function creates a grid with those 10x10 squares.
+  //it first draws a grid or horizaontal lines, and then
+  //draws the vertical ones.
   createGrid = () => {
     const output = [];
     for (let i = 0; i < this.state.stageWidth / this.state.blockSnapSize; i++) {
@@ -171,17 +155,13 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             Math.round(i * this.state.blockSnapSize) + 0.5,
             this.state.stageHeight
           ]}
-          stroke={"#ddd"}
+          stroke={'#ddd'}
           strokeWidth={this.state.gridStroke}
           key={`${i}vertical`}
         />
       );
     }
-    for (
-      let j = 0;
-      j < this.state.stageHeight / this.state.blockSnapSize;
-      j++
-    ) {
+    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
       output.push(
         <Line
           points={[
@@ -190,7 +170,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             this.state.stageWidth,
             Math.round(j * this.state.blockSnapSize)
           ]}
-          stroke={"#ddd"}
+          stroke={'#ddd'}
           strokeWidth={this.state.gridStroke}
           key={`${j}horizontal`}
         />
@@ -207,7 +187,7 @@ class KonvaStage extends Component<PropsInt, StateInt> {
       components,
       handleTransform,
       focusComponent,
-      focusChild,
+      focusChild
       // deleteChild, **neither of these are read**
       // classes
     } = this.props;
@@ -215,23 +195,23 @@ class KonvaStage extends Component<PropsInt, StateInt> {
     return (
       <div
         style={{
-          width: "100%",
-          height: "100%"
+          width: '100%',
+          height: '100%'
         }}
         ref={node => {
-          this.container= node;
+          this.container = node;
         }}
-        tabIndex= {0} // required for keydown event to be heard by this.container
+        tabIndex={0} // required for keydown event to be heard by this.container
       >
         <Stage
-          className={"canvasStage"}
+          className={'canvasStage'}
           ref={node => {
-            this.stage = node;  
+            this.stage = node;
           }}
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
           height={this.state.stageHeight}
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           <Layer
             ref={node => {
@@ -241,39 +221,39 @@ class KonvaStage extends Component<PropsInt, StateInt> {
             {this.state.grid}
             {/* {The logic here is that it creates a new rectangle for each component that belongs to this parent component, plus the parent component.
             The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
-            {!isEmpty(focusComponent) && this.getDirectChildrenCopy(focusComponent) 
-              .map((child: ChildInt, i: number) => (
-                <Rectangle
-                  childType={child.childType}
-                  key={`${i}${child.componentName}`}
-                  components={components}
-                  componentId={focusComponent.id}
-                  childComponentId={child.childComponentId}
-                  childComponentName={child.componentName}
-                  focusChild={focusChild}
-                  childId={child.childId} // -1 for pseudoChild
-                  x={child.position.x} 
-                  y={child.position.y}
-                  scaleX={1}
-                  scaleY={1}
-                  width={child.position.width}
-                  height={child.position.height}
-                  title={child.componentName + child.childId}
-                  handleTransform={handleTransform}
-                  draggable={true}
-                  blockSnapSize={this.state.blockSnapSize}
-                  image={this.props.focusComponent.id === 1 ? image : null}
-                />
-              ))
-              .sort((rectA: Rectangle, rectB: Rectangle) => {
-                if (rectB.props.childId === -1) {
-                  return 1;
-                }
-                return (
-                  rectB.props.width * rectB.props.height -
-                  rectA.props.width * rectA.props.height
-                );
-              })
+            {!isEmpty(focusComponent) &&
+              this.getDirectChildrenCopy(focusComponent)
+                .map((child: ChildInt, i: number) => (
+                  <Rectangle
+                    childType={child.childType}
+                    key={`${i}${child.componentName}`}
+                    components={components}
+                    componentId={focusComponent.id}
+                    childComponentId={child.childComponentId}
+                    childComponentName={child.componentName}
+                    focusChild={focusChild}
+                    childId={child.childId} // -1 for pseudoChild
+                    x={child.position.x}
+                    y={child.position.y}
+                    scaleX={1}
+                    scaleY={1}
+                    width={child.position.width}
+                    height={child.position.height}
+                    title={child.componentName + child.childId}
+                    handleTransform={handleTransform}
+                    draggable={true}
+                    blockSnapSize={this.state.blockSnapSize}
+                    image={this.props.focusComponent.id === 1 ? image : null}
+                  />
+                ))
+                .sort((rectA: Rectangle, rectB: Rectangle) => {
+                  if (rectB.props.childId === -1) {
+                    return 1;
+                  }
+                  return (
+                    rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
+                  );
+                })
             // reasoning for the sort:
             // Konva determines zIndex (which rect is clicked on if rects overlap) based on rendering order
             // as long as the smallest components are rendered last they will always be accessible over the big boys
