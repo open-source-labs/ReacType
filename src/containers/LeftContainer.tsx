@@ -11,12 +11,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
-import HTMLComponentPanel from '../components/HTMLComponentPanel';
-import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces';
-import createModal from '../utils/createModal.util';
-import cloneDeep from '../utils/cloneDeep';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
+import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
+import * as actions from '../actions/components.ts';
+import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces.ts';
+import createModal from '../utils/createModal.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const IPC = require('electron').ipcRenderer;
 

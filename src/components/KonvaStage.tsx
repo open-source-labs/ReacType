@@ -4,10 +4,10 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
 import Konva from 'konva';
-import Rectangle from './Rectangle';
-import cloneDeep from '../utils/cloneDeep';
-import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
-import isEmpty from '../utils/isEmpty';
+import Rectangle from './Rectangle.tsx';
+import cloneDeep from '../utils/cloneDeep.ts';
+import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces.ts';
+import isEmpty from '../utils/isEmpty.ts';
 // import BottomPan from './BottomPanel';
 
 interface KonvaStagePropsInt extends PropsInt {

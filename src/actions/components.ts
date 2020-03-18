@@ -1,4 +1,4 @@
-import { ComponentInt, ComponentsInt, PropInt, ChildInt, Action } from '../utils/Interfaces';
+import { ComponentInt, ComponentsInt, PropInt, ChildInt, Action } from '../utils/Interfaces.ts';
 
 import {
   LOAD_INIT_DATA,
@@ -28,11 +28,11 @@ import {
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
   CHANGE_TUTORIAL
-} from '../actionTypes/index';
+} from '../actionTypes/index.ts';
 
-import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
-import createFiles from '../utils/createFiles.util';
-import createApplicationUtil from '../utils/createApplication.util';
+import { loadState } from '../localStorage.ts'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
+import createFiles from '../utils/createFiles.util.ts';
+import createApplicationUtil from '../utils/createApplication.util.ts';
 
 export const changeTutorial = (tutorial: number) => ({
   type: CHANGE_TUTORIAL,

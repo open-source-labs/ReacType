@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp } from '../actions/components';
-import BottomTabs from './BottomTabs';
-import { PropsInt, PropInt } from '../utils/Interfaces';
-import { changeFocusComponent } from '../utils/componentReducer.util';
+import { handleClose, deleteProp, addProp } from '../actions/components.ts';
+import BottomTabs from './BottomTabs.tsx';
+import { PropsInt, PropInt } from '../utils/Interfaces.ts';
+import { changeFocusComponent } from '../utils/componentReducer.util.ts';
 
 const IPC = require('electron').ipcRenderer;
 

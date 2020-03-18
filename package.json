@@ -15,9 +15,9 @@
     "Sean Sadykoff",
     "Shlomo Porges",
     "Sophia Huttner",
-    "Tolga Mizrakci",  
+    "Tolga Mizrakci",
     "Tony Ito-Cole"
-    ],
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/team-reactype/ReacType"
@@ -30,7 +30,7 @@
         "AppImage",
         "deb"
       ],
-      "maintainer": "spincycle01@yahoo.com"
+      "maintainer": "sean.sadykoff@gmail.com"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
