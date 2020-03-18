@@ -2,7 +2,7 @@ import {
   ComponentInt,
   ChildInt,
   ApplicationStateInt,
-  Action
+  Action,
 } from '../utils/Interfaces';
 
 import {
@@ -19,7 +19,7 @@ import {
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
   EXPORT_FILES,
-  CREATE_APPLICATION,//unsued
+  CREATE_APPLICATION, //unsued
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   CREATE_APPLICATION_ERROR, //unused
@@ -28,10 +28,11 @@ import {
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH, //unused
+  CHANGE_TUTORIAL,
   ADD_PROP,
   DELETE_PROP,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT
+  UPDATE_CHILDREN_SORT,
 } from '../actionTypes';
 
 import {
@@ -44,6 +45,7 @@ import {
   changeComponentFocusChild,
   changeFocusChild,
   changeImageSource,
+  changeTutorial,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
@@ -54,9 +56,10 @@ import {
   updateHtmlAttr,
   updateChildrenSort,
   toggleComponentState,
-  toggleComponentClass
+  toggleComponentClass,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
+
 
 const appComponent: ComponentInt = {
   id: 1,
@@ -70,11 +73,11 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400
+    height: 400,
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -84,17 +87,18 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550
+    height: 550,
   },
   childType: null,
   childSort: 0,
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null
+  HTMLInfo: null,
 };
 
 const initialApplicationState: ApplicationStateInt = {
+  tutorial: 0,
   imageSource: '',
   totalComponents: 1,
   nextId: 2,
@@ -107,7 +111,7 @@ const initialApplicationState: ApplicationStateInt = {
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
-  loading: false
+  loading: false,
 };
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
@@ -119,7 +123,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false
+        errorOpen: false,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -141,10 +145,12 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeComponentFocusChild(state, action.payload);
     case CHANGE_IMAGE_SOURCE:
       return changeImageSource(state, action.payload);
+      case CHANGE_TUTORIAL:
+        return changeTutorial(state, action.payload);
+    case DELETE_IMAGE:
+      return deleteImage(state);
     case EXPORT_FILES:
       return { ...state, loading: true };
-    case DELETE_IMAGE:
-      return deleteImage(state, action.payload);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
     // case CREATE_APPLICATION_ERROR:
