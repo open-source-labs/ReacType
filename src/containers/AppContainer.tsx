@@ -167,7 +167,7 @@ class AppContainer extends Component<Props, State> {
             components={components}
             image={this.state.image}
             imageSource={this.props.imageSource}
-            classes={null} //placeholder, for some reason it's expecting this prop
+            // classes={null} //placeholder, for some reason it's expecting this prop
           />
           {loading ? ( //This is triggered when files are being exported. Unsure if it actually does anything.
             <div

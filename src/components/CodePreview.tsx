@@ -5,14 +5,14 @@ import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
 // import SortChildren from './SortChildren.tsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { hybrid } from 'react-syntax-highlighter/dist/styles/hljs/';
+import { hybrid } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
-type Props = {
+type CodePreviewProps = {
   focusComponent: ComponentInt;
   components: ComponentsInt;
 };
 
-class CodePreview extends Component<Props> {
+class CodePreview extends Component<CodePreviewProps> {
   render(): JSX.Element {
     const focusComponent: ComponentInt = this.props.focusComponent;
     const components: ComponentsInt = this.props.components;
@@ -27,12 +27,12 @@ class CodePreview extends Component<Props> {
       >
         <SyntaxHighlighter style={hybrid}>
           {format(componentRender(focusComponent, components), {
-          singleQuote: true,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          jsxBracketSameLine: true,
-          parser: 'typescript'
-        })}
+            singleQuote: true,
+            trailingComma: 'es5',
+            bracketSpacing: true,
+            jsxBracketSameLine: true,
+            parser: 'typescript'
+          })}
         </SyntaxHighlighter>
       </div>
     );

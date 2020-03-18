@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import FormIcon from '@material-ui/icons/Description';
@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 import Chip from '@material-ui/core/Chip';
 
-interface PropsInt {
+interface HTMLCompPropsInt {
   classes: any;
   addChild: any;
 }
@@ -20,14 +20,14 @@ interface StateInt {
   HtmlComponentName: string;
 }
 
-class HTMLComponentPanel extends Component<PropsInt, StateInt> {
+class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
   state = {
-    HtmlComponentName: '',
+    HtmlComponentName: ''
   };
 
   handleChange = (event: any) => {
     this.setState({
-      HtmlComponentName: event.target.value,
+      HtmlComponentName: event.target.value
     });
   };
 
@@ -35,7 +35,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
     this.props.addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
-  render() {
+  render(): JSX.Element {
     const { classes } = this.props;
     return (
       <div align="center">
@@ -56,12 +56,12 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
                 }}
                 style={{
                   margin: 0,
-                  padding: 0,
+                  padding: 0
                 }}
               >
                 <ImageIcon
                   style={{
-                    color: '#e0e0e0',
+                    color: '#e0e0e0'
                   }}
                 />
               </IconButton>
@@ -73,7 +73,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
                   color: 'white',
                   fontSize: '80%',
                   margin: 0,
-                  padding: 0,
+                  padding: 0
                 }}
                 onClick={() => {
                   this.handleCreateHTMLChild('Image');
@@ -90,7 +90,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <FormIcon style={{ color: '#e0e0e0' }} />
@@ -101,7 +101,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Form');
@@ -117,7 +117,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ButtonIcon style={{ color: '#e0e0e0' }} />
@@ -128,7 +128,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Button');
@@ -144,7 +144,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <LinkIcon style={{ color: '#e0e0e0' }} />
@@ -155,7 +155,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Link');
@@ -171,7 +171,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ListIcon style={{ color: '#e0e0e0' }} />
@@ -182,7 +182,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               variant="outlined"
               style={{
                 color: 'white',
-                fontSize: '80%',
+                fontSize: '80%'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('List');
@@ -194,7 +194,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
             xs={4}
             style={{
               margin: 0,
-              padding: 0,
+              padding: 0
             }}
           >
             <IconButton
@@ -205,14 +205,14 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               }}
               style={{
                 margin: 0,
-                padding: 0,
+                padding: 0
               }}
             >
               <ParagraphIcon
                 style={{
                   color: '#e0e0e0',
                   paddingRight: '0px',
-                  marginRight: '0px',
+                  marginRight: '0px'
                 }}
               />
             </IconButton>
@@ -224,7 +224,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
                 color: 'white',
                 fontSize: '62%',
                 padding: '0px',
-                margin: '0px',
+                margin: '0px'
               }}
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
@@ -237,7 +237,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   }
 }
 
-function styles(theme): any {
+function styles(theme: Theme): any {
   return {
     htmlPanel: {
       width: '100%',
@@ -252,23 +252,23 @@ function styles(theme): any {
       paddingRight: '10px',
       paddingBottom: '25px',
       paddingTop: '2px',
-      boxShadow: '0 6px 6px rgba(0,0,0,0.23)',
+      boxShadow: '0 6px 6px rgba(0,0,0,0.23)'
     },
     chip: {
-      color: 'rgba(193, 66, 66, 0)',
+      color: 'rgba(193, 66, 66, 0)'
     },
     htmliconwrapper: {
-      verticalAlign: 'baseline',
+      verticalAlign: 'baseline'
     },
     htmlicons: {
-      color: '#ffffff',
+      color: '#ffffff'
     },
     tabRoot: {
       textTransform: 'initial',
       minWidth: 100,
       fontWeight: theme.typography.fontWeightRegular,
-      color: '#ffffff',
-    },
+      color: '#ffffff'
+    }
   };
 }
 
