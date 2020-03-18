@@ -13,7 +13,7 @@ import {
   deleteChild
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
-import { PropsInt } from '../utils/Interfaces';
+import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
@@ -67,7 +67,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
-const mapStateToProps = (store: any) => ({
+const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components

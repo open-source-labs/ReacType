@@ -48,12 +48,13 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     };
   }
 
-  container: HTMLDivElement;
   stage: Stage;
   layer: Konva.Layer;
+  container: HTMLDivElement;
+
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
-    //assign component to the docused component
+    //assign component to the focused component
     const component = this.props.components.find(
       (comp: ComponentInt) => comp.id === focusComponent.id
     );
@@ -89,6 +90,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
     // for simplicity I will just listen window resize
     window.addEventListener('resize', this.checkSize);
+    //TODO: Typing of this.container
     this.container.addEventListener('keydown', this.handleKeyDown);
     this.createGrid();
   }
@@ -121,6 +123,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
   //event handler to handle mouse click
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
+    //logic here doesn't seem to be working
     if (e.target === e.target.getStage()) {
       return;
     }
@@ -198,7 +201,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
         ref={node => {
           this.container = node;
         }}
-        tabIndex="0" // required for keydown event to be heard by this.container
+        tabIndex={0} // required for keydown event to be heard by this.container
       >
         <Stage
           className={'canvasStage'}
@@ -216,7 +219,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
             }}
           >
             {this.state.grid}
-            {/* {The logic hereis that it creates a new rectangle or each component that belongs to this parent component, plus the parent component.
+            {/* {The logic here is that it creates a new rectangle for each component that belongs to this parent component, plus the parent component.
             The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
             {!isEmpty(focusComponent) &&
               this.getDirectChildrenCopy(focusComponent)
