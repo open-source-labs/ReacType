@@ -22,11 +22,11 @@ interface GrandChRectPropsInt extends PropsInt {
   draggable?: boolean;
   blockSnapSize?: number;
   childType: string;
-  handleTransform?(
+  handleTransform?: (
     componentId: number,
     childId: number,
     dimensions: { x: number; y: number; width: number; height: number }
-  ): void;
+  ) => void;
 }
 
 interface StateInt {

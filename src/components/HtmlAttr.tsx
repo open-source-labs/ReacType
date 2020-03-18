@@ -11,15 +11,13 @@ import Fab from '@material-ui/core/Fab';
 import InputLabel from '@material-ui/core/InputLabel';
 import { updateHtmlAttr } from '../actions/components';
 import { HTMLelements } from '../utils/htmlElements.util';
-import { ComponentInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
 
-interface PropsInt {
-  updateHtmlAttr: any;
-  focusComponent: ComponentInt;
+interface HTMLAttrPropsInt extends PropsInt {
+  updateHtmlAttr(arg: { attr: string; value: string }): void;
   classes: any;
-  deleteProp: any;
-  addProp: any;
-  focusChild: ChildInt;
+  deleteProp(id: number): void;
+  addProp(prop: PropInt): void;
 }
 
 interface StateInt {}
@@ -72,14 +70,12 @@ const buttonTypeOptions = [
 ];
 
 // this is a variable to save temp state for button types
-let buttonTypeTemp;
+let buttonTypeTemp: string;
 
 // HtmlAttr is creating attributes grabbed from htmlElement & placing them
 // as the new state
-class HtmlAttr extends Component<PropsInt, StateInt> {
+class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
   state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce((acc, attr) => {
-    // if ((attr = 'button' || 'submit' || 'reset')) acc[attr] = '';
-    // else
     acc[attr] = '';
 
     return acc;

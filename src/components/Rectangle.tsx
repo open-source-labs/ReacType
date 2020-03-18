@@ -218,7 +218,6 @@ class Rectangle extends Component<RectanglePorpsInt> {
         draggable && ( //this conditional logic binds the transformer to the focused child, and Draggable is checked to make sure grandchildren can't be selected
             <TransformerComponent //This is the component that binds the Rect nodes to the Transformer node so they can be resized.
               focusChild={focusChild}
-              {/*rectClass={'childRect'}*/}
               anchorSize={8}
               color={'grey'}
             />
