@@ -69,7 +69,7 @@ function dataTable(props: dataTableProps) {
       <TableCell align={'center'} padding={'none'}>
         <IconButton
           color='default'
-          fontSize='small'
+          // fontSize='small' - commented/removed b/c not a valid attribute for IconButton component
           onClick={() => deletePropHandler(row.id)}
         >
           <DeleteIcon />
@@ -81,7 +81,10 @@ function dataTable(props: dataTableProps) {
 
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table} selectable={'true'}>
+      <Table
+        className={classes.table}
+        // selectable={'true'} - commented/removed b/c not a valid attr for Table (no adverse effects noted)
+      >
         <TableHead>
           <TableRow>{renderHeader}</TableRow>
         </TableHead>
