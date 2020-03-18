@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -10,9 +10,15 @@ import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import { addProp, deleteProp } from '../actions/components';
 import DataTable from './DataTable';
-import { ComponentInt } from '../utils/Interfaces';
+import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces';
 
-const styles = theme => ({
+interface PropsPropsInt extends PropsInt {
+  classes: any;
+  addProp(arg: PropInt): void;
+  deleteProp(propId: number): void;
+}
+
+const styles = (theme: Theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -59,25 +65,7 @@ const styles = theme => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addProp: ({
-    key,
-    value,
-    required,
-    type
-  }: {
-    key: string;
-    value: string;
-    required: boolean;
-    type: string;
-  }) =>
-    dispatch(
-      addProp({
-        key,
-        value,
-        required,
-        type
-      })
-    ),
+  addProp: (prop: PropInt) => dispatch(addProp(prop)),
   deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
@@ -103,21 +91,29 @@ const availablePropTypes = {
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
     </option>
   ))
 ];
-
-class Props extends Component {
-  state = {
-    propKey: '',
-    propValue: '',
-    propRequired: true,
-    propType: ''
-  };
+interface StateInt {
+  propKey: string;
+  propValue: string;
+  propRequired: boolean;
+  propType: string;
+}
+class Props extends Component<PropsPropsInt, StateInt> {
+  constructor(props: PropsPropsInt) {
+    super(props);
+    this.state = {
+      propKey: '',
+      propValue: '',
+      propRequired: true,
+      propType: ''
+    };
+  }
 
   handleChange = (event: MouseEvent) => {
     if (event.target.id === 'propKey') {
@@ -198,18 +194,18 @@ class Props extends Component {
         ) : (
           <Fragment>
             <div
-              className='props-container'
+              className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className='props-input' onSubmit={this.handleAddProp}>
+                  <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <TextField
-                          id='propKey'
-                          label='Key'
-                          margin='normal'
+                          id="propKey"
+                          label="Key"
+                          margin="normal"
                           autoFocus
                           onChange={this.handleChange}
                           value={this.state.propKey}
@@ -224,9 +220,9 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <TextField
-                          id='propValue'
-                          label='Value'
-                          margin='normal'
+                          id="propValue"
+                          label="Value"
+                          margin="normal"
                           onChange={this.handleChange}
                           InputProps={{
                             className: classes.input
@@ -239,17 +235,14 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl required>
-                          <InputLabel
-                            className={classes.light}
-                            htmlFor='propType'
-                          >
+                          <InputLabel className={classes.light} htmlFor="propType">
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.light}
-                            id='propType'
-                            placeholder='title'
+                            id="propType"
+                            placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -260,29 +253,26 @@ class Props extends Component {
                       </Grid>
                       <Grid item xs={6}>
                         <div className={classes.column}>
-                          <InputLabel
-                            className={classes.light}
-                            htmlFor='propRequired'
-                          >
+                          <InputLabel className={classes.light} htmlFor="propRequired">
                             Required?
                           </InputLabel>
                           <Switch
                             checked={this.state.propRequired}
                             onChange={this.togglePropRequired}
-                            value='propRequired'
-                            color='primary'
-                            id='propRequired'
+                            value="propRequired"
+                            color="primary"
+                            id="propRequired"
                           />
                         </div>
                       </Grid>
                       <Grid item>
                         <Button
-                          color='primary'
-                          aria-label='Add'
-                          type='submit'
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant='contained'
-                          size='large'
+                          variant="contained"
+                          size="large"
                         >
                           ADD PROP
                         </Button>
