@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Fade from '@material-ui/core/Fade';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Backdrop from '@material-ui/core/Backdrop';
+import Tutorial from '../components/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt, ApplicationStateInt, Action } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  ApplicationStateInt,
+} from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
 // ** Used with electron to render
@@ -26,24 +28,26 @@ interface Props {
   selectableChildren: number[];
   loadInitData(): void;
   changeImagePath(imageSource: string): void;
+  changeTutorial(tutorial: number): void;
+  tutorial: number;
 }
 
 //Type for the state that should not be assigned within the
 //component below.
 interface State {
   image: HTMLImageElement | null;
-  tutorial: boolean;
   changed: boolean;
 }
 
 //Details on some of these are listed in the render where they are passed down.
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
+  tutorial: store.workspace.tutorial,
   imageSource: store.workspace.imageSource,
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren
+  selectableChildren: store.workspace.selectableChildren,
 });
 
 //Dispatch functions for loading data where user left off
@@ -54,7 +58,12 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
 
 const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource))
+  changeImagePath: (imageSource: string) =>
+    dispatch(actions.changeImagePath(imageSource)),
+    //function to change the tutorial step 
+  changeTutorial: (tutorial: number) => 
+    dispatch(actions.changeTutorial(tutorial))
+
 });
 
 class AppContainer extends Component<Props, State> {
@@ -67,8 +76,7 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      tutorial: false,
-      changed: false
+      changed: false,
     };
 
     //This function is invoked upon a new file being uploaded to the app.
@@ -86,13 +94,13 @@ class AppContainer extends Component<Props, State> {
       };
     });
     IPC.on('tutorial_clicked', () => {
-      this.setState({ tutorial: true });
+      this.props.changeTutorial(1);
     });
   }
 
-  handleClose = () => {
-    this.setState({ tutorial: false });
-  };
+  handleNext = (tutorial: number) => {
+    this.props.changeTutorial(tutorial);
+  }
 
   //This sets checks if the image was removed via the clear image button on the left container.
   //Technically this logic should be done in the reducer, not here.
@@ -130,51 +138,24 @@ class AppContainer extends Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { components, focusComponent, loading, selectableChildren, totalComponents } = this.props;
+    const {
+      components,
+      focusComponent,
+      loading,
+      selectableChildren,
+      totalComponents,
+      tutorial
+    } = this.props;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
     return (
       <MuiThemeProvider
         theme={theme} //I'm assuming this is some material-UI theme thing
       >
-        {' '}
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={this.state.tutorial}
-          onClose={this.handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500
-          }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Fade in={this.state.tutorial}>
-            <div
-              style={{
-                backgroundColor: theme.palette.background.paper,
-                border: '2px solid #000',
-                boxShadow: theme.shadows[5]
-                // padding: theme.spacing(2, 4, 3)
-              }}
-            >
-              <h1 id="transition-modal-title">Welcome to the tutorial!</h1>
-              <h2 id="transition-modal-description">
-                I made the tutorial modal, so now I'm just waiting on Eliot to finish making the
-                actual step-by-step instructions.
-              </h2>
-              <h2 id="transition-modal-description">
-                If you're still seeing this message, you can blame Eliot! Please visit our site by
-                clicking 'Learn More' under the help menu.
-              </h2>
-            </div>
-          </Fade>
-        </Modal>
+        <Tutorial //Tutorial modal that is triggered upon selecting menu item
+          tutorial={tutorial}
+          handleNext={this.handleNext}
+        />
         <div className="app-container">
           <LeftContainer //The left side-bar that contains the component cards and the buttons.
             components={components}
@@ -193,7 +174,7 @@ class AppContainer extends Component<Props, State> {
               style={{
                 alignSelf: 'flex-end',
                 position: 'fixed',
-                width: '100%'
+                width: '100%',
               }}
             >
               <LinearProgress

@@ -367,6 +367,17 @@ export const handleTransform = (
   };
 };
 
+//Change which step of the tutorial the user currently is at
+export const changeTutorial = (
+  state: ApplicationStateInt,
+  { tutorial }: { tutorial: number }
+) => {
+  return {
+    ...state,
+    tutorial
+  };
+};
+
 //change image source
 export const changeImageSource = (
   state: ApplicationStateInt,

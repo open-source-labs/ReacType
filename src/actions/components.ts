@@ -26,12 +26,18 @@ import {
   UPDATE_HTML_ATTR,
   // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
   CHANGE_IMAGE_SOURCE,
-  DELETE_IMAGE
+  DELETE_IMAGE,
+  CHANGE_TUTORIAL
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+
+export const changeTutorial = (tutorial: number) => ({
+  type: CHANGE_TUTORIAL,
+  payload: { tutorial }
+});
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
