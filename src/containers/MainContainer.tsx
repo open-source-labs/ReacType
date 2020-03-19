@@ -52,8 +52,8 @@ const mapDispatchToProps = (dispatch: any) => ({
       x,
       y,
       width,
-      height,
-    }: { x: number; y: number; width: number; height: number },
+      height
+    }: { x: number; y: number; width: number; height: number }
   ) =>
     dispatch(
       handleTransform(componentId, childId, {
@@ -78,12 +78,12 @@ const mapDispatchToProps = (dispatch: any) => ({
   //vs the one above changes the focusChild property in the state
   changeComponentFocusChild: ({
     componentId,
-    childId,
+    childId
   }: {
     componentId: number;
     childId: number;
   }) => dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
+  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
@@ -123,10 +123,10 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="main-container">
+        <div className='main-container'>
           {/* {modal} */}
           <div
-            className="main" //ref={main} **no function, commenting out**
+            className='main' //ref={main} **no function, commenting out**
           >
             <KonvaStage
               image={image}

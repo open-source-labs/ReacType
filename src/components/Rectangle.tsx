@@ -52,7 +52,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
     componentId: number,
     childId: number,
     target: Konva.Group,
-    blockSnapSize: number,
+    blockSnapSize: number
   ) {
     //find the id of the component where the componentID in the state equals the currently focused component
     //and then find the numberID for that component
@@ -100,7 +100,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
     componentId: number,
     childId: number,
     target: Konva.Group,
-    blockSnapSize: number,
+    blockSnapSize: number
   ) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,

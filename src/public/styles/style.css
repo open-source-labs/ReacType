@@ -16,6 +16,141 @@ body {
   font-weight: 400;
   overflow: hidden;
 }
+/**************
+* 
+* for Material React Table found in Add Child Props 
+*
+***************/
+
+div.Component-horizontalScrollContainer-543 {
+  height: 210px;
+}
+
+.labelForPropsToAddToChild {
+  margin-right: 15px;
+}
+
+/* label for search */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > div
+  > div.MuiToolbar-root-436.MuiToolbar-regular-438.MTableToolbar-root-429.MuiToolbar-gutters-437
+  > div.MuiFormControl-root-471.MuiTextField-root-470.MTableToolbar-searchField-434
+  > div {
+  width: 300px;
+}
+
+/* search tag */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > div
+  > div.MuiToolbar-root-436.MuiToolbar-regular-438.MTableToolbar-root-429.MuiToolbar-gutters-437
+  > div.MuiFormControl-root-471.MuiTextField-root-470.MTableToolbar-searchField-434
+  > div
+  > div.MuiInputAdornment-root-507.MuiInputAdornment-positionStart-509
+  > span {
+  margin-right: 5px;
+  z-index: 99;
+  width: 100%;
+}
+
+/* Sean sucks button */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > button {
+  font-size: 20px;
+}
+
+/******* 
+
+* Component Props 
+
+********/
+
+/* affects component props layout in Component Props Tab */
+
+/* left side comp label */ ///
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1)
+  > span:nth-child(1) {
+  font-size: 2rem;
+}
+
+/*
+/////////////////////////////////////////// 
+
+Component Props Labels
+
+/////////////////////////////////////////////
+*/
+/* All Props History Header */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1)
+  > span:nth-child(2)
+  > span {
+  font-size: 2rem;
+  padding-left: 24rem;
+}
+
+/* Props History Table */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div.props-container
+  > div
+  > div.MuiGrid-root-395.MuiGrid-item-397.MuiGrid-grid-xs-8-437 {
+  margin-bottom: 5rem;
+}
+
+/* Props Headers Container */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1) {
+  margin: 2rem 2rem 3rem 1rem;
+}
 
 /*
 /////////////////////////////////////////// 
@@ -92,6 +227,15 @@ LEFT COLUMN
   width: 100%;
   padding: 1%;
 } */
+
+/* affecting HTMl elements in HTML Panel */
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+  /* padding: 3rem; */
+  margin: -5rem;
+  padding-right: 5rem;
+  padding-top: 3rem;
+  padding-left: 1rem;
+}
 
 .component-input {
   bottom: 2.8%;
@@ -211,6 +355,8 @@ RIGHT COLUMN
   flex-direction: row;
 }
 
+/* BOTTOM PANEL */
+
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
@@ -243,6 +389,8 @@ RIGHT COLUMN
   height: 55%;
   overflow: auto;
 }
+
+/* Material-UI */
 
 /* Sortable tree sorting */
 .sortable-tree {
