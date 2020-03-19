@@ -38,19 +38,19 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
   render(): JSX.Element {
     const { classes } = this.props;
     return (
-      <div align="center">
+      <div align='center'>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label="Add HTML elements"
+          label='Add HTML elements'
           style={{ cursor: 'default' }}
         />
-        <Grid container spacing={8} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems='baseline' align='stretch'>
           <Grid item xs={4}>
-            <div className="htmliconwrapper">
+            <div className='htmliconwrapper'>
               <IconButton
-                className="htmlicons"
-                aria-label="Image"
+                className='htmlicons'
+                aria-label='Image'
                 onClick={() => {
                   this.handleCreateHTMLChild('Image');
                 }}
@@ -66,9 +66,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
                 />
               </IconButton>
               <Chip
-                label="Image"
+                label='Image'
                 className={classes.chip}
-                variant="outlined"
+                variant='outlined'
                 style={{
                   color: 'white',
                   fontSize: '80%',
@@ -83,8 +83,8 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Form"
+              className='htmlicons'
+              aria-label='Form'
               onClick={() => {
                 this.handleCreateHTMLChild('Form');
               }}
@@ -96,9 +96,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
               <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Form"
+              label='Form'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '80%'
@@ -110,8 +110,8 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Button"
+              className='htmlicons'
+              aria-label='Button'
               onClick={() => {
                 this.handleCreateHTMLChild('Button');
               }}
@@ -123,9 +123,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
               <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Button"
+              label='Button'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '80%'
@@ -137,8 +137,8 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="Link"
+              className='htmlicons'
+              aria-label='Link'
               onClick={() => {
                 this.handleCreateHTMLChild('Link');
               }}
@@ -150,9 +150,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
               <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="Link"
+              label='Link'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '80%'
@@ -164,8 +164,8 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <IconButton
-              className="htmlicons"
-              aria-label="List"
+              className='htmlicons'
+              aria-label='List'
               onClick={() => {
                 this.handleCreateHTMLChild('List');
               }}
@@ -177,9 +177,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
               <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
-              label="List"
+              label='List'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '80%'
@@ -198,8 +198,8 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
             }}
           >
             <IconButton
-              className="htmlicons"
-              aria-label="Paragraph"
+              className='htmlicons'
+              aria-label='Paragraph'
               onClick={() => {
                 this.handleCreateHTMLChild('Paragraph');
               }}
@@ -217,9 +217,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
               />
             </IconButton>
             <Chip
-              label="Paragraph"
+              label='Paragraph'
               className={classes.chip}
-              variant="outlined"
+              variant='outlined'
               style={{
                 color: 'white',
                 fontSize: '62%',

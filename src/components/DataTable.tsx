@@ -31,7 +31,9 @@ function dataTable(props: any) {
   const { classes, rowData, rowHeader, deletePropHandler } = props;
 
   const renderHeader = rowHeader.map((col: any, idx: number) => (
-    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+    <TableCell align={'center'} key={`head_+${idx}`}>
+      {col}
+    </TableCell>
   ));
 
   function renderRowCells(row: any) {
@@ -50,7 +52,11 @@ function dataTable(props: any) {
     <TableRow key={`row-${row.id}`}>
       {renderRowCells(row)}
       <TableCell align={'center'} padding={'none'}>
-        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row.id)}>
+        <IconButton
+          color='default'
+          fontSize='small'
+          onClick={() => deletePropHandler(row.id)}
+        >
           <DeleteIcon />
         </IconButton>
         {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}

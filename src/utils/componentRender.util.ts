@@ -3,13 +3,13 @@ import {
   ComponentsInt,
   ChildInt,
   ChildrenInt,
-  PropInt,
+  PropInt
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
 const componentRender = (
   component: ComponentInt,
-  components: ComponentsInt,
+  components: ComponentsInt
 ) => {
   const {
     childrenArray,
@@ -132,7 +132,7 @@ const componentRender = (
       .filter(child => child.childType !== 'HTML')
       .map(
         child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`,
+          `import ${child.componentName} from './${child.componentName}.tsx'`
       )
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
@@ -143,7 +143,7 @@ const componentRender = (
       }, [])
       .join('\n')}
     
-    type Props = {
+    interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
@@ -179,12 +179,12 @@ const componentRender = (
             if (child.componentName == 'Button') {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
-                child,
+                child
               )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
             } else
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
-                child,
+                child
               )}/>`;
           })
           .join('\n')}

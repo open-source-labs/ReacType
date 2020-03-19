@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AddChildProps from './AddChildProps';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,7 +11,7 @@ import {
   ComponentInt,
   ComponentsInt,
   PropInt,
-  PropsInt,
+  PropsInt
 } from '../utils/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
@@ -121,7 +122,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
         tree.children.push(
-          this.generateComponentTree(child.childComponentId, components),
+          this.generateComponentTree(child.childComponentId, components)
         );
       } else {
         let str = { Type: 'HTML Element' };
@@ -149,7 +150,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
     const htmlAttribCount = focusComponent.childrenArray.filter(
-      child => child.childType === 'HTML',
+      child => child.childType === 'HTML'
     ).length;
 
     return (
@@ -162,12 +163,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Application Tree"
+            label='Application Tree'
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
+            label='Code Preview'
           />
           <Tab
             disableRipple
@@ -181,16 +182,16 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               htmlAttribCount ? `(${htmlAttribCount})` : ''
             } `}
           />
-          {/* <Tab
+          <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component State"
-          /> */}
+            label='Add Child Props'
+          />
         </Tabs>
 
         {value === 0 && (
           <div
-            id="treeWrapper"
+            id='treeWrapper'
             style={{
               width: '100%',
               height: '100%',
@@ -235,6 +236,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }

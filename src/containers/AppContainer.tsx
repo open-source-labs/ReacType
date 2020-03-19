@@ -146,7 +146,7 @@ class AppContainer extends Component<Props, State> {
       tutorial,
     } = this.props;
 
-    // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
+    // uses component childIds and parentIds arrays (numbers)s to build component-filled children and parents arrays
     return (
       <MuiThemeProvider
         theme={theme} //I'm assuming this is some material-UI theme thing

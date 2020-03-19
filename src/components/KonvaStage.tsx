@@ -50,6 +50,10 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       gridStroke: 1,
     };
   }
+  // creating typescript types for these props
+  container: HTMLDivElement;
+  stage: Stage;
+  layer: Konva.Layer;
 
   stage: Stage;
   layer: Konva.Layer;

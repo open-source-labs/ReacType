@@ -60,8 +60,9 @@ const availableButtonTypes = {
 };
 
 // function for generating the button types for select dropdown
+// uses Object.keys method on object of drop down types
 const buttonTypeOptions = [
-  <option value="" key="" />,
+  <option value='' key='' />,
   ...Object.keys(availableButtonTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type == null ? '' : type}
@@ -84,21 +85,13 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
     {},
   );
 
-  // looks like:
+  // State looks like:
   // className: '',
   // id: '',
   // type: '',
   // propType: ''
 
   handleChange = (event: MouseEvent) => {
-    // delete whenever you see this
-    // just for testing
-    // switch(event.target.id )
-    // console.log(
-    //   'EVENT.TARGET.VALUE DATA FROM HANDLECHANGE',
-    //   event.target.value
-    // );
-
     if (
       event.target.value == 'button' ||
       event.target.value == 'submit' ||
@@ -114,7 +107,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
 
   // if button type, then create conditional where the value will be returned if attr === button
   // then return the button.value
-  handleSave = (attr: any) => {
+  handleSave = (attr: string | any) => {
     if (attr == 'type') {
       this.props.updateHtmlAttr({ attr, value: buttonTypeTemp });
       this.setState({
@@ -146,14 +139,14 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
           condition to render a "select" component rather than a text-input component */}
             {attr == 'type' ? (
               <FormControl required>
-                <InputLabel className={classes.light} htmlFor="htmlType">
+                <InputLabel className={classes.light} htmlFor='htmlType'>
                   Type
                 </InputLabel>
                 <Select
                   native
                   className={classes.light}
-                  id="htmlType"
-                  placeholder="title"
+                  id='htmlType'
+                  placeholder='title'
                   onChange={this.handleChange}
                   value={buttonTypeTemp}
                   defaultValue={'button'}
@@ -164,7 +157,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                     marginBottom: '23px',
                     marginTop: '0px',
                     color: '#fff',
-                    paddingLeft: '14px',
+                    paddingLeft: '14px'
                   }}
                   required
                 >
@@ -177,20 +170,20 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   classes: {
                     root: classes.cssLabel,
                     focused: classes.cssFocused,
-                    input: classes.input,
-                  },
+                    input: classes.input
+                  }
                 }}
                 InputProps={{
                   classes: {
                     root: classes.cssOutlinedInput,
                     focused: classes.cssFocused,
                     notchedOutline: classes.notchedOutline,
-                    input: classes.input,
-                  },
+                    input: classes.input
+                  }
                 }}
                 style={{ background: '#424242', height: '70%' }}
                 label={attr}
-                variant="outlined"
+                variant='outlined'
                 id={attr}
                 onChange={this.handleChange}
                 value={this.state[attr]}
@@ -199,14 +192,14 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
           </Grid>
           <Grid item xs={2}>
             <Fab
-              variant="extended"
-              size="small"
-              color="default"
-              aria-label="Save"
+              variant='extended'
+              size='small'
+              color='default'
+              aria-label='Save'
               style={{
                 marginLeft: '10px',
                 marginTop: '5px',
-                marginBottom: '10px',
+                marginBottom: '10px'
               }}
               onClick={e => {
                 e.preventDefault();
@@ -227,7 +220,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
             </Paper>
           </Grid>
         </Grid>
-      ),
+      )
     );
 
     return <div className={'htmlattr'}>{HtmlForm}</div>;
@@ -236,5 +229,5 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(withStyles(styles)(HtmlAttr));
