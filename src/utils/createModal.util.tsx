@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleModal from '../components/SimpleModal.tsx';
+import SimpleModal from '../components/SimpleModal';
 
 type Props = {
   closeModal: any;

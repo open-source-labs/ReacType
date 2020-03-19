@@ -55,7 +55,7 @@ export interface ComponentInt {
   childrenArray: ChildInt[];
   nextChildId: number;
   focusChildId: number;
-  childrenArrayChildInt: any;
+  childrenArrayChildInt?: any;
 }
 
 export interface ComponentsInt extends Array<ComponentInt> {}

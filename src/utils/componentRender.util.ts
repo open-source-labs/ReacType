@@ -1,13 +1,22 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+import {
+  ComponentInt,
+  ComponentsInt,
+  ChildInt,
+  ChildrenInt,
+  PropInt,
+} from './Interfaces';
+import cloneDeep from './cloneDeep';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+const componentRender = (
+  component: ComponentInt,
+  components: ComponentsInt,
+) => {
   const {
     childrenArray,
     title,
     props,
     stateful,
-    classBased
+    classBased,
   }: {
     childrenArray: ChildrenInt;
     title: string;
@@ -121,7 +130,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+      .map(
+        child =>
+          `import ${child.componentName} from './${child.componentName}.tsx'`,
+      )
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -135,7 +147,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-      ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
+      ${
+        classBased
+          ? `class ${title} extends Component {`
+          : `const ${title} = (props: Props) => {`
+      }
       ${
         stateful && !classBased
           ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
@@ -150,7 +166,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           : ``
       }
       ${classBased ? `render(): JSX.Element {` : ``}
-      const {${props.map(el => el.key).join(', ')}} = ${classBased ? `this.props` : `props`};
+      const {${props.map(el => el.key).join(', ')}} = ${
+    classBased ? `this.props` : `props`
+  };
       
       return (
         <div>
@@ -160,12 +178,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
             //console.log('this is childrenArray', child.HTMLInfo); //Did someone leave this here?//
             if (child.componentName == 'Button') {
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}>${
-                child.HTMLInfo.value
-              }</${componentNameGenerator(child)}>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child,
+              )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
             } else
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child,
+              )}/>`;
           })
           .join('\n')}
         </div>
