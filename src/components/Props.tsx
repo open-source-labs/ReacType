@@ -22,15 +22,15 @@ const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   chip: {
     color: '#eee',
-    backgroundColor: '#333333'
+    backgroundColor: '#333333',
   },
   column: {
     display: 'inline-flex',
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   icon: {
     fontSize: '20px',
@@ -39,38 +39,38 @@ const styles = (theme: any) => ({
     transition: 'all .2s ease',
 
     '&:hover': {
-      color: 'red'
-    }
+      color: 'red',
+    },
   },
   cssLabel: {
     color: 'white',
 
     '&$cssFocused': {
-      color: 'green'
-    }
+      color: 'green',
+    },
   },
   cssFocused: {},
   input: {
     color: '#eee',
     marginBottom: '10px',
-    width: '60%'
+    width: '60%',
   },
   light: {
-    color: '#eee'
+    color: '#eee',
   },
   avatar: {
     color: '#eee',
-    fontSize: '10px'
-  }
+    fontSize: '10px',
+  },
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId))
+  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent
+  focusComponent: store.workspace.focusComponent,
 });
 
 // available types for select drop-down for button types
@@ -86,7 +86,7 @@ const availablePropTypes = {
   // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
-  enum: 'ENUM'
+  enum: 'ENUM',
 };
 
 // generates the various options for the prop type selection
@@ -96,7 +96,7 @@ const typeOptions = [
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
     </option>
-  ))
+  )),
 ];
 interface StateInt {
   propKey: string;
@@ -111,25 +111,25 @@ class Props extends Component<PropsPropsInt, StateInt> {
       propKey: '',
       propValue: '',
       propRequired: true,
-      propType: ''
+      propType: '',
     };
   }
 
   handleChange = (event: MouseEvent) => {
     if (event.target.id === 'propKey') {
       this.setState({
-        [event.target.id]: event.target.value.trim()
+        [event.target.id]: event.target.value.trim(),
       });
     } else {
       this.setState({
-        [event.target.id]: event.target.value
+        [event.target.id]: event.target.value,
       });
     }
   };
 
   togglePropRequired = () => {
     this.setState({
-      propRequired: !this.state.propRequired
+      propRequired: !this.state.propRequired,
     });
   };
 
@@ -160,14 +160,14 @@ class Props extends Component<PropsPropsInt, StateInt> {
       key: propKey,
       value: propValue,
       required: propRequired,
-      type: propType
+      type: propType,
     });
 
     this.setState({
       propKey: '',
       propValue: '',
       propRequired: true,
-      propType: ''
+      propType: '',
     });
   };
 
@@ -181,7 +181,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
       Value: prop.value,
       Type: prop.type,
       Required: prop.required,
-      id: prop.id
+      id: prop.id,
     }));
 
     return (
@@ -211,10 +211,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           value={this.state.propKey}
                           required
                           InputProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                           InputLabelProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                         />
                       </Grid>
@@ -225,17 +225,20 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           margin="normal"
                           onChange={this.handleChange}
                           InputProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                           InputLabelProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                           value={this.state.propValue}
                         />
                       </Grid>
                       <Grid item xs={6}>
                         <FormControl required>
-                          <InputLabel className={classes.light} htmlFor="propType">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propType"
+                          >
                             Type
                           </InputLabel>
                           <Select
@@ -253,7 +256,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid>
                       <Grid item xs={6}>
                         <div className={classes.column}>
-                          <InputLabel className={classes.light} htmlFor="propRequired">
+                          <InputLabel
+                            className={classes.light}
+                            htmlFor="propRequired"
+                          >
                             Required?
                           </InputLabel>
                           <Switch
@@ -297,4 +303,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Props));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(Props));
