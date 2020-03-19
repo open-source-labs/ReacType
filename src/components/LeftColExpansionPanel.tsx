@@ -60,7 +60,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       direction="row"
       justify="center"
       alignItems="center"
-      style={{ minWidth: '320px' }}
+      style={{ minWidth: '470px' }}
     >
       <Grid item xs={9}>
         <div
@@ -84,7 +84,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 color: 'red',
                 backgroundColor: color,
                 borderRadius: '10px',
-                minWidth: '320px'
+                minWidth: '340px'
               }}
             >
               <List style={{ color: 'red' }}>
