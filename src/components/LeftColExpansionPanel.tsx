@@ -79,7 +79,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse
             in={focusedToggle}
-            collapsedHeight={70} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            collapsedHeight={'70px'}
+            timeout={500} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
