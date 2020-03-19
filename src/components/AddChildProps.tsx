@@ -103,13 +103,6 @@ class AddChildProps extends Component {
   render() {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
 
-    console.log('this is focuscomponent props', focusComponent.props);
-    console.log(
-      'this is focuscomponent childrenArray',
-      focusComponent.childrenArray
-    );
-    console.log('this is focus component FROM ADDCHILDPROPS', focusComponent);
-
     // Array to be used to populate HTML form elements
     const arrayPropsAvailable = [];
 

@@ -204,34 +204,20 @@ class Props extends Component<PropsPropsInt, StateInt> {
           <Fragment>
             <div>
               <span>
-                <span
-                  style={{
-                    fontSize: '30px',
-                    textAlign: 'left'
-                  }}
-                >
+                <span className='compLabel-left-left'>
                   {`Add Prop`}{' '}
                   <span
                     style={{
-                      color: '#319431',
-                      paddingLeft: '1rem',
-                      paddingRight: '1rem'
+                      color: '#01d46d'
                     }}
                   >
                     And
                   </span>
-                  <span>{`Types`}</span>
+                  <span>{` Types`}</span>
                 </span>
               </span>
               <span>
-                <span
-                  style={{
-                    fontSize: '30px',
-                    textAlign: 'left'
-                  }}
-                >
-                  {`All Props History`}
-                </span>
+                <span>{`All Props History`}</span>
               </span>
             </div>
             <div
@@ -343,6 +329,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                     rowHeader={rowHeader}
                     rowData={propsRows}
                     deletePropHandler={deleteProp}
+                    style={{ border: '1px solid red' }}
                   />
                 </Grid>
                 <Grid item xs={1} />

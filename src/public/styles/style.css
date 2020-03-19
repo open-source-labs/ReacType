@@ -84,7 +84,7 @@ div.Component-horizontalScrollContainer-543 {
 * Component Props 
 
 ********/
-
+/* 
 #app
   > div
   > div
@@ -102,13 +102,27 @@ div.Component-horizontalScrollContainer-543 {
   > tr
   th {
   text-align: center;
-}
+} */
 
 /* affects component props layout in Component Props Tab */
 .MuiGrid-root-395.MuiGrid-container-396.MuiGrid-spacing-xs-8-425 {
   display: flex;
   align-items: center;
   margin-top: -5rem;
+}
+
+/* left side comp label */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div:nth-child(1)
+  > span:nth-child(1) {
+  font-size: 2rem;
 }
 
 /* affects prop input */
@@ -120,19 +134,26 @@ input#propVariable {
   min-width: 147px;
   max-width: 250px;
   overflow-wrap: break-word;
-  margin-top: 15px;
+  /* margin-top: -3rem; */
   padding: 8px;
+  position: absolute;
 }
 
 /* affects text input on Component Props */
 .MuiInputBase-root-537.MuiInput-root-523.MuiInput-underline-528.Props-input-392.MuiInputBase-formControl-538.MuiInput-formControl-524 {
   width: 150px;
-  margin-top: 80px;
+  margin-top: -5rem;
+  position: absolute;
 }
 
 /* affects props label */
 label#propVariable-label {
-  margin-top: 46px;
+  margin-top: -11rem;
+  position: absolute;
+}
+/* affects type input label */
+label.MuiFormLabel-root-515.MuiInputLabel-root-503.Props-light-393.MuiInputLabel-formControl-509.MuiInputLabel-animated-512.Mui-required.Mui-required {
+  margin-top: -12rem;
 }
 
 /* affects type input */
@@ -144,6 +165,7 @@ label#propVariable-label {
   background: lightslategray;
   color: #fff;
   padding-left: 8px;
+  position: absolute;
 }
 /*
 /////////////////////////////////////////// 
@@ -164,7 +186,23 @@ Component Props Labels
   > div:nth-child(1)
   > span:nth-child(2)
   > span {
-  padding-left: 18rem;
+  font-size: 2rem;
+  padding-left: 24rem;
+}
+
+/* Props History Table */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div.htmlattr
+  > div.props-container
+  > div
+  > div.MuiGrid-root-395.MuiGrid-item-397.MuiGrid-grid-xs-8-437 {
+  margin-bottom: 5rem;
 }
 
 /* Props Headers Container */
@@ -255,6 +293,15 @@ LEFT COLUMN
   width: 100%;
   padding: 1%;
 } */
+
+/* affecting HTMl elements in HTML Panel */
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+  /* padding: 3rem; */
+  margin: -5rem;
+  padding-right: 5rem;
+  padding-top: 3rem;
+  padding-left: 1rem;
+}
 
 .component-input {
   bottom: 2.8%;
