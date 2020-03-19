@@ -61,8 +61,28 @@ const styles = (theme: any) => ({
     padding: '8px'
   },
   inputLabel: {
-    fontSize: '1rem',
-    border: '10px solid red'
+    fontSize: '1.3rem',
+    zIndex: '20',
+    position: 'absolute',
+    top: '-2.5rem',
+    color: '#fff'
+  },
+  select: {
+    color: '#000',
+    marginBottom: '10px',
+    width: '100%',
+    backgroundColor: '#65BAEE',
+    borderRadius: '11px',
+    height: '40%',
+    overflowWrap: 'break-word',
+    padding: '8px'
+  },
+  selectLabel: {
+    fontSize: '1.3rem',
+    zIndex: '20',
+    position: 'absolute',
+    top: '-2.5rem',
+    color: '#fff'
   },
   light: {
     color: '#eee'
@@ -279,14 +299,14 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       <Grid item xs={6}>
                         <FormControl required>
                           <InputLabel
-                            className={classes.light}
+                            className={classes.selectLabel}
                             htmlFor='propType'
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
-                            className={classes.light}
+                            className={classes.select}
                             id='propType'
                             placeholder='title'
                             onChange={this.handleChange}
