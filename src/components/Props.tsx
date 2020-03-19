@@ -2,9 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -58,7 +61,10 @@ const styles = (theme: any) => ({
     borderRadius: '11px',
     height: '40%',
     overflowWrap: 'break-word',
-    padding: '8px'
+    paddingLeft: '15px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    fontSize: '1.2rem'
   },
   inputLabel: {
     fontSize: '1.3rem',
@@ -68,14 +74,17 @@ const styles = (theme: any) => ({
     color: '#fff'
   },
   select: {
-    color: '#000',
+    color: '#fff',
     marginBottom: '10px',
-    width: '100%',
-    backgroundColor: '#65BAEE',
+    width: '8rem',
+    backgroundColor: '#91D1F9',
     borderRadius: '11px',
     height: '40%',
     overflowWrap: 'break-word',
-    padding: '8px'
+    paddingLeft: '15px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    fontSize: '1.2rem'
   },
   selectLabel: {
     fontSize: '1.3rem',
@@ -83,6 +92,25 @@ const styles = (theme: any) => ({
     position: 'absolute',
     top: '-2.5rem',
     color: '#fff'
+  },
+  addProp: {
+    width: '15rem',
+    marginLeft: '3rem',
+    height: '4rem',
+    transition: 'all 0.1s ease-out',
+    border: '2px solid #33eb91',
+    background: 'transparent',
+    color: '#fff',
+    '&:hover': {
+      transform: 'scale(1.1)',
+      fontSize: '1.2rem',
+      backgroundColor: '#33eb91',
+      color: '#006400'
+    }
+  },
+  dataTable: {
+    border: '1px solid red',
+    backgroundColor: 'red'
   },
   light: {
     color: '#eee'
@@ -143,6 +171,8 @@ class Props extends Component<PropsPropsInt, StateInt> {
       propType: ''
     };
   }
+
+  // using useState to locally check a clickedValue
 
   handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propVariable') {
@@ -206,8 +236,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
 
   render() {
     const { focusComponent, classes, deleteProp } = this.props;
-
-    console.log('this is focus component', focusComponent);
 
     // this will display the two fields of data at the focused component level
     const rowHeader = ['Prop', 'Type'];
@@ -312,9 +340,8 @@ class Props extends Component<PropsPropsInt, StateInt> {
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
-                          >
-                            {typeOptions}
-                          </Select>
+                            children={typeOptions}
+                          />
                         </FormControl>
                       </Grid>
                       {/* MAYBE not needed for React Components? */}
@@ -343,6 +370,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           // disabled={!this.state.propKey || !this.state.propType}
                           variant='contained'
                           size='large'
+                          className={classes.addProp}
                         >
                           ADD PROP
                         </Button>
@@ -350,8 +378,21 @@ class Props extends Component<PropsPropsInt, StateInt> {
                     </Grid>
                   </form>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid
+                  item
+                  xs={8}
+                  style={{
+                    height: '17rem',
+                    overflow: 'scroll',
+                    marginTop: '1rem',
+                    paddingBottom: '1rem',
+                    paddingTop: '0'
+                  }}
+                >
                   <DataTable
+                    InputProps={{
+                      className: classes.dataTable
+                    }}
                     rowHeader={rowHeader}
                     rowData={propsRows}
                     deletePropHandler={deleteProp}

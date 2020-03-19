@@ -144,7 +144,6 @@ const componentRender = (
       .join('\n')}
     
     interface Props {
-      ${console.log('being USED from props')}
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
