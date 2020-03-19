@@ -124,7 +124,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           this.generateComponentTree(child.childComponentId, components),
         );
       } else {
-        let str = { Type: 'HTML Component' };
+        let str = { Type: 'HTML Element' };
         tree.children.push({
           name: child.componentName,
           attributes: str,
