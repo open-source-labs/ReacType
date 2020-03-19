@@ -109,7 +109,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   };
 
   handleClick = (event: any, node: any) => {
-    this.props.changeFocusComponent({ title: event.name });
+    if (!event.attributes.Type) {
+      this.props.changeFocusComponent({ title: event.name });
+    }
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
@@ -122,9 +124,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           this.generateComponentTree(child.childComponentId, components),
         );
       } else {
+        let str = { Type: 'HTML Component' };
         tree.children.push({
           name: child.componentName,
-          attributes: {},
+          attributes: str,
           children: [],
         });
       }

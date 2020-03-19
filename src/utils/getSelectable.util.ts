@@ -28,7 +28,7 @@ function findAncestors(
     };
   }
 
-  const newAncestors: Array<Number> = [];
+  const newAncestors: number[] = [];
 
   for (let i = 0; i < components.length; i++) {
     if (componentsToCheck.includes(components[i].id)) {
