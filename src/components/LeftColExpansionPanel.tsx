@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 
@@ -29,9 +30,10 @@ interface LeftColExpPanPropsInt extends PropsInt {
   toggleComponentClass(arg: number): void;
 }
 
-interface TypographyProps {
-  type: string;
-}
+//interface created but never used
+// interface TypographyProps {
+//   type: string;
+// }
 
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
@@ -74,76 +76,54 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
           }
         >
-          {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED */}
-          <Grid item xs={12} style={{ color: 'red', backgroundColor: color }}>
-            <List style={{ color: 'red' }}>
-              <ListItem
-                // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
-                style={{ color: 'red' }}
-                onClick={() => {
-                  changeFocusComponent({ title });
-                }}
-              >
-                <ListItemText
-                  disableTypography
-                  className={classes.light}
-                  primary={
-                    <div>
-                      <Typography
-                        //type='body2'
-                        style={{
-                          color: '#fff',
-                          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
-                          fontSize: '1.40rem',
-                        }}
-                      >
-                        {title}
-                      </Typography>
+          {/* {This is the component responsible for the collapsing transition animation for each component card} */}
+          <Collapse
+            in={focusedToggle}
+            collapsedHeight={70} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+          >
+            {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
+            <Grid
+              item
+              xs={12}
+              style={{
+                color: 'red',
+                backgroundColor: color,
+                borderRadius: '10px',
+              }}
+            >
+              <List style={{ color: 'red' }}>
+                <ListItem
+                  // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
+                  style={{ color: 'red' }}
+                  onClick={() => {
+                    changeFocusComponent({ title });
+                  }}
+                >
+                  <ListItemText
+                    disableTypography
+                    className={classes.light}
+                    primary={
+                      <div>
+                        <Typography
+                          //type='body2'
+                          style={{
+                            color: '#fff',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                            fontSize: '1.40rem',
+                          }}
+                        >
+                          {title}
+                        </Typography>
 
-                      {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
+                        {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
                       
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
 
-                      {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
-                      {focusedToggle ? (
-                        <InputLabel
-                          htmlFor="stateful"
-                          style={{
-                            color: '#fff',
-                            marginBottom: '10px',
-                            marginTop: '0px',
-                            marginLeft: '11px',
-                            padding: '0px',
-                            fontSize: '18px',
-                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                          }}
-                        >
-                          State?
-                        </InputLabel>
-                      ) : (
-                        ''
-                      )}
-
-                      {focusedToggle ? (
-                        <Switch
-                          checked={stateful}
-                          onChange={e => {
-                            toggleComponentState(id);
-                            changeFocusComponent({ title });
-                          }}
-                          value="stateful"
-                          color="primary"
-                          // id={props.id.toString()}
-                        />
-                      ) : (
-                        ''
-                      )}
-                      <div>
-                        {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
+                        {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
                         {focusedToggle ? (
                           <InputLabel
-                            htmlFor="classBased"
+                            htmlFor="stateful"
                             style={{
                               color: '#fff',
                               marginBottom: '10px',
@@ -151,35 +131,111 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               marginLeft: '11px',
                               padding: '0px',
                               fontSize: '18px',
+                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                             }}
                           >
-                            Class?
+                            State?
                           </InputLabel>
                         ) : (
                           ''
                         )}
+
                         {focusedToggle ? (
                           <Switch
-                            checked={classBased}
+                            checked={stateful}
                             onChange={e => {
-                              toggleComponentClass(id);
+                              toggleComponentState(id);
                               changeFocusComponent({ title });
                             }}
-                            value="classBased"
+                            value="stateful"
                             color="primary"
+                            // id={props.id.toString()}
                           />
                         ) : (
                           ''
                         )}
+                        <div>
+                          {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
+                          {focusedToggle ? (
+                            <InputLabel
+                              htmlFor="classBased"
+                              style={{
+                                color: '#fff',
+                                marginBottom: '10px',
+                                marginTop: '0px',
+                                marginLeft: '11px',
+                                padding: '0px',
+                                fontSize: '18px',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                              }}
+                            >
+                              Class?
+                            </InputLabel>
+                          ) : (
+                            ''
+                          )}
+                          {focusedToggle ? (
+                            <Switch
+                              checked={classBased}
+                              onChange={e => {
+                                toggleComponentClass(id);
+                                changeFocusComponent({ title });
+                              }}
+                              value="classBased"
+                              color="primary"
+                            />
+                          ) : (
+                            ''
+                          )}
+                          {focusedToggle && component.id !== 1 ? (
+                            <Button
+                              variant="text"
+                              size="small"
+                              color="default"
+                              aria-label="Delete"
+                              className={classes.margin}
+                              onClick={() =>
+                                deleteComponent({
+                                  componentId: id,
+                                  stateComponents: components,
+                                })
+                              }
+                              style={{
+                                color: 'white',
+                                marginBottom: '0px',
+                                marginTop: '4px',
+                              }}
+                            >
+                              <DeleteIcon
+                                style={{
+                                  color: '#b30000',
+                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                                }}
+                              />
+                              <span
+                                style={{
+                                  marginTop: '3px',
+                                  fontSize: '15px',
+                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                }}
+                              >
+                                Delete Component
+                              </span>
+                            </Button>
+                          ) : (
+                            ''
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  }
-                  style={{ color }}
-                />
-              </ListItem>
-            </List>
-          </Grid>
-          {id === 1 || !isFocused() ? (
+                    }
+                    style={{ color }}
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          </Collapse>
+          {/* {id === 1 || !isFocused() ? (           Removed sepearate delete icon and     
+                                                      made it part of card
             <div />
           ) : (
             <Fragment>
@@ -207,10 +263,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 <span style={{ marginTop: '3px' }}>Delete Component</span>
               </Button>
             </Fragment>
-          )}
+          )} */}
         </div>
       </Grid>
-
+      {/* {Create the '+' symbol that add's components as children.} */}
       <Grid item xs={3}>
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
@@ -226,7 +282,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 addChild({ title, childType: 'COMP' });
               }}
             >
-              <AddIcon style={{ color, float: 'right' }} />
+              <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
             </IconButton>
           </Tooltip>
         )}

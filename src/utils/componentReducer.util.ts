@@ -56,7 +56,12 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
   }
 
   //chooses a color for the component from the random color generator
-  const componentColor = getColor();
+  let componentColor = getColor();
+  //Makes sure no two consecutive components have the same color
+  const lastColor = state.components.find(element => element.id === state.nextId - 1).color;
+  while (componentColor === lastColor) {
+    componentColor = getColor();
+  }
   //assigns the componentID to whatever issupposed to be next
   const componentId = state.nextId;
 

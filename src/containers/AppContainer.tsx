@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Tutorial from '../components/Tutorial.tsx';
-import LeftContainer from './LeftContainer.tsx';
-import MainContainer from './MainContainer.tsx';
-import theme from '../components/theme.ts';
+import Tutorial from '../components/Tutorial';
+import LeftContainer from './LeftContainer';
+import MainContainer from './MainContainer';
+import theme from '../components/theme';
 // import { loadInitData } from '../actions/components.ts';
-import { ComponentInt, ComponentsInt, ApplicationStateInt } from '../utils/Interfaces.ts';
-import * as actions from '../actions/components.ts';
+import {
+  ComponentInt,
+  ComponentsInt,
+  ApplicationStateInt,
+} from '../utils/Interfaces';
+import * as actions from '../actions/components';
 
 // ** Used with electron to render
 const IPC = require('electron').ipcRenderer;
@@ -43,7 +47,7 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren
+  selectableChildren: store.workspace.selectableChildren,
 });
 
 //Dispatch functions for loading data where user left off
@@ -54,9 +58,11 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
 
 const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
+  changeImagePath: (imageSource: string) =>
+    dispatch(actions.changeImagePath(imageSource)),
   //function to change the tutorial step
-  changeTutorial: (tutorial: number) => dispatch(actions.changeTutorial(tutorial))
+  changeTutorial: (tutorial: number) =>
+    dispatch(actions.changeTutorial(tutorial)),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -69,7 +75,7 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      changed: false
+      changed: false,
     };
 
     //This function is invoked upon a new file being uploaded to the app.
@@ -137,7 +143,7 @@ class AppContainer extends Component<Props, State> {
       loading,
       selectableChildren,
       totalComponents,
-      tutorial
+      tutorial,
     } = this.props;
 
     // uses component childIds and parentIds arrays (numbers) to build component-filled children and parents arrays
@@ -167,7 +173,7 @@ class AppContainer extends Component<Props, State> {
               style={{
                 alignSelf: 'flex-end',
                 position: 'fixed',
-                width: '100%'
+                width: '100%',
               }}
             >
               <LinearProgress
