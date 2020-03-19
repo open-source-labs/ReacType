@@ -82,7 +82,7 @@ class AppContainer extends Component<Props, State> {
     //it changes the imagesource in the global state to be whatever filepath it is
     //on the user's comp.
 
-    //TODO Fix event typing?
+    //New File command listener
     IPC.on('new-file', (event: string, file: string) => {
       const image = new window.Image();
       image.src = file;
@@ -92,8 +92,15 @@ class AppContainer extends Component<Props, State> {
         this.setState({ image, changed: true });
       };
     });
+
+    //Tutorial command listener
     IPC.on('tutorial_clicked', () => {
       this.props.changeTutorial(1);
+    });
+
+    //Undo command listener
+    IPC.on('undo', () => {
+      console.log('undo');
     });
   }
 

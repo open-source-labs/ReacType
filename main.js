@@ -41,6 +41,10 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+function undo() {
+  mainWindow.webContents.send('undo');
+}
+
 function toggleTutorial() {
   mainWindow.webContents.send('tutorial_clicked');
 }
@@ -107,7 +111,13 @@ const createWindow = () => {
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
+        { 
+          label: 'Undo',
+          accelerator: process.platform === 'darwin' ? 'Command+Z' : 'Ctrl+Z',
+          click() {
+            undo();
+          }
+        },
         { role: 'redo' },
         { type: 'separator' },
         { role: 'cut' },
