@@ -33,7 +33,9 @@ class Rectangle extends Component<RectanglePorpsInt> {
   group: Konva.Group;
   //This assigns the color to the Rect based on componentId's color in the state
   getComponentColor(componentId: number) {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find(
+      (comp: ComponentInt) => comp.id === componentId
+    ).color;
     return color;
   }
 
@@ -80,8 +82,12 @@ class Rectangle extends Component<RectanglePorpsInt> {
     //value for x an y dispatched to the action creator will always be the same as the current x,y position, unless you can somehow
     //resize AND reposition at the same time.
     const transformation = {
-      width: Math.round((target.width() * target.scaleX()) / blockSnapSize) * blockSnapSize,
-      height: Math.round((target.height() * target.scaleY()) / blockSnapSize) * blockSnapSize,
+      width:
+        Math.round((target.width() * target.scaleX()) / blockSnapSize) *
+        blockSnapSize,
+      height:
+        Math.round((target.height() * target.scaleY()) / blockSnapSize) *
+        blockSnapSize,
       x: target.x() + focChild.position.x,
       y: target.y() + focChild.position.y
     };
@@ -134,19 +140,21 @@ class Rectangle extends Component<RectanglePorpsInt> {
         scaleY={scaleY}
         width={width}
         height={height}
-        onDragEnd={event => this.handleDrag(componentId, childId, event.target, blockSnapSize)}
+        onDragEnd={event =>
+          this.handleDrag(componentId, childId, event.target, blockSnapSize)
+        }
         ref={node => {
           //this refference actually isn't doing anything since it isn't within the transformer component
           this.group = node;
         }}
-        tabIndex="0" // required for keypress event to be heard by this.group
+        tabIndex='0' // required for keypress event to be heard by this.group
       >
         <Rect //basically the entire canvas
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
           ref={node => {
             this.rect = node; //same as above, the reference isn't assigned or pointing to anything
           }}
-          tabIndex="0" // required for keypress event to be heard by this.group
+          tabIndex='0' // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}
@@ -159,7 +167,9 @@ class Rectangle extends Component<RectanglePorpsInt> {
           width={width}
           height={height}
           stroke={
-            childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000' //sets the parent component color to black
+            childType === 'COMP'
+              ? this.getComponentColor(childComponentId)
+              : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
@@ -170,8 +180,12 @@ class Rectangle extends Component<RectanglePorpsInt> {
           fill={null}
           shadowBlur={childId === -1 ? 6 : null}
           fillPatternImage={childId === -1 ? this.props.image : null} //spooky addition, image if uploaded will only be background of App component
-          fillPatternScaleX={this.props.image ? width / this.props.image.width : 1} //here we are making sure the width of the image will stretch of shrink
-          fillPatternScaleY={this.props.image ? height / this.props.image.height : 1} //based on the width or height of the App component
+          fillPatternScaleX={
+            this.props.image ? width / this.props.image.width : 1
+          } //here we are making sure the width of the image will stretch of shrink
+          fillPatternScaleY={
+            this.props.image ? height / this.props.image.height : 1
+          } //based on the width or height of the App component
           _useStrictMode
         />
         <Label>
@@ -181,7 +195,9 @@ class Rectangle extends Component<RectanglePorpsInt> {
             // pseudochild's label should look different than normal children:
             text={childId === -1 ? title.slice(0, title.length - 2) : title} //slices the number off of the title of the top component
             fill={
-              childId === -1 ? this.getComponentColor(childComponentId) : '#000000' //opposite logic of the stroke
+              childId === -1
+                ? this.getComponentColor(childComponentId)
+                : '#000000' //opposite logic of the stroke
             }
             fontSize={childId === -1 ? 15 : 10}
             x={4}
@@ -207,10 +223,12 @@ class Rectangle extends Component<RectanglePorpsInt> {
                 childId={childId} // scary addition, grandchildren rects default to childId of "direct" children
                 width={
                   //this is the logic used to display the grandchildren with proper scaling based on the parent (technically child) h/w
-                  grandchild.position.width * (width / this.getPseudoChild().position.width)
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
                 }
                 height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
                 }
                 x={
                   //similar logic to above

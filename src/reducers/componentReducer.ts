@@ -33,7 +33,7 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
-} from '../actionTypes';
+} from '../actionTypes/index';
 
 import {
   addComponent,
@@ -59,7 +59,6 @@ import {
   toggleComponentClass,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
-
 
 const appComponent: ComponentInt = {
   id: 1,
@@ -145,8 +144,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeComponentFocusChild(state, action.payload);
     case CHANGE_IMAGE_SOURCE:
       return changeImageSource(state, action.payload);
-      case CHANGE_TUTORIAL:
-        return changeTutorial(state, action.payload);
+    case CHANGE_TUTORIAL:
+      return changeTutorial(state, action.payload);
     case DELETE_IMAGE:
       return deleteImage(state);
     case EXPORT_FILES:

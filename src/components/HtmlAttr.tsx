@@ -26,37 +26,37 @@ const styles = (theme: Theme): any => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   cssLabel: {
-    color: 'white'
+    color: 'white',
   },
   cssFocused: {
-    color: 'green'
+    color: 'green',
   },
   input: {
     color: '#fff',
     opacity: '0.7',
-    marginBottom: '15px'
-  }
+    marginBottom: '15px',
+  },
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateHtmlAttr: ({ attr, value }: { attr: string; value: string }) => {
     dispatch(updateHtmlAttr({ attr, value }));
-  }
+  },
 });
 
 const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent,
-  focusChild: store.workspace.focusChild
+  focusChild: store.workspace.focusChild,
 });
 
 // available types for select drop-down for button types
 const availableButtonTypes = {
   button: 'BUTTON',
   submit: 'SUBMIT',
-  reset: 'RESET'
+  reset: 'RESET',
 };
 
 // function for generating the button types for select dropdown
@@ -67,7 +67,7 @@ const buttonTypeOptions = [
     <option value={type} key={type} style={{ color: '#000' }}>
       {type == null ? '' : type}
     </option>
-  ))
+  )),
 ];
 
 // this is a variable to save temp state for button types
@@ -82,7 +82,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
 
       return acc;
     },
-    {}
+    {},
   );
 
   // State looks like:
@@ -101,7 +101,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
     }
 
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
   };
 
@@ -111,12 +111,12 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
     if (attr == 'type') {
       this.props.updateHtmlAttr({ attr, value: buttonTypeTemp });
       this.setState({
-        [attr]: ''
+        [attr]: '',
       });
     } else {
       this.props.updateHtmlAttr({ attr, value: this.state[attr] });
       this.setState({
-        [attr]: ''
+        [attr]: '',
       });
     }
   };
@@ -157,7 +157,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                     marginBottom: '23px',
                     marginTop: '0px',
                     color: '#fff',
-                    paddingLeft: '14px'
+                    paddingLeft: '14px',
                   }}
                   required
                 >
@@ -220,7 +220,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
             </Paper>
           </Grid>
         </Grid>
-      )
+      ),
     );
 
     return <div className={'htmlattr'}>{HtmlForm}</div>;
@@ -229,5 +229,5 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withStyles(styles)(HtmlAttr));

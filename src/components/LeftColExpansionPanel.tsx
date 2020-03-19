@@ -249,7 +249,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 onClick={() =>
                   deleteComponent({
                     componentId: id,
-                    stateComponents: components
+                    stateComponents: components,
                   })
                 }
                 style={{
@@ -257,7 +257,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   marginBottom: '10px',
                   marginTop: '4px',
                   marginLeft: '11px',
-                  padding: '0px'
+                  padding: '0px',
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />

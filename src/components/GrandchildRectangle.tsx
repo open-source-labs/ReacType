@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-import { ComponentsInt, ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
+import {
+  ComponentsInt,
+  ComponentInt,
+  ChildInt,
+  PropsInt,
+} from '../utils/Interfaces';
 
 //////////////////////////////////////////////////////////////////////////////
 /////Logic in this component is mainly the same as Rectangle.tsx./////////////
@@ -25,7 +30,7 @@ interface GrandChRectPropsInt extends PropsInt {
   handleTransform?: (
     componentId: number,
     childId: number,
-    dimensions: { x: number; y: number; width: number; height: number }
+    dimensions: { x: number; y: number; width: number; height: number },
   ) => void;
 }
 
@@ -37,18 +42,20 @@ class GrandchildRectangle extends Component<GrandChRectPropsInt, StateInt> {
   constructor(props: GrandChRectPropsInt) {
     super(props);
     this.state = {
-      image: null
+      image: null,
     };
   }
 
   getComponentColor(componentId: number) {
-    const color = this.props.components.find((comp: ComponentInt) => comp.id === componentId).color;
+    const color = this.props.components.find(
+      (comp: ComponentInt) => comp.id === componentId,
+    ).color;
     return color;
   }
 
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId
+      (comp: ComponentInt) => comp.id === this.props.childComponentId,
     );
   }
 
@@ -76,7 +83,7 @@ class GrandchildRectangle extends Component<GrandChRectPropsInt, StateInt> {
       height,
       focusChild,
       components,
-      imageSource
+      imageSource,
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -102,10 +109,20 @@ class GrandchildRectangle extends Component<GrandChRectPropsInt, StateInt> {
           scaleY={1}
           width={width}
           height={height}
-          stroke={childType === 'COMP' ? this.getComponentColor(childComponentId) : '#000000'}
-          fillPatternImage={this.state.image ? this.state.image : this.setImage(imageSource)}
-          fillPatternScaleX={this.state.image ? width / this.state.image.width : 1}
-          fillPatternScaleY={this.state.image ? height / this.state.image.height : 1}
+          stroke={
+            childType === 'COMP'
+              ? this.getComponentColor(childComponentId)
+              : '#000000'
+          }
+          fillPatternImage={
+            this.state.image ? this.state.image : this.setImage(imageSource)
+          }
+          fillPatternScaleX={
+            this.state.image ? width / this.state.image.width : 1
+          }
+          fillPatternScaleY={
+            this.state.image ? height / this.state.image.height : 1
+          }
           strokeWidth={2}
           strokeScaleEnabled={false}
           draggable={false}
@@ -120,14 +137,20 @@ class GrandchildRectangle extends Component<GrandChRectPropsInt, StateInt> {
                 components={components}
                 componentId={componentId}
                 childType={grandchild.childType}
-                imageSource={grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src}
+                imageSource={
+                  grandchild.htmlElement === 'Image' && grandchild.HTMLInfo.Src
+                }
                 childComponentName={grandchild.componentName}
                 childComponentId={grandchild.childComponentId}
                 focusChild={focusChild}
                 childId={childId}
-                width={grandchild.position.width * (width / this.getPseudoChild().position.width)}
+                width={
+                  grandchild.position.width *
+                  (width / this.getPseudoChild().position.width)
+                }
                 height={
-                  grandchild.position.height * (height / this.getPseudoChild().position.height)
+                  grandchild.position.height *
+                  (height / this.getPseudoChild().position.height)
                 }
                 x={
                   (grandchild.position.x - this.getPseudoChild().position.x) *

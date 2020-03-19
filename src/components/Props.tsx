@@ -248,7 +248,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
       Prop: prop.key,
       // Value: prop.value,
       Type: prop.type,
-      // Required: prop.required,
+      Required: prop.required,
       id: prop.id
     }));
 
@@ -319,10 +319,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           margin='normal'
                           onChange={this.handleChange}
                           InputProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                           InputLabelProps={{
-                            className: classes.input
+                            className: classes.input,
                           }}
                           value={this.state.propValue}
                         />
