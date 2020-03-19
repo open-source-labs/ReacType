@@ -15,9 +15,9 @@
     "Sean Sadykoff",
     "Shlomo Porges",
     "Sophia Huttner",
-    "Tolga Mizrakci",  
+    "Tolga Mizrakci",
     "Tony Ito-Cole"
-    ],
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/team-reactype/ReacType"
@@ -73,7 +73,7 @@
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
     "linter": "eslint src",
-    "develop": "concurrently \"yarn run dev\" \"yarn run electron\""
+    "develop": "concurrently \"npm run dev\" \"npm run electron\""
   },
   "bin": {
     "reactype": "./index.js"
