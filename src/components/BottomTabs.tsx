@@ -3,10 +3,15 @@ import { withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
-import Props from './Props.tsx';
-import HtmlAttr from './HtmlAttr.tsx';
-import CodePreview from './CodePreview.tsx';
-import { ComponentInt, ComponentsInt, PropInt, PropsInt } from '../utils/Interfaces.ts';
+import Props from './Props';
+import HtmlAttr from './HtmlAttr';
+import CodePreview from './CodePreview';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  PropsInt,
+} from '../utils/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -32,13 +37,13 @@ const styles = (theme: Theme): any => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242'
+    borderBottom: '0.5px solid #424242',
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6'
+    backgroundColor: '#1de9b6',
   },
   tabRoot: {
     textTransform: 'initial',
@@ -56,27 +61,27 @@ const styles = (theme: Theme): any => ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
+      '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
       color: '#1de9b6',
-      opacity: 1
+      opacity: 1,
     },
     '&$tabSelected': {
       color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium
+      fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
-      color: '#4aedc4'
-    }
+      color: '#4aedc4',
+    },
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`
-  }
+    padding: `0 ${theme.spacing.unit * 2}px`,
+  },
 });
 
 class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
@@ -84,7 +89,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     super(props);
     this.state = {
       value: 0,
-      translate: { x: 0, y: 0 }
+      translate: { x: 0, y: 0 },
     };
   }
   treeWrapper: HTMLDivElement;
@@ -94,8 +99,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     this.setState({
       translate: {
         x: dimensions.width / 12,
-        y: dimensions.height / 2.2
-      }
+        y: dimensions.height / 2.2,
+      },
     });
   }
 
@@ -113,12 +118,14 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
-        tree.children.push(this.generateComponentTree(child.childComponentId, components));
+        tree.children.push(
+          this.generateComponentTree(child.childComponentId, components),
+        );
       } else {
         tree.children.push({
           name: child.componentName,
           attributes: {},
-          children: []
+          children: [],
         });
       }
     });
@@ -126,13 +133,21 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   }
 
   render(): JSX.Element {
-    const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
+    const {
+      classes,
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+      focusChild,
+    } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
-      .length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(
+      child => child.childType === 'HTML',
+    ).length;
 
     return (
       <div className={classes.root}>
@@ -159,7 +174,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+            label={`HTML Element Attributes ${
+              htmlAttribCount ? `(${htmlAttribCount})` : ''
+            } `}
           />
           {/* <Tab
             disableRipple
@@ -173,7 +190,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             id="treeWrapper"
             style={{
               width: '100%',
-              height: '100%'
+              height: '100%',
             }}
             ref={node => (this.treeWrapper = node)}
           >
@@ -189,22 +206,27 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1
-                    }
+                      strokeWidth: 1,
+                    },
                   },
                   leafNode: {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1
-                    }
-                  }
-                }
+                      strokeWidth: 1,
+                    },
+                  },
+                },
               }}
             />
           </div>
         )}
-        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 1 && (
+          <CodePreview
+            focusComponent={focusComponent}
+            components={components}
+          />
+        )}
         {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3 && focusChild.childType !== 'HTML' && (

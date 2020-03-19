@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
-import theme from '../components/theme.ts';
+import theme from '../components/theme';
 import Button from '@material-ui/core/Button';
 
 interface Props {
@@ -30,18 +30,22 @@ class Tutorial extends Component<Props> {
             boxShadow: theme.shadows[5],
             wordWrap: 'break-word',
             width: '100%',
-            borderRadius: '20px 50px'
+            borderRadius: '20px 50px',
           }}
         >
-          <h1 style={{ color: theme.palette.primary.dark }} id="transition-modal-title">
+          <h1
+            style={{ color: theme.palette.primary.dark }}
+            id="transition-modal-title"
+          >
             Step 1
           </h1>
           <h2 id="transition-modal-description">
-            Upload an image of your website template using the red 'upload image' button below.
+            Upload an image of your website template using the red 'upload
+            image' button below.
           </h2>
           <h2 id="transition-modal-description">
-            You can remove the image by clicking the button again, or replace the image by going to
-            'File --> Open Image'.
+            You can remove the image by clicking the button again, or replace
+            the image by going to 'File --> Open Image'.
           </h2>
           <Button
             onClick={() => {
@@ -70,23 +74,27 @@ class Tutorial extends Component<Props> {
             boxShadow: theme.shadows[5],
             wordWrap: 'break-word',
             width: '100%',
-            borderRadius: '20px 50px'
+            borderRadius: '20px 50px',
           }}
         >
-          <h1 style={{ color: theme.palette.primary.dark }} id="transition-modal-title">
+          <h1
+            style={{ color: theme.palette.primary.dark }}
+            id="transition-modal-title"
+          >
             Step 2
           </h1>
           <h2 id="transition-modal-description">
-            Give your component a name add click '+' to add it to your collection of components.
+            Give your component a name add click '+' to add it to your
+            collection of components.
           </h2>
           <h2 id="transition-modal-description">
-            You can also make each component you create stateful or not stateful, and functional or
-            as a class component as well.
+            You can also make each component you create stateful or not
+            stateful, and functional or as a class component as well.
           </h2>
           <h2 id="transition-modal-description">
-            Once you've added your component, while in the view of the component you would like to
-            make the parent of your new component, click '+' next to the new component you created
-            to make it a child.
+            Once you've added your component, while in the view of the component
+            you would like to make the parent of your new component, click '+'
+            next to the new component you created to make it a child.
           </h2>
           <Button
             onClick={() => {
@@ -115,19 +123,23 @@ class Tutorial extends Component<Props> {
             boxShadow: theme.shadows[5],
             wordWrap: 'break-word',
             width: '100%',
-            borderRadius: '20px 50px'
+            borderRadius: '20px 50px',
           }}
         >
-          <h1 style={{ color: theme.palette.primary.dark }} id="transition-modal-title">
+          <h1
+            style={{ color: theme.palette.primary.dark }}
+            id="transition-modal-title"
+          >
             Step 3
           </h1>
           <h2 id="transition-modal-description">
-            Once you have designed your components above, you can add props and HTML elements to
-            your components in this bottom panel.
+            Once you have designed your components above, you can add props and
+            HTML elements to your components in this bottom panel.
           </h2>
           <h2 id="transition-modal-description">
-            While you're working on designing your app, you can also preview the code that will be
-            exported and your application's component tree in the corresponding tabs.
+            While you're working on designing your app, you can also preview the
+            code that will be exported and your application's component tree in
+            the corresponding tabs.
           </h2>
           <Button
             onClick={() => {
@@ -156,19 +168,22 @@ class Tutorial extends Component<Props> {
             boxShadow: theme.shadows[5],
             wordWrap: 'break-word',
             width: '100%',
-            borderRadius: '20px 50px'
+            borderRadius: '20px 50px',
           }}
         >
-          <h1 style={{ color: theme.palette.primary.dark }} id="transition-modal-title">
+          <h1
+            style={{ color: theme.palette.primary.dark }}
+            id="transition-modal-title"
+          >
             Step 4
           </h1>
           <h2 id="transition-modal-description">
-            Once you're all done, simply click on the "Export Project" button below to export your
-            files for development.
+            Once you're all done, simply click on the "Export Project" button
+            below to export your files for development.
           </h2>
           <h2 id="transition-modal-description">
-            You have the option of exporting just the components, or an entire React + Express
-            boilerplate with the components you designed.
+            You have the option of exporting just the components, or an entire
+            React + Express boilerplate with the components you designed.
           </h2>
           <Button
             onClick={() => {
@@ -192,14 +207,14 @@ class Tutorial extends Component<Props> {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500
+          timeout: 500,
         }}
         style={{
           display: 'grid',
           gridTemplateColumns:
             '[col1] 1fr [col2] 1fr [col3] 1fr [col4] 1fr [col5] 1fr [col6] 1fr [col7] 1fr [col8] 1fr [col9] 1fr [col10] 1fr [end]',
           gridTemplateRows:
-            '[row1] 1fr [row2] 1fr [row3] 1fr [row4] 1fr [row5] 1fr [row6] 1fr [row7] 1fr [row8] 1fr [row9] 1fr [row10] 1fr [end]'
+            '[row1] 1fr [row2] 1fr [row3] 1fr [row4] 1fr [row5] 1fr [row6] 1fr [row7] 1fr [row8] 1fr [row9] 1fr [row10] 1fr [end]',
         }}
       >
         <Fade in={tutorial !== 0}>{dialog}</Fade>

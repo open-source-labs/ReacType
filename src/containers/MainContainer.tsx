@@ -4,26 +4,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel.tsx';
-import theme from '../components/theme.ts';
+import BottomPanel from '../components/BottomPanel';
+import theme from '../components/theme';
 import {
   handleTransform,
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild,
-  changeFocusComponent
-} from '../actions/components.ts';
-import KonvaStage from '../components/KonvaStage.tsx';
-import { PropsInt, ApplicationStateInt } from '../utils/Interfaces.ts';
+  changeFocusComponent,
+} from '../actions/components';
+import KonvaStage from '../components/KonvaStage';
+import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
   handleTransformation(
     componentId: number,
     childId: number,
-    dimensions: { x: number; y: number; width: number; height: number }
+    dimensions: { x: number; y: number; width: number; height: number },
   ): void;
-  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
 }
@@ -45,36 +48,48 @@ const mapDispatchToProps = (dispatch: any) => ({
   handleTransformation: (
     componentId: number,
     childId: number,
-    { x, y, width, height }: { x: number; y: number; width: number; height: number }
+    {
+      x,
+      y,
+      width,
+      height,
+    }: { x: number; y: number; width: number; height: number },
   ) =>
     dispatch(
       handleTransform(componentId, childId, {
         x,
         y,
         width,
-        height
-      })
+        height,
+      }),
     ),
   //this doesn't do anything here
   // changeImagePath: (imageSource: string) =>
   //   dispatch(actions.changeImagePath(imageSource)),
 
-  changeFocusComponent: ({ title }: { title: string }) => dispatch(changeFocusComponent({ title })),
+  changeFocusComponent: ({ title }: { title: string }) =>
+    dispatch(changeFocusComponent({ title })),
 
   //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
+  changeFocusChild: ({ childId }: { childId: number }) =>
+    dispatch(changeFocusChild({ childId })),
 
   //the difference between this dispatch function and the one above, is that this once alters the focused child status within the array of components,
   //vs the one above changes the focusChild property in the state
-  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
-    dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
+  changeComponentFocusChild: ({
+    componentId,
+    childId,
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
+  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components
+  stateComponents: store.workspace.components,
 });
 
 class MainContainer extends Component<MainContPropsInt, StateInt> {
@@ -101,7 +116,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       changeFocusComponent,
       changeComponentFocusChild,
       deleteChild,
-      image
+      image,
     } = this.props;
 
     // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**

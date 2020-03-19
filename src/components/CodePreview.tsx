@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
+import componentRender from '../utils/componentRender.util';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
 // import SortChildren from './SortChildren.tsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -22,7 +22,7 @@ class CodePreview extends Component<CodePreviewProps> {
         style={{
           height: '290px',
           paddingLeft: '30px',
-          overflow: 'auto'
+          overflow: 'auto',
         }}
       >
         <SyntaxHighlighter style={hybrid}>
@@ -31,7 +31,7 @@ class CodePreview extends Component<CodePreviewProps> {
             trailingComma: 'es5',
             bracketSpacing: true,
             jsxBracketSameLine: true,
-            parser: 'typescript'
+            parser: 'typescript',
           })}
         </SyntaxHighlighter>
       </div>

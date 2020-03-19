@@ -4,10 +4,10 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
 import Konva from 'konva';
-import Rectangle from './Rectangle.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
-import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces.ts';
-import isEmpty from '../utils/isEmpty.ts';
+import Rectangle from './Rectangle';
+import cloneDeep from '../utils/cloneDeep';
+import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
+import isEmpty from '../utils/isEmpty';
 // import BottomPan from './BottomPanel';
 
 interface KonvaStagePropsInt extends PropsInt {
@@ -15,10 +15,13 @@ interface KonvaStagePropsInt extends PropsInt {
   handleTransform(
     componentId: number,
     childId: number,
-    dimensions: { x: number; y: number; width: number; height: number }
+    dimensions: { x: number; y: number; width: number; height: number },
   ): void;
   focusChild: ChildInt;
-  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteChild(arg: object): void;
   scaleX: number;
   scaleY: number;
@@ -44,7 +47,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
-      gridStroke: 1
+      gridStroke: 1,
     };
   }
 
@@ -56,10 +59,12 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
   getDirectChildrenCopy(focusComponent: ComponentInt) {
     //assign component to the focused component
     const component = this.props.components.find(
-      (comp: ComponentInt) => comp.id === focusComponent.id
+      (comp: ComponentInt) => comp.id === focusComponent.id,
     );
     //assign childrenArr to an array of all the children of focused component
-    const childrenArr = component.childrenArray.filter((child: ChildInt) => child.childId !== -1);
+    const childrenArr = component.childrenArray.filter(
+      (child: ChildInt) => child.childId !== -1,
+    );
 
     //deep clone of childrenArr so addition of parent doesn't mutate the children saved in the state
     let childrenArrCopy = cloneDeep(childrenArr);
@@ -73,10 +78,10 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
         x: component.position.x,
         y: component.position.y,
         width: component.position.width,
-        height: component.position.height
+        height: component.position.height,
       },
       draggable: true,
-      color: component.color
+      color: component.color,
     };
     childrenArrCopy = childrenArrCopy.concat(pseudoChild); // could just use push here, concat needlessly generate new array
     //returns that new childrenArr + parent component
@@ -108,7 +113,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     const height = this.container.offsetHeight;
     this.setState({
       stageWidth: width,
-      stageHeight: height
+      stageHeight: height,
     });
   };
 
@@ -128,7 +133,8 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       return;
     }
     // // clicked on transformer - do nothing
-    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    const clickedOnTransformer =
+      e.target.getParent().className === 'Transformer';
     if (clickedOnTransformer) {
       return;
     }
@@ -138,7 +144,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     this.props.changeFocusChild({ childId: rectChildId });
     this.props.changeComponentFocusChild({
       componentId: this.props.focusComponent.id,
-      childId: rectChildId
+      childId: rectChildId,
     });
   };
   //this function creates a grid with those 10x10 squares.
@@ -153,31 +159,35 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
             Math.round(i * this.state.blockSnapSize) + 0.5,
             0,
             Math.round(i * this.state.blockSnapSize) + 0.5,
-            this.state.stageHeight
+            this.state.stageHeight,
           ]}
           stroke={'#ddd'}
           strokeWidth={this.state.gridStroke}
           key={`${i}vertical`}
-        />
+        />,
       );
     }
-    for (let j = 0; j < this.state.stageHeight / this.state.blockSnapSize; j++) {
+    for (
+      let j = 0;
+      j < this.state.stageHeight / this.state.blockSnapSize;
+      j++
+    ) {
       output.push(
         <Line
           points={[
             0,
             Math.round(j * this.state.blockSnapSize),
             this.state.stageWidth,
-            Math.round(j * this.state.blockSnapSize)
+            Math.round(j * this.state.blockSnapSize),
           ]}
           stroke={'#ddd'}
           strokeWidth={this.state.gridStroke}
           key={`${j}horizontal`}
-        />
+        />,
       );
     }
     this.setState({
-      grid: output
+      grid: output,
     });
   };
 
@@ -187,7 +197,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       components,
       handleTransform,
       focusComponent,
-      focusChild
+      focusChild,
       // deleteChild, **neither of these are read**
       // classes
     } = this.props;
@@ -196,7 +206,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       <div
         style={{
           width: '100%',
-          height: '100%'
+          height: '100%',
         }}
         ref={node => {
           this.container = node;
@@ -251,7 +261,8 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
                     return 1;
                   }
                   return (
-                    rectB.props.width * rectB.props.height - rectA.props.width * rectA.props.height
+                    rectB.props.width * rectB.props.height -
+                    rectA.props.width * rectA.props.height
                   );
                 })
             // reasoning for the sort:
