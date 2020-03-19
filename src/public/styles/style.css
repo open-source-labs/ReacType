@@ -84,25 +84,6 @@ div.Component-horizontalScrollContainer-543 {
 * Component Props 
 
 ********/
-/* 
-#app
-  > div
-  > div
-  > div
-  > div.main-container
-  > div.bottom-panel
-  > div
-  > div.htmlattr
-  > div
-  > div
-  > div.MuiGrid-root-395.MuiGrid-item-397.MuiGrid-grid-xs-8-437
-  > div
-  > table
-  > thead
-  > tr
-  th {
-  text-align: center;
-} */
 
 /* affects component props layout in Component Props Tab */
 
@@ -120,49 +101,6 @@ div.Component-horizontalScrollContainer-543 {
   font-size: 2rem;
 }
 
-/* affects prop input */
-/* input#propVariable {
-  background: #fff;
-  border-radius: 11px;
-  height: 30px;
-  color: #000;
-  min-width: 147px;
-  max-width: 250px;
-  overflow-wrap: break-word;
-  /* margin-top: -3rem;
-  padding: 8px;
-  position: absolute;
-} 
-*/
-
-/* affects text input on Component Props */
-/* .MuiInputBase-root-537.MuiInput-root-523.MuiInput-underline-528.Props-input-392.MuiInputBase-formControl-538.MuiInput-formControl-524 {
-  width: 150px;
-  margin-top: -5rem;
-  position: absolute;
-} */
-
-/* affects props label */
-/* label#propVariable-label {
-  margin-top: -11rem;
-  position: absolute;
-} */
-/* affects type input label */
-/* label.MuiFormLabel-root-515.MuiInputLabel-root-503.Props-light-393.MuiInputLabel-formControl-509.MuiInputLabel-animated-512.Mui-required.Mui-required {
-  margin-top: -12rem;
-} */
-
-/* affects type input */
-/* .MuiInputBase-root-537.MuiInput-root-523.MuiInput-underline-528.Props-light-393.MuiInputBase-formControl-538.MuiInput-formControl-524 {
-  border-radius: 11px;
-  height: 45px;
-  margin-bottom: -45px;
-  margin-top: 48px;
-  background: lightslategray;
-  color: #fff;
-  padding-left: 8px;
-  position: absolute;
-} */
 /*
 /////////////////////////////////////////// 
 
