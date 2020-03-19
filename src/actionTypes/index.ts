@@ -32,3 +32,5 @@ export const DELETE_IMAGE: string = 'DELETE_IMAGE';
 export const TOGGLE_STATE: string = 'TOGGLE_STATE';
 export const TOGGLE_CLASS: string = 'TOGGLE_CLASS';
 export const CHANGE_TUTORIAL: string = 'CHANGE_TUTORIAL';
+export const UNDO: string = 'UNDO';
+export const REDO: string = 'REDO';

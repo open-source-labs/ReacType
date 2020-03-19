@@ -36,6 +36,7 @@ export const addComponent = (
   state: ApplicationStateInt,
   { title }: { title: string },
 ) => {
+
   // remove whitespace and digits, capitalize first char
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
@@ -63,10 +64,8 @@ export const addComponent = (
   //chooses a color for the component from the random color generator
   let componentColor = getColor();
   //Makes sure no two consecutive components have the same color
-  const lastColor = state.components.find(
-    element => element.id === state.nextId - 1,
-  ).color;
-  while (componentColor === lastColor) {
+  const lastComponent = state.components.reduce((acc, curr) => curr.id > acc.id ? curr : acc).color;
+  while (componentColor === lastComponent) {
     componentColor = getColor();
   }
   //assigns the componentID to whatever issupposed to be next
@@ -98,6 +97,7 @@ export const addComponent = (
   // reset focused child to null values so when focused component is assigned to the newly created component,
   //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
+
   return {
     ...state,
     totalComponents,
@@ -107,6 +107,7 @@ export const addComponent = (
     focusChild: newFocusChild,
     ancestors,
     selectableChildren, // new component so everyone except yourself is available
+
   };
 };
 
@@ -221,6 +222,7 @@ export const addChild = (
     components,
     focusChild: newChild,
     focusComponent: component, // refresh the focus component so we have the new child
+
   };
 };
 
@@ -274,6 +276,7 @@ export const deleteChild = (
     parentComponentCopy,
   ];
 
+
   return {
     ...state,
     components: modifiedComponentArray,
@@ -285,6 +288,7 @@ export const deleteChild = (
       : parentComponentCopy.childrenArray[
           parentComponentCopy.childrenArray.length - 1
         ] || cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
+
   };
 };
 
@@ -293,9 +297,11 @@ export const deleteChild = (
 //since currently HTML image lives in a local state of AppContainer ( a big no-no)
 //and if a user clicks on 'clear workspace', the button doesn't reset
 export const deleteImage = (state: ApplicationStateInt) => {
+
   return {
     ...state,
     imageSource: '',
+
   };
 };
 
@@ -391,6 +397,7 @@ export const handleTransform = (
     ...state,
     components,
     focusChild: newFocusChild,
+
   };
 };
 
@@ -410,9 +417,11 @@ export const changeImageSource = (
   state: ApplicationStateInt,
   { imageSource }: { imageSource: string },
 ) => {
+
   return {
     ...state,
     imageSource,
+
   };
 };
 
@@ -460,6 +469,7 @@ export const deleteComponent = (
     ...state,
     totalComponents,
     components: componentsCopy,
+
   };
 };
 
@@ -478,9 +488,11 @@ export const toggleComponentState = (
     }
   });
   // return state and updated components array
+
   return {
     ...state,
     components: componentCopy,
+
   };
 };
 
@@ -499,9 +511,11 @@ export const toggleComponentClass = (
     }
   });
   // return state and updated components array
+
   return {
     ...state,
     components: componentCopy,
+
   };
 };
 
@@ -665,10 +679,17 @@ export const addProp = (
     (comp: ComponentInt) => comp.id !== selectedComponent.id,
   );
   newComponents.push(modifiedComponent);
+  const currentState = cloneDeep(state);
+  const stateMemory = [...state.stateMemory, currentState];
+  const memoryIndex = state.memoryIndex + 1;
+  const redoMemory: [] = [];
   return {
     ...state,
     components: newComponents,
     focusComponent: modifiedComponent,
+    stateMemory,
+    memoryIndex,
+    redoMemory
   };
 };
 
@@ -700,11 +721,17 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
     (comp: ComponentInt) => comp.id !== modifiedComponent.id,
   );
   newComponentsArray.push(modifiedComponent);
-
+  const currentState = cloneDeep(state);
+  const stateMemory = [...state.stateMemory, currentState];
+  const memoryIndex = state.memoryIndex + 1;
+  const redoMemory: [] = [];
   return {
     ...state,
     components: newComponentsArray,
     focusComponent: modifiedComponent,
+    stateMemory,
+    memoryIndex,
+    redoMemory
   };
 };
 
@@ -737,12 +764,18 @@ export const updateHtmlAttr = (
     (comp: ComponentInt) => comp.id !== modifiedComponent.id,
   );
   newComponentsArray.push(modifiedComponent);
-
+  const currentState = cloneDeep(state);
+  const stateMemory = [...state.stateMemory, currentState];
+  const memoryIndex = state.memoryIndex + 1;
+  const redoMemory: [] = [];
   return {
     ...state,
     components: newComponentsArray,
     focusComponent: modifiedComponent,
     focusChild: modifiedChild,
+    stateMemory,
+    memoryIndex,
+    redoMemory
   };
 };
 
@@ -783,3 +816,5 @@ export const updateChildrenSort = (
     focusComponent: modifiedComponent,
   };
 };
+
+

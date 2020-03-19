@@ -45,6 +45,11 @@ function undo() {
   mainWindow.webContents.send('undo');
 }
 
+function redo() {
+  mainWindow.webContents.send('redo');
+}
+
+
 function toggleTutorial() {
   mainWindow.webContents.send('tutorial_clicked');
 }
@@ -113,12 +118,18 @@ const createWindow = () => {
       submenu: [
         { 
           label: 'Undo',
-          accelerator: process.platform === 'darwin' ? 'Command+Z' : 'Ctrl+Z',
+          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',
           click() {
             undo();
           }
         },
-        { role: 'redo' },
+        { 
+          label: 'Redo',
+          accelerator: process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
+          click() {
+            redo();
+          }
+        },
         { type: 'separator' },
         { role: 'cut' },
         { role: 'copy' },

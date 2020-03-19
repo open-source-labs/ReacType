@@ -34,6 +34,8 @@ import {
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
   CHANGE_TUTORIAL,
+  UNDO,
+  REDO
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
@@ -298,6 +300,9 @@ export const updateHtmlAttr = ({
     payload: { attr, value },
   });
 };
+
+
+
 
 //Action reserved for SortChildren component not written yet
 // export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (

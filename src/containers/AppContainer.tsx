@@ -29,6 +29,8 @@ interface Props {
   loadInitData(): void;
   changeImagePath(imageSource: string): void;
   changeTutorial(tutorial: number): void;
+  undo(): void;
+  redo(): void;
   tutorial: number;
 }
 
@@ -100,8 +102,13 @@ class AppContainer extends Component<Props, State> {
 
     //Undo command listener
     IPC.on('undo', () => {
-      console.log('undo');
+
     });
+
+        //Redo command listener
+        IPC.on('redo', () => {
+
+        });
   }
 
   handleNext = (tutorial: number) => {

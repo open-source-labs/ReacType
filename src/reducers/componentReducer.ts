@@ -33,6 +33,8 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
+  UNDO,
+  REDO,
 } from '../actionTypes/index';
 
 import {
@@ -57,6 +59,8 @@ import {
   updateChildrenSort,
   toggleComponentState,
   toggleComponentClass,
+  undo,
+  redo
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
