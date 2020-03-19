@@ -122,42 +122,33 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                       */}
 
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
-                        {focusedToggle ? (
-                          <InputLabel
-                            htmlFor="stateful"
-                            style={{
-                              color: '#fff',
-                              marginBottom: '10px',
-                              marginTop: '0px',
-                              marginLeft: '11px',
-                              padding: '0px',
-                              fontSize: '18px',
-                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                            }}
-                          >
-                            State?
-                          </InputLabel>
-                        ) : (
-                          ''
-                        )}
 
                         {focusedToggle ? (
-                          <Switch
-                            checked={stateful}
-                            onChange={e => {
-                              toggleComponentState(id);
-                              changeFocusComponent({ title });
-                            }}
-                            value="stateful"
-                            color="primary"
-                            // id={props.id.toString()}
-                          />
-                        ) : (
-                          ''
-                        )}
-                        <div>
-                          {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
-                          {focusedToggle ? (
+                          <span>
+                            <InputLabel
+                              htmlFor="stateful"
+                              style={{
+                                color: '#fff',
+                                marginBottom: '10px',
+                                marginTop: '0px',
+                                marginLeft: '11px',
+                                padding: '0px',
+                                fontSize: '18px',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                              }}
+                            >
+                              State?
+                            </InputLabel>
+                            <Switch
+                              checked={stateful}
+                              onChange={e => {
+                                toggleComponentState(id);
+                                changeFocusComponent({ title });
+                              }}
+                              value="stateful"
+                              color="primary"
+                              // id={props.id.toString()}
+                            />
                             <InputLabel
                               htmlFor="classBased"
                               style={{
@@ -171,11 +162,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               }}
                             >
                               Class?
-                            </InputLabel>
-                          ) : (
-                            ''
-                          )}
-                          {focusedToggle ? (
+                            </InputLabel>{' '}
+                            (
                             <Switch
                               checked={classBased}
                               onChange={e => {
@@ -185,48 +173,49 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               value="classBased"
                               color="primary"
                             />
-                          ) : (
-                            ''
-                          )}
-                          {focusedToggle && component.id !== 1 ? (
-                            <Button
-                              variant="text"
-                              size="small"
-                              color="default"
-                              aria-label="Delete"
-                              className={classes.margin}
-                              onClick={() =>
-                                deleteComponent({
-                                  componentId: id,
-                                  stateComponents: components,
-                                })
-                              }
+                          </span>
+                        ) : (
+                          ''
+                        )}
+
+                        {focusedToggle && component.id !== 1 ? (
+                          <Button
+                            variant="text"
+                            size="small"
+                            color="default"
+                            aria-label="Delete"
+                            className={classes.margin}
+                            onClick={() =>
+                              deleteComponent({
+                                componentId: id,
+                                stateComponents: components,
+                              })
+                            }
+                            style={{
+                              color: 'white',
+                              marginBottom: '0px',
+                              marginTop: '4px',
+                            }}
+                          >
+                            <DeleteIcon
                               style={{
-                                color: 'white',
-                                marginBottom: '0px',
-                                marginTop: '4px',
+                                color: '#b30000',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                              }}
+                            />
+                            <div
+                              style={{
+                                marginTop: '3px',
+                                fontSize: '15px',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
                               }}
                             >
-                              <DeleteIcon
-                                style={{
-                                  color: '#b30000',
-                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  marginTop: '3px',
-                                  fontSize: '15px',
-                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                }}
-                              >
-                                Delete Component
-                              </span>
-                            </Button>
-                          ) : (
-                            ''
-                          )}
-                        </div>
+                              Delete Component
+                            </div>
+                          </Button>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     }
                     style={{ color }}
