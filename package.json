@@ -15,9 +15,9 @@
     "Sean Sadykoff",
     "Shlomo Porges",
     "Sophia Huttner",
-    "Tolga Mizrakci",  
+    "Tolga Mizrakci",
     "Tony Ito-Cole"
-    ],
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/team-reactype/ReacType"
@@ -134,6 +134,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "concurrently": "^5.1.0",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
