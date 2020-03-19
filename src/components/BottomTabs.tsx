@@ -7,7 +7,12 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import { ComponentInt, ComponentsInt, PropInt, PropsInt } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  PropsInt
+} from '../utils/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -109,7 +114,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
-        tree.children.push(this.generateComponentTree(child.childComponentId, components));
+        tree.children.push(
+          this.generateComponentTree(child.childComponentId, components)
+        );
       } else {
         tree.children.push({
           name: child.componentName,
@@ -122,13 +129,21 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   }
 
   render(): JSX.Element {
-    const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
+    const {
+      classes,
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+      focusChild
+    } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
-      .length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(
+      child => child.childType === 'HTML'
+    ).length;
 
     return (
       <div className={classes.root}>
@@ -155,7 +170,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+            label={`HTML Element Attributes ${
+              htmlAttribCount ? `(${htmlAttribCount})` : ''
+            } `}
           />
           <Tab
             disableRipple
@@ -199,7 +216,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             />
           </div>
         )}
-        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 1 && (
+          <CodePreview
+            focusComponent={focusComponent}
+            components={components}
+          />
+        )}
         {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3 && focusChild.childType !== 'HTML' && (
