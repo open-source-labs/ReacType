@@ -13,7 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-
 import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
@@ -29,12 +28,10 @@ interface LeftColExpPanPropsInt extends PropsInt {
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
 }
-
 //interface created but never used
 // interface TypographyProps {
 //   type: string;
 // }
-
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const {
@@ -47,19 +44,15 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     selectableChildren,
     deleteComponent,
     toggleComponentState,
-    toggleComponentClass,
+    toggleComponentClass
   } = props;
-
   const { title, id, color, stateful, classBased } = component;
-
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
-
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
-
   return (
     <Grid
       container
@@ -91,7 +84,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 color: 'red',
                 backgroundColor: color,
                 borderRadius: '10px',
-                minWidth: '320px',
+                minWidth: '320px'
               }}
             >
               <List style={{ color: 'red' }}>
@@ -112,21 +105,17 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                           style={{
                             color: '#fff',
                             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                            fontSize: '1.40rem',
+                            fontSize: '1.40rem'
                           }}
                         >
                           {title}
                         </Typography>
-
                         {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
-                      
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
-
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
-
                         {focusedToggle ? (
-                          <span>
+                          <span style={{ display: 'inline-flex' }}>
                             <InputLabel
                               htmlFor="stateful"
                               style={{
@@ -136,7 +125,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                               }}
                             >
                               State?
@@ -160,7 +149,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                               }}
                             >
                               Class?
@@ -179,7 +168,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         ) : (
                           ''
                         )}
-
                         {focusedToggle && component.id !== 1 ? (
                           <Button
                             variant="text"
@@ -190,26 +178,26 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             onClick={() =>
                               deleteComponent({
                                 componentId: id,
-                                stateComponents: components,
+                                stateComponents: components
                               })
                             }
                             style={{
                               color: 'white',
                               marginBottom: '0px',
-                              marginTop: '4px',
+                              marginTop: '4px'
                             }}
                           >
                             <DeleteIcon
                               style={{
                                 color: '#b30000',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
                               }}
                             />
                             <div
                               style={{
                                 marginTop: '3px',
                                 fontSize: '15px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
                               }}
                             >
                               Delete Component
@@ -282,21 +270,19 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     </Grid>
   );
 };
-
 function styles(): any {
   return {
     root: {
       width: '100%',
       marginTop: 10,
-      backgroundColor: '#333333',
+      backgroundColor: '#333333'
     },
     light: {
       color: '#eee',
       '&:hover': {
-        color: '#1de9b6',
-      },
-    },
+        color: '#1de9b6'
+      }
+    }
   };
 }
-
 export default withStyles(styles)(LeftColExpansionPanel);

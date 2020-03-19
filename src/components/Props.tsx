@@ -25,15 +25,15 @@ const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   chip: {
     color: '#eee',
-    backgroundColor: '#333333',
+    backgroundColor: '#333333'
   },
   column: {
     display: 'inline-flex',
-    alignItems: 'baseline',
+    alignItems: 'baseline'
   },
   icon: {
     fontSize: '20px',
@@ -42,15 +42,15 @@ const styles = (theme: any) => ({
     transition: 'all .2s ease',
 
     '&:hover': {
-      color: 'red',
-    },
+      color: 'red'
+    }
   },
   cssLabel: {
     color: 'white',
 
     '&$cssFocused': {
-      color: 'green',
-    },
+      color: 'green'
+    }
   },
   cssFocused: {},
   input: {
@@ -110,25 +110,25 @@ const styles = (theme: any) => ({
   },
   dataTable: {
     border: '1px solid red',
-    backgroundColor: 'red'
-    width: '60%',
+    backgroundColor: 'red',
+    width: '60%'
   },
   light: {
-    color: '#eee',
+    color: '#eee'
   },
   avatar: {
     color: '#eee',
-    fontSize: '10px',
-  },
+    fontSize: '10px'
+  }
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
+  focusComponent: store.workspace.focusComponent
 });
 
 // available types for select drop-down for button types
@@ -144,17 +144,17 @@ const availablePropTypes = {
   // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
-  enum: 'ENUM',
+  enum: 'ENUM'
 };
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
     </option>
-  )),
+  ))
 ];
 interface StateInt {
   propVariable: string;
@@ -169,7 +169,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
       propVariable: '',
       propValue: '',
       propRequired: true,
-      propType: '',
+      propType: ''
     };
   }
 
@@ -178,18 +178,18 @@ class Props extends Component<PropsPropsInt, StateInt> {
   handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propVariable') {
       this.setState({
-        [event.target.id]: event.target.value.trim(),
+        [event.target.id]: event.target.value.trim()
       });
     } else {
       this.setState({
-        [event.target.id]: event.target.value,
+        [event.target.id]: event.target.value
       });
     }
   };
 
   togglePropRequired = () => {
     this.setState({
-      propRequired: !this.state.propRequired,
+      propRequired: !this.state.propRequired
     });
   };
 
@@ -224,14 +224,14 @@ class Props extends Component<PropsPropsInt, StateInt> {
       key: propVariable,
       value: propValue,
       required: propRequired,
-      type: propType,
+      type: propType
     });
 
     this.setState({
       propVariable: '',
       propValue: '',
       propRequired: true,
-      propType: '',
+      propType: ''
     });
   };
 
@@ -261,7 +261,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
           <Fragment>
             <div>
               <span>
-                <span className='compLabel-left-left'>
+                <span className="compLabel-left-left">
                   {`Add Prop`}{' '}
                   <span
                     style={{
@@ -278,23 +278,23 @@ class Props extends Component<PropsPropsInt, StateInt> {
               </span>
             </div>
             <div
-              className='props-container'
+              className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className='props-input' onSubmit={this.handleAddProp}>
+                  <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
-                            type='text'
+                            type="text"
                             native
-                            id='propVariable'
-                            label='Prop'
-                            margin='none'
+                            id="propVariable"
+                            label="Prop"
+                            margin="none"
                             autoFocus
-                            size='medium'
+                            size="medium"
                             onChange={this.handleChange}
                             value={this.state.propVariable}
                             color={'primary'}
@@ -328,15 +328,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
                         <FormControl required>
                           <InputLabel
                             className={classes.selectLabel}
-                            htmlFor='propType'
+                            htmlFor="propType"
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.select}
-                            id='propType'
-                            placeholder='title'
+                            id="propType"
+                            placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -364,12 +364,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid> */}
                       <Grid item>
                         <Button
-                          color='primary'
-                          aria-label='Add'
-                          type='submit'
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant='contained'
-                          size='large'
+                          variant="contained"
+                          size="large"
                           className={classes.addProp}
                         >
                           ADD PROP
