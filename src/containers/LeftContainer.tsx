@@ -250,7 +250,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     const { addImage } = this;
 
     return (
-      <div className="column left">
+      <div className="column left" style={{ minWidth: '466px' }}>
         <Grid
           container
           spacing={8}
