@@ -56,15 +56,18 @@ const styles = (theme: any) => ({
   input: {
     color: '#000',
     marginBottom: '10px',
-    width: '100%',
+    width: '12rem',
     backgroundColor: '#fff',
     borderRadius: '11px',
     height: '40%',
-    overflowWrap: 'break-word',
     paddingLeft: '15px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    fontSize: '1.2rem'
+    paddingRight: '10px',
+    fontSize: '1.2rem',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis'
   },
   inputLabel: {
     fontSize: '1.3rem',
