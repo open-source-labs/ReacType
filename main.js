@@ -237,7 +237,9 @@ const createWindow = () => {
   });
 
   // dev tools opened on every browser creation
-  mainWindow.webContents.openDevTools();
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools();
+  });
 };
 
 // This method will be called when Electron has finished
