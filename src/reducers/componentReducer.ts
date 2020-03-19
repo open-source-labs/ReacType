@@ -1,9 +1,4 @@
-import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt,
-  Action,
-} from '../utils/Interfaces';
+import { ComponentInt, ChildInt, ApplicationStateInt, Action } from '../utils/Interfaces.ts';
 
 import {
   LOAD_INIT_DATA,
@@ -32,8 +27,8 @@ import {
   ADD_PROP,
   DELETE_PROP,
   UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
-} from '../actionTypes';
+  UPDATE_CHILDREN_SORT
+} from '../actionTypes/index.ts';
 
 import {
   addComponent,
@@ -56,10 +51,9 @@ import {
   updateHtmlAttr,
   updateChildrenSort,
   toggleComponentState,
-  toggleComponentClass,
-} from '../utils/componentReducer.util';
-import cloneDeep from '../utils/cloneDeep';
-
+  toggleComponentClass
+} from '../utils/componentReducer.util.ts';
+import cloneDeep from '../utils/cloneDeep.ts';
 
 const appComponent: ComponentInt = {
   id: 1,
@@ -73,11 +67,11 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400,
+    height: 400
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
+  focusChildId: 0
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -87,14 +81,14 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550,
+    height: 550
   },
   childType: null,
   childSort: 0,
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null,
+  HTMLInfo: null
 };
 
 const initialApplicationState: ApplicationStateInt = {
@@ -111,7 +105,7 @@ const initialApplicationState: ApplicationStateInt = {
   focusChild: cloneDeep(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
-  loading: false,
+  loading: false
 };
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
@@ -123,7 +117,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -145,8 +139,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeComponentFocusChild(state, action.payload);
     case CHANGE_IMAGE_SOURCE:
       return changeImageSource(state, action.payload);
-      case CHANGE_TUTORIAL:
-        return changeTutorial(state, action.payload);
+    case CHANGE_TUTORIAL:
+      return changeTutorial(state, action.payload);
     case DELETE_IMAGE:
       return deleteImage(state);
     case EXPORT_FILES:

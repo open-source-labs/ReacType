@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
 import InputLabel from '@material-ui/core/InputLabel';
-import { updateHtmlAttr } from '../actions/components';
-import { HTMLelements } from '../utils/htmlElements.util';
-import { ComponentInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
+import { updateHtmlAttr } from '../actions/components.ts';
+import { HTMLelements } from '../utils/htmlElements.util.ts';
+import { ComponentInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces.ts';
 
 interface HTMLAttrPropsInt extends PropsInt {
   updateHtmlAttr(arg: { attr: string; value: string }): void;

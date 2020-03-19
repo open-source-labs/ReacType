@@ -15,7 +15,7 @@ import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
 import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
 import * as actions from '../actions/components.ts';
 import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces.ts';
-import createModal from '../utils/createModal.util.ts';
+import createModal from '../utils/createModal.util.tsx';
 import cloneDeep from '../utils/cloneDeep.ts';
 
 const IPC = require('electron').ipcRenderer;

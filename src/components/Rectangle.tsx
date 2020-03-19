@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 import { Rect, Group, Label, Text } from 'react-konva';
-import TransformerComponent from './TransformerComponent';
-import GrandchildRectangle from './GrandchildRectangle';
-import { ComponentInt, PropsInt, ChildInt } from '../utils/Interfaces';
+import TransformerComponent from './TransformerComponent.tsx';
+import GrandchildRectangle from './GrandchildRectangle.tsx';
+import { ComponentInt, PropsInt, ChildInt } from '../utils/Interfaces.ts';
 
 interface RectanglePorpsInt extends PropsInt {
   x: number;

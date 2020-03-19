@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers/index.ts';
-import { saveState } from './localStorage';
+import { saveState } from './localStorage.ts';
 
 let composer;
 

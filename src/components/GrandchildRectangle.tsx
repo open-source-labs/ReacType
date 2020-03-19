@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Rect, Group } from 'react-konva';
-import { ComponentsInt, ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
+import { ComponentsInt, ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces.ts';
 
 //////////////////////////////////////////////////////////////////////////////
 /////Logic in this component is mainly the same as Rectangle.tsx./////////////

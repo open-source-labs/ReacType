@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import componentRender from '../utils/componentRender.util.ts';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
 // import SortChildren from './SortChildren.tsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';

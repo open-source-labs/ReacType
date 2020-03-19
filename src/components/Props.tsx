@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/components';
-import DataTable from './DataTable';
-import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces';
+import { addProp, deleteProp } from '../actions/components.ts';
+import DataTable from './DataTable.tsx';
+import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces.ts';
 
 interface PropsPropsInt extends PropsInt {
   classes: any;

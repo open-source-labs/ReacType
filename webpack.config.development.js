@@ -16,20 +16,20 @@ module.exports = {
   entry: ['babel-polyfill', './index.js'],
   devtool: 'eval-source-map',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   output: {
     path: BUILD_DIR,
-    filename: 'js/bundle.js',
+    filename: 'js/bundle.js'
   },
   module: {
     rules: [
       { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
-      { test: /\.ts?$/, exclude: /node-modules/, loader: 'babel-loader' },
+      { test: /\.ts$/, exclude: /node-modules/, loader: 'babel-loader' },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: ['babel-loader']
       },
       {
         test: /\.(s?css)$/,
@@ -40,8 +40,8 @@ module.exports = {
               loader: 'css-loader',
               options: {
                 camelCase: true,
-                sourceMap: true,
-              },
+                sourceMap: true
+              }
             },
             {
               loader: 'postcss-loader',
@@ -49,42 +49,42 @@ module.exports = {
                 config: {
                   ctx: {
                     autoprefixer: {
-                      browsers: 'last 2 versions',
-                    },
-                  },
-                },
-              },
+                      browsers: 'last 2 versions'
+                    }
+                  }
+                }
+              }
             },
             {
-              loader: 'sass-loader',
-            },
-          ],
-        }),
-      },
-    ],
+              loader: 'sass-loader'
+            }
+          ]
+        })
+      }
+    ]
   },
 
   plugins: [
     // new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
+      template: 'public/index.html'
     }),
     new ExtractTextPlugin({
       filename: 'styles/style.css',
-      allChunks: true,
+      allChunks: true
     }),
     new CopyWebpackPlugin([
       {
         from: 'public/images/**/*',
         to: 'images/',
         flatten: true,
-        force: true,
-      },
-    ]),
+        force: true
+      }
+    ])
   ],
   devServer: {
     contentBase: BUILD_DIR,
-    hot: true,
+    hot: true
   },
-  watch: true,
+  watch: true
 };
