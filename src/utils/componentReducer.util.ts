@@ -65,11 +65,11 @@ export const addComponent = (
   //chooses a color for the component from the random color generator
   let componentColor = getColor();
 
-  // const lastColor = state.components.find(element => {
-  //   element.id === state.nextId - 1;
-  // }).color;
+  const lastColor = state.components.find(element => {
+    element.id === state.nextId - 1;
+  }).color;
 
-  // console.log('lastColor', lastColor);
+  console.log('lastColor', lastColor);
 
   while (componentColor === lastColor) {
     componentColor = getColor();
