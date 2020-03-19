@@ -120,8 +120,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               htmlFor="stateful"
                               style={{
                                 color: '#fff',
-                                marginBottom: '10px',
-                                marginTop: '0px',
+                                marginBottom: '0px',
+                                marginTop: '10px',
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
@@ -144,8 +144,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               htmlFor="classBased"
                               style={{
                                 color: '#fff',
-                                marginBottom: '10px',
-                                marginTop: '0px',
+                                marginBottom: '0px',
+                                marginTop: '10px',
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
