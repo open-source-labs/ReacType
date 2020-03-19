@@ -32,11 +32,12 @@ const initialComponentState: ComponentInt = {
   focusChildId: 0
 };
 
+// console.log('state at component reducer before addComponent', state);
 export const addComponent = (
   state: ApplicationStateInt,
   { title }: { title: string }
 ) => {
-  console.log('state at component reducer', state);
+  console.log('state at component reducer inside addComponent', state);
   // remove whitespace and digits, capitalize first char
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
@@ -63,11 +64,14 @@ export const addComponent = (
 
   //chooses a color for the component from the random color generator
   let componentColor = getColor();
-  //Makes sure no two consecutive components have the same color
-  console.log('last Color form component reducer', lastColor);
-  const lastColor = state.components.find(
-    element => element.id === state.nextId - 1
-  ).color;
+
+  // TODO: take another look at this
+  const lastColor = state.components.find(element => {
+    element.id === state.nextId - 1;
+  });
+
+  // TODO: not returning lastColor
+  console.log('this is lastColor', lastColor);
 
   while (componentColor === lastColor) {
     componentColor = getColor();
