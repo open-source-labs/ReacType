@@ -51,9 +51,18 @@ const styles = (theme: any) => ({
   },
   cssFocused: {},
   input: {
-    color: '#eee',
+    color: '#000',
     marginBottom: '10px',
-    width: '60%'
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: '11px',
+    height: '40%',
+    overflowWrap: 'break-word',
+    padding: '8px'
+  },
+  inputLabel: {
+    fontSize: '1rem',
+    border: '10px solid red'
   },
   light: {
     color: '#eee'
@@ -230,26 +239,23 @@ class Props extends Component<PropsPropsInt, StateInt> {
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
-                          {/* <InputLabel
-                            className={classes.light}
-                            htmlFor='propVariable'
-                          >
-                            Props
-                          </InputLabel> */}
                           <TextField
+                            type='text'
                             native
                             id='propVariable'
                             label='Prop'
-                            margin='normal'
+                            margin='none'
                             autoFocus
+                            size='medium'
                             onChange={this.handleChange}
                             value={this.state.propVariable}
+                            color={'primary'}
                             required
                             InputProps={{
                               className: classes.input
                             }}
                             InputLabelProps={{
-                              className: classes.input
+                              className: classes.inputLabel
                             }}
                           />
                         </FormControl>
@@ -329,7 +335,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
                     rowHeader={rowHeader}
                     rowData={propsRows}
                     deletePropHandler={deleteProp}
-                    style={{ border: '1px solid red' }}
                   />
                 </Grid>
                 <Grid item xs={1} />
