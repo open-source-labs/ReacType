@@ -79,7 +79,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse
             in={focusedToggle}
-            collapsedHeight={70} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            collapsedHeight={'70px'}
+            timeout={500} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
@@ -248,7 +249,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 onClick={() =>
                   deleteComponent({
                     componentId: id,
-                    stateComponents: components
+                    stateComponents: components,
                   })
                 }
                 style={{
@@ -256,7 +257,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   marginBottom: '10px',
                   marginTop: '4px',
                   marginLeft: '11px',
-                  padding: '0px'
+                  padding: '0px',
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />

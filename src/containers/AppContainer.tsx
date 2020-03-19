@@ -60,10 +60,9 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   loadInitData: () => dispatch(actions.loadInitData()),
   changeImagePath: (imageSource: string) =>
     dispatch(actions.changeImagePath(imageSource)),
-    //function to change the tutorial step 
-  changeTutorial: (tutorial: number) => 
-    dispatch(actions.changeTutorial(tutorial))
-
+  //function to change the tutorial step
+  changeTutorial: (tutorial: number) =>
+    dispatch(actions.changeTutorial(tutorial)),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -100,7 +99,7 @@ class AppContainer extends Component<Props, State> {
 
   handleNext = (tutorial: number) => {
     this.props.changeTutorial(tutorial);
-  }
+  };
 
   //This sets checks if the image was removed via the clear image button on the left container.
   //Technically this logic should be done in the reducer, not here.
@@ -144,7 +143,7 @@ class AppContainer extends Component<Props, State> {
       loading,
       selectableChildren,
       totalComponents,
-      tutorial
+      tutorial,
     } = this.props;
 
     // uses component childIds and parentIds arrays (numbers)s to build component-filled children and parents arrays

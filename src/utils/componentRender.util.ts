@@ -16,7 +16,7 @@ const componentRender = (
     title,
     props,
     stateful,
-    classBased
+    classBased,
   }: {
     childrenArray: ChildrenInt;
     title: string;

@@ -22,7 +22,7 @@ class CodePreview extends Component<CodePreviewProps> {
         style={{
           height: '290px',
           paddingLeft: '30px',
-          overflow: 'auto'
+          overflow: 'auto',
         }}
       >
         <SyntaxHighlighter style={hybrid}>
@@ -31,7 +31,7 @@ class CodePreview extends Component<CodePreviewProps> {
             trailingComma: 'es5',
             bracketSpacing: true,
             jsxBracketSameLine: true,
-            parser: 'typescript'
+            parser: 'typescript',
           })}
         </SyntaxHighlighter>
       </div>

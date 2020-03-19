@@ -15,7 +15,7 @@ class Tutorial extends Component<Props> {
     const { tutorial, handleNext } = this.props;
 
     let dialog;
-    if (!tutorial) dialog = (<div />);
+    if (!tutorial) dialog = <div />;
     if (tutorial === 1) {
       dialog = (
         <div
@@ -40,7 +40,8 @@ class Tutorial extends Component<Props> {
             Step 1
           </h1>
           <h2 id="transition-modal-description">
-            Upload an image of your website template using the red 'upload image' button below.
+            Upload an image of your website template using the red 'upload
+            image' button below.
           </h2>
           <h2 id="transition-modal-description">
             You can remove the image by clicking the button again, or replace
@@ -83,13 +84,17 @@ class Tutorial extends Component<Props> {
             Step 2
           </h1>
           <h2 id="transition-modal-description">
-            Give your component a name add click '+' to add it to your collection of components.
+            Give your component a name add click '+' to add it to your
+            collection of components.
           </h2>
           <h2 id="transition-modal-description">
-            You can also make each component you create stateful or not stateful, and functional or as a class component as well.
+            You can also make each component you create stateful or not
+            stateful, and functional or as a class component as well.
           </h2>
           <h2 id="transition-modal-description">
-            Once you've added your component, while in the view of the component you would like to make the parent of your new component, click '+' next to the new component you created to make it a child. 
+            Once you've added your component, while in the view of the component
+            you would like to make the parent of your new component, click '+'
+            next to the new component you created to make it a child.
           </h2>
           <Button
             onClick={() => {
@@ -128,10 +133,13 @@ class Tutorial extends Component<Props> {
             Step 3
           </h1>
           <h2 id="transition-modal-description">
-            Once you have designed your components above, you can add props and HTML elements to your components in this bottom panel.
+            Once you have designed your components above, you can add props and
+            HTML elements to your components in this bottom panel.
           </h2>
           <h2 id="transition-modal-description">
-            While you're working on designing your app, you can also preview the code that will be exported and your application's component tree in the corresponding tabs. 
+            While you're working on designing your app, you can also preview the
+            code that will be exported and your application's component tree in
+            the corresponding tabs.
           </h2>
           <Button
             onClick={() => {
@@ -170,10 +178,12 @@ class Tutorial extends Component<Props> {
             Step 4
           </h1>
           <h2 id="transition-modal-description">
-            Once you're all done, simply click on the "Export Project" button below to export your files for development.
+            Once you're all done, simply click on the "Export Project" button
+            below to export your files for development.
           </h2>
           <h2 id="transition-modal-description">
-            You have the option of exporting just the components, or an entire React + Express boilerplate with the components you designed. 
+            You have the option of exporting just the components, or an entire
+            React + Express boilerplate with the components you designed.
           </h2>
           <Button
             onClick={() => {
