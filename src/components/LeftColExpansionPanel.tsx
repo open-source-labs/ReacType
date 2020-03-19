@@ -13,7 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces.ts'; // unused
+import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
@@ -21,7 +21,10 @@ interface LeftColExpPanPropsInt extends PropsInt {
   addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   selectableChildren: number[];
-  deleteComponent(arg: { componentId: number; stateComponents: ComponentsInt }): void;
+  deleteComponent(arg: {
+    componentId: number;
+    stateComponents: ComponentsInt;
+  }): void;
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
 }
@@ -42,7 +45,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     selectableChildren,
     deleteComponent,
     toggleComponentState,
-    toggleComponentClass
+    toggleComponentClass,
   } = props;
 
   const { title, id, color, stateful, classBased } = component;
@@ -56,7 +59,13 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const focusedToggle = isFocused() === 'focused' ? true : false;
 
   return (
-    <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
+    <Grid
+      container
+      spacing={16}
+      direction="row"
+      justify="flex-start"
+      alignItems="center"
+    >
       <Grid item xs={9}>
         <div
           className={classes.root}
@@ -85,7 +94,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         style={{
                           color: '#fff',
                           textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
-                          fontSize: '1.40rem'
+                          fontSize: '1.40rem',
                         }}
                       >
                         {title}
@@ -107,7 +116,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             marginLeft: '11px',
                             padding: '0px',
                             fontSize: '18px',
-                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                           }}
                         >
                           State?
@@ -141,7 +150,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               marginTop: '0px',
                               marginLeft: '11px',
                               padding: '0px',
-                              fontSize: '18px'
+                              fontSize: '18px',
                             }}
                           >
                             Class?
@@ -183,7 +192,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 onClick={() =>
                   deleteComponent({
                     componentId: id,
-                    stateComponents: components
+                    stateComponents: components,
                   })
                 }
                 style={{
@@ -191,7 +200,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   marginBottom: '10px',
                   marginTop: '4px',
                   marginLeft: '11px',
-                  padding: '0px'
+                  padding: '0px',
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
@@ -206,7 +215,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
         {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
           <div />
         ) : (
-          <Tooltip title="add as child" aria-label="add as child" placement="left">
+          <Tooltip
+            title="add as child"
+            aria-label="add as child"
+            placement="left"
+          >
             <IconButton
               aria-label="Add"
               onClick={() => {
@@ -227,14 +240,14 @@ function styles(): any {
     root: {
       width: '100%',
       marginTop: 10,
-      backgroundColor: '#333333'
+      backgroundColor: '#333333',
     },
     light: {
       color: '#eee',
       '&:hover': {
-        color: '#1de9b6'
-      }
-    }
+        color: '#1de9b6',
+      },
+    },
   };
 }
 

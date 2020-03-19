@@ -7,7 +7,7 @@ linux:
   target:
     - AppImage
     - deb
-  maintainer: spincycle01@yahoo.com
+  maintainer: sean.sadykoff@gmail.com
 mac:
   category: public.app-category.developer-tools
   target: dmg
@@ -29,4 +29,4 @@ dmg:
       'y': 150
       type: link
       path: /Applications
-electronVersion: 2.0.7
+electronVersion: 3.0.0
