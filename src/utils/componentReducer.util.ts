@@ -65,17 +65,16 @@ export const addComponent = (
   //chooses a color for the component from the random color generator
   let componentColor = getColor();
 
-  // TODO: take another look at this
-  const lastColor = state.components.find(element => {
-    element.id === state.nextId - 1;
-  });
+  // const lastColor = state.components.find(element => {
+  //   element.id === state.nextId - 1;
+  // }).color;
 
-  // TODO: not returning lastColor
-  console.log('this is lastColor', lastColor);
+  // console.log('lastColor', lastColor);
 
   while (componentColor === lastColor) {
     componentColor = getColor();
   }
+
   //assigns the componentID to whatever is supposed to be next
   const componentId = state.nextId;
 
