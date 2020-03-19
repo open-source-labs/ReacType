@@ -41,7 +41,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     //anything, and the gridStroke is the stroke width of the squares.
     this.state = {
       stageWidth: 1800,
-      stageHeight: 900,
+      stageHeight: 1300,
       blockSnapSize: 10,
       grid: [],
       gridStroke: 1
