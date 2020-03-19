@@ -11,7 +11,7 @@ import {
   ComponentInt,
   ComponentsInt,
   PropInt,
-  PropsInt,
+  PropsInt
 } from '../utils/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
@@ -38,13 +38,13 @@ const styles = (theme: Theme): any => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242',
+    borderBottom: '0.5px solid #424242'
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6',
+    backgroundColor: '#1de9b6'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -62,27 +62,27 @@ const styles = (theme: Theme): any => ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+      '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
       color: '#1de9b6',
-      opacity: 1,
+      opacity: 1
     },
     '&$tabSelected': {
       color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: '#4aedc4',
-    },
+      color: '#4aedc4'
+    }
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`,
-  },
+    padding: `0 ${theme.spacing.unit * 2}px`
+  }
 });
 
 class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
@@ -90,7 +90,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     super(props);
     this.state = {
       value: 0,
-      translate: { x: 0, y: 0 },
+      translate: { x: 0, y: 0 }
     };
   }
   treeWrapper: HTMLDivElement;
@@ -100,8 +100,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     this.setState({
       translate: {
         x: dimensions.width / 12,
-        y: dimensions.height / 2.2,
-      },
+        y: dimensions.height / 2.2
+      }
     });
   }
 
@@ -110,7 +110,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   };
 
   handleClick = (event: any, node: any) => {
-    this.props.changeFocusComponent({ title: event.name });
+    if (!event.attributes.Type) {
+      this.props.changeFocusComponent({ title: event.name });
+    }
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
@@ -120,13 +122,14 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
         tree.children.push(
-          this.generateComponentTree(child.childComponentId, components),
+          this.generateComponentTree(child.childComponentId, components)
         );
       } else {
+        let str = { Type: 'HTML Element' };
         tree.children.push({
           name: child.componentName,
-          attributes: {},
-          children: [],
+          attributes: str,
+          children: []
         });
       }
     });
@@ -140,14 +143,14 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild,
+      focusChild
     } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
     const htmlAttribCount = focusComponent.childrenArray.filter(
-      child => child.childType === 'HTML',
+      child => child.childType === 'HTML'
     ).length;
 
     return (
@@ -191,7 +194,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             id='treeWrapper'
             style={{
               width: '100%',
-              height: '100%',
+              height: '100%'
             }}
             ref={node => (this.treeWrapper = node)}
           >
@@ -207,17 +210,17 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
+                      strokeWidth: 1
+                    }
                   },
                   leafNode: {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                },
+                      strokeWidth: 1
+                    }
+                  }
+                }
               }}
             />
           </div>

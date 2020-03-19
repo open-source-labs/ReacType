@@ -99,7 +99,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                     disableTypography
                     className={classes.light}
                     primary={
-                      <div>
                         <Typography
                           //type='body2'
                           style={{
@@ -114,10 +113,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
+
                         {focusedToggle ? (
-                          <span style={{ display: 'inline-flex' }}>
+                          <span>
                             <InputLabel
-                              htmlFor='stateful'
+                              htmlFor="stateful"
                               style={{
                                 color: '#fff',
                                 marginBottom: '10px',
@@ -125,7 +125,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                               }}
                             >
                               State?
@@ -136,12 +136,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentState(id);
                                 changeFocusComponent({ title });
                               }}
-                              value='stateful'
-                              color='primary'
+                              value="stateful"
+                              color="primary"
                               // id={props.id.toString()}
                             />
                             <InputLabel
-                              htmlFor='classBased'
+                              htmlFor='stateful'
                               style={{
                                 color: '#fff',
                                 marginBottom: '10px',
@@ -191,6 +191,35 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               style={{
                                 color: '#b30000',
                                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
+                              }}
+                            />
+                        ) : (
+                          ''
+                        )}
+
+                        {focusedToggle && component.id !== 1 ? (
+                          <Button
+                            variant="text"
+                            size="small"
+                            color="default"
+                            aria-label="Delete"
+                            className={classes.margin}
+                            onClick={() =>
+                              deleteComponent({
+                                componentId: id,
+                                stateComponents: components,
+                              })
+                            }
+                            style={{
+                              color: 'white',
+                              marginBottom: '0px',
+                              marginTop: '4px',
+                            }}
+                          >
+                            <DeleteIcon
+                              style={{
+                                color: '#b30000',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
                               }}
                             />
                             <div

@@ -113,7 +113,8 @@ const styles = (theme: any) => ({
   },
   dataTable: {
     border: '1px solid red',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    width: '60%',
   },
   light: {
     color: '#eee'
@@ -248,7 +249,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
       Prop: prop.key,
       // Value: prop.value,
       Type: prop.type,
-      Required: prop.required,
       id: prop.id
     }));
 
