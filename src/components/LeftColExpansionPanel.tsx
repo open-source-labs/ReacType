@@ -60,14 +60,21 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       direction='row'
       justify='center'
       alignItems='center'
-      style={{ minWidth: '320px' }}
+      style={{
+        minWidth: '470px'
+      }}
     >
       <Grid item xs={9}>
         <div
           className={classes.root}
           style={
             // shadow to highlight the focused component card
-            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
+            focusedToggle
+              ? {
+                  boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
+                  borderRadius: '8px'
+                }
+              : {}
           }
         >
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
@@ -75,16 +82,19 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             in={focusedToggle}
             collapsedHeight={'70px'}
             timeout={500} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            style={{ borderRadius: '5px' }}
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
               item
               xs={12}
               style={{
-                color: 'red',
-                backgroundColor: color,
+                // color: 'red',
+                // this is experimental for version: BLADERUNNER THEME
+                backgroundColor: 'none',
                 borderRadius: '10px',
-                minWidth: '320px'
+                minWidth: '340px',
+                border: `2px solid ${color}`
               }}
             >
               <List style={{ color: 'red' }}>
@@ -99,6 +109,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                     disableTypography
                     className={classes.light}
                     primary={
+                      <div>
                         <Typography
                           //type='body2'
                           style={{
@@ -113,19 +124,18 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
-
                         {focusedToggle ? (
-                          <span>
+                          <span style={{ display: 'inline-flex' }}>
                             <InputLabel
-                              htmlFor="stateful"
+                              htmlFor='stateful'
                               style={{
                                 color: '#fff',
-                                marginBottom: '10px',
-                                marginTop: '0px',
+                                marginBottom: '0px',
+                                marginTop: '10px',
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                               }}
                             >
                               State?
@@ -136,16 +146,16 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentState(id);
                                 changeFocusComponent({ title });
                               }}
-                              value="stateful"
-                              color="primary"
+                              value='stateful'
+                              color='primary'
                               // id={props.id.toString()}
                             />
                             <InputLabel
-                              htmlFor='stateful'
+                              htmlFor='classBased'
                               style={{
                                 color: '#fff',
-                                marginBottom: '10px',
-                                marginTop: '0px',
+                                marginBottom: '0px',
+                                marginTop: '10px',
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
@@ -154,7 +164,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             >
                               Class?
                             </InputLabel>{' '}
-                            (
                             <Switch
                               checked={classBased}
                               onChange={e => {
@@ -193,35 +202,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
                               }}
                             />
-                        ) : (
-                          ''
-                        )}
-
-                        {focusedToggle && component.id !== 1 ? (
-                          <Button
-                            variant="text"
-                            size="small"
-                            color="default"
-                            aria-label="Delete"
-                            className={classes.margin}
-                            onClick={() =>
-                              deleteComponent({
-                                componentId: id,
-                                stateComponents: components,
-                              })
-                            }
-                            style={{
-                              color: 'white',
-                              marginBottom: '0px',
-                              marginTop: '4px',
-                            }}
-                          >
-                            <DeleteIcon
-                              style={{
-                                color: '#b30000',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                              }}
-                            />
                             <div
                               style={{
                                 marginTop: '3px',
@@ -237,7 +217,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                       </div>
                     }
-                    style={{ color }}
+                    // style={{ color }}
                   />
                 </ListItem>
               </List>
@@ -299,7 +279,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     </Grid>
   );
 };
-function styles(): any {
+function styles(themes: any): any {
   return {
     root: {
       width: '100%',

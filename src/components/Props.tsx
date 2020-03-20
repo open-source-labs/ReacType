@@ -52,13 +52,26 @@ const styles = (theme: any) => ({
       color: 'green'
     }
   },
+  propHeader: {
+    fontSize: '35px',
+    fontWeight: '900',
+    marginLeft: '1rem',
+    paddingTop: '10px'
+  },
+  dataTableHeader: {
+    fontSize: '35px',
+    fontWeight: '900',
+    marginLeft: '22rem',
+    marginTop: '15px',
+    paddingTop: '10px'
+  },
   cssFocused: {},
   input: {
-    color: '#000',
+    color: '#fff',
     marginBottom: '10px',
-    width: '12rem',
-    backgroundColor: '#fff',
-    borderRadius: '11px',
+    width: '160px',
+    backgroundColor: 'none',
+    borderRadius: '5px',
     height: '40%',
     paddingLeft: '15px',
     paddingTop: '5px',
@@ -67,34 +80,34 @@ const styles = (theme: any) => ({
     fontSize: '1.2rem',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    border: '1px solid #33eb91'
   },
   inputLabel: {
-    fontSize: '1.3rem',
+    fontSize: '16px',
     zIndex: '20',
-    position: 'absolute',
-    top: '-2.5rem',
-    color: '#fff'
+    color: '#fff',
+    marginLeft: '10px'
   },
   select: {
     color: '#fff',
     marginBottom: '10px',
-    width: '8rem',
-    backgroundColor: '#91D1F9',
-    borderRadius: '11px',
+    width: '120px',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: '5px',
     height: '40%',
     overflowWrap: 'break-word',
     paddingLeft: '15px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    border: '1px solid #33eb91'
   },
   selectLabel: {
-    fontSize: '1.3rem',
+    fontSize: '16px',
     zIndex: '20',
-    position: 'absolute',
-    top: '-2.5rem',
-    color: '#fff'
+    color: '#fff',
+    marginLeft: '10px'
   },
   addProp: {
     width: '15rem',
@@ -112,9 +125,8 @@ const styles = (theme: any) => ({
     }
   },
   dataTable: {
-    border: '1px solid red',
     backgroundColor: 'red',
-    width: '60%',
+    width: '60%'
   },
   light: {
     color: '#eee'
@@ -264,7 +276,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
           <Fragment>
             <div>
               <span>
-                <span className='compLabel-left-left'>
+                <span className={classes.propHeader}>
                   {`Add Prop`}{' '}
                   <span
                     style={{
@@ -277,7 +289,9 @@ class Props extends Component<PropsPropsInt, StateInt> {
                 </span>
               </span>
               <span>
-                <span>{`All Props History`}</span>
+                <span
+                  className={classes.dataTableHeader}
+                >{`All Props History`}</span>
               </span>
             </div>
             <div

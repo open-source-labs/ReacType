@@ -26,10 +26,17 @@ const styles = (theme: Theme): any => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    height: '30px',
+    width: '15rem',
+    marginTop: '1rem',
+    borderRadius: '5px'
+    // border: '1px solid orange'
   },
   cssLabel: {
-    color: 'white'
+    color: 'white',
+    marginTop: '10px'
+    // border: '1px solid blue'
   },
   cssFocused: {
     color: 'green'
@@ -37,7 +44,36 @@ const styles = (theme: Theme): any => ({
   input: {
     color: '#fff',
     opacity: '0.7',
-    marginBottom: '15px'
+    height: '45px',
+    width: '146px',
+    marginTop: '20px',
+    borderRadius: '5px',
+    border: '1px solid #33eb91'
+  },
+  select: {
+    background: '#424242',
+    height: '45px',
+    width: '146px',
+    marginTop: '0px',
+    color: '#fff',
+    paddingLeft: '14px',
+    borderRadius: '5px'
+  },
+  selectLabel: {
+    color: 'white',
+    zIndex: '10',
+    dropShadow: '1px 1px 3px #fff',
+    marginTop: '10px'
+
+    // border: '1px solid blue'
+  },
+
+  save: {
+    height: '45px',
+    width: '146px',
+    marginTop: '23px',
+    marginLeft: '35px',
+    borderRadius: '2px'
   }
 });
 
@@ -124,33 +160,28 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
           container
           spacing={0}
           key={i}
-          style={{ marginTop: '10px', marginRight: '20px' }}
+          style={{
+            marginTop: '10px',
+            marginRight: '20px',
+            background: '5px solid yellow'
+          }}
         >
           <Grid item xs={1}>
             {/* if the attr being rendered for the HTMLForm is a button, then give it a special 
           condition to render a "select" component rather than a text-input component */}
             {attr == 'type' ? (
               <FormControl required>
-                <InputLabel className={classes.light} htmlFor='htmlType'>
+                <InputLabel className={classes.selectLabel} htmlFor='htmlType'>
                   Type
                 </InputLabel>
                 <Select
                   native
-                  className={classes.light}
+                  className={classes.select}
                   id='htmlType'
                   placeholder='title'
                   onChange={this.handleChange}
                   value={buttonTypeTemp}
-                  defaultValue={'button'}
-                  style={{
-                    background: '#424242',
-                    height: '45px',
-                    width: '146px',
-                    marginBottom: '23px',
-                    marginTop: '0px',
-                    color: '#fff',
-                    paddingLeft: '14px'
-                  }}
+                  defaultValue={`${``}`}
                   required
                 >
                   {buttonTypeOptions}
@@ -162,18 +193,12 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   classes: {
                     root: classes.cssLabel,
                     focused: classes.cssFocused,
-                    input: classes.input
+                    input: classes.inputLabel
                   }
                 }}
                 InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                    input: classes.input
-                  }
+                  className: classes.input
                 }}
-                style={{ background: '#424242', height: '70%' }}
                 label={attr}
                 variant='outlined'
                 id={attr}
@@ -188,11 +213,13 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
               size='small'
               color='default'
               aria-label='Save'
-              style={{
-                marginLeft: '10px',
-                marginTop: '5px',
-                marginBottom: '10px'
-              }}
+              // style={{
+              //   marginLeft: '10px',
+              //   marginTop: '5px',
+              //   marginBottom: '10px',
+              //   border: '2px solid pink'
+              // }}
+              className={classes.save}
               onClick={e => {
                 e.preventDefault();
                 this.handleSave(attr);
