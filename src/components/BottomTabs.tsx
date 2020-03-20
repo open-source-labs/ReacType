@@ -38,13 +38,13 @@ const styles = (theme: Theme): any => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242',
+    borderBottom: '0.5px solid #424242'
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6',
+    backgroundColor: '#1de9b6'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -62,27 +62,27 @@ const styles = (theme: Theme): any => ({
       'sans-serif',
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+      '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
       color: '#1de9b6',
-      opacity: 1,
+      opacity: 1
     },
     '&$tabSelected': {
       color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium,
+      fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: '#4aedc4',
-    },
+      color: '#4aedc4'
+    }
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 3
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`,
-  },
+    padding: `0 ${theme.spacing.unit * 2}px`
+  }
 });
 
 class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
@@ -90,7 +90,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     super(props);
     this.state = {
       value: 0,
-      translate: { x: 0, y: 0 },
+      translate: { x: 0, y: 0 }
     };
   }
   treeWrapper: HTMLDivElement;
@@ -100,8 +100,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     this.setState({
       translate: {
         x: dimensions.width / 12,
-        y: dimensions.height / 2.2,
-      },
+        y: dimensions.height / 2.2
+      }
     });
   }
 
@@ -129,7 +129,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         tree.children.push({
           name: child.componentName,
           attributes: str,
-          children: [],
+          children: []
         });
       }
     });
@@ -143,7 +143,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild,
+      focusChild
     } = this.props;
     const { value } = this.state;
 
@@ -163,12 +163,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Application Tree'
+            label="Application Tree"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Code Preview'
+            label="Code Preview"
           />
           <Tab
             disableRipple
@@ -185,16 +185,16 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child Props'
+            label="Add Child Props"
           />
         </Tabs>
 
         {value === 0 && (
           <div
-            id='treeWrapper'
+            id="treeWrapper"
             style={{
               width: '100%',
-              height: '100%',
+              height: '100%'
             }}
             ref={node => (this.treeWrapper = node)}
           >
@@ -210,17 +210,17 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
+                      strokeWidth: 1
+                    }
                   },
                   leafNode: {
                     name: {
                       fill: '#D3D3D3',
                       stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                },
+                      strokeWidth: 1
+                    }
+                  }
+                }
               }}
             />
           </div>

@@ -6,34 +6,69 @@ import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 // import SortChildren from './SortChildren.tsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { hybrid } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
   components: ComponentsInt;
 };
-
-class CodePreview extends Component<CodePreviewProps> {
+interface StateInt {
+  code: string;
+}
+class CodePreview extends Component<CodePreviewProps, StateInt> {
+  constructor(props: CodePreviewProps) {
+    super(props);
+    this.state = {
+      code: ''
+    };
+  }
+  componentDidMount() {
+    const text = format(
+      componentRender(this.props.focusComponent, this.props.components),
+      {
+        singleQuote: true,
+        trailingComma: 'es5',
+        bracketSpacing: true,
+        jsxBracketSameLine: true,
+        parser: 'typescript'
+      }
+    );
+    this.setState({
+      code: text
+    });
+  }
   render(): JSX.Element {
-    const focusComponent: ComponentInt = this.props.focusComponent;
-    const components: ComponentsInt = this.props.components;
-
+    // const focusComponent: ComponentInt = this.props.focusComponent;
+    // const components: ComponentsInt = this.props.components;
+    // const text = format(componentRender(focusComponent, components), {
+    //   singleQuote: true,
+    //   trailingComma: 'es5',
+    //   bracketSpacing: true,
+    //   jsxBracketSameLine: true,
+    //   parser: 'typescript'
+    // });
+    console.log(this.state.code);
     return (
       <div
         style={{
           height: '290px',
           paddingLeft: '30px',
-          overflow: 'auto',
+          overflow: 'auto'
         }}
       >
-        <SyntaxHighlighter style={hybrid}>
-          {format(componentRender(focusComponent, components), {
-            singleQuote: true,
-            trailingComma: 'es5',
-            bracketSpacing: true,
-            jsxBracketSameLine: true,
-            parser: 'typescript',
-          })}
-        </SyntaxHighlighter>
+        <Editor
+          value={this.state.code}
+          highlight={code => highlight(code, languages.js)}
+          padding={10}
+          onValueChange={code => this.setState({ code })}
+          style={{
+            fontFamily: '"Fira code", "Fira Mono", monospace',
+            fontSize: 12
+          }}
+        ></Editor>
       </div>
     );
   }
