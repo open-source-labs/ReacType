@@ -25,15 +25,15 @@ const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   chip: {
     color: '#eee',
-    backgroundColor: '#333333',
+    backgroundColor: '#333333'
   },
   column: {
     display: 'inline-flex',
-    alignItems: 'baseline',
+    alignItems: 'baseline'
   },
   icon: {
     fontSize: '20px',
@@ -42,56 +42,72 @@ const styles = (theme: any) => ({
     transition: 'all .2s ease',
 
     '&:hover': {
-      color: 'red',
-    },
+      color: 'red'
+    }
   },
   cssLabel: {
     color: 'white',
 
     '&$cssFocused': {
-      color: 'green',
-    },
+      color: 'green'
+    }
+  },
+  propHeader: {
+    fontSize: '35px',
+    fontWeight: '900',
+    marginLeft: '1rem',
+    paddingTop: '10px'
+  },
+  dataTableHeader: {
+    fontSize: '35px',
+    fontWeight: '900',
+    marginLeft: '22rem',
+    marginTop: '15px',
+    paddingTop: '10px'
   },
   cssFocused: {},
   input: {
-    color: '#000',
+    color: '#fff',
     marginBottom: '10px',
-    width: '100%',
-    backgroundColor: '#fff',
-    borderRadius: '11px',
+    width: '160px',
+    backgroundColor: 'none',
+    borderRadius: '5px',
     height: '40%',
-    overflowWrap: 'break-word',
     paddingLeft: '15px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    fontSize: '1.2rem'
+    paddingRight: '10px',
+    fontSize: '1.2rem',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    border: '1px solid #33eb91'
   },
   inputLabel: {
-    fontSize: '1.3rem',
+    fontSize: '16px',
     zIndex: '20',
-    position: 'absolute',
-    top: '-2.5rem',
-    color: '#fff'
+    color: '#fff',
+    marginLeft: '10px'
   },
   select: {
     color: '#fff',
     marginBottom: '10px',
-    width: '8rem',
-    backgroundColor: '#91D1F9',
-    borderRadius: '11px',
+    width: '120px',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: '5px',
     height: '40%',
     overflowWrap: 'break-word',
     paddingLeft: '15px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    border: '1px solid #33eb91'
   },
   selectLabel: {
-    fontSize: '1.3rem',
+    fontSize: '16px',
     zIndex: '20',
-    position: 'absolute',
-    top: '-2.5rem',
-    color: '#fff'
+    color: '#fff',
+    marginLeft: '10px'
   },
   addProp: {
     width: '15rem',
@@ -114,21 +130,21 @@ const styles = (theme: any) => ({
     width: '60%',
   },
   light: {
-    color: '#eee',
+    color: '#eee'
   },
   avatar: {
     color: '#eee',
-    fontSize: '10px',
-  },
+    fontSize: '10px'
+  }
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
+  deleteProp: (propId: number) => dispatch(deleteProp(propId))
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent,
+  focusComponent: store.workspace.focusComponent
 });
 
 // available types for select drop-down for button types
@@ -144,7 +160,7 @@ const availablePropTypes = {
   // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
-  enum: 'ENUM',
+  enum: 'ENUM'
 };
 
 // generates the various options for the prop type selection
@@ -154,7 +170,7 @@ const typeOptions = [
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
     </option>
-  )),
+  ))
 ];
 interface StateInt {
   propVariable: string;
@@ -169,7 +185,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
       propVariable: '',
       propValue: '',
       propRequired: true,
-      propType: '',
+      propType: ''
     };
   }
 
@@ -178,18 +194,18 @@ class Props extends Component<PropsPropsInt, StateInt> {
   handleChange = (event: MouseEvent | any) => {
     if (event.target.id === 'propVariable') {
       this.setState({
-        [event.target.id]: event.target.value.trim(),
+        [event.target.id]: event.target.value.trim()
       });
     } else {
       this.setState({
-        [event.target.id]: event.target.value,
+        [event.target.id]: event.target.value
       });
     }
   };
 
   togglePropRequired = () => {
     this.setState({
-      propRequired: !this.state.propRequired,
+      propRequired: !this.state.propRequired
     });
   };
 
@@ -224,14 +240,14 @@ class Props extends Component<PropsPropsInt, StateInt> {
       key: propVariable,
       value: propValue,
       required: propRequired,
-      type: propType,
+      type: propType
     });
 
     this.setState({
       propVariable: '',
       propValue: '',
       propRequired: true,
-      propType: '',
+      propType: ''
     });
   };
 
@@ -261,7 +277,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
           <Fragment>
             <div>
               <span>
-                <span className='compLabel-left-left'>
+                <span className={classes.propHeader}>
                   {`Add Prop`}{' '}
                   <span
                     style={{
@@ -274,7 +290,9 @@ class Props extends Component<PropsPropsInt, StateInt> {
                 </span>
               </span>
               <span>
-                <span>{`All Props History`}</span>
+                <span
+                  className={classes.dataTableHeader}
+                >{`All Props History`}</span>
               </span>
             </div>
             <div
