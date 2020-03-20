@@ -41,6 +41,7 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+//functions to replace the default behavior of undo and redo
 function undo() {
   mainWindow.webContents.send('undo');
 }
@@ -118,7 +119,7 @@ const createWindow = () => {
       submenu: [
         { 
           label: 'Undo',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',
+          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',  //these hotkeys are a tad bit glitchy
           click() {
             undo();
           }

@@ -65,6 +65,8 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   //function to change the tutorial step
   changeTutorial: (tutorial: number) =>
     dispatch(actions.changeTutorial(tutorial)),
+  undo: () => dispatch(actions.undo()),
+  redo: () => dispatch(actions.redo()),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -102,13 +104,13 @@ class AppContainer extends Component<Props, State> {
 
     //Undo command listener
     IPC.on('undo', () => {
-
+      this.props.undo();
     });
 
-        //Redo command listener
-        IPC.on('redo', () => {
-
-        });
+    //Redo command listener
+    IPC.on('redo', () => {
+      this.props.redo();
+    });
   }
 
   handleNext = (tutorial: number) => {

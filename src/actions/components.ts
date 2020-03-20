@@ -35,7 +35,7 @@ import {
   DELETE_IMAGE,
   CHANGE_TUTORIAL,
   UNDO,
-  REDO
+  REDO,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
@@ -57,14 +57,16 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
-        data: data ? data.workspace : {},
+        data: data
+          ? { ...data.workspace, history: [], historyIndex: 0, future: [] } //erase history upon opening app
+          : {},
       },
     });
   });
 };
 
 export const addComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
@@ -116,14 +118,14 @@ export const deleteComponent = ({
 };
 
 export const changeFocusComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
 };
 
 // make sure childId is being sent in
 export const changeFocusChild = ({ childId }: { childId: number }) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
@@ -165,13 +167,13 @@ export const exportFiles = ({
       dispatch({
         type: EXPORT_FILES_SUCCESS,
         payload: { status: true, dir: dir[0] },
-      }),
+      })
     )
     .catch((err: string) =>
       dispatch({
         type: EXPORT_FILES_ERROR,
         payload: { status: true, err },
-      }),
+      })
     );
 };
 
@@ -188,7 +190,7 @@ export const handleTransform = (
     y,
     width,
     height,
-  }: { x: number; y: number; width: number; height: number },
+  }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {
@@ -222,7 +224,7 @@ export const createApplication = ({
         path,
         components,
         exportAppBool,
-      }),
+      })
     );
   } else if (genOption) {
     exportAppBool = true;
@@ -244,14 +246,14 @@ export const createApplication = ({
             path,
             components,
             exportAppBool,
-          }),
+          })
         );
       })
       .catch((err: string) =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
           payload: { status: true, err },
-        }),
+        })
       );
   }
 };
@@ -266,19 +268,19 @@ export const deleteAllData = () => ({
 });
 
 export const deleteProp = (propId: number) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
 export const toggleComponentState = (id: string) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: TOGGLE_STATE, payload: id });
 };
 
 export const toggleComponentClass = (id: string) => (
-  dispatch: (arg: Action) => void,
+  dispatch: (arg: Action) => void
 ) => {
   dispatch({ type: TOGGLE_CLASS, payload: id });
 };
@@ -286,6 +288,16 @@ export const toggleComponentClass = (id: string) => (
 export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
   payload: { ...prop },
+});
+
+
+//action creators for undo and redo
+export const undo = () => ({
+  type: UNDO,
+});
+
+export const redo = () => ({
+  type: REDO,
 });
 
 export const updateHtmlAttr = ({
@@ -300,9 +312,6 @@ export const updateHtmlAttr = ({
     payload: { attr, value },
   });
 };
-
-
-
 
 //Action reserved for SortChildren component not written yet
 // export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (

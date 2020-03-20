@@ -72,10 +72,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={
-            // shadow to highlight the focused component card
-            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
-          }
         >
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse

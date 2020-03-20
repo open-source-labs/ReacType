@@ -76,13 +76,12 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
-  history?: History;
+  history: ApplicationStateInt[];
+  historyIndex: number;
+  future: ApplicationStateInt[];
 }
 
-export interface History {
-  value: ApplicationStateInt;
-  next: History;
-}
+
 
 //Global Action interface \
 export interface Action {

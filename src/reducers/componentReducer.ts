@@ -115,6 +115,9 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
+  history: [],
+  historyIndex: 0,
+  future: []
 };
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
@@ -175,6 +178,10 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
+      case UNDO:
+        return undo(state);
+        case REDO:
+          return redo(state);
     default:
       return state;
   }
