@@ -23,7 +23,7 @@ interface RectanglePorpsInt extends PropsInt {
   handleTransform(
     componentId: number,
     childId: number,
-    dimensions: { x: number; y: number; width?: number; height?: number },
+    dimensions: { x: number; y: number; width?: number; height?: number }
   ): void;
   image: HTMLImageElement;
 }
@@ -34,7 +34,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   //This assigns the color to the Rect based on componentId's color in the state
   getComponentColor(componentId: number) {
     const color = this.props.components.find(
-      (comp: ComponentInt) => comp.id === componentId,
+      (comp: ComponentInt) => comp.id === componentId
     ).color;
     return color;
   }
@@ -43,7 +43,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   //named pseudochild because it isn't saved as a child in the childrenArray.
   getPseudoChild() {
     return this.props.components.find(
-      (comp: ComponentInt) => comp.id === this.props.childComponentId,
+      (comp: ComponentInt) => comp.id === this.props.childComponentId
     );
   }
 
@@ -66,7 +66,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
     //variable to the parent.
     if (childId === -1) {
       focChild = this.props.components.find(
-        (comp: ComponentInt) => comp.id === this.props.componentId,
+        (comp: ComponentInt) => comp.id === this.props.componentId
       );
     }
 
@@ -89,7 +89,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
         Math.round((target.height() * target.scaleY()) / blockSnapSize) *
         blockSnapSize,
       x: target.x() + focChild.position.x,
-      y: target.y() + focChild.position.y,
+      y: target.y() + focChild.position.y
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
@@ -104,7 +104,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   ) {
     const transformation = {
       x: Math.round(target.x() / blockSnapSize) * blockSnapSize,
-      y: Math.round(target.y() / blockSnapSize) * blockSnapSize,
+      y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
     this.props.handleTransform(componentId, childId, transformation);
   }
@@ -126,7 +126,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
       components,
       draggable,
       blockSnapSize,
-      childType,
+      childType
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -147,14 +147,14 @@ class Rectangle extends Component<RectanglePorpsInt> {
           //this refference actually isn't doing anything since it isn't within the transformer component
           this.group = node;
         }}
-        tabIndex="0" // required for keypress event to be heard by this.group
+        tabIndex='0' // required for keypress event to be heard by this.group
       >
         <Rect //basically the entire canvas
           // a Konva Rect is generated for each child of the focusComponent (including the pseudochild, representing the focusComponent itself)
           ref={node => {
             this.rect = node; //same as above, the reference isn't assigned or pointing to anything
           }}
-          tabIndex="0" // required for keypress event to be heard by this.group
+          tabIndex='0' // required for keypress event to be heard by this.group
           name={`${childId}`}
           className={'childRect'}
           x={0}

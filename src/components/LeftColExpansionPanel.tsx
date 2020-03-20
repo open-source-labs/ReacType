@@ -60,31 +60,41 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       direction="row"
       justify="center"
       alignItems="center"
-      style={{ minWidth: '470px' }}
+      style={{
+        minWidth: '470px'
+      }}
     >
       <Grid item xs={9}>
         <div
           className={classes.root}
           style={
             // shadow to highlight the focused component card
-            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
+            focusedToggle
+              ? {
+                  boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
+                  borderRadius: '8px'
+                }
+              : {}
           }
         >
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse
             in={focusedToggle}
-            collapsedHeight={'70px'}
-            timeout={500} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            collapsedHeight={'70px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            style={{ borderRadius: '5px' }}
+            timeout={500}
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
               item
               xs={12}
               style={{
-                color: 'red',
-                backgroundColor: color,
+                // color: 'red',
+                // this is experimental for version: BLADERUNNER THEME
+                backgroundColor: 'none',
                 borderRadius: '10px',
-                minWidth: '340px'
+                minWidth: '340px',
+                border: `2px solid ${color}`
               }}
             >
               <List style={{ color: 'red' }}>
@@ -154,7 +164,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             >
                               Class?
                             </InputLabel>{' '}
-                            (
                             <Switch
                               checked={classBased}
                               onChange={e => {
@@ -208,7 +217,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                       </div>
                     }
-                    style={{ color }}
+                    // style={{ color }}
                   />
                 </ListItem>
               </List>
@@ -270,7 +279,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     </Grid>
   );
 };
-function styles(): any {
+function styles(themes: any): any {
   return {
     root: {
       width: '100%',

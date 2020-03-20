@@ -11,7 +11,7 @@ import {
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild,
-  changeFocusComponent,
+  changeFocusComponent
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
 import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
@@ -21,7 +21,7 @@ interface MainContPropsInt extends PropsInt {
   handleTransformation(
     componentId: number,
     childId: number,
-    dimensions: { x: number; y: number; width: number; height: number },
+    dimensions: { x: number; y: number; width: number; height: number }
   ): void;
   changeComponentFocusChild(arg: {
     componentId: number;
@@ -60,8 +60,8 @@ const mapDispatchToProps = (dispatch: any) => ({
         x,
         y,
         width,
-        height,
-      }),
+        height
+      })
     ),
   //this doesn't do anything here
   // changeImagePath: (imageSource: string) =>
@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components,
+  stateComponents: store.workspace.components
 });
 
 class MainContainer extends Component<MainContPropsInt, StateInt> {
@@ -116,7 +116,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       changeFocusComponent,
       changeComponentFocusChild,
       deleteChild,
-      image,
+      image
     } = this.props;
 
     // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**

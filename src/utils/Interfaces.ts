@@ -76,7 +76,12 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
+  history: ApplicationStateInt[];
+  historyIndex: number;
+  future: ApplicationStateInt[];
 }
+
+
 
 //Global Action interface \
 export interface Action {

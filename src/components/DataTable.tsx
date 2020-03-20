@@ -19,6 +19,12 @@ const styles = (theme: Theme) => ({
   table: {
     minWidth: 500,
     marginRight: '100px'
+  },
+  tableCell: {
+    fontWeight: '900',
+    fontSize: '1.2rem',
+    color: '#91D1F9',
+    border: '1px solid red'
   }
 });
 
