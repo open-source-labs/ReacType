@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AddChildProps from './AddChildProps';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -6,7 +7,12 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import { ComponentInt, ComponentsInt, PropInt, PropsInt } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  PropsInt
+} from '../utils/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -104,7 +110,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   };
 
   handleClick = (event: any, node: any) => {
-    this.props.changeFocusComponent({ title: event.name });
+    if (!event.attributes.Type) {
+      this.props.changeFocusComponent({ title: event.name });
+    }
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
@@ -113,11 +121,14 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     component.childrenArray.forEach(child => {
       if (child.childType === 'COMP') {
-        tree.children.push(this.generateComponentTree(child.childComponentId, components));
+        tree.children.push(
+          this.generateComponentTree(child.childComponentId, components)
+        );
       } else {
+        let str = { Type: 'HTML Element' };
         tree.children.push({
           name: child.componentName,
-          attributes: {},
+          attributes: str,
           children: []
         });
       }
@@ -126,13 +137,21 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   }
 
   render(): JSX.Element {
-    const { classes, components, focusComponent, deleteProp, addProp, focusChild } = this.props;
+    const {
+      classes,
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+      focusChild
+    } = this.props;
     const { value } = this.state;
 
     // display count on the tab. user can see without clicking into tab
     const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(child => child.childType === 'HTML')
-      .length;
+    const htmlAttribCount = focusComponent.childrenArray.filter(
+      child => child.childType === 'HTML'
+    ).length;
 
     return (
       <div className={classes.root}>
@@ -144,12 +163,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Application Tree"
+            label='Application Tree'
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
+            label='Code Preview'
           />
           <Tab
             disableRipple
@@ -159,18 +178,20 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+            label={`HTML Element Attributes ${
+              htmlAttribCount ? `(${htmlAttribCount})` : ''
+            } `}
           />
-          {/* <Tab
+          <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component State"
-          /> */}
+            label='Add Child Props'
+          />
         </Tabs>
 
         {value === 0 && (
           <div
-            id="treeWrapper"
+            id='treeWrapper'
             style={{
               width: '100%',
               height: '100%'
@@ -204,12 +225,18 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             />
           </div>
         )}
-        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 1 && (
+          <CodePreview
+            focusComponent={focusComponent}
+            components={components}
+          />
+        )}
         {value === 2 && <Props />}
         {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }

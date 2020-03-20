@@ -41,6 +41,16 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+//functions to replace the default behavior of undo and redo
+function undo() {
+  mainWindow.webContents.send('undo');
+}
+
+function redo() {
+  mainWindow.webContents.send('redo');
+}
+
+
 function toggleTutorial() {
   mainWindow.webContents.send('tutorial_clicked');
 }
@@ -107,8 +117,20 @@ const createWindow = () => {
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
+        { 
+          label: 'Undo',
+          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',  //these hotkeys are a tad bit glitchy
+          click() {
+            undo();
+          }
+        },
+        { 
+          label: 'Redo',
+          accelerator: process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
+          click() {
+            redo();
+          }
+        },
         { type: 'separator' },
         { role: 'cut' },
         { role: 'copy' },
@@ -216,7 +238,9 @@ const createWindow = () => {
   });
 
   // dev tools opened on every browser creation
-  mainWindow.webContents.openDevTools();
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools();
+  });
 };
 
 // This method will be called when Electron has finished

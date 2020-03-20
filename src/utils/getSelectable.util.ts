@@ -1,4 +1,4 @@
-import { ComponentInt, ComponentsInt, ChildInt } from "./Interfaces.ts";
+import { ComponentInt, ComponentsInt, ChildInt } from './Interfaces';
 
 interface getSelectableInt {
   [key: string]: Array<number>;
@@ -6,7 +6,7 @@ interface getSelectableInt {
 
 function getSelectable(
   newFocusComponent: ComponentInt,
-  components: ComponentsInt
+  components: ComponentsInt,
 ) {
   const focusComponentId = newFocusComponent.id;
   const componentsToCheck = components
@@ -19,25 +19,25 @@ function findAncestors(
   components: ComponentsInt,
   currentCompArr: ComponentsInt,
   componentsToCheck: ComponentsInt,
-  ancestors: Array<number> = []
+  ancestors: Array<number> = [],
 ): getSelectableInt {
   if (!currentCompArr.length) {
     return {
       ancestors,
-      selectableChildren: componentsToCheck
+      selectableChildren: componentsToCheck,
     };
   }
 
-  const newAncestors: Array<Number> = [];
+  const newAncestors: number[] = [];
 
   for (let i = 0; i < components.length; i++) {
     if (componentsToCheck.includes(components[i].id)) {
       const myChildren = components[i].childrenArray.map(
-        (child: ChildInt) => child.childComponentId
+        (child: ChildInt) => child.childComponentId,
       );
 
       const found = currentCompArr.filter((comp: ComponentInt) =>
-        myChildren.includes(comp)
+        myChildren.includes(comp),
       );
 
       if (found.length) {
@@ -45,7 +45,7 @@ function findAncestors(
         newAncestors.push(components[i].id);
 
         const indexToDelete = componentsToCheck.findIndex(
-          (c: Number) => c === components[i].id
+          (c: Number) => c === components[i].id,
         );
 
         componentsToCheck.splice(indexToDelete, 1);

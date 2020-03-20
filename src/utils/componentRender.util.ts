@@ -1,7 +1,16 @@
-import { ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt } from './Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  ChildInt,
+  ChildrenInt,
+  PropInt
+} from './Interfaces';
 import cloneDeep from './cloneDeep';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+const componentRender = (
+  component: ComponentInt,
+  components: ComponentsInt
+) => {
   const {
     childrenArray,
     title,
@@ -113,7 +122,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       return child.componentName;
     }
   }
-
+  // logic below consists of conditional that will render depending
+  // on the toggling of "state" and/or "class"
+  // class components can optioally have a state which will
+  // return "Component" from react to extend from
+  //
   return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
     ${classBased ? `import React, {Component} from 'react';` : ''}
@@ -121,7 +134,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
+      .map(
+        child =>
+          `import ${child.componentName} from './${child.componentName}.tsx'`
+      )
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -131,11 +147,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       }, [])
       .join('\n')}
     
-    type Props = {
+    interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
-      ${classBased ? `class ${title} extends Component {` : `const ${title} = (props: Props) => {`}
+      ${
+        classBased
+          ? `class ${title} extends Component {`
+          : `const ${title} = (props: Props) => {`
+      }
       ${
         stateful && !classBased
           ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
@@ -150,7 +170,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           : ``
       }
       ${classBased ? `render(): JSX.Element {` : ``}
-      const {${props.map(el => el.key).join(', ')}} = ${classBased ? `this.props` : `props`};
+      const {${props.map(el => el.key).join(', ')}} = ${
+    classBased ? `this.props` : `props`
+  };
       
       return (
         <div>
@@ -160,12 +182,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
             //console.log('this is childrenArray', child.HTMLInfo); //Did someone leave this here?//
             if (child.componentName == 'Button') {
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}>${
-                child.HTMLInfo.value
-              }</${componentNameGenerator(child)}>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child
+              )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
             } else
               return `
-              <${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`;
+              <${componentNameGenerator(child)} ${propDrillTextGenerator(
+                child
+              )}/>`;
           })
           .join('\n')}
         </div>

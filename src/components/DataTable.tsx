@@ -19,6 +19,12 @@ const styles = (theme: Theme) => ({
   table: {
     minWidth: 500,
     marginRight: '100px'
+  },
+  tableCell: {
+    fontWeight: '900',
+    fontSize: '1.2rem',
+    color: '#91D1F9',
+    border: '1px solid red'
   }
 });
 
@@ -48,7 +54,9 @@ function dataTable(props: dataTableProps) {
   const { classes, rowData, rowHeader, deletePropHandler } = props;
 
   const renderHeader = rowHeader.map((col: any, idx: number) => (
-    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+    <TableCell align={'center'} key={`head_+${idx}`}>
+      {col}
+    </TableCell>
   ));
 
   function renderRowCells(row: any) {

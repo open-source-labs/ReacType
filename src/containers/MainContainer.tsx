@@ -23,7 +23,10 @@ interface MainContPropsInt extends PropsInt {
     childId: number,
     dimensions: { x: number; y: number; width: number; height: number }
   ): void;
-  changeComponentFocusChild(arg: { componentId: number; childId: number }): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
 }
@@ -45,7 +48,12 @@ const mapDispatchToProps = (dispatch: any) => ({
   handleTransformation: (
     componentId: number,
     childId: number,
-    { x, y, width, height }: { x: number; y: number; width: number; height: number }
+    {
+      x,
+      y,
+      width,
+      height
+    }: { x: number; y: number; width: number; height: number }
   ) =>
     dispatch(
       handleTransform(componentId, childId, {
@@ -59,15 +67,22 @@ const mapDispatchToProps = (dispatch: any) => ({
   // changeImagePath: (imageSource: string) =>
   //   dispatch(actions.changeImagePath(imageSource)),
 
-  changeFocusComponent: ({ title }: { title: string }) => dispatch(changeFocusComponent({ title })),
+  changeFocusComponent: ({ title }: { title: string }) =>
+    dispatch(changeFocusComponent({ title })),
 
   //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
+  changeFocusChild: ({ childId }: { childId: number }) =>
+    dispatch(changeFocusChild({ childId })),
 
   //the difference between this dispatch function and the one above, is that this once alters the focused child status within the array of components,
   //vs the one above changes the focusChild property in the state
-  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
-    dispatch(changeComponentFocusChild({ componentId, childId })),
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
   deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
 });
 
@@ -108,10 +123,10 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="main-container">
+        <div className='main-container'>
           {/* {modal} */}
           <div
-            className="main" //ref={main} **no function, commenting out**
+            className='main' //ref={main} **no function, commenting out**
           >
             <KonvaStage
               image={image}

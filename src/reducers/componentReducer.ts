@@ -33,7 +33,9 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
-} from '../actionTypes';
+  UNDO,
+  REDO,
+} from '../actionTypes/index';
 
 import {
   addComponent,
@@ -57,9 +59,10 @@ import {
   updateChildrenSort,
   toggleComponentState,
   toggleComponentClass,
+  undo,
+  redo
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
-
 
 const appComponent: ComponentInt = {
   id: 1,
@@ -112,6 +115,9 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
+  history: [],
+  historyIndex: 0,
+  future: []
 };
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
@@ -145,8 +151,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeComponentFocusChild(state, action.payload);
     case CHANGE_IMAGE_SOURCE:
       return changeImageSource(state, action.payload);
-      case CHANGE_TUTORIAL:
-        return changeTutorial(state, action.payload);
+    case CHANGE_TUTORIAL:
+      return changeTutorial(state, action.payload);
     case DELETE_IMAGE:
       return deleteImage(state);
     case EXPORT_FILES:
@@ -172,6 +178,10 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
+      case UNDO:
+        return undo(state);
+        case REDO:
+          return redo(state);
     default:
       return state;
   }

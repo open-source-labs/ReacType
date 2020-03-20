@@ -13,7 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-
 import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
@@ -29,12 +28,10 @@ interface LeftColExpPanPropsInt extends PropsInt {
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
 }
-
 //interface created but never used
 // interface TypographyProps {
 //   type: string;
 // }
-
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
 const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const {
@@ -47,48 +44,57 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     selectableChildren,
     deleteComponent,
     toggleComponentState,
-    toggleComponentClass,
+    toggleComponentClass
   } = props;
-
   const { title, id, color, stateful, classBased } = component;
-
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
-
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
-
   return (
     <Grid
       container
       spacing={16}
-      direction="row"
-      justify="flex-start"
-      alignItems="center"
+      direction='row'
+      justify='center'
+      alignItems='center'
+      style={{
+        minWidth: '470px'
+      }}
     >
       <Grid item xs={9}>
         <div
           className={classes.root}
           style={
             // shadow to highlight the focused component card
-            focusedToggle ? { boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)' } : {}
+            focusedToggle
+              ? {
+                  boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
+                  borderRadius: '8px'
+                }
+              : {}
           }
         >
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse
             in={focusedToggle}
-            collapsedHeight={70} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            collapsedHeight={'70px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            style={{ borderRadius: '5px' }}
+            timeout={500}
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
               item
               xs={12}
               style={{
-                color: 'red',
-                backgroundColor: color,
+                // color: 'red',
+                // this is experimental for version: BLADERUNNER THEME
+                backgroundColor: 'none',
                 borderRadius: '10px',
+                minWidth: '340px',
+                border: `2px solid ${color}`
               }}
             >
               <List style={{ color: 'red' }}>
@@ -109,126 +115,109 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                           style={{
                             color: '#fff',
                             textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                            fontSize: '1.40rem',
+                            fontSize: '1.40rem'
                           }}
                         >
                           {title}
                         </Typography>
-
                         {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
-                      
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
-
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
                         {focusedToggle ? (
-                          <InputLabel
-                            htmlFor="stateful"
-                            style={{
-                              color: '#fff',
-                              marginBottom: '10px',
-                              marginTop: '0px',
-                              marginLeft: '11px',
-                              padding: '0px',
-                              fontSize: '18px',
-                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                            }}
-                          >
-                            State?
-                          </InputLabel>
-                        ) : (
-                          ''
-                        )}
-
-                        {focusedToggle ? (
-                          <Switch
-                            checked={stateful}
-                            onChange={e => {
-                              toggleComponentState(id);
-                              changeFocusComponent({ title });
-                            }}
-                            value="stateful"
-                            color="primary"
-                            // id={props.id.toString()}
-                          />
-                        ) : (
-                          ''
-                        )}
-                        <div>
-                          {/* LABEL/TOGGLE(SWITCH) FOR CLASS BASED */}
-                          {focusedToggle ? (
+                          <span style={{ display: 'inline-flex' }}>
                             <InputLabel
-                              htmlFor="classBased"
+                              htmlFor='stateful'
                               style={{
                                 color: '#fff',
-                                marginBottom: '10px',
-                                marginTop: '0px',
+                                marginBottom: '0px',
+                                marginTop: '10px',
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+                              }}
+                            >
+                              State?
+                            </InputLabel>
+                            <Switch
+                              checked={stateful}
+                              onChange={e => {
+                                toggleComponentState(id);
+                                changeFocusComponent({ title });
+                              }}
+                              value='stateful'
+                              color='primary'
+                              // id={props.id.toString()}
+                            />
+                            <InputLabel
+                              htmlFor='classBased'
+                              style={{
+                                color: '#fff',
+                                marginBottom: '0px',
+                                marginTop: '10px',
+                                marginLeft: '11px',
+                                padding: '0px',
+                                fontSize: '18px',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
                               }}
                             >
                               Class?
-                            </InputLabel>
-                          ) : (
-                            ''
-                          )}
-                          {focusedToggle ? (
+                            </InputLabel>{' '}
                             <Switch
                               checked={classBased}
                               onChange={e => {
                                 toggleComponentClass(id);
                                 changeFocusComponent({ title });
                               }}
-                              value="classBased"
-                              color="primary"
+                              value='classBased'
+                              color='primary'
                             />
-                          ) : (
-                            ''
-                          )}
-                          {focusedToggle && component.id !== 1 ? (
-                            <Button
-                              variant="text"
-                              size="small"
-                              color="default"
-                              aria-label="Delete"
-                              className={classes.margin}
-                              onClick={() =>
-                                deleteComponent({
-                                  componentId: id,
-                                  stateComponents: components,
-                                })
-                              }
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                        {focusedToggle && component.id !== 1 ? (
+                          <Button
+                            variant='text'
+                            size='small'
+                            color='default'
+                            aria-label='Delete'
+                            className={classes.margin}
+                            onClick={() =>
+                              deleteComponent({
+                                componentId: id,
+                                stateComponents: components
+                              })
+                            }
+                            style={{
+                              color: 'white',
+                              marginBottom: '0px',
+                              marginTop: '4px'
+                            }}
+                          >
+                            <DeleteIcon
                               style={{
-                                color: 'white',
-                                marginBottom: '0px',
-                                marginTop: '4px',
+                                color: '#b30000',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
+                              }}
+                            />
+                            <div
+                              style={{
+                                marginTop: '3px',
+                                fontSize: '15px',
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
                               }}
                             >
-                              <DeleteIcon
-                                style={{
-                                  color: '#b30000',
-                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-                                }}
-                              />
-                              <span
-                                style={{
-                                  marginTop: '3px',
-                                  fontSize: '15px',
-                                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                                }}
-                              >
-                                Delete Component
-                              </span>
-                            </Button>
-                          ) : (
-                            ''
-                          )}
-                        </div>
+                              Delete Component
+                            </div>
+                          </Button>
+                        ) : (
+                          ''
+                        )}
                       </div>
                     }
-                    style={{ color }}
+                    // style={{ color }}
                   />
                 </ListItem>
               </List>
@@ -248,7 +237,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 onClick={() =>
                   deleteComponent({
                     componentId: id,
-                    stateComponents: components
+                    stateComponents: components,
                   })
                 }
                 style={{
@@ -256,7 +245,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   marginBottom: '10px',
                   marginTop: '4px',
                   marginLeft: '11px',
-                  padding: '0px'
+                  padding: '0px',
                 }}
               >
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
@@ -272,12 +261,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           <div />
         ) : (
           <Tooltip
-            title="add as child"
-            aria-label="add as child"
-            placement="left"
+            title='add as child'
+            aria-label='add as child'
+            placement='left'
           >
             <IconButton
-              aria-label="Add"
+              aria-label='Add'
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}
@@ -290,21 +279,19 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     </Grid>
   );
 };
-
-function styles(): any {
+function styles(themes: any): any {
   return {
     root: {
       width: '100%',
       marginTop: 10,
-      backgroundColor: '#333333',
+      backgroundColor: '#333333'
     },
     light: {
       color: '#eee',
       '&:hover': {
-        color: '#1de9b6',
-      },
-    },
+        color: '#1de9b6'
+      }
+    }
   };
 }
-
 export default withStyles(styles)(LeftColExpansionPanel);

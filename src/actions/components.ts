@@ -1,4 +1,10 @@
-import { ComponentInt, ComponentsInt, PropInt, ChildInt, Action } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  Action,
+} from '../utils/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -27,7 +33,9 @@ import {
   // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
-  CHANGE_TUTORIAL
+  CHANGE_TUTORIAL,
+  UNDO,
+  REDO,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
@@ -36,12 +44,12 @@ import createApplicationUtil from '../utils/createApplication.util';
 
 export const changeTutorial = (tutorial: number) => ({
   type: CHANGE_TUTORIAL,
-  payload: { tutorial }
+  payload: { tutorial },
 });
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: { imageSource }
+  payload: { imageSource },
 });
 
 export const loadInitData = () => (dispatch: (arg: Action) => void) => {
@@ -49,20 +57,24 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
     dispatch({
       type: LOAD_INIT_DATA,
       payload: {
-        data: data ? data.workspace : {}
-      }
+        data: data
+          ? { ...data.workspace, history: [], historyIndex: 0, future: [] } //erase history upon opening app
+          : {},
+      },
     });
   });
 };
 
-export const addComponent = ({ title }: { title: string }) => (dispatch: (arg: Action) => void) => {
+export const addComponent = ({ title }: { title: string }) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
 export const addChild = ({
   title,
   childType,
-  HTMLInfo
+  HTMLInfo,
 }: {
   title: string;
   childType: string;
@@ -78,7 +90,7 @@ export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
 
 export const deleteComponent = ({
   componentId,
-  stateComponents
+  stateComponents,
 }: {
   componentId: number;
   stateComponents: ComponentsInt;
@@ -93,8 +105,8 @@ export const deleteComponent = ({
           payload: {
             parentId: parent.id,
             childId: child.childId,
-            calledFromDeleteComponent: true
-          }
+            calledFromDeleteComponent: true,
+          },
         });
       });
   });
@@ -120,26 +132,26 @@ export const changeFocusChild = ({ childId }: { childId: number }) => (
 
 export const changeComponentFocusChild = ({
   componentId,
-  childId
+  childId,
 }: {
   componentId: number;
   childId: number;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId }
+    payload: { componentId, childId },
   });
 };
 
 export const deleteImage = () => ({
-  type: DELETE_IMAGE
+  type: DELETE_IMAGE,
 });
 
 export const exportFiles = ({
   components,
   path,
   appName,
-  exportAppBool
+  exportAppBool,
 }: {
   components: ComponentsInt;
   path: string;
@@ -148,32 +160,37 @@ export const exportFiles = ({
 }) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
-    type: EXPORT_FILES
+    type: EXPORT_FILES,
   });
   createFiles(components, path, appName, exportAppBool)
     .then((dir: any) =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
-        payload: { status: true, dir: dir[0] }
+        payload: { status: true, dir: dir[0] },
       })
     )
     .catch((err: string) =>
       dispatch({
         type: EXPORT_FILES_ERROR,
-        payload: { status: true, err }
+        payload: { status: true, err },
       })
     );
 };
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false
+  payload: false,
 });
 
 export const handleTransform = (
   componentId: number,
   childId: number,
-  { x, y, width, height }: { x: number; y: number; width: number; height: number }
+  {
+    x,
+    y,
+    width,
+    height,
+  }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
   payload: {
@@ -182,8 +199,8 @@ export const handleTransform = (
     x,
     y,
     width,
-    height
-  }
+    height,
+  },
 });
 
 export const createApplication = ({
@@ -191,7 +208,7 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
-  exportAppBool
+  exportAppBool,
 }: {
   path: string;
   components: ComponentsInt;
@@ -206,36 +223,36 @@ export const createApplication = ({
         appName,
         path,
         components,
-        exportAppBool
+        exportAppBool,
       })
     );
   } else if (genOption) {
     exportAppBool = true;
     dispatch({
-      type: CREATE_APPLICATION
+      type: CREATE_APPLICATION,
     });
     createApplicationUtil({
       path,
       appName,
-      genOption
+      genOption,
     })
       .then(() => {
         dispatch({
-          type: CREATE_APPLICATION_SUCCESS
+          type: CREATE_APPLICATION_SUCCESS,
         });
         dispatch(
           exportFiles({
             appName,
             path,
             components,
-            exportAppBool
+            exportAppBool,
           })
         );
       })
       .catch((err: string) =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
-          payload: { status: true, err }
+          payload: { status: true, err },
         })
       );
   }
@@ -243,36 +260,56 @@ export const createApplication = ({
 
 export const openExpansionPanel = (component: ComponentInt) => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: { component }
+  payload: { component },
 });
 
 export const deleteAllData = () => ({
-  type: DELETE_ALL_DATA
+  type: DELETE_ALL_DATA,
 });
 
-export const deleteProp = (propId: number) => (dispatch: (arg: Action) => void) => {
+export const deleteProp = (propId: number) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (id: string) => (dispatch: (arg: Action) => void) => {
+export const toggleComponentState = (id: string) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: TOGGLE_STATE, payload: id });
 };
 
-export const toggleComponentClass = (id: string) => (dispatch: (arg: Action) => void) => {
+export const toggleComponentClass = (id: string) => (
+  dispatch: (arg: Action) => void
+) => {
   dispatch({ type: TOGGLE_CLASS, payload: id });
 };
 
 export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
-  payload: { ...prop }
+  payload: { ...prop },
 });
 
-export const updateHtmlAttr = ({ attr, value }: { attr: string; value: string }) => (
-  dispatch: (arg: Action) => void
-) => {
+
+//action creators for undo and redo
+export const undo = () => ({
+  type: UNDO,
+});
+
+export const redo = () => ({
+  type: REDO,
+});
+
+export const updateHtmlAttr = ({
+  attr,
+  value,
+}: {
+  attr: string;
+  value: string;
+}) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
-    payload: { attr, value }
+    payload: { attr, value },
   });
 };
 
