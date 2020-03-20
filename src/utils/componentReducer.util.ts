@@ -32,6 +32,25 @@ const initialComponentState: ComponentInt = {
   focusChildId: 0
 };
 
+/*Helper function that copies the state to be added on to the history
+  By clearing the history data out of each stored step of the timeline,
+  you can avoid repetitive nesting that maxes out the memory allocated to electron
+  (usually happens at around 7-10 steps without using this method)*/
+const createHistory = (state: ApplicationStateInt) => {
+  const stateCopy = cloneDeep(state);
+  const historyCopy = cloneDeep(state.history);
+  historyCopy.push({ ...stateCopy, history: [] });
+  const history = historyCopy;
+  const historyIndex = state.historyIndex + 1;
+  const future: [] = [];
+
+  return {
+    history,
+    historyIndex,
+    future
+  };
+};
+
 export const addComponent = (
   state: ApplicationStateInt,
   { title }: { title: string }
@@ -63,10 +82,10 @@ export const addComponent = (
   //chooses a color for the component from the random color generator
   let componentColor = getColor();
   //Makes sure no two consecutive components have the same color
-  const lastColor = state.components.find(
-    element => element.id === state.nextId - 1
+  const lastComponent = state.components.reduce((acc, curr) =>
+    curr.id > acc.id ? curr : acc
   ).color;
-  while (componentColor === lastColor) {
+  while (componentColor === lastComponent) {
     componentColor = getColor();
   }
 
@@ -99,6 +118,9 @@ export const addComponent = (
   // reset focused child to null values so when focused component is assigned to the newly created component,
   //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
+
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
     totalComponents,
@@ -107,7 +129,10 @@ export const addComponent = (
     focusComponent: newComponent,
     focusChild: newFocusChild,
     ancestors,
-    selectableChildren // new component so everyone except yourself is available
+    selectableChildren, // new component so everyone except yourself is available
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -216,12 +241,16 @@ export const addChild = (
     }),
     component
   ];
+  const { history, historyIndex, future } = createHistory(state);
 
   return {
     ...state,
     components,
     focusChild: newChild,
-    focusComponent: component // refresh the focus component so we have the new child
+    focusComponent: component, // refresh the focus component so we have the new child
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -275,6 +304,8 @@ export const deleteChild = (
     parentComponentCopy
   ];
 
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
     components: modifiedComponentArray,
@@ -285,7 +316,10 @@ export const deleteChild = (
       ? cloneDeep(state.initialApplicationFocusChild)
       : parentComponentCopy.childrenArray[
           parentComponentCopy.childrenArray.length - 1
-        ] || cloneDeep(state.initialApplicationFocusChild) // guard in case final child is deleted
+        ] || cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -294,9 +328,13 @@ export const deleteChild = (
 //since currently HTML image lives in a local state of AppContainer ( a big no-no)
 //and if a user clicks on 'clear workspace', the button doesn't reset
 export const deleteImage = (state: ApplicationStateInt) => {
+  const { history, historyIndex, future } = createHistory(state);
   return {
     ...state,
-    imageSource: ''
+    imageSource: '',
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -387,11 +425,15 @@ export const handleTransform = (
     }),
     component
   ];
+  const { history, historyIndex, future } = createHistory(state);
 
   return {
     ...state,
     components,
-    focusChild: newFocusChild
+    focusChild: newFocusChild,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -411,9 +453,14 @@ export const changeImageSource = (
   state: ApplicationStateInt,
   { imageSource }: { imageSource: string }
 ) => {
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
-    imageSource
+    imageSource,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -457,10 +504,15 @@ export const deleteComponent = (
   //decrease number of components by one
   const totalComponents = state.totalComponents - 1;
 
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
     totalComponents,
-    components: componentsCopy
+    components: componentsCopy,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -479,9 +531,14 @@ export const toggleComponentState = (
     }
   });
   // return state and updated components array
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
-    components: componentCopy
+    components: componentCopy,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -500,9 +557,14 @@ export const toggleComponentClass = (
     }
   });
   // return state and updated components array
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
-    components: componentCopy
+    components: componentCopy,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -666,10 +728,15 @@ export const addProp = (
     (comp: ComponentInt) => comp.id !== selectedComponent.id
   );
   newComponents.push(modifiedComponent);
+  const { history, historyIndex, future } = createHistory(state);
+
   return {
     ...state,
     components: newComponents,
-    focusComponent: modifiedComponent
+    focusComponent: modifiedComponent,
+    historyIndex,
+    history,
+    future
   };
 };
 
@@ -701,11 +768,15 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
     (comp: ComponentInt) => comp.id !== modifiedComponent.id
   );
   newComponentsArray.push(modifiedComponent);
+  const { history, historyIndex, future } = createHistory(state);
 
   return {
     ...state,
     components: newComponentsArray,
-    focusComponent: modifiedComponent
+    focusComponent: modifiedComponent,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -738,12 +809,16 @@ export const updateHtmlAttr = (
     (comp: ComponentInt) => comp.id !== modifiedComponent.id
   );
   newComponentsArray.push(modifiedComponent);
+  const { history, historyIndex, future } = createHistory(state);
 
   return {
     ...state,
     components: newComponentsArray,
     focusComponent: modifiedComponent,
-    focusChild: modifiedChild
+    focusChild: modifiedChild,
+    history,
+    historyIndex,
+    future
   };
 };
 
@@ -782,5 +857,45 @@ export const updateChildrenSort = (
     ...state,
     components: modifiedComponentsArray,
     focusComponent: modifiedComponent
+  };
+};
+
+export const undo = (state: ApplicationStateInt) => {
+  //return current state if there is no history
+  if (!state.historyIndex) return { ...state };
+  const stateCopy = cloneDeep(state);
+  const futureCopy = cloneDeep(state.future);
+  const historyCopy = cloneDeep(state.history);
+  //remove last element of history to assign it to the 'undone' state on the 'undoData' varaiable below
+  historyCopy.pop();
+  const history = historyCopy;
+  //create a new element for the 'redo' history array
+  futureCopy.unshift({ ...stateCopy, history: [] });
+  const future = futureCopy;
+  const undoData = state.history[state.historyIndex - 1];
+  return {
+    ...undoData,
+    history,
+    future
+  };
+};
+
+export const redo = (state: ApplicationStateInt) => {
+  //if the future history array is empty, return the current state
+  if (!state.future) return { ...state };
+  const stateCopy = cloneDeep(state);
+  const futureCopy = cloneDeep(state.future);
+  //grab the first element of the future history array and assign it to the new state
+  //the rest of this is mostly the same logic as 'undo' but flipped
+  futureCopy.shift();
+  const future = futureCopy;
+  const historyCopy = cloneDeep(state.history);
+  historyCopy.push({ ...stateCopy, history: [] });
+  const history = historyCopy;
+  const redoData = state.future[0];
+  return {
+    ...redoData,
+    history,
+    future
   };
 };

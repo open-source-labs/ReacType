@@ -207,7 +207,7 @@ class Tutorial extends Component<Props> {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: {enter: 500, exit: 500},
         }}
         style={{
           display: 'grid',
