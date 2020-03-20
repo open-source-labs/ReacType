@@ -10,6 +10,9 @@ import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-markup';
+require('prismjs/components/prism-jsx');
+import '../public/styles/prism.css';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
@@ -50,18 +53,18 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
     //   jsxBracketSameLine: true,
     //   parser: 'typescript'
     // });
-    console.log(this.state.code);
+    console.log('lang', languages);
     return (
       <div
         style={{
-          height: '290px',
+          height: '330px',
           paddingLeft: '30px',
           overflow: 'auto'
         }}
       >
         <Editor
           value={this.state.code}
-          highlight={code => highlight(code, languages.js)}
+          highlight={code => highlight(code, languages.jsx)}
           padding={10}
           onValueChange={code => this.setState({ code })}
           style={{

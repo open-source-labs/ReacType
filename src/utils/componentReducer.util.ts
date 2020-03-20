@@ -338,6 +338,23 @@ export const deleteImage = (state: ApplicationStateInt) => {
   };
 };
 
+export const updateCode = (
+  state: ApplicationStateInt,
+  { componentId, code }: { componentId: number; code: string }
+) => {
+  //creates a deep copy of the components
+  const componentsCopy = cloneDeep(state.components);
+  componentsCopy.forEach((comp: ComponentInt) => {
+    if (comp.id === componentId) {
+      comp.code = code;
+    }
+  });
+  return {
+    ...state,
+    components: componentsCopy
+  };
+};
+
 //the function that handles the transformation of all children in the stage
 export const handleTransform = (
   state: ApplicationStateInt,

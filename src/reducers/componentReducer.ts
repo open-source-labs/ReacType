@@ -2,7 +2,7 @@ import {
   ComponentInt,
   ChildInt,
   ApplicationStateInt,
-  Action,
+  Action
 } from '../utils/Interfaces';
 
 import {
@@ -35,6 +35,7 @@ import {
   UPDATE_CHILDREN_SORT,
   UNDO,
   REDO,
+  UPDATE_CODE
 } from '../actionTypes/index';
 
 import {
@@ -60,7 +61,8 @@ import {
   toggleComponentState,
   toggleComponentClass,
   undo,
-  redo
+  redo,
+  updateCode
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -76,11 +78,12 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400,
+    height: 400
   },
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
+  code: ''
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -90,14 +93,14 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550,
+    height: 550
   },
   childType: null,
   childSort: 0,
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null,
+  HTMLInfo: null
 };
 
 const initialApplicationState: ApplicationStateInt = {
@@ -129,7 +132,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -178,10 +181,12 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-      case UNDO:
-        return undo(state);
-        case REDO:
-          return redo(state);
+    case UNDO:
+      return undo(state);
+    case REDO:
+      return redo(state);
+    case UPDATE_CODE:
+      return updateCode(state, action.payload);
     default:
       return state;
   }

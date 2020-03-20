@@ -56,6 +56,7 @@ export interface ComponentInt {
   nextChildId: number;
   focusChildId: number;
   childrenArrayChildInt?: any;
+  code: string;
 }
 
 export interface ComponentsInt extends Array<ComponentInt> {}
@@ -80,8 +81,6 @@ export interface ApplicationStateInt {
   historyIndex: number;
   future: ApplicationStateInt[];
 }
-
-
 
 //Global Action interface \
 export interface Action {
