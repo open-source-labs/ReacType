@@ -144,7 +144,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               checked={stateful}
                               onChange={e => {
                                 toggleComponentState(id);
-                                changeFocusComponent({ title });
+                                // changeFocusComponent({ title });
                               }}
                               value='stateful'
                               color='primary'
@@ -168,7 +168,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               checked={classBased}
                               onChange={e => {
                                 toggleComponentClass(id);
-                                changeFocusComponent({ title });
+                                // changeFocusComponent({ title });
                               }}
                               value='classBased'
                               color='primary'
