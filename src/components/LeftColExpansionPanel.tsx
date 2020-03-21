@@ -80,7 +80,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           {/* {This is the component responsible for the collapsing transition animation for each component card} */}
           <Collapse
             in={focusedToggle}
-            collapsedHeight={'70px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+            collapsedHeight={'80px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
             style={{ borderRadius: '5px' }}
             timeout={500}
           >
