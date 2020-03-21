@@ -273,23 +273,22 @@ export const deleteProp = (propId: number) => (
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (id: string) => (
+export const toggleComponentState = ({ id }: { id: number }) => (
   dispatch: (arg: Action) => void
 ) => {
-  dispatch({ type: TOGGLE_STATE, payload: id });
+  dispatch({ type: TOGGLE_STATE, payload: { id } });
 };
 
-export const toggleComponentClass = (id: string) => (
+export const toggleComponentClass = ({ id }: { id: number }) => (
   dispatch: (arg: Action) => void
 ) => {
-  dispatch({ type: TOGGLE_CLASS, payload: id });
+  dispatch({ type: TOGGLE_CLASS, payload: { id } });
 };
 
 export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
   payload: { ...prop },
 });
-
 
 //action creators for undo and redo
 export const undo = () => ({

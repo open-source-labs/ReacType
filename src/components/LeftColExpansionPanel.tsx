@@ -25,8 +25,8 @@ interface LeftColExpPanPropsInt extends PropsInt {
     componentId: number;
     stateComponents: ComponentsInt;
   }): void;
-  toggleComponentState(arg: number): void;
-  toggleComponentClass(arg: number): void;
+  toggleComponentState(arg: {id: number}): void;
+  toggleComponentClass(arg: {id: number}): void;
 }
 //interface created but never used
 // interface TypographyProps {
@@ -56,7 +56,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   return (
     <Grid
       container
-      spacing={16}
       direction='row'
       justify='center'
       alignItems='center'
@@ -142,9 +141,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             </InputLabel>
                             <Switch
                               checked={stateful}
-                              onChange={e => {
-                                toggleComponentState(id);
-                                // changeFocusComponent({ title });
+                              onChange={() => {
+                                toggleComponentState({ id });
+                                changeFocusComponent({ title });
                               }}
                               value='stateful'
                               color='primary'
@@ -166,9 +165,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             </InputLabel>{' '}
                             <Switch
                               checked={classBased}
-                              onChange={e => {
-                                toggleComponentClass(id);
-                                // changeFocusComponent({ title });
+                              onChange={() => {
+                                toggleComponentClass({ id });
+                                changeFocusComponent({ title });
                               }}
                               value='classBased'
                               color='primary'
@@ -204,7 +203,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             />
                             <div
                               style={{
-                                marginTop: '3px',
+                                marginTop: '4px',
+                                marginLeft: '5px',
                                 fontSize: '15px',
                                 textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
                               }}
@@ -217,42 +217,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                       </div>
                     }
-                    // style={{ color }}
                   />
                 </ListItem>
               </List>
             </Grid>
           </Collapse>
-          {/* {id === 1 || !isFocused() ? (           Removed sepearate delete icon and     
-                                                      made it part of card
-            <div />
-          ) : (
-            <Fragment>
-              <Button
-                variant="text"
-                size="small"
-                color="default"
-                aria-label="Delete"
-                className={classes.margin}
-                onClick={() =>
-                  deleteComponent({
-                    componentId: id,
-                    stateComponents: components,
-                  })
-                }
-                style={{
-                  color: '#D3D3D3',
-                  marginBottom: '10px',
-                  marginTop: '4px',
-                  marginLeft: '11px',
-                  padding: '0px',
-                }}
-              >
-                <DeleteIcon style={{ color: '#D3D3D3' }} />
-                <span style={{ marginTop: '3px' }}>Delete Component</span>
-              </Button>
-            </Fragment>
-          )} */}
         </div>
       </Grid>
       {/* {Create the '+' symbol that add's components as children.} */}
@@ -279,7 +248,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     </Grid>
   );
 };
-function styles(themes: any): any {
+function styles(): object {
   return {
     root: {
       width: '100%',

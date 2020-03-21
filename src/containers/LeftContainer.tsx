@@ -76,10 +76,10 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  toggleComponentState: (id: string) =>
-    dispatch(actions.toggleComponentState(id)),
-  toggleComponentClass: (id: string) =>
-    dispatch(actions.toggleComponentClass(id)),
+  toggleComponentState: ({ id }: { id: number }) =>
+    dispatch(actions.toggleComponentState({ id })),
+  toggleComponentClass: ({ id }: { id: number }) =>
+    dispatch(actions.toggleComponentClass({ id })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -98,7 +98,7 @@ const mapDispatchToProps = (dispatch: any) => ({
         genOption,
         appName: 'reactype_app',
         exportAppBool: null,
-      }),
+      })
     ),
 });
 
@@ -119,7 +119,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       imageSource: this.props.imageSource,
     };
 
-    IPC.on('app_dir_selected', (event: any, path: string) => {
+    IPC.on('app_dir_selected', (event: string, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
@@ -435,5 +435,5 @@ function styles(): any {
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(LeftContainer);

@@ -501,7 +501,7 @@ export const deleteComponent = (
 //Reducer that toggles the component statefulness
 export const toggleComponentState = (
   state: ApplicationStateInt,
-  id: number
+  { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
@@ -512,6 +512,7 @@ export const toggleComponentState = (
       element.stateful = !element.stateful;
     }
   });
+  
   // return state and updated components array
   const { history, historyIndex, future } = createHistory(state);
 
@@ -527,7 +528,7 @@ export const toggleComponentState = (
 //Reducer that toggles the component class
 export const toggleComponentClass = (
   state: ApplicationStateInt,
-  id: number
+  { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
