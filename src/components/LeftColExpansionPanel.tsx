@@ -14,6 +14,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+import { format } from 'prettier';
+import componentRender from '../utils/componentRender.util';
+
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
@@ -27,6 +30,7 @@ interface LeftColExpPanPropsInt extends PropsInt {
   }): void;
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 //interface created but never used
 // interface TypographyProps {
@@ -44,7 +48,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     selectableChildren,
     deleteComponent,
     toggleComponentState,
-    toggleComponentClass
+    toggleComponentClass,
+    updateCode
   } = props;
   const { title, id, color, stateful, classBased } = component;
   function isFocused() {
@@ -53,6 +58,22 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
+
+  //helper function to update the code in the code preview when state/class toggles are switched
+  function generateNewCode() {
+    const text = format(componentRender(focusComponent, components), {
+      singleQuote: true,
+      trailingComma: 'es5',
+      bracketSpacing: true,
+      jsxBracketSameLine: true,
+      parser: 'typescript'
+    });
+    updateCode({
+      componentId: focusComponent.id,
+      code: text
+    });
+  }
+
   return (
     <Grid
       container
@@ -145,6 +166,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               onChange={e => {
                                 toggleComponentState(id);
                                 changeFocusComponent({ title });
+                                generateNewCode();
                               }}
                               value="stateful"
                               color="primary"
@@ -169,6 +191,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               onChange={e => {
                                 toggleComponentClass(id);
                                 changeFocusComponent({ title });
+                                generateNewCode();
                               }}
                               value="classBased"
                               color="primary"

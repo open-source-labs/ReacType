@@ -19,6 +19,7 @@ interface BottomTabsPropsInt extends PropsInt {
   addProp(prop: PropInt): void;
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 
 // interface TreeInt {
@@ -51,6 +52,7 @@ const styles = (theme: Theme): any => ({
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing.unit * 4,
+    marginTop: '10px',
 
     fontFamily: [
       '-apple-system',
@@ -143,7 +145,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild
+      focusChild,
+      updateCode
     } = this.props;
     const { value } = this.state;
 
@@ -228,6 +231,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 1 && (
           <CodePreview
             focusComponent={focusComponent}
+            updateCode={updateCode}
             components={components}
           />
         )}

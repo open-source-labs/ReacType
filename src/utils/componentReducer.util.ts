@@ -29,7 +29,8 @@ const initialComponentState: ComponentInt = {
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
+  code: ''
 };
 
 /*Helper function that copies the state to be added on to the history
@@ -344,6 +345,10 @@ export const updateCode = (
 ) => {
   //creates a deep copy of the components
   const componentsCopy = cloneDeep(state.components);
+  const focusCompCopy = cloneDeep(state.focusComponent);
+  if (focusCompCopy.id === componentId) {
+    focusCompCopy.code = code;
+  }
   componentsCopy.forEach((comp: ComponentInt) => {
     if (comp.id === componentId) {
       comp.code = code;
@@ -351,7 +356,8 @@ export const updateCode = (
   });
   return {
     ...state,
-    components: componentsCopy
+    components: componentsCopy,
+    focusComponent: focusCompCopy
   };
 };
 

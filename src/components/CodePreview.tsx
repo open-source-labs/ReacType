@@ -17,10 +17,12 @@ import '../public/styles/prism.css';
 type CodePreviewProps = {
   focusComponent: ComponentInt;
   components: ComponentsInt;
+  updateCode(arg: { componentId: number; code: string }): void;
 };
 interface StateInt {
   code: string;
 }
+
 class CodePreview extends Component<CodePreviewProps, StateInt> {
   constructor(props: CodePreviewProps) {
     super(props);
@@ -28,7 +30,32 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
       code: ''
     };
   }
+
+  //checking if the code has been asigned yet or not
+  //if no then generate code and asign to a focus component
   componentDidMount() {
+    if (this.props.focusComponent.code == '') {
+      const text = format(
+        componentRender(this.props.focusComponent, this.props.components),
+        {
+          singleQuote: true,
+          trailingComma: 'es5',
+          bracketSpacing: true,
+          jsxBracketSameLine: true,
+          parser: 'typescript'
+        }
+      );
+
+      this.props.updateCode({
+        componentId: this.props.focusComponent.id,
+        code: text
+      });
+    }
+  }
+  componentDidUpdate(prevProp: CodePreviewProps) {
+    if(prevProp.focusComponent.code )
+  }
+  generateNewCode() {
     const text = format(
       componentRender(this.props.focusComponent, this.props.components),
       {
@@ -39,10 +66,12 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
         parser: 'typescript'
       }
     );
-    this.setState({
+    this.props.updateCode({
+      componentId: this.props.focusComponent.id,
       code: text
     });
   }
+
   render(): JSX.Element {
     // const focusComponent: ComponentInt = this.props.focusComponent;
     // const components: ComponentsInt = this.props.components;
@@ -53,20 +82,29 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
     //   jsxBracketSameLine: true,
     //   parser: 'typescript'
     // });
-    console.log('lang', languages);
+
     return (
       <div
         style={{
           height: '330px',
           paddingLeft: '30px',
-          overflow: 'auto'
+          paddingTop: '10px',
+          overflow: 'auto',
+          maxWidth: '70%',
+          border: '2px solid #33eb91',
+          borderRadius: '5px'
         }}
       >
         <Editor
-          value={this.state.code}
+          value={this.props.focusComponent.code}
           highlight={code => highlight(code, languages.jsx)}
           padding={10}
-          onValueChange={code => this.setState({ code })}
+          onValueChange={code =>
+            this.props.updateCode({
+              componentId: this.props.focusComponent.id,
+              code
+            })
+          }
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',
             fontSize: 12
