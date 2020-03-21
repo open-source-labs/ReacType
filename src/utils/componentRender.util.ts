@@ -16,7 +16,7 @@ const componentRender = (
     title,
     props,
     stateful,
-    classBased,
+    classBased
   }: {
     childrenArray: ChildrenInt;
     title: string;
@@ -122,7 +122,11 @@ const componentRender = (
       return child.componentName;
     }
   }
-
+  // logic below consists of conditional that will render depending
+  // on the toggling of "state" and/or "class"
+  // class components can optioally have a state which will
+  // return "Component" from react to extend from
+  //
   return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
     ${classBased ? `import React, {Component} from 'react';` : ''}
