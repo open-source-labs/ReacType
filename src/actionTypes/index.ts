@@ -34,3 +34,5 @@ export const TOGGLE_CLASS: string = 'TOGGLE_CLASS';
 export const CHANGE_TUTORIAL: string = 'CHANGE_TUTORIAL';
 export const UNDO: string = 'UNDO';
 export const REDO: string = 'REDO';
+export const EDIT_MODE: string = 'EDIT_MODE';
+export const EDIT_COMPONENT: string = 'EDIT_COMPONENT';

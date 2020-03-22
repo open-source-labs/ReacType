@@ -39,10 +39,14 @@ interface LeftContPropsInt extends PropsInt {
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
   deleteImage(): void;
+  toggleEditMode(arg: { id: number }): void;
+  editMode: number;
+  editComponent(arg: { id: number; title: string }): void;
 }
 
 interface StateInt {
   componentName: string;
+  componentEditName: string;
   modal: any;
   genOptions: string[];
   genOption: number;
@@ -51,6 +55,7 @@ interface StateInt {
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
+  editMode: store.workspace.editMode,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -76,10 +81,14 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
+  editComponent: ({ id, title }: { id: number; title: string }) =>
+    dispatch(actions.editComponent({ id, title })),
   toggleComponentState: ({ id }: { id: number }) =>
     dispatch(actions.toggleComponentState({ id })),
   toggleComponentClass: ({ id }: { id: number }) =>
     dispatch(actions.toggleComponentClass({ id })),
+  toggleEditMode: ({ id }: { id: number }) =>
+    dispatch(actions.toggleEditMode({ id })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -110,6 +119,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
     this.state = {
       componentName: '',
+      componentEditName: '',
       modal: null,
       genOptions: [
         'Export components',
@@ -137,12 +147,31 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     });
   };
 
+  handleChangeName = (value: string) => {
+    const newValue: string = value;
+    this.setState({
+      componentEditName: newValue,
+    });
+  };
+
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
 
     // reset the currently added componentName state field to blank after adding
     this.setState({
       componentName: '',
+    });
+  };
+
+  handleEditComponent = () => {
+    this.props.editComponent({
+      id: this.props.editMode,
+      title: this.state.componentEditName,
+    });
+
+    // reset the currently added componentName state field to blank after adding
+    this.setState({
+      componentEditName: '',
     });
   };
 
@@ -227,8 +256,13 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       toggleComponentState,
       toggleComponentClass,
       deleteImage,
+      editMode,
+      toggleEditMode,
     } = this.props;
-    const { componentName, modal } = this.state;
+    const {
+      componentName,
+      modal
+    } = this.state;
 
     const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
@@ -245,6 +279,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           components={components}
           toggleComponentState={toggleComponentState}
           toggleComponentClass={toggleComponentClass}
+          editMode={editMode}
+          toggleEditMode={toggleEditMode}
+          handleChangeName={this.handleChangeName}
+          handleEditComponent={this.handleEditComponent}
         />
       ));
     const { addImage } = this;
@@ -262,9 +300,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             <TextField
               id="title-input"
               label="Add component"
+              size="medium"
               placeholder="Name of component"
               margin="normal"
-              autoFocus
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {

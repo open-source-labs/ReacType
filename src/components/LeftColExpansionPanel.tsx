@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,8 +26,12 @@ interface LeftColExpPanPropsInt extends PropsInt {
     componentId: number;
     stateComponents: ComponentsInt;
   }): void;
-  toggleComponentState(arg: {id: number}): void;
-  toggleComponentClass(arg: {id: number}): void;
+  toggleComponentState(arg: { id: number }): void;
+  toggleComponentClass(arg: { id: number }): void;
+  editMode: number;
+  toggleEditMode(arg: { id: number }): void;
+  handleChangeName(event: string): void;
+  handleEditComponent(): void;
 }
 //interface created but never used
 // interface TypographyProps {
@@ -44,7 +49,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     selectableChildren,
     deleteComponent,
     toggleComponentState,
-    toggleComponentClass
+    toggleComponentClass,
+    editMode,
+    toggleEditMode,
+    handleChangeName,
+    handleEditComponent,
   } = props;
   const { title, id, color, stateful, classBased } = component;
   function isFocused() {
@@ -53,14 +62,23 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
+
+  const handleEdit = () => {
+    if (editMode !== id) {
+      handleChangeName(title);
+      toggleEditMode({ id });
+    } else {
+      toggleEditMode({ id: -1 });
+    }
+  };
   return (
     <Grid
       container
-      direction='row'
-      justify='center'
-      alignItems='center'
+      direction="row"
+      justify="center"
+      alignItems="center"
       style={{
-        minWidth: '470px'
+        minWidth: '470px',
       }}
     >
       <Grid item xs={9}>
@@ -71,7 +89,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             focusedToggle
               ? {
                   boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
-                  borderRadius: '8px'
+                  borderRadius: '8px',
                 }
               : {}
           }
@@ -93,32 +111,70 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 backgroundColor: 'none',
                 borderRadius: '10px',
                 minWidth: '340px',
-                border: `2px solid ${color}`
+                border: `2px solid ${color}`,
               }}
             >
-              <List style={{ color: 'red' }}>
+              <List
+                style={
+                  {
+                    // color: 'red'
+                  }
+                }
+              >
                 <ListItem
                   // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
-                  style={{ color: 'red' }}
+                  // style={{ color: 'red' }}
                   onClick={() => {
-                    changeFocusComponent({ title });
+                    if (focusComponent.title !== title)
+                      changeFocusComponent({ title });
                   }}
                 >
                   <ListItemText
-                    disableTypography
-                    className={classes.light}
+                    // disableTypography
+                    // className={classes.light}
                     primary={
                       <div>
-                        <Typography
-                          //type='body2'
-                          style={{
-                            color: '#fff',
-                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-                            fontSize: '1.40rem'
-                          }}
-                        >
-                          {title}
-                        </Typography>
+                        {editMode !== id ? (
+                          <Typography
+                            //type='body2'
+                            onDoubleClick={() => handleEdit()}
+                            style={{
+                              color: '#fff',
+                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
+                              fontSize: '1.40rem',
+                            }}
+                          >
+                            {title}
+                          </Typography>
+                        ) : (
+                          <TextField
+                            id="filled"
+                            label="Change Component Name"
+                            defaultValue={title}
+                            variant="outlined"
+                            className={classes.text}
+                            InputProps={{
+                              className: classes.light,
+                            }}
+                            InputLabelProps={{
+                              className: classes.inputLabel,
+                            }}
+                            autoFocus
+                            onChange={e => handleChangeName(e.target.value)}
+                            onKeyPress={ev => {
+                              if (ev.key === 'Enter') {
+                                handleEditComponent();
+                                ev.preventDefault();
+                              }
+                            }}
+                            onKeyUp={ev => {
+                              if (ev.keyCode === 27) {
+                                handleEdit();
+                                ev.preventDefault();
+                              }
+                            }}
+                          />
+                        )}
                         {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
                         TO DO : IMPROVE DRYNESS OF CODE BY RENDERING ALL FOUR MATERIAL ELEMENTS (LABELS/SWITCH) IN ONE CONDITIONAL
                       */}
@@ -126,7 +182,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         {focusedToggle ? (
                           <span style={{ display: 'inline-flex' }}>
                             <InputLabel
-                              htmlFor='stateful'
+                              htmlFor="stateful"
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -134,7 +190,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                               }}
                             >
                               State?
@@ -145,12 +201,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentState({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value='stateful'
-                              color='primary'
+                              value="stateful"
+                              color="primary"
                               // id={props.id.toString()}
                             />
                             <InputLabel
-                              htmlFor='classBased'
+                              htmlFor="classBased"
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -158,7 +214,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginLeft: '11px',
                                 padding: '0px',
                                 fontSize: '18px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
                               }}
                             >
                               Class?
@@ -169,8 +225,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentClass({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value='classBased'
-                              color='primary'
+                              value="classBased"
+                              color="primary"
                             />
                           </span>
                         ) : (
@@ -178,27 +234,27 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                         {focusedToggle && component.id !== 1 ? (
                           <Button
-                            variant='text'
-                            size='small'
-                            color='default'
-                            aria-label='Delete'
+                            variant="text"
+                            size="small"
+                            color="default"
+                            aria-label="Delete"
                             className={classes.margin}
                             onClick={() =>
                               deleteComponent({
                                 componentId: id,
-                                stateComponents: components
+                                stateComponents: components,
                               })
                             }
                             style={{
                               color: 'white',
                               marginBottom: '0px',
-                              marginTop: '4px'
+                              marginTop: '4px',
                             }}
                           >
                             <DeleteIcon
                               style={{
                                 color: '#b30000',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
                               }}
                             />
                             <div
@@ -206,7 +262,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 marginTop: '4px',
                                 marginLeft: '5px',
                                 fontSize: '15px',
-                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
+                                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
                               }}
                             >
                               Delete Component
@@ -230,12 +286,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           <div />
         ) : (
           <Tooltip
-            title='add as child'
-            aria-label='add as child'
-            placement='left'
+            title="add as child"
+            aria-label="add as child"
+            placement="left"
           >
             <IconButton
-              aria-label='Add'
+              aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
               }}
@@ -253,14 +309,28 @@ function styles(): object {
     root: {
       width: '100%',
       marginTop: 10,
-      backgroundColor: '#333333'
     },
     light: {
       color: '#eee',
       '&:hover': {
-        color: '#1de9b6'
-      }
-    }
+        color: '#1de9b6',
+      },
+    },
+    inputLabel: {
+      fontSize: '16px',
+      color: '#fff',
+    },
+    text: {
+      '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'white',
+      },
+      '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'white',
+      },
+      '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'white',
+      },
+    },
   };
 }
 export default withStyles(styles)(LeftColExpansionPanel);
