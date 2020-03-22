@@ -313,12 +313,15 @@ function styles(): object {
     light: {
       color: '#eee',
       '&:hover': {
-        color: '#1de9b6',
+        color: '#fff',
       },
     },
     inputLabel: {
       fontSize: '16px',
       color: '#fff',
+      '&.Mui-focused': {
+        color: '#fff',
+      },
     },
     text: {
       '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
