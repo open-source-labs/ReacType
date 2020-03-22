@@ -551,6 +551,7 @@ export const toggleComponentClass = (
   };
 };
 
+//a reducer function to see if component name editing mode should be entered
 export const toggleEditMode = (
   state: ApplicationStateInt,
   { id }: { id: number }
@@ -566,6 +567,10 @@ export const toggleEditMode = (
   };
 };
 
+/*For the function below, it first changes the title of the component being edited to the new name.
+Then, it checks for each child component that exists and make sure the names of those child components 
+are changed as well. Otherwise, the code will break because when you focus on a component with the changed component
+as a child. */
 export const editComponent = (
   state: ApplicationStateInt,
   { id, title }: { id: number; title: string }

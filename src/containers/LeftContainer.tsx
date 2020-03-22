@@ -140,6 +140,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     });
   }
 
+  //this function is for handling the value of the new component name typed in
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
@@ -147,6 +148,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     });
   };
 
+  //this functions handles the values for an edited name being typed
   handleChangeName = (value: string) => {
     const newValue: string = value;
     this.setState({
@@ -154,6 +156,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     });
   };
 
+  
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
 
@@ -169,7 +172,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       title: this.state.componentEditName,
     });
 
-    // reset the currently added componentName state field to blank after adding
+    // reset the currently added componentName state field to blank after editing
     this.setState({
       componentEditName: '',
     });

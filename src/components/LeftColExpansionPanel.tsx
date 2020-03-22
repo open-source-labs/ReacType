@@ -63,6 +63,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
 
+  //this function determines whether edit mode for component name should be entered or not
+  //resets the title if 'escape' key is hit
   const handleEdit = () => {
     if (editMode !== id) {
       handleChangeName(title);
@@ -125,7 +127,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
                   // style={{ color: 'red' }}
                   onClick={() => {
-                    if (focusComponent.title !== title)
+                    if (focusComponent.title !== title) //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title. 
                       changeFocusComponent({ title });
                   }}
                 >
@@ -147,32 +149,32 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             {title}
                           </Typography>
                         ) : (
-                          <TextField
+                          <TextField                                      //show a text field for editing instead if edit mode entered
                             id="filled"
                             label="Change Component Name"
                             defaultValue={title}
                             variant="outlined"
                             className={classes.text}
                             InputProps={{
-                              className: classes.light,
+                              className: classes.light,                   //all of these styling makes the input box border, label, and text default to white.
                             }}
                             InputLabelProps={{
                               className: classes.inputLabel,
                             }}
                             autoFocus
-                            onChange={e => handleChangeName(e.target.value)}
+                            onChange={e => handleChangeName(e.target.value)}      //event handler for key press
                             onKeyPress={ev => {
-                              if (ev.key === 'Enter') {
+                              if (ev.key === 'Enter') {                           //event handler for enter pressed
                                 handleEditComponent();
                                 ev.preventDefault();
                               }
                             }}
-                            onKeyUp={ev => {
-                              if (ev.keyCode === 27) {
-                                handleEdit();
-                                ev.preventDefault();
-                              }
-                            }}
+                            // onKeyUp={ev => {                                   //the old escape handler, keeping it here just in case a bug in the main.js escape handler wasn't caught
+                            //   if (ev.keyCode === 27) {
+                            //     handleEdit();
+                            //     ev.preventDefault();
+                            //   }
+                            // }}
                           />
                         )}
                         {/* ALL OF THE STATE/CLASS TOGGLES AND LABELS ARE ONLY RENDERED IF THEIR COMPONENT IS THE FOCUSED COMPONENT 
