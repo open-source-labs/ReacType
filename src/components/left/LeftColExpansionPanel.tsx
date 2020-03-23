@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -14,7 +14,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt,
+} from '../../interfaces/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
@@ -32,6 +36,7 @@ interface LeftColExpPanPropsInt extends PropsInt {
   toggleEditMode(arg: { id: number }): void;
   handleChangeName(event: string): void;
   handleEditComponent(): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 //interface created but never used
 // interface TypographyProps {
@@ -73,36 +78,37 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       toggleEditMode({ id: -1 });
     }
   };
+
   return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      style={{
-        minWidth: '470px',
-      }}
+    <Collapse
+      in={focusedToggle}
+      collapsedHeight={'100px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
+      style={{ borderRadius: '5px' }}
+      timeout="auto"
     >
-      <Grid item xs={9}>
-        <div
-          className={classes.root}
-          style={
-            // shadow to highlight the focused component card
-            focusedToggle
-              ? {
-                  boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
-                  borderRadius: '8px',
-                }
-              : {}
-          }
-        >
-          {/* {This is the component responsible for the collapsing transition animation for each component card} */}
-          <Collapse
-            in={focusedToggle}
-            collapsedHeight={'80px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
-            style={{ borderRadius: '5px' }}
-            timeout={500}
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        style={{
+          minWidth: '470px',
+        }}
+      >
+        <Grid item xs={9}>
+          <div
+            className={classes.root}
+            style={
+              // shadow to highlight the focused component card
+              focusedToggle
+                ? {
+                    boxShadow: '4px 4px 4px rgba(0, 0, 0, .4)',
+                    borderRadius: '8px',
+                  }
+                : {}
+            }
           >
+            {/* {This is the component responsible for the collapsing transition animation for each component card} */}
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
               item
@@ -127,7 +133,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   // button // commented out to disable materialUI hover shading effect. TBD if any adverse effects occur
                   // style={{ color: 'red' }}
                   onClick={() => {
-                    if (focusComponent.title !== title) //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title. 
+                    if (focusComponent.title !== title)
+                      //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title.
                       changeFocusComponent({ title });
                   }}
                 >
@@ -149,22 +156,23 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             {title}
                           </Typography>
                         ) : (
-                          <TextField                                      //show a text field for editing instead if edit mode entered
+                          <TextField //show a text field for editing instead if edit mode entered
                             id="filled"
                             label="Change Component Name"
                             defaultValue={title}
                             variant="outlined"
                             className={classes.text}
                             InputProps={{
-                              className: classes.light,                   //all of these styling makes the input box border, label, and text default to white.
+                              className: classes.light, //all of these styling makes the input box border, label, and text default to white.
                             }}
                             InputLabelProps={{
                               className: classes.inputLabel,
                             }}
                             autoFocus
-                            onChange={e => handleChangeName(e.target.value)}      //event handler for key press
+                            onChange={e => handleChangeName(e.target.value)} //event handler for key press
                             onKeyPress={ev => {
-                              if (ev.key === 'Enter') {                           //event handler for enter pressed
+                              if (ev.key === 'Enter') {
+                                //event handler for enter pressed
                                 handleEditComponent();
                                 ev.preventDefault();
                               }
@@ -279,31 +287,32 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 </ListItem>
               </List>
             </Grid>
-          </Collapse>
-        </div>
-      </Grid>
-      {/* {Create the '+' symbol that add's components as children.} */}
-      <Grid item xs={3}>
-        {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
-          <div />
-        ) : (
-          <Tooltip
-            title="add as child"
-            aria-label="add as child"
-            placement="left"
-          >
-            <IconButton
-              aria-label="Add"
-              onClick={() => {
-                addChild({ title, childType: 'COMP' });
-              }}
+          </div>
+        </Grid>
+        {/* {Create the '+' symbol that add's components as children.} */}
+        <Grid item xs={3}>
+          {id === 1 || isFocused() || !selectableChildren.includes(id) ? (
+            <div />
+          ) : (
+            <Tooltip
+              title="add as child"
+              aria-label="add as child"
+              placement="left"
             >
-              <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
-            </IconButton>
-          </Tooltip>
-        )}
+              <IconButton
+                aria-label="Add"
+                onClick={() => {
+                  addChild({ title, childType: 'COMP' });
+                  changeFocusComponent({ title: focusComponent.title });
+                }}
+              >
+                <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    </Collapse>
   );
 };
 function styles(): object {

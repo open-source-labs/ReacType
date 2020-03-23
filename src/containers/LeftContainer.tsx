@@ -11,12 +11,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
-import HTMLComponentPanel from '../components/HTMLComponentPanel';
+import LeftColExpansionPanel from '../components/left/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/left/HTMLComponentPanel';
 import * as actions from '../actions/actionCreators';
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces';
-import createModal from '../utils/createModal.util';
-import cloneDeep from '../utils/cloneDeep';
+import { ComponentInt, ComponentsInt, PropsInt } from '../interfaces/Interfaces';
+import createModal from '../components/left/createModal';
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -36,9 +36,10 @@ interface LeftContPropsInt extends PropsInt {
     genOption: number;
   }): void;
   deleteAllData(): void;
-  toggleComponentState(arg: number): void;
-  toggleComponentClass(arg: number): void;
+  toggleComponentState(arg: { id: number }): void;
+  toggleComponentClass(arg: { id: number }): void;
   deleteImage(): void;
+  updateCode(arg: { componentId: number; code: string }): void;
   toggleEditMode(arg: { id: number }): void;
   editMode: number;
   editComponent(arg: { id: number; title: string }): void;
@@ -55,7 +56,7 @@ interface StateInt {
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
-  editMode: store.workspace.editMode,
+  editMode: store.workspace.editMode
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -64,7 +65,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   addChild: ({
     title,
     childType,
-    HTMLInfo,
+    HTMLInfo
   }: {
     title: string;
     childType: string;
@@ -76,7 +77,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({
     componentId,
-    stateComponents,
+    stateComponents
   }: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -94,7 +95,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   createApp: ({
     path,
     components,
-    genOption,
+    genOption
   }: {
     path: string;
     components: ComponentsInt;
@@ -106,9 +107,11 @@ const mapDispatchToProps = (dispatch: any) => ({
         components,
         genOption,
         appName: 'reactype_app',
-        exportAppBool: null,
+        exportAppBool: null
       })
     ),
+  updateCode: ({ componentId, code }: { componentId: number; code: string }) =>
+    dispatch(actions.updateCode({ componentId, code }))
 });
 
 class LeftContainer extends Component<LeftContPropsInt, StateInt> {
@@ -123,10 +126,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       modal: null,
       genOptions: [
         'Export components',
-        'Export components with application files',
+        'Export components with application files'
       ],
       genOption: 0,
-      imageSource: this.props.imageSource,
+      imageSource: this.props.imageSource
     };
 
     IPC.on('app_dir_selected', (event: string, path: string) => {
@@ -135,7 +138,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       this.props.createApp({
         path,
         components,
-        genOption,
+        genOption
       });
     });
   }
@@ -144,7 +147,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
-      componentName: newValue,
+      componentName: newValue
     });
   };
 
@@ -152,29 +155,28 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   handleChangeName = (value: string) => {
     const newValue: string = value;
     this.setState({
-      componentEditName: newValue,
+      componentEditName: newValue
     });
   };
 
-  
   handleAddComponent = () => {
     this.props.addComponent({ title: this.state.componentName });
 
     // reset the currently added componentName state field to blank after adding
     this.setState({
-      componentName: '',
+      componentName: ''
     });
   };
 
   handleEditComponent = () => {
     this.props.editComponent({
       id: this.props.editMode,
-      title: this.state.componentEditName,
+      title: this.state.componentEditName
     });
 
     // reset the currently added componentName state field to blank after editing
     this.setState({
-      componentEditName: '',
+      componentEditName: ''
     });
   };
 
@@ -193,8 +195,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         secBtnAction: () => {
           this.props.deleteAllData();
           this.closeModal();
-        },
-      }),
+        }
+      })
     });
   };
 
@@ -223,7 +225,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
-              marginTop: '5%',
+              marginTop: '5%'
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -240,8 +242,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     });
   };
 
@@ -259,13 +261,11 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       toggleComponentState,
       toggleComponentClass,
       deleteImage,
+      updateCode,
       editMode,
-      toggleEditMode,
+      toggleEditMode
     } = this.props;
-    const {
-      componentName,
-      modal
-    } = this.state;
+    const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
@@ -282,6 +282,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           components={components}
           toggleComponentState={toggleComponentState}
           toggleComponentClass={toggleComponentClass}
+          updateCode={updateCode}
           editMode={editMode}
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}
@@ -317,10 +318,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               name="componentName"
               className={classes.light}
               InputProps={{
-                className: classes.input,
+                className: classes.input
               }}
               InputLabelProps={{
-                className: classes.input,
+                className: classes.input
               }}
             />
           </Grid>
@@ -349,14 +350,14 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             width: '100%',
             position: 'absolute',
             bottom: 0,
-            left: 0,
+            left: 0
           }}
         >
           <div
             style={{
               display: 'flex',
               justifyContent: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             {imageSource ? (
@@ -370,7 +371,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                   borderRadius: 0,
                   top: 0,
                   backgroundColor: '#dc004e',
-                  color: '#fff',
+                  color: '#fff'
                 }}
               >
                 Remove Image
@@ -386,7 +387,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                   borderRadius: 0,
                   top: 0,
                   backgroundColor: '#dc004e',
-                  color: '#fff',
+                  color: '#fff'
                 }}
               >
                 Upload Image
@@ -409,7 +410,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Button
@@ -439,27 +440,27 @@ function styles(): any {
       color: 'white',
 
       '&$cssFocused': {
-        color: 'green',
-      },
+        color: 'green'
+      }
     },
     cssFocused: {},
     input: {
       color: '#fff',
       opacity: '0.7',
-      marginBottom: '10px',
+      marginBottom: '10px'
     },
     underline: {
       color: 'white',
       '&::before': {
-        color: 'white',
-      },
+        color: 'white'
+      }
     },
     button: {
       color: '#fff',
 
       '&:disabled': {
-        color: 'grey',
-      },
+        color: 'grey'
+      }
     },
     clearButton: {
       top: '96%',
@@ -468,9 +469,9 @@ function styles(): any {
 
       '&:disabled': {
         color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
+        backgroundColor: '#424242'
+      }
+    }
   };
 }
 
