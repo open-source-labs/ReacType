@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ComponentInt } from '../utils/Interfaces';
-import { addProp, deleteProp } from '../actions/components';
-import DataTable from './DataTable';
+import { addProp, deleteProp } from '../actions/actionCreators';
 import MaterialTable from 'material-table';
 
 const mapDispatchToProps = (dispatch: any) => ({

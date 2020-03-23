@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
-import * as actions from '../actions/components';
+import * as actions from '../actions/actionCreators';
 import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces';
 import createModal from '../utils/createModal.util';
 import cloneDeep from '../utils/cloneDeep';

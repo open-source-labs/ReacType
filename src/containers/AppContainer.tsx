@@ -6,13 +6,12 @@ import Tutorial from '../components/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import theme from '../components/theme';
-// import { loadInitData } from '../actions/components.ts';
 import {
   ComponentInt,
   ComponentsInt,
   ApplicationStateInt,
 } from '../utils/Interfaces';
-import * as actions from '../actions/components';
+import * as actions from '../actions/actionCreators';
 
 // ** Used with electron to render
 const IPC = require('electron').ipcRenderer;

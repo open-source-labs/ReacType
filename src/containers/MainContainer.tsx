@@ -12,7 +12,7 @@ import {
   changeComponentFocusChild,
   deleteChild,
   changeFocusComponent
-} from '../actions/components';
+} from '../actions/actionCreators';
 import KonvaStage from '../components/KonvaStage';
 import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
 

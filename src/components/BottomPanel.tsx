@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp } from '../actions/components';
+import { handleClose, deleteProp, addProp } from '../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../utils/Interfaces';
 

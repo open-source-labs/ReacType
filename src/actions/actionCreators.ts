@@ -30,7 +30,6 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
-  // UPDATE_CHILDREN_SORT, --The reason why this is commented out is because of the unused reducer of the same name, for the component that is unfinished with the same name. Check out the Sort Children component to see what it does.
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
   CHANGE_TUTORIAL,
@@ -326,13 +325,3 @@ export const updateHtmlAttr = ({
     payload: { attr, value },
   });
 };
-
-//Action reserved for SortChildren component not written yet
-// export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) => (
-//   dispatch: (arg: Action) => void,
-// ) => {
-//   dispatch({
-//     type: UPDATE_CHILDREN_SORT,
-//     payload: { newSortValues },
-//   });
-// };
