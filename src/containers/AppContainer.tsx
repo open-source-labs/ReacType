@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Tutorial from '../components/Tutorial';
+import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
-import theme from '../components/theme';
-// import { loadInitData } from '../actions/components.ts';
+import theme from '../theme';
 import {
   ComponentInt,
   ComponentsInt,
   ApplicationStateInt,
-} from '../utils/Interfaces';
-import * as actions from '../actions/components';
+} from '../interfaces/Interfaces';
+import * as actions from '../actions/actionCreators';
 
 // ** Used with electron to render
 const IPC = require('electron').ipcRenderer;
@@ -32,6 +31,7 @@ interface Props {
   undo(): void;
   redo(): void;
   tutorial: number;
+  toggleEditMode(arg: {id: number}): void;
 }
 
 //Type for the state that should not be assigned within the
@@ -67,6 +67,8 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
     dispatch(actions.changeTutorial(tutorial)),
   undo: () => dispatch(actions.undo()),
   redo: () => dispatch(actions.redo()),
+  toggleEditMode: ({ id }: { id: number }) =>
+    dispatch(actions.toggleEditMode({ id })),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -111,6 +113,10 @@ class AppContainer extends Component<Props, State> {
     IPC.on('redo', () => {
       this.props.redo();
     });
+
+    IPC.on('escape', () => {
+      this.props.toggleEditMode({id:-1});
+    })
   }
 
   handleNext = (tutorial: number) => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ComponentInt, ApplicationStateInt } from '../utils/Interfaces';
+import { ComponentInt, ApplicationStateInt } from '../../interfaces/Interfaces';
+import { addProp, deleteProp } from '../../actions/actionCreators';
 import MaterialTable from 'material-table';
 
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({

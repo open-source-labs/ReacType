@@ -7,18 +7,14 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import {
-  ComponentInt,
-  ComponentsInt,
-  PropInt,
-  PropsInt
-} from '../utils/Interfaces';
+import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 
 // interface TreeInt {
@@ -144,7 +140,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
-      focusChild
+      focusChild,
+      updateCode
     } = this.props;
     const { value } = this.state;
 
@@ -229,7 +226,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 1 && (
           <CodePreview
             focusComponent={focusComponent}
+            updateCode={updateCode}
             components={components}
+            changeFocusComponent={this.props.changeFocusComponent}
           />
         )}
         {value === 2 && <Props />}

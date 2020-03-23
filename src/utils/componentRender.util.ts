@@ -4,8 +4,8 @@ import {
   ChildInt,
   ChildrenInt,
   PropInt
-} from './Interfaces';
-import cloneDeep from './cloneDeep';
+} from '../interfaces/Interfaces';
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 const componentRender = (
   component: ComponentInt,
@@ -179,7 +179,6 @@ const componentRender = (
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            //console.log('this is childrenArray', child.HTMLInfo); //Did someone leave this here?//
             if (child.componentName == 'Button') {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
@@ -191,7 +190,7 @@ const componentRender = (
                 child
               )}/>`;
           })
-          .join('\n')}
+          .join(' ')}
         </div>
       );
     }

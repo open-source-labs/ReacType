@@ -244,6 +244,7 @@ RIGHT COLUMN
   transition: width 250ms ease-in-out;
   width: 100%;
   height: 33%;
+  min-height: 260px;
   /* display: flex;
   flex-direction: row; */
   background-color: #fcfcfc;
