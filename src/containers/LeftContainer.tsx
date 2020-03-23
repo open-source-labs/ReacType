@@ -262,6 +262,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       deleteComponent,
       focusComponent,
       classes,
+      addProp,
       addChild,
       changeFocusComponent,
       changeFocusChild,

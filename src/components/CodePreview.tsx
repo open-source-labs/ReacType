@@ -65,7 +65,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
         parser: 'babel'
       }
     );
-    // console.log('code  prev>>>>>>>>>>>>>>>>>>>', text);
+
     this.props.updateCode({
       componentId: this.props.focusComponent.id,
       code: text
@@ -87,10 +87,10 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
         }}
       >
         <AceEditor
-          mode="javascript"
-          theme="monokai"
-          width="100%%"
-          height="100%"
+          mode='javascript'
+          theme='monokai'
+          width='100%%'
+          height='100%'
           onChange={code =>
             this.props.updateCode({
               componentId: this.props.focusComponent.id,
@@ -98,7 +98,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
             })
           }
           value={this.props.focusComponent.code}
-          name="UNIQUE_ID_OF_DIV"
+          name='UNIQUE_ID_OF_DIV'
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />

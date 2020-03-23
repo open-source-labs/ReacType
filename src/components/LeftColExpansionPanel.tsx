@@ -15,7 +15,12 @@ import Collapse from '@material-ui/core/Collapse';
 import { addProp } from '../actions/components';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt,
+  PropInt
+} from '../utils/Interfaces'; // unused
 import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
 
@@ -315,27 +320,50 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 // console.log('this is child "title" that gets added', title);
                 // creating a variable to add to parents from chlid props
 
-                let addedChildProps = components.map((current, index) => {
-                  // current.title === title ? current : null;
-                  console.log('current', current.props);
-                  // current.title === title
-                  //   ? addProp({
-                  //       key: current.props[0].key,
-                  //       value: current.props[0].value,
-                  //       required: current.props[0].required,
-                  //       type: current.props[0].type
-                  //     })
-                  //   : null;
+                // let addedChildProps = components.map((current, index) => {
+                //   // if (current && current.title === title) {
+                //   //   // current.title === title
+                //   //   //   ? console.log('current', current.props[0].key)
+                //   //   //   : null;
+                //   //   console.log('this is current', current.props[0]['id']);
+                //   // }
+                // console.log(
+                //   'this is focused component from LCEP',
+                //   focusComponent
+                // // );
+                // console.log('this is title from LCEP', title);
+                // console.log('this is state components at LCEP', components);
+                const addedChildComponent = components.find(
+                  (component: ComponentInt) => component.title === title
+                );
+                // console.log('should find child object', addedChildComponent);
+                console.log(
+                  'this is addedChildComponent from LFEP key',
+                  addedChildComponent.props[0]['key']
+                );
+                console.log(
+                  'this is addedChildComponent from LFEP value',
+                  addedChildComponent.props[0]['value']
+                );
+                console.log(
+                  'this is addedChildComponent from LFEP required',
+                  addedChildComponent.props[0]['required']
+                );
+                console.log(
+                  'this is addedChildComponent from LFEP type',
+                  addedChildComponent.props[0]['type']
+                );
+                addProp({
+                  key: addedChildComponent.props[0]['key'],
+                  value: addedChildComponent.props[0]['value'],
+                  required: addedChildComponent.props[0]['required'],
+                  type: addedChildComponent.props[0]['type']
                 });
-                // addProp({
-                //   key: current.props.key,
-                //   value: current.props.value,
-                //   required: propRequired,
-                //   type: propType
-                // });
-                // console.log('this is addedChildProps', addedChildProps);
                 addChild({ title, childType: 'COMP' });
                 changeFocusComponent({ title: focusComponent.title });
+
+                // changeFocusComponent({ title: focusComponent.title });
+                // changeFocusComponent({ title: addedChildComponent.title });
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />

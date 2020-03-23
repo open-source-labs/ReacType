@@ -148,7 +148,7 @@ export const addChild = (
     HTMLInfo: { [index: string]: string };
   }
 ) => {
-  console.log('addchild successful');
+  // console.log('addchild');
   const strippedTitle = title;
 
   //is this warning even possible to trigger witht he current flow?
@@ -163,15 +163,15 @@ export const addChild = (
   }
 
   // childType !== 'COMP' ? (childType = 'HTML') : (childType = 'COMP');
-  console.log('creating child from componentReducer');
+
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
   const view: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === state.focusComponent.title
   );
 
-  console.log('components from state in reducer :', state.components);
-  console.log('focusComponent from state in reducer :', state.focusComponent);
+  // console.log('components from state in reducer :', state.components);
+  // console.log('focusComponent from state in reducer :', state.focusComponent);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
   let parentComponent;
@@ -784,10 +784,17 @@ export const addProp = (
     return state;
   }
 
+  // function finds the "focused component" inside the components array so that
+  // anytime you call on selectedComponent, it's affecting the right component in the
+  // components array
   const selectedComponent = state.components.find(
     (comp: ComponentInt) => comp.id === state.focusComponent.id
   );
-
+  console.log(
+    'this is selected Component from passed down props',
+    selectedComponent
+  );
+  // create a newProp object
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
@@ -796,7 +803,7 @@ export const addProp = (
     type
   };
   const newProps = [...selectedComponent.props, newProp];
-
+  console.log('this is new PROPS', newProps);
   const modifiedComponent: ComponentInt = {
     ...selectedComponent,
     props: newProps,
@@ -809,7 +816,8 @@ export const addProp = (
   );
   newComponents.push(modifiedComponent);
   const { history, historyIndex, future } = createHistory(state);
-  console.log('this is state components', state.components);
+
+  console.log('this is newComponents component', newComponents);
   return {
     ...state,
     components: newComponents,

@@ -2,14 +2,18 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
+import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import { addProp, deleteProp } from '../actions/components';
 import DataTable from './DataTable';
-import { PropInt, PropsInt } from '../utils/Interfaces';
+import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces';
 
 interface PropsPropsInt extends PropsInt {
   classes: any;
@@ -17,7 +21,7 @@ interface PropsPropsInt extends PropsInt {
   deleteProp(propId: number): void;
 }
 
-const styles = () => ({
+const styles = (theme: any) => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
@@ -161,7 +165,7 @@ const availablePropTypes = {
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value="" key="" />,
+  <option value='' key='' />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
@@ -292,23 +296,23 @@ class Props extends Component<PropsPropsInt, StateInt> {
               </span>
             </div>
             <div
-              className="props-container"
+              className='props-container'
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className="props-input" onSubmit={this.handleAddProp}>
+                  <form className='props-input' onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
-                            type="text"
+                            type='text'
                             native
-                            id="propVariable"
-                            label="Prop"
-                            margin="none"
+                            id='propVariable'
+                            label='Prop'
+                            margin='none'
                             autoFocus
-                            size="medium"
+                            size='medium'
                             onChange={this.handleChange}
                             value={this.state.propVariable}
                             color={'primary'}
@@ -342,15 +346,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
                         <FormControl required>
                           <InputLabel
                             className={classes.selectLabel}
-                            htmlFor="propType"
+                            htmlFor='propType'
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.select}
-                            id="propType"
-                            placeholder="title"
+                            id='propType'
+                            placeholder='title'
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -378,12 +382,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid> */}
                       <Grid item>
                         <Button
-                          color="primary"
-                          aria-label="Add"
-                          type="submit"
+                          color='primary'
+                          aria-label='Add'
+                          type='submit'
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant="contained"
-                          size="large"
+                          variant='contained'
+                          size='large'
                           className={classes.addProp}
                         >
                           ADD PROP
