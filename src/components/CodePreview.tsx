@@ -47,15 +47,9 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
     }
   }
   generateNewCode() {
-    const text = format(
-      componentRender(this.props.focusComponent, this.props.components),
-      {
-        singleQuote: true,
-        trailingComma: 'es5',
-        bracketSpacing: true,
-        jsxBracketSameLine: true,
-        parser: 'babel'
-      }
+    const text = componentRender(
+      this.props.focusComponent,
+      this.props.components
     );
 
     this.props.updateCode({

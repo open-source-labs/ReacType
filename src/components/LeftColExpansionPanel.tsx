@@ -61,7 +61,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     deleteComponent,
     toggleComponentState,
     toggleComponentClass,
-    updateCode,
+    // updateCode,
     editMode,
     toggleEditMode,
     handleChangeName,
@@ -352,17 +352,25 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 //   'this is addedChildComponent from LFEP type',
                 //   addedChildComponent.props[0]['type']
                 // );
-                if (addedChildComponent.props.length > 1) {
-                  // addProp({
-                  //   key: addedChildComponent.props[0]['key'],
-                  //   value: addedChildComponent.props[0]['value'],
-                  //   required: addedChildComponent.props[0]['required'],
-                  //   type: addedChildComponent.props[0]['type']
-                  // });
-                  // addChild({ title, childType: 'COMP' });
-                  // changeFocusComponent({ title: addedChildComponent.title });
-                  console.log('add props works on child add');
+                if (addedChildComponent.props.length) {
+                  addProp({
+                    key: addedChildComponent.props[0]['key'],
+                    value: addedChildComponent.props[0]['value'],
+                    required: addedChildComponent.props[0]['required'],
+                    type: addedChildComponent.props[0]['type']
+                  });
+                  console.log('addedChildComponent', addedChildComponent);
+                  addChild({ title, childType: 'COMP' });
+                  changeFocusComponent({ title: addedChildComponent.title });
+                  // }
+                  //   addChild({ title, childType: 'COMP' });
+                  //   changeFocusComponent({ title: focusComponent.title });
+                  //   console.log(
+                  //     'add props works on child add',
+                  //     addedChildComponent.title
+                  //   );
                 } else {
+                  console.log('add props does NOT work on child add');
                   addChild({ title, childType: 'COMP' });
                   changeFocusComponent({ title: focusComponent.title });
                 }
