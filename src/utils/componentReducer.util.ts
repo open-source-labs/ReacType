@@ -162,11 +162,16 @@ export const addChild = (
     childType = 'HTML';
   }
 
+  // childType !== 'COMP' ? (childType = 'HTML') : (childType = 'COMP');
+  console.log('creating child from componentReducer');
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
   const view: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === state.focusComponent.title
   );
+
+  console.log('components from state in reducer :', state.components);
+  console.log('focusComponent from state in reducer :', state.focusComponent);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
   let parentComponent;
@@ -729,7 +734,7 @@ export const addProp = (
   );
   newComponents.push(modifiedComponent);
   const { history, historyIndex, future } = createHistory(state);
-
+  console.log('this is state components', state.components);
   return {
     ...state,
     components: newComponents,

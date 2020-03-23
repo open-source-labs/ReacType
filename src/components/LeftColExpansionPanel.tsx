@@ -11,13 +11,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
+import { addProp } from '../actions/components';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt,
+  PropInt
+} from '../utils/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
   component: ComponentInt;
+  addProp(arg: PropInt): void;
   addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   selectableChildren: number[];
@@ -40,6 +47,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     components,
     component,
     addChild,
+    addProp,
     changeFocusComponent,
     selectableChildren,
     deleteComponent,
@@ -268,6 +276,33 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             <IconButton
               aria-label='Add'
               onClick={() => {
+                // console.log('first step to adding child');
+                // console.log('this is focusComponent', focusComponent);
+                // console.log(
+                //   'this is components in leftcolexpansion',
+                //   components
+                // );
+                // console.log('this is child "title" that gets added', title);
+                // creating a variable to add to parents from chlid props
+
+                let addedChildProps = components.map((current, index) => {
+                  // current.title === title ? current : null;
+                  current.title === title
+                    ? addProp({
+                        key: current.props[0].key,
+                        value: current.props[0].value,
+                        required: current.props[0].required,
+                        type: current.props[0].type
+                      })
+                    : null;
+                });
+                // addProp({
+                //   key: current.props.key,
+                //   value: current.props.value,
+                //   required: propRequired,
+                //   type: propType
+                // });
+                // console.log('this is addedChildProps', addedChildProps);
                 addChild({ title, childType: 'COMP' });
               }}
             >

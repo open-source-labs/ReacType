@@ -14,9 +14,15 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt,
+  PropInt
+} from '../utils/Interfaces';
 import createModal from '../utils/createModal.util';
 import cloneDeep from '../utils/cloneDeep';
+import { addProp } from '../actions/components';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -24,6 +30,7 @@ interface LeftContPropsInt extends PropsInt {
   selectableChildren: number[];
   classes: any;
   addComponent(arg: { title: string }): void;
+  addProp(arg: PropInt): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   deleteComponent(arg: {
@@ -50,16 +57,17 @@ interface StateInt {
 }
 
 const mapStateToProps = (store: any) => ({
-  imageSource: store.workspace.imageSource,
+  imageSource: store.workspace.imageSource
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
     dispatch(actions.addComponent({ title })),
+  addProp: ({ prop }: { prop: PropInt }) => dispatch(actions.addProp(prop)),
   addChild: ({
     title,
     childType,
-    HTMLInfo,
+    HTMLInfo
   }: {
     title: string;
     childType: string;
@@ -71,7 +79,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({
     componentId,
-    stateComponents,
+    stateComponents
   }: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -85,7 +93,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   createApp: ({
     path,
     components,
-    genOption,
+    genOption
   }: {
     path: string;
     components: ComponentsInt;
@@ -97,9 +105,9 @@ const mapDispatchToProps = (dispatch: any) => ({
         components,
         genOption,
         appName: 'reactype_app',
-        exportAppBool: null,
-      }),
-    ),
+        exportAppBool: null
+      })
+    )
 });
 
 class LeftContainer extends Component<LeftContPropsInt, StateInt> {
@@ -113,10 +121,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       modal: null,
       genOptions: [
         'Export components',
-        'Export components with application files',
+        'Export components with application files'
       ],
       genOption: 0,
-      imageSource: this.props.imageSource,
+      imageSource: this.props.imageSource
     };
 
     IPC.on('app_dir_selected', (event: any, path: string) => {
@@ -125,7 +133,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       this.props.createApp({
         path,
         components,
-        genOption,
+        genOption
       });
     });
   }
@@ -133,7 +141,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
-      componentName: newValue,
+      componentName: newValue
     });
   };
 
@@ -142,7 +150,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
     // reset the currently added componentName state field to blank after adding
     this.setState({
-      componentName: '',
+      componentName: ''
     });
   };
 
@@ -161,8 +169,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         secBtnAction: () => {
           this.props.deleteAllData();
           this.closeModal();
-        },
-      }),
+        }
+      })
     });
   };
 
@@ -182,7 +190,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
-      <List className="export-preference">
+      <List className='export-preference'>
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
@@ -191,7 +199,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
-              marginTop: '5%',
+              marginTop: '5%'
             }}
           >
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
@@ -208,8 +216,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     });
   };
 
@@ -226,7 +234,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       selectableChildren,
       toggleComponentState,
       toggleComponentClass,
-      deleteImage,
+      deleteImage
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -237,6 +245,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           key={component.id}
           component={component}
           focusComponent={focusComponent}
+          addProp={addProp}
           addChild={addChild}
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
@@ -250,20 +259,20 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     const { addImage } = this;
 
     return (
-      <div className="column left" style={{ minWidth: '466px' }}>
+      <div className='column left' style={{ minWidth: '466px' }}>
         <Grid
           container
           spacing={8}
-          align="stretch"
-          direction="row"
-          alignItems="center"
+          align='stretch'
+          direction='row'
+          alignItems='center'
         >
           <Grid item xs={8}>
             <TextField
-              id="title-input"
-              label="Add component"
-              placeholder="Name of component"
-              margin="normal"
+              id='title-input'
+              label='Add component'
+              placeholder='Name of component'
+              margin='normal'
               autoFocus
               onChange={this.handleChange}
               onKeyPress={ev => {
@@ -273,22 +282,22 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                 }
               }}
               value={componentName}
-              name="componentName"
+              name='componentName'
               className={classes.light}
               InputProps={{
-                className: classes.input,
+                className: classes.input
               }}
               InputLabelProps={{
-                className: classes.input,
+                className: classes.input
               }}
             />
           </Grid>
           <Grid item xs={4}>
             <Fab
-              size="small"
-              color="secondary"
+              size='small'
+              color='secondary'
               className={classes.button}
-              aria-label="Add"
+              aria-label='Add'
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
@@ -296,11 +305,12 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className="expansionPanel">{componentsExpansionPanel}</div>
+        <div className='expansionPanel'>{componentsExpansionPanel}</div>
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
           addChild={addChild}
+          addProp={addProp}
         />
 
         <div
@@ -308,20 +318,20 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             width: '100%',
             position: 'absolute',
             bottom: 0,
-            left: 0,
+            left: 0
           }}
         >
           <div
             style={{
               display: 'flex',
               justifyContent: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             {imageSource ? (
               <Button
-                aria-label="Remove Image"
-                variant="contained"
+                aria-label='Remove Image'
+                variant='contained'
                 fullWidth
                 onClick={deleteImage}
                 className={classes.clearButton}
@@ -329,15 +339,15 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                   borderRadius: 0,
                   top: 0,
                   backgroundColor: '#dc004e',
-                  color: '#fff',
+                  color: '#fff'
                 }}
               >
                 Remove Image
               </Button>
             ) : (
               <Button
-                aria-label="Upload Image"
-                variant="contained"
+                aria-label='Upload Image'
+                variant='contained'
                 fullWidth
                 onClick={addImage}
                 className={classes.clearButton}
@@ -345,16 +355,16 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                   borderRadius: 0,
                   top: 0,
                   backgroundColor: '#dc004e',
-                  color: '#fff',
+                  color: '#fff'
                 }}
               >
                 Upload Image
               </Button>
             )}
             <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
+              color='secondary'
+              aria-label='Delete All'
+              variant='contained'
               fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
@@ -368,13 +378,13 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             style={{
               display: 'flex',
               justifyContent: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <Button
-              color="primary"
-              aria-label="Export Code"
-              variant="contained"
+              color='primary'
+              aria-label='Export Code'
+              variant='contained'
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
@@ -398,27 +408,27 @@ function styles(): any {
       color: 'white',
 
       '&$cssFocused': {
-        color: 'green',
-      },
+        color: 'green'
+      }
     },
     cssFocused: {},
     input: {
       color: '#fff',
       opacity: '0.7',
-      marginBottom: '10px',
+      marginBottom: '10px'
     },
     underline: {
       color: 'white',
       '&::before': {
-        color: 'white',
-      },
+        color: 'white'
+      }
     },
     button: {
       color: '#fff',
 
       '&:disabled': {
-        color: 'grey',
-      },
+        color: 'grey'
+      }
     },
     clearButton: {
       top: '96%',
@@ -427,13 +437,13 @@ function styles(): any {
 
       '&:disabled': {
         color: 'grey',
-        backgroundColor: '#424242',
-      },
-    },
+        backgroundColor: '#424242'
+      }
+    }
   };
 }
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(LeftContainer);

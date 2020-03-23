@@ -34,78 +34,12 @@ const mapStateToProps = (store: any) => ({
 
 class AddChildProps extends Component {
   tableRef = React.createRef();
-  // state = {
-  //   propVariables: '',
-  //   propValue: '',
-  //   propRequired: true,
-  //   propType: ''
-  // };
 
-  // handleChange = (event: MouseEvent | any) => {
-  //   if (event.target.id === 'propVariable') {
-  //     this.setState({
-  //       [event.target.id]: event.target.value.trim()
-  //     });
-  //   } else {
-  //     this.setState({
-  //       [event.target.id]: event.target.value
-  //     });
-  //   }
-  // };
-
-  // togglePropRequired = () => {
-  //   this.setState({
-  //     propRequired: !this.state.propRequired
-  //   });
-  // };
-
-  // function that handles the addition of props to a given componnent
-  // added regex to strip usr input from non alpha numeric properties
-  // presence of these characters crashes the app and should not be a valid input anyways
-  // handleAddProp = (event: MouseEvent) => {
-  //   event.preventDefault();
-
-  //   // destructuring from local state
-  //   // if change here, make sure to change local state props to match
-  //   let { propVariable, propValue, propRequired, propType } = this.state;
-  //   propVariable = propVariable.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
-  //   propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
-
-  //   // check if prop exists with same key. CANNOT have duplicates
-  //   const savedVariableKeys = this.props.focusComponent.props.map(
-  //     prop => prop.key
-  //   );
-  //   if (savedVariableKeys.includes(propVariable)) {
-  //     window.alert(`A prop with the name: "${propVariable}" already exists.`);
-  //     return;
-  //   }
-
-  //   // check if prop starts with digits. Digits at string start breaks indexedDB
-  //   if (/^\d/.test(propVariable)) {
-  //     window.alert('Props are not allowed to begin with digits');
-  //     return;
-  //   }
-
-  //   this.props.addProp({
-  //     key: propVariable,
-  //     value: propValue,
-  //     required: propRequired,
-  //     type: propType
-  //   });
-
-  //   this.setState({
-  //     propVariable: '',
-  //     propValue: '',
-  //     propRequired: true,
-  //     propType: ''
-  //   });
-  // };
   render() {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
 
     // Array to be used to populate HTML form elements
     const arrayPropsAvailable = [];
-
     // IIFE : so that it runs without needing to be invoked
     (() => {
       focusComponent.props.map(prop => {
