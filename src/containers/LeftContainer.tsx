@@ -46,10 +46,14 @@ interface LeftContPropsInt extends PropsInt {
   toggleComponentState(arg: number): void;
   toggleComponentClass(arg: number): void;
   deleteImage(): void;
+  toggleEditMode(arg: { id: number }): void;
+  editMode: number;
+  editComponent(arg: { id: number; title: string }): void;
 }
 
 interface StateInt {
   componentName: string;
+  componentEditName: string;
   modal: any;
   genOptions: string[];
   genOption: number;
@@ -57,7 +61,8 @@ interface StateInt {
 }
 
 const mapStateToProps = (store: any) => ({
-  imageSource: store.workspace.imageSource
+  imageSource: store.workspace.imageSource,
+  editMode: store.workspace.editMode
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -84,10 +89,14 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     stateComponents: ComponentsInt;
   }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  toggleComponentState: (id: string) =>
-    dispatch(actions.toggleComponentState(id)),
-  toggleComponentClass: (id: string) =>
-    dispatch(actions.toggleComponentClass(id)),
+  editComponent: ({ id, title }: { id: number; title: string }) =>
+    dispatch(actions.editComponent({ id, title })),
+  toggleComponentState: ({ id }: { id: number }) =>
+    dispatch(actions.toggleComponentState({ id })),
+  toggleComponentClass: ({ id }: { id: number }) =>
+    dispatch(actions.toggleComponentClass({ id })),
+  toggleEditMode: ({ id }: { id: number }) =>
+    dispatch(actions.toggleEditMode({ id })),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -118,6 +127,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
     this.state = {
       componentName: '',
+      componentEditName: '',
       modal: null,
       genOptions: [
         'Export components',
@@ -127,7 +137,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       imageSource: this.props.imageSource
     };
 
-    IPC.on('app_dir_selected', (event: any, path: string) => {
+    IPC.on('app_dir_selected', (event: string, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
       this.props.createApp({
@@ -138,10 +148,19 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     });
   }
 
+  //this function is for handling the value of the new component name typed in
   handleChange = (event: any) => {
     const newValue: string = event.target.value;
     this.setState({
       componentName: newValue
+    });
+  };
+
+  //this functions handles the values for an edited name being typed
+  handleChangeName = (value: string) => {
+    const newValue: string = value;
+    this.setState({
+      componentEditName: newValue
     });
   };
 
@@ -151,6 +170,18 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     // reset the currently added componentName state field to blank after adding
     this.setState({
       componentName: ''
+    });
+  };
+
+  handleEditComponent = () => {
+    this.props.editComponent({
+      id: this.props.editMode,
+      title: this.state.componentEditName
+    });
+
+    // reset the currently added componentName state field to blank after editing
+    this.setState({
+      componentEditName: ''
     });
   };
 
@@ -234,7 +265,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       selectableChildren,
       toggleComponentState,
       toggleComponentClass,
-      deleteImage
+      deleteImage,
+      editMode,
+      toggleEditMode
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -254,6 +287,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           components={components}
           toggleComponentState={toggleComponentState}
           toggleComponentClass={toggleComponentClass}
+          editMode={editMode}
+          toggleEditMode={toggleEditMode}
+          handleChangeName={this.handleChangeName}
+          handleEditComponent={this.handleEditComponent}
         />
       ));
     const { addImage } = this;

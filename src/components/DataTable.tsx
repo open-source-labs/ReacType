@@ -47,9 +47,9 @@ function dataTable(props: any) {
     // for some reason we must put each value in a div.
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`td_${idx}`}>
-        {/* <div  align={'center'} padding = {'none'} >{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div> */}
-        {/* {row[header]} */}
-        {typeof row[header] === 'string' ? row[header] : row[header].toString()}
+        <div align={'center'} padding={'none'}>
+          {row[header]}
+        </div>
       </TableCell>
     ));
   }
