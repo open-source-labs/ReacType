@@ -32,7 +32,9 @@ const initialComponentState: ComponentInt = {
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0
+  focusChildId: 0,
+  code: '',
+  changed: false
 };
 
 const generateNewCode = (comp: ComponentInt, components: ComponentsInt) => {
@@ -87,7 +89,7 @@ export const addComponent = (
   //assigns the componentID to whatever is supposed to be next
   const componentId = state.nextId;
 
-  //creates a newcomponent and prepares it to be added to an array of components in the store
+  //creates a new component and prepares it to be added to an array of components in the store
   const newComponent: ComponentInt = {
     ...initialComponentState,
     title: strippedTitle,

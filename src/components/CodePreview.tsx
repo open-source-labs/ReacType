@@ -2,21 +2,10 @@ import React, { Component } from 'react';
 import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
-/** **   SortCHildren will be fixed , dont XXX the file  *** */
-// import SortChildren from './SortChildren.tsx';
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-markup';
-require('prismjs/components/prism-jsx');
-// import '../public/styles/prism.css';
-import { changeFocusComponent } from '../utils/componentReducer.util';
 import AceEditor from 'react-ace';
 
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
-import { updateCode } from '../actions/components';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
@@ -46,9 +35,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
       this.generateNewCode();
     }
   }
-  // componentDidUpdate(prevProp: CodePreviewProps) {
-  //   if(prevProp.focusComponent.code )
-  // }
+
   componentDidUpdate(prevProp: CodePreviewProps) {
     if (this.props.focusComponent.changed !== prevProp.focusComponent.changed) {
       this.generateNewCode();
@@ -98,7 +85,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
             })
           }
           value={this.props.focusComponent.code}
-          name="UNIQUE_ID_OF_DIV"
+          name="Code_div"
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />
