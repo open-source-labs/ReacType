@@ -1,66 +1,64 @@
 import { initialApplicationState } from './initialState';
 import { Action } from '../intefaces/Interfaces';
-
-import { addComponent } from './leftReducers'
-
-import {
-  LOAD_INIT_DATA,
-  ADD_COMPONENT,
-  ADD_CHILD,
-  DELETE_CHILD,
-  DELETE_COMPONENT,
-  TOGGLE_STATE,
-  TOGGLE_CLASS,
-  CHANGE_FOCUS_COMPONENT,
-  CHANGE_FOCUS_CHILD,
-  CHANGE_COMPONENT_FOCUS_CHILD,
-  CHANGE_IMAGE_SOURCE,
-  DELETE_IMAGE,
-  EXPORT_FILES,
-  EXPORT_FILES_SUCCESS,
-  EXPORT_FILES_ERROR,
-  HANDLE_CLOSE,
-  HANDLE_TRANSFORM,
-  OPEN_EXPANSION_PANEL,
-  DELETE_ALL_DATA,
-  CHANGE_TUTORIAL,
-  ADD_PROP,
-  DELETE_PROP,
-  UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
-  UNDO,
-  REDO,
-  EDIT_MODE,
-  EDIT_COMPONENT,
-} from '../actionTypes/index';
-
 import {
   addChild,
+  addComponent,
+  changeFocusComponent,
+  changeImageSource,
   deleteChild,
   deleteComponent,
   deleteImage,
-  changeFocusComponent,
-  changeComponentFocusChild,
-  changeFocusChild,
-  changeImageSource,
-  changeTutorial,
+  editComponent,
   exportFilesSuccess,
   exportFilesError,
-  handleClose,
+  toggleComponentState,
+  toggleComponentClass,
+  toggleEditMode,
+} from './leftReducers';
+import {
+  changeComponentFocusChild,
+  changeFocusChild,
+  changeTutorial,
   handleTransform,
-  openExpansionPanel,
+  undo,
+  redo,
+} from './mainReducers';
+import {
+  handleClose,
   addProp,
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-  toggleComponentState,
-  toggleComponentClass,
-  toggleEditMode,
-  editComponent,
-  undo,
-  redo,
-} from '../utils/componentReducer.util';
-
+} from './bottomReducers';
+import {
+  ADD_CHILD,
+  ADD_COMPONENT,
+  ADD_PROP,
+  CHANGE_COMPONENT_FOCUS_CHILD,
+  CHANGE_FOCUS_CHILD,
+  CHANGE_FOCUS_COMPONENT,
+  CHANGE_IMAGE_SOURCE,
+  CHANGE_TUTORIAL,
+  DELETE_ALL_DATA,
+  DELETE_CHILD,
+  DELETE_COMPONENT,
+  DELETE_IMAGE,
+  DELETE_PROP,
+  EDIT_COMPONENT,
+  EDIT_MODE,
+  EXPORT_FILES,
+  EXPORT_FILES_ERROR,
+  EXPORT_FILES_SUCCESS,
+  HANDLE_CLOSE,
+  HANDLE_TRANSFORM,
+  LOAD_INIT_DATA,
+  REDO,
+  TOGGLE_CLASS,
+  TOGGLE_STATE,
+  UNDO,
+  UPDATE_CHILDREN_SORT,
+  UPDATE_HTML_ATTR,
+} from '../actionTypes/index';
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
@@ -103,15 +101,12 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return { ...state, loading: true };
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case OPEN_EXPANSION_PANEL:
-      return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
       return initialApplicationState;
     case ADD_PROP:
