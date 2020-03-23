@@ -83,7 +83,8 @@ const appComponent: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  code: ''
+  code: '',
+  changed: false
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -172,7 +173,10 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
-      return initialApplicationState;
+      return {
+        ...initialApplicationState,
+        focusComponent: { ...appComponent, changed: true }
+      };
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:

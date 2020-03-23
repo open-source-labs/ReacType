@@ -189,7 +189,8 @@ const componentRender = (
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
               )}/>`;
-          })}
+          })
+          .join(' ')}
         </div>
       );
     }

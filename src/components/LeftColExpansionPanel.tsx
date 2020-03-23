@@ -166,7 +166,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               onChange={e => {
                                 toggleComponentState(id);
                                 changeFocusComponent({ title });
-                                generateNewCode();
                               }}
                               value="stateful"
                               color="primary"
@@ -191,7 +190,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                               onChange={e => {
                                 toggleComponentClass(id);
                                 changeFocusComponent({ title });
-                                generateNewCode();
                               }}
                               value="classBased"
                               color="primary"
@@ -292,6 +290,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
               aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
+                changeFocusComponent({ title: focusComponent.title });
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />

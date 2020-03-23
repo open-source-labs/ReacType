@@ -10,6 +10,8 @@ import {
   ComponentsInt,
   PropInt
 } from './Interfaces';
+import { format } from 'prettier';
+import componentRender from '../utils/componentRender.util';
 
 //this is the default values for any component added to the app.
 
@@ -30,7 +32,8 @@ const initialComponentState: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  code: ''
+  code: '',
+  changed: false
 };
 
 /*Helper function that copies the state to be added on to the history
@@ -50,6 +53,17 @@ const createHistory = (state: ApplicationStateInt) => {
     historyIndex,
     future
   };
+};
+
+const generateNewCode = (comp: ComponentInt, components: ComponentsInt) => {
+  const code = format(componentRender(comp, components), {
+    singleQuote: true,
+    trailingComma: 'es5',
+    bracketSpacing: true,
+    jsxBracketSameLine: true,
+    parser: 'typescript'
+  });
+  return code;
 };
 
 export const addComponent = (
@@ -114,13 +128,17 @@ export const addComponent = (
     .map((comp: ComponentInt) => comp.id)
     .filter((id: number) => id !== newComponent.id);
 
-  const ancestors: Array<number> = [];
+  const ancestors: number[] = [];
 
   // reset focused child to null values so when focused component is assigned to the newly created component,
   //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
 
   const { history, historyIndex, future } = createHistory(state);
+
+  //generate initial code for the new component
+  const code = generateNewCode(newComponent, components);
+  newComponent.code = code;
 
   return {
     ...state,
@@ -233,7 +251,8 @@ export const addChild = (
     ...view,
     childrenArray: compsChildrenArr,
     focusChildId: newChild.childId,
-    nextChildId: view.nextChildId + 1
+    nextChildId: view.nextChildId + 1,
+    changed: true
   };
 
   const components = [
@@ -243,7 +262,7 @@ export const addChild = (
     component
   ];
   const { history, historyIndex, future } = createHistory(state);
-
+  console.log('changed???? ', component.changed);
   return {
     ...state,
     components,
@@ -300,6 +319,9 @@ export const deleteChild = (
     parentComponentCopy.focusChildId = 0;
   }
 
+  //mark that the parent component changed
+  parentComponentCopy.changed = true;
+
   const modifiedComponentArray = [
     ...state.components.filter((comp: ComponentInt) => comp.id !== parentId), // all elements besides the one just changed
     parentComponentCopy
@@ -348,12 +370,16 @@ export const updateCode = (
   const focusCompCopy = cloneDeep(state.focusComponent);
   if (focusCompCopy.id === componentId) {
     focusCompCopy.code = code;
+    focusCompCopy.changed = false;
   }
   componentsCopy.forEach((comp: ComponentInt) => {
     if (comp.id === componentId) {
       comp.code = code;
+      comp.changed = false;
     }
   });
+  console.log('code   ', code);
+
   return {
     ...state,
     components: componentsCopy,
@@ -545,12 +571,13 @@ export const toggleComponentState = (
   id: number
 ) => {
   //creates a deep copy of the components array
-  const componentCopy = cloneDeep(state.components);
+  const componentsCopy = cloneDeep(state.components);
 
   //iterate array, and invert statefulness for targeted component based on id prop
-  componentCopy.forEach((element: ComponentInt) => {
+  componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.stateful = !element.stateful;
+      element.changed = true;
     }
   });
   // return state and updated components array
@@ -558,7 +585,7 @@ export const toggleComponentState = (
 
   return {
     ...state,
-    components: componentCopy,
+    components: componentsCopy,
     history,
     historyIndex,
     future
@@ -577,6 +604,7 @@ export const toggleComponentClass = (
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.classBased = !element.classBased;
+      element.changed = true;
     }
   });
   // return state and updated components array
@@ -744,7 +772,8 @@ export const addProp = (
   const modifiedComponent: ComponentInt = {
     ...selectedComponent,
     props: newProps,
-    nextPropId: selectedComponent.nextPropId + 1
+    nextPropId: selectedComponent.nextPropId + 1,
+    changed: true
   };
 
   const newComponents: ComponentsInt = state.components.filter(
@@ -787,6 +816,8 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
 
   modifiedComponent.props.splice(indexToDelete, 1);
 
+  modifiedComponent.changed = true;
+
   const newComponentsArray = state.components.filter(
     (comp: ComponentInt) => comp.id !== modifiedComponent.id
   );
@@ -822,7 +853,7 @@ export const updateHtmlAttr = (
       )
     )
   );
-
+  modifiedComponent.changed = true;
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     (child: ChildInt) => child.childId !== modifiedChild.childId
   );

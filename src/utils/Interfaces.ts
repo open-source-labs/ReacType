@@ -57,6 +57,7 @@ export interface ComponentInt {
   focusChildId: number;
   childrenArrayChildInt?: any;
   code: string;
+  changed: boolean;
 }
 
 export interface ComponentsInt extends Array<ComponentInt> {}

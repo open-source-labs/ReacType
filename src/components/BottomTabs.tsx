@@ -233,6 +233,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             focusComponent={focusComponent}
             updateCode={updateCode}
             components={components}
+            changeFocusComponent={this.props.changeFocusComponent}
           />
         )}
         {value === 2 && <Props />}
