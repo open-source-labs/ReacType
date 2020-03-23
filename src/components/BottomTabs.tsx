@@ -50,7 +50,8 @@ const styles = (theme: Theme): any => ({
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
+    // marginRight: theme.spacing.unit * 4,
+    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
 
     fontFamily: [
       '-apple-system',
@@ -78,10 +79,10 @@ const styles = (theme: Theme): any => ({
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`
+    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
   }
 });
 
