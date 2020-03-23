@@ -123,7 +123,7 @@ const styles = () => ({
   dataTable: {
     border: '1px solid red',
     backgroundColor: 'red',
-    width: '60%',
+    width: '60%'
   },
   light: {
     color: '#eee'
@@ -161,7 +161,7 @@ const availablePropTypes = {
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
@@ -292,23 +292,23 @@ class Props extends Component<PropsPropsInt, StateInt> {
               </span>
             </div>
             <div
-              className='props-container'
+              className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className='props-input' onSubmit={this.handleAddProp}>
+                  <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
-                            type='text'
+                            type="text"
                             native
-                            id='propVariable'
-                            label='Prop'
-                            margin='none'
+                            id="propVariable"
+                            label="Prop"
+                            margin="none"
                             autoFocus
-                            size='medium'
+                            size="medium"
                             onChange={this.handleChange}
                             value={this.state.propVariable}
                             color={'primary'}
@@ -342,15 +342,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
                         <FormControl required>
                           <InputLabel
                             className={classes.selectLabel}
-                            htmlFor='propType'
+                            htmlFor="propType"
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.select}
-                            id='propType'
-                            placeholder='title'
+                            id="propType"
+                            placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -378,12 +378,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid> */}
                       <Grid item>
                         <Button
-                          color='primary'
-                          aria-label='Add'
-                          type='submit'
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant='contained'
-                          size='large'
+                          variant="contained"
+                          size="large"
                           className={classes.addProp}
                         >
                           ADD PROP

@@ -5,7 +5,8 @@ export const DELETE_CHILD: string = 'DELETE_CHILD';
 export const UPDATE_COMPONENT: string = 'UPDATE_COMPONENT';
 export const DELETE_COMPONENT: string = 'DELETE_COMPONENT';
 export const CHANGE_FOCUS_COMPONENT: string = 'CHANGE_FOCUS_COMPONENT';
-export const CHANGE_COMPONENT_FOCUS_CHILD: string = 'CHANGE_COMPONENT_FOCUS_CHILD';
+export const CHANGE_COMPONENT_FOCUS_CHILD: string =
+  'CHANGE_COMPONENT_FOCUS_CHILD';
 export const CHANGE_FOCUS_CHILD: string = 'CHANGE_FOCUS_CHILD';
 export const UPDATE_CHILDREN: string = 'UPDATE_CHILDREN';
 export const REASSIGN_PARENT: string = 'REASSIGN_PARENT';
@@ -34,5 +35,6 @@ export const TOGGLE_CLASS: string = 'TOGGLE_CLASS';
 export const CHANGE_TUTORIAL: string = 'CHANGE_TUTORIAL';
 export const UNDO: string = 'UNDO';
 export const REDO: string = 'REDO';
+export const UPDATE_CODE: string = 'UPDATE_CODE';
 export const EDIT_MODE: string = 'EDIT_MODE';
 export const EDIT_COMPONENT: string = 'EDIT_COMPONENT';
