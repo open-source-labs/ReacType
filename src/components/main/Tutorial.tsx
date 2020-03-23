@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
-import theme from '../components/theme';
+import theme from '../../theme';
 import Button from '@material-ui/core/Button';
 
 interface Props {

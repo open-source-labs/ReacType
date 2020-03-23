@@ -8,11 +8,10 @@ import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
 import {
-  ComponentInt,
   ComponentsInt,
   PropInt,
   PropsInt
-} from '../utils/Interfaces';
+} from '../../interfaces/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;

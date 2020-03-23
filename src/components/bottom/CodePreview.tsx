@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
-/** **   SortCHildren will be fixed , dont XXX the file  *** */
-// import SortChildren from './SortChildren.tsx';
-import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-markup';
-require('prismjs/components/prism-jsx');
-// import '../public/styles/prism.css';
-import { changeFocusComponent } from '../utils/componentReducer.util';
+import componentRender from '../../utils/componentRender.util';
+import { ComponentInt, ComponentsInt } from '../../interfaces/Interfaces';
 import AceEditor from 'react-ace';
-
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
-import { updateCode } from '../actions/components';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;

@@ -4,8 +4,8 @@ import {
   ChildInt,
   ChildrenInt,
   PropInt
-} from './Interfaces';
-import cloneDeep from './cloneDeep';
+} from '../interfaces/Interfaces';
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 const componentRender = (
   component: ComponentInt,
