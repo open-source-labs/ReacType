@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import componentReducer from './componentReducer';
+import componentReducer from './rootReducer';
 
 const reducers = combineReducers({
   workspace: componentReducer,
