@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
-import { ChildInt } from '../../intefaces/Interfaces';
+import { ChildInt } from '../../interfaces/Interfaces';
 import Konva from 'konva';
 
 interface TCompPropsInt {

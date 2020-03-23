@@ -4,7 +4,7 @@ import {
   PropInt,
   ChildInt,
   Action,
-} from '../intefaces/Interfaces';
+} from '../interfaces/Interfaces';
 
 import {
   ADD_CHILD,
@@ -36,6 +36,7 @@ import {
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
+  UPDATE_CODE,
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -44,7 +45,7 @@ import createApplicationUtil from '../utils/createApplication.util';
 export const addChild = ({
   title,
   childType,
-  HTMLInfo,
+  HTMLInfo
 }: {
   title: string;
   childType: string;
@@ -81,7 +82,7 @@ export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
 
 export const deleteComponent = ({
   componentId,
-  stateComponents,
+  stateComponents
 }: {
   componentId: number;
   stateComponents: ComponentsInt;
@@ -96,8 +97,8 @@ export const deleteComponent = ({
           payload: {
             parentId: parent.id,
             childId: child.childId,
-            calledFromDeleteComponent: true,
-          },
+            calledFromDeleteComponent: true
+          }
         });
       });
   });
@@ -110,14 +111,14 @@ export const deleteComponent = ({
 
 export const changeComponentFocusChild = ({
   componentId,
-  childId,
+  childId
 }: {
   componentId: number;
   childId: number;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId },
+    payload: { componentId, childId }
   });
 };
 
@@ -139,7 +140,7 @@ export const createApplication = ({
   components = [],
   genOption,
   appName = 'reactype_app',
-  exportAppBool,
+  exportAppBool
 }: {
   path: string;
   components: ComponentsInt;
@@ -154,43 +155,43 @@ export const createApplication = ({
         appName,
         path,
         components,
-        exportAppBool,
+        exportAppBool
       })
     );
   } else if (genOption) {
     exportAppBool = true;
     dispatch({
-      type: CREATE_APPLICATION,
+      type: CREATE_APPLICATION
     });
     createApplicationUtil({
       path,
       appName,
-      genOption,
+      genOption
     })
       .then(() => {
         dispatch({
-          type: CREATE_APPLICATION_SUCCESS,
+          type: CREATE_APPLICATION_SUCCESS
         });
         dispatch(
           exportFiles({
             appName,
             path,
             components,
-            exportAppBool,
+            exportAppBool
           })
         );
       })
       .catch((err: string) =>
         dispatch({
           type: CREATE_APPLICATION_ERROR,
-          payload: { status: true, err },
+          payload: { status: true, err }
         })
       );
   }
 };
 
 export const deleteAllData = () => ({
-  type: DELETE_ALL_DATA,
+  type: DELETE_ALL_DATA
 });
 
 export const deleteImage = () => ({
@@ -279,7 +280,7 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
 };
 
 export const redo = () => ({
-  type: REDO,
+  type: REDO
 });
 
 export const toggleComponentState = ({ id }: { id: number }) => (
@@ -304,15 +305,28 @@ export const undo = () => ({
   type: UNDO,
 });
 
+export const updateCode = ({
+  componentId,
+  code
+}: {
+  componentId: number;
+  code: string;
+}) => (dispatch: (arg: Action) => void) => {
+  dispatch({
+    type: UPDATE_CODE,
+    payload: { componentId, code }
+  });
+};
+
 export const updateHtmlAttr = ({
   attr,
-  value,
+  value
 }: {
   attr: string;
   value: string;
 }) => (dispatch: (arg: Action) => void) => {
   dispatch({
     type: UPDATE_HTML_ATTR,
-    payload: { attr, value },
+    payload: { attr, value }
   });
 };

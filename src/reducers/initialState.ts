@@ -5,7 +5,7 @@ import {
   ComponentInt,
   ChildInt,
   ApplicationStateInt,
-} from '../intefaces/Interfaces';
+} from '../interfaces/Interfaces';
 
 const appComponent: ComponentInt = {
     id: 1,
@@ -24,6 +24,8 @@ const appComponent: ComponentInt = {
     childrenArray: [],
     nextChildId: 1,
     focusChildId: 0,
+    code: '',
+    changed: false
   };
   
   const initialApplicationFocusChild: ChildInt = {
@@ -81,4 +83,6 @@ export const initialComponentState: ComponentInt = {
     childrenArray: [],
     nextChildId: 1,
     focusChildId: 0,
+    code: '',
+    changed: false
   };

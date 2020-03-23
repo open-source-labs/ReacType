@@ -35,4 +35,5 @@ export const UNDO: string = 'UNDO';
 export const UPDATE_COMPONENT: string = 'UPDATE_COMPONENT';
 export const UPDATE_CHILDREN: string = 'UPDATE_CHILDREN';
 export const UPDATE_CHILDREN_SORT: string = 'UPDATE_CHILDREN_SORT';
+export const UPDATE_CODE: string = 'UPDATE_CODE';
 export const UPDATE_HTML_ATTR: string = 'UPDATE_HTML_ATTR';

@@ -10,7 +10,7 @@ import {
   ComponentInt,
   ComponentsInt,
   ApplicationStateInt,
-} from '../intefaces/Interfaces';
+} from '../interfaces/Interfaces';
 import * as actions from '../actions/actionCreators';
 
 // ** Used with electron to render

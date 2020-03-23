@@ -5,8 +5,9 @@ import {
   ComponentInt,
   ComponentsInt,
   PropInt,
-} from '../intefaces/Interfaces';
+} from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
+
 
 export const addProp = (
   state: ApplicationStateInt,
@@ -14,7 +15,7 @@ export const addProp = (
     key,
     value = null,
     required,
-    type,
+    type
   }: { key: string; value: string; required: boolean; type: string }
 ) => {
   if (!state.focusComponent.id) {
@@ -31,7 +32,7 @@ export const addProp = (
     key,
     value: value || key,
     required,
-    type,
+    type
   };
   const newProps = [...selectedComponent.props, newProp];
 
@@ -39,6 +40,7 @@ export const addProp = (
     ...selectedComponent,
     props: newProps,
     nextPropId: selectedComponent.nextPropId + 1,
+    changed: true
   };
 
   const newComponents: ComponentsInt = state.components.filter(
@@ -53,7 +55,7 @@ export const addProp = (
     focusComponent: modifiedComponent,
     historyIndex,
     history,
-    future,
+    future
   };
 };
 
@@ -81,6 +83,8 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
 
   modifiedComponent.props.splice(indexToDelete, 1);
 
+  modifiedComponent.changed = true;
+
   const newComponentsArray = state.components.filter(
     (comp: ComponentInt) => comp.id !== modifiedComponent.id
   );
@@ -93,7 +97,7 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
     focusComponent: modifiedComponent,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -141,6 +145,30 @@ export const updateChildrenSort = (
   };
 };
 
+export const updateCode = (
+  state: ApplicationStateInt,
+  { componentId, code }: { componentId: number; code: string }
+) => {
+  //creates a deep copy of the components
+  const componentsCopy = cloneDeep(state.components);
+  const focusCompCopy = cloneDeep(state.focusComponent);
+  if (focusCompCopy.id === componentId) {
+    focusCompCopy.code = code;
+    focusCompCopy.changed = false;
+  }
+  componentsCopy.forEach((comp: ComponentInt) => {
+    if (comp.id === componentId) {
+      comp.code = code;
+      comp.changed = false;
+    }
+  });
+  return {
+    ...state,
+    components: componentsCopy,
+    focusComponent: focusCompCopy
+  };
+};
+
 export const updateHtmlAttr = (
   state: ApplicationStateInt,
   { attr, value }: { attr: string; value: string }
@@ -160,7 +188,7 @@ export const updateHtmlAttr = (
       )
     )
   );
-
+  modifiedComponent.changed = true;
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     (child: ChildInt) => child.childId !== modifiedChild.childId
   );
@@ -179,6 +207,6 @@ export const updateHtmlAttr = (
     focusChild: modifiedChild,
     history,
     historyIndex,
-    future,
+    future
   };
 };

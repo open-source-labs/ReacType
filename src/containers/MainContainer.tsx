@@ -11,10 +11,11 @@ import {
   changeFocusChild,
   changeComponentFocusChild,
   deleteChild,
-  changeFocusComponent
+  changeFocusComponent,
+  updateCode
 } from '../actions/actionCreators';
 import KonvaStage from '../components/main/KonvaStage';
-import { PropsInt, ApplicationStateInt } from '../intefaces/Interfaces';
+import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
@@ -29,6 +30,7 @@ interface MainContPropsInt extends PropsInt {
   }): void;
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 
 interface StateInt {
@@ -83,7 +85,11 @@ const mapDispatchToProps = (dispatch: any) => ({
     componentId: number;
     childId: number;
   }) => dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})) // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
+
+  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
+
+  updateCode: ({ componentId, code }: { componentId: number; code: string }) =>
+    dispatch(updateCode({ componentId, code }))
 });
 
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
@@ -116,6 +122,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       changeFocusComponent,
       changeComponentFocusChild,
       deleteChild,
+      updateCode,
       image
     } = this.props;
 
@@ -123,10 +130,10 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className='main-container'>
+        <div className="main-container">
           {/* {modal} */}
           <div
-            className='main' //ref={main} **no function, commenting out**
+            className="main" //ref={main} **no function, commenting out**
           >
             <KonvaStage
               image={image}
@@ -146,6 +153,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
           <BottomPanel
             focusComponent={focusComponent}
             changeFocusComponent={changeFocusComponent}
+            updateCode={updateCode}
           />
         </div>
       </MuiThemeProvider>

@@ -1,5 +1,5 @@
 import { initialApplicationState } from './initialState';
-import { Action } from '../intefaces/Interfaces';
+import { Action } from '../interfaces/Interfaces';
 import {
   addChild,
   addComponent,
@@ -27,8 +27,9 @@ import {
   handleClose,
   addProp,
   deleteProp,
-  updateHtmlAttr,
   updateChildrenSort,
+  updateHtmlAttr,
+  updateCode,
 } from './bottomReducers';
 import {
   ADD_CHILD,
@@ -56,6 +57,7 @@ import {
   TOGGLE_CLASS,
   TOGGLE_STATE,
   UNDO,
+  UPDATE_CODE,
   UPDATE_CHILDREN_SORT,
   UPDATE_HTML_ATTR,
 } from '../actionTypes/index';
@@ -73,6 +75,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
+    case ADD_PROP:
+      return addProp(state, action.payload);
     case ADD_CHILD:
       return addChild(state, action.payload);
     case DELETE_CHILD:
@@ -95,6 +99,11 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeImageSource(state, action.payload);
     case CHANGE_TUTORIAL:
       return changeTutorial(state, action.payload);
+    case DELETE_ALL_DATA:
+      return {
+        ...initialApplicationState,
+        focusComponent: { ...appComponent, changed: true },
+      };
     case DELETE_IMAGE:
       return deleteImage(state);
     case EXPORT_FILES:
@@ -107,10 +116,6 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case DELETE_ALL_DATA:
-      return initialApplicationState;
-    case ADD_PROP:
-      return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
     case EDIT_MODE:
@@ -123,6 +128,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return undo(state);
     case REDO:
       return redo(state);
+    case UPDATE_CODE:
+      return updateCode(state, action.payload);
     default:
       return state;
   }

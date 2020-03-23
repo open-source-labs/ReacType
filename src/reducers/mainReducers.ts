@@ -4,7 +4,7 @@ import {
   ApplicationStateInt,
   ChildInt,
   ComponentsInt,
-} from '../intefaces/Interfaces';
+} from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
 
 export const changeComponentFocusChild = (

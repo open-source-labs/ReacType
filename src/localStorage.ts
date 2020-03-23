@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { ApplicationStateInt } from './intefaces/Interfaces';
+import { ApplicationStateInt } from './interfaces/Interfaces';
 
 export const saveState = (state: ApplicationStateInt) =>
   localforage.setItem('state-v1.0.1', state);
