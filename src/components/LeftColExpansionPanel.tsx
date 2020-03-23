@@ -68,20 +68,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
 
-  //helper function to update the code in the code preview when state/class toggles are switched
-  const generateNewCode = () => {
-    const text = format(componentRender(focusComponent, components), {
-      singleQuote: true,
-      trailingComma: 'es5',
-      bracketSpacing: true,
-      jsxBracketSameLine: true,
-      parser: 'typescript'
-    });
-    updateCode({
-      componentId: focusComponent.id,
-      code: text
-    });
-  };
+
 
   //this function determines whether edit mode for component name should be entered or not
   //resets the title if 'escape' key is hit
