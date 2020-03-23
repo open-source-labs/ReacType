@@ -72,7 +72,7 @@ export interface ApplicationStateInt {
   selectableChildren: number[];
   ancestors: number[];
   initialApplicationFocusChild: ChildInt;
-  focusChild: ChildInt;
+  focusChild: object;
   components: ComponentsInt;
   appDir: string;
   editMode: number;

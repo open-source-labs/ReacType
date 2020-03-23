@@ -1,9 +1,5 @@
-import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt,
-  Action,
-} from '../intefaces/Interfaces';
+import { initialApplicationState } from './initialState';
+import { Action } from '../intefaces/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -33,7 +29,7 @@ import {
   UNDO,
   REDO,
   EDIT_MODE,
-  EDIT_COMPONENT
+  EDIT_COMPONENT,
 } from '../actionTypes/index';
 
 import {
@@ -61,66 +57,9 @@ import {
   toggleEditMode,
   editComponent,
   undo,
-  redo
+  redo,
 } from '../utils/componentReducer.util';
-import cloneDeep from '../helperFunctions/cloneDeep';
 
-const appComponent: ComponentInt = {
-  id: 1,
-  stateful: false,
-  classBased: false,
-  title: 'App',
-  color: '#FF6D00',
-  props: [],
-  nextPropId: 1,
-  position: {
-    x: 25,
-    y: 25,
-    width: 600,
-    height: 400,
-  },
-  childrenArray: [],
-  nextChildId: 1,
-  focusChildId: 0,
-};
-
-const initialApplicationFocusChild: ChildInt = {
-  childId: 0,
-  componentName: null,
-  position: {
-    x: 25,
-    y: 25,
-    width: 800,
-    height: 550,
-  },
-  childType: null,
-  childSort: 0,
-  childComponentId: 0,
-  color: null,
-  htmlElement: null,
-  HTMLInfo: null,
-};
-
-const initialApplicationState: ApplicationStateInt = {
-  tutorial: 0,
-  imageSource: '',
-  totalComponents: 1,
-  nextId: 2,
-  successOpen: false,
-  errorOpen: false,
-  focusComponent: appComponent,
-  selectableChildren: [],
-  ancestors: [],
-  initialApplicationFocusChild,
-  focusChild: cloneDeep(initialApplicationFocusChild),
-  editMode: -1,
-  components: [appComponent],
-  appDir: '',
-  loading: false,
-  history: [],
-  historyIndex: 0,
-  future: []
-};
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
@@ -141,8 +80,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
-      case EDIT_COMPONENT:
-        return editComponent(state, action.payload);
+    case EDIT_COMPONENT:
+      return editComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
     case TOGGLE_CLASS:
@@ -178,16 +117,16 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
-      case EDIT_MODE:
-        return toggleEditMode(state, action.payload);
+    case EDIT_MODE:
+      return toggleEditMode(state, action.payload);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-      case UNDO:
-        return undo(state);
-        case REDO:
-          return redo(state);
+    case UNDO:
+      return undo(state);
+    case REDO:
+      return redo(state);
     default:
       return state;
   }
