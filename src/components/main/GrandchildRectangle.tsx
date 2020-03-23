@@ -5,7 +5,7 @@ import {
   ComponentInt,
   ChildInt,
   PropsInt,
-} from '../utils/Interfaces';
+} from '../../intefaces/Interfaces';
 
 //////////////////////////////////////////////////////////////////////////////
 /////Logic in this component is mainly the same as Rectangle.tsx./////////////

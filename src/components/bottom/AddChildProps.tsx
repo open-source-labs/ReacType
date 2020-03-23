@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addProp, deleteProp } from '../actions/actionCreators';
+import { addProp, deleteProp } from '../../actions/actionCreators';
 import MaterialTable from 'material-table';
 
 const mapDispatchToProps = (dispatch: any) => ({

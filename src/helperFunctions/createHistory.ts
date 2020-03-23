@@ -1,4 +1,4 @@
-import { ApplicationStateInt } from './Interfaces';
+import { ApplicationStateInt } from '../intefaces/Interfaces';
 import cloneDeep from './cloneDeep';
 
 /*Helper function that copies the state to be added on to the history

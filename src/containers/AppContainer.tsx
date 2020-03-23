@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Tutorial from '../components/Tutorial';
+import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
-import theme from '../components/theme';
+import theme from '../theme';
 import {
   ComponentInt,
   ComponentsInt,
   ApplicationStateInt,
-} from '../utils/Interfaces';
+} from '../intefaces/Interfaces';
 import * as actions from '../actions/actionCreators';
 
 // ** Used with electron to render

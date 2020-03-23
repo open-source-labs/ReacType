@@ -1,7 +1,7 @@
-import getSelectable from './getSelectable.util';
-import getColor from './colors.util';
+import getSelectable from '../helperFunctions/getSelectable';
+import getColor from '../helperFunctions/colors';
 import { getSize } from './htmlElements.util';
-import cloneDeep from './cloneDeep';
+import cloneDeep from '../helperFunctions/cloneDeep';
 import {
   ComponentInt,
   ApplicationStateInt,
@@ -9,8 +9,8 @@ import {
   ChildInt,
   ComponentsInt,
   PropInt,
-} from './Interfaces';
-import { createHistory } from './helperFunctions';
+} from '../intefaces/Interfaces';
+import { createHistory } from '../helperFunctions/createHistory';
 
 //this is the default values for any component added to the app.
 

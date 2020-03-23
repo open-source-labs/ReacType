@@ -14,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
+import { ComponentInt, ComponentsInt, PropsInt } from '../../intefaces/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;

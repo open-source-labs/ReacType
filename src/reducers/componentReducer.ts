@@ -3,7 +3,7 @@ import {
   ChildInt,
   ApplicationStateInt,
   Action,
-} from '../utils/Interfaces';
+} from '../intefaces/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -63,7 +63,7 @@ import {
   undo,
   redo
 } from '../utils/componentReducer.util';
-import cloneDeep from '../utils/cloneDeep';
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 const appComponent: ComponentInt = {
   id: 1,

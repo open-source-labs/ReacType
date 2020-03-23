@@ -3,7 +3,7 @@ import Konva from 'konva';
 import { Rect, Group, Label, Text } from 'react-konva';
 import TransformerComponent from './TransformerComponent';
 import GrandchildRectangle from './GrandchildRectangle';
-import { ComponentInt, PropsInt, ChildInt } from '../utils/Interfaces';
+import { ComponentInt, PropsInt, ChildInt } from '../../intefaces/Interfaces';
 
 interface RectanglePorpsInt extends PropsInt {
   x: number;

@@ -4,7 +4,7 @@ import {
   PropInt,
   ChildInt,
   Action,
-} from '../utils/Interfaces';
+} from '../intefaces/Interfaces';
 
 import {
   LOAD_INIT_DATA,
