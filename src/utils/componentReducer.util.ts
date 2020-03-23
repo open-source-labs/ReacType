@@ -242,7 +242,6 @@ export const addChild = (
     component
   ];
   const { history, historyIndex, future } = createHistory(state);
-  console.log('changed???? ', component.changed);
   return {
     ...state,
     components,
