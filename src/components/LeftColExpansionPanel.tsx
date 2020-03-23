@@ -122,7 +122,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             in={focusedToggle}
             collapsedHeight={'80px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
             style={{ borderRadius: '5px' }}
-            timeout={500}
+            timeout="auto"
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
