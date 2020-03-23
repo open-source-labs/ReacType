@@ -774,10 +774,10 @@ export const addProp = (
   state: ApplicationStateInt,
   {
     key,
-    value = null,
-    required,
+    // value = null,
+    // required,
     type
-  }: { key: string; value: string; required: boolean; type: string }
+  }: { key: string; /*value: string; required: boolean; */ type: string }
 ) => {
   if (!state.focusComponent.id) {
     console.log('Add prop error. no focused component ');
@@ -798,12 +798,14 @@ export const addProp = (
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
-    value: value || key,
-    required,
+    // value: value || key,
+    // required,
     type
   };
+  console.log('this is newPROP', newProp);
+
   const newProps = [...selectedComponent.props, newProp];
-  console.log('this is new PROPS', newProps);
+  // console.log('this is new PROPS', newProps);
   const modifiedComponent: ComponentInt = {
     ...selectedComponent,
     props: newProps,

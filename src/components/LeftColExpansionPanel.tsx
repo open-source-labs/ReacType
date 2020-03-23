@@ -353,15 +353,33 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 //   addedChildComponent.props[0]['type']
                 // );
                 if (addedChildComponent.props.length) {
-                  addProp({
-                    key: addedChildComponent.props[0]['key'],
-                    value: addedChildComponent.props[0]['value'],
-                    required: addedChildComponent.props[0]['required'],
-                    type: addedChildComponent.props[0]['type']
-                  });
-                  console.log('addedChildComponent', addedChildComponent);
+                  console.log(
+                    'this is addedChildComponent from LFEP key',
+                    addedChildComponent.props[0]['key']
+                  );
+                  console.log(
+                    'this is addedChildComponent from LFEP value',
+                    addedChildComponent.props[0]['value']
+                  );
+                  console.log(
+                    'this is addedChildComponent from LFEP required',
+                    addedChildComponent.props[0]['required']
+                  );
+                  console.log(
+                    'this is addedChildComponent from LFEP type',
+                    addedChildComponent.props[0]['type']
+                  );
+                  // addProp({
+                  //   key: addedChildComponent.props[0]['key'],
+                  //   value: addedChildComponent.props[0]['value'],
+                  //   required: addedChildComponent.props[0]['required'],
+                  //   type: addedChildComponent.props[0]['type']
+                  // });
+                  // console.log('addedChildComponent', addedChildComponent);
                   addChild({ title, childType: 'COMP' });
-                  changeFocusComponent({ title: addedChildComponent.title });
+                  changeFocusComponent({ title: focusComponent.title });
+                  // addChild({ title, childType: 'COMP' });
+                  // changeFocusComponent({ title: addedChildComponent.title });
                   // }
                   //   addChild({ title, childType: 'COMP' });
                   //   changeFocusComponent({ title: focusComponent.title });
@@ -374,9 +392,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   addChild({ title, childType: 'COMP' });
                   changeFocusComponent({ title: focusComponent.title });
                 }
-
-                // changeFocusComponent({ title: focusComponent.title });
-                // changeFocusComponent({ title: addedChildComponent.title });
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />

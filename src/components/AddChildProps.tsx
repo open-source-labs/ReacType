@@ -8,20 +8,20 @@ import MaterialTable from 'material-table';
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: ({
     key,
-    value,
-    required,
+    // value,
+    // required,
     type
   }: {
     key: string;
-    value: string;
-    required: boolean;
+    // value: string;
+    // required: boolean;
     type: string;
   }) =>
     dispatch(
       addProp({
         key,
-        value,
-        required,
+        // value,
+        // required,
         type
       })
     ),

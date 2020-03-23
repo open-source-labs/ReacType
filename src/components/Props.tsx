@@ -174,8 +174,8 @@ const typeOptions = [
 ];
 interface StateInt {
   propVariable: string;
-  propValue: string;
-  propRequired: boolean;
+  // propValue: string;
+  // propRequired: boolean;
   propType: string;
 }
 class Props extends Component<PropsPropsInt, StateInt> {
@@ -183,8 +183,8 @@ class Props extends Component<PropsPropsInt, StateInt> {
     super(props);
     this.state = {
       propVariable: '',
-      propValue: '',
-      propRequired: true,
+      // propValue: '',
+      // propRequired: true,
       propType: ''
     };
   }
@@ -217,10 +217,9 @@ class Props extends Component<PropsPropsInt, StateInt> {
 
     // destructuring from local state
     // if change here, make sure to change local state props to match
-    let { propVariable, propValue, propRequired, propType } = this.state;
+    // let { propVariable, propValue, propRequired, propType } = this.state;
+    let { propVariable, propType } = this.state;
     propVariable = propVariable.replace(/[!@#$%^&*,./:;"]+\s/gi, '');
-    propValue = propValue.replace(/[!@#$%^&*,./:;'"]+\s/gi, '');
-
     // check if prop exists with same key. CANNOT have duplicates
     const savedVariableKeys = this.props.focusComponent.props.map(
       prop => prop.key
@@ -235,18 +234,24 @@ class Props extends Component<PropsPropsInt, StateInt> {
       window.alert('Props are not allowed to begin with digits');
       return;
     }
-
+    console.log(
+      'this is propsvariable, value, required, type:: ',
+      propVariable,
+      // propValue,
+      // propRequired,
+      propType
+    );
     this.props.addProp({
       key: propVariable,
-      value: propValue,
-      required: propRequired,
+      // value: '',
+      // required: propRequired,
       type: propType
     });
 
     this.setState({
       propVariable: '',
-      propValue: '',
-      propRequired: true,
+      // propValue: '',
+      // propRequired: true,
       propType: ''
     });
   };
