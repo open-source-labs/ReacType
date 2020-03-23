@@ -8,8 +8,10 @@ import {
   //ChildrenInt, //unused import//
   ChildInt,
   ComponentsInt,
-  PropInt,
+  PropInt
 } from './Interfaces';
+import { format } from 'prettier';
+import componentRender from '../utils/componentRender.util';
 import { createHistory } from './helperFunctions';
 
 //this is the default values for any component added to the app.
@@ -26,11 +28,22 @@ const initialComponentState: ComponentInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550,
+    height: 550
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
+  focusChildId: 0
+};
+
+const generateNewCode = (comp: ComponentInt, components: ComponentsInt) => {
+  const code = format(componentRender(comp, components), {
+    singleQuote: true,
+    trailingComma: 'es5',
+    bracketSpacing: true,
+    jsxBracketSameLine: true,
+    parser: 'typescript'
+  });
+  return code;
 };
 
 export const addComponent = (
@@ -50,14 +63,14 @@ export const addComponent = (
       `A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`
     );
     return {
-      ...state,
+      ...state
     };
   }
 
   // empty component name not allowed
   if (strippedTitle === '') {
     return {
-      ...state,
+      ...state
     };
   }
 
@@ -80,7 +93,7 @@ export const addComponent = (
     title: strippedTitle,
     id: componentId,
     color: componentColor,
-    childrenArray: [],
+    childrenArray: []
   };
 
   const components = [...state.components, newComponent];
@@ -95,13 +108,17 @@ export const addComponent = (
     .map((comp: ComponentInt) => comp.id)
     .filter((id: number) => id !== newComponent.id);
 
-  const ancestors: Array<number> = [];
+  const ancestors: number[] = [];
 
   // reset focused child to null values so when focused component is assigned to the newly created component,
   //child from previously focused component doesn;t show up
   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
 
   const { history, historyIndex, future } = createHistory(state);
+
+  //generate initial code for the new component
+  const code = generateNewCode(newComponent, components);
+  newComponent.code = code;
 
   return {
     ...state,
@@ -114,7 +131,7 @@ export const addComponent = (
     selectableChildren, // new component so everyone except yourself is available
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -124,13 +141,14 @@ export const addChild = (
   {
     title,
     childType = '',
-    HTMLInfo = {},
+    HTMLInfo = {}
   }: {
     title: string;
     childType: string;
     HTMLInfo: { [index: string]: string };
   }
 ) => {
+  console.log('addchild successful');
   const strippedTitle = title;
 
   //is this warning even possible to trigger witht he current flow?
@@ -191,13 +209,13 @@ export const addChild = (
           x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
           y: view.position.y + ((view.nextChildId * 16) % 150),
           width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
-          height: parentComponent.position.height - 1,
+          height: parentComponent.position.height - 1
         }
       : {
           x: view.position.x + view.nextChildId * 16,
           y: view.position.y + view.nextChildId * 16,
           width: htmlElemPosition.width,
-          height: htmlElemPosition.height,
+          height: htmlElemPosition.height
         };
 
   const newChild: ChildInt = {
@@ -209,7 +227,7 @@ export const addChild = (
     position: newPosition,
     color: null, // parentComponent.color, // only relevant fot children of type COMPONENT
     htmlElement, // only relevant fot children of type HTML
-    HTMLInfo,
+    HTMLInfo
   };
 
   const compsChildrenArr = [...view.childrenArray, newChild];
@@ -220,16 +238,16 @@ export const addChild = (
     childrenArray: compsChildrenArr,
     focusChildId: newChild.childId,
     nextChildId: view.nextChildId + 1,
+    changed: true
   };
 
   const components = [
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
     }),
-    component,
+    component
   ];
   const { history, historyIndex, future } = createHistory(state);
-
   return {
     ...state,
     components,
@@ -237,7 +255,7 @@ export const addChild = (
     focusComponent: component, // refresh the focus component so we have the new child
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -246,7 +264,7 @@ export const deleteChild = (
   {
     parentId = state.focusComponent.id,
     childId = state.focusChild.childId,
-    calledFromDeleteComponent = false,
+    calledFromDeleteComponent = false
   }
 ) => {
   /** ************************************************
@@ -286,9 +304,12 @@ export const deleteChild = (
     parentComponentCopy.focusChildId = 0;
   }
 
+  //mark that the parent component changed
+  parentComponentCopy.changed = true;
+
   const modifiedComponentArray = [
     ...state.components.filter((comp: ComponentInt) => comp.id !== parentId), // all elements besides the one just changed
-    parentComponentCopy,
+    parentComponentCopy
   ];
 
   const { history, historyIndex, future } = createHistory(state);
@@ -306,7 +327,7 @@ export const deleteChild = (
         ] || cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -321,7 +342,31 @@ export const deleteImage = (state: ApplicationStateInt) => {
     imageSource: '',
     history,
     historyIndex,
-    future,
+    future
+  };
+};
+
+export const updateCode = (
+  state: ApplicationStateInt,
+  { componentId, code }: { componentId: number; code: string }
+) => {
+  //creates a deep copy of the components
+  const componentsCopy = cloneDeep(state.components);
+  const focusCompCopy = cloneDeep(state.focusComponent);
+  if (focusCompCopy.id === componentId) {
+    focusCompCopy.code = code;
+    focusCompCopy.changed = false;
+  }
+  componentsCopy.forEach((comp: ComponentInt) => {
+    if (comp.id === componentId) {
+      comp.code = code;
+      comp.changed = false;
+    }
+  });
+  return {
+    ...state,
+    components: componentsCopy,
+    focusComponent: focusCompCopy
   };
 };
 
@@ -334,7 +379,7 @@ export const handleTransform = (
     x,
     y,
     width,
-    height,
+    height
   }: {
     componentId: number;
     childId: number;
@@ -357,8 +402,8 @@ export const handleTransform = (
         x: x || component.position.x,
         y: y || component.position.y,
         width: width || component.position.width,
-        height: height || component.position.height,
-      },
+        height: height || component.position.height
+      }
     };
 
     //return state with updated component values
@@ -366,7 +411,7 @@ export const handleTransform = (
       ...state.components.filter((comp: ComponentInt) => {
         if (comp.id !== componentId) return comp;
       }),
-      transformedComponent,
+      transformedComponent
     ];
     return { ...state, components };
   }
@@ -382,8 +427,8 @@ export const handleTransform = (
       x: x || child.position.x,
       y: y || child.position.y,
       width: width || child.position.width,
-      height: height || child.position.height,
-    },
+      height: height || child.position.height
+    }
   };
 
   const children = [
@@ -392,7 +437,7 @@ export const handleTransform = (
       .childrenArray.filter((child: ChildInt) => {
         if (child.childId !== childId) return child;
       }),
-    transformedChild,
+    transformedChild
   ];
 
   let newFocusChild = state.focusChild;
@@ -403,14 +448,14 @@ export const handleTransform = (
   const component = {
     ...state.components.find((comp: ComponentInt) => comp.id === componentId),
     childrenArray: children,
-    focusChild: newFocusChild,
+    focusChild: newFocusChild
   };
 
   const components: ComponentsInt = [
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.id !== componentId) return comp;
     }),
-    component,
+    component
   ];
   const { history, historyIndex, future } = createHistory(state);
 
@@ -420,7 +465,7 @@ export const handleTransform = (
     focusChild: newFocusChild,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -431,7 +476,7 @@ export const changeTutorial = (
 ) => {
   return {
     ...state,
-    tutorial,
+    tutorial
   };
 };
 
@@ -447,7 +492,7 @@ export const changeImageSource = (
     imageSource,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -468,14 +513,14 @@ export const deleteComponent = (
   if (!result) {
     return {
       ...state,
-      focusComponent: compName[0],
+      focusComponent: compName[0]
     };
   }
   //if app is selected, return state
   //is this really necessary if the App component is disabled from being deleted? -Tony
   if (componentId === 1) {
     return {
-      ...state,
+      ...state
     };
   }
 
@@ -499,7 +544,7 @@ export const deleteComponent = (
     components: componentsCopy,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -509,12 +554,13 @@ export const toggleComponentState = (
   { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
-  const componentCopy = cloneDeep(state.components);
+  const componentsCopy = cloneDeep(state.components);
 
   //iterate array, and invert statefulness for targeted component based on id prop
-  componentCopy.forEach((element: ComponentInt) => {
+  componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.stateful = !element.stateful;
+      element.changed = true;
     }
   });
 
@@ -523,10 +569,10 @@ export const toggleComponentState = (
 
   return {
     ...state,
-    components: componentCopy,
+    components: componentsCopy,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -542,6 +588,7 @@ export const toggleComponentClass = (
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.classBased = !element.classBased;
+      element.changed = true;
     }
   });
   // return state and updated components array
@@ -552,7 +599,7 @@ export const toggleComponentClass = (
     components: componentCopy,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -563,12 +610,12 @@ export const toggleEditMode = (
 ) => {
   if (id === 1) {
     return {
-      ...state,
+      ...state
     };
   }
   return {
     ...state,
-    editMode: id,
+    editMode: id
   };
 };
 
@@ -595,7 +642,7 @@ export const editComponent = (
     ...state,
     focusChild: state.initialApplicationFocusChild,
     editMode: -1,
-    components,
+    components
   };
 };
 
@@ -632,7 +679,7 @@ export const changeFocusComponent = (
     focusComponent: newFocusComp,
     selectableChildren: result.selectableChildren,
     ancestors: result.ancestors,
-    focusChild: newFocusChild,
+    focusChild: newFocusChild
   };
 };
 
@@ -656,19 +703,19 @@ export const changeFocusChild = (
         x: focComp.position.x,
         y: focComp.position.y,
         width: focComp.position.width,
-        height: focComp.position.height,
+        height: focComp.position.height
       },
       childSort: 0,
       color: focComp.color,
       childType: '',
       htmlElement: '',
-      HTMLInfo: {},
+      HTMLInfo: {}
     };
   }
 
   return {
     ...state,
-    focusChild: newFocusChild,
+    focusChild: newFocusChild
   };
 };
 
@@ -686,7 +733,7 @@ export const changeComponentFocusChild = (
   );
   return {
     ...state,
-    components: [modifiedComponent, ...components],
+    components: [modifiedComponent, ...components]
   };
 };
 
@@ -697,7 +744,7 @@ export const exportFilesSuccess = (
   ...state,
   successOpen: status,
   appDir: dir,
-  loading: false,
+  loading: false
 });
 
 export const exportFilesError = (
@@ -707,20 +754,20 @@ export const exportFilesError = (
   ...state,
   errorOpen: status,
   appDir: err,
-  loading: false,
+  loading: false
 });
 
 export const handleClose = (state: ApplicationStateInt, status: string) => ({
   ...state,
   errorOpen: status,
-  successOpen: status,
+  successOpen: status
 });
 
 export const openExpansionPanel = (
   state: ApplicationStateInt,
   { component }: { component: ComponentInt }
 ) => ({
-  ...state,
+  ...state
 });
 
 export const addProp = (
@@ -729,7 +776,7 @@ export const addProp = (
     key,
     value = null,
     required,
-    type,
+    type
   }: { key: string; value: string; required: boolean; type: string }
 ) => {
   if (!state.focusComponent.id) {
@@ -746,7 +793,7 @@ export const addProp = (
     key,
     value: value || key,
     required,
-    type,
+    type
   };
   const newProps = [...selectedComponent.props, newProp];
 
@@ -754,6 +801,7 @@ export const addProp = (
     ...selectedComponent,
     props: newProps,
     nextPropId: selectedComponent.nextPropId + 1,
+    changed: true
   };
 
   const newComponents: ComponentsInt = state.components.filter(
@@ -768,7 +816,7 @@ export const addProp = (
     focusComponent: modifiedComponent,
     historyIndex,
     history,
-    future,
+    future
   };
 };
 
@@ -796,6 +844,8 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
 
   modifiedComponent.props.splice(indexToDelete, 1);
 
+  modifiedComponent.changed = true;
+
   const newComponentsArray = state.components.filter(
     (comp: ComponentInt) => comp.id !== modifiedComponent.id
   );
@@ -808,7 +858,7 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
     focusComponent: modifiedComponent,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -831,7 +881,7 @@ export const updateHtmlAttr = (
       )
     )
   );
-
+  modifiedComponent.changed = true;
   modifiedComponent.childrenArray = modifiedComponent.childrenArray.filter(
     (child: ChildInt) => child.childId !== modifiedChild.childId
   );
@@ -850,7 +900,7 @@ export const updateHtmlAttr = (
     focusChild: modifiedChild,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -888,7 +938,7 @@ export const updateChildrenSort = (
   return {
     ...state,
     components: modifiedComponentsArray,
-    focusComponent: modifiedComponent,
+    focusComponent: modifiedComponent
   };
 };
 
@@ -908,7 +958,7 @@ export const undo = (state: ApplicationStateInt) => {
   return {
     ...undoData,
     history,
-    future,
+    future
   };
 };
 
@@ -928,6 +978,6 @@ export const redo = (state: ApplicationStateInt) => {
   return {
     ...redoData,
     history,
-    future,
+    future
   };
 };

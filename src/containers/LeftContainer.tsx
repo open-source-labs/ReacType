@@ -43,9 +43,10 @@ interface LeftContPropsInt extends PropsInt {
     genOption: number;
   }): void;
   deleteAllData(): void;
-  toggleComponentState(arg: number): void;
-  toggleComponentClass(arg: number): void;
+  toggleComponentState(arg: { id: number }): void;
+  toggleComponentClass(arg: { id: number }): void;
   deleteImage(): void;
+  updateCode(arg: { componentId: number; code: string }): void;
   toggleEditMode(arg: { id: number }): void;
   editMode: number;
   editComponent(arg: { id: number; title: string }): void;
@@ -116,7 +117,9 @@ const mapDispatchToProps = (dispatch: any) => ({
         appName: 'reactype_app',
         exportAppBool: null
       })
-    )
+    ),
+  updateCode: ({ componentId, code }: { componentId: number; code: string }) =>
+    dispatch(actions.updateCode({ componentId, code }))
 });
 
 class LeftContainer extends Component<LeftContPropsInt, StateInt> {
@@ -266,6 +269,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       toggleComponentState,
       toggleComponentClass,
       deleteImage,
+      updateCode,
       editMode,
       toggleEditMode
     } = this.props;
@@ -287,6 +291,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           components={components}
           toggleComponentState={toggleComponentState}
           toggleComponentClass={toggleComponentClass}
+          updateCode={updateCode}
           editMode={editMode}
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}

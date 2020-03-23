@@ -2,7 +2,7 @@ import {
   ComponentInt,
   ChildInt,
   ApplicationStateInt,
-  Action,
+  Action
 } from '../utils/Interfaces';
 
 import {
@@ -35,6 +35,7 @@ import {
   UPDATE_CHILDREN_SORT,
   UNDO,
   REDO,
+  UPDATE_CODE,
   EDIT_MODE,
   EDIT_COMPONENT
 } from '../actionTypes/index';
@@ -64,7 +65,8 @@ import {
   toggleEditMode,
   editComponent,
   undo,
-  redo
+  redo,
+  updateCode
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -80,11 +82,13 @@ const appComponent: ComponentInt = {
     x: 25,
     y: 25,
     width: 600,
-    height: 400,
+    height: 400
   },
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
+  code: '',
+  changed: false
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -94,14 +98,14 @@ const initialApplicationFocusChild: ChildInt = {
     x: 25,
     y: 25,
     width: 800,
-    height: 550,
+    height: 550
   },
   childType: null,
   childSort: 0,
   childComponentId: 0,
   color: null,
   htmlElement: null,
-  HTMLInfo: null,
+  HTMLInfo: null
 };
 
 const initialApplicationState: ApplicationStateInt = {
@@ -134,7 +138,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -144,8 +148,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
-      case EDIT_COMPONENT:
-        return editComponent(state, action.payload);
+    case EDIT_COMPONENT:
+      return editComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
     case TOGGLE_CLASS:
@@ -176,21 +180,26 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
-      return initialApplicationState;
+      return {
+        ...initialApplicationState,
+        focusComponent: { ...appComponent, changed: true }
+      };
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
-      case EDIT_MODE:
-        return toggleEditMode(state, action.payload);
+    case EDIT_MODE:
+      return toggleEditMode(state, action.payload);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-      case UNDO:
-        return undo(state);
-        case REDO:
-          return redo(state);
+    case UNDO:
+      return undo(state);
+    case REDO:
+      return redo(state);
+    case UPDATE_CODE:
+      return updateCode(state, action.payload);
     default:
       return state;
   }

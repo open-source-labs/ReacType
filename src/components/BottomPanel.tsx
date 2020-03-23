@@ -9,18 +9,19 @@ const IPC = require('electron').ipcRenderer;
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  addProp: (prop: PropInt) => dispatch(addProp(prop)),
+  addProp: (prop: PropInt) => dispatch(addProp(prop))
 });
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components,
+  components: store.workspace.components
 });
 
 interface BottomPanelPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
   changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -32,6 +33,7 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       addProp,
       focusChild,
       changeFocusComponent,
+      updateCode
     } = this.props;
 
     return (
@@ -43,6 +45,7 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           addProp={addProp}
           focusChild={focusChild}
           changeFocusComponent={changeFocusComponent}
+          updateCode={updateCode}
         />
       </div>
     );
