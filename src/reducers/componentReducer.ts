@@ -33,7 +33,7 @@ import {
   UNDO,
   REDO,
   EDIT_MODE,
-  EDIT_COMPONENT
+  EDIT_COMPONENT,
 } from '../actionTypes/index';
 
 import {
@@ -61,7 +61,7 @@ import {
   toggleEditMode,
   editComponent,
   undo,
-  redo
+  redo,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -119,7 +119,7 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false,
   history: [],
   historyIndex: 0,
-  future: []
+  future: [],
 };
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
@@ -141,8 +141,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
-      case EDIT_COMPONENT:
-        return editComponent(state, action.payload);
+    case EDIT_COMPONENT:
+      return editComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
     case TOGGLE_CLASS:
@@ -178,16 +178,16 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
-      case EDIT_MODE:
-        return toggleEditMode(state, action.payload);
+    case EDIT_MODE:
+      return toggleEditMode(state, action.payload);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-      case UNDO:
-        return undo(state);
-        case REDO:
-          return redo(state);
+    case UNDO:
+      return undo(state);
+    case REDO:
+      return redo(state);
     default:
       return state;
   }
