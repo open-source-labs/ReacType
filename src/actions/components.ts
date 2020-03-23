@@ -36,7 +36,9 @@ import {
   CHANGE_TUTORIAL,
   UNDO,
   REDO,
-  UPDATE_CODE
+  UPDATE_CODE,
+  EDIT_MODE,
+  EDIT_COMPONENT
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage'; //this is a warning from 'localStorage' being a .js file instead of .ts. Convert to .ts to remove this warning.
@@ -286,16 +288,16 @@ export const deleteProp = (propId: number) => (
   dispatch({ type: DELETE_PROP, payload: propId });
 };
 
-export const toggleComponentState = (id: string) => (
+export const toggleComponentState = ({ id }: { id: number }) => (
   dispatch: (arg: Action) => void
 ) => {
-  dispatch({ type: TOGGLE_STATE, payload: id });
+  dispatch({ type: TOGGLE_STATE, payload: { id } });
 };
 
-export const toggleComponentClass = (id: string) => (
+export const toggleComponentClass = ({ id }: { id: number }) => (
   dispatch: (arg: Action) => void
 ) => {
-  dispatch({ type: TOGGLE_CLASS, payload: id });
+  dispatch({ type: TOGGLE_CLASS, payload: { id } });
 };
 
 export const addProp = (prop: PropInt) => ({
@@ -311,6 +313,18 @@ export const undo = () => ({
 export const redo = () => ({
   type: REDO
 });
+
+export const toggleEditMode = ({ id }: { id: number }) => (
+  dispatch: (arg: Action) => void
+) => {
+  dispatch({ type: EDIT_MODE, payload: { id } });
+};
+
+export const editComponent = ({ id, title }: { id: number; title: string }) => (
+  dispatch: (arg: Action) => void
+) => {
+  dispatch({ type: EDIT_COMPONENT, payload: { id, title } });
+};
 
 export const updateHtmlAttr = ({
   attr,

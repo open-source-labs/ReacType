@@ -32,6 +32,7 @@ interface Props {
   undo(): void;
   redo(): void;
   tutorial: number;
+  toggleEditMode(arg: {id: number}): void;
 }
 
 //Type for the state that should not be assigned within the
@@ -67,6 +68,8 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
     dispatch(actions.changeTutorial(tutorial)),
   undo: () => dispatch(actions.undo()),
   redo: () => dispatch(actions.redo()),
+  toggleEditMode: ({ id }: { id: number }) =>
+    dispatch(actions.toggleEditMode({ id })),
 });
 
 class AppContainer extends Component<Props, State> {
@@ -111,6 +114,10 @@ class AppContainer extends Component<Props, State> {
     IPC.on('redo', () => {
       this.props.redo();
     });
+
+    IPC.on('escape', () => {
+      this.props.toggleEditMode({id:-1});
+    })
   }
 
   handleNext = (tutorial: number) => {

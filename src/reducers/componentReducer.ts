@@ -19,7 +19,7 @@ import {
   CHANGE_IMAGE_SOURCE,
   DELETE_IMAGE,
   EXPORT_FILES,
-  CREATE_APPLICATION, //unsued
+  CREATE_APPLICATION, //unused
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   CREATE_APPLICATION_ERROR, //unused
@@ -35,7 +35,9 @@ import {
   UPDATE_CHILDREN_SORT,
   UNDO,
   REDO,
-  UPDATE_CODE
+  UPDATE_CODE,
+  EDIT_MODE,
+  EDIT_COMPONENT
 } from '../actionTypes/index';
 
 import {
@@ -60,6 +62,8 @@ import {
   updateChildrenSort,
   toggleComponentState,
   toggleComponentClass,
+  toggleEditMode,
+  editComponent,
   undo,
   redo,
   updateCode
@@ -116,6 +120,7 @@ const initialApplicationState: ApplicationStateInt = {
   ancestors: [],
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
+  editMode: -1,
   components: [appComponent],
   appDir: '',
   loading: false,
@@ -143,6 +148,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return deleteChild(state, action.payload);
     case DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
+    case EDIT_COMPONENT:
+      return editComponent(state, action.payload);
     case TOGGLE_STATE:
       return toggleComponentState(state, action.payload);
     case TOGGLE_CLASS:
@@ -181,6 +188,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case EDIT_MODE:
+      return toggleEditMode(state, action.payload);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:

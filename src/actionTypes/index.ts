@@ -36,3 +36,5 @@ export const CHANGE_TUTORIAL: string = 'CHANGE_TUTORIAL';
 export const UNDO: string = 'UNDO';
 export const REDO: string = 'REDO';
 export const UPDATE_CODE: string = 'UPDATE_CODE';
+export const EDIT_MODE: string = 'EDIT_MODE';
+export const EDIT_COMPONENT: string = 'EDIT_COMPONENT';

@@ -6,7 +6,8 @@ const {
   Menu,
   shell,
   dialog,
-  ipcMain
+  ipcMain,
+  globalShortcut
 } = require('electron');
 
 // Uncomment below for hot reloading during development
@@ -39,6 +40,10 @@ function openFile() {
 
   // Send fileContent to renderer
   mainWindow.webContents.send('new-file', file);
+}
+
+function escape() {
+  mainWindow.webContents.send('escape');
 }
 
 //functions to replace the default behavior of undo and redo
@@ -262,6 +267,9 @@ app.on('ready', () => {
   } else {
     createWindow();
   }
+  globalShortcut.register('Escape', () => {
+    escape();
+  })
 });
 
 // Quit when all windows are closed.

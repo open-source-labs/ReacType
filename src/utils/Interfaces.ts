@@ -77,6 +77,7 @@ export interface ApplicationStateInt {
   focusChild: ChildInt;
   components: ComponentsInt;
   appDir: string;
+  editMode: number;
   loading: boolean;
   history: ApplicationStateInt[];
   historyIndex: number;

@@ -12,6 +12,7 @@ import {
 } from './Interfaces';
 import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
+import { createHistory } from './helperFunctions';
 
 //this is the default values for any component added to the app.
 
@@ -31,28 +32,7 @@ const initialComponentState: ComponentInt = {
   },
   childrenArray: [],
   nextChildId: 1,
-  focusChildId: 0,
-  code: '',
-  changed: false
-};
-
-/*Helper function that copies the state to be added on to the history
-  By clearing the history data out of each stored step of the timeline,
-  you can avoid repetitive nesting that maxes out the memory allocated to electron
-  (usually happens at around 7-10 steps without using this method)*/
-const createHistory = (state: ApplicationStateInt) => {
-  const stateCopy = cloneDeep(state);
-  const historyCopy = cloneDeep(state.history);
-  historyCopy.push({ ...stateCopy, history: [] });
-  const history = historyCopy;
-  const historyIndex = state.historyIndex + 1;
-  const future: [] = [];
-
-  return {
-    history,
-    historyIndex,
-    future
-  };
+  focusChildId: 0
 };
 
 const generateNewCode = (comp: ComponentInt, components: ComponentsInt) => {
@@ -568,7 +548,7 @@ export const deleteComponent = (
 //Reducer that toggles the component statefulness
 export const toggleComponentState = (
   state: ApplicationStateInt,
-  id: number
+  { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
   const componentsCopy = cloneDeep(state.components);
@@ -580,6 +560,7 @@ export const toggleComponentState = (
       element.changed = true;
     }
   });
+
   // return state and updated components array
   const { history, historyIndex, future } = createHistory(state);
 
@@ -595,7 +576,7 @@ export const toggleComponentState = (
 //Reducer that toggles the component class
 export const toggleComponentClass = (
   state: ApplicationStateInt,
-  id: number
+  { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
@@ -616,6 +597,49 @@ export const toggleComponentClass = (
     history,
     historyIndex,
     future
+  };
+};
+
+//a reducer function to see if component name editing mode should be entered
+export const toggleEditMode = (
+  state: ApplicationStateInt,
+  { id }: { id: number }
+) => {
+  if (id === 1) {
+    return {
+      ...state
+    };
+  }
+  return {
+    ...state,
+    editMode: id
+  };
+};
+
+/*For the function below, it first changes the title of the component being edited to the new name.
+Then, it checks for each child component that exists and make sure the names of those child components 
+are changed as well. Otherwise, the code will break because when you focus on a component with the changed component
+as a child. */
+export const editComponent = (
+  state: ApplicationStateInt,
+  { id, title }: { id: number; title: string }
+) => {
+  let components = cloneDeep(state.components);
+  let toEdit = components.find((element: ComponentInt) => element.id === id);
+  toEdit.title = title;
+  for (const [index, each] of components.entries()) {
+    for (const value of each.childrenArray) {
+      if (value.childComponentId === id) {
+        value.componentName = title;
+      }
+    }
+  }
+
+  return {
+    ...state,
+    focusChild: state.initialApplicationFocusChild,
+    editMode: -1,
+    components
   };
 };
 
@@ -648,6 +672,7 @@ export const changeFocusComponent = (
 
   return {
     ...state,
+    editMode: -1,
     focusComponent: newFocusComp,
     selectableChildren: result.selectableChildren,
     ancestors: result.ancestors,
