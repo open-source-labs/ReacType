@@ -51,7 +51,6 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
   // }
   componentDidUpdate(prevProp: CodePreviewProps) {
     if (this.props.focusComponent.changed !== prevProp.focusComponent.changed) {
-      console.log('HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
       this.generateNewCode();
     }
   }
@@ -66,7 +65,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
         parser: 'babel'
       }
     );
-    console.log('code  prev>>>>>>>>>>>>>>>>>>>', text);
+    // console.log('code  prev>>>>>>>>>>>>>>>>>>>', text);
     this.props.updateCode({
       componentId: this.props.focusComponent.id,
       code: text
@@ -78,11 +77,11 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
     return (
       <div
         style={{
-          height: '330px',
+          height: '80%',
           paddingLeft: '0px',
           paddingTop: '10px',
           overflow: 'auto',
-          maxWidth: '70%',
+          maxWidth: '60%',
           border: '2px solid #33eb91',
           borderRadius: '5px'
         }}
@@ -103,6 +102,15 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />
+        {/* <Button
+          color="primary"
+          aria-label="Add"
+          type="submit"
+          // disabled={!this.state.propKey || !this.state.propType}
+          variant="contained"
+          size="large"
+          className={classes.addProp}
+        ></Button> */}
       </div>
     );
   }

@@ -358,8 +358,6 @@ export const updateCode = (
       comp.changed = false;
     }
   });
-  console.log('code   ', code);
-
   return {
     ...state,
     components: componentsCopy,
