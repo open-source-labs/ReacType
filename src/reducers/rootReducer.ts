@@ -13,7 +13,7 @@ import {
   exportFilesError,
   toggleComponentState,
   toggleComponentClass,
-  toggleEditMode,
+  toggleEditMode
 } from './leftReducers';
 import {
   changeComponentFocusChild,
@@ -21,7 +21,7 @@ import {
   changeTutorial,
   handleTransform,
   undo,
-  redo,
+  redo
 } from './mainReducers';
 import {
   handleClose,
@@ -29,7 +29,7 @@ import {
   deleteProp,
   updateChildrenSort,
   updateHtmlAttr,
-  updateCode,
+  updateCode
 } from './bottomReducers';
 import {
   ADD_CHILD,
@@ -59,8 +59,10 @@ import {
   UNDO,
   UPDATE_CODE,
   UPDATE_CHILDREN_SORT,
-  UPDATE_HTML_ATTR,
+  UPDATE_HTML_ATTR
 } from '../actionTypes/index';
+
+import { appComponent } from './initialState';
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
@@ -71,7 +73,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         loading: false,
         appDir: '',
         successOpen: false,
-        errorOpen: false,
+        errorOpen: false
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
@@ -102,7 +104,7 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
     case DELETE_ALL_DATA:
       return {
         ...initialApplicationState,
-        focusComponent: { ...appComponent, changed: true },
+        focusComponent: { ...appComponent, changed: true }
       };
     case DELETE_IMAGE:
       return deleteImage(state);
