@@ -80,35 +80,6 @@ export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
   dispatch({ type: DELETE_CHILD, payload: {} });
 };
 
-export const deleteComponent = ({
-  componentId,
-  stateComponents
-}: {
-  componentId: number;
-  stateComponents: ComponentsInt;
-}) => (dispatch: (arg: Action) => void) => {
-  // find all places where the "to be deleted" is a child and do what u gotta do
-  stateComponents.forEach((parent: ComponentInt) => {
-    parent.childrenArray
-      .filter((child: ChildInt) => child.childComponentId === componentId)
-      .forEach((child: ChildInt) => {
-        dispatch({
-          type: DELETE_CHILD,
-          payload: {
-            parentId: parent.id,
-            childId: child.childId,
-            calledFromDeleteComponent: true
-          }
-        });
-      });
-  });
-
-  // change focus to app
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
-  // after taking care of the children delete the component
-  dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
-};
-
 export const changeComponentFocusChild = ({
   componentId,
   childId
@@ -193,6 +164,36 @@ export const createApplication = ({
 export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
+
+
+export const deleteComponent = ({
+  componentId,
+  stateComponents
+}: {
+  componentId: number;
+  stateComponents: ComponentsInt;
+}) => (dispatch: (arg: Action) => void) => {
+  // find all places where the "to be deleted" is a child and do what u gotta do
+  stateComponents.forEach((parent: ComponentInt) => {
+    parent.childrenArray
+      .filter((child: ChildInt) => child.childComponentId === componentId)
+      .forEach((child: ChildInt) => {
+        dispatch({
+          type: DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            calledFromDeleteComponent: true
+          }
+        });
+      });
+  });
+
+  // change focus to app
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
+  // after taking care of the children delete the component
+  dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
+};
 
 export const deleteImage = () => ({
   type: DELETE_IMAGE,

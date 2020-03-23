@@ -7,7 +7,7 @@ import {
   ApplicationStateInt,
 } from '../interfaces/Interfaces';
 
-const appComponent: ComponentInt = {
+export const appComponent: ComponentInt = {
     id: 1,
     stateful: false,
     classBased: false,

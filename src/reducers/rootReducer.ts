@@ -62,6 +62,8 @@ import {
   UPDATE_HTML_ATTR,
 } from '../actionTypes/index';
 
+import { appComponent } from './initialState';
+
 const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
