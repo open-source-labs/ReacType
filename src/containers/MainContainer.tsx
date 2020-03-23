@@ -4,8 +4,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/BottomPanel';
-import theme from '../components/theme';
+import BottomPanel from '../components/bottom/BottomPanel';
+import theme from '../theme';
 import {
   handleTransform,
   changeFocusChild,
@@ -13,9 +13,9 @@ import {
   deleteChild,
   changeFocusComponent,
   updateCode
-} from '../actions/components';
-import KonvaStage from '../components/KonvaStage';
-import { PropsInt, ApplicationStateInt } from '../utils/Interfaces';
+} from '../actions/actionCreators';
+import KonvaStage from '../components/main/KonvaStage';
+import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;

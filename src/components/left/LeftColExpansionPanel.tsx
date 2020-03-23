@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -14,10 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../utils/Interfaces'; // unused
-import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
-
+import { ComponentInt, ComponentsInt, PropsInt } from '../../interfaces/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;

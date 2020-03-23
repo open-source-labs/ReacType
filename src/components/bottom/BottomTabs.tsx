@@ -7,12 +7,7 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import {
-  ComponentInt,
-  ComponentsInt,
-  PropInt,
-  PropsInt
-} from '../utils/Interfaces';
+import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -51,8 +46,8 @@ const styles = (theme: Theme): any => ({
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
-    marginTop: '10px',
+    // marginRight: theme.spacing.unit * 4,
+    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
 
     fontFamily: [
       '-apple-system',
@@ -80,10 +75,10 @@ const styles = (theme: Theme): any => ({
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`
+    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
   }
 });
 
@@ -166,12 +161,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Application Tree"
+            label='Application Tree'
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
+            label='Code Preview'
           />
           <Tab
             disableRipple
@@ -188,13 +183,13 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Add Child Props"
+            label='Add Child Props'
           />
         </Tabs>
 
         {value === 0 && (
           <div
-            id="treeWrapper"
+            id='treeWrapper'
             style={{
               width: '100%',
               height: '100%'

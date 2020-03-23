@@ -9,13 +9,13 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
 import InputLabel from '@material-ui/core/InputLabel';
-import { updateHtmlAttr } from '../actions/components';
-import { HTMLelements } from '../utils/htmlElements.util';
-import { ComponentInt, ChildInt, PropsInt, PropInt } from '../utils/Interfaces';
+import { updateHtmlAttr } from '../../actions/actionCreators';
+import { HTMLelements } from '../../utils/htmlElements.util';
+import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 
 interface HTMLAttrPropsInt extends PropsInt {
-  updateHtmlAttr(arg: { attr: string; value: string }): void;
   classes: any;
+  updateHtmlAttr(arg: { attr: string; value: string }): void;
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
 }
@@ -64,7 +64,6 @@ const styles = (theme: Theme): any => ({
     zIndex: '10',
     dropShadow: '1px 1px 3px #fff',
     marginTop: '10px'
-
     // border: '1px solid blue'
   },
 
@@ -75,6 +74,11 @@ const styles = (theme: Theme): any => ({
     marginLeft: '35px',
     borderRadius: '2px'
   }
+  // input: { // commented out b/c Typescript/Material doesn't allow 'input' in its styles object
+  //   color: '#fff',
+  //   opacity: '0.7',
+  //   marginBottom: '15px'
+  // }
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -96,14 +100,11 @@ const availableButtonTypes = {
 };
 
 // function for generating the button types for select dropdown
-// uses Object.keys method on object of drop down types
-const buttonTypeOptions = [
-  Object.keys(availableButtonTypes).map(type => (
-    <option value={type} key={type} style={{ color: '#000' }}>
-      {type == null ? '' : type}
-    </option>
-  ))
-];
+const buttonTypeOptions = Object.keys(availableButtonTypes).map(type => (
+  <option value={type} key={type} style={{ color: '#000' }}>
+    {type}
+  </option>
+));
 
 // this is a variable to save temp state for button types
 let buttonTypeTemp: string;
@@ -112,7 +113,7 @@ let buttonTypeTemp: string;
 // as the new state
 class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
   state = HTMLelements[this.props.focusChild.htmlElement].attributes.reduce(
-    (acc, attr) => {
+    (acc: any, attr: any) => {
       acc[attr] = '';
 
       return acc;
@@ -120,14 +121,22 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
     {}
   );
 
-  // State looks like:
-  // className: '',
-  // id: '',
-  // type: '',
-  // propType: ''
+  handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    // if ( -- COMMENTED OUT UNNEEDED CODE. DROPDOWN ONLY HAS THOSE THREE OPTIONS. REMOVE THIS EVENTUALLY.
+    //   event.target.value == 'button' ||
+    //   event.target.value == 'submit' ||
+    //   event.target.value == 'reset'
+    // ) {
+    //   buttonTypeTemp = event.target.value;
+    // }
 
-  handleChange = (event: MouseEvent) => {
+    // reassigns global variable for use by other listener functions
     buttonTypeTemp = event.target.value;
+
     this.setState({
       [event.target.id]: buttonTypeTemp
     });
@@ -179,7 +188,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   className={classes.select}
                   id='htmlType'
                   placeholder='title'
-                  onChange={this.handleChange}
+                  onChange={event => this.handleChange(event)}
                   value={buttonTypeTemp}
                   defaultValue={`${``}`}
                   required
@@ -192,8 +201,8 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                 InputLabelProps={{
                   classes: {
                     root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                    input: classes.inputLabel
+                    focused: classes.cssFocused
+                    // input: classes.inputLabel -- commented out because 'input' not valid on Material typing
                   }
                 }}
                 InputProps={{

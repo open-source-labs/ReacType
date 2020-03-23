@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+import componentRender from '../../utils/componentRender.util';
+import { ComponentInt, ComponentsInt } from '../../interfaces/Interfaces';
 import AceEditor from 'react-ace';
-
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 
