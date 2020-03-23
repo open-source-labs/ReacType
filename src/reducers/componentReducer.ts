@@ -1,6 +1,8 @@
 import { initialApplicationState } from './initialState';
 import { Action } from '../intefaces/Interfaces';
 
+import { addComponent } from './leftReducers'
+
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -33,7 +35,6 @@ import {
 } from '../actionTypes/index';
 
 import {
-  addComponent,
   addChild,
   deleteChild,
   deleteComponent,

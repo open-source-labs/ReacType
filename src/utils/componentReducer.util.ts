@@ -13,110 +13,92 @@ import {
 import { createHistory } from '../helperFunctions/createHistory';
 
 //this is the default values for any component added to the app.
+import { initialComponentState } from '../reducers/initialState';
 
-const initialComponentState: ComponentInt = {
-  id: 0,
-  stateful: false,
-  classBased: false,
-  title: '',
-  color: getColor(),
-  props: [],
-  nextPropId: 1,
-  position: {
-    x: 25,
-    y: 25,
-    width: 800,
-    height: 550,
-  },
-  childrenArray: [],
-  nextChildId: 1,
-  focusChildId: 0,
-};
+// export const addComponent = (
+//   state: ApplicationStateInt,
+//   { title }: { title: string }
+// ) => {
+//   // remove whitespace and digits, capitalize first char
+//   const strippedTitle = title
+//     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+//     .replace(/[-_\s0-9\W]+/gi, '');
 
-export const addComponent = (
-  state: ApplicationStateInt,
-  { title }: { title: string }
-) => {
-  // remove whitespace and digits, capitalize first char
-  const strippedTitle = title
-    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
+//   // duplicate component names not allowed
+//   if (
+//     state.components.find((comp: ComponentInt) => comp.title === strippedTitle)
+//   ) {
+//     window.alert(
+//       `A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`
+//     );
+//     return {
+//       ...state,
+//     };
+//   }
 
-  // duplicate component names not allowed
-  if (
-    state.components.find((comp: ComponentInt) => comp.title === strippedTitle)
-  ) {
-    window.alert(
-      `A component with the name: "${strippedTitle}" already exists.\n Please think of another name.`
-    );
-    return {
-      ...state,
-    };
-  }
+//   // empty component name not allowed
+//   if (strippedTitle === '') {
+//     return {
+//       ...state,
+//     };
+//   }
 
-  // empty component name not allowed
-  if (strippedTitle === '') {
-    return {
-      ...state,
-    };
-  }
+//   //chooses a color for the component from the random color generator
+//   let componentColor = getColor();
+//   //Makes sure no two consecutive components have the same color
+//   const lastComponent = state.components.reduce((acc, curr) =>
+//     curr.id > acc.id ? curr : acc
+//   ).color;
+//   while (componentColor === lastComponent) {
+//     componentColor = getColor();
+//   }
 
-  //chooses a color for the component from the random color generator
-  let componentColor = getColor();
-  //Makes sure no two consecutive components have the same color
-  const lastComponent = state.components.reduce((acc, curr) =>
-    curr.id > acc.id ? curr : acc
-  ).color;
-  while (componentColor === lastComponent) {
-    componentColor = getColor();
-  }
+//   //assigns the componentID to whatever is supposed to be next
+//   const componentId = state.nextId;
 
-  //assigns the componentID to whatever is supposed to be next
-  const componentId = state.nextId;
+//   //creates a newcomponent and prepares it to be added to an array of components in the store
+//   const newComponent: ComponentInt = {
+//     ...initialComponentState,
+//     title: strippedTitle,
+//     id: componentId,
+//     color: componentColor,
+//     childrenArray: [],
+//   };
 
-  //creates a newcomponent and prepares it to be added to an array of components in the store
-  const newComponent: ComponentInt = {
-    ...initialComponentState,
-    title: strippedTitle,
-    id: componentId,
-    color: componentColor,
-    childrenArray: [],
-  };
+//   const components = [...state.components, newComponent];
 
-  const components = [...state.components, newComponent];
+//   //increments both total components and the nextID
+//   const totalComponents = state.totalComponents + 1;
+//   const nextId = state.nextId + 1;
 
-  //increments both total components and the nextID
-  const totalComponents = state.totalComponents + 1;
-  const nextId = state.nextId + 1;
+//   //creates an array of component IDs that can be added as children to this newly created component.
+//   //the newly created component and the App component are never selectable.
+//   const selectableChildren = state.components
+//     .map((comp: ComponentInt) => comp.id)
+//     .filter((id: number) => id !== newComponent.id);
 
-  //creates an array of component IDs that can be added as children to this newly created component.
-  //the newly created component and the App component are never selectable.
-  const selectableChildren = state.components
-    .map((comp: ComponentInt) => comp.id)
-    .filter((id: number) => id !== newComponent.id);
+//   const ancestors: Array<number> = [];
 
-  const ancestors: Array<number> = [];
+//   // reset focused child to null values so when focused component is assigned to the newly created component,
+//   //child from previously focused component doesn;t show up
+//   const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
 
-  // reset focused child to null values so when focused component is assigned to the newly created component,
-  //child from previously focused component doesn;t show up
-  const newFocusChild = cloneDeep(state.initialApplicationFocusChild);
+//   const { history, historyIndex, future } = createHistory(state);
 
-  const { history, historyIndex, future } = createHistory(state);
-
-  return {
-    ...state,
-    totalComponents,
-    nextId,
-    components,
-    focusComponent: newComponent,
-    focusChild: newFocusChild,
-    ancestors,
-    selectableChildren, // new component so everyone except yourself is available
-    history,
-    historyIndex,
-    future,
-  };
-};
+//   return {
+//     ...state,
+//     totalComponents,
+//     nextId,
+//     components,
+//     focusComponent: newComponent,
+//     focusChild: newFocusChild,
+//     ancestors,
+//     selectableChildren, // new component so everyone except yourself is available
+//     history,
+//     historyIndex,
+//     future,
+//   };
+// };
 
 //reducer function to add component or HTML child to currently focused component
 export const addChild = (

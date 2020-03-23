@@ -1,4 +1,5 @@
 import cloneDeep from '../helperFunctions/cloneDeep';
+import getColor from '../helperFunctions/colors';
 
 import {
   ComponentInt,
@@ -63,3 +64,21 @@ export const initialApplicationState: ApplicationStateInt = {
     future: []
   };
 
+export const initialComponentState: ComponentInt = {
+    id: 0,
+    stateful: false,
+    classBased: false,
+    title: '',
+    color: getColor(),
+    props: [],
+    nextPropId: 1,
+    position: {
+      x: 25,
+      y: 25,
+      width: 800,
+      height: 550,
+    },
+    childrenArray: [],
+    nextChildId: 1,
+    focusChildId: 0,
+  };
