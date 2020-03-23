@@ -22,7 +22,6 @@ import {
 } from '../utils/Interfaces';
 import createModal from '../utils/createModal.util';
 import cloneDeep from '../utils/cloneDeep';
-import { addProp } from '../actions/components';
 
 const IPC = require('electron').ipcRenderer;
 

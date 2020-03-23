@@ -12,7 +12,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
-import { addProp } from '../actions/components';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
 import {
@@ -333,26 +332,26 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 // // );
                 // console.log('this is title from LCEP', title);
                 // console.log('this is state components at LCEP', components);
-                const addedChildComponent = components.find(
-                  (component: ComponentInt) => component.title === title
-                );
-                // console.log('should find child object', addedChildComponent);
-                console.log(
-                  'this is addedChildComponent from LFEP key',
-                  addedChildComponent.props[0]['key']
-                );
-                console.log(
-                  'this is addedChildComponent from LFEP value',
-                  addedChildComponent.props[0]['value']
-                );
-                console.log(
-                  'this is addedChildComponent from LFEP required',
-                  addedChildComponent.props[0]['required']
-                );
-                console.log(
-                  'this is addedChildComponent from LFEP type',
-                  addedChildComponent.props[0]['type']
-                );
+                // const addedChildComponent = components.find(
+                //   (component: ComponentInt) => component.title === title
+                // );
+                // // console.log('should find child object', addedChildComponent);
+                // console.log(
+                //   'this is addedChildComponent from LFEP key',
+                //   addedChildComponent.props[0]['key']
+                // );
+                // console.log(
+                //   'this is addedChildComponent from LFEP value',
+                //   addedChildComponent.props[0]['value']
+                // );
+                // console.log(
+                //   'this is addedChildComponent from LFEP required',
+                //   addedChildComponent.props[0]['required']
+                // );
+                // console.log(
+                //   'this is addedChildComponent from LFEP type',
+                //   addedChildComponent.props[0]['type']
+                // );
                 addProp({
                   key: addedChildComponent.props[0]['key'],
                   value: addedChildComponent.props[0]['value'],
