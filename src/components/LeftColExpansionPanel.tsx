@@ -332,9 +332,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 // // );
                 // console.log('this is title from LCEP', title);
                 // console.log('this is state components at LCEP', components);
-                // const addedChildComponent = components.find(
-                //   (component: ComponentInt) => component.title === title
-                // );
+                const addedChildComponent = components.find(
+                  (component: ComponentInt) => component.title === title
+                );
                 // // console.log('should find child object', addedChildComponent);
                 // console.log(
                 //   'this is addedChildComponent from LFEP key',
@@ -352,14 +352,20 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 //   'this is addedChildComponent from LFEP type',
                 //   addedChildComponent.props[0]['type']
                 // );
-                addProp({
-                  key: addedChildComponent.props[0]['key'],
-                  value: addedChildComponent.props[0]['value'],
-                  required: addedChildComponent.props[0]['required'],
-                  type: addedChildComponent.props[0]['type']
-                });
-                addChild({ title, childType: 'COMP' });
-                changeFocusComponent({ title: focusComponent.title });
+                if (addedChildComponent.props.length > 1) {
+                  // addProp({
+                  //   key: addedChildComponent.props[0]['key'],
+                  //   value: addedChildComponent.props[0]['value'],
+                  //   required: addedChildComponent.props[0]['required'],
+                  //   type: addedChildComponent.props[0]['type']
+                  // });
+                  // addChild({ title, childType: 'COMP' });
+                  // changeFocusComponent({ title: addedChildComponent.title });
+                  console.log('add props works on child add');
+                } else {
+                  addChild({ title, childType: 'COMP' });
+                  changeFocusComponent({ title: focusComponent.title });
+                }
 
                 // changeFocusComponent({ title: focusComponent.title });
                 // changeFocusComponent({ title: addedChildComponent.title });

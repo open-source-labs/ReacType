@@ -143,6 +143,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
+      changeFocusComponent,
+      updateCode,
       focusChild
     } = this.props;
     const { value } = this.state;
@@ -229,6 +231,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <CodePreview
             focusComponent={focusComponent}
             components={components}
+            changeFocusComponent={changeFocusComponent}
+            updateCode={updateCode}
           />
         )}
         {value === 2 && <Props />}

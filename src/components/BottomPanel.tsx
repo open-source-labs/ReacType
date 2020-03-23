@@ -37,7 +37,7 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
     } = this.props;
 
     return (
-      <div className="bottom-panel" style={{ width: '100%' }}>
+      <div className='bottom-panel' style={{ width: '100%' }}>
         <BottomTabs
           components={components}
           focusComponent={focusComponent}
