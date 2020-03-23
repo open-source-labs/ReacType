@@ -100,6 +100,7 @@ export const changeFocusChild = ({ childId }: { childId: number }) => (
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
 
+
 export const changeFocusComponent = ({ title }: { title: string }) => (
   dispatch: (arg: Action) => void
 ) => {
