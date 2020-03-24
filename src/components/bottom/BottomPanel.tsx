@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components
+  components: store.workspace.components,
+  codeReadOnly: store.workspace.codeReadOnly
 });
 
 interface BottomPanelPropsInt extends PropsInt {
@@ -24,7 +25,8 @@ interface BottomPanelPropsInt extends PropsInt {
   addProp(prop: PropInt): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
-  toggleCodeEdit();
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -36,7 +38,9 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       addProp,
       focusChild,
       changeFocusComponent,
-      updateCode
+      updateCode,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
 
     return (
@@ -49,6 +53,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           focusChild={focusChild}
           changeFocusComponent={changeFocusComponent}
           updateCode={updateCode}
+          toggleCodeEdit={toggleCodeEdit}
+          codeReadOnly={codeReadOnly}
         />
       </div>
     );

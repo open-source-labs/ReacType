@@ -15,6 +15,8 @@ type CodePreviewProps = {
   updateCode(arg: { componentId: number; code: string }): void;
   changeFocusComponent(arg: { title: string }): void;
   classes: any;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 };
 interface StateInt {
   readOnly: boolean;
@@ -23,9 +25,6 @@ interface StateInt {
 class CodePreview extends Component<CodePreviewProps, StateInt> {
   constructor(props: CodePreviewProps) {
     super(props);
-    this.state = {
-      readOnly: false
-    };
   }
 
   //checking if the code has been asigned yet or not
@@ -93,7 +92,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
           }
           value={this.props.focusComponent.code}
           name="Code_div"
-          readOnly={this.state.readOnly}
+          readOnly={this.props.codeReadOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />
@@ -108,10 +107,10 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
             style={{ justifySelf: 'center' }}
             className={this.props.classes.startEdit}
             onClick={e => {
-              this.setState({ readOnly: !this.state.readOnly });
+              this.props.toggleCodeEdit();
             }}
           >
-            {this.state.readOnly ? 'Enter Edit Mode' : 'Exit Edit Mode'}
+            {this.props.codeReadOnly ? 'Enter Edit Mode' : 'Exit Edit Mode'}
           </Button>
           <div
             style={{
