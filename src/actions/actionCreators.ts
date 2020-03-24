@@ -3,7 +3,7 @@ import {
   ComponentsInt,
   PropInt,
   ChildInt,
-  Action,
+  Action
 } from '../interfaces/Interfaces';
 
 import {
@@ -15,6 +15,7 @@ import {
   CHANGE_FOCUS_COMPONENT,
   CHANGE_IMAGE_SOURCE,
   CHANGE_TUTORIAL,
+  CODE_EDIT,
   CREATE_APPLICATION,
   CREATE_APPLICATION_ERROR,
   CREATE_APPLICATION_SUCCESS,
@@ -36,7 +37,7 @@ import {
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
-  UPDATE_CODE,
+  UPDATE_CODE
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -62,17 +63,17 @@ export const addComponent = ({ title }: { title: string }) => (
 
 export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
-  payload: { ...prop },
+  payload: { ...prop }
 });
 
 export const changeTutorial = (tutorial: number) => ({
   type: CHANGE_TUTORIAL,
-  payload: { tutorial },
+  payload: { tutorial }
 });
 
 export const changeImagePath = (imageSource: string) => ({
   type: CHANGE_IMAGE_SOURCE,
-  payload: { imageSource },
+  payload: { imageSource }
 });
 
 export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
@@ -195,7 +196,7 @@ export const deleteAllData = () => ({
 });
 
 export const deleteImage = () => ({
-  type: DELETE_IMAGE,
+  type: DELETE_IMAGE
 });
 
 export const deleteProp = (propId: number) => (
@@ -214,7 +215,7 @@ export const exportFiles = ({
   components,
   path,
   appName,
-  exportAppBool,
+  exportAppBool
 }: {
   components: ComponentsInt;
   path: string;
@@ -223,26 +224,26 @@ export const exportFiles = ({
 }) => (dispatch: (arg: Action) => void) => {
   // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
   dispatch({
-    type: EXPORT_FILES,
+    type: EXPORT_FILES
   });
   createFiles(components, path, appName, exportAppBool)
     .then((dir: any) =>
       dispatch({
         type: EXPORT_FILES_SUCCESS,
-        payload: { status: true, dir: dir[0] },
+        payload: { status: true, dir: dir[0] }
       })
     )
     .catch((err: string) =>
       dispatch({
         type: EXPORT_FILES_ERROR,
-        payload: { status: true, err },
+        payload: { status: true, err }
       })
     );
 };
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
-  payload: false,
+  payload: false
 });
 
 export const handleTransform = (
@@ -252,7 +253,7 @@ export const handleTransform = (
     x,
     y,
     width,
-    height,
+    height
   }: { x: number; y: number; width: number; height: number }
 ) => ({
   type: HANDLE_TRANSFORM,
@@ -262,8 +263,8 @@ export const handleTransform = (
     x,
     y,
     width,
-    height,
-  },
+    height
+  }
 });
 
 export const loadInitData = () => (dispatch: (arg: Action) => void) => {
@@ -273,8 +274,8 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
       payload: {
         data: data
           ? { ...data.workspace, history: [], historyIndex: 0, future: [] } //erase history upon opening app
-          : {},
-      },
+          : {}
+      }
     });
   });
 };
@@ -302,7 +303,11 @@ export const toggleEditMode = ({ id }: { id: number }) => (
 };
 //action creators for undo and redo
 export const undo = () => ({
-  type: UNDO,
+  type: UNDO
+});
+
+export const toggleCodeEdit = () => ({
+  type: CODE_EDIT
 });
 
 export const updateCode = ({

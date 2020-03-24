@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import { handleClose, deleteProp, addProp } from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
+import { toggleCodeEdit } from '../../actions/actionCreators';
 
 const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  addProp: (prop: PropInt) => dispatch(addProp(prop))
+  addProp: (prop: PropInt) => dispatch(addProp(prop)),
+  toggleCodeEdit: () => dispatch(toggleCodeEdit())
 });
 
 const mapStateToProps = (store: any) => ({
@@ -22,6 +24,7 @@ interface BottomPanelPropsInt extends PropsInt {
   addProp(prop: PropInt): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleCodeEdit();
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {

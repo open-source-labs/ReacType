@@ -5,38 +5,41 @@ import { ComponentInt, ComponentsInt } from '../../interfaces/Interfaces';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { mergeClasses } from '@material-ui/styles';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
   components: ComponentsInt;
   updateCode(arg: { componentId: number; code: string }): void;
   changeFocusComponent(arg: { title: string }): void;
+  classes: any;
 };
 interface StateInt {
-  code: string;
+  readOnly: boolean;
 }
 
 class CodePreview extends Component<CodePreviewProps, StateInt> {
   constructor(props: CodePreviewProps) {
     super(props);
     this.state = {
-      code: ''
+      readOnly: false
     };
   }
 
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
   componentDidMount() {
-    if (
-      this.props.focusComponent.code == '' ||
-      this.props.focusComponent.changed
-    ) {
+    if (this.props.focusComponent.changed) {
+      this.setState({ readOnly: !this.state.readOnly });
       this.generateNewCode();
     }
   }
 
   componentDidUpdate(prevProp: CodePreviewProps) {
     if (this.props.focusComponent.changed !== prevProp.focusComponent.changed) {
+      this.setState({ readOnly: !this.state.readOnly });
       this.generateNewCode();
     }
   }
@@ -63,20 +66,25 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
     return (
       <div
         style={{
-          height: '80%',
+          height: '90%',
           paddingLeft: '0px',
-          paddingTop: '10px',
+          paddingTop: '1rem',
+          paddingBottom: '1rem',
           overflow: 'auto',
           maxWidth: '60%',
-          border: '2px solid #33eb91',
-          borderRadius: '5px'
+          display: 'flex',
+          justifyContent: 'center'
         }}
       >
         <AceEditor
           mode="javascript"
           theme="monokai"
-          width="100%%"
+          width="100%"
           height="100%"
+          style={{
+            border: '2px solid #33eb91',
+            borderRadius: '8px'
+          }}
           onChange={code =>
             this.props.updateCode({
               componentId: this.props.focusComponent.id,
@@ -85,21 +93,73 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
           }
           value={this.props.focusComponent.code}
           name="Code_div"
+          readOnly={this.state.readOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />
-        {/* <Button
-          color="primary"
-          aria-label="Add"
-          type="submit"
-          // disabled={!this.state.propKey || !this.state.propType}
-          variant="contained"
-          size="large"
-          className={classes.addProp}
-        ></Button> */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Button
+            color="primary"
+            aria-label="Add"
+            type="submit"
+            // disabled={!this.state.propKey || !this.state.propType}
+            variant="contained"
+            size="large"
+            style={{ justifySelf: 'center' }}
+            className={this.props.classes.startEdit}
+            onClick={e => {
+              this.setState({ readOnly: !this.state.readOnly });
+            }}
+          >
+            {this.state.readOnly ? 'Enter Edit Mode' : 'Exit Edit Mode'}
+          </Button>
+          <div
+            style={{
+              width: '25rem',
+              marginLeft: '3rem',
+              marginTop: '1rem',
+              color: '##fff'
+            }}
+          >
+            <p>
+              <strong>
+                <u>Warning</u>:
+              </strong>
+              <span>
+                {' '}
+                all of the changes added in the "Edit Mode" will be overridden
+                if:
+              </span>
+            </p>
+            <ul>
+              <li>Class or State toggles are changed</li>
+              <li>
+                HTML Elements, Props, or Children are added to this component
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default CodePreview;
+const styles = () => ({
+  startEdit: {
+    width: '25rem',
+    marginLeft: '3rem',
+    marginRight: '3rem',
+    height: '4rem',
+    transition: 'all 0.1s ease-out',
+    border: '2px solid #33eb91',
+    background: 'transparent',
+    color: '#fff',
+    '&:hover': {
+      transform: 'scale(1.1)',
+      fontSize: '1.2rem',
+      backgroundColor: '#33eb91',
+      color: '#006400'
+    }
+  }
+});
+export default withStyles(styles)(CodePreview);
