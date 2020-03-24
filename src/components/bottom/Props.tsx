@@ -23,6 +23,7 @@ interface PropsPropsInt extends PropsInt {
 
 const styles = (theme: any) => ({
   root: {
+    marginTop: '60px',
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap'
@@ -56,14 +57,15 @@ const styles = (theme: any) => ({
     fontSize: '35px',
     fontWeight: '900',
     marginLeft: '1rem',
-    paddingTop: '10px'
+    marginTop: '80px',
+    paddingTop: '50px'
   },
   dataTableHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '22rem',
-    marginTop: '15px',
-    paddingTop: '10px'
+    marginLeft: '250px',
+    marginTop: '80px',
+    paddingTop: '50px'
   },
   cssFocused: {},
   input: {
@@ -279,7 +281,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
             Click a component to view its props.
           </div>
         ) : (
-          <Fragment>
+          <Fragment className={classes.TopContainer}>
             <div>
               <span>
                 <span className={classes.propHeader}>

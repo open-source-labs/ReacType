@@ -508,78 +508,10 @@ export const exportFilesError = (
 //Reducer that toggles the component class
 export const toggleComponentClass = (
   state: ApplicationStateInt,
-<<<<<<< HEAD:src/utils/componentReducer.util.ts
-  {
-    key,
-    // value = null,
-    // required,
-    type
-  }: { key: string; /*value: string; required: boolean; */ type: string }
-) => {
-  if (!state.focusComponent.id) {
-    console.log('Add prop error. no focused component ');
-    return state;
-  }
-
-  // function finds the "focused component" inside the components array so that
-  // anytime you call on selectedComponent, it's affecting the right component in the components array
-  const selectedComponent = state.components.find(
-    (comp: ComponentInt) => comp.id === state.focusComponent.id
-  );
-
-  // create a newProp object
-  const newProp: PropInt = {
-    id: selectedComponent.nextPropId,
-    key,
-    // value: value || key,
-    // required,
-    type
-  };
-  console.log('this is newPROP', newProp);
-
-  const newProps = [...selectedComponent.props, newProp];
-  // console.log('this is new PROPS', newProps);
-  const modifiedComponent: ComponentInt = {
-    ...selectedComponent,
-    props: newProps,
-    nextPropId: selectedComponent.nextPropId + 1,
-    changed: true
-  };
-
-  const newComponents: ComponentsInt = state.components.filter(
-    (comp: ComponentInt) => comp.id !== selectedComponent.id
-  );
-  newComponents.push(modifiedComponent);
-  const { history, historyIndex, future } = createHistory(state);
-
-  console.log('this is newComponents component', newComponents);
-  return {
-    ...state,
-    components: newComponents,
-    focusComponent: modifiedComponent,
-    historyIndex,
-    history,
-    future
-  };
-};
-
-export const deleteProp = (state: ApplicationStateInt, propId: number) => {
-  if (!state.focusComponent.id) {
-    console.log('Delete prop error. no focused component ');
-    return state;
-  }
-
-  const modifiedComponent: any = cloneDeep(
-    state.components.find(
-      (comp: ComponentInt) => comp.id === state.focusComponent.id
-    )
-  );
-=======
   { id }: { id: number }
 ) => {
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
->>>>>>> 5a028c1fce84a32772e1ce0854e8516b5f143c8b:src/reducers/leftReducers.ts
 
   if (!state.codeReadOnly) {
     const check = window.confirm(

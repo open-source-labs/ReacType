@@ -19,11 +19,7 @@ import {
   ComponentsInt,
   PropsInt,
   PropInt
-} from '../../interfaces/Interfaces';
-// import { format } from 'prettier';
-// import componentRender from '../utils/componentRender.util';
-// import { addProp } from '../actions/components';
-
+} from '../../interfaces/Interfaces'; // unused
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;

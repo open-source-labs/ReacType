@@ -143,8 +143,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       deleteProp,
       addProp,
       changeFocusComponent,
-      updateCode,
       focusChild,
+      updateCode,
       toggleCodeEdit,
       codeReadOnly
     } = this.props;

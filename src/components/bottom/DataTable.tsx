@@ -11,7 +11,7 @@ import { IconButton } from '@material-ui/core';
 
 const styles = (theme: Theme) => ({
   root: {
-    width: '80%',
+    width: '650px',
     marginTop: theme.spacing.unit * 3,
     borderRadius: '8px',
     // boxShadow: '0px 0px 5px 2px #97ffb6'
@@ -136,7 +136,7 @@ function dataTable(props: dataTableProps) {
   return (
     <Paper className={classes.root}>
       <div className={classes.tableContainer}>
-        <Table className={classes.table}>
+        <Table className={classes.table} selectable={'true'}>
           <TableHead>
             <TableRow>{renderHeader}</TableRow>
           </TableHead>
