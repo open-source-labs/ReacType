@@ -507,6 +507,16 @@ export const toggleComponentClass = (
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
 
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to change the Class toggle for the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   //iterate array, and invert statefulness for targeted component based on id prop
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
@@ -522,7 +532,8 @@ export const toggleComponentClass = (
     components: componentCopy,
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 
@@ -534,6 +545,16 @@ export const toggleComponentState = (
   //creates a deep copy of the components array
   const componentsCopy = cloneDeep(state.components);
 
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to change the State toggle for the ${state.focusComponent.title}  component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   //iterate array, and invert statefulness for targeted component based on id prop
   componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
@@ -550,7 +571,8 @@ export const toggleComponentState = (
     components: componentsCopy,
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 //a reducer function to see if component name editing mode should be entered
