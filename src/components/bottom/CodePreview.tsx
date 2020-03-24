@@ -31,14 +31,12 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
   //if no then generate code and asign to a focus component
   componentDidMount() {
     if (this.props.focusComponent.changed) {
-      this.setState({ readOnly: !this.state.readOnly });
       this.generateNewCode();
     }
   }
 
   componentDidUpdate(prevProp: CodePreviewProps) {
     if (this.props.focusComponent.changed !== prevProp.focusComponent.changed) {
-      this.setState({ readOnly: !this.state.readOnly });
       this.generateNewCode();
     }
   }
@@ -133,7 +131,8 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
             <ul>
               <li>Class or State toggles are changed</li>
               <li>
-                HTML Elements, Props, or Children are added to this component
+                HTML Elements, Props, or Children are added/removed to/from the
+                current component
               </li>
             </ul>
           </div>
