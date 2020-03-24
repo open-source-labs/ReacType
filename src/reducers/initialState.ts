@@ -18,8 +18,8 @@ export const appComponent: ComponentInt = {
   position: {
     x: 25,
     y: 25,
-    width: 600,
-    height: 400
+    width: 1200,
+    height: 800
   },
   childrenArray: [],
   nextChildId: 1,
@@ -58,6 +58,7 @@ export const initialApplicationState: ApplicationStateInt = {
   initialApplicationFocusChild,
   focusChild: cloneDeep(initialApplicationFocusChild),
   editMode: -1,
+  native: false,
   components: [appComponent],
   appDir: '',
   loading: false,

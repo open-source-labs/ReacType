@@ -80,12 +80,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   };
 
   return (
-    <Collapse
-      in={focusedToggle}
-      collapsedHeight={'100px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
-      style={{ borderRadius: '5px' }}
-      timeout="auto"
-    >
       <Grid
         container
         direction="row"
@@ -312,7 +306,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           )}
         </Grid>
       </Grid>
-    </Collapse>
   );
 };
 function styles(): object {

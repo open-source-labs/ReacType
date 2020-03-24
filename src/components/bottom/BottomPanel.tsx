@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp } from '../../actions/actionCreators';
+import { handleClose, deleteProp, addProp, toggleNative } from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 
 const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
-  handleNotificationClose: () => dispatch(handleClose()),
+  addProp: (prop: PropInt) => dispatch(addProp(prop)),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  addProp: (prop: PropInt) => dispatch(addProp(prop))
+  handleNotificationClose: () => dispatch(handleClose()),
+  toggleNative: () => dispatch(toggleNative())
 });
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components
+  components: store.workspace.components,
+  native: store.workspace.native
 });
 
 interface BottomPanelPropsInt extends PropsInt {
@@ -22,6 +24,8 @@ interface BottomPanelPropsInt extends PropsInt {
   addProp(prop: PropInt): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleNative(): void;
+  native: boolean;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -33,7 +37,9 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       addProp,
       focusChild,
       changeFocusComponent,
-      updateCode
+      updateCode,
+      toggleNative,
+      native
     } = this.props;
 
     return (
@@ -46,6 +52,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           focusChild={focusChild}
           changeFocusComponent={changeFocusComponent}
           updateCode={updateCode}
+          toggleNative={toggleNative}
+          native={native}
         />
       </div>
     );

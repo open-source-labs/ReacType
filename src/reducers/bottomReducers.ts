@@ -4,10 +4,9 @@ import {
   ChildInt,
   ComponentInt,
   ComponentsInt,
-  PropInt,
+  PropInt
 } from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
-
 
 export const addProp = (
   state: ApplicationStateInt,
@@ -104,8 +103,21 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
 export const handleClose = (state: ApplicationStateInt, status: string) => ({
   ...state,
   errorOpen: status,
-  successOpen: status,
+  successOpen: status
 });
+
+export const toggleNative = (state: ApplicationStateInt) => {
+  const components = cloneDeep(state.components);
+  const app = components.find(e => e.id === 1);
+  app.position.width = !state.native ? 500 : 1200;
+  app.position.height = !state.native ? 750 : 800;
+
+  return {
+    ...state,
+    native: !state.native,
+    components
+  };
+};
 
 export const updateChildrenSort = (
   state: ApplicationStateInt,
@@ -141,7 +153,7 @@ export const updateChildrenSort = (
   return {
     ...state,
     components: modifiedComponentsArray,
-    focusComponent: modifiedComponent,
+    focusComponent: modifiedComponent
   };
 };
 

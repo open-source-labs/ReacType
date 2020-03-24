@@ -7,7 +7,11 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
+import Switch from '@material-ui/core/Switch';
 import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
+import Box from '@material-ui/core/Box';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -15,13 +19,9 @@ interface BottomTabsPropsInt extends PropsInt {
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleNative(): void;
+  native: boolean;
 }
-
-// interface TreeInt {
-//   name: string;
-//   attributes: { [key: string]: { value: string } };
-//   children: TreeInt[];
-// }
 
 interface StateInt {
   value: number;
@@ -34,7 +34,12 @@ const styles = (theme: Theme): any => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+  },
+  bottomHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tabsRoot: {
     borderBottom: '0.5px solid #424242'
@@ -44,7 +49,7 @@ const styles = (theme: Theme): any => ({
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 72,
+    minWidth: 0,
     fontWeight: theme.typography.fontWeightRegular,
     // marginRight: theme.spacing.unit * 4,
     marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
@@ -79,6 +84,10 @@ const styles = (theme: Theme): any => ({
   },
   padding: {
     padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
+  },
+  switch: {
+    marginRight: '10px',
+    marginTop: '2px'
   }
 });
 
@@ -102,7 +111,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     });
   }
 
-  handleChange = (event: any, value: number) => {
+  handleChange = (event: React.ChangeEvent, value: number) => {
     this.setState({ value });
   };
 
@@ -110,6 +119,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     if (!event.attributes.Type) {
       this.props.changeFocusComponent({ title: event.name });
     }
+  };
+
+  toggleNative = () => {
+    this.props.toggleNative();
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
@@ -138,10 +151,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       classes,
       components,
       focusComponent,
-      deleteProp,
-      addProp,
       focusChild,
-      updateCode
+      toggleNative,
+      updateCode,
+      native
     } = this.props;
     const { value } = this.state;
 
@@ -153,43 +166,55 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     return (
       <div className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={this.handleChange}
-          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Application Tree'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Code Preview'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${
-              htmlAttribCount ? `(${htmlAttribCount})` : ''
-            } `}
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child Props'
-          />
-        </Tabs>
-
+        <Box display="flex" justifyContent="space-between">
+          <Tabs
+            value={value}
+            onChange={this.handleChange}
+            classes={{
+              root: classes.tabsRoot,
+              indicator: classes.tabsIndicator
+            }}
+          >
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Application Tree"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Code Preview"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`Component Props ${propCount ? `(${propCount})` : ''} `}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`HTML Element Attributes ${
+                htmlAttribCount ? `(${htmlAttribCount})` : ''
+              } `}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Add Child Props"
+            />
+          </Tabs>
+          <FormGroup>
+            <FormControlLabel
+              className={classes.switch}
+              control={<Switch checked={native} color="primary" onChange={() => toggleNative()} />}
+              label="Native Mode"
+              labelPlacement="start"
+            />
+          </FormGroup>
+        </Box>
         {value === 0 && (
           <div
-            id='treeWrapper'
+            id="treeWrapper"
             style={{
               width: '100%',
               height: '100%'

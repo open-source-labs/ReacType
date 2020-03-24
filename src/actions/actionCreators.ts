@@ -33,6 +33,7 @@ import {
   LOAD_INIT_DATA,
   REDO,
   TOGGLE_CLASS,
+  TOGGLE_NATIVE,
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
@@ -302,7 +303,11 @@ export const toggleEditMode = ({ id }: { id: number }) => (
 ) => {
   dispatch({ type: EDIT_MODE, payload: { id } });
 };
-//action creators for undo and redo
+
+export const toggleNative = () => ({
+  type: TOGGLE_NATIVE,
+});
+
 export const undo = () => ({
   type: UNDO,
 });
