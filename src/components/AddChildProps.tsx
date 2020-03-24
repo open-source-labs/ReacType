@@ -43,7 +43,7 @@ class AddChildProps extends Component {
     // IIFE : so that it runs without needing to be invoked
     (() => {
       focusComponent.props.map(prop => {
-        // console.log('this is component Name from props array', prop.key);
+
         arrayPropsAvailable.push(
           <span>
             <input
@@ -61,8 +61,6 @@ class AddChildProps extends Component {
         );
       });
     })();
-
-    console.log('this is the array of props available', arrayPropsAvailable);
 
     return (
       <div>

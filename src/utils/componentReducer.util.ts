@@ -783,19 +783,12 @@ export const addProp = (
     console.log('Add prop error. no focused component ');
     return state;
   }
-  console.log('this is key', key);
 
   // function finds the "focused component" inside the components array so that
-  // anytime you call on selectedComponent, it's affecting the right component in the
-  // components array
+  // anytime you call on selectedComponent, it's affecting the right component in the components array
   const selectedComponent = state.components.find(
     (comp: ComponentInt) => comp.id === state.focusComponent.id
   );
-  console.log('focused component', state.focusComponent);
-
-  // selectedComponent.props.map(value =>
-  //   console.log('values from focused component', value)
-  // );
 
   // create a newProp object
   const newProp: PropInt = {

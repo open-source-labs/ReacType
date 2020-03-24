@@ -125,8 +125,6 @@ const styles = (theme: any) => ({
     }
   },
   dataTable: {
-    border: '1px solid red',
-    backgroundColor: 'red',
     width: '60%'
   },
   light: {
