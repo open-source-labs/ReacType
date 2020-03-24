@@ -4,12 +4,12 @@ import getSelectable from '../helperFunctions/getSelectable';
 import {
   ComponentInt,
   ApplicationStateInt,
-  ChildInt,
+  ChildInt
 } from '../interfaces/Interfaces';
 import { initialComponentState } from './initialState';
 import { createHistory } from '../helperFunctions/createHistory';
 import { getSize } from '../utils/htmlElements.util';
-import { generateNewCode } from '../helperFunctions/generateNewCode'
+import { generateNewCode } from '../helperFunctions/generateNewCode';
 
 export const addChild = (
   state: ApplicationStateInt,
@@ -43,7 +43,7 @@ export const addChild = (
   );
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
-  let parentComponent;
+  let parentComponent: ComponentInt;
 
   // conditional if adding an HTML component
   if (childType === 'COMP') {
@@ -52,6 +52,23 @@ export const addChild = (
     );
   }
 
+  let check: boolean;
+  if (!state.codeReadOnly) {
+    if (childType === 'COMP') {
+      check = window.confirm(
+        `Are you sure you want to add ${strippedTitle} as a child to ${parentComponent.title} while the program is in "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${parentComponent.title} component will be overridden!`
+      );
+    } else {
+      check = window.confirm(
+        `Are you sure you want to add an HTML element to ${view.title} component while the program is in "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${view.title} component will be overridden!`
+      );
+    }
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   interface htmlElemPositionInt {
     width: number;
     height: number;
@@ -124,7 +141,8 @@ export const addChild = (
     focusComponent: component, // refresh the focus component so we have the new child
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 
@@ -218,41 +236,41 @@ export const addComponent = (
 };
 
 export const changeFocusComponent = (
-    state: ApplicationStateInt,
-    { title = state.focusComponent.title }: { title: string }
-  ) => {
-    /** ****************
-     * if the prm TITLE is a blank Object it means REFRESH focusd Components.
-     * sometimes we update state  like adding Children/Props etc and we want those changes to be reflected in focus component
-     ************************************************* */
-    const newFocusComp: ComponentInt = state.components.find(
-      (comp: ComponentInt) => comp.title === title
+  state: ApplicationStateInt,
+  { title = state.focusComponent.title }: { title: string }
+) => {
+  /** ****************
+   * if the prm TITLE is a blank Object it means REFRESH focusd Components.
+   * sometimes we update state  like adding Children/Props etc and we want those changes to be reflected in focus component
+   ************************************************* */
+  const newFocusComp: ComponentInt = state.components.find(
+    (comp: ComponentInt) => comp.title === title
+  );
+
+  // set the "focus child" to the focus child of this particular component .
+
+  let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
+  if (newFocusComp.focusChildId > 0) {
+    newFocusChild = newFocusComp.childrenArray.find(
+      (child: ChildInt) => child.childId === newFocusComp.focusChildId
     );
-  
-    // set the "focus child" to the focus child of this particular component .
-  
-    let newFocusChild: ChildInt | any; // check if the components has a child saved as a Focus child
-    if (newFocusComp.focusChildId > 0) {
-      newFocusChild = newFocusComp.childrenArray.find(
-        (child: ChildInt) => child.childId === newFocusComp.focusChildId
-      );
-    }
-  
-    if (!newFocusChild) {
-      newFocusChild = cloneDeep(state.initialApplicationFocusChild);
-    }
-  
-    const result = getSelectable(newFocusComp, state.components);
-  
-    return {
-      ...state,
-      editMode: -1,
-      focusComponent: newFocusComp,
-      selectableChildren: result.selectableChildren,
-      ancestors: result.ancestors,
-      focusChild: newFocusChild,
-    };
+  }
+
+  if (!newFocusChild) {
+    newFocusChild = cloneDeep(state.initialApplicationFocusChild);
+  }
+
+  const result = getSelectable(newFocusComp, state.components);
+
+  return {
+    ...state,
+    editMode: -1,
+    focusComponent: newFocusComp,
+    selectableChildren: result.selectableChildren,
+    ancestors: result.ancestors,
+    focusChild: newFocusChild
   };
+};
 
 //change image source
 export const changeImageSource = (
@@ -266,7 +284,7 @@ export const changeImageSource = (
     imageSource,
     history,
     historyIndex,
-    future,
+    future
   };
 };
 
@@ -295,7 +313,6 @@ export const deleteChild = (
     window.alert('Cannot delete root child of a component');
     return state;
   }
-
   // make a DEEP copy of the parent component (the one thats about to loose a child)
   const parentComponentCopy: any = cloneDeep(
     state.components.find((comp: ComponentInt) => comp.id === parentId)
@@ -305,6 +322,16 @@ export const deleteChild = (
   const indexToDelete = parentComponentCopy.childrenArray.findIndex(
     (elem: ChildInt) => elem.childId === childId
   );
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to delete ${parentComponentCopy.childrenArray[indexToDelete].componentName} as a child to ${parentComponentCopy.title} while the program is in "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${parentComponentCopy.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   if (indexToDelete < 0) {
     return window.alert('No such child component found');
   }
@@ -338,7 +365,8 @@ export const deleteChild = (
         ] || cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 
@@ -351,17 +379,31 @@ export const deleteComponent = (
   const compName = state.components.filter(
     (value: ComponentInt) => value.id === componentId
   );
-  //confimation window to see if user really wants to delete component
-  const result = window.confirm(
-    `Are you sure you want to delete ${compName[0].title}?`
-  );
-  //if cancelled, return focus to current selected component
-  if (!result) {
-    return {
-      ...state,
-      focusComponent: compName[0]
-    };
+
+  //if the program is in the edit mode
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to delete ${compName[0].title} while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the related components will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state,
+        focusComponent: compName[0]
+      };
+    }
+  } else {
+    //confirmation window to see if user really wants to delete component
+    const result = window.confirm(
+      `Are you sure you want to delete ${compName[0].title}?\n\nAll of the changes to the "Code Preview" for the related components will be overridden!`
+    );
+    if (!result) {
+      return {
+        ...state,
+        focusComponent: compName[0]
+      };
+    }
   }
+  //if cancelled, return focus to current selected component
   //if app is selected, return state
   //is this really necessary if the App component is disabled from being deleted? -Tony
   if (componentId === 1) {
@@ -390,7 +432,8 @@ export const deleteComponent = (
     components: componentsCopy,
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 
@@ -437,24 +480,24 @@ export const editComponent = (
 };
 
 export const exportFilesSuccess = (
-    state: ApplicationStateInt,
-    { status, dir }: { status: boolean; dir: string }
-  ) => ({
-    ...state,
-    successOpen: status,
-    appDir: dir,
-    loading: false,
-  });
-  
-  export const exportFilesError = (
-    state: ApplicationStateInt,
-    { status, err }: { status: boolean; err: string }
-  ) => ({
-    ...state,
-    errorOpen: status,
-    appDir: err,
-    loading: false,
-  });
+  state: ApplicationStateInt,
+  { status, dir }: { status: boolean; dir: string }
+) => ({
+  ...state,
+  successOpen: status,
+  appDir: dir,
+  loading: false
+});
+
+export const exportFilesError = (
+  state: ApplicationStateInt,
+  { status, err }: { status: boolean; err: string }
+) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err,
+  loading: false
+});
 
 //Reducer that toggles the component class
 export const toggleComponentClass = (
@@ -464,6 +507,16 @@ export const toggleComponentClass = (
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
 
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to change the Class toggle for the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   //iterate array, and invert statefulness for targeted component based on id prop
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
@@ -479,10 +532,10 @@ export const toggleComponentClass = (
     components: componentCopy,
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
-
 
 //Reducer that toggles the component statefulness
 export const toggleComponentState = (
@@ -492,6 +545,16 @@ export const toggleComponentState = (
   //creates a deep copy of the components array
   const componentsCopy = cloneDeep(state.components);
 
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to change the State toggle for the ${state.focusComponent.title}  component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
   //iterate array, and invert statefulness for targeted component based on id prop
   componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
@@ -508,7 +571,8 @@ export const toggleComponentState = (
     components: componentsCopy,
     history,
     historyIndex,
-    future
+    future,
+    codeReadOnly: true
   };
 };
 //a reducer function to see if component name editing mode should be entered
@@ -518,11 +582,11 @@ export const toggleEditMode = (
 ) => {
   if (id === 1) {
     return {
-      ...state,
+      ...state
     };
   }
   return {
     ...state,
-    editMode: id,
+    editMode: id
   };
 };

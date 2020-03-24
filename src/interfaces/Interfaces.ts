@@ -82,6 +82,7 @@ export interface ApplicationStateInt {
   history: ApplicationStateInt[];
   historyIndex: number;
   future: ApplicationStateInt[];
+  codeReadOnly: boolean;
 }
 
 //Global Action interface \

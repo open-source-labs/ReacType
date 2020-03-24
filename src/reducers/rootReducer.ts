@@ -29,7 +29,8 @@ import {
   deleteProp,
   updateChildrenSort,
   updateHtmlAttr,
-  updateCode
+  updateCode,
+  toggleCodeEdit
 } from './bottomReducers';
 import {
   ADD_CHILD,
@@ -40,6 +41,7 @@ import {
   CHANGE_FOCUS_COMPONENT,
   CHANGE_IMAGE_SOURCE,
   CHANGE_TUTORIAL,
+  CODE_EDIT,
   DELETE_ALL_DATA,
   DELETE_CHILD,
   DELETE_COMPONENT,
@@ -101,6 +103,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeImageSource(state, action.payload);
     case CHANGE_TUTORIAL:
       return changeTutorial(state, action.payload);
+    case CODE_EDIT:
+      return toggleCodeEdit(state);
     case DELETE_ALL_DATA:
       return {
         ...initialApplicationState,
