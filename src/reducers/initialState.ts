@@ -64,7 +64,8 @@ export const initialApplicationState: ApplicationStateInt = {
   loading: false,
   history: [],
   historyIndex: 0,
-  future: []
+  future: [],
+  codeReadOnly: true
 };
 
 export const initialComponentState: ComponentInt = {

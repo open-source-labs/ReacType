@@ -22,6 +22,8 @@ interface BottomTabsPropsInt extends PropsInt {
   toggleNative(): void;
   nativeImage(): void;
   native: boolean;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 interface StateInt {
@@ -157,7 +159,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       toggleNative,
       updateCode,
       native,
-      nativeImage
+      nativeImage,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
     const { value } = this.state;
 
@@ -260,6 +264,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             updateCode={updateCode}
             components={components}
             changeFocusComponent={this.props.changeFocusComponent}
+            toggleCodeEdit={toggleCodeEdit}
+            codeReadOnly={codeReadOnly}
           />
         )}
         {value === 2 && <Props />}

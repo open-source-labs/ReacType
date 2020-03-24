@@ -106,6 +106,11 @@ export const handleClose = (state: ApplicationStateInt, status: string) => ({
   successOpen: status
 });
 
+export const toggleCodeEdit = (state: ApplicationStateInt) => ({
+  ...state,
+  codeReadOnly: !state.codeReadOnly
+});
+
 export const toggleNative = (state: ApplicationStateInt) => {
   const components = cloneDeep(state.components);
   const app = components.find(e => e.id === 1);

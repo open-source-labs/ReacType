@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { handleClose, deleteProp, addProp, toggleNative } from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
+import { toggleCodeEdit } from '../../actions/actionCreators';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -10,13 +11,15 @@ const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
   handleNotificationClose: () => dispatch(handleClose()),
-  toggleNative: () => dispatch(toggleNative())
+  toggleNative: () => dispatch(toggleNative()),
+  toggleCodeEdit: () => dispatch(toggleCodeEdit())
 });
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
   components: store.workspace.components,
-  native: store.workspace.native
+  native: store.workspace.native,
+  codeReadOnly: store.workspace.codeReadOnly
 });
 
 interface BottomPanelPropsInt extends PropsInt {
@@ -27,6 +30,8 @@ interface BottomPanelPropsInt extends PropsInt {
   toggleNative(): void;
   nativeImage(): void;
   native: boolean;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -41,7 +46,9 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       updateCode,
       toggleNative,
       native,
-      nativeImage
+      nativeImage,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
 
     return (
@@ -57,6 +64,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           toggleNative={toggleNative}
           native={native}
           nativeImage={nativeImage}
+          toggleCodeEdit={toggleCodeEdit}
+          codeReadOnly={codeReadOnly}
         />
       </div>
     );
