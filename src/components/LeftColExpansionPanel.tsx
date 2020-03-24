@@ -90,6 +90,30 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     }
   };
 
+  const addChildProps = () => {
+    const addedChildProps = components.find(
+      (component: ComponentInt) => component.title === title
+    );
+    let i = 0;
+    while (i <= addedChildProps.props.length) {
+      if (addedChildProps.props.length) {
+        if (i === 0) {
+          addChild({ title, childType: 'COMP' });
+          changeFocusComponent({ title: focusComponent.title });
+        }
+        addProp({
+          key: addedChildProps.props[i]['key'],
+          type: addedChildProps.props[i]['type']
+        });
+      } else {
+        if (i === 0) {
+          addChild({ title, childType: 'COMP' });
+          changeFocusComponent({ title: focusComponent.title });
+        }
+      }
+      i++;
+    }
+  };
   return (
     <Grid
       container
@@ -314,92 +338,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             <IconButton
               aria-label='Add'
               onClick={() => {
-                // console.log('first step to adding child');
-                // console.log('this is focusComponent', focusComponent);
-                // console.log(
-                //   'this is components in leftcolexpansion',
-                //   components
-                // );
-                // console.log('this is child "title" that gets added', title);
-                // creating a variable to add to parents from chlid props
-
-                // let addedChildProps = components.map((current, index) => {
-                //   // if (current && current.title === title) {
-                //   //   // current.title === title
-                //   //   //   ? console.log('current', current.props[0].key)
-                //   //   //   : null;
-                //   //   console.log('this is current', current.props[0]['id']);
-                //   // }
-                // console.log(
-                //   'this is focused component from LCEP',
-                //   focusComponent
-                // // );
-                // console.log('this is title from LCEP', title);
-                // console.log('this is state components at LCEP', components);
-                const addedChildComponent = components.find(
-                  (component: ComponentInt) => component.title === title
-                );
-                // // console.log('should find child object', addedChildComponent);
-                // console.log(
-                //   'this is addedChildComponent from LFEP key',
-                //   addedChildComponent.props[0]['key']
-                // );
-                // console.log(
-                //   'this is addedChildComponent from LFEP value',
-                //   addedChildComponent.props[0]['value']
-                // );
-                // console.log(
-                //   'this is addedChildComponent from LFEP required',
-                //   addedChildComponent.props[0]['required']
-                // );
-                // console.log(
-                //   'this is addedChildComponent from LFEP type',
-                //   addedChildComponent.props[0]['type']
-                // );
-                // let i = 0;
-                // while (i < addedChildComponent.props.length)
-                if (addedChildComponent.props.length) {
-                  console.log(
-                    'this is addedChildComponent from LFEP key',
-                    addedChildComponent.props[0]['key']
-                  );
-                  console.log(
-                    'this is addedChildComponent from LFEP type',
-                    addedChildComponent.props[0]['type']
-                  );
-                  // addProp({
-                  //   key: addedChildComponent.props[0]['key'].toString(),
-                  //   type: addedChildComponent.props[0]['type'].toString()
-                  // });
-                  // console.log('focuscomponent before add', focusComponent);
-
-                  // console.log('focuscomponent AFTER add', focusComponent);
-                  console.log('addedChildComponent', addedChildComponent);
-                  addChild({ title, childType: 'COMP' });
-                  addProp({
-                    key: addedChildComponent.props[0]['key'],
-                    type: addedChildComponent.props[0]['type']
-                  });
-                  changeFocusComponent({ title: focusComponent.title });
-                  // changeFocusComponent({ title: focusComponent.title });
-                  // changeFocusComponent({ title: addedChildComponent.title });
-                  // changeFocusComponent({ title: focusComponent.title });
-                  // changeFocusComponent({ title: focusComponent.title });
-                  // addChild({ title, childType: 'COMP' });
-                  // changeFocusComponent({ title: addedChildComponent.title });
-                  // }
-                  //   addChild({ title, childType: 'COMP' });
-                  //   changeFocusComponent({ title: focusComponent.title });
-                  //   console.log(
-                  //     'add props works on child add',
-                  //     addedChildComponent.title
-                  //   );
-                  // changeFocusComponent({ title: focusComponent.title });
-                } else {
-                  console.log('add props does NOT work on child add');
-                  addChild({ title, childType: 'COMP' });
-                  changeFocusComponent({ title: focusComponent.title });
-                }
+                addChildProps();
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
