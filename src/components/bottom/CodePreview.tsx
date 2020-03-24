@@ -18,14 +18,9 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-interface StateInt {
-  readOnly: boolean;
-}
 
-class CodePreview extends Component<CodePreviewProps, StateInt> {
-  constructor(props: CodePreviewProps) {
-    super(props);
-  }
+
+class CodePreview extends Component<CodePreviewProps> {
 
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
