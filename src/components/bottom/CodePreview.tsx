@@ -7,7 +7,6 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import { mergeClasses } from '@material-ui/styles';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
@@ -18,7 +17,6 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-
 
 class CodePreview extends Component<CodePreviewProps> {
 
