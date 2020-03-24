@@ -14,10 +14,10 @@ import { HTMLelements } from '../../utils/htmlElements.util';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 
 interface HTMLAttrPropsInt extends PropsInt {
-  classes: any;
-  updateHtmlAttr(arg: { attr: string; value: string }): void;
-  deleteProp(id: number): void;
-  addProp(prop: PropInt): void;
+  /*JZ: had to make all props optional, for PropsInt as well, due to typing errors in parent component
+  because no props were passed down since they are all obtained from redux store */
+  classes?: any;
+  updateHtmlAttr?: (arg: { attr: string; value: string }) => void;
 }
 
 interface StateInt {}
@@ -188,7 +188,10 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   className={classes.select}
                   id='htmlType'
                   placeholder='title'
-                  onChange={event => this.handleChange(event)}
+                  // TS expects a change event type, so it must be specified in the onChange events
+                  onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                    this.handleChange(event)
+                  }
                   value={buttonTypeTemp}
                   defaultValue={`${``}`}
                   required
@@ -211,7 +214,9 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                 label={attr}
                 variant='outlined'
                 id={attr}
-                onChange={this.handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  this.handleChange(event)
+                }
                 value={this.state[attr]}
               />
             )}

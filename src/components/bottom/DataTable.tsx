@@ -12,7 +12,7 @@ import { IconButton } from '@material-ui/core';
 const styles = (theme: Theme) => ({
   root: {
     width: '80%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     marginRight: '100px'
     // overflowX: "auto"
   },

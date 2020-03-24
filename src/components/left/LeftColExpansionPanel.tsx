@@ -14,7 +14,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Collapse from '@material-ui/core/Collapse';
 import Switch from '@material-ui/core/Switch'; // for state/class toggling
 import InputLabel from '@material-ui/core/InputLabel'; // labeling of state/class toggles
-import { ComponentInt, ComponentsInt, PropsInt } from '../../interfaces/Interfaces'; // unused
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt
+} from '../../interfaces/Interfaces'; // unused
+
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
@@ -57,15 +62,16 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     handleChangeName,
     handleEditComponent
   } = props;
+
   const { title, id, color, stateful, classBased } = component;
+
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
+
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;
-
-
 
   //this function determines whether edit mode for component name should be entered or not
   //resets the title if 'escape' key is hit
@@ -81,9 +87,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   return (
     <Grid
       container
-      direction="row"
-      justify="center"
-      alignItems="center"
+      direction='row'
+      justify='center'
+      alignItems='center'
       style={{
         minWidth: '470px'
       }}
@@ -106,7 +112,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             in={focusedToggle}
             collapsedHeight={'80px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
             style={{ borderRadius: '5px' }}
-            timeout="auto"
+            timeout='auto'
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
@@ -156,10 +162,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                           </Typography>
                         ) : (
                           <TextField //show a text field for editing instead if edit mode entered
-                            id="filled"
-                            label="Change Component Name"
+                            id='filled'
+                            label='Change Component Name'
                             defaultValue={title}
-                            variant="outlined"
+                            variant='outlined'
                             className={classes.text}
                             InputProps={{
                               className: classes.light //all of these styling makes the input box border, label, and text default to white.
@@ -191,7 +197,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         {focusedToggle ? (
                           <span style={{ display: 'inline-flex' }}>
                             <InputLabel
-                              htmlFor="stateful"
+                              htmlFor='stateful'
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -210,12 +216,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentState({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value="stateful"
-                              color="primary"
+                              value='stateful'
+                              color='primary'
                               // id={props.id.toString()}
                             />
                             <InputLabel
-                              htmlFor="classBased"
+                              htmlFor='classBased'
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -234,8 +240,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentClass({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value="classBased"
-                              color="primary"
+                              value='classBased'
+                              color='primary'
                             />
                           </span>
                         ) : (
@@ -243,10 +249,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                         {focusedToggle && component.id !== 1 ? (
                           <Button
-                            variant="text"
-                            size="small"
-                            color="default"
-                            aria-label="Delete"
+                            variant='text'
+                            size='small'
+                            color='default'
+                            aria-label='Delete'
                             className={classes.margin}
                             onClick={() =>
                               deleteComponent({
@@ -295,12 +301,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           <div />
         ) : (
           <Tooltip
-            title="add as child"
-            aria-label="add as child"
-            placement="left"
+            title='add as child'
+            aria-label='add as child'
+            placement='left'
           >
             <IconButton
-              aria-label="Add"
+              aria-label='Add'
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
                 changeFocusComponent({ title: focusComponent.title });
