@@ -22,6 +22,7 @@ import {
 } from '../utils/Interfaces'; // unused
 import { format } from 'prettier';
 import componentRender from '../utils/componentRender.util';
+// import { addProp } from '../actions/components';
 
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
@@ -48,6 +49,9 @@ interface LeftColExpPanPropsInt extends PropsInt {
 //   type: string;
 // }
 // TODO: ASSIGN SPECIFIC TYPING TO INCOMING PROPS (REMOVE ANY)
+
+// imports into addProp reducer
+
 const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   const {
     classes,
@@ -352,32 +356,35 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                 //   'this is addedChildComponent from LFEP type',
                 //   addedChildComponent.props[0]['type']
                 // );
+                // let i = 0;
+                // while (i < addedChildComponent.props.length)
                 if (addedChildComponent.props.length) {
                   console.log(
                     'this is addedChildComponent from LFEP key',
                     addedChildComponent.props[0]['key']
                   );
                   console.log(
-                    'this is addedChildComponent from LFEP value',
-                    addedChildComponent.props[0]['value']
-                  );
-                  console.log(
-                    'this is addedChildComponent from LFEP required',
-                    addedChildComponent.props[0]['required']
-                  );
-                  console.log(
                     'this is addedChildComponent from LFEP type',
                     addedChildComponent.props[0]['type']
                   );
                   // addProp({
-                  //   key: addedChildComponent.props[0]['key'],
-                  //   value: addedChildComponent.props[0]['value'],
-                  //   required: addedChildComponent.props[0]['required'],
-                  //   type: addedChildComponent.props[0]['type']
+                  //   key: addedChildComponent.props[0]['key'].toString(),
+                  //   type: addedChildComponent.props[0]['type'].toString()
                   // });
-                  // console.log('addedChildComponent', addedChildComponent);
+                  // console.log('focuscomponent before add', focusComponent);
+
+                  // console.log('focuscomponent AFTER add', focusComponent);
+                  console.log('addedChildComponent', addedChildComponent);
                   addChild({ title, childType: 'COMP' });
+                  addProp({
+                    key: addedChildComponent.props[0]['key'],
+                    type: addedChildComponent.props[0]['type']
+                  });
                   changeFocusComponent({ title: focusComponent.title });
+                  // changeFocusComponent({ title: focusComponent.title });
+                  // changeFocusComponent({ title: addedChildComponent.title });
+                  // changeFocusComponent({ title: focusComponent.title });
+                  // changeFocusComponent({ title: focusComponent.title });
                   // addChild({ title, childType: 'COMP' });
                   // changeFocusComponent({ title: addedChildComponent.title });
                   // }
@@ -387,6 +394,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                   //     'add props works on child add',
                   //     addedChildComponent.title
                   //   );
+                  // changeFocusComponent({ title: focusComponent.title });
                 } else {
                   console.log('add props does NOT work on child add');
                   addChild({ title, childType: 'COMP' });

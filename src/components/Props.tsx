@@ -234,13 +234,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
       window.alert('Props are not allowed to begin with digits');
       return;
     }
-    console.log(
-      'this is propsvariable, value, required, type:: ',
-      propVariable,
-      // propValue,
-      // propRequired,
-      propType
-    );
+    // console.log(
+    //   'this is propsvariable, value, required, type:: ',
+    //   propVariable,
+    //   // propValue,
+    //   // propRequired,
+    //   propType
+    // );
+    console.log('type of propVariable', typeof propVariable);
+
     this.props.addProp({
       key: propVariable,
       // value: '',

@@ -10,7 +10,7 @@ import theme from '../components/theme';
 import {
   ComponentInt,
   ComponentsInt,
-  ApplicationStateInt,
+  ApplicationStateInt
 } from '../utils/Interfaces';
 import * as actions from '../actions/components';
 
@@ -32,7 +32,7 @@ interface Props {
   undo(): void;
   redo(): void;
   tutorial: number;
-  toggleEditMode(arg: {id: number}): void;
+  toggleEditMode(arg: { id: number }): void;
 }
 
 //Type for the state that should not be assigned within the
@@ -50,7 +50,7 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
-  selectableChildren: store.workspace.selectableChildren,
+  selectableChildren: store.workspace.selectableChildren
 });
 
 //Dispatch functions for loading data where user left off
@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   undo: () => dispatch(actions.undo()),
   redo: () => dispatch(actions.redo()),
   toggleEditMode: ({ id }: { id: number }) =>
-    dispatch(actions.toggleEditMode({ id })),
+    dispatch(actions.toggleEditMode({ id }))
 });
 
 class AppContainer extends Component<Props, State> {
@@ -82,7 +82,7 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      changed: false,
+      changed: false
     };
 
     //This function is invoked upon a new file being uploaded to the app.
@@ -116,8 +116,8 @@ class AppContainer extends Component<Props, State> {
     });
 
     IPC.on('escape', () => {
-      this.props.toggleEditMode({id:-1});
-    })
+      this.props.toggleEditMode({ id: -1 });
+    });
   }
 
   handleNext = (tutorial: number) => {
@@ -166,7 +166,7 @@ class AppContainer extends Component<Props, State> {
       loading,
       selectableChildren,
       totalComponents,
-      tutorial,
+      tutorial
     } = this.props;
 
     // uses component childIds and parentIds arrays (numbers)s to build component-filled children and parents arrays
@@ -178,7 +178,7 @@ class AppContainer extends Component<Props, State> {
           tutorial={tutorial}
           handleNext={this.handleNext}
         />
-        <div className="app-container">
+        <div className='app-container'>
           <LeftContainer //The left side-bar that contains the component cards and the buttons.
             components={components}
             totalComponents={totalComponents}
@@ -196,11 +196,11 @@ class AppContainer extends Component<Props, State> {
               style={{
                 alignSelf: 'flex-end',
                 position: 'fixed',
-                width: '100%',
+                width: '100%'
               }}
             >
               <LinearProgress
-                color="secondary" //Pretty sure this is a loading bar component from Material-UI,
+                color='secondary' //Pretty sure this is a loading bar component from Material-UI,
                 //never seen it in action though.
               />
             </div>

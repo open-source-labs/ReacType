@@ -68,7 +68,8 @@ const mapStateToProps = (store: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
     dispatch(actions.addComponent({ title })),
-  addProp: ({ prop }: { prop: PropInt }) => dispatch(actions.addProp(prop)),
+  addProp: ({ key, type }: { key: string; type: string }) =>
+    dispatch(actions.addProp({ key, type })),
   addChild: ({
     title,
     childType,
@@ -257,6 +258,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   render(): JSX.Element {
     const {
       imageSource,
+      // component,
       components,
       deleteComponent,
       focusComponent,

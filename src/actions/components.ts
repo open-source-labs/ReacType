@@ -300,9 +300,9 @@ export const toggleComponentClass = ({ id }: { id: number }) => (
   dispatch({ type: TOGGLE_CLASS, payload: { id } });
 };
 
-export const addProp = (prop: PropInt) => ({
+export const addProp = ({ key, type }: { key: string; type: string }) => ({
   type: ADD_PROP,
-  payload: { ...prop }
+  payload: { key, type }
 });
 
 //action creators for undo and redo
