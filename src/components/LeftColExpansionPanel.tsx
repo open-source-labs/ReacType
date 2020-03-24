@@ -124,7 +124,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
               type: newType
             });
           console.log('child prop already exists in parent!');
-          break;
         }
       } else {
         if (i === 0) {
