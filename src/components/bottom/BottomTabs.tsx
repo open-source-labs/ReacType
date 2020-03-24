@@ -7,18 +7,16 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import {
-  ComponentInt,
-  ComponentsInt,
-  PropInt,
-  PropsInt
-} from '../utils/Interfaces';
+import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
   addProp(prop: PropInt): void;
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 // interface TreeInt {
@@ -50,7 +48,8 @@ const styles = (theme: Theme): any => ({
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
+    // marginRight: theme.spacing.unit * 4,
+    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
 
     fontFamily: [
       '-apple-system',
@@ -78,10 +77,10 @@ const styles = (theme: Theme): any => ({
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
   },
   padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`
+    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
   }
 });
 
@@ -145,7 +144,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       addProp,
       changeFocusComponent,
       updateCode,
-      focusChild
+      focusChild,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
     const { value } = this.state;
 
@@ -233,6 +234,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             components={components}
             changeFocusComponent={changeFocusComponent}
             updateCode={updateCode}
+            toggleCodeEdit={toggleCodeEdit}
+            codeReadOnly={codeReadOnly}
           />
         )}
         {value === 2 && <Props />}

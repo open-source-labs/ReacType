@@ -5,9 +5,9 @@ import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
 import Konva from 'konva';
 import Rectangle from './Rectangle';
-import cloneDeep from '../utils/cloneDeep';
-import { ComponentInt, ChildInt, PropsInt } from '../utils/Interfaces';
-import isEmpty from '../utils/isEmpty';
+import cloneDeep from '../../helperFunctions/cloneDeep';
+import { ComponentInt, ChildInt, PropsInt } from '../../interfaces/Interfaces';
+import isEmpty from '../../helperFunctions/isEmpty';
 // import BottomPan from './BottomPanel';
 
 interface KonvaStagePropsInt extends PropsInt {

@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp } from '../actions/components';
+import { handleClose, deleteProp, addProp } from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
-import { PropsInt, PropInt } from '../utils/Interfaces';
+import { PropsInt, PropInt } from '../../interfaces/Interfaces';
+import { toggleCodeEdit } from '../../actions/actionCreators';
 
 const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  addProp: (prop: PropInt) => dispatch(addProp(prop))
+  addProp: (prop: PropInt) => dispatch(addProp(prop)),
+  toggleCodeEdit: () => dispatch(toggleCodeEdit())
 });
 
 const mapStateToProps = (store: any) => ({
   focusChild: store.workspace.focusChild,
-  components: store.workspace.components
+  components: store.workspace.components,
+  codeReadOnly: store.workspace.codeReadOnly
 });
 
 interface BottomPanelPropsInt extends PropsInt {
@@ -22,6 +25,8 @@ interface BottomPanelPropsInt extends PropsInt {
   addProp(prop: PropInt): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -33,7 +38,9 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       addProp,
       focusChild,
       changeFocusComponent,
-      updateCode
+      updateCode,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
 
     return (
@@ -46,6 +53,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           focusChild={focusChild}
           changeFocusComponent={changeFocusComponent}
           updateCode={updateCode}
+          toggleCodeEdit={toggleCodeEdit}
+          codeReadOnly={codeReadOnly}
         />
       </div>
     );

@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Tutorial from '../components/Tutorial';
+import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
-import theme from '../components/theme';
-// import { loadInitData } from '../actions/components.ts';
+import theme from '../theme';
 import {
   ComponentInt,
   ComponentsInt,
   ApplicationStateInt
-} from '../utils/Interfaces';
-import * as actions from '../actions/components';
+} from '../interfaces/Interfaces';
+import * as actions from '../actions/actionCreators';
 
 // ** Used with electron to render
 const IPC = require('electron').ipcRenderer;

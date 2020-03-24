@@ -1,133 +1,70 @@
+import { initialApplicationState } from './initialState';
+import { Action } from '../interfaces/Interfaces';
 import {
-  ComponentInt,
-  ChildInt,
-  ApplicationStateInt,
-  Action
-} from '../utils/Interfaces';
-
-import {
-  LOAD_INIT_DATA,
-  ADD_COMPONENT,
-  ADD_CHILD,
-  DELETE_CHILD,
-  DELETE_COMPONENT,
-  TOGGLE_STATE,
-  TOGGLE_CLASS,
-  CHANGE_FOCUS_COMPONENT,
-  CHANGE_FOCUS_CHILD,
-  CHANGE_COMPONENT_FOCUS_CHILD,
-  CHANGE_IMAGE_SOURCE,
-  DELETE_IMAGE,
-  EXPORT_FILES,
-  CREATE_APPLICATION, //unused
-  EXPORT_FILES_SUCCESS,
-  EXPORT_FILES_ERROR,
-  CREATE_APPLICATION_ERROR, //unused
-  HANDLE_CLOSE,
-  HANDLE_TRANSFORM,
-  OPEN_EXPANSION_PANEL,
-  DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH, //unused
-  CHANGE_TUTORIAL,
-  ADD_PROP,
-  DELETE_PROP,
-  UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
-  UNDO,
-  REDO,
-  UPDATE_CODE,
-  EDIT_MODE,
-  EDIT_COMPONENT
-} from '../actionTypes/index';
-
-import {
-  addComponent,
   addChild,
+  addComponent,
+  changeFocusComponent,
+  changeImageSource,
   deleteChild,
   deleteComponent,
   deleteImage,
-  changeFocusComponent,
-  changeComponentFocusChild,
-  changeFocusChild,
-  changeImageSource,
-  changeTutorial,
+  editComponent,
   exportFilesSuccess,
   exportFilesError,
-  handleClose,
-  handleTransform,
-  openExpansionPanel,
-  addProp,
-  deleteProp,
-  updateHtmlAttr,
-  updateChildrenSort,
   toggleComponentState,
   toggleComponentClass,
-  toggleEditMode,
-  editComponent,
+  toggleEditMode
+} from './leftReducers';
+import {
+  changeComponentFocusChild,
+  changeFocusChild,
+  changeTutorial,
+  handleTransform,
   undo,
-  redo,
-  updateCode
-} from '../utils/componentReducer.util';
-import cloneDeep from '../utils/cloneDeep';
+  redo
+} from './mainReducers';
+import {
+  handleClose,
+  addProp,
+  deleteProp,
+  updateChildrenSort,
+  updateHtmlAttr,
+  updateCode,
+  toggleCodeEdit
+} from './bottomReducers';
+import {
+  ADD_CHILD,
+  ADD_COMPONENT,
+  ADD_PROP,
+  CHANGE_COMPONENT_FOCUS_CHILD,
+  CHANGE_FOCUS_CHILD,
+  CHANGE_FOCUS_COMPONENT,
+  CHANGE_IMAGE_SOURCE,
+  CHANGE_TUTORIAL,
+  CODE_EDIT,
+  DELETE_ALL_DATA,
+  DELETE_CHILD,
+  DELETE_COMPONENT,
+  DELETE_IMAGE,
+  DELETE_PROP,
+  EDIT_COMPONENT,
+  EDIT_MODE,
+  EXPORT_FILES,
+  EXPORT_FILES_ERROR,
+  EXPORT_FILES_SUCCESS,
+  HANDLE_CLOSE,
+  HANDLE_TRANSFORM,
+  LOAD_INIT_DATA,
+  REDO,
+  TOGGLE_CLASS,
+  TOGGLE_STATE,
+  UNDO,
+  UPDATE_CODE,
+  UPDATE_CHILDREN_SORT,
+  UPDATE_HTML_ATTR
+} from '../actionTypes/index';
 
-const appComponent: ComponentInt = {
-  id: 1,
-  stateful: false,
-  classBased: false,
-  title: 'App',
-  color: '#FF6D00',
-  props: [],
-  nextPropId: 1,
-  position: {
-    x: 25,
-    y: 25,
-    width: 600,
-    height: 400
-  },
-  childrenArray: [],
-  nextChildId: 1,
-  focusChildId: 0,
-  code: '',
-  changed: false
-};
-
-const initialApplicationFocusChild: ChildInt = {
-  childId: 0,
-  componentName: null,
-  position: {
-    x: 25,
-    y: 25,
-    width: 800,
-    height: 550
-  },
-  childType: null,
-  childSort: 0,
-  childComponentId: 0,
-  color: null,
-  htmlElement: null,
-  HTMLInfo: null
-};
-
-const initialApplicationState: ApplicationStateInt = {
-  tutorial: 0,
-  imageSource: '',
-  totalComponents: 1,
-  nextId: 2,
-  successOpen: false,
-  errorOpen: false,
-  focusComponent: appComponent,
-  selectableChildren: [],
-  ancestors: [],
-  initialApplicationFocusChild,
-  focusChild: cloneDeep(initialApplicationFocusChild),
-  editMode: -1,
-  components: [appComponent],
-  appDir: '',
-  loading: false,
-  history: [],
-  historyIndex: 0,
-  future: []
-};
+import { appComponent } from './initialState';
 
 const componentReducer = (state = initialApplicationState, action: Action) => {
   switch (action.type) {
@@ -142,6 +79,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
+    case ADD_PROP:
+      return addProp(state, action.payload);
     case ADD_CHILD:
       return addChild(state, action.payload);
     case DELETE_CHILD:
@@ -164,28 +103,25 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return changeImageSource(state, action.payload);
     case CHANGE_TUTORIAL:
       return changeTutorial(state, action.payload);
+    case CODE_EDIT:
+      return toggleCodeEdit(state);
+    case DELETE_ALL_DATA:
+      return {
+        ...initialApplicationState,
+        focusComponent: { ...appComponent, changed: true }
+      };
     case DELETE_IMAGE:
       return deleteImage(state);
     case EXPORT_FILES:
       return { ...state, loading: true };
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    // case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case OPEN_EXPANSION_PANEL:
-      return openExpansionPanel(state, action.payload);
-    case DELETE_ALL_DATA:
-      return {
-        ...initialApplicationState,
-        focusComponent: { ...appComponent, changed: true }
-      };
-    case ADD_PROP:
-      return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
     case EDIT_MODE:

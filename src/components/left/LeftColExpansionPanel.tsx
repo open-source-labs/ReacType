@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -19,9 +19,10 @@ import {
   ComponentsInt,
   PropsInt,
   PropInt
-} from '../utils/Interfaces'; // unused
-import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util';
+} from '../../interfaces/Interfaces';
+// import { format } from 'prettier';
+// import componentRender from '../utils/componentRender.util';
+// import { addProp } from '../actions/components';
 
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;

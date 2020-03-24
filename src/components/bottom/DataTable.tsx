@@ -67,10 +67,27 @@ const styles = (theme: Theme) => ({
 
 /** **************************
  * cannot have a row header or a key in the data  called "key"
- * ,ust have unique id
+ * must have unique id
  * ****************************** */
 
-function dataTable(props: any) {
+// Jesse: added interface for the props being passed into dataTable. Previously, props:any was unsed in params.
+interface dataTableProps {
+  classes: any; // materialUI requirement(?)
+  rowData: {
+    /* rowData is defined as propsRows in Props.tsx: array of objects {key, value, type, required, id}
+      values for this object originate from the input fields within Component Props tab in the bottom section of the app
+    */
+    _Key: string;
+    Value: string | number;
+    Type: string;
+    Required: boolean;
+    id: number;
+  }[];
+  rowHeader: string[];
+  deletePropHandler(propId: number): void;
+}
+
+function dataTable(props: dataTableProps) {
   const { classes, rowData, rowHeader, deletePropHandler } = props;
 
   const renderHeader = rowHeader.map((col: any, idx: number) => (
@@ -106,7 +123,7 @@ function dataTable(props: any) {
         <IconButton
           className={classes.trashIcon}
           color='default'
-          fontSize='small'
+          // fontSize='small' - commented/removed b/c not a valid attribute for IconButton component
           onClick={() => deletePropHandler(row.id)}
         >
           <DeleteIcon />
@@ -119,7 +136,7 @@ function dataTable(props: any) {
   return (
     <Paper className={classes.root}>
       <div className={classes.tableContainer}>
-        <Table className={classes.table} selectable={'true'}>
+        <Table className={classes.table}>
           <TableHead>
             <TableRow>{renderHeader}</TableRow>
           </TableHead>

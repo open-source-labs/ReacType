@@ -11,9 +11,9 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/components';
+import { addProp, deleteProp } from '../../actions/actionCreators';
 import DataTable from './DataTable';
-import { ComponentInt, PropInt, PropsInt } from '../utils/Interfaces';
+import { PropInt, PropsInt } from '../../interfaces/Interfaces';
 
 interface PropsPropsInt extends PropsInt {
   classes: any;
