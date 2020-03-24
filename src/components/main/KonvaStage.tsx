@@ -25,6 +25,7 @@ interface KonvaStagePropsInt extends PropsInt {
   deleteChild(arg: object): void;
   scaleX: number;
   scaleY: number;
+  native: boolean;
 }
 
 interface StateInt {
@@ -202,6 +203,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
       handleTransform,
       focusComponent,
       focusChild,
+      native
       // deleteChild, **neither of these are read**
       // classes
     } = this.props;
@@ -258,6 +260,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
                     draggable={true}
                     blockSnapSize={this.state.blockSnapSize}
                     image={this.props.focusComponent.id === 1 ? image : null}
+                    native={native}
                   />
                 ))
                 .sort((rectA: Rectangle, rectB: Rectangle) => {

@@ -9,7 +9,7 @@ import theme from '../theme';
 import {
   ComponentInt,
   ComponentsInt,
-  ApplicationStateInt,
+  ApplicationStateInt
 } from '../interfaces/Interfaces';
 import * as actions from '../actions/actionCreators';
 
@@ -31,7 +31,8 @@ interface Props {
   undo(): void;
   redo(): void;
   tutorial: number;
-  toggleEditMode(arg: {id: number}): void;
+  toggleEditMode(arg: { id: number }): void;
+  native: boolean;
 }
 
 //Type for the state that should not be assigned within the
@@ -50,6 +51,7 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   loading: store.workspace.loading,
   selectableChildren: store.workspace.selectableChildren,
+  native: store.workspace.native
 });
 
 //Dispatch functions for loading data where user left off
@@ -68,7 +70,7 @@ const mapDispatchToProps = (dispatch: (arg: any) => void) => ({
   undo: () => dispatch(actions.undo()),
   redo: () => dispatch(actions.redo()),
   toggleEditMode: ({ id }: { id: number }) =>
-    dispatch(actions.toggleEditMode({ id })),
+    dispatch(actions.toggleEditMode({ id }))
 });
 
 class AppContainer extends Component<Props, State> {
@@ -81,7 +83,7 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
-      changed: false,
+      changed: false
     };
 
     //This function is invoked upon a new file being uploaded to the app.
@@ -115,9 +117,25 @@ class AppContainer extends Component<Props, State> {
     });
 
     IPC.on('escape', () => {
-      this.props.toggleEditMode({id:-1});
-    })
+      this.props.toggleEditMode({ id: -1 });
+    });
   }
+
+  nativeImage = () => {
+    if (!this.props.native) {
+    const image = new window.Image();
+    image.src = 'images/iphone.png';
+    image.onload = () => {
+      // update state when the image has been uploaded
+      this.props.changeImagePath(image.src);
+      this.setState({ image, changed: true });
+    };
+  }
+  else {
+    this.props.changeImagePath('');
+    this.setState({ image: null, changed: false });
+  }
+  };
 
   handleNext = (tutorial: number) => {
     this.props.changeTutorial(tutorial);
@@ -131,32 +149,25 @@ class AppContainer extends Component<Props, State> {
     if (imageSource === '' && changed) {
       this.setState({ image: null, changed: false });
     }
+    if (this.props.imageSource && !this.state.changed) {
+      const image = new window.Image();
+      image.src = this.props.imageSource;
+      image.onload = () => {
+        // update state when the image has been uploaded
+        this.setState({ image, changed: true });
+    }
+  }
     // else if (imageSource !== prevProps.imageSource && imageSource !== '') {
     //   this.setImage(imageSource);
     // }
   }
 
-  ///////////////////THIS BLOCK MIGHT NOT BE DOING ANYTHING ////////////////////////////
-  //This is a helper function for the lifecycle function above that I think was supposed
-  // to set the image in the state based on the image source, and changes the set status to true,
-  //also in the state.
 
-  // setImage = (imageSource: string) => {
-  //   if (imageSource) {
-  //     let image: HTMLImageElement;
-  //     image = new window.Image();
-  //     image.onload = () => {
-  //       // setState will redraw layer
-  //       // because "image" property is changed
-  //       this.setState({ image, changed: true });
-  //     };
-  //   }
-  // };
 
   //this will load the saved sata from last close
   componentDidMount() {
     this.props.loadInitData();
-  }
+};
 
   render(): JSX.Element {
     const {
@@ -165,7 +176,7 @@ class AppContainer extends Component<Props, State> {
       loading,
       selectableChildren,
       totalComponents,
-      tutorial,
+      tutorial
     } = this.props;
 
     // uses component childIds and parentIds arrays (numbers)s to build component-filled children and parents arrays
@@ -188,6 +199,7 @@ class AppContainer extends Component<Props, State> {
             components={components}
             image={this.state.image}
             imageSource={this.props.imageSource}
+            nativeImage={this.nativeImage}
             // classes={null} //placeholder, for some reason it's expecting this prop
           />
           {loading ? ( //This is triggered when files are being exported. Unsure if it actually does anything.
@@ -195,7 +207,7 @@ class AppContainer extends Component<Props, State> {
               style={{
                 alignSelf: 'flex-end',
                 position: 'fixed',
-                width: '100%',
+                width: '100%'
               }}
             >
               <LinearProgress

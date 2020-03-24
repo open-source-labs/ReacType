@@ -25,6 +25,7 @@ interface BottomPanelPropsInt extends PropsInt {
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
   toggleNative(): void;
+  nativeImage(): void;
   native: boolean;
 }
 
@@ -39,7 +40,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       changeFocusComponent,
       updateCode,
       toggleNative,
-      native
+      native,
+      nativeImage
     } = this.props;
 
     return (
@@ -54,6 +56,7 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           updateCode={updateCode}
           toggleNative={toggleNative}
           native={native}
+          nativeImage={nativeImage}
         />
       </div>
     );

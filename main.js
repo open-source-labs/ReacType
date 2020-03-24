@@ -85,8 +85,8 @@ const createWindow = () => {
   // eslint-disable-next-line
   const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width,
-    height,
+    width: 1920,
+    height: 1080,
     webPreferences: {
       zoomFactor: 0.7,
       'node-Integration': false

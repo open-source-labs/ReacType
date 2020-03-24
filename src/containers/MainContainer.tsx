@@ -31,6 +31,8 @@ interface MainContPropsInt extends PropsInt {
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  nativeImage(): void;
+  native: boolean;
 }
 
 interface StateInt {
@@ -95,7 +97,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components
+  stateComponents: store.workspace.components,
+  native: store.workspace.native
 });
 
 class MainContainer extends Component<MainContPropsInt, StateInt> {
@@ -123,7 +126,9 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       changeComponentFocusChild,
       deleteChild,
       updateCode,
-      image
+      image,
+      nativeImage,
+      native
     } = this.props;
 
     // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**
@@ -147,6 +152,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
+              native={native}
               /*  classes={classes}  commented out because not used anywhere*/
             />
           </div>
@@ -154,6 +160,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
             focusComponent={focusComponent}
             changeFocusComponent={changeFocusComponent}
             updateCode={updateCode}
+            nativeImage={nativeImage}
           />
         </div>
       </MuiThemeProvider>

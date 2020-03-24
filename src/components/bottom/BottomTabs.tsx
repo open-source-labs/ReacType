@@ -20,6 +20,7 @@ interface BottomTabsPropsInt extends PropsInt {
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
   toggleNative(): void;
+  nativeImage(): void;
   native: boolean;
 }
 
@@ -40,6 +41,7 @@ const styles = (theme: Theme): any => ({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    Width: '200px'
   },
   tabsRoot: {
     borderBottom: '0.5px solid #424242'
@@ -49,7 +51,7 @@ const styles = (theme: Theme): any => ({
   },
   tabRoot: {
     textTransform: 'initial',
-    minWidth: 0,
+    minWidth: 40,
     fontWeight: theme.typography.fontWeightRegular,
     // marginRight: theme.spacing.unit * 4,
     marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
@@ -154,7 +156,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusChild,
       toggleNative,
       updateCode,
-      native
+      native,
+      nativeImage
     } = this.props;
     const { value } = this.state;
 
@@ -206,7 +209,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <FormGroup>
             <FormControlLabel
               className={classes.switch}
-              control={<Switch checked={native} color="primary" onChange={() => toggleNative()} />}
+              control={<Switch checked={native} color="primary" onChange={() => {
+                toggleNative();
+                nativeImage();
+              }} />}
               label="Native Mode"
               labelPlacement="start"
             />
@@ -216,7 +222,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <div
             id="treeWrapper"
             style={{
-              width: '100%',
+              width: '80%',
               height: '100%'
             }}
             ref={node => (this.treeWrapper = node)}

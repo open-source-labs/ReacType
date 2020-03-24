@@ -26,6 +26,7 @@ interface RectanglePorpsInt extends PropsInt {
     dimensions: { x: number; y: number; width?: number; height?: number }
   ): void;
   image: HTMLImageElement;
+  native:boolean;
 }
 
 class Rectangle extends Component<RectanglePorpsInt> {
@@ -126,7 +127,8 @@ class Rectangle extends Component<RectanglePorpsInt> {
       components,
       draggable,
       blockSnapSize,
-      childType
+      childType,
+      native
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -169,7 +171,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
           stroke={
             childType === 'COMP'
               ? this.getComponentColor(childComponentId)
-              : '#000000' //sets the parent component color to black
+              : native && componentId === 1 ? null : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
@@ -248,6 +250,8 @@ class Rectangle extends Component<RectanglePorpsInt> {
               focusChild={focusChild}
               anchorSize={8}
               color={'grey'}
+              native={native}
+              
             />
           )}
       </Group>
