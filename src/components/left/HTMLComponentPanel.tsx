@@ -38,14 +38,19 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
   render(): JSX.Element {
     const { classes } = this.props;
     return (
-      <div align='center'>
+      <div style={{ textAlign: 'center' }}>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label='Add HTML elements'
-          style={{ cursor: 'default' }}
+          label='Add HTML Elements'
+          style={{
+            cursor: 'default',
+            fontSize: '1.2em',
+            textShadow: '2px 2px 2px black',
+            paddingBottom: '20px'
+          }}
         />
-        <Grid container spacing={8} alignItems='baseline' align='stretch'>
+        <Grid container spacing={6} alignItems='center'>
           <Grid item xs={4}>
             <div className='htmliconwrapper'>
               <IconButton
