@@ -266,7 +266,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
     }));
 
     return (
-      <div className={'htmlattr'}>
+      <div
+        className={'htmlattr'}
+        style={{ overflowY: 'auto', height: '85%', marginTop: '1rem' }}
+      >
         {' '}
         {/* if no focus component in state, then render message */}
         {Object.keys(focusComponent).length < 1 ? (
@@ -299,7 +302,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
               className='props-container'
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
-              <Grid container spacing={8}>
+              <Grid container spacing={8} style={{ overflowY: 'auto' }}>
                 <Grid item xs={3}>
                   <form
                     className='props-input'
@@ -409,10 +412,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   item
                   xs={8}
                   style={{
-                    height: '17rem',
-                    overflow: 'scroll',
+                    height: '75%',
+                    overflowY: 'auto',
+                    overflowX: 'auto',
                     marginTop: '1rem',
-                    paddingBottom: '1rem',
+                    // paddingBottom: '1rem',
+                    marginLeft: '6rem',
                     paddingTop: '0'
                   }}
                 >
