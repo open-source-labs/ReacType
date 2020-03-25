@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
-  addProp(prop: PropInt): void;
+  addProp(arg: { key: string; type: string }): void;
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
@@ -221,7 +221,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         </Box>
         {value === 0 && (
           <div
-            id="treeWrapper"
+            id='treeWrapper'
             style={{
               width: '80%',
               height: '100%'
