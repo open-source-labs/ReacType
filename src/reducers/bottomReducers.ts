@@ -4,10 +4,9 @@ import {
   ChildInt,
   ComponentInt,
   ComponentsInt,
-  PropInt,
+  PropInt
 } from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
-
 
 export const addProp = (
   state: ApplicationStateInt,
@@ -104,7 +103,12 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
 export const handleClose = (state: ApplicationStateInt, status: string) => ({
   ...state,
   errorOpen: status,
-  successOpen: status,
+  successOpen: status
+});
+
+export const toggleCodeEdit = (state: ApplicationStateInt) => ({
+  ...state,
+  codeReadOnly: !state.codeReadOnly
 });
 
 export const updateChildrenSort = (
@@ -141,7 +145,7 @@ export const updateChildrenSort = (
   return {
     ...state,
     components: modifiedComponentsArray,
-    focusComponent: modifiedComponent,
+    focusComponent: modifiedComponent
   };
 };
 

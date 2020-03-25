@@ -1,12 +1,14 @@
 export const ADD_CHILD: string = 'ADD_CHILD';
 export const ADD_COMPONENT: string = 'ADD_COMPONENT';
 export const ADD_PROP: string = 'ADD_PROP';
-export const CHANGE_COMPONENT_FOCUS_CHILD: string = 'CHANGE_COMPONENT_FOCUS_CHILD';
+export const CHANGE_COMPONENT_FOCUS_CHILD: string =
+  'CHANGE_COMPONENT_FOCUS_CHILD';
 export const CHANGE_FOCUS_CHILD: string = 'CHANGE_FOCUS_CHILD';
 export const CHANGE_FOCUS_COMPONENT: string = 'CHANGE_FOCUS_COMPONENT';
 export const CHANGE_IMAGE_PATH: string = 'CHANGE_IMAGE_PATH';
 export const CHANGE_IMAGE_SOURCE: string = 'CHANGE_IMAGE_SOURCE';
 export const CHANGE_TUTORIAL: string = 'CHANGE_TUTORIAL';
+export const CODE_EDIT: string = 'CODE_EDIT';
 export const CREATE_APPLICATION: string = 'CREATE_APPLICATION';
 export const CREATE_APPLICATION_ERROR: string = 'CREATE_APPLICATION_ERROR';
 export const CREATE_APPLICATION_SUCCESS: string = 'CREATE_APPLICATION_SUCCESS';

@@ -29,6 +29,7 @@ interface LeftContPropsInt extends PropsInt {
   selectableChildren: number[];
   classes: any;
   addComponent(arg: { title: string }): void;
+  addProp(arg: { key: string; type: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   deleteComponent(arg: {
@@ -67,6 +68,8 @@ const mapStateToProps = (store: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
     dispatch(actions.addComponent({ title })),
+  addProp: ({ key, type }: { key: string; type: string }) =>
+    dispatch(actions.addProp({ key, type })),
   addChild: ({
     title,
     childType,
@@ -259,6 +262,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       deleteComponent,
       focusComponent,
       classes,
+      addProp,
       addChild,
       changeFocusComponent,
       changeFocusChild,
@@ -279,6 +283,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           key={component.id}
           component={component}
           focusComponent={focusComponent}
+          addProp={addProp}
           addChild={addChild}
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
@@ -344,11 +349,12 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           </Grid>
         </Grid>
         <div className='expansionPanel'>{componentsExpansionPanel}</div>
-        {/* <HTMLComponentPanel
+        <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
+          addProp={addProp}
           addChild={addChild}
-        /> */}
+        />
         <NativeComponentPanel addChild={addChild} />
         <div
           style={{

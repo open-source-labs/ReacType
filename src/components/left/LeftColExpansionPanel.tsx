@@ -24,6 +24,7 @@ interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
   component: ComponentInt;
+  addProp(arg: { title: string; type: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   selectableChildren: number[];
@@ -50,6 +51,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     focusComponent,
     components,
     component,
+    addProp,
     addChild,
     changeFocusComponent,
     selectableChildren,
@@ -81,6 +83,48 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       toggleEditMode({ id });
     } else {
       toggleEditMode({ id: -1 });
+    }
+  };
+
+  // function adds childProps & also addsChild at the same time to the parents and updates state
+  // to reflect the childrenArray to be update inside the parent as well as the props from the child
+  // automatically destructured in the parents
+  const addChildProps = () => {
+    const addedChildProps = components.find(
+      (component: ComponentInt) => component.title === title
+    );
+
+    const parentKeys: any[] = [];
+    if (focusComponent.props.length > 0) {
+      focusComponent.props.forEach(key => parentKeys.push(key.key));
+    }
+    console.log('this is parentKeys', parentKeys);
+    // sorting through object keys of the focusComponent
+
+    let i = 0;
+    while (i <= addedChildProps.props.length) {
+      if (addedChildProps.props.length) {
+        if (i === 0) {
+          addChild({ title, childType: 'COMP' });
+          changeFocusComponent({ title: focusComponent.title });
+        }
+        if (addedChildProps.props[i]) {
+          const newKey = addedChildProps.props[i]['key'],
+            newType = addedChildProps.props[i]['type'];
+          if (!parentKeys.includes(newKey))
+            addProp({
+              key: newKey,
+              type: newType
+            });
+          else console.log('child prop already exists in parent!');
+        }
+      } else {
+        if (i === 0) {
+          addChild({ title, childType: 'COMP' });
+          changeFocusComponent({ title: focusComponent.title });
+        }
+      }
+      i++;
     }
   };
 
@@ -308,8 +352,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             <IconButton
               aria-label='Add'
               onClick={() => {
-                addChild({ title, childType: 'COMP' });
-                changeFocusComponent({ title: focusComponent.title });
+                addChildProps();
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
