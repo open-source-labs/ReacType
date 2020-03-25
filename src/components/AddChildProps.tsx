@@ -6,22 +6,10 @@ import DataTable from './DataTable';
 import MaterialTable from 'material-table';
 
 const mapDispatchToProps = (dispatch: any) => ({
-  addProp: ({
-    key,
-    // value,
-    // required,
-    type
-  }: {
-    key: string;
-    // value: string;
-    // required: boolean;
-    type: string;
-  }) =>
+  addProp: ({ key, type }: { key: string; type: string }) =>
     dispatch(
       addProp({
         key,
-        // value,
-        // required,
         type
       })
     ),
@@ -39,12 +27,10 @@ class AddChildProps extends Component {
     const { focusComponent, classes, deleteProp, addProp } = this.props;
 
     // Array to be used to populate HTML form elements
-    const arrayPropsAvailable = [];
-    // IIFE : so that it runs without needing to be invoked
-    (() => {
-      focusComponent.props.map(prop => {
+    const arrayPropsAvailable = focusComponent.props.map((prop, index, array) => {
+        array.push(prop)
+      }
 
-        arrayPropsAvailable.push(
           <span>
             <input
               type='checkbox'
@@ -70,9 +56,12 @@ class AddChildProps extends Component {
             {
               title: 'Name',
               field: 'name',
+              style={{border: '5px solid green'}},
               cellStyle: {
-                width: 250,
-                minWidth: 250
+                // width: '100%',
+                // minWidth: '250px',
+                // height: '100px',
+                border: '1px solid green'
               },
               render: dataRows => <p>{`${dataRows.componentName}`}</p>
             },
