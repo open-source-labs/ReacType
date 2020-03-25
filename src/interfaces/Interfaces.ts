@@ -3,8 +3,8 @@
 export interface PropInt {
   id?: number;
   key: string;
-  value: string;
-  required: boolean;
+  // value: string;
+  // required: boolean;
   type: string;
 }
 

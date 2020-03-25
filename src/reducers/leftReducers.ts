@@ -23,6 +23,7 @@ export const addChild = (
     HTMLInfo: { [index: string]: string };
   }
 ) => {
+  // console.log('addchild');
   const strippedTitle = title;
 
   //is this warning even possible to trigger witht he current flow?
@@ -36,11 +37,16 @@ export const addChild = (
     childType = 'HTML';
   }
 
+  // childType !== 'COMP' ? (childType = 'HTML') : (childType = 'COMP');
+
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
   const view: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === state.focusComponent.title
   );
+
+  // console.log('components from state in reducer :', state.components);
+  // console.log('focusComponent from state in reducer :', state.focusComponent);
 
   // parentComponent is the component this child is generated from (ex. instance of Box has comp of Box)
   let parentComponent: ComponentInt;

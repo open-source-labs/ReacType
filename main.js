@@ -55,7 +55,6 @@ function redo() {
   mainWindow.webContents.send('redo');
 }
 
-
 function toggleTutorial() {
   mainWindow.webContents.send('tutorial_clicked');
 }
@@ -122,16 +121,17 @@ const createWindow = () => {
     {
       label: 'Edit',
       submenu: [
-        { 
+        {
           label: 'Undo',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',  //these hotkeys are a tad bit glitchy
+          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z', //these hotkeys are a tad bit glitchy
           click() {
             undo();
           }
         },
-        { 
+        {
           label: 'Redo',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
+          accelerator:
+            process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
           click() {
             redo();
           }
@@ -142,8 +142,8 @@ const createWindow = () => {
         { role: 'paste' },
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
-        { role: 'selectall' },
-      ],
+        { role: 'selectall' }
+      ]
     },
     {
       label: 'View',
@@ -172,9 +172,9 @@ const createWindow = () => {
           }
         },
         {
-            label: 'Tutorial',
-            click() {
-              toggleTutorial();
+          label: 'Tutorial',
+          click() {
+            toggleTutorial();
           }
         }
       ]
@@ -269,7 +269,7 @@ app.on('ready', () => {
   }
   globalShortcut.register('Escape', () => {
     escape();
-  })
+  });
 });
 
 // Quit when all windows are closed.
