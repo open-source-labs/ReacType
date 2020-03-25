@@ -65,7 +65,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     handleChangeName,
     handleEditComponent,
     focusChild,
-    changeFocusChild
   } = props;
   const { title, id, color, stateful, classBased } = component;
   function isFocused() {
