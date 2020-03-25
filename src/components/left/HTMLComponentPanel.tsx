@@ -38,7 +38,7 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
   render(): JSX.Element {
     const { classes } = this.props;
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
