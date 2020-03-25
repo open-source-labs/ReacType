@@ -7,7 +7,6 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import { mergeClasses } from '@material-ui/styles';
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
@@ -18,15 +17,7 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-interface StateInt {
-  readOnly: boolean;
-}
-
-class CodePreview extends Component<CodePreviewProps, StateInt> {
-  constructor(props: CodePreviewProps) {
-    super(props);
-  }
-
+class CodePreview extends Component<CodePreviewProps> {
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
   componentDidMount() {
@@ -82,6 +73,7 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
             border: '2px solid #33eb91',
             borderRadius: '8px'
           }}
+          enableLiveAutocompletion={true}
           onChange={code =>
             this.props.updateCode({
               componentId: this.props.focusComponent.id,
@@ -93,6 +85,8 @@ class CodePreview extends Component<CodePreviewProps, StateInt> {
           readOnly={this.props.codeReadOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
+          // enableBasicAutocompletion={true}
+          tabSize={2}
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Button

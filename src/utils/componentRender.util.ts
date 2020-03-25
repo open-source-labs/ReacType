@@ -34,7 +34,7 @@ const componentRender = (
         return 'object';
       case 'array':
         return 'any[]';
-      case 'bool':
+      case 'boolean':
         return 'boolean';
       case 'function':
         return '() => any';
@@ -51,6 +51,7 @@ const componentRender = (
       case 'any':
         return 'any';
       default:
+        console.log(type);
         return 'any';
     }
   }
