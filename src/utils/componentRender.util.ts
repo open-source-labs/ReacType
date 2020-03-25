@@ -24,6 +24,7 @@ const componentRender = (
     stateful: boolean;
     classBased: boolean;
   } = component;
+
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -115,6 +116,26 @@ const componentRender = (
           return 'ul';
         case 'Paragraph':
           return 'p';
+        case 'RNView':
+          return 'View';
+        case 'RNSafeAreaView':
+          return 'SafeAreaView';
+        case 'RNButton':
+          return 'Button';
+        case 'RNFlatList':
+          return 'FlatList data={} renderItem={}';
+        case 'RNImage':
+          return 'Image source={}';
+        case 'RNModal':
+          return 'Modal';
+        case 'RNSwitch':
+          return 'Switch onValueChange={}';
+        case 'RNText':
+          return 'Text';
+        case 'RNTextInput':
+          return 'TextInput';
+        case 'RNTouchOpacity':
+          return 'TouchableOpacity onPress={}';
         default:
           return 'div';
       }
