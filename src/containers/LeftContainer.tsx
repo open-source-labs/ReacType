@@ -14,7 +14,11 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/left/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/left/HTMLComponentPanel';
 import * as actions from '../actions/actionCreators';
-import { ComponentInt, ComponentsInt, PropsInt } from '../interfaces/Interfaces';
+import {
+  ComponentInt,
+  ComponentsInt,
+  PropsInt
+} from '../interfaces/Interfaces';
 import createModal from '../components/left/createModal';
 import cloneDeep from '../helperFunctions/cloneDeep';
 
