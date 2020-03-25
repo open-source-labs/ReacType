@@ -58,13 +58,13 @@ const styles = () => ({
   propHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '1rem',
+    marginLeft: '2%',
     paddingTop: '10px'
   },
   dataTableHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '22rem',
+    marginLeft: '20%',
     marginTop: '15px',
     paddingTop: '10px'
   },
@@ -114,7 +114,7 @@ const styles = () => ({
   },
   addProp: {
     width: '15rem',
-    marginLeft: '3rem',
+    marginLeft: '45%',
     height: '4rem',
     transition: 'all 0.1s ease-out',
     border: '2px solid #33eb91',
