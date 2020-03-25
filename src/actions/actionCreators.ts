@@ -61,9 +61,9 @@ export const addComponent = ({ title }: { title: string }) => (
   dispatch({ type: ADD_COMPONENT, payload: { title } });
 };
 
-export const addProp = ({ key, type }: { key: string; type: string }) => ({
+export const addProp = (prop: PropInt) => ({
   type: ADD_PROP,
-  payload: { key, type }
+  payload: { ...prop }
 });
 
 export const changeTutorial = (tutorial: number) => ({

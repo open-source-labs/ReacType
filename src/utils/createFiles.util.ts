@@ -6,7 +6,7 @@ const createFiles = (
   components: any,
   path: string,
   appName: string,
-  exportAppBool: boolean
+  exportAppBool: boolean,
 ) => {
   let dir = path;
   if (exportAppBool === false) {
@@ -35,12 +35,12 @@ const createFiles = (
           trailingComma: 'es5',
           bracketSpacing: true,
           jsxBracketSameLine: true,
-          parser: 'typescript'
+          parser: 'typescript',
         }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        }
+        },
       );
     });
 
