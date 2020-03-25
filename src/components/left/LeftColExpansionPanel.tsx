@@ -90,7 +90,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       (component: ComponentInt) => component.title === title
     );
 
-    const parentKeys: any[] = [];
+    const parentKeys: string[] = [];
     if (focusComponent.props.length > 0) {
       focusComponent.props.forEach(key => parentKeys.push(key.key));
     }
