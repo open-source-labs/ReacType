@@ -14,6 +14,10 @@ interface RectanglePorpsInt extends PropsInt {
   componentId: number;
   childComponentName: string;
   childComponentId: number;
+  changeComponentFocusChild: (arg: {
+    componentId: number;
+    childId: number;
+  }) => void;
   width: number;
   height: number;
   title: string;
@@ -93,6 +97,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
       y: target.y() + focChild.position.y
     };
     this.props.handleTransform(componentId, childId, transformation);
+    this.props.changeComponentFocusChild({ componentId, childId });
   }
 
   //mostly the same logic as above, just grabbing the change in position for the focused child and sending it
@@ -108,6 +113,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
     this.props.handleTransform(componentId, childId, transformation);
+    this.props.changeComponentFocusChild({ componentId, childId });
   }
 
   render() {

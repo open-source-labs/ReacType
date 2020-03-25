@@ -128,10 +128,10 @@ export const addChild = (
   };
 
   const components = [
+    component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
     }),
-    component
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {

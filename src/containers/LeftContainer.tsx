@@ -26,6 +26,10 @@ interface LeftContPropsInt extends PropsInt {
   addComponent(arg: { title: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
   changeFocusComponent(arg: { title: string }): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteComponent(arg: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -56,7 +60,8 @@ interface StateInt {
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
-  editMode: store.workspace.editMode
+  editMode: store.workspace.editMode,
+  focusChild: store.workspace.focusChild
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -71,6 +76,13 @@ const mapDispatchToProps = (dispatch: any) => ({
     childType: string;
     HTMLInfo: object;
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(actions.changeComponentFocusChild({ componentId, childId })),
   changeFocusComponent: ({ title }: { title: string }) =>
     dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) =>
@@ -257,13 +269,15 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       addChild,
       changeFocusComponent,
       changeFocusChild,
+      changeComponentFocusChild,
       selectableChildren,
       toggleComponentState,
       toggleComponentClass,
       deleteImage,
       updateCode,
       editMode,
-      toggleEditMode
+      toggleEditMode,
+      focusChild
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -287,6 +301,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}
           handleEditComponent={this.handleEditComponent}
+          changeComponentFocusChild={changeComponentFocusChild}
+          focusChild={focusChild}
         />
       ));
     const { addImage } = this;
