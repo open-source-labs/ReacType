@@ -78,6 +78,7 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   editMode: number;
+  native: boolean;
   loading: boolean;
   history: ApplicationStateInt[];
   historyIndex: number;

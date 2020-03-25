@@ -1,4 +1,3 @@
-import logger from 'redux-logger';
 import throttle from 'lodash.throttle';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createStore, applyMiddleware, compose } from 'redux';

@@ -7,7 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../../actions/actionCreators';
+import {
+  addProp,
+  changeComponentFocusChild,
+  deleteProp
+} from '../../actions/actionCreators';
 import DataTable from './DataTable';
 import { PropInt, PropsInt } from '../../interfaces/Interfaces';
 
@@ -15,6 +19,10 @@ interface PropsPropsInt extends PropsInt {
   classes: any;
   addProp(arg: PropInt): void;
   deleteProp(propId: number): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
 }
 
 interface StateInt {
@@ -143,11 +151,19 @@ const styles = () => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId))
+  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(changeComponentFocusChild({ componentId, childId }))
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent
+  focusComponent: store.workspace.focusComponent,
+  focusChild: store.workspace.focusChild
 });
 
 // available types for select drop-down for button types
@@ -165,7 +181,7 @@ const availablePropTypes = {
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
@@ -243,6 +259,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
       type: propType
     });
 
+    this.props.changeComponentFocusChild({
+      componentId: this.props.focusComponent.id,
+      childId: this.props.focusChild.childId
+    });
     this.setState({
       propVariable: '',
       propValue: '',
@@ -299,13 +319,13 @@ class Props extends Component<PropsPropsInt, StateInt> {
               </span>
             </div>
             <div
-              className='props-container'
+              className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
               <Grid container spacing={8} style={{ overflowY: 'auto' }}>
                 <Grid item xs={3}>
                   <form
-                    className='props-input'
+                    className="props-input"
                     // JZ: assigned typing to onSubmit event, matches handleAddProp func
                     onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
                       this.handleAddProp(event)
@@ -315,13 +335,13 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
-                            type='text'
+                            type="text"
                             // native commented out due to overload error with material
-                            id='propVariable'
-                            label='Prop'
-                            margin='none'
+                            id="propVariable"
+                            label="Prop"
+                            margin="none"
                             autoFocus
-                            size='medium'
+                            size="medium"
                             onChange={(
                               //JZ: assigned typing to incoming event
                               event: React.ChangeEvent<HTMLInputElement>
@@ -358,15 +378,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
                         <FormControl required>
                           <InputLabel
                             className={classes.selectLabel}
-                            htmlFor='propType'
+                            htmlFor="propType"
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.select}
-                            id='propType'
-                            placeholder='title'
+                            id="propType"
+                            placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -394,12 +414,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid> */}
                       <Grid item>
                         <Button
-                          color='primary'
-                          aria-label='Add'
-                          type='submit'
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant='contained'
-                          size='large'
+                          variant="contained"
+                          size="large"
                           className={classes.addProp}
                         >
                           ADD PROP

@@ -24,10 +24,14 @@ interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
   component: ComponentInt;
-  addProp(arg: { title: string; type: string }): void;
+  addProp(arg: { key: string; type: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   selectableChildren: number[];
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteComponent(arg: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -54,15 +58,17 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     addProp,
     addChild,
     changeFocusComponent,
+    changeComponentFocusChild,
     selectableChildren,
     deleteComponent,
     toggleComponentState,
     toggleComponentClass,
-    updateCode,
     editMode,
     toggleEditMode,
     handleChangeName,
-    handleEditComponent
+    handleEditComponent,
+    focusChild,
+    changeFocusChild
   } = props;
 
   const { title, id, color, stateful, classBased } = component;
@@ -98,7 +104,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     if (focusComponent.props.length > 0) {
       focusComponent.props.forEach(key => parentKeys.push(key.key));
     }
-    console.log('this is parentKeys', parentKeys);
     // sorting through object keys of the focusComponent
 
     let i = 0;
@@ -126,6 +131,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       }
       i++;
     }
+    
   };
 
   return (
@@ -185,6 +191,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                     if (focusComponent.title !== title)
                       //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title.
                       changeFocusComponent({ title });
+                      changeFocusChild({childId : -1});
+                      changeComponentFocusChild({
+                        componentId: 1,
+                        childId: -1
+                      });
                   }}
                 >
                   <ListItemText
@@ -353,6 +364,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
               aria-label='Add'
               onClick={() => {
                 addChildProps();
+                changeComponentFocusChild({
+                    componentId: focusComponent.id,
+                    childId: focusChild.childId
+                  });
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />
