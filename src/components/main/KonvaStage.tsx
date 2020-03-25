@@ -2,7 +2,7 @@
 //and also the parent rectangle components.
 
 import React, { Component } from 'react';
-import { Stage, Layer, Line } from 'react-konva';
+import { Stage, Layer, Line, Rect } from 'react-konva';
 import Konva from 'konva';
 import Rectangle from './Rectangle';
 import cloneDeep from '../../helperFunctions/cloneDeep';
@@ -12,6 +12,7 @@ import isEmpty from '../../helperFunctions/isEmpty';
 
 interface KonvaStagePropsInt extends PropsInt {
   image: HTMLImageElement;
+  nativeImageElement: HTMLImageElement | null;
   handleTransform(
     componentId: number,
     childId: number,
@@ -55,10 +56,6 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
   container: HTMLDivElement;
   stage: Stage;
   layer: Konva.Layer;
-
-  stage: Stage;
-  layer: Konva.Layer;
-  container: HTMLDivElement;
 
   //makes a copy of the array of children plus the parent component pushed onto it
   getDirectChildrenCopy(focusComponent: ComponentInt) {
@@ -196,6 +193,9 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     });
   };
 
+  appComponentDimensions = this.props.components.find(el => el.id === 1);
+  appIndex = this.props.components.findIndex(el => el == this.appComponentDimensions);
+
   render() {
     const {
       image,
@@ -237,6 +237,19 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
             {this.state.grid}
             {/* {The logic here is that it creates a new rectangle for each component that belongs to this parent component, plus the parent component.
             The parent component is rendered last. It renders based on the values in the return value of getDirectChildrenCopy. } */}
+            {focusComponent.id === 1 && native && <Rect 
+            x={this.props.components[this.appIndex].position.x - 25}
+            y={this.props.components[this.appIndex].position.y - 45}
+            width={this.props.components[this.appIndex].position.width * 1.1}
+            height={this.props.components[this.appIndex].position.height * 1.1}
+            fillPatternImage={this.props.nativeImageElement} 
+            fillPatternScaleX={this.props.components[this.appIndex].position.width * 1.1 / this.props.nativeImageElement.width} 
+            fillPatternScaleY={
+              this.props.components[this.appIndex].position.height * 1.1 / this.props.nativeImageElement.height
+              
+            } 
+            _useStrictMode
+            />}
             {!isEmpty(focusComponent) &&
               this.getDirectChildrenCopy(focusComponent)
                 .map((child: ChildInt, i: number) => (

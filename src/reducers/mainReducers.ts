@@ -153,10 +153,11 @@ export const handleTransform = (
   };
 
   const components: ComponentsInt = [
+    component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.id !== componentId) return comp;
     }),
-    component,
+    
   ];
   const { history, historyIndex, future } = createHistory(state);
 

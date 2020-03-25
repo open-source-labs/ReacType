@@ -31,8 +31,8 @@ interface MainContPropsInt extends PropsInt {
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
-  nativeImage(): void;
-  native: boolean;
+    native: boolean;
+  nativeImageElement: HTMLImageElement | null;
 }
 
 interface StateInt {
@@ -127,8 +127,8 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
       deleteChild,
       updateCode,
       image,
-      nativeImage,
-      native
+      native,
+      nativeImageElement
     } = this.props;
 
     // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**
@@ -153,6 +153,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
               changeComponentFocusChild={changeComponentFocusChild}
               deleteChild={deleteChild}
               native={native}
+              nativeImageElement={nativeImageElement}
               /*  classes={classes}  commented out because not used anywhere*/
             />
           </div>
@@ -160,7 +161,6 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
             focusComponent={focusComponent}
             changeFocusComponent={changeFocusComponent}
             updateCode={updateCode}
-            nativeImage={nativeImage}
           />
         </div>
       </MuiThemeProvider>

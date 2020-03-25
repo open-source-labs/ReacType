@@ -20,7 +20,6 @@ interface BottomTabsPropsInt extends PropsInt {
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
   toggleNative(): void;
-  nativeImage(): void;
   native: boolean;
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
@@ -159,7 +158,6 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       toggleNative,
       updateCode,
       native,
-      nativeImage,
       toggleCodeEdit,
       codeReadOnly
     } = this.props;
@@ -215,7 +213,6 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               className={classes.switch}
               control={<Switch checked={native} color="primary" onChange={() => {
                 toggleNative();
-                nativeImage();
               }} />}
               label="Native Mode"
               labelPlacement="start"

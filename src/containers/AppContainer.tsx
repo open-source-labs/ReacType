@@ -39,6 +39,7 @@ interface Props {
 //component below.
 interface State {
   image: HTMLImageElement | null;
+  nativeImageElement: HTMLImageElement | null;
   changed: boolean;
 }
 
@@ -83,6 +84,7 @@ class AppContainer extends Component<Props, State> {
     //TODO: someone fix this pl0x (Possibly move to component that actually depends on it)
     this.state = {
       image: null,
+      nativeImageElement: null,
       changed: false
     };
 
@@ -121,22 +123,6 @@ class AppContainer extends Component<Props, State> {
     });
   }
 
-  nativeImage = () => {
-    if (!this.props.native) {
-    const image = new window.Image();
-    image.src = 'images/iphone.png';
-    image.onload = () => {
-      // update state when the image has been uploaded
-      this.props.changeImagePath(image.src);
-      this.setState({ image, changed: true });
-    };
-  }
-  else {
-    this.props.changeImagePath('');
-    this.setState({ image: null, changed: false });
-  }
-  };
-
   handleNext = (tutorial: number) => {
     this.props.changeTutorial(tutorial);
   };
@@ -166,7 +152,14 @@ class AppContainer extends Component<Props, State> {
 
   //this will load the saved sata from last close
   componentDidMount() {
+    const image = new window.Image();
+    image.src = 'images/iphone.png';
+    image.onload = () => {
+    // update state when the image has been uploaded
+    this.props.changeImagePath(image.src);
+    this.setState({ nativeImageElement: image });
     this.props.loadInitData();
+    }
 };
 
   render(): JSX.Element {
@@ -199,7 +192,7 @@ class AppContainer extends Component<Props, State> {
             components={components}
             image={this.state.image}
             imageSource={this.props.imageSource}
-            nativeImage={this.nativeImage}
+            nativeImageElement={this.state.nativeImageElement}
             // classes={null} //placeholder, for some reason it's expecting this prop
           />
           {loading ? ( //This is triggered when files are being exported. Unsure if it actually does anything.
