@@ -184,11 +184,11 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               htmlAttribCount ? `(${htmlAttribCount})` : ''
             } `}
           />
-          <Tab
+          {/* <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label='Add Child Props'
-          />
+          /> */}
         </Tabs>
 
         {value === 0 && (
@@ -242,7 +242,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
-        {value === 4 && <AddChildProps />}
+        {/* {value === 4 && <AddChildProps />} */}
       </div>
     );
   }
