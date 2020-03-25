@@ -310,6 +310,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}
           handleEditComponent={this.handleEditComponent}
+          changeFocusChild={changeFocusChild}
           changeComponentFocusChild={changeComponentFocusChild}
           focusChild={focusChild}
         />

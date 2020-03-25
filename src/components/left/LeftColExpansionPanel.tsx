@@ -67,6 +67,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     handleChangeName,
     handleEditComponent,
     focusChild,
+    changeFocusChild
   } = props;
   const { title, id, color, stateful, classBased } = component;
   function isFocused() {
@@ -99,7 +100,6 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     if (focusComponent.props.length > 0) {
       focusComponent.props.forEach(key => parentKeys.push(key.key));
     }
-    console.log('this is parentKeys', parentKeys);
     // sorting through object keys of the focusComponent
 
     let i = 0;
@@ -187,6 +187,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                     if (focusComponent.title !== title)
                       //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title.
                       changeFocusComponent({ title });
+                      changeFocusChild({childId : -1});
+                      changeComponentFocusChild({
+                        componentId: 1,
+                        childId: -1
+                      });
                   }}
                 >
                   <ListItemText

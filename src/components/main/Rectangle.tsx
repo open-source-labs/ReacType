@@ -33,6 +33,7 @@ interface RectanglePorpsInt extends PropsInt {
   native:boolean;
 }
 
+
 class Rectangle extends Component<RectanglePorpsInt> {
   rect: Konva.Rect;
   group: Konva.Group;
@@ -56,7 +57,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   handleResize(
     componentId: number,
     childId: number,
-    target: Konva.Group,
+    target:  Konva.Rect | Konva.Stage, //unsolved bug in Konva typescript for this type
     blockSnapSize: number
   ) {
     //find the id of the component where the componentID in the state equals the currently focused component
@@ -105,7 +106,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   handleDrag(
     componentId: number,
     childId: number,
-    target: Konva.Group,
+    target: any,
     blockSnapSize: number
   ) {
     const transformation = {
@@ -177,7 +178,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
           stroke={
             childType === 'COMP'
               ? this.getComponentColor(childComponentId)
-              : native && componentId === 1 ? null : '#000000' //sets the parent component color to black
+              : native && componentId === 1 && childType !== 'HTML' ? null : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
