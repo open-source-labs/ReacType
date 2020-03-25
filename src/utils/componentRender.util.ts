@@ -73,7 +73,7 @@ const componentRender = (
     if (child.childType === 'COMP') {
       return components
         .find((c: any) => c.id === child.childComponentId)
-        .props.map((prop: PropInt) => `${prop.key}={${prop.key}}`)
+        .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
         .join(' ');
     }
     if (child.childType === 'HTML') {
