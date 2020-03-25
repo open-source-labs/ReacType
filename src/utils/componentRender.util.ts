@@ -38,12 +38,6 @@ const componentRender = (
         return 'boolean';
       case 'function':
         return '() => any';
-      // case 'symbol':
-      //   return 'string';
-      case 'node':
-        return 'string';
-      case 'element':
-        return 'string';
       case 'tuple':
         return '[any]';
       case 'enum':
@@ -51,7 +45,6 @@ const componentRender = (
       case 'any':
         return 'any';
       default:
-        console.log(type);
         return 'any';
     }
   }
