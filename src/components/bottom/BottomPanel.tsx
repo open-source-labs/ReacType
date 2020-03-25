@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp, toggleNative } from '../../actions/actionCreators';
+import { handleClose, deleteProp, addProp, toggleNative, changeComponentFocusChild } from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 import { toggleCodeEdit } from '../../actions/actionCreators';
@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteProp: (id: number) => dispatch(deleteProp(id)),
   handleNotificationClose: () => dispatch(handleClose()),
   toggleNative: () => dispatch(toggleNative()),
-  toggleCodeEdit: () => dispatch(toggleCodeEdit())
+  toggleCodeEdit: () => dispatch(toggleCodeEdit()),
 });
 
 const mapStateToProps = (store: any) => ({
@@ -31,6 +31,10 @@ interface BottomPanelPropsInt extends PropsInt {
   native: boolean;
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
 }
 
 class BottomPanel extends Component<BottomPanelPropsInt> {
@@ -46,7 +50,8 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
       toggleNative,
       native,
       toggleCodeEdit,
-      codeReadOnly
+      codeReadOnly,
+      changeComponentFocusChild
     } = this.props;
 
     return (

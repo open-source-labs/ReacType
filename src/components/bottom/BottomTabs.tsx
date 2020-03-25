@@ -8,7 +8,7 @@ import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
 import Switch from '@material-ui/core/Switch';
-import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
+import { ComponentsInt, PropsInt } from '../../interfaces/Interfaces';
 import Box from '@material-ui/core/Box';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -36,7 +36,7 @@ const styles = (theme: Theme): any => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   bottomHeader: {
     flex: 1,
@@ -211,9 +211,15 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <FormGroup>
             <FormControlLabel
               className={classes.switch}
-              control={<Switch checked={native} color="primary" onChange={() => {
-                toggleNative();
-              }} />}
+              control={
+                <Switch
+                  checked={native}
+                  color="primary"
+                  onChange={() => {
+                    toggleNative();
+                  }}
+                />
+              }
               label="Native Mode"
               labelPlacement="start"
             />
@@ -221,7 +227,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         </Box>
         {value === 0 && (
           <div
-            id='treeWrapper'
+            id="treeWrapper"
             style={{
               width: '80%',
               height: '100%'

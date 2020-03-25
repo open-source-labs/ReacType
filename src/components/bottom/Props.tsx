@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../../actions/actionCreators';
+import { addProp, changeComponentFocusChild, deleteProp } from '../../actions/actionCreators';
 import DataTable from './DataTable';
 import { PropInt, PropsInt } from '../../interfaces/Interfaces';
 
@@ -15,6 +15,10 @@ interface PropsPropsInt extends PropsInt {
   classes: any;
   addProp(arg: PropInt): void;
   deleteProp(propId: number): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
 }
 
 const styles = () => ({
@@ -136,11 +140,19 @@ const styles = () => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (propId: number) => dispatch(deleteProp(propId))
+  deleteProp: (propId: number) => dispatch(deleteProp(propId)),
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
 });
 
 const mapStateToProps = (store: any) => ({
-  focusComponent: store.workspace.focusComponent
+  focusComponent: store.workspace.focusComponent,
+  focusChild: store.workspace.focusChild
 });
 
 // available types for select drop-down for button types
@@ -187,7 +199,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
 
   // using useState to locally check a clickedValue
 
-  handleChange = (event: MouseEvent | any) => {
+  handleChange = (event: any) => {
     if (event.target.id === 'propVariable') {
       this.setState({
         [event.target.id]: event.target.value.trim()
@@ -239,12 +251,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
       type: propType
     });
 
+    this.props.changeComponentFocusChild({ componentId: this.props.focusComponent.id , childId: this.props.focusChild.childId});
     this.setState({
       propVariable: '',
       propValue: '',
       propRequired: true,
       propType: ''
     });
+
+    
   };
 
   render() {
