@@ -11,10 +11,12 @@ import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
-  addProp(prop: PropInt): void;
+  addProp(arg: { key: string; type: string }): void;
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleCodeEdit(): void;
+  codeReadOnly: boolean;
 }
 
 // interface TreeInt {
@@ -141,7 +143,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       deleteProp,
       addProp,
       focusChild,
-      updateCode
+      updateCode,
+      toggleCodeEdit,
+      codeReadOnly
     } = this.props;
     const { value } = this.state;
 
@@ -229,6 +233,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
             updateCode={updateCode}
             components={components}
             changeFocusComponent={this.props.changeFocusComponent}
+            toggleCodeEdit={toggleCodeEdit}
+            codeReadOnly={codeReadOnly}
           />
         )}
         {value === 2 && <Props />}
