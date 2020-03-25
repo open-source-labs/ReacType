@@ -116,6 +116,8 @@ const componentRender = (
           return 'ul';
         case 'Paragraph':
           return 'p';
+        // REACT NATIVE COMPONENTS
+        // TO DO: UPDATE REDUCER LOGIC TO HAVE THESE COMPONENTS IN A SEPARATE FUNCTION
         case 'RNView':
           return 'View';
         case 'RNSafeAreaView':
@@ -135,7 +137,7 @@ const componentRender = (
         case 'RNTextInput':
           return 'TextInput';
         case 'RNTouchOpacity':
-          return 'TouchableOpacity onPress={}';
+          return 'TouchableOpacity';
         default:
           return 'div';
       }
@@ -179,7 +181,7 @@ const componentRender = (
       }
       ${
         stateful && !classBased
-          ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
+          ? `const  [state, setState] = useState("INITIAL VALUE FOR STATE");`
           : ``
       }
       ${
@@ -200,12 +202,20 @@ const componentRender = (
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            if (child.componentName == 'Button') {
+            // component/element names that are not self closing
+            if (
+              child.componentName == 'Button' ||
+              child.componentName === 'RNButton' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNTouchOpacity'
+            ) {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
               )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
-            } else
+            }
+            // code to be rendered for all self closing component/elements
+            else
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
