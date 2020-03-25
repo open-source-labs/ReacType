@@ -142,7 +142,6 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       focusComponent,
       deleteProp,
       addProp,
-      changeFocusComponent,
       focusChild,
       updateCode,
       toggleCodeEdit,
@@ -166,12 +165,12 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Application Tree'
+            label="Application Tree"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Code Preview'
+            label="Code Preview"
           />
           <Tab
             disableRipple
@@ -188,13 +187,13 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child Props'
+            label="Add Child Props"
           />
         </Tabs>
 
         {value === 0 && (
           <div
-            id='treeWrapper'
+            id="treeWrapper"
             style={{
               width: '100%',
               height: '100%'
@@ -231,9 +230,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 1 && (
           <CodePreview
             focusComponent={focusComponent}
-            components={components}
-            changeFocusComponent={changeFocusComponent}
             updateCode={updateCode}
+            components={components}
+            changeFocusComponent={this.props.changeFocusComponent}
             toggleCodeEdit={toggleCodeEdit}
             codeReadOnly={codeReadOnly}
           />

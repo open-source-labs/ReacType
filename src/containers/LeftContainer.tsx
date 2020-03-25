@@ -14,12 +14,7 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/left/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/left/HTMLComponentPanel';
 import * as actions from '../actions/actionCreators';
-import {
-  ComponentInt,
-  ComponentsInt,
-  PropsInt,
-  PropInt
-} from '../interfaces/Interfaces';
+import { ComponentInt, ComponentsInt, PropsInt } from '../interfaces/Interfaces';
 import createModal from '../components/left/createModal';
 import cloneDeep from '../helperFunctions/cloneDeep';
 
@@ -29,7 +24,6 @@ interface LeftContPropsInt extends PropsInt {
   selectableChildren: number[];
   classes: any;
   addComponent(arg: { title: string }): void;
-  addProp(arg: PropInt): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   deleteComponent(arg: {
@@ -68,8 +62,6 @@ const mapStateToProps = (store: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) =>
     dispatch(actions.addComponent({ title })),
-  addProp: ({ key, type }: { key: string; type: string }) =>
-    dispatch(actions.addProp({ key, type })),
   addChild: ({
     title,
     childType,
@@ -224,7 +216,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     const { closeModal, chooseGenOptions } = this;
     const { genOptions } = this.state;
     const children = (
-      <List className='export-preference'>
+      <List className="export-preference">
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
@@ -258,12 +250,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
   render(): JSX.Element {
     const {
       imageSource,
-      // component,
       components,
       deleteComponent,
       focusComponent,
       classes,
-      addProp,
       addChild,
       changeFocusComponent,
       changeFocusChild,
@@ -284,7 +274,6 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           key={component.id}
           component={component}
           focusComponent={focusComponent}
-          addProp={addProp}
           addChild={addChild}
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
@@ -303,21 +292,21 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
     const { addImage } = this;
 
     return (
-      <div className='column left' style={{ minWidth: '466px' }}>
+      <div className="column left" style={{ minWidth: '466px' }}>
         <Grid
           container
           spacing={8}
-          align='stretch'
-          direction='row'
-          alignItems='center'
+          align="stretch"
+          direction="row"
+          alignItems="center"
         >
           <Grid item xs={8}>
             <TextField
-              id='title-input'
-              label='Add component'
-              placeholder='Name of component'
-              margin='normal'
-              autoFocus
+              id="title-input"
+              label="Add component"
+              size="medium"
+              placeholder="Name of component"
+              margin="normal"
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {
@@ -326,7 +315,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                 }
               }}
               value={componentName}
-              name='componentName'
+              name="componentName"
               className={classes.light}
               InputProps={{
                 className: classes.input
@@ -338,10 +327,10 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           </Grid>
           <Grid item xs={4}>
             <Fab
-              size='small'
-              color='secondary'
+              size="small"
+              color="secondary"
               className={classes.button}
-              aria-label='Add'
+              aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
@@ -349,12 +338,11 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className='expansionPanel'>{componentsExpansionPanel}</div>
+        <div className="expansionPanel">{componentsExpansionPanel}</div>
         <HTMLComponentPanel
           className={classes.htmlCompWrapper}
           focusComponent={focusComponent}
           addChild={addChild}
-          addProp={addProp}
         />
 
         <div
@@ -374,8 +362,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           >
             {imageSource ? (
               <Button
-                aria-label='Remove Image'
-                variant='contained'
+                aria-label="Remove Image"
+                variant="contained"
                 fullWidth
                 onClick={deleteImage}
                 className={classes.clearButton}
@@ -390,8 +378,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               </Button>
             ) : (
               <Button
-                aria-label='Upload Image'
-                variant='contained'
+                aria-label="Upload Image"
+                variant="contained"
                 fullWidth
                 onClick={addImage}
                 className={classes.clearButton}
@@ -406,9 +394,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               </Button>
             )}
             <Button
-              color='secondary'
-              aria-label='Delete All'
-              variant='contained'
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
               fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
@@ -426,9 +414,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             }}
           >
             <Button
-              color='primary'
-              aria-label='Export Code'
-              variant='contained'
+              color="primary"
+              aria-label="Export Code"
+              variant="contained"
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}

@@ -11,57 +11,20 @@ import { IconButton } from '@material-ui/core';
 
 const styles = (theme: Theme) => ({
   root: {
-    width: '650px',
+    width: '80%',
     marginTop: theme.spacing.unit * 3,
-    borderRadius: '8px',
-    // boxShadow: '0px 0px 5px 2px #97ffb6'
-    boxShadow: '0px 0px 5px 2px lightgray'
-  },
-  tableContainer: {
-    borderRadius: '7px',
-    border: 'none',
-    backgroundColor: '#55585b'
+    marginRight: '100px'
+    // overflowX: "auto"
   },
   table: {
-    minWidth: 300,
-    borderRadius: '7px',
-    backgroundColor: '#55585b'
-  },
-  tableHeader: {
-    fontWeight: '900',
-    fontSize: '25px',
-    color: '#01d46d',
-    border: 'none',
-    textShadow: '2px 2px 5px 5px #8dffce'
+    minWidth: 500,
+    marginRight: '100px'
   },
   tableCell: {
-    fontWeight: '500',
-    fontSize: '17px',
-    letterSpacing: '2px',
-    color: 'lightgray',
-    padding: '3px',
-    borderRadius: '7px',
-    border: 'none',
-    '&:hover': {
-      transform: 'scale(1.1)',
-      color: '#fff'
-    }
-  },
-  tableCellShaded: {
     fontWeight: '900',
-    fontSize: '15px',
+    fontSize: '1.2rem',
     color: '#91D1F9',
-    borderRadius: '7px'
-  },
-  trashIcon: {
-    backgroundColor: 'none',
-    color: 'gray',
-    '&:hover': {
-      transform: 'scale(1.08)',
-      backgroundColor: 'gray',
-      color: '#b30000',
-      border: 'none'
-    }
+    border: '1px solid red'
   }
 });
 
@@ -91,11 +54,7 @@ function dataTable(props: dataTableProps) {
   const { classes, rowData, rowHeader, deletePropHandler } = props;
 
   const renderHeader = rowHeader.map((col: any, idx: number) => (
-    <TableCell
-      className={classes.tableHeader}
-      align={'center'}
-      key={`head_+${idx}`}
-    >
+    <TableCell align={'center'} key={`head_+${idx}`}>
       {col}
     </TableCell>
   ));
@@ -105,9 +64,9 @@ function dataTable(props: dataTableProps) {
     // for some reason we must put each value in a div.
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`td_${idx}`}>
-        <div className={classes.tableCell} align={'center'} padding={'none'}>
-          {row[header]}
-        </div>
+        {/* <div  align={'center'} padding = {'none'} >{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div> */}
+        {/* {row[header]} */}
+        {typeof row[header] === 'string' ? row[header] : row[header].toString()}
       </TableCell>
     ));
   }
@@ -115,13 +74,8 @@ function dataTable(props: dataTableProps) {
   const renderRows = rowData.map((row: any) => (
     <TableRow key={`row-${row.id}`}>
       {renderRowCells(row)}
-      <TableCell
-        style={{ height: '15px', width: '15px' }}
-        align={'center'}
-        padding={'none'}
-      >
+      <TableCell align={'center'} padding={'none'}>
         <IconButton
-          className={classes.trashIcon}
           color='default'
           // fontSize='small' - commented/removed b/c not a valid attribute for IconButton component
           onClick={() => deletePropHandler(row.id)}
@@ -135,14 +89,15 @@ function dataTable(props: dataTableProps) {
 
   return (
     <Paper className={classes.root}>
-      <div className={classes.tableContainer}>
-        <Table className={classes.table} selectable={'true'}>
-          <TableHead>
-            <TableRow>{renderHeader}</TableRow>
-          </TableHead>
-          <TableBody>{renderRows}</TableBody>
-        </Table>
-      </div>
+      <Table
+        className={classes.table}
+        // selectable={'true'} - commented/removed b/c not a valid attr for Table (no adverse effects noted)
+      >
+        <TableHead>
+          <TableRow>{renderHeader}</TableRow>
+        </TableHead>
+        <TableBody>{renderRows}</TableBody>
+      </Table>
     </Paper>
   );
 }
