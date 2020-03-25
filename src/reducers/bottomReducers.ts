@@ -111,6 +111,19 @@ export const toggleCodeEdit = (state: ApplicationStateInt) => ({
   codeReadOnly: !state.codeReadOnly
 });
 
+export const toggleNative = (state: ApplicationStateInt) => {
+  const components = cloneDeep(state.components);
+  const app = components.find(e => e.id === 1);
+  app.position.width = !state.native ? 500 : 1200;
+  app.position.height = !state.native ? 850 : 800;
+
+  return {
+    ...state,
+    native: !state.native,
+    components
+  };
+};
+
 export const updateChildrenSort = (
   state: ApplicationStateInt,
   { newSortValues }: { newSortValues: any }

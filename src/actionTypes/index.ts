@@ -32,6 +32,7 @@ export const REASSIGN_PARENT: string = 'REASSIGN_PARENT';
 export const REDO: string = 'REDO';
 export const SET_SELECTABLE_PARENTS: string = 'SET_SELECTABLE_PARENTS';
 export const TOGGLE_CLASS: string = 'TOGGLE_CLASS';
+export const TOGGLE_NATIVE: string = 'TOGGLE_NATIVE';
 export const TOGGLE_STATE: string = 'TOGGLE_STATE';
 export const UNDO: string = 'UNDO';
 export const UPDATE_COMPONENT: string = 'UPDATE_COMPONENT';

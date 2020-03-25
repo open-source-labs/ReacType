@@ -110,7 +110,7 @@
     "d3": "^5.9.2",
     "electron-reload": "^1.4.0",
     "enzyme": "^3.4.1",
-    "konva": "^4.1.6",
+    "konva": "^4.2.0",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "material-table": "^1.25.2",
