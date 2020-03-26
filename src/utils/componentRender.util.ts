@@ -141,13 +141,20 @@ const componentRender = (
       }, [])
       .join('\n')}
     
-    interface Props {
+    ${
+      title == 'App'
+        ? ''
+        : `interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
-    };
+    };`
+    }
+    
 
       ${
         classBased
           ? `class ${title} extends Component {`
+          : title == 'App'
+          ? `const ${title} = () => {`
           : `const ${title} = (props: Props) => {`
       }
       ${
@@ -164,9 +171,13 @@ const componentRender = (
           : ``
       }
       ${classBased ? `render(): JSX.Element {` : ``}
-      const {${props.map(el => el.key).join(', ')}} = ${
-    classBased ? `this.props` : `props`
-  };
+      ${
+        title === 'App'
+          ? ''
+          : `const {${props.map(el => el.key).join(', ')}} = ${
+              classBased ? `this.props` : `props`
+            }`
+      }
       
       return (
         <div>
