@@ -105,7 +105,7 @@ const componentRender = (
     if (child.childType === 'HTML') {
       switch (child.componentName) {
         case 'Image':
-          return 'img';
+          return 'img src=""';
         case 'Form':
           return 'form';
         case 'Button':
