@@ -192,7 +192,7 @@ export const undo = (state: ApplicationStateInt) => {
   
   export const redo = (state: ApplicationStateInt) => {
     //if the future history array is empty, return the current state
-    if (!state.future) return { ...state };
+    if (!state.future || !state.future.length) return { ...state };
     const stateCopy = cloneDeep(state);
     const futureCopy = cloneDeep(state.future);
     //grab the first element of the future history array and assign it to the new state
