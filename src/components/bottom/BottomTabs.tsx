@@ -208,7 +208,9 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               label="Add Child Props"
             /> */}
           </Tabs>
-          <FormGroup>
+          {
+            // REACT NATIVE TOGGLE REMOVED AND MOVED TO LEFTCONTAINER. REMOVE THIS CODE IF NO ADVERSE EFFECTS FOUND
+            /* <FormGroup>
             <FormControlLabel
               className={classes.switch}
               control={
@@ -223,7 +225,8 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
               label="Native Mode"
               labelPlacement="start"
             />
-          </FormGroup>
+          </FormGroup> */
+          }
         </Box>
         {value === 0 && (
           <div
