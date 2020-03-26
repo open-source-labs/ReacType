@@ -20,9 +20,14 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 ### How to use
 
+- To enter **_Tutorial Mode_** navigate to 'Help' -> 'Tutotial'
+
 - Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
-- To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
+- **_Upload an image to use as template_** by clicking the button on the bottom left corner or through the windows menu under 'File -> Open Image'
+- To add a new component, type its name in the upper left panel, in the field '**Add component**', and press enter.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
+- To **_toggle the component to be class or functional_** click the 'Class?' switch and it will repopulate the code preview to reflect the change. 
+- To **_toggle the component to be stateful_** click the 'State?' switch and it will repopulate the code preview to reflect the change. The application exported will use the 'useState' hook to allow for functional components to be stateful as well.
 - To add draggable **HTML elements**, select the image icons on the lower left panel.
 
 ![Gif of adding](https://imgur.com/sZloD8o.gif)
@@ -31,13 +36,15 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 ![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
 
-- **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
+- **_Props_** can be added to each component within its tab on bottom panel. Enter in a _name for the prop_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
+- To **_edit code while in code preview_** press 'ENTER EDIT MODE'. 
 
 ![Gif of attr & props](https://imgur.com/JgCiBE9.gif)
 
 - To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
+- To **_edit_** a _component's name_, double click on the component's name, and press escape to cancel.
 - To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
 
 ### To Export Files
@@ -56,17 +63,25 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
+[Eliot Nguyen](https://www.linkedin.com/in/ibeeliot/) [@ibeeliot](https://github.com/ibeeliot)
+
+[Jesse Zuniga](https://www.linkedin.com/in/jesse-zuniga/) [@jzuniga206](https://github.com/jzuniga206)
+
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
 
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
 
+[Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
+
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
+
+[Tony Ito-Cole](www.linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
 ## To Run Your Own Version
 
