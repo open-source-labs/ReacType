@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleClose, deleteProp, addProp, toggleNative, changeComponentFocusChild } from '../../actions/actionCreators';
+import {
+  handleClose,
+  deleteProp,
+  addProp,
+  toggleNative,
+  changeComponentFocusChild
+} from '../../actions/actionCreators';
 import BottomTabs from './BottomTabs';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 import { toggleCodeEdit } from '../../actions/actionCreators';
@@ -12,7 +18,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteProp: (id: number) => dispatch(deleteProp(id)),
   handleNotificationClose: () => dispatch(handleClose()),
   toggleNative: () => dispatch(toggleNative()),
-  toggleCodeEdit: () => dispatch(toggleCodeEdit()),
+  toggleCodeEdit: () => dispatch(toggleCodeEdit())
 });
 
 const mapStateToProps = (store: any) => ({
