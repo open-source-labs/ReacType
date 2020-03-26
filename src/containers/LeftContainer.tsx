@@ -320,7 +320,6 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}
           handleEditComponent={this.handleEditComponent}
-          changeFocusChild={changeFocusChild}
           changeComponentFocusChild={changeComponentFocusChild}
           focusChild={focusChild}
         />
@@ -329,13 +328,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
     return (
       <div className="column left" style={{ minWidth: '466px' }}>
-        <Grid
-          container
-          spacing={8}
-          // align="stretch"
-          direction="row"
-          alignItems="center"
-        >
+        <Grid container spacing={8} direction="row" alignItems="center">
           <Grid item xs={12} style={{ paddingBottom: '0' }}>
             <FormControlLabel
               className={classes.switch}
@@ -352,7 +345,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               labelPlacement="start"
             />
           </Grid>
-          <Grid item xs={6} style={{ paddingTop: '0' }}>
+          <Grid item xs={10} style={{ paddingTop: '0' }}>
             <TextField
               id="title-input"
               label="Add component"
@@ -377,7 +370,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               }}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2} style={{ padding: '0' }}>
             <Fab
               size="small"
               color="secondary"
@@ -390,7 +383,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className="expansionPanel">{componentsExpansionPanel}</div>
+        <div className={classes.expansionPanel}>{componentsExpansionPanel}</div>
         {native ? (
           // React Native Components will display when in 'Native' mode
           <NativeComponentPanel addChild={addChild} />
@@ -500,11 +493,11 @@ function styles(): any {
         color: 'green'
       }
     },
-    cssFocused: {},
     input: {
       color: '#fff',
       opacity: '0.7',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      paddingLeft: '10%'
     },
     underline: {
       color: 'white',
@@ -529,16 +522,28 @@ function styles(): any {
         backgroundColor: '#424242'
       }
     },
+    expansionPanel: {
+      flexDirection: 'column',
+      display: 'flex',
+      height: '60%',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      padding: '1%',
+      paddingLeft: '10%'
+    },
     switch: {
       marginLeft: '30%',
-      marginTop: '10%',
+      marginTop: '5%',
       marginBottom: '0',
       paddingBottom: '0',
-      color: '#fff'
+      color: '#fff',
+      fontSize: '1.3em'
     },
     light: {
       marginTop: '0',
-      paddingTop: '0'
+      paddingTop: '0',
+      width: '100%',
+      paddingLeft: '10%'
     }
   };
 }
