@@ -370,7 +370,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               }}
             />
           </Grid>
-          <Grid item xs={2} style={{ padding: '0' }}>
+          <Grid item xs={2} style={{ padding: '0', marginBottom: '30px' }}>
             <Fab
               size="small"
               color="secondary"
