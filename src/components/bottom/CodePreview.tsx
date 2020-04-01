@@ -17,9 +17,7 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-
 class CodePreview extends Component<CodePreviewProps> {
-
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
   componentDidMount() {
@@ -75,6 +73,7 @@ class CodePreview extends Component<CodePreviewProps> {
             border: '2px solid #33eb91',
             borderRadius: '8px'
           }}
+          enableLiveAutocompletion={true}
           onChange={code =>
             this.props.updateCode({
               componentId: this.props.focusComponent.id,
@@ -86,6 +85,8 @@ class CodePreview extends Component<CodePreviewProps> {
           readOnly={this.props.codeReadOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
+          // enableBasicAutocompletion={true}
+          tabSize={2}
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Button
