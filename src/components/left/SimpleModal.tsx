@@ -12,20 +12,20 @@ const styles = (theme: any): any => ({
     width: 'auto',
     maxWidth: '500px',
     height: 'auto',
-    maxHeight: '500px',
+    maxHeight: '300px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '4%',
     minWidth: '500px',
-    minHeight: '300px'
+    minHeight: '300px',
   },
   button: {
     marginTop: '0%',
     height: 'auto',
     marginLeft: '3%',
     borderRadius: '4px',
-    float: 'right'
-  }
+    float: 'right',
+  },
 });
 
 const SimpleModal = (props: any) => {
@@ -38,14 +38,14 @@ const SimpleModal = (props: any) => {
     primBtnAction,
     secBtnAction,
     closeModal,
-    children = null
+    children = null,
   } = props;
 
   return (
     <Fragment>
       <Modal
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
         onClose={closeModal}
         open={open}
       >
@@ -53,32 +53,32 @@ const SimpleModal = (props: any) => {
           style={{
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)'
+            transform: 'translate(-50%, -50%)',
           }}
           className={classes.paper}
         >
           <IconButton
-            aria-label='Close'
+            aria-label="Close"
             onClick={closeModal}
             style={{
               position: 'absolute',
               top: '2%',
               right: '1%',
               fontSize: '17px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant='h6' id='modal-title'>
+          <Typography variant="h6" id="modal-title">
             {message}
           </Typography>
           <div>{children}</div>
           <div>
             {secBtnLabel ? (
               <Button
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 className={classes.button}
                 onClick={secBtnAction}
               >
@@ -87,8 +87,8 @@ const SimpleModal = (props: any) => {
             ) : null}
             {primBtnLabel ? (
               <Button
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.button}
                 onClick={primBtnAction}
               >
