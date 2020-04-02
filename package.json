@@ -100,7 +100,9 @@
         "diagnostics": false
       }
     },
-    "setupFiles":  ["<rootDir>/src/setupTests.ts"]
+    "setupFiles": [
+      "<rootDir>/src/setupTests.ts"
+    ]
   },
   "dependencies": {
     "@material-ui/core": "^4.2.1",
