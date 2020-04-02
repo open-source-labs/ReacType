@@ -63,9 +63,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
-[Eliot Nguyen](https://www.linkedin.com/in/ibeeliot/) [@ibeeliot](https://github.com/ibeeliot)
+[Eliot Nguyen](https://linkedin.com/in/ibeeliot) [@ibeeliot](https://github.com/ibeeliot)
 
-[Jesse Zuniga](https://www.linkedin.com/in/jesse-zuniga/) [@jzuniga206](https://github.com/jzuniga206)
+[Jesse Zuniga](https://linkedin.com/in/jesse-zuniga) [@jzuniga206](https://github.com/jzuniga206)
 
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
@@ -81,7 +81,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
 
-[Tony Ito-Cole](www.linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
+[Tony Ito-Cole](https://linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
 ## To Run Your Own Version
 
