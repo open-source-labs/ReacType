@@ -19,6 +19,7 @@ import {
   ComponentsInt,
   PropsInt
 } from '../../interfaces/Interfaces'; // unused
+
 interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
@@ -69,10 +70,13 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     focusChild,
     changeFocusChild
   } = props;
+
   const { title, id, color, stateful, classBased } = component;
+
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
   }
+
   // boolean flag to determine if the component card is focused or not
   // state/class toggles will be displayed when a component is focused
   const focusedToggle = isFocused() === 'focused' ? true : false;

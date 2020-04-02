@@ -3,7 +3,7 @@ import indigo from '@material-ui/core/colors/indigo';
 
 const theme = createMuiTheme({
   typography: {
-    useNextVariants: true,
+    useNextVariants: true
   },
   palette: {
     primary: {
@@ -11,9 +11,9 @@ const theme = createMuiTheme({
       // main: '#33eb91',
       main: '#01d46d', // less blinding green
       dark: '#14a37f',
-      contrastText: '#fff',
+      contrastText: '#fff'
     },
-    secondary: indigo,
+    secondary: indigo
   }
 });
 
