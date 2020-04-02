@@ -2,7 +2,7 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "tslint.autoFixOnSave": true,
   "linterOptions": {
-    "exclude": ["config/**/*.js", "node_modules/**/*.ts", "src/components/__tests__/**/*.ts"]
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
   },
   "rules": {
     "quotemark": [true, "single", "avoid-escape", "avoid-template", "jsx-double"],
