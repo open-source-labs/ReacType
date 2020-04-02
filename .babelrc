@@ -7,7 +7,12 @@
       }
     ],
     "react",
-    "stage-0"
+    "stage-0",
   ],
-  "plugins": ["transform-es2015-modules-commonjs"]
+  "plugins": ["transform-es2015-modules-commonjs"],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+}
 }

@@ -19,6 +19,7 @@ type CodePreviewProps = {
 };
 
 class CodePreview extends Component<CodePreviewProps> {
+
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
   componentDidMount() {
@@ -66,10 +67,10 @@ class CodePreview extends Component<CodePreviewProps> {
         }}
       >
         <AceEditor
-          mode='javascript'
-          theme='monokai'
-          width='100%'
-          height='100%'
+          mode="javascript"
+          theme="monokai"
+          width="100%"
+          height="100%"
           style={{
             border: '2px solid #33eb91',
             borderRadius: '8px'
@@ -81,19 +82,19 @@ class CodePreview extends Component<CodePreviewProps> {
             })
           }
           value={this.props.focusComponent.code}
-          name='Code_div'
+          name="Code_div"
           readOnly={this.props.codeReadOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Button
-            color='primary'
-            aria-label='Add'
-            type='submit'
+            color="primary"
+            aria-label="Add"
+            type="submit"
             // disabled={!this.state.propKey || !this.state.propType}
-            variant='contained'
-            size='large'
+            variant="contained"
+            size="large"
             style={{ justifySelf: 'center' }}
             className={this.props.classes.startEdit}
             onClick={e => {

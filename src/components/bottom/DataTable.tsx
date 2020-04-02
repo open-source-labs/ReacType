@@ -12,7 +12,7 @@ import { IconButton } from '@material-ui/core';
 const styles = (theme: Theme) => ({
   root: {
     width: '650px',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing.unit * 3,
     borderRadius: '8px',
     // boxShadow: '0px 0px 5px 2px #97ffb6'
     boxShadow: '0px 0px 5px 2px lightgray'
@@ -42,7 +42,6 @@ const styles = (theme: Theme) => ({
     padding: '3px',
     borderRadius: '7px',
     border: 'none',
-    align: 'center',
     '&:hover': {
       transform: 'scale(1.1)',
       color: '#fff'
@@ -106,7 +105,7 @@ function dataTable(props: dataTableProps) {
     // for some reason we must put each value in a div.
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`td_${idx}`}>
-        <div className={classes.tableCell} padding={'none'}>
+        <div className={classes.tableCell} align={'center'} padding={'none'}>
           {row[header]}
         </div>
       </TableCell>
@@ -137,7 +136,7 @@ function dataTable(props: dataTableProps) {
   return (
     <Paper className={classes.root}>
       <div className={classes.tableContainer}>
-        <Table className={classes.table}>
+        <Table className={classes.table} selectable={'true'}>
           <TableHead>
             <TableRow>{renderHeader}</TableRow>
           </TableHead>

@@ -25,13 +25,6 @@ interface PropsPropsInt extends PropsInt {
   }): void;
 }
 
-interface StateInt {
-  propVariable: string;
-  propValue: string;
-  propRequired: boolean;
-  propType: string;
-}
-
 const styles = () => ({
   root: {
     display: 'flex',
@@ -66,13 +59,13 @@ const styles = () => ({
   propHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '2%',
+    marginLeft: '1rem',
     paddingTop: '10px'
   },
   dataTableHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '20%',
+    marginLeft: '22rem',
     marginTop: '15px',
     paddingTop: '10px'
   },
@@ -122,7 +115,7 @@ const styles = () => ({
   },
   addProp: {
     width: '15rem',
-    marginLeft: '45%',
+    marginLeft: '3rem',
     height: '4rem',
     transition: 'all 0.1s ease-out',
     border: '2px solid #33eb91',
@@ -174,6 +167,9 @@ const availablePropTypes = {
   array: 'ARR',
   boolean: 'BOOL',
   function: 'FUNC',
+  // symbol: 'SYM',
+  // node: 'NODE',
+  // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
   enum: 'ENUM'
@@ -188,7 +184,12 @@ const typeOptions = [
     </option>
   ))
 ];
-
+interface StateInt {
+  propVariable: string;
+  propValue: string;
+  propRequired: boolean;
+  propType: string;
+}
 class Props extends Component<PropsPropsInt, StateInt> {
   constructor(props: PropsPropsInt) {
     super(props);
@@ -213,7 +214,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
       });
     } else {
       this.setState({
-        ...this.state, // JZ: added state here to correct typing error of missing properties
         [event.target.id]: event.target.value
       });
     }
@@ -228,7 +228,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
   // function that handles the addition of props to a given componnent
   // added regex to strip usr input from non alpha numeric properties
   // presence of these characters crashes the app and should not be a valid input anyways
-  handleAddProp = (event: React.ChangeEvent<HTMLFormElement>) => {
+  handleAddProp = (event: MouseEvent) => {
     event.preventDefault();
 
     // destructuring from local state
@@ -286,10 +286,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
     }));
 
     return (
-      <div
-        className={'htmlattr'}
-        style={{ overflowY: 'auto', height: '85%', marginTop: '1rem' }}
-      >
+      <div className={'htmlattr'}>
         {' '}
         {/* if no focus component in state, then render message */}
         {Object.keys(focusComponent).length < 1 ? (
@@ -322,7 +319,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
               className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
-              <Grid container spacing={8} style={{ overflowY: 'auto' }}>
+              <Grid container spacing={8}>
                 <Grid item xs={3}>
                   <form
                     className="props-input"
@@ -432,12 +429,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   item
                   xs={8}
                   style={{
-                    height: '75%',
-                    overflowY: 'auto',
-                    overflowX: 'auto',
+                    height: '17rem',
+                    overflow: 'scroll',
                     marginTop: '1rem',
-                    // paddingBottom: '1rem',
-                    marginLeft: '6rem',
+                    paddingBottom: '1rem',
                     paddingTop: '0'
                   }}
                 >

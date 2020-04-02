@@ -72,6 +72,7 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
+    "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "linter": "eslint src",
     "develop": "concurrently \"npm run dev\" \"npm run electron\""
   },
@@ -83,16 +84,32 @@
   "jest": {
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "electron": "<rootDir>/__mocks__/electron.js"
+      "electron": "<rootDir>/__mocks__/electron.ts"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
     },
     "setupFiles": [
-      "./src/setupTests.js"
+      "<rootDir>/src/setupTests.ts"
     ]
   },
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.9.6",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/prettier": "^1.19.0",
     "@types/prismjs": "^1.16.0",
     "@types/react": "^16.8.14",
@@ -106,14 +123,16 @@
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
     "concurrently": "^5.1.0",
+    "core-js": "^3.6.4",
     "csstype": "^2.6.9",
     "d3": "^5.9.2",
     "electron-reload": "^1.4.0",
     "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
     "konva": "^4.2.0",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
-    "material-table": "^1.25.2",
+    "material-table": "^1.57.2",
     "prettier": "^1.19.1",
     "prismjs": "^1.19.0",
     "prop-types": "^15.6.2",
@@ -134,11 +153,15 @@
     "redux-undo": "^1.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^25.1.5",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
+    "babel-jest": "^25.2.4",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
@@ -151,7 +174,6 @@
     "electron-builder": "^20.44.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
-    "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
@@ -162,12 +184,14 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^2.1.6",
+    "redux-mock-store": "^1.5.4",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
-    "typescript": "^3.4.4",
+    "ts-jest": "^25.3.0",
+    "typescript": "^3.8.3",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   },

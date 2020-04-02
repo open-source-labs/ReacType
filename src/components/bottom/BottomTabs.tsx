@@ -279,7 +279,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
-        {/* {value === 4 && <AddChildProps />} */}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }

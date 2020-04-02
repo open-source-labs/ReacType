@@ -8,7 +8,8 @@
     "jsx": "react",
     "lib": ["es6", "dom", "es2017"],
     "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": false
+    "strictFunctionTypes": false,
+    "esModuleInterop": true
   },
   "include": ["./src/**/*"]
 }
