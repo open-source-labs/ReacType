@@ -171,40 +171,60 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     return (
       <div className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={this.handleChange}
-          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Application Tree'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Code Preview'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${
-              htmlAttribCount ? `(${htmlAttribCount})` : ''
-            } `}
-          />
-          {/* <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child Props'
-          /> */}
-        </Tabs>
-
+        <Box display="flex" justifyContent="space-between">
+          <Tabs
+            value={value}
+            onChange={this.handleChange}
+            classes={{
+              root: classes.tabsRoot,
+              indicator: classes.tabsIndicator
+            }}
+          >
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Application Tree"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Code Preview"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`Component Props ${propCount ? `(${propCount})` : ''} `}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`HTML Element Attributes ${
+                htmlAttribCount ? `(${htmlAttribCount})` : ''
+              } `}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Add Child Props"
+            />
+          </Tabs>
+          <FormGroup>
+            <FormControlLabel
+              className={classes.switch}
+              control={
+                <Switch
+                  checked={native}
+                  color="primary"
+                  onChange={() => {
+                    toggleNative();
+                  }}
+                />
+              }
+              label="Native Mode"
+              labelPlacement="start"
+            />
+          </FormGroup>
+        </Box>
         {value === 0 && (
           <div
             id="treeWrapper"
@@ -256,7 +276,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
-        {/* {value === 4 && <AddChildProps />} */}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }
