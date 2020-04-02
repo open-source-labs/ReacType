@@ -52,16 +52,15 @@ export const addChild = ({
   title: string;
   childType: string;
   HTMLInfo: object;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
-};
+}): {
+  type: string;
+  payload: { title: string; childType: string; HTMLInfo: object };
+} => ({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 
-export const addComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: ADD_COMPONENT, payload: { title } });
-};
-
+export const addComponent = ({ title }: { title: string }) => ({
+  type: ADD_COMPONENT,
+  payload: { title }
+});
 export const addProp = ({ key, type }: { key: string; type: string }) => ({
   type: ADD_PROP,
   payload: { key, type }
@@ -101,7 +100,6 @@ export const changeFocusChild = ({ childId }: { childId: number }) => (
 ) => {
   dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
 };
-
 
 export const changeFocusComponent = ({ title }: { title: string }) => (
   dispatch: (arg: Action) => void
@@ -167,7 +165,6 @@ export const createApplication = ({
 export const deleteAllData = () => ({
   type: DELETE_ALL_DATA
 });
-
 
 export const deleteComponent = ({
   componentId,
@@ -306,7 +303,7 @@ export const toggleEditMode = ({ id }: { id: number }) => (
 };
 
 export const toggleNative = () => ({
-  type: TOGGLE_NATIVE,
+  type: TOGGLE_NATIVE
 });
 
 export const undo = () => ({
