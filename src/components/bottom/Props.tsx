@@ -21,13 +21,6 @@ interface PropsPropsInt extends PropsInt {
   }): void;
 }
 
-interface StateInt {
-  propVariable: string;
-  propValue: string;
-  propRequired: boolean;
-  propType: string;
-}
-
 const styles = () => ({
   root: {
     display: 'flex',
@@ -62,13 +55,13 @@ const styles = () => ({
   propHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '2%',
+    marginLeft: '1rem',
     paddingTop: '10px'
   },
   dataTableHeader: {
     fontSize: '35px',
     fontWeight: '900',
-    marginLeft: '20%',
+    marginLeft: '22rem',
     marginTop: '15px',
     paddingTop: '10px'
   },
@@ -118,7 +111,7 @@ const styles = () => ({
   },
   addProp: {
     width: '15rem',
-    marginLeft: '45%',
+    marginLeft: '3rem',
     height: '4rem',
     transition: 'all 0.1s ease-out',
     border: '2px solid #33eb91',
@@ -170,6 +163,9 @@ const availablePropTypes = {
   array: 'ARR',
   boolean: 'BOOL',
   function: 'FUNC',
+  // symbol: 'SYM',
+  // node: 'NODE',
+  // element: 'ELEM',
   any: 'ANY',
   tuple: 'TUP',
   enum: 'ENUM'
@@ -177,14 +173,19 @@ const availablePropTypes = {
 
 // generates the various options for the prop type selection
 const typeOptions = [
-  <option value='' key='' />,
+  <option value="" key="" />,
   ...Object.keys(availablePropTypes).map(type => (
     <option value={type} key={type} style={{ color: '#000' }}>
       {type}
     </option>
   ))
 ];
-
+interface StateInt {
+  propVariable: string;
+  propValue: string;
+  propRequired: boolean;
+  propType: string;
+}
 class Props extends Component<PropsPropsInt, StateInt> {
   constructor(props: PropsPropsInt) {
     super(props);
@@ -197,19 +198,14 @@ class Props extends Component<PropsPropsInt, StateInt> {
   }
 
   // using useState to locally check a clickedValue
-  // React.ChangeEvent<HTML...Element> is the correct typing for events
-  handleChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
+
+  handleChange = (event: any) => {
     if (event.target.id === 'propVariable') {
       this.setState({
         [event.target.id]: event.target.value.trim()
       });
     } else {
       this.setState({
-        ...this.state, // JZ: added state here to correct typing error of missing properties
         [event.target.id]: event.target.value
       });
     }
@@ -224,7 +220,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
   // function that handles the addition of props to a given componnent
   // added regex to strip usr input from non alpha numeric properties
   // presence of these characters crashes the app and should not be a valid input anyways
-  handleAddProp = (event: React.ChangeEvent<HTMLFormElement>) => {
+  handleAddProp = (event: MouseEvent) => {
     event.preventDefault();
 
     // destructuring from local state
@@ -281,10 +277,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
     }));
 
     return (
-      <div
-        className={'htmlattr'}
-        style={{ overflowY: 'auto', height: '85%', marginTop: '1rem' }}
-      >
+      <div className={'htmlattr'}>
         {' '}
         {/* if no focus component in state, then render message */}
         {Object.keys(focusComponent).length < 1 ? (
@@ -314,33 +307,24 @@ class Props extends Component<PropsPropsInt, StateInt> {
               </span>
             </div>
             <div
-              className='props-container'
+              className="props-container"
               style={{ marginTop: '20px', width: '90%', height: '80%' }}
             >
-              <Grid container spacing={8} style={{ overflowY: 'auto' }}>
+              <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form
-                    className='props-input'
-                    // JZ: assigned typing to onSubmit event, matches handleAddProp func
-                    onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
-                      this.handleAddProp(event)
-                    }
-                  >
+                  <form className="props-input" onSubmit={this.handleAddProp}>
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
-                            type='text'
-                            // native commented out due to overload error with material
-                            id='propVariable'
-                            label='Prop'
-                            margin='none'
+                            type="text"
+                            native
+                            id="propVariable"
+                            label="Prop"
+                            margin="none"
                             autoFocus
-                            size='medium'
-                            onChange={(
-                              //JZ: assigned typing to incoming event
-                              event: React.ChangeEvent<HTMLInputElement>
-                            ) => this.handleChange(event)}
+                            size="medium"
+                            onChange={this.handleChange}
                             value={this.state.propVariable}
                             color={'primary'}
                             required
@@ -373,15 +357,15 @@ class Props extends Component<PropsPropsInt, StateInt> {
                         <FormControl required>
                           <InputLabel
                             className={classes.selectLabel}
-                            htmlFor='propType'
+                            htmlFor="propType"
                           >
                             Type
                           </InputLabel>
                           <Select
                             native
                             className={classes.select}
-                            id='propType'
-                            placeholder='title'
+                            id="propType"
+                            placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
                             required
@@ -409,12 +393,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                       </Grid> */}
                       <Grid item>
                         <Button
-                          color='primary'
-                          aria-label='Add'
-                          type='submit'
+                          color="primary"
+                          aria-label="Add"
+                          type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
-                          variant='contained'
-                          size='large'
+                          variant="contained"
+                          size="large"
                           className={classes.addProp}
                         >
                           ADD PROP
@@ -427,12 +411,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   item
                   xs={8}
                   style={{
-                    height: '75%',
-                    overflowY: 'auto',
-                    overflowX: 'auto',
+                    height: '17rem',
+                    overflow: 'scroll',
                     marginTop: '1rem',
-                    // paddingBottom: '1rem',
-                    marginLeft: '6rem',
+                    paddingBottom: '1rem',
                     paddingTop: '0'
                   }}
                 >

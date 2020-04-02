@@ -34,10 +34,16 @@ const componentRender = (
         return 'object';
       case 'array':
         return 'any[]';
-      case 'boolean':
+      case 'bool':
         return 'boolean';
       case 'function':
         return '() => any';
+      // case 'symbol':
+      //   return 'string';
+      case 'node':
+        return 'string';
+      case 'element':
+        return 'string';
       case 'tuple':
         return '[any]';
       case 'enum':
@@ -141,20 +147,13 @@ const componentRender = (
       }, [])
       .join('\n')}
     
-    ${
-      title == 'App'
-        ? ''
-        : `interface Props {
+    interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
-    };`
-    }
-    
+    };
 
       ${
         classBased
           ? `class ${title} extends Component {`
-          : title == 'App'
-          ? `const ${title} = () => {`
           : `const ${title} = (props: Props) => {`
       }
       ${
@@ -171,13 +170,9 @@ const componentRender = (
           : ``
       }
       ${classBased ? `render(): JSX.Element {` : ``}
-      ${
-        title === 'App'
-          ? ''
-          : `const {${props.map(el => el.key).join(', ')}} = ${
-              classBased ? `this.props` : `props`
-            }`
-      }
+      const {${props.map(el => el.key).join(', ')}} = ${
+    classBased ? `this.props` : `props`
+  };
       
       return (
         <div>
