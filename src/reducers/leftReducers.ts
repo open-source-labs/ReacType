@@ -128,10 +128,10 @@ export const addChild = (
   };
 
   const components = [
+    component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
     }),
-    component
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
@@ -462,53 +462,11 @@ export const editComponent = (
 ) => {
   let components = cloneDeep(state.components);
   let toEdit = components.find((element: ComponentInt) => element.id === id);
-
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to change the name of the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
-
-  // remove whitespace and digits, capitalize first char
-  const strippedTitle = title
-    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
-  // duplicate component names not allowed
-  if (
-    state.components.find(
-      (comp: ComponentInt) => comp.title === strippedTitle
-    ) &&
-    toEdit.title !== strippedTitle
-  ) {
-    window.alert(
-      `A component with the name: "${strippedTitle}" already exists.\nPlease think of another name.`
-    );
-    return {
-      ...state
-    };
-  }
-
-  // empty component name not allowed
-  if (strippedTitle === '') {
-    window.alert(
-      `Can't leave the name of the component blank.\nPlease enter a name.`
-    );
-    return {
-      ...state
-    };
-  }
-  toEdit.title = strippedTitle;
-  toEdit.changed = true;
+  toEdit.title = title;
   for (const [index, each] of components.entries()) {
-    each.changed = true;
     for (const value of each.childrenArray) {
       if (value.childComponentId === id) {
-        value.componentName = strippedTitle;
+        value.componentName = title;
       }
     }
   }
@@ -516,10 +474,8 @@ export const editComponent = (
   return {
     ...state,
     focusChild: state.initialApplicationFocusChild,
-    focusComponent: toEdit,
     editMode: -1,
-    components,
-    codeReadOnly: true
+    components
   };
 };
 

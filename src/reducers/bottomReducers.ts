@@ -26,16 +26,6 @@ export const addProp = (
     (comp: ComponentInt) => comp.id === state.focusComponent.id
   );
 
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to add a Prop to the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
@@ -64,8 +54,7 @@ export const addProp = (
     focusComponent: modifiedComponent,
     historyIndex,
     history,
-    future,
-    codeReadOnly: true
+    future
   };
 };
 
@@ -80,16 +69,6 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
       (comp: ComponentInt) => comp.id === state.focusComponent.id
     )
   );
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to delete a Prop from the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
 
   const indexToDelete = modifiedComponent.props.findIndex(
     (prop: PropInt) => prop.id === propId
@@ -131,6 +110,19 @@ export const toggleCodeEdit = (state: ApplicationStateInt) => ({
   ...state,
   codeReadOnly: !state.codeReadOnly
 });
+
+export const toggleNative = (state: ApplicationStateInt) => {
+  const components = cloneDeep(state.components);
+  const app = components.find(e => e.id === 1);
+  app.position.width = !state.native ? 500 : 1200;
+  app.position.height = !state.native ? 850 : 800;
+
+  return {
+    ...state,
+    native: !state.native,
+    components
+  };
+};
 
 export const updateChildrenSort = (
   state: ApplicationStateInt,
@@ -203,16 +195,6 @@ export const updateHtmlAttr = (
     return state;
   }
 
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to update the HTML attributes of the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
   const modifiedChild: any = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
@@ -242,7 +224,6 @@ export const updateHtmlAttr = (
     focusChild: modifiedChild,
     history,
     historyIndex,
-    future,
-    codeReadOnly: true
+    future
   };
 };

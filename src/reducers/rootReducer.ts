@@ -27,6 +27,7 @@ import {
   handleClose,
   addProp,
   deleteProp,
+  toggleNative,
   updateChildrenSort,
   updateHtmlAttr,
   updateCode,
@@ -57,6 +58,7 @@ import {
   LOAD_INIT_DATA,
   REDO,
   TOGGLE_CLASS,
+  TOGGLE_NATIVE,
   TOGGLE_STATE,
   UNDO,
   UPDATE_CODE,
@@ -83,16 +85,6 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return addProp(state, action.payload);
     case ADD_CHILD:
       return addChild(state, action.payload);
-    case DELETE_CHILD:
-      return deleteChild(state, action.payload);
-    case DELETE_COMPONENT:
-      return deleteComponent(state, action.payload);
-    case EDIT_COMPONENT:
-      return editComponent(state, action.payload);
-    case TOGGLE_STATE:
-      return toggleComponentState(state, action.payload);
-    case TOGGLE_CLASS:
-      return toggleComponentClass(state, action.payload);
     case CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
     case CHANGE_FOCUS_CHILD:
@@ -110,8 +102,18 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
         ...initialApplicationState,
         focusComponent: { ...appComponent, changed: true }
       };
+    case DELETE_CHILD:
+      return deleteChild(state, action.payload);
+    case DELETE_COMPONENT:
+      return deleteComponent(state, action.payload);
+    case EDIT_COMPONENT:
+      return editComponent(state, action.payload);
     case DELETE_IMAGE:
       return deleteImage(state);
+    case DELETE_PROP:
+      return deleteProp(state, action.payload);
+    case EDIT_MODE:
+      return toggleEditMode(state, action.payload);
     case EXPORT_FILES:
       return { ...state, loading: true };
     case EXPORT_FILES_SUCCESS:
@@ -122,18 +124,20 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case DELETE_PROP:
-      return deleteProp(state, action.payload);
-    case EDIT_MODE:
-      return toggleEditMode(state, action.payload);
+    case REDO:
+      return redo(state);
+    case TOGGLE_CLASS:
+      return toggleComponentClass(state, action.payload);
+    case TOGGLE_NATIVE:
+      return toggleNative(state);
+    case TOGGLE_STATE:
+      return toggleComponentState(state, action.payload);
+    case UNDO:
+      return undo(state);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-    case UNDO:
-      return undo(state);
-    case REDO:
-      return redo(state);
     case UPDATE_CODE:
       return updateCode(state, action.payload);
     default:

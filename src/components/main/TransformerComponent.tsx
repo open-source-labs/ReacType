@@ -7,6 +7,7 @@ interface TCompPropsInt {
   focusChild: ChildInt;
   color: string;
   anchorSize: number;
+  native: boolean;
 }
 
 export default class TransformerComponent extends Component<TCompPropsInt> {
@@ -25,9 +26,9 @@ export default class TransformerComponent extends Component<TCompPropsInt> {
 
     const selectedNode = stage.findOne(`.${focusChild.childId}`);
 
-    if (selectedNode === this.transformer.node()) {
-      return;
-    }
+    // if (selectedNode === this.transformer.node()) {
+    //   return;
+    // }
     if (selectedNode) {
       this.transformer.attachTo(selectedNode);
     } else {
@@ -37,6 +38,9 @@ export default class TransformerComponent extends Component<TCompPropsInt> {
   }
 
   render() {
+    
+    const { anchorSize, focusChild } = this.props;
+
     return (
       <Transformer
         className={'Transformer'}
@@ -45,10 +49,10 @@ export default class TransformerComponent extends Component<TCompPropsInt> {
           this.transformer = node;
         }}
         borderEnabled={false}
-        anchorFill={this.props.color}
-        anchorStroke={this.props.color}
-        anchorSize={this.props.anchorSize}
-        keepRatio={false}
+        anchorFill={focusChild.color}
+        anchorStroke={focusChild.color}
+        anchorSize={anchorSize}
+        keepRatio={focusChild.childComponentId === 1 ? true : false}
       />
     );
   }
