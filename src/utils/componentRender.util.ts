@@ -207,6 +207,9 @@ const componentRender = (
               child.componentName == 'Button' ||
               child.componentName === 'RNButton' ||
               child.componentName === 'RNText' ||
+              child.componentName === 'RNView' ||
+              child.componentName === 'RNSafeAreaView' ||
+              child.componentName === 'RNText' ||
               child.componentName === 'RNTouchOpacity'
             ) {
               return `
