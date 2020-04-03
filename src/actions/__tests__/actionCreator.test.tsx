@@ -28,4 +28,13 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.addProp(payld)).toEqual(expectedAction);
   });
+
+  it('changeTutorial returns a proper action', () => {
+    const payld = 1;
+    const expectedAction = {
+      type: types.CHANGE_TUTORIAL,
+      payload: { tutorial: payld }
+    };
+    expect(actions.changeTutorial(payld)).toEqual(expectedAction);
+  });
 });
