@@ -24,6 +24,7 @@ const componentRender = (
     stateful: boolean;
     classBased: boolean;
   } = component;
+
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -104,7 +105,7 @@ const componentRender = (
     if (child.childType === 'HTML') {
       switch (child.componentName) {
         case 'Image':
-          return 'img';
+          return 'img src=""';
         case 'Form':
           return 'form';
         case 'Button':
@@ -115,6 +116,28 @@ const componentRender = (
           return 'ul';
         case 'Paragraph':
           return 'p';
+        // REACT NATIVE COMPONENTS
+        // TO DO: UPDATE REDUCER LOGIC TO HAVE THESE COMPONENTS IN A SEPARATE FUNCTION
+        case 'RNView':
+          return 'View';
+        case 'RNSafeAreaView':
+          return 'SafeAreaView';
+        case 'RNButton':
+          return 'Button';
+        case 'RNFlatList':
+          return 'FlatList data={} renderItem={}';
+        case 'RNImage':
+          return 'Image source={}';
+        case 'RNModal':
+          return 'Modal';
+        case 'RNSwitch':
+          return 'Switch onValueChange={}';
+        case 'RNText':
+          return 'Text';
+        case 'RNTextInput':
+          return 'TextInput';
+        case 'RNTouchOpacity':
+          return 'TouchableOpacity';
         default:
           return 'div';
       }
@@ -158,7 +181,7 @@ const componentRender = (
       }
       ${
         stateful && !classBased
-          ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
+          ? `const  [value, setValue] = useState("INITIAL VALUE");`
           : ``
       }
       ${
@@ -179,12 +202,20 @@ const componentRender = (
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            if (child.componentName == 'Button') {
+            // component/element names that are not self closing
+            if (
+              child.componentName == 'Button' ||
+              child.componentName === 'RNButton' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNTouchOpacity'
+            ) {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
               )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
-            } else
+            }
+            // code to be rendered for all self closing component/elements
+            else
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
