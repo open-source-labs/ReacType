@@ -181,7 +181,7 @@ const componentRender = (
       }
       ${
         stateful && !classBased
-          ? `const  [state, setState] = useState("INITIAL VALUE FOR STATE");`
+          ? `const  [value, setValue] = useState("INITIAL VALUE");`
           : ``
       }
       ${
