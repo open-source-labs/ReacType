@@ -7,7 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, changeComponentFocusChild, deleteProp } from '../../actions/actionCreators';
+import {
+  addProp,
+  changeComponentFocusChild,
+  deleteProp
+} from '../../actions/actionCreators';
 import DataTable from './DataTable';
 import { PropInt, PropsInt } from '../../interfaces/Interfaces';
 
@@ -147,7 +151,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   }: {
     componentId: number;
     childId: number;
-  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
+  }) => dispatch(changeComponentFocusChild({ componentId, childId }))
 });
 
 const mapStateToProps = (store: any) => ({
@@ -198,8 +202,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
   }
 
   // using useState to locally check a clickedValue
-
-  handleChange = (event: any) => {
+  // React.ChangeEvent<HTML...Element> is the correct typing for events
+  handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     if (event.target.id === 'propVariable') {
       this.setState({
         [event.target.id]: event.target.value.trim()
@@ -251,15 +259,16 @@ class Props extends Component<PropsPropsInt, StateInt> {
       type: propType
     });
 
-    this.props.changeComponentFocusChild({ componentId: this.props.focusComponent.id , childId: this.props.focusChild.childId});
+    this.props.changeComponentFocusChild({
+      componentId: this.props.focusComponent.id,
+      childId: this.props.focusChild.childId
+    });
     this.setState({
       propVariable: '',
       propValue: '',
       propRequired: true,
       propType: ''
     });
-
-    
   };
 
   render() {
@@ -312,19 +321,28 @@ class Props extends Component<PropsPropsInt, StateInt> {
             >
               <Grid container spacing={8}>
                 <Grid item xs={3}>
-                  <form className="props-input" onSubmit={this.handleAddProp}>
+                  <form
+                    className="props-input"
+                    // JZ: assigned typing to onSubmit event, matches handleAddProp func
+                    onSubmit={(event: React.ChangeEvent<HTMLFormElement>) =>
+                      this.handleAddProp(event)
+                    }
+                  >
                     <Grid container spacing={8}>
                       <Grid item xs={6}>
                         <FormControl>
                           <TextField
                             type="text"
-                            native
+                            // native commented out due to overload error with material
                             id="propVariable"
                             label="Prop"
                             margin="none"
                             autoFocus
                             size="medium"
-                            onChange={this.handleChange}
+                            onChange={(
+                              //JZ: assigned typing to incoming event
+                              event: React.ChangeEvent<HTMLInputElement>
+                            ) => this.handleChange(event)}
                             value={this.state.propVariable}
                             color={'primary'}
                             required
