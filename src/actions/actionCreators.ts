@@ -57,7 +57,14 @@ export const addChild = ({
   payload: { title: string; childType: string; HTMLInfo: object };
 } => ({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 
-export const addComponent = ({ title }: { title: string }) => ({
+export const addComponent = ({
+  title
+}: {
+  title: string;
+}): {
+  type: string;
+  payload: { title: string };
+} => ({
   type: ADD_COMPONENT,
   payload: { title }
 });
