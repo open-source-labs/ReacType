@@ -292,10 +292,12 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   item
                   xs={8}
                   style={{
-                    height: '17rem',
-                    overflow: 'scroll',
+                    height: '75%',
+                    overflowY: 'auto',
+                    overflowX: 'auto',
                     marginTop: '1rem',
-                    paddingBottom: '1rem',
+                    // paddingBottom: '1rem',
+                    marginLeft: '6rem',
                     paddingTop: '0'
                   }}
                 >
