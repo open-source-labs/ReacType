@@ -131,7 +131,7 @@ export const addChild = (
     component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
-    }),
+    })
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
