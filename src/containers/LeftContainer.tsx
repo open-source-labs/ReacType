@@ -384,17 +384,19 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           </Grid>
         </Grid>
         <div className={classes.expansionPanel}>{componentsExpansionPanel}</div>
-        {native ? (
-          // React Native Components will display when in 'Native' mode
-          <NativeComponentPanel addChild={addChild} />
-        ) : (
-          <HTMLComponentPanel
-            className={classes.htmlCompWrapper}
-            focusComponent={focusComponent}
-            addProp={addProp}
-            addChild={addChild}
-          />
-        )}
+        <div className={classes.elementsPanel}>
+          {native ? (
+            // React Native Components will display when in 'Native' mode
+            <NativeComponentPanel addChild={addChild} />
+          ) : (
+            <HTMLComponentPanel
+              className={classes.htmlCompWrapper}
+              focusComponent={focusComponent}
+              addProp={addProp}
+              addChild={addChild}
+            />
+          )}
+        </div>
         <div
           style={{
             width: '100%',
@@ -528,8 +530,9 @@ function styles(): any {
       height: '60%',
       overflowY: 'auto',
       overflowX: 'hidden',
-      padding: '1%',
+      // padding: '1%',
       paddingLeft: '10%'
+      // marginBottom: '60%'
     },
     switch: {
       marginLeft: '30%',
@@ -544,6 +547,9 @@ function styles(): any {
       paddingTop: '0',
       width: '100%',
       paddingLeft: '10%'
+    },
+    elementsPanel: {
+      marginBottom: '30%'
     }
   };
 }
