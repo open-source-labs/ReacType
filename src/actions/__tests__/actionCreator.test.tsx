@@ -37,4 +37,13 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.changeTutorial(payld)).toEqual(expectedAction);
   });
+
+  it('changeImagePath returns a proper action', () => {
+    const payld = 'test/path';
+    const expectedAction = {
+      type: types.CHANGE_IMAGE_SOURCE,
+      payload: { imageSource: payld }
+    };
+    expect(actions.changeImagePath(payld)).toEqual(expectedAction);
+  });
 });
