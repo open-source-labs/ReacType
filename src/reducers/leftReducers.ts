@@ -6,7 +6,7 @@ import {
   ApplicationStateInt,
   ChildInt
 } from '../interfaces/Interfaces';
-import { initialComponentState } from './initialState';
+import { initialComponentState, nativeComponentTypes } from './initialState';
 import { createHistory } from '../helperFunctions/createHistory';
 import { getSize } from '../utils/htmlElements.util';
 import { generateNewCode } from '../helperFunctions/generateNewCode';
@@ -27,18 +27,6 @@ export const addChild = (
 ) => {
   const strippedTitle = title;
 
-  const nativeComponentTypes = [
-    'RNView',
-    'RNSafeAreaView',
-    'RNButton',
-    'RNFlatList',
-    'RNImage',
-    'RNModal',
-    'RNSwitch',
-    'RNText',
-    'RNTextInput',
-    'RNTouchOpacity'
-  ];
   //is this warning even possible to trigger witht he current flow?
   if (!childType) {
     window.alert('addChild Error! no type specified');
