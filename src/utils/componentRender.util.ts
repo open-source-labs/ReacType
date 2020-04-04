@@ -6,6 +6,8 @@ import {
   PropInt
 } from '../interfaces/Interfaces';
 import cloneDeep from '../helperFunctions/cloneDeep';
+import { nativeComponentTypes } from '../reducers/initialState';
+import importNativeNameGenerator from '../helperFunctions/importNativeGenerator';
 
 const componentRender = (
   component: ComponentInt,
@@ -77,7 +79,7 @@ const componentRender = (
         .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
         .join(' ');
     }
-    if (child.childType === 'HTML') {
+    if (child.childType === 'HTML' || child.childType === 'NATIVE') {
       const keys: string[] = Object.keys(child.HTMLInfo);
       return keys
         .map(key => {
@@ -118,6 +120,11 @@ const componentRender = (
           return 'p';
         // REACT NATIVE COMPONENTS
         // TO DO: UPDATE REDUCER LOGIC TO HAVE THESE COMPONENTS IN A SEPARATE FUNCTION
+        default:
+          return 'div';
+      }
+    } else if (child.childType === 'NATIVE') {
+      switch (child.componentName) {
         case 'RNView':
           return 'View';
         case 'RNSafeAreaView':
@@ -145,6 +152,7 @@ const componentRender = (
       return child.componentName;
     }
   }
+
   // logic below consists of conditional that will render depending
   // on the toggling of "state" and/or "class"
   // class components can optioally have a state which will
@@ -157,10 +165,14 @@ const componentRender = (
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(
-        child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`
-      )
+      .map(child => {
+        if (child.childType === 'NATIVE') {
+          return `import {${importNativeNameGenerator(
+            child
+          )}} from 'react-native'`;
+        } else
+          `import ${child.componentName} from './${child.componentName}.tsx'`;
+      })
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -169,6 +181,8 @@ const componentRender = (
         return acc;
       }, [])
       .join('\n')}
+
+    
     
     interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
@@ -181,7 +195,7 @@ const componentRender = (
       }
       ${
         stateful && !classBased
-          ? `const  [state, setState] = useState("INITIAL VALUE FOR STATE");`
+          ? `const  [value, setValue] = useState("INITIAL VALUE");`
           : ``
       }
       ${

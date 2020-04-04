@@ -6,7 +6,7 @@ import {
   ApplicationStateInt,
   ChildInt
 } from '../interfaces/Interfaces';
-import { initialComponentState } from './initialState';
+import { initialComponentState, nativeComponentTypes } from './initialState';
 import { createHistory } from '../helperFunctions/createHistory';
 import { getSize } from '../utils/htmlElements.util';
 import { generateNewCode } from '../helperFunctions/generateNewCode';
@@ -16,11 +16,13 @@ export const addChild = (
   {
     title,
     childType = '',
-    HTMLInfo = {}
+    HTMLInfo = {},
+    native
   }: {
     title: string;
     childType: string;
     HTMLInfo: { [index: string]: string };
+    native: boolean;
   }
 ) => {
   const strippedTitle = title;
@@ -30,11 +32,12 @@ export const addChild = (
     window.alert('addChild Error! no type specified');
   }
 
-  //weird use of a ternary operator, could've wrapped it in one if statement
   const htmlElement = childType !== 'COMP' ? childType : null;
-  if (childType !== 'COMP') {
-    childType = 'HTML';
-  }
+
+  // if childType is NOT included in the array of NATIVE React types && also not coming from left panel then the childType will revert to HTML
+  !nativeComponentTypes.includes(childType) && childType !== 'COMP'
+    ? (childType = 'HTML')
+    : (childType = 'NATIVE');
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
@@ -131,7 +134,7 @@ export const addChild = (
     component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
-    }),
+    })
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
@@ -499,7 +502,11 @@ export const exportFilesError = (
   loading: false
 });
 
-//Reducer that toggles the component class
+/*
+Reducer that toggles the component class
+lets the user choose whether the current 
+component is a class components or not
+*/
 export const toggleComponentClass = (
   state: ApplicationStateInt,
   { id }: { id: number }

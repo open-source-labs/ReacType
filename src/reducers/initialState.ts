@@ -88,3 +88,16 @@ export const initialComponentState: ComponentInt = {
   code: '',
   changed: false
 };
+
+export const nativeComponentTypes = [
+  'RNView',
+  'RNSafeAreaView',
+  'RNButton',
+  'RNFlatList',
+  'RNImage',
+  'RNModal',
+  'RNSwitch',
+  'RNText',
+  'RNTextInput',
+  'RNTouchOpacity'
+];

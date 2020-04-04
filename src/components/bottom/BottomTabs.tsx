@@ -137,6 +137,13 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         tree.children.push(
           this.generateComponentTree(child.childComponentId, components)
         );
+      } else if (child.componentName.slice(0, 2) == 'RN') {
+        let str = { Type: 'React Native Component' };
+        tree.children.push({
+          name: child.componentName,
+          attributes: str,
+          children: []
+        });
       } else {
         let str = { Type: 'HTML Element' };
         tree.children.push({

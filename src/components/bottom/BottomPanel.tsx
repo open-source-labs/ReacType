@@ -70,8 +70,6 @@ class BottomPanel extends Component<BottomPanelPropsInt> {
           focusChild={focusChild}
           changeFocusComponent={changeFocusComponent}
           updateCode={updateCode}
-          // toggleNative={toggleNative} // NOT NEEDED B/C TOGGLE MOVED TO LEFTCONTAINER
-          // native={native} // NOT NEEDED B/C TOGGLE MOVED TO LEFTCONTAINER
           toggleCodeEdit={toggleCodeEdit}
           codeReadOnly={codeReadOnly}
         />

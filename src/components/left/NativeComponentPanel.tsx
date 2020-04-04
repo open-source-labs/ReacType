@@ -77,6 +77,7 @@ const NativeComponentPanel = (props: any) => {
 
   // onClick function to invoke dispatch/reducers for adding Native Element to component
   const handleCreateNativeChild = (type: string) => {
+    // if (native) type = 'RNTouchOpacity';
     addChild({ title: type, childType: type, HTMLInfo: {} });
   };
 
@@ -88,8 +89,10 @@ const NativeComponentPanel = (props: any) => {
         key={`button-${component.name}`}
         className={classes.label}
         aria-label={component.name}
-        size='medium'
-        onClick={() => handleCreateNativeChild(`${component.name}`)}
+        size="medium"
+        onClick={() => {
+          handleCreateNativeChild(`${component.name}`);
+        }}
       >
         <span className={classes.compName}>{component.name.slice(2)}</span>
         {component.button}
