@@ -151,4 +151,22 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.toggleComponentState(payld)).toEqual(expectedAction);
   });
+
+  it('toggleComponentClass returns a proper action', () => {
+    const payld = { id: 2 };
+    const expectedAction = {
+      type: types.TOGGLE_CLASS,
+      payload: payld
+    };
+    expect(actions.toggleComponentClass(payld)).toEqual(expectedAction);
+  });
+
+  it('toggleEditMode returns a proper action', () => {
+    const payld = { id: 2 };
+    const expectedAction = {
+      type: types.EDIT_MODE,
+      payload: payld
+    };
+    expect(actions.toggleEditMode(payld)).toEqual(expectedAction);
+  });
 });

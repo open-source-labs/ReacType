@@ -289,19 +289,17 @@ export const toggleComponentState = ({ id }: { id: number }): Action => ({
   payload: { id }
 });
 
-export const toggleComponentClass = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: TOGGLE_CLASS, payload: { id } });
-};
+export const toggleComponentClass = ({ id }: { id: number }): Action => ({
+  type: TOGGLE_CLASS,
+  payload: { id }
+});
 
-export const toggleEditMode = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: EDIT_MODE, payload: { id } });
-};
+export const toggleEditMode = ({ id }: { id: number }): Action => ({
+  type: EDIT_MODE,
+  payload: { id }
+});
 
-export const toggleNative = () => ({
+export const toggleNative = (): Action => ({
   type: TOGGLE_NATIVE
 });
 
