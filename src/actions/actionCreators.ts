@@ -53,19 +53,9 @@ export const addChild = ({
   title: string;
   childType: string;
   HTMLInfo: object;
-}): {
-  type: string;
-  payload: { title: string; childType: string; HTMLInfo: object };
-} => ({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
+}): Action => ({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 
-export const addComponent = ({
-  title
-}: {
-  title: string;
-}): {
-  type: string;
-  payload: { title: string };
-} => ({
+export const addComponent = ({ title }: { title: string }): Action => ({
   type: ADD_COMPONENT,
   payload: { title }
 });
@@ -75,29 +65,22 @@ export const addProp = ({
 }: {
   key: string;
   type: string;
-}): {
-  type: string;
-  payload: { key: string; type: string };
-} => ({
+}): Action => ({
   type: ADD_PROP,
   payload: { key, type }
 });
 
-export const changeTutorial = (
-  tutorial: number
-): { type: string; payload: { tutorial: number } } => ({
+export const changeTutorial = (tutorial: number): Action => ({
   type: CHANGE_TUTORIAL,
   payload: { tutorial }
 });
 
-export const changeImagePath = (
-  imageSource: string
-): { type: string; payload: { imageSource: string } } => ({
+export const changeImagePath = (imageSource: string): Action => ({
   type: CHANGE_IMAGE_SOURCE,
   payload: { imageSource }
 });
 
-export const deleteChild = ({}): { type: string; payload: {} } =>
+export const deleteChild = ({}): Action =>
   // with no payload, it will delete focused child
   ({ type: DELETE_CHILD, payload: {} });
 
@@ -107,17 +90,16 @@ export const changeComponentFocusChild = ({
 }: {
   componentId: number;
   childId: number;
-}): { type: string; payload: { componentId: number; childId: number } } => ({
+}): Action => ({
   type: CHANGE_COMPONENT_FOCUS_CHILD,
   payload: { componentId, childId }
 });
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ childId }: { childId: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
-};
+export const changeFocusChild = ({ childId }: { childId: number }): Action => ({
+  type: CHANGE_FOCUS_CHILD,
+  payload: { childId }
+});
 
 export const changeFocusComponent = ({ title }: { title: string }) => (
   dispatch: (arg: Action) => void

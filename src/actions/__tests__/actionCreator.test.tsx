@@ -64,4 +64,13 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.changeComponentFocusChild(payld)).toEqual(expectedAction);
   });
+
+  it('changeFocusChild returns a proper action', () => {
+    const payld = { childId: 2 };
+    const expectedAction = {
+      type: types.CHANGE_FOCUS_CHILD,
+      payload: payld
+    };
+    expect(actions.changeFocusChild(payld)).toEqual(expectedAction);
+  });
 });
