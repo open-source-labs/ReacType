@@ -190,4 +190,22 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.toggleCodeEdit()).toEqual(expectedAction);
   });
+
+  it('updateCode returns a proper action', () => {
+    const payld = { componentId: 2, code: 'test code' };
+    const expectedAction = {
+      type: types.UPDATE_CODE,
+      payload: payld
+    };
+    expect(actions.updateCode(payld)).toEqual(expectedAction);
+  });
+
+  it('updateHtmlAttr returns a proper action', () => {
+    const payld = { attr: 'form', value: 'test' };
+    const expectedAction = {
+      type: types.UPDATE_HTML_ATTR,
+      payload: payld
+    };
+    expect(actions.updateHtmlAttr(payld)).toEqual(expectedAction);
+  });
 });

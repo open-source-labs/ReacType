@@ -317,12 +317,10 @@ export const updateCode = ({
 }: {
   componentId: number;
   code: string;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: UPDATE_CODE,
-    payload: { componentId, code }
-  });
-};
+}): Action => ({
+  type: UPDATE_CODE,
+  payload: { componentId, code }
+});
 
 export const updateHtmlAttr = ({
   attr,
@@ -330,9 +328,7 @@ export const updateHtmlAttr = ({
 }: {
   attr: string;
   value: string;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: UPDATE_HTML_ATTR,
-    payload: { attr, value }
-  });
-};
+}): Action => ({
+  type: UPDATE_HTML_ATTR,
+  payload: { attr, value }
+});
