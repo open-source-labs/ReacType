@@ -96,4 +96,13 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.deleteImage()).toEqual(expectedAction);
   });
+
+  it('deleteProp returns a proper action', () => {
+    const payld = 2;
+    const expectedAction = {
+      type: types.DELETE_PROP,
+      payload: payld
+    };
+    expect(actions.deleteProp(payld)).toEqual(expectedAction);
+  });
 });
