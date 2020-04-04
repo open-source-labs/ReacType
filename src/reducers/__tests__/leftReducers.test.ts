@@ -1,8 +1,7 @@
-import * as reducers from '../leftReducers.ts';
-import { initialApplicationState } from '../initialState.ts';
+import * as reducers from '../leftReducers';
 
-initialApplicationState.describe('Left reducers', () => {
-  let state;
+describe('Left reducers', () => {
+  let state: any;
 
   // redefine the default state before each reducer test
   beforeEach(() => {

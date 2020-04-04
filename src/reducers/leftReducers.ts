@@ -131,7 +131,7 @@ export const addChild = (
     component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
-    }),
+    })
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
@@ -499,7 +499,11 @@ export const exportFilesError = (
   loading: false
 });
 
-//Reducer that toggles the component class
+/*
+Reducer that toggles the component class
+lets the user choose whether the current 
+component is a class components or not
+*/
 export const toggleComponentClass = (
   state: ApplicationStateInt,
   { id }: { id: number }

@@ -12,20 +12,20 @@ const styles = (theme: any): any => ({
     width: 'auto',
     maxWidth: '500px',
     height: 'auto',
-    maxHeight: '300px',
+    maxHeight: '500px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '4%',
     minWidth: '500px',
-    minHeight: '300px',
+    minHeight: '300px'
   },
   button: {
     marginTop: '0%',
     height: 'auto',
     marginLeft: '3%',
     borderRadius: '4px',
-    float: 'right',
-  },
+    float: 'right'
+  }
 });
 
 const SimpleModal = (props: any) => {
@@ -38,7 +38,7 @@ const SimpleModal = (props: any) => {
     primBtnAction,
     secBtnAction,
     closeModal,
-    children = null,
+    children = null
   } = props;
 
   return (
@@ -53,7 +53,7 @@ const SimpleModal = (props: any) => {
           style={{
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-50%, -50%)'
           }}
           className={classes.paper}
         >
@@ -65,7 +65,7 @@ const SimpleModal = (props: any) => {
               top: '2%',
               right: '1%',
               fontSize: '17px',
-              fontWeight: 'bold',
+              fontWeight: 'bold'
             }}
           >
             <CloseIcon />
