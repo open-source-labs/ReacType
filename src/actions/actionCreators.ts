@@ -241,7 +241,7 @@ export const exportFiles = ({
     );
 };
 
-export const handleClose = () => ({
+export const handleClose = (): Action => ({
   type: HANDLE_CLOSE,
   payload: false
 });

@@ -114,4 +114,12 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.editComponent(payld)).toEqual(expectedAction);
   });
+
+  it('handleClose returns a proper action', () => {
+    const expectedAction = {
+      type: types.HANDLE_CLOSE,
+      payload: false
+    };
+    expect(actions.handleClose()).toEqual(expectedAction);
+  });
 });
