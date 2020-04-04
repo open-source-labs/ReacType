@@ -135,4 +135,20 @@ describe('Testing All of The Action Creators', () => {
       expectedAction
     );
   });
+
+  it('redo returns a proper action', () => {
+    const expectedAction = {
+      type: types.REDO
+    };
+    expect(actions.redo()).toEqual(expectedAction);
+  });
+
+  it('toggleComponentState returns a proper action', () => {
+    const payld = { id: 2 };
+    const expectedAction = {
+      type: types.TOGGLE_STATE,
+      payload: payld
+    };
+    expect(actions.toggleComponentState(payld)).toEqual(expectedAction);
+  });
 });

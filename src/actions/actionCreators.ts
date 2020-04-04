@@ -280,15 +280,14 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   });
 };
 
-export const redo = () => ({
+export const redo = (): Action => ({
   type: REDO
 });
 
-export const toggleComponentState = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: TOGGLE_STATE, payload: { id } });
-};
+export const toggleComponentState = ({ id }: { id: number }): Action => ({
+  type: TOGGLE_STATE,
+  payload: { id }
+});
 
 export const toggleComponentClass = ({ id }: { id: number }) => (
   dispatch: (arg: Action) => void
