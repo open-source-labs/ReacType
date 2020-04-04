@@ -7,6 +7,7 @@ import {
   PropInt
 } from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
+import { initialApplicationState } from './initialState';
 
 export const addProp = (
   state: ApplicationStateInt,
@@ -112,13 +113,23 @@ export const toggleCodeEdit = (state: ApplicationStateInt) => ({
 });
 
 export const toggleNative = (state: ApplicationStateInt) => {
-  const components = cloneDeep(state.components);
-  const app = components.find(e => e.id === 1);
+  let check = window.confirm(
+    `Are you sure you want to switch to ${
+      state.native ? 'React Mode' : 'React Native Mode'
+    }?\n\nSwitching to ${
+      state.native ? 'React Mode' : 'React Native Mode'
+    } will clear the workspace!\n\nMake sure to export your current code before changing modes!`
+  );
+  if (!check) {
+    return { ...state };
+  }
+  const components = cloneDeep(initialApplicationState.components);
+  const app = components.find((e: ComponentInt) => e.id === 1);
   app.position.width = !state.native ? 500 : 1200;
   app.position.height = !state.native ? 850 : 800;
 
   return {
-    ...state,
+    ...initialApplicationState,
     native: !state.native,
     components
   };
