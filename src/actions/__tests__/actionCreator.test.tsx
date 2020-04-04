@@ -169,4 +169,25 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.toggleEditMode(payld)).toEqual(expectedAction);
   });
+
+  it('toggleNative returns a proper action', () => {
+    const expectedAction = {
+      type: types.TOGGLE_NATIVE
+    };
+    expect(actions.toggleNative()).toEqual(expectedAction);
+  });
+
+  it('undo returns a proper action', () => {
+    const expectedAction = {
+      type: types.UNDO
+    };
+    expect(actions.undo()).toEqual(expectedAction);
+  });
+
+  it('toggleCodeEdit returns a proper action', () => {
+    const expectedAction = {
+      type: types.CODE_EDIT
+    };
+    expect(actions.toggleCodeEdit()).toEqual(expectedAction);
+  });
 });

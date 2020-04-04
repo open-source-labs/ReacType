@@ -303,11 +303,11 @@ export const toggleNative = (): Action => ({
   type: TOGGLE_NATIVE
 });
 
-export const undo = () => ({
+export const undo = (): Action => ({
   type: UNDO
 });
 
-export const toggleCodeEdit = () => ({
+export const toggleCodeEdit = (): Action => ({
   type: CODE_EDIT
 });
 
