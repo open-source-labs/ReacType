@@ -105,4 +105,13 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.deleteProp(payld)).toEqual(expectedAction);
   });
+
+  it('editComponent returns a proper action', () => {
+    const payld = { id: 1, title: 'Test' };
+    const expectedAction = {
+      type: types.EDIT_COMPONENT,
+      payload: payld
+    };
+    expect(actions.editComponent(payld)).toEqual(expectedAction);
+  });
 });

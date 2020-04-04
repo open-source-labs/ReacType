@@ -203,11 +203,13 @@ export const deleteProp = (propId: number): Action => ({
   payload: propId
 });
 
-export const editComponent = ({ id, title }: { id: number; title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: EDIT_COMPONENT, payload: { id, title } });
-};
+export const editComponent = ({
+  id,
+  title
+}: {
+  id: number;
+  title: string;
+}): Action => ({ type: EDIT_COMPONENT, payload: { id, title } });
 
 export const exportFiles = ({
   components,
