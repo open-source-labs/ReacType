@@ -166,7 +166,10 @@ class Props extends Component<PropsPropsInt, StateInt> {
     }));
 
     return (
-      <div className={'htmlattr'}>
+      <div
+        className={'htmlattr'}
+        style={{ overflowY: 'auto', height: '85%', marginTop: '1rem' }}
+      >
         {' '}
         {/* if no focus component in state, then render message */}
         {Object.keys(focusComponent).length < 1 ? (
@@ -292,7 +295,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                   item
                   xs={8}
                   style={{
-                    height: '75%',
+                    height: '100%',
                     overflowY: 'auto',
                     overflowX: 'auto',
                     marginTop: '1rem',
