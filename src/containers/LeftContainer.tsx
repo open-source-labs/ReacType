@@ -386,7 +386,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         <div className={classes.expansionPanel}>{componentsExpansionPanel}</div>
         {native ? (
           // React Native Components will display when in 'Native' mode
-          <NativeComponentPanel addChild={addChild} />
+          <NativeComponentPanel native={native} addChild={addChild} />
         ) : (
           <HTMLComponentPanel
             className={classes.htmlCompWrapper}
