@@ -16,6 +16,24 @@ body {
   font-weight: 400;
   overflow: hidden;
 }
+/**************
+* 
+* for Material React Table found in Add Child Props 
+*
+***************/
+
+/* Sean sucks button */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > button {
+  font-size: 20px;
+}
 
 /*
 /////////////////////////////////////////// 
@@ -46,15 +64,8 @@ header {
 }
 
 .column {
-  background-color: #222337;
-  box-shadow: 0 1px 5px rgba(150,150,150,.05), 0 1px 5px rgba(150,150,150,.05);
-  padding: 10px;
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
+  width: 25%;
+  background-color: #252526;
 }
 
 /* .column-right-export-btn {
@@ -77,11 +88,7 @@ LEFT COLUMN
 /////////////////////////////////////////////
 */
 
-/* .left-container {
-  
-}
-
-.right-container {
+.left {
   padding: 10px;
   width: 20%;
   min-width: 310px;
@@ -89,7 +96,8 @@ LEFT COLUMN
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-} */
+  /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
+}
 
 /* .htmlPanel {
   position: absolute;
@@ -103,21 +111,20 @@ LEFT COLUMN
   padding: 1%;
 } */
 
+/* affecting HTMl elements in HTML Panel */
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+  /* padding: 3rem; */
+  margin: -5rem;
+  padding-right: 5rem;
+  padding-top: 3rem;
+  padding-left: 1rem;
+}
+
 .component-input {
   bottom: 2.8%;
 }
 
-.expansionPanel {
-  flex-direction: column;
-  display: flex;
-  /* max-height: 80%; */
-  height: 60%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding: 1%;
-}
-
-.clear-application {
+.clear-workspace {
   top: 96%;
   position: sticky !important;
   z-index: 1;
@@ -137,7 +144,6 @@ h1 {
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: calc(100% - 800px);
   /* overflow-x: hidden; */
 }
 
@@ -222,10 +228,13 @@ RIGHT COLUMN
   flex-direction: row;
 }
 
+/* BOTTOM PANEL */
+
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
   height: 33%;
+  min-height: 260px;
   /* display: flex;
   flex-direction: row; */
   background-color: #fcfcfc;
@@ -254,6 +263,8 @@ RIGHT COLUMN
   height: 55%;
   overflow: auto;
 }
+
+/* Material-UI */
 
 /* Sortable tree sorting */
 .sortable-tree {

@@ -1,151 +1,171 @@
-import React, { Component, createRef } from 'react';
+//The main container includes both the Konva stage for creating component wireframes and
+//the bottom panel.
+
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import KonvaStage from '../components/KonvaStage';
-import Dropzone from '../components/Dropzone';
-import { ComponentState } from '../types/types';
-import * as actions from '../actions/actions';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import BottomPanel from '../components/bottom/BottomPanel';
+import theme from '../theme';
+import {
+  handleTransform,
+  changeFocusChild,
+  changeComponentFocusChild,
+  deleteChild,
+  changeFocusComponent,
+  updateCode
+} from '../actions/actionCreators';
+import KonvaStage from '../components/main/KonvaStage';
+import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
 
-// ** Used with electron to render
-const IPC = require('electron').ipcRenderer;
-
-// ** Main Container props definitions
-type Props = {
+interface MainContPropsInt extends PropsInt {
   image: HTMLImageElement | null;
-  components: ComponentState[];
-  focusComponent: ComponentState;
-  selectableChildren: number[];
-  classes: any;
-  addComponent: any;
-  addChild: any;
-  changeImagePath: any;
-  changeFocusComponent: any;
-  changeFocusChild: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
-  handleTransform: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
+  handleTransformation(
+    componentId: number,
+    childId: number,
+    dimensions: { x: number; y: number; width: number; height: number }
+  ): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
+  deleteChild(obj: object): void;
+  changeFocusComponent(arg: { title: string }): void;
+  updateCode(arg: { componentId: number; code: string }): void;
+    native: boolean;
+  nativeImageElement: HTMLImageElement | null;
 }
 
-// ** Main Container state definitions
-type State = {
+interface StateInt {
   draggable: boolean;
   toggleClass: boolean;
   scaleX: number;
   scaleY: number;
   x: number;
   y: number;
-  width: number;
-  height: number;
   modal: any;
 }
 
-// ** Redux state mapping to props
-const mapStateToProps = (state: any) => ({
-  focusComponent: state.application.focusComponent,
-  focusChild: state.application.focusChild,
-  components: state.application.components,
-});
+// const IPC = require('electron').ipcRenderer; **Variable declared but never used**
 
-// ** Redux dispatch mapping to props
 const mapDispatchToProps = (dispatch: any) => ({
-  handleTransform: (componentId: number, childId: number,
-    { x, y, width, height }: { x: number; y: number; width: number; height: number }) => dispatch(actions.handleTransform(componentId, childId,
-      { x, y, width, height }),
+  //this passes the coordinate info from any component bound to the Konva Transformer to the store
+  handleTransformation: (
+    componentId: number,
+    childId: number,
+    {
+      x,
+      y,
+      width,
+      height
+    }: { x: number; y: number; width: number; height: number }
+  ) =>
+    dispatch(
+      handleTransform(componentId, childId, {
+        x,
+        y,
+        width,
+        height
+      })
     ),
-  changeImagePath: (imageSource: string) => dispatch(actions.changeImagePath(imageSource)),
-  deleteComponent: (id: number) => dispatch(actions.deleteComponent(id)),
-  changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
-  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) =>
-    dispatch(actions.changeComponentFocusChild({ componentId, childId }))
+  //this doesn't do anything here
+  // changeImagePath: (imageSource: string) =>
+  //   dispatch(actions.changeImagePath(imageSource)),
+
+  changeFocusComponent: ({ title }: { title: string }) =>
+    dispatch(changeFocusComponent({ title })),
+
+  //this function changes the focus of the child within the focused component, thereby binding it to the transformer as a node
+  changeFocusChild: ({ childId }: { childId: number }) =>
+    dispatch(changeFocusChild({ childId })),
+
+  //the difference between this dispatch function and the one above, is that this once alters the focused child status within the array of components,
+  //vs the one above changes the focusChild property in the state
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(changeComponentFocusChild({ componentId, childId })),
+
+  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child. <-- This comment was already here, unsure what exactly it means.
+
+  updateCode: ({ componentId, code }: { componentId: number; code: string }) =>
+    dispatch(updateCode({ componentId, code }))
 });
 
-class MainContainer extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      draggable: false,
-      toggleClass: true,
-      scaleX: 1,
-      scaleY: 1,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      modal: '',
-    };
+const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
+  focusComponent: store.workspace.focusComponent,
+  focusChild: store.workspace.focusChild,
+  stateComponents: store.workspace.components,
+  native: store.workspace.native
+});
 
-    this.main = createRef<HTMLDivElement>();
-
-    IPC.on('app_dir_selected', (event, path) => {
-      //IPC.on is an event listener for electron
-      const { components } = this.props;
-      const { genOption, repoUrl } = this.state;
-      this.props.createApp({
-        path,
-        components,
-        genOption,
-        repoUrl
-      });
-    });
-  }
-
-  componentDidMount() {
-    // ** checking the size when the main-container div when the component mounts
-    this.checkSize();
-    // ** adding an event listener on the window to call the this.checkSize method
-    window.addEventListener('resize', this.checkSize);
-  }
-
-  componentWillMount() {
-    window.removeEventListener('resize', this.checkSize);
-  }
-
-  // ** checking the size of the main-container div on resize
-  checkSize = () => {
-    // take a look here https://developers.google.com/web/updates/2016/10/resizeobserver
-    const { offsetWidth, offsetHeight } = this.main.current;
-    this.setState({
-      width: offsetWidth,
-      height: offsetHeight,
-    });
-  };
+class MainContainer extends Component<MainContPropsInt, StateInt> {
+  //Again, state should not be created outside of the single source of truth
+  //Actually upon further examination, it looks like this state isn't manipulated at all.
+  // state = {
+  //   draggable: false,
+  //   toggleClass: true,
+  //   scaleX: 1,
+  //   scaleY: 1,
+  //   x: 0,
+  //   y: 0,
+  //   modal: ''
+  // };
 
   render() {
-    const { draggable, width, height, scaleX, scaleY, modal, toggleClass } = this.state;
-    const { image, components, handleTransform, focusComponent, focusChild, deleteComponent, changeFocusChild, changeComponentFocusChild, classes, changeImagePath } = this.props;
+    //const { draggable, modal } = this.state; //this is being destructured but never read.
+    const {
+      components,
+      handleTransformation,
+      focusComponent,
+      focusChild,
+      changeFocusChild,
+      changeFocusComponent,
+      changeComponentFocusChild,
+      deleteChild,
+      updateCode,
+      image,
+      native,
+      nativeImageElement
+    } = this.props;
+
+    // const { main }: { main: HTMLDivElement } = this; **I don't think this has any function**
+
     return (
-      <div className="main-container" ref={this.main}>
-        {modal}
-        <div className="main" style={{ backgroundColor: '#171725' }}>
-        {  // ** will conditionally render KonvaStage, DropZone or neither component based on the following condition
-          components.length > 0 || image ? (
+      <MuiThemeProvider theme={theme}>
+        <div className="main-container">
+          {/* {modal} */}
+          <div
+            className="main" //ref={main} **no function, commenting out**
+          >
             <KonvaStage
               image={image}
               scaleX={1}
               scaleY={1}
-              width={width}
-              height={height}
-              draggable={draggable}
+              // draggable={draggable} this is also from this local state but never read past this container
               components={components}
-              handleTransform={handleTransform}
-              deleteComponent={deleteComponent}
+              handleTransform={handleTransformation}
               focusComponent={focusComponent}
               focusChild={focusChild}
               changeFocusChild={changeFocusChild}
               changeComponentFocusChild={changeComponentFocusChild}
-              classes={classes}
+              deleteChild={deleteChild}
+              native={native}
+              nativeImageElement={nativeImageElement}
+              /*  classes={classes}  commented out because not used anywhere*/
             />
-          ) : <Dropzone changeImagePath={changeImagePath} />
-        }
+          </div>
+          <BottomPanel
+            focusComponent={focusComponent}
+            changeFocusComponent={changeFocusComponent}
+            updateCode={updateCode}
+          />
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
