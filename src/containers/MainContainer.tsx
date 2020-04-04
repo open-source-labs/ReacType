@@ -102,17 +102,6 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
 });
 
 class MainContainer extends Component<MainContPropsInt, StateInt> {
-  //Again, state should not be created outside of the single source of truth
-  //Actually upon further examination, it looks like this state isn't manipulated at all.
-  // state = {
-  //   draggable: false,
-  //   toggleClass: true,
-  //   scaleX: 1,
-  //   scaleY: 1,
-  //   x: 0,
-  //   y: 0,
-  //   modal: ''
-  // };
 
   render() {
     //const { draggable, modal } = this.state; //this is being destructured but never read.
