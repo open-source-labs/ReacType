@@ -46,4 +46,22 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.changeImagePath(payld)).toEqual(expectedAction);
   });
+
+  it('deleteChild returns a proper action', () => {
+    const payld = {};
+    const expectedAction = {
+      type: types.DELETE_CHILD,
+      payload: {}
+    };
+    expect(actions.deleteChild(payld)).toEqual(expectedAction);
+  });
+
+  it('changeComponentFocusChild returns a proper action', () => {
+    const payld = { componentId: 1, childId: 2 };
+    const expectedAction = {
+      type: types.CHANGE_COMPONENT_FOCUS_CHILD,
+      payload: payld
+    };
+    expect(actions.changeComponentFocusChild(payld)).toEqual(expectedAction);
+  });
 });

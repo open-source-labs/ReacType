@@ -43,6 +43,7 @@ import {
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+import { string } from 'prop-types';
 
 export const addChild = ({
   title,
@@ -68,25 +69,37 @@ export const addComponent = ({
   type: ADD_COMPONENT,
   payload: { title }
 });
-export const addProp = ({ key, type }: { key: string; type: string }) => ({
+export const addProp = ({
+  key,
+  type
+}: {
+  key: string;
+  type: string;
+}): {
+  type: string;
+  payload: { key: string; type: string };
+} => ({
   type: ADD_PROP,
   payload: { key, type }
 });
 
-export const changeTutorial = (tutorial: number) => ({
+export const changeTutorial = (
+  tutorial: number
+): { type: string; payload: { tutorial: number } } => ({
   type: CHANGE_TUTORIAL,
   payload: { tutorial }
 });
 
-export const changeImagePath = (imageSource: string) => ({
+export const changeImagePath = (
+  imageSource: string
+): { type: string; payload: { imageSource: string } } => ({
   type: CHANGE_IMAGE_SOURCE,
   payload: { imageSource }
 });
 
-export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
-  // with no payload, it will delete focusd child
-  dispatch({ type: DELETE_CHILD, payload: {} });
-};
+export const deleteChild = ({}): { type: string; payload: {} } =>
+  // with no payload, it will delete focused child
+  ({ type: DELETE_CHILD, payload: {} });
 
 export const changeComponentFocusChild = ({
   componentId,
@@ -94,12 +107,10 @@ export const changeComponentFocusChild = ({
 }: {
   componentId: number;
   childId: number;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId }
-  });
-};
+}): { type: string; payload: { componentId: number; childId: number } } => ({
+  type: CHANGE_COMPONENT_FOCUS_CHILD,
+  payload: { componentId, childId }
+});
 
 // make sure childId is being sent in
 export const changeFocusChild = ({ childId }: { childId: number }) => (
