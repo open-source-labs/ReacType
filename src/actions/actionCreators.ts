@@ -255,7 +255,7 @@ export const handleTransform = (
     width,
     height
   }: { x: number; y: number; width: number; height: number }
-) => ({
+): Action => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,

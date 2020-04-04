@@ -122,4 +122,17 @@ describe('Testing All of The Action Creators', () => {
     };
     expect(actions.handleClose()).toEqual(expectedAction);
   });
+
+  it('handleTransform returns a proper action', () => {
+    const payld = { x: 100, y: 200, width: 50, height: 75 };
+    const componentId = 2;
+    const childId = 3;
+    const expectedAction = {
+      type: types.HANDLE_TRANSFORM,
+      payload: { componentId, childId, ...payld }
+    };
+    expect(actions.handleTransform(componentId, childId, payld)).toEqual(
+      expectedAction
+    );
+  });
 });
