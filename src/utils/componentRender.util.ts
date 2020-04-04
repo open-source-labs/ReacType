@@ -212,7 +212,9 @@ const componentRender = (
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
-              )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
+              )}>${
+                /*child.HTMLInfo.value*/ `GGGGGGG`
+              }</${componentNameGenerator(child)}>`;
             }
             // code to be rendered for all self closing component/elements
             else

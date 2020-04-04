@@ -16,25 +16,40 @@ export const addChild = (
   {
     title,
     childType = '',
-    HTMLInfo = {}
+    HTMLInfo = {},
+    native
   }: {
     title: string;
     childType: string;
     HTMLInfo: { [index: string]: string };
+    native: boolean;
   }
 ) => {
   const strippedTitle = title;
 
+  const nativeComponentTypes = [
+    'RNView',
+    'RNSafeAreaView',
+    'RNButton',
+    'RNFlatList',
+    'RNImage',
+    'RNModal',
+    'RNSwitch',
+    'RNText',
+    'RNTextInput',
+    'RNTouchOpacity'
+  ];
   //is this warning even possible to trigger witht he current flow?
   if (!childType) {
     window.alert('addChild Error! no type specified');
   }
 
-  //weird use of a ternary operator, could've wrapped it in one if statement
   const htmlElement = childType !== 'COMP' ? childType : null;
-  if (childType !== 'COMP') {
-    childType = 'HTML';
-  }
+
+  // if childType is NOT included in the array of NATIVE React types && also not coming from left panel then the childType will revert to HTML
+  !nativeComponentTypes.includes(childType) && childType !== 'COMP'
+    ? (childType = 'HTML')
+    : (childType = 'NATIVE');
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
@@ -131,7 +146,7 @@ export const addChild = (
     component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
-    }),
+    })
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
