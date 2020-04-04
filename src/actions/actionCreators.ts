@@ -101,11 +101,10 @@ export const changeFocusChild = ({ childId }: { childId: number }): Action => ({
   payload: { childId }
 });
 
-export const changeFocusComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
-};
+export const changeFocusComponent = ({ title }: { title: string }): Action => ({
+  type: CHANGE_FOCUS_COMPONENT,
+  payload: { title }
+});
 
 export const createApplication = ({
   path,
@@ -162,7 +161,7 @@ export const createApplication = ({
   }
 };
 
-export const deleteAllData = () => ({
+export const deleteAllData = (): Action => ({
   type: DELETE_ALL_DATA
 });
 
@@ -195,15 +194,14 @@ export const deleteComponent = ({
   dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
 };
 
-export const deleteImage = () => ({
+export const deleteImage = (): Action => ({
   type: DELETE_IMAGE
 });
 
-export const deleteProp = (propId: number) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: DELETE_PROP, payload: propId });
-};
+export const deleteProp = (propId: number): Action => ({
+  type: DELETE_PROP,
+  payload: propId
+});
 
 export const editComponent = ({ id, title }: { id: number; title: string }) => (
   dispatch: (arg: Action) => void
