@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 interface HTMLCompPropsInt {
   classes: any;
   addChild: any;
+  native: boolean;
 }
 
 interface StateInt {
@@ -35,7 +36,6 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
 
   render(): JSX.Element {
     const { classes } = this.props;
-
     // refactor of HTML elements panel
     const elementButtons = [
       {
@@ -72,7 +72,9 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
           className={classes.label}
           aria-label={element.name}
           size="medium"
-          onClick={() => this.handleCreateHTMLChild(element.name)}
+          onClick={() => {
+            this.handleCreateHTMLChild(element.name);
+          }}
         >
           <span className={classes.elemName}>{element.name}</span>
           {element.button}
