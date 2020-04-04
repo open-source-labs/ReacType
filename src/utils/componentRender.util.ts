@@ -185,7 +185,7 @@ const componentRender = (
     
     
     interface Props {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)};\n`)}
     };
 
       ${

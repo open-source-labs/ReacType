@@ -127,9 +127,11 @@ export const toggleNative = (state: ApplicationStateInt) => {
   const app = components.find((e: ComponentInt) => e.id === 1);
   app.position.width = !state.native ? 500 : 1200;
   app.position.height = !state.native ? 850 : 800;
+  app.changed = true;
 
   return {
     ...initialApplicationState,
+    focusComponent: app,
     native: !state.native,
     components
   };
