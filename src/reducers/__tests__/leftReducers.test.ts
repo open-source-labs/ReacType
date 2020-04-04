@@ -2,35 +2,11 @@ import * as reducers from '../leftReducers';
 import cloneDeep from '../../helperFunctions/cloneDeep';
 import * as interfaces from '../../interfaces/Interfaces';
 import * as types from '../../actionTypes/index';
+import {initialApplicationState} from '../initialState'
 describe('Left reducers', () => {
-  let state: any;
-  beforeEach(() => {
-    state = {
-      editMode: -1,
-      testing: 'testingReducer',
-      codeReadOnly: true,
-      components: [
-        {
-          changed: true,
-          childrenArray: [{}],
-          classBased: false,
-          code: '....',
-          color: '#FF6D00',
-          focusChild: {},
-          focusChildId: -1,
-          id: 1,
-          nextChildId: 3,
-          nextPropId: 2,
-          position: {
-            height: 850,
-            width: 500,
-            x: 70,
-            y: 100
-          },
-          props: [],
-          stateful: false,
-          title: 'App'
-        },
+  let state: interfaces.ApplicationStateInt;
+
+  let testComponent =
         {
           changed: false,
           childrenArray: [{}],
@@ -39,7 +15,7 @@ describe('Left reducers', () => {
           color: '#FFF',
           focusChild: {},
           focusChildId: 0,
-          id: 99,
+          id: 19,
           nextChildId: 9,
           nextPropId: 9,
           position: {
@@ -52,11 +28,98 @@ describe('Left reducers', () => {
           stateful: false,
           title: 'TEST'
         }
-      ],
-      focusComponent: 'App',
-      history: []
-    };
-  });
+
+  beforeEach(() => {
+  state = initialApplicationState;
+
+
+  //   state = {
+  //     editMode: -1,
+  //     testing: 'testingReducer',
+  //     codeReadOnly: true,
+  //     components: [
+  //       {
+  //         changed: true,
+  //         childrenArray: [{}],
+  //         classBased: false,
+  //         code: '....',
+  //         color: '#FF6D00',
+  //         focusChild: {},
+  //         focusChildId: -1,
+  //         id: 1,
+  //         nextChildId: 3,
+  //         nextPropId: 2,
+  //         position: {
+  //           height: 850,
+  //           width: 500,
+  //           x: 70,
+  //           y: 100
+  //         },
+  //         props: [],
+  //         stateful: false,
+  //         title: 'App'
+  //       },
+  //       {
+  //         changed: false,
+  //         childrenArray: [{}],
+  //         classBased: false,
+  //         code: '....',
+  //         color: '#FFF',
+  //         focusChild: {},
+  //         focusChildId: 0,
+  //         id: 19,
+  //         nextChildId: 9,
+  //         nextPropId: 9,
+  //         position: {
+  //           height: 850,
+  //           width: 500,
+  //           x: 70,
+  //           y: 100
+  //         },
+  //         props: [],
+  //         stateful: false,
+  //         title: 'TEST'
+  //       }
+  //     ],
+  //     focusComponent: {
+  //       changed: true,
+  //       childrenArray: [{}],
+  //       classBased: false,
+  //       code: '....',
+  //       color: '#FF6D00',
+  //       focusChildId: -1,
+  //       id: 1,
+  //       nextChildId: 3,
+  //       nextPropId: 2,
+  //       position: {
+  //         height: 850,
+  //         width: 500,
+  //         x: 70,
+  //         y: 100
+  //       },
+  //       props: [],
+  //       stateful: false,
+  //       title: 'App'
+  //     },
+  //     focusChild: {
+  //       childId: 19,
+  //       componentName: null,
+  //       position: {
+  //         x: 25,
+  //         y: 25,
+  //         width: 800,
+  //         height: 550
+  //       },
+  //       childType: null,
+  //       childSort: 0,
+  //       childComponentId: 0,
+  //       color: null,
+  //       htmlElement: null,
+  //       HTMLInfo: null
+  //     },
+  //     history: []
+  //   };
+  // });
   // describe('toggleComponentState', () => {
   //   it('inverts the statefulness of component passed in', () => {});
   // });
@@ -106,77 +169,20 @@ describe('Left reducers', () => {
   // TEST DELETE CHILD: test child should be deleted from local state components array
   // describe('deleteChild reducer', () => {
   //   it('should delete test component', () => {
-  //     //   const action = {
-  //     //     type: types.CHANGE_IMAGE_SOURCE,
-  //     //     payload: { imageSource: 'www.test.com/test.img' }
-  //     //   };
-  //     const model = {
-  //       parentId = state.focusComponent.id,
-  //       childId = state.focusChild.childId,
-  //       calledFromDeleteComponent = false
-  //     };
-  //     const newState = reducers.deleteChild();
+  //     // CHANGE FOCUS COMPONENT FIRST
+  //     // const action = {
+  //     //   type: types.CHANGE_FOCUS_COMPONENT,
+  //     //   payload: { title: 'TEST' }
+  //     // };
+  //     // const newState = reducers.changeFocusComponent(state, action.payload);
+  //     const prevState = [cloneDeep(state)];
+  //     const newState = reducers.deleteChild(state, {});
   //     // expecting new payload of "title" to the payload we just created
-  //     expect(newState.imageSource).toEqual(action.payload.imageSource);
+  //     expect(prevState.focusComponent.childrenArray).not.toEqual(
+  //       newState.focusComponent.childrenArray
+  //     );
   //   });
   // });
+
   // NEXT TEST
 });
-//   //   //  declaring initial state
-//   let state: any;
-//   beforeEach(() => {
-//     state = {
-//       editMode: -1,
-//       testing: 'testingReducer',
-//       codeReadOnly: true,
-//       components: [
-//         {
-//           changed: true,
-//           childrenArray: [{}],
-//           classBased: false,
-//           code: '....',
-//           color: '#FF6D00',
-//           focusChild: {},
-//           focusChildId: -1,
-//           id: 1,
-//           nextChildId: 3,
-//           nextPropId: 2,
-//           position: {
-//             height: 850,
-//             width: 500,
-//             x: 70,
-//             y: 100
-//           },
-//           props: [],
-//           stateful: false,
-//           title: 'App'
-//         }
-//       ],
-//       focusComponent: 'App'
-//     };
-//   });
-//   describe('changeFocusComponent reducer', () => {
-//     // eslint-disable-next-line no-unused-expressions
-//     it('update the Focus Component in state', () => {
-//       // self-contained actions types
-//       //   // self contained actions
-//       const action = {
-//         type: types.CHANGE_FOCUS_COMPONENT,
-//         payload: { title: 'NOT-COMPONENT' }
-//       };
-//       const newState = reducers.changeFocusComponent(state, action.payload);
-//       expect(newState).toStrictEqual(state);
-//       // (initialState.focusComponent.title).not.toStrictEqual(
-//       //       newState.focusComponent.title
-//       //     );
-//       //   expect(
-//       //     reducers.changeFocusComponent([], {
-//       //       type: types.CHANGE_FOCUS_COMPONENT,
-//       //       title: 'TEST_CHANGE_FOCUS_APP'
-//       //     })
-//       //   ).not.toEqual([initialState]);
-//       // take previous snapshot of component then compare it to itself
-//     });
-//     // return an expect new state to strictly equal
-//   });
-// });
