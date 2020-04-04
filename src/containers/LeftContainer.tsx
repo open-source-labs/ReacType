@@ -499,7 +499,7 @@ function styles(): any {
       color: '#fff',
       opacity: '0.7',
       marginBottom: '10px',
-      paddingLeft: '10%'
+      paddingLeft: '9%'
     },
     underline: {
       color: 'white',
