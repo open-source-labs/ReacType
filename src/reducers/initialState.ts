@@ -28,6 +28,27 @@ export const appComponent: ComponentInt = {
   changed: false
 };
 
+export const testComponent: ComponentInt = {
+  id: 19,
+  stateful: false,
+  classBased: false,
+  title: 'TEST',
+  color: '#FF6D00',
+  props: [],
+  nextPropId: 1,
+  position: {
+    x: 25,
+    y: 25,
+    width: 1200,
+    height: 800
+  },
+  childrenArray: [],
+  nextChildId: 1,
+  focusChildId: 0,
+  code: '',
+  changed: false
+};
+
 const initialApplicationFocusChild: ChildInt = {
   childId: 0,
   componentName: null,
