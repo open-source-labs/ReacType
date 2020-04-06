@@ -38,6 +38,7 @@ describe('Left reducers', () => {
       expect(newState.imageSource).toEqual(action.payload.imageSource);
     });
   });
+
   // TEST DELETE CHILD: test child should be deleted from local state components array
   // describe('deleteChild reducer', () => {
   //   it('should delete test component', () => {
@@ -57,7 +58,34 @@ describe('Left reducers', () => {
   // });
   // NEXT TEST
 
-  describe('editComponent', () => {});
+  describe('editComponent', () => {
+    it('should change the name of the component', () => {
+      const test = {
+        id: 19, //this id is established in the testComponent
+        title: 'Edited'
+      };
+      const newState = reducers.editComponent(state, test);
+
+      // find the updated component in the state returned above
+      const newComp = newState.components.find(
+        (component: any) => component.id === test.id
+      );
+
+      // check to see if the name was updated accurately
+      expect(newComp.title).toEqual(test.title);
+    });
+
+    // it('should change the name of the component in all locations', () => {});
+
+    it('should set editMode back to -1', () => {
+      const test = {
+        id: 19, //this id is established in the testComponent
+        title: 'Edited'
+      };
+      const newState = reducers.editComponent(state, test);
+      expect(newState.editMode).toEqual(-1);
+    });
+  });
 
   describe('exportFilesSuccess', () => {
     it('upon success, updates successOpen and appDir with correct values', () => {
@@ -127,6 +155,7 @@ describe('Left reducers', () => {
       const newState = reducers.toggleEditMode(state, action.payload);
       expect(newState).toStrictEqual(state);
     });
+
     it('should return new state with updated editMode', () => {
       const action = {
         type: 'EDIT_MODE',
