@@ -170,8 +170,10 @@ const componentRender = (
           return `import {${importNativeNameGenerator(
             child
           )}} from 'react-native'`;
-        } else
-          `import ${child.componentName} from './${child.componentName}.tsx'`;
+        }
+        if (child.childType === 'COMP') {
+          return `import ${child.componentName} from './${child.componentName}.tsx'`;
+        }
       })
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {

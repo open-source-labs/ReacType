@@ -87,7 +87,8 @@ export const createPackage = (path, appName) => {
     "express": "^4.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "react-native": "^0.62.1",
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -284,7 +285,7 @@ app.listen(8080, () => {
 async function createApplicationUtil({
   path,
   appName,
-  genOption,
+  genOption
 }: {
   path: string;
   appName: string;
