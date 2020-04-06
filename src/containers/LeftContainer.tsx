@@ -22,7 +22,6 @@ import {
 import createModal from '../components/left/createModal';
 import cloneDeep from '../helperFunctions/cloneDeep';
 import NativeComponentPanel from '../components/left/NativeComponentPanel';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
