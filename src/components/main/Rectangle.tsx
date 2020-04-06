@@ -178,7 +178,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
           stroke={
             childType === 'COMP'
               ? this.getComponentColor(childComponentId)
-              : native && componentId === 1 && childType !== 'HTML' ? null : '#000000' //sets the parent component color to black
+              : native && componentId === 1 && (childType !== 'HTML' && childType !== 'NATIVE' )? null : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
