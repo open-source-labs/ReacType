@@ -2,16 +2,48 @@ import * as reducers from '../leftReducers';
 import cloneDeep from '../../helperFunctions/cloneDeep';
 import * as interfaces from '../../interfaces/Interfaces';
 import * as types from '../../actionTypes/index';
-import {initialApplicationState, testComponent} from '../initialState'
+import { initialApplicationState, testComponent } from '../initialState';
+
 describe('Left reducers', () => {
   let state: interfaces.ApplicationStateInt;
-  beforeEach(() => 
-  {
+
+  // redefine the default state before each reducer test
+  beforeEach(() => {
     state = initialApplicationState;
-    state.components.push(testComponent)
-  })
+    state.components.push(testComponent);
+  });
 
+  describe('toggleComponentClass', () => {
+    it('toggles the component passed in between class and functional', () => {
+      const action = {
+        type: 'TOGGLE_CLASS',
+        payload: { id: 1 }
+      };
 
+      const newState = reducers.toggleComponentClass(state, action.payload);
+      // type error below appears to be due to typing of the Components interface.. investigate later
+      expect(newState.components[0].classBased).toEqual(
+        !state.components[0].classBased
+      );
+    });
+  });
+
+  describe('toggleComponentState', () => {
+    it('inverts the statefulness of component passed in', () => {
+      const action = {
+        type: 'TOGGLE_STATE',
+        payload: { id: 1 }
+      };
+
+      const newState = reducers.toggleComponentState(state, action.payload);
+      // type error below appears to be due to typing of the Components interface.. investigate later
+      expect(newState.components[0].stateful).toEqual(
+        !state.components[0].stateful
+      );
+    });
+  });
+
+  // toggleEditMode reducer allows changing of component names in left container
   describe('toggleEditMode reducer', () => {
     it('should return the same state if id === 1', () => {
       const action = {
