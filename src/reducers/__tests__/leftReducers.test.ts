@@ -2,64 +2,47 @@ import * as reducers from '../leftReducers';
 import cloneDeep from '../../helperFunctions/cloneDeep';
 import * as interfaces from '../../interfaces/Interfaces';
 import * as types from '../../actionTypes/index';
+import { initialApplicationState, testComponent } from '../initialState';
+
 describe('Left reducers', () => {
-  let state: any;
+  let state: interfaces.ApplicationStateInt;
+
+  // redefine the default state before each reducer test
   beforeEach(() => {
-    state = {
-      editMode: -1,
-      testing: 'testingReducer',
-      codeReadOnly: true,
-      components: [
-        {
-          changed: true,
-          childrenArray: [{}],
-          classBased: false,
-          code: '....',
-          color: '#FF6D00',
-          focusChild: {},
-          focusChildId: -1,
-          id: 1,
-          nextChildId: 3,
-          nextPropId: 2,
-          position: {
-            height: 850,
-            width: 500,
-            x: 70,
-            y: 100
-          },
-          props: [],
-          stateful: false,
-          title: 'App'
-        },
-        {
-          changed: false,
-          childrenArray: [{}],
-          classBased: false,
-          code: '....',
-          color: '#FFF',
-          focusChild: {},
-          focusChildId: 0,
-          id: 99,
-          nextChildId: 9,
-          nextPropId: 9,
-          position: {
-            height: 850,
-            width: 500,
-            x: 70,
-            y: 100
-          },
-          props: [],
-          stateful: false,
-          title: 'TEST'
-        }
-      ],
-      focusComponent: 'App',
-      history: []
-    };
+    state = initialApplicationState;
+    state.components.push(testComponent);
   });
-  // describe('toggleComponentState', () => {
-  //   it('inverts the statefulness of component passed in', () => {});
-  // });
+
+  describe('toggleComponentClass', () => {
+    it('toggles the component passed in between class and functional', () => {
+      const action = {
+        type: 'TOGGLE_CLASS',
+        payload: { id: 1 }
+      };
+
+      const newState = reducers.toggleComponentClass(state, action.payload);
+      // type error below appears to be due to typing of the Components interface.. investigate later
+      expect(newState.components[0].classBased).toEqual(
+        !state.components[0].classBased
+      );
+    });
+  });
+
+  describe('toggleComponentState', () => {
+    it('inverts the statefulness of component passed in', () => {
+      const action = {
+        type: 'TOGGLE_STATE',
+        payload: { id: 1 }
+      };
+
+      const newState = reducers.toggleComponentState(state, action.payload);
+      // type error below appears to be due to typing of the Components interface.. investigate later
+      expect(newState.components[0].stateful).toEqual(
+        !state.components[0].stateful
+      );
+    });
+  });
+
   // toggleEditMode reducer allows changing of component names in left container
   describe('toggleEditMode reducer', () => {
     it('should return the same state if id === 1', () => {
@@ -79,6 +62,7 @@ describe('Left reducers', () => {
       expect(newState.editMode).toEqual(action.payload.id);
     });
   });
+
   // TEST CHANGE FOCUS COMPONENT: test component will add "look" for "test" after it's added
   describe('changeFocusComponent reducer', () => {
     it('should change the focus component title', () => {
@@ -91,6 +75,7 @@ describe('Left reducers', () => {
       expect(newState.focusComponent.title).toEqual(action.payload.title);
     });
   });
+
   // TEST IMAGE SOURCE CHANGE: image URL should be changed after local state is changed
   describe('changeImageSource reducer', () => {
     it('should change the change the image source', () => {

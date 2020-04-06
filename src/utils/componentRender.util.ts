@@ -185,7 +185,7 @@ const componentRender = (
     
     
     interface Props {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)};\n`)}
     };
 
       ${
@@ -220,6 +220,9 @@ const componentRender = (
             if (
               child.componentName == 'Button' ||
               child.componentName === 'RNButton' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNView' ||
+              child.componentName === 'RNSafeAreaView' ||
               child.componentName === 'RNText' ||
               child.componentName === 'RNTouchOpacity'
             ) {
