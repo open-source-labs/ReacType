@@ -41,16 +41,8 @@ const componentRender = (
         return 'boolean';
       case 'function':
         return '() => any';
-      // case 'symbol':
-      //   return 'string';
-      case 'node':
-        return 'string';
-      case 'element':
-        return 'string';
       case 'tuple':
         return '[any]';
-      case 'enum':
-        return '{}';
       case 'any':
         return 'any';
       default:
@@ -185,7 +177,7 @@ const componentRender = (
       .join('\n')}
 
     
-    
+    /* Replace "any" with stricter types to reflect your usage*/
     interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)};\n`)}
     };
