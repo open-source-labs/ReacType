@@ -72,8 +72,8 @@
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "test:update-snap": "cross-env NODE_ENV=test jest --updateSnapshot",
+    "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "linter": "eslint src",
     "develop": "concurrently \"npm run dev\" \"npm run electron\""
   },
