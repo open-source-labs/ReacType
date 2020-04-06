@@ -51,8 +51,7 @@ const availablePropTypes = {
   boolean: 'BOOL',
   function: 'FUNC',
   any: 'ANY',
-  tuple: 'TUP',
-  enum: 'ENUM'
+  tuple: 'TUP'
 };
 
 // generates the various options for the prop type selection
