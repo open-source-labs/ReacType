@@ -16,13 +16,11 @@ export const addChild = (
   {
     title,
     childType = '',
-    HTMLInfo = {},
-    native
+    HTMLInfo = {}
   }: {
     title: string;
     childType: string;
     HTMLInfo: { [index: string]: string };
-    native: boolean;
   }
 ) => {
   const strippedTitle = title;
@@ -37,7 +35,7 @@ export const addChild = (
   // if childType is NOT included in the array of NATIVE React types && also not coming from left panel then the childType will revert to HTML
   !nativeComponentTypes.includes(childType) && childType !== 'COMP'
     ? (childType = 'HTML')
-    : (childType = 'NATIVE');
+    : childType = childType === 'COMP' ? 'COMP' : 'NATIVE';
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
@@ -78,7 +76,7 @@ export const addChild = (
   }
 
   let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
-  if (childType === 'HTML') {
+  if (childType === 'HTML' || childType === 'NATIVE') {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
     //looks like the group that originally worked on this app planend to have a back end that accessed a DB with element types.
