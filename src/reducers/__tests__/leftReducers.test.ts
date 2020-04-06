@@ -90,23 +90,22 @@ describe('Left reducers', () => {
   });
 
   // TEST DELETE CHILD: test child should be deleted from local state components array
-  describe('deleteChild reducer', () => {
-    it('should delete test component', () => {
-      // CHANGE FOCUS COMPONENT FIRST
-      // const action = {
-      //   type: types.CHANGE_FOCUS_COMPONENT,
-      //   payload: { title: 'TEST' }
-      // };
-      // const newState = reducers.changeFocusComponent(state, action.payload);
-      const prevState = cloneDeep(state);
-      console.log('this is prevState', prevState)
-      const newState = reducers.deleteChild(state, {});
-      // expecting new payload of "title" to the payload we just created
-      expect(prevState.focusComponent.childrenArray).not.toEqual(
-        newState.focusComponent.childrenArray
-      );
-    });
-  });
+  // describe('deleteChild reducer', () => {
+  //   it('should delete test component', () => {
+  //     // CHANGE FOCUS COMPONENT FIRST
+  //     // const action = {
+  //     //   type: types.CHANGE_FOCUS_COMPONENT,
+  //     //   payload: { title: 'TEST' }
+  //     // };
+  //     // const newState = reducers.changeFocusComponent(state, action.payload);
+  //     const prevState = cloneDeep(state);
+  //     console.log('this is prevState', prevState)
+  //     const newState = reducers.deleteChild(state, {});
+  //     // expecting new payload of "title" to the payload we just created
+  //     expect(prevState.focusComponent.childrenArray).not.toEqual(
+  //       newState.focusComponent.childrenArray
+  //     );
+  //   });
+});
 
-  // NEXT TEST
-  }
+// NEXT TEST
