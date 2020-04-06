@@ -126,15 +126,15 @@ function styles(theme: Theme): any {
       paddingLeft: '15px'
     },
     compName: {
-      paddingRight: '10px'
+      paddingRight: '10px',
+      transition: 'box-shadow 350ms ease-in-out',
+      '&:hover': {
+        boxShadow: '0 5px 15px rgba(255,255,255,.4)'
+      }
     },
     label: {
       color: '#e0e0e0',
-      textShadow: '2px 2px 2px black',
-      transition: 'font-size 350ms ease-in-out',
-      '&:hover': {
-        fontSize: '1.85em'
-      }
+      textShadow: '2px 2px 2px black'
     }
   };
 }

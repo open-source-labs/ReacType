@@ -13,6 +13,80 @@ describe('Left reducers', () => {
     state.components.push(testComponent);
   });
 
+  // TEST CHANGE FOCUS COMPONENT: test component will add "look" for "test" after it's added
+  describe('changeFocusComponent reducer', () => {
+    it('should change the focus component title', () => {
+      const action = {
+        type: types.CHANGE_FOCUS_COMPONENT,
+        payload: { title: 'TEST' }
+      };
+      const newState = reducers.changeFocusComponent(state, action.payload);
+      // expecting new payload of "title" to the payload we just created
+      expect(newState.focusComponent.title).toEqual(action.payload.title);
+    });
+  });
+
+  // TEST IMAGE SOURCE CHANGE: image URL should be changed after local state is changed
+  describe('changeImageSource reducer', () => {
+    it('should change the change the image source', () => {
+      const action = {
+        type: types.CHANGE_IMAGE_SOURCE,
+        payload: { imageSource: 'www.test.com/test.img' }
+      };
+      const newState = reducers.changeImageSource(state, action.payload);
+      // expecting new payload of "title" to the payload we just created
+      expect(newState.imageSource).toEqual(action.payload.imageSource);
+    });
+  });
+  // TEST DELETE CHILD: test child should be deleted from local state components array
+  // describe('deleteChild reducer', () => {
+  //   it('should delete test component', () => {
+  //     //   const action = {
+  //     //     type: types.CHANGE_IMAGE_SOURCE,
+  //     //     payload: { imageSource: 'www.test.com/test.img' }
+  //     //   };
+  //     const model = {
+  //       parentId = state.focusComponent.id,
+  //       childId = state.focusChild.childId,
+  //       calledFromDeleteComponent = false
+  //     };
+  //     const newState = reducers.deleteChild();
+  //     // expecting new payload of "title" to the payload we just created
+  //     expect(newState.imageSource).toEqual(action.payload.imageSource);
+  //   });
+  // });
+  // NEXT TEST
+
+  describe('editComponent', () => {});
+
+  describe('exportFilesSuccess', () => {
+    it('upon success, updates successOpen and appDir with correct values', () => {
+      // the values from this object should be added into state upon error
+      const test = {
+        status: false,
+        err: 'SUCCESS'
+      };
+
+      const newState = reducers.exportFilesError(state, test);
+      expect(newState.errorOpen).toEqual(test.status);
+      expect(newState.appDir).toEqual(test.err);
+    });
+  });
+
+  describe('exportFilesError', () => {
+    it('upon error, updates successOpen and appDir with correct values', () => {
+      // the values from this object should be added into state upon error
+      const test = {
+        status: false,
+        err: 'ERROR'
+      };
+
+      const newState = reducers.exportFilesError(state, test);
+      expect(newState.errorOpen).toEqual(test.status);
+      expect(newState.appDir).toEqual(test.err);
+    });
+  });
+
   describe('toggleComponentClass', () => {
     it('toggles the component passed in between class and functional', () => {
       const action = {
@@ -62,48 +136,4 @@ describe('Left reducers', () => {
       expect(newState.editMode).toEqual(action.payload.id);
     });
   });
-
-  // TEST CHANGE FOCUS COMPONENT: test component will add "look" for "test" after it's added
-  describe('changeFocusComponent reducer', () => {
-    it('should change the focus component title', () => {
-      const action = {
-        type: types.CHANGE_FOCUS_COMPONENT,
-        payload: { title: 'TEST' }
-      };
-      const newState = reducers.changeFocusComponent(state, action.payload);
-      // expecting new payload of "title" to the payload we just created
-      expect(newState.focusComponent.title).toEqual(action.payload.title);
-    });
-  });
-
-  // TEST IMAGE SOURCE CHANGE: image URL should be changed after local state is changed
-  describe('changeImageSource reducer', () => {
-    it('should change the change the image source', () => {
-      const action = {
-        type: types.CHANGE_IMAGE_SOURCE,
-        payload: { imageSource: 'www.test.com/test.img' }
-      };
-      const newState = reducers.changeImageSource(state, action.payload);
-      // expecting new payload of "title" to the payload we just created
-      expect(newState.imageSource).toEqual(action.payload.imageSource);
-    });
-  });
-  // TEST DELETE CHILD: test child should be deleted from local state components array
-  // describe('deleteChild reducer', () => {
-  //   it('should delete test component', () => {
-  //     //   const action = {
-  //     //     type: types.CHANGE_IMAGE_SOURCE,
-  //     //     payload: { imageSource: 'www.test.com/test.img' }
-  //     //   };
-  //     const model = {
-  //       parentId = state.focusComponent.id,
-  //       childId = state.focusChild.childId,
-  //       calledFromDeleteComponent = false
-  //     };
-  //     const newState = reducers.deleteChild();
-  //     // expecting new payload of "title" to the payload we just created
-  //     expect(newState.imageSource).toEqual(action.payload.imageSource);
-  //   });
-  // });
-  // NEXT TEST
 });
