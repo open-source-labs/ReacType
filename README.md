@@ -12,15 +12,27 @@ In other words, **you can draw prototypes and export React / Typescript code!**
 
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-Download for [MacOS](https://github.com/team-reactype/ReacType/releases/tag/Mac.Version.1.0), [Windows](https://github.com/team-reactype/ReacType/releases/tag/Win.Version.1.0), [Linux](https://github.com/team-reactype/ReacType/releases/tag/Linux.Version.1.0).
+**New with version 2.0:** 
+- React Native mode for iOS/Andoird app design
+- Hooks integration with functional components
+- History navigation
+- Tutorial mode
+- New keyboard shortcuts
+- Editable code preview
+- Prop value designation for component children
+
+Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
 * **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
+
+* **Linux users**: run the application as a super user in order to read and write files.
 
 ![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
 
 ### How to use
 
 - Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
+- Switch to React Native mode to change the interface to a mobile app development environment
 - To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
 - To add draggable **HTML elements**, select the image icons on the lower left panel.
