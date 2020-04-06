@@ -11,12 +11,7 @@ import { initialApplicationState } from './initialState';
 
 export const addProp = (
   state: ApplicationStateInt,
-  {
-    key,
-    value = null,
-    required,
-    type
-  }: { key: string; value: string; required: boolean; type: string }
+  { key, type }: { key: string; type: string }
 ) => {
   if (!state.focusComponent.id) {
     console.log('Add prop error. no focused component ');
@@ -30,8 +25,6 @@ export const addProp = (
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
-    value: value || key,
-    required,
     type
   };
   const newProps = [...selectedComponent.props, newProp];
