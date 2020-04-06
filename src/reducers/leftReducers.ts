@@ -302,6 +302,7 @@ export const deleteChild = (
     however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
     Also when calling from DELETE components , we do not touch focusComponent.
    ************************************************************************************ */
+
   if (!parentId) {
     window.alert('Cannot delete root child of a component');
     return state;
@@ -314,7 +315,7 @@ export const deleteChild = (
     window.alert('Cannot delete root child of a component');
     return state;
   }
-  // make a DEEP copy of the parent component (the one thats about to loose a child)
+  // make a DEEP copy of the parent component (the one thats about to lose a child)
   const parentComponentCopy: any = cloneDeep(
     state.components.find((comp: ComponentInt) => comp.id === parentId)
   );

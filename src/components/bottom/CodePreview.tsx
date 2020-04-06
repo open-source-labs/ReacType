@@ -17,9 +17,8 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-
+// comment out delete
 class CodePreview extends Component<CodePreviewProps> {
-
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
   componentDidMount() {
@@ -44,7 +43,7 @@ class CodePreview extends Component<CodePreviewProps> {
         parser: 'babel'
       }
     );
-    // console.log('code  prev>>>>>>>>>>>>>>>>>>>', text);
+
     this.props.updateCode({
       componentId: this.props.focusComponent.id,
       code: text
