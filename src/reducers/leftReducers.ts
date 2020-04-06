@@ -35,7 +35,7 @@ export const addChild = (
   // if childType is NOT included in the array of NATIVE React types && also not coming from left panel then the childType will revert to HTML
   !nativeComponentTypes.includes(childType) && childType !== 'COMP'
     ? (childType = 'HTML')
-    : childType = childType === 'COMP' ? 'COMP' : 'NATIVE';
+    : (childType = childType === 'COMP' ? 'COMP' : 'NATIVE');
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
@@ -302,7 +302,7 @@ export const deleteChild = (
     however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
     Also when calling from DELETE components , we do not touch focusComponent.
    ************************************************************************************ */
-  console.log('TESTTTTTTTTTTTTTTT');
+
   if (!parentId) {
     window.alert('Cannot delete root child of a component');
     return state;
