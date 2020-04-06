@@ -127,9 +127,9 @@ function styles(theme: Theme): any {
     },
     compName: {
       paddingRight: '10px',
-      transition: 'box-shadow 350ms ease-in-out',
+      transition: 'font-size 350ms ease-in-out',
       '&:hover': {
-        boxShadow: '0 5px 15px rgba(255,255,255,.4)'
+        fontSize: '1.60rem'
       }
     },
     label: {
