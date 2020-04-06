@@ -14,17 +14,13 @@ describe('Testing bottom reducer:', () => {
 
   describe('addProp', () => {
     it('Properly adds prop to a focus component', () => {
-      const action = {
-        type: types.ADD_PROP,
-        payload: { key: 'test', type: 'string' }
-      };
-      const newState = reducers.addProp(state, action.payload);
+      const payload = { key: 'test', type: 'string' };
+      const newState = reducers.addProp(state, payload);
       let expectedProp = {
         id: state.focusComponent.nextPropId,
         key: 'test',
         type: 'string'
       };
-
       const newAppComp = newState.components.find(
         (comp: interfaces.ComponentInt) => comp.id === 1
       );
@@ -35,6 +31,6 @@ describe('Testing bottom reducer:', () => {
   });
 
   describe('deleteProp', () => {
-    it('Properly deletes a prop for a given component', () => {});
+    it('Properly deletes a prop for a focus component', () => {});
   });
 });
