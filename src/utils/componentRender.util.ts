@@ -170,8 +170,10 @@ const componentRender = (
           return `import {${importNativeNameGenerator(
             child
           )}} from 'react-native'`;
-        } else
-          `import ${child.componentName} from './${child.componentName}.tsx'`;
+        }
+        if (child.childType === 'COMP') {
+          return `import ${child.componentName} from './${child.componentName}.tsx'`;
+        }
       })
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
@@ -185,7 +187,7 @@ const componentRender = (
     
     
     interface Props {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)};\n`)}
     };
 
       ${
@@ -220,6 +222,9 @@ const componentRender = (
             if (
               child.componentName == 'Button' ||
               child.componentName === 'RNButton' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNView' ||
+              child.componentName === 'RNSafeAreaView' ||
               child.componentName === 'RNText' ||
               child.componentName === 'RNTouchOpacity'
             ) {
