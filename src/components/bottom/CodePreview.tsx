@@ -17,7 +17,7 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
-
+// comment out delete
 class CodePreview extends Component<CodePreviewProps> {
   //checking if the code has been asigned yet or not
   //if no then generate code and asign to a focus component
