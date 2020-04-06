@@ -25,7 +25,7 @@ class AddChildProps extends Component<ChildPropsTypes> {
       return (
         <span key={`span-${idx}`}>
           <input
-            type='checkbox'
+            type="checkbox"
             id={`${prop}checkbox-${prop.key}`}
             name={`${prop}checkbox-${prop.key}`}
             key={`checkbox-${idx}`}
@@ -86,17 +86,8 @@ class AddChildProps extends Component<ChildPropsTypes> {
             }
           ]}
           data={focusComponent.childrenArray}
-          title='Add Your Child Props Here!'
+          title="Add Your Child Props Here!"
         />
-
-        {/* BUTTON FUNCTIONALITY PENDING
-        <button
-          onClick={() => {
-            this.tableRef.current.onQueryChange();
-          }}
-        >
-          Sean Sucks
-        </button> */}
       </div>
     );
   }
