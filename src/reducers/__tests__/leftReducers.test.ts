@@ -88,22 +88,24 @@ describe('Left reducers', () => {
       expect(newState.imageSource).toEqual(action.payload.imageSource);
     });
   });
+
   // TEST DELETE CHILD: test child should be deleted from local state components array
   // describe('deleteChild reducer', () => {
   //   it('should delete test component', () => {
-  //     //   const action = {
-  //     //     type: types.CHANGE_IMAGE_SOURCE,
-  //     //     payload: { imageSource: 'www.test.com/test.img' }
-  //     //   };
-  //     const model = {
-  //       parentId = state.focusComponent.id,
-  //       childId = state.focusChild.childId,
-  //       calledFromDeleteComponent = false
-  //     };
-  //     const newState = reducers.deleteChild();
+  //     // CHANGE FOCUS COMPONENT FIRST
+  //     // const action = {
+  //     //   type: types.CHANGE_FOCUS_COMPONENT,
+  //     //   payload: { title: 'TEST' }
+  //     // };
+  //     // const newState = reducers.changeFocusComponent(state, action.payload);
+  //     const prevState = cloneDeep(state);
+  //     console.log('this is prevState', prevState)
+  //     const newState = reducers.deleteChild(state, {});
   //     // expecting new payload of "title" to the payload we just created
-  //     expect(newState.imageSource).toEqual(action.payload.imageSource);
+  //     expect(prevState.focusComponent.childrenArray).not.toEqual(
+  //       newState.focusComponent.childrenArray
+  //     );
   //   });
-  // });
-  // NEXT TEST
 });
+
+// NEXT TEST
