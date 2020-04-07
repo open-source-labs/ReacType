@@ -27,7 +27,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 * **Linux users**: run the application as a super user in order to read and write files.
 
-![Image of ReacType Application](https://i.imgur.com/0wV7R1P.jpg)
+![Image of ReacType Application](https://i.imgur.com/OgcP9II.png)
 
 ### How to use
 
@@ -37,16 +37,14 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
 - To add draggable **HTML elements**, select the image icons on the lower left panel.
 
-![Gif of adding](https://imgur.com/sZloD8o.gif)
+![Gif of adding](https://i.imgur.com/hdVTFcP.gif)
 
 - The bottom panel allows the user to toggle between 4 different views: a **tree diagram of the application**, a **real-time preview of the exportable code**, a form to enter component props, and a form to add HTML attributes.
-
-![Gif of code preview & tree](https://imgur.com/KZb2UTO.gif)
 
 - **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
 - **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
 
-![Gif of attr & props](https://imgur.com/JgCiBE9.gif)
+![Gif of attr & props](https://i.imgur.com/cmgOLLN.gif)
 
 - To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
 - To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
