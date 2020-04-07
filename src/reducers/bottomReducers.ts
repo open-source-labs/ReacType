@@ -170,8 +170,8 @@ export const updateCode = (
   { componentId, code }: { componentId: number; code: string }
 ) => {
   //creates a deep copy of the components
-  const componentsCopy = cloneDeep(state.components);
-  const focusCompCopy = cloneDeep(state.focusComponent);
+  const componentsCopy: ComponentsInt = cloneDeep(state.components);
+  const focusCompCopy: ComponentInt = cloneDeep(state.focusComponent);
   if (focusCompCopy.id === componentId) {
     focusCompCopy.code = code;
     focusCompCopy.changed = false;
