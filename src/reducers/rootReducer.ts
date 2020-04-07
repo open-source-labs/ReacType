@@ -27,7 +27,6 @@ import {
   addProp,
   deleteProp,
   toggleNative,
-  updateChildrenSort,
   updateHtmlAttr,
   updateCode,
   toggleCodeEdit
@@ -133,8 +132,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return undo(state);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
-    case UPDATE_CHILDREN_SORT:
-      return updateChildrenSort(state, action.payload);
+    // case UPDATE_CHILDREN_SORT:
+    //   return updateChildrenSort(state, action.payload);
     case UPDATE_CODE:
       return updateCode(state, action.payload);
     default:
