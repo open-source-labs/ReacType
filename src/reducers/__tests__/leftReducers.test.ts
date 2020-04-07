@@ -10,6 +10,7 @@ describe('Left reducers', () => {
   // redefine the default state before each reducer test
   beforeEach(() => {
     state = initialApplicationState;
+    // state.components.push(testComponent);
   });
 
   // TEST CHANGE FOCUS COMPONENT: test component will add "look" for "test" after it's added
@@ -19,6 +20,8 @@ describe('Left reducers', () => {
         type: types.CHANGE_FOCUS_COMPONENT,
         payload: { title: 'TEST' }
       };
+
+      state.components.push(testComponent);
       const newState = reducers.changeFocusComponent(state, action.payload);
       // expecting new payload of "title" to the payload we just created
       expect(newState.focusComponent.title).toEqual(action.payload.title);
@@ -38,31 +41,14 @@ describe('Left reducers', () => {
     });
   });
 
-  // TEST DELETE CHILD: test child should be deleted from local state components array
-  // describe('deleteChild reducer', () => {
-  //   it('should delete test component', () => {
-  //     //   const action = {
-  //     //     type: types.CHANGE_IMAGE_SOURCE,
-  //     //     payload: { imageSource: 'www.test.com/test.img' }
-  //     //   };
-  //     const model = {
-  //       parentId = state.focusComponent.id,
-  //       childId = state.focusChild.childId,
-  //       calledFromDeleteComponent = false
-  //     };
-  //     const newState = reducers.deleteChild();
-  //     // expecting new payload of "title" to the payload we just created
-  //     expect(newState.imageSource).toEqual(action.payload.imageSource);
-  //   });
-  // });
-  // NEXT TEST
-
   describe('editComponent', () => {
     it('should change the name of the component', () => {
       const test = {
         id: 19, //this id is established in the testComponent
         title: 'Edited'
       };
+
+      state.components.push(testComponent);
       const newState = reducers.editComponent(state, test);
 
       // find the updated component in the state returned above
@@ -209,6 +195,7 @@ describe('Left reducers', () => {
       );
     });
   });
+
   // TEST ADD COMPONENT: adds component to the global state components array
   describe('addComponent reducer', () => {
     it('return the state as it was if an empty title', () => {
@@ -216,6 +203,7 @@ describe('Left reducers', () => {
         type: types.ADD_COMPONENT,
         payload: { title: '' }
       };
+
       // grab initial copy of current state
       const prevState = cloneDeep(state);
 
@@ -237,7 +225,9 @@ describe('Left reducers', () => {
       const newState = reducers.addComponent(prevState, action.payload);
 
       // expecting previous state not to equal new state after deletion of test component
-      expect(prevState.components[2]).not.toEqual(newState.components[2]);
+      expect(prevState.components[prevState.components.length - 1]).not.toEqual(
+        newState.components[newState.components.length - 1]
+      );
     });
   });
   // TEST ADD CHILD: adds child to the focus component's childrenArray
