@@ -5,7 +5,6 @@ import { initialApplicationState, testComponent } from '../initialState';
 
 describe('Testing bottom reducer:', () => {
   let state: interfaces.ApplicationStateInt;
-
   // redefine the default state before each reducer test
   beforeEach(() => {
     state = initialApplicationState;
@@ -46,6 +45,73 @@ describe('Testing bottom reducer:', () => {
     it('Properly switches the app into "Code Edit" mode', () => {
       const newState = reducers.toggleCodeEdit(state);
       expect(newState.codeReadOnly).toEqual(false);
+    });
+  });
+
+  describe('toggelNative', () => {
+    let newState: any;
+    it('Properly switches the app into "Native" mode', () => {
+      window.confirm = jest.fn(() => true);
+
+      newState = reducers.toggleNative(state);
+
+      //check that it doesn't mutate original state
+      expect(newState).not.toBe(state);
+      //check if the native toggle switched
+      expect(newState.native).toEqual(true);
+
+      //expect window confirm message to run
+      expect(window.confirm).toBeCalled();
+
+      //check proper width and height
+      expect(newState.focusComponent.position.width).toEqual(500);
+      expect(newState.focusComponent.position.height).toEqual(850);
+
+      //check if it has been marked as changed
+      expect(newState.focusComponent.changed).toEqual(true);
+
+      //check if it has been updated in components array
+      const appInComps = newState.components.find(
+        (e: interfaces.ComponentInt) => e.id === 1
+      );
+
+      //check proper width and height
+      expect(appInComps.position.width).toEqual(500);
+      expect(appInComps.position.height).toEqual(850);
+
+      //check if it has been marked as changed
+      expect(appInComps.changed).toEqual(true);
+    });
+
+    it('Properly switches the app back into "React" mode', () => {
+      window.confirm = jest.fn(() => true);
+
+      newState = reducers.toggleNative(newState);
+
+      //check if the native toggle switched
+      expect(newState.native).toEqual(false);
+
+      //expect window confirm message to run
+      expect(window.confirm).toBeCalled();
+
+      //check proper width and height
+      expect(newState.focusComponent.position.width).toEqual(1200);
+      expect(newState.focusComponent.position.height).toEqual(800);
+
+      //check if it has been marked as changed
+      expect(newState.focusComponent.changed).toEqual(true);
+
+      //check if it has been updated in components array
+      const appInComps = newState.components.find(
+        (e: interfaces.ComponentInt) => e.id === 1
+      );
+
+      //check proper width and height
+      expect(appInComps.position.width).toEqual(1200);
+      expect(appInComps.position.height).toEqual(800);
+
+      //check if it has been marked as changed
+      expect(appInComps.changed).toEqual(true);
     });
   });
 });
