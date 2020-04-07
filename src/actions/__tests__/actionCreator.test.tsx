@@ -115,14 +115,6 @@ describe('Testing All of The Action Creators', () => {
     expect(actions.editComponent(payld)).toEqual(expectedAction);
   });
 
-  it('handleClose returns a proper action', () => {
-    const expectedAction = {
-      type: types.HANDLE_CLOSE,
-      payload: false
-    };
-    expect(actions.handleClose()).toEqual(expectedAction);
-  });
-
   it('handleTransform returns a proper action', () => {
     const payld = { x: 100, y: 200, width: 50, height: 75 };
     const componentId = 2;

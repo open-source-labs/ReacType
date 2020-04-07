@@ -84,12 +84,12 @@ export const createPackage = (path, appName) => {
   "dependencies": {
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
-    "express": "^4.16.4",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "webpack": "^4.29.6",
-    "react-native": "^0.62.1",
-  },
+    "react-native": "^0.62.1"
+  }, 
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
@@ -109,7 +109,7 @@ export const createPackage = (path, appName) => {
     "tslint": "^5.15.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.3",
+    "typescript": "^3.8.3",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"

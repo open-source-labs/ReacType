@@ -11,12 +11,7 @@ import { initialApplicationState } from './initialState';
 
 export const addProp = (
   state: ApplicationStateInt,
-  {
-    key,
-    value = null,
-    required,
-    type
-  }: { key: string; value: string; required: boolean; type: string }
+  { key, type }: { key: string; type: string }
 ) => {
   if (!state.focusComponent.id) {
     console.log('Add prop error. no focused component ');
@@ -30,8 +25,6 @@ export const addProp = (
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
-    value: value || key,
-    required,
     type
   };
   const newProps = [...selectedComponent.props, newProp];
@@ -101,12 +94,6 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const handleClose = (state: ApplicationStateInt, status: string) => ({
-  ...state,
-  errorOpen: status,
-  successOpen: status
-});
-
 export const toggleCodeEdit = (state: ApplicationStateInt) => ({
   ...state,
   codeReadOnly: !state.codeReadOnly
@@ -125,6 +112,7 @@ export const toggleNative = (state: ApplicationStateInt) => {
   }
   const components = cloneDeep(initialApplicationState.components);
   const app = components.find((e: ComponentInt) => e.id === 1);
+
   app.position.width = !state.native ? 500 : 1200;
   app.position.height = !state.native ? 850 : 800;
   app.position.y = !state.native ? 50 : 25;
@@ -138,65 +126,65 @@ export const toggleNative = (state: ApplicationStateInt) => {
   };
 };
 
-export const updateChildrenSort = (
-  state: ApplicationStateInt,
-  { newSortValues }: { newSortValues: any }
-) => {
-  const modifiedChildrenArray: any = cloneDeep(
-    state.focusComponent.childrenArray
-  );
+//CURRENTLY doesn't DO ANYTHING
 
-  for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
-    const currChild = modifiedChildrenArray[i];
-    const currChildId = currChild.childId;
-    const newValueObj = newSortValues.find(
-      (n: any) => n.childId === currChildId
-    );
-    const newSortValue = newValueObj.childSort;
-    console.log(
-      ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
-    );
-    currChild.childSort = newSortValue;
-  }
+// export const updateChildrenSort = (
+//   state: ApplicationStateInt,
+//   { newSortValues }: { newSortValues: any }
+// ) => {
+//   const modifiedChildrenArray: any = cloneDeep(
+//     state.focusComponent.childrenArray
+//   );
 
-  const modifiedComponent = state.components.find(
-    (comp: ComponentInt) => comp.id === state.focusComponent.id
-  );
-  modifiedComponent.childrenArray = modifiedChildrenArray;
+//   for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
+//     const currChild = modifiedChildrenArray[i];
+//     const currChildId = currChild.childId;
+//     const newValueObj = newSortValues.find(
+//       (n: any) => n.childId === currChildId
+//     );
+//     const newSortValue = newValueObj.childSort;
+//     console.log(
+//       ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
+//     );
+//     currChild.childSort = newSortValue;
+//   }
 
-  const modifiedComponentsArray = state.components.filter(
-    (comp: ComponentInt) => comp.id !== state.focusComponent.id
-  );
-  modifiedComponentsArray.push(modifiedComponent);
+//   const modifiedComponent = state.components.find(
+//     (comp: ComponentInt) => comp.id === state.focusComponent.id
+//   );
+//   modifiedComponent.childrenArray = modifiedChildrenArray;
 
-  return {
-    ...state,
-    components: modifiedComponentsArray,
-    focusComponent: modifiedComponent
-  };
-};
+//   const modifiedComponentsArray = state.components.filter(
+//     (comp: ComponentInt) => comp.id !== state.focusComponent.id
+//   );
+//   modifiedComponentsArray.push(modifiedComponent);
+
+//   return {
+//     ...state,
+//     components: modifiedComponentsArray,
+//     focusComponent: modifiedComponent
+//   };
+// };
 
 export const updateCode = (
   state: ApplicationStateInt,
   { componentId, code }: { componentId: number; code: string }
 ) => {
-  //creates a deep copy of the components
-  const componentsCopy = cloneDeep(state.components);
-  const focusCompCopy = cloneDeep(state.focusComponent);
-  if (focusCompCopy.id === componentId) {
-    focusCompCopy.code = code;
-    focusCompCopy.changed = false;
+  //creates a deep copy of the state
+  const stateCopy: ApplicationStateInt = cloneDeep(state);
+
+  if (stateCopy.focusComponent.id === componentId) {
+    stateCopy.focusComponent.code = code;
+    stateCopy.focusComponent.changed = false;
   }
-  componentsCopy.forEach((comp: ComponentInt) => {
+  stateCopy.components.forEach((comp: ComponentInt) => {
     if (comp.id === componentId) {
       comp.code = code;
       comp.changed = false;
     }
   });
   return {
-    ...state,
-    components: componentsCopy,
-    focusComponent: focusCompCopy
+    ...stateCopy
   };
 };
 

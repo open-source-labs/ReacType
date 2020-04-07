@@ -465,8 +465,12 @@ export const editComponent = (
   let components = cloneDeep(state.components);
   let toEdit = components.find((element: ComponentInt) => element.id === id);
   toEdit.title = title;
+
   for (const [index, each] of components.entries()) {
+    // iterate over each components array that contains its children (components it renders)
     for (const value of each.childrenArray) {
+      // rename each instance of this component in all components children arrays
+      // so there is no broken chain of hierarchy (all components are updated with the renamed component)
       if (value.childComponentId === id) {
         value.componentName = title;
       }
@@ -513,6 +517,7 @@ export const toggleComponentClass = (
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
 
+  // any changes made to Code Preview in edit mode are cleared anytime a toggle is changed
   if (!state.codeReadOnly) {
     const check = window.confirm(
       `Are you sure you want to change the Class toggle for the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
@@ -523,16 +528,19 @@ export const toggleComponentClass = (
       };
     }
   }
-  //iterate array, and invert statefulness for targeted component based on id prop
+
+  //iterate array, find and invert classBased for targeted component based on id prop
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.classBased = !element.classBased;
       element.changed = true;
     }
   });
-  // return state and updated components array
+
+  // logging of history for undo/redo functionality
   const { history, historyIndex, future } = createHistory(state);
 
+  // return state and updated components array
   return {
     ...state,
     components: componentCopy,
@@ -551,6 +559,7 @@ export const toggleComponentState = (
   //creates a deep copy of the components array
   const componentsCopy = cloneDeep(state.components);
 
+  // any changes made to Code Preview in edit mode are cleared anytime a toggle is changed
   if (!state.codeReadOnly) {
     const check = window.confirm(
       `Are you sure you want to change the State toggle for the ${state.focusComponent.title}  component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
@@ -561,7 +570,8 @@ export const toggleComponentState = (
       };
     }
   }
-  //iterate array, and invert statefulness for targeted component based on id prop
+
+  //iterate array, find and invert statefulness for targeted component based on id prop
   componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.stateful = !element.stateful;
@@ -569,9 +579,10 @@ export const toggleComponentState = (
     }
   });
 
-  // return state and updated components array
+  // for undo/redo functionality
   const { history, historyIndex, future } = createHistory(state);
 
+  // return state and updated components array
   return {
     ...state,
     components: componentsCopy,
@@ -581,6 +592,7 @@ export const toggleComponentState = (
     codeReadOnly: true
   };
 };
+
 //a reducer function to see if component name editing mode should be entered
 export const toggleEditMode = (
   state: ApplicationStateInt,

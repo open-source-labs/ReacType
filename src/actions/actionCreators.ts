@@ -241,11 +241,6 @@ export const exportFiles = ({
     );
 };
 
-export const handleClose = (): Action => ({
-  type: HANDLE_CLOSE,
-  payload: false
-});
-
 export const handleTransform = (
   componentId: number,
   childId: number,

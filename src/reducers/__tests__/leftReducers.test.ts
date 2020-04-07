@@ -10,6 +10,94 @@ describe('Left reducers', () => {
   // redefine the default state before each reducer test
   beforeEach(() => {
     state = initialApplicationState;
+    // state.components.push(testComponent);
+  });
+
+  // TEST CHANGE FOCUS COMPONENT: test component will add "look" for "test" after it's added
+  describe('changeFocusComponent reducer', () => {
+    it('should change the focus component title', () => {
+      const action = {
+        type: types.CHANGE_FOCUS_COMPONENT,
+        payload: { title: 'TEST' }
+      };
+
+      state.components.push(testComponent);
+      const newState = reducers.changeFocusComponent(state, action.payload);
+      // expecting new payload of "title" to the payload we just created
+      expect(newState.focusComponent.title).toEqual(action.payload.title);
+    });
+  });
+
+  // TEST IMAGE SOURCE CHANGE: image URL should be changed after local state is changed
+  describe('changeImageSource reducer', () => {
+    it('should change the change the image source', () => {
+      const action = {
+        type: types.CHANGE_IMAGE_SOURCE,
+        payload: { imageSource: 'www.test.com/test.img' }
+      };
+      const newState = reducers.changeImageSource(state, action.payload);
+      // expecting new payload of "title" to the payload we just created
+      expect(newState.imageSource).toEqual(action.payload.imageSource);
+    });
+  });
+
+  describe('editComponent', () => {
+    it('should change the name of the component', () => {
+      const test = {
+        id: 19, //this id is established in the testComponent
+        title: 'Edited'
+      };
+
+      state.components.push(testComponent);
+      const newState = reducers.editComponent(state, test);
+
+      // find the updated component in the state returned above
+      const newComp = newState.components.find(
+        (component: any) => component.id === test.id
+      );
+
+      // check to see if the name was updated accurately
+      expect(newComp.title).toEqual(test.title);
+    });
+
+    // it('should change the name of the component in all locations', () => {});
+
+    it('should set editMode back to -1', () => {
+      const test = {
+        id: 19, //this id is established in the testComponent
+        title: 'Edited'
+      };
+      const newState = reducers.editComponent(state, test);
+      expect(newState.editMode).toEqual(-1);
+    });
+  });
+
+  describe('exportFilesSuccess', () => {
+    it('upon success, updates successOpen and appDir with correct values', () => {
+      // the values from this object should be added into state upon error
+      const test = {
+        status: false,
+        err: 'SUCCESS'
+      };
+
+      const newState = reducers.exportFilesError(state, test);
+      expect(newState.errorOpen).toEqual(test.status);
+      expect(newState.appDir).toEqual(test.err);
+    });
+  });
+
+  describe('exportFilesError', () => {
+    it('upon error, updates successOpen and appDir with correct values', () => {
+      // the values from this object should be added into state upon error
+      const test = {
+        status: false,
+        err: 'ERROR'
+      };
+
+      const newState = reducers.exportFilesError(state, test);
+      expect(newState.errorOpen).toEqual(test.status);
+      expect(newState.appDir).toEqual(test.err);
+    });
   });
 
   describe('toggleComponentClass', () => {
@@ -52,6 +140,7 @@ describe('Left reducers', () => {
       const newState = reducers.toggleEditMode(state, action.payload);
       expect(newState).toStrictEqual(state);
     });
+
     it('should return new state with updated editMode', () => {
       const action = {
         type: 'EDIT_MODE',
@@ -106,6 +195,7 @@ describe('Left reducers', () => {
       );
     });
   });
+
   // TEST ADD COMPONENT: adds component to the global state components array
   describe('addComponent reducer', () => {
     it('return the state as it was if an empty title', () => {
@@ -113,6 +203,7 @@ describe('Left reducers', () => {
         type: types.ADD_COMPONENT,
         payload: { title: '' }
       };
+
       // grab initial copy of current state
       const prevState = cloneDeep(state);
 
@@ -134,7 +225,9 @@ describe('Left reducers', () => {
       const newState = reducers.addComponent(prevState, action.payload);
 
       // expecting previous state not to equal new state after deletion of test component
-      expect(prevState.components[2]).not.toEqual(newState.components[2]);
+      expect(prevState.components[prevState.components.length - 1]).not.toEqual(
+        newState.components[newState.components.length - 1]
+      );
     });
   });
   // TEST ADD CHILD: adds child to the focus component's childrenArray

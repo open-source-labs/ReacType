@@ -24,11 +24,9 @@ import {
   redo
 } from './mainReducers';
 import {
-  handleClose,
   addProp,
   deleteProp,
   toggleNative,
-  updateChildrenSort,
   updateHtmlAttr,
   updateCode,
   toggleCodeEdit
@@ -120,8 +118,6 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return exportFilesSuccess(state, action.payload);
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
-    case HANDLE_CLOSE:
-      return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
     case REDO:
@@ -136,8 +132,8 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return undo(state);
     case UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
-    case UPDATE_CHILDREN_SORT:
-      return updateChildrenSort(state, action.payload);
+    // case UPDATE_CHILDREN_SORT:
+    //   return updateChildrenSort(state, action.payload);
     case UPDATE_CODE:
       return updateCode(state, action.payload);
     default:
