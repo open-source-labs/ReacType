@@ -31,6 +31,14 @@ describe('Testing bottom reducer:', () => {
   });
 
   describe('deleteProp', () => {
-    it('Properly deletes a prop for a focus component', () => {});
+    it('Properly deletes a prop for a focus component', () => {
+      const payload = { key: 'test', type: 'string' };
+      let newState = reducers.addProp(state, payload);
+
+      const propId = state.focusComponent.nextPropId;
+      newState = reducers.deleteProp(newState, propId);
+
+      expect(newState.focusComponent.props.length).toEqual(0);
+    });
   });
 });
