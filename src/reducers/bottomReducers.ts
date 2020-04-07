@@ -125,43 +125,45 @@ export const toggleNative = (state: ApplicationStateInt) => {
   };
 };
 
-export const updateChildrenSort = (
-  state: ApplicationStateInt,
-  { newSortValues }: { newSortValues: any }
-) => {
-  const modifiedChildrenArray: any = cloneDeep(
-    state.focusComponent.childrenArray
-  );
+//CURRENTLY doesn't DO ANYTHING
 
-  for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
-    const currChild = modifiedChildrenArray[i];
-    const currChildId = currChild.childId;
-    const newValueObj = newSortValues.find(
-      (n: any) => n.childId === currChildId
-    );
-    const newSortValue = newValueObj.childSort;
-    console.log(
-      ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
-    );
-    currChild.childSort = newSortValue;
-  }
+// export const updateChildrenSort = (
+//   state: ApplicationStateInt,
+//   { newSortValues }: { newSortValues: any }
+// ) => {
+//   const modifiedChildrenArray: any = cloneDeep(
+//     state.focusComponent.childrenArray
+//   );
 
-  const modifiedComponent = state.components.find(
-    (comp: ComponentInt) => comp.id === state.focusComponent.id
-  );
-  modifiedComponent.childrenArray = modifiedChildrenArray;
+//   for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
+//     const currChild = modifiedChildrenArray[i];
+//     const currChildId = currChild.childId;
+//     const newValueObj = newSortValues.find(
+//       (n: any) => n.childId === currChildId
+//     );
+//     const newSortValue = newValueObj.childSort;
+//     console.log(
+//       ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
+//     );
+//     currChild.childSort = newSortValue;
+//   }
 
-  const modifiedComponentsArray = state.components.filter(
-    (comp: ComponentInt) => comp.id !== state.focusComponent.id
-  );
-  modifiedComponentsArray.push(modifiedComponent);
+//   const modifiedComponent = state.components.find(
+//     (comp: ComponentInt) => comp.id === state.focusComponent.id
+//   );
+//   modifiedComponent.childrenArray = modifiedChildrenArray;
 
-  return {
-    ...state,
-    components: modifiedComponentsArray,
-    focusComponent: modifiedComponent
-  };
-};
+//   const modifiedComponentsArray = state.components.filter(
+//     (comp: ComponentInt) => comp.id !== state.focusComponent.id
+//   );
+//   modifiedComponentsArray.push(modifiedComponent);
+
+//   return {
+//     ...state,
+//     components: modifiedComponentsArray,
+//     focusComponent: modifiedComponent
+//   };
+// };
 
 export const updateCode = (
   state: ApplicationStateInt,
