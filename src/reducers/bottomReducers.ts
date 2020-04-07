@@ -170,22 +170,20 @@ export const updateCode = (
   { componentId, code }: { componentId: number; code: string }
 ) => {
   //creates a deep copy of the components
-  const componentsCopy: ComponentsInt = cloneDeep(state.components);
-  const focusCompCopy: ComponentInt = cloneDeep(state.focusComponent);
-  if (focusCompCopy.id === componentId) {
-    focusCompCopy.code = code;
-    focusCompCopy.changed = false;
+  const stateCopy: ApplicationStateInt = cloneDeep(state);
+
+  if (stateCopy.focusComponent.id === componentId) {
+    stateCopy.focusComponent.code = code;
+    stateCopy.focusComponent.changed = false;
   }
-  componentsCopy.forEach((comp: ComponentInt) => {
+  stateCopy.components.forEach((comp: ComponentInt) => {
     if (comp.id === componentId) {
       comp.code = code;
       comp.changed = false;
     }
   });
   return {
-    ...state,
-    components: componentsCopy,
-    focusComponent: focusCompCopy
+    ...stateCopy
   };
 };
 
