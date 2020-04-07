@@ -21,8 +21,6 @@ In other words, **you can draw prototypes and export React / Typescript code!**
 - Editable code preview
 - Prop value designation for component children
 
-![Image of React Native Mode](https://i.imgur.com/UovBb2P.png)
-
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
 * **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
