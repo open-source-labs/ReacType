@@ -41,4 +41,11 @@ describe('Testing bottom reducer:', () => {
       expect(newState.focusComponent.props.length).toEqual(0);
     });
   });
+
+  describe('toggleCodeEdit', () => {
+    it('Properly switches the app into "Code Edit" mode', () => {
+      const newState = reducers.toggleCodeEdit(state);
+      expect(newState.codeReadOnly).toEqual(false);
+    });
+  });
 });
