@@ -113,5 +113,14 @@ describe('Testing bottom reducer:', () => {
       //check if it has been marked as changed
       expect(appInComps.changed).toEqual(true);
     });
+
+    it('Handles user choosing not to proceed when prompted', () => {
+      window.confirm = jest.fn(() => false);
+
+      newState = reducers.toggleNative(newState);
+
+      //expect window confirm message to run
+      expect(window.confirm).toBeCalled();
+    });
   });
 });
