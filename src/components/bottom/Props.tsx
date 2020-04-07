@@ -155,11 +155,13 @@ class Props extends Component<PropsPropsInt, StateInt> {
     const rowHeader = ['Prop', 'Type'];
 
     // prepare the saved Props in a nice way, so you can sent them to TableData
-    const propsRows = focusComponent.props.map(prop => ({
+    const propsRows = focusComponent.props.map((prop, idx) => ({
       Prop: prop.key,
-      // Value: prop.value,
       Type: prop.type,
-      id: prop.id
+      id: prop.id,
+      _Key: `prop-${idx}`,
+      Value: prop.key,
+      Required: false
     }));
 
     return (
@@ -176,23 +178,16 @@ class Props extends Component<PropsPropsInt, StateInt> {
         ) : (
           <Fragment>
             <div>
-              <span>
-                <span className={classes.propHeader}>
-                  {`Add Prop`}{' '}
-                  <span
-                    style={{
-                      color: '#01d46d'
-                    }}
-                  >
-                    And
-                  </span>
-                  <span>{` Types`}</span>
-                </span>
-              </span>
-              <span>
+              <span className={classes.propHeader}>
+                {`Add Prop`}{' '}
                 <span
-                  className={classes.dataTableHeader}
-                >{`All Props History`}</span>
+                  style={{
+                    color: '#01d46d'
+                  }}
+                >
+                  And
+                </span>
+                <span>{` Types`}</span>
               </span>
             </div>
             <div
@@ -214,7 +209,7 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           <TextField
                             type="text"
                             id="propVariable"
-                            label="Prop"
+                            label="Props"
                             margin="none"
                             autoFocus
                             size="medium"
@@ -254,30 +249,11 @@ class Props extends Component<PropsPropsInt, StateInt> {
                           />
                         </FormControl>
                       </Grid>
-                      {/* MAYBE not needed for React Components? */}
-                      {/* <Grid item xs={6}>
-                        <div className={classes.column}>
-                          <InputLabel
-                            className={classes.light}
-                            htmlFor='propRequired'
-                          >
-                            Required?
-                          </InputLabel>
-                          <Switch
-                            checked={this.state.propRequired}
-                            onChange={this.togglePropRequired}
-                            value='propRequired'
-                            color='primary'
-                            id='propRequired'
-                          />
-                        </div>
-                      </Grid> */}
                       <Grid item>
                         <Button
                           color="primary"
                           aria-label="Add"
                           type="submit"
-                          // disabled={!this.state.propKey || !this.state.propType}
                           variant="contained"
                           size="large"
                           className={classes.addProp}
@@ -296,7 +272,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
                     overflowY: 'auto',
                     overflowX: 'auto',
                     marginTop: '1rem',
-                    // paddingBottom: '1rem',
                     marginLeft: '6rem',
                     paddingTop: '0'
                   }}

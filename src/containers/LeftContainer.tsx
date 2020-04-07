@@ -22,7 +22,6 @@ import {
 import createModal from '../components/left/createModal';
 import cloneDeep from '../helperFunctions/cloneDeep';
 import NativeComponentPanel from '../components/left/NativeComponentPanel';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
@@ -67,6 +66,7 @@ interface StateInt {
   genOptions: string[];
   genOption: number;
   imageSource: string;
+  native: boolean;
 }
 
 const mapStateToProps = (store: any) => ({
@@ -241,9 +241,13 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
-    const { genOptions } = this.state;
+    let { genOptions } = this.state;
+    const { native } = this.props;
     const children = (
       <List className="export-preference">
+        {/* native mode does not export file structure, so 'Components Only' is the only export option */}
+        {native ? genOptions.splice(1, 1) : ''}
+
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
@@ -499,7 +503,8 @@ function styles(): any {
       color: '#fff',
       opacity: '0.7',
       marginBottom: '10px',
-      paddingLeft: '9%'
+      paddingLeft: '9%',
+      width: '100%'
     },
     underline: {
       color: 'white',

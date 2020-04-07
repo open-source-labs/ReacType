@@ -115,7 +115,7 @@ function styles(theme: Theme): any {
       textShadow: '2px 2px 2px black',
       transition: 'font-size 350ms ease-in-out',
       '&:hover': {
-        fontSize: '1.85em'
+        fontSize: '1.60em'
       }
     }
   };

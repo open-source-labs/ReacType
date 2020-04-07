@@ -64,15 +64,6 @@ class AddChildProps extends Component<ChildPropsTypes> {
           data={focusComponent.childrenArray}
           title="Add Your Child Props Here!"
         />
-
-        {/* BUTTON FUNCTIONALITY PENDING
-        <button
-          onClick={() => {
-            this.tableRef.current.onQueryChange();
-          }}
-        >
-          Sean Sucks
-        </button> */}
       </div>
     );
   }

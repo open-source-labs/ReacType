@@ -126,15 +126,15 @@ function styles(theme: Theme): any {
       paddingLeft: '15px'
     },
     compName: {
-      paddingRight: '10px'
+      paddingRight: '10px',
+      transition: 'font-size 350ms ease-in-out',
+      '&:hover': {
+        fontSize: '1.60rem'
+      }
     },
     label: {
       color: '#e0e0e0',
-      textShadow: '2px 2px 2px black',
-      transition: 'font-size 350ms ease-in-out',
-      '&:hover': {
-        fontSize: '1.85em'
-      }
+      textShadow: '2px 2px 2px black'
     }
   };
 }
