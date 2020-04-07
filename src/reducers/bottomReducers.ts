@@ -94,12 +94,6 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const handleClose = (state: ApplicationStateInt, status: string) => ({
-  ...state,
-  errorOpen: status,
-  successOpen: status
-});
-
 export const toggleCodeEdit = (state: ApplicationStateInt) => ({
   ...state,
   codeReadOnly: !state.codeReadOnly

@@ -24,7 +24,6 @@ import {
   redo
 } from './mainReducers';
 import {
-  handleClose,
   addProp,
   deleteProp,
   toggleNative,
@@ -120,8 +119,6 @@ const componentReducer = (state = initialApplicationState, action: Action) => {
       return exportFilesSuccess(state, action.payload);
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
-    case HANDLE_CLOSE:
-      return handleClose(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
     case REDO:
