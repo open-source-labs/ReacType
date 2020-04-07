@@ -156,7 +156,6 @@ class AppContainer extends Component<Props, State> {
     image.src = 'images/iphone.png';
     image.onload = () => {
     // update state when the image has been uploaded
-    this.props.changeImagePath(image.src);
     this.setState({ nativeImageElement: image });
     this.props.loadInitData();
     }
