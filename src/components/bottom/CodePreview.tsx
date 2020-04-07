@@ -85,6 +85,7 @@ class CodePreview extends Component<CodePreviewProps> {
           readOnly={this.props.codeReadOnly}
           editorProps={{ $blockScrolling: true }}
           fontSize={16}
+          tabSize={2}
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Button

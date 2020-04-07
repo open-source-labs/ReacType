@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  handleClose,
   deleteProp,
   addProp,
   toggleNative,
@@ -16,7 +15,6 @@ const IPC = require('electron').ipcRenderer;
 const mapDispatchToProps = (dispatch: any) => ({
   addProp: (prop: PropInt) => dispatch(addProp(prop)),
   deleteProp: (id: number) => dispatch(deleteProp(id)),
-  handleNotificationClose: () => dispatch(handleClose()),
   toggleNative: () => dispatch(toggleNative()),
   toggleCodeEdit: () => dispatch(toggleCodeEdit())
 });

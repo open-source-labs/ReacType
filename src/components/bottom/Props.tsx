@@ -133,8 +133,6 @@ class Props extends Component<PropsPropsInt, StateInt> {
 
     this.props.addProp({
       key: propVariable,
-      value: propValue,
-      required: propRequired,
       type: propType
     });
 
