@@ -123,4 +123,25 @@ describe('Testing bottom reducer:', () => {
       expect(window.confirm).toBeCalled();
     });
   });
+
+  describe('updateCode', () => {
+    it(' Properly updates the code of a given component', () => {
+      const payload = { componentId: 1, code: 'testing code' };
+      const newState = reducers.updateCode(state, payload);
+      //check if it has been marked as changed
+      expect(newState.focusComponent.changed).toEqual(false);
+
+      //check if it has been updated in components array
+      const appInComps = newState.components.find(
+        (e: interfaces.ComponentInt) => e.id === 1
+      );
+
+      //check proper width and height
+      expect(appInComps.code).toEqual(payload.code);
+      expect(appInComps.changed).toEqual(false);
+
+      //doesn't mutate the state
+      expect(newState).not.toBe(state);
+    });
+  });
 });
