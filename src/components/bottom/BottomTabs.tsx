@@ -7,11 +7,8 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import Switch from '@material-ui/core/Switch';
 import { ComponentsInt, PropsInt } from '../../interfaces/Interfaces';
 import Box from '@material-ui/core/Box';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -30,70 +27,6 @@ interface StateInt {
   translate: { x: number; y: number };
 }
 
-const styles = (theme: Theme): any => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: '#333333',
-    height: '100%',
-    color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
-  },
-  bottomHeader: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    Width: '200px'
-  },
-  tabsRoot: {
-    borderBottom: '0.5px solid #424242'
-  },
-  tabsIndicator: {
-    backgroundColor: '#1de9b6'
-  },
-  tabRoot: {
-    textTransform: 'initial',
-    minWidth: 40,
-    fontWeight: theme.typography.fontWeightRegular,
-    // marginRight: theme.spacing.unit * 4,
-    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
-
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(','),
-    '&:hover': {
-      color: '#1de9b6',
-      opacity: 1
-    },
-    '&$tabSelected': {
-      color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium
-    },
-    '&:focus': {
-      color: '#4aedc4'
-    }
-  },
-  tabSelected: {},
-  typography: {
-    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
-  },
-  padding: {
-    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
-  },
-  switch: {
-    marginRight: '10px',
-    marginTop: '2px'
-  }
-});
-
 class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   constructor(props: BottomTabsPropsInt) {
     super(props);
@@ -103,6 +36,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     };
   }
   treeWrapper: HTMLDivElement;
+
   componentDidMount() {
     // dynamically center the tree based on the div size
     const dimensions = this.treeWrapper.getBoundingClientRect();
@@ -209,31 +143,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
                 htmlAttribCount ? `(${htmlAttribCount})` : ''
               } `}
             />
-            {/* <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Add Child Props"
-            /> */}
           </Tabs>
-          {
-            // REACT NATIVE TOGGLE REMOVED AND MOVED TO LEFTCONTAINER. REMOVE THIS CODE IF NO ADVERSE EFFECTS FOUND
-            /* <FormGroup>
-            <FormControlLabel
-              className={classes.switch}
-              control={
-                <Switch
-                  checked={native}
-                  color="primary"
-                  onChange={() => {
-                    toggleNative();
-                  }}
-                />
-              }
-              label="Native Mode"
-              labelPlacement="start"
-            />
-          </FormGroup> */
-          }
         </Box>
         {value === 0 && (
           <div
@@ -291,5 +201,68 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     );
   }
 }
+
+const styles = (theme: Theme): any => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: '#333333',
+    height: '100%',
+    color: '#fff',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+  },
+  bottomHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    Width: '200px'
+  },
+  tabsRoot: {
+    borderBottom: '0.5px solid #424242'
+  },
+  tabsIndicator: {
+    backgroundColor: '#1de9b6'
+  },
+  tabRoot: {
+    textTransform: 'initial',
+    minWidth: 40,
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
+
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(','),
+    '&:hover': {
+      color: '#1de9b6',
+      opacity: 1
+    },
+    '&$tabSelected': {
+      color: '#33eb91',
+      fontWeight: theme.typography.fontWeightMedium
+    },
+    '&:focus': {
+      color: '#4aedc4'
+    }
+  },
+  tabSelected: {},
+  typography: {
+    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
+  },
+  padding: {
+    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
+  },
+  switch: {
+    marginRight: '10px',
+    marginTop: '2px'
+  }
+});
 
 export default withStyles(styles)(BottomTabs);
