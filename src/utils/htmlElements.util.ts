@@ -94,6 +94,16 @@ const HTMLelements: htmlElementsInt = {
     width: 50,
     height: 50,
     attributes: ['className', 'id', 'href']
+  },
+  HTML: {
+    width: 50,
+    height: 50,
+    attributes: ['className', 'id']
+  },
+  NATIVE: {
+    width: 50,
+    height: 50,
+    attributes: ['className', 'id']
   }
 };
 
