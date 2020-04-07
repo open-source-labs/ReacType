@@ -179,7 +179,7 @@ const componentRender = (
     
     /* Replace "any" with stricter types to reflect your usage*/
     interface Props {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)};\n`)}
+      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
     };
 
       ${
