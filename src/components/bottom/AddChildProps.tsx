@@ -41,30 +41,6 @@ class AddChildProps extends Component<ChildPropsTypes> {
       );
     });
 
-    // const arrayPropsAvailable = [];
-    // // IIFE : so that it runs without needing to be invoked
-    // (() => {
-    //   focusComponent.props.map(prop => {
-    //     // console.log('this is component Name from props array', prop.key);
-    //     arrayPropsAvailable.push(
-    //       <span>
-    //         <input
-    //           type='checkbox'
-    //           id={`${prop}checkbox-${prop.key}`}
-    //           name={`${prop}checkbox-${prop.key}`}
-    //         />
-    //         <label
-    //           className={`labelForPropsToAddToChild`}
-    //           for={`${prop}checkbox-${prop.key}`}
-    //         >
-    //           {prop.key}
-    //         </label>
-    //       </span>
-    //     );
-    //   });
-    // })();
-    // console.log('this is the array of props available', arrayPropsAvailable);
-
     return (
       <div>
         <MaterialTable
