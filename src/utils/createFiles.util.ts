@@ -6,7 +6,7 @@ const createFiles = (
   components: any,
   path: string,
   appName: string,
-  exportAppBool: boolean
+  exportAppBool: boolean,
 ) => {
   let dir = path;
   if (exportAppBool === false) {
@@ -30,11 +30,17 @@ const createFiles = (
     const newPromise = new Promise((resolve, reject) => {
       fs.writeFile(
         `${dir}/${component.title}.tsx`,
-        component.code,
+        format(componentRender(component, components), {
+          singleQuote: true,
+          trailingComma: 'es5',
+          bracketSpacing: true,
+          jsxBracketSameLine: true,
+          parser: 'typescript',
+        }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        }
+        },
       );
     });
 

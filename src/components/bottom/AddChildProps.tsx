@@ -25,7 +25,7 @@ class AddChildProps extends Component<ChildPropsTypes> {
       return (
         <span key={`span-${idx}`}>
           <input
-            type='checkbox'
+            type="checkbox"
             id={`${prop}checkbox-${prop.key}`}
             name={`${prop}checkbox-${prop.key}`}
             key={`checkbox-${idx}`}
@@ -40,30 +40,6 @@ class AddChildProps extends Component<ChildPropsTypes> {
         </span>
       );
     });
-
-    // const arrayPropsAvailable = [];
-    // // IIFE : so that it runs without needing to be invoked
-    // (() => {
-    //   focusComponent.props.map(prop => {
-    //     // console.log('this is component Name from props array', prop.key);
-    //     arrayPropsAvailable.push(
-    //       <span>
-    //         <input
-    //           type='checkbox'
-    //           id={`${prop}checkbox-${prop.key}`}
-    //           name={`${prop}checkbox-${prop.key}`}
-    //         />
-    //         <label
-    //           className={`labelForPropsToAddToChild`}
-    //           for={`${prop}checkbox-${prop.key}`}
-    //         >
-    //           {prop.key}
-    //         </label>
-    //       </span>
-    //     );
-    //   });
-    // })();
-    // console.log('this is the array of props available', arrayPropsAvailable);
 
     return (
       <div>
@@ -86,17 +62,8 @@ class AddChildProps extends Component<ChildPropsTypes> {
             }
           ]}
           data={focusComponent.childrenArray}
-          title='Add Your Child Props Here!'
+          title="Add Your Child Props Here!"
         />
-
-        {/* BUTTON FUNCTIONALITY PENDING
-        <button
-          onClick={() => {
-            this.tableRef.current.onQueryChange();
-          }}
-        >
-          Sean Sucks
-        </button> */}
       </div>
     );
   }

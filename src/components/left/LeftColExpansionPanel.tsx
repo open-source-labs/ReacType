@@ -24,10 +24,14 @@ interface LeftColExpPanPropsInt extends PropsInt {
   classes: any;
   id?: number;
   component: ComponentInt;
-  addProp(arg: { title: string; type: string }): void;
+  addProp(arg: { key: string; type: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo?: object }): void;
   changeFocusComponent(arg: { title: string }): void;
   selectableChildren: number[];
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteComponent(arg: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -54,15 +58,17 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
     addProp,
     addChild,
     changeFocusComponent,
+    changeComponentFocusChild,
     selectableChildren,
     deleteComponent,
     toggleComponentState,
     toggleComponentClass,
-    updateCode,
     editMode,
     toggleEditMode,
     handleChangeName,
-    handleEditComponent
+    handleEditComponent,
+    focusChild,
+    changeFocusChild
   } = props;
 
   const { title, id, color, stateful, classBased } = component;
@@ -94,11 +100,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
       (component: ComponentInt) => component.title === title
     );
 
-    const parentKeys: any[] = [];
+    const parentKeys: string[] = [];
     if (focusComponent.props.length > 0) {
       focusComponent.props.forEach(key => parentKeys.push(key.key));
     }
-    console.log('this is parentKeys', parentKeys);
     // sorting through object keys of the focusComponent
 
     let i = 0;
@@ -131,9 +136,9 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
   return (
     <Grid
       container
-      direction='row'
-      justify='center'
-      alignItems='center'
+      direction="row"
+      justify="center"
+      alignItems="center"
       style={{
         minWidth: '470px'
       }}
@@ -156,7 +161,7 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
             in={focusedToggle}
             collapsedHeight={'80px'} //The type for the Collapse component is asking for a string, but if you put in a string and not a number, the component itself breaks.
             style={{ borderRadius: '5px' }}
-            timeout='auto'
+            timeout="auto"
           >
             {/* NOT SURE WHY COLOR: RED IS USED, TRIED REMOVING IT AND NO VISIBLE CHANGE OCCURED. */}
             <Grid
@@ -185,6 +190,11 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                     if (focusComponent.title !== title)
                       //changed the logic here so it only focuses if you click on a different card. Otherwise, you can't double click into edit mode for the title.
                       changeFocusComponent({ title });
+                    changeFocusChild({ childId: -1 });
+                    changeComponentFocusChild({
+                      componentId: 1,
+                      childId: -1
+                    });
                   }}
                 >
                   <ListItemText
@@ -206,10 +216,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                           </Typography>
                         ) : (
                           <TextField //show a text field for editing instead if edit mode entered
-                            id='filled'
-                            label='Change Component Name'
+                            id="filled"
+                            label="Change Component Name"
                             defaultValue={title}
-                            variant='outlined'
+                            variant="outlined"
                             className={classes.text}
                             InputProps={{
                               className: classes.light //all of these styling makes the input box border, label, and text default to white.
@@ -239,9 +249,14 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                       */}
                         {/* LABEL AND TOGGLE(SWITCH) FOR STATEFULNESS */}
                         {focusedToggle ? (
-                          <span style={{ display: 'inline-flex' }}>
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              marginLeft: '13%'
+                            }}
+                          >
                             <InputLabel
-                              htmlFor='stateful'
+                              htmlFor="stateful"
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -260,12 +275,12 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentState({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value='stateful'
-                              color='primary'
+                              value="stateful"
+                              color="primary"
                               // id={props.id.toString()}
                             />
                             <InputLabel
-                              htmlFor='classBased'
+                              htmlFor="classBased"
                               style={{
                                 color: '#fff',
                                 marginBottom: '0px',
@@ -284,8 +299,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                                 toggleComponentClass({ id });
                                 changeFocusComponent({ title });
                               }}
-                              value='classBased'
-                              color='primary'
+                              value="classBased"
+                              color="primary"
                             />
                           </span>
                         ) : (
@@ -293,10 +308,10 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                         )}
                         {focusedToggle && component.id !== 1 ? (
                           <Button
-                            variant='text'
-                            size='small'
-                            color='default'
-                            aria-label='Delete'
+                            variant="text"
+                            size="small"
+                            color="default"
+                            aria-label="Delete"
                             className={classes.margin}
                             onClick={() =>
                               deleteComponent({
@@ -307,7 +322,8 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
                             style={{
                               color: 'white',
                               marginBottom: '0px',
-                              marginTop: '4px'
+                              marginTop: '4px',
+                              marginLeft: '18%'
                             }}
                           >
                             <DeleteIcon
@@ -345,14 +361,18 @@ const LeftColExpansionPanel = (props: LeftColExpPanPropsInt) => {
           <div />
         ) : (
           <Tooltip
-            title='add as child'
-            aria-label='add as child'
-            placement='left'
+            title="add as child"
+            aria-label="add as child"
+            placement="left"
           >
             <IconButton
-              aria-label='Add'
+              aria-label="Add"
               onClick={() => {
                 addChildProps();
+                changeComponentFocusChild({
+                  componentId: focusComponent.id,
+                  childId: focusChild.childId
+                });
               }}
             >
               <AddIcon style={{ color, float: 'right', marginTop: '10px' }} />

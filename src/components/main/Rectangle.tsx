@@ -14,6 +14,10 @@ interface RectanglePorpsInt extends PropsInt {
   componentId: number;
   childComponentName: string;
   childComponentId: number;
+  changeComponentFocusChild: (arg: {
+    componentId: number;
+    childId: number;
+  }) => void;
   width: number;
   height: number;
   title: string;
@@ -26,7 +30,9 @@ interface RectanglePorpsInt extends PropsInt {
     dimensions: { x: number; y: number; width?: number; height?: number }
   ): void;
   image: HTMLImageElement;
+  native:boolean;
 }
+
 
 class Rectangle extends Component<RectanglePorpsInt> {
   rect: Konva.Rect;
@@ -51,7 +57,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   handleResize(
     componentId: number,
     childId: number,
-    target: Konva.Group,
+    target:  Konva.Rect | Konva.Stage, //unsolved bug in Konva typescript for this type
     blockSnapSize: number
   ) {
     //find the id of the component where the componentID in the state equals the currently focused component
@@ -92,6 +98,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
       y: target.y() + focChild.position.y
     };
     this.props.handleTransform(componentId, childId, transformation);
+    this.props.changeComponentFocusChild({ componentId, childId });
   }
 
   //mostly the same logic as above, just grabbing the change in position for the focused child and sending it
@@ -99,7 +106,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
   handleDrag(
     componentId: number,
     childId: number,
-    target: Konva.Group,
+    target: any,
     blockSnapSize: number
   ) {
     const transformation = {
@@ -107,6 +114,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
       y: Math.round(target.y() / blockSnapSize) * blockSnapSize
     };
     this.props.handleTransform(componentId, childId, transformation);
+    this.props.changeComponentFocusChild({ componentId, childId });
   }
 
   render() {
@@ -126,7 +134,8 @@ class Rectangle extends Component<RectanglePorpsInt> {
       components,
       draggable,
       blockSnapSize,
-      childType
+      childType,
+      native
     } = this.props;
 
     // the Group is responsible for dragging of all children
@@ -169,7 +178,7 @@ class Rectangle extends Component<RectanglePorpsInt> {
           stroke={
             childType === 'COMP'
               ? this.getComponentColor(childComponentId)
-              : '#000000' //sets the parent component color to black
+              : native && componentId === 1 && (childType !== 'HTML' && childType !== 'NATIVE' )? null : '#000000' //sets the parent component color to black
           }
           onTransformEnd={event =>
             this.handleResize(componentId, childId, event.target, blockSnapSize)
@@ -248,6 +257,8 @@ class Rectangle extends Component<RectanglePorpsInt> {
               focusChild={focusChild}
               anchorSize={8}
               color={'grey'}
+              native={native}
+              
             />
           )}
       </Group>

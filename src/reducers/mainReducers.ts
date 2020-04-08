@@ -153,10 +153,11 @@ export const handleTransform = (
   };
 
   const components: ComponentsInt = [
+    component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.id !== componentId) return comp;
     }),
-    component,
+    
   ];
   const { history, historyIndex, future } = createHistory(state);
 
@@ -192,7 +193,7 @@ export const undo = (state: ApplicationStateInt) => {
   
   export const redo = (state: ApplicationStateInt) => {
     //if the future history array is empty, return the current state
-    if (!state.future || !state.future.length) return { ...state };
+    if (!state.future.length) return state;
     const stateCopy = cloneDeep(state);
     const futureCopy = cloneDeep(state.future);
     //grab the first element of the future history array and assign it to the new state

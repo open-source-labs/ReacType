@@ -44,8 +44,8 @@ const SimpleModal = (props: any) => {
   return (
     <Fragment>
       <Modal
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
         onClose={closeModal}
         open={open}
       >
@@ -58,7 +58,7 @@ const SimpleModal = (props: any) => {
           className={classes.paper}
         >
           <IconButton
-            aria-label='Close'
+            aria-label="Close"
             onClick={closeModal}
             style={{
               position: 'absolute',
@@ -70,15 +70,15 @@ const SimpleModal = (props: any) => {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant='h6' id='modal-title'>
+          <Typography variant="h6" id="modal-title">
             {message}
           </Typography>
           <div>{children}</div>
           <div>
             {secBtnLabel ? (
               <Button
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 className={classes.button}
                 onClick={secBtnAction}
               >
@@ -87,8 +87,8 @@ const SimpleModal = (props: any) => {
             ) : null}
             {primBtnLabel ? (
               <Button
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.button}
                 onClick={primBtnAction}
               >

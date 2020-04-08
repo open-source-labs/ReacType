@@ -7,7 +7,8 @@ import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
-import { ComponentsInt, PropInt, PropsInt } from '../../interfaces/Interfaces';
+import { ComponentsInt, PropsInt } from '../../interfaces/Interfaces';
+import Box from '@material-ui/core/Box';
 
 interface BottomTabsPropsInt extends PropsInt {
   deleteProp(id: number): void;
@@ -15,74 +16,16 @@ interface BottomTabsPropsInt extends PropsInt {
   classes: any;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
+  toggleNative(): void;
+  native: boolean;
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 }
-
-// interface TreeInt {
-//   name: string;
-//   attributes: { [key: string]: { value: string } };
-//   children: TreeInt[];
-// }
 
 interface StateInt {
   value: number;
   translate: { x: number; y: number };
 }
-
-const styles = (theme: Theme): any => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: '#333333',
-    height: '100%',
-    color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
-  },
-  tabsRoot: {
-    borderBottom: '0.5px solid #424242'
-  },
-  tabsIndicator: {
-    backgroundColor: '#1de9b6'
-  },
-  tabRoot: {
-    textTransform: 'initial',
-    minWidth: 72,
-    fontWeight: theme.typography.fontWeightRegular,
-    // marginRight: theme.spacing.unit * 4,
-    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
-
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(','),
-    '&:hover': {
-      color: '#1de9b6',
-      opacity: 1
-    },
-    '&$tabSelected': {
-      color: '#33eb91',
-      fontWeight: theme.typography.fontWeightMedium
-    },
-    '&:focus': {
-      color: '#4aedc4'
-    }
-  },
-  tabSelected: {},
-  typography: {
-    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
-  },
-  padding: {
-    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
-  }
-});
 
 class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
   constructor(props: BottomTabsPropsInt) {
@@ -93,6 +36,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     };
   }
   treeWrapper: HTMLDivElement;
+
   componentDidMount() {
     // dynamically center the tree based on the div size
     const dimensions = this.treeWrapper.getBoundingClientRect();
@@ -104,7 +48,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     });
   }
 
-  handleChange = (event: any, value: number) => {
+  handleChange = (event: React.ChangeEvent, value: number) => {
     this.setState({ value });
   };
 
@@ -112,6 +56,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
     if (!event.attributes.Type) {
       this.props.changeFocusComponent({ title: event.name });
     }
+  };
+
+  toggleNative = () => {
+    this.props.toggleNative();
   };
 
   generateComponentTree(componentId: number, components: ComponentsInt) {
@@ -123,6 +71,13 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         tree.children.push(
           this.generateComponentTree(child.childComponentId, components)
         );
+      } else if (child.componentName.slice(0, 2) == 'RN') {
+        let str = { Type: 'React Native Component' };
+        tree.children.push({
+          name: child.componentName,
+          attributes: str,
+          children: []
+        });
       } else {
         let str = { Type: 'HTML Element' };
         tree.children.push({
@@ -140,10 +95,10 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
       classes,
       components,
       focusComponent,
-      deleteProp,
-      addProp,
       focusChild,
+      toggleNative,
       updateCode,
+      native,
       toggleCodeEdit,
       codeReadOnly
     } = this.props;
@@ -157,45 +112,44 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
 
     return (
       <div className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={this.handleChange}
-          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Application Tree'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Code Preview'
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML Element Attributes ${
-              htmlAttribCount ? `(${htmlAttribCount})` : ''
-            } `}
-          />
-          {/* <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label='Add Child Props'
-          /> */}
-        </Tabs>
-
+        <Box display="flex" justifyContent="space-between">
+          <Tabs
+            value={value}
+            onChange={this.handleChange}
+            classes={{
+              root: classes.tabsRoot,
+              indicator: classes.tabsIndicator
+            }}
+          >
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Application Tree"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Code Preview"
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`Component Props ${propCount ? `(${propCount})` : ''} `}
+            />
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label={`HTML Element Attributes ${
+                htmlAttribCount ? `(${htmlAttribCount})` : ''
+              } `}
+            />
+          </Tabs>
+        </Box>
         {value === 0 && (
           <div
-            id='treeWrapper'
+            id="treeWrapper"
             style={{
-              width: '100%',
+              width: '80%',
               height: '100%'
             }}
             ref={node => (this.treeWrapper = node)}
@@ -242,10 +196,73 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
         {value === 3 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
-        {/* {value === 4 && <AddChildProps />} */}
+        {value === 4 && <AddChildProps />}
       </div>
     );
   }
 }
+
+const styles = (theme: Theme): any => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: '#333333',
+    height: '100%',
+    color: '#fff',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+  },
+  bottomHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    Width: '200px'
+  },
+  tabsRoot: {
+    borderBottom: '0.5px solid #424242'
+  },
+  tabsIndicator: {
+    backgroundColor: '#1de9b6'
+  },
+  tabRoot: {
+    textTransform: 'initial',
+    minWidth: 40,
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
+
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(','),
+    '&:hover': {
+      color: '#1de9b6',
+      opacity: 1
+    },
+    '&$tabSelected': {
+      color: '#33eb91',
+      fontWeight: theme.typography.fontWeightMedium
+    },
+    '&:focus': {
+      color: '#4aedc4'
+    }
+  },
+  tabSelected: {},
+  typography: {
+    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
+  },
+  padding: {
+    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
+  },
+  switch: {
+    marginRight: '10px',
+    marginTop: '2px'
+  }
+});
 
 export default withStyles(styles)(BottomTabs);

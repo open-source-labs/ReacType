@@ -7,15 +7,11 @@ import {
   PropInt
 } from '../interfaces/Interfaces';
 import { createHistory } from '../helperFunctions/createHistory';
+import { initialApplicationState } from './initialState';
 
 export const addProp = (
   state: ApplicationStateInt,
-  {
-    key,
-    value = null,
-    required,
-    type
-  }: { key: string; value: string; required: boolean; type: string }
+  { key, type }: { key: string; type: string }
 ) => {
   if (!state.focusComponent.id) {
     console.log('Add prop error. no focused component ');
@@ -26,21 +22,9 @@ export const addProp = (
     (comp: ComponentInt) => comp.id === state.focusComponent.id
   );
 
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to add a Prop to the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
   const newProp: PropInt = {
     id: selectedComponent.nextPropId,
     key,
-    value: value || key,
-    required,
     type
   };
   const newProps = [...selectedComponent.props, newProp];
@@ -64,8 +48,7 @@ export const addProp = (
     focusComponent: modifiedComponent,
     historyIndex,
     history,
-    future,
-    codeReadOnly: true
+    future
   };
 };
 
@@ -80,16 +63,6 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
       (comp: ComponentInt) => comp.id === state.focusComponent.id
     )
   );
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to delete a Prop from the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
 
   const indexToDelete = modifiedComponent.props.findIndex(
     (prop: PropInt) => prop.id === propId
@@ -121,76 +94,97 @@ export const deleteProp = (state: ApplicationStateInt, propId: number) => {
   };
 };
 
-export const handleClose = (state: ApplicationStateInt, status: string) => ({
-  ...state,
-  errorOpen: status,
-  successOpen: status
-});
-
 export const toggleCodeEdit = (state: ApplicationStateInt) => ({
   ...state,
   codeReadOnly: !state.codeReadOnly
 });
 
-export const updateChildrenSort = (
-  state: ApplicationStateInt,
-  { newSortValues }: { newSortValues: any }
-) => {
-  const modifiedChildrenArray: any = cloneDeep(
-    state.focusComponent.childrenArray
+export const toggleNative = (state: ApplicationStateInt) => {
+  let check = window.confirm(
+    `Are you sure you want to switch to ${
+      state.native ? 'React Mode' : 'React Native Mode'
+    }?\n\nSwitching to ${
+      state.native ? 'React Mode' : 'React Native Mode'
+    } will clear the workspace!\n\nMake sure to export your current code before changing modes!`
   );
-
-  for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
-    const currChild = modifiedChildrenArray[i];
-    const currChildId = currChild.childId;
-    const newValueObj = newSortValues.find(
-      (n: any) => n.childId === currChildId
-    );
-    const newSortValue = newValueObj.childSort;
-    console.log(
-      ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
-    );
-    currChild.childSort = newSortValue;
+  if (!check) {
+    return { ...state };
   }
+  const components = cloneDeep(initialApplicationState.components);
+  const app = components.find((e: ComponentInt) => e.id === 1);
 
-  const modifiedComponent = state.components.find(
-    (comp: ComponentInt) => comp.id === state.focusComponent.id
-  );
-  modifiedComponent.childrenArray = modifiedChildrenArray;
-
-  const modifiedComponentsArray = state.components.filter(
-    (comp: ComponentInt) => comp.id !== state.focusComponent.id
-  );
-  modifiedComponentsArray.push(modifiedComponent);
+  app.position.width = !state.native ? 500 : 1200;
+  app.position.height = !state.native ? 850 : 800;
+  app.position.y = !state.native ? 50 : 25;
+  app.changed = true;
 
   return {
-    ...state,
-    components: modifiedComponentsArray,
-    focusComponent: modifiedComponent
+    ...initialApplicationState,
+    focusComponent: app,
+    native: !state.native,
+    components
   };
 };
+
+//CURRENTLY doesn't DO ANYTHING
+
+// export const updateChildrenSort = (
+//   state: ApplicationStateInt,
+//   { newSortValues }: { newSortValues: any }
+// ) => {
+//   const modifiedChildrenArray: any = cloneDeep(
+//     state.focusComponent.childrenArray
+//   );
+
+//   for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
+//     const currChild = modifiedChildrenArray[i];
+//     const currChildId = currChild.childId;
+//     const newValueObj = newSortValues.find(
+//       (n: any) => n.childId === currChildId
+//     );
+//     const newSortValue = newValueObj.childSort;
+//     console.log(
+//       ` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`
+//     );
+//     currChild.childSort = newSortValue;
+//   }
+
+//   const modifiedComponent = state.components.find(
+//     (comp: ComponentInt) => comp.id === state.focusComponent.id
+//   );
+//   modifiedComponent.childrenArray = modifiedChildrenArray;
+
+//   const modifiedComponentsArray = state.components.filter(
+//     (comp: ComponentInt) => comp.id !== state.focusComponent.id
+//   );
+//   modifiedComponentsArray.push(modifiedComponent);
+
+//   return {
+//     ...state,
+//     components: modifiedComponentsArray,
+//     focusComponent: modifiedComponent
+//   };
+// };
 
 export const updateCode = (
   state: ApplicationStateInt,
   { componentId, code }: { componentId: number; code: string }
 ) => {
-  //creates a deep copy of the components
-  const componentsCopy = cloneDeep(state.components);
-  const focusCompCopy = cloneDeep(state.focusComponent);
-  if (focusCompCopy.id === componentId) {
-    focusCompCopy.code = code;
-    focusCompCopy.changed = false;
+  //creates a deep copy of the state
+  const stateCopy: ApplicationStateInt = cloneDeep(state);
+
+  if (stateCopy.focusComponent.id === componentId) {
+    stateCopy.focusComponent.code = code;
+    stateCopy.focusComponent.changed = false;
   }
-  componentsCopy.forEach((comp: ComponentInt) => {
+  stateCopy.components.forEach((comp: ComponentInt) => {
     if (comp.id === componentId) {
       comp.code = code;
       comp.changed = false;
     }
   });
   return {
-    ...state,
-    components: componentsCopy,
-    focusComponent: focusCompCopy
+    ...stateCopy
   };
 };
 
@@ -203,16 +197,6 @@ export const updateHtmlAttr = (
     return state;
   }
 
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to update the HTML attributes of the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
   const modifiedChild: any = cloneDeep(state.focusChild);
   modifiedChild.HTMLInfo[attr] = value;
 
@@ -242,7 +226,6 @@ export const updateHtmlAttr = (
     focusChild: modifiedChild,
     history,
     historyIndex,
-    future,
-    codeReadOnly: true
+    future
   };
 };

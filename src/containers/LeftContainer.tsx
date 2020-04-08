@@ -21,6 +21,9 @@ import {
 } from '../interfaces/Interfaces';
 import createModal from '../components/left/createModal';
 import cloneDeep from '../helperFunctions/cloneDeep';
+import NativeComponentPanel from '../components/left/NativeComponentPanel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -31,6 +34,10 @@ interface LeftContPropsInt extends PropsInt {
   addProp(arg: { key: string; type: string }): void;
   addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
   changeFocusComponent(arg: { title: string }): void;
+  changeComponentFocusChild(arg: {
+    componentId: number;
+    childId: number;
+  }): void;
   deleteComponent(arg: {
     componentId: number;
     stateComponents: ComponentsInt;
@@ -43,6 +50,8 @@ interface LeftContPropsInt extends PropsInt {
   deleteAllData(): void;
   toggleComponentState(arg: { id: number }): void;
   toggleComponentClass(arg: { id: number }): void;
+  toggleNative(): void;
+  native: boolean;
   deleteImage(): void;
   updateCode(arg: { componentId: number; code: string }): void;
   toggleEditMode(arg: { id: number }): void;
@@ -57,11 +66,14 @@ interface StateInt {
   genOptions: string[];
   genOption: number;
   imageSource: string;
+  native: boolean;
 }
 
 const mapStateToProps = (store: any) => ({
   imageSource: store.workspace.imageSource,
-  editMode: store.workspace.editMode
+  editMode: store.workspace.editMode,
+  focusChild: store.workspace.focusChild,
+  native: store.workspace.native
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -78,6 +90,13 @@ const mapDispatchToProps = (dispatch: any) => ({
     childType: string;
     HTMLInfo: object;
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  changeComponentFocusChild: ({
+    componentId,
+    childId
+  }: {
+    componentId: number;
+    childId: number;
+  }) => dispatch(actions.changeComponentFocusChild({ componentId, childId })),
   changeFocusComponent: ({ title }: { title: string }) =>
     dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) =>
@@ -97,6 +116,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(actions.toggleComponentClass({ id })),
   toggleEditMode: ({ id }: { id: number }) =>
     dispatch(actions.toggleEditMode({ id })),
+  toggleNative: () => dispatch(actions.toggleNative()),
   deleteAllData: () => dispatch(actions.deleteAllData()),
   deleteImage: () => dispatch(actions.deleteImage()),
   createApp: ({
@@ -221,9 +241,13 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
 
   showGenerateAppModal = () => {
     const { closeModal, chooseGenOptions } = this;
-    const { genOptions } = this.state;
+    let { genOptions } = this.state;
+    const { native } = this.props;
     const children = (
-      <List className='export-preference'>
+      <List className="export-preference">
+        {/* native mode does not export file structure, so 'Components Only' is the only export option */}
+        {native ? genOptions.splice(1, 1) : ''}
+
         {genOptions.map((option, i) => (
           <ListItem
             key={i}
@@ -265,13 +289,17 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
       addChild,
       changeFocusComponent,
       changeFocusChild,
+      changeComponentFocusChild,
       selectableChildren,
       toggleComponentState,
       toggleComponentClass,
       deleteImage,
       updateCode,
       editMode,
-      toggleEditMode
+      toggleEditMode,
+      focusChild,
+      toggleNative,
+      native
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -296,26 +324,38 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           toggleEditMode={toggleEditMode}
           handleChangeName={this.handleChangeName}
           handleEditComponent={this.handleEditComponent}
+          changeComponentFocusChild={changeComponentFocusChild}
+          focusChild={focusChild}
         />
       ));
     const { addImage } = this;
 
     return (
-      <div className='column left' style={{ minWidth: '466px' }}>
-        <Grid
-          container
-          spacing={8}
-          align='stretch'
-          direction='row'
-          alignItems='center'
-        >
-          <Grid item xs={8}>
+      <div className="column left" style={{ minWidth: '466px' }}>
+        <Grid container spacing={8} direction="row" alignItems="center">
+          <Grid item xs={12} style={{ paddingBottom: '0' }}>
+            <FormControlLabel
+              className={classes.switch}
+              control={
+                <Switch
+                  checked={native}
+                  color="primary"
+                  onChange={() => {
+                    toggleNative();
+                  }}
+                />
+              }
+              label="Native Mode"
+              labelPlacement="start"
+            />
+          </Grid>
+          <Grid item xs={10} style={{ paddingTop: '0' }}>
             <TextField
-              id='title-input'
-              label='Add component'
-              size='medium'
-              placeholder='Name of component'
-              margin='normal'
+              id="title-input"
+              label="Add component"
+              size="medium"
+              placeholder="Name of component"
+              margin="normal"
               onChange={this.handleChange}
               onKeyPress={ev => {
                 if (ev.key === 'Enter') {
@@ -324,7 +364,7 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
                 }
               }}
               value={componentName}
-              name='componentName'
+              name="componentName"
               className={classes.light}
               InputProps={{
                 className: classes.input
@@ -334,12 +374,12 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               }}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2} style={{ padding: '0', marginBottom: '30px' }}>
             <Fab
-              size='small'
-              color='secondary'
+              size="small"
+              color="secondary"
               className={classes.button}
-              aria-label='Add'
+              aria-label="Add"
               onClick={this.handleAddComponent}
               disabled={!this.state.componentName}
             >
@@ -347,14 +387,20 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             </Fab>
           </Grid>
         </Grid>
-        <div className='expansionPanel'>{componentsExpansionPanel}</div>
-        <HTMLComponentPanel
-          className={classes.htmlCompWrapper}
-          focusComponent={focusComponent}
-          addProp={addProp}
-          addChild={addChild}
-        />
-
+        <div className={classes.expansionPanel}>{componentsExpansionPanel}</div>
+        <div className={classes.elementsPanel}>
+          {native ? (
+            // React Native Components will display when in 'Native' mode
+            <NativeComponentPanel addChild={addChild} />
+          ) : (
+            <HTMLComponentPanel
+              className={classes.htmlCompWrapper}
+              focusComponent={focusComponent}
+              addProp={addProp}
+              addChild={addChild}
+            />
+          )}
+        </div>
         <div
           style={{
             width: '100%',
@@ -372,8 +418,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
           >
             {imageSource ? (
               <Button
-                aria-label='Remove Image'
-                variant='contained'
+                aria-label="Remove Image"
+                variant="contained"
                 fullWidth
                 onClick={deleteImage}
                 className={classes.clearButton}
@@ -388,8 +434,8 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               </Button>
             ) : (
               <Button
-                aria-label='Upload Image'
-                variant='contained'
+                aria-label="Upload Image"
+                variant="contained"
                 fullWidth
                 onClick={addImage}
                 className={classes.clearButton}
@@ -404,9 +450,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
               </Button>
             )}
             <Button
-              color='secondary'
-              aria-label='Delete All'
-              variant='contained'
+              color="secondary"
+              aria-label="Delete All"
+              variant="contained"
               fullWidth
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
@@ -424,9 +470,9 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
             }}
           >
             <Button
-              color='primary'
-              aria-label='Export Code'
-              variant='contained'
+              color="primary"
+              aria-label="Export Code"
+              variant="contained"
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
@@ -453,11 +499,12 @@ function styles(): any {
         color: 'green'
       }
     },
-    cssFocused: {},
     input: {
       color: '#fff',
       opacity: '0.7',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      paddingLeft: '9%',
+      width: '100%'
     },
     underline: {
       color: 'white',
@@ -481,6 +528,33 @@ function styles(): any {
         color: 'grey',
         backgroundColor: '#424242'
       }
+    },
+    expansionPanel: {
+      flexDirection: 'column',
+      display: 'flex',
+      height: '60%',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      // padding: '1%',
+      paddingLeft: '10%'
+      // marginBottom: '60%'
+    },
+    switch: {
+      marginLeft: '30%',
+      marginTop: '5%',
+      marginBottom: '0',
+      paddingBottom: '0',
+      color: '#fff',
+      fontSize: '1.3em'
+    },
+    light: {
+      marginTop: '0',
+      paddingTop: '0',
+      width: '100%',
+      paddingLeft: '10%'
+    },
+    elementsPanel: {
+      marginBottom: '30%'
     }
   };
 }

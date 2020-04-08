@@ -6,7 +6,7 @@ import {
   ApplicationStateInt,
   ChildInt
 } from '../interfaces/Interfaces';
-import { initialComponentState } from './initialState';
+import { initialComponentState, nativeComponentTypes } from './initialState';
 import { createHistory } from '../helperFunctions/createHistory';
 import { getSize } from '../utils/htmlElements.util';
 import { generateNewCode } from '../helperFunctions/generateNewCode';
@@ -30,11 +30,12 @@ export const addChild = (
     window.alert('addChild Error! no type specified');
   }
 
-  //weird use of a ternary operator, could've wrapped it in one if statement
   const htmlElement = childType !== 'COMP' ? childType : null;
-  if (childType !== 'COMP') {
-    childType = 'HTML';
-  }
+
+  // if childType is NOT included in the array of NATIVE React types && also not coming from left panel then the childType will revert to HTML
+  !nativeComponentTypes.includes(childType) && childType !== 'COMP'
+    ? (childType = 'HTML')
+    : (childType = childType === 'COMP' ? 'COMP' : 'NATIVE');
 
   // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
@@ -75,7 +76,7 @@ export const addChild = (
   }
 
   let htmlElemPosition: htmlElemPositionInt = { width: null, height: null };
-  if (childType === 'HTML') {
+  if (childType === 'HTML' || childType === 'NATIVE') {
     htmlElemPosition = getSize(htmlElement);
     // if above function doesnt reutn anything, it means html element is not in our database
     //looks like the group that originally worked on this app planend to have a back end that accessed a DB with element types.
@@ -128,10 +129,10 @@ export const addChild = (
   };
 
   const components = [
+    component,
     ...state.components.filter((comp: ComponentInt) => {
       if (comp.title !== view.title) return comp;
-    }),
-    component
+    })
   ];
   const { history, historyIndex, future } = createHistory(state);
   return {
@@ -301,6 +302,7 @@ export const deleteChild = (
     however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
     Also when calling from DELETE components , we do not touch focusComponent.
    ************************************************************************************ */
+
   if (!parentId) {
     window.alert('Cannot delete root child of a component');
     return state;
@@ -313,7 +315,7 @@ export const deleteChild = (
     window.alert('Cannot delete root child of a component');
     return state;
   }
-  // make a DEEP copy of the parent component (the one thats about to loose a child)
+  // make a DEEP copy of the parent component (the one thats about to lose a child)
   const parentComponentCopy: any = cloneDeep(
     state.components.find((comp: ComponentInt) => comp.id === parentId)
   );
@@ -462,53 +464,15 @@ export const editComponent = (
 ) => {
   let components = cloneDeep(state.components);
   let toEdit = components.find((element: ComponentInt) => element.id === id);
+  toEdit.title = title;
 
-  if (!state.codeReadOnly) {
-    const check = window.confirm(
-      `Are you sure you want to change the name of the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
-    );
-    if (!check) {
-      return {
-        ...state
-      };
-    }
-  }
-
-  // remove whitespace and digits, capitalize first char
-  const strippedTitle = title
-    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
-  // duplicate component names not allowed
-  if (
-    state.components.find(
-      (comp: ComponentInt) => comp.title === strippedTitle
-    ) &&
-    toEdit.title !== strippedTitle
-  ) {
-    window.alert(
-      `A component with the name: "${strippedTitle}" already exists.\nPlease think of another name.`
-    );
-    return {
-      ...state
-    };
-  }
-
-  // empty component name not allowed
-  if (strippedTitle === '') {
-    window.alert(
-      `Can't leave the name of the component blank.\nPlease enter a name.`
-    );
-    return {
-      ...state
-    };
-  }
-  toEdit.title = strippedTitle;
-  toEdit.changed = true;
   for (const [index, each] of components.entries()) {
-    each.changed = true;
+    // iterate over each components array that contains its children (components it renders)
     for (const value of each.childrenArray) {
+      // rename each instance of this component in all components children arrays
+      // so there is no broken chain of hierarchy (all components are updated with the renamed component)
       if (value.childComponentId === id) {
-        value.componentName = strippedTitle;
+        value.componentName = title;
       }
     }
   }
@@ -516,10 +480,8 @@ export const editComponent = (
   return {
     ...state,
     focusChild: state.initialApplicationFocusChild,
-    focusComponent: toEdit,
     editMode: -1,
-    components,
-    codeReadOnly: true
+    components
   };
 };
 
@@ -543,7 +505,11 @@ export const exportFilesError = (
   loading: false
 });
 
-//Reducer that toggles the component class
+/*
+Reducer that toggles the component class
+lets the user choose whether the current 
+component is a class components or not
+*/
 export const toggleComponentClass = (
   state: ApplicationStateInt,
   { id }: { id: number }
@@ -551,6 +517,7 @@ export const toggleComponentClass = (
   //creates a deep copy of the components array
   const componentCopy = cloneDeep(state.components);
 
+  // any changes made to Code Preview in edit mode are cleared anytime a toggle is changed
   if (!state.codeReadOnly) {
     const check = window.confirm(
       `Are you sure you want to change the Class toggle for the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
@@ -561,16 +528,19 @@ export const toggleComponentClass = (
       };
     }
   }
-  //iterate array, and invert statefulness for targeted component based on id prop
+
+  //iterate array, find and invert classBased for targeted component based on id prop
   componentCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.classBased = !element.classBased;
       element.changed = true;
     }
   });
-  // return state and updated components array
+
+  // logging of history for undo/redo functionality
   const { history, historyIndex, future } = createHistory(state);
 
+  // return state and updated components array
   return {
     ...state,
     components: componentCopy,
@@ -589,6 +559,7 @@ export const toggleComponentState = (
   //creates a deep copy of the components array
   const componentsCopy = cloneDeep(state.components);
 
+  // any changes made to Code Preview in edit mode are cleared anytime a toggle is changed
   if (!state.codeReadOnly) {
     const check = window.confirm(
       `Are you sure you want to change the State toggle for the ${state.focusComponent.title}  component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
@@ -599,7 +570,8 @@ export const toggleComponentState = (
       };
     }
   }
-  //iterate array, and invert statefulness for targeted component based on id prop
+
+  //iterate array, find and invert statefulness for targeted component based on id prop
   componentsCopy.forEach((element: ComponentInt) => {
     if (element.id === id) {
       element.stateful = !element.stateful;
@@ -607,9 +579,10 @@ export const toggleComponentState = (
     }
   });
 
-  // return state and updated components array
+  // for undo/redo functionality
   const { history, historyIndex, future } = createHistory(state);
 
+  // return state and updated components array
   return {
     ...state,
     components: componentsCopy,
@@ -619,6 +592,7 @@ export const toggleComponentState = (
     codeReadOnly: true
   };
 };
+
 //a reducer function to see if component name editing mode should be entered
 export const toggleEditMode = (
   state: ApplicationStateInt,

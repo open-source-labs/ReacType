@@ -34,6 +34,7 @@ import {
   LOAD_INIT_DATA,
   REDO,
   TOGGLE_CLASS,
+  TOGGLE_NATIVE,
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
@@ -42,6 +43,7 @@ import {
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+import { string } from 'prop-types';
 
 export const addChild = ({
   title,
@@ -51,64 +53,36 @@ export const addChild = ({
   title: string;
   childType: string;
   HTMLInfo: object;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
-};
+}): Action => ({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 
-export const addComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: ADD_COMPONENT, payload: { title } });
-};
-
-export const addProp = ({ key, type }: { key: string; type: string }) => ({
+export const addComponent = ({ title }: { title: string }): Action => ({
+  type: ADD_COMPONENT,
+  payload: { title }
+});
+export const addProp = ({
+  key,
+  type
+}: {
+  key: string;
+  type: string;
+}): Action => ({
   type: ADD_PROP,
   payload: { key, type }
 });
 
-export const changeTutorial = (tutorial: number) => ({
+export const changeTutorial = (tutorial: number): Action => ({
   type: CHANGE_TUTORIAL,
   payload: { tutorial }
 });
 
-export const changeImagePath = (imageSource: string) => ({
+export const changeImagePath = (imageSource: string): Action => ({
   type: CHANGE_IMAGE_SOURCE,
   payload: { imageSource }
 });
 
-export const deleteChild = ({}) => (dispatch: (arg: Action) => void) => {
-  // with no payload, it will delete focusd child
-  dispatch({ type: DELETE_CHILD, payload: {} });
-};
-
-export const deleteComponent = ({
-  componentId,
-  stateComponents
-}: {
-  componentId: number;
-  stateComponents: ComponentsInt;
-}) => (dispatch: (arg: Action) => void) => {
-  // find all places where the "to be deleted" is a child and do what u gotta do
-  stateComponents.forEach((parent: ComponentInt) => {
-    parent.childrenArray
-      .filter((child: ChildInt) => child.childComponentId === componentId)
-      .forEach((child: ChildInt) => {
-        dispatch({
-          type: DELETE_CHILD,
-          payload: {
-            parentId: parent.id,
-            childId: child.childId,
-            calledFromDeleteComponent: true
-          }
-        });
-      });
-  });
-
-  // change focus to app
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
-  // after taking care of the children delete the component
-  dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
-};
+export const deleteChild = ({}): Action =>
+  // with no payload, it will delete focused child
+  ({ type: DELETE_CHILD, payload: {} });
 
 export const changeComponentFocusChild = ({
   componentId,
@@ -116,25 +90,21 @@ export const changeComponentFocusChild = ({
 }: {
   componentId: number;
   childId: number;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: CHANGE_COMPONENT_FOCUS_CHILD,
-    payload: { componentId, childId }
-  });
-};
+}): Action => ({
+  type: CHANGE_COMPONENT_FOCUS_CHILD,
+  payload: { componentId, childId }
+});
 
 // make sure childId is being sent in
-export const changeFocusChild = ({ childId }: { childId: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: CHANGE_FOCUS_CHILD, payload: { childId } });
-};
+export const changeFocusChild = ({ childId }: { childId: number }): Action => ({
+  type: CHANGE_FOCUS_CHILD,
+  payload: { childId }
+});
 
-export const changeFocusComponent = ({ title }: { title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title } });
-};
+export const changeFocusComponent = ({ title }: { title: string }): Action => ({
+  type: CHANGE_FOCUS_COMPONENT,
+  payload: { title }
+});
 
 export const createApplication = ({
   path,
@@ -191,25 +161,55 @@ export const createApplication = ({
   }
 };
 
-export const deleteAllData = () => ({
+export const deleteAllData = (): Action => ({
   type: DELETE_ALL_DATA
 });
 
-export const deleteImage = () => ({
+export const deleteComponent = ({
+  componentId,
+  stateComponents
+}: {
+  componentId: number;
+  stateComponents: ComponentsInt;
+}) => (dispatch: (arg: Action) => void) => {
+  // find all places where the "to be deleted" is a child and do what u gotta do
+  stateComponents.forEach((parent: ComponentInt) => {
+    parent.childrenArray
+      .filter((child: ChildInt) => child.childComponentId === componentId)
+      .forEach((child: ChildInt) => {
+        dispatch({
+          type: DELETE_CHILD,
+          payload: {
+            parentId: parent.id,
+            childId: child.childId,
+            calledFromDeleteComponent: true
+          }
+        });
+      });
+  });
+
+  // change focus to app
+  dispatch({ type: CHANGE_FOCUS_COMPONENT, payload: { title: 'App' } });
+  // after taking care of the children delete the component
+  dispatch({ type: DELETE_COMPONENT, payload: { componentId } });
+};
+
+export const deleteImage = (): Action => ({
   type: DELETE_IMAGE
 });
 
-export const deleteProp = (propId: number) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: DELETE_PROP, payload: propId });
-};
+export const deleteProp = (propId: number): Action => ({
+  type: DELETE_PROP,
+  payload: propId
+});
 
-export const editComponent = ({ id, title }: { id: number; title: string }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: EDIT_COMPONENT, payload: { id, title } });
-};
+export const editComponent = ({
+  id,
+  title
+}: {
+  id: number;
+  title: string;
+}): Action => ({ type: EDIT_COMPONENT, payload: { id, title } });
 
 export const exportFiles = ({
   components,
@@ -241,11 +241,6 @@ export const exportFiles = ({
     );
 };
 
-export const handleClose = () => ({
-  type: HANDLE_CLOSE,
-  payload: false
-});
-
 export const handleTransform = (
   componentId: number,
   childId: number,
@@ -255,7 +250,7 @@ export const handleTransform = (
     width,
     height
   }: { x: number; y: number; width: number; height: number }
-) => ({
+): Action => ({
   type: HANDLE_TRANSFORM,
   payload: {
     componentId,
@@ -280,33 +275,34 @@ export const loadInitData = () => (dispatch: (arg: Action) => void) => {
   });
 };
 
-export const redo = () => ({
+export const redo = (): Action => ({
   type: REDO
 });
 
-export const toggleComponentState = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: TOGGLE_STATE, payload: { id } });
-};
+export const toggleComponentState = ({ id }: { id: number }): Action => ({
+  type: TOGGLE_STATE,
+  payload: { id }
+});
 
-export const toggleComponentClass = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: TOGGLE_CLASS, payload: { id } });
-};
+export const toggleComponentClass = ({ id }: { id: number }): Action => ({
+  type: TOGGLE_CLASS,
+  payload: { id }
+});
 
-export const toggleEditMode = ({ id }: { id: number }) => (
-  dispatch: (arg: Action) => void
-) => {
-  dispatch({ type: EDIT_MODE, payload: { id } });
-};
-//action creators for undo and redo
-export const undo = () => ({
+export const toggleEditMode = ({ id }: { id: number }): Action => ({
+  type: EDIT_MODE,
+  payload: { id }
+});
+
+export const toggleNative = (): Action => ({
+  type: TOGGLE_NATIVE
+});
+
+export const undo = (): Action => ({
   type: UNDO
 });
 
-export const toggleCodeEdit = () => ({
+export const toggleCodeEdit = (): Action => ({
   type: CODE_EDIT
 });
 
@@ -316,12 +312,10 @@ export const updateCode = ({
 }: {
   componentId: number;
   code: string;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: UPDATE_CODE,
-    payload: { componentId, code }
-  });
-};
+}): Action => ({
+  type: UPDATE_CODE,
+  payload: { componentId, code }
+});
 
 export const updateHtmlAttr = ({
   attr,
@@ -329,9 +323,7 @@ export const updateHtmlAttr = ({
 }: {
   attr: string;
   value: string;
-}) => (dispatch: (arg: Action) => void) => {
-  dispatch({
-    type: UPDATE_HTML_ATTR,
-    payload: { attr, value }
-  });
-};
+}): Action => ({
+  type: UPDATE_HTML_ATTR,
+  payload: { attr, value }
+});

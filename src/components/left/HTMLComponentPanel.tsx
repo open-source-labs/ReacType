@@ -8,12 +8,11 @@ import LinkIcon from '@material-ui/icons/Link';
 import ListIcon from '@material-ui/icons/List';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
 import Grid from '@material-ui/core/Grid';
-import Tab from '@material-ui/core/Tab';
-import Chip from '@material-ui/core/Chip';
 
 interface HTMLCompPropsInt {
   classes: any;
   addChild: any;
+  native: boolean;
 }
 
 interface StateInt {
@@ -37,205 +36,57 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
 
   render(): JSX.Element {
     const { classes } = this.props;
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <Tab
-          disableRipple
-          classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label='Add HTML Elements'
-          style={{
-            cursor: 'default',
-            fontSize: '1.2em',
-            textShadow: '2px 2px 2px black',
-            paddingBottom: '20px'
+    // refactor of HTML elements panel
+    const elementButtons = [
+      {
+        name: 'Image',
+        button: <ImageIcon style={{ color: '#e0e0e0' }} />
+      },
+      {
+        name: 'Form',
+        button: <FormIcon style={{ color: '#e0e0e0' }} />
+      },
+      {
+        name: 'Button',
+        button: <ButtonIcon style={{ color: '#e0e0e0' }} />
+      },
+      {
+        name: 'Link',
+        button: <LinkIcon style={{ color: '#e0e0e0' }} />
+      },
+      {
+        name: 'List',
+        button: <ListIcon style={{ color: '#e0e0e0' }} />
+      },
+      {
+        name: 'Paragraph',
+        button: <ParagraphIcon style={{ color: '#e0e0e0' }} />
+      }
+    ];
+
+    // creates the relevant MaterialUI components for each HTML element in the array above
+    const buttonGrids = elementButtons.map(element => (
+      <Grid item xs={6} key={`grid-${element.name}`}>
+        <IconButton
+          key={`button-${element.name}`}
+          className={classes.label}
+          aria-label={element.name}
+          size="medium"
+          onClick={() => {
+            this.handleCreateHTMLChild(element.name);
           }}
-        />
-        <Grid container spacing={6} alignItems='center'>
-          <Grid item xs={4}>
-            <div className='htmliconwrapper'>
-              <IconButton
-                className='htmlicons'
-                aria-label='Image'
-                onClick={() => {
-                  this.handleCreateHTMLChild('Image');
-                }}
-                style={{
-                  margin: 0,
-                  padding: 0
-                }}
-              >
-                <ImageIcon
-                  style={{
-                    color: '#e0e0e0'
-                  }}
-                />
-              </IconButton>
-              <Chip
-                label='Image'
-                className={classes.chip}
-                variant='outlined'
-                style={{
-                  color: 'white',
-                  fontSize: '80%',
-                  margin: 0,
-                  padding: 0
-                }}
-                onClick={() => {
-                  this.handleCreateHTMLChild('Image');
-                }}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton
-              className='htmlicons'
-              aria-label='Form'
-              onClick={() => {
-                this.handleCreateHTMLChild('Form');
-              }}
-              style={{
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <FormIcon style={{ color: '#e0e0e0' }} />
-            </IconButton>
-            <Chip
-              label='Form'
-              className={classes.chip}
-              variant='outlined'
-              style={{
-                color: 'white',
-                fontSize: '80%'
-              }}
-              onClick={() => {
-                this.handleCreateHTMLChild('Form');
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton
-              className='htmlicons'
-              aria-label='Button'
-              onClick={() => {
-                this.handleCreateHTMLChild('Button');
-              }}
-              style={{
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <ButtonIcon style={{ color: '#e0e0e0' }} />
-            </IconButton>
-            <Chip
-              label='Button'
-              className={classes.chip}
-              variant='outlined'
-              style={{
-                color: 'white',
-                fontSize: '80%'
-              }}
-              onClick={() => {
-                this.handleCreateHTMLChild('Button');
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton
-              className='htmlicons'
-              aria-label='Link'
-              onClick={() => {
-                this.handleCreateHTMLChild('Link');
-              }}
-              style={{
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <LinkIcon style={{ color: '#e0e0e0' }} />
-            </IconButton>
-            <Chip
-              label='Link'
-              className={classes.chip}
-              variant='outlined'
-              style={{
-                color: 'white',
-                fontSize: '80%'
-              }}
-              onClick={() => {
-                this.handleCreateHTMLChild('Link');
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <IconButton
-              className='htmlicons'
-              aria-label='List'
-              onClick={() => {
-                this.handleCreateHTMLChild('List');
-              }}
-              style={{
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <ListIcon style={{ color: '#e0e0e0' }} />
-            </IconButton>
-            <Chip
-              label='List'
-              className={classes.chip}
-              variant='outlined'
-              style={{
-                color: 'white',
-                fontSize: '80%'
-              }}
-              onClick={() => {
-                this.handleCreateHTMLChild('List');
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            style={{
-              margin: 0,
-              padding: 0
-            }}
-          >
-            <IconButton
-              className='htmlicons'
-              aria-label='Paragraph'
-              onClick={() => {
-                this.handleCreateHTMLChild('Paragraph');
-              }}
-              style={{
-                margin: 0,
-                padding: 0
-              }}
-            >
-              <ParagraphIcon
-                style={{
-                  color: '#e0e0e0',
-                  paddingRight: '0px',
-                  marginRight: '0px'
-                }}
-              />
-            </IconButton>
-            <Chip
-              label='Paragraph'
-              className={classes.chip}
-              variant='outlined'
-              style={{
-                color: 'white',
-                fontSize: '62%',
-                padding: '0px',
-                margin: '0px'
-              }}
-              onClick={() => {
-                this.handleCreateHTMLChild('Paragraph');
-              }}
-            />
-          </Grid>
+        >
+          <span className={classes.elemName}>{element.name}</span>
+          {element.button}
+        </IconButton>
+      </Grid>
+    ));
+
+    return (
+      <div className={classes.container}>
+        <div className={classes.header}>Add HTML Elements</div>
+        <Grid container spacing={3} alignItems="center">
+          {buttonGrids}
         </Grid>
       </div>
     );
@@ -244,35 +95,28 @@ class HTMLComponentPanel extends Component<HTMLCompPropsInt, StateInt> {
 
 function styles(theme: Theme): any {
   return {
-    htmlPanel: {
-      width: '100%',
-      height: '30%',
-      backgroundColor: '#212121',
-      borderStyle: 'solid',
-      borderWidth: '0.5px',
-      borderRadius: '1px',
-      borderColor: '#424242',
-      bottom: '0px',
-      paddingLeft: '10px',
-      paddingRight: '10px',
-      paddingBottom: '25px',
-      paddingTop: '2px',
-      boxShadow: '0 6px 6px rgba(0,0,0,0.23)'
+    container: {
+      textAlign: 'center',
+      paddingRight: '10%'
     },
-    chip: {
-      color: 'rgba(193, 66, 66, 0)'
+    header: {
+      color: '#fff',
+      cursor: 'default',
+      fontSize: '1.8em',
+      textShadow: '2px 2px 2px black',
+      paddingBottom: '20px',
+      paddingLeft: '15px'
     },
-    htmliconwrapper: {
-      verticalAlign: 'baseline'
+    elemName: {
+      paddingRight: '10px'
     },
-    htmlicons: {
-      color: '#ffffff'
-    },
-    tabRoot: {
-      textTransform: 'initial',
-      minWidth: 100,
-      fontWeight: theme.typography.fontWeightRegular,
-      color: '#ffffff'
+    label: {
+      color: '#e0e0e0',
+      textShadow: '2px 2px 2px black',
+      transition: 'font-size 350ms ease-in-out',
+      '&:hover': {
+        fontSize: '1.60em'
+      }
     }
   };
 }

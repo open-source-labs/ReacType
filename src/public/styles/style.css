@@ -124,16 +124,6 @@ LEFT COLUMN
   bottom: 2.8%;
 }
 
-.expansionPanel {
-  flex-direction: column;
-  display: flex;
-  /* max-height: 80%; */
-  height: 60%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1%;
-}
-
 .clear-workspace {
   top: 96%;
   position: sticky !important;

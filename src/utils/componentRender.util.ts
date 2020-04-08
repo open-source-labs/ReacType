@@ -6,6 +6,8 @@ import {
   PropInt
 } from '../interfaces/Interfaces';
 import cloneDeep from '../helperFunctions/cloneDeep';
+import { nativeComponentTypes } from '../reducers/initialState';
+import importNativeNameGenerator from '../helperFunctions/importNativeGenerator';
 
 const componentRender = (
   component: ComponentInt,
@@ -24,6 +26,7 @@ const componentRender = (
     stateful: boolean;
     classBased: boolean;
   } = component;
+
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -34,14 +37,12 @@ const componentRender = (
         return 'object';
       case 'array':
         return 'any[]';
-      case 'boolean':
+      case 'bool':
         return 'boolean';
       case 'function':
         return '() => any';
       case 'tuple':
         return '[any]';
-      case 'enum':
-        return '{}';
       case 'any':
         return 'any';
       default:
@@ -70,7 +71,7 @@ const componentRender = (
         .props.map((prop: PropInt) => `${prop.key}={${prop.value}}`)
         .join(' ');
     }
-    if (child.childType === 'HTML') {
+    if (child.childType === 'HTML' || child.childType === 'NATIVE') {
       const keys: string[] = Object.keys(child.HTMLInfo);
       return keys
         .map(key => {
@@ -98,7 +99,7 @@ const componentRender = (
     if (child.childType === 'HTML') {
       switch (child.componentName) {
         case 'Image':
-          return 'img';
+          return 'img src=""';
         case 'Form':
           return 'form';
         case 'Button':
@@ -109,6 +110,33 @@ const componentRender = (
           return 'ul';
         case 'Paragraph':
           return 'p';
+        // REACT NATIVE COMPONENTS
+        // TO DO: UPDATE REDUCER LOGIC TO HAVE THESE COMPONENTS IN A SEPARATE FUNCTION
+        default:
+          return 'div';
+      }
+    } else if (child.childType === 'NATIVE') {
+      switch (child.componentName) {
+        case 'RNView':
+          return 'View';
+        case 'RNSafeAreaView':
+          return 'SafeAreaView';
+        case 'RNButton':
+          return 'Button';
+        case 'RNFlatList':
+          return 'FlatList data={} renderItem={}';
+        case 'RNImage':
+          return 'Image source={}';
+        case 'RNModal':
+          return 'Modal';
+        case 'RNSwitch':
+          return 'Switch onValueChange={}';
+        case 'RNText':
+          return 'Text';
+        case 'RNTextInput':
+          return 'TextInput';
+        case 'RNTouchOpacity':
+          return 'TouchableOpacity';
         default:
           return 'div';
       }
@@ -116,6 +144,7 @@ const componentRender = (
       return child.componentName;
     }
   }
+
   // logic below consists of conditional that will render depending
   // on the toggling of "state" and/or "class"
   // class components can optioally have a state which will
@@ -128,10 +157,16 @@ const componentRender = (
 
     ${childrenArray
       .filter(child => child.childType !== 'HTML')
-      .map(
-        child =>
-          `import ${child.componentName} from './${child.componentName}.tsx'`
-      )
+      .map(child => {
+        if (child.childType === 'NATIVE') {
+          return `import {${importNativeNameGenerator(
+            child
+          )}} from 'react-native'`;
+        }
+        if (child.childType === 'COMP') {
+          return `import ${child.componentName} from './${child.componentName}.tsx'`;
+        }
+      })
       .reduce((acc: Array<string>, child) => {
         if (!acc.includes(child)) {
           acc.push(child);
@@ -140,26 +175,21 @@ const componentRender = (
         return acc;
       }, [])
       .join('\n')}
+
     
-    ${
-      title == 'App'
-        ? ''
-        : `interface Props {
+    /* Replace "any" with stricter types to reflect your usage*/
+    interface Props {
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}\n`)}
-    };`
-    }
-    
+    };
 
       ${
         classBased
           ? `class ${title} extends Component {`
-          : title == 'App'
-          ? `const ${title} = () => {`
           : `const ${title} = (props: Props) => {`
       }
       ${
         stateful && !classBased
-          ? `const  [prop, setProp] = useState("INITIAL VALUE FOR PROP");`
+          ? `const  [value, setValue] = useState("INITIAL VALUE");`
           : ``
       }
       ${
@@ -171,25 +201,32 @@ const componentRender = (
           : ``
       }
       ${classBased ? `render(): JSX.Element {` : ``}
-      ${
-        title === 'App'
-          ? ''
-          : `const {${props.map(el => el.key).join(', ')}} = ${
-              classBased ? `this.props` : `props`
-            }`
-      }
+      const {${props.map(el => el.key).join(', ')}} = ${
+    classBased ? `this.props` : `props`
+  };
       
       return (
         <div>
         ${cloneDeep(childrenArray)
           .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
           .map((child: ChildInt) => {
-            if (child.componentName == 'Button') {
+            // component/element names that are not self closing
+            if (
+              child.componentName == 'Button' ||
+              child.componentName === 'RNButton' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNView' ||
+              child.componentName === 'RNSafeAreaView' ||
+              child.componentName === 'RNText' ||
+              child.componentName === 'RNTouchOpacity'
+            ) {
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child
               )}>${child.HTMLInfo.value}</${componentNameGenerator(child)}>`;
-            } else
+            }
+            // code to be rendered for all self closing component/elements
+            else
               return `
               <${componentNameGenerator(child)} ${propDrillTextGenerator(
                 child

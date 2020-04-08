@@ -55,7 +55,6 @@ function redo() {
   mainWindow.webContents.send('redo');
 }
 
-
 function toggleTutorial() {
   mainWindow.webContents.send('tutorial_clicked');
 }
@@ -85,8 +84,8 @@ const createWindow = () => {
   // eslint-disable-next-line
   const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width,
-    height,
+    width: 1920,
+    height: 1080,
     webPreferences: {
       zoomFactor: 0.7,
       'node-Integration': false
@@ -122,16 +121,17 @@ const createWindow = () => {
     {
       label: 'Edit',
       submenu: [
-        { 
+        {
           label: 'Undo',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',  //these hotkeys are a tad bit glitchy
+          accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z', //these hotkeys are a tad bit glitchy
           click() {
             undo();
           }
         },
-        { 
+        {
           label: 'Redo',
-          accelerator: process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
+          accelerator:
+            process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z',
           click() {
             redo();
           }
@@ -142,8 +142,8 @@ const createWindow = () => {
         { role: 'paste' },
         { role: 'pasteandmatchstyle' },
         { role: 'delete' },
-        { role: 'selectall' },
-      ],
+        { role: 'selectall' }
+      ]
     },
     {
       label: 'View',
@@ -172,9 +172,9 @@ const createWindow = () => {
           }
         },
         {
-            label: 'Tutorial',
-            click() {
-              toggleTutorial();
+          label: 'Tutorial',
+          click() {
+            toggleTutorial();
           }
         }
       ]
@@ -242,10 +242,11 @@ const createWindow = () => {
     mainWindow = null;
   });
 
+  // UNCOMMENT THIS DURING DEVELOPMENT TO ENABLE CONSOLE TO OPEN UPON LAUNCH
   // dev tools opened on every browser creation
-  mainWindow.webContents.once('dom-ready', () => {
-    mainWindow.webContents.openDevTools();
-  });
+  // mainWindow.webContents.once('dom-ready', () => {
+  //   mainWindow.webContents.openDevTools();
+  // });
 };
 
 // This method will be called when Electron has finished
@@ -269,7 +270,7 @@ app.on('ready', () => {
   }
   globalShortcut.register('Escape', () => {
     escape();
-  })
+  });
 });
 
 // Quit when all windows are closed.
