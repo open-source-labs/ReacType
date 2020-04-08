@@ -14,72 +14,11 @@ import { HTMLelements } from '../../utils/htmlElements.util';
 import { PropsInt, PropInt } from '../../interfaces/Interfaces';
 
 interface HTMLAttrPropsInt extends PropsInt {
-  classes: any;
-  updateHtmlAttr(arg: { attr: string; value: string }): void;
-  deleteProp(id: number): void;
-  addProp(prop: PropInt): void;
+  classes?: any;
+  updateHtmlAttr?: (arg: { attr: string; value: string }) => void;
 }
 
 interface StateInt {}
-
-const styles = (theme: Theme): any => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    height: '30px',
-    width: '15rem',
-    marginTop: '1rem',
-    borderRadius: '5px'
-    // border: '1px solid orange'
-  },
-  cssLabel: {
-    color: 'white',
-    marginTop: '10px'
-    // border: '1px solid blue'
-  },
-  cssFocused: {
-    color: 'green'
-  },
-  input: {
-    color: '#fff',
-    opacity: '0.7',
-    height: '45px',
-    width: '146px',
-    marginTop: '20px',
-    borderRadius: '5px',
-    border: '1px solid #33eb91'
-  },
-  select: {
-    background: '#424242',
-    height: '45px',
-    width: '146px',
-    marginTop: '0px',
-    color: '#fff',
-    paddingLeft: '14px',
-    borderRadius: '5px'
-  },
-  selectLabel: {
-    color: 'white',
-    zIndex: '10',
-    dropShadow: '1px 1px 3px #fff',
-    marginTop: '10px'
-    // border: '1px solid blue'
-  },
-
-  save: {
-    height: '45px',
-    width: '146px',
-    marginTop: '23px',
-    marginLeft: '35px',
-    borderRadius: '2px'
-  }
-  // input: { // commented out b/c Typescript/Material doesn't allow 'input' in its styles object
-  //   color: '#fff',
-  //   opacity: '0.7',
-  //   marginBottom: '15px'
-  // }
-});
 
 const mapDispatchToProps = (dispatch: any) => ({
   updateHtmlAttr: ({ attr, value }: { attr: string; value: string }) => {
@@ -126,14 +65,6 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
-    // if ( -- COMMENTED OUT UNNEEDED CODE. DROPDOWN ONLY HAS THOSE THREE OPTIONS. REMOVE THIS EVENTUALLY.
-    //   event.target.value == 'button' ||
-    //   event.target.value == 'submit' ||
-    //   event.target.value == 'reset'
-    // ) {
-    //   buttonTypeTemp = event.target.value;
-    // }
-
     // reassigns global variable for use by other listener functions
     buttonTypeTemp = event.target.value;
 
@@ -180,15 +111,17 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
           condition to render a "select" component rather than a text-input component */}
             {attr == 'type' ? (
               <FormControl required>
-                <InputLabel className={classes.selectLabel} htmlFor='htmlType'>
+                <InputLabel className={classes.selectLabel} htmlFor="htmlType">
                   Type
                 </InputLabel>
                 <Select
                   native
                   className={classes.select}
-                  id='htmlType'
-                  placeholder='title'
-                  onChange={event => this.handleChange(event)}
+                  id="htmlType"
+                  placeholder="title"
+                  onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                    this.handleChange(event)
+                  }
                   value={buttonTypeTemp}
                   defaultValue={`${``}`}
                   required
@@ -202,32 +135,27 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   classes: {
                     root: classes.cssLabel,
                     focused: classes.cssFocused
-                    // input: classes.inputLabel -- commented out because 'input' not valid on Material typing
                   }
                 }}
                 InputProps={{
                   className: classes.input
                 }}
                 label={attr}
-                variant='outlined'
+                variant="outlined"
                 id={attr}
-                onChange={this.handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  this.handleChange
+                }
                 value={this.state[attr]}
               />
             )}
           </Grid>
           <Grid item xs={2}>
             <Fab
-              variant='extended'
-              size='small'
-              color='default'
-              aria-label='Save'
-              // style={{
-              //   marginLeft: '10px',
-              //   marginTop: '5px',
-              //   marginBottom: '10px',
-              //   border: '2px solid pink'
-              // }}
+              variant="extended"
+              size="small"
+              color="default"
+              aria-label="Save"
               className={classes.save}
               onClick={e => {
                 e.preventDefault();
@@ -254,6 +182,57 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
     return <div className={'htmlattr'}>{HtmlForm}</div>;
   }
 }
+
+const styles = (theme: Theme): any => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    height: '30px',
+    width: '15rem',
+    marginTop: '1rem',
+    borderRadius: '5px'
+  },
+  cssLabel: {
+    color: 'white',
+    marginTop: '10px'
+  },
+  cssFocused: {
+    color: 'green'
+  },
+  input: {
+    color: '#fff',
+    opacity: '0.7',
+    height: '45px',
+    width: '146px',
+    marginTop: '20px',
+    borderRadius: '5px',
+    border: '1px solid #33eb91'
+  },
+  select: {
+    background: '#424242',
+    height: '45px',
+    width: '146px',
+    marginTop: '0px',
+    color: '#fff',
+    paddingLeft: '14px',
+    borderRadius: '5px'
+  },
+  selectLabel: {
+    color: 'white',
+    zIndex: '10',
+    dropShadow: '1px 1px 3px #fff',
+    marginTop: '10px'
+  },
+
+  save: {
+    height: '45px',
+    width: '146px',
+    marginTop: '23px',
+    marginLeft: '35px',
+    borderRadius: '2px'
+  }
+});
 
 export default connect(
   mapStateToProps,

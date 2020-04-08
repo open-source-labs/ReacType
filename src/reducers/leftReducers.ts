@@ -466,12 +466,57 @@ export const editComponent = (
   let toEdit = components.find((element: ComponentInt) => element.id === id);
   toEdit.title = title;
 
+  // code preview edit mode resets if component name is changed
+  if (!state.codeReadOnly) {
+    const check = window.confirm(
+      `Are you sure you want to change the name of the ${state.focusComponent.title} component while the program is in the "Edit Mode"? \n\nAll of the changes to the "Code Preview" for the ${state.focusComponent.title} component will be overridden!`
+    );
+    if (!check) {
+      return {
+        ...state
+      };
+    }
+  }
+
+  // remove whitespace and digits, capitalize first char
+  const strippedTitle = title
+    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[-_\s0-9\W]+/gi, '');
+  // duplicate component names not allowed
+  if (
+    state.components.find(
+      (comp: ComponentInt) => comp.title === strippedTitle
+    ) &&
+    toEdit.title !== strippedTitle
+  ) {
+    window.alert(
+      `A component with the name: "${strippedTitle}" already exists.\nPlease think of another name.`
+    );
+    return {
+      ...state
+    };
+  }
+
+  // empty component name not allowed
+  if (strippedTitle === '') {
+    window.alert(
+      `Can't leave the name of the component blank.\nPlease enter a name.`
+    );
+    return {
+      ...state
+    };
+  }
+  toEdit.title = strippedTitle;
+  toEdit.changed = true;
+
   for (const [index, each] of components.entries()) {
+    each.changed = true;
     // iterate over each components array that contains its children (components it renders)
     for (const value of each.childrenArray) {
       // rename each instance of this component in all components children arrays
       // so there is no broken chain of hierarchy (all components are updated with the renamed component)
       if (value.childComponentId === id) {
+        value.componentName = strippedTitle;
         value.componentName = title;
       }
     }
@@ -480,8 +525,10 @@ export const editComponent = (
   return {
     ...state,
     focusChild: state.initialApplicationFocusChild,
+    focusComponent: toEdit,
     editMode: -1,
-    components
+    components,
+    codeReadOnly: true
   };
 };
 
