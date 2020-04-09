@@ -2,7 +2,7 @@ import * as reducers from '../bottomReducers';
 import * as interfaces from '../../interfaces/Interfaces';
 import * as types from '../../actionTypes/index';
 import { initialApplicationState, testComponent } from '../initialState';
-
+//tests
 describe('Testing bottom reducer:', () => {
   let state: interfaces.ApplicationStateInt;
   // redefine the default state before each reducer test
