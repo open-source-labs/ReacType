@@ -67,7 +67,6 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
   ) => {
     // reassigns global variable for use by other listener functions
     buttonTypeTemp = event.target.value;
-
     this.setState({
       [event.target.id]: buttonTypeTemp
     });
@@ -144,7 +143,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                 variant="outlined"
                 id={attr}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleChange
+                  this.handleChange(event)
                 }
                 value={this.state[attr]}
               />
