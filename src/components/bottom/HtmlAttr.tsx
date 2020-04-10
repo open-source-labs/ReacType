@@ -118,7 +118,9 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                   className={classes.select}
                   id="htmlType"
                   placeholder="title"
-                  onChange={this.handleChange}
+                  onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                    this.handleChange(event)
+                  }
                   value={buttonTypeTemp}
                   defaultValue={`${``}`}
                   required
@@ -140,7 +142,9 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
                 label={attr}
                 variant="outlined"
                 id={attr}
-                onChange={this.handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  this.handleChange(event)
+                }
                 value={this.state[attr]}
               />
             )}
