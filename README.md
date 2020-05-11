@@ -16,7 +16,7 @@ In other words, **you can draw prototypes and export React / Typescript code!**
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 **New with version 2.0:** 
-- React Native mode for iOS/Andoird app design
+- React Native mode for iOS/Android app design
 - Hooks integration with functional components
 - History navigation
 - Tutorial mode
