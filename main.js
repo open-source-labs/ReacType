@@ -1,4 +1,9 @@
 const path = require('path');
+//import for spalsh screen dependency
+const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
+//path resolver dependency for splash screen
+const { resolve } = require('app-root-path');
+
 
 const {
   app,
@@ -82,7 +87,7 @@ ipcMain.on('update-file', () => {
 const createWindow = () => {
   // Create the browser window.
   // eslint-disable-next-line
-  const { width, height } = require('electron').screen.getPrimaryDisplay().size;
+  // const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -98,11 +103,27 @@ const createWindow = () => {
     }
   });
 
+  //splash screen deets
+  const hideSplashscreen = initSplashScreen({
+    mainWindow,
+    icon: resolve('/src/public/icons/png/64x64.png'),
+    url: OfficeTemplate,
+    width: 500,
+    height: 300,
+    brand: 'OS Labs',
+    productName: 'ReacType',
+    logo: resolve('/src/public/icons/png/64x64.png'),
+    color: '#3BBCAF',
+    website: 'www.reactype.io',
+    text: 'Initializing ...'
+  });
+
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/build/index.html`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
+    hideSplashscreen();
   });
 
   const template = [
