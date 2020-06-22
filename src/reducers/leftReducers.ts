@@ -25,7 +25,7 @@ export const addChild = (
 ) => {
   const strippedTitle = title;
 
-  //is this warning even possible to trigger witht he current flow?
+  //is this warning even possible to trigger with the current flow?
   if (!childType) {
     window.alert('addChild Error! no type specified');
   }
