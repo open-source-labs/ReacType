@@ -55,7 +55,7 @@ userController.verifyUser = (req, res, next) => {
           return next();
         } else {
           // if password does not match, redirect to ?
-          return res.redirect('/login');
+          return res.status(400).send('Incorrect password');
         }
       });
     }

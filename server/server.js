@@ -39,7 +39,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    return res.status(200).json(res.locals.newUser);
+    return res.status(200).json(res.locals.id);
   }
 );
 
