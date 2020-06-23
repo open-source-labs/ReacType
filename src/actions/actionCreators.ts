@@ -59,6 +59,7 @@ export const addComponent = ({ title }: { title: string }): Action => ({
   type: ADD_COMPONENT,
   payload: { title }
 });
+
 export const addProp = ({
   key,
   type

@@ -4,24 +4,13 @@ import { compose } from 'redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import HtmlAttr from '../components/bottom/HtmlAttr';
 import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
-import {
-  deleteProp,
-  addProp,
-  toggleNative,
-  changeComponentFocusChild
-} from '../actions/actionCreators';
 
-interface StateInt {
-  value: number;
-  translate: { x: number; y: number };
-}
-
-const mapDispatchToProps = (dispatch: any) => ({
-  addProp: (prop: PropInt) => dispatch(addProp(prop)),
-  deleteProp: (id: number) => dispatch(deleteProp(id)),
-  toggleNative: () => dispatch(toggleNative()),
-  toggleCodeEdit: () => dispatch(toggleCodeEdit())
-});
+// const mapDispatchToProps = (dispatch: any) => ({
+//   addProp: (prop: PropInt) => dispatch(addProp(prop)),
+//   deleteProp: (id: number) => dispatch(deleteProp(id)),
+//   toggleNative: () => dispatch(toggleNative()),
+//   toggleCodeEdit: () => dispatch(toggleCodeEdit())
+// });
 
 const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
@@ -42,14 +31,14 @@ interface BottomTabsPropsInt extends PropsInt {
   codeReadOnly: boolean;
 }
 
-class RightContainer extends Component<BottomTabsPropsInt, StateInt> {
+class RightContainer extends Component<BottomTabsPropsInt> {
   constructor(props: BottomTabsPropsInt) {
     super(props);
   }
 
   render(): JSX.Element {
     const { classes, components, focusComponent, focusChild } = this.props;
-
+    // looks through the children of currently focused component (based on left bar) and finds the number of child html elements it has
     const htmlAttribCount = focusComponent.childrenArray.filter(
       child => child.childType === 'HTML'
     ).length;
@@ -60,16 +49,16 @@ class RightContainer extends Component<BottomTabsPropsInt, StateInt> {
         style={{
           minWidth: '400px',
           color: 'white',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column'
+          textAlign: 'center'
         }}
       >
         <h3>This is the right column everyone!</h3>
         <h4>
+          {/* mimic the bottom tab label that shows how many html elements there are */}
           HTML Element Attributes{' '}
           {htmlAttribCount ? `(${htmlAttribCount})` : ''}
         </h4>
+        {/* conditional rendering based on which component/element is currently focused */}
         {focusChild.childType === 'HTML' && <HtmlAttr />}
         {focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
@@ -79,4 +68,4 @@ class RightContainer extends Component<BottomTabsPropsInt, StateInt> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RightContainer);
+export default connect(mapStateToProps)(RightContainer);
