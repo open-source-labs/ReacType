@@ -84,6 +84,11 @@ export interface ApplicationStateInt {
   codeReadOnly: boolean;
 }
 
+export interface LoginInt {
+  username: string;
+  password: string;
+}
+
 //Global Action interface \
 export interface Action {
   type: string;

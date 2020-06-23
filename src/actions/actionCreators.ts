@@ -38,7 +38,9 @@ import {
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
-  UPDATE_CODE
+  UPDATE_CODE,
+  SET_USERNAME,
+  SET_PASSWORD
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -327,3 +329,13 @@ export const updateHtmlAttr = ({
   type: UPDATE_HTML_ATTR,
   payload: { attr, value }
 });
+
+export const setUsername = (username: string): Action => ({
+  type: SET_USERNAME,
+  payload: username
+});
+
+export const setPassword = (password: string): Action => ({
+  type: SET_PASSWORD,
+  payload: password
+})
