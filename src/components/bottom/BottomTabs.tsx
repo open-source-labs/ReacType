@@ -156,7 +156,7 @@ class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
           >
             <Tree
               data={[this.generateComponentTree(focusComponent.id, components)]}
-              separation={{ siblings: 0.4, nonSiblings: 0.4 }}
+              separation={{ siblings: 0.3, nonSiblings: 0.3 }}
               transitionDuration={0}
               translate={this.state.translate}
               onClick={this.handleClick}
