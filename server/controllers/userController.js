@@ -6,7 +6,7 @@ const userController = {};
 const bcrypt = require('bcryptjs');
 
 userController.createUser = (req, res, next) => {
-  console.log('Inside createUser')
+  console.log('Inside createUser');
   const { username, password } = req.body;
   // error handling if username or password is missing
   if (!username || !password) {
@@ -24,6 +24,7 @@ userController.createUser = (req, res, next) => {
       });
     } else {
       // this id property will be used in other middleware for cookie
+      console.log('Successfule createUser');
       res.locals.id = newUser.id;
       return next();
     }
@@ -34,6 +35,7 @@ userController.createUser = (req, res, next) => {
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 
 userController.verifyUser = (req, res, next) => {
+  console.log('Inside verifyUser');
   const { username, password } = req.body;
   Users.findOne({ username }, (err, user) => {
     if (err) {
@@ -48,11 +50,12 @@ userController.verifyUser = (req, res, next) => {
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // if password matches, save user id for following middleware
+          console.log('Successful verifyUser');
           res.locals.id = user.id;
           return next();
         } else {
           // if password does not match, redirect to ?
-          res.redirect('/login');
+          return res.redirect('/login');
         }
       });
     }

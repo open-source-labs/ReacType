@@ -1,9 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const userController = require('./controllers/userController')
-const cookieController = require('./controllers/cookieController')
+const userController = require('./controllers/userController');
+const cookieController = require('./controllers/cookieController');
+const sessionController = require('./controllers/sessionController');
 const app = express();
 const PORT = 8080;
 
@@ -28,17 +29,29 @@ app.use(cookieParser());
 // statically serve everything in build folder
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-// app.get('/', cookieController.setCookie, (req, res) => {
-//   res.status(200).sendFile('../build/index.html');
-// })
+app.get('/', cookieController.setCookie, (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, '../src/public/index.html'));
+});
 
-app.post('/signup', userController.createUser, (req, res) => {
-  return res.status(200).json(res.locals.newUser)
-})
+app.post(
+  '/signup',
+  userController.createUser,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
+  (req, res) => {
+    return res.status(200).json(res.locals.newUser);
+  }
+);
 
-app.post('/login', userController.verifyUser, (req, res) => {
-  return res.status(200).json(res.locals.id)
-})
+app.post(
+  '/login',
+  userController.verifyUser,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
+  (req, res) => {
+    return res.status(200).json(res.locals.id);
+  }
+);
 
 // catch-all route handler
 app.use('*', (req, res) => {
