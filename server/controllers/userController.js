@@ -1,11 +1,12 @@
 // middleware functions create a new user and verify users
 
-const Users = require('../models/userModels');
+const Users = require('../models/userModel');
 
 const userController = {};
 const bcrypt = require('bcryptjs');
 
 userController.createUser = (req, res, next) => {
+  console.log('Inside createUser')
   const { username, password } = req.body;
   // error handling if username or password is missing
   if (!username || !password) {
