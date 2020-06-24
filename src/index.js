@@ -7,18 +7,16 @@ import store from './store';
 
 import SignIn from './components/login/SignIn.tsx';
 
-
+/*
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('app'),
 );
+*/
 
-
-/*
 ReactDOM.render(
-  <SignIn/>,
+  <Provider store={store}><SignIn/></Provider>,
   document.getElementById('app'),
 );
-*/
