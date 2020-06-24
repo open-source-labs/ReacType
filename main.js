@@ -4,7 +4,6 @@ const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 //path resolver dependency for splash screen
 const { resolve } = require('app-root-path');
 
-
 const {
   app,
   BrowserWindow,
@@ -16,7 +15,7 @@ const {
 } = require('electron');
 
 // Uncomment below for hot reloading during development
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // const isDev = true;
 const isDev =
