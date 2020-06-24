@@ -40,7 +40,9 @@ import {
   UPDATE_HTML_ATTR,
   UPDATE_CODE,
   SET_USERNAME,
-  SET_PASSWORD
+  SET_PASSWORD,
+  LOGIN,
+  SIGNUP
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -340,3 +342,19 @@ export const setPassword = (password: string): Action => ({
   type: SET_PASSWORD,
   payload: password
 })
+
+// export const login = (username: string, password: string) => ({
+//   return (dispatch: any) => {
+//     fetch('/login', {
+//       method: 'POST',
+//       body: JSON.stringify({ username, password })
+//     })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//   }
+// })
+
+// export const signup = (username: string, password: string): Action => ({
+//   type: SIGNUP,
+//   payload: { username, password }
+// })

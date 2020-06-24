@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setUsername, setPassword } from '../../actions/actionCreators';
@@ -26,7 +26,9 @@ const mapStateToProps = (store: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   setUsername: (username: string) => dispatch(setUsername(username)),
-  setPassword: (password: string) => dispatch(setPassword(password))
+  setPassword: (password: string) => dispatch(setPassword(password)),
+  // login: (username: string, password: string) => dispatch(login(username, password)),
+  // signup: (username: string, password: string) => dispatch(signup(username, password)),
 })
 
 interface LoginProps extends LoginInt {
@@ -69,7 +71,34 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn: React.FC<LoginProps> = (props) => {
   const classes = useStyles();
-  const count = useSelector(state => state);
+  //const count = useSelector(state => state);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChange = (e) => {
+    let inputVal = e.target.value;
+    switch (e.target.name) {
+      case 'username':
+        setUsername(inputVal);
+        break;
+      case 'password':
+        setPassword(inputVal);
+        break;
+    }
+  };
+
+  const handleLogin = (e) => {
+    console.log('click fired on handleLogin')
+    e.preventDefault();
+    fetch('/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -92,6 +121,8 @@ const SignIn: React.FC<LoginProps> = (props) => {
             name="username"
             autoComplete="username"
             autoFocus
+            value={password}
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -103,6 +134,8 @@ const SignIn: React.FC<LoginProps> = (props) => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={handleChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -114,6 +147,7 @@ const SignIn: React.FC<LoginProps> = (props) => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleLogin}
           >
             Sign In
           </Button>
