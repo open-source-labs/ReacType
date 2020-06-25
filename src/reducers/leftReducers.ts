@@ -37,7 +37,7 @@ export const addChild = (
     ? (childType = 'HTML')
     : (childType = childType === 'COMP' ? 'COMP' : 'NATIVE');
 
-  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
+  // view represents the current FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
   const view: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === state.focusComponent.title

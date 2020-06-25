@@ -150,6 +150,7 @@
     "react-draggable": "^3.0.5",
     "react-konva": "^16.12.0-0",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
     "react-simple-code-editor": "^0.11.0",
     "react-sortable-tree": "^2.2.0",
     "react-syntax-highlighter": "^10.2.1",

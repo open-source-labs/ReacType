@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import HtmlAttr from '../components/bottom/HtmlAttr';
 import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
+import Button from '@material-ui/core/Button';
+import { Link as RouteLink, withRouter } from 'react-router-dom';
 
 // const mapDispatchToProps = (dispatch: any) => ({
 //   addProp: (prop: PropInt) => dispatch(addProp(prop)),
@@ -53,6 +55,11 @@ class RightContainer extends Component<BottomTabsPropsInt> {
         }}
       >
         <h3>This is the right column everyone!</h3>
+        <RouteLink to={`/`} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="secondary">
+            Sign Out
+          </Button>
+        </RouteLink>
         <h4>
           {/* mimic the bottom tab label that shows how many html elements there are */}
           HTML Element Attributes{' '}
@@ -68,4 +75,4 @@ class RightContainer extends Component<BottomTabsPropsInt> {
   }
 }
 
-export default connect(mapStateToProps)(RightContainer);
+export default withRouter(connect(mapStateToProps)(RightContainer));

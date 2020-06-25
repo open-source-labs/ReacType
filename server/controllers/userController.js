@@ -36,7 +36,11 @@ userController.createUser = (req, res, next) => {
 
 userController.verifyUser = (req, res, next) => {
   console.log('Inside verifyUser');
+  console.log('req.body is', req.body);
   const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json('No username or password input');
+  }
   Users.findOne({ username }, (err, user) => {
     if (err) {
       return next({
@@ -45,7 +49,7 @@ userController.verifyUser = (req, res, next) => {
           err: `Error in userController.verifyUser, check server logs for details`
         }
       });
-    } else {
+    } else if (user) {
       // bcrypt compare function checks input password against hashed password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
@@ -55,9 +59,11 @@ userController.verifyUser = (req, res, next) => {
           return next();
         } else {
           // if password does not match, redirect to ?
-          return res.status(400).send('Incorrect password');
+          return res.status(400).json('Incorrect password');
         }
       });
+    } else {
+      return res.status(400).json('No such user found');
     }
   });
 };

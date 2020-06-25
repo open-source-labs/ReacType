@@ -1,14 +1,7 @@
 import React, { Component, useState } from 'react';
-//import { connect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setUsername, setPassword } from '../../actions/actionCreators';
-//import { useSelector } from 'react-redux';
-import {
-  Link as RouteLink,
-  withRouter,
-  useHistory,
-  Redirect
-} from 'react-router-dom';
+import { Link as RouteLink, withRouter } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -75,14 +68,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn: React.FC<LoginProps> = props => {
+const SignUp: React.FC<LoginProps> = props => {
   const classes = useStyles();
   //const count = useSelector(state => state);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const history = useHistory();
 
   const handleChange = e => {
     let inputVal = e.target.value;
@@ -96,15 +87,15 @@ const SignIn: React.FC<LoginProps> = props => {
     }
   };
 
-  const handleLogin = e => {
-    console.log('click fired on handleLogin');
+  const handleSignup = e => {
+    console.log('click fired on handleSignup');
     e.preventDefault();
     const body = JSON.stringify({
       username,
       password
     });
     console.log(body);
-    fetch('http://localhost:8080/login', {
+    fetch('http://localhost:8080/signup', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -113,14 +104,7 @@ const SignIn: React.FC<LoginProps> = props => {
       body
     })
       .then(res => res.json())
-      .then(data => {
-        if (typeof data === 'string') {
-          alert(data);
-        } else {
-          alert('Login successful!');
-          props.history.push('/app');
-        }
-      })
+      .then(data => console.log('Data from signup is:', data))
       .catch(err => console.log(err));
   };
 
@@ -132,7 +116,7 @@ const SignIn: React.FC<LoginProps> = props => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign Up
         </Typography>
         <TextField
           variant="outlined"
@@ -164,17 +148,15 @@ const SignIn: React.FC<LoginProps> = props => {
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-
         <Button
           fullWidth
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={handleLogin}
+          onClick={handleSignup}
         >
-          Sign In
+          Sign Up
         </Button>
-
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
@@ -182,7 +164,7 @@ const SignIn: React.FC<LoginProps> = props => {
             </Link>
           </Grid>
           <Grid item>
-            <RouteLink to={`/signup`}>Don't have an account? Sign Up</RouteLink>
+            <RouteLink to={`/`}>Already have an account? Sign In</RouteLink>
           </Grid>
         </Grid>
       </div>
@@ -193,4 +175,4 @@ const SignIn: React.FC<LoginProps> = props => {
   );
 };
 
-export default withRouter(SignIn);
+export default withRouter(SignUp);

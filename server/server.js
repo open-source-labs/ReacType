@@ -29,7 +29,7 @@ app.use(cookieParser());
 // statically serve everything in build folder
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-app.get('/', cookieController.setCookie, (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../src/public/index.html'));
 });
 
@@ -39,7 +39,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    return res.status(200).json(res.locals.id);
+    return res.status(200).json({ userId: res.locals.id });
   }
 );
 
@@ -49,7 +49,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    return res.status(200).json(res.locals.id);
+    return res.status(200).json({ userId: res.locals.id });
   }
 );
 
