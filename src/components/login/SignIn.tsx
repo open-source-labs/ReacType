@@ -3,12 +3,7 @@ import React, { Component, useState } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setUsername, setPassword } from '../../actions/actionCreators';
 //import { useSelector } from 'react-redux';
-import {
-  Link as RouteLink,
-  withRouter,
-  useHistory,
-  Redirect
-} from 'react-router-dom';
+import { Link as RouteLink, withRouter, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -103,22 +98,24 @@ const SignIn: React.FC<LoginProps> = props => {
       username,
       password
     });
-    console.log(body);
     fetch('http://localhost:8080/login', {
       method: 'POST',
-      mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
       body
     })
-      .then(res => res.json())
+      .then(res => {
+        return res.json();
+      })
       .then(data => {
         if (typeof data === 'string') {
           alert(data);
         } else {
-          alert('Login successful!');
           props.history.push('/app');
+          alert('Login successful!');
+          console.log('Data is', data);
         }
       })
       .catch(err => console.log(err));

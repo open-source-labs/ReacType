@@ -6,11 +6,14 @@ const userController = {};
 const bcrypt = require('bcryptjs');
 
 userController.createUser = (req, res, next) => {
-  console.log('Inside createUser');
+  console.log('Creating user...');
   const { username, password } = req.body;
   // error handling if username or password is missing
-  if (!username || !password) {
-    return next('Missing username or password in userController.createUser');
+  if (!username) {
+    return res.status(400).json('No username input');
+  }
+  if (!password) {
+    return res.status(400).json('No password input');
   }
   const projects = [];
   // create user using username and password
@@ -24,7 +27,7 @@ userController.createUser = (req, res, next) => {
       });
     } else {
       // this id property will be used in other middleware for cookie
-      console.log('Successfule createUser');
+      console.log('Successful createUser');
       res.locals.id = newUser.id;
       return next();
     }
@@ -35,11 +38,13 @@ userController.createUser = (req, res, next) => {
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 
 userController.verifyUser = (req, res, next) => {
-  console.log('Inside verifyUser');
-  console.log('req.body is', req.body);
+  console.log('Verifying user...');
   const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json('No username or password input');
+  if (!username) {
+    return res.status(400).json('No username input');
+  }
+  if (!password) {
+    return res.status(400).json('No password input');
   }
   Users.findOne({ username }, (err, user) => {
     if (err) {

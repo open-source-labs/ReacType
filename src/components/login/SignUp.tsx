@@ -98,13 +98,21 @@ const SignUp: React.FC<LoginProps> = props => {
     fetch('http://localhost:8080/signup', {
       method: 'POST',
       mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
       body
     })
       .then(res => res.json())
-      .then(data => console.log('Data from signup is:', data))
+      .then(data => {
+        if (typeof data === 'string') {
+          alert(data);
+        } else {
+          props.history.push('/');
+          alert('Signup successful! Please sign in to continue.');
+        }
+      })
       .catch(err => console.log(err));
   };
 

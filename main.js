@@ -11,7 +11,8 @@ const {
   shell,
   dialog,
   ipcMain,
-  globalShortcut
+  globalShortcut,
+  session
 } = require('electron');
 
 // Uncomment below for hot reloading during development
@@ -264,9 +265,9 @@ const createWindow = () => {
 
   // UNCOMMENT THIS DURING DEVELOPMENT TO ENABLE CONSOLE TO OPEN UPON LAUNCH
   // dev tools opened on every browser creation
-  // mainWindow.webContents.once('dom-ready', () => {
-  //   mainWindow.webContents.openDevTools();
-  // });
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools();
+  });
 };
 
 // This method will be called when Electron has finished
