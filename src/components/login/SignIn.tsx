@@ -1,8 +1,8 @@
 import React, { Component, useState } from 'react';
 //import { connect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { setUsername, setPassword } from '../../actions/actionCreators';
-//import { useSelector } from 'react-redux';
+import { setLoginState } from '../../actions/actionCreators';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouteLink, withRouter, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -20,6 +20,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { render } from 'enzyme';
 
+/*
 const mapStateToProps = (store: any) => ({
   username: store.credentials.username,
   password: store.credentials.password
@@ -36,6 +37,7 @@ interface LoginProps extends LoginInt {
   setUsername(username: string): void;
   setPassword(username: string): void;
 }
+*/
 
 function Copyright() {
   return (
@@ -70,14 +72,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn: React.FC<LoginProps> = props => {
+const SignIn: React.FC<LoginInt> = props => {
   const classes = useStyles();
-  //const count = useSelector(state => state);
+  const s = useSelector(state => state);
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const history = useHistory();
+
+  console.log('state on load: ', s.auth)
 
   const handleChange = e => {
     let inputVal = e.target.value;
@@ -93,6 +98,9 @@ const SignIn: React.FC<LoginProps> = props => {
 
   const handleLogin = e => {
     console.log('click fired on handleLogin');
+    console.log('state: ', s);
+    dispatch(setLoginState());
+    /*
     e.preventDefault();
     const body = JSON.stringify({
       username,
@@ -119,6 +127,7 @@ const SignIn: React.FC<LoginProps> = props => {
         }
       })
       .catch(err => console.log(err));
+    */
   };
 
   return (

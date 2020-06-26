@@ -18,14 +18,21 @@ ReactDOM.render(
 );
 */
 
+/*
+The first file that loads 
+If cookie is valid, send the user to app and set the login boolean to true
+If the cookie has expired, send the user back to login
+*/
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
         {/* change route to signin later for official release */}
-        <Route exact path="/" component={App} />
+        <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/app" component={App} />
+        {/* <PrivateRoute path='/protected' component={Protected} /> */}
       </Switch>
     </Router>
   </Provider>,

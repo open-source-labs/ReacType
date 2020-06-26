@@ -5,7 +5,7 @@ import loginReducer from './loginReducer';
 
 const reducers = combineReducers({
   workspace: componentReducer,
-  credentials: loginReducer
+  auth: loginReducer
 });
 
 export default reducers;
