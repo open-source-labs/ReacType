@@ -6,7 +6,7 @@ export interface NewComponentInstance {
 
 export interface ComponentInstance {
   id: Number;
-  styling: Object;
+  style: Object;
   children: ComponentInstance[];
 }
 

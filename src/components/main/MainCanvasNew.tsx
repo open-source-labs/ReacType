@@ -24,7 +24,7 @@ const renderCanvas = (state, page) => {
 // renders an instance in the instance tree. If instance has children, those instances will also be rendered recursively
 const renderComponent = component => {
   const { id, style } = component;
-
+  
   // const style = { border: '5px solid pink', margin: '40px' };
   return (
     <CanvasComponent id={id} style={style} key={id}>

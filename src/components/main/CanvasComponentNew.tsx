@@ -3,9 +3,15 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { updateInstance } from '../../helperFunctions/instances';
+import { ComponentInstance } from '../../interfaces/interfacesNew';
 
-const CanvasComponent = (props):JSX.Element => {
-  const ref = useRef<HTMLDivElement>(null);
+
+const CanvasComponent = ({
+  id,
+  style,
+  children
+}: ComponentInstance): JSX.Element => {
+  const ref = useRef(null);
   const pageId = 1;
 
   const [context, setContext] = useContext(stateContext);
@@ -18,7 +24,7 @@ const CanvasComponent = (props):JSX.Element => {
       if (didDrop) {
         return;
       }
-      const hoverId = props.id;
+      const hoverId = id;
       // updates state with new instance
       setContext(updateInstance(hoverId, item, context, pageId));
     },
@@ -32,7 +38,7 @@ const CanvasComponent = (props):JSX.Element => {
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: false,
-      id: props.id
+      id: id
     },
     // canDrag: !props.children.length,
     collect: (monitor: any) => ({
@@ -53,9 +59,9 @@ const CanvasComponent = (props):JSX.Element => {
   return (
     <div ref={ref} className="componentDefault" style={elementStyle}>
       I am a Canvas Component! :D
-      {props.children}
+      {children}
     </div>
   );
-}
+};
 
 export default CanvasComponent;
