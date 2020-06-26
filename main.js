@@ -92,8 +92,7 @@ const createWindow = () => {
     width: 1920,
     height: 1080,
     webPreferences: {
-      zoomFactor: 0.7,
-      'node-Integration': false
+      zoomFactor: 0.7
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
@@ -120,7 +119,7 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   // now loading what the server serves, this url will need to change when/if we decide to put reactype on the web
-  mainWindow.loadURL(`http://localhost:8080`);
+  mainWindow.loadURL(`https://localhost:8080`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -311,3 +310,6 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+// bypass ssl certification validation error
+app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

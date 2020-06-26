@@ -98,7 +98,7 @@ const SignIn: React.FC<LoginProps> = props => {
       username,
       password
     });
-    fetch('http://localhost:8080/login', {
+    fetch('https://localhost:8080/login', {
       method: 'POST',
       credentials: 'include',
       headers: {

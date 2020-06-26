@@ -95,7 +95,7 @@ const SignUp: React.FC<LoginProps> = props => {
       password
     });
     console.log(body);
-    fetch('http://localhost:8080/signup', {
+    fetch('https://localhost:8080/signup', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',

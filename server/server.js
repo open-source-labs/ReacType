@@ -75,20 +75,20 @@ app.use((err, req, res, next) => {
 });
 
 //starts server on PORT
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`)
-})
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port: ${PORT}`)
+// })
 
 // For security, if serving app from a server, it should be https, but we haven't got it working yet
 
-// https
-//   .createServer(
-//     {
-//       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-//       cert: fs.readFileSync(path.resolve(__dirname, 'server.cert'))
-//     },
-//     app
-//   )
-//   .listen(PORT, () => {
-//     console.log(`Server listening on port: ${PORT}`);
-//   });
+https
+  .createServer(
+    {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.cert'))
+    },
+    app
+  )
+  .listen(PORT, () => {
+    console.log(`Server listening on port: ${PORT}`);
+  });
