@@ -38,7 +38,11 @@ import {
   TOGGLE_STATE,
   UNDO,
   UPDATE_HTML_ATTR,
-  UPDATE_CODE
+  UPDATE_CODE,
+  SET_USERNAME,
+  SET_PASSWORD,
+  LOGIN,
+  SIGNUP
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -59,6 +63,7 @@ export const addComponent = ({ title }: { title: string }): Action => ({
   type: ADD_COMPONENT,
   payload: { title }
 });
+
 export const addProp = ({
   key,
   type
@@ -327,3 +332,29 @@ export const updateHtmlAttr = ({
   type: UPDATE_HTML_ATTR,
   payload: { attr, value }
 });
+
+export const setUsername = (username: string): Action => ({
+  type: SET_USERNAME,
+  payload: username
+});
+
+export const setPassword = (password: string): Action => ({
+  type: SET_PASSWORD,
+  payload: password
+})
+
+// export const login = (username: string, password: string) => ({
+//   return (dispatch: any) => {
+//     fetch('/login', {
+//       method: 'POST',
+//       body: JSON.stringify({ username, password })
+//     })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//   }
+// })
+
+// export const signup = (username: string, password: string): Action => ({
+//   type: SIGNUP,
+//   payload: { username, password }
+// })
