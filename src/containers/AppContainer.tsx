@@ -6,6 +6,7 @@ import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import LeftContainerNew from './LeftContainerNew';
 import MainContainer from './MainContainer';
+import RightContainer from './RightContainer';
 import theme from '../theme';
 import {
   ComponentInt,
@@ -149,7 +150,7 @@ class AppContainer extends Component<Props, State> {
     // }
   }
 
-  //this will load the saved sata from last close
+  //this will load the saved data from last close
   componentDidMount() {
     const image = new window.Image();
     image.src = 'images/iphone.png';
@@ -202,6 +203,12 @@ class AppContainer extends Component<Props, State> {
               />
             </div>
           ) : null}
+          <RightContainer
+            components={components}
+            // image={this.state.image}
+            // imageSource={this.props.imageSource}
+            // nativeImageElement={this.state.nativeImageElement}
+          />
         </div>
       </MuiThemeProvider>
     );

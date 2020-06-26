@@ -4,7 +4,8 @@ import getColor from '../helperFunctions/colors';
 import {
   ComponentInt,
   ChildInt,
-  ApplicationStateInt
+  ApplicationStateInt,
+  LoginInt
 } from '../interfaces/Interfaces';
 
 export const appComponent: ComponentInt = {
@@ -108,6 +109,11 @@ export const initialComponentState: ComponentInt = {
   focusChildId: 0,
   code: '',
   changed: false
+};
+
+export const initialLoginState: LoginInt = {
+  username: '',
+  password: ''
 };
 
 export const nativeComponentTypes = [
