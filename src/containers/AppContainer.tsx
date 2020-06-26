@@ -181,12 +181,12 @@ class AppContainer extends Component<Props, State> {
           handleNext={this.handleNext}
         />
         <div className="app-container">
-          <LeftContainer //The left side-bar that contains the component cards and the buttons.
+          {/* <LeftContainer //The left side-bar that contains the component cards and the buttons.
             components={components}
             totalComponents={totalComponents}
             focusComponent={focusComponent} //'focused' just means it's the one currently selected.
             selectableChildren={selectableChildren} //this toggles whether a component can be added as a child to the focused component
-          />
+          /> */}
           <MainContainer
             components={components}
             image={this.state.image}

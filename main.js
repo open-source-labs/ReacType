@@ -16,7 +16,7 @@ const {
 } = require('electron');
 
 // Uncomment below for hot reloading during development
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // const isDev = true;
 const isDev =
