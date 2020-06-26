@@ -15,6 +15,7 @@ import {
   updateCode
 } from '../actions/actionCreators';
 import KonvaStage from '../components/main/KonvaStage';
+import MainCanvas from '../components/main/MainCanvasNew';
 import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
@@ -31,7 +32,7 @@ interface MainContPropsInt extends PropsInt {
   deleteChild(obj: object): void;
   changeFocusComponent(arg: { title: string }): void;
   updateCode(arg: { componentId: number; code: string }): void;
-    native: boolean;
+  native: boolean;
   nativeImageElement: HTMLImageElement | null;
 }
 
@@ -102,7 +103,6 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
 });
 
 class MainContainer extends Component<MainContPropsInt, StateInt> {
-
   render() {
     //const { draggable, modal } = this.state; //this is being destructured but never read.
     const {
@@ -129,22 +129,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
           <div
             className="main" //ref={main} **no function, commenting out**
           >
-            <KonvaStage
-              image={image}
-              scaleX={1}
-              scaleY={1}
-              // draggable={draggable} this is also from this local state but never read past this container
-              components={components}
-              handleTransform={handleTransformation}
-              focusComponent={focusComponent}
-              focusChild={focusChild}
-              changeFocusChild={changeFocusChild}
-              changeComponentFocusChild={changeComponentFocusChild}
-              deleteChild={deleteChild}
-              native={native}
-              nativeImageElement={nativeImageElement}
-              /*  classes={classes}  commented out because not used anywhere*/
-            />
+            <MainCanvas />
           </div>
           <BottomPanel
             focusComponent={focusComponent}
