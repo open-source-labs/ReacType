@@ -5,6 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
+import RightContainer from './RightContainer';
 import theme from '../theme';
 import {
   ComponentInt,
@@ -141,25 +142,23 @@ class AppContainer extends Component<Props, State> {
       image.onload = () => {
         // update state when the image has been uploaded
         this.setState({ image, changed: true });
+      };
     }
-  }
     // else if (imageSource !== prevProps.imageSource && imageSource !== '') {
     //   this.setImage(imageSource);
     // }
   }
 
-
-
-  //this will load the saved sata from last close
+  //this will load the saved data from last close
   componentDidMount() {
     const image = new window.Image();
     image.src = 'images/iphone.png';
     image.onload = () => {
-    // update state when the image has been uploaded
-    this.setState({ nativeImageElement: image });
-    this.props.loadInitData();
-    }
-};
+      // update state when the image has been uploaded
+      this.setState({ nativeImageElement: image });
+      this.props.loadInitData();
+    };
+  }
 
   render(): JSX.Element {
     const {
@@ -208,6 +207,12 @@ class AppContainer extends Component<Props, State> {
               />
             </div>
           ) : null}
+          <RightContainer
+            components={components}
+            // image={this.state.image}
+            // imageSource={this.props.imageSource}
+            // nativeImageElement={this.state.nativeImageElement}
+          />
         </div>
       </MuiThemeProvider>
     );
