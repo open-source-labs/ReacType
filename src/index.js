@@ -22,7 +22,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path="/" component={SignIn} />
+        {/* change route to signin later for official release */}
+        <Route exact path="/" component={App} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/app" component={App} />
       </Switch>
