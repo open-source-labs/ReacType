@@ -1,4 +1,6 @@
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const mongoose = require('mongoose');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -27,10 +29,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // statically serve everything in build folder
-app.use('/build', express.static(path.resolve(__dirname, '../build')));
+app.use('/', express.static(path.resolve(__dirname, '../build')));
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, '../src/public/index.html'));
+  res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 
 app.post(
@@ -39,7 +41,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    return res.status(200).json({ userId: res.locals.id });
+    return res.status(200).json({ sessionId: res.locals.ssid });
   }
 );
 
@@ -49,7 +51,7 @@ app.post(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    return res.status(200).json({ userId: res.locals.id });
+    return res.status(200).json({ sessionId: res.locals.ssid });
   }
 );
 
@@ -72,7 +74,21 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-// starts server on PORT
+//starts server on PORT
 app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
-});
+  console.log(`Server listening on port: ${PORT}`)
+})
+
+// For security, if serving app from a server, it should be https, but we haven't got it working yet
+
+// https
+//   .createServer(
+//     {
+//       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+//       cert: fs.readFileSync(path.resolve(__dirname, 'server.cert'))
+//     },
+//     app
+//   )
+//   .listen(PORT, () => {
+//     console.log(`Server listening on port: ${PORT}`);
+//   });

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import HtmlAttr from '../components/bottom/HtmlAttr';
 import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
@@ -54,7 +53,7 @@ class RightContainer extends Component<BottomTabsPropsInt> {
           textAlign: 'center'
         }}
       >
-        <h3>This is the right column everyone!</h3>
+        {/* <h3>This is the right column everyone!</h3> */}
         <RouteLink to={`/`} style={{ textDecoration: 'none' }}>
           <Button variant="contained" color="secondary">
             Sign Out

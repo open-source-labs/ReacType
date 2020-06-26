@@ -3,7 +3,7 @@ const sessionController = {};
 
 // isLoggedIn finds appropriate session for this request in database, then verifies whether or not the session is still valid
 sessionController.isLoggedIn = (req, res, next) => {
-  // find cookie with current user's ssid value
+  // find session from request session ID in mongodb
   Session.findOne({ cookieId: req.cookies.ssid }, (err, session) => {
     if (err) {
       return next({
@@ -37,7 +37,7 @@ sessionController.startSession = (req, res, next) => {
       // if session doesn't exist, create a session
       // if valid user logged in/signed up, res.locals.id should be user's id generated from mongodb, which we will set as this session's cookieId
     } else if (!session) {
-      Session.create({ cookieId: res.locals.id }, err => {
+      Session.create({ cookieId: res.locals.id }, (err, session) => {
         if (err) {
           return next({
             log: `Error in sessionController.startSession create session: ${err}`,
@@ -45,13 +45,16 @@ sessionController.startSession = (req, res, next) => {
               err: `Error in sessionController.startSession create session, check server logs for details`
             }
           });
+        } else {
+          console.log('Successful startSession');
+          res.locals.ssid = session.id;
+          return next();
         }
-        console.log('Successful startSession');
-        return next();
       });
       // if session exists, move onto next middleware
     } else {
       console.log('Session exists, moving on');
+      res.locals.ssid = session.id;
       return next();
     }
   });

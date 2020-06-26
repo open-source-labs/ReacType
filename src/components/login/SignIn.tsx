@@ -115,7 +115,7 @@ const SignIn: React.FC<LoginProps> = props => {
         } else {
           props.history.push('/app');
           alert('Login successful!');
-          console.log('Data is', data);
+          //console.log('Data is', data);
         }
       })
       .catch(err => console.log(err));

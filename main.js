@@ -119,7 +119,8 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/build/index.html`);
+  // now loading what the server serves, this url will need to change when/if we decide to put reactype on the web
+  mainWindow.loadURL(`http://localhost:8080`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
