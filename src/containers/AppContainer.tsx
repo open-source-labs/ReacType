@@ -4,6 +4,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
+import LeftContainerNew from './LeftContainerNew';
 import MainContainer from './MainContainer';
 import RightContainer from './RightContainer';
 import theme from '../theme';
@@ -180,12 +181,7 @@ class AppContainer extends Component<Props, State> {
           handleNext={this.handleNext}
         />
         <div className="app-container">
-          <LeftContainer //The left side-bar that contains the component cards and the buttons.
-            components={components}
-            totalComponents={totalComponents}
-            focusComponent={focusComponent} //'focused' just means it's the one currently selected.
-            selectableChildren={selectableChildren} //this toggles whether a component can be added as a child to the focused component
-          />
+          <LeftContainerNew />
           <MainContainer
             components={components}
             image={this.state.image}
