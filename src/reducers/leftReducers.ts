@@ -25,7 +25,7 @@ export const addChild = (
 ) => {
   const strippedTitle = title;
 
-  //is this warning even possible to trigger witht he current flow?
+  //is this warning even possible to trigger with the current flow?
   if (!childType) {
     window.alert('addChild Error! no type specified');
   }
@@ -37,7 +37,7 @@ export const addChild = (
     ? (childType = 'HTML')
     : (childType = childType === 'COMP' ? 'COMP' : 'NATIVE');
 
-  // view represents the curretn FOCUSED COMPONENT - this is the component where the child is being added to
+  // view represents the current FOCUSED COMPONENT - this is the component where the child is being added to
   // we only add childrent (or do any action) to the focused omconent
   const view: ComponentInt = state.components.find(
     (comp: ComponentInt) => comp.title === state.focusComponent.title

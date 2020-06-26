@@ -4,7 +4,6 @@ const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 //path resolver dependency for splash screen
 const { resolve } = require('app-root-path');
 
-
 const {
   app,
   BrowserWindow,
@@ -12,11 +11,12 @@ const {
   shell,
   dialog,
   ipcMain,
-  globalShortcut
+  globalShortcut,
+  session
 } = require('electron');
 
 // Uncomment below for hot reloading during development
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // const isDev = true;
 const isDev =
@@ -119,7 +119,8 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/build/index.html`);
+  // now loading what the server serves, this url will need to change when/if we decide to put reactype on the web
+  mainWindow.loadURL(`http://localhost:8080`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -265,9 +266,9 @@ const createWindow = () => {
 
   // UNCOMMENT THIS DURING DEVELOPMENT TO ENABLE CONSOLE TO OPEN UPON LAUNCH
   // dev tools opened on every browser creation
-  // mainWindow.webContents.once('dom-ready', () => {
-  //   mainWindow.webContents.openDevTools();
-  // });
+  mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.openDevTools();
+  });
 };
 
 // This method will be called when Electron has finished

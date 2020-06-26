@@ -170,7 +170,7 @@ class HtmlAttr extends Component<HTMLAttrPropsInt, StateInt> {
               <p style={{ color: 'black' }}>
                 {focusChild.HTMLInfo[attr]
                   ? focusChild.HTMLInfo[attr]
-                  : ' no attribute assigned'}
+                  : 'no attribute assigned'}
               </p>
             </Paper>
           </Grid>

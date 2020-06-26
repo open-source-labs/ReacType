@@ -40,3 +40,8 @@ export const UPDATE_CHILDREN: string = 'UPDATE_CHILDREN';
 export const UPDATE_CHILDREN_SORT: string = 'UPDATE_CHILDREN_SORT';
 export const UPDATE_CODE: string = 'UPDATE_CODE';
 export const UPDATE_HTML_ATTR: string = 'UPDATE_HTML_ATTR';
+
+export const SET_USERNAME: string = 'SET_USERNAME';
+export const SET_PASSWORD: string = 'SET_PASSWORD';
+export const LOGIN: string = 'LOGIN';
+export const SIGNUP: string = 'SIGNUP';

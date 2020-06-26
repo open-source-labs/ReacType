@@ -1,5 +1,5 @@
-//This itnerface seems to be very specific to the prop argument passed into the reducer function 'addProp'.
-//It actually might not make too muich sense being in this file.
+//This interface seems to be very specific to the prop argument passed into the reducer function 'addProp'.
+//It actually might not make too much sense being in this file.
 export interface PropInt {
   id?: number;
   key: string;
@@ -82,6 +82,11 @@ export interface ApplicationStateInt {
   historyIndex: number;
   future: ApplicationStateInt[];
   codeReadOnly: boolean;
+}
+
+export interface LoginInt {
+  username: string;
+  password: string;
 }
 
 //Global Action interface \
