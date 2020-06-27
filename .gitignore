@@ -487,3 +487,10 @@ reactype.dmg
 installers/
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
+server/rootCA.key
+server/rootCA.pem
+server/rootCA.srl
+server/server.crt
+server/server.csr
+server/v3.ext
+server/server.key

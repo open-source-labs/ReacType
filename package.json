@@ -76,7 +76,7 @@
     "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "linter": "eslint src",
     "develop": "concurrently \"npm run server\" \"npm run dev\" \"npm run electron\"",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js"
+    "server": "nodemon server/server.js"
   },
   "bin": {
     "reactype": "./index.js"

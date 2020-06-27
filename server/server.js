@@ -79,13 +79,14 @@ app.use((err, req, res, next) => {
 //   console.log(`Server listening on port: ${PORT}`)
 // })
 
-// For security, if serving app from a server, it should be https, but we haven't got it working yet
+// For security, if serving app from a server, it should be https
+// https working now, but still needs nodeIntegration on to work <- Electron throws security issue warning because of this
 
 https
   .createServer(
     {
       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.cert'))
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
     },
     app
   )
