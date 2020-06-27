@@ -92,8 +92,8 @@ const createWindow = () => {
     width: 1920,
     height: 1080,
     webPreferences: {
-      zoomFactor: 0.7,
-      nodeIntegration: false
+      zoomFactor: 0.7
+      // nodeIntegration: false
       //preload: '/build/js/bundle.js'
     },
     show: false,
@@ -316,4 +316,4 @@ app.on('activate', () => {
 });
 
 // bypass ssl certification validation error
-// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
+app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

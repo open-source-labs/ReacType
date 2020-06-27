@@ -75,7 +75,7 @@
     "test:update-snap": "cross-env NODE_ENV=test jest --updateSnapshot",
     "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "linter": "eslint src",
-    "develop": "concurrently \"npm run server\" \"npm run dev\" \"npm run electron\"",
+    "develop": "concurrently \"npm run dev\" \"npm run electron\"",
     "server": "nodemon server/server.js"
   },
   "bin": {

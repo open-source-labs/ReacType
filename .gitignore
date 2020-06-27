@@ -486,11 +486,15 @@ ASALocalRun/
 reactype.dmg
 installers/
 
-# End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
+# for server key and ssl certificate generation
+server/domains.ext
+server/localhost.crt
+server/localhost.csr
+server/localhost.key
+server/RootCA.crt
 server/rootCA.key
 server/rootCA.pem
-server/rootCA.srl
-server/server.crt
-server/server.csr
-server/v3.ext
-server/server.key
+server/RootCA.srl
+
+# End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
+
