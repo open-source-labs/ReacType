@@ -1,28 +1,53 @@
 import React from 'react';
-import { Context, ComponentBlueprint } from '../interfaces/InterfacesNew';
+import { State } from '../interfaces/InterfacesNew';
 
-export const initialState: Context = {
-  components: [],
-  pages: [
+export const initialState: State = {
+  components: [
     {
-      pageId: 1,
+      id: 1,
+      name: 'index',
+      style: {},
+      nextChildId: 4,
+      children: [
+        {
+          type: 'Component',
+          typeId: 2,
+          childId: 1,
+          style: {}
+        },
+        {
+          type: 'Component',
+          typeId: 2,
+          childId: 2,
+          style: {}
+        },
+        {
+          type: 'HTML Element',
+          typeId: 10,
+          childId: 3,
+          style: {}
+        }
+      ]
+    },
+    {
+      id: 2,
+      name: 'Article',
+      style: {},
+      nextChildId: 1,
+      children: []
+    },
+    {
+      id: 3,
+      name: 'Section',
+      style: {},
+      nextChildId: 1,
       children: []
     }
-  ]
+  ],
+  rootComponents: [1],
+  canvasFocus: { componentId: 1, childId: null },
+  nextComponentId: 4
 };
-
-export const CustomOptions: ComponentBlueprint[] = [
-  {
-    id: 0,
-    category: 'CustomComponent',
-    name: 'Tyler'
-  },
-  {
-    id: 1,
-    category: 'CustomComponent',
-    name: 'Fredo'
-  }
-];
 
 export const HTMLOptions = [
   {

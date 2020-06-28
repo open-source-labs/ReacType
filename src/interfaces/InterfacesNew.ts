@@ -1,27 +1,39 @@
-export interface NewComponentInstance {
-  id: Number;
-  newInstance: Boolean;
-  type: String;
+export interface State {
+  components: Component[];
+  rootComponents: number[];
+  canvasFocus: { componentId: number; childId: number | null };
+  nextComponentId: number;
 }
 
-export interface ComponentInstance {
-  id: Number;
-  style: Object;
-  children: ComponentInstance[];
+export interface ChildElement {
+  type: string;
+  typeId: number;
+  childId: number;
+  //   update this interface later so that we enforce that each value of style object is a string
+  style: object;
+}
+
+export interface Component {
+  id: number;
+  name: string;
+  style: object;
+  nextChildId: number;
+  children: ChildElement[];
+}
+
+export interface Action {
+  type: string;
+  payload: object;
+}
+
+export interface Reduce {
+  state: Context;
+  action: Action;
 }
 
 export interface Context {
-  components: Object[];
-  pages: PageInstanceTree[];
+  state: State;
+  dispatch: State;
 }
 
-export interface PageInstanceTree {
-  pageId: Number;
-  children: ComponentInstance[];
-}
 
-export interface ComponentBlueprint {
-  id: Number;
-  category: String;
-  name: String;
-}

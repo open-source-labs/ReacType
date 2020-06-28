@@ -9,7 +9,9 @@ const ComponentPanelItem = (): JSX.Element => {
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,
-      newInstance: true
+      newInstance: true,
+      instanceType: 'Component',
+      instanceId: 2
       // category,
     },
     collect: (monitor: any) => ({
