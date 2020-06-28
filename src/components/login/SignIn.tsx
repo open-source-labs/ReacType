@@ -1,9 +1,8 @@
 import React, { Component, useState, useEffect } from 'react';
-//import { connect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory } from 'react-router-dom';
+import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -18,28 +17,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { render } from 'enzyme';
-
-import Cookies from 'js-cookie';
 import { sessionIsCreated } from '../../helperFunctions/auth';
-/*
-const mapStateToProps = (store: any) => ({
-  username: store.credentials.username,
-  password: store.credentials.password
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  setUsername: (username: string) => dispatch(setUsername(username)),
-  setPassword: (password: string) => dispatch(setPassword(password))
-  // login: (username: string, password: string) => dispatch(login(username, password)),
-  // signup: (username: string, password: string) => dispatch(signup(username, password)),
-});
-
-interface LoginProps extends LoginInt {
-  setUsername(username: string): void;
-  setPassword(username: string): void;
-}
-*/
 
 function Copyright() {
   return (
@@ -74,25 +52,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn: React.FC<LoginInt> = props => {
+const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
   const s = useSelector(state => state);
-  const history = useHistory();
 
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  console.log('state on load: ', s.auth)
 
-  /*
-  useEffect(() => {
-    console.log('triggered')
-    if(s.auth) history.push('/signup'); // push to the main app
-  }, []);
-  */
-
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
     switch (e.target.name) {
       case 'username':
@@ -104,47 +73,18 @@ const SignIn: React.FC<LoginInt> = props => {
     }
   };
 
-  const handleLogin = e => {
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
     sessionIsCreated(username, password).then(isLoggedIn => {
       if(isLoggedIn) {
         console.log('session created')
         dispatch(setLoginState()); // changes login state to true
-        props.history.push('/signup');
+        props.history.push('/');
       } else {
         console.log('invalid login')
       }
     });
-    /*
-    const body = JSON.stringify({
-      username,
-      password
-    });
-    fetch('http://localhost:8080/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        console.log('the data', data);
-        if (data.sessionId && typeof data.sessionId === 'string') {
-          //alert(data); // these alerts cause the app to crash on mac
-          console.log('success')
-          dispatch(setLoginState()); // changes login state to true
-          props.history.push('/signup');
-        } else {
-          console.log('err');
-        }
-      })
-      .catch(err => console.log(err));
-      */
   };
 
   return (
@@ -193,7 +133,7 @@ const SignIn: React.FC<LoginInt> = props => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={handleLogin}
+          onClick={e => handleLogin(e)}
         >
           Sign In
         </Button>

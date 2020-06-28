@@ -1,10 +1,3 @@
-import Cookies from 'js-cookie';
-
-// check for a cookie when and redirect to main app when first loaded
-export const hasValidSession = () => {
-  // Cookies.get('ssid');
-}
-
 export const sessionIsCreated = (username: string, password: string): Promise<boolean> => {
   const body = JSON.stringify({
     username,
