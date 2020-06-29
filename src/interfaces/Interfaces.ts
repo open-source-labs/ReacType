@@ -85,8 +85,7 @@ export interface ApplicationStateInt {
 }
 
 export interface LoginInt {
-  username: string;
-  password: string;
+  isLoggedIn: boolean;
 }
 
 //Global Action interface \
