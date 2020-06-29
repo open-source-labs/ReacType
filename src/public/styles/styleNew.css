@@ -6,3 +6,35 @@
   background-color: lightgray;
   opacity: 0.75;
 }
+
+.componentPanelWrapper {
+  margin-top: 75px;
+  width: 100%;
+}
+
+.inputName {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
+  background-color: rgba(25,25,25,0.8);
+}
+
+h4 {
+  color: white;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+.compPanelItem {
+  height: 100%;
+}
+.compPanelItem:hover {
+  cursor: pointer;
+}
