@@ -1,8 +1,8 @@
 import 'babel-polyfill';
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './components/App.tsx';
+import App from './components/AppNew.tsx';
 import store from './store';
 import Cookies from 'js-cookie';
 

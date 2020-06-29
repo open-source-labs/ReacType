@@ -1,0 +1,8 @@
+.componentDefault {
+  width: 100%;
+  border: 2px solid gray;
+  min-height: 150px;
+  padding: 10px;
+  background-color: lightgray;
+  opacity: 0.75;
+}

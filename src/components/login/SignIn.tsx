@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
