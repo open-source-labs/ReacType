@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { NavLink as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -144,8 +144,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
             </Link>
           </Grid>
           <Grid item>
-            {/* <RouteLink to={`/signup`} style={{ textDecoration: 'none' }}>Don't have an account? Sign Up</RouteLink> */}
-            <Link href="/signup" variant="body2">Don't have an account? Sign Up</Link>
+            <RouteLink to={`/signup`} className="nav_link">Don't have an account? Sign Up</RouteLink>
           </Grid>
         </Grid>
       </div>

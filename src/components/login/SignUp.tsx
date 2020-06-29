@@ -156,7 +156,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <RouteLink to={`/login`}>Already have an account? Sign In</RouteLink>
+              <RouteLink to={`/login`} className="nav_link">Already have an account? Sign In</RouteLink>
             </Grid>
           </Grid>
         </form>
