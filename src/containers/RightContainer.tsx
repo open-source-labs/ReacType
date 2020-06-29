@@ -17,7 +17,8 @@ const mapStateToProps = (store: { workspace: ApplicationStateInt }) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
   stateComponents: store.workspace.components,
-  native: store.workspace.native
+  native: store.workspace.native,
+  currentWorkspace: store.workspace
 });
 
 interface BottomTabsPropsInt extends PropsInt {
@@ -35,6 +36,33 @@ interface BottomTabsPropsInt extends PropsInt {
 class RightContainer extends Component<BottomTabsPropsInt> {
   constructor(props: BottomTabsPropsInt) {
     super(props);
+    this.saveWorkspace.bind(this);
+  }
+
+  saveWorkspace(project) {
+    console.log('Saving project to DB...');
+    const body = JSON.stringify(project);
+    fetch('https://localhost:8080/saveProject', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      credentials: 'include',
+      body
+    })
+      .then(res => res.json())
+      .then(data => console.log('Saved project is', data))
+      .catch(err => console.log(err));
+  }
+
+  getProjects() {
+    console.log("Loading user's projects...");
+    fetch('https://localhost:8080/getProjects', {
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => console.log("User's projects are", data))
+      .catch(err => console.log(err));
   }
 
   render(): JSX.Element {
@@ -50,12 +78,18 @@ class RightContainer extends Component<BottomTabsPropsInt> {
         style={{
           minWidth: '400px',
           color: 'white',
-          textAlign: 'center'
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         {/* <h3>This is the right column everyone!</h3> */}
         <RouteLink to={`/`} style={{ textDecoration: 'none' }}>
-          <Button variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ alignSelf: 'bottom' }}
+          >
             Sign Out
           </Button>
         </RouteLink>
@@ -69,6 +103,22 @@ class RightContainer extends Component<BottomTabsPropsInt> {
         {focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>
         )}
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            this.saveWorkspace(this.props.currentWorkspace);
+          }}
+        >
+          Save Current Project
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={this.getProjects}
+        >
+          Get My Projects
+        </Button>
       </div>
     );
   }

@@ -38,7 +38,7 @@ userController.createUser = (req, res, next) => {
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 
 userController.verifyUser = (req, res, next) => {
-  console.log('Verifying user...');
+  console.log('Inside userController.verifyUser...');
   const { username, password } = req.body;
   if (!username) {
     return res.status(400).json('No username input');
@@ -69,6 +69,54 @@ userController.verifyUser = (req, res, next) => {
       });
     } else {
       return res.status(400).json('No such user found');
+    }
+  });
+};
+
+// saveProject saves current workspace to database
+
+userController.saveProject = (req, res, next) => {
+  console.log('Inside userController.saveProject...');
+  const workspace = req.body;
+  const _id = req.cookies.ssid;
+  Users.findByIdAndUpdate(
+    { _id },
+    { $push: { projects: workspace } },
+    { new: true },
+    (err, result) => {
+      if (err) {
+        return next({
+          log: `Error in userController.saveProject: ${err}`,
+          message: {
+            err: `Error in userController.saveProject, check server logs for details`
+          }
+        });
+      } else {
+        res.locals.savedProject = result.projects[result.projects.length - 1];
+        console.log('Successful saveProject, it is', res.locals.savedProject);
+        return next();
+      }
+    }
+  );
+};
+
+// gets all of current user's projects
+
+userController.getProjects = (req, res, next) => {
+  console.log('Inside userController.getProjects...');
+  const _id = req.cookies.ssid;
+  Users.findOne({ _id }, (err, user) => {
+    if (err) {
+      return next({
+        log: `Error in userController.getProjects: ${err}`,
+        message: {
+          err: `Error in userController.getProjects, check server logs for details`
+        }
+      });
+    } else {
+      console.log('Successful getProjects');
+      res.locals.projects = user.projects;
+      return next();
     }
   });
 };

@@ -93,8 +93,8 @@ const createWindow = () => {
     height: 1080,
     webPreferences: {
       zoomFactor: 0.7
-      // nodeIntegration: false
-      //preload: '/build/js/bundle.js'
+      // for proper security measures, nodeIntegration should be set to false, but this results in a blank page when serving app
+      //nodeIntegration: false
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
@@ -316,4 +316,4 @@ app.on('activate', () => {
 });
 
 // bypass ssl certification validation error
-app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
+// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

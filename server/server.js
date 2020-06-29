@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
+const { session } = require('electron');
 const app = express();
 const PORT = 8080;
 
@@ -17,6 +18,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+    useFindAndModify: false,
     // sets the name of the DB that our collections are part of
     dbName: 'ReacType'
   })
@@ -52,6 +55,24 @@ app.post(
   sessionController.startSession,
   (req, res) => {
     return res.status(200).json({ sessionId: res.locals.ssid });
+  }
+);
+
+app.post(
+  '/saveProject',
+  sessionController.isLoggedIn,
+  userController.saveProject,
+  (req, res) => {
+    return res.status(200).json(res.locals.savedProject);
+  }
+);
+
+app.get(
+  '/getProjects',
+  sessionController.isLoggedIn,
+  userController.getProjects,
+  (req, res) => {
+    return res.status(200).json(res.locals.projects);
   }
 );
 
