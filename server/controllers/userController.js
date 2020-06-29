@@ -7,17 +7,20 @@ const bcrypt = require('bcryptjs');
 
 userController.createUser = (req, res, next) => {
   console.log('Creating user...');
-  const { username, password } = req.body;
+  const { email, username, password } = req.body;
   // error handling if username or password is missing
   if (!username) {
     return res.status(400).json('No username input');
   }
+  if (!email) {
+    return res.status(400).json('No email input');
+  }
   if (!password) {
     return res.status(400).json('No password input');
   }
-  const projects = [];
+
   // create user using username and password
-  Users.create({ username, password, projects }, (err, newUser) => {
+  Users.create({ email, username, password, projects: [] }, (err, newUser) => {
     if (err) {
       return next({
         log: `Error in userController.createUser: ${err}`,

@@ -3,6 +3,7 @@ import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -17,7 +18,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { sessionIsCreated } from '../../helperFunctions/auth';
 
 function Copyright() {
   return (
@@ -54,7 +54,6 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-  const s = useSelector(state => state);
 
   const dispatch = useDispatch();
 
@@ -145,7 +144,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
             </Link>
           </Grid>
           <Grid item>
-            <RouteLink to={`/signup`}>Don't have an account? Sign Up</RouteLink>
+            {/* <RouteLink to={`/signup`} style={{ textDecoration: 'none' }}>Don't have an account? Sign Up</RouteLink> */}
+            <Link href="/signup" variant="body2">Don't have an account? Sign Up</Link>
           </Grid>
         </Grid>
       </div>
