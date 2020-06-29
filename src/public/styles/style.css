@@ -306,3 +306,14 @@ div.rst__rowContents {
     width: 80%;
   }
 } */
+
+a.nav_link {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.nav_link:hover {
+  cursor: pointer;
+  color: red;
+  text-decoration: underline;
+}

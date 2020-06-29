@@ -1,45 +1,13 @@
 import { initialLoginState } from './initialState';
 import { Action } from '../interfaces/Interfaces';
-import { SET_USERNAME, SET_PASSWORD } from '../actionTypes/index';
-/*
-export interface LoginInt {
-  username: string;
-  password: string;
-}
-
-export const initialLoginState: LoginInt = {
-  username: '',
-  password: ''
-};
-
-export interface Action {
-  type: string;
-  payload?: any;
-}
-
-export const setUsername = (username: string): Action => ({
-  type: SET_USERNAME,
-  payload: username
-});
-
-export const setPassword = (password: string): Action => ({
-  type: SET_PASSWORD,
-  payload: password
-})
-*/
+import { SET_LOGIN_STATE } from '../actionTypes/index';
 
 const loginReducer = (state = initialLoginState, action: Action) => {
   switch(action.type) {
-    case SET_USERNAME:
+    case SET_LOGIN_STATE:
+      const status = !state.isLoggedIn
       return {
-        ...state,
-        username: action.payload
-      }
-
-    case SET_PASSWORD:
-      return {
-        ...state,
-        password: action.payload
+        isLoggedIn: status
       }
 
     default: 

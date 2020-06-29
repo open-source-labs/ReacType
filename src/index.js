@@ -4,28 +4,33 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/AppNew.tsx';
 import store from './store';
+import Cookies from 'js-cookie';
 
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from 'react-router-dom';
 
-/*
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('app')
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      Cookies.get('ssid') ? <Component {...props} /> : <Redirect to="/login" />
+    }
+  />
 );
-*/
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        {/* change route to signin later for official release */}
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/login" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/app" component={App} />
+        <PrivateRoute path="/" component={App} />
       </Switch>
     </Router>
   </Provider>,
