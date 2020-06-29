@@ -36,10 +36,9 @@ interface BottomTabsPropsInt extends PropsInt {
 class RightContainer extends Component<BottomTabsPropsInt> {
   constructor(props: BottomTabsPropsInt) {
     super(props);
-    this.saveWorkspace.bind(this);
   }
 
-  saveProject(project) {
+  saveProject(project: ApplicationStateInt) {
     console.log('Saving project to DB...');
     const body = JSON.stringify(project);
     fetch('https://localhost:8080/saveProject', {

@@ -77,11 +77,14 @@ userController.verifyUser = (req, res, next) => {
 
 userController.saveProject = (req, res, next) => {
   console.log('Inside userController.saveProject...');
-  const workspace = req.body;
+  const project = req.body;
+  // pull user id from cookie to find current user in db
   const _id = req.cookies.ssid;
   Users.findByIdAndUpdate(
     { _id },
-    { $push: { projects: workspace } },
+    // pushes the saved project into projects array of user
+    { $push: { projects: project } },
+    // this options returns as result the new project that was saved, otherwise result would be the projects array before it was updated
     { new: true },
     (err, result) => {
       if (err) {
@@ -93,7 +96,7 @@ userController.saveProject = (req, res, next) => {
         });
       } else {
         res.locals.savedProject = result.projects[result.projects.length - 1];
-        console.log('Successful saveProject, it is', res.locals.savedProject);
+        console.log('Successful saveProject');
         return next();
       }
     }

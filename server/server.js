@@ -76,6 +76,10 @@ app.get(
   }
 );
 
+app.get('/github/callback', sessionController.startSession, (req, res) => {
+  return res.status(200);
+});
+
 // catch-all route handler
 app.use('*', (req, res) => {
   return res.status(404).send('Page not found');
