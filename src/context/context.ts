@@ -76,7 +76,7 @@ export const initialState: State = {
           type: 'Component',
           typeId: 3,
           childId: 1,
-          style: { backgroundColor: 'yellow' }
+          style: {}
         },
         {
           type: 'Component',
