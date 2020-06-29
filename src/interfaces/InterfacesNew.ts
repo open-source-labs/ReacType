@@ -46,4 +46,5 @@ export interface HTMLType {
   style: object;
   placeHolderShort: string;
   placeHolderLong: string;
+  icon: any;
 }

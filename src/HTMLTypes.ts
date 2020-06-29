@@ -1,5 +1,13 @@
 import { HTMLType } from './interfaces/InterfacesNew';
 
+import ImageIcon from '@material-ui/icons/Image';
+import ParagraphIcon from '@material-ui/icons/LocalParking';
+import FormIcon from '@material-ui/icons/Description';
+import HeaderIcon from '@material-ui/icons/TextFormat';
+import ButtonIcon from '@material-ui/icons/EditAttributes';
+import LinkIcon from '@material-ui/icons/Link';
+import ListIcon from '@material-ui/icons/List';
+
 const HTMLTypes: HTMLType[] = [
   {
     id: 1,
@@ -7,7 +15,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Image',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: ImageIcon
   },
   {
     id: 2,
@@ -15,7 +24,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Form',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: FormIcon
   },
   {
     id: 3,
@@ -23,7 +33,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'List',
     style: { color: 'purple' },
     placeHolderShort: 'This is a list',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: ListIcon
   },
   {
     id: 4,
@@ -31,15 +42,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Button',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
-  },
-  {
-    id: 5,
-    tag: 'img',
-    name: 'Image',
-    style: {},
-    placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: ButtonIcon
   },
   {
     id: 6,
@@ -47,15 +51,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Link',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
-  },
-  {
-    id: 7,
-    tag: 'img',
-    name: 'Image',
-    style: {},
-    placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: LinkIcon
   },
   {
     id: 8,
@@ -63,7 +60,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Paragraph',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: ParagraphIcon
   },
   {
     id: 9,
@@ -71,7 +69,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Header 1',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: HeaderIcon
   },
   {
     id: 10,
@@ -79,7 +78,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Header 2',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: HeaderIcon
   },
   {
     id: 11,
@@ -87,7 +87,8 @@ const HTMLTypes: HTMLType[] = [
     name: 'Div',
     style: {},
     placeHolderShort: '',
-    placeHolderLong: ''
+    placeHolderLong: '',
+    icon: HeaderIcon
   }
 ];
 

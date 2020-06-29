@@ -5,9 +5,10 @@ import Canvas from './CanvasNew';
 function CanvasContainer() {
   const canvasContainerStyle = {
     width: '1000px',
-    height: '800px',
+    height: '100%',
     backgroundColor: 'lightgrey',
-    border: '2px Solid grey'
+    border: '2px Solid grey',
+    overflowY: 'auto'
   };
 
   return (

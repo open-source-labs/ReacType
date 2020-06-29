@@ -56,7 +56,7 @@ function Canvas() {
   });
 
   const defaultCanvasStyle = {
-    width: '90%',
+    width: '100%',
     height: '100%',
     backgroundColor: isOver ? 'lightyellow' : 'white',
     border: '2px Solid black',
