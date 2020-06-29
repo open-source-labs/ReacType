@@ -15,7 +15,7 @@ import {
   updateCode
 } from '../actions/actionCreators';
 import KonvaStage from '../components/main/KonvaStage';
-import MainCanvas from '../components/main/MainCanvasNew';
+import CanvasContainer from '../components/main/CanvasContainerNew';
 import { PropsInt, ApplicationStateInt } from '../interfaces/Interfaces';
 
 interface MainContPropsInt extends PropsInt {
@@ -129,7 +129,7 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
           <div
             className="main" //ref={main} **no function, commenting out**
           >
-            <MainCanvas />
+            <CanvasContainer />
           </div>
           <BottomPanel
             focusComponent={focusComponent}

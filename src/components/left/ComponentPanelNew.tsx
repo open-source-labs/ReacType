@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { stateContext } from '../../context/context';
 import ImageIcon from '@material-ui/icons/Image';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
 import FormIcon from '@material-ui/icons/Description';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItemNew';
-import { useDrag } from 'react-dnd';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { dialog } from 'electron';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,15 +21,15 @@ const useStyles = makeStyles({
     height: '120px',
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
   },
   panelWrapper: {
     marginTop: '35px',
-    width: '100%',
+    width: '100%'
   },
   panelWrapperList: {
     height: '850px',
-    overflowY: 'scroll',
+    overflowY: 'scroll'
   },
   input: {
     color: '#fff',
@@ -68,7 +67,7 @@ const useStyles = makeStyles({
       backgroundColor: 'red'
     }
   }
-})
+});
 
 const initialState: any = {
   components: [
@@ -101,74 +100,65 @@ const initialState: any = {
 
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
-
+  const [state, dispatch] = useContext(stateContext);
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [compName, setCompName] = useState('');
   const [isRoot, setIsRoot] = useState(false);
-  
-  const [appState, setAppState] = useState(initialState);
+
+  // const [appState, setAppState] = useState(initialState);
 
   const triggerError = (type: String) => {
     setErrorStatus(true);
-    if(type === 'empty') {
+    if (type === 'empty') {
       setErrorMsg('Component name cannot be blank.');
     } else if (type === 'dupe') {
       setErrorMsg('Component name already exists.');
     }
-  }
+  };
 
   const resetError = () => {
     setErrorStatus(false);
-  }
+  };
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
     console.log(e.target.value);
     setCompName(e.target.value);
-  }
+  };
 
   const checkNameDupe = (inputName: String) => {
-    let checkList = appState.components.slice();
+    let checkList = state.components.slice();
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach(comp => {
-      if(comp.name.toLowerCase() === inputName.toLowerCase()) {
+      if (comp.name.toLowerCase() === inputName.toLowerCase()) {
         dupe = true;
       }
     });
     return dupe;
-  }
+  };
   const toggleRootStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsRoot( isRoot ? false : true);
-  }
+    setIsRoot(isRoot ? false : true);
+  };
+
+  const addComponent = (componentName: string, root: boolean) => {
+    dispatch({ type: 'ADD COMPONENT', payload: { componentName, root } });
+  };
 
   const createOption = (inputName: String) => {
-    // create deep clone of state
-    let stateCopy = JSON.parse(JSON.stringify(appState));
     // create temporary component object,
     // assigning id to nextComponentId
-    let tmpOption = {
-      id: stateCopy.nextComponentId,
-      name: inputName.charAt(0).toUpperCase() + inputName.slice(1),
-      style: {},
-      nextChildId: 1,
-      children: []
-    }
-    stateCopy.components.push(tmpOption);
-    // check if root option is toggled, pushing id to rootComponents if so
-    if (isRoot) {
-      stateCopy.rootComponents.push(stateCopy.nextComponentId);
-      // reset toggle
-      setIsRoot(false);
-    }
-    //increment nextComponentId;
-    stateCopy.nextComponentId++;
+    const formattedName =
+      inputName.charAt(0).toUpperCase() + inputName.slice(1);
+
+    addComponent(formattedName, isRoot);
+    // reset root toggle
+    setIsRoot(false);
     // reset name field
     setCompName('');
-    setAppState(stateCopy);
-  }
+  };
 
   const handleNameSubmit = () => {
     if (compName.trim() === '') {
@@ -178,65 +168,71 @@ const ComponentPanel = (): JSX.Element => {
     } else if (checkNameDupe(compName)) {
       triggerError('dupe');
       return;
-    } 
+    }
     createOption(compName);
     resetError();
-  }
-  
-  const reportFocus = (targetId: Number) => {
-    const focusTarget = appState.components.filter(comp => {
-      return comp.id === targetId;
-    });
-    console.log('FOCUSING ON COMPONENT: ');
-    console.log(focusTarget[0]);
-  }
+  };
+
+  // const reportFocus = (targetId: Number) => {
+  //   const focusTarget = state.components.filter(comp => {
+  //     return comp.id === targetId;
+  //   });
+  //   console.log('FOCUSING ON COMPONENT: ');
+  //   console.log(focusTarget[0]);
+  // };
 
   return (
     <div className={classes.panelWrapper}>
       <div className={classes.inputWrapper}>
-        <TextField 
-          color={'primary'} 
+        <TextField
+          color={'primary'}
           label="COMPONENT NAME"
-          variant="outlined" 
-          className={classes.inputField}  
-          InputProps={{className: classes.input}} 
-          InputLabelProps={{className: classes.inputLabel}}
+          variant="outlined"
+          className={classes.inputField}
+          InputProps={{ className: classes.input }}
+          InputLabelProps={{ className: classes.inputLabel }}
           value={compName}
           error={errorStatus}
           helperText={errorStatus ? errorMsg : ''}
-          onChange={handleNameInput}/>
+          onChange={handleNameInput}
+        />
         <div className={classes.btnGroup}>
-          <Button className={classes.button} color="primary" onClick={handleNameSubmit}>CREATE</Button>
-          <FormControlLabel 
-            control={<Switch checked={isRoot} onChange={toggleRootStatus} color="primary"/>}
+          <Button
+            className={classes.button}
+            color="primary"
+            onClick={handleNameSubmit}
+          >
+            CREATE
+          </Button>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isRoot}
+                onChange={toggleRootStatus}
+                color="primary"
+              />
+            }
             className={classes.rootToggle}
             label="ROOT"
           />
         </div>
-      </div >
+      </div>
       <div className={classes.panelWrapperList}>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
-          {appState.components.map(comp => (
-            
+        <Grid container direction="row" justify="center" alignItems="center">
+          {state.components.map(comp => (
             <ComponentPanelItem
               className={classes.compPanelItem}
-              key={`comp-${comp.id}`} 
-              name={comp.name} 
-              id={comp.id} 
-              root={appState.rootComponents.includes(comp.id)}
-              focusClick={()=> reportFocus(comp.id)}
+              key={`comp-${comp.id}`}
+              name={comp.name}
+              id={comp.id}
+              root={state.rootComponents.includes(comp.id)}
+              focusClick={() => reportFocus(comp.id)}
             />
-            
           ))}
         </Grid>
       </div>
     </div>
   );
-}
+};
 
 export default ComponentPanel;

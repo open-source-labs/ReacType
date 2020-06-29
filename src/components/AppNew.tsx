@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import '../public/styles/style.css';
 import '../public/styles/styleNew.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
 import { initialState, stateContext } from '../context/context';
-// import { Context } from '../interfaces/InterfacesNew';
+import reducer from '../reducers/componentReducerNew';
+// import { Context, State } from '../interfaces/InterfacesNew';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  const [context, setContext] = useState(initialState);
+  // const [context, setContext] = useState(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="app">
       <DndProvider backend={HTML5Backend}>
@@ -18,7 +20,7 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-        <stateContext.Provider value={[context, setContext]}>
+        <stateContext.Provider value={[state, dispatch]}>
           <AppContainer />
         </stateContext.Provider>
       </DndProvider>
