@@ -39,7 +39,7 @@ class RightContainer extends Component<BottomTabsPropsInt> {
     this.saveWorkspace.bind(this);
   }
 
-  saveWorkspace(project) {
+  saveProject(project) {
     console.log('Saving project to DB...');
     const body = JSON.stringify(project);
     fetch('https://localhost:8080/saveProject', {
@@ -107,7 +107,7 @@ class RightContainer extends Component<BottomTabsPropsInt> {
           variant="contained"
           color="secondary"
           onClick={() => {
-            this.saveWorkspace(this.props.currentWorkspace);
+            this.saveProject(this.props.currentWorkspace);
           }}
         >
           Save Current Project
