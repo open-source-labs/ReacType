@@ -6,15 +6,15 @@ import { updateInstance } from '../../helperFunctions/instances';
 import CanvasComponent from './CanvasComponentNew';
 import { State, Component, ChildElement } from '../../interfaces/InterfacesNew';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import CanvasDirectChild from './DirectChildNew';
+import renderChildren from '../../helperFunctions/renderChildren';
 
 function Canvas() {
   // TODO: figure out how to set types on destructured array
   const [state, dispatch] = useContext(stateContext);
   console.log('state is ', state);
   // find the current component to render on the canvas
-  const currentComponent = state.components.find(
-    elem => elem.id === state.canvasFocus.componentId
+  const currentComponent: Component = state.components.find(
+    (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
   // function to add a new child to the canvas
@@ -65,21 +65,9 @@ function Canvas() {
 
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
-
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
-      {currentComponent.children.map((child: ChildElement, i: number) => {
-        const { type, typeId, style, childId } = child;
-        return (
-          <CanvasDirectChild
-            childId={childId}
-            type={type}
-            typeId={type}
-            style={style}
-            key={childId.toString()}
-          />
-        );
-      })}
+      {renderChildren(currentComponent.children)}
     </div>
   );
 }

@@ -11,6 +11,9 @@ export interface ChildElement {
   childId: number;
   //   update this interface later so that we enforce that each value of style object is a string
   style: object;
+  attributes?: object;
+  nextChildId?: number;
+  children?: ChildElement[];
 }
 
 export interface Component {
@@ -36,4 +39,11 @@ export interface Context {
   dispatch: State;
 }
 
-
+export interface HTMLType {
+  id: number;
+  tag: string;
+  name: string;
+  style: object;
+  placeHolderShort: string;
+  placeHolderLong: string;
+}

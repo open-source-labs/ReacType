@@ -1,42 +1,29 @@
 import React, { useMemo, useContext, useRef } from 'react';
-import { State, Component, ChildElement } from '../../interfaces/InterfacesNew';
+import {
+  State,
+  Component,
+  ChildElement,
+  HTMLType
+} from '../../interfaces/InterfacesNew';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
+import { combineStyles } from '../../helperFunctions/combineStyles';
+import IndirectChild from './IndirectChildNew';
+import HTMLTypes from '../../HTMLTypes';
+import globalDefaultStyle from '../../globalDefaultStyles';
 
-// render a direct child - either a component or standard HTML element
-// direct children are draggable and clickable
-const renderDirectChild = () => {
-  // if type is component, then render the component
-  // if type is a
-};
-
-// render an HTML element that is both draggable and dropable
-const renderNestableDirectChild = () => {};
-
-function CanvasDirectChild({ childId, type, typeId, style }: ChildElement) {
-  // changes focus of the canvas to a new component / child
+function DirectChildHTML({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
 
-  const [{ isOver }, drop] = useDrop({
-    accept: ItemTypes.INSTANCE,
-    // triggered on drop
-    drop: (item: any, monitor: DropTargetMonitor) => {
-      const didDrop = monitor.didDrop();
-      if (didDrop) {
-        return;
-      }
-      const hoverId = childId;
-      // updates state with new instance
-      // setContext(updateInstance(hoverId, item, context, pageId));
-      console.log('successful drop !');
-    },
-    collect: (monitor: any) => ({
-      isOver: !!monitor.isOver({ shallow: true })
-    })
-  });
+  // find the HTML element corresponding with this instance of an HTML element
+  // find the current component to render on the canvas
+  const HTMLType: HTMLType = HTMLTypes.find(
+    (type: HTMLType) => type.id === typeId
+  );
 
+  // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
     item: {
@@ -66,22 +53,19 @@ function CanvasDirectChild({ childId, type, typeId, style }: ChildElement) {
     // changeFocus(state.canvasFocus.componentId, childId);
   }
 
-  const defaultStyle = {
-    // backgroundColor: isOver ? 'lightyellow' : 'white',
-    border: '2px Solid black'
-    // borderStyle: isOver ? 'dotted' : 'solid'
-  };
+  // combine all styles so that higher priority style specifications overrule lower priority style specifications
+  // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
 
-  drag(drop(ref));
+  const combinedStyle = combineStyles(
+    combineStyles(globalDefaultStyle, HTMLType.style),
+    style
+  );
+
   return (
-    <div onClick={() => onClickHandler(event)} style={defaultStyle} ref={ref}>
-      {type}
+    <div onClick={() => onClickHandler(event)} style={combinedStyle} ref={drag}>
+      {HTMLType.placeHolderShort}
     </div>
   );
 }
 
-// function CanvasDirectChild() {
-//   return <div>Hello</div>;
-// }
-
-export default CanvasDirectChild;
+export default DirectChildHTML;
