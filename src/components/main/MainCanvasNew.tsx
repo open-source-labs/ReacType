@@ -45,6 +45,8 @@ function MainCanvas() {
       if (didDrop) {
         return;
       }
+      console.log('dropping item:');
+      console.log(item);
       setContext(updateInstance(null, item, context, pageId));
     },
     collect: monitor => ({

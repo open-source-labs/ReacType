@@ -47,7 +47,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
     this.state = {
       stageWidth: 1800,
       stageHeight: 1300,
-      blockSnapSize: 10,
+      blockSnapSize: 25,
       grid: [],
       gridStroke: 1,
     };
@@ -135,6 +135,7 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
   handleStageMouseDown = (e: any) => {
     // clicked on stage - clear selection
     //logic here doesn't seem to be working
+    console.log(e);
     if (e.target === e.target.getStage()) {
       return;
     }
@@ -201,7 +202,6 @@ class KonvaStage extends Component<KonvaStagePropsInt, StateInt> {
   appIndex = this.props.components.findIndex(el => el == this.appComponentDimensions);
 
  
-
   render() {
     const {
       image,
