@@ -1,7 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { setUsername, setPassword } from '../../actions/actionCreators';
-import { Link as RouteLink, withRouter } from 'react-router-dom';
+import { setLoginState } from '../../actions/actionCreators';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { newUserIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,26 +16,8 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { render } from 'enzyme';
-
-const mapStateToProps = (store: any) => ({
-  username: store.credentials.username,
-  password: store.credentials.password
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  setUsername: (username: string) => dispatch(setUsername(username)),
-  setPassword: (password: string) => dispatch(setPassword(password))
-  // login: (username: string, password: string) => dispatch(login(username, password)),
-  // signup: (username: string, password: string) => dispatch(signup(username, password)),
-});
-
-interface LoginProps extends LoginInt {
-  setUsername(username: string): void;
-  setPassword(username: string): void;
-}
 
 function Copyright() {
   return (
@@ -48,36 +32,41 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
-const SignUp: React.FC<LoginProps> = props => {
+const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-  //const count = useSelector(state => state);
 
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
     switch (e.target.name) {
+      case 'email':
+        setEmail(inputVal);
+        break;
       case 'username':
         setUsername(inputVal);
         break;
@@ -87,33 +76,18 @@ const SignUp: React.FC<LoginProps> = props => {
     }
   };
 
-  const handleSignup = e => {
-    console.log('click fired on handleSignup');
+  const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const body = JSON.stringify({
-      username,
-      password
+    console.log('click fired on handleLogin');
+    newUserIsCreated(username, email, password).then(userCreated => {
+      if(userCreated) {
+        console.log('user created')
+        dispatch(setLoginState()); // changes login state to true
+        props.history.push('/');
+      } else {
+        console.log('invalid login')
+      }
     });
-    console.log(body);
-    fetch('http://localhost:8080/signup', {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (typeof data === 'string') {
-          alert(data);
-        } else {
-          props.history.push('/');
-          alert('Signup successful! Please sign in to continue.');
-        }
-      })
-      .catch(err => console.log(err));
   };
 
   return (
@@ -124,63 +98,74 @@ const SignUp: React.FC<LoginProps> = props => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up
+          Sign up
         </Typography>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-          value={username}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={handleChange}
-        />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={handleSignup}
-        >
-          Sign Up
-        </Button>
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                value={username}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={handleChange}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <RouteLink to={`/`}>Already have an account? Sign In</RouteLink>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => handleSignUp(e)}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <RouteLink to={`/login`} className="nav_link">Already have an account? Sign In</RouteLink>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </div>
-      <Box mt={8}>
+      <Box mt={5}>
         <Copyright />
       </Box>
     </Container>
   );
-};
+}
 
 export default withRouter(SignUp);
