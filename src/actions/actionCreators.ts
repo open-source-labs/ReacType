@@ -39,10 +39,7 @@ import {
   UNDO,
   UPDATE_HTML_ATTR,
   UPDATE_CODE,
-  SET_USERNAME,
-  SET_PASSWORD,
-  LOGIN,
-  SIGNUP
+  SET_LOGIN_STATE
 } from '../actionTypes/index';
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
@@ -333,28 +330,6 @@ export const updateHtmlAttr = ({
   payload: { attr, value }
 });
 
-export const setUsername = (username: string): Action => ({
-  type: SET_USERNAME,
-  payload: username
-});
-
-export const setPassword = (password: string): Action => ({
-  type: SET_PASSWORD,
-  payload: password
+export const setLoginState = (): Action => ({
+  type: SET_LOGIN_STATE
 })
-
-// export const login = (username: string, password: string) => ({
-//   return (dispatch: any) => {
-//     fetch('/login', {
-//       method: 'POST',
-//       body: JSON.stringify({ username, password })
-//     })
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//   }
-// })
-
-// export const signup = (username: string, password: string): Action => ({
-//   type: SIGNUP,
-//   payload: { username, password }
-// })

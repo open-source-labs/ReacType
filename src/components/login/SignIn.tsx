@@ -1,9 +1,9 @@
-import React, { Component, useState } from 'react';
-//import { connect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { setUsername, setPassword } from '../../actions/actionCreators';
-//import { useSelector } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory } from 'react-router-dom';
+import { setLoginState } from '../../actions/actionCreators';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -18,24 +18,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { render } from 'enzyme';
-
-const mapStateToProps = (store: any) => ({
-  username: store.credentials.username,
-  password: store.credentials.password
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  setUsername: (username: string) => dispatch(setUsername(username)),
-  setPassword: (password: string) => dispatch(setPassword(password))
-  // login: (username: string, password: string) => dispatch(login(username, password)),
-  // signup: (username: string, password: string) => dispatch(signup(username, password)),
-});
-
-interface LoginProps extends LoginInt {
-  setUsername(username: string): void;
-  setPassword(username: string): void;
-}
 
 function Copyright() {
   return (
@@ -70,16 +52,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn: React.FC<LoginProps> = props => {
+const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-  //const count = useSelector(state => state);
+
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const history = useHistory();
-
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
     switch (e.target.name) {
       case 'username':
@@ -91,34 +72,18 @@ const SignIn: React.FC<LoginProps> = props => {
     }
   };
 
-  const handleLogin = e => {
-    console.log('click fired on handleLogin');
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const body = JSON.stringify({
-      username,
-      password
+    console.log('click fired on handleLogin');
+    sessionIsCreated(username, password).then(isLoggedIn => {
+      if(isLoggedIn) {
+        console.log('session created')
+        dispatch(setLoginState()); // changes login state to true
+        props.history.push('/');
+      } else {
+        console.log('invalid login')
+      }
     });
-    fetch('http://localhost:8080/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        if (typeof data === 'string') {
-          alert(data);
-        } else {
-          props.history.push('/app');
-          alert('Login successful!');
-          //console.log('Data is', data);
-        }
-      })
-      .catch(err => console.log(err));
   };
 
   return (
@@ -167,7 +132,7 @@ const SignIn: React.FC<LoginProps> = props => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={handleLogin}
+          onClick={e => handleLogin(e)}
         >
           Sign In
         </Button>
@@ -179,7 +144,7 @@ const SignIn: React.FC<LoginProps> = props => {
             </Link>
           </Grid>
           <Grid item>
-            <RouteLink to={`/signup`}>Don't have an account? Sign Up</RouteLink>
+            <RouteLink to={`/signup`} className="nav_link">Don't have an account? Sign Up</RouteLink>
           </Grid>
         </Grid>
       </div>

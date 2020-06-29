@@ -112,8 +112,7 @@ export const initialComponentState: ComponentInt = {
 };
 
 export const initialLoginState: LoginInt = {
-  username: '',
-  password: ''
+  isLoggedIn: false
 };
 
 export const nativeComponentTypes = [

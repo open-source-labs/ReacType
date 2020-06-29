@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   projects: Array
 });
@@ -12,7 +13,6 @@ const userSchema = new Schema({
 // salt will go through 10 rounds of hashing
 const SALT_WORK_FACTOR = 10;
 const bcrypt = require('bcryptjs');
-const { session } = require('electron');
 
 // mongoose middleware that will run before the save to collection happens (user gets put into database)
 // cannot use arrow function here as context of 'this' is important
