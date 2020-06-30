@@ -138,6 +138,7 @@
     "electron-splashscreen": "^1.0.0",
     "enzyme": "^3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
+    "formik": "^2.1.4",
     "js-cookie": "^2.2.1",
     "konva": "^4.2.0",
     "localforage": "^1.7.2",

@@ -44,10 +44,10 @@ userController.verifyUser = (req, res, next) => {
   console.log('Verifying user...');
   const { username, password } = req.body;
   if (!username) {
-    return res.status(400).json('No username input');
+    return res.status(400).json('No Username Input');
   }
   if (!password) {
-    return res.status(400).json('No password input');
+    return res.status(400).json('No Password Input');
   }
   Users.findOne({ username }, (err, user) => {
     if (err) {
@@ -67,11 +67,11 @@ userController.verifyUser = (req, res, next) => {
           return next();
         } else {
           // if password does not match, redirect to ?
-          return res.status(400).json('Incorrect password');
+          return res.status(400).json('Incorrect Password');
         }
       });
     } else {
-      return res.status(400).json('No such user found');
+      return res.status(400).json('Invalid Username');
     }
   });
 };

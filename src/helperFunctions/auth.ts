@@ -1,4 +1,4 @@
-export const sessionIsCreated = (username: string, password: string): Promise<boolean> => {
+export const sessionIsCreated = (username: string, password: string): Promise<string> => {
   const body = JSON.stringify({
     username,
     password
@@ -17,13 +17,14 @@ export const sessionIsCreated = (username: string, password: string): Promise<bo
     .then(data => {
       console.log('the data', data);
       if (data.sessionId && typeof data.sessionId === 'string') { // check that a session id was passed down
-        return true;
+        return 'Success'
+      } else {
+        return data; // error message returned from userController.verifyUser
       }
-      return false;
     })
     .catch(err => {
       console.log(err);
-      return false
+      return 'Error'
     });
   return result;
 }

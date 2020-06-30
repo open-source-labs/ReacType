@@ -18,6 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Formik } from "formik";
 
 function Copyright() {
   return (
@@ -52,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function validateEmail(email: string) {
+  const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regexp.test(email);
+}
+
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
 
@@ -60,6 +66,13 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const [invalidEmailMsg, setInvalidEmailMsg] = useState('');
+  const [invalidUsernameMsg, setInvalidUsernameMsg] = useState(''); 
+  const [invalidPasswordMsg, setInvalidPasswordMsg] = useState(''); 
+  const [invalidEmail, setInvalidEmail] = useState(false); 
+  const [invalidUsername, setInvalidUsername] = useState(false); 
+  const [invalidPassword, setInvalidPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -79,6 +92,28 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
+
+    // Reset Error Validation
+    setInvalidEmailMsg('');
+    setInvalidUsernameMsg(''); 
+    setInvalidPasswordMsg(''); 
+    setInvalidEmail(false); 
+    setInvalidUsername(false); 
+    setInvalidPassword(false);
+
+    if(email === '') {
+      setInvalidEmail(true);
+      setInvalidEmailMsg('No Email Entered')
+    }
+    if(username === '') {
+      setInvalidUsername(true);
+      setInvalidUsernameMsg('No Username Entered');
+    }
+    if(password === '') {
+      setInvalidPassword(true);
+      setInvalidPasswordMsg('No Password Entered');
+    }
+
     newUserIsCreated(username, email, password).then(userCreated => {
       if(userCreated) {
         console.log('user created')
@@ -114,6 +149,8 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoFocus
                 value={email}
                 onChange={handleChange}
+                helperText={invalidEmailMsg} 
+                error={invalidEmail}
               />
             </Grid>
             <Grid item xs={12}>
@@ -127,6 +164,8 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoComplete="username"
                 value={username}
                 onChange={handleChange}
+                helperText={invalidUsernameMsg} 
+                error={invalidUsername}
               />
             </Grid>
             <Grid item xs={12}>
@@ -141,6 +180,8 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoComplete="current-password"
                 value={password}
                 onChange={handleChange}
+                helperText={invalidPasswordMsg} 
+                error={invalidPassword}
               />
             </Grid>
           </Grid>

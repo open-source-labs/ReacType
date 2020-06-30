@@ -60,6 +60,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [invalidUserMsg, setInvalidUserMsg] = useState('');
+  const [invalidPassMsg, setInvalidPassMsg] = useState('');
+  const [invalidUser, setInvalidUser] = useState(false);
+  const [invalidPass, setInvalidPass] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
     switch (e.target.name) {
@@ -72,16 +77,47 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     }
   };
 
+  /*
+    Response Options: 
+    Success
+    Error
+    No Username Input 
+    No Password Input 
+    Incorrect Password 
+    Invalid Username
+  */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
-    sessionIsCreated(username, password).then(isLoggedIn => {
-      if(isLoggedIn) {
-        console.log('session created')
+
+    setInvalidUser(false);
+    setInvalidUserMsg('');
+    setInvalidPass(false);
+    setInvalidPassMsg('');
+    sessionIsCreated(username, password).then(loginStatus => {
+      console.log('login fetch', loginStatus)
+      if(loginStatus === 'Success') {
         dispatch(setLoginState()); // changes login state to true
         props.history.push('/');
       } else {
-        console.log('invalid login')
+        switch(loginStatus) {
+          case 'No Username Input':
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case 'No Password Input':
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+          case 'Invalid Username':
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case 'Incorrect Password':
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+        }
       }
     });
   };
@@ -108,6 +144,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoFocus
           value={username}
           onChange={handleChange}
+          helperText={invalidUserMsg} 
+          error={invalidUser}
         />
         <TextField
           variant="outlined"
@@ -121,6 +159,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoComplete="current-password"
           value={password}
           onChange={handleChange}
+          helperText={invalidPassMsg} 
+          error={invalidPass}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
