@@ -22,7 +22,12 @@ const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: false, unique: true },
   password: { type: String, required: true },
-  projects: { type: Array, default: [] }
+  projects: [
+    {
+      name: String,
+      project: { type: Object }
+    }
+  ]
 });
 
 // salt will go through 10 rounds of hashing

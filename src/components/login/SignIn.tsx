@@ -53,7 +53,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    width: '240px',
+    height: '60px'
   }
 }));
 
@@ -141,9 +143,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
+
         <a href="https://localhost:8080/github">
           <img src="/images/githublogin.png" />
         </a>
+        <br></br>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
