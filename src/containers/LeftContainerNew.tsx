@@ -20,6 +20,6 @@ const LeftContainer = (): JSX.Element => {
       </Grid>
     </div>
   );
-}
+};
 
 export default LeftContainer;
