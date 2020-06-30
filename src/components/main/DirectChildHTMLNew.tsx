@@ -10,10 +10,16 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChildNew';
-import HTMLTypes from '../../HTMLTypes';
+import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../globalDefaultStyles';
 
-function DirectChildHTML({ childId, type, typeId, style }: ChildElement) {
+function DirectChildHTML({
+  childId,
+  type,
+  typeId,
+  style,
+  attributes
+}: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
 
@@ -29,7 +35,12 @@ function DirectChildHTML({ childId, type, typeId, style }: ChildElement) {
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: false,
-      id: childId
+      childId: childId,
+      instanceType: type,
+      instanceTypeId: typeId,
+      style: style,
+      attributes: attributes,
+      children: []
     },
     // canDrag: !props.children.length,
     collect: (monitor: any) => ({
@@ -41,16 +52,10 @@ function DirectChildHTML({ childId, type, typeId, style }: ChildElement) {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
   };
 
-  // onClickHandler is responsible for changing the focus of the "focused" component to be the canvas when the canvas is clicked
-  // TODO: stopPropogation is returning a CORS error
+  // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
-    // console.log(event);
-    // event.stopPropogation();
-
-    console.log('You have clicked a DIRECT CHILD COMPONENT: ', childId);
-    // keep the component focus the same as the current state, but update the child focus to null
-    // a "null" value for the child component signifies that we're solely focusing on the parent component
-    // changeFocus(state.canvasFocus.componentId, childId);
+    event.stopPropagation();
+    changeFocus(state.canvasFocus.componentId, childId);
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -62,7 +67,7 @@ function DirectChildHTML({ childId, type, typeId, style }: ChildElement) {
   );
 
   return (
-    <div onClick={() => onClickHandler(event)} style={combinedStyle} ref={drag}>
+    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       {HTMLType.placeHolderShort}
     </div>
   );

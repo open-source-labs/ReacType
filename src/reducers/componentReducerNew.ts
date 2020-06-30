@@ -1,6 +1,86 @@
-import { State, Action } from '../interfaces/interfacesNew';
+import {
+  State,
+  Action,
+  Component,
+  ChildElement
+} from '../interfaces/interfacesNew';
 
 const reducer = (state: State, action: Action) => {
+  // find top-level component in
+  const findComponent = (components: Component[], componentId: number) => {
+    return components.find(elem => elem.id === componentId);
+  };
+
+  // Finds a parent
+  // returns object with parent object and index value of child
+  const findParent = (component: Component, childId: number) => {
+    // using a breadth first search to search through instance tree
+    // We're going to keep track of the nodes we need to search through with an Array
+    //  Initialize this array with the top level node
+    const nodeArr = [component];
+
+    // iterate through each node in the array as long as there are elements in the array
+    while (nodeArr.length > 0) {
+      // shift off the first value and assign to an element
+      const currentNode = nodeArr.shift();
+      // try to find id of childnode in children
+      for (let i = 0; i <= currentNode.children.length - 1; i++) {
+        // if match is found return object with both the parent and the index value of the child
+        if (currentNode.children[i].childId === childId) {
+          return { directParent: currentNode, childIndexValue: i };
+        }
+      }
+      // if child node isn't found add each of the current node's children to the search array
+      currentNode.children.forEach(node => nodeArr.push(node));
+    }
+    // if no search is found return -1
+    return { directParent: null, childIndexValue: null };
+  };
+
+  const deleteChild = (component: Component, currentChildId: number) => {
+    const { directParent, childIndexValue } = findParent(
+      component,
+      currentChildId
+    );
+    directParent.children.splice(childIndexValue, 1);
+  };
+
+  // determine if there's child of a given type in a component
+  const childTypeExists = (
+    type: string,
+    typeId: number,
+    component: Component
+  ) => {
+    const nodeArr = [...component.children];
+    // breadth first search through component tree to see if a child exists
+    while (nodeArr.length > 0) {
+      // shift off the first value and assign to an element
+      const currentNode = nodeArr.shift();
+      if (currentNode.type === type && currentNode.typeId === typeId)
+        return true;
+      // if child node isn't found add each of the current node's children to the search array
+      currentNode.children.forEach(node => nodeArr.push(node));
+    }
+    // if no match is found return false
+    return false;
+  };
+
+  // find child in component and return child object
+  const findChild = (component: Component, childId: number) => {
+    if (childId === null) return component;
+    const nodeArr = [...component.children];
+    // breadth first search through component tree to see if a child exists
+    while (nodeArr.length > 0) {
+      // shift off the first value and assign to an element
+      const currentNode = nodeArr.shift();
+      if (currentNode.childId === childId) return currentNode;
+      // if child node isn't found add each of the current node's children to the search array
+      currentNode.children.forEach(node => nodeArr.push(node));
+    }
+    // if no match is found return false
+    return false;
+  };
+
   switch (action.type) {
     // Add a new component type
     // add component to the component array and increment our counter for the componentId
@@ -30,45 +110,84 @@ const reducer = (state: State, action: Action) => {
     }
     // Add child to a given root component
     case 'ADD CHILD': {
-      const { type, typeId }: { type: string; typeId: number } = action.payload;
+      const {
+        type,
+        typeId,
+        childId
+      }: { type: string; typeId: number; childId: number } = action.payload;
       // the parent of the new child is whichever component that is currently focused on
-      const parentId: number = state.canvasFocus.componentId;
-
-      // if type or typeId is null then return state
-      if (
-        !['Component', 'HTML Element'].includes(type) ||
-        typeof typeId !== 'number'
-        // (parentId === typeId && type === 'Component')
-      )
-        return state;
+      const parentComponentId: number = state.canvasFocus.componentId;
 
       // if we are adding a component as a child, first check whether the parent component is already a child of that component
       // this check is important so that we don't create infinite loops between react components referencing each other as children
       // if the componentId doesn't exist, return the state
       if (type === 'Component') {
-        const originalComponent = state.components.find(
-          elem => elem.id === typeId
-        );
-        try {
-          let existingParentChildRelationship = originalComponent.children.find(
-            child => child.typeId === parentId && child.type === 'Component'
-          );
-          if (existingParentChildRelationship) return state;
-        } catch (err) {
+        const originalComponent = findComponent(state.components, typeId);
+        if (childTypeExists('Component', parentComponentId, originalComponent))
           return state;
-        }
       }
-      // add child to last position of array
-      const components = [...state.components];
-      const parent = components.find(elem => elem.id === parentId);
-      parent.children.push({
+
+      const newChild: ChildElement = {
         type,
         typeId,
-        childId: parent.nextChildId,
+        childId: state.nextChildId,
         style: {},
         children: []
-      });
-      parent.nextChildId = parent.nextChildId + 1;
+      };
+
+      const components = [...state.components];
+      // find component that we're adding a child to
+      const parentComponent = findComponent(components, parentComponentId);
+      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+
+      if (childId === null) {
+        parentComponent.children.push(newChild);
+      }
+      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+      else {
+        const directParent: ChildElement = findChild(parentComponent, childId);
+        directParent.children.push(newChild);
+      }
+
+      const nextChildId = state.nextChildId + 1;
+      return { ...state, components, nextChildId };
+    }
+    // move an instance from one position in a component to another position in a component
+    case 'CHANGE POSITION': {
+      const { currentChildId, newParentChildId } = action.payload;
+
+      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update sate
+      if (currentChildId === newParentChildId) return state;
+
+      // find the current component in focus
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+
+      // find the moved element's former parent
+      // delete the element from it's former parent's children array
+      const { directParent, childIndexValue } = findParent(
+        component,
+        currentChildId
+      );
+      const child = { ...directParent.children[childIndexValue] };
+      directParent.children.splice(childIndexValue, 1);
+
+      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+      if (newParentChildId === null) {
+        component.children.push(child);
+      }
+      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+      else {
+        const directParent: ChildElement = findChild(
+          component,
+          newParentChildId
+        );
+        directParent.children.push(child);
+      }
+
       return { ...state, components };
     }
     // Change the focus component and child
@@ -77,9 +196,44 @@ const reducer = (state: State, action: Action) => {
         componentId,
         childId
       }: { componentId: number; childId: number | null } = action.payload;
+
       const canvasFocus = { ...state.canvasFocus, componentId, childId };
       return { ...state, canvasFocus };
     }
+    case 'UPDATE CSS': {
+      const { style } = action.payload;
+      const components = [...state.components];
+
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.style = style;
+
+      return { ...state, components };
+    }
+    case 'DELETE CHILD': {
+      // if in-focus instance is a top-level component and not a child, don't delete anything
+      if (!state.canvasFocus.childId) return state;
+
+      // find the current component in focus
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+
+      // find the moved element's former parent
+      // delete the element from it's former parent's children array
+      const { directParent, childIndexValue } = findParent(
+        component,
+        state.canvasFocus.childId
+      );
+      const child = { ...directParent.children[childIndexValue] };
+      directParent.children.splice(childIndexValue, 1);
+    }
+
     default:
       return state;
   }

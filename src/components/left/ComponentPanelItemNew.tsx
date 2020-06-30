@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { stateContext } from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 
@@ -27,19 +28,27 @@ const ComponentPanelItem: React.FC<{
   isFocus: boolean
 }> = ({ name, id, root, focusClick, isFocus }) => {
   const classes = useStyles();
+  const [state, dispatch] = useContext(stateContext);
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: true,
       instanceType: 'Component',
-      instanceId: id
+      instanceTypeId: id
     },
     canDrag: !root,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
   });
+
+  const handleClick = () => {
+    dispatch({
+      type: 'CHANGE FOCUS',
+      payload: { componentId: id, childId: null }
+    });
+  };
   return (
     <Grid
       item
@@ -58,8 +67,8 @@ const ComponentPanelItem: React.FC<{
         borderRadius: '8px'
       }}
     > 
-      <div className="compPanelItem" onClick={focusClick}>
-        {isFocus && <div className={classes.focusMark}></div>}
+      <div className="compPanelItem" onClick={handleClick}>
+      {isFocus && <div className={classes.focusMark}></div>}
         <h3>
           {name}
         </h3>

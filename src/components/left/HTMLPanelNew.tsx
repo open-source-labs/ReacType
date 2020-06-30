@@ -11,10 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import HTMLTypes from '../../HTMLTypes';
+import HTMLTypes from '../../context/HTMLTypes';
 
 const HTMLPanel = (): JSX.Element => {
-  console.log(HTMLTypes);
   const options = HTMLTypes.map(option => {
     const [{ isDragging }, drag] = useDrag({
       item: {
@@ -22,7 +21,7 @@ const HTMLPanel = (): JSX.Element => {
         newInstance: true,
         instanceType: 'HTML Element',
         name: option.name,
-        instanceId: option.id
+        instanceTypeId: option.id
       },
       collect: (monitor: any) => ({
         isDragging: !!monitor.isDragging()
