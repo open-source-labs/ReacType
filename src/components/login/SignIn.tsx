@@ -91,20 +91,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
-  // const handleOauth = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  //   e.preventDefault();
-  //   console.log('click fired on githubOauth');
-  //   githubOauth().then(isLoggedIn => {
-  //     if (isLoggedIn) {
-  //       console.log('session created');
-  //       dispatch(setLoginState()); // changes login state to true
-  //       props.history.push('/');
-  //     } else {
-  //       console.log("Couldn't login with github");
-  //     }
-  //   });
-  // };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -155,19 +141,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-
-        <a href="https://github.com/login/oauth/authorize?cliend_id=18e80c270cd6678592a7">
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            style={{ textDecoration: 'none' }}
-          >
-            Sign In With Github
-          </Button>
+        <a href="https://localhost:8080/github">
+          <img src="/images/githublogin.png" />
         </a>
-
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">

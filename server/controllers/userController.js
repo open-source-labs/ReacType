@@ -1,6 +1,6 @@
 // middleware functions create a new user and verify users
 
-const Users = require('../models/userModel');
+const { Users } = require('../models/reactypeModels');
 
 const userController = {};
 const bcrypt = require('bcryptjs');

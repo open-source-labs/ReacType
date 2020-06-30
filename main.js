@@ -94,8 +94,9 @@ const createWindow = () => {
     webPreferences: {
       zoomFactor: 0.7
       // for proper security measures, nodeIntegration should be set to false, but this results in a blank page when serving app
-      //nodeIntegration: false,
-      //preload: 'preload.js'
+      // nodeIntegration: false,
+      // preload: 'preload.js',
+      // enableRemoteModule: false
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),

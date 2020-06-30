@@ -83,15 +83,7 @@ class RightContainer extends Component<BottomTabsPropsInt> {
         }}
       >
         {/* <h3>This is the right column everyone!</h3> */}
-        <RouteLink to={`/`} style={{ textDecoration: 'none' }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ alignSelf: 'bottom' }}
-          >
-            Sign Out
-          </Button>
-        </RouteLink>
+
         <h4>
           {/* mimic the bottom tab label that shows how many html elements there are */}
           HTML Element Attributes{' '}
@@ -118,6 +110,15 @@ class RightContainer extends Component<BottomTabsPropsInt> {
         >
           Get My Projects
         </Button>
+        <RouteLink to={`/`} style={{ textDecoration: 'none', margin: '5px' }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ alignSelf: 'bottom' }}
+          >
+            Sign Out
+          </Button>
+        </RouteLink>
       </div>
     );
   }

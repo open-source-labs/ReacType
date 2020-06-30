@@ -143,6 +143,8 @@
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "material-table": "^1.57.2",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12",
     "prettier": "^1.19.1",
     "prismjs": "^1.19.0",
     "prop-types": "^15.6.2",
