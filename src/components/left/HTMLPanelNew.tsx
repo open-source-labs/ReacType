@@ -39,7 +39,7 @@ const HTMLPanel = (): JSX.Element => {
           // this is experimental for version: BLADERUNNER THEME
           backgroundColor: 'transparent',
           // minWidth: '340px',
-          minHeight: '80px',
+          minHeight: '60px',
           marginBottom: '15px',
           border: '2px dotted rgba(255,255,255, 0.45)',
           borderRadius: '8px'

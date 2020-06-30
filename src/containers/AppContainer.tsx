@@ -6,7 +6,7 @@ import Tutorial from '../components/main/Tutorial';
 import LeftContainer from './LeftContainer';
 import LeftContainerNew from './LeftContainerNew';
 import MainContainer from './MainContainer';
-import RightContainer from './RightContainer';
+import RightContainer from './RightContainerNew';
 import theme from '../theme';
 import {
   ComponentInt,
