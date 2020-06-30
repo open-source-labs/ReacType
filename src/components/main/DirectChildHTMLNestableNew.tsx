@@ -9,7 +9,7 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import HTMLTypes from '../../HTMLTypes';
+import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
@@ -36,7 +36,12 @@ function DirectChildHTMLNestable({
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: false,
-      id: childId
+      childId: childId,
+      instanceType: type,
+      instanceTypeId: typeId,
+      style: style,
+      attributes: attributes,
+      children: children
     },
     // canDrag: !props.children.length,
     collect: (monitor: any) => ({
@@ -55,27 +60,69 @@ function DirectChildHTMLNestable({
       }
       //   const hoverId = id;
       // updates state with new instance
-      console.log('Item was dropped here: ', item);
+      // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
+      if (item.newInstance) {
+        addChild(item.instanceType, item.instanceTypeId, childId);
+      }
+      // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
+      else {
+        changePosition(
+          item.instanceType,
+          item.instanceTypeId,
+          item.childId,
+          childId,
+          item.style,
+          item.attributes
+        );
+      }
     },
     collect: (monitor: any) => ({
       isOver: !!monitor.isOver({ shallow: true })
     })
   });
 
+  // function to add a new child to the canvas
+  const addChild = (
+    instanceType: string,
+    instanceTypeId: number,
+    childId: number
+  ) => {
+    dispatch({
+      type: 'ADD CHILD',
+      payload: { type: instanceType, typeId: instanceTypeId, childId: childId }
+    });
+  };
+
+  // function to change position of element dragged inside div, so that the div is the new parent
+  const changePosition = (
+    instanceType: string,
+    instanceTypeId: number,
+    currentChildId: number,
+    newParentChildId: number | null,
+    style: object,
+    attributes: object
+  ) => {
+    dispatch({
+      type: 'CHANGE POSITION',
+      payload: {
+        type: instanceType,
+        typeId: instanceTypeId,
+        currentChildId: currentChildId,
+        newParentChildId: newParentChildId,
+        style: style,
+        attributes: attributes
+      }
+    });
+  };
+
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
   };
 
-  // onClickHandler is responsible for changing the focus of the "focused" component to be the canvas when the canvas is clicked
-  // TODO: stopPropogation is returning a CORS error
+  // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
-    // console.log(event);
-    // event.stopPropogation();
-
-    console.log('You have clicked a DIRECT CHILD COMPONENT: ', childId);
-    // keep the component focus the same as the current state, but update the child focus to null
-    // a "null" value for the child component signifies that we're solely focusing on the parent component
-    // changeFocus(state.canvasFocus.componentId, childId);
+    event.stopPropagation();
+    changeFocus(state.canvasFocus.componentId, childId);
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -90,7 +137,7 @@ function DirectChildHTMLNestable({
 
   drag(drop(ref));
   return (
-    <div onClick={() => onClickHandler(event)} style={combinedStyle} ref={ref}>
+    <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
       {renderChildren(children)}
     </div>
   );

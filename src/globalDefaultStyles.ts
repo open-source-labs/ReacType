@@ -4,7 +4,7 @@ const globalDefaultStyle: Object = {
   borderRadius: '5px',
   border: '1px Solid grey',
   fontFamily: 'Helvetica Neue',
-  textAlign: 'center'
+  textAlign: 'left'
 };
 
 export default globalDefaultStyle;
