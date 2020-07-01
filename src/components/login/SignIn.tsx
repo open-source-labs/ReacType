@@ -2,7 +2,12 @@ import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import {
+  Link as RouteLink,
+  withRouter,
+  useHistory,
+  RouteComponentProps
+} from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -48,7 +53,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    width: '240px',
+    height: '60px'
   }
 }));
 
@@ -76,12 +83,12 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     e.preventDefault();
     console.log('click fired on handleLogin');
     sessionIsCreated(username, password).then(isLoggedIn => {
-      if(isLoggedIn) {
-        console.log('session created')
+      if (isLoggedIn) {
+        console.log('session created');
         dispatch(setLoginState()); // changes login state to true
         props.history.push('/');
       } else {
-        console.log('invalid login')
+        console.log('invalid login');
       }
     });
   };
@@ -137,6 +144,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign In
         </Button>
 
+        <a href="https://localhost:8080/github">
+          <img src="/images/githublogin.png" />
+        </a>
+        <br></br>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
@@ -144,7 +155,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
             </Link>
           </Grid>
           <Grid item>
-            <RouteLink to={`/signup`} className="nav_link">Don't have an account? Sign Up</RouteLink>
+            <RouteLink to={`/signup`} className="nav_link">
+              Don't have an account? Sign Up
+            </RouteLink>
           </Grid>
         </Grid>
       </div>

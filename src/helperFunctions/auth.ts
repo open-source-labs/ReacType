@@ -1,9 +1,12 @@
-export const sessionIsCreated = (username: string, password: string): Promise<boolean> => {
+export const sessionIsCreated = (
+  username: string,
+  password: string
+): Promise<boolean> => {
   const body = JSON.stringify({
     username,
     password
   });
-  const result = fetch('http://localhost:8080/login', {
+  const result = fetch('https://localhost:8080/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -16,25 +19,30 @@ export const sessionIsCreated = (username: string, password: string): Promise<bo
     })
     .then(data => {
       console.log('the data', data);
-      if (data.sessionId && typeof data.sessionId === 'string') { // check that a session id was passed down
+      if (data.sessionId && typeof data.sessionId === 'string') {
+        // check that a session id was passed down
         return true;
       }
       return false;
     })
     .catch(err => {
       console.log(err);
-      return false
+      return false;
     });
   return result;
-}
+};
 
-export const newUserIsCreated = (username: string, email: string, password: string): Promise<boolean> => {
+export const newUserIsCreated = (
+  username: string,
+  email: string,
+  password: string
+): Promise<boolean> => {
   const body = JSON.stringify({
     username,
     email,
     password
   });
-  const result = fetch('http://localhost:8080/signup', {
+  const result = fetch('https://localhost:8080/signup', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -47,14 +55,15 @@ export const newUserIsCreated = (username: string, email: string, password: stri
     })
     .then(data => {
       console.log('the data', data);
-      if (data.sessionId && typeof data.sessionId === 'string') { // check that a session id was passed down
+      if (data.sessionId && typeof data.sessionId === 'string') {
+        // check that a session id was passed down
         return true;
       }
       return false;
     })
     .catch(err => {
       console.log(err);
-      return false
+      return false;
     });
   return result;
-}
+};
