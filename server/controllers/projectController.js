@@ -10,10 +10,12 @@ projectController.saveProject = (req, res, next) => {
   // pull ssid from cookies for user id
   const userId = req.cookies.ssid;
   Projects.findOneAndUpdate(
+    // looks in projects collection for project by user and name
     { name, userId },
-    // pushes the saved project into projects array of project
+    // update or insert the project
     { project },
-    // this options returns as result the new project that was saved, otherwise result would be the projects array before it was updated
+    // Options: upsert: true - if none found, inserts new project, if found, updates project
+    // new: true - returns updated document not the original one
     { upsert: true, new: true },
     (err, result) => {
       if (err) {
