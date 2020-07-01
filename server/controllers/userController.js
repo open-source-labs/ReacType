@@ -22,12 +22,17 @@ userController.createUser = (req, res, next) => {
   // create user using username and password
   Users.create({ email, username, password, projects: [] }, (err, newUser) => {
     if (err) {
+      if(err.keyValue.email) {
+        return res.status(400).json('Email Taken');
+      } 
+      if(err.keyValue.username) {
+        return res.status(400).json('Username Taken');
+      }
       return next({
         log: `Error in userController.createUser: ${err}`,
         message: {
           err: `Error in userController.createUser. Check server logs for details`
-        }
-      });
+        }});
     } else {
       // this id property will be used in other middleware for cookie
       console.log('Successful createUser');

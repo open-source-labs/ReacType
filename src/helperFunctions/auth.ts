@@ -29,7 +29,7 @@ export const sessionIsCreated = (username: string, password: string): Promise<st
   return result;
 }
 
-export const newUserIsCreated = (username: string, email: string, password: string): Promise<boolean> => {
+export const newUserIsCreated = (username: string, email: string, password: string): Promise<string> => {
   const body = JSON.stringify({
     username,
     email,
@@ -49,13 +49,13 @@ export const newUserIsCreated = (username: string, email: string, password: stri
     .then(data => {
       console.log('the data', data);
       if (data.sessionId && typeof data.sessionId === 'string') { // check that a session id was passed down
-        return true;
+        return 'Success';
       }
-      return false;
+      return data; // response is either Email Taken or Username Taken, refer to userController.createUser
     })
     .catch(err => {
       console.log(err);
-      return false
+      return 'Error'
     });
   return result;
 }

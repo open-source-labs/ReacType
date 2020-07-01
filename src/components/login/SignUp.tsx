@@ -18,7 +18,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Formik } from "formik";
 
 function Copyright() {
   return (
@@ -53,11 +52,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function validateEmail(email: string) {
-  const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return regexp.test(email);
-}
-
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
 
@@ -91,7 +85,10 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('click fired on handleLogin');
+    console.log('click fired on handleSignup');
+    // console.log('email', email);
+    // console.log('username', username);
+    // console.log('password', password);
 
     // Reset Error Validation
     setInvalidEmailMsg('');
@@ -100,29 +97,73 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     setInvalidEmail(false); 
     setInvalidUsername(false); 
     setInvalidPassword(false);
+    // setUsername('');
+    // setEmail('');
+    // setPassword('');
+
+    // console.log('--email--', email);
+    // console.log('username', username);
+    // console.log('password', password);
 
     if(email === '') {
+      console.log(1);
       setInvalidEmail(true);
       setInvalidEmailMsg('No Email Entered')
+    } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      console.log(2);
+      setInvalidEmail(true);
+      setInvalidEmailMsg('Invalid Email Format')
     }
+
     if(username === '') {
+      console.log(1);
       setInvalidUsername(true);
       setInvalidUsernameMsg('No Username Entered');
+    } else if(!/^[\w\s-]{4,15}$/i.test(username)) {
+      console.log(2);
+      setInvalidUsername(true);
+      setInvalidUsernameMsg('Must Be 4 - 15 Characters Long');
+    } else if(!/^[\w-]+$/i.test(username)) {
+      console.log(3);
+      setInvalidUsername(true);
+      setInvalidUsernameMsg('Cannot Contain Spaces or Special Characters');
     }
+
     if(password === '') {
       setInvalidPassword(true);
       setInvalidPasswordMsg('No Password Entered');
+    } else if(password.length < 8) {
+      setInvalidPassword(true);
+      setInvalidPasswordMsg('Minimum 8 Characters');
+    } else if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(password)) {
+      setInvalidPassword(true);
+      setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
     }
 
-    newUserIsCreated(username, email, password).then(userCreated => {
-      if(userCreated) {
-        console.log('user created')
-        dispatch(setLoginState()); // changes login state to true
-        props.history.push('/');
-      } else {
-        console.log('invalid login')
-      }
-    });
+    console.log('invalidUsername', invalidUsername); 
+    console.log('invalidEmail', invalidEmail);
+    console.log('invalidPassword', invalidPassword);
+    if (!invalidUsername && !invalidEmail && !invalidPassword) {
+      console.log('fired validation')
+      newUserIsCreated(username, email, password).then(userCreated => {
+        if (userCreated === 'Success') {
+          console.log('user created')
+          dispatch(setLoginState()); // changes login state to true
+          props.history.push('/');
+        } else {
+          switch (userCreated) {
+            case 'Email Taken':
+              setInvalidEmail(true);
+              setInvalidEmailMsg('Email Taken');
+              break;
+            case 'Username Taken':
+              setInvalidUsername(true);
+              setInvalidUsernameMsg('Username Taken');
+              break;
+          }
+        }
+      });
+    }
   };
 
   return (
