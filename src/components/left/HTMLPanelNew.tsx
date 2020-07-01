@@ -1,19 +1,32 @@
 import React from 'react';
-import { withStyles, Theme } from '@material-ui/core/styles';
-import ImageIcon from '@material-ui/icons/Image';
-import ParagraphIcon from '@material-ui/icons/LocalParking';
-import FormIcon from '@material-ui/icons/Description';
-import HeaderIcon from '@material-ui/icons/TextFormat';
-import ButtonIcon from '@material-ui/icons/EditAttributes';
-import LinkIcon from '@material-ui/icons/Link';
-import ListIcon from '@material-ui/icons/List';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import HTMLTypes from '../../context/HTMLTypes';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  HTMLPanelItem: {
+    color: 'white',
+    // this is experimental for version: BLADERUNNER THEME
+    backgroundColor: 'transparent',
+    // minWidth: '340px',
+    minHeight: '60px',
+    marginBottom: '10px',
+    marginRight: '5px',
+    marginLeft: '5px',
+    border: '2px dotted rgba(255,255,255, 0.45)',
+    borderRadius: '8px',
+    cursor: 'grab',
+    '& > h3': {
+      display: 'inline-block',
+      paddingTop: '18px'
+    }
+  }
+})
 
 const HTMLPanel = (): JSX.Element => {
+  const classes = useStyles();
   const options = HTMLTypes.map(option => {
     const [{ isDragging }, drag] = useDrag({
       item: {
@@ -30,31 +43,24 @@ const HTMLPanel = (): JSX.Element => {
     return (
       <Grid
         item
-        ref={drag}
         xs={5}
         key={`html-${option.name}`}
-        style={{
-          color: 'white',
-          // this is experimental for version: BLADERUNNER THEME
-          backgroundColor: 'transparent',
-          // minWidth: '340px',
-          minHeight: '80px',
-          marginBottom: '15px',
-          border: '2px dotted rgba(255,255,255, 0.45)',
-          borderRadius: '8px'
-        }}
       >
-        <h3>
-          {option.name}
+        <div ref={drag} className={classes.HTMLPanelItem}>
+          <h3>
+            {option.name}
+            
+          </h3>
           <span
-            style={{
-              verticalAlign: '-webkit-baseline-middle',
-              marginLeft: '5px'
-            }}
-          >
-            {<option.icon />}
-          </span>
-        </h3>
+              style={{
+                verticalAlign: 'middle',
+                display: 'inline-block',
+                marginLeft: '5px'
+              }}
+            >
+              {<option.icon />}
+            </span>
+        </div>
       </Grid>
     );
   });
@@ -62,7 +68,7 @@ const HTMLPanel = (): JSX.Element => {
   return (
     <div>
       <h4> HTML Elements</h4>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid container spacing={1} direction="row" justify="center" alignItems="center">
         {options}
       </Grid>
     </div>

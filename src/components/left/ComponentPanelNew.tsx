@@ -14,35 +14,34 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   inputField: {
-    marginRight: '10px',
-    borderColor: 'white'
+    
   },
   inputWrapper: {
-    height: '120px',
+    height: '110px',
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'space-evenly'
+    justifyContent: 'flex-end'
   },
   panelWrapper: {
     marginTop: '35px',
     width: '100%'
   },
   panelWrapperList: {
-    height: '850px',
-    overflowY: 'scroll'
+    maxHeight: '675px',
+    minHeight: '120px',
+    overflowY: 'auto',
+    marginLeft: '-15px'
   },
   input: {
     color: '#fff',
-    marginBottom: '10px',
     borderRadius: '5px',
     paddingLeft: '15px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
     paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    border: '1px solid #33eb91'
+    border: '1px solid rgba(51,235,145,0.75)',
+    backgroundColor: 'rgba(255,255,255,0.15)'
   },
   inputLabel: {
     fontSize: '14px',
@@ -52,7 +51,9 @@ const useStyles = makeStyles({
   },
   btnGroup: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    paddingTop: '10px',
+    marginLeft: '10px'
   },
   button: {
     fontSize: '1rem'
@@ -61,42 +62,9 @@ const useStyles = makeStyles({
     color: '#01d46d',
     fontSize: '0.85rem'
   },
-  compPanelItem: {
-    '&:hover': {
-      cursor: 'pointer',
-      backgroundColor: 'red'
-    }
-  }
+
 });
 
-const initialState: any = {
-  components: [
-    {
-      id: 1,
-      name: 'index',
-      style: {},
-      nextChildId: 1,
-      children: []
-    },
-    {
-      id: 2,
-      name: 'Article',
-      style: {},
-      nextChildId: 1,
-      children: []
-    },
-    {
-      id: 3,
-      name: 'Section',
-      style: {},
-      nextChildId: 1,
-      children: []
-    }
-  ],
-  rootComponents: [1],
-  canvasFocus: { componentId: 1, childId: null },
-  nextComponentId: 4
-};
 
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
@@ -173,20 +141,25 @@ const ComponentPanel = (): JSX.Element => {
     resetError();
   };
 
-  // const reportFocus = (targetId: Number) => {
-  //   const focusTarget = state.components.filter(comp => {
-  //     return comp.id === targetId;
-  //   });
-  //   console.log('FOCUSING ON COMPONENT: ');
-  //   console.log(focusTarget[0]);
-  // };
+  const isFocus = (targetId: Number) => {
+    return state.canvasFocus.componentId === targetId ? true : false;
+  }
+
+  const setFocus = (targetId: Number) => {
+    const focusTarget = state.components.filter(comp => {
+      return comp.id === targetId;
+    });
+    //placeholder for switching focus
+    console.log('FOCUSING ON COMPONENT: ');
+    console.log(focusTarget[0]);
+  };
 
   return (
     <div className={classes.panelWrapper}>
       <div className={classes.inputWrapper}>
         <TextField
           color={'primary'}
-          label="COMPONENT NAME"
+          label="Component Name"
           variant="outlined"
           className={classes.inputField}
           InputProps={{ className: classes.input }}
@@ -202,9 +175,9 @@ const ComponentPanel = (): JSX.Element => {
             color="primary"
             onClick={handleNameSubmit}
           >
-            CREATE
+            ADD
           </Button>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Switch
                 checked={isRoot}
@@ -214,19 +187,19 @@ const ComponentPanel = (): JSX.Element => {
             }
             className={classes.rootToggle}
             label="ROOT"
-          />
+          /> */}
         </div>
       </div>
       <div className={classes.panelWrapperList}>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components.map(comp => (
             <ComponentPanelItem
-              className={classes.compPanelItem}
+              isFocus={isFocus(comp.id)}
               key={`comp-${comp.id}`}
               name={comp.name}
               id={comp.id}
               root={state.rootComponents.includes(comp.id)}
-              focusClick={() => reportFocus(comp.id)}
+              focusClick={() => setFocus(comp.id)}
             />
           ))}
         </Grid>

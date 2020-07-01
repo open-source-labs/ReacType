@@ -1,27 +1,35 @@
 const express = require('express');
 const https = require('https');
 const fs = require('fs');
-const mongoose = require('mongoose');
 const path = require('path');
+const passport = require('passport');
+require('./passport-setup');
 const cookieParser = require('cookie-parser');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
+const projectController = require('./controllers/projectController');
 const app = express();
+
 const PORT = 8080;
 
-// connect to mongo db
-mongoose
-  .connect(process.env.MONGO_URI, {
-    // options for the connect method to parse the URI
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    // sets the name of the DB that our collections are part of
-    dbName: 'ReacType'
-  })
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log(err));
+// initializes passport and passport sessions
+app.use(passport.initialize());
+app.use(passport.session());
+
+// routes for initial github oauth and callback
+app.get('/github', passport.authenticate('github'));
+
+app.get(
+  '/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  sessionController.githubSession,
+  cookieController.setSSIDCookie,
+  (req, res) => {
+    console.log('At the end of github oauth process');
+    return res.status(200).redirect('/');
+  }
+);
 
 // handle parsing request body
 app.use(express.json());
@@ -30,6 +38,10 @@ app.use(cookieParser());
 
 // statically serve everything in build folder
 app.use('/', express.static(path.resolve(__dirname, '../build')));
+app.use(
+  '/images',
+  express.static(path.resolve(__dirname, '..src/public/images'))
+);
 
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
@@ -55,6 +67,24 @@ app.post(
   }
 );
 
+app.post(
+  '/saveProject',
+  sessionController.isLoggedIn,
+  projectController.saveProject,
+  (req, res) => {
+    return res.status(200).json(res.locals.savedProject);
+  }
+);
+
+app.get(
+  '/getProjects',
+  sessionController.isLoggedIn,
+  projectController.getProjects,
+  (req, res) => {
+    return res.status(200).json(res.locals.projects);
+  }
+);
+
 // catch-all route handler
 app.use('*', (req, res) => {
   return res.status(404).send('Page not found');
@@ -75,20 +105,21 @@ app.use((err, req, res, next) => {
 });
 
 //starts server on PORT
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`)
-})
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port: ${PORT}`);
+// });
 
-// For security, if serving app from a server, it should be https, but we haven't got it working yet
+// For security, if serving app from a server, it should be https
+// https working now, but still needs nodeIntegration on to work <- Electron throws security issue warning because of this
 
-// https
-//   .createServer(
-//     {
-//       key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-//       cert: fs.readFileSync(path.resolve(__dirname, 'server.cert'))
-//     },
-//     app
-//   )
-//   .listen(PORT, () => {
-//     console.log(`Server listening on port: ${PORT}`);
-//   });
+https
+  .createServer(
+    {
+      key: fs.readFileSync(path.resolve(__dirname, 'localhost.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'localhost.crt'))
+    },
+    app
+  )
+  .listen(PORT, () => {
+    console.log(`Server listening on port: ${PORT}`);
+  });

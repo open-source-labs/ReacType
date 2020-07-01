@@ -92,9 +92,9 @@ function Canvas() {
 
   const defaultCanvasStyle = {
     width: '100%',
-    height: '100%',
+    minHeight: '100%',
     backgroundColor: isOver ? 'lightyellow' : 'white',
-    border: '2px Solid black',
+    border: '3px solid #01d46d',
     borderStyle: isOver ? 'dotted' : 'solid'
   };
 
