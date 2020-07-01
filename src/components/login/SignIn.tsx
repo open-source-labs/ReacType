@@ -144,8 +144,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign In
         </Button>
 
-        <a href="/github">
-          <img src="/images/githublogin.png" />
+        <a href="https://localhost:8080/github">
+          <img src="../src/public/images/githublogin.png" />
         </a>
         <br></br>
         <Grid container>

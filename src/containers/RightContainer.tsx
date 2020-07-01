@@ -31,13 +31,14 @@ interface BottomTabsPropsInt extends PropsInt {
   native: boolean;
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
+  currentWorkspace: ApplicationStateInt;
 }
 
 function saveProject(project: ApplicationStateInt, name: String) {
   console.log('Saving project to DB...');
   const body = JSON.stringify({ name, project });
   console.log('Project name is', name);
-  fetch('/saveProject', {
+  fetch('https://localhost:8080/saveProject', {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -52,7 +53,7 @@ function saveProject(project: ApplicationStateInt, name: String) {
 
 function getProjects() {
   console.log("Loading user's projects...");
-  fetch('/getProjects', {
+  fetch('https://localhost:8080/getProjects', {
     credentials: 'include'
   })
     .then(res => res.json())
@@ -76,7 +77,7 @@ const RightContainer = (props: BottomTabsPropsInt) => {
 
   const [projectName, setProjectName] = useState('');
 
-  const handleChange = e => {
+  const handleChange = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let newVal = e.target.value;
     setProjectName(newVal);
   };

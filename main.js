@@ -11,8 +11,7 @@ const {
   shell,
   dialog,
   ipcMain,
-  globalShortcut,
-  session
+  globalShortcut
 } = require('electron');
 
 // Uncomment below for hot reloading during development

@@ -27,7 +27,7 @@ app.get(
   cookieController.setSSIDCookie,
   (req, res) => {
     console.log('At the end of github oauth process');
-    return res.redirect('/');
+    return res.status(200).redirect('/');
   }
 );
 
@@ -39,7 +39,7 @@ app.use(cookieParser());
 // statically serve everything in build folder
 app.use('/', express.static(path.resolve(__dirname, '../build')));
 app.use(
-  '/images',
+  '/src/public/images',
   express.static(path.resolve(__dirname, '..src/public/images'))
 );
 

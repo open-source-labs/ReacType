@@ -6,7 +6,7 @@ export const sessionIsCreated = (
     username,
     password
   });
-  const result = fetch('/login', {
+  const result = fetch('https://localhost:8080/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -42,7 +42,7 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch('/signup', {
+  const result = fetch('https://localhost:8080/signup', {
     method: 'POST',
     credentials: 'include',
     headers: {

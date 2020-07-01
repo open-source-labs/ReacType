@@ -52,7 +52,7 @@ const sessionSchema = new Schema({
 });
 
 const projectSchema = new Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   project: Object,
   userId: {
     type: Schema.Types.ObjectId,
