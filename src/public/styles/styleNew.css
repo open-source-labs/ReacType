@@ -30,11 +30,26 @@ h3 {
   margin: 0;
   padding-left: 15px;
   padding-top: 15px;
+  font-size: 1em;
+  letter-spacing: 0.5px;
 }
 
 .compPanelItem {
   height: 100%;
+  position: relative;
 }
+
+.compPanelItem h3 {
+  padding-top: 25px;
+  font-size: 1.15em;
+  letter-spacing: 0.75px;
+}
+
 .compPanelItem:hover {
   cursor: pointer;
 }
+
+.right {
+  padding-top: 35px;
+}
+
