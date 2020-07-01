@@ -1,4 +1,5 @@
-import { HTMLType } from './interfaces/InterfacesNew';
+import { HTMLType } from '../interfaces/InterfacesNew';
+import React from 'react';
 
 import ImageIcon from '@material-ui/icons/Image';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
@@ -14,7 +15,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'img',
     name: 'Image',
     style: {},
-    placeHolderShort: '',
+    placeHolderShort: 'Image',
     placeHolderLong: '',
     icon: ImageIcon
   },
@@ -23,7 +24,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'form',
     name: 'Form',
     style: {},
-    placeHolderShort: '',
+    placeHolderShort: 'Form',
     placeHolderLong: '',
     icon: FormIcon
   },
@@ -32,7 +33,13 @@ const HTMLTypes: HTMLType[] = [
     tag: 'li',
     name: 'List',
     style: { color: 'purple' },
-    placeHolderShort: 'This is a list',
+    placeHolderShort: (
+      <ul>
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+      </ul>
+    ),
     placeHolderLong: '',
     icon: ListIcon
   },
@@ -40,8 +47,8 @@ const HTMLTypes: HTMLType[] = [
     id: 4,
     tag: 'button',
     name: 'Button',
-    style: {},
-    placeHolderShort: '',
+    style: { textAlign: 'center', border: 'none' },
+    placeHolderShort: <button>Button</button>,
     placeHolderLong: '',
     icon: ButtonIcon
   },
@@ -49,8 +56,8 @@ const HTMLTypes: HTMLType[] = [
     id: 6,
     tag: 'a',
     name: 'Link',
-    style: {},
-    placeHolderShort: '',
+    style: { border: 'none' },
+    placeHolderShort: <a href="">Link</a>,
     placeHolderLong: '',
     icon: LinkIcon
   },
@@ -59,7 +66,8 @@ const HTMLTypes: HTMLType[] = [
     tag: 'p',
     name: 'Paragraph',
     style: {},
-    placeHolderShort: '',
+    placeHolderShort:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu',
     placeHolderLong: '',
     icon: ParagraphIcon
   },
@@ -67,8 +75,8 @@ const HTMLTypes: HTMLType[] = [
     id: 9,
     tag: 'h1',
     name: 'Header 1',
-    style: {},
-    placeHolderShort: '',
+    style: { fontSize: '2em' },
+    placeHolderShort: 'Header 1',
     placeHolderLong: '',
     icon: HeaderIcon
   },
@@ -76,8 +84,8 @@ const HTMLTypes: HTMLType[] = [
     id: 10,
     tag: 'h2',
     name: 'Header 2',
-    style: {},
-    placeHolderShort: '',
+    style: { fontSize: '1.5em' },
+    placeHolderShort: 'Header 2',
     placeHolderLong: '',
     icon: HeaderIcon
   },

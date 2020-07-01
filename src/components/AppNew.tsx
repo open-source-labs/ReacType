@@ -4,7 +4,8 @@ import '../public/styles/styleNew.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
-import { initialState, stateContext } from '../context/context';
+import { stateContext } from '../context/context';
+import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducerNew';
 // import { Context, State } from '../interfaces/InterfacesNew';
 
