@@ -11,8 +11,7 @@ const {
   shell,
   dialog,
   ipcMain,
-  globalShortcut,
-  session
+  globalShortcut
 } = require('electron');
 
 // Uncomment below for hot reloading during development
@@ -92,8 +91,11 @@ const createWindow = () => {
     width: 1920,
     height: 1080,
     webPreferences: {
-      zoomFactor: 0.7,
-      'node-Integration': false
+      zoomFactor: 0.7
+      // for proper security measures, nodeIntegration should be set to false, but this results in a blank page when serving app
+      // nodeIntegration: false,
+      // preload: 'preload.js',
+      // enableRemoteModule: false
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
@@ -118,9 +120,11 @@ const createWindow = () => {
     text: 'Initializing ...'
   });
 
-  // and load the index.html of the app.
-  // now loading what the server serves, this url will need to change when/if we decide to put reactype on the web
-  mainWindow.loadURL(`http://localhost:8080`);
+  // code below loads app locally
+  // mainWindow.loadURL(`file://${__dirname}/build/index.html`);
+
+  // code below loads app from a server, this url will need to change when/if we decide to put reactype on the web
+  mainWindow.loadURL(`https://localhost:8080`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -311,3 +315,6 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+// bypass ssl certification validation error
+// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
