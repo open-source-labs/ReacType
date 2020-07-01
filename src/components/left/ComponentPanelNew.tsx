@@ -14,8 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   inputField: {
-    marginRight: '15px',
-    // width: '245px'
+    
   },
   inputWrapper: {
     height: '110px',
@@ -28,7 +27,8 @@ const useStyles = makeStyles({
     width: '100%'
   },
   panelWrapperList: {
-    height: '675px',
+    maxHeight: '675px',
+    minHeight: '120px',
     overflowY: 'auto',
     marginLeft: '-15px'
   },
@@ -53,7 +53,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     paddingTop: '10px',
-    marginRight: '10px'
+    marginLeft: '10px'
   },
   button: {
     fontSize: '1rem'
@@ -62,14 +62,7 @@ const useStyles = makeStyles({
     color: '#01d46d',
     fontSize: '0.85rem'
   },
-  compPanelItem: {
-    color: 'red',
-    '&:hover': {
-      cursor: 'pointer',
-      backgroundColor: 'red'
-    }
-  },
-  
+
 });
 
 

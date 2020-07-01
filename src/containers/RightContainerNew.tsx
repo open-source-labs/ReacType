@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { stateContext } from '../context/context';
+import HTMLTypes from '../context/HTMLTypes';
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
@@ -52,8 +53,18 @@ const useStyles = makeStyles({
   compName: {
     color: '#01d46d',
     fontSize: '1.25rem'
+  },
+  configHeader: {
+    height: '70px',
+    '& > h4': {
+      fontSize: '1.15rem',
+      letterSpacing: '0.5px',
+      marginBottom: '0',
+      marginTop: '10px'
+    }
   }
 });
+
 
 const RightContainer = ():JSX.Element  => {
   const classes = useStyles();
@@ -68,7 +79,25 @@ const RightContainer = ():JSX.Element  => {
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
 
+  const resetFields = () => {
+    setDisplayMode('');
+    setFlexDir('');
+    setFlexJustify('');
+    setFlexAlign('');
+    setCompWidth('');
+    setCompHeight('');
+    setBGColor('');
+  }
 
+  //reset input fields if focus changes
+  useEffect(()=> {
+    // reset
+    console.log('canvas focus changed');
+    resetFields();
+  }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
+
+
+  // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{value: any}>) => {
     let inputVal = e.target.value;
     switch(e.target.name) {
@@ -96,13 +125,46 @@ const RightContainer = ():JSX.Element  => {
     }
   }
 
+  // returns the current component referenced in canvasFocus 
+  // along with its child instance, if it exists
   const getFocus = () => {
-    const focusTarget = state.components.find(comp => {
-      return comp.id === state.canvasFocus.componentId;
-    })
+    // find and store component's name based on canvasFocus.componentId
+    // note: deep clone here to make sure we don't end up altering state
+    let focusTarget = JSON.parse(JSON.stringify(state.components.find(comp => comp.id === state.canvasFocus.componentId )));
+    delete focusTarget.child;
+    
+    // checks if canvasFocus references a childId
+    const childInstanceId = state.canvasFocus.childId ? state.canvasFocus.childId : null;
+
+    // if so, breadth-first search through focusTarget's descendants to find matching child
+    if (childInstanceId) {
+      focusTarget.child = {};
+      focusTarget.child.id = childInstanceId;
+      let focusChild = {}; //child instance being referenced in canvasFocus
+      const searchArray = [...focusTarget.children];
+      while (searchArray.length > 0) {
+        const currentChild = searchArray.shift();
+        if (currentChild.childId === childInstanceId) focusChild = currentChild;
+        currentChild.children.forEach(child => searchArray.push(child));
+      }
+      // if type is Component, use child's typeId to search through state components and find matching component's name
+      if (focusChild.type === 'Component') {
+        focusTarget.child.type = 'component';
+        focusTarget.child.name = state.components.find(comp => comp.id === focusChild.typeId).name;
+      // if type is HTML Element, search through HTML types to find matching element's name
+      } else if (focusChild.type === 'HTML Element') {
+        focusTarget.child.type = 'HTML element';
+        focusTarget.child.name = HTMLTypes.find(elem => elem.id === focusChild.typeId).name;
+      }
+    }
+    console.log('right panel focus: ');
+    console.log(focusTarget);
+    
     return focusTarget;
   }
 
+  // dispatch to 'UPDATE CSS' called when save button is clicked,
+  // passing in style object constructed from all changed input values
   const handleSave = ():Object => {
     const styleObj = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -113,16 +175,29 @@ const RightContainer = ():JSX.Element  => {
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
     console.log(styleObj);
+    dispatch({
+      type: 'UPDATE CSS',
+      payload: { style: styleObj }
+    });
+    resetFields();
     return styleObj;
   }
 
+  // placeholder for handling deleting instance
   const handleDelete = () => {
     console.log('DELETING ...');
   }
 
+  const configTarget = getFocus();
+
   return (
     <div className="column right">
-      <h4>Configuration options for <span className={classes.compName}>{getFocus().name}</span></h4>
+      <div className={classes.configHeader}>
+        <h4>Configuration options in <span className={classes.compName}>{configTarget.name}</span></h4>
+        { configTarget.child &&
+          <h4>for instance <span className={classes.compName}>{configTarget.child.id}</span> of {configTarget.child.type} <span className={classes.compName}>{configTarget.child.name}</span ></h4>
+        }
+      </div>
       <div className={classes.configRow}>
         <div className={classes.configType}>
           <h3>Display:</h3>

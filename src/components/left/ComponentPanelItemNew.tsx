@@ -24,9 +24,8 @@ const ComponentPanelItem: React.FC<{
   name: string;
   id: number;
   root: boolean;
-  focusClick: any;
   isFocus: boolean
-}> = ({ name, id, root, focusClick, isFocus }) => {
+}> = ({ name, id, root, isFocus }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
   // useDrag hook allows components in left panel to be drag source
