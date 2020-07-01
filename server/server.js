@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
+const projectController = require('./controllers/projectController');
 const app = express();
 
 const PORT = 8080;
@@ -69,7 +70,7 @@ app.post(
 app.post(
   '/saveProject',
   sessionController.isLoggedIn,
-  userController.saveProject,
+  projectController.saveProject,
   (req, res) => {
     return res.status(200).json(res.locals.savedProject);
   }
@@ -78,7 +79,7 @@ app.post(
 app.get(
   '/getProjects',
   sessionController.isLoggedIn,
-  userController.getProjects,
+  projectController.getProjects,
   (req, res) => {
     return res.status(200).json(res.locals.projects);
   }
@@ -105,8 +106,8 @@ app.use((err, req, res, next) => {
 
 //starts server on PORT
 // app.listen(PORT, () => {
-//   console.log(`Server listening on port: ${PORT}`)
-// })
+//   console.log(`Server listening on port: ${PORT}`);
+// });
 
 // For security, if serving app from a server, it should be https
 // https working now, but still needs nodeIntegration on to work <- Electron throws security issue warning because of this

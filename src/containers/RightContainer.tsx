@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import HtmlAttr from '../components/bottom/HtmlAttr';
@@ -37,7 +37,7 @@ function saveProject(project: ApplicationStateInt, name: String) {
   console.log('Saving project to DB...');
   const body = JSON.stringify({ name, project });
   console.log('Project name is', name);
-  fetch('https://localhost:8080/saveProject', {
+  fetch('/saveProject', {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -52,14 +52,22 @@ function saveProject(project: ApplicationStateInt, name: String) {
 
 function getProjects() {
   console.log("Loading user's projects...");
-  fetch('https://localhost:8080/getProjects', {
+  fetch('/getProjects', {
     credentials: 'include'
   })
     .then(res => res.json())
-    .then(data => console.log("User's projects are", data))
+    .then(data => {
+      console.log("User's projects are", data);
+      window.localStorage.setItem('Projects', data);
+    })
     .catch(err => console.log(err));
 }
+
 const RightContainer = (props: BottomTabsPropsInt) => {
+  // useEffect(() => {
+  //   getProjects();
+  // });
+
   const { classes, components, focusComponent, focusChild } = props;
   // looks through the children of currently focused component (based on left bar) and finds the number of child html elements it has
   const htmlAttribCount = focusComponent.childrenArray.filter(

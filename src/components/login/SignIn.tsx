@@ -8,7 +8,7 @@ import {
   useHistory,
   RouteComponentProps
 } from 'react-router-dom';
-import { sessionIsCreated, githubOauth } from '../../helperFunctions/auth';
+import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -144,7 +144,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign In
         </Button>
 
-        <a href="https://localhost:8080/github">
+        <a href="/github">
           <img src="/images/githublogin.png" />
         </a>
         <br></br>

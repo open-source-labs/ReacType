@@ -3,6 +3,8 @@ const sessionController = {};
 
 // isLoggedIn finds appropriate session for this request in database, then verifies whether or not the session is still valid
 sessionController.isLoggedIn = (req, res, next) => {
+  console.log('Inside isLoggedIn');
+  console.log('req.cookies is', req.cookies);
   // find session from request session ID in mongodb
   Sessions.findOne({ cookieId: req.cookies.ssid }, (err, session) => {
     if (err) {
@@ -14,9 +16,11 @@ sessionController.isLoggedIn = (req, res, next) => {
       });
       // no session found, redirect to signup page
     } else if (!session) {
+      console.log('No session found, redirecting to signup page');
       return res.redirect('/signup');
     } else {
       // session found, move onto next middleware
+      console.log('Session found, moving onto next middleware');
       return next();
     }
   });

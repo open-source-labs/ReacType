@@ -21,13 +21,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: false, unique: true },
-  password: { type: String, required: true },
-  projects: [
-    {
-      name: String,
-      project: { type: Object }
-    }
-  ]
+  password: { type: String, required: true }
 });
 
 // salt will go through 10 rounds of hashing
@@ -57,7 +51,18 @@ const sessionSchema = new Schema({
   createdAt: { type: Date, expires: 3600, default: Date.now }
 });
 
+const projectSchema = new Schema({
+  name: { type: String, required: true, unique: true },
+  project: Object,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users'
+  },
+  createdAt: { type: Date, default: Date.now }
+});
+
 const Users = mongoose.model('Users', userSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
+const Projects = mongoose.model('Projects', projectSchema);
 
-module.exports = { Users, Sessions };
+module.exports = { Users, Sessions, Projects };

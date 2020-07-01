@@ -6,7 +6,7 @@ export const sessionIsCreated = (
     username,
     password
   });
-  const result = fetch('https://localhost:8080/login', {
+  const result = fetch('/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -42,7 +42,7 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch('https://localhost:8080/signup', {
+  const result = fetch('/signup', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -63,26 +63,6 @@ export const newUserIsCreated = (
     })
     .catch(err => {
       console.log(err);
-      return false;
-    });
-  return result;
-};
-
-export const githubOauth = (): Promise<boolean> => {
-  const result = fetch('https://github.com/login/oauth/authorize', {
-    method: 'GET',
-    mode: 'no-cors',
-    params: {
-      client_id: process.env.GITHUB_ID
-    }
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Data from github oauth', data);
-      return true;
-    })
-    .catch(err => {
-      console.log('Error from github oauth', err);
       return false;
     });
   return result;

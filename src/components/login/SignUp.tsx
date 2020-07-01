@@ -83,7 +83,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('click fired on handleLogin');
+    console.log('click fired on handleSignup');
     newUserIsCreated(username, email, password).then(userCreated => {
       if (userCreated) {
         console.log('user created');
