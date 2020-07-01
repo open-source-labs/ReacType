@@ -39,7 +39,7 @@ app.use(cookieParser());
 // statically serve everything in build folder
 app.use('/', express.static(path.resolve(__dirname, '../build')));
 app.use(
-  '/src/public/images',
+  '/images',
   express.static(path.resolve(__dirname, '..src/public/images'))
 );
 
