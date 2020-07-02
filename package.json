@@ -76,7 +76,7 @@
     "test:clear": "cross-env NODE_ENV=test jest --clearCache",
     "linter": "eslint src",
     "develop": "concurrently \"npm run dev\" \"npm run electron\"",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js"
+    "server": "nodemon server/server.js"
   },
   "bin": {
     "reactype": "./index.js"
@@ -144,6 +144,8 @@
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "material-table": "^1.57.2",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12",
     "prettier": "^1.19.1",
     "prismjs": "^1.19.0",
     "prop-types": "^15.6.2",
@@ -164,7 +166,8 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "redux-undo": "^1.0.1"
+    "redux-undo": "^1.0.1",
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -210,6 +213,7 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
     "ts-jest": "^25.3.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"

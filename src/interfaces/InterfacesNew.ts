@@ -3,6 +3,7 @@ export interface State {
   rootComponents: number[];
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
+  nextChildId: number;
 }
 
 export interface ChildElement {
@@ -12,7 +13,6 @@ export interface ChildElement {
   //   update this interface later so that we enforce that each value of style object is a string
   style: object;
   attributes?: object;
-  nextChildId?: number;
   children?: ChildElement[];
 }
 
@@ -20,7 +20,7 @@ export interface Component {
   id: number;
   name: string;
   style: object;
-  nextChildId: number;
+  code: string;
   children: ChildElement[];
 }
 
@@ -44,7 +44,7 @@ export interface HTMLType {
   tag: string;
   name: string;
   style: object;
-  placeHolderShort: string;
+  placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
   icon: any;
 }

@@ -2,7 +2,12 @@ import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import {
+  Link as RouteLink,
+  withRouter,
+  useHistory,
+  RouteComponentProps
+} from 'react-router-dom';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -34,12 +39,12 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -47,11 +52,11 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
 /*
@@ -287,7 +292,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <RouteLink to={`/login`} className="nav_link">Already have an account? Sign In</RouteLink>
+              <RouteLink to={`/login`} className="nav_link">
+                Already have an account? Sign In
+              </RouteLink>
             </Grid>
           </Grid>
         </form>
@@ -297,6 +304,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       </Box>
     </Container>
   );
-}
+};
 
 export default withRouter(SignUp);

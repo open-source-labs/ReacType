@@ -1,6 +1,6 @@
 // middleware functions create a new user and verify users
 
-const Users = require('../models/userModel');
+const { Users } = require('../models/reactypeModels');
 
 const userController = {};
 const bcrypt = require('bcryptjs');
@@ -9,6 +9,7 @@ userController.createUser = (req, res, next) => {
   console.log('Creating user...');
   const { email, username, password } = req.body;
   // error handling if username or password is missing
+  // TODO make this more vague for security purposes
   if (!username) {
     return res.status(400).json('No username input');
   }
@@ -20,7 +21,7 @@ userController.createUser = (req, res, next) => {
   }
 
   // create user using username and password
-  Users.create({ email, username, password, projects: [] }, (err, newUser) => {
+  Users.create({ username, password, email }, (err, newUser) => {
     if (err) {
       if(err.keyValue.email) {
         return res.status(400).json('Email Taken');
@@ -46,7 +47,7 @@ userController.createUser = (req, res, next) => {
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 
 userController.verifyUser = (req, res, next) => {
-  console.log('Verifying user...');
+  console.log('Inside userController.verifyUser...');
   const { username, password } = req.body;
   if (!username) {
     return res.status(400).json('No Username Input');

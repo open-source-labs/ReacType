@@ -2,7 +2,12 @@ import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouteLink, withRouter, useHistory, RouteComponentProps } from 'react-router-dom';
+import {
+  Link as RouteLink,
+  withRouter,
+  useHistory,
+  RouteComponentProps
+} from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -18,6 +23,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 function Copyright() {
   return (
@@ -48,7 +54,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(1, 0, 1),
+    // width: '240px',
+    // height: '60px'
   }
 }));
 
@@ -177,6 +185,20 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign In
         </Button>
 
+        <Button
+          fullWidth
+          variant="contained"
+          color="default"
+          className={classes.submit}
+          href="https://localhost:8080/github"
+        >
+          <GitHubIcon/>
+        </Button>
+
+        {/* <a href="https://localhost:8080/github">
+          <img src="/images/githublogin.png" />
+        </a>
+        <br></br> */}
         <Grid container>
           <Grid item xs>
             {/* <Link href="#" variant="body2">
@@ -185,7 +207,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
             <RouteLink to={`/signup`} className="nav_link">Forgot password?</RouteLink>
           </Grid>
           <Grid item>
-            <RouteLink to={`/signup`} className="nav_link">Don't have an account? Sign Up</RouteLink>
+            <RouteLink to={`/signup`} className="nav_link">
+              Don't have an account? Sign Up
+            </RouteLink>
           </Grid>
         </Grid>
       </div>
