@@ -1,4 +1,5 @@
 import fs from 'fs';
+import createFiles from './createFiles.util';
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -47,6 +48,7 @@ export const createIndexTsx = (path, appName) => {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
+import './default.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
   `;
@@ -58,6 +60,27 @@ ReactDOM.render(<App />, document.getElementById('root'));
     }
   });
 };
+
+export const createDefaultCSS = (path, appName) => {
+  const filePath = `${path}/${appName}/src/default.css`;
+  const data = `
+  #root div {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.25);
+    padding: 12px;
+    text-align: center;
+    font-family: Helvetica, Arial;
+  }
+  `;
+  fs.writeFile(filePath, data, err => {
+    if (err) {
+      console.log('default.css error:', err.message);
+    } else {
+      console.log('default.css written successfully');
+    }
+  });
+}
 
 export const createPackage = (path, appName) => {
   const filePath = `${path}/${appName}/package.json`;
@@ -165,6 +188,13 @@ module.exports = {
           'sass-loader', // compiles Sass to CSS, using Node Sass by default
         ],
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
     ],
   },
 };
@@ -285,22 +315,24 @@ app.listen(8080, () => {
 async function createApplicationUtil({
   path,
   appName,
-  genOption
+  components
 }: {
   path: string;
   appName: string;
-  genOption: number;
+  components: any;
 }) {
   console.log('in the createApplication util');
-  if (genOption === 1) {
-    await createIndexHtml(path, appName);
-    await createIndexTsx(path, appName);
-    await createPackage(path, appName);
-    await createWebpack(path, appName);
-    await createBabel(path, appName);
-    await createTsConfig(path, appName);
-    await createTsLint(path, appName);
-    await createServer(path, appName);
-  }
+  
+  await createIndexHtml(path, appName);
+  await createIndexTsx(path, appName);
+  await createDefaultCSS(path, appName);
+  await createPackage(path, appName);
+  await createWebpack(path, appName);
+  await createBabel(path, appName);
+  await createTsConfig(path, appName);
+  await createTsLint(path, appName);
+  await createServer(path, appName);
+  await createFiles(components, path, appName, true);
+  
 }
 export default createApplicationUtil;
