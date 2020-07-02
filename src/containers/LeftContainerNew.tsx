@@ -22,16 +22,24 @@ const IPC = require('electron').ipcRenderer;
 const useStyles = makeStyles({
   btnGroup: {
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     position: 'absolute',
-    bottom: '65px',
+    bottom: '40px',
     left: '0px'
   },
   exportBtn: {
     width: '55%',
     backgroundColor: 'rgba(1,212,109,0.1)',
     fontSize: '1em'
+  },
+  clearBtn: {
+    width: '55%',
+    fontSize: '1em',
+    marginTop: '15px',
+    color: 'red'
   }
 });
 
@@ -121,6 +129,7 @@ const LeftContainer = (): JSX.Element => {
       setGenOption(genOpt);
       console.log('Gen option is ', genOpt);
       // closeModal
+      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
       closeModal();
       // Choose app dir
       // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
@@ -145,16 +154,7 @@ const LeftContainer = (): JSX.Element => {
       console.log('app directory selected!!!');
     });
 
-    // createModal({
-    //   closeModal,
-    //   children,
-    //   message: 'Choose export preference:',
-    //   primBtnLabel: null,
-    //   primBtnAction: null,
-    //   secBtnAction: null,
-    //   secBtnLabel: null,
-    //   open: true
-    // });
+    
     setModal(
       createModal({
         closeModal,
@@ -170,7 +170,7 @@ const LeftContainer = (): JSX.Element => {
   };
 
   return (
-    <div className="column left" style={{ minWidth: '375px' }}>
+    <div className="column left">
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
@@ -183,6 +183,9 @@ const LeftContainer = (): JSX.Element => {
             endIcon={<GetAppIcon />}
           >
             EXPORT PROJECT
+          </Button>
+          <Button className={classes.clearBtn}>
+            CLEAR WORKSPACE
           </Button>
         </div>
       </Grid>

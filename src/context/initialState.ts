@@ -4,7 +4,7 @@ export const initialState: State = {
   components: [
     {
       id: 1,
-      name: 'index',
+      name: 'App',
       style: {},
       code:'<div>This is the CODE!!!!</div>',
       children: []
