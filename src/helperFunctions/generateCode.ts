@@ -2,65 +2,7 @@ import { format } from 'prettier';
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
 
-// const initialState: State = {
-//   components: [
-//     {
-//       id: 1,
-//       name: 'index',
-//       style: { backgroundColor: 'white' },
-//       code: '',
-//       children: [
-//         {
-//           type: 'Component',
-//           typeId: 2,
-//           childId: 1,
-//           children: [],
-//           style: { color: 'yello' }
-//         },
-//         {
-//           type: 'Component',
-//           typeId: 2,
-//           childId: 2,
-//           children: [],
-//           style: {}
-//         },
-//         // {
-//         //   type: 'HTML Element',
-//         //   typeId: 1,
-//         //   childId: 3,
-//         //   children: [],
-//         //   style: {}
-//         // },
-//         {
-//           type: 'HTML Element',
-//           typeId: 11,
-//           childId: 4,
-//           children: [
-//             {
-//               type: 'Component',
-//               typeId: 2,
-//               childId: 2,
-//               children: [],
-//               style: { height: '90%' }
-//             }
-//           ],
-//           style: { width: '100%' }
-//         }
-//       ]
-//     },
-//     {
-//       id: 2,
-//       name: 'Section',
-//       style: {},
-//       code: '',
-//       children: []
-//     }
-//   ],
-//   rootComponents: [1],
-//   canvasFocus: { componentId: 1, childId: null },
-//   nextComponentId: 2,
-//   nextChildId: 1
-// };
+
 
 // generate code based on the component heirarchy
 const generateUnformattedCode = (comps: Component[], componentId: number) => {
@@ -103,11 +45,25 @@ const generateUnformattedCode = (comps: Component[], componentId: number) => {
           if (child.tag === 'img') {
             return `<${child.tag} src=""${formatStyles(child.style)} />`;
           } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${formatStyles(child.style)} />`;
+            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${child.tag}>`;
           } else if (child.tag === 'div') {
             return `<${child.tag}${formatStyles(
               child.style
             )}>${writeNestedElements(child.children)}</${child.tag}>`;
+          } else if (child.tag === 'h1') {
+            return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${child.tag}>`;
+          } else if (child.tag === 'h2') {
+            return `<${child.tag}${formatStyles(child.style)}>HEADER 2</${child.tag}>`;
+          } else if (child.tag === 'form') {
+            return `<${child.tag}${formatStyles(child.style)}>FORM</${child.tag}>`;
+          } else if (child.tag === 'p') {
+            return `<${child.tag}${formatStyles(child.style)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${child.tag}>`;
+          } else if (child.tag === 'li') {
+            return `<ul${formatStyles(child.style)}><li>item 1</li>
+            <li>item 2</li>
+            <li>item 3</li></ul>`;
+          } else if (child.tag === 'button'){
+            return `<${child.tag}${formatStyles(child.style)}>BUTTON</${child.tag}>`;
           } else {
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
@@ -195,5 +151,4 @@ const generateCode = (components: Component[], componentId: number) => {
 };
 
 export default generateCode;
-// console.log(generateUnformattedCode(initialState.components, 1));
-// console.log(generateCode(initialState.components, 1));
+

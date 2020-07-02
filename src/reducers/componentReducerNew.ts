@@ -267,6 +267,9 @@ const reducer = (state: State, action: Action) => {
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
+    case 'SET INITIAL STATE': {
+      return { ...action.payload };
+    }
 
     default:
       return state;

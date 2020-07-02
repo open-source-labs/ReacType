@@ -38,11 +38,14 @@ app.use(cookieParser());
 
 // statically serve everything in build folder
 app.use('/', express.static(path.resolve(__dirname, '../build')));
+// statically serve images
 app.use(
   '/images',
   express.static(path.resolve(__dirname, '..src/public/images'))
 );
 
+// serves main app, we are going to serve main app to electron locally, this will be deprecated
+// this backend server will only be used for authentication and project management services
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
 });
@@ -81,7 +84,7 @@ app.get(
   sessionController.isLoggedIn,
   projectController.getProjects,
   (req, res) => {
-    return res.status(200).json(res.locals.projects);
+    return res.status(200).json(res.locals.project);
   }
 );
 

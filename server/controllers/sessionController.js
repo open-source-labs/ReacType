@@ -17,7 +17,7 @@ sessionController.isLoggedIn = (req, res, next) => {
       // no session found, redirect to signup page
     } else if (!session) {
       console.log('No session found, redirecting to signup page');
-      return res.redirect('/signup');
+      return res.redirect('/');
     } else {
       // session found, move onto next middleware
       console.log('Session found, moving onto next middleware');

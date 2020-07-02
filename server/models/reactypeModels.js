@@ -52,8 +52,8 @@ const sessionSchema = new Schema({
 });
 
 const projectSchema = new Schema({
-  name: { type: String, required: true },
-  project: Object,
+  name: String,
+  project: { type: Object, required: true },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'Users'
