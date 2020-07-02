@@ -20,7 +20,8 @@ const useStyles = makeStyles({
     height: '110px',
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'center',
+    paddingLeft: '35px'
   },
   panelWrapper: {
     marginTop: '35px',
@@ -30,7 +31,8 @@ const useStyles = makeStyles({
     maxHeight: '675px',
     minHeight: '120px',
     overflowY: 'auto',
-    marginLeft: '-15px'
+    marginLeft: '-15px',
+    marginRight: '-15px'
   },
   input: {
     color: '#fff',

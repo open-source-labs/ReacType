@@ -14,16 +14,24 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 const useStyles = makeStyles({
   btnGroup: {
     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     position: 'absolute',
-    bottom: '65px',
+    bottom: '40px',
     left: '0px'
   },
   exportBtn: {
     width: '55%',
     backgroundColor: 'rgba(1,212,109,0.1)',
     fontSize: '1em'
+  },
+  clearBtn: {
+    width: '55%',
+    fontSize: '1em',
+    marginTop: '15px',
+    color: 'red'
   }
 })
 
@@ -31,13 +39,16 @@ const useStyles = makeStyles({
 const LeftContainer = (): JSX.Element => {
   const classes = useStyles();
   return (
-    <div className="column left" style={{ minWidth: '375px' }}>
+    <div className="column left">
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
         <div className={classes.btnGroup}>
           <Button className={classes.exportBtn} variant="outlined" color="primary" endIcon={<GetAppIcon />}>
             EXPORT PROJECT
+          </Button>
+          <Button className={classes.clearBtn}>
+            CLEAR WORKSPACE
           </Button>
         </div>
       </Grid>
