@@ -20,6 +20,7 @@ export interface Component {
   id: number;
   name: string;
   style: object;
+  code: string;
   children: ChildElement[];
 }
 

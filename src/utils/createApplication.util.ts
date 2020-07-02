@@ -291,6 +291,7 @@ async function createApplicationUtil({
   appName: string;
   genOption: number;
 }) {
+  console.log('in the createApplication util');
   if (genOption === 1) {
     await createIndexHtml(path, appName);
     await createIndexTsx(path, appName);

@@ -7,6 +7,7 @@ import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+// TODO: import useContext
 
 type CodePreviewProps = {
   focusComponent: ComponentInt;
@@ -17,6 +18,7 @@ type CodePreviewProps = {
   toggleCodeEdit(): void;
   codeReadOnly: boolean;
 };
+
 // comment out delete
 class CodePreview extends Component<CodePreviewProps> {
   //checking if the code has been asigned yet or not
