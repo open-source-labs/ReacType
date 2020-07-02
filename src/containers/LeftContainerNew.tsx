@@ -124,10 +124,11 @@ const LeftContainer = (): JSX.Element => {
       setGenOption(genOpt);
       console.log('Gen option is ', genOpt);
       // closeModal
+      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
       closeModal();
       // Choose app dir
       // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
-      // chooseAppDir();
+      //chooseAppDir();
 
       // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
     };
@@ -148,16 +149,7 @@ const LeftContainer = (): JSX.Element => {
       console.log('app directory selected!!!');
     });
 
-    // createModal({
-    //   closeModal,
-    //   children,
-    //   message: 'Choose export preference:',
-    //   primBtnLabel: null,
-    //   primBtnAction: null,
-    //   secBtnAction: null,
-    //   secBtnLabel: null,
-    //   open: true
-    // });
+    
     setModal(
       createModal({
         closeModal,
