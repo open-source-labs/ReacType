@@ -19,18 +19,19 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      {'Copyright © ReacType '}
+      {/* <Link color="inherit" href="https://reactype.io/#fullCarousel">
         ReacType
-      </Link>{' '}
+      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -42,20 +43,31 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-    width: '240px',
-    height: '60px'
+    margin: theme.spacing(1, 0, 2),
+    // width: '240px',
+    // height: '60px'
+  },
+  root: {
+    // "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "green"
+    // },
+    // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "red"
+    // },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#3EC1AC"
+    }
   }
 }));
 
@@ -66,6 +78,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const [invalidUserMsg, setInvalidUserMsg] = useState('');
+  const [invalidPassMsg, setInvalidPassMsg] = useState('');
+  const [invalidUser, setInvalidUser] = useState(false);
+  const [invalidPass, setInvalidPass] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -79,16 +96,47 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     }
   };
 
+  /*
+    Response Options: 
+    Success
+    Error
+    No Username Input 
+    No Password Input 
+    Incorrect Password 
+    Invalid Username
+  */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
-    sessionIsCreated(username, password).then(isLoggedIn => {
-      if (isLoggedIn) {
-        console.log('session created');
+
+    setInvalidUser(false);
+    setInvalidUserMsg('');
+    setInvalidPass(false);
+    setInvalidPassMsg('');
+    sessionIsCreated(username, password).then(loginStatus => {
+      console.log('login fetch', loginStatus)
+      if(loginStatus === 'Success') {
         dispatch(setLoginState()); // changes login state to true
         props.history.push('/');
       } else {
-        console.log('invalid login');
+        switch(loginStatus) {
+          case 'No Username Input':
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case 'No Password Input':
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+          case 'Invalid Username':
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case 'Incorrect Password':
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+        }
       }
     });
   };
@@ -98,12 +146,13 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="textPrimary">
           Sign in
         </Typography>
         <TextField
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
@@ -115,8 +164,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoFocus
           value={username}
           onChange={handleChange}
+          helperText={invalidUserMsg} 
+          error={invalidUser}
         />
         <TextField
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
@@ -128,6 +180,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoComplete="current-password"
           value={password}
           onChange={handleChange}
+          helperText={invalidPassMsg} 
+          error={invalidPass}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -137,22 +191,33 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         <Button
           fullWidth
           variant="contained"
-          color="primary"
+          color="default"
           className={classes.submit}
           onClick={e => handleLogin(e)}
         >
           Sign In
         </Button>
 
-        <a href="https://localhost:8080/github">
+        <Button
+          fullWidth
+          variant="contained"
+          color="default"
+          className={classes.submit}
+          href="https://localhost:8080/github"
+        >
+          <GitHubIcon/>
+        </Button>
+
+        {/* <a href="https://localhost:8080/github">
           <img src="/images/githublogin.png" />
         </a>
-        <br></br>
+        <br></br> */}
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
+            {/* <Link href="#" variant="body2">
               Forgot password?
-            </Link>
+            </Link> */}
+            <RouteLink to={`/signup`} className="nav_link">Forgot password?</RouteLink>
           </Grid>
           <Grid item>
             <RouteLink to={`/signup`} className="nav_link">

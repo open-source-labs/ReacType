@@ -248,6 +248,9 @@ const reducer = (state: State, action: Action) => {
       component.code = generateCode(components, state.canvasFocus.componentId);
       return { ...state, components };
     }
+    case 'SET INITIAL STATE': {
+      return { ...action.payload };
+    }
 
     default:
       return state;
