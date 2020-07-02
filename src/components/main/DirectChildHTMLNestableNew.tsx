@@ -128,11 +128,20 @@ function DirectChildHTMLNestable({
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
+  const interactiveStyle = {
+    border:
+      state.canvasFocus.childId === childId
+        ? '3px solid rgb(11,212,112)'
+        : '1px Solid grey',
+    boxShadow:
+      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+  };
+
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
 
   const combinedStyle = combineStyles(
-    combineStyles(defaultNestableStyle, HTMLType.style),
-    style
+    combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
+    interactiveStyle
   );
 
   drag(drop(ref));
