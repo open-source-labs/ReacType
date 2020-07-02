@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     display: 'flex',
     paddingLeft: '25px',
     paddingRight: '25px',
-    marginTop: '20px',
+    marginTop: '20px'
   },
   configType: {
     color: '#fff',
@@ -40,8 +40,8 @@ const useStyles = makeStyles({
   },
   buttonRow: {
     textAlign: 'center',
-    marginTop: '25px', 
-    '& > .MuiButton-textSecondary' : {
+    marginTop: '25px',
+    '& > .MuiButton-textSecondary': {
       color: 'rgba(255,0,0,0.75)'
     }
   },
@@ -52,12 +52,12 @@ const useStyles = makeStyles({
   },
   compName: {
     color: '#01d46d',
-    fontSize: '1.25rem'
+    fontSize: '1.75rem'
   },
   configHeader: {
     height: '70px',
     '& > h4': {
-      fontSize: '1.15rem',
+      fontSize: '1.25rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
       marginTop: '10px'
@@ -65,8 +65,8 @@ const useStyles = makeStyles({
   }
 });
 
-
-const RightContainer = ():JSX.Element  => {
+const RightContainer = (): JSX.Element => {
+  console.log('this is a rerender');
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
 
@@ -80,27 +80,30 @@ const RightContainer = ():JSX.Element  => {
   const [compHeight, setCompHeight] = useState('');
 
   const resetFields = () => {
-    setDisplayMode('');
-    setFlexDir('');
-    setFlexJustify('');
-    setFlexAlign('');
-    setCompWidth('');
-    setCompHeight('');
-    setBGColor('');
-  }
+    const style = configTarget.child
+      ? configTarget.child.style
+      : configTarget.style;
+    setDisplayMode(style.display ? style.display : '');
+    setFlexDir(style.flexDirection ? style.flexDirection : '');
+    setFlexJustify(style.justifyContent ? style.justifyContent : '');
+    setFlexAlign(style.alignItems ? style.alignItems : '');
+    setCompWidth(style.width ? style.width : '');
+    setCompHeight(style.height ? style.height : '');
+    setBGColor(style.backgroundColor ? style.backgroundColor : '');
+  };
+  let configTarget;
 
-  //reset input fields if focus changes
-  useEffect(()=> {
-    // reset
-    console.log('canvas focus changed');
+  // after component renders, reset the input fields with the current styles of the selected child
+  useEffect(() => {
     resetFields();
+    console.log('configTarget is', configTarget);
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
 
-
   // handles all input field changes, with specific updates called based on input's name
-  const handleChange = (e: React.ChangeEvent<{value: any}>) => {
+  const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
     let inputVal = e.target.value;
-    switch(e.target.name) {
+
+    switch (e.target.name) {
       case 'display':
         setDisplayMode(inputVal);
         break;
@@ -123,49 +126,69 @@ const RightContainer = ():JSX.Element  => {
         setBGColor(inputVal);
         break;
     }
-  }
+  };
 
-  // returns the current component referenced in canvasFocus 
+  // returns the current component referenced in canvasFocus
   // along with its child instance, if it exists
   const getFocus = () => {
     // find and store component's name based on canvasFocus.componentId
     // note: deep clone here to make sure we don't end up altering state
-    let focusTarget = JSON.parse(JSON.stringify(state.components.find(comp => comp.id === state.canvasFocus.componentId )));
+    let focusTarget = JSON.parse(
+      JSON.stringify(
+        state.components.find(comp => comp.id === state.canvasFocus.componentId)
+      )
+    );
     delete focusTarget.child;
-    
+
     // checks if canvasFocus references a childId
-    const childInstanceId = state.canvasFocus.childId ? state.canvasFocus.childId : null;
+    const childInstanceId = state.canvasFocus.childId;
+    let focusChild;
 
     // if so, breadth-first search through focusTarget's descendants to find matching child
     if (childInstanceId) {
       focusTarget.child = {};
       focusTarget.child.id = childInstanceId;
-      let focusChild = {}; //child instance being referenced in canvasFocus
+      focusChild = {}; //child instance being referenced in canvasFocus
       const searchArray = [...focusTarget.children];
       while (searchArray.length > 0) {
         const currentChild = searchArray.shift();
-        if (currentChild.childId === childInstanceId) focusChild = currentChild;
+        // if a match is found, set focusChild to the matched child and break out of the loop
+        if (currentChild.childId === childInstanceId) {
+          focusChild = currentChild;
+          focusTarget.child.style = focusChild.style;
+          break;
+        }
         currentChild.children.forEach(child => searchArray.push(child));
       }
+
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
-        focusTarget.child.name = state.components.find(comp => comp.id === focusChild.typeId).name;
-      // if type is HTML Element, search through HTML types to find matching element's name
+        focusTarget.child.name = state.components.find(
+          comp => comp.id === focusChild.typeId
+        ).name;
+        // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = HTMLTypes.find(elem => elem.id === focusChild.typeId).name;
+        focusTarget.child.name = HTMLTypes.find(
+          elem => elem.id === focusChild.typeId
+        ).name;
       }
     }
-    console.log('right panel focus: ');
-    console.log(focusTarget);
-    
+
     return focusTarget;
-  }
+  };
+
+  // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
+  configTarget = useMemo(() => getFocus(), [
+    state.canvasFocus.childId,
+    state.canvasFocus.componentId
+  ]);
+
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
-  const handleSave = ():Object => {
+  const handleSave = (): Object => {
     const styleObj = {};
     if (displayMode !== '') styleObj.display = displayMode;
     if (flexDir !== '') styleObj.flexDirection = flexDir;
@@ -179,24 +202,35 @@ const RightContainer = ():JSX.Element  => {
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
-    resetFields();
+    // resetFields();
     return styleObj;
-  }
+  };
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
     console.log('DELETING ...');
-  }
-
-  const configTarget = getFocus();
+    dispatch({ type: 'DELETE CHILD', payload: {} });
+  };
 
   return (
     <div className="column right">
       <div className={classes.configHeader}>
-        <h4>Configuration options in <span className={classes.compName}>{configTarget.name}</span></h4>
-        { configTarget.child &&
-          <h4>for instance <span className={classes.compName}>{configTarget.child.id}</span> of {configTarget.child.type} <span className={classes.compName}>{configTarget.child.name}</span ></h4>
-        }
+        {configTarget.child ? (
+          <h4>
+            Instance of
+            {configTarget.child.type === 'component'
+              ? ' component'
+              : ' element'}{' '}
+            <br />
+            <span className={classes.compName}>{configTarget.child.name}</span>
+          </h4>
+        ) : (
+          <h4>
+            Parent component
+            <br />
+            <span className={classes.compName}>{configTarget.name}</span>
+          </h4>
+        )}
       </div>
       <div className={classes.configRow}>
         <div className={classes.configType}>
@@ -212,7 +246,7 @@ const RightContainer = ():JSX.Element  => {
               className={classes.select}
               inputProps={{ className: classes.selectInput }}
             >
-              <MenuItem value=''></MenuItem>
+              <MenuItem value=""></MenuItem>
               <MenuItem value={'block'}>block</MenuItem>
               <MenuItem value={'inline-block'}>inline-block</MenuItem>
               <MenuItem value={'flex'}>flex</MenuItem>
@@ -221,78 +255,78 @@ const RightContainer = ():JSX.Element  => {
         </div>
       </div>
       {/* flex options are hidden until display flex is chosen */}
-      { displayMode === 'flex' && (
-      <div>
-        <div className={classes.configRow}>
-          <div className={classes.configType}>
-            <h3>Flex direction:</h3>
+      {displayMode === 'flex' && (
+        <div>
+          <div className={classes.configRow}>
+            <div className={classes.configType}>
+              <h3>Flex direction:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <Select
+                  value={flexDir}
+                  name="flexdir"
+                  onChange={handleChange}
+                  displayEmpty
+                  className={classes.select}
+                  inputProps={{ className: classes.selectInput }}
+                >
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value={'row'}>row</MenuItem>
+                  <MenuItem value={'column'}>column</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
-          <div className={classes.configValue}>
-            <FormControl variant="filled" className={classes.formControl}>
-              <Select
-                value={flexDir}
-                name="flexdir"
-                onChange={handleChange}
-                displayEmpty
-                className={classes.select}
-                inputProps={{ className: classes.selectInput }}
-              >
-                <MenuItem value=''></MenuItem>
-                <MenuItem value={'row'}>row</MenuItem>
-                <MenuItem value={'column'}>column</MenuItem>
-              </Select>
-            </FormControl>
+          <div className={classes.configRow}>
+            <div className={classes.configType}>
+              <h3>Justify content:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <Select
+                  value={flexJustify}
+                  name="flexjust"
+                  onChange={handleChange}
+                  displayEmpty
+                  className={classes.select}
+                  inputProps={{ className: classes.selectInput }}
+                >
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value={'flex-start'}>flex-start</MenuItem>
+                  <MenuItem value={'flex-end'}>flex-end</MenuItem>
+                  <MenuItem value={'center'}>center</MenuItem>
+                  <MenuItem value={'space-between'}>space-between</MenuItem>
+                  <MenuItem value={'space-around'}>space-around</MenuItem>
+                  <MenuItem value={'space-evenly'}>space-evenly</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+          <div className={classes.configRow}>
+            <div className={classes.configType}>
+              <h3>Align items:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <Select
+                  value={flexAlign}
+                  onChange={handleChange}
+                  name="flexalign"
+                  displayEmpty
+                  className={classes.select}
+                  inputProps={{ className: classes.selectInput }}
+                >
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value={'stretch'}>stretch</MenuItem>
+                  <MenuItem value={'flex-start'}>flex-start</MenuItem>
+                  <MenuItem value={'flex-end'}>flex-end</MenuItem>
+                  <MenuItem value={'center'}>center</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
         </div>
-        <div className={classes.configRow}>
-          <div className={classes.configType}>
-            <h3>Justify content:</h3>
-          </div>
-          <div className={classes.configValue}>
-            <FormControl variant="filled" className={classes.formControl}>
-              <Select
-                value={flexJustify}
-                name="flexjust"
-                onChange={handleChange}
-                displayEmpty
-                className={classes.select}
-                inputProps={{ className: classes.selectInput }}
-              >
-                <MenuItem value=''></MenuItem>
-                <MenuItem value={'flex-start'}>flex-start</MenuItem>
-                <MenuItem value={'flex-end'}>flex-end</MenuItem>
-                <MenuItem value={'center'}>center</MenuItem>
-                <MenuItem value={'space-between'}>space-between</MenuItem>
-                <MenuItem value={'space-around'}>space-around</MenuItem>
-                <MenuItem value={'space-evenly'}>space-evenly</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-        <div className={classes.configRow}>
-          <div className={classes.configType}>
-            <h3>Align items:</h3>
-          </div>
-          <div className={classes.configValue}>
-            <FormControl variant="filled" className={classes.formControl}>
-              <Select
-                value={flexAlign}
-                onChange={handleChange}
-                name="flexalign"
-                displayEmpty
-                className={classes.select}
-                inputProps={{ className: classes.selectInput }}
-              >
-                <MenuItem value=''></MenuItem>
-                <MenuItem value={'stretch'}>stretch</MenuItem>
-                <MenuItem value={'flex-start'}>flex-start</MenuItem>
-                <MenuItem value={'flex-end'}>flex-end</MenuItem>
-                <MenuItem value={'center'}>center</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-      </div>
       )}
       <div className={classes.configRow}>
         <div className={classes.configType}>
@@ -308,7 +342,7 @@ const RightContainer = ():JSX.Element  => {
               className={classes.select}
               inputProps={{ className: classes.selectInput }}
             >
-              <MenuItem value=''></MenuItem>
+              <MenuItem value=""></MenuItem>
               <MenuItem value={'auto'}>auto</MenuItem>
               <MenuItem value={'50%'}>50%</MenuItem>
               <MenuItem value={'25%'}>25%</MenuItem>
@@ -330,7 +364,7 @@ const RightContainer = ():JSX.Element  => {
               className={classes.select}
               inputProps={{ className: classes.selectInput }}
             >
-              <MenuItem value=''></MenuItem>
+              <MenuItem value=""></MenuItem>
               <MenuItem value={'auto'}>auto</MenuItem>
               <MenuItem value={'100%'}>100%</MenuItem>
               <MenuItem value={'50%'}>50%</MenuItem>
@@ -344,11 +378,11 @@ const RightContainer = ():JSX.Element  => {
         </div>
         <div className={classes.configValue}>
           <FormControl variant="filled" className={classes.formControl}>
-            <TextField 
+            <TextField
               variant="filled"
               name="bgcolor"
               className={classes.select}
-              inputProps={{className: classes.selectInput}}
+              inputProps={{ className: classes.selectInput }}
               value={BGColor}
               onChange={handleChange}
             />
@@ -360,13 +394,21 @@ const RightContainer = ():JSX.Element  => {
           SAVE
         </Button>
       </div>
-      <div className={classes.buttonRow}>
-        <Button color="secondary" className={classes.button} onClick={handleDelete}>
-          DELETE INSTANCE
-        </Button>
-      </div>
+      {configTarget.child ? (
+        <div className={classes.buttonRow}>
+          <Button
+            color="secondary"
+            className={classes.button}
+            onClick={handleDelete}
+          >
+            DELETE INSTANCE
+          </Button>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default RightContainer;

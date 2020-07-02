@@ -60,10 +60,20 @@ function DirectChildComponent({
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced component, and 3) default styling
-
+  const interactiveStyle = {
+    border:
+      state.canvasFocus.childId === childId
+        ? '3px solid rgb(11,212,112)'
+        : '1px Solid grey',
+    boxShadow:
+      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+  };
   const combinedStyle = combineStyles(
-    combineStyles(globalDefaultStyle, referencedComponent.style),
-    style
+    combineStyles(
+      combineStyles(globalDefaultStyle, referencedComponent.style),
+      style
+    ),
+    interactiveStyle
   );
 
   // helper function to render children of direct child components
@@ -102,6 +112,7 @@ function DirectChildComponent({
         // combine HTML default stuyles with styles applied to the ichild but give priority to styles applied to the child
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
         // find the default style of that HTML element and combine in with the custom styles applied to that element
+
         return (
           <React.Fragment>
             {child.children.length === 0 ? (
