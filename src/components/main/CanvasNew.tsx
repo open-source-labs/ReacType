@@ -2,8 +2,6 @@ import React, { useMemo, useContext } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
-import { updateInstance } from '../../helperFunctions/instances';
-import CanvasComponent from './CanvasComponentNew';
 import { State, Component, ChildElement } from '../../interfaces/InterfacesNew';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
@@ -110,3 +108,6 @@ function Canvas() {
 }
 
 export default Canvas;
+
+
+

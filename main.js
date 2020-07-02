@@ -317,4 +317,4 @@ app.on('activate', () => {
 });
 
 // bypass ssl certification validation error
-// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
+app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

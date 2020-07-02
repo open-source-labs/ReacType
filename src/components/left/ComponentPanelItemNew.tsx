@@ -18,13 +18,13 @@ const useStyles = makeStyles({
     left: '-35px',
     top: '30px'
   }
-})
+});
 
 const ComponentPanelItem: React.FC<{
   name: string;
   id: number;
   root: boolean;
-  isFocus: boolean
+  isFocus: boolean;
 }> = ({ name, id, root, isFocus }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
@@ -36,7 +36,7 @@ const ComponentPanelItem: React.FC<{
       instanceType: 'Component',
       instanceTypeId: id
     },
-    canDrag: !root,
+    canDrag: !root && !isFocus,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -65,12 +65,10 @@ const ComponentPanelItem: React.FC<{
           : '2px solid rgba(255,255,255, 0.75)',
         borderRadius: '8px'
       }}
-    > 
+    >
       <div className="compPanelItem" onClick={handleClick}>
-      {isFocus && <div className={classes.focusMark}></div>}
-        <h3>
-          {name}
-        </h3>
+        {isFocus && <div className={classes.focusMark}></div>}
+        <h3>{name}</h3>
       </div>
     </Grid>
   );
