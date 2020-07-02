@@ -14,7 +14,8 @@ projectController.saveProject = (req, res, next) => {
     { name, userId },
     // update or insert the project
     { project },
-    // Options: upsert: true - if none found, inserts new project, if found, updates project
+    // Options:
+    // upsert: true - if none found, inserts new project, if found, updates project
     // new: true - returns updated document not the original one
     { upsert: true, new: true },
     (err, result) => {
@@ -39,7 +40,7 @@ projectController.saveProject = (req, res, next) => {
 projectController.getProjects = (req, res, next) => {
   console.log('Inside projectController.getProjects...');
   const userId = req.cookies.ssid;
-  Projects.find({ userId }, (err, projects) => {
+  Projects.findOne({ userId }, (err, project) => {
     if (err) {
       return next({
         log: `Error in projectController.getProjects: ${err}`,
@@ -49,7 +50,7 @@ projectController.getProjects = (req, res, next) => {
       });
     } else {
       console.log('Successful getProjects');
-      res.locals.projects = projects;
+      res.locals.project = project;
       return next();
     }
   });
