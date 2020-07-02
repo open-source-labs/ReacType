@@ -24,7 +24,7 @@ export const App = (): JSX.Element => {
     // getProjects returns a promise which is thenable
     getProjects().then(project => {
       if (project) {
-        // if user has projects we run a dispatch to update state with received project
+        // if user has project we run a dispatch to update state with received project
         dispatch({
           type: 'SET INITIAL STATE',
           payload: project
