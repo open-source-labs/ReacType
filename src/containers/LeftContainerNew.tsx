@@ -15,6 +15,7 @@ import HTMLPanel from '../components/left/HTMLPanelNew';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
+import exportProject from '../utils/exportProjectNew.util';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -117,7 +118,10 @@ const LeftContainer = (): JSX.Element => {
       // closeModal
       closeModal();
       // Choose app dir
+      // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
       // chooseAppDir();
+
+      // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
     };
 
     const chooseAppDir = () => IPC.send('choose_app_dir');
@@ -132,6 +136,7 @@ const LeftContainer = (): JSX.Element => {
       //   appName: 'reactype_app',
       //   exportAppBool: null
       // });
+      // exportProject();
       console.log('app directory selected!!!');
     });
 
