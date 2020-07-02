@@ -23,12 +23,17 @@ userController.createUser = (req, res, next) => {
   // create user using username and password
   Users.create({ username, password, email }, (err, newUser) => {
     if (err) {
+      if(err.keyValue.email) {
+        return res.status(400).json('Email Taken');
+      } 
+      if(err.keyValue.username) {
+        return res.status(400).json('Username Taken');
+      }
       return next({
         log: `Error in userController.createUser: ${err}`,
         message: {
           err: `Error in userController.createUser. Check server logs for details`
-        }
-      });
+        }});
     } else {
       // this id property will be used in other middleware for cookie
       console.log('Successful createUser');
@@ -45,10 +50,10 @@ userController.verifyUser = (req, res, next) => {
   console.log('Inside userController.verifyUser...');
   const { username, password } = req.body;
   if (!username) {
-    return res.status(400).json('No username input');
+    return res.status(400).json('No Username Input');
   }
   if (!password) {
-    return res.status(400).json('No password input');
+    return res.status(400).json('No Password Input');
   }
   Users.findOne({ username }, (err, user) => {
     if (err) {
@@ -68,11 +73,11 @@ userController.verifyUser = (req, res, next) => {
           return next();
         } else {
           // if password does not match, redirect to ?
-          return res.status(400).json('Incorrect password');
+          return res.status(400).json('Incorrect Password');
         }
       });
     } else {
-      return res.status(400).json('No such user found');
+      return res.status(400).json('Invalid Username');
     }
   });
 };
