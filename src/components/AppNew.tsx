@@ -27,7 +27,7 @@ export const App = (): JSX.Element => {
         // if user has project we run a dispatch to update state with received project
         dispatch({
           type: 'SET INITIAL STATE',
-          payload: project
+          payload: project[0].project
         });
       }
     });

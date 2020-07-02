@@ -38,7 +38,12 @@ const useStyles = makeStyles({
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (): JSX.Element => {
   const [state, dispatch] = useContext(stateContext);
+  const [projectName, setProjectName] = useState('');
   const classes = useStyles();
+
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectName(e.target.value);
+  };
 
   // state to keep track of how the user wants their components to be exported
   // genOption = 0 --> export only components
@@ -119,7 +124,7 @@ const LeftContainer = (): JSX.Element => {
       closeModal();
       // Choose app dir
       // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
-      // chooseAppDir();
+      //chooseAppDir();
 
       // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
     };
@@ -181,6 +186,8 @@ const LeftContainer = (): JSX.Element => {
           </Button>
         </div>
       </Grid>
+      <TextField placeholder="Enter project name here" />
+
       {modal}
     </div>
   );

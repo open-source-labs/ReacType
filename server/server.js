@@ -70,6 +70,7 @@ app.post(
   }
 );
 
+// user must be logged in to get or save projects, otherwise they will be redirected to login page
 app.post(
   '/saveProject',
   sessionController.isLoggedIn,
@@ -84,7 +85,7 @@ app.get(
   sessionController.isLoggedIn,
   projectController.getProjects,
   (req, res) => {
-    return res.status(200).json(res.locals.project);
+    return res.status(200).json(res.locals.projects);
   }
 );
 

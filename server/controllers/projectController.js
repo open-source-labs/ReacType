@@ -40,7 +40,7 @@ projectController.saveProject = (req, res, next) => {
 projectController.getProjects = (req, res, next) => {
   console.log('Inside projectController.getProjects...');
   const userId = req.cookies.ssid;
-  Projects.findOne({ userId }, (err, project) => {
+  Projects.find({ userId }, (err, projects) => {
     if (err) {
       return next({
         log: `Error in projectController.getProjects: ${err}`,
@@ -50,7 +50,7 @@ projectController.getProjects = (req, res, next) => {
       });
     } else {
       console.log('Successful getProjects');
-      res.locals.project = project;
+      res.locals.projects = projects;
       return next();
     }
   });

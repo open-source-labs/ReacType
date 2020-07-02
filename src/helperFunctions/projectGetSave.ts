@@ -5,8 +5,8 @@ export const getProjects = (): Promise<Object> => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log("User's project is", data.project);
-      return data.project;
+      console.log("User's project is", data);
+      return data;
     })
     .catch(err => console.log(`Error getting project ${err}`));
   return project;
