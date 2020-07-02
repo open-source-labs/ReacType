@@ -22,10 +22,10 @@ import Container from '@material-ui/core/Container';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      {'Copyright © ReacType '}
+      {/* <Link color="inherit" href="https://reactype.io/#fullCarousel">
         ReacType
-      </Link>{' '}
+      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.info.dark
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -127,9 +127,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="textPrimary">
           Sign in
         </Typography>
         <TextField
@@ -170,7 +170,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         <Button
           fullWidth
           variant="contained"
-          color="primary"
+          color="default"
           className={classes.submit}
           onClick={e => handleLogin(e)}
         >
@@ -179,9 +179,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
+            {/* <Link href="#" variant="body2">
               Forgot password?
-            </Link>
+            </Link> */}
+            <RouteLink to={`/signup`} className="nav_link">Forgot password?</RouteLink>
           </Grid>
           <Grid item>
             <RouteLink to={`/signup`} className="nav_link">Don't have an account? Sign Up</RouteLink>

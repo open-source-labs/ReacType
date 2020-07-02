@@ -18,14 +18,16 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { element } from 'prop-types';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      {'Copyright © ReacType '}
+      {/* <Link color="inherit" href="https://reactype.io/#fullCarousel">
         ReacType
-      </Link>{' '}
+      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.info.dark,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -52,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/*
+onChange={handleChange}
+helperText={invalidVerifyPasswordMsg} 
+error={invalidVerifyPassword}
+*/
+
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
 
@@ -60,13 +68,17 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVerify, setPasswordVerify] = useState('');
 
   const [invalidEmailMsg, setInvalidEmailMsg] = useState('');
   const [invalidUsernameMsg, setInvalidUsernameMsg] = useState(''); 
   const [invalidPasswordMsg, setInvalidPasswordMsg] = useState(''); 
+  const [invalidVerifyPasswordMsg, setInvalidVerifyPasswordMsg] = useState('');
+
   const [invalidEmail, setInvalidEmail] = useState(false); 
   const [invalidUsername, setInvalidUsername] = useState(false); 
   const [invalidPassword, setInvalidPassword] = useState(false);
+  const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -80,71 +92,92 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       case 'password':
         setPassword(inputVal);
         break;
+      case 'passwordVerify':
+        setPasswordVerify(inputVal);
+        break;
     }
   };
 
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('click fired on handleSignup');
-    // console.log('email', email);
-    // console.log('username', username);
-    // console.log('password', password);
 
     // Reset Error Validation
     setInvalidEmailMsg('');
     setInvalidUsernameMsg(''); 
     setInvalidPasswordMsg(''); 
+    setInvalidVerifyPasswordMsg('');
     setInvalidEmail(false); 
     setInvalidUsername(false); 
     setInvalidPassword(false);
-    // setUsername('');
-    // setEmail('');
-    // setPassword('');
-
-    // console.log('--email--', email);
-    // console.log('username', username);
-    // console.log('password', password);
+    setInvalidVerifyPassword(false);
 
     if(email === '') {
-      console.log(1);
       setInvalidEmail(true);
       setInvalidEmailMsg('No Email Entered')
+      return;
     } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
-      console.log(2);
       setInvalidEmail(true);
       setInvalidEmailMsg('Invalid Email Format')
+      return;
+    } else {
+      setInvalidEmail(false);
     }
 
     if(username === '') {
-      console.log(1);
       setInvalidUsername(true);
       setInvalidUsernameMsg('No Username Entered');
+      return;
     } else if(!/^[\w\s-]{4,15}$/i.test(username)) {
-      console.log(2);
       setInvalidUsername(true);
       setInvalidUsernameMsg('Must Be 4 - 15 Characters Long');
+      return;
     } else if(!/^[\w-]+$/i.test(username)) {
-      console.log(3);
       setInvalidUsername(true);
       setInvalidUsernameMsg('Cannot Contain Spaces or Special Characters');
+      return;
+    } else {
+      setInvalidUsername(false);
     }
 
     if(password === '') {
       setInvalidPassword(true);
       setInvalidPasswordMsg('No Password Entered');
+      return;
     } else if(password.length < 8) {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 8 Characters');
+      return;
     } else if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(password)) {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
+      return;
+    } else if(password !== passwordVerify) {
+      setInvalidPassword(true);
+      setInvalidVerifyPassword(true);
+      setInvalidPasswordMsg('Verification Failed');
+      setInvalidVerifyPasswordMsg('Verification Failed');
+      setPasswordVerify('');
+      return;
+    } else {
+      setInvalidPassword(false);
     }
 
-    console.log('invalidUsername', invalidUsername); 
-    console.log('invalidEmail', invalidEmail);
+    if(password !== passwordVerify) {
+      setInvalidPassword(true);
+      setInvalidVerifyPassword(true);
+      setInvalidPasswordMsg('Verification Failed');
+      setInvalidVerifyPasswordMsg('Verification Failed');
+      setPasswordVerify('');
+      return;
+    } else {
+      setInvalidVerifyPassword(false);
+    }
+
+    console.log('invalidUsername', invalidUsername);
     console.log('invalidPassword', invalidPassword);
-    if (!invalidUsername && !invalidEmail && !invalidPassword) {
-      console.log('fired validation')
+    console.log('invalidEmail', invalidEmail);
+    console.log('invalidVerifyPassword', invalidVerifyPassword);
+    // if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
       newUserIsCreated(username, email, password).then(userCreated => {
         if (userCreated === 'Success') {
           console.log('user created')
@@ -163,7 +196,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
           }
         }
       });
-    }
+    // }
   };
 
   return (
@@ -171,9 +204,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="textPrimary">
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
@@ -225,12 +258,28 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 error={invalidPassword}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="passwordVerify"
+                label="Verify Password"
+                type="password"
+                id="passwordVerify"
+                autoComplete="verify-password"
+                value={passwordVerify}
+                onChange={handleChange}
+                helperText={invalidVerifyPasswordMsg} 
+                error={invalidVerifyPassword}
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color="default"
             className={classes.submit}
             onClick={e => handleSignUp(e)}
           >
