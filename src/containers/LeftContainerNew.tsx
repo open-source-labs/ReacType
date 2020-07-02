@@ -16,6 +16,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProjectNew.util';
+import { saveProject } from '../helperFunctions/projectGetSave';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -40,6 +41,10 @@ const useStyles = makeStyles({
     fontSize: '1em',
     marginTop: '15px',
     color: 'red'
+  },
+  formControl: {
+    minWidth: '125px',
+    backgroundColor: 'rgba(255,255,255,0.15)'
   }
 });
 
@@ -154,7 +159,6 @@ const LeftContainer = (): JSX.Element => {
       console.log('app directory selected!!!');
     });
 
-    
     setModal(
       createModal({
         closeModal,
@@ -184,12 +188,28 @@ const LeftContainer = (): JSX.Element => {
           >
             EXPORT PROJECT
           </Button>
-          <Button className={classes.clearBtn}>
-            CLEAR WORKSPACE
-          </Button>
+          <Button className={classes.clearBtn}>CLEAR WORKSPACE</Button>
         </div>
       </Grid>
-      <TextField placeholder="Enter project name here" />
+      <TextField
+        className={classes.formControl}
+        placeholder="Enter project name here"
+        variant="filled"
+        required
+        name="projectName"
+        label="projectName"
+        value={projectName}
+        onChange={handleName}
+      />
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => {
+          saveProject(state, projectName);
+        }}
+      >
+        Save Project
+      </Button>
 
       {modal}
     </div>

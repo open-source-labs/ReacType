@@ -12,10 +12,13 @@ export const getProjects = (): Promise<Object> => {
   return project;
 };
 
-export const saveProject = (workspace: Object): Promise<Object> => {
+export const saveProject = (
+  workspace: Object,
+  name: string = 'Default'
+): Promise<Object> => {
   console.log("Saving user's project...");
-
-  const body = JSON.stringify({ name: 'Andrew project', project: workspace });
+  console.log('Name is', name);
+  const body = JSON.stringify({ name, project: workspace });
   const project = fetch('https://localhost:8080/saveProject', {
     method: 'POST',
     headers: {
