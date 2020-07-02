@@ -6,6 +6,7 @@ export const initialState: State = {
       id: 1,
       name: 'index',
       style: {},
+      code:'<div>This is the CODE!!!!</div>',
       children: []
     }
   ],

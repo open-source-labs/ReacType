@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import BottomPanel from '../components/bottom/BottomPanel';
+import BottomPanel from '../components/bottom/BottomPanelNew';
 import theme from '../theme';
 import {
   handleTransform,
@@ -131,11 +131,12 @@ class MainContainer extends Component<MainContPropsInt, StateInt> {
           >
             <CanvasContainer />
           </div>
-          <BottomPanel
+          {/* <BottomPanel
             focusComponent={focusComponent}
             changeFocusComponent={changeFocusComponent}
             updateCode={updateCode}
-          />
+          /> */}
+          <BottomPanel />
         </div>
       </MuiThemeProvider>
     );

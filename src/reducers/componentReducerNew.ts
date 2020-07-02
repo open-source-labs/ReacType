@@ -1,3 +1,4 @@
+import componentRender from '../utils/componentRender.util';
 import {
   State,
   Action,
@@ -5,11 +6,17 @@ import {
   ChildElement
 } from '../interfaces/interfacesNew';
 
+import generateCode from '../helperFunctions/generateCode';
+
 const reducer = (state: State, action: Action) => {
   // find top-level component in
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
   };
+
+  // const updateComponentCode = (component: Component) => {
+  //   const code = componentRender()
+  // };
 
   // Finds a parent
   // returns object with parent object and index value of child
@@ -97,6 +104,7 @@ const reducer = (state: State, action: Action) => {
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
+        code: '',
         children: []
       };
       const components = [...state.components];
@@ -148,6 +156,7 @@ const reducer = (state: State, action: Action) => {
         const directParent: ChildElement = findChild(parentComponent, childId);
         directParent.children.push(newChild);
       }
+      parentComponent.code = generateCode(components, parentComponentId);
 
       const nextChildId = state.nextChildId + 1;
       return { ...state, components, nextChildId };
@@ -188,6 +197,8 @@ const reducer = (state: State, action: Action) => {
         directParent.children.push(child);
       }
 
+      component.code = generateCode(components, state.canvasFocus.componentId);
+
       return { ...state, components };
     }
     // Change the focus component and child
@@ -211,6 +222,8 @@ const reducer = (state: State, action: Action) => {
       const targetChild = findChild(component, state.canvasFocus.childId);
       targetChild.style = style;
 
+      component.code = generateCode(components, state.canvasFocus.componentId);
+
       return { ...state, components };
     }
     case 'DELETE CHILD': {
@@ -232,6 +245,8 @@ const reducer = (state: State, action: Action) => {
       );
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
+      component.code = generateCode(components, state.canvasFocus.componentId);
+      return { ...state, components };
     }
 
     default:

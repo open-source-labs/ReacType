@@ -103,10 +103,21 @@ function DirectChildComponent({
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
         // find the default style of that HTML element and combine in with the custom styles applied to that element
         return (
-          <IndirectChild
-            style={combinedStyle}
-            placeHolder={HTMLDefaultPlacholder}
-          />
+          <React.Fragment>
+            {child.children.length === 0 ? (
+              <IndirectChild
+                style={combinedStyle}
+                placeHolder={HTMLDefaultPlacholder}
+              />
+            ) : (
+              <IndirectChild
+                style={combinedStyle}
+                placeHolder={HTMLDefaultPlacholder}
+              >
+                {renderIndirectChildren(child)}
+              </IndirectChild>
+            )}
+          </React.Fragment>
         );
       }
     });
