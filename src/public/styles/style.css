@@ -308,12 +308,11 @@ div.rst__rowContents {
 } */
 
 a.nav_link {
+  color: rgba(0, 0, 0, 0.87);
   cursor: pointer;
   text-decoration: none;
 }
-
 a.nav_link:hover {
-  cursor: pointer;
-  color: red;
+  color: #3EC1AC;
   text-decoration: underline;
 }

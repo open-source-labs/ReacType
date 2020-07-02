@@ -19,12 +19,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { element } from 'prop-types';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 function Copyright() {
   return (
@@ -48,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.info.dark,
+    backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -56,14 +55,19 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  root: {
+    // "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "green"
+    // },
+    // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "red"
+    // },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#3EC1AC"
+    }
   }
 }));
-
-/*
-onChange={handleChange}
-helperText={invalidVerifyPasswordMsg} 
-error={invalidVerifyPassword}
-*/
 
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
@@ -209,7 +213,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon/>
+          <AssignmentIcon/>
         </Avatar>
         <Typography component="h1" variant="h5" color="textPrimary">
           Sign up
@@ -218,6 +222,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                className={classes.root}
                 variant="outlined"
                 required
                 fullWidth
@@ -234,6 +239,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.root}
                 variant="outlined"
                 required
                 fullWidth
@@ -249,6 +255,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.root}
                 variant="outlined"
                 required
                 fullWidth
@@ -265,6 +272,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                className={classes.root}
                 variant="outlined"
                 required
                 fullWidth

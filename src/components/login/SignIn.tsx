@@ -19,11 +19,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 function Copyright() {
   return (
@@ -43,20 +43,31 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.info.dark
+    backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 1),
+    margin: theme.spacing(1, 0, 2),
     // width: '240px',
     // height: '60px'
+  },
+  root: {
+    // "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "green"
+    // },
+    // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+    //   borderColor: "red"
+    // },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#3EC1AC"
+    }
   }
 }));
 
@@ -141,6 +152,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign in
         </Typography>
         <TextField
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
@@ -156,6 +168,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           error={invalidUser}
         />
         <TextField
+          className={classes.root}
           variant="outlined"
           margin="normal"
           required
