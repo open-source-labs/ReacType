@@ -90,9 +90,9 @@ LEFT COLUMN
 
 .left {
   padding: 10px;
-  width: 20%;
-  min-width: 310px;
   display: flex;
+  width: 380px;
+  min-width: 380px;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;

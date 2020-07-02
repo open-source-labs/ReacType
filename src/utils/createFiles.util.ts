@@ -2,6 +2,7 @@ import fs from 'fs';
 import { format } from 'prettier';
 import componentRender from './componentRender.util';
 
+
 const createFiles = (
   components: any,
   path: string,
@@ -28,9 +29,9 @@ const createFiles = (
   const promises: Array<any> = [];
   components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFile(
-        `${dir}/${component.title}.tsx`,
-        format(componentRender(component, components), {
+      fs.writeFileSync(
+        `${dir}/${component.name}.tsx`,
+        format(component.code, {
           singleQuote: true,
           trailingComma: 'es5',
           bracketSpacing: true,
