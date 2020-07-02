@@ -69,7 +69,7 @@ const generateUnformattedCode = (comps: Component[], componentId: number) => {
           }
         }
       })
-      .join(' ')}`;
+      .join('\n')}`;
   };
 
   const formatStyles = (styleObj: any) => {

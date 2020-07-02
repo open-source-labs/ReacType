@@ -113,8 +113,21 @@ const reducer = (state: State, action: Action) => {
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
 
+      // update the focus to the new component
+      const canvasFocus = {
+        ...canvasFocus,
+        componentId: newComponent.id,
+        childId: null
+      };
+
       const nextComponentId = state.nextComponentId + 1;
-      return { ...state, components, rootComponents, nextComponentId };
+      return {
+        ...state,
+        components,
+        rootComponents,
+        nextComponentId,
+        canvasFocus
+      };
     }
     // Add child to a given root component
     case 'ADD CHILD': {
@@ -157,9 +170,14 @@ const reducer = (state: State, action: Action) => {
         directParent.children.push(newChild);
       }
       parentComponent.code = generateCode(components, parentComponentId);
+      const canvasFocus = {
+        ...canvasFocus,
+        componentId: state.canvasFocus.componentId,
+        childId: newChild.childId
+      };
 
       const nextChildId = state.nextChildId + 1;
-      return { ...state, components, nextChildId };
+      return { ...state, components, nextChildId, canvasFocus };
     }
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
@@ -246,7 +264,8 @@ const reducer = (state: State, action: Action) => {
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
       component.code = generateCode(components, state.canvasFocus.componentId);
-      return { ...state, components };
+      const canvasFocus = { ...state.canvasFocus, childId: null };
+      return { ...state, components, canvasFocus };
     }
     case 'SET INITIAL STATE': {
       return { ...action.payload };
