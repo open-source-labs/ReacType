@@ -233,6 +233,9 @@ const reducer = (state: State, action: Action) => {
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
     }
+    case 'SET INITIAL STATE': {
+      return { ...action.payload };
+    }
 
     default:
       return state;

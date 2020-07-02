@@ -81,7 +81,7 @@ app.get(
   sessionController.isLoggedIn,
   projectController.getProjects,
   (req, res) => {
-    return res.status(200).json(res.locals.projects);
+    return res.status(200).json(res.locals.project);
   }
 );
 
