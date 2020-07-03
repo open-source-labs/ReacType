@@ -1,5 +1,5 @@
 import React from 'react';
-import Canvas from './CanvasNew';
+import Canvas from './Canvas';
 
 // The CanvasContainer sets the boundaries on the width/height of the canvas
 function CanvasContainer() {

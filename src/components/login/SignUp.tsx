@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import { setLoginState } from '../../actions/actionCreators';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   Link as RouteLink,
   withRouter,
@@ -63,8 +62,8 @@ const useStyles = makeStyles(theme => ({
     // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     //   borderColor: "red"
     // },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#3EC1AC"
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#3EC1AC'
     }
   }
 }));
@@ -72,20 +71,18 @@ const useStyles = makeStyles(theme => ({
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
-
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
 
   const [invalidEmailMsg, setInvalidEmailMsg] = useState('');
-  const [invalidUsernameMsg, setInvalidUsernameMsg] = useState(''); 
-  const [invalidPasswordMsg, setInvalidPasswordMsg] = useState(''); 
+  const [invalidUsernameMsg, setInvalidUsernameMsg] = useState('');
+  const [invalidPasswordMsg, setInvalidPasswordMsg] = useState('');
   const [invalidVerifyPasswordMsg, setInvalidVerifyPasswordMsg] = useState('');
 
-  const [invalidEmail, setInvalidEmail] = useState(false); 
-  const [invalidUsername, setInvalidUsername] = useState(false); 
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
 
@@ -112,35 +109,35 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
 
     // Reset Error Validation
     setInvalidEmailMsg('');
-    setInvalidUsernameMsg(''); 
-    setInvalidPasswordMsg(''); 
+    setInvalidUsernameMsg('');
+    setInvalidPasswordMsg('');
     setInvalidVerifyPasswordMsg('');
-    setInvalidEmail(false); 
-    setInvalidUsername(false); 
+    setInvalidEmail(false);
+    setInvalidUsername(false);
     setInvalidPassword(false);
     setInvalidVerifyPassword(false);
 
-    if(email === '') {
+    if (email === '') {
       setInvalidEmail(true);
-      setInvalidEmailMsg('No Email Entered')
+      setInvalidEmailMsg('No Email Entered');
       return;
-    } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
       setInvalidEmail(true);
-      setInvalidEmailMsg('Invalid Email Format')
+      setInvalidEmailMsg('Invalid Email Format');
       return;
     } else {
       setInvalidEmail(false);
     }
 
-    if(username === '') {
+    if (username === '') {
       setInvalidUsername(true);
       setInvalidUsernameMsg('No Username Entered');
       return;
-    } else if(!/^[\w\s-]{4,15}$/i.test(username)) {
+    } else if (!/^[\w\s-]{4,15}$/i.test(username)) {
       setInvalidUsername(true);
       setInvalidUsernameMsg('Must Be 4 - 15 Characters Long');
       return;
-    } else if(!/^[\w-]+$/i.test(username)) {
+    } else if (!/^[\w-]+$/i.test(username)) {
       setInvalidUsername(true);
       setInvalidUsernameMsg('Cannot Contain Spaces or Special Characters');
       return;
@@ -148,19 +145,23 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       setInvalidUsername(false);
     }
 
-    if(password === '') {
+    if (password === '') {
       setInvalidPassword(true);
       setInvalidPasswordMsg('No Password Entered');
       return;
-    } else if(password.length < 8) {
+    } else if (password.length < 8) {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 8 Characters');
       return;
-    } else if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(password)) {
+    } else if (
+      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(
+        password
+      )
+    ) {
       setInvalidPassword(true);
       setInvalidPasswordMsg('Minimum 1 Letter, Number, and Special Character');
       return;
-    } else if(password !== passwordVerify) {
+    } else if (password !== passwordVerify) {
       setInvalidPassword(true);
       setInvalidVerifyPassword(true);
       setInvalidPasswordMsg('Verification Failed');
@@ -171,7 +172,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       setInvalidPassword(false);
     }
 
-    if(password !== passwordVerify) {
+    if (password !== passwordVerify) {
       setInvalidPassword(true);
       setInvalidVerifyPassword(true);
       setInvalidPasswordMsg('Verification Failed');
@@ -187,24 +188,24 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     console.log('invalidEmail', invalidEmail);
     console.log('invalidVerifyPassword', invalidVerifyPassword);
     // if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
-      newUserIsCreated(username, email, password).then(userCreated => {
-        if (userCreated === 'Success') {
-          console.log('user created')
-          dispatch(setLoginState()); // changes login state to true
-          props.history.push('/');
-        } else {
-          switch (userCreated) {
-            case 'Email Taken':
-              setInvalidEmail(true);
-              setInvalidEmailMsg('Email Taken');
-              break;
-            case 'Username Taken':
-              setInvalidUsername(true);
-              setInvalidUsernameMsg('Username Taken');
-              break;
-          }
+    newUserIsCreated(username, email, password).then(userCreated => {
+      if (userCreated === 'Success') {
+        console.log('user created');
+
+        props.history.push('/');
+      } else {
+        switch (userCreated) {
+          case 'Email Taken':
+            setInvalidEmail(true);
+            setInvalidEmailMsg('Email Taken');
+            break;
+          case 'Username Taken':
+            setInvalidUsername(true);
+            setInvalidUsernameMsg('Username Taken');
+            break;
         }
-      });
+      }
+    });
     // }
   };
 
@@ -213,7 +214,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <AssignmentIcon/>
+          <AssignmentIcon />
         </Avatar>
         <Typography component="h1" variant="h5" color="textPrimary">
           Sign up
@@ -233,7 +234,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoFocus
                 value={email}
                 onChange={handleChange}
-                helperText={invalidEmailMsg} 
+                helperText={invalidEmailMsg}
                 error={invalidEmail}
               />
             </Grid>
@@ -249,7 +250,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoComplete="username"
                 value={username}
                 onChange={handleChange}
-                helperText={invalidUsernameMsg} 
+                helperText={invalidUsernameMsg}
                 error={invalidUsername}
               />
             </Grid>
@@ -266,7 +267,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoComplete="current-password"
                 value={password}
                 onChange={handleChange}
-                helperText={invalidPasswordMsg} 
+                helperText={invalidPasswordMsg}
                 error={invalidPassword}
               />
             </Grid>
@@ -283,7 +284,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 autoComplete="verify-password"
                 value={passwordVerify}
                 onChange={handleChange}
-                helperText={invalidVerifyPasswordMsg} 
+                helperText={invalidVerifyPasswordMsg}
                 error={invalidVerifyPassword}
               />
             </Grid>
