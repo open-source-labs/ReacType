@@ -1,7 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { setLoginState } from '../../actions/actionCreators';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   Link as RouteLink,
   withRouter,
@@ -74,7 +72,6 @@ const useStyles = makeStyles(theme => ({
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -116,7 +113,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     sessionIsCreated(username, password).then(loginStatus => {
       console.log('login fetch', loginStatus)
       if(loginStatus === 'Success') {
-        dispatch(setLoginState()); // changes login state to true
+  
         props.history.push('/');
       } else {
         switch(loginStatus) {
