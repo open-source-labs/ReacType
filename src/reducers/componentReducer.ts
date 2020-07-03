@@ -1,4 +1,3 @@
-import componentRender from '../utils/componentRender.util';
 import {
   State,
   Action,
@@ -13,10 +12,6 @@ const reducer = (state: State, action: Action) => {
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
   };
-
-  // const updateComponentCode = (component: Component) => {
-  //   const code = componentRender()
-  // };
 
   // Finds a parent
   // returns object with parent object and index value of child

@@ -4,7 +4,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
 import FormIcon from '@material-ui/icons/Description';
 import Grid from '@material-ui/core/Grid';
-import ComponentPanelItem from './ComponentPanelItemNew';
+import ComponentPanelItem from './ComponentPanelItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

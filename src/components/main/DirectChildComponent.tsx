@@ -9,7 +9,7 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import IndirectChild from './IndirectChildNew';
+import IndirectChild from './IndirectChild';
 import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../globalDefaultStyles';
 

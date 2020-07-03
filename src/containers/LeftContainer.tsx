@@ -1,258 +1,109 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import React, { useState, useContext } from 'react';
+
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/left/LeftColExpansionPanel';
-import HTMLComponentPanel from '../components/left/HTMLComponentPanel';
-import * as actions from '../actions/actionCreators';
-import {
-  ComponentInt,
-  ComponentsInt,
-  PropsInt
-} from '../interfaces/Interfaces';
-import createModal from '../components/left/createModal';
-import cloneDeep from '../helperFunctions/cloneDeep';
-import NativeComponentPanel from '../components/left/NativeComponentPanel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import { makeStyles } from '@material-ui/core/styles';
+import ComponentPanel from '../components/left/ComponentPanel';
+import HTMLPanel from '../components/left/HTMLPanel';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import createModal from '../components/left/createModal';
+import { stateContext } from '../context/context';
+import exportProject from '../utils/exportProject.util';
 
 const IPC = require('electron').ipcRenderer;
 
-interface LeftContPropsInt extends PropsInt {
-  selectableChildren: number[];
-  classes: any;
-  addComponent(arg: { title: string }): void;
-  addProp(arg: { key: string; type: string }): void;
-  addChild(arg: { title: string; childType: string; HTMLInfo: object }): void;
-  changeFocusComponent(arg: { title: string }): void;
-  changeComponentFocusChild(arg: {
-    componentId: number;
-    childId: number;
-  }): void;
-  deleteComponent(arg: {
-    componentId: number;
-    stateComponents: ComponentsInt;
-  }): void;
-  createApp(arg: {
-    path: string;
-    components: ComponentsInt;
-    genOption: number;
-  }): void;
-  deleteAllData(): void;
-  toggleComponentState(arg: { id: number }): void;
-  toggleComponentClass(arg: { id: number }): void;
-  toggleNative(): void;
-  native: boolean;
-  deleteImage(): void;
-  updateCode(arg: { componentId: number; code: string }): void;
-  toggleEditMode(arg: { id: number }): void;
-  editMode: number;
-  editComponent(arg: { id: number; title: string }): void;
-}
-
-interface StateInt {
-  componentName: string;
-  componentEditName: string;
-  modal: any;
-  genOptions: string[];
-  genOption: number;
-  imageSource: string;
-  native: boolean;
-}
-
-const mapStateToProps = (store: any) => ({
-  imageSource: store.workspace.imageSource,
-  editMode: store.workspace.editMode,
-  focusChild: store.workspace.focusChild,
-  native: store.workspace.native
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  addComponent: ({ title }: { title: string }) =>
-    dispatch(actions.addComponent({ title })),
-  addProp: ({ key, type }: { key: string; type: string }) =>
-    dispatch(actions.addProp({ key, type })),
-  addChild: ({
-    title,
-    childType,
-    HTMLInfo
-  }: {
-    title: string;
-    childType: string;
-    HTMLInfo: object;
-  }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
-  changeComponentFocusChild: ({
-    componentId,
-    childId
-  }: {
-    componentId: number;
-    childId: number;
-  }) => dispatch(actions.changeComponentFocusChild({ componentId, childId })),
-  changeFocusComponent: ({ title }: { title: string }) =>
-    dispatch(actions.changeFocusComponent({ title })),
-  changeFocusChild: ({ childId }: { childId: number }) =>
-    dispatch(actions.changeFocusChild({ childId })),
-  deleteComponent: ({
-    componentId,
-    stateComponents
-  }: {
-    componentId: number;
-    stateComponents: ComponentsInt;
-  }) => dispatch(actions.deleteComponent({ componentId, stateComponents })),
-  editComponent: ({ id, title }: { id: number; title: string }) =>
-    dispatch(actions.editComponent({ id, title })),
-  toggleComponentState: ({ id }: { id: number }) =>
-    dispatch(actions.toggleComponentState({ id })),
-  toggleComponentClass: ({ id }: { id: number }) =>
-    dispatch(actions.toggleComponentClass({ id })),
-  toggleEditMode: ({ id }: { id: number }) =>
-    dispatch(actions.toggleEditMode({ id })),
-  toggleNative: () => dispatch(actions.toggleNative()),
-  deleteAllData: () => dispatch(actions.deleteAllData()),
-  deleteImage: () => dispatch(actions.deleteImage()),
-  createApp: ({
-    path,
-    components,
-    genOption
-  }: {
-    path: string;
-    components: ComponentsInt;
-    genOption: number;
-  }) =>
-    dispatch(
-      actions.createApplication({
-        path,
-        components,
-        genOption,
-        appName: 'reactype_app',
-        exportAppBool: null
-      })
-    ),
-  updateCode: ({ componentId, code }: { componentId: number; code: string }) =>
-    dispatch(actions.updateCode({ componentId, code }))
-});
-
-class LeftContainer extends Component<LeftContPropsInt, StateInt> {
-  state: StateInt;
-
-  constructor(props: LeftContPropsInt) {
-    super(props);
-
-    this.state = {
-      componentName: '',
-      componentEditName: '',
-      modal: null,
-      genOptions: [
-        'Export components',
-        'Export components with application files'
-      ],
-      genOption: 0,
-      imageSource: this.props.imageSource
-    };
-
-    IPC.on('app_dir_selected', (event: string, path: string) => {
-      const { components } = this.props;
-      const { genOption } = this.state;
-      this.props.createApp({
-        path,
-        components,
-        genOption
-      });
-    });
+const useStyles = makeStyles({
+  btnGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    position: 'absolute',
+    bottom: '40px',
+    left: '0px'
+  },
+  exportBtn: {
+    width: '55%',
+    backgroundColor: 'rgba(1,212,109,0.1)',
+    fontSize: '1em'
+  },
+  clearBtn: {
+    width: '55%',
+    fontSize: '1em',
+    marginTop: '15px',
+    color: 'red'
   }
+});
 
-  //this function is for handling the value of the new component name typed in
-  handleChange = (event: any) => {
-    const newValue: string = event.target.value;
-    this.setState({
-      componentName: newValue
-    });
-  };
+// Left-hand portion of the app, where component options are displayed
+const LeftContainer = (): JSX.Element => {
+  const [state, dispatch] = useContext(stateContext);
+  const classes = useStyles();
 
-  //this functions handles the values for an edited name being typed
-  handleChangeName = (value: string) => {
-    const newValue: string = value;
-    this.setState({
-      componentEditName: newValue
-    });
-  };
+  // state to keep track of how the user wants their components to be exported
+  // genOption = 0 --> export only components
+  // genOption = 1 --> export an entire project w/ webpack, server, etc.
+  const genOptions: string[] = [
+    'Export components',
+    'Export components with application files'
+  ];
+  const [genOption, setGenOption] = useState(1);
+  // state to keep track of whether there should be a modal
+  const [modal, setModal] = useState(null);
 
-  handleAddComponent = () => {
-    this.props.addComponent({ title: this.state.componentName });
+  const { components } = state.components;
 
-    // reset the currently added componentName state field to blank after adding
-    this.setState({
-      componentName: ''
-    });
-  };
+  // closes out the open modal
+  const closeModal = () => setModal('');
 
-  handleEditComponent = () => {
-    this.props.editComponent({
-      id: this.props.editMode,
-      title: this.state.componentEditName
-    });
-
-    // reset the currently added componentName state field to blank after editing
-    this.setState({
-      componentEditName: ''
-    });
-  };
-
-  closeModal = () => this.setState({ modal: null });
-
-  clearWorkspace = () => {
-    this.setState({
-      modal: createModal({
+  // creates modal that asks if user wants to clear workspace
+  // if user clears their workspace, then their components are removed from state and the modal is closed
+  const clearWorkspace = () => {
+    setModal(
+      createModal({
         message: 'Are you sure want to delete all data?',
-        closeModal: this.closeModal,
+        closeModal: closeModal,
         secBtnLabel: 'Clear Workspace',
         open: true,
         children: null,
         primBtnAction: null,
         primBtnLabel: null,
         secBtnAction: () => {
-          this.props.deleteAllData();
-          this.closeModal();
+          // TODO: Create reducer to delete components from state
+          closeModal();
         }
       })
-    });
+    );
   };
 
-  chooseGenOptions = (genOption: number) => {
-    // set option
-    this.setState({ genOption });
-    // closeModal
-    this.closeModal();
-    // Choose app dir
-    this.chooseAppDir();
-  };
-
-  chooseAppDir = () => IPC.send('choose_app_dir');
-  addImage = () => IPC.send('update-file');
-
-  showGenerateAppModal = () => {
-    const { closeModal, chooseGenOptions } = this;
-    let { genOptions } = this.state;
-    const { native } = this.props;
+  const showGenerateAppModal = () => {
+    console.log('creating Modal!');
     const children = (
       <List className="export-preference">
-        {/* native mode does not export file structure, so 'Components Only' is the only export option */}
-        {native ? genOptions.splice(1, 1) : ''}
-
-        {genOptions.map((option, i) => (
+        {genOptions.map((option: string, i: number) => (
           <ListItem
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
+            // onClick={() =>
+            //   createApplication({
+            //     // path,
+            //     // trying this with an absolute path because the electron dialogue box isn't working
+            //     path: '/Users/tylersullberg/',
+            //     components,
+            //     genOption,
+            //     appName: 'reactype_app',
+            //     exportAppBool: null
+            //   })
+            // }
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
@@ -264,8 +115,42 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         ))}
       </List>
     );
-    this.setState({
-      modal: createModal({
+
+    // helper function called by showGenerateAppModal
+    // this function will prompt the user to choose an app directory once they've chosen their export option
+    const chooseGenOptions = (genOpt: number) => {
+      // set export option: 0 --> export only components, 1 --> export full project
+      console.log('in chooseGenOptions');
+      setGenOption(genOpt);
+      console.log('Gen option is ', genOpt);
+      // closeModal
+      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
+      closeModal();
+      // Choose app dir
+      // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
+      //chooseAppDir();
+
+      // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
+    };
+
+    const chooseAppDir = () => IPC.send('choose_app_dir');
+
+    // when the user selects a directory from the modal,
+    // we're going to create the application in their chosen directory
+    IPC.on('app_dir_selected', (event: string, path: string) => {
+      // createApplication({
+      //   path,
+      //   components,
+      //   genOption,
+      //   appName: 'reactype_app',
+      //   exportAppBool: null
+      // });
+      // exportProject();
+      console.log('app directory selected!!!');
+    });
+
+    setModal(
+      createModal({
         closeModal,
         children,
         message: 'Choose export preference:',
@@ -275,291 +160,30 @@ class LeftContainer extends Component<LeftContPropsInt, StateInt> {
         secBtnLabel: null,
         open: true
       })
-    });
-  };
-
-  render(): JSX.Element {
-    const {
-      imageSource,
-      components,
-      deleteComponent,
-      focusComponent,
-      classes,
-      addProp,
-      addChild,
-      changeFocusComponent,
-      changeFocusChild,
-      changeComponentFocusChild,
-      selectableChildren,
-      toggleComponentState,
-      toggleComponentClass,
-      deleteImage,
-      updateCode,
-      editMode,
-      toggleEditMode,
-      focusChild,
-      toggleNative,
-      native
-    } = this.props;
-    const { componentName, modal } = this.state;
-
-    const componentsExpansionPanel = cloneDeep(components)
-      .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
-      .map((component: ComponentInt, i: number) => (
-        <LeftColExpansionPanel
-          key={component.id}
-          component={component}
-          focusComponent={focusComponent}
-          addProp={addProp}
-          addChild={addChild}
-          changeFocusComponent={changeFocusComponent}
-          changeFocusChild={changeFocusChild}
-          selectableChildren={selectableChildren}
-          deleteComponent={deleteComponent}
-          components={components}
-          toggleComponentState={toggleComponentState}
-          toggleComponentClass={toggleComponentClass}
-          updateCode={updateCode}
-          editMode={editMode}
-          toggleEditMode={toggleEditMode}
-          handleChangeName={this.handleChangeName}
-          handleEditComponent={this.handleEditComponent}
-          changeComponentFocusChild={changeComponentFocusChild}
-          focusChild={focusChild}
-        />
-      ));
-    const { addImage } = this;
-
-    return (
-      <div className="column left" style={{ minWidth: '466px' }}>
-        <Grid container spacing={8} direction="row" alignItems="center">
-          <Grid item xs={12} style={{ paddingBottom: '0' }}>
-            <FormControlLabel
-              className={classes.switch}
-              control={
-                <Switch
-                  checked={native}
-                  color="primary"
-                  onChange={() => {
-                    toggleNative();
-                  }}
-                />
-              }
-              label="Native Mode"
-              labelPlacement="start"
-            />
-          </Grid>
-          <Grid item xs={10} style={{ paddingTop: '0' }}>
-            <TextField
-              id="title-input"
-              label="Add component"
-              size="medium"
-              placeholder="Name of component"
-              margin="normal"
-              onChange={this.handleChange}
-              onKeyPress={ev => {
-                if (ev.key === 'Enter') {
-                  this.handleAddComponent();
-                  ev.preventDefault();
-                }
-              }}
-              value={componentName}
-              name="componentName"
-              className={classes.light}
-              InputProps={{
-                className: classes.input
-              }}
-              InputLabelProps={{
-                className: classes.input
-              }}
-            />
-          </Grid>
-          <Grid item xs={2} style={{ padding: '0', marginBottom: '30px' }}>
-            <Fab
-              size="small"
-              color="secondary"
-              className={classes.button}
-              aria-label="Add"
-              onClick={this.handleAddComponent}
-              disabled={!this.state.componentName}
-            >
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
-        <div className={classes.expansionPanel}>{componentsExpansionPanel}</div>
-        <div className={classes.elementsPanel}>
-          {native ? (
-            // React Native Components will display when in 'Native' mode
-            <NativeComponentPanel addChild={addChild} />
-          ) : (
-            <HTMLComponentPanel
-              className={classes.htmlCompWrapper}
-              focusComponent={focusComponent}
-              addProp={addProp}
-              addChild={addChild}
-            />
-          )}
-        </div>
-        <div
-          style={{
-            width: '100%',
-            position: 'absolute',
-            bottom: 0,
-            left: 0
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            {imageSource ? (
-              <Button
-                aria-label="Remove Image"
-                variant="contained"
-                fullWidth
-                onClick={deleteImage}
-                className={classes.clearButton}
-                style={{
-                  borderRadius: 0,
-                  top: 0,
-                  backgroundColor: '#dc004e',
-                  color: '#fff'
-                }}
-              >
-                Remove Image
-              </Button>
-            ) : (
-              <Button
-                aria-label="Upload Image"
-                variant="contained"
-                fullWidth
-                onClick={addImage}
-                className={classes.clearButton}
-                style={{
-                  borderRadius: 0,
-                  top: 0,
-                  backgroundColor: '#dc004e',
-                  color: '#fff'
-                }}
-              >
-                Upload Image
-              </Button>
-            )}
-            <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
-              fullWidth
-              onClick={this.clearWorkspace}
-              disabled={this.props.components.length === 1}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
-              Clear Workspace
-            </Button>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            <Button
-              color="primary"
-              aria-label="Export Code"
-              variant="contained"
-              fullWidth
-              onClick={this.showGenerateAppModal}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
-              <GetAppIcon style={{ paddingRight: '5px' }} />
-              Export Project
-            </Button>
-          </div>
-        </div>
-
-        {modal}
-      </div>
     );
-  }
-}
-
-function styles(): any {
-  return {
-    cssLabel: {
-      color: 'white',
-
-      '&$cssFocused': {
-        color: 'green'
-      }
-    },
-    input: {
-      color: '#fff',
-      opacity: '0.7',
-      marginBottom: '10px',
-      paddingLeft: '9%',
-      width: '100%'
-    },
-    underline: {
-      color: 'white',
-      '&::before': {
-        color: 'white'
-      }
-    },
-    button: {
-      color: '#fff',
-
-      '&:disabled': {
-        color: 'grey'
-      }
-    },
-    clearButton: {
-      top: '96%',
-      position: 'sticky!important',
-      zIndex: '1',
-
-      '&:disabled': {
-        color: 'grey',
-        backgroundColor: '#424242'
-      }
-    },
-    expansionPanel: {
-      flexDirection: 'column',
-      display: 'flex',
-      height: '60%',
-      overflowY: 'auto',
-      overflowX: 'hidden',
-      // padding: '1%',
-      paddingLeft: '10%'
-      // marginBottom: '60%'
-    },
-    switch: {
-      marginLeft: '30%',
-      marginTop: '5%',
-      marginBottom: '0',
-      paddingBottom: '0',
-      color: '#fff',
-      fontSize: '1.3em'
-    },
-    light: {
-      marginTop: '0',
-      paddingTop: '0',
-      width: '100%',
-      paddingLeft: '10%'
-    },
-    elementsPanel: {
-      marginBottom: '30%'
-    }
   };
-}
 
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps)
-)(LeftContainer);
+  return (
+    <div className="column left">
+      <Grid container direction="row" alignItems="center">
+        <ComponentPanel />
+        <HTMLPanel />
+        <div className={classes.btnGroup}>
+          <Button
+            className={classes.exportBtn}
+            variant="outlined"
+            color="primary"
+            onClick={showGenerateAppModal}
+            endIcon={<GetAppIcon />}
+          >
+            EXPORT PROJECT
+          </Button>
+          <Button className={classes.clearBtn}>CLEAR WORKSPACE</Button>
+        </div>
+      </Grid>
+      {modal}
+    </div>
+  );
+};
+
+export default LeftContainer;
