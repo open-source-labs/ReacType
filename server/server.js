@@ -38,11 +38,6 @@ app.use(cookieParser());
 
 // statically serve everything in build folder
 app.use('/', express.static(path.resolve(__dirname, '../build')));
-// statically serve images
-app.use(
-  '/images',
-  express.static(path.resolve(__dirname, '..src/public/images'))
-);
 
 // serves main app, we are going to serve main app to electron locally, this will be deprecated
 // this backend server will only be used for authentication and project management services

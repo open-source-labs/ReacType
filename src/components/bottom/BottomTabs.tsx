@@ -1,208 +1,91 @@
-import React, { Component } from 'react';
-import AddChildProps from './AddChildProps';
-import { withStyles, Theme } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Tree from 'react-d3-tree';
-import Props from './Props';
-import HtmlAttr from './HtmlAttr';
+// import Tree from 'react-d3-tree';
 import CodePreview from './CodePreview';
-import { ComponentsInt, PropsInt } from '../../interfaces/Interfaces';
 import Box from '@material-ui/core/Box';
 
-interface BottomTabsPropsInt extends PropsInt {
-  deleteProp(id: number): void;
-  addProp(arg: { key: string; type: string }): void;
-  classes: any;
-  changeFocusComponent(arg: { title: string }): void;
-  updateCode(arg: { componentId: number; code: string }): void;
-  toggleNative(): void;
-  native: boolean;
-  toggleCodeEdit(): void;
-  codeReadOnly: boolean;
-}
-
-interface StateInt {
-  value: number;
-  translate: { x: number; y: number };
-}
-
-class BottomTabs extends Component<BottomTabsPropsInt, StateInt> {
-  constructor(props: BottomTabsPropsInt) {
-    super(props);
-    this.state = {
-      value: 0,
-      translate: { x: 0, y: 0 }
-    };
-  }
+const BottomTabs = () => {
+  // state that controls which tab the user is on
+  const [tab, setTab] = useState(0);
+  const classes = useStyles();
   treeWrapper: HTMLDivElement;
 
-  componentDidMount() {
-    // dynamically center the tree based on the div size
-    const dimensions = this.treeWrapper.getBoundingClientRect();
-    this.setState({
-      translate: {
-        x: dimensions.width / 12,
-        y: dimensions.height / 2.2
-      }
-    });
-  }
-
-  handleChange = (event: React.ChangeEvent, value: number) => {
-    this.setState({ value });
+  // method changes the
+  const handleChange = (event: React.ChangeEvent, value: number) => {
+    setTab(value);
   };
 
-  handleClick = (event: any, node: any) => {
-    if (!event.attributes.Type) {
-      this.props.changeFocusComponent({ title: event.name });
-    }
-  };
-
-  toggleNative = () => {
-    this.props.toggleNative();
-  };
-
-  generateComponentTree(componentId: number, components: ComponentsInt) {
-    const component = components.find(comp => comp.id === componentId);
-    const tree: any = { name: component.title, attributes: {}, children: [] };
-
-    component.childrenArray.forEach(child => {
-      if (child.childType === 'COMP') {
-        tree.children.push(
-          this.generateComponentTree(child.childComponentId, components)
-        );
-      } else if (child.componentName.slice(0, 2) == 'RN') {
-        let str = { Type: 'React Native Component' };
-        tree.children.push({
-          name: child.componentName,
-          attributes: str,
-          children: []
-        });
-      } else {
-        let str = { Type: 'HTML Element' };
-        tree.children.push({
-          name: child.componentName,
-          attributes: str,
-          children: []
-        });
-      }
-    });
-    return tree;
-  }
-
-  render(): JSX.Element {
-    const {
-      classes,
-      components,
-      focusComponent,
-      focusChild,
-      toggleNative,
-      updateCode,
-      native,
-      toggleCodeEdit,
-      codeReadOnly
-    } = this.props;
-    const { value } = this.state;
-
-    // display count on the tab. user can see without clicking into tab
-    const propCount = focusComponent.props.length;
-    const htmlAttribCount = focusComponent.childrenArray.filter(
-      child => child.childType === 'HTML'
-    ).length;
-
-    return (
-      <div className={classes.root}>
-        <Box display="flex" justifyContent="space-between">
-          <Tabs
-            value={value}
-            onChange={this.handleChange}
-            classes={{
-              root: classes.tabsRoot,
-              indicator: classes.tabsIndicator
-            }}
-          >
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Application Tree"
-            />
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Code Preview"
-            />
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label={`Component Props ${propCount ? `(${propCount})` : ''} `}
-            />
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label={`HTML Element Attributes ${
-                htmlAttribCount ? `(${htmlAttribCount})` : ''
-              } `}
-            />
-          </Tabs>
-        </Box>
-        {value === 0 && (
-          <div
-            id="treeWrapper"
-            style={{
-              width: '80%',
-              height: '100%'
-            }}
-            ref={node => (this.treeWrapper = node)}
-          >
-            <Tree
-              data={[this.generateComponentTree(focusComponent.id, components)]}
-              separation={{ siblings: 0.3, nonSiblings: 0.3 }}
-              transitionDuration={0}
-              translate={this.state.translate}
-              onClick={this.handleClick}
-              styles={{
-                nodes: {
-                  node: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1
-                    }
-                  },
-                  leafNode: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1
-                    }
-                  }
-                }
-              }}
-            />
-          </div>
-        )}
-        {value === 1 && (
-          <CodePreview
-            focusComponent={focusComponent}
-            updateCode={updateCode}
-            components={components}
-            changeFocusComponent={this.props.changeFocusComponent}
-            toggleCodeEdit={toggleCodeEdit}
-            codeReadOnly={codeReadOnly}
+  return (
+    <div className={classes.root}>
+      <Box display="flex" justifyContent="space-between">
+        <Tabs
+          value={tab}
+          onChange={handleChange}
+          classes={{
+            root: classes.tabsRoot,
+            indicator: classes.tabsIndicator
+          }}
+        >
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Code Preview"
           />
-        )}
-        {value === 2 && <Props />}
-        {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-        {value === 3 && focusChild.childType !== 'HTML' && (
-          <p>Please select an HTML element to view attributes</p>
-        )}
-        {value === 4 && <AddChildProps />}
-      </div>
-    );
-  }
-}
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Application Tree"
+          />
+        </Tabs>
+      </Box>
+      {tab === 0 && (
+        <CodePreview />
+        // <div>Code Preview</div>
+      )}
+      {tab === 1 && (
+        //   <div
+        //     id="treeWrapper"
+        //     style={{
+        //       width: '80%',
+        //       height: '100%'
+        //     }}
+        //     ref={node => (this.treeWrapper = node)}
+        //   >
+        //     <Tree
+        //       data={[this.generateComponentTree(focusComponent.id, components)]}
+        //       separation={{ siblings: 0.3, nonSiblings: 0.3 }}
+        //       transitionDuration={0}
+        //       translate={this.state.translate}
+        //       onClick={this.handleClick}
+        //       styles={{
+        //         nodes: {
+        //           node: {
+        //             name: {
+        //               fill: '#D3D3D3',
+        //               stroke: '#D3D3D3',
+        //               strokeWidth: 1
+        //             }
+        //           },
+        //           leafNode: {
+        //             name: {
+        //               fill: '#D3D3D3',
+        //               stroke: '#D3D3D3',
+        //               strokeWidth: 1
+        //             }
+        //           }
+        //         }
+        //       }}
+        //     />
+        //   </div>
+        <div>Tree</div>
+      )}
+    </div>
+  );
+};
 
-const styles = (theme: Theme): any => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: '#333333',
@@ -263,6 +146,6 @@ const styles = (theme: Theme): any => ({
     marginRight: '10px',
     marginTop: '2px'
   }
-});
+}));
 
-export default withStyles(styles)(BottomTabs);
+export default BottomTabs;

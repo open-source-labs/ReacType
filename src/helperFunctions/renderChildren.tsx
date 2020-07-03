@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component, ChildElement } from '../interfaces/InterfacesNew';
-import DirectChildComponent from '../components/main/DirectChildComponentNew';
-import DirectChildHTML from '../components/main/DirectChildHTMLNew';
-import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestableNew';
+import DirectChildComponent from '../components/main/DirectChildComponent';
+import DirectChildHTML from '../components/main/DirectChildHTML';
+import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
 
 // helper method to render all direct children of a component
 // there are three types of direct children that can be rendered on the screen

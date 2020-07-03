@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { format } from 'prettier';
-import componentRender from './componentRender.util';
 
 
 const createFiles = (
