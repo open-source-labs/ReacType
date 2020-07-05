@@ -9,7 +9,6 @@ import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import { getProjects } from '../helperFunctions/projectGetSave';
 import { saveProject } from '../helperFunctions/projectGetSave';
-import { loadInitData } from '../actions/actionCreators';
 // import { Context, State } from '../interfaces/InterfacesNew';
 
 // Intermediary component to wrap main App component with higher order provider components
@@ -27,7 +26,7 @@ export const App = (): JSX.Element => {
         // if user has project we run a dispatch to update state with received project
         dispatch({
           type: 'SET INITIAL STATE',
-          payload: project
+          payload: project[0].project
         });
       }
     });

@@ -1,0 +1,1 @@
+window.ipc = require('ipc');
