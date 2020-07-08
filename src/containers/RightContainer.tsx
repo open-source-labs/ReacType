@@ -77,7 +77,6 @@ const RightContainer = (props): JSX.Element => {
   //console.log('this is a rerender');
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
-  console.log('State in RightContainer is', state);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -85,9 +84,6 @@ const RightContainer = (props): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
-  const [projectName, setProjectName] = useState('');
-
-  console.log('projectName is', projectName);
 
   const resetFields = () => {
     const style = configTarget.child
@@ -224,6 +220,7 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 
+  //
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('Logout clicked, destroying cookie, redirect to login');
@@ -428,18 +425,32 @@ const RightContainer = (props): JSX.Element => {
       ) : (
         ''
       )}
-
-      <div className={classes.logoutButton}>
-        <Button
-          variant="contained"
-          onClick={handleLogout}
-          color="secondary"
-          style={{ textAlign: 'center' }}
-        >
-          Log Out
-          <ExitToAppIcon />
-        </Button>
-      </div>
+      {state.isLoggedIn === true && (
+        <div className={classes.logoutButton}>
+          <Button
+            variant="contained"
+            onClick={handleLogout}
+            color="secondary"
+            style={{ textAlign: 'center' }}
+          >
+            Log Out
+            <ExitToAppIcon />
+          </Button>
+        </div>
+      )}
+      {state.isLoggedIn === false && (
+        <div className={classes.logoutButton}>
+          <Button
+            variant="contained"
+            onClick={handleLogout}
+            color="secondary"
+            style={{ textAlign: 'center' }}
+          >
+            Log In
+            <ExitToAppIcon />
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

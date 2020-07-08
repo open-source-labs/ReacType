@@ -1,4 +1,5 @@
 export interface State {
+  name: String;
   isLoggedIn: Boolean;
   components: Component[];
   rootComponents: number[];

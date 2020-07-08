@@ -16,7 +16,7 @@ export const saveProject = (
   name: String,
   workspace: Object
 ): Promise<Object> => {
-  console.log("Saving user's project...");
+  console.log("Saving user's project...", workspace);
   console.log('Name is', name);
   const body = JSON.stringify({
     name,

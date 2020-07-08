@@ -43,13 +43,13 @@ const useStyles = makeStyles({
     color: 'red'
   },
   saveProjText: {
-    backgroundColor: 'lightgray',
-    bottom: '50px'
+    backgroundColor: 'gray',
+    bottom: '100px'
   },
   saveProjButton: {
     width: '55%',
     backgroundColor: 'rgba(1,212,109,0.1)',
-    bottom: '40px',
+    bottom: '90px',
     fontSize: '1em'
   }
 });
@@ -182,28 +182,33 @@ const LeftContainer = (): JSX.Element => {
         <HTMLPanel />
 
         <div className={classes.btnGroup}>
-          <TextField
-            className={classes.saveProjText}
-            variant="filled"
-            name="projectName"
-            value={projectName}
-            placeholder="Project Name"
-            size="small"
-            required={true}
-            onChange={e => setprojectName(e.target.value)}
-          />
-          <Button
-            className={classes.saveProjButton}
-            variant="outlined"
-            color="secondary"
-            onClick={() => {
-              //if (projectName !== '') {
-              saveProject(projectName, state);
-              //}
-            }}
-          >
-            Save Project
-          </Button>
+          {state.isLoggedIn === true && (
+            <div className={classes.btnGroup}>
+              <TextField
+                className={classes.saveProjText}
+                variant="filled"
+                name="projectName"
+                label="Project Name"
+                value={projectName}
+                placeholder="Project Name"
+                size="medium"
+                onChange={e => setprojectName(e.target.value)}
+              ></TextField>
+              <Button
+                className={classes.saveProjButton}
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  if (state.isLoggedIn === true && projectName !== '') {
+                    saveProject(projectName, state);
+                  }
+                  setprojectName('');
+                }}
+              >
+                Save Project
+              </Button>
+            </div>
+          )}
 
           <Button
             className={classes.exportBtn}
