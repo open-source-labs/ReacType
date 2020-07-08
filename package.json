@@ -1,8 +1,9 @@
 {
   "name": "reactype",
-  "version": "2.0.0",
+  "version": "5.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
-  "main": "main.js",
+  "private": true,
+  "main": "app/electron/main.js",
   "contributors": [
     "Adam Singer",
     "Charles Finocchiaro",
@@ -16,103 +17,73 @@
     "Shlomo Porges",
     "Sophia Huttner",
     "Tolga Mizrakci",
-    "Tony Ito-Cole"
+    "Tony Ito-Cole",
+    "Tyler Sullberg",
+    "Fredo Chen",
+    "Aaron Bumanglag",
+    "Andrew Cho"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/team-reactype/ReacType"
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
+    "dev": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
+    "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
+    "prod": "npm run prod-build && electron .",
+    "pack": "electron-builder --dir",
+    "dist": "npm run prod-build && electron-builder",
+    "dist-mac": "npm run prod-build && electron-builder --mac",
+    "dist-linux": "npm run prod-build && electron-builder --linux",
+    "dist-windows": "npm run prod-build && electron-builder --windows",
+    "dist-all": "npm run prod-build && electron-builder --mac --linux --windows"
   },
   "build": {
+    "productName": "ReacType",
     "appId": "com.team-reactype.reactype",
-    "copyright": "Copyright © 2020",
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "maintainer": "sean.sadykoff@gmail.com"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "target": "dmg"
-    },
-    "nsis": {
-      "createStartMenuShortcut": true,
-      "createDesktopShortcut": true,
-      "runAfterFinish": true
+    "directories": {
+      "buildResources": "resources"
     },
     "win": {
-      "target": "nsis-web"
+      "target": [
+        "nsis",
+        "msi"
+      ]
     },
-    "files": [
-      "main.js",
-      "build"
-    ],
-    "productName": "",
-    "dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "snap",
+        "AppImage"
       ]
     }
   },
-  "scripts": {
-    "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "start": "cross-env NODE_ENV=production electron .",
-    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
-    "electron": "cross-env NODE_ENV=development electron .",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "build-bin": "electron-builder -mwl",
-    "test": "cross-env NODE_ENV=test jest --verbose",
-    "test:update-snap": "cross-env NODE_ENV=test jest --updateSnapshot",
-    "test:clear": "cross-env NODE_ENV=test jest --clearCache",
-    "linter": "eslint src",
-    "develop": "concurrently \"npm run dev\" \"npm run electron\"",
-    "server": "nodemon server/server.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/open-source-labs/ReacType.git"
   },
-  "bin": {
-    "reactype": "./index.js"
-  },
-  "preferGlobal": true,
+  "keywords": [
+    "electron",
+    "security",
+    "template",
+    "react",
+    "redux",
+    "webpack",
+    "i18next",
+    "boilerplate"
+  ],
   "license": "MIT",
-  "jest": {
-    "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "electron": "<rootDir>/__mocks__/electron.ts"
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest"
-    },
-    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
-    "setupFiles": [
-      "<rootDir>/src/setupTests.ts"
-    ]
+  "bugs": {
+    "url": "https://github.com/open-source-labs/ReacType/issues"
   },
+  "homepage": "https://github.com/open-source-labs/ReacType#readme",
   "dependencies": {
-    "@material-ui/core": "^4.2.1",
+    "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.9.6",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/js-cookie": "^2.2.6",
+    "@types/node": "^14.0.20",
     "@types/prettier": "^1.19.0",
     "@types/prismjs": "^1.16.0",
     "@types/react": "^16.8.14",
@@ -120,7 +91,7 @@
     "@types/react-redux": "^7.0.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-syntax-highlighter": "^11.0.4",
-    "ace-builds": "^1.4.8",
+    "ace-builds": "^1.4.12",
     "app-root-path": "^3.0.0",
     "autoprefixer": "^9.0.1",
     "babel-polyfill": "^6.26.0",
@@ -130,9 +101,10 @@
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
     "concurrently": "^5.1.0",
+    "connected-react-router": "^6.8.0",
     "cookie-parser": "^1.4.5",
     "core-js": "^3.6.4",
-    "csstype": "^2.6.9",
+    "csstype": "^2.6.11",
     "d3": "^5.9.2",
     "electron-reload": "^1.4.0",
     "electron-splashscreen": "^1.0.0",
@@ -142,8 +114,10 @@
     "js-cookie": "^2.2.1",
     "konva": "^4.2.0",
     "localforage": "^1.7.2",
+    "lodash": "^4.17.19",
+    "lodash.merge": "^4.6.2",
     "lodash.throttle": "^4.1.1",
-    "material-table": "^1.57.2",
+    "material-table": "^1.64.0",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
     "prettier": "^1.19.1",
@@ -167,17 +141,22 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "redux-undo": "^1.0.1",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-typescript": "^7.3.3",
+    "@babel/core": "^7.10.4",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^25.1.5",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^25.2.4",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -186,26 +165,29 @@
     "concurrently": "^5.1.0",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.1",
+    "csp-html-webpack-plugin": "^4.0.0",
     "css-loader": "^2.1.1",
     "dotenv": "^8.2.0",
-    "electron": "^2.0.7",
+    "electron": "^9.1.0",
     "electron-builder": "^20.44.4",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^21.21.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-react": "^7.20.3",
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-loader": "^1.1.0",
     "html-webpack-plugin": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.2.6",
+    "mini-css-extract-plugin": "^0.9.0",
     "mongodb": "^3.5.9",
-    "mongoose": "^5.9.20",
+    "mongoose": "^5.9.22",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.4",
     "postcss-loader": "^2.1.6",
@@ -214,14 +196,11 @@
     "style-loader": "^0.20.3",
     "ts-jest": "^25.3.0",
     "ts-node": "^8.10.2",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.6",
+    "url-loader": "^4.1.0",
     "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  }
 }
