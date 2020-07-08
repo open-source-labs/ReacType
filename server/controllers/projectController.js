@@ -35,7 +35,7 @@ projectController.saveProject = (req, res, next) => {
   );
 };
 
-// gets all of current project's projects
+// gets all of current user's projects
 
 projectController.getProjects = (req, res, next) => {
   console.log('Inside projectController.getProjects...');
@@ -50,7 +50,8 @@ projectController.getProjects = (req, res, next) => {
       });
     } else {
       console.log('Successful getProjects');
-      res.locals.projects = projects;
+      // so it returns each project like it is in state, not the whole object in DB
+      res.locals.projects = projects.map(elem => elem.project);
       return next();
     }
   });

@@ -8,9 +8,9 @@ import { stateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
-import { saveProject } from '../helperFunctions/projectGetSave';
+import { getProjects, saveProject } from '../helperFunctions/projectGetSave';
 
-//import { Context, State } from '../interfaces/InterfacesNew';
+import { Context, State } from '../interfaces/InterfacesNew';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
@@ -24,9 +24,13 @@ export const App = (): JSX.Element => {
   } else {
     state.isLoggedIn = false;
   }
+
+  // following useEffect runs on first mount
   useEffect(() => {
+    // if user is a guest, see if a project exists in localforage and retrieve it
     if (state.isLoggedIn === false) {
       localforage.getItem('guestProject').then(project => {
+        // if project exists, use dispatch to set initial state to that project
         if (project) {
           console.log(
             'Project found in localforage, guest project is',
@@ -38,6 +42,11 @@ export const App = (): JSX.Element => {
           });
         }
       });
+    } else {
+      // otherwise if a user is logged in, use a fetch request to load user's projects from DB
+      getProjects().then(projects =>
+        console.log('UseEffect in App getprojects() returns', projects)
+      );
     }
   }, []);
 

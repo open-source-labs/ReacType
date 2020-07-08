@@ -432,9 +432,9 @@ const RightContainer = (props): JSX.Element => {
             onClick={handleLogout}
             color="secondary"
             style={{ textAlign: 'center' }}
+            endIcon={<ExitToAppIcon />}
           >
             Log Out
-            <ExitToAppIcon />
           </Button>
         </div>
       )}
@@ -445,9 +445,9 @@ const RightContainer = (props): JSX.Element => {
             onClick={handleLogout}
             color="secondary"
             style={{ textAlign: 'center' }}
+            endIcon={<ExitToAppIcon />}
           >
             Log In
-            <ExitToAppIcon />
           </Button>
         </div>
       )}

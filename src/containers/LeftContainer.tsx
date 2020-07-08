@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -44,12 +45,12 @@ const useStyles = makeStyles({
   },
   saveProjText: {
     backgroundColor: 'gray',
-    bottom: '100px'
+    bottom: '90px'
   },
   saveProjButton: {
     width: '55%',
     backgroundColor: 'rgba(1,212,109,0.1)',
-    bottom: '90px',
+    bottom: '80px',
     fontSize: '1em'
   }
 });
@@ -198,8 +199,13 @@ const LeftContainer = (): JSX.Element => {
                 className={classes.saveProjButton}
                 variant="outlined"
                 color="secondary"
+                endIcon={<SaveIcon />}
                 onClick={() => {
                   if (state.isLoggedIn === true && projectName !== '') {
+                    dispatch({
+                      type: 'SET PROJECT NAME',
+                      payload: projectName
+                    });
                     saveProject(projectName, state);
                   }
                   setprojectName('');

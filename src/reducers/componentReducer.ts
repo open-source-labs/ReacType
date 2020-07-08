@@ -265,6 +265,12 @@ const reducer = (state: State, action: Action) => {
     case 'SET INITIAL STATE': {
       return { ...action.payload };
     }
+    case 'SET PROJECT NAME': {
+      return {
+        ...state,
+        name: action.payload
+      };
+    }
 
     default:
       return state;
