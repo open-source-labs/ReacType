@@ -17,7 +17,7 @@ import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
 
-const IPC = require('electron').ipcRenderer;
+// const IPC = require('electron').ipcRenderer;
 
 const useStyles = makeStyles({
   btnGroup: {

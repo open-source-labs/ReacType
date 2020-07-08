@@ -1,8 +1,6 @@
-import { format } from 'prettier';
+// import { format } from 'prettier';
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
-
-
 
 // generate code based on the component heirarchy
 const generateUnformattedCode = (comps: Component[], componentId: number) => {
@@ -45,25 +43,39 @@ const generateUnformattedCode = (comps: Component[], componentId: number) => {
           if (child.tag === 'img') {
             return `<${child.tag} src=""${formatStyles(child.style)} />`;
           } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${child.tag}>`;
+            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${
+              child.tag
+            }>`;
           } else if (child.tag === 'div') {
             return `<${child.tag}${formatStyles(
               child.style
             )}>${writeNestedElements(child.children)}</${child.tag}>`;
           } else if (child.tag === 'h1') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${child.tag}>`;
+            return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${
+              child.tag
+            }>`;
           } else if (child.tag === 'h2') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 2</${child.tag}>`;
+            return `<${child.tag}${formatStyles(child.style)}>HEADER 2</${
+              child.tag
+            }>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag}${formatStyles(child.style)}>FORM</${child.tag}>`;
+            return `<${child.tag}${formatStyles(child.style)}>FORM</${
+              child.tag
+            }>`;
           } else if (child.tag === 'p') {
-            return `<${child.tag}${formatStyles(child.style)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${child.tag}>`;
+            return `<${child.tag}${formatStyles(
+              child.style
+            )}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${
+              child.tag
+            }>`;
           } else if (child.tag === 'li') {
             return `<ul${formatStyles(child.style)}><li>item 1</li>
             <li>item 2</li>
             <li>item 3</li></ul>`;
-          } else if (child.tag === 'button'){
-            return `<${child.tag}${formatStyles(child.style)}>BUTTON</${child.tag}>`;
+          } else if (child.tag === 'button') {
+            return `<${child.tag}${formatStyles(child.style)}>BUTTON</${
+              child.tag
+            }>`;
           } else {
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
@@ -135,13 +147,14 @@ const generateUnformattedCode = (comps: Component[], componentId: number) => {
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  return format(code, {
-    singleQuote: true,
-    trailingComma: 'es5',
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    parser: 'babel'
-  });
+  return code;
+  // return format(code, {
+  //   singleQuote: true,
+  //   trailingComma: 'es5',
+  //   bracketSpacing: true,
+  //   jsxBracketSameLine: true,
+  //   parser: 'babel'
+  // });
 };
 
 // generate code based on component heirarchy and then return the rendered code
@@ -151,4 +164,3 @@ const generateCode = (components: Component[], componentId: number) => {
 };
 
 export default generateCode;
-

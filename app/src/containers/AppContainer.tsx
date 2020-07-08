@@ -6,7 +6,7 @@ import RightContainer from './RightContainer';
 import theme from '../theme';
 
 // ** Used with electron to render
-const IPC = require('electron').ipcRenderer;
+// const IPC = require('electron').ipcRenderer;
 
 class AppContainer extends Component {
   constructor(props) {
