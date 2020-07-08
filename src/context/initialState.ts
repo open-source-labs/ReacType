@@ -1,12 +1,13 @@
 import { State } from '../interfaces/InterfacesNew';
 
 export const initialState: State = {
+  isLoggedIn: false,
   components: [
     {
       id: 1,
       name: 'App',
       style: {},
-      code:'<div>This is the CODE!!!!</div>',
+      code: '<div>This is the CODE!!!!</div>',
       children: []
     }
   ],

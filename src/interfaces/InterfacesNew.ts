@@ -1,4 +1,5 @@
 export interface State {
+  isLoggedIn: Boolean;
   components: Component[];
   rootComponents: number[];
   canvasFocus: { componentId: number; childId: number | null };

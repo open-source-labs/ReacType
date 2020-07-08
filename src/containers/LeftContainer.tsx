@@ -16,6 +16,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
+import { saveProject } from '../helperFunctions/projectGetSave';
 
 const IPC = require('electron').ipcRenderer;
 
@@ -40,6 +41,16 @@ const useStyles = makeStyles({
     fontSize: '1em',
     marginTop: '15px',
     color: 'red'
+  },
+  saveProjText: {
+    backgroundColor: 'lightgray',
+    bottom: '50px'
+  },
+  saveProjButton: {
+    width: '55%',
+    backgroundColor: 'rgba(1,212,109,0.1)',
+    bottom: '40px',
+    fontSize: '1em'
   }
 });
 
@@ -47,7 +58,8 @@ const useStyles = makeStyles({
 const LeftContainer = (): JSX.Element => {
   const [state, dispatch] = useContext(stateContext);
   const classes = useStyles();
-
+  const [projectName, setprojectName] = useState('');
+  console.log('projectName is', projectName);
   // state to keep track of how the user wants their components to be exported
   // genOption = 0 --> export only components
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
@@ -168,7 +180,31 @@ const LeftContainer = (): JSX.Element => {
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
+
         <div className={classes.btnGroup}>
+          <TextField
+            className={classes.saveProjText}
+            variant="filled"
+            name="projectName"
+            value={projectName}
+            placeholder="Project Name"
+            size="small"
+            required={true}
+            onChange={e => setprojectName(e.target.value)}
+          />
+          <Button
+            className={classes.saveProjButton}
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              //if (projectName !== '') {
+              saveProject(projectName, state);
+              //}
+            }}
+          >
+            Save Project
+          </Button>
+
           <Button
             className={classes.exportBtn}
             variant="outlined"

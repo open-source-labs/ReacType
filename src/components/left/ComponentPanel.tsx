@@ -13,9 +13,7 @@ import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  inputField: {
-    
-  },
+  inputField: {},
   inputWrapper: {
     height: '110px',
     textAlign: 'center',
@@ -28,7 +26,7 @@ const useStyles = makeStyles({
     width: '100%'
   },
   panelWrapperList: {
-    maxHeight: '675px',
+    maxHeight: '400px',
     minHeight: '120px',
     overflowY: 'auto',
     marginLeft: '-15px',
@@ -63,10 +61,8 @@ const useStyles = makeStyles({
   rootToggle: {
     color: '#01d46d',
     fontSize: '0.85rem'
-  },
-
+  }
 });
-
 
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
@@ -145,7 +141,7 @@ const ComponentPanel = (): JSX.Element => {
 
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
-  }
+  };
 
   const setFocus = (targetId: Number) => {
     const focusTarget = state.components.filter(comp => {

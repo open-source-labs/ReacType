@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { stateContext } from '../context/context';
 import HTMLTypes from '../context/HTMLTypes';
 import Button from '@material-ui/core/Button';
+import { useHistory, withRouter } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles({
   select: {
@@ -62,22 +64,30 @@ const useStyles = makeStyles({
       marginBottom: '0',
       marginTop: '10px'
     }
+  },
+  logoutButton: {
+    position: 'absolute',
+    bottom: '50px',
+    right: '150px'
   }
 });
 
-const RightContainer = (): JSX.Element => {
-  console.log('this is a rerender');
+// need to pass in props to use the useHistory feature of react router
+const RightContainer = (props): JSX.Element => {
+  //console.log('this is a rerender');
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
-
+  console.log('State in RightContainer is', state);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
-
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
+  const [projectName, setProjectName] = useState('');
+
+  console.log('projectName is', projectName);
 
   const resetFields = () => {
     const style = configTarget.child
@@ -96,7 +106,7 @@ const RightContainer = (): JSX.Element => {
   // after component renders, reset the input fields with the current styles of the selected child
   useEffect(() => {
     resetFields();
-    console.log('configTarget is', configTarget);
+    //console.log('configTarget is', configTarget);
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
 
   // handles all input field changes, with specific updates called based on input's name
@@ -124,6 +134,9 @@ const RightContainer = (): JSX.Element => {
         break;
       case 'bgcolor':
         setBGColor(inputVal);
+        break;
+      case 'projectName':
+        setProjectName(inputVal);
         break;
     }
   };
@@ -185,7 +198,6 @@ const RightContainer = (): JSX.Element => {
     state.canvasFocus.componentId
   ]);
 
-
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
   const handleSave = (): Object => {
@@ -210,6 +222,15 @@ const RightContainer = (): JSX.Element => {
   const handleDelete = () => {
     console.log('DELETING ...');
     dispatch({ type: 'DELETE CHILD', payload: {} });
+  };
+
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log('Logout clicked, destroying cookie, redirect to login');
+    // destroys cookie by backdating expiration time
+    document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // uses useHistory to return to the login page
+    props.history.push('/login');
   };
 
   return (
@@ -407,8 +428,20 @@ const RightContainer = (): JSX.Element => {
       ) : (
         ''
       )}
+
+      <div className={classes.logoutButton}>
+        <Button
+          variant="contained"
+          onClick={handleLogout}
+          color="secondary"
+          style={{ textAlign: 'center' }}
+        >
+          Log Out
+          <ExitToAppIcon />
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default RightContainer;
+export default withRouter(RightContainer);

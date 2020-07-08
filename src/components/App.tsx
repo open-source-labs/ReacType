@@ -7,39 +7,19 @@ import AppContainer from '../containers/AppContainer';
 import { stateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
-import { getProjects } from '../helperFunctions/projectGetSave';
-import { saveProject } from '../helperFunctions/projectGetSave';
+
 // import { Context, State } from '../interfaces/InterfacesNew';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   // const [context, setContext] = useState(initialState);
-  //let initialStateLoaded = false;
-  // retrieves user's project (if it exists) from DB on component load
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // gets projects from DB for current user on mount
-  useEffect(() => {
-    // getProjects returns a promise which is thenable
-    getProjects().then(project => {
-      if (project) {
-        // if user has project we run a dispatch to update state with received project
-        dispatch({
-          type: 'SET INITIAL STATE',
-          payload: project[0].project
-        });
-      }
-    });
-  }, []);
-
-  // saves project to DB whenever there are changes to the state via this canvas component
-  useEffect(() => {
-    console.log('useEffect in CanvasNew ran');
-    // setTimeout is necessary so the saveProjects method does not fire and save an empty project before the initial getProjects in AppNew
-    setTimeout(() => {
-      saveProject(state);
-    }, 1000);
-  }, [state]);
+  // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
+  if (document.cookie.slice(5, 10) !== 'guest') {
+    state.isLoggedIn = true;
+  }
 
   return (
     <div className="app">

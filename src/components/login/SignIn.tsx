@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 2),
+    margin: theme.spacing(1, 0, 2)
     // width: '240px',
     // height: '60px'
   },
@@ -63,15 +63,14 @@ const useStyles = makeStyles(theme => ({
     // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     //   borderColor: "red"
     // },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#3EC1AC"
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#3EC1AC'
     }
   }
 }));
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -111,12 +110,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     setInvalidPass(false);
     setInvalidPassMsg('');
     sessionIsCreated(username, password).then(loginStatus => {
-      console.log('login fetch', loginStatus)
-      if(loginStatus === 'Success') {
-  
+      console.log('login fetch', loginStatus);
+      if (loginStatus === 'Success') {
         props.history.push('/');
       } else {
-        switch(loginStatus) {
+        switch (loginStatus) {
           case 'No Username Input':
             setInvalidUser(true);
             setInvalidUserMsg(loginStatus);
@@ -138,12 +136,23 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
+  // for users not wanting to make an account and use as guest
+  const handleLoginGuest = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    console.log('Handle login guest fired');
+    e.preventDefault();
+    // generate cookie for guest users
+    document.cookie = 'ssid=guest; max-age=3600;';
+    props.history.push('/');
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon/>
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5" color="textPrimary">
           Sign in
@@ -161,7 +170,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoFocus
           value={username}
           onChange={handleChange}
-          helperText={invalidUserMsg} 
+          helperText={invalidUserMsg}
           error={invalidUser}
         />
         <TextField
@@ -177,7 +186,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoComplete="current-password"
           value={password}
           onChange={handleChange}
-          helperText={invalidPassMsg} 
+          helperText={invalidPassMsg}
           error={invalidPass}
         />
         <FormControlLabel
@@ -202,19 +211,27 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           className={classes.submit}
           href="https://localhost:8080/github"
         >
-          <GitHubIcon/>
+          <GitHubIcon />
         </Button>
 
-        {/* <a href="https://localhost:8080/github">
-          <img src="/images/githublogin.png" />
-        </a>
-        <br></br> */}
+        <Button
+          fullWidth
+          variant="contained"
+          color="default"
+          className={classes.submit}
+          onClick={e => handleLoginGuest(e)}
+        >
+          Continue as Guest
+        </Button>
+
         <Grid container>
           <Grid item xs>
             {/* <Link href="#" variant="body2">
               Forgot password?
             </Link> */}
-            <RouteLink to={`/signup`} className="nav_link">Forgot password?</RouteLink>
+            <RouteLink to={`/signup`} className="nav_link">
+              Forgot password?
+            </RouteLink>
           </Grid>
           <Grid item>
             <RouteLink to={`/signup`} className="nav_link">

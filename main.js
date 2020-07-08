@@ -14,6 +14,9 @@ const {
   globalShortcut
 } = require('electron');
 
+// const i18nextBackend = require("i18next-electron-fs-backend");
+// const ContextMenu = require("secure-electron-context-menu").default;
+
 // Uncomment below for hot reloading during development
 require('electron-reload')(__dirname);
 
@@ -93,9 +96,7 @@ const createWindow = () => {
     webPreferences: {
       zoomFactor: 0.7
       // for proper security measures, nodeIntegration should be set to false, but this results in a blank page when serving app
-      //nodeIntegration: false,
-      //preload: 'preload.js'
-      // enableRemoteModule: false
+      // nodeIntegration: false,
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
