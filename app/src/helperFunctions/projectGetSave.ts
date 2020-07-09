@@ -1,4 +1,5 @@
 // helper functions that will do fetch requests to get and save user/guest projects
+
 export const getProjects = (): Promise<Object> => {
   console.log("Loading user's projects...");
   let userId = window.localStorage.getItem('ssid');
@@ -10,7 +11,7 @@ export const getProjects = (): Promise<Object> => {
       'content-type': 'application/json'
     },
     // need credentials for userid pull from cookie
-    // credentials: 'include',
+    credentials: 'include',
     body
   })
     .then(res => res.json())

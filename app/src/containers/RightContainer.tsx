@@ -9,6 +9,8 @@ import HTMLTypes from '../context/HTMLTypes';
 import Button from '@material-ui/core/Button';
 import { useHistory, withRouter } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import localforage from 'localforage';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   select: {
@@ -226,8 +228,12 @@ const RightContainer = (props): JSX.Element => {
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('Logout clicked, destroying cookie, redirect to login');
-    // destroys "cookie" by clearing localStorage
+    // destroys "cookie" by clearing localStorage if guest, backdating cookie if not
     window.localStorage.clear();
+    document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    if (state.isLoggedIn) {
+      localforage.setItem(Cookies.get('ssid'), state);
+    }
     // uses useHistory to return to the login page
     props.history.push('/login');
   };

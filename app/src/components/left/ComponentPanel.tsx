@@ -13,13 +13,9 @@ import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-<<<<<<< HEAD
-  inputField: {},
-=======
   inputField: {
     marginTop: '15px'
   },
->>>>>>> master
   inputWrapper: {
     height: '115px',
     textAlign: 'center',
@@ -30,7 +26,7 @@ const useStyles = makeStyles({
   },
   panelWrapper: {
     width: '100%',
-    marginTop: '15px',
+    marginTop: '15px'
   },
   panelWrapperList: {
     maxHeight: '400px',

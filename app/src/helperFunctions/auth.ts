@@ -12,7 +12,8 @@ export const sessionIsCreated = (
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Origin: 'reactype'
     },
     body
   })

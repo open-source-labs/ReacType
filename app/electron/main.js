@@ -220,7 +220,7 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://localhost:8081',
-      'https://github.com/login/oauth/'
+      'https://github.com/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -235,10 +235,12 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
+    console.log('ParsedURL origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
       'https://localhost:8081',
-      'https://github.com/login/oauth/'
+      'https://github.com',
+      'app://rse/'
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -320,4 +322,4 @@ ipcMain.on('choose_app_dir', event => {
 });
 
 // bypass ssl certification validation error
-app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
+// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
