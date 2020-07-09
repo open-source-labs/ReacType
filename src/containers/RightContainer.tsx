@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import { useHistory, withRouter } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+import LoginButton from '../components/login/LoginButton';
+
 const useStyles = makeStyles({
   select: {
     fontSize: '1.25em',
@@ -425,7 +427,10 @@ const RightContainer = (props): JSX.Element => {
       ) : (
         ''
       )}
-      {state.isLoggedIn === true && (
+      <div className={classes.logoutButton}>
+        <LoginButton/>
+      </div>
+      {/* {state.isLoggedIn === true && (
         <div className={classes.logoutButton}>
           <Button
             variant="contained"
@@ -450,7 +455,7 @@ const RightContainer = (props): JSX.Element => {
             <ExitToAppIcon />
           </Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

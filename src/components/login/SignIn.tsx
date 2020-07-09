@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 2)
+    margin: theme.spacing(1, 0, 1)
     // width: '240px',
     // height: '60px'
   },
