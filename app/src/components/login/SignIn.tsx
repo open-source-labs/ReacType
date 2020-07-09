@@ -104,7 +104,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
-
     setInvalidUser(false);
     setInvalidUserMsg('');
     setInvalidPass(false);
@@ -209,7 +208,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           variant="contained"
           color="default"
           className={classes.submit}
-          href="https://localhost:8080/github"
+          href="https://localhost:8081/github"
           //target="_blank"
         >
           <GitHubIcon />

@@ -2,11 +2,13 @@ export const sessionIsCreated = (
   username: string,
   password: string
 ): Promise<string> => {
+  console.log('Username and pw in sessionIsCreated', username, password);
   const body = JSON.stringify({
     username,
     password
   });
-  const result = fetch('https://localhost:8080/login', {
+  console.log('In sessionIsCreated, body is', body);
+  const result = fetch('https://localhost:8081/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -29,7 +31,7 @@ export const sessionIsCreated = (
       }
     })
     .catch(err => {
-      console.log(err);
+      console.log('Error while trying to login', err);
       return 'Error';
     });
   return result;
@@ -45,11 +47,13 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch('https://localhost:8080/signup', {
+  const result = fetch('https://localhost:8081/signup', {
     method: 'POST',
-    credentials: 'include',
+    //credentials: 'include',
+    //mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json'
+      //'Access-Control-Allow-Origin': 'https://localhost:8081'
     },
     body
   })

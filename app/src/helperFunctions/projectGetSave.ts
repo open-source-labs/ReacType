@@ -4,7 +4,7 @@ export const getProjects = (): Promise<Object> => {
   let userId = window.localStorage.getItem('ssid');
   console.log('userId from localStorage is', userId);
   const body = JSON.stringify({ userId });
-  const projects = fetch('https://localhost:8080/getProjects', {
+  const projects = fetch('https://localhost:8081/getProjects', {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -32,7 +32,7 @@ export const saveProject = (
     project: workspace,
     userId: window.localStorage.getItem('ssid')
   });
-  const project = fetch('https://localhost:8080/saveProject', {
+  const project = fetch('https://localhost:8081/saveProject', {
     method: 'POST',
     headers: {
       'content-type': 'application/json'

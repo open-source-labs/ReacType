@@ -136,9 +136,6 @@ const RightContainer = (props): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      case 'projectName':
-        setProjectName(inputVal);
-        break;
     }
   };
 

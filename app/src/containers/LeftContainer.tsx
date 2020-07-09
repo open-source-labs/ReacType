@@ -168,7 +168,7 @@ const LeftContainer = (): JSX.Element => {
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
-
+        {/* renders save project options when user is logged in */}
         <div className={classes.btnGroup}>
           {state.isLoggedIn === true && (
             <div className={classes.btnGroup}>

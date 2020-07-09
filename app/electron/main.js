@@ -61,7 +61,7 @@ async function createWindow() {
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools
-      devTools: isDev,
+      devTools: true,
       // crucial security feature - blocks rendering process from having access to node moduels
       nodeIntegration: false,
       // web workers will not have access to node
@@ -219,13 +219,13 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://localhost:8080',
-      'https://github.com/'
+      'https://localhost:8081',
+      'https://github.com/login/oauth/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
+        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
@@ -237,8 +237,8 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://localhost:8080',
-      'https://github.com/'
+      'https://localhost:8081',
+      'https://github.com/login/oauth/'
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -318,3 +318,6 @@ ipcMain.on('choose_app_dir', event => {
     })
     .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
 });
+
+// bypass ssl certification validation error
+app.commandLine.appendSwitch('ignore-certificate-errors', 'true');
