@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
-import { setLoginState } from '../../actions/actionCreators';
 import {
   Link as RouteLink,
   withRouter,
