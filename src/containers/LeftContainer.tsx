@@ -18,6 +18,8 @@ import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
 import { saveProject } from '../helperFunctions/projectGetSave';
 
+import ProjectsFolder from '../components/login/ProjectsFolder';
+
 const IPC = require('electron').ipcRenderer;
 
 const useStyles = makeStyles({
@@ -180,7 +182,6 @@ const LeftContainer = (): JSX.Element => {
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
-
         <div className={classes.btnGroup}>
           {state.isLoggedIn === true && (
             <div className={classes.btnGroup}>
@@ -209,7 +210,7 @@ const LeftContainer = (): JSX.Element => {
               </Button>
             </div>
           )}
-
+          <ProjectsFolder/>
           <Button
             className={classes.exportBtn}
             variant="outlined"

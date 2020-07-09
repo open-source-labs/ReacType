@@ -208,9 +208,8 @@ const LeftContainer = (): JSX.Element => {
           saveProject(state, projectName);
         }}
       >
-        Save Project
+        Sav Project
       </Button>
-
       {modal}
     </div>
   );
