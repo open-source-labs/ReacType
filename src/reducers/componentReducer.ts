@@ -266,6 +266,14 @@ const reducer = (state: State, action: Action) => {
       return { ...action.payload };
     }
 
+    case 'UPDATE PROJECT NAME': {
+      const projectName = action.payload;
+      return {
+        ...state,
+        name: projectName
+      }
+    }
+
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import { useHistory, withRouter } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LoginButton from '../components/login/LoginButton';
+import SaveProjectButton from '../components/login/SaveProjectButton';
 
 const useStyles = makeStyles({
   select: {
@@ -429,6 +430,7 @@ const RightContainer = (props): JSX.Element => {
       )}
       <div className={classes.logoutButton}>
         <LoginButton/>
+        <SaveProjectButton/>
       </div>
       {/* {state.isLoggedIn === true && (
         <div className={classes.logoutButton}>
