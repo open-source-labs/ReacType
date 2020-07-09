@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
+    "outDir": "./app/dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
@@ -9,7 +9,8 @@
     "lib": ["es6", "dom", "es2017"],
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types", "node_modules/@types/node"]
   },
-  "include": ["./src/**/*"]
+  "include": [".app/src/**/*"]
 }

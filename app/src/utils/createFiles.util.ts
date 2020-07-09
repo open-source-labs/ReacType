@@ -1,22 +1,21 @@
-import fs from 'fs';
-import { format } from 'prettier';
-
+// import window.api from 'window.api';
+// import { format } from 'prettier';
 
 const createFiles = (
   components: any,
   path: string,
   appName: string,
-  exportAppBool: boolean,
+  exportAppBool: boolean
 ) => {
   let dir = path;
   if (exportAppBool === false) {
     if (!dir.match(/components|\*$/)) {
-      if (fs.existsSync(`${dir}/src`)) {
+      if (window.api.existsSync(`${dir}/src`)) {
         dir = `${dir}/src`;
       }
       dir = `${dir}/components`;
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
+      if (!window.api.existsSync(dir)) {
+        window.api.mkdirSync(dir);
       }
     }
   } else if (exportAppBool) {
@@ -28,19 +27,20 @@ const createFiles = (
   const promises: Array<any> = [];
   components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFileSync(
+      window.api.writeFileSync(
         `${dir}/${component.name}.tsx`,
-        format(component.code, {
-          singleQuote: true,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          jsxBracketSameLine: true,
-          parser: 'typescript',
-        }),
+        window.api.formatCode(component.code),
+        // format(component.code, {
+        //   singleQuote: true,
+        //   trailingComma: 'es5',
+        //   bracketSpacing: true,
+        //   jsxBracketSameLine: true,
+        //   parser: 'typescript'
+        // }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
-        },
+        }
       );
     });
 

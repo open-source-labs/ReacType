@@ -1,18 +1,20 @@
 {
-  "presets": [
+  "plugins": [
     [
-      "env",
+      "module-resolver",
       {
-        "modules": false
+        "cwd": "babelrc",
+        "alias": {
+          "Components": "./app/src/components",
+          "Containers": "./app/src/containers"
+        }
       }
-    ],
-    "react",
-    "stage-0"
+    ]
   ],
-  "plugins": ["transform-es2015-modules-commonjs"],
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
-    }
-  }
+  // presets are a set of of plug-ins
+  "presets": [
+    "@babel/preset-typescript",
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ]
 }

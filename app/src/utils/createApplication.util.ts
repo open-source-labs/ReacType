@@ -1,4 +1,6 @@
-import fs from 'fs';
+// import fs from 'fs';
+// const fs = __non_webpack_require__('fs');
+// let fs;
 import createFiles from './createFiles.util';
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 
@@ -29,14 +31,15 @@ function createIndexHtml(path, appName) {
   let dirComponent;
   if (!dir.match(/`${appName}`|\*$/)) {
     dir = `${dir}/${appName}`;
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
+    console.log('dir is ', dir);
+    if (!window.api.existsSync(dir)) {
+      window.api.mkdirSync(dir);
       dirSrc = `${dir}/src`;
-      fs.mkdirSync(dirSrc);
+      window.api.mkdirSync(dirSrc);
       dirServer = `${dir}/server`;
-      fs.mkdirSync(dirServer);
+      window.api.mkdirSync(dirServer);
       dirComponent = `${dirSrc}/components`;
-      fs.mkdirSync(dirComponent);
+      window.api.mkdirSync(dirComponent);
     }
   }
 
@@ -54,7 +57,7 @@ function createIndexHtml(path, appName) {
   </body>
 </html>
   `;
-  fs.writeFileSync(filePath, data, err => {
+  window.api.writeFileSync(filePath, data, err => {
     if (err) {
       console.log('index.html error:', err.message);
     } else {
@@ -73,7 +76,7 @@ import './default.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
   `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('index.tsx error:', err.message);
     } else {
@@ -97,14 +100,15 @@ export const createDefaultCSS = (path, appName, components) => {
   components.forEach(comp => {
     data += compToCSS(comp);
   })
-  fs.writeFile(filePath, data, err => {
+  
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('default.css error:', err.message);
     } else {
       console.log('default.css written successfully');
     }
   });
-}
+};
 
 export const createPackage = (path, appName) => {
   const filePath = `${path}/${appName}/package.json`;
@@ -136,7 +140,7 @@ export const createPackage = (path, appName) => {
     "react-dom": "^16.13.1",
     "webpack": "^4.29.6",
     "react-native": "^0.62.1"
-  }, 
+  },
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
@@ -161,9 +165,9 @@ export const createPackage = (path, appName) => {
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
   }
-}  
+}
   `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('package.json error:', err.message);
     } else {
@@ -223,7 +227,7 @@ module.exports = {
   },
 };
   `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('webpack error:', err.message);
     } else {
@@ -239,7 +243,7 @@ export const createBabel = (path, appName) => {
   "presets": ["@babel/env", "@babel/react", "@babel/typescript"]
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('babelrc error:', err.message);
     } else {
@@ -264,7 +268,7 @@ export const createTsConfig = (path, appName) => {
   "include": ["./src/**/*"]
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -296,7 +300,7 @@ export const createTsLint = (path, appName) => {
   }
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSLint error:', err.message);
     } else {
@@ -327,7 +331,7 @@ app.listen(8080, () => {
   console.log('listening on port 8080');
 }); //listens on port 8080 -> http://localhost:8080/
 `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('server file error:', err.message);
     } else {
@@ -346,7 +350,7 @@ async function createApplicationUtil({
   components: Component[];
 }) {
   console.log('in the createApplication util');
-  
+
   await createIndexHtml(path, appName);
   await createIndexTsx(path, appName);
   await createDefaultCSS(path, appName, components);
@@ -357,6 +361,5 @@ async function createApplicationUtil({
   await createTsLint(path, appName);
   await createServer(path, appName);
   await createFiles(components, path, appName, true);
-  
 }
 export default createApplicationUtil;
