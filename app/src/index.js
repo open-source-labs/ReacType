@@ -27,15 +27,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-// ReactDOM.render(
-//   <Router>
-//     <Switch>
-//       <Route exact path="/login" component={SignIn} />
-//       <Route exact path="/signup" component={SignUp} />
-//       <PrivateRoute path="/" component={App} />
-//     </Switch>
-//   </Router>,
-//   document.getElementById('app')
-// );
+ReactDOM.render(
+  <Router>
+    <Switch>
+      <Route exact path="/login" component={SignIn} />
+      <Route exact path="/signup" component={SignUp} />
+      <PrivateRoute path="/" component={App} />
+    </Switch>
+  </Router>,
+  document.getElementById('app')
+);
 
-ReactDOM.render(<App></App>, document.getElementById('app'));
+// ReactDOM.render(<App></App>, document.getElementById('app'));
