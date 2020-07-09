@@ -22,7 +22,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-// Temporarily removing private routes for the new electron build
 // ReactDOM.render(
 //   <Router>
 //     <Switch>

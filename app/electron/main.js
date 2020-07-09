@@ -1,6 +1,7 @@
 const {
   app,
   protocol,
+  dialog,
   BrowserWindow,
   session,
   ipcMain,
@@ -13,6 +14,8 @@ const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS
 } = require('electron-devtools-installer');
+const debug = require('electron-debug');
+
 const Protocol = require('./protocol');
 // menu from another file to modularize the code
 const MenuBuilder = require('./menu');
@@ -70,9 +73,9 @@ async function createWindow() {
       // Electron API only available from preload, not loaded page
       contextIsolation: true,
       // disables remote module. critical for ensuring that rendering process doesn't have access to node functionality
-      enableRemoteModule: false
+      enableRemoteModule: false,
       // path of preload script. preload is how the renderer page will have access to electron functionality
-      // preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
@@ -112,8 +115,10 @@ async function createWindow() {
   // Only do these things when in development
   if (isDev) {
     // automatically open DevTools when opening the app
-    win.webContents.openDevTools();
-    require('electron-debug')(); // https://github.com/sindresorhus/electron-debug
+    win.webContents.once('dom-ready', () => {
+      debug();
+      win.webContents.openDevTools();
+    });
   }
 
   // Emitted when the window is closed.
@@ -212,8 +217,11 @@ app.on('activate', () => {
 app.on('web-contents-created', (event, contents) => {
   contents.on('will-navigate', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [selfHost];
-
+    const validOrigins = [
+      selfHost,
+      'https://localhost:8080',
+      'https://github.com/'
+    ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
@@ -227,7 +235,11 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    const validOrigins = [];
+    const validOrigins = [
+      selfHost,
+      'https://localhost:8080',
+      'https://github.com/'
+    ];
 
     // Log and prevent the app from redirecting to a new page
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -287,4 +299,22 @@ app.on('remote-get-current-window', (event, webContents) => {
 
 app.on('remote-get-current-web-contents', (event, webContents) => {
   event.preventDefault();
+});
+
+// When a user selects "Export project", a function (chooseAppDir loaded via preload.js)
+// is triggered that sends a "choose_app_dir" message to the main process
+// when the "choose_app_dir" message is received it triggers this event listener
+ipcMain.on('choose_app_dir', event => {
+  // dialog displays the native system's dialogue for selecting files
+  // once a directory is chosen send a message back to the renderer with the path of the directory
+  dialog
+    .showOpenDialog(win, {
+      properties: ['openDirectory'],
+      buttonLabel: 'Export'
+    })
+    .then(directory => {
+      if (!directory) return;
+      event.sender.send('app_dir_selected', directory.filePaths[0]);
+    })
+    .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
 });

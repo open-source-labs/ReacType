@@ -1,4 +1,3 @@
-// import { format } from 'prettier';
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
 
@@ -147,7 +146,8 @@ const generateUnformattedCode = (comps: Component[], componentId: number) => {
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  return code;
+  return window.api.formatCode(code);
+  // return code;
   // return format(code, {
   //   singleQuote: true,
   //   trailingComma: 'es5',
