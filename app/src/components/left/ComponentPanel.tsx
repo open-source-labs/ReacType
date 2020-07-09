@@ -13,17 +13,24 @@ import Switch from '@material-ui/core/Switch';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
+<<<<<<< HEAD
   inputField: {},
+=======
+  inputField: {
+    marginTop: '15px'
+  },
+>>>>>>> master
   inputWrapper: {
-    height: '110px',
+    height: '115px',
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'center',
-    paddingLeft: '35px'
+    paddingLeft: '35px',
+    marginBottom: '15px'
   },
   panelWrapper: {
-    marginTop: '35px',
-    width: '100%'
+    width: '100%',
+    marginTop: '15px',
   },
   panelWrapperList: {
     maxHeight: '400px',
@@ -175,7 +182,7 @@ const ComponentPanel = (): JSX.Element => {
           >
             ADD
           </Button>
-          {/* <FormControlLabel
+          <FormControlLabel
             control={
               <Switch
                 checked={isRoot}
@@ -185,7 +192,7 @@ const ComponentPanel = (): JSX.Element => {
             }
             className={classes.rootToggle}
             label="ROOT"
-          /> */}
+          />
         </div>
       </div>
       <div className={classes.panelWrapperList}>
