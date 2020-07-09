@@ -2,6 +2,27 @@
 // const fs = __non_webpack_require__('fs');
 // let fs;
 import createFiles from './createFiles.util';
+import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
+
+const camelToKebab= (camel:string) => {
+  return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+};
+
+const compToCSS = (component: Component) => {
+  const name = component.name;
+  const styleObj = component.style;
+  let cssClass = `
+  .${name} {
+    `;
+  Object.keys(styleObj).forEach(property => {
+    let cssStyle = `${camelToKebab(property)}: ${styleObj[property]};
+    `;
+    cssClass += cssStyle;
+  })
+  cssClass += `}
+  `;
+  return cssClass;
+}
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -64,9 +85,9 @@ ReactDOM.render(<App />, document.getElementById('root'));
   });
 };
 
-export const createDefaultCSS = (path, appName) => {
+export const createDefaultCSS = (path, appName, components) => {
   const filePath = `${path}/${appName}/src/default.css`;
-  const data = `
+  let data = `
   #root div {
     box-sizing: border-box;
     width: 100%;
@@ -76,6 +97,10 @@ export const createDefaultCSS = (path, appName) => {
     font-family: Helvetica, Arial;
   }
   `;
+  components.forEach(comp => {
+    data += compToCSS(comp);
+  })
+  
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('default.css error:', err.message);
@@ -322,13 +347,13 @@ async function createApplicationUtil({
 }: {
   path: string;
   appName: string;
-  components: any;
+  components: Component[];
 }) {
   console.log('in the createApplication util');
 
   await createIndexHtml(path, appName);
   await createIndexTsx(path, appName);
-  await createDefaultCSS(path, appName);
+  await createDefaultCSS(path, appName, components);
   await createPackage(path, appName);
   await createWebpack(path, appName);
   await createBabel(path, appName);
