@@ -53,7 +53,8 @@ const LeftContainer = (): JSX.Element => {
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
   const genOptions: string[] = [
     'Export components',
-    'Export components with application files'
+    'Export components with application files',
+    'Export project as Next.js application'
   ];
   const [genOption, setGenOption] = useState(1);
   // state to keep track of whether there should be a modal
@@ -124,7 +125,7 @@ const LeftContainer = (): JSX.Element => {
       setGenOption(genOpt);
       console.log('Gen option is ', genOpt);
       // closeModal
-      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
+      exportProject('/Users', 'NEW PROJECT', genOpt, state.components, state.rootComponents);
       closeModal();
       // Choose app dir
       // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it

@@ -179,7 +179,7 @@ const ComponentPanel = (): JSX.Element => {
           >
             ADD
           </Button>
-          {/* <FormControlLabel
+          <FormControlLabel
             control={
               <Switch
                 checked={isRoot}
@@ -189,7 +189,7 @@ const ComponentPanel = (): JSX.Element => {
             }
             className={classes.rootToggle}
             label="ROOT"
-          /> */}
+          />
         </div>
       </div>
       <div className={classes.panelWrapperList}>
