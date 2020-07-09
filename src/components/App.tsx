@@ -19,9 +19,11 @@ export const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
-  if (document.cookie.slice(5, 10) !== 'guest') {
+  if (window.localStorage.getItem('ssid') !== 'guest') {
+    console.log('Logged in is true');
     state.isLoggedIn = true;
   } else {
+    console.log('Logged in is false');
     state.isLoggedIn = false;
   }
 

@@ -65,6 +65,11 @@ const useStyles = makeStyles({
       marginTop: '10px'
     }
   },
+  backButton: {
+    position: 'absolute',
+    bottom: '50px',
+    right: '125px'
+  },
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
@@ -224,8 +229,8 @@ const RightContainer = (props): JSX.Element => {
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('Logout clicked, destroying cookie, redirect to login');
-    // destroys cookie by backdating expiration time
-    document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // destroys "cookie" by clearing localStorage
+    window.localStorage.clear();
     // uses useHistory to return to the login page
     props.history.push('/login');
   };
@@ -425,6 +430,8 @@ const RightContainer = (props): JSX.Element => {
       ) : (
         ''
       )}
+
+      {/* render different logout buttons for user and guest */}
       {state.isLoggedIn === true && (
         <div className={classes.logoutButton}>
           <Button
@@ -439,15 +446,14 @@ const RightContainer = (props): JSX.Element => {
         </div>
       )}
       {state.isLoggedIn === false && (
-        <div className={classes.logoutButton}>
+        <div className={classes.backButton}>
           <Button
             variant="contained"
             onClick={handleLogout}
             color="secondary"
-            style={{ textAlign: 'center' }}
             endIcon={<ExitToAppIcon />}
           >
-            Log In
+            Back to Log In
           </Button>
         </div>
       )}

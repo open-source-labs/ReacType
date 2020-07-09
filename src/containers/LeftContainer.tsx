@@ -7,13 +7,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core/styles';
 import ComponentPanel from '../components/left/ComponentPanel';
 import HTMLPanel from '../components/left/HTMLPanel';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
@@ -221,7 +218,7 @@ const LeftContainer = (): JSX.Element => {
             variant="outlined"
             color="primary"
             onClick={showGenerateAppModal}
-            endIcon={<GetAppIcon />}
+            endIcon={<PublishIcon />}
           >
             EXPORT PROJECT
           </Button>

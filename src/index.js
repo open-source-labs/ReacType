@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.tsx';
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
 
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
@@ -18,7 +18,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      Cookies.get('ssid') ? <Component {...props} /> : <Redirect to="/login" />
+      window.localStorage.getItem('ssid') ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
     }
   />
 );

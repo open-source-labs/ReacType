@@ -142,8 +142,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   ) => {
     console.log('Handle login guest fired');
     e.preventDefault();
-    // generate cookie for guest users
-    document.cookie = 'ssid=guest; max-age=3600;';
+    // generate "cookie" in localStorage for guest users
+    window.localStorage.setItem('ssid', 'guest');
     props.history.push('/');
   };
 
@@ -210,6 +210,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           color="default"
           className={classes.submit}
           href="https://localhost:8080/github"
+          //target="_blank"
         >
           <GitHubIcon />
         </Button>
