@@ -116,13 +116,14 @@ const generateUnformattedCode = (comps: Component[], componentId: number, rootCo
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  return format(code, {
-    singleQuote: true,
-    trailingComma: 'es5',
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    parser: 'babel'
-  });
+  return window.api.formatCode(code);
+  // return format(code, {
+  //   singleQuote: true,
+  //   trailingComma: 'es5',
+  //   bracketSpacing: true,
+  //   jsxBracketSameLine: true,
+  //   parser: 'babel'
+  // });
 };
 
 // generate code based on component heirarchy and then return the rendered code

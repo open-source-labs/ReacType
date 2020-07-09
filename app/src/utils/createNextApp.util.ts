@@ -1,4 +1,4 @@
-import fs from 'fs';
+// import fs from 'fs';
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/InterfacesNew';
 
@@ -47,7 +47,7 @@ export const createPackage = (path, appName) => {
   }
 }  
   `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('package.json error:', err.message);
     } else {
@@ -59,7 +59,7 @@ export const createPackage = (path, appName) => {
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   //running 'next dev' will autopopulate this with default values
-  fs.writeFile(filePath, '', err => {
+  window.api.writeFile(filePath, '', err => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -84,7 +84,7 @@ export const createDefaultCSS = (path, appName, components) => {
   components.forEach(comp => {
     data += compToCSS(comp);
   })
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('global.css error:', err.message);
     } else {
@@ -98,12 +98,12 @@ export const initFolders = (path:string, appName: string) => {
   let dirPages;
   let dirComponents;
   dir = `${dir}/${appName}`;
-  if(!fs.existsSync(dir)){
-    fs.mkdirSync(dir);
+  if(!window.api.existsSync(dir)){
+    window.api.mkdirSync(dir);
     dirPages = `${dir}/pages`;
-    fs.mkdirSync(dirPages);
+    window.api.mkdirSync(dirPages);
     dirComponents = `${dir}/components`;
-    fs.mkdirSync(dirComponents);
+    window.api.mkdirSync(dirComponents);
   }
 }
 
@@ -125,7 +125,7 @@ export const createBaseTsx = (path, appName) => {
   
   export default Base;
   `;
-  fs.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('_app.tsx error:', err.message);
     } else {

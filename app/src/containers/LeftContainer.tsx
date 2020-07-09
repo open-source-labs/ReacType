@@ -56,7 +56,8 @@ const LeftContainer = (): JSX.Element => {
     'Export components with application files',
     'Export project as Next.js application'
   ];
-  const [genOption, setGenOption] = useState(1);
+  // const [genOption, setGenOption] = useState(1);
+  let genOption = 0;
   // state to keep track of whether there should be a modal
   const [modal, setModal] = useState(null);
 
@@ -116,20 +117,27 @@ const LeftContainer = (): JSX.Element => {
         ))}
       </List>
     );
-    const chooseAppDir = () => window.api.chooseAppDir();
+    // const chooseAppDir = () => {
+    //   console.log('CALLED CHOOSE APP DIR: ', genOption);
+    //   window.api.chooseAppDir();
+    // };
+    
     // helper function called by showGenerateAppModal
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
       // set export option: 0 --> export only components, 1 --> export full project
-      console.log('in chooseGenOptions');
-      setGenOption(genOpt);
-      console.log('Gen option is ', genOpt);
+      
+      // setGenOption(genOpt);
+      genOption = genOpt;
+      console.log('CALLED CHOOSE GEN OPTION: ', genOption);
       // closeModal
       // exportProject('/Users', 'NEW PROJECT', genOpt, state.components, state.rootComponents);
       // closeModal();
       // Choose app dir
       // window.api.chooseAppDir;
-      chooseAppDir();
+      
+      window.api.chooseAppDir();
+      
       // closeModal
 
       closeModal();
@@ -139,7 +147,7 @@ const LeftContainer = (): JSX.Element => {
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
     window.api.appDirChosen(path => {
-      console.log('App dir chosen : ', path);
+      console.log('CALLED APPDIRCHOSEN: ', genOption);
       exportProject(path, 'NEW PROJECT', genOption, state.components, state.rootComponents);
     });
 

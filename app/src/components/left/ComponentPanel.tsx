@@ -14,18 +14,19 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   inputField: {
-    
+    marginTop: '15px'
   },
   inputWrapper: {
-    height: '110px',
+    height: '115px',
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'center',
-    paddingLeft: '35px'
+    paddingLeft: '35px',
+    marginBottom: '15px'
   },
   panelWrapper: {
-    marginTop: '35px',
-    width: '100%'
+    width: '100%',
+    marginTop: '15px',
   },
   panelWrapperList: {
     maxHeight: '675px',

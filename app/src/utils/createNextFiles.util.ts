@@ -32,7 +32,7 @@ const createNextFiles = (
       fileName = `${dir}/components/${component.name}.tsx`
     }
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFileSync(
+      window.api.writeFileSync(
         fileName,
         code,
         (err: any) => {
