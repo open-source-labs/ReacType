@@ -16,7 +16,7 @@ import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
 import { saveProject } from '../helperFunctions/projectGetSave';
 
-const IPC = require('electron').ipcRenderer;
+// const IPC = require('electron').ipcRenderer;
 
 const useStyles = makeStyles({
   btnGroup: {
@@ -125,7 +125,7 @@ const LeftContainer = (): JSX.Element => {
         ))}
       </List>
     );
-
+    const chooseAppDir = () => window.api.chooseAppDir();
     // helper function called by showGenerateAppModal
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
@@ -133,30 +133,20 @@ const LeftContainer = (): JSX.Element => {
       console.log('in chooseGenOptions');
       setGenOption(genOpt);
       console.log('Gen option is ', genOpt);
-      // closeModal
-      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
-      closeModal();
       // Choose app dir
-      // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
-      //chooseAppDir();
+      // window.api.chooseAppDir;
+      chooseAppDir();
+      // closeModal
 
-      // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
+      closeModal();
     };
 
-    const chooseAppDir = () => IPC.send('choose_app_dir');
-
-    // when the user selects a directory from the modal,
-    // we're going to create the application in their chosen directory
-    IPC.on('app_dir_selected', (event: string, path: string) => {
-      // createApplication({
-      //   path,
-      //   components,
-      //   genOption,
-      //   appName: 'reactype_app',
-      //   exportAppBool: null
-      // });
-      // exportProject();
-      console.log('app directory selected!!!');
+    // add listener for when an app directory is chosen
+    // when a directory is chosen, the callback will export the project to the chosen folder
+    // Note: this listener is imported from the main process via preload.js
+    window.api.appDirChosen(path => {
+      console.log('App dir chosen : ', path);
+      exportProject(path, 'NEW PROJECT', genOption, state.components);
     });
 
     setModal(
