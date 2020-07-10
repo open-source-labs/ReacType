@@ -42,7 +42,8 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
   // set state for the route curently selected in the dropdown
   const [route, setRoute] = useState(navigableComponents[0]);
 
-  const routeId = navigableComponents.find(comp => comp.name === route);
+  // TODO: Add a useMemo so that this isn't recalculated on every render
+  const routeId = state.components.find(comp => comp.name === route).id;
 
   const handleRouteChange = event => {
     setRoute(event.target.value);
@@ -55,8 +56,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
       type: ItemTypes.INSTANCE,
       newInstance: true,
       instanceType: 'Route Link',
-      instanceTypeId: null,
-      routeComponentId: routeId
+      instanceTypeId: routeId
     },
     canDrag: true,
     collect: (monitor: any) => ({

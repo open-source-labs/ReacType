@@ -265,7 +265,7 @@ const ComponentPanel = (): JSX.Element => {
         </Grid>
         {state.projectType === 'Next.js' ? (
           <React.Fragment>
-            <h4>Premade components</h4>
+            <h4>Next.js components</h4>
             <Grid
               container
               direction="row"

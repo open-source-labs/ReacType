@@ -1,12 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../globalDefaultStyles';
+import { stateContext } from '../../context/context';
 
-function IndirectChild({ style, children, placeHolder }) {
-  const combinedStyle = combineStyles(globalDefaultStyle, style);
+function IndirectChild({ style, children, placeHolder, linkId }) {
+  const [state, dispatch] = useContext(stateContext);
+  let combinedStyle = combineStyles(globalDefaultStyle, style);
+
+  // when a user clicks a link, the focus should change to that component
+  function onClickHandlerRoute(event) {
+    event.stopPropagation();
+    dispatch({
+      type: 'CHANGE FOCUS',
+      payload: { componentId: linkId, childId: null }
+    });
+  }
+
+  let linkName: string;
+  // if there's a link in this component, then include a link
+  if (linkId) {
+    linkName = state.components.find((comp: Component) => comp.id === linkId)
+      .name;
+    combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
+  }
+
   return (
     <div style={combinedStyle}>
-      {placeHolder}
+      {linkId ? (
+        <div onClick={onClickHandlerRoute}>{linkName}</div>
+      ) : (
+        { placeHolder }
+      )}
       {children}
     </div>
   );

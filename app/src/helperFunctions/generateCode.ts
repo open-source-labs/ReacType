@@ -159,8 +159,9 @@ const formatCode = (code: string) => {
 
 // generate code based on component heirarchy and then return the rendered code
 const generateCode = (components: Component[], componentId: number) => {
-  const code = generateUnformattedCode(components, componentId);
-  return formatCode(code);
+  return '';
+  // const code = generateUnformattedCode(components, componentId);
+  // return formatCode(code);
 };
 
 export default generateCode;
