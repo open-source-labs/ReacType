@@ -53,8 +53,7 @@ const LeftContainer = (): JSX.Element => {
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
   const genOptions: string[] = [
     'Export components',
-    'Export components with application files',
-    'Export project as Next.js application'
+    'Export components with application files'
   ];
   // const [genOption, setGenOption] = useState(1);
   let genOption = 0;
@@ -128,6 +127,7 @@ const LeftContainer = (): JSX.Element => {
         path,
         'NEW PROJECT',
         genOption,
+        state.projectType,
         state.components,
         state.rootComponents
       );

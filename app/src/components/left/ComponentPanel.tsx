@@ -27,21 +27,28 @@ const useStyles = makeStyles({
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: '35px',
+    justifyContent: 'space-between',
+    // paddingLeft: '35px',
     marginBottom: '15px'
+  },
+  addComponentWrapper: {
+    border: '1px solid rgba(70,131,83)',
+    padding: '20px',
+    margin: '20px'
   },
   rootCheckBox: {},
   rootCheckBoxLabel: {
     color: 'white'
   },
   projectTypeWrapper: {
-    paddingLeft: '35px',
-    marginBottom: '15px'
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    marginBottom: '15px',
+    width: '100%'
   },
   projectSelector: {
     backgroundColor: 'rgba(255,255,255,0.15)',
-    width: '100%',
+    width: '317px',
     color: '#fff'
   },
   panelWrapper: {
@@ -84,9 +91,10 @@ const useStyles = makeStyles({
   },
   button: {
     fontSize: '1rem',
-    height: '70px',
+    height: '40px',
     maginTop: '10px',
-    border: '1px solid rgba(70,131,83)',
+    width: '100%',
+    // border: '1px solid rgba(70,131,83)',
     backgroundColor: 'rgba(1,212,109,0.1)'
   },
   rootToggle: {
@@ -193,8 +201,8 @@ const ComponentPanel = (): JSX.Element => {
       <div className={classes.projectTypeWrapper}>
         <FormControl>
           {/* <InputLabel id="project-type-label" className={classes.inputLabel}>
-            Project Type
-          </InputLabel> */}
+      Project Type
+    </InputLabel> */}
           <Select
             variant="outlined"
             labelId="project-type-label"
@@ -208,35 +216,42 @@ const ComponentPanel = (): JSX.Element => {
           </Select>
         </FormControl>
       </div>
-      <div className={classes.inputWrapper}>
-        <TextField
-          color={'primary'}
-          label="Component Name"
-          variant="outlined"
-          className={classes.inputField}
-          InputProps={{ className: classes.input }}
-          InputLabelProps={{ className: classes.inputLabel }}
-          value={compName}
-          error={errorStatus}
-          helperText={errorStatus ? errorMsg : ''}
-          onChange={handleNameInput}
-        />
-        <div className={classes.btnGroup}>
-          <FormControlLabel
-            value="top"
-            control={<Checkbox color="primary" onChange={toggleRootStatus} />}
-            label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
-            className={classes.rootCheckBoxLabel}
-            labelPlacement="top"
-          />
+
+      <div className={classes.addComponentWrapper}>
+        <div>
+          <div className={classes.inputWrapper}>
+            <TextField
+              color={'primary'}
+              label="Component Name"
+              variant="outlined"
+              className={classes.inputField}
+              InputProps={{ className: classes.input }}
+              InputLabelProps={{ className: classes.inputLabel }}
+              value={compName}
+              error={errorStatus}
+              helperText={errorStatus ? errorMsg : ''}
+              onChange={handleNameInput}
+            />
+            <div className={classes.btnGroup}>
+              <FormControlLabel
+                value="top"
+                control={
+                  <Checkbox color="primary" onChange={toggleRootStatus} />
+                }
+                label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
+                className={classes.rootCheckBoxLabel}
+                labelPlacement="top"
+              />
+            </div>
+          </div>
+          <Button
+            className={classes.button}
+            color="primary"
+            onClick={handleNameSubmit}
+          >
+            ADD
+          </Button>
         </div>
-        <Button
-          className={classes.button}
-          color="primary"
-          onClick={handleNameSubmit}
-        >
-          ADD
-        </Button>
       </div>
       <div className={classes.panelWrapperList}>
         <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
