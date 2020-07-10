@@ -88,8 +88,8 @@ export default function ProjectsFolder() {
 
   return (
     <div>
-      <Typography variant="subtitle1">Selected: {selectedValue}</Typography>
-      <br />
+      {/* <Typography variant="subtitle1">Selected: {selectedValue}</Typography>
+      <br /> */}
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Project
       </Button>

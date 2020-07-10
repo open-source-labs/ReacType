@@ -183,34 +183,6 @@ const LeftContainer = (): JSX.Element => {
         <ComponentPanel />
         <HTMLPanel />
         <div className={classes.btnGroup}>
-          {state.isLoggedIn === true && (
-            <div className={classes.btnGroup}>
-              <TextField
-                className={classes.saveProjText}
-                variant="filled"
-                name="projectName"
-                label="Project Name"
-                value={projectName}
-                placeholder="Project Name"
-                size="medium"
-                onChange={e => setprojectName(e.target.value)}
-              ></TextField>
-              <Button
-                className={classes.saveProjButton}
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  if (state.isLoggedIn === true && projectName !== '') {
-                    saveProject(projectName, state);
-                  }
-                  setprojectName('');
-                }}
-              >
-                Save Project
-              </Button>
-            </div>
-          )}
-          <ProjectsFolder/>
           <Button
             className={classes.exportBtn}
             variant="outlined"

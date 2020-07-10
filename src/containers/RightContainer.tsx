@@ -12,6 +12,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LoginButton from '../components/login/LoginButton';
 import SaveProjectButton from '../components/login/SaveProjectButton';
+import ProjectsFolder from '../components/login/ProjectsFolder';
 
 const useStyles = makeStyles({
   select: {
@@ -429,8 +430,9 @@ const RightContainer = (props): JSX.Element => {
         ''
       )}
       <div className={classes.logoutButton}>
-        <LoginButton/>
         <SaveProjectButton/>
+        <ProjectsFolder/>
+        <LoginButton/>
       </div>
       {/* {state.isLoggedIn === true && (
         <div className={classes.logoutButton}>
