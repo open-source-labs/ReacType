@@ -42,6 +42,8 @@ const ComponentPanelItem: React.FC<{
     })
   });
 
+  
+
   const handleClick = () => {
     dispatch({
       type: 'CHANGE FOCUS',

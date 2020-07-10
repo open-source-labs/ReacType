@@ -63,8 +63,7 @@ const LeftContainer = (): JSX.Element => {
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
   const genOptions: string[] = [
     'Export components',
-    'Export components with application files',
-    'Export project as Next.js application'
+    'Export components with application files'
   ];
   // const [genOption, setGenOption] = useState(1);
   let genOption = 0;
@@ -89,7 +88,6 @@ const LeftContainer = (): JSX.Element => {
         primBtnAction: null,
         primBtnLabel: null,
         secBtnAction: () => {
-          // TODO: Create reducer to delete components from state
           closeModal();
         }
       })
@@ -105,17 +103,6 @@ const LeftContainer = (): JSX.Element => {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
-            // onClick={() =>
-            //   createApplication({
-            //     // path,
-            //     // trying this with an absolute path because the electron dialogue box isn't working
-            //     path: '/Users/tylersullberg/',
-            //     components,
-            //     genOption,
-            //     appName: 'reactype_app',
-            //     exportAppBool: null
-            //   })
-            // }
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
@@ -127,38 +114,33 @@ const LeftContainer = (): JSX.Element => {
         ))}
       </List>
     );
-    // const chooseAppDir = () => {
-    //   console.log('CALLED CHOOSE APP DIR: ', genOption);
-    //   window.api.chooseAppDir();
-    // };
-    
+
     // helper function called by showGenerateAppModal
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
       // set export option: 0 --> export only components, 1 --> export full project
-      
-      // setGenOption(genOpt);
       genOption = genOpt;
-      console.log('CALLED CHOOSE GEN OPTION: ', genOption);
-      // closeModal
-      // exportProject('/Users', 'NEW PROJECT', genOpt, state.components, state.rootComponents);
-      // closeModal();
-      // Choose app dir
-      // window.api.chooseAppDir;
-      
       window.api.chooseAppDir();
-      
-      // closeModal
-
       closeModal();
     };
+
+    // removes all listeners for the app_dir_selected event
+    // this is important because otherwise listeners will pile up and events will trigger multiple events
+    window.api.removeAllAppDirChosenListeners();
 
     // add listener for when an app directory is chosen
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
-    window.api.appDirChosen(path => {
+    window.api.addAppDirChosenListener(path => {
       console.log('CALLED APPDIRCHOSEN: ', genOption);
-      exportProject(path, 'NEW PROJECT', genOption, state.components, state.rootComponents);
+      exportProject(
+        path,
+        'NEW PROJECT',
+        genOption,
+        state.projectType,
+        state.components,
+        state.rootComponents
+      );
     });
 
     setModal(

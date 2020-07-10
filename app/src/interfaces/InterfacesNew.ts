@@ -3,6 +3,7 @@ export interface State {
   isLoggedIn: Boolean;
   components: Component[];
   rootComponents: number[];
+  projectType: string;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
   nextChildId: number;

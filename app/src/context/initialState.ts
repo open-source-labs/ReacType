@@ -12,6 +12,7 @@ export const initialState: State = {
       children: []
     }
   ],
+  projectType: 'Next.js',
   rootComponents: [1],
   canvasFocus: { componentId: 1, childId: null },
   nextComponentId: 2,
