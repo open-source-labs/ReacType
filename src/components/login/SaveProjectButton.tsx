@@ -23,9 +23,11 @@ export default function FormDialog() {
 
   const handleSave = () => {
     if (state.isLoggedIn === true && projectName !== '') {
-      // Update Project Name in Global State
-      // dispatch({ type: 'CHANGE POSITION', payload: projectName });
-      // Store Project to MongoDB
+      // Update the project name to global state
+      // Needed to disable delete button
+      // Switch to Thunk
+        // If errors occur on the backend, the project name still gets updated
+      dispatch({ type: 'UPDATE PROJECT NAME', payload: projectName });
       saveProject(projectName, state);
       setOpen(false);
     } else {
