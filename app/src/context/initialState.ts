@@ -6,10 +6,11 @@ export const initialState: State = {
       id: 1,
       name: 'App',
       style: {},
-      code:'<div>This is the CODE!!!!</div>',
+      code: '<div>This is the CODE!!!!</div>',
       children: []
     }
   ],
+  projectType: 'Next.js',
   rootComponents: [1],
   canvasFocus: { componentId: 1, childId: null },
   nextComponentId: 2,
