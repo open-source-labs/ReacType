@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { stateContext } from '../../context/context';
-// import { format } from 'prettier';
 import AceEditor from 'react-ace';
 import { makeStyles } from '@material-ui/core/styles';
 import 'ace-builds/src-noconflict/mode-javascript';

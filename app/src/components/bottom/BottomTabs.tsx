@@ -33,54 +33,9 @@ const BottomTabs = () => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Code Preview"
           />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Application Tree"
-          />
         </Tabs>
       </Box>
-      {tab === 0 && (
-        <CodePreview />
-        // <div>Code Preview</div>
-      )}
-      {tab === 1 && (
-        //   <div
-        //     id="treeWrapper"
-        //     style={{
-        //       width: '80%',
-        //       height: '100%'
-        //     }}
-        //     ref={node => (this.treeWrapper = node)}
-        //   >
-        //     <Tree
-        //       data={[this.generateComponentTree(focusComponent.id, components)]}
-        //       separation={{ siblings: 0.3, nonSiblings: 0.3 }}
-        //       transitionDuration={0}
-        //       translate={this.state.translate}
-        //       onClick={this.handleClick}
-        //       styles={{
-        //         nodes: {
-        //           node: {
-        //             name: {
-        //               fill: '#D3D3D3',
-        //               stroke: '#D3D3D3',
-        //               strokeWidth: 1
-        //             }
-        //           },
-        //           leafNode: {
-        //             name: {
-        //               fill: '#D3D3D3',
-        //               stroke: '#D3D3D3',
-        //               strokeWidth: 1
-        //             }
-        //           }
-        //         }
-        //       }}
-        //     />
-        //   </div>
-        <div>Tree</div>
-      )}
+      {tab === 0 && <CodePreview />}
     </div>
   );
 };

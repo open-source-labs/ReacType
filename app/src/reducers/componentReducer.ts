@@ -265,6 +265,10 @@ const reducer = (state: State, action: Action) => {
     case 'SET INITIAL STATE': {
       return { ...action.payload };
     }
+    case 'CHANGE PROJECT TYPE': {
+      const { projectType } = action.payload;
+      return { ...state, projectType };
+    }
 
     default:
       return state;

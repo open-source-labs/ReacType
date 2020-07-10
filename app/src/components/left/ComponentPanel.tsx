@@ -5,10 +5,15 @@ import ParagraphIcon from '@material-ui/icons/LocalParking';
 import FormIcon from '@material-ui/icons/Description';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
+import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Switch from '@material-ui/core/Switch';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,9 +29,18 @@ const useStyles = makeStyles({
     paddingLeft: '35px',
     marginBottom: '15px'
   },
+  projectTypeWrapper: {
+    paddingLeft: '35px',
+    marginBottom: '15px'
+  },
+  projectSelector: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    width: '100%',
+    color: '#fff'
+  },
   panelWrapper: {
     width: '100%',
-    marginTop: '15px',
+    marginTop: '15px'
   },
   panelWrapperList: {
     maxHeight: '675px',
@@ -34,6 +48,10 @@ const useStyles = makeStyles({
     overflowY: 'auto',
     marginLeft: '-15px',
     marginRight: '-15px'
+  },
+  panelSubheader: {
+    textAlign: 'center',
+    color: '#fff'
   },
   input: {
     color: '#fff',
@@ -64,10 +82,8 @@ const useStyles = makeStyles({
   rootToggle: {
     color: '#01d46d',
     fontSize: '0.85rem'
-  },
-
+  }
 });
-
 
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
@@ -144,9 +160,14 @@ const ComponentPanel = (): JSX.Element => {
     resetError();
   };
 
+  const handleProjectChange = event => {
+    const projectType = event.target.value;
+    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+  };
+
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
-  }
+  };
 
   const setFocus = (targetId: Number) => {
     const focusTarget = state.components.filter(comp => {
@@ -159,6 +180,24 @@ const ComponentPanel = (): JSX.Element => {
 
   return (
     <div className={classes.panelWrapper}>
+      <div className={classes.projectTypeWrapper}>
+        <FormControl>
+          {/* <InputLabel id="project-type-label" className={classes.inputLabel}>
+            Project Type
+          </InputLabel> */}
+          <Select
+            variant="outlined"
+            labelId="project-type-label"
+            id="demo-simple-select"
+            className={classes.projectSelector}
+            value={state.projectType}
+            onChange={handleProjectChange}
+          >
+            <MenuItem value={'Next.js'}>Next.js</MenuItem>
+            <MenuItem value={'Classic React'}>Classic React</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div className={classes.inputWrapper}>
         <TextField
           color={'primary'}
@@ -194,18 +233,51 @@ const ComponentPanel = (): JSX.Element => {
         </div>
       </div>
       <div className={classes.panelWrapperList}>
+        <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
-          {state.components.map(comp => (
-            <ComponentPanelItem
-              isFocus={isFocus(comp.id)}
-              key={`comp-${comp.id}`}
-              name={comp.name}
-              id={comp.id}
-              root={state.rootComponents.includes(comp.id)}
-              focusClick={() => setFocus(comp.id)}
-            />
-          ))}
+          {state.components
+            .filter(comp => state.rootComponents.includes(comp.id))
+            .map(comp => (
+              <ComponentPanelItem
+                isFocus={isFocus(comp.id)}
+                key={`comp-${comp.id}`}
+                name={comp.name}
+                id={comp.id}
+                root={true}
+                focusClick={() => setFocus(comp.id)}
+              />
+            ))}
         </Grid>
+        <h4>Reusable components</h4>
+        <Grid container direction="row" justify="center" alignItems="center">
+          {state.components
+            .filter(comp => !state.rootComponents.includes(comp.id))
+            .map(comp => (
+              <ComponentPanelItem
+                isFocus={isFocus(comp.id)}
+                key={`comp-${comp.id}`}
+                name={comp.name}
+                id={comp.id}
+                root={false}
+                focusClick={() => setFocus(comp.id)}
+              />
+            ))}
+        </Grid>
+        {state.projectType === 'Next.js' ? (
+          <React.Fragment>
+            <h4>Premade components</h4>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <ComponentPanelRoutingItem key={'premadecomp-1'} />
+            </Grid>
+          </React.Fragment>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
