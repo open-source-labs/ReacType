@@ -235,7 +235,8 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    console.log('ParsedURL origin is', parsedUrl.origin);
+    //console.log('parsedUrl is', parsedUrl);
+    //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
       'https://localhost:8081',
@@ -244,7 +245,10 @@ app.on('web-contents-created', (event, contents) => {
     ];
 
     // Log and prevent the app from redirecting to a new page
-    if (!validOrigins.includes(parsedUrl.origin)) {
+    if (
+      !validOrigins.includes(parsedUrl.origin) &&
+      !validOrigins.includes(parsedUrl.href)
+    ) {
       console.error(
         `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
       );

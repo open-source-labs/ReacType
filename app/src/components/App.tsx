@@ -9,6 +9,7 @@ import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
 import { getProjects, saveProject } from '../helperFunctions/projectGetSave';
+import Cookies from 'js-cookie';
 
 import { Context, State } from '../interfaces/InterfacesNew';
 
@@ -49,7 +50,19 @@ export const App = (): JSX.Element => {
       getProjects().then(projects =>
         console.log('UseEffect in App getprojects() returns', projects)
       );
-      // also load user's last project, which was saved in localforage on logout
+      //also load user's last project, which was saved in localforage on logout
+      localforage.getItem(Cookies.get('ssid')).then(project => {
+        if (project) {
+          dispatch({
+            type: 'SET INITIAL STATE',
+            payload: project
+          });
+        } else {
+          console.log(
+            'No user project found in localforage, setting initial state blank'
+          );
+        }
+      });
     }
   }, []);
 
@@ -60,6 +73,7 @@ export const App = (): JSX.Element => {
     } else if (state.name !== '') {
       console.log('Saving user project as', state);
       saveProject(state.name, state);
+      localforage.setItem(Cookies.get('ssid'), state);
     }
   }, [state]);
 
