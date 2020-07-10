@@ -69,6 +69,7 @@ function Canvas() {
       if (didDrop) {
         return;
       }
+      console.log('new item ', item);
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
         addChild(item.instanceType, item.instanceTypeId, null);

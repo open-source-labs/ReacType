@@ -18,7 +18,7 @@
 }
 
 .makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
-  background-color: rgba(25,25,25,0.8);
+  background-color: rgba(25, 25, 25, 0.8);
 }
 
 h4 {
@@ -37,6 +37,7 @@ h3 {
 .compPanelItem {
   height: 100%;
   position: relative;
+  display: flex;
 }
 
 .compPanelItem h3 {
@@ -53,4 +54,3 @@ h3 {
   padding-top: 35px;
   width: 420px;
 }
-

@@ -94,14 +94,18 @@ function DirectChildComponent({
         return (
           <IndirectChild
             // combine styles of instance and referenced component. instance styles have higher priority
+            key={
+              'indChild' + child.childId.toString() + child.typeId.toString()
+            }
             style={combinedStyle}
             placeHolder=""
+            linkId={null}
           >
             {/* {childReferencedComponent.name} */}
             {renderIndirectChildren(childReferencedComponent)}
           </IndirectChild>
         );
-      } else {
+      } else if (child.type === 'HTML Element') {
         // if indirect chidl is an HTML element, render an IndirectChild component with no children
         // get the default style/placeholder value for that type of HTML element
         const HTMLType: HTMLType = HTMLTypes.find(
@@ -112,29 +116,57 @@ function DirectChildComponent({
         // combine HTML default stuyles with styles applied to the ichild but give priority to styles applied to the child
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
         // find the default style of that HTML element and combine in with the custom styles applied to that element
-
+        // if the HTML element has children, then also render its children
         return (
           <React.Fragment>
             {child.children.length === 0 ? (
               <IndirectChild
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlacholder}
+                linkId={null}
+                key={
+                  'indChild' +
+                  child.childId.toString() +
+                  child.typeId.toString()
+                }
               />
             ) : (
               <IndirectChild
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlacholder}
+                linkId={null}
+                key={
+                  'indChild' +
+                  child.childId.toString() +
+                  child.typeId.toString()
+                }
               >
                 {renderIndirectChildren(child)}
               </IndirectChild>
             )}
           </React.Fragment>
         );
+      } else if (child.type === 'Route Link') {
+        return (
+          <IndirectChild
+            key={
+              'indChild' + child.childId.toString() + child.typeId.toString()
+            }
+            style={combinedStyle}
+            placeHolder=""
+            linkId={child.typeId}
+          />
+        );
       }
     });
   };
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
+    <div
+      onClick={onClickHandler}
+      key={'childComp' + childId}
+      style={combinedStyle}
+      ref={drag}
+    >
       {renderIndirectChildren(referencedComponent)}
     </div>
   );

@@ -3,6 +3,7 @@ import { Component, ChildElement } from '../interfaces/InterfacesNew';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
+import RouteLink from '../components/main/RouteLink';
 
 // helper method to render all direct children of a component
 // there are three types of direct children that can be rendered on the screen
@@ -39,6 +40,18 @@ const renderChildren = (children: ChildElement[]) => {
     else if (type === 'HTML Element' && typeId === 11) {
       return (
         <DirectChildHTMLNestable
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          style={style}
+          children={children}
+          attributes={attributes}
+          key={childId.toString()}
+        />
+      );
+    } else if (type === 'Route Link') {
+      return (
+        <RouteLink
           childId={childId}
           type={type}
           typeId={typeId}

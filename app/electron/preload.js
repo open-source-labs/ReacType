@@ -5,7 +5,8 @@ const { existsSync, writeFileSync, mkdirSync, writeFile } = require('fs');
 const formatCode = require('./preloadFunctions/format');
 const {
   chooseAppDir,
-  appDirChosen
+  addAppDirChosenListener,
+  removeAllAppDirChosenListeners
 } = require('./preloadFunctions/chooseAppDir');
 
 // Expose protected methods that allow the renderer process to use
@@ -19,7 +20,8 @@ const {
 contextBridge.exposeInMainWorld('api', {
   formatCode: formatCode,
   chooseAppDir: chooseAppDir,
-  appDirChosen: appDirChosen,
+  addAppDirChosenListener: addAppDirChosenListener,
+  removeAllAppDirChosenListeners: removeAllAppDirChosenListeners,
   existsSync: existsSync,
   writeFileSync: writeFileSync,
   mkdirSync: mkdirSync,
