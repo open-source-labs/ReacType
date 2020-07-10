@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,12 +23,17 @@ const useStyles = makeStyles({
     marginTop: '15px'
   },
   inputWrapper: {
-    height: '115px',
+    // height: '115px',
     textAlign: 'center',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingLeft: '35px',
     marginBottom: '15px'
+  },
+  rootCheckBox: {},
+  rootCheckBoxLabel: {
+    color: 'white'
   },
   projectTypeWrapper: {
     paddingLeft: '35px',
@@ -77,7 +83,11 @@ const useStyles = makeStyles({
     marginLeft: '10px'
   },
   button: {
-    fontSize: '1rem'
+    fontSize: '1rem',
+    height: '70px',
+    maginTop: '10px',
+    border: '1px solid rgba(70,131,83)',
+    backgroundColor: 'rgba(1,212,109,0.1)'
   },
   rootToggle: {
     color: '#01d46d',
@@ -212,25 +222,21 @@ const ComponentPanel = (): JSX.Element => {
           onChange={handleNameInput}
         />
         <div className={classes.btnGroup}>
-          <Button
-            className={classes.button}
-            color="primary"
-            onClick={handleNameSubmit}
-          >
-            ADD
-          </Button>
           <FormControlLabel
-            control={
-              <Switch
-                checked={isRoot}
-                onChange={toggleRootStatus}
-                color="primary"
-              />
-            }
-            className={classes.rootToggle}
-            label="ROOT"
+            value="top"
+            control={<Checkbox color="primary" onChange={toggleRootStatus} />}
+            label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
+            className={classes.rootCheckBoxLabel}
+            labelPlacement="top"
           />
         </div>
+        <Button
+          className={classes.button}
+          color="primary"
+          onClick={handleNameSubmit}
+        >
+          ADD
+        </Button>
       </div>
       <div className={classes.panelWrapperList}>
         <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
