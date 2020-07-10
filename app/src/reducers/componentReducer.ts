@@ -8,7 +8,10 @@ import {
 import generateCode from '../helperFunctions/generateCode';
 
 const reducer = (state: State, action: Action) => {
-  // find top-level component in
+  // if the project type is set as Next.js, next component code should be generated
+  // otherwise generate classic react code
+
+  // find top-level component given a component id
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
   };
@@ -164,7 +167,14 @@ const reducer = (state: State, action: Action) => {
         const directParent: ChildElement = findChild(parentComponent, childId);
         directParent.children.push(newChild);
       }
-      parentComponent.code = generateCode(components, parentComponentId);
+
+      parentComponent.code = generateCode(
+        components,
+        parentComponentId,
+        [...state.rootComponents],
+        state.projectType
+      );
+
       const canvasFocus = {
         ...canvasFocus,
         componentId: state.canvasFocus.componentId,
@@ -210,7 +220,12 @@ const reducer = (state: State, action: Action) => {
         directParent.children.push(child);
       }
 
-      component.code = generateCode(components, state.canvasFocus.componentId);
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType
+      );
 
       return { ...state, components };
     }
@@ -235,7 +250,12 @@ const reducer = (state: State, action: Action) => {
       const targetChild = findChild(component, state.canvasFocus.childId);
       targetChild.style = style;
 
-      component.code = generateCode(components, state.canvasFocus.componentId);
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType
+      );
 
       return { ...state, components };
     }
@@ -258,7 +278,12 @@ const reducer = (state: State, action: Action) => {
       );
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
-      component.code = generateCode(components, state.canvasFocus.componentId);
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType
+      );
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
@@ -266,8 +291,20 @@ const reducer = (state: State, action: Action) => {
       return { ...action.payload };
     }
     case 'CHANGE PROJECT TYPE': {
+      // when a project type is changed, both change the project type in state and also regenerate the code for each component
       const { projectType } = action.payload;
-      return { ...state, projectType };
+      
+      const components = [...state.components];
+      components.forEach(component => {
+        component.code = generateCode(
+          components,
+          component.id,
+          [...state.rootComponents],
+          projectType
+        );
+      });
+
+      return { ...state, components, projectType };
     }
 
     default:

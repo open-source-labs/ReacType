@@ -1,11 +1,8 @@
-import fs from 'fs';
-import { format } from 'prettier';
 import { Component } from '../interfaces/InterfacesNew';
-import generateNextCode from '../helperFunctions/generateNextCode';
 
-const isRoot = (component:Component, rootArray: number[]) => {
+const isRoot = (component: Component, rootArray: number[]) => {
   return rootArray.includes(component.id) ? true : false;
-}
+};
 
 const createNextFiles = (
   components: Component[],
@@ -15,12 +12,11 @@ const createNextFiles = (
 ) => {
   let dir = path;
   dir = `${dir}/${appName}`;
-  
+
   const promises: Array<any> = [];
   components.forEach((component: Component) => {
-    let code:string;
-    let fileName:string;
-    code = generateNextCode(components, component.id, rootComponents);
+    let code: string;
+    let fileName: string;
     if (isRoot(component, rootComponents)) {
       if (component.id === 1) {
         // first root component must be index.tsx
@@ -29,17 +25,13 @@ const createNextFiles = (
         fileName = `${dir}/pages/${component.name}.tsx`;
       }
     } else {
-      fileName = `${dir}/components/${component.name}.tsx`
+      fileName = `${dir}/components/${component.name}.tsx`;
     }
     const newPromise = new Promise((resolve, reject) => {
-      window.api.writeFileSync(
-        fileName,
-        code,
-        (err: any) => {
-          if (err) return reject(err.message);
-          return resolve(path);
-        },
-      );
+      window.api.writeFileSync(fileName, component.code, (err: any) => {
+        if (err) return reject(err.message);
+        return resolve(path);
+      });
     });
 
     promises.push(newPromise);

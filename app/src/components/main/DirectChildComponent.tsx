@@ -94,6 +94,9 @@ function DirectChildComponent({
         return (
           <IndirectChild
             // combine styles of instance and referenced component. instance styles have higher priority
+            key={
+              'indChild' + child.childId.toString() + child.typeId.toString()
+            }
             style={combinedStyle}
             placeHolder=""
             linkId={null}
@@ -121,12 +124,22 @@ function DirectChildComponent({
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlacholder}
                 linkId={null}
+                key={
+                  'indChild' +
+                  child.childId.toString() +
+                  child.typeId.toString()
+                }
               />
             ) : (
               <IndirectChild
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlacholder}
                 linkId={null}
+                key={
+                  'indChild' +
+                  child.childId.toString() +
+                  child.typeId.toString()
+                }
               >
                 {renderIndirectChildren(child)}
               </IndirectChild>
@@ -136,8 +149,11 @@ function DirectChildComponent({
       } else if (child.type === 'Route Link') {
         return (
           <IndirectChild
+            key={
+              'indChild' + child.childId.toString() + child.typeId.toString()
+            }
             style={combinedStyle}
-            placeHolder={''}
+            placeHolder=""
             linkId={child.typeId}
           />
         );
@@ -145,7 +161,12 @@ function DirectChildComponent({
     });
   };
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
+    <div
+      onClick={onClickHandler}
+      key={'childComp' + childId}
+      style={combinedStyle}
+      ref={drag}
+    >
       {renderIndirectChildren(referencedComponent)}
     </div>
   );
