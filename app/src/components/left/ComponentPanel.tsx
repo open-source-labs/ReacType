@@ -6,10 +6,8 @@ import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -92,12 +90,6 @@ const ComponentPanel = (): JSX.Element => {
     resetError();
   };
 
-  // Allows users to toggle project between "next.js" and "Classic React"
-  // When a user changes the project type, the code of all components is rerendered
-  const handleProjectChange = event => {
-    const projectType = event.target.value;
-    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
-  };
 
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
@@ -105,22 +97,6 @@ const ComponentPanel = (): JSX.Element => {
 
   return (
     <div className={classes.panelWrapper}>
-      {/* Choose project type */}
-      <div className={classes.projectTypeWrapper}>
-        <FormControl>
-          <Select
-            variant="outlined"
-            labelId="project-type-label"
-            id="demo-simple-select"
-            className={classes.projectSelector}
-            value={state.projectType}
-            onChange={handleProjectChange}
-          >
-            <MenuItem value={'Next.js'}>Next.js</MenuItem>
-            <MenuItem value={'Classic React'}>Classic React</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
         <div>
@@ -232,25 +208,14 @@ const useStyles = makeStyles({
   rootCheckBoxLabel: {
     color: 'white'
   },
-  projectTypeWrapper: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    marginBottom: '15px',
-    width: '100%'
-  },
-  projectSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    width: '317px',
-    color: '#fff'
-  },
   panelWrapper: {
     width: '100%',
     marginTop: '15px'
   },
   panelWrapperList: {
-    maxHeight: '400px',
+    // maxHeight: '400px',
     minHeight: '120px',
-    overflowY: 'auto',
+    // overflowY: 'auto',
     marginLeft: '-15px',
     marginRight: '-15px'
   },
