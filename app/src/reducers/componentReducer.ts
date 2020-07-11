@@ -113,7 +113,7 @@ const reducer = (state: State, action: Action) => {
 
       // update the focus to the new component
       const canvasFocus = {
-        ...canvasFocus,
+        ...state.canvasFocus,
         componentId: newComponent.id,
         childId: null
       };

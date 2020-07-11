@@ -168,7 +168,7 @@ h1 {
   background: #fff;
   flex: 1;
   width: 100%;
-  /* overflow: hidden;  */
+  overflow: auto;
   display: flex;
   background-color: #e4e4e4;
   /* justify-content: center;
@@ -301,12 +301,6 @@ div.rst__rowContents {
   cursor: pointer;
 }
 
-/* @media only screen and (max-width: 560px) {
-  .app-container {
-    width: 80%;
-  }
-} */
-
 a.nav_link {
   color: rgba(0, 0, 0, 0.87);
   cursor: pointer;
@@ -315,4 +309,63 @@ a.nav_link {
 a.nav_link:hover {
   color: #3EC1AC;
   text-decoration: underline;
+}
+
+// Additional styling for ReacType X
+
+.componentDefault {
+  width: 100%;
+  border: 2px solid gray;
+  min-height: 150px;
+  padding: 10px;
+  background-color: lightgray;
+  opacity: 0.75;
+}
+
+.componentPanelWrapper {
+  margin-top: 75px;
+  width: 100%;
+}
+
+.inputName {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
+  background-color: rgba(25, 25, 25, 0.8);
+}
+
+h4 {
+  color: white;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  padding-left: 15px;
+  padding-top: 15px;
+  font-size: 1em;
+  letter-spacing: 0.5px;
+}
+
+.compPanelItem {
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.compPanelItem h3 {
+  padding-top: 25px;
+  font-size: 1.15em;
+  letter-spacing: 0.75px;
+}
+
+.compPanelItem:hover {
+  cursor: pointer;
+}
+
+.right {
+  padding-top: 35px;
+  width: 420px;
 }

@@ -24,7 +24,7 @@ const path = require('path');
 // const fs = require('fs');
 
 console.log('NODE ENV is ', process.env.NODE_ENV);
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' ;
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
