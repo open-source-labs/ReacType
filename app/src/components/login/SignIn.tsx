@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 2),
+    margin: theme.spacing(1, 0, 1)
     // width: '240px',
     // height: '60px'
   },
@@ -63,15 +63,14 @@ const useStyles = makeStyles(theme => ({
     // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
     //   borderColor: "red"
     // },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#3EC1AC"
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#3EC1AC'
     }
   }
 }));
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -105,18 +104,16 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('click fired on handleLogin');
-
     setInvalidUser(false);
     setInvalidUserMsg('');
     setInvalidPass(false);
     setInvalidPassMsg('');
     sessionIsCreated(username, password).then(loginStatus => {
-      console.log('login fetch', loginStatus)
-      if(loginStatus === 'Success') {
-  
+      console.log('login fetch', loginStatus);
+      if (loginStatus === 'Success') {
         props.history.push('/');
       } else {
-        switch(loginStatus) {
+        switch (loginStatus) {
           case 'No Username Input':
             setInvalidUser(true);
             setInvalidUserMsg(loginStatus);
@@ -138,12 +135,23 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
+  // for users not wanting to make an account and use as guest
+  const handleLoginGuest = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    console.log('Handle login guest fired');
+    e.preventDefault();
+    // generate "cookie" in localStorage for guest users
+    window.localStorage.setItem('ssid', 'guest');
+    props.history.push('/');
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon/>
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5" color="textPrimary">
           Sign in
@@ -161,7 +169,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoFocus
           value={username}
           onChange={handleChange}
-          helperText={invalidUserMsg} 
+          helperText={invalidUserMsg}
           error={invalidUser}
         />
         <TextField
@@ -177,7 +185,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           autoComplete="current-password"
           value={password}
           onChange={handleChange}
-          helperText={invalidPassMsg} 
+          helperText={invalidPassMsg}
           error={invalidPass}
         />
         <FormControlLabel
@@ -194,27 +202,45 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
+        {/* Hiding github oauth button as it's still buggy and not fully working */}
+        {/* <Button
+          fullWidth
+          variant="contained"
+          color="default"
+          className={classes.submit}
+          href="https://localhost:8081/github"
+          onClick={() => {
+            console.log('Inside onclick of github');
+            setTimeout(() => {
+              window.api.setCookie();
+              window.api.getCookie(cookie => {
+                window.localStorage.setItem('ssid', cookie[0].value);
+                props.history.push('/');
+              });
+            }, 2000);
+          }}
+        >
+          <GitHubIcon />
+        </Button> */}
 
         <Button
           fullWidth
           variant="contained"
           color="default"
           className={classes.submit}
-          href="https://localhost:8080/github"
+          onClick={e => handleLoginGuest(e)}
         >
-          <GitHubIcon/>
+          Continue as Guest
         </Button>
 
-        {/* <a href="https://localhost:8080/github">
-          <img src="/images/githublogin.png" />
-        </a>
-        <br></br> */}
         <Grid container>
           <Grid item xs>
             {/* <Link href="#" variant="body2">
               Forgot password?
             </Link> */}
-            <RouteLink to={`/signup`} className="nav_link">Forgot password?</RouteLink>
+            <RouteLink to={`/signup`} className="nav_link">
+              Forgot password?
+            </RouteLink>
           </Grid>
           <Grid item>
             <RouteLink to={`/signup`} className="nav_link">

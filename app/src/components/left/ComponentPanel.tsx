@@ -56,7 +56,7 @@ const useStyles = makeStyles({
     marginTop: '15px'
   },
   panelWrapperList: {
-    maxHeight: '675px',
+    maxHeight: '400px',
     minHeight: '120px',
     overflowY: 'auto',
     marginLeft: '-15px',

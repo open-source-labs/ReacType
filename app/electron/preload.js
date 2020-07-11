@@ -8,6 +8,12 @@ const {
   addAppDirChosenListener,
   removeAllAppDirChosenListeners
 } = require('./preloadFunctions/chooseAppDir');
+const {
+  setCookie,
+  getCookie,
+  delCookie,
+  reload
+} = require('./preloadFunctions/cookies');
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
@@ -25,5 +31,8 @@ contextBridge.exposeInMainWorld('api', {
   existsSync: existsSync,
   writeFileSync: writeFileSync,
   mkdirSync: mkdirSync,
-  writeFile: writeFile
+  writeFile: writeFile,
+  setCookie: setCookie,
+  getCookie: getCookie,
+  delCookie: delCookie
 });
