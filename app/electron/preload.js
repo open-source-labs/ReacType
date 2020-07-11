@@ -7,6 +7,12 @@ const {
   addAppDirChosenListener,
   removeAllAppDirChosenListeners
 } = require('./preloadFunctions/chooseAppDir');
+const {
+  setCookie,
+  getCookie,
+  delCookie,
+  reload
+} = require('./preloadFunctions/cookies');
 
 // Expose protected methods that allow the renderer process to use select node methods
 // without exposing all node functionality. This is a critical security feature
@@ -17,6 +23,7 @@ const {
 // the api object (second arg) can contain functions, strings, bools, numbers, arrays, obects in value
 // data primitives sent on the bridge are immutable and changes in one context won't carry over to another context
 contextBridge.exposeInMainWorld('api', {
+<<<<<<< HEAD
   formatCode,
   chooseAppDir,
   addAppDirChosenListener,
@@ -25,4 +32,17 @@ contextBridge.exposeInMainWorld('api', {
   writeFileSync,
   mkdirSync,
   writeFile
+=======
+  formatCode: formatCode,
+  chooseAppDir: chooseAppDir,
+  addAppDirChosenListener: addAppDirChosenListener,
+  removeAllAppDirChosenListeners: removeAllAppDirChosenListeners,
+  existsSync: existsSync,
+  writeFileSync: writeFileSync,
+  mkdirSync: mkdirSync,
+  writeFile: writeFile,
+  setCookie: setCookie,
+  getCookie: getCookie,
+  delCookie: delCookie
+>>>>>>> master
 });

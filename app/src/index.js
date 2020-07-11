@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
+
 import {
   HashRouter as Router,
   Route,
@@ -17,20 +18,24 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      Cookies.get('ssid') ? <Component {...props} /> : <Redirect to="/login" />
+      Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
     }
   />
 );
 
-// ReactDOM.render(
-//   <Router>
-//     <Switch>
-//       <Route exact path="/login" component={SignIn} />
-//       <Route exact path="/signup" component={SignUp} />
-//       <PrivateRoute path="/" component={App} />
-//     </Switch>
-//   </Router>,
-//   document.getElementById('app')
-// );
+ReactDOM.render(
+  <Router>
+    <Switch>
+      <Route exact path="/login" component={SignIn} />
+      <Route exact path="/signup" component={SignUp} />
+      <PrivateRoute path="/" component={App} />
+    </Switch>
+  </Router>,
+  document.getElementById('app')
+);
 
-ReactDOM.render(<App></App>, document.getElementById('app'));
+// ReactDOM.render(<App></App>, document.getElementById('app'));

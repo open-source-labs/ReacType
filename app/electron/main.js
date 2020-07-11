@@ -59,7 +59,7 @@ async function createWindow() {
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools
-      devTools: isDev,
+      devTools: true,
       // crucial security feature - blocks rendering process from having access to node moduels
       nodeIntegration: false,
       // web workers will not have access to node
@@ -129,6 +129,7 @@ async function createWindow() {
 
   // Removed this security feature for now since it's not being used
   // https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content
+<<<<<<< HEAD
 
   // const ses = session;
   // const partition = 'default';
@@ -147,6 +148,28 @@ async function createWindow() {
   //       callback(false); // Deny
   //     }
   //   });
+=======
+  // TODO: is this the same type of sessions that have in react type
+  // Could potentially remove this session capability - it appears to be more focused on approving requests from 3rd party notifications
+  const ses = session;
+
+  const partition = 'default';
+  ses
+    .fromPartition(partition)
+    .setPermissionRequestHandler((webContents, permission, callback) => {
+      let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
+
+      if (allowedPermissions.includes(permission)) {
+        callback(true); // Approve permission request
+      } else {
+        console.error(
+          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
+        );
+
+        callback(false); // Deny
+      }
+    });
+>>>>>>> master
 
   // https://electronjs.org/docs/tutorial/security#1-only-load-secure-content;
   // The below code can only run when a scheme and host are defined, I thought
@@ -171,7 +194,9 @@ protocol.registerSchemesAsPrivileged([
     scheme: Protocol.scheme,
     privileges: {
       standard: true,
-      secure: true
+      secure: true,
+      allowServiceWorkers: true,
+      supportFetchAPI: true
     }
   }
 ]);
@@ -210,13 +235,13 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://localhost:8080',
+      'https://localhost:8081',
       'https://github.com/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to redirect to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
+        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
@@ -226,14 +251,20 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
+    //console.log('parsedUrl is', parsedUrl);
+    //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
-      'https://localhost:8080',
-      'https://github.com/'
+      'https://localhost:8081',
+      'https://github.com',
+      'app://rse/'
     ];
 
     // Log and prevent the app from redirecting to a new page
-    if (!validOrigins.includes(parsedUrl.origin)) {
+    if (
+      !validOrigins.includes(parsedUrl.origin) &&
+      !validOrigins.includes(parsedUrl.href)
+    ) {
       console.error(
         `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
       );
@@ -309,3 +340,29 @@ ipcMain.on('choose_app_dir', event => {
     })
     .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
 });
+
+// for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
+ipcMain.on('set_cookie', event => {
+  session.defaultSession.cookies
+    .get({ url: 'https://localhost:8081' })
+    .then(cookie => {
+      console.log(cookie);
+      event.reply('give_cookie', cookie);
+    })
+    .catch(error => {
+      console.log('Error giving cookies in set_cookie:', error);
+    });
+});
+
+// again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
+ipcMain.on('delete_cookie', event => {
+  session.defaultSession.cookies
+    .remove('https://localhost:8081', 'ssid')
+    .then(removed => {
+      console.log('Cookies deleted', removed);
+    })
+    .catch(err => console.log('Error deleting cookie:', err));
+});
+
+// bypass ssl certification validation error
+// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

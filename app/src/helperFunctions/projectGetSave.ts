@@ -1,21 +1,39 @@
-// Get all of a user's projects from MongoDB
+// helper functions that will do fetch requests to get and save user/guest projects
+
 export const getProjects = (): Promise<Object> => {
-  const project = fetch('https://localhost:8080/getProjects', {
-    credentials: 'include'
+  //console.log("Loading user's projects...");
+  let userId = window.localStorage.getItem('ssid');
+  //console.log('userId from localStorage is', userId);
+  const body = JSON.stringify({ userId });
+  const projects = fetch('https://localhost:8081/getProjects', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    // need credentials for userid pull from cookie
+    credentials: 'include',
+    body
   })
     .then(res => res.json())
     .then(data => {
-      return data.project;
+      //console.log("User's projects are", data);
+      return data;
     })
     .catch(err => console.log(`Error getting project ${err}`));
-  return project;
+  return projects;
 };
 
-// Send updates to a user's projects to MongoDB
-export const saveProject = (workspace: Object): Promise<Object> => {
-
-  const body = JSON.stringify({ name: 'Andrew project', project: workspace });
-  const project = fetch('https://localhost:8080/saveProject', {
+export const saveProject = (
+  name: String,
+  workspace: Object
+): Promise<Object> => {
+  //console.log("Saving user's project...");
+  const body = JSON.stringify({
+    name,
+    project: workspace,
+    userId: window.localStorage.getItem('ssid')
+  });
+  const project = fetch('https://localhost:8081/saveProject', {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -25,6 +43,7 @@ export const saveProject = (workspace: Object): Promise<Object> => {
   })
     .then(res => res.json())
     .then(data => {
+      //console.log('Saved project is', data.project);
       return data.project;
     })
     .catch(err => console.log(`Error saving project ${err}`));

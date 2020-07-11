@@ -284,8 +284,15 @@ const reducer = (state: State, action: Action) => {
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
+
     case 'SET INITIAL STATE': {
       return { ...action.payload };
+    }
+    case 'SET PROJECT NAME': {
+      return {
+        ...state,
+        name: action.payload
+      };
     }
     case 'CHANGE PROJECT TYPE': {
       // when a project type is changed, both change the project type in state and also regenerate the code for each component
@@ -307,6 +314,21 @@ const reducer = (state: State, action: Action) => {
     case 'RESET STATE': {
       return { ...initialState };
     }
+
+    case 'UPDATE PROJECT NAME': {
+      const projectName = action.payload;
+      return {
+        ...state,
+        name: projectName
+      };
+    }
+
+    case 'OPEN PROJECT': {
+      return {
+        ...action.payload
+      };
+    }
+
     default:
       return state;
   }

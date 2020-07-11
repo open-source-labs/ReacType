@@ -25,8 +25,8 @@ function IndirectChild({ style, children, placeHolder, linkId }) {
     combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
   }
 
-  console.log('children are ', children);
-  console.log('place holder is ', placeHolder);
+  //console.log('children are ', children);
+  //console.log('place holder is ', placeHolder);
   return (
     <div style={combinedStyle}>
       {linkId ? (

@@ -5,21 +5,22 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core/styles';
 import ComponentPanel from '../components/left/ComponentPanel';
 import HTMLPanel from '../components/left/HTMLPanel';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
 import exportProject from '../utils/exportProject.util';
-import { State } from '../interfaces/interfacesNew';
-import SimpleModal from '../components/left/SimpleModal';
+import { saveProject } from '../helperFunctions/projectGetSave';
+import ProjectsFolder from '../components/login/ProjectsFolder';
 
-// Left-hand portion of the app, where component / HTML options are displayed
+// Left-hand portion of the app, where component options are displayed
 const LeftContainer = (): JSX.Element => {
   const [state, dispatch] = useContext(stateContext);
-  const classes = useStyles();
 
+  const classes = useStyles();
   // state to keep track of how the user wants their components to be exported
   // genOption = 0 --> export only components
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
@@ -151,7 +152,7 @@ const LeftContainer = (): JSX.Element => {
             variant="outlined"
             color="primary"
             onClick={showGenerateAppModal}
-            endIcon={<GetAppIcon />}
+            endIcon={<PublishIcon />}
           >
             EXPORT PROJECT
           </Button>
@@ -186,6 +187,16 @@ const useStyles = makeStyles({
     fontSize: '1em',
     marginTop: '15px',
     color: 'red'
+  },
+  saveProjText: {
+    backgroundColor: 'gray',
+    bottom: '90px'
+  },
+  saveProjButton: {
+    width: '55%',
+    backgroundColor: 'rgba(1,212,109,0.1)',
+    bottom: '80px',
+    fontSize: '1em'
   }
 });
 

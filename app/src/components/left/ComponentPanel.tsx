@@ -215,10 +215,12 @@ const useStyles = makeStyles({
     marginTop: '15px'
   },
   inputWrapper: {
+    // height: '115px',
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    // paddingLeft: '35px',
     marginBottom: '15px'
   },
   addComponentWrapper: {
@@ -246,7 +248,7 @@ const useStyles = makeStyles({
     marginTop: '15px'
   },
   panelWrapperList: {
-    maxHeight: '675px',
+    maxHeight: '400px',
     minHeight: '120px',
     overflowY: 'auto',
     marginLeft: '-15px',
@@ -284,6 +286,7 @@ const useStyles = makeStyles({
     height: '40px',
     maginTop: '10px',
     width: '100%',
+    // border: '1px solid rgba(70,131,83)',
     backgroundColor: 'rgba(1,212,109,0.1)'
   },
   rootToggle: {
