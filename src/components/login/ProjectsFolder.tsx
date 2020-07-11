@@ -52,13 +52,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
       <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
       <List>
         {projects.map((project) => (
-          <ListItem button onClick={() => handleListItemClick(project.hello)} key={project.hello}>
+          <ListItem button onClick={() => handleListItemClick(project.name)} key={project.name}>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={project.hello} />
+            <ListItemText primary={project.name} />
           </ListItem>
         ))}
         {/* Change state to empty for new project */}
@@ -77,12 +77,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
 
 export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
+  const [projects, setProjects] = useState([{hello: 'cat'}]);
 
   const handleClickOpen = () => {
     getProjects().then(data => {
-      console.log('data', data);
+      setProjects(data);
+      setOpen(true);
     })
-    setOpen(true);
   };
   
   const handleClose = () => {
@@ -94,7 +95,7 @@ export default function ProjectsFolder() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Project
       </Button>
-      <ProjectsDialog open={open} onClose={handleClose} projects={[{hello: 'cat'}]}/>
+      <ProjectsDialog open={open} onClose={handleClose} projects={projects}/>
     </div>
   );
 }
