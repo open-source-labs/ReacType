@@ -1,5 +1,5 @@
 import reducer from '../app/src/reducers/componentReducer';
-import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
+// import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
 
 import initialState from '../app/src/context/initialState';
 
@@ -8,10 +8,24 @@ const Application = require('spectron').Application;
 const baseDir = path.join(__dirname, '..');
 const electronPath = path.join(baseDir, 'node_modules', '.bin', 'electron');
 
+const appArg = path.join(baseDir, 'app', 'electron', 'main.js');
+//const appArg = path.join(baseDir, 'app', 'electron');
+console.log(electronPath);
+console.log(appArg);
+
+//const electronPath = '../node_modules/.bin/electron';
+//const electronPath = require('electron');
+
 const app = new Application({
   path: electronPath,
-  args: ['../app/electron/main.js']
+  args: [appArg],
+  chromeDriverArgs: ['--no-proxy-server'],
+  env: {
+    'NO_PROXY': '127.0.0.1,localhost'
+  }
 })
+
+console.log(app);
 // const testComponent: Component = {
 //   id: 2,
 //   name: "Test",
@@ -22,10 +36,11 @@ const app = new Application({
 // }
 
 describe('Testing componentReducer functionality', () => {
-  let state: State = initialState;
+  let state = initialState;
+  
 
-  beforeAll(() => {
-    return app.start();
+  beforeAll(async () => {
+    return await app.start();
   })
 
   afterAll(() => {
