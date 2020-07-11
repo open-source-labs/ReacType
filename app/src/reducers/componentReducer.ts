@@ -319,21 +319,13 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         name: projectName
-      }
+      };
     }
 
     case 'OPEN PROJECT': {
-      const { name, components, rootComponents, canvasFocus, nextComponentId, nextChildId } = action.payload;
-      console.log('triggered reducer');
       return {
-        ...state,
-        name: name,
-        components: components,
-        rootComponents: rootComponents,
-        nextComponentId: nextComponentId,
-        nextChildId: nextChildId,
-        canvasFocus: canvasFocus
-      }
+        ...action.payload
+      };
     }
 
     default:

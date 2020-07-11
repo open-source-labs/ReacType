@@ -54,6 +54,7 @@ const useStyles = makeStyles({
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (): JSX.Element => {
   const [state, dispatch] = useContext(stateContext);
+
   const classes = useStyles();
   // state to keep track of how the user wants their components to be exported
   // genOption = 0 --> export only components

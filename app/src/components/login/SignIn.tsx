@@ -202,8 +202,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-
-        <Button
+        {/* Hiding github oauth button as it's still buggy and not fully working */}
+        {/* <Button
           fullWidth
           variant="contained"
           color="default"
@@ -221,7 +221,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           }}
         >
           <GitHubIcon />
-        </Button>
+        </Button> */}
 
         <Button
           fullWidth

@@ -232,6 +232,8 @@ const RightContainer = (props): JSX.Element => {
     console.log('Logout clicked, destroying cookie, redirect to login');
     // destroys "cookie" by clearing localStorage if guest
     window.localStorage.clear();
+    // destroy cookie on production when not seen by chromium browser using ipcrenderer
+    window.api.delCookie();
     // destroys cookie if user by backdating cookie expiration date
     document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // uses useHistory to return to the login page
@@ -434,9 +436,9 @@ const RightContainer = (props): JSX.Element => {
         ''
       )}
       <div className={classes.logoutButton}>
-        <SaveProjectButton/>
-        <ProjectsFolder/>
-        <LoginButton/>
+        <SaveProjectButton />
+        <ProjectsFolder />
+        <LoginButton />
       </div>
     </div>
   );

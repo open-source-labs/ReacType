@@ -18,8 +18,8 @@ import { stateContext } from '../../context/context';
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
-    color: blue[600],
-  },
+    color: blue[600]
+  }
 });
 
 export interface ProjectDialogProps {
@@ -32,11 +32,12 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
+  console.log('Inside projectsdialogbox projects is', projects);
   const [_, dispatch] = useContext(stateContext);
 
   useEffect(() => {
     console.log('state is', _);
-  }, [_])
+  }, [_]);
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -47,18 +48,27 @@ function ProjectsDialog(props: ProjectDialogProps) {
 
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
-    const selectedProject = projects.filter(project => project.name === value)[0].project;
-    console.log('project to open', selectedProject);
+    const selectedProject = projects.filter(
+      project => project.name === value
+    )[0];
     dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     onClose();
   };
 
   return (
-    <Dialog onClose={handleClose} aria-labelledby="project-dialog-title" open={open}>
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="project-dialog-title"
+      open={open}
+    >
       <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
       <List>
         {projects.map((project, index) => (
-          <ListItem button onClick={() => handleListItemClick(project.name)} key={index}>
+          <ListItem
+            button
+            onClick={() => handleListItemClick(project.name)}
+            key={index}
+          >
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
                 <FolderOpenIcon />
@@ -74,7 +84,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
               <AddIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="New Project"/>
+          <ListItemText primary="New Project" />
         </ListItem>
       </List>
     </Dialog>
@@ -83,15 +93,15 @@ function ProjectsDialog(props: ProjectDialogProps) {
 
 export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
-  const [projects, setProjects] = useState([{hello: 'cat'}]);
+  const [projects, setProjects] = useState([{ hello: 'cat' }]);
 
   const handleClickOpen = () => {
     getProjects().then(data => {
       setProjects(data);
       setOpen(true);
-    })
+    });
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -101,7 +111,7 @@ export default function ProjectsFolder() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Project
       </Button>
-      <ProjectsDialog open={open} onClose={handleClose} projects={projects}/>
+      <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
     </div>
   );
 }
