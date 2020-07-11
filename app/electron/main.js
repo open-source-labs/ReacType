@@ -133,6 +133,7 @@ async function createWindow() {
   // TODO: is this the same type of sessions that have in react type
   // Could potentially remove this session capability - it appears to be more focused on approving requests from 3rd party notifications
   const ses = session;
+
   const partition = 'default';
   ses
     .fromPartition(partition)
@@ -177,7 +178,9 @@ protocol.registerSchemesAsPrivileged([
     scheme: Protocol.scheme,
     privileges: {
       standard: true,
-      secure: true
+      secure: true,
+      allowServiceWorkers: true,
+      supportFetchAPI: true
     }
   }
 ]);
@@ -323,6 +326,29 @@ ipcMain.on('choose_app_dir', event => {
       event.sender.send('app_dir_selected', directory.filePaths[0]);
     })
     .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
+});
+
+// for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
+ipcMain.on('set_cookie', event => {
+  session.defaultSession.cookies
+    .get({ url: 'https://localhost:8081' })
+    .then(cookie => {
+      console.log(cookie);
+      event.reply('give_cookie', cookie);
+    })
+    .catch(error => {
+      console.log('Error giving cookies in set_cookie:', error);
+    });
+});
+
+// again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
+ipcMain.on('delete_cookie', event => {
+  session.defaultSession.cookies
+    .remove('https://localhost:8081', 'ssid')
+    .then(removed => {
+      console.log('Cookies deleted', removed);
+    })
+    .catch(err => console.log('Error deleting cookie:', err));
 });
 
 // bypass ssl certification validation error

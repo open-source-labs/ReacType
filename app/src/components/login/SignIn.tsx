@@ -209,7 +209,16 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           color="default"
           className={classes.submit}
           href="https://localhost:8081/github"
-          //target="_blank"
+          onClick={() => {
+            console.log('Inside onclick of github');
+            setTimeout(() => {
+              window.api.setCookie();
+              window.api.getCookie(cookie => {
+                window.localStorage.setItem('ssid', cookie[0].value);
+                props.history.push('/');
+              });
+            }, 2000);
+          }}
         >
           <GitHubIcon />
         </Button>

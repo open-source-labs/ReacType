@@ -226,8 +226,9 @@ const RightContainer = (props): JSX.Element => {
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     console.log('Logout clicked, destroying cookie, redirect to login');
-    // destroys "cookie" by clearing localStorage if guest, backdating cookie if not
+    // destroys "cookie" by clearing localStorage if guest
     window.localStorage.clear();
+    // destroys cookie if user by backdating cookie expiration date
     document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // uses useHistory to return to the login page
     props.history.push('/login');

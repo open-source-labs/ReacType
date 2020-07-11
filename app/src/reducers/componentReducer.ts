@@ -295,10 +295,11 @@ const reducer = (state: State, action: Action) => {
         ...state,
         name: action.payload
       };
+    }
     case 'CHANGE PROJECT TYPE': {
       // when a project type is changed, both change the project type in state and also regenerate the code for each component
       const { projectType } = action.payload;
-      
+
       const components = [...state.components];
       components.forEach(component => {
         component.code = generateCode(

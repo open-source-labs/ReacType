@@ -21,10 +21,10 @@ export const App = (): JSX.Element => {
 
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   if (window.localStorage.getItem('ssid') !== 'guest') {
-    console.log('Logged in is true');
+    //console.log('Logged in is true');
     state.isLoggedIn = true;
   } else {
-    console.log('Logged in is false');
+    //console.log('Logged in is false');
     state.isLoggedIn = false;
   }
 
@@ -47,11 +47,17 @@ export const App = (): JSX.Element => {
       });
     } else {
       // otherwise if a user is logged in, use a fetch request to load user's projects from DB
-      getProjects().then(projects =>
-        console.log('UseEffect in App getprojects() returns', projects)
-      );
+      // getProjects().then(projects =>
+      //   console.log('UseEffect in App getprojects() returns', projects)
+      // );
+      let userId;
+      if (Cookies.get('ssid')) {
+        userId = Cookies.get('ssid');
+      } else {
+        userId = window.localStorage.getItem('ssid');
+      }
       //also load user's last project, which was saved in localforage on logout
-      localforage.getItem(Cookies.get('ssid')).then(project => {
+      localforage.getItem(userId).then(project => {
         if (project) {
           dispatch({
             type: 'SET INITIAL STATE',
@@ -67,13 +73,19 @@ export const App = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
+    let userId;
+    if (Cookies.get('ssid')) {
+      userId = Cookies.get('ssid');
+    } else {
+      userId = window.localStorage.getItem('ssid');
+    }
     if (state.isLoggedIn === false) {
-      console.log('Saving guest project as', state);
+      //console.log('Saving guest project as', state);
       localforage.setItem('guestProject', state);
     } else if (state.name !== '') {
-      console.log('Saving user project as', state);
+      //console.log('Saving user project as', state);
       saveProject(state.name, state);
-      localforage.setItem(Cookies.get('ssid'), state);
+      localforage.setItem(userId, state);
     }
   }, [state]);
 

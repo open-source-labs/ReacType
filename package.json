@@ -186,6 +186,7 @@
     "postcss-loader": "^2.1.6",
     "redux-mock-store": "^1.5.4",
     "sass-loader": "^7.0.3",
+    "spectron": "^11.1.0",
     "style-loader": "^0.20.3",
     "ts-jest": "^25.3.0",
     "ts-node": "^8.10.2",
