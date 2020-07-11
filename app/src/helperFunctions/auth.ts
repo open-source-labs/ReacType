@@ -8,7 +8,7 @@ export const sessionIsCreated = (
     password
   });
   console.log('In sessionIsCreated, body is', body);
-  const result = fetch('https://localhost:8081/login', {
+  const result = fetch('http://localhost:8081/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -48,7 +48,7 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch('https://localhost:8081/signup', {
+  const result = fetch('http://localhost:8081/signup', {
     method: 'POST',
     //credentials: 'include',
     //mode: 'no-cors',

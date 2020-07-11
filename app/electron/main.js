@@ -129,26 +129,6 @@ async function createWindow() {
 
   // Removed this security feature for now since it's not being used
   // https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content
-<<<<<<< HEAD
-
-  // const ses = session;
-  // const partition = 'default';
-  // ses
-  //   .fromPartition(partition)
-  //   .setPermissionRequestHandler((webContents, permission, callback) => {
-  //     let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
-
-  //     if (allowedPermissions.includes(permission)) {
-  //       callback(true); // Approve permission request
-  //     } else {
-  //       console.error(
-  //         `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
-  //       );
-
-  //       callback(false); // Deny
-  //     }
-  //   });
-=======
   // TODO: is this the same type of sessions that have in react type
   // Could potentially remove this session capability - it appears to be more focused on approving requests from 3rd party notifications
   const ses = session;
@@ -169,20 +149,19 @@ async function createWindow() {
         callback(false); // Deny
       }
     });
->>>>>>> master
 
   // https://electronjs.org/docs/tutorial/security#1-only-load-secure-content;
   // The below code can only run when a scheme and host are defined, I thought
   // we could use this over _all_ urls
-  // ses
-  //   .fromPartition(partition)
-  //   .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
-  //     if (listener.url.indexOf('http://') >= 0) {
-  //       listener.callback({
-  //         cancel: true
-  //       });
-  //     }
-  //   });
+  ses
+    .fromPartition(partition)
+    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
+      if (listener.url.indexOf('http://') >= 0) {
+        listener.callback({
+          cancel: true
+        });
+      }
+    });
 }
 
 // Needs to be called before app is ready;
