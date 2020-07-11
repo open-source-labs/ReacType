@@ -14,6 +14,9 @@ const {
   globalShortcut
 } = require('electron');
 
+// const i18nextBackend = require("i18next-electron-fs-backend");
+// const ContextMenu = require("secure-electron-context-menu").default;
+
 // Uncomment below for hot reloading during development
 require('electron-reload')(__dirname);
 
@@ -94,8 +97,6 @@ const createWindow = () => {
       zoomFactor: 0.7
       // for proper security measures, nodeIntegration should be set to false, but this results in a blank page when serving app
       // nodeIntegration: false,
-      // preload: 'preload.js',
-      // enableRemoteModule: false
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/png/256x256.png'),
@@ -121,10 +122,10 @@ const createWindow = () => {
   });
 
   // code below loads app locally
-  // mainWindow.loadURL(`file://${__dirname}/build/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/build/index.html`);
 
   // code below loads app from a server, this url will need to change when/if we decide to put reactype on the web
-  mainWindow.loadURL(`https://localhost:8080`);
+  // mainWindow.loadURL(`https://localhost:8080`);
   // load page once window is loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
