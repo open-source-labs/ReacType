@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -8,12 +8,12 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import AddIcon from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 
 import { getProjects } from '../../helperFunctions/projectGetSave';
+import { stateContext } from '../../context/context';
 
 const useStyles = makeStyles({
   avatar: {
@@ -28,12 +28,15 @@ export interface ProjectDialogProps {
   onClose: () => void;
 }
 
-//const projects = ['test'];
-
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
+  const [_, dispatch] = useContext(stateContext);
+
+  useEffect(() => {
+    console.log('state is', _);
+  }, [_])
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -44,6 +47,9 @@ function ProjectsDialog(props: ProjectDialogProps) {
 
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
+    const selectedProject = projects.filter(project => project.name === value)[0].project;
+    console.log('project to open', selectedProject);
+    dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     onClose();
   };
 
@@ -51,18 +57,18 @@ function ProjectsDialog(props: ProjectDialogProps) {
     <Dialog onClose={handleClose} aria-labelledby="project-dialog-title" open={open}>
       <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
       <List>
-        {projects.map((project) => (
-          <ListItem button onClick={() => handleListItemClick(project.name)} key={project.name}>
+        {projects.map((project, index) => (
+          <ListItem button onClick={() => handleListItemClick(project.name)} key={index}>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
-                <PersonIcon />
+                <FolderOpenIcon />
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={project.name} />
           </ListItem>
         ))}
         {/* Change state to empty for new project */}
-        <ListItem autoFocus button onClick={() => handleListItemClick('addProject')}>
+        <ListItem autoFocus button onClick={() => handleClose()}>
           <ListItemAvatar>
             <Avatar>
               <AddIcon />

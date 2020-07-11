@@ -262,6 +262,7 @@ const reducer = (state: State, action: Action) => {
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
+
     case 'SET INITIAL STATE': {
       return { ...action.payload };
     }
@@ -271,6 +272,20 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         name: projectName
+      }
+    }
+
+    case 'OPEN PROJECT': {
+      const { name, components, rootComponents, canvasFocus, nextComponentId, nextChildId } = action.payload;
+      console.log('triggered reducer');
+      return {
+        ...state,
+        name: name,
+        components: components,
+        rootComponents: rootComponents,
+        nextComponentId: nextComponentId,
+        nextChildId: nextChildId,
+        canvasFocus: canvasFocus
       }
     }
 
