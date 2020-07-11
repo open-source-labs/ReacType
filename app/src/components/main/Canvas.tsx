@@ -9,7 +9,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 function Canvas() {
   // TODO: figure out how to set types on destructured array
   const [state, dispatch] = useContext(stateContext);
-  console.log('state is ', state);
+
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId

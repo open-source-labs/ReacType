@@ -1,6 +1,8 @@
 import { State } from '../interfaces/InterfacesNew';
 
 export const initialState: State = {
+  name: '',
+  isLoggedIn: false,
   components: [
     {
       id: 1,

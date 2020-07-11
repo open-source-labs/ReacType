@@ -7,40 +7,87 @@ import AppContainer from '../containers/AppContainer';
 import { stateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
-import { getProjects } from '../helperFunctions/projectGetSave';
-import { saveProject } from '../helperFunctions/projectGetSave';
+import localforage from 'localforage';
+import { getProjects, saveProject } from '../helperFunctions/projectGetSave';
+import Cookies from 'js-cookie';
 
-// import { Context, State } from '../interfaces/InterfacesNew';
+import { Context, State } from '../interfaces/InterfacesNew';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   // const [context, setContext] = useState(initialState);
-  //let initialStateLoaded = false;
-  // retrieves user's project (if it exists) from DB on component load
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // gets projects from DB for current user on mount
-  // useEffect(() => {
-  //   // getProjects returns a promise which is thenable
-  //   getProjects().then(project => {
-  //     if (project) {
-  //       // if user has project we run a dispatch to update state with received project
-  //       dispatch({
-  //         type: 'SET INITIAL STATE',
-  //         payload: project
-  //       });
-  //     }
-  //   });
-  // }, []);
+  // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
+  if (window.localStorage.getItem('ssid') !== 'guest') {
+    //console.log('Logged in is true');
+    state.isLoggedIn = true;
+  } else {
+    //console.log('Logged in is false');
+    state.isLoggedIn = false;
+  }
 
-  // saves project to DB whenever there are changes to the state via this canvas component
-  // useEffect(() => {
-  //   console.log('useEffect in CanvasNew ran');
-  //   // setTimeout is necessary so the saveProjects method does not fire and save an empty project before the initial getProjects in AppNew
-  //   setTimeout(() => {
-  //     saveProject(state);
-  //   }, 1000);
-  // }, [state]);
+  // following useEffect runs on first mount
+  useEffect(() => {
+    // if user is a guest, see if a project exists in localforage and retrieve it
+    if (state.isLoggedIn === false) {
+      localforage.getItem('guestProject').then(project => {
+        // if project exists, use dispatch to set initial state to that project
+        if (project) {
+          console.log(
+            'Project found in localforage, guest project is',
+            project
+          );
+          dispatch({
+            type: 'SET INITIAL STATE',
+            payload: project
+          });
+        }
+      });
+    } else {
+      // otherwise if a user is logged in, use a fetch request to load user's projects from DB
+      // getProjects().then(projects =>
+      //   console.log('UseEffect in App getprojects() returns', projects)
+      // );
+      let userId;
+      if (Cookies.get('ssid')) {
+        userId = Cookies.get('ssid');
+      } else {
+        userId = window.localStorage.getItem('ssid');
+      }
+      //also load user's last project, which was saved in localforage on logout
+      localforage.getItem(userId).then(project => {
+        if (project) {
+          dispatch({
+            type: 'SET INITIAL STATE',
+            payload: project
+          });
+        } else {
+          console.log(
+            'No user project found in localforage, setting initial state blank'
+          );
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    let userId;
+    if (Cookies.get('ssid')) {
+      userId = Cookies.get('ssid');
+    } else {
+      userId = window.localStorage.getItem('ssid');
+    }
+    if (state.isLoggedIn === false) {
+      //console.log('Saving guest project as', state);
+      localforage.setItem('guestProject', state);
+    } else if (state.name !== '') {
+      //console.log('Saving user project as', state);
+      saveProject(state.name, state);
+      localforage.setItem(userId, state);
+    }
+  }, [state]);
 
   return (
     <div className="app">

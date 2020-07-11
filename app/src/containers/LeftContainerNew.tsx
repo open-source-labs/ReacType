@@ -6,16 +6,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
-import PublishIcon from '@material-ui/icons/Publish';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import ComponentPanel from '../components/left/ComponentPanel';
-import HTMLPanel from '../components/left/HTMLPanel';
+import ComponentPanel from '../components/left/ComponentPanelNew';
+import HTMLPanel from '../components/left/HTMLPanelNew';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import createModal from '../components/left/createModal';
 import { stateContext } from '../context/context';
-import exportProject from '../utils/exportProject.util';
+import exportProject from '../utils/exportProjectNew.util';
 import { saveProject } from '../helperFunctions/projectGetSave';
-import ProjectsFolder from '../components/login/ProjectsFolder';
+
+const IPC = require('electron').ipcRenderer;
 
 const useStyles = makeStyles({
   btnGroup: {
@@ -39,23 +42,22 @@ const useStyles = makeStyles({
     marginTop: '15px',
     color: 'red'
   },
-  saveProjText: {
-    backgroundColor: 'gray',
-    bottom: '90px'
-  },
-  saveProjButton: {
-    width: '55%',
-    backgroundColor: 'rgba(1,212,109,0.1)',
-    bottom: '80px',
-    fontSize: '1em'
+  formControl: {
+    minWidth: '125px',
+    backgroundColor: 'rgba(255,255,255,0.15)'
   }
 });
 
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (): JSX.Element => {
   const [state, dispatch] = useContext(stateContext);
-
+  const [projectName, setProjectName] = useState('');
   const classes = useStyles();
+
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectName(e.target.value);
+  };
+
   // state to keep track of how the user wants their components to be exported
   // genOption = 0 --> export only components
   // genOption = 1 --> export an entire project w/ webpack, server, etc.
@@ -63,8 +65,7 @@ const LeftContainer = (): JSX.Element => {
     'Export components',
     'Export components with application files'
   ];
-  // const [genOption, setGenOption] = useState(1);
-  let genOption = 0;
+  const [genOption, setGenOption] = useState(1);
   // state to keep track of whether there should be a modal
   const [modal, setModal] = useState(null);
 
@@ -86,6 +87,7 @@ const LeftContainer = (): JSX.Element => {
         primBtnAction: null,
         primBtnLabel: null,
         secBtnAction: () => {
+          // TODO: Create reducer to delete components from state
           closeModal();
         }
       })
@@ -101,6 +103,17 @@ const LeftContainer = (): JSX.Element => {
             key={i}
             button
             onClick={() => chooseGenOptions(i)}
+            // onClick={() =>
+            //   createApplication({
+            //     // path,
+            //     // trying this with an absolute path because the electron dialogue box isn't working
+            //     path: '/Users/tylersullberg/',
+            //     components,
+            //     genOption,
+            //     appName: 'reactype_app',
+            //     exportAppBool: null
+            //   })
+            // }
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
@@ -117,28 +130,33 @@ const LeftContainer = (): JSX.Element => {
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
       // set export option: 0 --> export only components, 1 --> export full project
-      genOption = genOpt;
-      window.api.chooseAppDir();
+      console.log('in chooseGenOptions');
+      setGenOption(genOpt);
+      console.log('Gen option is ', genOpt);
+      // closeModal
+      exportProject('/Users', 'NEW PROJECT', genOpt, state.components);
       closeModal();
+      // Choose app dir
+      // NOTE: This functionality isn't working right now. Will upgrade Electron and see if that fixes it
+      //chooseAppDir();
+
+      // exportProject('/Users/tylersullberg/', 'NEW PROJECT', 1);
     };
 
-    // removes all listeners for the app_dir_selected event
-    // this is important because otherwise listeners will pile up and events will trigger multiple events
-    window.api.removeAllAppDirChosenListeners();
+    const chooseAppDir = () => IPC.send('choose_app_dir');
 
-    // add listener for when an app directory is chosen
-    // when a directory is chosen, the callback will export the project to the chosen folder
-    // Note: this listener is imported from the main process via preload.js
-    window.api.addAppDirChosenListener(path => {
-      console.log('CALLED APPDIRCHOSEN: ', genOption);
-      exportProject(
-        path,
-        'NEW PROJECT',
-        genOption,
-        state.projectType,
-        state.components,
-        state.rootComponents
-      );
+    // when the user selects a directory from the modal,
+    // we're going to create the application in their chosen directory
+    IPC.on('app_dir_selected', (event: string, path: string) => {
+      // createApplication({
+      //   path,
+      //   components,
+      //   genOption,
+      //   appName: 'reactype_app',
+      //   exportAppBool: null
+      // });
+      // exportProject();
+      console.log('app directory selected!!!');
     });
 
     setModal(
@@ -166,13 +184,32 @@ const LeftContainer = (): JSX.Element => {
             variant="outlined"
             color="primary"
             onClick={showGenerateAppModal}
-            endIcon={<PublishIcon />}
+            endIcon={<GetAppIcon />}
           >
             EXPORT PROJECT
           </Button>
           <Button className={classes.clearBtn}>CLEAR WORKSPACE</Button>
         </div>
       </Grid>
+      <TextField
+        className={classes.formControl}
+        placeholder="Enter project name here"
+        variant="filled"
+        required
+        name="projectName"
+        label="projectName"
+        value={projectName}
+        onChange={handleName}
+      />
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => {
+          saveProject(state, projectName);
+        }}
+      >
+        Sav Project
+      </Button>
       {modal}
     </div>
   );
