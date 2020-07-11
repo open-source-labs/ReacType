@@ -5,7 +5,7 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import HTMLTypes from '../../context/HTMLTypes';
-import globalDefaultStyle from '../../globalDefaultStyles';
+import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
 function DirectChildHTMLNestable({

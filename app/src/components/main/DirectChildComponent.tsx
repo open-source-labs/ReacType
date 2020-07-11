@@ -11,7 +11,7 @@ import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
 import HTMLTypes from '../../context/HTMLTypes';
-import globalDefaultStyle from '../../globalDefaultStyles';
+import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);

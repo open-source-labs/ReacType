@@ -65,7 +65,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // Add a new component
   const createOption = (inputName: String) => {
-    // format name so first letter is capitalized
+    // format name so first letter is capitalized and there are no whitespaces
     let inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);

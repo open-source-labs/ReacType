@@ -3,7 +3,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import RightContainer from './RightContainer';
-import theme from '../theme';
+import theme from '../public/styles/theme';
 
 const AppContainer = () => {
   return (

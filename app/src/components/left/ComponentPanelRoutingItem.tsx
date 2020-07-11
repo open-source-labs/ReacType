@@ -27,6 +27,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const handleRouteChange = event => {
     setRoute(event.target.value);
   };
+  
 
   // useDrag hook allows components in left panel to be drag source
 

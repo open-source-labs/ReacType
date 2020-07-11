@@ -1,6 +1,5 @@
-// import fs from 'fs';
-// const fs = __non_webpack_require__('fs');
-// let fs;
+// Create all files necessary to run a classic react application
+
 import createFiles from './createFiles.util';
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 

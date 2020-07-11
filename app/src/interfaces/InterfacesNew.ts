@@ -29,8 +29,10 @@ export interface Component {
 
 export interface Action {
   type: string;
-  payload: object;
+  payload: any;
 }
+
+export interface Payload {}
 
 export interface Reduce {
   state: Context;
@@ -57,4 +59,8 @@ export interface DragItem extends DragObjectWithType {
   instanceType: string;
   instanceTypeId: number;
   childId: number;
+}
+
+export interface DragItemType {
+  INSTANCE: string;
 }

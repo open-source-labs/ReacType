@@ -8,4 +8,4 @@ declare global {
   }
 }
 
-let api = window.api; // ok now
+let api = window.api; 

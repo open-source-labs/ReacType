@@ -1,5 +1,4 @@
-// import window.api from 'window.api';
-// import { format } from 'prettier';
+// Creates all component files (but not the full application files) and places them in a "components" directory
 
 const createFiles = (
   components: any,
@@ -30,13 +29,6 @@ const createFiles = (
       window.api.writeFileSync(
         `${dir}/${component.name}.tsx`,
         window.api.formatCode(component.code),
-        // format(component.code, {
-        //   singleQuote: true,
-        //   trailingComma: 'es5',
-        //   bracketSpacing: true,
-        //   jsxBracketSameLine: true,
-        //   parser: 'typescript'
-        // }),
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);
