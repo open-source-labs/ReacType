@@ -4,35 +4,35 @@ const {
   dialog,
   BrowserWindow,
   session,
-  ipcMain,
-  Menu
+  ipcMain
 } = require('electron');
+
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
+const Protocol = require('./protocol');
+const MenuBuilder = require('./menu');
+const path = require('path');
+
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS
 } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
-const Protocol = require('./protocol');
-// menu from another file to modularize the code
-const MenuBuilder = require('./menu');
-
-const path = require('path');
-// const fs = require('fs');
-
-console.log('NODE ENV is ', process.env.NODE_ENV);
 const isDev = process.env.NODE_ENV === 'development';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
+
+// main.js is what controls the lifecycle of the electron applicaton
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 let menuBuilder;
 
+// function to create a new broswer window
+// this function will be called when Electron has initialized itself
 async function createWindow() {
   if (isDev) {
     await installExtension([REACT_DEVELOPER_TOOLS])
@@ -52,12 +52,10 @@ async function createWindow() {
     height: 1080,
     // window title
     title: `ReacType`,
+    // the browser window will not display intiially as it's loading
+    // once the browser window renders, a function is called below  that hides the splash screen and displays the browser window
     show: false,
-    icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
-    win: {
-      icon: path.join(__dirname, '../src/public/icons/win/icon.ico'),
-      target: ['portable']
-    },
+    // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools
@@ -79,10 +77,7 @@ async function createWindow() {
     }
   });
 
-  console.log('PATH is ', resolve('/'));
-
-  //splash screen deets
-  // TODO: splash screen logo/icon aren't loading in dev mode
+  // Splash screen that appears while loading
   const hideSplashscreen = initSplashScreen({
     mainWindow: win,
     icon: resolve('app/src/public/icons/png/64x64.png'),
@@ -112,9 +107,9 @@ async function createWindow() {
     hideSplashscreen();
   });
 
-  // Only do these things when in development
+  // automatically open DevTools when opening the app
+  // Note: devtools is creating many errors in the logs at the moment but can't figure out how to resolve the issue
   if (isDev) {
-    // automatically open DevTools when opening the app
     win.webContents.once('dom-ready', () => {
       debug();
       win.webContents.openDevTools();
@@ -129,45 +124,44 @@ async function createWindow() {
     win = null;
   });
 
+  menuBuilder = MenuBuilder(win, 'ReacType');
+  menuBuilder.buildMenu();
+
+  // Removed this security feature for now since it's not being used
   // https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content
-  // TODO: is this the same type of sessions that have in react type
-  // Could potentially remove this session capability - it appears to be more focused on approving requests from 3rd party notifications
-  const ses = session;
-  const partition = 'default';
-  ses
-    .fromPartition(partition)
-    .setPermissionRequestHandler((webContents, permission, callback) => {
-      let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
-      if (allowedPermissions.includes(permission)) {
-        callback(true); // Approve permission request
-      } else {
-        console.error(
-          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
-        );
+  // const ses = session;
+  // const partition = 'default';
+  // ses
+  //   .fromPartition(partition)
+  //   .setPermissionRequestHandler((webContents, permission, callback) => {
+  //     let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
-        callback(false); // Deny
-      }
-    });
+  //     if (allowedPermissions.includes(permission)) {
+  //       callback(true); // Approve permission request
+  //     } else {
+  //       console.error(
+  //         `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
+  //       );
+
+  //       callback(false); // Deny
+  //     }
+  //   });
 
   // https://electronjs.org/docs/tutorial/security#1-only-load-secure-content;
   // The below code can only run when a scheme and host are defined, I thought
   // we could use this over _all_ urls
-  ses
-    .fromPartition(partition)
-    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
-      if (listener.url.indexOf('http://') >= 0) {
-        listener.callback({
-          cancel: true
-        });
-      }
-    });
-
-  menuBuilder = MenuBuilder(win, 'ReacType');
-  menuBuilder.buildMenu();
+  // ses
+  //   .fromPartition(partition)
+  //   .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
+  //     if (listener.url.indexOf('http://') >= 0) {
+  //       listener.callback({
+  //         cancel: true
+  //       });
+  //     }
+  //   });
 }
 
-// TODO: unclear of whether this is necsssary or not. Looks like a security best practice but will likely introduce complications
 // Needs to be called before app is ready;
 // gives our scheme access to load relative files,
 // as well as local storage, cookies, etc.
@@ -194,8 +188,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   } else {
-    // TODO: remove i18nextbackend
-    // i18nextBackend.clearMainBindings(ipcMain);
     ContextMenu.clearMainBindings(ipcMain);
   }
 });
@@ -211,7 +203,6 @@ app.on('activate', () => {
 // https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation
 // limits navigation within the app to a whitelisted array
 // redirects are a common attack vector
-// TODO: add github to the validOrigins whitelist array
 
 // after the contents of the webpage are rendered, set up event listeners on the webContents
 app.on('web-contents-created', (event, contents) => {

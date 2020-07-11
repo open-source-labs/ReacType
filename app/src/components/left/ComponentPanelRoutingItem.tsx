@@ -7,34 +7,13 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-const useStyles = makeStyles({
-  activeFocus: {
-    backgroundColor: 'rgba(1,212,109,0.3)'
-  },
-  focusMark: {
-    backgroundColor: '#01d46d',
-    position: 'absolute',
-    width: '12px',
-    height: '12px',
-    borderRadius: '12px',
-    left: '-35px',
-    top: '30px'
-  },
-  routeSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    marginLeft: '20px',
-    color: '#fff',
-    height: '60%',
-    alignSelf: 'center',
-    minWidth: '100px'
-  }
-});
-
+// a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
 
   // find the root components that can be associated with a route
+  // These will be the components that are displayed in the dropdown
   let navigableComponents = state.components
     .filter(comp => state.rootComponents.includes(comp.id))
     .map(comp => comp.name);
@@ -71,12 +50,9 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
       xs={8}
       style={{
         color: 'white',
-        // this is experimental for version: BLADERUNNER THEME
         backgroundColor: 'transparent',
-        // minWidth: '340px',
         height: '75px',
         marginBottom: '15px',
-        // border: '2px solid rgba(255,255,255, 0.75)',
         border: '2px solid rgba(211,201,121, 0.75)',
         borderRadius: '8px'
       }}
@@ -101,5 +77,28 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
     </Grid>
   );
 };
+
+const useStyles = makeStyles({
+  activeFocus: {
+    backgroundColor: 'rgba(1,212,109,0.3)'
+  },
+  focusMark: {
+    backgroundColor: '#01d46d',
+    position: 'absolute',
+    width: '12px',
+    height: '12px',
+    borderRadius: '12px',
+    left: '-35px',
+    top: '30px'
+  },
+  routeSelector: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    marginLeft: '20px',
+    color: '#fff',
+    height: '60%',
+    alignSelf: 'center',
+    minWidth: '100px'
+  }
+});
 
 export default ComponentPanelRoutingItem;

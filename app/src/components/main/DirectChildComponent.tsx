@@ -13,14 +13,7 @@ import IndirectChild from './IndirectChild';
 import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../globalDefaultStyles';
 
-function DirectChildComponent({
-  childId,
-  type,
-  typeId,
-  style,
-  attributes,
-  children
-}: ChildElement) {
+function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
 
@@ -37,13 +30,9 @@ function DirectChildComponent({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
-      style: style,
-      attributes: attributes,
-      children: []
+      instanceTypeId: typeId
     },
-    // canDrag: !props.children.length,
-    collect: (monitor: any) => ({
+    collect: monitor => ({
       isDragging: !!monitor.isDragging()
     })
   });
@@ -77,7 +66,11 @@ function DirectChildComponent({
   );
 
   // helper function to render children of direct child components
-  const renderIndirectChildren = (referencedComponent: Component) => {
+  // all children of direct child components will be indirect components
+  // indirect child components are not interactive with the exception of route links which, when clicked, will change the canvas focus
+  const renderIndirectChildren = (
+    referencedComponent: Component | ChildElement
+  ) => {
     // iterate through all children of referenced
     return referencedComponent.children.map(child => {
       if (child.type === 'Component') {
@@ -101,22 +94,20 @@ function DirectChildComponent({
             placeHolder=""
             linkId={null}
           >
-            {/* {childReferencedComponent.name} */}
             {renderIndirectChildren(childReferencedComponent)}
           </IndirectChild>
         );
       } else if (child.type === 'HTML Element') {
         // if indirect chidl is an HTML element, render an IndirectChild component with no children
+        // if the HTML element has children, then also render its children
         // get the default style/placeholder value for that type of HTML element
+        // combine the default style of that HTML element and combine in with the custom styles applied to that element
         const HTMLType: HTMLType = HTMLTypes.find(
           (type: HTMLType) => type.id === child.typeId
         );
         const HTMLDefaultStyle = HTMLType.style;
         const HTMLDefaultPlacholder = HTMLType.placeHolderShort;
-        // combine HTML default stuyles with styles applied to the ichild but give priority to styles applied to the child
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
-        // find the default style of that HTML element and combine in with the custom styles applied to that element
-        // if the HTML element has children, then also render its children
         return (
           <React.Fragment>
             {child.children.length === 0 ? (
@@ -129,7 +120,9 @@ function DirectChildComponent({
                   child.childId.toString() +
                   child.typeId.toString()
                 }
-              />
+              >
+                {''}
+              </IndirectChild>
             ) : (
               <IndirectChild
                 style={combinedStyle}
@@ -147,6 +140,9 @@ function DirectChildComponent({
           </React.Fragment>
         );
       } else if (child.type === 'Route Link') {
+        // Render a next.js route link
+        // pass the component id of the component referenced in the link as a prop
+        // IndirectChild will render the referenced component name as a clickable link
         return (
           <IndirectChild
             key={
@@ -155,7 +151,9 @@ function DirectChildComponent({
             style={combinedStyle}
             placeHolder=""
             linkId={child.typeId}
-          />
+          >
+            {''}
+          </IndirectChild>
         );
       }
     });

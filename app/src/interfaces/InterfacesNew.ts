@@ -1,3 +1,5 @@
+import { DragObjectWithType } from 'react-dnd';
+
 export interface State {
   components: Component[];
   rootComponents: number[];
@@ -48,4 +50,11 @@ export interface HTMLType {
   placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
   icon: any;
+}
+
+export interface DragItem extends DragObjectWithType {
+  newInstance: boolean;
+  instanceType: string;
+  instanceTypeId: number;
+  childId: number;
 }

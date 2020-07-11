@@ -1,10 +1,5 @@
-import React, { useMemo, useContext, useRef } from 'react';
-import {
-  State,
-  Component,
-  ChildElement,
-  HTMLType
-} from '../../interfaces/InterfacesNew';
+import React, { useContext, useRef } from 'react';
+import { ChildElement, HTMLType } from '../../interfaces/InterfacesNew';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
@@ -18,8 +13,7 @@ function DirectChildHTMLNestable({
   type,
   typeId,
   style,
-  children,
-  attributes
+  children
 }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
@@ -38,12 +32,8 @@ function DirectChildHTMLNestable({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
-      style: style,
-      attributes: attributes,
-      children: children
+      instanceTypeId: typeId
     },
-    // canDrag: !props.children.length,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -58,62 +48,33 @@ function DirectChildHTMLNestable({
       if (didDrop) {
         return;
       }
-      //   const hoverId = id;
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        addChild(item.instanceType, item.instanceTypeId, childId);
+        dispatch({
+          type: 'ADD CHILD',
+          payload: {
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: childId
+          }
+        });
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        changePosition(
-          item.instanceType,
-          item.instanceTypeId,
-          item.childId,
-          childId,
-          item.style,
-          item.attributes
-        );
+        dispatch({
+          type: 'CHANGE POSITION',
+          payload: {
+            currentChildId: item.childId,
+            newParentChildId: childId
+          }
+        });
       }
     },
     collect: (monitor: any) => ({
       isOver: !!monitor.isOver({ shallow: true })
     })
   });
-
-  // function to add a new child to the canvas
-  const addChild = (
-    instanceType: string,
-    instanceTypeId: number,
-    childId: number
-  ) => {
-    dispatch({
-      type: 'ADD CHILD',
-      payload: { type: instanceType, typeId: instanceTypeId, childId: childId }
-    });
-  };
-
-  // function to change position of element dragged inside div, so that the div is the new parent
-  const changePosition = (
-    instanceType: string,
-    instanceTypeId: number,
-    currentChildId: number,
-    newParentChildId: number | null,
-    style: object,
-    attributes: object
-  ) => {
-    dispatch({
-      type: 'CHANGE POSITION',
-      payload: {
-        type: instanceType,
-        typeId: instanceTypeId,
-        currentChildId: currentChildId,
-        newParentChildId: newParentChildId,
-        style: style,
-        attributes: attributes
-      }
-    });
-  };
 
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });

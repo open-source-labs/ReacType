@@ -18,7 +18,6 @@ function DirectChildHTML({
   type,
   typeId,
   style,
-  attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
@@ -38,11 +37,7 @@ function DirectChildHTML({
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      style: style,
-      attributes: attributes,
-      children: []
     },
-    // canDrag: !props.children.length,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })

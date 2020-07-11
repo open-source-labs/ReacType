@@ -3,14 +3,17 @@
     "outDir": "./app/dist/",
     "sourceMap": true,
     "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
+    "strict": true,
     "lib": ["es6", "dom", "es2017"],
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
-    "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types", "node_modules/@types/node"]
+    "esModuleInterop": true
   },
+  // only compile ts files in this directory
   "include": [".app/src/**/*"]
 }

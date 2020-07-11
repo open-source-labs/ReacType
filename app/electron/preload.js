@@ -1,6 +1,5 @@
 // contextBridge is what allows context to be translated between the main process and the render process
-// ipcRenderer sends messsages between render process and the main process
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge } = require('electron');
 const { existsSync, writeFileSync, mkdirSync, writeFile } = require('fs');
 const formatCode = require('./preloadFunctions/format');
 const {
@@ -9,21 +8,21 @@ const {
   removeAllAppDirChosenListeners
 } = require('./preloadFunctions/chooseAppDir');
 
-// Expose protected methods that allow the renderer process to use
-// the ipcRenderer without exposing the entire object
+// Expose protected methods that allow the renderer process to use select node methods
+// without exposing all node functionality. This is a critical security feature
 // 'mainWorld" is the context that the main renderer runs in
 // with contextIsolation on (see webpreferences on main.js), this preload script runs isolated
 // "api" is the key that injects the api into the window
-// to access these keys in the renderer process, we'll do window.key
+// to access these keys in the renderer process, we'll do window.api
 // the api object (second arg) can contain functions, strings, bools, numbers, arrays, obects in value
 // data primitives sent on the bridge are immutable and changes in one context won't carry over to another context
 contextBridge.exposeInMainWorld('api', {
-  formatCode: formatCode,
-  chooseAppDir: chooseAppDir,
-  addAppDirChosenListener: addAppDirChosenListener,
-  removeAllAppDirChosenListeners: removeAllAppDirChosenListeners,
-  existsSync: existsSync,
-  writeFileSync: writeFileSync,
-  mkdirSync: mkdirSync,
-  writeFile: writeFile
+  formatCode,
+  chooseAppDir,
+  addAppDirChosenListener,
+  removeAllAppDirChosenListeners,
+  existsSync,
+  writeFileSync,
+  mkdirSync,
+  writeFile
 });
