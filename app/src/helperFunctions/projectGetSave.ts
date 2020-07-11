@@ -1,3 +1,8 @@
+const isDev = process.env.NODE_ENV === 'development';
+let serverURL = 'https://reactype.herokuapp.com';
+if (isDev) {
+  serverURL = 'http://localhost:5000';
+}
 // helper functions that will do fetch requests to get and save user/guest projects
 
 export const getProjects = (): Promise<Object> => {
@@ -5,7 +10,7 @@ export const getProjects = (): Promise<Object> => {
   let userId = window.localStorage.getItem('ssid');
   //console.log('userId from localStorage is', userId);
   const body = JSON.stringify({ userId });
-  const projects = fetch('https://localhost:8081/getProjects', {
+  const projects = fetch(`${serverURL}/getProjects`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
@@ -33,7 +38,7 @@ export const saveProject = (
     project: workspace,
     userId: window.localStorage.getItem('ssid')
   });
-  const project = fetch('https://localhost:8081/saveProject', {
+  const project = fetch(`${serverURL}/saveProject`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json'
