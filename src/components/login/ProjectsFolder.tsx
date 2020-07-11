@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,8 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 
-// Get a list of project names from the user
-const projects = ['username@gmail.com', 'user02@gmail.com'];
+import { getProjects } from '../../helperFunctions/projectGetSave';
 
 const useStyles = makeStyles({
   avatar: {
@@ -25,23 +24,27 @@ const useStyles = makeStyles({
 
 export interface ProjectDialogProps {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  projects: Array<Object>;
+  onClose: () => void;
 }
+
+//const projects = ['test'];
 
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
-  const { onClose, selectedValue, open } = props;
+  const { onClose, open, projects } = props;
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
-    onClose(selectedValue);
+    // onClose(selectedValue);
+    console.log('tab closed');
+    onClose();
   };
 
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
-    onClose(value);
+    onClose();
   };
 
   return (
@@ -49,13 +52,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
       <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
       <List>
         {projects.map((project) => (
-          <ListItem button onClick={() => handleListItemClick(project)} key={project}>
+          <ListItem button onClick={() => handleListItemClick(project.hello)} key={project.hello}>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={project} />
+            <ListItemText primary={project.hello} />
           </ListItem>
         ))}
         {/* Change state to empty for new project */}
@@ -74,26 +77,24 @@ function ProjectsDialog(props: ProjectDialogProps) {
 
 export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
 
   const handleClickOpen = () => {
+    getProjects().then(data => {
+      console.log('data', data);
+    })
     setOpen(true);
   };
-
-  // Close dialog and set project name to what was last clicked in dialog
-  const handleClose = (value: string) => {
+  
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
   return (
     <div>
-      {/* <Typography variant="subtitle1">Selected: {selectedValue}</Typography>
-      <br /> */}
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Project
       </Button>
-      <ProjectsDialog selectedValue={selectedValue} open={open} onClose={handleClose}/>
+      <ProjectsDialog open={open} onClose={handleClose} projects={[{hello: 'cat'}]}/>
     </div>
   );
 }

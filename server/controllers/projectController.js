@@ -56,4 +56,25 @@ projectController.getProjects = (req, res, next) => {
   });
 };
 
+// projectController.getSingleProject = (req, res, next) => {
+//   console.log('Inside projectController.getSingleProject...');
+//   const userId = req.cookies.ssid;
+//   const { project } = req.body;
+//   Projects.find({ userId }, (err, projects) => {
+//     if (err) {
+//       return next({
+//         log: `Error in projectController.getSingleProject: ${err}`,
+//         message: {
+//           err: `Error in projectController.getSingleProject, check server logs for details`
+//         }
+//       });
+//     } else {
+//       console.log('Successful getSingleProjects');
+//       const singleProject = projects.filter(p => p.name === project);
+//       res.locals.project = singleProject[0].project;
+//       return next();
+//     }
+//   });
+// };
+
 module.exports = projectController;
