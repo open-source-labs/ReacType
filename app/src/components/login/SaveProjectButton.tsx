@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import { saveProject } from '../../helperFunctions/projectGetSave';
 
 export default function FormDialog() {
@@ -14,7 +15,9 @@ export default function FormDialog() {
 
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
-  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState(
+    ''
+  );
 
   const handleClickOpen = () => {
     setInvalidProjectName(false);
@@ -26,7 +29,7 @@ export default function FormDialog() {
       // Update the project name to global state
       // Needed to disable delete button
       // Switch to Thunk
-        // If errors occur on the backend, the project name still gets updated
+      // If errors occur on the backend, the project name still gets updated
       dispatch({ type: 'UPDATE PROJECT NAME', payload: projectName });
       saveProject(projectName, state);
       setOpen(false);
@@ -40,7 +43,7 @@ export default function FormDialog() {
     setInvalidProjectName(false);
     setInvalidProjectNameMessage('');
     setOpen(false);
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProjectName(e.target.value);
@@ -48,10 +51,19 @@ export default function FormDialog() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Save Project
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+        endIcon={<SaveOutlinedIcon />}
+      >
+        Save Project As
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Save Project</DialogTitle>
         <DialogContent>
           <TextField

@@ -108,7 +108,12 @@ export default function ProjectsFolder() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+        endIcon={<FolderOpenIcon />}
+      >
         Open Project
       </Button>
       <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
