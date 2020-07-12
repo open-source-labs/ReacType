@@ -16,4 +16,3 @@ linux:
 mac:
   category: public.app-category.developer-tools
   target: dmg
-  icon: resources/icon.icns

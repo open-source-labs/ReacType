@@ -139,7 +139,7 @@
     "css-loader": "^2.1.1",
     "dotenv": "^8.2.0",
     "electron": "^9.1.0",
-    "electron-builder": "^20.44.4",
+    "electron-builder": "^22.7.0",
     "electron-installer-dmg": "^2.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
