@@ -168,7 +168,7 @@ h1 {
   background: #fff;
   flex: 1;
   width: 100%;
-  /* overflow: hidden;  */
+  overflow: auto;
   display: flex;
   background-color: #e4e4e4;
   /* justify-content: center;
@@ -313,6 +313,6 @@ a.nav_link {
   text-decoration: none;
 }
 a.nav_link:hover {
-  color: #3EC1AC;
+  color: #3ec1ac;
   text-decoration: underline;
 }

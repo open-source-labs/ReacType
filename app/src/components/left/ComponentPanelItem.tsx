@@ -5,21 +5,7 @@ import { stateContext } from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 
-const useStyles = makeStyles({
-  activeFocus: {
-    backgroundColor: 'rgba(1,212,109,0.3)'
-  },
-  focusMark: {
-    backgroundColor: '#01d46d',
-    position: 'absolute',
-    width: '12px',
-    height: '12px',
-    borderRadius: '12px',
-    left: '-35px',
-    top: '30px'
-  }
-});
-
+// ComponentPanelItem is a tile that represents a single component
 const ComponentPanelItem: React.FC<{
   name: string;
   id: number;
@@ -28,6 +14,7 @@ const ComponentPanelItem: React.FC<{
 }> = ({ name, id, root, isFocus }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
+
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -42,8 +29,7 @@ const ComponentPanelItem: React.FC<{
     })
   });
 
-  
-
+  // when a component is clicked in the left panel, change canvas focus to that component
   const handleClick = () => {
     dispatch({
       type: 'CHANGE FOCUS',
@@ -57,9 +43,7 @@ const ComponentPanelItem: React.FC<{
       xs={8}
       style={{
         color: 'white',
-        // this is experimental for version: BLADERUNNER THEME
         backgroundColor: 'transparent',
-        // minWidth: '340px',
         height: '75px',
         marginBottom: '15px',
         border: root
@@ -75,5 +59,20 @@ const ComponentPanelItem: React.FC<{
     </Grid>
   );
 };
+
+const useStyles = makeStyles({
+  activeFocus: {
+    backgroundColor: 'rgba(1,212,109,0.3)'
+  },
+  focusMark: {
+    backgroundColor: '#01d46d',
+    position: 'absolute',
+    width: '12px',
+    height: '12px',
+    borderRadius: '12px',
+    left: '-35px',
+    top: '30px'
+  }
+});
 
 export default ComponentPanelItem;

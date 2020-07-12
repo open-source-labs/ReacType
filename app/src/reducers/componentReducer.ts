@@ -4,7 +4,7 @@ import {
   Component,
   ChildElement
 } from '../interfaces/interfacesNew';
-
+import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 
 const reducer = (state: State, action: Action) => {
@@ -22,7 +22,7 @@ const reducer = (state: State, action: Action) => {
     // using a breadth first search to search through instance tree
     // We're going to keep track of the nodes we need to search through with an Array
     //  Initialize this array with the top level node
-    const nodeArr = [component];
+    const nodeArr: (Component | ChildElement)[] = [component];
 
     // iterate through each node in the array as long as there are elements in the array
     while (nodeArr.length > 0) {
@@ -36,7 +36,7 @@ const reducer = (state: State, action: Action) => {
         }
       }
       // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach(node => nodeArr.push(node));
+      currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
     }
     // if no search is found return -1
     return { directParent: null, childIndexValue: null };
@@ -83,7 +83,7 @@ const reducer = (state: State, action: Action) => {
       currentNode.children.forEach(node => nodeArr.push(node));
     }
     // if no match is found return false
-    return false;
+    return;
   };
 
   switch (action.type) {
@@ -113,7 +113,7 @@ const reducer = (state: State, action: Action) => {
 
       // update the focus to the new component
       const canvasFocus = {
-        ...canvasFocus,
+        ...state.canvasFocus,
         componentId: newComponent.id,
         childId: null
       };
@@ -164,7 +164,7 @@ const reducer = (state: State, action: Action) => {
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
-        const directParent: ChildElement = findChild(parentComponent, childId);
+        const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
       }
 
@@ -176,7 +176,7 @@ const reducer = (state: State, action: Action) => {
       );
 
       const canvasFocus = {
-        ...canvasFocus,
+        ...state.canvasFocus,
         componentId: state.canvasFocus.componentId,
         childId: newChild.childId
       };
@@ -213,10 +213,7 @@ const reducer = (state: State, action: Action) => {
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
-        const directParent: ChildElement = findChild(
-          component,
-          newParentChildId
-        );
+        const directParent = findChild(component, newParentChildId);
         directParent.children.push(child);
       }
 
@@ -312,6 +309,10 @@ const reducer = (state: State, action: Action) => {
       });
 
       return { ...state, components, projectType };
+    }
+    // Reset state of a given project back to its initial state
+    case 'RESET STATE': {
+      return { ...initialState };
     }
 
     case 'UPDATE PROJECT NAME': {

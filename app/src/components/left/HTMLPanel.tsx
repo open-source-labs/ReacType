@@ -23,7 +23,7 @@ const useStyles = makeStyles({
       paddingTop: '18px'
     }
   }
-})
+});
 
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
@@ -41,25 +41,18 @@ const HTMLPanel = (): JSX.Element => {
       })
     });
     return (
-      <Grid
-        item
-        xs={5}
-        key={`html-${option.name}`}
-      >
+      <Grid item xs={5} key={`html-${option.name}`}>
         <div ref={drag} className={classes.HTMLPanelItem}>
-          <h3>
-            {option.name}
-            
-          </h3>
+          <h3>{option.name}</h3>
           <span
-              style={{
-                verticalAlign: 'middle',
-                display: 'inline-block',
-                marginLeft: '5px'
-              }}
-            >
-              {<option.icon />}
-            </span>
+            style={{
+              verticalAlign: 'middle',
+              display: 'inline-block',
+              marginLeft: '5px'
+            }}
+          >
+            {<option.icon />}
+          </span>
         </div>
       </Grid>
     );
@@ -68,7 +61,13 @@ const HTMLPanel = (): JSX.Element => {
   return (
     <div>
       <h4> HTML Elements</h4>
-      <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
         {options}
       </Grid>
     </div>
