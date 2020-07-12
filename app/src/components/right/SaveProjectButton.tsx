@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { stateContext } from '../../context/context';
+
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,6 +20,8 @@ export default function FormDialog() {
   const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState(
     ''
   );
+
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setInvalidProjectName(false);
@@ -52,12 +56,13 @@ export default function FormDialog() {
   return (
     <div>
       <Button
+        className={classes.button}
         variant="outlined"
         color="primary"
         onClick={handleClickOpen}
         endIcon={<SaveOutlinedIcon />}
       >
-        Save Project As
+        SAVE PROJECT AS
       </Button>
       <Dialog
         open={open}
@@ -91,3 +96,14 @@ export default function FormDialog() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  button: {
+    width: '55%',
+    backgroundColor: 'rgba(1,212,109,0.1)',
+    fontSize: '1em',
+    minWidth: '300px',
+    marginTop: '10px',
+    marginBotton: '10px'
+  }
+});
