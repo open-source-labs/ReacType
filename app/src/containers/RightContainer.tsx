@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 import { stateContext } from '../context/context';
 import HTMLTypes from '../context/HTMLTypes';
-import { useHistory, withRouter } from 'react-router-dom';
+
 
 import ProjectManager from '../components/right/ProjectManager';
 
@@ -426,4 +426,4 @@ const useStyles = makeStyles({
 
 });
 
-export default withRouter(RightContainer);
+export default RightContainer;

@@ -90,7 +90,6 @@ const ComponentPanel = (): JSX.Element => {
     resetError();
   };
 
-
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -117,7 +116,11 @@ const ComponentPanel = (): JSX.Element => {
               <FormControlLabel
                 value="top"
                 control={
-                  <Checkbox color="primary" onChange={toggleRootStatus} />
+                  <Checkbox
+                    color="primary"
+                    checked={isRoot}
+                    onChange={toggleRootStatus}
+                  />
                 }
                 label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
                 className={classes.rootCheckBoxLabel}

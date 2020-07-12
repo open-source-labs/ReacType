@@ -6,13 +6,14 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import SaveIcon from '@material-ui/icons/Save';
+import WarningIcon from '@material-ui/icons/Warning';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import { useHistory, withRouter } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
 import { saveProject } from '../../helperFunctions/projectGetSave';
@@ -34,19 +35,6 @@ const ProjectManager = () => {
   const handleProjectChange = event => {
     const projectType = event.target.value;
     dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
-  };
-
-  const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    console.log('Logout clicked, destroying cookie, redirect to login');
-    // destroys "cookie" by clearing localStorage if guest
-    window.localStorage.clear();
-    // destroy cookie on production when not seen by chromium browser using ipcrenderer
-    window.api.delCookie();
-    // destroys cookie if user by backdating cookie expiration date
-    document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    // uses useHistory to return to the login page
-    props.history.push('/login');
   };
 
   // state to keep track of how the user wants their components to be exported
@@ -144,7 +132,9 @@ const ProjectManager = () => {
     window.api.addAppDirChosenListener(path => {
       exportProject(
         path,
-        'NEW PROJECT',
+        state.name
+          ? state.name
+          : 'New_ReacType_Project_' + Math.ceil(Math.random() * 99).toString(),
         genOption,
         state.projectType,
         state.components,
@@ -169,7 +159,7 @@ const ProjectManager = () => {
   return (
     // <div className={classes.logoutButton}>
     <div className={classes.projectManagerWrapper}>
-      <div className={classes.panelWrapper}>
+      <div className={classes.projectTypeWrapper}>
         <FormControl>
           <Select
             variant="outlined"
@@ -184,12 +174,11 @@ const ProjectManager = () => {
           </Select>
         </FormControl>
       </div>
-      <SaveProjectButton />
-      <ProjectsFolder />
-      <LoginButton />
+      {state.isLoggedIn ? <SaveProjectButton /> : ''}
+      {state.isLoggedIn ? <ProjectsFolder /> : ''}
       {/* <div className={classes.btnGroup}> */}
       <Button
-        className={classes.exportBtn}
+        className={classes.button}
         variant="outlined"
         color="primary"
         onClick={showGenerateAppModal}
@@ -197,9 +186,19 @@ const ProjectManager = () => {
       >
         EXPORT PROJECT
       </Button>
-      <Button onClick={clearWorkspace} className={classes.clearBtn}>
+
+      <Button
+        className={classes.button}
+        variant="outlined"
+        color="primary"
+        onClick={clearWorkspace}
+        endIcon={<WarningIcon />}
+      >
         CLEAR WORKSPACE
       </Button>
+      <br />
+      <br />
+      <LoginButton />
       {/* </div> */}
       {modal}
     </div>
@@ -210,7 +209,10 @@ const useStyles = makeStyles({
   projectManagerWrapper: {
     border: '1px solid rgba(70,131,83)',
     padding: '20px',
-    margin: '20px'
+    margin: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
 
   logoutButton: {
@@ -229,28 +231,23 @@ const useStyles = makeStyles({
     left: '0px'
   },
 
-  exportBtn: {
-    width: '55%',
+  button: {
     backgroundColor: 'rgba(1,212,109,0.1)',
-    fontSize: '1em'
-  },
-  clearBtn: {
-    width: '55%',
     fontSize: '1em',
-    marginTop: '15px',
-    color: 'red'
+    minWidth: '300px',
+    marginTop: '10px',
+    marginBotton: '10px'
   },
   projectTypeWrapper: {
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    marginBottom: '15px',
-    width: '100%'
+    width: '300px',
+    marginTop: '10px',
+    marginBotton: '10px'
   },
   projectSelector: {
     backgroundColor: 'rgba(255,255,255,0.15)',
-    width: '317px',
+    width: '300px',
     color: '#fff'
   }
 });
 
-export default ProjectManager;
+export default withRouter(ProjectManager);
