@@ -36,27 +36,6 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows"
   },
-  "build": {
-    "productName": "ReacType",
-    "appId": "com.team-reactype.reactype",
-    "directories": {
-      "buildResources": "resources"
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "msi"
-      ]
-    },
-    "linux": {
-      "target": [
-        "deb",
-        "rpm",
-        "snap",
-        "AppImage"
-      ]
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/open-source-labs/ReacType.git"
@@ -104,11 +83,13 @@
     "csstype": "^2.6.11",
     "depcheck": "^1.0.0",
     "electron-debug": "^3.1.0",
+    "electron-devtools-installer": "^2.2.4",
     "electron-reload": "^1.4.0",
     "electron-splashscreen": "^1.0.0",
     "enzyme": "^3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
     "formik": "^2.1.4",
+    "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",
     "lodash": "^4.17.19",
@@ -125,11 +106,11 @@
     "react-dnd-html5-backend": "^11.1.3",
     "react-dom": "^16.4.1",
     "react-draggable": "^3.0.5",
-    "react-konva": "^16.12.0-0",
     "react-router-dom": "^5.2.0",
     "react-simple-code-editor": "^0.11.0",
     "react-sortable-tree": "^2.2.0",
     "react-syntax-highlighter": "^10.2.1",
+    "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
     "uuid": "^8.2.0"
   },
@@ -159,7 +140,6 @@
     "dotenv": "^8.2.0",
     "electron": "^9.1.0",
     "electron-builder": "^20.44.4",
-    "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
