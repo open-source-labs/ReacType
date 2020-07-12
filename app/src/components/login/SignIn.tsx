@@ -208,7 +208,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           variant="contained"
           color="default"
           className={classes.submit}
-          href="https://localhost:8081/github"
+          href="https://reactype.heroku.com/github"
           onClick={() => {
             console.log('Inside onclick of github');
             setTimeout(() => {

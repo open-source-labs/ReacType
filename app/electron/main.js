@@ -214,7 +214,8 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://localhost:8081',
+      'http://localhost:8081',
+      'http://reactype.heroku.com',
       'https://github.com/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
@@ -234,7 +235,9 @@ app.on('web-contents-created', (event, contents) => {
     //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
-      'https://localhost:8081',
+      'http://localhost:8081',
+      'http://localhost:5000',
+      'http://reactype.heroku.com',
       'https://github.com',
       'app://rse/'
     ];
@@ -323,7 +326,7 @@ ipcMain.on('choose_app_dir', event => {
 // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
 ipcMain.on('set_cookie', event => {
   session.defaultSession.cookies
-    .get({ url: 'https://localhost:8081' })
+    .get({ url: 'https://reactype.heroku.com' })
     .then(cookie => {
       console.log(cookie);
       event.reply('give_cookie', cookie);
@@ -336,7 +339,7 @@ ipcMain.on('set_cookie', event => {
 // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
 ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
-    .remove('https://localhost:8081', 'ssid')
+    .remove('https://reactype.heroku.com', 'ssid')
     .then(removed => {
       console.log('Cookies deleted', removed);
     })

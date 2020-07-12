@@ -15,7 +15,7 @@ import ProjectManager from '../components/right/ProjectManager';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (props): JSX.Element => {
-  //console.log('this is a rerender');
+
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -43,7 +43,6 @@ const RightContainer = (props): JSX.Element => {
   // after component renders, reset the input fields with the current styles of the selected child
   useEffect(() => {
     resetFields();
-    //console.log('configTarget is', configTarget);
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
 
   // handles all input field changes, with specific updates called based on input's name
@@ -143,7 +142,7 @@ const RightContainer = (props): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    console.log(styleObj);
+
     dispatch({
       type: 'UPDATE CSS',
       payload: { style: styleObj }
@@ -154,7 +153,6 @@ const RightContainer = (props): JSX.Element => {
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
-    console.log('DELETING ...');
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 

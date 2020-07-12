@@ -1,19 +1,23 @@
+const isDev = process.env.NODE_ENV === 'development';
+let serverURL = 'https://reactype.herokuapp.com';
+if (isDev) {
+  serverURL = 'http://localhost:5000';
+}
+
 export const sessionIsCreated = (
   username: string,
   password: string
 ): Promise<string> => {
-  console.log('Username and pw in sessionIsCreated', username, password);
   const body = JSON.stringify({
     username,
     password
   });
-  console.log('In sessionIsCreated, body is', body);
-  const result = fetch('http://localhost:8081/login', {
+  console.log(process.env.NODE_ENV);
+  const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
-      Origin: 'reactype'
+      'Content-Type': 'application/json'
     },
     body
   })
@@ -48,13 +52,11 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch('http://localhost:8081/signup', {
+  const result = fetch(`${serverURL}/signup`, {
     method: 'POST',
-    //credentials: 'include',
-    //mode: 'no-cors',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
-      //'Access-Control-Allow-Origin': 'https://localhost:8081'
     },
     body
   })

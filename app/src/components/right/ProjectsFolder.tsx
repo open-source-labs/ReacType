@@ -89,9 +89,11 @@ export default function ProjectsFolder() {
   const classes = useStyles();
 
   const handleClickOpen = () => {
-    getProjects().then((data: any) => {
-      setProjects(data);
-      setOpen(true);
+    getProjects().then(data => {
+      if (data) {
+        setProjects(data);
+        setOpen(true);
+      }
     });
   };
 

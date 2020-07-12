@@ -13,8 +13,12 @@ export default function LoginButton() {
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    // clear local storage
+    window.localStorage.clear();
     // destroys cookie by backdating expiration time
     document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // destroy cookie in production via electron main process
+    window.api.delCookie();
     // uses useHistory to return to the login page
     history.push('/login');
   };
@@ -25,7 +29,7 @@ export default function LoginButton() {
         variant="contained"
         onClick={handleLogout}
         color="secondary"
-        style={{ textAlign: 'center' }}
+        className={classes.button}
         endIcon={<ExitToAppIcon />}
       >
         Log Out

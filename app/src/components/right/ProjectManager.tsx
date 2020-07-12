@@ -2,21 +2,18 @@ import React, { useState, useContext } from 'react';
 import { stateContext } from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import WarningIcon from '@material-ui/icons/Warning';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import { useHistory, withRouter } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
-import { saveProject } from '../../helperFunctions/projectGetSave';
 
 import ProjectsFolder from './ProjectsFolder';
 import createModal from './createModal';
