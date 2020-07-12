@@ -3,14 +3,16 @@ import { stateContext } from '../../context/context';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
 export default function LoginButton() {
   let history = useHistory();
   const [state, dispatch] = useContext(stateContext);
 
+  const classes = useStyles();
+
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('Logout clicked, destroying cookie, redirect to login');
     // clear local storage
     window.localStorage.clear();
     // destroys cookie by backdating expiration time
@@ -27,7 +29,7 @@ export default function LoginButton() {
         variant="contained"
         onClick={handleLogout}
         color="secondary"
-        style={{ textAlign: 'center' }}
+        className={classes.button}
         endIcon={<ExitToAppIcon />}
       >
         Log Out
@@ -39,7 +41,7 @@ export default function LoginButton() {
         variant="contained"
         onClick={handleLogout}
         color="secondary"
-        style={{ textAlign: 'center' }}
+        className={classes.button}
         endIcon={<ExitToAppIcon />}
       >
         Log In
@@ -47,3 +49,13 @@ export default function LoginButton() {
     );
   }
 }
+
+const useStyles = makeStyles({
+  button: {
+    backgroundColor: 'rgba(1,212,109,0.4)',
+    fontSize: '1em',
+    minWidth: '300px',
+    marginTop: '10px',
+    marginBotton: '10px'
+  }
+});

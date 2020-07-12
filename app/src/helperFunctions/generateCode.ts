@@ -1,7 +1,5 @@
-
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
-
 
 // generate code based on the component heirarchy
 const generateUnformattedCode = (

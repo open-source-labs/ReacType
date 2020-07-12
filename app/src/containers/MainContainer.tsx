@@ -1,29 +1,21 @@
-
-
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import BottomPanel from '../components/bottom/BottomPanel';
-import theme from '../theme';
 import CanvasContainer from '../components/main/CanvasContainer';
 
-
+// Main container contains the canvas which renders the components/elements on screen
+// and the bottom panel which displays the code for the component
 class MainContainer extends Component {
   render() {
-
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="main-container">
-         
-          <div
-            className="main" //ref={main} **no function, commenting out**
-          >
-            <CanvasContainer />
-          </div>
-         
-          <BottomPanel />
+      <div className="main-container">
+        <div
+          className="main" //ref={main} **no function, commenting out**
+        >
+          <CanvasContainer />
         </div>
-      </MuiThemeProvider>
+
+        <BottomPanel />
+      </div>
     );
   }
 }

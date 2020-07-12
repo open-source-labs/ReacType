@@ -1,3 +1,5 @@
+import { DragObjectWithType } from 'react-dnd';
+
 export interface State {
   name: String;
   isLoggedIn: Boolean;
@@ -29,8 +31,10 @@ export interface Component {
 
 export interface Action {
   type: string;
-  payload: object;
+  payload: any;
 }
+
+export interface Payload {}
 
 export interface Reduce {
   state: Context;
@@ -50,4 +54,15 @@ export interface HTMLType {
   placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
   icon: any;
+}
+
+export interface DragItem extends DragObjectWithType {
+  newInstance: boolean;
+  instanceType: string;
+  instanceTypeId: number;
+  childId: number;
+}
+
+export interface DragItemType {
+  INSTANCE: string;
 }

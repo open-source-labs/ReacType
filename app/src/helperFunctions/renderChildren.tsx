@@ -1,12 +1,14 @@
 import React from 'react';
-import { Component, ChildElement } from '../interfaces/InterfacesNew';
+import { ChildElement } from '../interfaces/InterfacesNew';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
 import RouteLink from '../components/main/RouteLink';
 
 // helper method to render all direct children of a component
-// there are three types of direct children that can be rendered on the screen
+// direct children are clickable and draggable
+// direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
+// there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
   return children.map((child: ChildElement, i: number) => {
     const { type, typeId, style, childId, children, attributes } = child;
@@ -31,7 +33,6 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           style={style}
-          attributes={attributes}
           key={childId.toString()}
         />
       );
@@ -45,11 +46,13 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          attributes={attributes}
           key={childId.toString()}
         />
       );
-    } else if (type === 'Route Link') {
+    }
+    // A route link is a next.js navigation link
+    // The route link component includes a clickable link that, when clicked, will change the user focus to the referenced component
+    else if (type === 'Route Link') {
       return (
         <RouteLink
           childId={childId}
@@ -57,7 +60,6 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          attributes={attributes}
           key={childId.toString()}
         />
       );
