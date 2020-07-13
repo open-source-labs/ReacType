@@ -1,4 +1,4 @@
-import React, {  useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import '../public/styles/style.css';
 import '../public/styles/styleNew.css';
 import { DndProvider } from 'react-dnd';
@@ -8,7 +8,7 @@ import { stateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
-import { getProjects, saveProject } from '../helperFunctions/projectGetSave';
+import { getProjects, saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 
 import { Context, State } from '../interfaces/InterfacesNew';

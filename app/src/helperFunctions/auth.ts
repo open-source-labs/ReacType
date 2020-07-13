@@ -28,7 +28,6 @@ export const sessionIsCreated = (
       console.log('the data', data);
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
-        console.log('Inside success');
         window.localStorage.setItem('ssid', data.sessionId);
         return 'Success';
       } else {
@@ -64,7 +63,6 @@ export const newUserIsCreated = (
       return res.json();
     })
     .then(data => {
-      console.log('the data', data);
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);

@@ -8,11 +8,14 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
-import { getProjects } from '../../helperFunctions/projectGetSave';
+import {
+  getProjects,
+  deleteProject
+} from '../../helperFunctions/projectGetSaveDel';
 import { stateContext } from '../../context/context';
 
 export interface ProjectDialogProps {
@@ -25,11 +28,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [_, dispatch] = useContext(stateContext);
-
-  useEffect(() => {
-    console.log('state is', _);
-  }, [_]);
+  const [state, dispatch] = useContext(stateContext);
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -38,11 +37,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
   };
 
   // If new project selected, close and set value to new project name
-  const handleListItemClick = (value: string) => {
+  const handleDelete = (value: string) => {
     const selectedProject = projects.filter(
       (project: any) => project.name === value
     )[0];
-    dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
+    console.log('selectedProject is', selectedProject);
+    deleteProject(selectedProject);
+    dispatch({ type: 'RESET STATE', payload: {} });
     onClose();
   };
 
@@ -52,31 +53,22 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
+      <DialogTitle id="project-dialog-title">Delete Project</DialogTitle>
       <List>
         {projects.map((project: any, index: number) => (
           <ListItem
             button
-            onClick={() => handleListItemClick(project.name)}
+            onClick={() => handleDelete(project.name)}
             key={index}
           >
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
-                <FolderOpenIcon />
+                <DeleteRoundedIcon />
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={project.name} />
           </ListItem>
         ))}
-        {/* Change state to empty for new project */}
-        <ListItem autoFocus button onClick={() => handleClose()}>
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="New Project" />
-        </ListItem>
       </List>
     </Dialog>
   );
@@ -108,9 +100,9 @@ export default function ProjectsFolder() {
         variant="outlined"
         color="primary"
         onClick={handleClickOpen}
-        endIcon={<FolderOpenIcon />}
+        endIcon={<DeleteRoundedIcon />}
       >
-        Open Project
+        Delete Project
       </Button>
       <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
     </div>

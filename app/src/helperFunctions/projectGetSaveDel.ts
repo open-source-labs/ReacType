@@ -5,7 +5,7 @@ if (isDev) {
 }
 // helper functions that will do fetch requests to get and save user/guest projects
 
-export const getProjects = (): Promise<Object> => {
+export const getProjects = (): Promise<any> => {
   //console.log("Loading user's projects...");
   let userId = window.localStorage.getItem('ssid');
   //console.log('userId from localStorage is', userId);
@@ -53,4 +53,26 @@ export const saveProject = (
     })
     .catch(err => console.log(`Error saving project ${err}`));
   return project;
+};
+
+export const deleteProject = (project: any): Promise<Object> => {
+  const body = JSON.stringify({
+    name: project.name,
+    userId: window.localStorage.getItem('ssid')
+  });
+  const deletedProject = fetch(`${serverURL}/deleteProject`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log('deleted project at end of fetch', data);
+      return data;
+    })
+    .catch(err => console.log(`Error deleting project ${err}`));
+  return deletedProject;
 };

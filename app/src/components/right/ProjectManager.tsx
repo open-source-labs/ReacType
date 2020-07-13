@@ -15,10 +15,11 @@ import { useHistory, withRouter } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
 
-import ProjectsFolder from './ProjectsFolder';
+import ProjectsFolder from './OpenProjects';
 import createModal from './createModal';
 import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
+import DeleteProjects from './DeleteProjects';
 
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
@@ -173,6 +174,7 @@ const ProjectManager = () => {
       </div>
       {state.isLoggedIn ? <SaveProjectButton /> : ''}
       {state.isLoggedIn ? <ProjectsFolder /> : ''}
+      {state.isLoggedIn ? <DeleteProjects /> : ''}
       {/* <div className={classes.btnGroup}> */}
       <Button
         className={classes.button}
