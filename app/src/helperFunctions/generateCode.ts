@@ -1,6 +1,7 @@
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
-const { format } = require('prettier');
+
+
 
 declare global {
   interface Window {
@@ -222,6 +223,7 @@ const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
   if (process.env.NODE_ENV === 'test') {
+    const { format } = require('prettier');
     return format(code, {
       singleQuote: true,
       trailingComma: 'es5',
