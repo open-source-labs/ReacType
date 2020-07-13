@@ -85,8 +85,10 @@
       "js"
     ],
     "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest"
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest",
+      "^.+\\.js?$": "babel-jest"
     },
+    "transformIgnorePatterns": ["<rootDir>/node_modules"],
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
     "globals": {
       "ts-jest": {

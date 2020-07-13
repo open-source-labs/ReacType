@@ -21,8 +21,10 @@ const app = new Application({
   args: [appArg],
   chromeDriverArgs: ['--no-proxy-server'],
   env: {
-    'NO_PROXY': '127.0.0.1,localhost'
-  }
+    'NO_PROXY': '127.0.0.1,localhost',
+    'NODE_ENV': 'test'
+  },
+  waitTimeout: 10e3
 })
 
 console.log(app);
@@ -37,10 +39,9 @@ console.log(app);
 
 describe('Testing componentReducer functionality', () => {
   let state = initialState;
-  
 
-  beforeAll(async () => {
-    return await app.start();
+  beforeAll(() => {
+    return app.start();
   })
 
   afterAll(() => {
