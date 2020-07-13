@@ -1,108 +1,72 @@
-//This interface seems to be very specific to the prop argument passed into the reducer function 'addProp'.
-//It actually might not make too much sense being in this file.
-export interface PropInt {
-  id?: number;
-  key: string;
-  type: string;
-}
+import { DragObjectWithType } from 'react-dnd';
 
-export interface PropsInt {
-  focusChild?: ChildInt;
-  components: ComponentsInt;
-  focusComponent?: ComponentInt;
-  imageSource?: string;
-  changeFocusChild?: (arg: { childId: number }) => void;
-}
-
-//This is the interface for the position and size for the Rect components from Konva.
-export interface PositionInt {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-//This is the interface for each child that belongs to a parent component.
-//Stores as values of a an array called 'childrenArray'
-export interface ChildInt {
-  childId: number;
-  childSort: number;
-  childType: string;
-  childComponentId: number;
-  componentName: string;
-  position: PositionInt;
-  color: string | null; // maybe optional instead, look up null vs undefined
-  htmlElement: string | null; // maybe should be optional instead
-  HTMLInfo: { [index: string]: string }; // replace with HTMLinfo specifics
-}
-
-//I converted this type form an interface because before it was just assigned
-//to be an empty array type. Still doesn't type the target variable 'modifiedChildrenArray'
-//in componentReducer.util.ts though.
-export type ChildrenInt = Array<ChildInt>;
-
-export interface ComponentInt {
-  id: number;
-  stateful: boolean;
-  classBased: boolean;
-  title: string;
-  color: string;
-  props: PropInt[];
-  nextPropId: number;
-  position: PositionInt;
-  childrenArray: ChildInt[];
+export interface State {
+  name: String;
+  isLoggedIn: Boolean;
+  components: Component[];
+  rootComponents: number[];
+  projectType: string;
+  canvasFocus: { componentId: number; childId: number | null };
+  nextComponentId: number;
   nextChildId: number;
-  focusChildId: number;
-  childrenArrayChildInt?: any;
-  code: string;
-  changed: boolean;
 }
 
-export interface ComponentsInt extends Array<ComponentInt> {}
+export interface ChildElement {
+  type: string;
+  typeId: number;
+  childId: number;
+  //   update this interface later so that we enforce that each value of style object is a string
+  style: object;
+  attributes?: object;
+  children?: ChildElement[];
+}
 
-//Important interface for the global state of the app. \
-export interface ApplicationStateInt {
-  tutorial: number;
-  imageSource: string;
-  totalComponents: number;
-  nextId: number;
-  successOpen: boolean;
-  errorOpen: boolean;
-  focusComponent: ComponentInt;
-  selectableChildren: number[];
-  ancestors: number[];
-  initialApplicationFocusChild: ChildInt;
-  focusChild: object;
-  components: ComponentsInt;
-  appDir: string;
-  editMode: number;
-  native: boolean;
-  loading: boolean;
-  history: ApplicationStateInt[];
-  historyIndex: number;
-  future: ApplicationStateInt[];
-  codeReadOnly: boolean;
+export interface Component {
+  id: number;
+  name: string;
+  style: object;
+  code: string;
+  children: ChildElement[];
+}
+
+export interface Action {
+  type: string;
+  payload: any;
+}
+
+export interface Payload {}
+
+export interface Reduce {
+  state: Context;
+  action: Action;
+}
+
+export interface Context {
+  state: State;
+  dispatch: State;
+}
+
+export interface HTMLType {
+  id: number;
+  tag: string;
+  name: string;
+  style: object;
+  placeHolderShort: string | JSX.Element;
+  placeHolderLong: string;
+  icon: any;
+}
+
+export interface DragItem extends DragObjectWithType {
+  newInstance: boolean;
+  instanceType: string;
+  instanceTypeId: number;
+  childId: number;
+}
+
+export interface DragItemType {
+  INSTANCE: string;
 }
 
 export interface LoginInt {
   isLoggedIn: boolean;
 }
-
-//Global Action interface \
-export interface Action {
-  type: string;
-  payload?: any;
-}
-
-//I'm commenting these interfaces out because the global 'Action' interface should suffice for now.
-//Writing interfaces like these would make the typing really specific, but seems unecessary.
-
-// export interface LoadInitData {
-//   type: string;
-//   payload: { data: ApplicationStateInt | object };
-// }
-
-// export interface AddComponent {
-//   type: string;
-//   payload: { title: string };
-// }

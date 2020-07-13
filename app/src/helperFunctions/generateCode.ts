@@ -1,4 +1,4 @@
-import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
+import { Component, State, ChildElement } from '../interfaces/Interfaces';
 import HTMLTypes from '../context/HTMLTypes';
 
 // generate code based on the component heirarchy

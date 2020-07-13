@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { Component, ChildElement } from '../../interfaces/InterfacesNew';
+import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
