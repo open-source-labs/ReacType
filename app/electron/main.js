@@ -326,7 +326,7 @@ ipcMain.on('choose_app_dir', event => {
 // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
 ipcMain.on('set_cookie', event => {
   session.defaultSession.cookies
-    .get({ url: 'https://reactype.heroku.com' })
+    .get({ url: 'https://reactype.herokuapp.com' })
     .then(cookie => {
       console.log(cookie);
       event.reply('give_cookie', cookie);
@@ -339,12 +339,9 @@ ipcMain.on('set_cookie', event => {
 // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
 ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
-    .remove('https://reactype.heroku.com', 'ssid')
+    .remove('https://reactype.herokuapp.com', 'ssid')
     .then(removed => {
       console.log('Cookies deleted', removed);
     })
     .catch(err => console.log('Error deleting cookie:', err));
 });
-
-// bypass ssl certification validation error
-// app.commandLine.appendSwitch('ignore-certificate-errors', 'true');

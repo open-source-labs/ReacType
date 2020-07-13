@@ -14,4 +14,8 @@ const delCookie = () => {
   return ipcRenderer.send('delete_cookie');
 };
 
-module.exports = { setCookie, getCookie, delCookie };
+const github = () => {
+  return ipcRenderer.send('github');
+};
+
+module.exports = { setCookie, getCookie, delCookie, github };

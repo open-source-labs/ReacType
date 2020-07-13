@@ -80,6 +80,19 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
 
+  useEffect(() => {
+    setInterval(() => {
+      window.api.setCookie();
+      window.api.getCookie(cookie => {
+        if (cookie[0]) {
+          window.localStorage.setItem('ssid', cookie[0].value);
+          props.history.push('/');
+          clearInterval();
+        }
+      });
+    }, 2000);
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
     switch (e.target.name) {
@@ -203,25 +216,18 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           Sign In
         </Button>
         {/* Hiding github oauth button as it's still buggy and not fully working */}
-        {/* <Button
+        <Button
           fullWidth
           variant="contained"
           color="default"
           className={classes.submit}
-          href="https://reactype.heroku.com/github"
           onClick={() => {
             console.log('Inside onclick of github');
-            setTimeout(() => {
-              window.api.setCookie();
-              window.api.getCookie(cookie => {
-                window.localStorage.setItem('ssid', cookie[0].value);
-                props.history.push('/');
-              });
-            }, 2000);
+            window.api.github();
           }}
         >
           <GitHubIcon />
-        </Button> */}
+        </Button>
 
         <Button
           fullWidth
