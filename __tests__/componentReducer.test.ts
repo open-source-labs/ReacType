@@ -73,7 +73,11 @@ describe('Testing componentReducer functionality', function () {
   })
 
   // TEST 'UPDATE CSS'
-
+  describe('UPDATE CSS reducer', () => {
+    it('should update background color of focused component', () => {
+      
+    })
+  })
 
   // TEST 'RESET STATE'
 
