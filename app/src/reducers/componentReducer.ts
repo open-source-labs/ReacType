@@ -133,7 +133,7 @@ const reducer = (state: State, action: Action) => {
         type,
         typeId,
         childId
-      }: { type: string; typeId: number; childId: number } = action.payload;
+      }: { type: string; typeId: number; childId: any} = action.payload;
       // the parent of the new child is whichever component that is currently focused on
       const parentComponentId: number = state.canvasFocus.componentId;
 
