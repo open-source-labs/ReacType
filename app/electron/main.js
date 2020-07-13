@@ -10,9 +10,6 @@ const {
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
-const Protocol = require('./protocol');
-const MenuBuilder = require('./menu');
-const path = require('path');
 
 const {
   default: installExtension,
@@ -197,18 +194,19 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  } else {
-    ContextMenu.clearMainBindings(ipcMain);
-  }
+  // if (process.platform !== 'darwin') {
+  //   app.quit();
+  // } else {
+  //   ContextMenu.clearMainBindings(ipcMain);
+  // }
+  app.quit();
 });
 
-app.on('activate', () => {
+app.on('activate', async () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
-    createWindow();
+    await createWindow();
   }
 });
 

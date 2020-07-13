@@ -1,54 +1,12 @@
 import reducer from '../app/src/reducers/componentReducer';
-// import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
+import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
 
 import initialState from '../app/src/context/initialState';
 
-const path = require('path');
-const Application = require('spectron').Application;
-const baseDir = path.join(__dirname, '..');
-const electronPath = path.join(baseDir, 'node_modules', '.bin', 'electron');
 
-const appArg = path.join(baseDir, 'app', 'electron', 'main.js');
-//const appArg = path.join(baseDir, 'app', 'electron');
-console.log(electronPath);
-console.log(appArg);
-
-//const electronPath = '../node_modules/.bin/electron';
-//const electronPath = require('electron');
-
-const app = new Application({
-  path: electronPath,
-  args: [appArg],
-  chromeDriverArgs: ['--no-proxy-server'],
-  env: {
-    'NO_PROXY': '127.0.0.1,localhost',
-    'NODE_ENV': 'test'
-  },
-  waitTimeout: 10e3
-})
-
-console.log(app);
-// const testComponent: Component = {
-//   id: 2,
-//   name: "Test",
-//   nextChildId: 1,
-//   style: {},
-//   code: '',
-//   children: []
-// }
-
-describe('Testing componentReducer functionality', () => {
-  let state = initialState;
-
-  beforeAll(() => {
-    return app.start();
-  })
-
-  afterAll(() => {
-    if (app && app.isRunning()) {
-      return app.stop();
-    }
-  })
+describe('Testing componentReducer functionality', function () {
+  let state: State = initialState;
+  
 
   // TEST 'ADD COMPONENT'
   describe('ADD COMPONENT reducer', () => {
@@ -80,21 +38,43 @@ describe('Testing componentReducer functionality', () => {
           childId: null
         }
       }
+      // switch focus to very first root component
       state.canvasFocus = { componentId: 1, childId: null };
       console.log(state);
-      const newState = reducer(state, action);
-      const newParent = newState.components[0];
-      // expect newParent's children array to have length 1
+      state = reducer(state, action);
+      const newParent = state.components[0];
+      // expect new parent's children array to have length 1
       expect(newParent.children.length).toEqual(1);
-      // expect child to have type 'Component' and name 'TestRegular'
+      // expect new child to have type 'Component' 
+      console.log('new child ', newParent.children[0]);
       expect(newParent.children[0].type).toEqual('Component');
-      expect(newParent.children[0].name).toEqual('TestRegular');
+      const addedChild = state.components.find(comp => comp.id === newParent.children[0].typeId);
+      // expect new child typeId to correspond to component with name 'TestRegular'
+      expect(addedChild.name).toEqual('TestRegular');
     })
   })
+  
   // TEST 'CHANGE FOCUS'
+  describe('CHANGE FOCUS reducer', () => {
+    it('should change focus to specified component', () => {
+      const action = {
+        type: 'CHANGE FOCUS',
+        payload: {
+          componentId: 2,
+          childId: null
+        }
+      }
+      console.log('before change focus ', state.canvasFocus);
+      state = reducer(state, action);
+      console.log('after change focus ', state.canvasFocus);
+      expect(state.canvasFocus.componentId).toEqual(2);
+      expect(state.canvasFocus.childId).toEqual(null);
+    })
+  })
 
   // TEST 'UPDATE CSS'
 
-  // TEST 'SET INITIAL STATE'
+
+  // TEST 'RESET STATE'
 
 })
