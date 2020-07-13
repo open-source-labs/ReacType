@@ -1,6 +1,5 @@
 import React, {  useReducer, useEffect } from 'react';
 import '../public/styles/style.css';
-import '../public/styles/styleNew.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
