@@ -228,7 +228,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           color="default"
           className={classes.submit}
           onClick={() => {
-            console.log('Inside onclick of github');
             // messages the main proces to open new window for github oauth
             window.api.github();
           }}
