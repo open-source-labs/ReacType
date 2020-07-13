@@ -1,4 +1,5 @@
-// import fs from 'fs';
+// Create all files necessary to run a next.js application 
+
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/InterfacesNew';
 

@@ -15,13 +15,6 @@ import { blue } from '@material-ui/core/colors';
 import { getProjects } from '../../helperFunctions/projectGetSave';
 import { stateContext } from '../../context/context';
 
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600]
-  }
-});
-
 export interface ProjectDialogProps {
   open: boolean;
   projects: Array<Object>;
@@ -32,7 +25,6 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  console.log('Inside projectsdialogbox projects is', projects);
   const [_, dispatch] = useContext(stateContext);
 
   useEffect(() => {
@@ -42,14 +34,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
     // onClose(selectedValue);
-    console.log('tab closed');
     onClose();
   };
 
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
     const selectedProject = projects.filter(
-      project => project.name === value
+      (project: any) => project.name === value
     )[0];
     dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     onClose();
@@ -63,7 +54,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     >
       <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
       <List>
-        {projects.map((project, index) => (
+        {projects.map((project: any, index: number) => (
           <ListItem
             button
             onClick={() => handleListItemClick(project.name)}
@@ -95,6 +86,8 @@ export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: 'cat' }]);
 
+  const classes = useStyles();
+
   const handleClickOpen = () => {
     getProjects().then(data => {
       if (data) {
@@ -111,6 +104,7 @@ export default function ProjectsFolder() {
   return (
     <div>
       <Button
+        className={classes.button}
         variant="outlined"
         color="primary"
         onClick={handleClickOpen}
@@ -122,3 +116,18 @@ export default function ProjectsFolder() {
     </div>
   );
 }
+
+const useStyles = makeStyles({
+  button: {
+    width: '55%',
+    backgroundColor: 'rgba(1,212,109,0.1)',
+    fontSize: '1em',
+    minWidth: '300px',
+    marginTop: '10px',
+    marginBotton: '10px'
+  },
+  avatar: {
+    backgroundColor: blue[100],
+    color: blue[600]
+  }
+});

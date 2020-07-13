@@ -1,3 +1,7 @@
+// Create all component files for a next.js application
+// "Root" level components are stored in a pages directory
+// all other components will be in a components directory
+
 import { Component } from '../interfaces/InterfacesNew';
 
 const isRoot = (component: Component, rootArray: number[]) => {

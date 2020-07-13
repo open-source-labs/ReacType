@@ -11,6 +11,15 @@ import ListIcon from '@material-ui/icons/List';
 
 const HTMLTypes: HTMLType[] = [
   {
+    id: 11,
+    tag: 'div',
+    name: 'Div',
+    style: {},
+    placeHolderShort: '',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
     id: 1,
     tag: 'img',
     name: 'Image',
@@ -86,15 +95,6 @@ const HTMLTypes: HTMLType[] = [
     name: 'Header 2',
     style: { fontSize: '1.5em' },
     placeHolderShort: 'Header 2',
-    placeHolderLong: '',
-    icon: HeaderIcon
-  },
-  {
-    id: 11,
-    tag: 'div',
-    name: 'Div',
-    style: {},
-    placeHolderShort: '',
     placeHolderLong: '',
     icon: HeaderIcon
   }

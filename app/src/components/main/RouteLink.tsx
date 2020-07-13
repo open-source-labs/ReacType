@@ -1,20 +1,12 @@
-import React, { useMemo, useContext, useRef } from 'react';
-import {
-  State,
-  Component,
-  ChildElement,
-  HTMLType
-} from '../../interfaces/InterfacesNew';
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import React, { useContext, useRef } from 'react';
+import { Component, ChildElement } from '../../interfaces/InterfacesNew';
+import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import IndirectChild from './IndirectChild';
-import HTMLTypes from '../../context/HTMLTypes';
-import globalDefaultStyle from '../../globalDefaultStyles';
-import { blue } from '@material-ui/core/colors';
+import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
-function RouteLink({ childId, type, typeId, style, attributes }: ChildElement) {
+function RouteLink({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
 
@@ -31,12 +23,8 @@ function RouteLink({ childId, type, typeId, style, attributes }: ChildElement) {
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
-      style: style,
-      attributes: attributes,
-      children: []
+      instanceTypeId: typeId
     },
-    // canDrag: !props.children.length,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })

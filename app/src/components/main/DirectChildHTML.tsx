@@ -11,14 +11,13 @@ import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
 import HTMLTypes from '../../context/HTMLTypes';
-import globalDefaultStyle from '../../globalDefaultStyles';
+import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildHTML({
   childId,
   type,
   typeId,
   style,
-  attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(stateContext);
   const ref = useRef(null);
@@ -38,11 +37,7 @@ function DirectChildHTML({
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      style: style,
-      attributes: attributes,
-      children: []
     },
-    // canDrag: !props.children.length,
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })

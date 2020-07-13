@@ -1,5 +1,6 @@
 import { State } from '../interfaces/InterfacesNew';
 
+// This is the state that will be set for a new project or when the user resets the state of their project
 export const initialState: State = {
   name: '',
   isLoggedIn: false,

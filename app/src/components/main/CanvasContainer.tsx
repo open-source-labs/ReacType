@@ -7,7 +7,6 @@ function CanvasContainer() {
     width: '100%',
     backgroundColor: 'lightgrey',
     border: '2px Solid grey',
-    overflowY: 'auto'
   };
 
   return (
