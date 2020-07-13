@@ -80,14 +80,19 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
 
+  // this useEffect will check for cookies and set an item in localstorage for github Oauth session validation
   useEffect(() => {
-    setInterval(() => {
+    const githubCookie = setInterval(() => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
+        // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
+          clearInterval(githubCookie);
           props.history.push('/');
-          clearInterval();
+          // if an item is already set in localstorage (guest option or normal login) clear interval needs to be run or else this will constantly run
+        } else if (window.localStorage.getItem('ssid')) {
+          clearInterval(githubCookie);
         }
       });
     }, 2000);
@@ -201,10 +206,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           helperText={invalidPassMsg}
           error={invalidPass}
         />
+        {/* **TODO** Make 'Remember Me' functional
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
-        />
+        /> */}
 
         <Button
           fullWidth
@@ -223,6 +229,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           className={classes.submit}
           onClick={() => {
             console.log('Inside onclick of github');
+            // messages the main proces to open new window for github oauth
             window.api.github();
           }}
         >

@@ -58,8 +58,8 @@ async function createWindow() {
     // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
-      // enable devtools
-      devTools: true,
+      // enable devtools when in development mode
+      devTools: isDev,
       // crucial security feature - blocks rendering process from having access to node moduels
       nodeIntegration: false,
       // web workers will not have access to node
@@ -214,8 +214,8 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'http://localhost:8081',
-      'http://reactype.heroku.com',
+      'http://localhost:5000',
+      'https://reactype.herokuapp.com',
       'https://github.com/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
@@ -235,9 +235,8 @@ app.on('web-contents-created', (event, contents) => {
     //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
-      'http://localhost:8081',
       'http://localhost:5000',
-      'http://reactype.heroku.com',
+      'https://reactype.herokuapp.com',
       'https://github.com',
       'app://rse/'
     ];
@@ -323,10 +322,16 @@ ipcMain.on('choose_app_dir', event => {
     .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
 });
 
+// define serverURL for cookie and auth purposes based on environment
+let serverUrl = 'https://reactype.herokuapp.com';
+if (isDev) {
+  serverUrl = 'http://localhost:5000';
+}
+
 // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
 ipcMain.on('set_cookie', event => {
   session.defaultSession.cookies
-    .get({ url: 'https://reactype.herokuapp.com' })
+    .get({ url: serverUrl })
     .then(cookie => {
       console.log(cookie);
       event.reply('give_cookie', cookie);
@@ -339,9 +344,47 @@ ipcMain.on('set_cookie', event => {
 // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
 ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
-    .remove('https://reactype.herokuapp.com', 'ssid')
+    .remove(serverUrl, 'ssid')
     .then(removed => {
       console.log('Cookies deleted', removed);
     })
     .catch(err => console.log('Error deleting cookie:', err));
+});
+
+// opens new window for github oauth when button on signin page is clicked
+ipcMain.on('github', event => {
+  // create new browserwindow object with size, title, security options
+  const github = new BrowserWindow({
+    width: 800,
+    height: 600,
+    title: 'Github Oauth',
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      zoomFactor: 1.0
+    }
+  });
+  // redirects to relevant server endpoint
+  github.loadURL(`${serverUrl}/github`);
+  // show window
+  github.show();
+  // if final callback is reached and we get a redirect from server back to our app, close oauth window
+  github.webContents.on('will-redirect', (e, callbackUrl) => {
+    let redirectUrl = 'app://rse/';
+    if (isDev) {
+      redirectUrl = 'http://localhost:8080/';
+    }
+    if (callbackUrl === redirectUrl) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'ReacType',
+        icon: resolve('app/src/public/icons/png/256x256.png'),
+        message: 'Github Oauth Successful!'
+      });
+      github.close();
+    }
+  });
 });
