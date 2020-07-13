@@ -1,6 +1,14 @@
 import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
 import HTMLTypes from '../context/HTMLTypes';
 
+
+
+declare global {
+  interface Window {
+    api: any;
+  }
+}
+
 // generate code based on the component heirarchy
 const generateUnformattedCode = (
   comps: Component[],
@@ -211,14 +219,21 @@ const generateUnformattedCode = (
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  return window.api.formatCode(code);
-  // return format(code, {
-  //   singleQuote: true,
-  //   trailingComma: 'es5',
-  //   bracketSpacing: true,
-  //   jsxBracketSameLine: true,
-  //   parser: 'babel'
-  // });
+
+  // in test environment, window.api is not defined,
+  // so we reference original prettier format function instead
+  if (process.env.NODE_ENV === 'test') {
+    const { format } = require('prettier');
+    return format(code, {
+      singleQuote: true,
+      trailingComma: 'es5',
+      bracketSpacing: true,
+      jsxBracketSameLine: true,
+      parser: 'babel'
+    });
+  } else {
+    return window.api.formatCode(code);
+  }
 };
 
 // generate code based on component heirarchy and then return the rendered code

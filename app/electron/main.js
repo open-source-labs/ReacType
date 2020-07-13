@@ -10,9 +10,6 @@ const {
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
-const Protocol = require('./protocol');
-const MenuBuilder = require('./menu');
-const path = require('path');
 
 const {
   default: installExtension,
@@ -20,7 +17,15 @@ const {
 } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
-const isDev = process.env.NODE_ENV === 'development';
+const Protocol = require('./protocol');
+// menu from another file to modularize the code
+const MenuBuilder = require('./menu');
+
+const path = require('path');
+// const fs = require('fs');
+
+console.log('NODE ENV is ', process.env.NODE_ENV);
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' ;
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -189,11 +194,12 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  } else {
-    ContextMenu.clearMainBindings(ipcMain);
-  }
+  // if (process.platform !== 'darwin') {
+  //   app.quit();
+  // } else {
+  //   ContextMenu.clearMainBindings(ipcMain);
+  // }
+  app.quit();
 });
 
 app.on('activate', () => {
