@@ -13,6 +13,7 @@ linux:
     - rpm
     - snap
     - AppImage
+  maintainer: tysullberg@gmail.com
 mac:
   category: public.app-category.developer-tools
   target: dmg
