@@ -36,9 +36,6 @@ export const App = (): JSX.Element => {
       });
     } else {
       // otherwise if a user is logged in, use a fetch request to load user's projects from DB
-      // getProjects().then(projects =>
-      //   console.log('UseEffect in App getprojects() returns', projects)
-      // );
       let userId;
       if (Cookies.get('ssid')) {
         userId = Cookies.get('ssid');
@@ -69,10 +66,8 @@ export const App = (): JSX.Element => {
       userId = window.localStorage.getItem('ssid');
     }
     if (state.isLoggedIn === false) {
-      //console.log('Saving guest project as', state);
       localforage.setItem('guestProject', state);
     } else if (state.name !== '') {
-      //console.log('Saving user project as', state);
       saveProject(state.name, state);
       localforage.setItem(userId, state);
     }
