@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChildElement } from '../interfaces/InterfacesNew';
+import { ChildElement } from '../interfaces/Interfaces';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';

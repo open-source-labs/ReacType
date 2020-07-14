@@ -1,4 +1,4 @@
-import { HTMLType } from '../interfaces/InterfacesNew';
+import { HTMLType } from '../interfaces/Interfaces';
 import React from 'react';
 
 import ImageIcon from '@material-ui/icons/Image';
