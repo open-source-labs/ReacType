@@ -4,7 +4,7 @@ import {
   Component,
   ChildElement,
   HTMLType
-} from '../../interfaces/InterfacesNew';
+} from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';

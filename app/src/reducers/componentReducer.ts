@@ -3,7 +3,7 @@ import {
   Action,
   Component,
   ChildElement
-} from '../interfaces/interfacesNew';
+} from '../interfaces/Interfaces';
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 
@@ -307,6 +307,10 @@ const reducer = (state: State, action: Action) => {
           projectType
         );
       });
+
+      // also update the name of the root component of the application to fit classic React and next.js conventions
+      if (projectType === 'Next.js') components[0]['name'] = 'index';
+      else components[0]['name'] = 'App';
 
       return { ...state, components, projectType };
     }
