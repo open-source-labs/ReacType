@@ -10,20 +10,14 @@ import localforage from 'localforage';
 import { getProjects, saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 
-import { Context, State } from '../interfaces/InterfacesNew';
-
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  // const [context, setContext] = useState(initialState);
-
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   if (window.localStorage.getItem('ssid') !== 'guest') {
-    //console.log('Logged in is true');
     state.isLoggedIn = true;
   } else {
-    //console.log('Logged in is false');
     state.isLoggedIn = false;
   }
 
@@ -34,10 +28,6 @@ export const App = (): JSX.Element => {
       localforage.getItem('guestProject').then(project => {
         // if project exists, use dispatch to set initial state to that project
         if (project) {
-          console.log(
-            'Project found in localforage, guest project is',
-            project
-          );
           dispatch({
             type: 'SET INITIAL STATE',
             payload: project

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import { stateContext } from '../../context/context';
-import { Component } from '../../interfaces/InterfacesNew';
+import { Component } from '../../interfaces/Interfaces';
 
 function IndirectChild({ style, children, placeHolder, linkId }) {
   const [state, dispatch] = useContext(stateContext);

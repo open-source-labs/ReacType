@@ -1,4 +1,4 @@
-import { State } from '../interfaces/InterfacesNew';
+import { State } from '../interfaces/Interfaces';
 
 // This is the state that will be set for a new project or when the user resets the state of their project
 export const initialState: State = {
@@ -7,9 +7,9 @@ export const initialState: State = {
   components: [
     {
       id: 1,
-      name: 'App',
+      name: 'index',
       style: {},
-      code: '<div>This is the CODE!!!!</div>',
+      code: '<div>Drag in a component or HTML element into the canvas!</div>',
       children: []
     }
   ],

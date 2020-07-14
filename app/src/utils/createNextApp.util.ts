@@ -1,7 +1,7 @@
 // Create all files necessary to run a next.js application 
 
 import createNextFiles from './createNextFiles.util';
-import { Component } from '../interfaces/InterfacesNew';
+import { Component } from '../interfaces/Interfaces';
 
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
