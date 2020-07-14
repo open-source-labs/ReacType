@@ -10,13 +10,13 @@
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / Typescript code!**
 
-**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. The user can create components and drag _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
+**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. The user can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 **New with version 3.0:**
 
 - Export code as a [Next.js](https://nextjs.org/) project
 - Create nestable components/HTML elements using a drag-and-drop canvas
-- Add CSS to components
+- Add CSS to any element on the canvas
 - Components and HTML canvas elements are rendered in the canvas in the same way they'll be rendered in the exported project
 - View dynamically generated Next.js or classic React code as you build your project
 - Authenticate with Github or email
@@ -33,18 +33,18 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 ### How to use
 
-- **Log in:** Sign up through email/Github if you would like to save your projects to the cloud. Otherwise, select **Continue as Guest**
-- **Select project type:** By default, new projects will be Next.js projects, but you can toggle your project to be a normal React application by selecting "Classic React" in the bottom-right corner.
+- **Log in:** Sign up through email/Github if you would like to save your projects to the cloud. Otherwise, select _Continue as Guest_
+- **Selectproject type:** By default, new projects will be Next.js projects, but you can toggle your project to be a normal React application by selecting "Classic React" in the bottom-right corner.
   - **Next.js** projects allow you to easily create routing between pages within ReacType and render content with static rendering.
   - **Classic React** projects are vanilla React. You can create multiple "root" components, but routing between these root components is enabled by default.
-- **Add components:** Add a new component in the left panel. If the **Page** checkbox is selected, the component will become a page that can be routed to. For example, a page component named 'Home', the component's corresponding route will be '/Home'. [Learn more about Next.js routing](https://nextjs.org/docs/routing/introduction).
+- **Add components:** Add a new component in the left panel. If the _Page_ checkbox is selected, the component will become a page that can be routed to. For example, a page component named 'Home', the component's corresponding route will be '/Home'. [Learn more about Next.js routing](https://nextjs.org/docs/routing/introduction).
 - **Create instances of components/HTML elements:** Each component has its own canvas where you can see how any instances of nested components or HTML elements will render in production. To create an instance of a component or traditional HTML element in the canvas, simply drag it onto the canvas. The following elements have special properties when they're dragged onto the canvas:
   - **Page/root components:** Page/root components cannot be dragged into other components.
-  - **Divs:** Divs are arbitrarily nestable. This feature is useful when creating complex layouts.
-  - **Navigation components:** Next.js projects have "Navigation components" which allow you to create client-side rendered links between your page components.
-- **Update CSS and delete instances:** Click on the component canvas or an instance to view/edit CSS attributes in the right panel. Updates made to the CSS will render in the canvas on **Save**.
-- **Save your project:** Select **Save Project** to save a new project to the cloud. Once you've created a new project in the cloud, it will be autoamtically saved on each change. You can open any of your other saved projects by selecting **Open Project**
-- **Export your project:** Select **Export Project** to save your project locally. You will have the option of exporting either a fully functional application or only exporting the component files.
+  - **Divs:** Divs are arbitrarily nestable.
+  - **Navigation components:** Next.js projects have "Navigation components" which allow you to create links between your page components.
+- **Update CSS and delete instances:** Click on the component canvas or an instance to view/edit CSS attributes in the right panel. Updates made to the CSS will render in the canvas on _Save_.
+- **Save your project:** Select _Save Project_ to save a new project to the cloud. Once you've created a new project in the cloud, it will be autoamtically saved on each change. You can open any of your other saved projects by selecting _Open Project_.
+- **Export your project:** Select _Export Project_ to save your project locally. You will have the option of exporting either a fully functional application or only exporting the component files.
 
 #### Contributors
 
