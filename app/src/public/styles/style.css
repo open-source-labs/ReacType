@@ -311,6 +311,8 @@ a.nav_link:hover {
   text-decoration: underline;
 }
 
+/* Additional styling for ReacType X */
+
 .componentDefault {
   width: 100%;
   border: 2px solid gray;

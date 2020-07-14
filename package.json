@@ -24,7 +24,7 @@
     "Andrew Cho"
   ],
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
     "dev": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
@@ -34,7 +34,8 @@
     "dist-mac": "npm run prod-build && electron-builder --mac",
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
-    "dist-all": "npm run prod-build && electron-builder --mac --linux --windows"
+    "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
+    "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -47,11 +48,38 @@
     "next.js"
   ],
   "license": "MIT",
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "electron": "<rootDir>/__mocks__/electron.ts"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest",
+      "^.+\\.js?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules"
+    ],
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    },
+    "testTimeout": 50000
+  },
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"
   },
   "homepage": "https://github.com/open-source-labs/ReacType#readme",
   "dependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/register": "^7.10.4",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.9.6",
@@ -95,6 +123,7 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@types/chai": "^4.2.11",
     "@types/jest": "^25.1.5",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^25.2.4",
@@ -118,6 +147,8 @@
     "html-webpack-plugin": "^3.1.0",
     "jest": "^25.2.6",
     "mini-css-extract-plugin": "^0.9.0",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.22",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.4",
     "postcss-loader": "^2.1.6",
