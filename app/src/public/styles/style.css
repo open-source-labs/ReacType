@@ -373,10 +373,7 @@ h3 {
 .rightPanelWrapper {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-=======
   justify-content: space-between;
   height: 100%;
   width: 100%;
->>>>>>> master
 }
