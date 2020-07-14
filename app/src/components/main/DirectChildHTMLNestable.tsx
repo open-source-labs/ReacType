@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/InterfacesNew';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
