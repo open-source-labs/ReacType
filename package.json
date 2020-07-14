@@ -4,6 +4,7 @@
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
+  "author": "OS Labs",
   "contributors": [
     "Adam Singer",
     "Charles Finocchiaro",

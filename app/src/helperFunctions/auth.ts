@@ -12,7 +12,6 @@ export const sessionIsCreated = (
     username,
     password
   });
-  console.log(process.env.NODE_ENV);
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',
@@ -25,7 +24,6 @@ export const sessionIsCreated = (
       return res.json();
     })
     .then(data => {
-      console.log('the data', data);
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
