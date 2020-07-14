@@ -54,6 +54,13 @@ describe('Testing componentReducer functionality', function () {
     })
   })
   
+  // TEST 'DELETE CHILD'
+  describe('DELETE CHILD reducer', () => {
+    it('should delete child of focused top-level component', () => {
+      console.log('state before delete child ', state);
+    })
+  })
+
   // TEST 'CHANGE FOCUS'
   describe('CHANGE FOCUS reducer', () => {
     it('should change focus to specified component', () => {
@@ -74,11 +81,61 @@ describe('Testing componentReducer functionality', function () {
 
   // TEST 'UPDATE CSS'
   describe('UPDATE CSS reducer', () => {
-    it('should update background color of focused component', () => {
-      
+    it('should add style to focused component', () => {
+      const action = {
+        type: 'UPDATE CSS',
+        payload: {
+          style: {
+            backgroundColor: 'gray'
+          }
+        }
+      }
+      state = reducer(state, action);
+      const styledComp = state.components.find(comp => comp.id === state.canvasFocus.componentId);
+      // expect the style property on targeted comp to equal style property in payload
+      expect(styledComp.style.backgroundColor).toEqual(action.payload.style.backgroundColor);
+    })
+  })
+
+  // TEST 'UPDATE PROJECT NAME'
+  describe('UPDATE PROJECT NAME reducer', () => {
+    it('should update project with specified name', () => {
+      const action = {
+        type: 'UPDATE PROJECT NAME',
+        payload: 'TESTNAME'
+      }
+      state = reducer(state, action);
+      // expect state name to equal payload
+      expect(state.name).toEqual(action.payload);
+    })
+  })
+
+  // TEST 'CHANGE PROJECT TYPE'
+  describe('CHANGE PROJECT TYPE reducer', () => {
+    it('should change project type to specified type', () => {
+      const action = {
+        type: 'CHANGE PROJECT TYPE',
+        payload: {
+          projectType: 'Classic React'
+        }
+      };
+      state = reducer(state, action);
+      expect(state.projectType).toEqual(action.payload.projectType);
     })
   })
 
   // TEST 'RESET STATE'
+  describe('RESET STATE reducer', () => {
+    it('should reset project to initial state', () => {
+      const action = {
+        type: 'RESET STATE'
+      }
+      state = reducer(state, action);
+      // expect default project to have empty string as name
+      expect(state.name).toEqual('');
+      // expect default project to only have one component in components array
+      expect(state.components.length).toEqual(1);
+    })
+  })
 
 })
