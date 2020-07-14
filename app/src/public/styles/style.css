@@ -311,7 +311,7 @@ a.nav_link:hover {
   text-decoration: underline;
 }
 
-// Additional styling for ReacType X
+/* Additional styling for ReacType X */
 
 .componentDefault {
   width: 100%;
@@ -368,4 +368,12 @@ h3 {
 .right {
   padding-top: 35px;
   width: 420px;
+}
+
+.rightPanelWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
 }

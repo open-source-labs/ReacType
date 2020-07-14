@@ -1,4 +1,4 @@
-import { Component, State, ChildElement } from '../interfaces/InterfacesNew';
+import { Component, State, ChildElement } from '../interfaces/Interfaces';
 import HTMLTypes from '../context/HTMLTypes';
 
 
@@ -107,13 +107,14 @@ const generateUnformattedCode = (
         // route links are only a next.js feature. if the user creates a rotue link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
           return projectType === 'Next.js'
-            ? `<Link href="/${child.name}"><a>${child.name}</a></Link>`
-            : `<a>${child.name}</a>`;
+            ? `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
+            : `<div><a>${child.name}</a></div>`;
         }
       })
       .join('\n')}`;
   };
 
+  // format styles stored in object to match React's inline style format
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
@@ -202,9 +203,13 @@ const generateUnformattedCode = (
       
       return (
         <>
-        <Head>
+        ${
+          isRoot
+            ? `<Head>
         <title>${currentComponent.name}</title>
-        </Head>
+        </Head>`
+            : ``
+        }
         <div className="${currentComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
