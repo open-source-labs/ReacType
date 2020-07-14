@@ -369,3 +369,8 @@ h3 {
   padding-top: 35px;
   width: 420px;
 }
+
+.rightPanelWrapper {
+  display: flex;
+  flex-direction: column;
+}

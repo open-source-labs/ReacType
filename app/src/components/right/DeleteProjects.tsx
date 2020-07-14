@@ -9,13 +9,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
-import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
 import {
   getProjects,
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
+import localforage from 'localforage';
 import { stateContext } from '../../context/context';
 
 export interface ProjectDialogProps {
@@ -43,6 +43,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     )[0];
     console.log('selectedProject is', selectedProject);
     deleteProject(selectedProject);
+    localforage.removeItem(window.localStorage.getItem('ssid'));
     dispatch({ type: 'RESET STATE', payload: {} });
     onClose();
   };

@@ -211,7 +211,8 @@ const useStyles = makeStyles({
     margin: '40px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifySelf: 'flex-end'
   },
 
   logoutButton: {
