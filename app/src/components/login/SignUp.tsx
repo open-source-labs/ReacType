@@ -182,14 +182,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       setInvalidVerifyPassword(false);
     }
 
-    console.log('invalidUsername', invalidUsername);
-    console.log('invalidPassword', invalidPassword);
-    console.log('invalidEmail', invalidEmail);
-    console.log('invalidVerifyPassword', invalidVerifyPassword);
     // if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
     newUserIsCreated(username, email, password).then(userCreated => {
       if (userCreated === 'Success') {
-        console.log('user created');
 
         props.history.push('/');
       } else {

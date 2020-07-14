@@ -30,7 +30,6 @@ function createIndexHtml(path, appName) {
   let dirComponent;
   if (!dir.match(/`${appName}`|\*$/)) {
     dir = `${dir}/${appName}`;
-    console.log('dir is ', dir);
     if (!window.api.existsSync(dir)) {
       window.api.mkdirSync(dir);
       dirSrc = `${dir}/src`;
