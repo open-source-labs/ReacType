@@ -340,7 +340,7 @@ ipcMain.on('set_cookie', event => {
       // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
       // checking for a cookie inside array will only emit reply when a cookie exists
       if (cookie[0]) {
-        console.log(cookie);
+        //console.log(cookie);
         event.reply('give_cookie', cookie);
       }
     })
@@ -353,9 +353,6 @@ ipcMain.on('set_cookie', event => {
 ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
     .remove(serverUrl, 'ssid')
-    .then(removed => {
-      console.log('Cookies deleted', removed);
-    })
     .catch(err => console.log('Error deleting cookie:', err));
 });
 
