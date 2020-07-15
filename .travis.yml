@@ -1,3 +1,13 @@
 language: node_js
 node_js:
-  - 10
+  - "10"
+dist: trusty
+cache:
+  directories:
+    - node_modules
+install: 
+  - npm install
+  - npm run prod-build
+script: 
+  - npm run test
+
