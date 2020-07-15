@@ -21,8 +21,8 @@ projectController.saveProject = (req, res, next) => {
         return next({
           log: `Error in projectController.saveProject: ${err}`,
           message: {
-            err: `Error in projectController.saveProject, check server logs for details`,
-          },
+            err: `Error in projectController.saveProject, check server logs for details`
+          }
         });
       } else {
         res.locals.savedProject = result;
@@ -41,12 +41,12 @@ projectController.getProjects = (req, res, next) => {
       return next({
         log: `Error in projectController.getProjects: ${err}`,
         message: {
-          err: `Error in projectController.getProjects, check server logs for details`,
-        },
+          err: `Error in projectController.getProjects, check server logs for details`
+        }
       });
     } else {
       // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map((elem) => elem.project);
+      res.locals.projects = projects.map(elem => elem.project);
       return next();
     }
   });
@@ -58,18 +58,16 @@ projectController.deleteProject = (req, res, next) => {
   console.log('In delete projects controller');
   // pull project name and userId from req.body
   const { name, userId } = req.body;
-  console.log('name and userId in delete', name, userId);
   Projects.findOneAndDelete({ name, userId }, (err, deleted) => {
     if (err) {
       return next({
         log: `Error in projectController.deleteProject: ${err}`,
         message: {
-          err: `Error in projectController.deleteProject, check server logs for details`,
-        },
+          err: `Error in projectController.deleteProject, check server logs for details`
+        }
       });
     } else {
       res.locals.deleted = deleted;
-      console.log('Successful deleteProjects, deleted', deleted);
       return next();
     }
   });
