@@ -24,7 +24,6 @@ const MenuBuilder = require('./menu');
 const path = require('path');
 // const fs = require('fs');
 
-console.log('NODE ENV is ', process.env.NODE_ENV);
 const isDev =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
@@ -238,8 +237,6 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    //console.log('parsedUrl is', parsedUrl);
-    //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
       'http://localhost:5000',

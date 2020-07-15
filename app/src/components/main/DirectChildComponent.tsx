@@ -57,6 +57,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
+
   const combinedStyle = combineStyles(
     combineStyles(
       combineStyles(globalDefaultStyle, referencedComponent.style),
@@ -109,7 +110,13 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
         const HTMLDefaultPlacholder = HTMLType.placeHolderShort;
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
         return (
-          <React.Fragment>
+          <React.Fragment
+            key={
+              'indChildFrag' +
+              child.childId.toString() +
+              child.typeId.toString()
+            }
+          >
             {child.children.length === 0 ? (
               <IndirectChild
                 style={combinedStyle}
@@ -161,7 +168,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   return (
     <div
       onClick={onClickHandler}
-      key={'childComp' + childId}
+      // key={'childComp' + childId}
       style={combinedStyle}
       ref={drag}
     >

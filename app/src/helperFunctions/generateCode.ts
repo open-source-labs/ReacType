@@ -27,7 +27,6 @@ const generateUnformattedCode = (
 
   // get metadata for each child (e.g. the name/tag of the component/elemnt)
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
-    console.log('enriching component ', currentComponent);
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
       if (child.type === 'Component') {
@@ -60,7 +59,6 @@ const generateUnformattedCode = (
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
       .map((child: any) => {
-        console.log('the child is ', child);
         if (child.type === 'Component') {
           return `<${child.name}${formatStyles(child.style)} />`;
         } else if (child.type === 'HTML Element') {
@@ -127,7 +125,6 @@ const generateUnformattedCode = (
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 
-  console.log(enrichedChildren);
   const next = true;
 
   // import statements differ between root (pages) and regular components (components)
@@ -248,8 +245,6 @@ const generateCode = (
   rootComponents: number[],
   projectType: string
 ) => {
-  console.log('generating next.js code');
-  // return ''
   const code = generateUnformattedCode(
     components,
     componentId,

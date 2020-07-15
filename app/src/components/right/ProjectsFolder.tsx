@@ -27,10 +27,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
   const { onClose, open, projects } = props;
   const [_, dispatch] = useContext(stateContext);
 
-  useEffect(() => {
-    console.log('state is', _);
-  }, [_]);
-
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
     // onClose(selectedValue);
