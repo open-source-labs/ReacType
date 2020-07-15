@@ -157,14 +157,16 @@ const ProjectManager = () => {
   return (
     // <div className={classes.logoutButton}>
     <div className={classes.projectManagerWrapper}>
-      {state.name ? (
-        <p>You are currently working on {state.name}</p>
-      ) : (
-        <p>
-          Your project does not have a name, please give it name for it to be
-          saved!!!
+      {state.name && state.isLoggedIn ? (
+        <p style={{ color: 'white' }}>
+          Your current project is <strong>{state.name}</strong>
         </p>
-      )}
+      ) : null}
+      {!state.name && state.isLoggedIn ? (
+        <p style={{ color: 'white' }}>
+          Project will not be saved until it is named!!!
+        </p>
+      ) : null}
 
       <div className={classes.projectTypeWrapper}>
         <FormControl>
