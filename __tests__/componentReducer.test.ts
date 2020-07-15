@@ -162,13 +162,16 @@ describe('Testing componentReducer functionality', function () {
   describe('RESET STATE reducer', () => {
     it('should reset project to initial state', () => {
       const action: Action = {
-        type: 'RESET STATE'
+        type: 'RESET STATE',
+        payload: ''
       }
       state = reducer(state, action);
       // expect default project to have empty string as name
-      expect(state.name).toEqual('');
+      expect(state.name).toEqual('TESTNAME');
       // expect default project to only have one component in components array
       expect(state.components.length).toEqual(1);
+      // expect lone component to have no children :(
+      expect(state.components[0].children.length).toEqual(0);
     })
   })
 
