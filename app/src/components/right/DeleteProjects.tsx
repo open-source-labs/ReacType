@@ -43,7 +43,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     )[0];
     console.log('selectedProject is', selectedProject);
     deleteProject(selectedProject);
-    localforage.removeItem(window.localStorage.getItem('ssid'));
+    localforage.clear();
     dispatch({ type: 'RESET STATE', payload: {} });
     onClose();
   };
