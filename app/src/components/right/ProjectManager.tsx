@@ -157,6 +157,15 @@ const ProjectManager = () => {
   return (
     // <div className={classes.logoutButton}>
     <div className={classes.projectManagerWrapper}>
+      {state.name ? (
+        <p>You are currently working on {state.name}</p>
+      ) : (
+        <p>
+          Your project does not have a name, please give it name for it to be
+          saved!!!
+        </p>
+      )}
+
       <div className={classes.projectTypeWrapper}>
         <FormControl>
           <Select
