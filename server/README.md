@@ -12,6 +12,8 @@
 - [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
 - [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
+Redeployment should also be done with only the server subtree and not the entire repo. See this <a href="https://medium.com/@shalandy/deploy-git-subdirectory-to-heroku-ea05e95fce1f">article</a> about deploying just a subdirectory.
+
 If `npm` is your package manager, you just need to run the script `npm run dev` and it will start the server on `http://localhost:5000` for your development environment.
 
 Endpoint testing is currently integrated with Jest and Supertest as well and can be run by `npm run test` or `npm run test:watch` for watch mode.
