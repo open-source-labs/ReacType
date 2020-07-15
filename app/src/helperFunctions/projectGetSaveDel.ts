@@ -56,8 +56,6 @@ export const deleteProject = (project: any): Promise<Object> => {
     name: project.name,
     userId: window.localStorage.getItem('ssid')
   });
-  console.log('body is ', body);
-  console.log('url is ', `${serverURL}/deleteProject`);
   const deletedProject = fetch(`${serverURL}/deleteProject`, {
     method: 'DELETE',
     credentials: 'include',
@@ -68,7 +66,6 @@ export const deleteProject = (project: any): Promise<Object> => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log('deleted project at end of fetch', data);
       return data;
     })
     .catch(err => console.log(`Error deleting project ${err}`));

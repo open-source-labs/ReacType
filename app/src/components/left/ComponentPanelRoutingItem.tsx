@@ -14,7 +14,6 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
 
   // find the root components that can be associated with a route
   // These will be the components that are displayed in the dropdown
-  console.log('in the comp panel routing, state is ', state);
   let navigableComponents = state.components
     .filter(comp => state.rootComponents.includes(comp.id))
     .map(comp => comp.name);

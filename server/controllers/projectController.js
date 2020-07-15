@@ -55,7 +55,6 @@ projectController.getProjects = (req, res, next) => {
 // delete project from database **currently not integrated into app**
 
 projectController.deleteProject = (req, res, next) => {
-  console.log('In delete projects controller');
   // pull project name and userId from req.body
   const { name, userId } = req.body;
   Projects.findOneAndDelete({ name, userId }, (err, deleted) => {
