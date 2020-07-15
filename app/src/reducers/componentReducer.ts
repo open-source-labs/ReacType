@@ -6,6 +6,7 @@ import {
 } from '../interfaces/Interfaces';
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -133,7 +134,7 @@ const reducer = (state: State, action: Action) => {
         type,
         typeId,
         childId
-      }: { type: string; typeId: number; childId: any} = action.payload;
+      }: { type: string; typeId: number; childId: any } = action.payload;
       // the parent of the new child is whichever component that is currently focused on
       const parentComponentId: number = state.canvasFocus.componentId;
 
@@ -286,7 +287,14 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'SET INITIAL STATE': {
-      return { ...action.payload };
+      // set the canvas focus to be the first component
+      const canvasFocus = {
+        ...action.payload.canvasFocus,
+        componentId: 1,
+        childId: null
+      };
+
+      return { ...action.payload, canvasFocus };
     }
     case 'SET PROJECT NAME': {
       return {
@@ -314,9 +322,32 @@ const reducer = (state: State, action: Action) => {
 
       return { ...state, components, projectType };
     }
-    // Reset state of a given project back to its initial state
+    // Reset all component data back to their initial state but maintain the user's project name and log-in status
     case 'RESET STATE': {
-      return { ...initialState };
+      const nextChildId = 1;
+      const rootComponents = [1];
+      const nextComponentId = 2;
+      const canvasFocus = {
+        ...state.canvasFocus,
+        componentId: 1,
+        childId: null
+      };
+      const rootComponent = {
+        ...state.components[0],
+        code: '',
+        children: [],
+        style: {}
+      };
+      const components = [rootComponent];
+      return {
+        ...state,
+        nextChildId,
+        rootComponents,
+        nextComponentId,
+        components,
+        canvasFocus
+      };
+      // return { ...initialState };
     }
 
     case 'UPDATE PROJECT NAME': {
