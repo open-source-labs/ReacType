@@ -12,7 +12,7 @@ import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
-import { getProjects } from '../../helperFunctions/projectGetSave';
+import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import { stateContext } from '../../context/context';
 
 export interface ProjectDialogProps {
@@ -65,6 +65,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
           </ListItem>
         ))}
         {/* Change state to empty for new project */}
+        {/* ***TODO*** Add project functionality
         <ListItem autoFocus button onClick={() => handleClose()}>
           <ListItemAvatar>
             <Avatar>
@@ -72,7 +73,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="New Project" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Dialog>
   );

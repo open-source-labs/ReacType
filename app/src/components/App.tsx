@@ -7,7 +7,7 @@ import { stateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
-import { getProjects, saveProject } from '../helperFunctions/projectGetSave';
+import { getProjects, saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 
 // Intermediary component to wrap main App component with higher order provider components

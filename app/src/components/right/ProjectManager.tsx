@@ -15,10 +15,11 @@ import { useHistory, withRouter } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
 
-import ProjectsFolder from './ProjectsFolder';
+import ProjectsFolder from './OpenProjects';
 import createModal from './createModal';
 import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
+import DeleteProjects from './DeleteProjects';
 
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
@@ -156,6 +157,17 @@ const ProjectManager = () => {
   return (
     // <div className={classes.logoutButton}>
     <div className={classes.projectManagerWrapper}>
+      {state.name && state.isLoggedIn ? (
+        <p style={{ color: 'white' }}>
+          Your current project is <strong>{state.name}</strong>
+        </p>
+      ) : null}
+      {!state.name && state.isLoggedIn ? (
+        <p style={{ color: 'white' }}>
+          Project will not be saved until it is named!!!
+        </p>
+      ) : null}
+
       <div className={classes.projectTypeWrapper}>
         <FormControl>
           <Select
@@ -173,6 +185,7 @@ const ProjectManager = () => {
       </div>
       {state.isLoggedIn ? <SaveProjectButton /> : ''}
       {state.isLoggedIn ? <ProjectsFolder /> : ''}
+      {state.isLoggedIn ? <DeleteProjects /> : ''}
       {/* <div className={classes.btnGroup}> */}
       <Button
         className={classes.button}
@@ -209,7 +222,8 @@ const useStyles = makeStyles({
     margin: '40px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifySelf: 'flex-end'
   },
 
   logoutButton: {
