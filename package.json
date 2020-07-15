@@ -72,8 +72,12 @@
         "diagnostics": false
       }
     },
-    "setupFilesAfterEnv": ["<rootDir>/app/setupTests.ts"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/app/setupTests.ts"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"

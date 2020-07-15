@@ -1,6 +1,7 @@
 import { sessionIsCreated, newUserIsCreated } from '../app/src/helperFunctions/auth';
 
 describe('Login Tests', () => {
+  jest.setTimeout(10000);
   let username;
   let password; 
 
