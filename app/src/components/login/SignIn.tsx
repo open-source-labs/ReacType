@@ -121,13 +121,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('click fired on handleLogin');
     setInvalidUser(false);
     setInvalidUserMsg('');
     setInvalidPass(false);
     setInvalidPassMsg('');
     sessionIsCreated(username, password).then(loginStatus => {
-      console.log('login fetch', loginStatus);
       if (loginStatus === 'Success') {
         props.history.push('/');
       } else {
@@ -157,7 +155,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const handleLoginGuest = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log('Handle login guest fired');
     e.preventDefault();
     // generate "cookie" in localStorage for guest users
     window.localStorage.setItem('ssid', 'guest');
@@ -247,9 +244,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
         <Grid container>
           <Grid item xs>
-            {/* <Link href="#" variant="body2">
-              Forgot password?
-            </Link> */}
             <RouteLink to={`/signup`} className="nav_link">
               Forgot password?
             </RouteLink>

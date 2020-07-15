@@ -24,8 +24,8 @@ const MenuBuilder = require('./menu');
 const path = require('path');
 // const fs = require('fs');
 
-console.log('NODE ENV is ', process.env.NODE_ENV);
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' ;
+const isDev =
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -237,8 +237,6 @@ app.on('web-contents-created', (event, contents) => {
 
   contents.on('will-redirect', (event, navigationUrl) => {
     const parsedUrl = new URL(navigationUrl);
-    //console.log('parsedUrl is', parsedUrl);
-    //console.log('parsedUrl.origin is', parsedUrl.origin);
     const validOrigins = [
       selfHost,
       'http://localhost:5000',
@@ -339,8 +337,12 @@ ipcMain.on('set_cookie', event => {
   session.defaultSession.cookies
     .get({ url: serverUrl })
     .then(cookie => {
-      console.log(cookie);
-      event.reply('give_cookie', cookie);
+      // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
+      // checking for a cookie inside array will only emit reply when a cookie exists
+      if (cookie[0]) {
+        console.log(cookie);
+        event.reply('give_cookie', cookie);
+      }
     })
     .catch(error => {
       console.log('Error giving cookies in set_cookie:', error);

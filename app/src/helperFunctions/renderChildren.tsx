@@ -21,7 +21,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           style={style}
-          key={childId.toString()}
+          key={'DirChild' + childId.toString()}
         />
       );
     }
@@ -33,7 +33,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           style={style}
-          key={childId.toString()}
+          key={'DirChild' + childId.toString()}
         />
       );
     }
@@ -46,7 +46,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          key={childId.toString()}
+          key={'DirChild' + childId.toString()}
         />
       );
     }
@@ -60,7 +60,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          key={childId.toString()}
+          key={'DirChild' + childId.toString()}
         />
       );
     }
