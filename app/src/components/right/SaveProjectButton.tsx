@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import { saveProject } from '../../helperFunctions/projectGetSave';
+import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
