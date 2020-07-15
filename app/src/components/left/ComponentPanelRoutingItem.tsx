@@ -22,12 +22,22 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const [route, setRoute] = useState(navigableComponents[0]);
 
   // TODO: Add a useMemo so that this isn't recalculated on every render
-  const routeId = state.components.find(comp => comp.name === route).id;
+  let routeId;
+  // check if the component in the drop down still references an existing component
+  const referencedComponent = state.components.find(
+    comp => comp.name === route
+  );
+  // if so, set the route id for that component to the id of the referenced compnent
+  if (referencedComponent) routeId = referencedComponent.id;
+  // otherwise, set the component name and and id to the root component
+  else {
+    setRoute(state.components[0].name);
+    routeId = 1;
+  }
 
   const handleRouteChange = event => {
     setRoute(event.target.value);
   };
-  
 
   // useDrag hook allows components in left panel to be drag source
 
