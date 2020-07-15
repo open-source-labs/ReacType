@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Enzyme testing suite renders snapshots, too 1`] = `
+<div>
+  <h1>
+    Hello, Enzyme!
+  </h1>
+</div>
+`;
