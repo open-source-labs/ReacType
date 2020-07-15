@@ -164,7 +164,7 @@ const ProjectManager = () => {
       ) : null}
       {!state.name && state.isLoggedIn ? (
         <p style={{ color: 'white' }}>
-          Project will not be saved until it is named!!!
+          Select "Save project as" to create and save a project
         </p>
       ) : null}
 

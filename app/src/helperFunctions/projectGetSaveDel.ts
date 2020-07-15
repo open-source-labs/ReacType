@@ -56,6 +56,8 @@ export const deleteProject = (project: any): Promise<Object> => {
     name: project.name,
     userId: window.localStorage.getItem('ssid')
   });
+  console.log('body is ', body);
+  console.log('url is ', `${serverURL}/deleteProject`);
   const deletedProject = fetch(`${serverURL}/deleteProject`, {
     method: 'DELETE',
     credentials: 'include',
