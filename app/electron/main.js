@@ -64,7 +64,7 @@ async function createWindow() {
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools when in development mode
-      devTools: true,
+      devTools: isDev,
       // crucial security feature - blocks rendering process from having access to node moduels
       nodeIntegration: false,
       // web workers will not have access to node

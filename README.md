@@ -48,7 +48,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 #### Contributors
 
-[Aaron Bumanglang](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
+[Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
 
 [Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
 
