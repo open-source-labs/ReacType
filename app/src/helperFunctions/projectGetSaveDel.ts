@@ -66,7 +66,6 @@ export const deleteProject = (project: any): Promise<Object> => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log('deleted project at end of fetch', data);
       return data;
     })
     .catch(err => console.log(`Error deleting project ${err}`));
