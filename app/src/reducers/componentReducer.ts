@@ -324,7 +324,6 @@ const reducer = (state: State, action: Action) => {
     }
     // Reset all component data back to their initial state but maintain the user's project name and log-in status
     case 'RESET STATE': {
-      const name = '';
       const nextChildId = 1;
       const rootComponents = [1];
       const nextComponentId = 2;
@@ -342,7 +341,6 @@ const reducer = (state: State, action: Action) => {
       const components = [rootComponent];
       return {
         ...state,
-        name,
         nextChildId,
         rootComponents,
         nextComponentId,

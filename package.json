@@ -114,12 +114,9 @@
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",
-<<<<<<< HEAD
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
-=======
     "node-fetch": "^2.6.0",
->>>>>>> master
     "prettier": "^1.19.1",
     "prop-types": "^15.6.2",
     "react": "^16.13.0",

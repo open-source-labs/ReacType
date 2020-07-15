@@ -17,6 +17,7 @@ import {
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
 import { stateContext } from '../../context/context';
+import initialState from '../../context/initialState';
 
 export interface ProjectDialogProps {
   open: boolean;
@@ -44,7 +45,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     console.log('selectedProject is', selectedProject);
     deleteProject(selectedProject);
     localforage.clear();
-    dispatch({ type: 'RESET STATE', payload: {} });
+    dispatch({ type: 'SET INITIAL STATE', payload: initialState });
     onClose();
   };
 
