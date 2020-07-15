@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 const isDev = process.env.NODE_ENV === 'development';
 let serverURL = 'https://reactype.herokuapp.com';
 if (isDev) {
@@ -33,7 +35,6 @@ export const sessionIsCreated = (
       }
     })
     .catch(err => {
-      console.log('Error while trying to login', err);
       return 'Error';
     });
   return result;
@@ -69,7 +70,6 @@ export const newUserIsCreated = (
       return data; // response is either Email Taken or Username Taken, refer to userController.createUser
     })
     .catch(err => {
-      console.log(err);
       return 'Error';
     });
   return result;
