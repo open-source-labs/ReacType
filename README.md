@@ -25,9 +25,9 @@ In other words, **you can draw prototypes and export React / Typescript code!**
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
-- **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
+- **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Linux users**: run the application as a super user in order to read and write files.
+- **Linux users**: Run the application as a super user in order to read and write files.
 
 ![Gif of adding](https://i.imgur.com/nOeuuU6.gif)
 
@@ -106,7 +106,24 @@ npm run prod
 npm run dev
 ```
 
-- Please note that the development build is not connected to the production server. To develop with a development server, clone the [ReacType server repo](https://github.com/andrewjcho84/ReacTypeServer). Alternatively, you can also select "Continue as guest" on the log-in page of the app to not use any features that rely on the server (authentication and saving project data.)
+- Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can also select "Continue as guest" on the log-in page of the app to not use any features that rely on the server (authentication and saving project data.)
+
+## To Run Your Exported Next.js Project
+- Open exported project directory
+- Install dependencies
+
+```bash
+npm install
+```
+- Build the app
+```bash
+npm run build
+```
+- Start an instance
+```bash
+npm run start
+```
+- Open browser and navigate to localhost at specified port
 
 ## License
 
