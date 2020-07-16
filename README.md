@@ -1,67 +1,58 @@
-
 <p align="center">
   <img width="50" src="https://github.com/team-reactype/ReacType/blob/master/src/public/icons/png/256x256.png?raw=true">
   <h1 align="center">ReacType </h1>
 </p>
 
-
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Release: 2.0](https://img.shields.io/badge/Release-2.0-orange)
+![Release: 3.0](https://img.shields.io/badge/Release-3.0-orange)
 
-
-**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**. 
+**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / Typescript code!**
 
-**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _canvas display_, an _application tree_, and a _real-time component code preview_. The user can create components and load _instances_ of these components, as well as nested HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
+**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. The user can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-**New with version 2.0:** 
-- React Native mode for iOS/Android app design
-- Hooks integration with functional components
-- History navigation
-- Tutorial mode
-- New keyboard shortcuts
-- Editable code preview
-- Prop value designation for component children
+**New with version 3.0:**
+
+- Export code as a [Next.js](https://nextjs.org/) project
+- Create nestable components/HTML elements using a drag-and-drop canvas
+- Add CSS to any element on the canvas
+- Components and HTML canvas elements are rendered in the canvas in the same way they'll be rendered in the exported project
+- View dynamically generated Next.js or classic React code as you build your project
+- Authenticate with Github or email
+- Save data for multiple projects in the cloud
+- Critical Electron security gaps resolved
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
-* **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
+- **Mac users**: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
-* **Linux users**: run the application as a super user in order to read and write files.
+- **Linux users**: run the application as a super user in order to read and write files.
 
-![Image of ReacType Application](https://i.imgur.com/OgcP9II.png)
+![Gif of adding](https://i.imgur.com/nOeuuU6.gif)
 
 ### How to use
 
-- Open the application to start a new project. It will open in the root App component, with its name listed in the left panel and the component represented by the white box on the canvas.
-- Switch to React Native mode to change the interface to a mobile app development environment
-- To add a new component, type its name in the upper left panel, in the field '**Add class component**', and press enter.
-- To render a component **_instance_** to the screen, first select the component, or _parent_, that the instance will be rendered within. This selected component will be represented in a new canvas view, with its own white box. Then press the plus button next to the component name. An instance, or _child_, representation will appear on the canvas.
-- To add draggable **HTML elements**, select the image icons on the lower left panel.
-
-![Gif of adding](https://i.imgur.com/hdVTFcP.gif)
-
-- The bottom panel allows the user to toggle between 4 different views: a **tree diagram of the application**, a **real-time preview of the exportable code**, a form to enter component props, and a form to add HTML attributes.
-
-- **_Props_** can be added to each component within its tab on bottom panel. Enter in a _key-value pair_, select its data _type_ and press the bottom 'ADD PROP'.
-- **_HTML Element Attributes_** of class name and ID can be added to each HTML element after an HTML element has been rendered to the canvas.
-
-![Gif of attr & props](https://i.imgur.com/cmgOLLN.gif)
-
-- To **_delete_** a _child_ or instance from the canvas, select the desired instance and either press the _delete_ key.
-- To **_delete_** a _component_, click the 'DELETE' button of the desired component in the left panel.
-- To _start over_, select the blue 'CLEAR WORKSPACE' button in the left panel. This will **clear the entire application**.
-
-### To Export Files
-
-- Once finished setting up the application template, press the green 'EXPORT PROJECT' button at the bottom of the left panel and choose between two options to export your files:
-  1. Export the component files into a components folder. This option will allow a developer to add these files to an existing project.
-  1. Export a new project with TypeScript config files and the component files. This option will allow a developer to immediately begin a new project.
+- **Log in:** Sign up through email/Github if you would like to save your projects to the cloud. Otherwise, select _Continue as Guest_
+- **Selectproject type:** By default, new projects will be Next.js projects, but you can toggle your project to be a normal React application by selecting "Classic React" in the bottom-right corner.
+  - **Next.js** projects allow you to easily create routing between pages within ReacType and render content with static rendering.
+  - **Classic React** projects are vanilla React. You can create multiple "root" components, but routing between these root components is enabled by default.
+- **Add components:** Add a new component in the left panel. If the _Page_ checkbox is selected, the component will become a page that can be routed to. For example, a page component named 'Home', the component's corresponding route will be '/Home'. [Learn more about Next.js routing](https://nextjs.org/docs/routing/introduction).
+- **Create instances of components/HTML elements:** Each component has its own canvas where you can see how any instances of nested components or HTML elements will render in production. To create an instance of a component or traditional HTML element in the canvas, simply drag it onto the canvas. The following elements have special properties when they're dragged onto the canvas:
+  - **Page/root components:** Page/root components cannot be dragged into other components.
+  - **Divs:** Divs are arbitrarily nestable.
+  - **Navigation components:** Next.js projects have "Navigation components" which allow you to create links between your page components.
+- **Update CSS and delete instances:** Click on the component canvas or an instance to view/edit CSS attributes in the right panel. Updates made to the CSS will render in the canvas on _Save_.
+- **Save your project:** Select _Save Project_ to save a new project to the cloud. Once you've created a new project in the cloud, it will be autoamtically saved on each change. You can open any of your other saved projects by selecting _Open Project_.
+- **Export your project:** Select _Export Project_ to save your project locally. You will have the option of exporting either a fully functional application or only exporting the component files.
 
 #### Contributors
 
+[Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
+
 [Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
+
+[Andrew Cho](https://www.linkedin.com/in/andrewjcho84/) [@andrewjcho84](https://github.com/andrewjcho84)
 
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
 
@@ -70,6 +61,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
 [Eliot Nguyen](https://linkedin.com/in/ibeeliot) [@ibeeliot](https://github.com/ibeeliot)
+
+[Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
 [Jesse Zuniga](https://linkedin.com/in/jesse-zuniga) [@jzuniga206](https://github.com/jzuniga206)
 
@@ -89,35 +82,31 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Tony Ito-Cole](https://linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
+[Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
+
 ## To Run Your Own Version
 
 - **Fork** and **Clone** Repository.
 - Open project directory
 - Install dependencies
 
-- npm works in place of yarn as well.
-
 ```bash
-yarn install
+npm install
 ```
 
-- Run application
+- To run the production build
 
 ```bash
-yarn start
+npm run prod
 ```
 
-- For development experience, in one terminal...
+- To run the development build
 
 ```bash
-yarn run dev
+npm run dev
 ```
 
-- and on another terminal
-
-```bash
-yarn run electron
-```
+- Please note that the development build is not connected to the production server. To develop with a development server, clone the [ReacType server repo](https://github.com/andrewjcho84/ReacTypeServer). Alternatively, you can also select "Continue as guest" on the log-in page of the app to not use any features that rely on the server (authentication and saving project data.)
 
 ## License
 

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test the BottomTabs component Matches snapshot 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <Styled(MuiBox)
+    display="flex"
+    justifyContent="space-between"
+  >
+    <WithStyles(ForwardRef(Tabs))
+      classes={
+        Object {
+          "indicator": "makeStyles-tabsIndicator-4",
+          "root": "makeStyles-tabsRoot-3",
+        }
+      }
+      onChange={[Function]}
+      value={0}
+    >
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-5",
+            "selected": "makeStyles-tabSelected-6",
+          }
+        }
+        disableRipple={true}
+        label="Code Preview"
+      />
+    </WithStyles(ForwardRef(Tabs))>
+  </Styled(MuiBox)>
+  <CodePreview />
+</div>
+`;
+
+exports[`Test the CanvasContainer component Matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "lightgrey",
+      "border": "2px Solid grey",
+      "width": "100%",
+    }
+  }
+>
+  <Canvas />
+</div>
+`;

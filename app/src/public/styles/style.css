@@ -1,0 +1,379 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  /* overflow: hidden; */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open sans', sans-serif;
+  font-weight: 400;
+  overflow: hidden;
+}
+/**************
+* 
+* for Material React Table found in Add Child Props 
+*
+***************/
+
+/* Sean sucks button */
+#app
+  > div
+  > div
+  > div
+  > div.main-container
+  > div.bottom-panel
+  > div
+  > div:nth-child(2)
+  > button {
+  font-size: 20px;
+}
+
+/*
+/////////////////////////////////////////// 
+Remove focus styling
+/////////////////////////////////////////////
+*/
+
+:focus {
+  outline: 0;
+}
+
+:disabled {
+  cursor: not-allowed;
+}
+
+header {
+  display: none;
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.progress-bar {
+  flex-grow: 1;
+}
+
+.column {
+  /* width: 25%; */
+  background-color: #252526;
+}
+
+/* .column-right-export-btn {
+  transition: display 400ms ease-in-out 300ms;
+} */
+
+/*
+/////////////////////////////////////////// 
+BUTTONS
+/////////////////////////////////////////////
+*/
+
+.btn {
+  font-size: 16px;
+}
+
+/*
+/////////////////////////////////////////// 
+LEFT COLUMN
+/////////////////////////////////////////////
+*/
+
+.left {
+  padding: 10px;
+  display: flex;
+  width: 380px;
+  min-width: 380px;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
+}
+
+/* .htmlPanel {
+  position: absolute;
+  bottom: 0;
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-bottom: 50px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  padding: 1%;
+} */
+
+/* affecting HTMl elements in HTML Panel */
+.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+  /* padding: 3rem; */
+  margin: -5rem;
+  padding-right: 5rem;
+  padding-top: 3rem;
+  padding-left: 1rem;
+}
+
+.component-input {
+  bottom: 2.8%;
+}
+
+.clear-workspace {
+  top: 96%;
+  position: sticky !important;
+  z-index: 1;
+}
+
+/*
+/////////////////////////////////////////// 
+MAIN COLUMN
+/////////////////////////////////////////////
+*/
+
+h1 {
+  color: #ccc;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* overflow-x: hidden; */
+}
+
+.main-header {
+  /* display: flex; */
+  /* border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey; */
+  background-color: #212121;
+  box-shadow: 0 5px 7px -2px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.main-header-buttons {
+  display: flex;
+  font-size: 12px;
+}
+
+.main {
+  /* border-left: 1px solid grey; */
+  /* border-right: 1px solid grey; */
+  background: #fff;
+  flex: 1;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  background-color: #e4e4e4;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+.draggable {
+  position: relative;
+}
+
+.image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  top: 0;
+  left: 0;
+}
+
+.export-preference div span {
+  transition: color 1s, background-color 1.5s, transform 2s;
+}
+
+.export-preference div:hover {
+  background-color: #303f9f;
+}
+
+.export-preference div:hover span {
+  color: white;
+}
+
+.info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/*
+/////////////////////////////////////////// 
+RIGHT COLUMN
+/////////////////////////////////////////////
+*/
+
+.export {
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* BOTTOM PANEL */
+
+.bottom-panel {
+  transition: width 250ms ease-in-out;
+  width: 100%;
+  height: 33%;
+  min-height: 260px;
+  /* display: flex;
+  flex-direction: row; */
+  background-color: #fcfcfc;
+  /* box-shadow: 0 -5px 7px 2px rgb(255, 0, 0); */
+  margin-right: 100px;
+}
+
+.htmlattr {
+  /* background-size: auto; */
+  height: 80%;
+  overflow-y: scroll;
+  margin-left: 50px;
+}
+
+.props-container {
+  margin-left: 10px;
+  height: 33%;
+  width: 100%;
+}
+
+.props-input {
+  margin-bottom: 15px;
+}
+
+.chips {
+  height: 55%;
+  overflow: auto;
+}
+
+/* Material-UI */
+
+/* Sortable tree sorting */
+.sortable-tree {
+  height: 100%;
+  background-color: rgb(37, 37, 38);
+}
+
+div.rst__rowContents {
+  width: 45px;
+  border: none;
+  color: #eee;
+  background-color: #333333;
+}
+
+.rst__rowContentsDragDisabled {
+  background-color: #333333;
+  background-color: rgba(37, 37, 38, 0.4);
+}
+
+.rst__moveHandle,
+.rst__loadingHandle {
+  width: 40px;
+}
+
+.rst_tree {
+  overflow: auto;
+}
+
+.rst__rowLabel {
+  padding-right: 5px;
+}
+
+.closeIcon:hover {
+  cursor: pointer;
+}
+
+a.nav_link {
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  text-decoration: none;
+}
+a.nav_link:hover {
+  color: #3ec1ac;
+  text-decoration: underline;
+}
+
+/* Additional styling for ReacType X */
+
+.componentDefault {
+  width: 100%;
+  border: 2px solid gray;
+  min-height: 150px;
+  padding: 10px;
+  background-color: lightgray;
+  opacity: 0.75;
+}
+
+.componentPanelWrapper {
+  margin-top: 75px;
+  width: 100%;
+}
+
+.inputName {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
+  background-color: rgba(25, 25, 25, 0.8);
+}
+
+h4 {
+  color: white;
+  text-align: center;
+}
+
+h3 {
+  margin: 0;
+  padding-left: 15px;
+  padding-top: 15px;
+  font-size: 1em;
+  letter-spacing: 0.5px;
+}
+
+.compPanelItem {
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.compPanelItem h3 {
+  padding-top: 25px;
+  font-size: 1.15em;
+  letter-spacing: 0.75px;
+}
+
+.compPanelItem:hover {
+  cursor: pointer;
+}
+
+.right {
+  padding-top: 35px;
+  width: 420px;
+}
+
+.rightPanelWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}

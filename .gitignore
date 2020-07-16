@@ -158,6 +158,7 @@ $RECYCLE.BIN/
 
 #VSCode
 .vscode/
+reactype.code-workspace
 
 # User-specific files
 *.suo
@@ -484,5 +485,15 @@ ASALocalRun/
 # DMG File
 reactype.dmg
 installers/
+
+# for server key and ssl certificate generation
+server/domains.ext
+server/localhost.crt
+server/localhost.csr
+server/localhost.key
+server/RootCA.crt
+server/rootCA.key
+server/rootCA.pem
+server/RootCA.srl
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
