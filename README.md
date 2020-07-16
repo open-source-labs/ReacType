@@ -34,7 +34,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 ### How to use
 
 - **Log in:** Sign up through email/Github if you would like to save your projects to the cloud. Otherwise, select _Continue as Guest_
-- **Selectproject type:** By default, new projects will be Next.js projects, but you can toggle your project to be a normal React application by selecting "Classic React" in the bottom-right corner.
+- **Select project type:** By default, new projects will be Next.js projects, but you can toggle your project to be a normal React application by selecting "Classic React" in the bottom-right corner.
   - **Next.js** projects allow you to easily create routing between pages within ReacType and render content with static rendering.
   - **Classic React** projects are vanilla React. You can create multiple "root" components, but routing between these root components is enabled by default.
 - **Add components:** Add a new component in the left panel. If the _Page_ checkbox is selected, the component will become a page that can be routed to. For example, a page component named 'Home', the component's corresponding route will be '/Home'. [Learn more about Next.js routing](https://nextjs.org/docs/routing/introduction).
