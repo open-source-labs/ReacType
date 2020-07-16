@@ -6,7 +6,7 @@ if (isDev) {
 }
 
 // save and get projects endpoint testing
-describe('Project endpoints tests', () => {
+xdescribe('Project endpoints tests', () => {
   // initializes the project to be sent to server/DB
   const state = {
     name: 'test',
