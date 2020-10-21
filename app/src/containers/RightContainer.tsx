@@ -27,6 +27,8 @@ const RightContainer = (props): JSX.Element => {
   const [compHeight, setCompHeight] = useState('');
 
   const resetFields = () => {
+    //console.log(configTarget);
+    //console.log(configTarget.children);
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -155,6 +157,18 @@ const RightContainer = (props): JSX.Element => {
   const handleDelete = () => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
+
+  const handleDeleteReusableComponent = (id) => () => {
+    //console.log(id);
+    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: { id} });
+  }
+
+  const isReusable = (configTarget): boolean => {
+    return state.components
+      .filter(comp => !state.rootComponents
+      .includes(comp.id))
+      .some(el => el.id == configTarget.id);
+  }
 
   return (
     <div className="column right ">
@@ -356,9 +370,19 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (
-            ''
-          )}
+          ) : isReusable(configTarget) ?
+            (
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handleDeleteReusableComponent(configTarget.id)}
+              >
+                DELETE REUSABLE COMPONENT
+              </Button>
+            </div>
+            ) : '' 
+          }
         </div>
         <ProjectManager />
       </div>

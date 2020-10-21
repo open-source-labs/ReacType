@@ -24,7 +24,8 @@ const reducer = (state: State, action: Action) => {
     // We're going to keep track of the nodes we need to search through with an Array
     //  Initialize this array with the top level node
     const nodeArr: (Component | ChildElement)[] = [component];
-
+    nodeArr.forEach(node => console.log('node', node));
+    //console.log('nodeArr', nodeArr);
     // iterate through each node in the array as long as there are elements in the array
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -267,13 +268,15 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-
+      console.log('curr comp', component);
       // find the moved element's former parent
       // delete the element from it's former parent's children array
       const { directParent, childIndexValue } = findParent(
         component,
         state.canvasFocus.childId
       );
+      console.log('direct parent', directParent);
+      console.log('child index', childIndexValue);
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
       component.code = generateCode(
@@ -285,6 +288,41 @@ const reducer = (state: State, action: Action) => {
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
+
+    case 'DELETE REUSABLE COMPONENT' : {
+      // const component = findComponent(
+      //   components,
+      //   state.canvasFocus.componentId
+      //   );
+      const { id } = action.payload;
+        // slice id out of components
+      const components = [...state.components].filter(comp => comp.id != id);
+      const component = findComponent(
+        state.components,
+        state.canvasFocus.componentId
+      );
+      //const newComponents = components
+
+      console.log('components', state.components);
+      console.log('new components', components);
+      //console.log('id', id);
+      //console.log(state.canvasFocus.componentId);
+      // component.code = generateCode(
+      //   components,
+      //   state.canvasFocus.componentId,
+      //   [...state.rootComponents],
+      //   state.projectType
+      // );
+      //console.log('deleted component', component);
+      //component.code = '';
+      const canvasFocus = { ...state.canvasFocus, childId: null };
+      return {...state, components, canvasFocus};
+    }
+
+
+
+
+
 
     case 'SET INITIAL STATE': {
       // set the canvas focus to be the first component

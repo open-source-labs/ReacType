@@ -30,6 +30,7 @@ function Canvas() {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
+      //console.log(isOver);
       const didDrop = monitor.didDrop(); // returns false for direct drop target
       if (didDrop) {
         return;
@@ -37,6 +38,7 @@ function Canvas() {
 
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
+        console.log('new item dropped')
         dispatch({
           type: 'ADD CHILD',
           payload: {
@@ -48,6 +50,7 @@ function Canvas() {
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
+        console.log('dispatch change position')
         dispatch({
           type: 'CHANGE POSITION',
           payload: {
