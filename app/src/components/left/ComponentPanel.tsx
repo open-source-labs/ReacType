@@ -30,8 +30,8 @@ const ComponentPanel = (): JSX.Element => {
       setErrorMsg('Component name cannot be blank.');
     } else if (type === 'dupe') {
       setErrorMsg('Component name already exists.');
-    } else if (type === 'number') {
-      setErrorMsg('Component name cannot be a number');
+    } else if (type === 'letters') {
+      setErrorMsg('Component name must start with a letter.');
     }
   };
 
@@ -40,8 +40,6 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
-    // console.log(typeof e.target.value);
     resetError();
     setCompName(e.target.value);
   };
@@ -68,7 +66,6 @@ const ComponentPanel = (): JSX.Element => {
 
   // Add a new component
   const createOption = (inputName: String) => {
-    // console.log(typeof inputName);
     // format name so first letter is capitalized and there are no whitespaces
     let inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
@@ -84,13 +81,16 @@ const ComponentPanel = (): JSX.Element => {
     setCompName('');
   };
 
-  const handleNameSubmit = (type: String) => {
-    // console.log(compName);
-    // console.log(typeof compName);
-    let firstChar = compName.charAt(0);
-    if (firstChar <= '9' && firstChar >= '0') {
-      triggerError('number');
+  const handleNameSubmit = () => {
+    let letters = /[a-z]/;
+    if (!compName.charAt(0).match(letters)) {
+      triggerError('letters');
       return;
+      // }
+      // let firstChar = compName.charAt(0);
+      // if (firstChar <= '9' && firstChar >= '0') {
+      //   triggerError('number');
+      //   return;
     } else if (compName.trim() === '') {
       triggerError('empty');
       return;
