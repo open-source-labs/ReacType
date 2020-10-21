@@ -1,8 +1,8 @@
 import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
-  name: String;
-  isLoggedIn: Boolean;
+  name: string;
+  isLoggedIn: boolean;
   components: Component[];
   rootComponents: number[];
   projectType: string;

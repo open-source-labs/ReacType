@@ -30,6 +30,8 @@ const ComponentPanel = (): JSX.Element => {
       setErrorMsg('Component name cannot be blank.');
     } else if (type === 'dupe') {
       setErrorMsg('Component name already exists.');
+    } else if (type === 'letters') {
+      setErrorMsg('Component name must start with a letter.');
     }
   };
 
@@ -45,6 +47,7 @@ const ComponentPanel = (): JSX.Element => {
   // check if name of new component is the same as an existing component
   const checkNameDupe = (inputName: String) => {
     let checkList = state.components.slice();
+
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach(comp => {
@@ -79,7 +82,16 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   const handleNameSubmit = () => {
-    if (compName.trim() === '') {
+    let letters = /[a-z]/;
+    if (!compName.charAt(0).match(letters)) {
+      triggerError('letters');
+      return;
+      // }
+      // let firstChar = compName.charAt(0);
+      // if (firstChar <= '9' && firstChar >= '0') {
+      //   triggerError('number');
+      //   return;
+    } else if (compName.trim() === '') {
       triggerError('empty');
       return;
     } else if (checkNameDupe(compName)) {
