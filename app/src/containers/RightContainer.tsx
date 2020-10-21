@@ -10,12 +10,10 @@ import Button from '@material-ui/core/Button';
 import { stateContext } from '../context/context';
 import HTMLTypes from '../context/HTMLTypes';
 
-
 import ProjectManager from '../components/right/ProjectManager';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (props): JSX.Element => {
-
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -420,8 +418,7 @@ const useStyles = makeStyles({
       marginBottom: '0',
       marginTop: '10px'
     }
-  },
-
+  }
 });
 
 export default RightContainer;
