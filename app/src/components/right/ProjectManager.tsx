@@ -71,6 +71,7 @@ const ProjectManager = () => {
           <ListItemText
             primary={'Yes, delete all project data'}
             style={{ textAlign: 'center' }}
+            onClick={closeModal}
           />
         </ListItem>
       </List>
