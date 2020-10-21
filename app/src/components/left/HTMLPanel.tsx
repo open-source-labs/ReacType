@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import HTMLTypes from '../../context/HTMLTypes';
 import { makeStyles } from '@material-ui/core/styles';
+import AddElements from './HTMLAddElements';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles({
 
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
-  const options = HTMLTypes.map(option => {
+  const [arrayOfHTML, setArrayOfHTML] = useState(HTMLTypes);
+  const options = arrayOfHTML.map(option => {
     const [{ isDragging }, drag] = useDrag({
       item: {
         type: ItemTypes.INSTANCE,
@@ -56,11 +58,12 @@ const HTMLPanel = (): JSX.Element => {
         </div>
       </Grid>
     );
-  });
+  });;
 
   return (
     <div>
       <h4> HTML Elements</h4>
+      <AddElements array={HTMLTypes} setArrayOfHTML={setArrayOfHTML} />
       <Grid
         container
         spacing={1}
