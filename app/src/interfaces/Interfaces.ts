@@ -9,6 +9,7 @@ export interface State {
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
   nextChildId: number;
+  HTMLTypes: HTMLType[];
 }
 
 export interface ChildElement {

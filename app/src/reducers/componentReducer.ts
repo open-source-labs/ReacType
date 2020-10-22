@@ -24,7 +24,8 @@ const reducer = (state: State, action: Action) => {
     // We're going to keep track of the nodes we need to search through with an Array
     //  Initialize this array with the top level node
     const nodeArr: (Component | ChildElement)[] = [component];
-
+    nodeArr.forEach(node => console.log('node', node));
+    //console.log('nodeArr', nodeArr);
     // iterate through each node in the array as long as there are elements in the array
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -86,6 +87,27 @@ const reducer = (state: State, action: Action) => {
     // if no match is found return false
     return;
   };
+
+  const isChildOfPage = (id: number): boolean => {
+    // TODO: refactor
+    // TODO: output parent name and id to refocus canvas on parent
+    let isChild: boolean = false;
+    state.components.forEach(comp => {
+      console.log('comp =>', comp);
+      comp.children.forEach(child => {
+        if (child.type === 'Component' && child.typeId === id) {
+          isChild = true;
+          console.log('parent name =>', comp.name);
+          console.log('parent id =>', comp.name);
+        }
+      });
+    });
+    return isChild;
+  }
+
+  const updateIds = (components: Component[]) => {
+    components.forEach((comp, i) => comp.id = i + 1);
+  }
 
   switch (action.type) {
     // Add a new component type
@@ -164,6 +186,8 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+
+
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
@@ -173,7 +197,8 @@ const reducer = (state: State, action: Action) => {
         components,
         parentComponentId,
         [...state.rootComponents],
-        state.projectType
+        state.projectType,
+        state.HTMLTypes
       );
 
       const canvasFocus = {
@@ -222,7 +247,8 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId,
         [...state.rootComponents],
-        state.projectType
+        state.projectType,
+        state.HTMLTypes
       );
 
       return { ...state, components };
@@ -252,7 +278,8 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId,
         [...state.rootComponents],
-        state.projectType
+        state.projectType,
+        state.HTMLTypes
       );
 
       return { ...state, components };
@@ -267,23 +294,63 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-
+      console.log('curr comp', component);
       // find the moved element's former parent
       // delete the element from it's former parent's children array
       const { directParent, childIndexValue } = findParent(
         component,
         state.canvasFocus.childId
       );
+      console.log('direct parent', directParent);
+      console.log('child index', childIndexValue);
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
         [...state.rootComponents],
-        state.projectType
+        state.projectType,
+        state.HTMLTypes
       );
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
+    }
+
+    case 'DELETE PAGE': {
+      const id: number = state.canvasFocus.componentId;
+      // console.log('id: ', id);
+
+      const components = [...state.components].filter(comp => comp.id != id);
+      // console.log('components: ', components);
+      updateIds(components);
+      // // console.log('all components', state.components);
+
+      const canvasFocus = { componentId: 1, childId: null }
+      return {...state, components, canvasFocus}
+    }
+    case 'DELETE REUSABLE COMPONENT' : {
+      // TODO: bug when deleting element inside page
+        // can't edit component name
+        // happens sometimes. not sure exactly when
+
+      const id: number = state.canvasFocus.componentId;
+      // check if component is a child element of a page
+      if(isChildOfPage(id)) {
+        // TODO: include name of parent in alert
+        // TODO: change canvas focus to parent
+        //dialog.showErrorBox('error','Reusable components inside of a page must be deleted from the page');
+        alert('Reusable components inside of a page must be deleted from the page');
+        //const canvasFocus:Object = { componentId: id, childId: null };
+        return  { ...state }
+      }
+      // filter out components that don't match id
+      const components: Component[] = [...state.components].filter(comp => comp.id != id);
+
+      updateIds(components);
+
+      // TODO: temporary fix. should point to id directly
+      const canvasFocus = { componentId: 1, childId: null };
+      return {...state, components, canvasFocus};
     }
 
     case 'SET INITIAL STATE': {
@@ -312,7 +379,8 @@ const reducer = (state: State, action: Action) => {
           components,
           component.id,
           [...state.rootComponents],
-          projectType
+          projectType,
+          state.HTMLTypes
         );
       });
 
@@ -364,6 +432,16 @@ const reducer = (state: State, action: Action) => {
       };
     }
 
+    case 'ADD ELEMENT': {
+      console.log("REDUCER HIT");
+      const HTMLTypes = [...state.HTMLTypes];
+      HTMLTypes.push(action.payload);
+      console.log("MY NEW ARRAY: ", HTMLTypes);
+      return {
+        ...state,
+        HTMLTypes
+      }
+    }
     default:
       return state;
   }

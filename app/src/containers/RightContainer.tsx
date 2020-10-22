@@ -8,7 +8,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { stateContext } from '../context/context';
-import HTMLTypes from '../context/HTMLTypes';
 
 import ProjectManager from '../components/right/ProjectManager';
 
@@ -25,6 +24,8 @@ const RightContainer = (props): JSX.Element => {
   const [compHeight, setCompHeight] = useState('');
 
   const resetFields = () => {
+    //console.log(configTarget);
+    //console.log(configTarget.children);
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -114,7 +115,7 @@ const RightContainer = (props): JSX.Element => {
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = HTMLTypes.find(
+        focusTarget.child.name = state.HTMLTypes.find(
           elem => elem.id === focusChild.typeId
         ).name;
       }
@@ -128,6 +129,13 @@ const RightContainer = (props): JSX.Element => {
     state.canvasFocus.childId,
     state.canvasFocus.componentId
   ]);
+
+  const isPage = (configTarget) : boolean => {
+    const { components, rootComponents } = state;
+    return components
+      .filter(component => rootComponents.includes(component.id))
+      .some(el => el.id === configTarget.id);
+  }
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
@@ -153,6 +161,21 @@ const RightContainer = (props): JSX.Element => {
   const handleDelete = () => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
+
+  const handlePageDelete = (id) => () => {
+    dispatch({ type: 'DELETE PAGE', payload: { id }});
+  }
+
+  const handleDeleteReusableComponent = () => {
+    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  }
+
+  const isReusable = (configTarget): boolean => {
+    return state.components
+      .filter(comp => !state.rootComponents
+      .includes(comp.id))
+      .some(el => el.id == configTarget.id);
+  }
 
   return (
     <div className="column right ">
@@ -354,7 +377,27 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (
+          ) : (isPage(configTarget) ? (
+              <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handlePageDelete(configTarget.id)}
+                >
+                DELETE PAGE
+              </Button>
+            </div>
+          ) : isReusable(configTarget) ? (
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handleDeleteReusableComponent}
+                >
+                DELETE PAGE
+              </Button>
+            </div>
+          ) :
             ''
           )}
         </div>

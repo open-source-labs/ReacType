@@ -22,7 +22,11 @@
     "Tyler Sullberg",
     "Fredo Chen",
     "Aaron Bumanglag",
-    "Andrew Cho"
+    "Andrew Cho",
+    "Brian Han",
+    "Diego Vazquez",
+    "Jin Soo Lim",
+    "Stormi Hashimoto"
   ],
   "scripts": {
     "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",

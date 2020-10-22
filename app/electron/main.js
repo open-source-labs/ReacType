@@ -396,3 +396,5 @@ ipcMain.on('github', event => {
     }
   });
 });
+
+//module.exports = dialog;
