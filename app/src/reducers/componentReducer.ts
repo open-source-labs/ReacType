@@ -186,6 +186,8 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+
+  
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
@@ -310,6 +312,18 @@ const reducer = (state: State, action: Action) => {
       return { ...state, components, canvasFocus };
     }
 
+    case 'DELETE PAGE': {
+      const id: number = state.canvasFocus.componentId;
+      // console.log('id: ', id);
+
+      const components = [...state.components].filter(comp => comp.id != id);
+      // console.log('components: ', components);
+      updateIds(components);
+      // // console.log('all components', state.components);
+
+      const canvasFocus = { componentId: 1, childId: null }
+      return {...state, components, canvasFocus}
+    }
     case 'DELETE REUSABLE COMPONENT' : {
       // TODO: bug when deleting element inside page
         // can't edit component name
