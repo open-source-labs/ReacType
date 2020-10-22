@@ -1,5 +1,3 @@
-safsadf;
-
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -7,12 +5,42 @@ import Tab from '@material-ui/core/Tab';
 // import Tree from 'react-d3-tree';
 import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
+import { emitKeypressEvents } from 'readline';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
+
+  // const el = document.querySelector('resizer');
+  // console.log(el);
+  // el.addEventListener('mousedown', mousedown);
+
+  // function mousedown(e) {
+  //   window.addEventListener('mousemove', mousemove);
+  //   window.addEventListener('mouseup', mouseup);
+
+  //   let prevX = e.clientX;
+  //   let prevY = e.clientY;
+
+  //   function mousemove(e) {
+  //     let newX = prevX - e.clientX;
+  //     let newY = prevY - e.clientY;
+
+  //     const rect = el.getBoundingClientRect();
+
+  //     el.style.left = rect.left - newX + 'px';
+  //     el.style.top = rect.top - newY + 'px';
+
+  //     prevX = e.clientX;
+  //     prevY = e.clientY;
+  //   }
+  //   function mouseup() {
+  //     window.removeEventListener('mousemove', mousemove);
+  //     window.removeEventListener('mouseup', mouseup);
+  //   }
+  // }
 
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
@@ -21,32 +49,32 @@ const BottomTabs = () => {
 
   return (
     <div className={classes.root}>
-      <div id="resizeMe" className="resizable">
-        <Box className="resizer" display="flex" justifyContent="space-between">
-          <Tabs
-            value={tab}
-            onChange={handleChange}
+      {/* <div id="resizeMe" className="resizable"> */}
+      <Box display="flex" justifyContent="space-between">
+        <Tabs
+          value={tab}
+          onChange={handleChange}
+          classes={{
+            root: classes.tabsRoot,
+            indicator: classes.tabsIndicator
+          }}
+        >
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Code Preview"
+          />
+          <Tab
             classes={{
               root: classes.tabsRoot,
-              indicator: classes.tabsIndicator
+              selected: classes.tabSelected
             }}
-          >
-            <Tab
-              disableRipple
-              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-              label="Code Preview"
-            />
-            <Tab
-              classes={{
-                root: classes.tabsRoot,
-                selected: classes.tabSelected
-              }}
-              label="Tree Diagram"
-            />
-          </Tabs>
-        </Box>
-        {tab === 0 && <CodePreview />}
-      </div>
+            label="Tree Diagram"
+          />
+        </Tabs>
+      </Box>
+      {tab === 0 && <CodePreview />}
+      {/* </div> */}
     </div>
   );
 };
