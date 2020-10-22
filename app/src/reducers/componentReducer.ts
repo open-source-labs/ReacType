@@ -87,6 +87,10 @@ const reducer = (state: State, action: Action) => {
     return;
   };
 
+  const updateIds = (components: Array<Object>) => {
+    components.forEach((comp, i) => comp.id = i + 1)
+  }
+
   switch (action.type) {
     // Add a new component type
     // add component to the component array and increment our counter for the componentId
@@ -164,6 +168,8 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+
+  
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
@@ -287,18 +293,15 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'DELETE PAGE': {
-      const id = state.canvasFocus.componentId;
-      console.log('id: ', id);
+      const id: number = state.canvasFocus.componentId;
+      // console.log('id: ', id);
 
-      const components = [...state.components].filter(comp => comp.id !== id);
-      console.log('components: ', components);
-      const component = [...state.components].filter(comp => comp.id === id)[0];
-      console.log('component: ', component);
-      // const boo = isPage(id);
+      const components = [...state.components].filter(comp => comp.id != id);
+      // console.log('components: ', components);
+      updateIds(components);
+      // // console.log('all components', state.components);
 
-      // console.log('all components', state.components);
-
-      const canvasFocus = { componentsId: 1 }
+      const canvasFocus = { componentId: 1, childId: null }
       return {...state, components, canvasFocus}
     }
 
