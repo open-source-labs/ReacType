@@ -249,6 +249,10 @@ const generateCode = (
   rootComponents: number[],
   projectType: string
 ) => {
+  // console.log('components', components);
+  // console.log('componentId', componentId);
+  // console.log('rootComponents', rootComponents);
+  // console.log('projectType', projectType);
   const code = generateUnformattedCode(
     components,
     componentId,
