@@ -72,6 +72,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const renderIndirectChildren = (
     referencedComponent: Component | ChildElement
   ) => {
+    console.log('referenced comp => ', referencedComponent);
     // iterate through all children of referenced
     return referencedComponent.children.map(child => {
       if (child.type === 'Component') {

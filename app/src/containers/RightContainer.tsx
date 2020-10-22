@@ -25,6 +25,8 @@ const RightContainer = (props): JSX.Element => {
   const [compHeight, setCompHeight] = useState('');
 
   const resetFields = () => {
+    //console.log(configTarget);
+    //console.log(configTarget.children);
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -165,6 +167,17 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE PAGE', payload: { id }});
   }
   
+  const handleDeleteReusableComponent = () => {
+    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  }
+
+  const isReusable = (configTarget): boolean => {
+    return state.components
+      .filter(comp => !state.rootComponents
+      .includes(comp.id))
+      .some(el => el.id == configTarget.id);
+  }
+
   return (
     <div className="column right ">
       <div className="rightPanelWrapper">
@@ -366,12 +379,22 @@ const RightContainer = (props): JSX.Element => {
               </Button>
             </div>
           ) : (isPage(configTarget) ? (
-            <div className={classes.buttonRow}>
+              <div className={classes.buttonRow}>
               <Button
                 color="secondary"
                 className={classes.button}
                 onClick={handlePageDelete(configTarget.id)}
-              >
+                >
+                DELETE PAGE
+              </Button>
+            </div>
+          ) : isReusable(configTarget) ? (
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handleDeleteReusableComponent}
+                >
                 DELETE PAGE
               </Button>
             </div>

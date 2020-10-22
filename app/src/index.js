@@ -17,12 +17,14 @@ import {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
+    render={props => {
+      //console.log(props);
+      return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
         <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
+        ) : (
+          <Redirect to="/login" />
+          )
+      }
     }
   />
 );
