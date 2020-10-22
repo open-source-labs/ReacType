@@ -364,6 +364,16 @@ const reducer = (state: State, action: Action) => {
       };
     }
 
+    case 'ADD ELEMENT': {
+      console.log("REDUCER HIT");
+      const HTMLTypes = [...state.HTMLTypes];
+      HTMLTypes.push(action.payload);
+      console.log("MY NEW ARRAY: ", HTMLTypes);
+      return {
+        ...state,
+        HTMLTypes
+      }
+    }
     default:
       return state;
   }

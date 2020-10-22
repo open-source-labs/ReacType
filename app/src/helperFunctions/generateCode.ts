@@ -1,7 +1,9 @@
 import { Component, State, ChildElement } from '../interfaces/Interfaces';
-import HTMLTypes from '../context/HTMLTypes';
+// import HTMLTypes from '../context/HTMLTypes';
+import initialState from '../context/initialState';
 
-
+const test = document.getElementsByClassName("makeStyles-HTMLPanelItem-27");
+console.log(test);
 
 declare global {
   interface Window {
@@ -38,7 +40,9 @@ const generateUnformattedCode = (
         child['name'] = referencedComponent.name;
         return child;
       } else if (child.type === 'HTML Element') {
-        const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
+        const referencedHTML = initialState.HTMLTypes.find(elem => elem.id === child.typeId);
+        console.log("ARRAY OF HTMLS: ", initialState.HTMLTypes);
+        console.log("REF HTML: ", referencedHTML);
         child['tag'] = referencedHTML.tag;
         if (referencedHTML.tag === 'div') {
           child.children = getEnrichedChildren(child);
@@ -195,9 +199,9 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
 
       const ${currentComponent.name} = (props) => {
-      
+
         const  [value, setValue] = useState("INITIAL VALUE");
-      
+
       return (
         <>
         ${
@@ -213,7 +217,7 @@ const generateUnformattedCode = (
         </>
         );
       }
-      
+
       export default ${currentComponent.name};
     `;
   }

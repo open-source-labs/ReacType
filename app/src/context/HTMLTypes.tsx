@@ -97,6 +97,15 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'Header 2',
     placeHolderLong: '',
     icon: HeaderIcon
+  },
+  {
+    id: 12,
+    tag: 'strong',
+    name: 'Strong',
+    style: {},
+    placeHolderShort: 'Strong',
+    placeHolderLong: '',
+    icon: null
   }
 ];
 

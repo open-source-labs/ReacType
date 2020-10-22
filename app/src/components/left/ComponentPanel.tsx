@@ -82,15 +82,10 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   const handleNameSubmit = () => {
-    let letters = /[a-z]/;
+    let letters = /[a-zA-Z]/;
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
       return;
-      // }
-      // let firstChar = compName.charAt(0);
-      // if (firstChar <= '9' && firstChar >= '0') {
-      //   triggerError('number');
-      //   return;
     } else if (compName.trim() === '') {
       triggerError('empty');
       return;

@@ -1,6 +1,7 @@
 import { State } from '../interfaces/Interfaces';
-import HTMLTypes from './HTMLTypes';
+import HTMLType from './HTMLTypes';
 
+const HTMLTypes = [...HTMLType];
 // This is the state that will be set for a new project or when the user resets the state of their project
 export const initialState: State = {
   name: '',
