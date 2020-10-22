@@ -105,7 +105,7 @@ const reducer = (state: State, action: Action) => {
     return isChild;
   }
 
-  const updateIds = (components: Array<Object>) => {
+  const updateIds = (components: Component[]) => {
     components.forEach((comp, i) => comp.id = i + 1);
   }
 
@@ -340,7 +340,7 @@ const reducer = (state: State, action: Action) => {
         return  { ...state }
       }
       // filter out components that don't match id
-      const components: Array<Object> = [...state.components].filter(comp => comp.id != id);
+      const components: Component[] = [...state.components].filter(comp => comp.id != id);
 
       updateIds(components);
 
