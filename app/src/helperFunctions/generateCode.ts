@@ -1,7 +1,4 @@
 import { Component, State, ChildElement, HTMLType } from '../interfaces/Interfaces';
-// import HTMLTypes from '../context/HTMLTypes';
-import initialState from '../context/initialState';
-
 
 
 declare global {
