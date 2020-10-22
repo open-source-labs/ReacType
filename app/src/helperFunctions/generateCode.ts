@@ -1,9 +1,8 @@
-import { Component, State, ChildElement } from '../interfaces/Interfaces';
+import { Component, State, ChildElement, HTMLType } from '../interfaces/Interfaces';
 // import HTMLTypes from '../context/HTMLTypes';
 import initialState from '../context/initialState';
 
-const test = document.getElementsByClassName("makeStyles-HTMLPanelItem-27");
-console.log(test);
+
 
 declare global {
   interface Window {
@@ -16,7 +15,8 @@ const generateUnformattedCode = (
   comps: Component[],
   componentId: number,
   rootComponents: number[],
-  projectType: string
+  projectType: string,
+  HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
   // find the component that we're going to generate code for
@@ -40,8 +40,8 @@ const generateUnformattedCode = (
         child['name'] = referencedComponent.name;
         return child;
       } else if (child.type === 'HTML Element') {
-        const referencedHTML = initialState.HTMLTypes.find(elem => elem.id === child.typeId);
-        console.log("ARRAY OF HTMLS: ", initialState.HTMLTypes);
+        const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
+        console.log("ARRAY OF HTMLS: ", HTMLTypes);
         console.log("REF HTML: ", referencedHTML);
         child['tag'] = referencedHTML.tag;
         if (referencedHTML.tag === 'div') {
@@ -247,7 +247,8 @@ const generateCode = (
   components: Component[],
   componentId: number,
   rootComponents: number[],
-  projectType: string
+  projectType: string,
+  HTMLTypes: HTMLType[]
 ) => {
   // console.log('components', components);
   // console.log('componentId', componentId);
@@ -257,7 +258,8 @@ const generateCode = (
     components,
     componentId,
     rootComponents,
-    projectType
+    projectType,
+    HTMLTypes
   );
   return formatCode(code);
 };
