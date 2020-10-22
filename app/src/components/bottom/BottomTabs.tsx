@@ -19,23 +19,32 @@ const BottomTabs = () => {
 
   return (
     <div className={classes.root}>
-      <Box display="flex" justifyContent="space-between">
-        <Tabs
-          value={tab}
-          onChange={handleChange}
-          classes={{
-            root: classes.tabsRoot,
-            indicator: classes.tabsIndicator
-          }}
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
-          />
-        </Tabs>
-      </Box>
-      {tab === 0 && <CodePreview />}
+      <div id="resizeMe" className="resizable">
+        <Box className="resizer" display="flex" justifyContent="space-between">
+          <Tabs
+            value={tab}
+            onChange={handleChange}
+            classes={{
+              root: classes.tabsRoot,
+              indicator: classes.tabsIndicator
+            }}
+          >
+            <Tab
+              disableRipple
+              classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+              label="Code Preview"
+            />
+            <Tab
+              classes={{
+                root: classes.tabsRoot,
+                selected: classes.tabSelected
+              }}
+              label="Tree Diagram"
+            />
+          </Tabs>
+        </Box>
+        {tab === 0 && <CodePreview />}
+      </div>
     </div>
   );
 };
