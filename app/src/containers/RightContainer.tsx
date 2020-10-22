@@ -129,6 +129,13 @@ const RightContainer = (props): JSX.Element => {
     state.canvasFocus.componentId
   ]);
 
+  const isPage = (configTarget) : boolean => {
+    const { components, rootComponents } = state;
+    return components
+      .filter(component => rootComponents.includes(component.id))
+      .some(el => el.id === configTarget.id);
+  }
+
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
   const handleSave = (): Object => {
@@ -154,6 +161,10 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 
+  const handlePageDelete = (id) => () => {
+    dispatch({ type: 'DELETE PAGE', payload: { id }});
+  }
+  
   return (
     <div className="column right ">
       <div className="rightPanelWrapper">
@@ -354,7 +365,17 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (
+          ) : (isPage(configTarget) ? (
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handlePageDelete(configTarget.id)}
+              >
+                DELETE PAGE
+              </Button>
+            </div>
+          ) : 
             ''
           )}
         </div>

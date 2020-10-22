@@ -286,6 +286,22 @@ const reducer = (state: State, action: Action) => {
       return { ...state, components, canvasFocus };
     }
 
+    case 'DELETE PAGE': {
+      const id = state.canvasFocus.componentId;
+      console.log('id: ', id);
+
+      const components = [...state.components].filter(comp => comp.id !== id);
+      console.log('components: ', components);
+      const component = [...state.components].filter(comp => comp.id === id)[0];
+      console.log('component: ', component);
+      // const boo = isPage(id);
+
+      // console.log('all components', state.components);
+
+      const canvasFocus = { componentsId: 1 }
+      return {...state, components, canvasFocus}
+    }
+
     case 'SET INITIAL STATE': {
       // set the canvas focus to be the first component
       const canvasFocus = {
