@@ -82,7 +82,7 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   const handleNameSubmit = () => {
-    let letters = /[a-z]/;
+    let letters = /[a-zA-Z]/;
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
       return;
@@ -105,6 +105,12 @@ const ComponentPanel = (): JSX.Element => {
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
+
+  const deleteReusableComponent = (id) => {
+    // reducer to modify state.components
+    // make sure the component is not a root
+    // 
+  }
 
   return (
     <div className={classes.panelWrapper}>
@@ -155,7 +161,9 @@ const ComponentPanel = (): JSX.Element => {
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
-            .map(comp => (
+            .map(comp => {
+              //console.log('root comp', comp.name)
+              return (
               <ComponentPanelItem
                 isFocus={isFocus(comp.id)}
                 key={`comp-${comp.id}`}
@@ -163,14 +171,17 @@ const ComponentPanel = (): JSX.Element => {
                 id={comp.id}
                 root={true}
               />
-            ))}
+            )})}
         </Grid>
         {/* Display all reusable components */}
         <h4>Reusable components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
-            .map(comp => (
+            .map(comp => {
+              //console.log('all root comps', state.rootComponents);
+              //console.log('all reusable comps', state.components);
+              return (
               <ComponentPanelItem
                 isFocus={isFocus(comp.id)}
                 key={`comp-${comp.id}`}
@@ -178,7 +189,7 @@ const ComponentPanel = (): JSX.Element => {
                 id={comp.id}
                 root={false}
               />
-            ))}
+            )})}
         </Grid>
         {/* Display navigation components - (only applies to next.js which has routing built in) */}
         {state.projectType === 'Next.js' ? (
