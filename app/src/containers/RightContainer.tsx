@@ -8,7 +8,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { stateContext } from '../context/context';
-import HTMLTypes from '../context/HTMLTypes';
 
 import ProjectManager from '../components/right/ProjectManager';
 
@@ -116,7 +115,7 @@ const RightContainer = (props): JSX.Element => {
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = HTMLTypes.find(
+        focusTarget.child.name = state.HTMLTypes.find(
           elem => elem.id === focusChild.typeId
         ).name;
       }
@@ -166,7 +165,7 @@ const RightContainer = (props): JSX.Element => {
   const handlePageDelete = (id) => () => {
     dispatch({ type: 'DELETE PAGE', payload: { id }});
   }
-  
+
   const handleDeleteReusableComponent = () => {
     dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   }
@@ -398,7 +397,7 @@ const RightContainer = (props): JSX.Element => {
                 DELETE PAGE
               </Button>
             </div>
-          ) : 
+          ) :
             ''
           )}
         </div>

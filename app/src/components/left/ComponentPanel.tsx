@@ -86,11 +86,6 @@ const ComponentPanel = (): JSX.Element => {
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
       return;
-      // }
-      // let firstChar = compName.charAt(0);
-      // if (firstChar <= '9' && firstChar >= '0') {
-      //   triggerError('number');
-      //   return;
     } else if (compName.trim() === '') {
       triggerError('empty');
       return;
