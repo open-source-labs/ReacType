@@ -156,9 +156,8 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 
-  const handleDeleteReusableComponent = (id) => () => {
-    //console.log(id);
-    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: { id} });
+  const handleDeleteReusableComponent = () => {
+    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   }
 
   const isReusable = (configTarget): boolean => {
@@ -374,7 +373,7 @@ const RightContainer = (props): JSX.Element => {
               <Button
                 color="secondary"
                 className={classes.button}
-                onClick={handleDeleteReusableComponent(configTarget.id)}
+                onClick={handleDeleteReusableComponent}
               >
                 DELETE REUSABLE COMPONENT
               </Button>

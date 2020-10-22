@@ -88,6 +88,27 @@ const reducer = (state: State, action: Action) => {
     return;
   };
 
+  const isChildOfPage = (id: number): boolean => {
+    // TODO: refactor
+    // TODO: output parent name and id to refocus canvas on parent
+    let isChild: boolean = false;
+    state.components.forEach(comp => {
+      console.log('comp =>', comp);
+      comp.children.forEach(child => {
+        if (child.type === 'Component' && child.typeId === id) {
+          isChild = true;
+          console.log('parent name =>', comp.name);
+          console.log('parent id =>', comp.name);
+        }
+      });
+    });
+    return isChild;
+  }
+
+  const updateIds = (components: Array<Object>) => {
+    components.forEach((comp, i) => comp.id = i + 1);
+  }
+
   switch (action.type) {
     // Add a new component type
     // add component to the component array and increment our counter for the componentId
@@ -290,39 +311,29 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'DELETE REUSABLE COMPONENT' : {
-      // const component = findComponent(
-      //   components,
-      //   state.canvasFocus.componentId
-      //   );
-      const { id } = action.payload;
-        // slice id out of components
-      const components = [...state.components].filter(comp => comp.id != id);
-      const component = findComponent(
-        state.components,
-        state.canvasFocus.componentId
-      );
-      //const newComponents = components
+      // TODO: bug when deleting element inside page
+        // can't edit component name
+        // happens sometimes. not sure exactly when
 
-      console.log('components', state.components);
-      console.log('new components', components);
-      //console.log('id', id);
-      //console.log(state.canvasFocus.componentId);
-      // component.code = generateCode(
-      //   components,
-      //   state.canvasFocus.componentId,
-      //   [...state.rootComponents],
-      //   state.projectType
-      // );
-      //console.log('deleted component', component);
-      //component.code = '';
-      const canvasFocus = { ...state.canvasFocus, childId: null };
+      const id: number = state.canvasFocus.componentId;
+      // check if component is a child element of a page
+      if(isChildOfPage(id)) {
+        // TODO: include name of parent in alert
+        // TODO: change canvas focus to parent  
+        //dialog.showErrorBox('error','Reusable components inside of a page must be deleted from the page');
+        alert('Reusable components inside of a page must be deleted from the page');
+        //const canvasFocus:Object = { componentId: id, childId: null };
+        return  { ...state }
+      }
+      // filter out components that don't match id
+      const components: Array<Object> = [...state.components].filter(comp => comp.id != id);
+
+      updateIds(components);
+
+      // TODO: temporary fix. should point to id directly 
+      const canvasFocus = { componentId: 1, childId: null };
       return {...state, components, canvasFocus};
     }
-
-
-
-
-
 
     case 'SET INITIAL STATE': {
       // set the canvas focus to be the first component
