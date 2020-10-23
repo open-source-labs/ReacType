@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
 
+//test for resizable component
+import { Resizable } from "re-resizable";
+
 // Main container contains the canvas which renders the components/elements on screen
 // and the bottom panel which displays the code for the component
 class MainContainer extends Component {
@@ -13,9 +16,10 @@ class MainContainer extends Component {
         >
           <CanvasContainer />
         </div>
-
-        <BottomPanel />
-      </div>
+        <Resizable minHeight={'25%'} enable={{ top: true }}>
+          <BottomPanel />
+        </Resizable>
+    </div>
     );
   }
 }

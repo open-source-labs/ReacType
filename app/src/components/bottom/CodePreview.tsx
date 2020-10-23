@@ -26,6 +26,7 @@ const CodePreview = () => {
         justifyContent: 'center'
       }}
     >
+      
       <AceEditor
         mode="javascript"
         theme="monokai"

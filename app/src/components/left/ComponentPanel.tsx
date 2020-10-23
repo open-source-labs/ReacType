@@ -66,7 +66,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // Add a new component
   const createOption = (inputName: String) => {
-    // format name so first letter is capitalized and there are no whitespaces
+    // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
@@ -86,11 +86,6 @@ const ComponentPanel = (): JSX.Element => {
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
       return;
-      // }
-      // let firstChar = compName.charAt(0);
-      // if (firstChar <= '9' && firstChar >= '0') {
-      //   triggerError('number');
-      //   return;
     } else if (compName.trim() === '') {
       triggerError('empty');
       return;
