@@ -4,7 +4,6 @@ import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
@@ -20,7 +19,7 @@ function DirectChildHTMLNestable({
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
-  const HTMLType: HTMLType = HTMLTypes.find(
+  const HTMLType: HTMLType = state.HTMLTypes.find(
     (type: HTMLType) => type.id === typeId
   );
 

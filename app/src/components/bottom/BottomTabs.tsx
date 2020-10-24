@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
+import { emitKeypressEvents } from 'readline';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
