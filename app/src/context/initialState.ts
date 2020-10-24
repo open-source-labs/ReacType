@@ -11,7 +11,8 @@ export const initialState: State = {
       name: 'index',
       style: {},
       code: '<div>Drag in a component or HTML element into the canvas!</div>',
-      children: []
+      children: [],
+      isPage: true
     }
   ],
   projectType: 'Next.js',

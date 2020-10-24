@@ -110,6 +110,7 @@
     "connected-react-router": "^6.8.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "d3": "^6.2.0",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-splashscreen": "^1.0.0",
@@ -130,6 +131,7 @@
     "react-dnd-html5-backend": "^11.1.3",
     "react-dom": "^16.4.1",
     "react-router-dom": "^5.2.0",
+    "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
     "uuid": "^8.2.0"
