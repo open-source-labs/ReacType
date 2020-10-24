@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { select, hierarchy, tree, linkHorizontal } from "d3";
 import { stateContext } from '../context/context';
+
+// i don't think this does what i need it to do
 import useResizeObserver from "./useResizeObserver";
 
 function usePrevious(value) {
@@ -15,6 +17,8 @@ function TreeChart({ data }) {
   const [state, dispatch] = useContext(stateContext);
   const svgRef = useRef();
   const wrapperRef = useRef();
+
+  // this needs to be modified
   const dimensions = useResizeObserver(wrapperRef);
   console.log('dimensions', dimensions);
 
@@ -33,11 +37,12 @@ function TreeChart({ data }) {
     
     console.log('width', width);
     console.log('height', height);
+
     // transform hierarchical data
     const root = hierarchy(data[0]);
     const treeLayout = tree().size([height, width]);
 
-    // Returns a new link generator with horizontal tangents. 
+    // Returns a new link generator with horizontal display. 
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
@@ -46,7 +51,7 @@ function TreeChart({ data }) {
     // insert our data into the tree layout
     treeLayout(root);
 
-    // nodes - each element in the tree
+    // node - each element in the tree
     svg
       .selectAll(".node")
       .data(root.descendants())
@@ -62,7 +67,7 @@ function TreeChart({ data }) {
       .attr("r", 4) // radius of circle
       .attr("opacity", 1);
 
-    // links - lines that connect the nodes
+    // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll(".link")
       .data(root.links())
