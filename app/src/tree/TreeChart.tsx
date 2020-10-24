@@ -43,9 +43,9 @@ function TreeChart({ data }) {
     // insert our data into the tree layout
     treeLayout(root);
 
-    // nodes
+    // nodes - each element in the tree
     svg
-      .selectAll(".node") // grab all nodes
+      .selectAll(".node")
       .data(root.descendants())
       .join(enter => enter.append("circle").attr("opacity", 0))
       .attr("class", "node")
@@ -56,10 +56,10 @@ function TreeChart({ data }) {
       */
       .attr("cx", node => node.y)
       .attr("cy", node => node.x)
-      .attr("r", 4)
+      .attr("r", 4) // radius of circle
       .attr("opacity", 1);
 
-    // links
+    // links - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll(".link")
       .data(root.links())
@@ -82,7 +82,7 @@ function TreeChart({ data }) {
         .attr("stroke-dashoffset", 0);
     }
 
-    // labels
+    // label - the names of each html element (node)
     svg
       .selectAll(".label")
       .data(root.descendants())
