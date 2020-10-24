@@ -68,7 +68,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // Add a new component
   const createOption = (inputName: String) => {
-    // format name so first letter is capitalized and there are no whitespaces
+    // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
@@ -111,12 +111,6 @@ const ComponentPanel = (): JSX.Element => {
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
-
-  // const deleteReusableComponent = (id) => {
-  //   // reducer to modify state.components
-  //   // make sure the component is not a root
-  //   //
-  // }
 
   return (
     <div className={classes.panelWrapper}>
@@ -170,14 +164,15 @@ const ComponentPanel = (): JSX.Element => {
             .map(comp => {
               //console.log('root comp', comp.name)
               return (
-              <ComponentPanelItem
-                isFocus={isFocus(comp.id)}
-                key={`comp-${comp.id}`}
-                name={comp.name}
-                id={comp.id}
-                root={true}
-              />
-            )})}
+                <ComponentPanelItem
+                  isFocus={isFocus(comp.id)}
+                  key={`comp-${comp.id}`}
+                  name={comp.name}
+                  id={comp.id}
+                  root={true}
+                />
+              );
+            })}
         </Grid>
         {/* Display all reusable components */}
         <h4>Reusable components</h4>
@@ -188,14 +183,15 @@ const ComponentPanel = (): JSX.Element => {
               //console.log('all root comps', state.rootComponents);
               //console.log('all reusable comps', state.components);
               return (
-              <ComponentPanelItem
-                isFocus={isFocus(comp.id)}
-                key={`comp-${comp.id}`}
-                name={comp.name}
-                id={comp.id}
-                root={false}
-              />
-            )})}
+                <ComponentPanelItem
+                  isFocus={isFocus(comp.id)}
+                  key={`comp-${comp.id}`}
+                  name={comp.name}
+                  id={comp.id}
+                  root={false}
+                />
+              );
+            })}
         </Grid>
         {/* Display navigation components - (only applies to next.js which has routing built in) */}
         {state.projectType === 'Next.js' ? (
