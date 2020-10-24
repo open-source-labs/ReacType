@@ -11,7 +11,7 @@ const BottomPanel = () => {
     <Resizable
       enable={{
         top: true,
-      }}
+      }} minHeight={'25%'}
     >
       <div className="bottom-panel">
         <BottomTabs />
