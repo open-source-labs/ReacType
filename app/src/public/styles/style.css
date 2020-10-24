@@ -214,18 +214,12 @@ h1 {
   text-align: center;
 }
 
-.resizable {
-  position: relative;
+.ace_scrollbar {
+  display: none;
 }
 
-.resizer {
-  position: absolute;
-  cursor: row-resize;
-  top: 0;
-  height: 5px;
-  left: 0;
-  right: 0;
-  width: 100%;
+.ace_print-margin {
+  display: none;
 }
 
 /*
@@ -247,13 +241,14 @@ RIGHT COLUMN
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
-  height: 33%;
-  min-height: 260px;
+  height: 100%;
+  min-height: 500px;
   /* display: flex;
   flex-direction: row; */
   background-color: #fcfcfc;
   /* box-shadow: 0 -5px 7px 2px rgb(255, 0, 0); */
-  margin-right: 100px;
+  /* margin-right: 100px;
+  padding-right: 10px; */
 }
 
 .htmlattr {
