@@ -46,8 +46,8 @@ const SimpleModal = (props: any) => {
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        onClose={closeModal}
         open={open}
+        onClose={closeModal}
       >
         <div
           style={{

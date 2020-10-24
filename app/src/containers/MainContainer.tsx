@@ -8,9 +8,7 @@ class MainContainer extends Component {
   render() {
     return (
       <div className="main-container">
-        <div
-          className="main" //ref={main} **no function, commenting out**
-        >
+        <div className="main">
           <CanvasContainer />
         </div>
 

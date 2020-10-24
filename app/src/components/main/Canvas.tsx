@@ -49,7 +49,7 @@ function Canvas() {
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        console.log('dispatch change position')
+        console.log('dispatch change position');
         dispatch({
           type: 'CHANGE POSITION',
           payload: {
