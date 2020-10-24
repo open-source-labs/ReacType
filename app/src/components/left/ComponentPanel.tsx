@@ -32,6 +32,8 @@ const ComponentPanel = (): JSX.Element => {
       setErrorMsg('Component name already exists.');
     } else if (type === 'letters') {
       setErrorMsg('Component name must start with a letter.');
+    } else if (type === 'symbolsDetected') {
+      setErrorMsg('Component name must not contain symbols.');
     }
   };
 
@@ -81,10 +83,19 @@ const ComponentPanel = (): JSX.Element => {
     setCompName('');
   };
 
+  const alphanumeric = input => {
+    let letterNumber = /^[0-9a-zA-Z]+$/;
+    if (input.match(letterNumber)) return true;
+    return false;
+  }
+
   const handleNameSubmit = () => {
     let letters = /[a-zA-Z]/;
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
+      return;
+    } else if (!alphanumeric(compName)) {
+      triggerError('symbolsDetected');
       return;
     } else if (compName.trim() === '') {
       triggerError('empty');
@@ -101,11 +112,11 @@ const ComponentPanel = (): JSX.Element => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
 
-  const deleteReusableComponent = (id) => {
-    // reducer to modify state.components
-    // make sure the component is not a root
-    // 
-  }
+  // const deleteReusableComponent = (id) => {
+  //   // reducer to modify state.components
+  //   // make sure the component is not a root
+  //   //
+  // }
 
   return (
     <div className={classes.panelWrapper}>

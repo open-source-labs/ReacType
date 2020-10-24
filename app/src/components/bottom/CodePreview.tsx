@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { stateContext } from '../../context/context';
 import AceEditor from 'react-ace';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,10 @@ const CodePreview = () => {
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
+
+  const handleCodeSnipChange = val => {
+    currentComponent.code = val;
+  }
 
   return (
     <div
@@ -41,10 +45,11 @@ const CodePreview = () => {
         //     code
         //   })
         // }
+        onChange={handleCodeSnipChange}
         value={currentComponent.code}
         name="Code_div"
         // readOnly={this.props.codeReadOnly}
-        readOnly={true}
+        readOnly={false}
         editorProps={{ $blockScrolling: true }}
         fontSize={16}
         tabSize={2}

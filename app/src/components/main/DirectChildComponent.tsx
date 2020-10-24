@@ -10,7 +10,6 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import { stateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
-import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
@@ -104,7 +103,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
         // if the HTML element has children, then also render its children
         // get the default style/placeholder value for that type of HTML element
         // combine the default style of that HTML element and combine in with the custom styles applied to that element
-        const HTMLType: HTMLType = HTMLTypes.find(
+        const HTMLType: HTMLType = state.HTMLTypes.find(
           (type: HTMLType) => type.id === child.typeId
         );
         const HTMLDefaultStyle = HTMLType.style;

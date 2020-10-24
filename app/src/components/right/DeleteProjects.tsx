@@ -118,7 +118,7 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBotton: '10px'
+    marginBottom: '10px'
   },
   avatar: {
     backgroundColor: blue[100],
