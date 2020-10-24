@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { stateContext } from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 // import Tree from 'react-d3-tree';
 import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
+import Tree from '../../tree/TreeChart';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
+  const [state, dispatch] = useContext(stateContext);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
@@ -16,6 +19,9 @@ const BottomTabs = () => {
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
+
+  const { HTMLTypes } = state;
+  const { components } = state; 
 
   return (
     <div className={classes.root}>
@@ -33,9 +39,15 @@ const BottomTabs = () => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Code Preview"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Component Tree"
+          />
         </Tabs>
       </Box>
       {tab === 0 && <CodePreview />}
+      {tab === 1 && <Tree data={components} />}
     </div>
   );
 };

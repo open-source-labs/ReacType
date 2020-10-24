@@ -15,6 +15,7 @@ export interface State {
 export interface ChildElement {
   type: string;
   typeId: number;
+  name: string;
   childId: number;
   //   update this interface later so that we enforce that each value of style object is a string
   style: object;
@@ -28,6 +29,7 @@ export interface Component {
   style: object;
   code: string;
   children: ChildElement[];
+  isPage: boolean;
 }
 
 export interface Action {

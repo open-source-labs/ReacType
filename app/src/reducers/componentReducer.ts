@@ -7,6 +7,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
+import HTMLTypes from '../context/HTMLTypes';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -93,7 +94,6 @@ const reducer = (state: State, action: Action) => {
     // TODO: output parent name and id to refocus canvas on parent
     let isChild: boolean = false;
     state.components.forEach(comp => {
-      console.log('comp =>', comp);
       comp.children.forEach(child => {
         if (child.type === 'Component' && child.typeId === id) {
           isChild = true;
@@ -108,6 +108,8 @@ const reducer = (state: State, action: Action) => {
   const updateIds = (components: Component[]) => {
     components.forEach((comp, i) => comp.id = i + 1);
   }
+
+  const deleteById = (id: number): Component[] => [...state.components].filter(comp => comp.id != id);
 
   switch (action.type) {
     // Add a new component type
@@ -126,7 +128,8 @@ const reducer = (state: State, action: Action) => {
         nextChildId: 1,
         style: {},
         code: '',
-        children: []
+        children: [],
+        isPage: action.payload.root
       };
       const components = [...state.components];
       components.push(newComponent);
@@ -169,9 +172,15 @@ const reducer = (state: State, action: Action) => {
           return state;
       }
 
+      let newName = HTMLTypes.reduce((name, el) => {
+        if (typeId === el.id) name = el.tag;
+        return name;
+      },'');
+
       const newChild: ChildElement = {
         type,
         typeId,
+        name: newName,
         childId: state.nextChildId,
         style: {},
         children: []
@@ -186,7 +195,6 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-
 
       else {
         const directParent = findChild(parentComponent, childId);
@@ -294,15 +302,12 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-      console.log('curr comp', component);
       // find the moved element's former parent
       // delete the element from it's former parent's children array
       const { directParent, childIndexValue } = findParent(
         component,
         state.canvasFocus.childId
       );
-      console.log('direct parent', directParent);
-      console.log('child index', childIndexValue);
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
       component.code = generateCode(
@@ -318,15 +323,21 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
-      // console.log('id: ', id);
 
-      const components = [...state.components].filter(comp => comp.id != id);
-      // console.log('components: ', components);
+      // remove component and update ids
+      const components: Component[] = deleteById(id);
       updateIds(components);
-      // // console.log('all components', state.components);
 
+      // rebuild root components
+      const rootComponents: number[] = []; 
+      components.forEach(comp => {
+        if (comp.isPage) rootComponents.push(comp.id);
+      });
+      
+      //TODO: where should canvas focus after deleting comp?
       const canvasFocus = { componentId: 1, childId: null }
-      return {...state, components, canvasFocus}
+
+      return {...state, rootComponents, components, canvasFocus}
     }
     case 'DELETE REUSABLE COMPONENT' : {
       // TODO: bug when deleting element inside page
@@ -335,16 +346,17 @@ const reducer = (state: State, action: Action) => {
 
       const id: number = state.canvasFocus.componentId;
       // check if component is a child element of a page
+      // check if id is inside root components
       if(isChildOfPage(id)) {
         // TODO: include name of parent in alert
         // TODO: change canvas focus to parent
-        //dialog.showErrorBox('error','Reusable components inside of a page must be deleted from the page');
-        alert('Reusable components inside of a page must be deleted from the page');
+        // TODO: modal
+        console.log('Reusable components inside of a page must be deleted from the page');
         //const canvasFocus:Object = { componentId: id, childId: null };
         return  { ...state }
       }
       // filter out components that don't match id
-      const components: Component[] = [...state.components].filter(comp => comp.id != id);
+      const components: Component[] = deleteById(id);
 
       updateIds(components);
 
