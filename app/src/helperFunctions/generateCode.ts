@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-// generate code based on the component heirarchy
+// generate code based on the component hierarchy
 const generateUnformattedCode = (
   comps: Component[],
   componentId: number,
@@ -24,7 +24,7 @@ const generateUnformattedCode = (
 
   const isRoot = rootComponents.includes(componentId);
 
-  // get metadata for each child (e.g. the name/tag of the component/elemnt)
+  // get metadata for each child (e.g. the name/tag of the component/element)
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
@@ -38,8 +38,6 @@ const generateUnformattedCode = (
         return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
-        console.log("ARRAY OF HTMLS: ", HTMLTypes);
-        console.log("REF HTML: ", referencedHTML);
         child['tag'] = referencedHTML.tag;
         if (referencedHTML.tag === 'div') {
           child.children = getEnrichedChildren(child);
@@ -103,7 +101,7 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
         }
-        // route links are only a next.js feature. if the user creates a rotue link and then switches projects, generate code for a normal link instead
+        // route links are only a next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
           return projectType === 'Next.js'
             ? `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
@@ -113,7 +111,7 @@ const generateUnformattedCode = (
       .join('\n')}`;
   };
 
-  // format styles stored in object to match React's inline style format
+  // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
@@ -159,7 +157,7 @@ const generateUnformattedCode = (
       ${
         classBased
           ? `class ${currentComponent.name} extends Component {`
-          : `const ${currentComponent.name} = (props) => {`
+          : `const ${currentComponent.name} = (props): JSX.Element => {`
       }
       ${
         stateful && !classBased
@@ -195,7 +193,7 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-      const ${currentComponent.name} = (props) => {
+      const ${currentComponent.name} = (props): JSX.Element => {
 
         const  [value, setValue] = useState("INITIAL VALUE");
 
@@ -239,7 +237,7 @@ const formatCode = (code: string) => {
   }
 };
 
-// generate code based on component heirarchy and then return the rendered code
+// generate code based on component hierarchy and then return the rendered code
 const generateCode = (
   components: Component[],
   componentId: number,
