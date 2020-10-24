@@ -16,6 +16,7 @@ function TreeChart({ data }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
+  console.log('dimensions', dimensions);
 
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
@@ -29,7 +30,9 @@ function TreeChart({ data }) {
     // (dimensions are null for the first render)
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
-
+    
+    console.log('width', width);
+    console.log('height', height);
     // transform hierarchical data
     const root = hierarchy(data[0]);
     const treeLayout = tree().size([height, width]);
