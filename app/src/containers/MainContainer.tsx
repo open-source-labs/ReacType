@@ -8,14 +8,12 @@ class MainContainer extends Component {
   render() {
     return (
       <div className="main-container">
-        <div
-          className="main" 
-        >
+        <div className="main">
           <CanvasContainer />
         </div>
-        <Resizable minHeight={'25%'} enable={{ top: true }}>
+        {/* <Resizable minHeight={'25%'} enable={{ top: true }}> */}
           <BottomPanel />
-        </Resizable>
+        {/* </Resizable> */}
     </div>
     );
   }

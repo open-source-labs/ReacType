@@ -1,14 +1,22 @@
 import React, { useContext } from 'react';
 import { stateContext } from '../../context/context';
 import BottomTabs from './BottomTabs';
+// import BottomTabs from './BottomTabs';
+import { Resizable } from 're-resizable';
 
 // const IPC = require('electron').ipcRenderer;
 
 const BottomPanel = () => {
   return (
-    <div className="bottom-panel" style={{ width: '100%', height: '100%' }}>
-      <BottomTabs />
-    </div>
+    <Resizable
+      enable={{
+        top: true,
+      }}
+    >
+      <div className="bottom-panel">
+        <BottomTabs />
+      </div>
+    </Resizable>
   );
 };
 
