@@ -11,15 +11,7 @@ const BottomPanel = () => {
     <Resizable
       enable={{
         top: true,
-        right: false,
-        bottom: false,
-        left: false,
-        topRight: false,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
       }}
-      // style={style}
     >
       <div className="bottom-panel">
         <BottomTabs />

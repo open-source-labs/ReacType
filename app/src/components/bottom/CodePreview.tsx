@@ -73,7 +73,7 @@ const CodePreview = () => {
         width="100%"
         height="100%"
         style={{
-          // border: '2px solid #33eb91',
+          border: '2px solid #33eb91',
           borderRadius: '8px'
         }}
         // onChange={code =>
