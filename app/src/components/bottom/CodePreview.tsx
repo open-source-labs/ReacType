@@ -22,6 +22,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const optionColor = '#252526';
+
 const CodePreview = () => {
   const [state, dispatch] = useContext(stateContext);
   const [theme, setTheme] = useState('monokai');
@@ -60,11 +62,11 @@ const CodePreview = () => {
           value={theme}
           onChange={changeTheme}
         >
-          <option value={'monokai'}>Monokai</option>
-          <option value={'github'}>Github</option>
-          <option value={'solarized_dark'}>Solarized Dark</option>
-          <option value={'terminal'}>Terminal</option>
-          <option value={'solarized_light'}>Solarized Light</option>
+          <option value={'monokai'} style={{backgroundColor: optionColor}}>Monokai</option>
+          <option value={'github'} style={{backgroundColor: optionColor}}>Github</option>
+          <option value={'solarized_dark'} style={{backgroundColor: optionColor}}>Solarized Dark</option>
+          <option value={'terminal'} style={{backgroundColor: optionColor}}>Terminal</option>
+          <option value={'solarized_light'} style={{backgroundColor: optionColor}}>Solarized Light</option>
         </NativeSelect>
       </FormControl>
       <AceEditor
