@@ -26,7 +26,6 @@ const reducer = (state: State, action: Action) => {
     //  Initialize this array with the top level node
     const nodeArr: (Component | ChildElement)[] = [component];
     nodeArr.forEach(node => console.log('node', node));
-    //console.log('nodeArr', nodeArr);
     // iterate through each node in the array as long as there are elements in the array
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -97,8 +96,6 @@ const reducer = (state: State, action: Action) => {
       comp.children.forEach(child => {
         if (child.type === 'Component' && child.typeId === id) {
           isChild = true;
-          console.log('parent name =>', comp.name);
-          console.log('parent id =>', comp.name);
         }
       });
     });
@@ -131,6 +128,7 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
+
       const components = [...state.components];
       components.push(newComponent);
 
@@ -160,12 +158,25 @@ const reducer = (state: State, action: Action) => {
         typeId,
         childId
       }: { type: string; typeId: number; childId: any } = action.payload;
-      // the parent of the new child is whichever component that is currently focused on
-      const parentComponentId: number = state.canvasFocus.componentId;
 
-      // if we are adding a component as a child, first check whether the parent component is already a child of that component
-      // this check is important so that we don't create infinite loops between react components referencing each other as children
-      // if the componentId doesn't exist, return the state
+      const parentComponentId: number = state.canvasFocus.componentId;
+      const components = [...state.components]; 
+
+      // find component that we're adding a child to
+      const parentComponent = findComponent(components, parentComponentId);
+
+      let componentName = '';
+      let componentChildren = [];
+
+      if (type === 'Component') {
+        components.forEach(comp => {
+          if (comp.id === typeId) {
+            componentName = comp.name;
+            componentChildren = comp.children;
+          }
+        });
+      }
+
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (childTypeExists('Component', parentComponentId, originalComponent))
@@ -173,7 +184,9 @@ const reducer = (state: State, action: Action) => {
       }
 
       let newName = HTMLTypes.reduce((name, el) => {
-        if (typeId === el.id) name = el.tag;
+        if (typeId === el.id) {
+          name = (type === 'Component') ? componentName : el.tag; 
+        }
         return name;
       },'');
 
@@ -183,12 +196,9 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: []
-      };
+        children: componentChildren
+      };      
 
-      const components = [...state.components];
-      // find component that we're adding a child to
-      const parentComponent = findComponent(components, parentComponentId);
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
       if (childId === null) {
@@ -207,14 +217,13 @@ const reducer = (state: State, action: Action) => {
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
-      );
+      );    
 
       const canvasFocus = {
         ...state.canvasFocus,
         componentId: state.canvasFocus.componentId,
         childId: newChild.childId
       };
-
       const nextChildId = state.nextChildId + 1;
       return { ...state, components, nextChildId, canvasFocus };
     }

@@ -104,6 +104,7 @@ const ComponentPanel = (): JSX.Element => {
       triggerError('dupe');
       return;
     }
+    console.log(state.components);
     createOption(compName);
     resetError();
   };

@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { select, hierarchy, tree, linkHorizontal } from "d3";
 import useResizeObserver from "./useResizeObserver";
+import { stateContext } from '../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -11,6 +12,10 @@ function usePrevious(value) {
 }
 
 function TreeChart({ data }) {
+  const [state, dispatch] = useContext(stateContext);
+  const canvasId = state.canvasFocus.componentId;
+  //console.log('current comps =>', state.components);
+
   const svgRef = useRef();
   const wrapperRef = useRef();
    
@@ -32,7 +37,7 @@ function TreeChart({ data }) {
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(data[0]);
+    const root = hierarchy(data[canvasId - 1]);
     const treeLayout = tree().size([height, width-125]);
     
     // Returns a new link generator with horizontal display. 
@@ -97,7 +102,7 @@ function TreeChart({ data }) {
       .text(node => node.data.name)
       .attr("opacity", 1)
       .attr("transform", `translate(${xPosition}, 0)`);
-  }, [data, dimensions, previouslyRenderedData]);
+  }, [data, dimensions, previouslyRenderedData, canvasId]);
 
   const treeStyles = {
     height: '100%',
