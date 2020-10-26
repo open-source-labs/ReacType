@@ -14,6 +14,7 @@ function usePrevious(value) {
 }
 
 function TreeChart({ data }) {
+
   const [state, dispatch] = useContext(stateContext);
   const svgRef = useRef();
   const wrapperRef = useRef();
@@ -105,7 +106,10 @@ function TreeChart({ data }) {
   }, [data, dimensions, previouslyRenderedData]);
 
   return (
-    <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
+    <div 
+      ref={wrapperRef} 
+      style={{ marginBottom: "2rem" }}
+      >
       <svg ref={svgRef}></svg>
     </div>
   );
