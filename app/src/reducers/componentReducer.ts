@@ -7,7 +7,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
-import HTMLTypes from '../context/HTMLTypes';
+// import HTMLTypes from '../context/HTMLTypes';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -172,7 +172,7 @@ const reducer = (state: State, action: Action) => {
           return state;
       }
 
-      let newName = HTMLTypes.reduce((name, el) => {
+      let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) name = el.tag;
         return name;
       },'');

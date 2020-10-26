@@ -4,14 +4,19 @@ import BottomTabs from './BottomTabs';
 // import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 
+
 // const IPC = require('electron').ipcRenderer;
 
 const BottomPanel = () => {
+
+  // const [height, setHeight] = useState('25%');
+ 
   return (
     <Resizable
       enable={{
         top: true,
-      }} minHeight={'25%'}
+      }} 
+      minHeight={'25%'}
     >
       <div className="bottom-panel">
         <BottomTabs />

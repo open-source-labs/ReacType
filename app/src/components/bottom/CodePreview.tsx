@@ -45,12 +45,8 @@ const CodePreview = () => {
       style={{
         height: '90%',
         paddingLeft: '0px',
-        // paddingTop: '1rem',
-        // paddingBottom: '1rem',
-        // overflow: 'auto',
         maxWidth: '100%',
-        // display: 'flex',
-        justifyContent: 'center'
+        maxHeight: '100%'
       }}
     >
       <FormControl fullWidth={true} className={classes.formControl}>

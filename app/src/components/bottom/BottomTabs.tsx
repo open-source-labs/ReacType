@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
-import { emitKeypressEvents } from 'readline';
+// import { emitKeypressEvents } from 'readline';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   bottomHeader: {
     flex: 1,
@@ -68,7 +68,8 @@ const useStyles = makeStyles(theme => ({
     Width: '200px'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242'
+    borderBottom: '0.5px solid #424242',
+    minHeight: '50%'
   },
   tabsIndicator: {
     backgroundColor: '#1de9b6'
