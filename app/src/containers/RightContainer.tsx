@@ -377,7 +377,7 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (isPage(configTarget) ? (
+          ) : (isPage(configTarget) && (state.components.length > 1) ? (
               <div className={classes.buttonRow}>
               <Button
                 color="secondary"
@@ -394,7 +394,7 @@ const RightContainer = (props): JSX.Element => {
                 className={classes.button}
                 onClick={handleDeleteReusableComponent}
                 >
-                DELETE PAGE
+                DELETE COMPONENT
               </Button>
             </div>
           ) :

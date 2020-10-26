@@ -7,7 +7,6 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
-import HTMLTypes from '../context/HTMLTypes';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -109,7 +108,10 @@ const reducer = (state: State, action: Action) => {
     components.forEach((comp, i) => comp.id = i + 1);
   }
 
-  const deleteById = (id: number): Component[] => [...state.components].filter(comp => comp.id != id);
+  const deleteById = (id: number): Component[] => {
+    if (state.components.length === 1) return [...state.components];
+    return [...state.components].filter(comp => comp.id != id);
+  }
 
   switch (action.type) {
     // Add a new component type
@@ -172,7 +174,7 @@ const reducer = (state: State, action: Action) => {
           return state;
       }
 
-      let newName = HTMLTypes.reduce((name, el) => {
+      let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) name = el.tag;
         return name;
       },'');
@@ -329,11 +331,11 @@ const reducer = (state: State, action: Action) => {
       updateIds(components);
 
       // rebuild root components
-      const rootComponents: number[] = []; 
+      const rootComponents: number[] = [];
       components.forEach(comp => {
         if (comp.isPage) rootComponents.push(comp.id);
       });
-      
+
       //TODO: where should canvas focus after deleting comp?
       const canvasFocus = { componentId: 1, childId: null }
 

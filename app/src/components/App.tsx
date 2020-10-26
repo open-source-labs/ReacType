@@ -13,7 +13,6 @@ import Cookies from 'js-cookie';
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   if (window.localStorage.getItem('ssid') !== 'guest') {
     state.isLoggedIn = true;
