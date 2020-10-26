@@ -8,6 +8,7 @@ import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
+import 'ace-builds/src-noconflict/theme-monokai';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -16,13 +17,16 @@ const BottomTabs = () => {
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
 
+  const [theme, setTheme] = useState('monokai');
+  // console.log('theme:', theme);
+
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
 
   const { HTMLTypes } = state;
-  const { components } = state; 
+  const { components } = state;
 
   return (
     <div className={classes.root}>
@@ -47,7 +51,7 @@ const BottomTabs = () => {
           />
         </Tabs>
       </Box>
-      {tab === 0 && <CodePreview />}
+      {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 1 && <Tree data={components} />}
     </div>
   );

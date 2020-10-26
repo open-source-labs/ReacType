@@ -23,9 +23,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CodePreview = () => {
+const optionColor = '#252526';
+
+const CodePreview = ({ theme, setTheme }) => {
   const [state, dispatch] = useContext(stateContext);
-  const [theme, setTheme] = useState('monokai');
+  // const [theme, setTheme] = useState('monokai');
   const classes = useStyles();
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -44,15 +46,14 @@ const CodePreview = () => {
       style={{
         height: '90%',
         paddingLeft: '0px',
-        // paddingTop: '1rem',
-        // paddingBottom: '1rem',
+        paddingBottom: '8%',
         // overflow: 'auto',
         maxWidth: '100%',
         // display: 'flex',
         justifyContent: 'center'
       }}
     >
-      <FormControl fullWidth={true} className={classes.formControl}>
+      <FormControl className={classes.formControl}>
         <div className="flex-container">
           <div className="flex1">Change Theme:</div>
           <NativeSelect

@@ -10,7 +10,7 @@ const BottomPanel = () => {
   return (
     <Resizable
       enable={{
-        top: true,
+        top: true
       }}
     >
       <div className="bottom-panel">

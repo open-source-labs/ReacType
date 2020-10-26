@@ -7,7 +7,6 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
-import HTMLTypes from '../context/HTMLTypes';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -103,13 +102,14 @@ const reducer = (state: State, action: Action) => {
       });
     });
     return isChild;
-  }
+  };
 
   const updateIds = (components: Component[]) => {
-    components.forEach((comp, i) => comp.id = i + 1);
-  }
+    components.forEach((comp, i) => (comp.id = i + 1));
+  };
 
-  const deleteById = (id: number): Component[] => [...state.components].filter(comp => comp.id != id);
+  const deleteById = (id: number): Component[] =>
+    [...state.components].filter(comp => comp.id != id);
 
   switch (action.type) {
     // Add a new component type
@@ -172,10 +172,10 @@ const reducer = (state: State, action: Action) => {
           return state;
       }
 
-      let newName = HTMLTypes.reduce((name, el) => {
+      let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) name = el.tag;
         return name;
-      },'');
+      }, '');
 
       const newChild: ChildElement = {
         type,
@@ -195,7 +195,6 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
@@ -329,31 +328,33 @@ const reducer = (state: State, action: Action) => {
       updateIds(components);
 
       // rebuild root components
-      const rootComponents: number[] = []; 
+      const rootComponents: number[] = [];
       components.forEach(comp => {
         if (comp.isPage) rootComponents.push(comp.id);
       });
-      
-      //TODO: where should canvas focus after deleting comp?
-      const canvasFocus = { componentId: 1, childId: null }
 
-      return {...state, rootComponents, components, canvasFocus}
+      //TODO: where should canvas focus after deleting comp?
+      const canvasFocus = { componentId: 1, childId: null };
+
+      return { ...state, rootComponents, components, canvasFocus };
     }
-    case 'DELETE REUSABLE COMPONENT' : {
+    case 'DELETE REUSABLE COMPONENT': {
       // TODO: bug when deleting element inside page
-        // can't edit component name
-        // happens sometimes. not sure exactly when
+      // can't edit component name
+      // happens sometimes. not sure exactly when
 
       const id: number = state.canvasFocus.componentId;
       // check if component is a child element of a page
       // check if id is inside root components
-      if(isChildOfPage(id)) {
+      if (isChildOfPage(id)) {
         // TODO: include name of parent in alert
         // TODO: change canvas focus to parent
         // TODO: modal
-        console.log('Reusable components inside of a page must be deleted from the page');
+        console.log(
+          'Reusable components inside of a page must be deleted from the page'
+        );
         //const canvasFocus:Object = { componentId: id, childId: null };
-        return  { ...state }
+        return { ...state };
       }
       // filter out components that don't match id
       const components: Component[] = deleteById(id);
@@ -362,7 +363,7 @@ const reducer = (state: State, action: Action) => {
 
       // TODO: temporary fix. should point to id directly
       const canvasFocus = { componentId: 1, childId: null };
-      return {...state, components, canvasFocus};
+      return { ...state, components, canvasFocus };
     }
 
     case 'SET INITIAL STATE': {
@@ -450,7 +451,7 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         HTMLTypes
-      }
+      };
     }
     default:
       return state;
