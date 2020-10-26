@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, Component } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { stateContext } from '../context/context';
+import HTMLTypes from '../context/HTMLTypes';
 
 import ProjectManager from '../components/right/ProjectManager';
 
@@ -115,7 +116,7 @@ const RightContainer = (props): JSX.Element => {
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = state.HTMLTypes.find(
+        focusTarget.child.name = HTMLTypes.find(
           elem => elem.id === focusChild.typeId
         ).name;
       }
@@ -136,6 +137,8 @@ const RightContainer = (props): JSX.Element => {
       .filter(component => rootComponents.includes(component.id))
       .some(el => el.id === configTarget.id);
   }
+
+  const isIndex = (): boolean => configTarget.id === 1;  
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
@@ -163,9 +166,12 @@ const RightContainer = (props): JSX.Element => {
   };
 
   const handlePageDelete = (id) => () => {
-    dispatch({ type: 'DELETE PAGE', payload: { id }});
+    // TODO: return modal 
+    isIndex() 
+      ? console.log('CAN\'T DELETE INDEX') 
+      : dispatch({ type: 'DELETE PAGE', payload: { id }});
   }
-
+  
   const handleDeleteReusableComponent = () => {
     dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   }
@@ -176,6 +182,20 @@ const RightContainer = (props): JSX.Element => {
       .includes(comp.id))
       .some(el => el.id == configTarget.id);
   }
+
+  // TODO: add isChildOfPage
+  // const isChildOfPage = (): boolean => {
+  //   const { id } = configTarget;
+  //   let isChild: boolean = false;
+  //   state.components.forEach(comp => {
+  //     comp.children.forEach(child => {
+  //       if (child.type === 'Component' && child.typeId === id) {
+  //         isChild = true;
+  //       }
+  //     });
+  //   });
+  //   return isChild;
+  // }
 
   return (
     <div className="column right ">
@@ -387,18 +407,17 @@ const RightContainer = (props): JSX.Element => {
                 DELETE PAGE
               </Button>
             </div>
-          ) : isReusable(configTarget) ? (
+          ) : (
             <div className={classes.buttonRow}>
               <Button
                 color="secondary"
                 className={classes.button}
                 onClick={handleDeleteReusableComponent}
                 >
-                DELETE PAGE
+                DELETE REUSABLE COMPONENT
               </Button>
             </div>
-          ) :
-            ''
+          ) 
           )}
         </div>
         <ProjectManager />
