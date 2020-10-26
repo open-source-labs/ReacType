@@ -1,16 +1,19 @@
 import React, { useState, useContext, useEffect, useMemo, Component } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
 import { stateContext } from '../context/context';
 import HTMLTypes from '../context/HTMLTypes';
-
 import ProjectManager from '../components/right/ProjectManager';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ErrorMessages from '../constants/ErrorMessages';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (props): JSX.Element => {
@@ -23,10 +26,11 @@ const RightContainer = (props): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
+  const [dialogError, setDialogError] = useState(false);
+  const [deleteIndexError, setDeleteIndexError] = useState(false);
+  const [deleteComponentError, setDeleteComponentError] = useState(false);
 
   const resetFields = () => {
-    //console.log(configTarget);
-    //console.log(configTarget.children);
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -140,6 +144,23 @@ const RightContainer = (props): JSX.Element => {
 
   const isIndex = (): boolean => configTarget.id === 1;  
 
+  const isChildOfPage = (): boolean => {
+    // TODO: refactor
+    // TODO: output parent name and id to refocus canvas on parent
+    let isChild: boolean = false;
+    const { id } = configTarget;
+    state.components.forEach(comp => {
+      comp.children.forEach(child => {
+        if (child.type === 'Component' && child.typeId === id) {
+          isChild = true;
+        }
+      });
+    });
+    return isChild;
+  }
+
+
+
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
   const handleSave = (): Object => {
@@ -168,12 +189,14 @@ const RightContainer = (props): JSX.Element => {
   const handlePageDelete = (id) => () => {
     // TODO: return modal 
     isIndex() 
-      ? console.log('CAN\'T DELETE INDEX') 
+      ? handleDialogError('index') 
       : dispatch({ type: 'DELETE PAGE', payload: { id }});
   }
   
   const handleDeleteReusableComponent = () => {
-    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+    isChildOfPage()
+    ? handleDialogError('component')
+    : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   }
 
   const isReusable = (configTarget): boolean => {
@@ -183,19 +206,15 @@ const RightContainer = (props): JSX.Element => {
       .some(el => el.id == configTarget.id);
   }
 
-  // TODO: add isChildOfPage
-  // const isChildOfPage = (): boolean => {
-  //   const { id } = configTarget;
-  //   let isChild: boolean = false;
-  //   state.components.forEach(comp => {
-  //     comp.children.forEach(child => {
-  //       if (child.type === 'Component' && child.typeId === id) {
-  //         isChild = true;
-  //       }
-  //     });
-  //   });
-  //   return isChild;
-  // }
+  const handleDialogError = (err) => {
+    if (err === 'index') setDeleteIndexError(true);
+    else setDeleteComponentError(true);
+  }
+
+  const handleCloseDialogError = () => {
+    setDeleteIndexError(false);
+    setDeleteComponentError(false);
+  }
 
   return (
     <div className="column right ">
@@ -422,6 +441,42 @@ const RightContainer = (props): JSX.Element => {
         </div>
         <ProjectManager />
       </div>
+      <Dialog
+        open={deleteIndexError}
+        onClose={handleCloseDialogError}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteIndexTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          {ErrorMessages.deleteIndexMessage}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogError} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={deleteComponentError}
+        onClose={handleCloseDialogError}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteComponentTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          {ErrorMessages.deleteComponentMessage}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogError} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
