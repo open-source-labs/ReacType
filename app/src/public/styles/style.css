@@ -273,6 +273,24 @@ RIGHT COLUMN
   overflow: auto;
 }
 
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex1 {
+  padding: 10px 20px 10px 5px;
+  color: #01d46d;
+}
+
+.flex2 {
+  padding-right: 10px;
+  padding-left: 10px;
+  border: rgb(68, 68, 68) solid 1px;
+  border-radius: 5px;
+  background-color: 252526;
+}
+
 /* Material-UI */
 
 /* Sortable tree sorting */

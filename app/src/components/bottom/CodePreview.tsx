@@ -11,6 +11,7 @@ import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -52,20 +53,21 @@ const CodePreview = () => {
       }}
     >
       <FormControl fullWidth={true} className={classes.formControl}>
-        {/* <InputLabel variant="filled" style={{ color: 'white' }}>
-          Change Theme
-        </InputLabel> */}
-        <NativeSelect
-          style={{ color: 'white' }}
-          value={theme}
-          onChange={changeTheme}
-        >
-          <option value={'monokai'}>Monokai</option>
-          <option value={'github'}>Github</option>
-          <option value={'solarized_dark'}>Solarized Dark</option>
-          <option value={'terminal'}>Terminal</option>
-          <option value={'solarized_light'}>Solarized Light</option>
-        </NativeSelect>
+        <div className="flex-container">
+          <div className="flex1">Change Theme:</div>
+          <NativeSelect
+            className="flex2"
+            style={{ color: 'white' }}
+            value={theme}
+            onChange={changeTheme}
+          >
+            <option value={'monokai'}>Monokai</option>
+            <option value={'github'}>Github</option>
+            <option value={'solarized_dark'}>Solarized Dark</option>
+            <option value={'terminal'}>Terminal</option>
+            <option value={'solarized_light'}>Solarized Light</option>
+          </NativeSelect>
+        </div>
       </FormControl>
       <AceEditor
         mode="javascript"
