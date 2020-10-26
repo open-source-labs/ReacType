@@ -120,7 +120,7 @@ const RightContainer = (props): JSX.Element => {
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = HTMLTypes.find(
+        focusTarget.child.name = state.HTMLTypes.find(
           elem => elem.id === focusChild.typeId
         ).name;
       }

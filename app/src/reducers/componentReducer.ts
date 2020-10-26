@@ -183,7 +183,7 @@ const reducer = (state: State, action: Action) => {
           return state;
       }
 
-      let newName = HTMLTypes.reduce((name, el) => {
+      let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = (type === 'Component') ? componentName : el.tag; 
         }

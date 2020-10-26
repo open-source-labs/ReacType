@@ -104,7 +104,6 @@ const ComponentPanel = (): JSX.Element => {
       triggerError('dupe');
       return;
     }
-    console.log(state.components);
     createOption(compName);
     resetError();
   };
@@ -163,7 +162,6 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
-              //console.log('root comp', comp.name)
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -181,8 +179,6 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
             .map(comp => {
-              //console.log('all root comps', state.rootComponents);
-              //console.log('all reusable comps', state.components);
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}

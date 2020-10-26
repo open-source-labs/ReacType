@@ -12,11 +12,8 @@ function usePrevious(value) {
 }
 
 function TreeChart({ data }) {
-  console.log('tree data', data);
   const [state, dispatch] = useContext(stateContext);
-  console.log(state.rootComponents);
   const canvasId = state.canvasFocus.componentId;
-  //console.log('current comps =>', state.components);
 
   const svgRef = useRef();
   const wrapperRef = useRef();
