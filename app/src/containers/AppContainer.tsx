@@ -15,11 +15,15 @@ const AppContainer = () => {
 
   return (
     // Mui theme provider provides themed styling to all MUI components in app
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider>
       <Button
         color="primary"
         className={classes.button}
-        onClick={() => (!style.backgroundColor ? setStyle({}) : setStyle({}))}
+        onClick={() =>
+          !style.backgroundColor
+            ? setStyle({ backgroundColor: 'red' })
+            : setStyle({})
+        }
       >
         Change to Light/Dark Mode
       </Button>
