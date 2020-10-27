@@ -9,14 +9,13 @@ import { Resizable } from 're-resizable';
 
 const BottomPanel = () => {
 
-  // const [height, setHeight] = useState('25%');
- 
   return (
     <Resizable
       enable={{
         top: true,
       }} 
       minHeight={'25%'}
+      // maxHeight={'100%'}
     >
       <div className="bottom-panel">
         <BottomTabs />
