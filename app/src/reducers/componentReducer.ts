@@ -7,6 +7,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
+import { isValueObject } from 'immutable';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -87,20 +88,6 @@ const reducer = (state: State, action: Action) => {
     return;
   };
 
-  // const isChildOfPage = (id: number): boolean => {
-  //   // TODO: refactor
-  //   // TODO: output parent name and id to refocus canvas on parent
-  //   let isChild: boolean = false;
-  //   state.components.forEach(comp => {
-  //     comp.children.forEach(child => {
-  //       if (child.type === 'Component' && child.typeId === id) {
-  //         isChild = true;
-  //       }
-  //     });
-  //   });
-  //   return isChild;
-  // }
-
   const updateIds = (components: Component[]) => {
     components.forEach((comp, i) => (comp.id = i + 1));
   };
@@ -109,18 +96,14 @@ const reducer = (state: State, action: Action) => {
     [...state.components].filter(comp => comp.id != id);
 
   switch (action.type) {
-    // Add a new component type
-    // add component to the component array and increment our counter for the componentId
-    // TODO: parse through name to any white spaces and camel case the name
     case 'ADD COMPONENT': {
-      // if nonString value or empty string is passed in, then don't modify the original state
       if (
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
       )
         return state;
       const newComponent = {
-        id: state.nextComponentId,
+        id: state.components.length + 1,
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
@@ -143,6 +126,7 @@ const reducer = (state: State, action: Action) => {
       };
 
       const nextComponentId = state.nextComponentId + 1;
+      console.log('new comps', components);
       return {
         ...state,
         components,
@@ -176,19 +160,28 @@ const reducer = (state: State, action: Action) => {
           }
         });
       }
-
+      
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (childTypeExists('Component', parentComponentId, originalComponent))
-          return state;
+        return state;
       }
-
+      
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = (type === 'Component') ? componentName : el.tag; 
         }
         return name;
       }, '');
+      
+      if (type === 'Route Link') {
+        components.find(comp => {
+          if (comp.id === typeId) {
+            newName = comp.name;
+            return;
+          }
+        })
+      }
 
       const newChild: ChildElement = {
         type,
@@ -302,6 +295,7 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE CHILD': {
       // if in-focus instance is a top-level component and not a child, don't delete anything
+            
       if (!state.canvasFocus.childId) return state;
 
       // find the current component in focus
@@ -331,6 +325,27 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
+      // console.log('id', id);
+      // const pageName = state.components[id-1].name;
+      // // check if page is linked to in other pages      
+      // console.log(state.components);
+      // console.log(pageName);
+
+      // //const currentComponents = [...state.components];
+
+      // const isLinked = (comps) => {
+      //   if (comps.length === 0) return;
+      //   comps.forEach((comp, i, array) => {
+      //     if (comp.type === 'Route Link' && comp.name === pageName) {
+      //       console.log('found link', i, comp);
+      //       array.splice(i, 1);
+      //         // delete the comp
+      //     }
+      //     if (comp.children.length > 0) isLinked(comp.children);
+      //   })  
+      // }
+      // isLinked(state.components);
+
       const components: Component[] = deleteById(id);
       updateIds(components);
 
@@ -339,7 +354,8 @@ const reducer = (state: State, action: Action) => {
       components.forEach(comp => {
         if (comp.isPage) rootComponents.push(comp.id);
       });
-
+      //console.log('curr', currentComponents);
+      console.log('comps', components);
       const canvasFocus = { componentId: 1, childId: null }
       return {...state, rootComponents, components, canvasFocus}
     }

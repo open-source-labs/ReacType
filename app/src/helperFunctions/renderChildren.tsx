@@ -11,6 +11,7 @@ import RouteLink from '../components/main/RouteLink';
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
   return children.map((child: ChildElement, i: number) => {
+    console.log('child', child);
     const { type, typeId, style, childId, children, attributes } = child;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)

@@ -11,6 +11,8 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
   const ref = useRef(null);
 
   // find the name of the Component corresponding with this link
+  console.log(state.components);
+  
   const routeName: string = state.components.find(
     (comp: Component) => comp.id === typeId
   ).name;

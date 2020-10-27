@@ -18,10 +18,11 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
+
   const referencedComponent: Component = state.components.find(
     (elem: Component) => elem.id === typeId
   );
-
+  
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
     item: {
@@ -57,6 +58,8 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
 
+  //console.log('reference comp', referencedComponent);
+
   const combinedStyle = combineStyles(
     combineStyles(
       combineStyles(globalDefaultStyle, referencedComponent.style),
@@ -79,10 +82,12 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
           (elem: Component) => elem.id === child.typeId
         );
         // combine the styles of the child with the reference component but give higher priority to the child's styles
+
         const combinedStyle = combineStyles(
           childReferencedComponent.style,
           child.style
         );
+  
         // render an IndirectChild component, and also call renderIndirectChildren recursively to render any of the child Component's children
         return (
           <IndirectChild

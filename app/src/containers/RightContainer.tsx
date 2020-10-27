@@ -26,7 +26,7 @@ const RightContainer = (props): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
-  const [dialogError, setDialogError] = useState(false);
+  const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
 
@@ -145,8 +145,6 @@ const RightContainer = (props): JSX.Element => {
   const isIndex = (): boolean => configTarget.id === 1;  
 
   const isChildOfPage = (): boolean => {
-    // TODO: refactor
-    // TODO: output parent name and id to refocus canvas on parent
     let isChild: boolean = false;
     const { id } = configTarget;
     state.components.forEach(comp => {
@@ -159,7 +157,23 @@ const RightContainer = (props): JSX.Element => {
     return isChild;
   }
 
-
+  const isLinkedTo = (): boolean => {
+    const { id } = configTarget;
+    const pageName = state.components[id-1].name;
+    let isLinked = false;
+    const searchNestedChildren = (comps) => {
+      if (comps.length === 0) return;
+        comps.forEach((comp, i) => {
+          if (comp.type === 'Route Link' && comp.name === pageName) {
+            console.log('found link', i, comp);
+            isLinked = true;
+          }
+          if (comp.children.length > 0) searchNestedChildren(comp.children);  
+        });
+      } 
+    searchNestedChildren(state.components);
+    return isLinked;
+  }
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
@@ -188,6 +202,7 @@ const RightContainer = (props): JSX.Element => {
 
   const handlePageDelete = (id) => () => {
     // TODO: return modal 
+    if (isLinkedTo()) return setDeleteLinkedPageError(true);
     isIndex() 
       ? handleDialogError('index') 
       : dispatch({ type: 'DELETE PAGE', payload: { id }});
@@ -214,6 +229,7 @@ const RightContainer = (props): JSX.Element => {
   const handleCloseDialogError = () => {
     setDeleteIndexError(false);
     setDeleteComponentError(false);
+    setDeleteLinkedPageError(false);
   }
 
   return (
@@ -442,15 +458,21 @@ const RightContainer = (props): JSX.Element => {
         <ProjectManager />
       </div>
       <Dialog
-        open={deleteIndexError}
+        open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
         onClose={handleCloseDialogError}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteIndexTitle}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {deleteIndexError ? ErrorMessages.deleteIndexTitle : ''}
+          {deleteComponentError ? ErrorMessages.deleteComponentTitle : ''} 
+          {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageTitle : ''}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          {ErrorMessages.deleteIndexMessage}
+          {deleteIndexError ? ErrorMessages.deleteIndexMessage : ''}
+          {deleteComponentError ? ErrorMessages.deleteComponentMessage : ''} 
+          {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageMessage : ''}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -459,7 +481,7 @@ const RightContainer = (props): JSX.Element => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog
+      {/* <Dialog
         open={deleteComponentError}
         onClose={handleCloseDialogError}
         aria-labelledby="alert-dialog-title"
@@ -476,7 +498,7 @@ const RightContainer = (props): JSX.Element => {
             OK
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };
