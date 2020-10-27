@@ -14,6 +14,8 @@ const HTMLPanel = (): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
+  const buttonClasses = "MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary";
+
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
     setTag(e.target.value);
@@ -138,12 +140,7 @@ const HTMLPanel = (): JSX.Element => {
               />
               {errorStatus && <span>{errorMsg}</span>}
             </label>
-            <input
-              className={classes.button}
-              color="primary"
-              type="submit"
-              value="Add Element"
-            />
+            <input className={buttonClasses} color="primary" type="submit" value="Add Element" style={{marginTop:'15px'}}/>
           </form>
         </div>
       </div>
