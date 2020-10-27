@@ -415,7 +415,7 @@ const reducer = (state: State, action: Action) => {
       };
       const rootComponent = {
         ...state.components[0],
-        code: '',
+        code: '<div>Drag in a component or HTML element into the canvas!</div>',
         children: [],
         style: {}
       };

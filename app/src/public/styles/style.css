@@ -276,6 +276,7 @@ RIGHT COLUMN
 .flex-container {
   display: flex;
   flex-direction: row;
+  padding-top: 5px;
 }
 
 .flex1 {
