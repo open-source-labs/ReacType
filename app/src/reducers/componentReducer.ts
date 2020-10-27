@@ -7,7 +7,6 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
-import HTMLTypes from '../context/HTMLTypes';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -103,10 +102,11 @@ const reducer = (state: State, action: Action) => {
   // }
 
   const updateIds = (components: Component[]) => {
-    components.forEach((comp, i) => comp.id = i + 1);
-  }
+    components.forEach((comp, i) => (comp.id = i + 1));
+  };
 
-  const deleteById = (id: number): Component[] => [...state.components].filter(comp => comp.id != id);
+  const deleteById = (id: number): Component[] =>
+    [...state.components].filter(comp => comp.id != id);
 
   switch (action.type) {
     // Add a new component type
@@ -188,7 +188,7 @@ const reducer = (state: State, action: Action) => {
           name = (type === 'Component') ? componentName : el.tag; 
         }
         return name;
-      },'');
+      }, '');
 
       const newChild: ChildElement = {
         type,
@@ -205,7 +205,6 @@ const reducer = (state: State, action: Action) => {
         parentComponent.children.push(newChild);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(newChild);
@@ -401,7 +400,7 @@ const reducer = (state: State, action: Action) => {
       };
       const rootComponent = {
         ...state.components[0],
-        code: '',
+        code: '<div>Drag in a component or HTML element into the canvas!</div>',
         children: [],
         style: {}
       };
@@ -437,7 +436,7 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         HTMLTypes
-      }
+      };
     }
     default:
       return state;

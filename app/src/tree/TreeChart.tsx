@@ -17,12 +17,12 @@ function TreeChart({ data }) {
 
   const svgRef = useRef();
   const wrapperRef = useRef();
-   
+
   const xPosition = 50;
   const textAndBorderColor = 'rgb(51, 235, 145)';
 
   const dimensions = useResizeObserver(wrapperRef);
- 
+
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
 
@@ -50,53 +50,53 @@ function TreeChart({ data }) {
 
     // node - each element in the tree
     svg
-      .selectAll(".node")
+      .selectAll('.node')
       .data(root.descendants())
-      .join(enter => enter.append("circle").attr("opacity", 0))
-      .attr("class", "node")
+      .join(enter => enter.append('circle').attr('opacity', 0))
+      .attr('class', 'node')
       /*
         The cx, cy attributes are associated with the circle and ellipse elements and designate the centre of each shape. The coordinates are set from the top, left hand corner of the web page.
         cx: The position of the centre of the element in the x axis measured from the left side of the screen.
         cy: The position of the centre of the element in the y axis measured from the top of the screen.
       */
-     // translate (x, y)
-     .attr("cx", node => node.y)
-     .attr("cy", node => node.x)
-     .attr("r", 4) // radius of circle
-     .attr("opacity", 1)
-     .style('fill', 'white')
-     .attr("transform", `translate(${xPosition}, 0)`);
+      // translate (x, y)
+      .attr('cx', node => node.y)
+      .attr('cy', node => node.x)
+      .attr('r', 4) // radius of circle
+      .attr('opacity', 1)
+      .style('fill', 'white')
+      .attr('transform', `translate(${xPosition}, 0)`);
 
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
-      .selectAll(".link")
+      .selectAll('.link')
       .data(root.links())
-      .join("path")
-      .attr("class", "link")
-      .attr("d", linkGenerator)
-      .attr("stroke", "white")
-      .attr("fill", "none")
-      .attr("opacity", 1)
-      .attr("transform", `translate(${xPosition}, 0)`);
-      
+      .join('path')
+      .attr('class', 'link')
+      .attr('d', linkGenerator)
+      .attr('stroke', 'white')
+      .attr('fill', 'none')
+      .attr('opacity', 1)
+      .attr('transform', `translate(${xPosition}, 0)`);
+
     if (data !== previouslyRenderedData) {
       enteringAndUpdatingLinks
-        .attr("stroke-dashoffset", function() {
+        .attr('stroke-dashoffset', function() {
           return this.getTotalLength();
         })
-        .attr("stroke-dashoffset", 0);
+        .attr('stroke-dashoffset', 0);
     }
 
     // label - the names of each html element (node)
     svg
-      .selectAll(".label")
-      .data(root.descendants())    
-      .join(enter => enter.append("text").attr("opacity", 0))
-      .attr("class", "label")
-      .attr("x", node => node.y)
-      .attr("y", node => node.x - 12)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 18)
+      .selectAll('.label')
+      .data(root.descendants())
+      .join(enter => enter.append('text').attr('opacity', 0))
+      .attr('class', 'label')
+      .attr('x', node => node.y)
+      .attr('y', node => node.x - 12)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', 18)
       .style('fill', textAndBorderColor)
       .text(node => node.data.name)
       .attr("opacity", 1)
@@ -108,7 +108,7 @@ function TreeChart({ data }) {
     width: `100%`,
     margin: '10px 10px 10px 10px',
     overflow: 'auto'
-  }
+  };
 
   const wrapperStyles = {
     border: `2px solid ${textAndBorderColor}`,
@@ -116,12 +116,14 @@ function TreeChart({ data }) {
     width: '100%',
     height: '90%',
     display: 'flex',
-    justifyContent: 'center',
-  }
+    justifyContent: 'center'
+  };
   return (
+    // <div style={{ backgroundColor: 'black',  }}>
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>
+    // </div>
   );
 }
 
