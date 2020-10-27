@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from 'react';
-import { select, hierarchy, tree, linkHorizontal } from 'd3';
-import useResizeObserver from './useResizeObserver';
+import React, { useRef, useEffect, useContext } from "react";
+import { select, hierarchy, tree, linkHorizontal } from "d3";
+import useResizeObserver from "./useResizeObserver";
+import { stateContext } from '../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -10,7 +11,10 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data, theme, setTheme }) {
+function TreeChart({ data }) {
+  const [state, dispatch] = useContext(stateContext);
+  const canvasId = state.canvasFocus.componentId;
+
   const svgRef = useRef();
   const wrapperRef = useRef();
 
@@ -32,10 +36,10 @@ function TreeChart({ data, theme, setTheme }) {
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(data[0]);
-    const treeLayout = tree().size([height, width - 125]);
-
-    // Returns a new link generator with horizontal display.
+    const root = hierarchy(data[canvasId - 1]);
+    const treeLayout = tree().size([height, width-125]);
+    
+    // Returns a new link generator with horizontal display. 
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
@@ -95,9 +99,9 @@ function TreeChart({ data, theme, setTheme }) {
       .attr('font-size', 18)
       .style('fill', textAndBorderColor)
       .text(node => node.data.name)
-      .attr('opacity', 1)
-      .attr('transform', `translate(${xPosition}, 0)`);
-  }, [data, dimensions, previouslyRenderedData]);
+      .attr("opacity", 1)
+      .attr("transform", `translate(${xPosition}, 0)`);
+  }, [data, dimensions, previouslyRenderedData, canvasId]);
 
   const treeStyles = {
     height: '100%',
