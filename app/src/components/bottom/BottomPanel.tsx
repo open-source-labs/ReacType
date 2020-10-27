@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { stateContext } from '../../context/context';
+// import { StateContext } from '../../context/context';
 import BottomTabs from './BottomTabs';
 // import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
@@ -12,6 +12,7 @@ const BottomPanel = () => {
       enable={{
         top: true,
       }}
+      minHeight={'25%'}
     >
       <div className="bottom-panel">
         <BottomTabs />

@@ -8,7 +8,7 @@ import HeaderIcon from '@material-ui/icons/TextFormat';
 import ButtonIcon from '@material-ui/icons/EditAttributes';
 import LinkIcon from '@material-ui/icons/Link';
 import ListIcon from '@material-ui/icons/List';
-
+console.log(HeaderIcon);
 const HTMLTypes: HTMLType[] = [
   {
     id: 11,

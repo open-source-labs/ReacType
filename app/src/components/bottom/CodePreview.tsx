@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import AceEditor from 'react-ace';
 import { makeStyles } from '@material-ui/core/styles';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 const optionColor = '#252526';
 
 const CodePreview = () => {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [theme, setTheme] = useState('monokai');
   const classes = useStyles();
   const currentComponent = state.components.find(

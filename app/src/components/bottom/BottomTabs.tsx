@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 // import Tree from 'react-d3-tree';
@@ -11,7 +11,7 @@ import { emitKeypressEvents } from 'readline';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
@@ -21,8 +21,7 @@ const BottomTabs = () => {
     setTab(value);
   };
 
-  const { HTMLTypes } = state;
-  const { components } = state; 
+  const { components, HTMLTypes } = state;
 
   return (
     <div className={classes.root}>

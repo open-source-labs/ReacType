@@ -7,14 +7,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { stateContext } from '../context/context';
+import { StateContext } from '../context/context';
 
 import ProjectManager from '../components/right/ProjectManager';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (props): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
