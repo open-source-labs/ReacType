@@ -87,7 +87,7 @@ const ComponentPanel = (): JSX.Element => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
-  }
+  };
 
   const handleNameSubmit = () => {
     let letters = /[a-zA-Z]/;
@@ -162,7 +162,6 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
-              //console.log('root comp', comp.name)
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -180,8 +179,6 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
             .map(comp => {
-              //console.log('all root comps', state.rootComponents);
-              //console.log('all reusable comps', state.components);
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -214,7 +211,7 @@ const ComponentPanel = (): JSX.Element => {
   );
 };
 
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
   inputField: {
     marginTop: '15px'
   },
@@ -277,7 +274,7 @@ const useStyles = makeStyles({
   button: {
     fontSize: '1rem',
     height: '40px',
-    maginTop: '10px',
+    marginTop: '10px',
     width: '100%',
     // border: '1px solid rgba(70,131,83)',
     backgroundColor: 'rgba(1,212,109,0.1)'

@@ -12,10 +12,9 @@ const BottomPanel = () => {
   return (
     <Resizable
       enable={{
-        top: true,
-      }} 
+        top: true
+      }}
       minHeight={'25%'}
-      // maxHeight={'100%'}
     >
       <div className="bottom-panel">
         <BottomTabs />

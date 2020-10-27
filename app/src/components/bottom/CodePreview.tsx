@@ -9,25 +9,22 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import FormControl from '@material-ui/core/FormControl';
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2)
+//   }
+// }));
 
 const optionColor = '#252526';
 
-const CodePreview = () => {
+const CodePreview = ({ theme, setTheme }) => {
   const [state, dispatch] = useContext(stateContext);
-  const [theme, setTheme] = useState('monokai');
-  const classes = useStyles();
+  // const classes = useStyles();
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -44,27 +41,10 @@ const CodePreview = () => {
     <div
       style={{
         height: '90%',
-        paddingLeft: '0px',
         maxWidth: '100%',
-        maxHeight: '100%'
+        justifyContent: 'center'
       }}
     >
-      <FormControl fullWidth={true} className={classes.formControl}>
-        {/* <InputLabel variant="filled" style={{ color: 'white' }}>
-          Change Theme
-        </InputLabel> */}
-        <NativeSelect
-          style={{ color: 'white' }}
-          value={theme}
-          onChange={changeTheme}
-        >
-          <option value={'monokai'} style={{backgroundColor: optionColor}}>Monokai</option>
-          <option value={'github'} style={{backgroundColor: optionColor}}>Github</option>
-          <option value={'solarized_dark'} style={{backgroundColor: optionColor}}>Solarized Dark</option>
-          <option value={'terminal'} style={{backgroundColor: optionColor}}>Terminal</option>
-          <option value={'solarized_light'} style={{backgroundColor: optionColor}}>Solarized Light</option>
-        </NativeSelect>
-      </FormControl>
       <AceEditor
         mode="javascript"
         theme={theme}
