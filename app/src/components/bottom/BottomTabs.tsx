@@ -3,11 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { stateContext } from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-// import Tree from 'react-d3-tree';
 import CodePreview from './CodePreview';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormControl from '@material-ui/core/FormControl';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -15,6 +16,7 @@ const BottomTabs = () => {
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
+  const [theme, setTheme] = useState('monokai');
 
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
@@ -22,7 +24,11 @@ const BottomTabs = () => {
   };
 
   const { HTMLTypes } = state;
-  const { components } = state; 
+  const { components } = state;
+
+  const changeTheme = e => {
+    setTheme(e.target.value);
+  };
 
   return (
     <div className={classes.root}>
@@ -46,9 +52,28 @@ const BottomTabs = () => {
             label="Component Tree"
           />
         </Tabs>
+        <FormControl>
+          <div className="flex-container">
+            <div className="flex1">Change Theme:</div>
+            <NativeSelect
+              className="flex2"
+              style={{ color: 'white' }}
+              value={theme}
+              onChange={changeTheme}
+            >
+              <option value={'monokai'}>Monokai</option>
+              <option value={'github'}>Github</option>
+              <option value={'solarized_dark'}>Solarized Dark</option>
+              <option value={'terminal'}>Terminal</option>
+              <option value={'solarized_light'}>Solarized Light</option>
+            </NativeSelect>
+          </div>
+        </FormControl>
       </Box>
-      {tab === 0 && <CodePreview />}
-      {tab === 1 && <Tree data={components} />}
+      {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
+      {tab === 1 && (
+        <Tree theme={theme} setTheme={setTheme} data={components} />
+      )}
     </div>
   );
 };
