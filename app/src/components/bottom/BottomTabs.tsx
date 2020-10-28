@@ -9,22 +9,24 @@ import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
+import { styleContext } from '../../containers/AppContainer';
 
-const BottomTabs = ({ style }) => {
+
+const BottomTabs = () => {
   // state that controls which tab the user is on
   const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('monokai');
+  const { style } = useContext(styleContext);
 
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
 
-  const { HTMLTypes } = state;
-  const { components } = state;
+  const { components, HTMLTypes } = state;
 
   const changeTheme = e => {
     setTheme(e.target.value);

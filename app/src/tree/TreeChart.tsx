@@ -11,7 +11,7 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ theme, setTheme, data }) {
+function TreeChart({ data }) {
   const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
