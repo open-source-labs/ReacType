@@ -11,19 +11,17 @@ export const theme1 = createMuiTheme({
     primary: {
       // light: '#00e676',
       main: '#01d46d' // less blinding green
+      //main:'#00FFFF' // teal color
       // dark: '#14a37f',
       // contrastText: '#fff'
-    },
-    secondary: {
-      main: '#ff5722'
     }
   }
 });
 
-export const theme2 = createMuiTheme({
-  // overrides: {
-  //   MuiContainer: {}
-  // }
-});
+// export const theme2 = createMuiTheme({
+//   // overrides: {
+//   //   MuiContainer: {}
+//   // }
+// });
 
 // export default theme;

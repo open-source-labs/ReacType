@@ -14,7 +14,8 @@ const HTMLPanel = (): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
-  const buttonClasses = "MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary";
+  const buttonClasses =
+    'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
@@ -125,9 +126,11 @@ const HTMLPanel = (): JSX.Element => {
                 value={tag}
                 onChange={handleTagChange}
                 className={classes.input}
+                style={{ marginBottom: '10px' }}
               />
               {errorStatus && <span>{errorMsg}</span>}
             </label>
+            <br></br>
             <label className={classes.inputLabel}>
               Tag Name:
               <input
@@ -140,7 +143,13 @@ const HTMLPanel = (): JSX.Element => {
               />
               {errorStatus && <span>{errorMsg}</span>}
             </label>
-            <input className={buttonClasses} color="primary" type="submit" value="Add Element" style={{marginTop:'15px'}}/>
+            <input
+              className={buttonClasses}
+              color="primary"
+              type="submit"
+              value="Add Element"
+              style={{ marginTop: '15px' }}
+            />
           </form>
         </div>
       </div>
@@ -210,10 +219,11 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     border: '1px solid rgba(51,235,145,0.75)',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    marginLeft: '10px'
   },
   inputLabel: {
-    fontSize: '14px',
+    fontSize: '16px',
     zIndex: 20,
     color: '#fff',
     marginTop: '-10px'
