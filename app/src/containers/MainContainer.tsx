@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
+import { styleContext } from './AppContainer';
 
-const MainContainer = ({ style }) => {
+const MainContainer = () => {
+  const { style } = useContext(styleContext);
+
   return (
-    <div className="main-container" style={style}>
+    <div className="main-container" style={style} >
       <div className="main">
         <CanvasContainer />
       </div>
-      <BottomPanel style={style}/>
+      <BottomPanel />
     </div>
   );
 };

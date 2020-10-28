@@ -6,7 +6,7 @@ import { Resizable } from 're-resizable';
 
 // const IPC = require('electron').ipcRenderer;
 
-const BottomPanel = ({ style }) => {
+const BottomPanel = () => {
   return (
     <Resizable
       enable={{
@@ -15,7 +15,7 @@ const BottomPanel = ({ style }) => {
       minHeight={'25%'}
     >
       <div className="bottom-panel">
-        <BottomTabs style={style} />
+        <BottomTabs  />
       </div>
     </Resizable>
   );
