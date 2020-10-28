@@ -170,7 +170,7 @@ const ProjectManager = () => {
         className={classes.button}
         onClick={() => {
           !style.backgroundColor
-            ? setStyle({ backgroundColor: '#00001a', color: 'white' })
+            ? setStyle({ backgroundColor: '#00001a' })
             : setStyle({});
         }}
       >
