@@ -8,7 +8,7 @@ const MainContainer = ({ style }) => {
       <div className="main">
         <CanvasContainer />
       </div>
-      <BottomPanel />
+      <BottomPanel style={style}/>
     </div>
   );
 };

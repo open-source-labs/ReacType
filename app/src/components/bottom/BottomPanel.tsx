@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-// import { StateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 
 
 // const IPC = require('electron').ipcRenderer;
 
-const BottomPanel = () => {
+const BottomPanel = ({ style }) => {
 
   return (
     <Resizable
@@ -16,7 +16,7 @@ const BottomPanel = () => {
       minHeight={'25%'}
     >
       <div className="bottom-panel">
-        <BottomTabs />
+        <BottomTabs style={style} />
       </div>
     </Resizable>
   );
