@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { select, hierarchy, tree, linkHorizontal } from "d3";
 import useResizeObserver from "./useResizeObserver";
-import { stateContext } from '../context/context';
+import { StateContext } from '../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -11,8 +11,8 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) {
-  const [state, dispatch] = useContext(stateContext);
+function TreeChart({ theme, setTheme, data }) {
+  const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
   const svgRef = useRef();
@@ -37,9 +37,9 @@ function TreeChart({ data }) {
       dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
     const root = hierarchy(data[canvasId - 1]);
-    const treeLayout = tree().size([height, width-125]);
-    
-    // Returns a new link generator with horizontal display. 
+    const treeLayout = tree().size([height, width - 125]);
+
+    // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
@@ -99,8 +99,8 @@ function TreeChart({ data }) {
       .attr('font-size', 18)
       .style('fill', textAndBorderColor)
       .text(node => node.data.name)
-      .attr("opacity", 1)
-      .attr("transform", `translate(${xPosition}, 0)`);
+      .attr('opacity', 1)
+      .attr('transform', `translate(${xPosition}, 0)`);
   }, [data, dimensions, previouslyRenderedData, canvasId]);
 
   const treeStyles = {
@@ -119,7 +119,7 @@ function TreeChart({ data }) {
     justifyContent: 'center'
   };
   return (
-    // <div style={{ backgroundColor: 'black',  }}>
+    // <div theme={theme} style={{ backgroundColor: 'black' }}>
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
@@ -12,7 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
@@ -71,9 +71,7 @@ const BottomTabs = () => {
         </FormControl>
       </Box>
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
-      {tab === 1 && (
-        <Tree theme={theme} setTheme={setTheme} data={components} />
-      )}
+      {tab === 1 && <Tree data={components} />}
     </div>
   );
 };

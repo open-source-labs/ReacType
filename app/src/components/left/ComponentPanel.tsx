@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
@@ -162,6 +162,7 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
+              //console.log('root comp', comp.name)
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -179,6 +180,8 @@ const ComponentPanel = (): JSX.Element => {
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
             .map(comp => {
+              //console.log('all root comps', state.rootComponents);
+              //console.log('all reusable comps', state.components);
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -211,7 +214,7 @@ const ComponentPanel = (): JSX.Element => {
   );
 };
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
   inputField: {
     marginTop: '15px'
   },
@@ -274,7 +277,7 @@ export const useStyles = makeStyles({
   button: {
     fontSize: '1rem',
     height: '40px',
-    marginTop: '10px',
+    maginTop: '10px',
     width: '100%',
     // border: '1px solid rgba(70,131,83)',
     backgroundColor: 'rgba(1,212,109,0.1)'

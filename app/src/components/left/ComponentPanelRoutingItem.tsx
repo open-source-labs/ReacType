@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 // a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   // find the root components that can be associated with a route
   // These will be the components that are displayed in the dropdown

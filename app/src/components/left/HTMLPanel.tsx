@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -10,11 +10,12 @@ const HTMLPanel = (): JSX.Element => {
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [currentID, setCurrentID] = useState(12);
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
-  const buttonClasses = "MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary";
+  const buttonClasses =
+    'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
@@ -78,7 +79,8 @@ const HTMLPanel = (): JSX.Element => {
       type: 'ADD ELEMENT',
       payload: newElement
     });
-    setCurrentID(currentID + 1);
+    const nextID = currentID + 1;
+    setCurrentID(nextID);
     setTag('');
     setName('');
   };
@@ -125,9 +127,11 @@ const HTMLPanel = (): JSX.Element => {
                 value={tag}
                 onChange={handleTagChange}
                 className={classes.input}
+                style={{ marginBottom: '10px' }}
               />
               {errorStatus && <span>{errorMsg}</span>}
             </label>
+            <br></br>
             <label className={classes.inputLabel}>
               Tag Name:
               <input
@@ -140,7 +144,13 @@ const HTMLPanel = (): JSX.Element => {
               />
               {errorStatus && <span>{errorMsg}</span>}
             </label>
-            <input className={buttonClasses} color="primary" type="submit" value="Add Element" style={{marginTop:'15px'}}/>
+            <input
+              className={buttonClasses}
+              color="primary"
+              type="submit"
+              value="Add Element"
+              style={{ marginTop: '15px' }}
+            />
           </form>
         </div>
       </div>
@@ -210,10 +220,11 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     border: '1px solid rgba(51,235,145,0.75)',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    marginLeft: '10px'
   },
   inputLabel: {
-    fontSize: '14px',
+    fontSize: '16px',
     zIndex: 20,
     color: '#fff',
     marginTop: '-10px'
