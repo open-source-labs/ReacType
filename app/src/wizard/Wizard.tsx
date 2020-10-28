@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -10,6 +11,9 @@ const Wizard = ({ style }): JSX.Element => {
   return (
     <div>
       Wizard
+      <Link to={`/`}>
+        <button>Application</button>
+      </Link>
     </div>
   );
 };

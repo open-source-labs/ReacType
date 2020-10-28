@@ -199,6 +199,7 @@ var MenuBuilder = function (mainWindow, appName) {
           }, 
           {
             label: "Tutorial",
+            click: 
           }
         ],
       },
