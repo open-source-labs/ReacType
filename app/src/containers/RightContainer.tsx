@@ -19,9 +19,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorMessages from '../constants/ErrorMessages';
+import { styleContext } from './AppContainer';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = ({ style }): JSX.Element => {
+const RightContainer = (): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -34,6 +35,7 @@ const RightContainer = ({ style }): JSX.Element => {
   const [dialogError, setDialogError] = useState(false);
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
+  const { style } = useContext(styleContext);
 
   const resetFields = () => {
     const style = configTarget.child
