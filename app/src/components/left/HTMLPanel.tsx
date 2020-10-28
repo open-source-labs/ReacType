@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -10,7 +10,7 @@ const HTMLPanel = (): JSX.Element => {
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [currentID, setCurrentID] = useState(12);
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
@@ -79,7 +79,8 @@ const HTMLPanel = (): JSX.Element => {
       type: 'ADD ELEMENT',
       payload: newElement
     });
-    setCurrentID(currentID + 1);
+    const nextID = currentID + 1;
+    setCurrentID(nextID);
     setTag('');
     setName('');
   };

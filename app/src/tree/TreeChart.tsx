@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import { select, hierarchy, tree, linkHorizontal } from 'd3';
-import useResizeObserver from './useResizeObserver';
-import { stateContext } from '../context/context';
+import React, { useRef, useEffect, useContext } from "react";
+import { select, hierarchy, tree, linkHorizontal } from "d3";
+import useResizeObserver from "./useResizeObserver";
+import { StateContext } from '../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -11,8 +11,8 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) {
-  const [state, dispatch] = useContext(stateContext);
+function TreeChart({ theme, setTheme, data }) {
+  const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
   const svgRef = useRef();

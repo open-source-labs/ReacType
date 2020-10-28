@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -27,7 +27,7 @@ import { styleContext } from '../../containers/AppContainer';
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   const classes = useStyles();
 

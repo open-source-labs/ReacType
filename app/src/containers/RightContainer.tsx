@@ -11,8 +11,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { stateContext } from '../context/context';
-import HTMLTypes from '../context/HTMLTypes';
+import { StateContext } from '../context/context';
 import ProjectManager from '../components/right/ProjectManager';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -24,7 +23,7 @@ import ErrorMessages from '../constants/ErrorMessages';
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({ style }): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');

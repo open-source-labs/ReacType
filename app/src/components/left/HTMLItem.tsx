@@ -56,7 +56,7 @@ const HTMLItem: React.FC<{
             marginLeft: '5px'
           }}
         >
-          {Icon && <Icon />}
+          {/* {Icon && <Icon />} */}
         </span>
       </div>
     </Grid>
