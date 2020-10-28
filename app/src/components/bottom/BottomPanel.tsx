@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { stateContext } from '../../context/context';
 import BottomTabs from './BottomTabs';
-// import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 
 // const IPC = require('electron').ipcRenderer;
