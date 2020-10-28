@@ -165,11 +165,12 @@ const ProjectManager = () => {
     <div>
       <Button
         color="primary"
-        style={{ marginLeft: '15%' }}
+        style={{ ...style.button, marginLeft: '15%' }}
+        variant="outlined"
         className={classes.button}
         onClick={() => {
           !style.backgroundColor
-            ? setStyle({ backgroundColor: '#00001a', color: 'red' })
+            ? setStyle({ backgroundColor: '#00001a' })
             : setStyle({});
         }}
       >
