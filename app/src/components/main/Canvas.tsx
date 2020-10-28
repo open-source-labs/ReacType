@@ -30,7 +30,6 @@ function Canvas() {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
-      //console.log(isOver);
       const didDrop = monitor.didDrop(); // returns false for direct drop target
       if (didDrop) {
         return;
@@ -49,7 +48,6 @@ function Canvas() {
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        console.log('dispatch change position');
         dispatch({
           type: 'CHANGE POSITION',
           payload: {
@@ -75,8 +73,7 @@ function Canvas() {
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
-  //console.log('curr comp =>', currentComponent);
-  //console.log('curr comp style', currentComponent.style);
+  
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>

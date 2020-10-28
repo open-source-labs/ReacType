@@ -14,7 +14,7 @@ const HTMLPanel = (): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
-console.log(state.HTMLTypes);
+  const buttonClasses = "MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary";
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
@@ -32,7 +32,10 @@ console.log(state.HTMLTypes);
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach(HTMLTag => {
-      if ((HTMLTag.name.toLowerCase() === inputName.toLowerCase()) || (HTMLTag.tag.toLowerCase() === inputName.toLowerCase())) {
+      if (
+        HTMLTag.name.toLowerCase() === inputName.toLowerCase() ||
+        HTMLTag.tag.toLowerCase() === inputName.toLowerCase()
+      ) {
         dupe = true;
       }
     });
@@ -59,7 +62,8 @@ console.log(state.HTMLTypes);
   const createOption = (inputTag: String, inputName: String) => {
     // format name so first letter is capitalized and there are no whitespaces
     let inputNameClean = inputName.replace(/\s+/g, '');
-    const formattedName = inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
+    const formattedName =
+      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
     const newElement = {
       id: currentID,
@@ -74,7 +78,8 @@ console.log(state.HTMLTypes);
       type: 'ADD ELEMENT',
       payload: newElement
     });
-    setCurrentID(currentID + 1);
+    const nextID = currentID + 1;
+    setCurrentID(nextID);
     setTag('');
     setName('');
   };
@@ -83,18 +88,18 @@ console.log(state.HTMLTypes);
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
-  }
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     let letters = /[a-zA-Z]/;
-    if ((!tag.charAt(0).match(letters)) || (!name.charAt(0).match(letters))) {
+    if (!tag.charAt(0).match(letters) || !name.charAt(0).match(letters)) {
       triggerError('letters');
       return;
     } else if (!alphanumeric(tag) || !alphanumeric(name)) {
       triggerError('symbolsDetected');
       return;
-    } else if ((tag.trim() === '') || (name.trim() === '')) {
+    } else if (tag.trim() === '' || name.trim() === '') {
       triggerError('empty');
       return;
     } else if (checkNameDupe(tag) || checkNameDupe(name)) {
@@ -103,28 +108,40 @@ console.log(state.HTMLTypes);
     }
     createOption(tag, name);
     resetError();
-  }
+  };
 
   return (
     <div>
       <h4> HTML Elements</h4>
       <div className={classes.addComponentWrapper}>
-        <div className={classes.inputWrapper} >
-          <form onSubmit={handleSubmit} >
+        <div className={classes.inputWrapper}>
+          <form onSubmit={handleSubmit}>
             <h4>Create New Element: </h4>
             <label className={classes.inputLabel}>
               Tag:
-              <input color={'primary'} type="text" name="Tag" value={tag} onChange={handleTagChange} className={classes.input} />
-              {errorStatus &&
-              <span>{errorMsg}</span>}
+              <input
+                color={'primary'}
+                type="text"
+                name="Tag"
+                value={tag}
+                onChange={handleTagChange}
+                className={classes.input}
+              />
+              {errorStatus && <span>{errorMsg}</span>}
             </label>
             <label className={classes.inputLabel}>
               Tag Name:
-              <input color={'primary'} type="text" name="Tag Name" value={name} onChange={handleNameChange} className={classes.input} />
-              {errorStatus &&
-              <span>{errorMsg}</span>}
+              <input
+                color={'primary'}
+                type="text"
+                name="Tag Name"
+                value={name}
+                onChange={handleNameChange}
+                className={classes.input}
+              />
+              {errorStatus && <span>{errorMsg}</span>}
             </label>
-            <input className={classes.button} color="primary" type="submit" value="Add Element" />
+            <input className={buttonClasses} color="primary" type="submit" value="Add Element" style={{marginTop:'15px'}}/>
           </form>
         </div>
       </div>
