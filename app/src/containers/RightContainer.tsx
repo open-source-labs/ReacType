@@ -170,7 +170,6 @@ const RightContainer = ({ style }): JSX.Element => {
       if (comps.length === 0) return;
         comps.forEach((comp, i) => {
           if (comp.type === 'Route Link' && comp.name === pageName) {
-            console.log('found link', i, comp);
             isLinked = true;
           }
           if (comp.children.length > 0) searchNestedChildren(comp.children);  

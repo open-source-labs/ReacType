@@ -10,7 +10,7 @@ import { emitKeypressEvents } from 'readline';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 
-const BottomTabs = () => {
+const BottomTabs = ({ style }) => {
   // state that controls which tab the user is on
   const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
@@ -31,7 +31,7 @@ const BottomTabs = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <Box display="flex" justifyContent="space-between">
         <Tabs
           value={tab}
