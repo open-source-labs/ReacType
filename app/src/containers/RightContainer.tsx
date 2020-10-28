@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, useMemo, Component } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  Component
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -15,7 +21,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorMessages from '../constants/ErrorMessages';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = (props): JSX.Element => {
+const RightContainer = ({ style }): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -134,12 +140,12 @@ const RightContainer = (props): JSX.Element => {
     state.canvasFocus.componentId
   ]);
 
-  const isPage = (configTarget) : boolean => {
+  const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
     return components
       .filter(component => rootComponents.includes(component.id))
       .some(el => el.id === configTarget.id);
-  }
+  };
 
   const isIndex = (): boolean => configTarget.id === 1;
 
@@ -156,9 +162,7 @@ const RightContainer = (props): JSX.Element => {
       });
     });
     return isChild;
-  }
-
-
+  };
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
@@ -185,38 +189,37 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 
-  const handlePageDelete = (id) => () => {
+  const handlePageDelete = id => () => {
     // TODO: return modal
     isIndex()
       ? handleDialogError('index')
-      : dispatch({ type: 'DELETE PAGE', payload: { id }});
-  }
+      : dispatch({ type: 'DELETE PAGE', payload: { id } });
+  };
 
   const handleDeleteReusableComponent = () => {
     isChildOfPage()
-    ? handleDialogError('component')
-    : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
-  }
+      ? handleDialogError('component')
+      : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  };
 
   const isReusable = (configTarget): boolean => {
     return state.components
-      .filter(comp => !state.rootComponents
-      .includes(comp.id))
+      .filter(comp => !state.rootComponents.includes(comp.id))
       .some(el => el.id == configTarget.id);
-  }
+  };
 
-  const handleDialogError = (err) => {
+  const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
-  }
+  };
 
   const handleCloseDialogError = () => {
     setDeleteIndexError(false);
     setDeleteComponentError(false);
-  }
+  };
 
   return (
-    <div className="column right ">
+    <div className="column right" style={style}>
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -415,13 +418,13 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (isPage(configTarget) ? (
-              <div className={classes.buttonRow}>
+          ) : isPage(configTarget) ? (
+            <div className={classes.buttonRow}>
               <Button
                 color="secondary"
                 className={classes.button}
                 onClick={handlePageDelete(configTarget.id)}
-                >
+              >
                 DELETE PAGE
               </Button>
             </div>
@@ -431,11 +434,10 @@ const RightContainer = (props): JSX.Element => {
                 color="secondary"
                 className={classes.button}
                 onClick={handleDeleteReusableComponent}
-                >
+              >
                 DELETE REUSABLE COMPONENT
               </Button>
             </div>
-          )
           )}
         </div>
         <ProjectManager />
@@ -446,10 +448,12 @@ const RightContainer = (props): JSX.Element => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteIndexTitle}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {ErrorMessages.deleteIndexTitle}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          {ErrorMessages.deleteIndexMessage}
+            {ErrorMessages.deleteIndexMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -464,10 +468,12 @@ const RightContainer = (props): JSX.Element => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteComponentTitle}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {ErrorMessages.deleteComponentTitle}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          {ErrorMessages.deleteComponentMessage}
+            {ErrorMessages.deleteComponentMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

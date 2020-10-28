@@ -22,5 +22,5 @@ export const initialState: State = {
   nextChildId: 1,
   HTMLTypes
 };
-console.log("initialState.HTMLTypes: ", initialState.HTMLTypes);
+
 export default initialState;

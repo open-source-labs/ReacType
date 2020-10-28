@@ -59,6 +59,12 @@ header {
   height: 100vh;
 }
 
+.mode-change-button {
+  display: flex;
+  align-content: center;
+  padding-top: 50px;
+}
+
 .progress-bar {
   flex-grow: 1;
 }

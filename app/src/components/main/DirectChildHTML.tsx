@@ -26,8 +26,7 @@ function DirectChildHTML({
   const HTMLType: HTMLType = state.HTMLTypes.find(
     (type: HTMLType) => type.id === typeId
   );
-  console.log(HTMLType.placeHolderShort);
-    console.log(typeof DirectChildHTML);
+
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
