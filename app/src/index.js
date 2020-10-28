@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
+import Wizard from './wizard/Wizard.tsx';
 
 import {
   HashRouter as Router,
@@ -35,6 +36,7 @@ ReactDOM.render(
       <Route exact path="/login" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
       <PrivateRoute path="/" component={App} />
+      <PrivateRoute path="/wizard" component={Wizard} />
     </Switch>
   </Router>,
   document.getElementById('app')

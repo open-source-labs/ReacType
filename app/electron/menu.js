@@ -196,7 +196,10 @@ var MenuBuilder = function (mainWindow, appName) {
                 "https://github.com/open-source-labs/ReacType"
               );
             },
-          },
+          }, 
+          {
+            label: "Tutorial",
+          }
         ],
       },
     ];
