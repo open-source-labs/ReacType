@@ -71,9 +71,7 @@ const BottomTabs = () => {
         </FormControl>
       </Box>
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
-      {tab === 1 && (
-        <Tree theme={theme} setTheme={setTheme} data={components} />
-      )}
+      {tab === 1 && <Tree data={components} />}
     </div>
   );
 };

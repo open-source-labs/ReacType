@@ -20,7 +20,7 @@ import { Component } from '../../interfaces/Interfaces';
 //   }
 // }));
 
-const optionColor = '#252526';
+// const optionColor = '#252526';
 
 const CodePreview = ({ theme, setTheme }) => {
   const [state, dispatch] = useContext(stateContext);

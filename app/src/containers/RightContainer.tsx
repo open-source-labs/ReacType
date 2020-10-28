@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, useMemo, Component } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  Component
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -16,7 +22,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorMessages from '../constants/ErrorMessages';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = (props): JSX.Element => {
+const RightContainer = ({ style }): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(stateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -135,14 +141,14 @@ const RightContainer = (props): JSX.Element => {
     state.canvasFocus.componentId
   ]);
 
-  const isPage = (configTarget) : boolean => {
+  const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
     return components
       .filter(component => rootComponents.includes(component.id))
       .some(el => el.id === configTarget.id);
-  }
+  };
 
-  const isIndex = (): boolean => configTarget.id === 1;  
+  const isIndex = (): boolean => configTarget.id === 1;
 
   const isChildOfPage = (): boolean => {
     let isChild: boolean = false;
@@ -210,21 +216,20 @@ const RightContainer = (props): JSX.Element => {
   
   const handleDeleteReusableComponent = () => {
     isChildOfPage()
-    ? handleDialogError('component')
-    : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
-  }
+      ? handleDialogError('component')
+      : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  };
 
   const isReusable = (configTarget): boolean => {
     return state.components
-      .filter(comp => !state.rootComponents
-      .includes(comp.id))
+      .filter(comp => !state.rootComponents.includes(comp.id))
       .some(el => el.id == configTarget.id);
-  }
+  };
 
-  const handleDialogError = (err) => {
+  const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
-  }
+  };
 
   const handleCloseDialogError = () => {
     setDeleteIndexError(false);
@@ -233,7 +238,7 @@ const RightContainer = (props): JSX.Element => {
   }
 
   return (
-    <div className="column right ">
+    <div className="column right" style={style}>
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -432,13 +437,13 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
-          ) : (isPage(configTarget) ? (
-              <div className={classes.buttonRow}>
+          ) : isPage(configTarget) ? (
+            <div className={classes.buttonRow}>
               <Button
                 color="secondary"
                 className={classes.button}
                 onClick={handlePageDelete(configTarget.id)}
-                >
+              >
                 DELETE PAGE
               </Button>
             </div>
@@ -448,11 +453,10 @@ const RightContainer = (props): JSX.Element => {
                 color="secondary"
                 className={classes.button}
                 onClick={handleDeleteReusableComponent}
-                >
+              >
                 DELETE REUSABLE COMPONENT
               </Button>
             </div>
-          ) 
           )}
         </div>
         <ProjectManager />
@@ -487,10 +491,12 @@ const RightContainer = (props): JSX.Element => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{ErrorMessages.deleteComponentTitle}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {ErrorMessages.deleteComponentTitle}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          {ErrorMessages.deleteComponentMessage}
+            {ErrorMessages.deleteComponentMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
