@@ -8,7 +8,7 @@ import HTMLPanel from '../components/left/HTMLPanel';
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = ({ style }): JSX.Element => {
   return (
-    <div style={style} className="column left">
+    <div className="column left" style={style}>
       <Grid container direction="row" alignItems="center">
         <ComponentPanel />
         <HTMLPanel />
