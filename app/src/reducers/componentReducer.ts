@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   State,
   Action,
@@ -29,7 +30,7 @@ const reducer = (state: State, action: Action) => {
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
-      // try to find id of childnode in children
+      // try to find id of childNode in children
       for (let i = 0; i <= currentNode.children.length - 1; i++) {
         // if match is found return object with both the parent and the index value of the child
         if (currentNode.children[i].childId === childId) {
@@ -108,6 +109,13 @@ const reducer = (state: State, action: Action) => {
   const deleteById = (id: number): Component[] =>
     [...state.components].filter(comp => comp.id != id);
 
+  const convertToJSX = (arrayOfElements) => {
+    // if id exists in state.HTMLTypes
+    for (let i = 0; i < initialState.HTMLTypes.length; i+=1) {
+      arrayOfElements[i] = initialState.HTMLTypes[i];
+    }
+  }
+
   switch (action.type) {
     // Add a new component type
     // add component to the component array and increment our counter for the componentId
@@ -160,7 +168,7 @@ const reducer = (state: State, action: Action) => {
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
-      const components = [...state.components]; 
+      const components = [...state.components];
 
       // find component that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
@@ -185,7 +193,7 @@ const reducer = (state: State, action: Action) => {
 
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
-          name = (type === 'Component') ? componentName : el.tag; 
+          name = (type === 'Component') ? componentName : el.tag;
         }
         return name;
       }, '');
@@ -197,7 +205,7 @@ const reducer = (state: State, action: Action) => {
         childId: state.nextChildId,
         style: {},
         children: componentChildren
-      };      
+      };
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
@@ -216,7 +224,7 @@ const reducer = (state: State, action: Action) => {
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
-      );    
+      );
 
       const canvasFocus = {
         ...state.canvasFocus,
@@ -335,7 +343,7 @@ const reducer = (state: State, action: Action) => {
       updateIds(components);
 
       // rebuild rootComponents with correct page IDs
-      const rootComponents: number[] = []; 
+      const rootComponents: number[] = [];
       components.forEach(comp => {
         if (comp.isPage) rootComponents.push(comp.id);
       });
@@ -358,6 +366,8 @@ const reducer = (state: State, action: Action) => {
         componentId: 1,
         childId: null
       };
+
+      convertToJSX(action.payload.HTMLTypes);
 
       return { ...action.payload, canvasFocus };
     }
@@ -425,6 +435,9 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'OPEN PROJECT': {
+      console.log("BEFORE FUNCTION: ", action.payload.HTMLTypes);
+      convertToJSX(action.payload.HTMLTypes);
+      console.log("AFTER FUNCTION: ", action.payload.HTMLTypes);
       return {
         ...action.payload
       };

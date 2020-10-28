@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 
 export interface ProjectDialogProps {
   open: boolean;
@@ -25,8 +25,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [_, dispatch] = useContext(stateContext);
-
+  const [_, dispatch] = useContext(StateContext);
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
     // onClose(selectedValue);

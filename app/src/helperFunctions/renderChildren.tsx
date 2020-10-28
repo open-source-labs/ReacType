@@ -25,7 +25,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // child is a non-nestable type of HTML element (everthing except for divs)
+    // child is a non-nestable type of HTML element (everything except for divs)
     else if (type === 'HTML Element' && typeId !== 11) {
       return (
         <DirectChildHTML

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { stateContext } from '../../context/context';
+// import { StateContext } from '../../context/context';
 import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 

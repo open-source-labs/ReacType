@@ -2,12 +2,12 @@ import React, { useContext, useRef } from 'react';
 import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function RouteLink({ childId, type, typeId, style }: ChildElement) {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
 
   // find the name of the Component corresponding with this link
