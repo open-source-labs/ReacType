@@ -21,7 +21,7 @@ import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 
-import { useStyles } from '../left/ComponentPanel';
+// import { useStyles } from '../left/ComponentPanel';
 import { styleContext } from '../../containers/AppContainer';
 
 const ProjectManager = () => {
@@ -165,7 +165,7 @@ const ProjectManager = () => {
     <div>
       <Button
         color="primary"
-        style={{...style.button, marginLeft: '15%'}}
+        style={{ ...style.button, marginLeft: '15%' }}
         variant="outlined"
         className={classes.button}
         onClick={() => {

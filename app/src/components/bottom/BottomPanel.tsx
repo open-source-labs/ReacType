@@ -7,7 +7,6 @@ import { Resizable } from 're-resizable';
 // const IPC = require('electron').ipcRenderer;
 
 const BottomPanel = ({ style }) => {
-
   return (
     <Resizable
       enable={{
