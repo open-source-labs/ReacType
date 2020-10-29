@@ -1,13 +1,13 @@
-const { Menu } = require("electron");
+const { Menu } = require('electron');
 const { BrowserWindow } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const isMac = process.platform === "darwin";
+const isMac = process.platform === 'darwin';
 const port = 5000;
 const tutorialRoute = `http://localhost:${port}/tutorial`;
 
 // Create a template for a menu and create menu using that template
-var MenuBuilder = function (mainWindow, appName) {
+var MenuBuilder = function(mainWindow, appName) {
   // https://electronjs.org/docs/api/menu#main-process
   // "roles" are predefined by Electron and used for standard actions
   // https://www.electronjs.org/docs/api/menu-item
@@ -26,13 +26,14 @@ var MenuBuilder = function (mainWindow, appName) {
         contextIsolation: true,
         enableRemoteModule: false,
         zoomFactor: 1.0,
+        devTools: false
       }
     });
     tutorial.loadURL(`http://localhost:8080/#/tutorial`);
     tutorial.show();
-  }
+  };
 
-  let defaultTemplate = function () {
+  let defaultTemplate = function() {
     return [
       // { role: "appMenu" }
       ...(isMac
@@ -42,202 +43,202 @@ var MenuBuilder = function (mainWindow, appName) {
               label: appName,
               submenu: [
                 {
-                  role: "about",
+                  role: 'about'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "services",
+                  role: 'services'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "hide",
+                  role: 'hide'
                 },
                 {
-                  role: "hideothers",
+                  role: 'hideothers'
                 },
                 {
-                  role: "unhide",
+                  role: 'unhide'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "quit",
-                },
-              ],
-            },
+                  role: 'quit'
+                }
+              ]
+            }
           ]
         : []),
       {
-        label: "File",
+        label: 'File',
         submenu: [
           isMac
             ? {
-                role: "close",
+                role: 'close'
               }
             : {
-                role: "quit",
-              },
-        ],
+                role: 'quit'
+              }
+        ]
       },
       {
-        label: "Edit",
+        label: 'Edit',
         submenu: [
           {
-            role: "undo",
+            role: 'undo'
           },
           {
-            role: "redo",
+            role: 'redo'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "cut",
+            role: 'cut'
           },
           {
-            role: "copy",
+            role: 'copy'
           },
           {
-            role: "paste",
+            role: 'paste'
           },
           ...(isMac
             ? [
                 {
-                  role: "pasteAndMatchStyle",
+                  role: 'pasteAndMatchStyle'
                 },
                 {
-                  role: "delete",
+                  role: 'delete'
                 },
                 {
-                  role: "selectAll",
+                  role: 'selectAll'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  label: "Speech",
+                  label: 'Speech',
                   submenu: [
                     {
-                      role: "startspeaking",
+                      role: 'startspeaking'
                     },
                     {
-                      role: "stopspeaking",
-                    },
-                  ],
-                },
+                      role: 'stopspeaking'
+                    }
+                  ]
+                }
               ]
             : [
                 {
-                  role: "delete",
+                  role: 'delete'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "selectAll",
-                },
-              ]),
-        ],
+                  role: 'selectAll'
+                }
+              ])
+        ]
       },
       // { role: "viewMenu" }
       {
-        label: "View",
+        label: 'View',
         submenu: [
           {
-            role: "reload",
+            role: 'reload'
           },
           {
-            role: "forcereload",
+            role: 'forcereload'
           },
           {
-            role: "toggledevtools",
+            role: 'toggledevtools'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "resetzoom",
+            role: 'resetzoom'
           },
           {
-            role: "zoomin",
+            role: 'zoomin'
           },
           {
-            role: "zoomout",
+            role: 'zoomout'
           },
           {
-            type: "separator",
+            type: 'separator'
           },
           {
-            role: "togglefullscreen",
-          },
-        ],
+            role: 'togglefullscreen'
+          }
+        ]
       },
 
       {
-        label: "Window",
+        label: 'Window',
         submenu: [
           {
-            role: "minimize",
+            role: 'minimize'
           },
           {
-            role: "zoom",
+            role: 'zoom'
           },
           ...(isMac
             ? [
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "front",
+                  role: 'front'
                 },
                 {
-                  type: "separator",
+                  type: 'separator'
                 },
                 {
-                  role: "window",
-                },
+                  role: 'window'
+                }
               ]
             : [
                 {
-                  role: "close",
-                },
-              ]),
-        ],
+                  role: 'close'
+                }
+              ])
+        ]
       },
       {
-        role: "help",
+        role: 'help',
         submenu: [
           {
-            label: "Learn More",
+            label: 'Learn More',
             click: async () => {
-              const { shell } = require("electron");
+              const { shell } = require('electron');
               await shell.openExternal(
-                "https://github.com/open-source-labs/ReacType"
+                'https://github.com/open-source-labs/ReacType'
               );
-            },
-          }, 
+            }
+          },
           {
-            label: "Tutorial",
+            label: 'Tutorial',
             click: () => openTutorial()
           }
-        ],
-      },
+        ]
+      }
     ];
   };
 
   // constructs menu from default template
   return {
-    buildMenu: function () {
+    buildMenu: function() {
       const menu = Menu.buildFromTemplate(defaultTemplate());
       Menu.setApplicationMenu(menu);
 
       return menu;
-    },
+    }
   };
 };
 

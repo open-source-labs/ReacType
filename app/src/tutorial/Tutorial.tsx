@@ -5,7 +5,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Styling from '../constants/Styling';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import LinkIcon from '@material-ui/icons/Link';
@@ -24,17 +25,19 @@ const useStyles = makeStyles({
     width: 350,
     height: 300,
     margin: 20,
-    border: `1px solid ${Styling.darkBlue}`,
+    border: `1px solid gray`,
     backgroundColor: Styling.tutorialGray,
     color: 'white',
+    borderRadius: '5%',
+    boxShadow: '10px 10px 10px gray'
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    transform: 'scale(0.8)',
+    transform: 'scale(0.8)'
   },
   title: {
-    color: Styling.darkBlue, 
+    color: Styling.darkBlue,
     fontSize: 28,
     fontWeight: 500
   },
@@ -49,19 +52,21 @@ const useStyles = makeStyles({
   pageTitle: {
     fontSize: 100,
     color: Styling.darkBlue,
-    boxShadow: '2px 2px',
+    boxShadow: '10px 10px 10px #00001a',
     border: `1px solid ${Styling.darkBlue}`,
     padding: '20px',
     backgroundColor: 'white',
+    borderRadius: '10px'
   },
   container: {
-    display:'flex', 
+    display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'lightgray'
   },
   wrapper: {
-    display:'flex',
+    display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
     width: '75%'
@@ -72,62 +77,77 @@ const useStyles = makeStyles({
     flexBasis: '33.333333%'
   },
   cardActions: {
-    alignSelf:'center', 
-    justifySelf:'center'
+    alignSelf: 'center',
+    justifySelf: 'center'
   }
 });
 
 const Tutorial: React.FC<RouteComponentProps> = () => {
   const classes = useStyles();
-  const topics = ['Pages', 'Route Links', 'Code Preview', 'Reusable Components', 'Canvas', 'Component Tree', 'HTML Elements', 'Styling', 'Customization'];
-  const routes = ['/pages', '/links', '/code-preview', '/reusable-components', '/canvas', '/component-tree', '/html-elements', '/styling', '/customization'];
-  const icons = [
-    <MenuBookIcon className={classes.icons}/>,
-    <LinkIcon className={classes.icons}/>,
-    <CodeIcon className={classes.icons}/>,
-    <AddToPhotosIcon className={classes.icons}/>,
-    <TvIcon className={classes.icons}/>,
-    <AccountTreeIcon className={classes.icons}/>,
-    <AddPhotoAlternateIcon className={classes.icons}/>,
-    <StyleIcon className={classes.icons}/>,
-    <ColorLensIcon className={classes.icons}/>,
+  const topics = [
+    'Pages',
+    'Route Links',
+    'Code Preview',
+    'Reusable Components',
+    'Canvas',
+    'Component Tree',
+    'HTML Elements',
+    'Styling',
+    'Customization'
   ];
-    
+  const routes = [
+    '/pages',
+    '/links',
+    '/code-preview',
+    '/reusable-components',
+    '/canvas',
+    '/component-tree',
+    '/html-elements',
+    '/styling',
+    '/customization'
+  ];
+  const icons = [
+    <MenuBookIcon className={classes.icons} />,
+    <LinkIcon className={classes.icons} />,
+    <CodeIcon className={classes.icons} />,
+    <AddToPhotosIcon className={classes.icons} />,
+    <TvIcon className={classes.icons} />,
+    <AccountTreeIcon className={classes.icons} />,
+    <AddPhotoAlternateIcon className={classes.icons} />,
+    <StyleIcon className={classes.icons} />,
+    <ColorLensIcon className={classes.icons} />
+  ];
+
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
-  body.style.backgroundColor = Styling.tutorialGray;
+  body.style.backgroundColor = 'lightgray';
 
   const cards = topics.map((topic, i) => {
     return (
-    <div key={`k${i}`} className={classes.cardWrapper}>  
-      <Card className={classes.root} variant="elevation">
-        <CardContent>
-          <Typography className={classes.title}>
-            {topic}
-          </Typography>
-        </CardContent>
-        <CardActions className={classes.cardActions} >
-          <Link to={routes[i]} style={{textDecoration: 'none'}}>
-            {icons[i]}
-          </Link>
-        </CardActions>
-      </Card>
-    </div>
-    )
+      <div key={`k${i}`} className={classes.cardWrapper}>
+        <Card className={classes.root} variant="elevation">
+          <CardContent>
+            <Typography className={classes.title}>{topic}</Typography>
+          </CardContent>
+          <CardActions className={classes.cardActions}>
+            <Link to={routes[i]} style={{ textDecoration: 'none' }}>
+              {icons[i]}
+            </Link>
+          </CardActions>
+        </Card>
+      </div>
+    );
   });
 
   return (
-      <Container maxWidth="xl" className={classes.container}>
-        <h1 className={classes.pageTitle}>Reactype Tutorial</h1>
-        <div className={classes.wrapper}>  
-          {cards}
-        </div>
-        {/* <Link to={`/`}>
+    <Container maxWidth="xl" className={classes.container}>
+      <h1 className={classes.pageTitle}>Reactype Tutorial</h1>
+      <div className={classes.wrapper}>{cards}</div>
+      {/* <Link to={`/`}>
           <button>Application</button>
         </Link> */}
-      </Container>
+    </Container>
   );
 };
 
 export default withRouter(Tutorial);
-
