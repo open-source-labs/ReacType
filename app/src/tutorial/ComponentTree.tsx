@@ -11,65 +11,7 @@ import Container from '@material-ui/core/Container';
 // import HTMLPanel from '../components/left/HTMLPanel';
 
 // Left-hand portion of the app, where component options are displayed
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: 350,
-    height: 300,
-    margin: 20,
-    border: `1px solid ${Styling.darkBlue}`,
-    backgroundColor: Styling.tutorialGray,
-    color: 'white',
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    color: Styling.darkBlue, 
-    fontSize: 28,
-    fontWeight: 500
-  },
-  pos: {
-    marginBottom: 12,
-    margin: 20
-  },
-  icons: {
-    color: Styling.darkBlue,
-    fontSize: 125
-  },
-  pageTitle: {
-    fontSize: 100,
-    color: Styling.darkBlue,
-    boxShadow: '2px 2px',
-    border: `1px solid ${Styling.darkBlue}`,
-    padding: '20px',
-    backgroundColor: 'white',
-  },
-  container: {
-    display:'flex', 
-    justifyContent: 'center',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  wrapper: {
-    display:'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    width: '75%'
-  },
-  cardWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexBasis: '33.333333%'
-  },
-  cardActions: {
-    alignSelf:'center', 
-    justifySelf:'center'
-  }
-});
+const useStyles = makeStyles({});
 const ComponentTree: React.FC<RouteComponentProps> = () => {
   return (
     <div>
