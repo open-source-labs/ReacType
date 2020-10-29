@@ -200,7 +200,7 @@ const reducer = (state: State, action: Action) => {
       }
       const newChild: ChildElement = {
         type,
-        typeId: components.length + 1,
+        typeId,
         name: newName,
         childId: state.nextChildId,
         style: {},
