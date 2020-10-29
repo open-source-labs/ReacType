@@ -1,5 +1,10 @@
 const { Menu } = require("electron");
+const { BrowserWindow } = require('electron');
+const fs = require('fs');
+const path = require('path');
 const isMac = process.platform === "darwin";
+const port = 5000;
+const tutorialRoute = `http://localhost:${port}/tutorial`;
 
 // Create a template for a menu and create menu using that template
 var MenuBuilder = function (mainWindow, appName) {
@@ -8,6 +13,25 @@ var MenuBuilder = function (mainWindow, appName) {
   // https://www.electronjs.org/docs/api/menu-item
   // you can also create custom menu items with their own "on click" functionality if you need to
   // different roles are available between mac and windows
+
+  const openTutorial = () => {
+    const tutorial = new BrowserWindow({
+      width: 800,
+      height: 600,
+      title: 'Tutorial',
+      webPreferences: {
+        nodeIntegration: false,
+        nodeIntegrationInWorker: false,
+        nodeIntegrationInSubFrames: false,
+        contextIsolation: true,
+        enableRemoteModule: false,
+        zoomFactor: 1.0
+      }
+    });
+    tutorial.loadURL(`http://localhost:8080/#/tutorial`);
+    tutorial.show();
+  }
+
   let defaultTemplate = function () {
     return [
       // { role: "appMenu" }
@@ -199,7 +223,7 @@ var MenuBuilder = function (mainWindow, appName) {
           }, 
           {
             label: "Tutorial",
-            click: 
+            click: () => openTutorial()
           }
         ],
       },

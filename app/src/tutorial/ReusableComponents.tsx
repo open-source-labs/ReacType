@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -7,15 +7,20 @@ import { Link } from 'react-router-dom';
 // import HTMLPanel from '../components/left/HTMLPanel';
 
 // Left-hand portion of the app, where component options are displayed
-const Wizard = ({ style }): JSX.Element => {
+
+const ReusableComponents: React.FC<RouteComponentProps> = () => {
   return (
     <div>
-      Wizard
+      ReusableComponents
       <Link to={`/`}>
         <button>Application</button>
+      </Link>
+      <Link to={`/tutorial`}>
+        <button>Tutorial</button>
       </Link>
     </div>
   );
 };
 
-export default Wizard;
+export default withRouter(ReusableComponents);
+

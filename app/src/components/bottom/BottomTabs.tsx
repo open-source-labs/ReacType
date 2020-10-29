@@ -9,6 +9,7 @@ import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
+import { styleContext } from '../../containers/AppContainer';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -17,7 +18,8 @@ const BottomTabs = () => {
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('monokai');
-
+  const { style } = useContext(styleContext);
+  
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
@@ -31,7 +33,7 @@ const BottomTabs = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <Box display="flex" justifyContent="space-between">
         <Tabs
           value={tab}
@@ -61,11 +63,11 @@ const BottomTabs = () => {
               value={theme}
               onChange={changeTheme}
             >
-              <option value={'monokai'}>Monokai</option>
-              <option value={'github'}>Github</option>
-              <option value={'solarized_dark'}>Solarized Dark</option>
-              <option value={'terminal'}>Terminal</option>
-              <option value={'solarized_light'}>Solarized Light</option>
+              <option style ={{backgroundColor: '#252526'}} value={'monokai'}>Monokai</option>
+              <option style ={{backgroundColor: '#252526'}} value={'github'}>Github</option>
+              <option style ={{backgroundColor: '#252526'}} value={'solarized_dark'}>Solarized Dark</option>
+              <option style ={{backgroundColor: '#252526'}} value={'terminal'}>Terminal</option>
+              <option style ={{backgroundColor: '#252526'}} value={'solarized_light'}>Solarized Light</option>
             </NativeSelect>
           </div>
         </FormControl>

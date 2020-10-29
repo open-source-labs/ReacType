@@ -11,7 +11,8 @@ const {
   setCookie,
   getCookie,
   delCookie,
-  github
+  github,
+  tutorial
 } = require('./preloadFunctions/cookies');
 
 // Expose protected methods that allow the renderer process to use select node methods
@@ -34,5 +35,6 @@ contextBridge.exposeInMainWorld('api', {
   setCookie,
   getCookie,
   delCookie,
-  github
+  github,
+  tutorial
 });
