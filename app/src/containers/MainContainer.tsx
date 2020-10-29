@@ -5,7 +5,6 @@ import { styleContext } from './AppContainer';
 
 const MainContainer = () => {
   const { style } = useContext(styleContext);
-
   return (
     <div className="main-container" style={style} >
       <div className="main">
