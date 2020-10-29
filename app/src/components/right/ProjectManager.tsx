@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
 
@@ -163,6 +163,16 @@ const ProjectManager = () => {
 
   return (
     <div>
+      <RouteLink to={'/tutorial'} style={{textDecoration: 'none'}}>
+        <Button
+          color="primary"
+          style={{ ...style.button, marginLeft: '15%', textDecoration: 'none' }}
+          variant="outlined"
+          className={classes.button}
+        >
+          Tutorial
+        </Button>
+      </RouteLink>
       <Button
         color="primary"
         style={{ ...style.button, marginLeft: '15%' }}
@@ -174,7 +184,7 @@ const ProjectManager = () => {
             : setStyle({});
         }}
       >
-        Change Darkness Mode
+        Change Lighting
       </Button>
 
       <div className={classes.projectManagerWrapper}>
