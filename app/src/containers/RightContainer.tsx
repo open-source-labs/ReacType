@@ -11,8 +11,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { stateContext } from '../context/context';
-import HTMLTypes from '../context/HTMLTypes';
+import { StateContext } from '../context/context';
 import ProjectManager from '../components/right/ProjectManager';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -20,11 +19,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorMessages from '../constants/ErrorMessages';
+import { styleContext } from './AppContainer';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = ({ style }): JSX.Element => {
+const RightContainer = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -35,6 +35,7 @@ const RightContainer = ({ style }): JSX.Element => {
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
+  const { style } = useContext(styleContext);
 
   const resetFields = () => {
     const style = configTarget.child
@@ -171,7 +172,6 @@ const RightContainer = ({ style }): JSX.Element => {
       if (comps.length === 0) return;
         comps.forEach((comp, i) => {
           if (comp.type === 'Route Link' && comp.name === pageName) {
-            console.log('found link', i, comp);
             isLinked = true;
           }
           if (comp.children.length > 0) searchNestedChildren(comp.children);  

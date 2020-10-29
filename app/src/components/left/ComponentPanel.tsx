@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);

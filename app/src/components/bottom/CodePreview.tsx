@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import AceEditor from 'react-ace';
 import { makeStyles } from '@material-ui/core/styles';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -23,7 +23,7 @@ import { Component } from '../../interfaces/Interfaces';
 // const optionColor = '#252526';
 
 const CodePreview = ({ theme, setTheme }) => {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   // const classes = useStyles();
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
