@@ -19,7 +19,7 @@ const BottomTabs = () => {
   treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('monokai');
   const { style } = useContext(styleContext);
-
+  
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
