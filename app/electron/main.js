@@ -78,7 +78,8 @@ async function createWindow() {
       // disables remote module. critical for ensuring that rendering process doesn't have access to node functionality
       enableRemoteModule: false,
       // path of preload script. preload is how the renderer page will have access to electron functionality
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nativeWindowOpen: true
     }
   });
 
@@ -396,5 +397,46 @@ ipcMain.on('github', event => {
     }
   });
 });
+
+ipcMain.on('tutorial', event => {
+  // create new browserwindow object with size, title, security options
+  const tutorial = new BrowserWindow({
+    width: 800,
+    height: 600,
+    title: 'Tutorial',
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      zoomFactor: 1.0
+    }
+  });
+  // redirects to relevant server endpoint
+  //github.loadURL(`${serverUrl}/github`);
+  // show window
+  tutorial.show();
+  // if final callback is reached and we get a redirect from server back to our app, close oauth window
+  // github.webContents.on('will-redirect', (e, callbackUrl) => {
+  //   let redirectUrl = 'app://rse/';
+  //   if (isDev) {
+  //     redirectUrl = 'http://localhost:8080/';
+  //   }
+  //   if (callbackUrl === redirectUrl) {
+  //     dialog.showMessageBox({
+  //       type: 'info',
+  //       title: 'ReacType',
+  //       icon: resolve('app/src/public/icons/png/256x256.png'),
+  //       message: 'Github Oauth Successful!'
+  //     });
+  //     github.close();
+  //   }
+  // });
+});
+
+
+
+
 
 //module.exports = dialog;
