@@ -16,8 +16,8 @@ var MenuBuilder = function(mainWindow, appName) {
 
   const openTutorial = () => {
     const tutorial = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 1224,
+      height: 1024,
       title: 'Tutorial',
       webPreferences: {
         nodeIntegration: false,
@@ -25,7 +25,7 @@ var MenuBuilder = function(mainWindow, appName) {
         nodeIntegrationInSubFrames: false,
         contextIsolation: true,
         enableRemoteModule: false,
-        zoomFactor: 1.0
+        zoomFactor: 1.0,
       }
     });
     tutorial.loadURL(`http://localhost:8080/#/tutorial`);
