@@ -23,9 +23,9 @@ const AppContainer = () => {
     <MuiThemeProvider theme={theme}>
       <div className="app-container">
         <styleContext.Provider value={{ style, setStyle }}>
-          <LeftContainer style={style} />
-          <MainContainer style={style} />
-          <RightContainer style={style} />
+          <LeftContainer />
+          <MainContainer />
+          <RightContainer />
         </styleContext.Provider>
       </div>
     </MuiThemeProvider>

@@ -3,7 +3,7 @@ import '../public/styles/style.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
-import { stateContext } from '../context/context';
+import { StateContext } from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
@@ -13,7 +13,6 @@ import Cookies from 'js-cookie';
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   if (window.localStorage.getItem('ssid') !== 'guest') {
     state.isLoggedIn = true;
@@ -81,9 +80,9 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-        <stateContext.Provider value={[state, dispatch]}>
+        <StateContext.Provider value={[state, dispatch]}>
           <AppContainer />
-        </stateContext.Provider>
+        </StateContext.Provider>
       </DndProvider>
     </div>
   );

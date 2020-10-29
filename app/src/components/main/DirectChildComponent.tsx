@@ -7,13 +7,13 @@ import {
 } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { stateContext } from '../../context/context';
+import { StateContext } from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
 
   // find the top-level component corresponding to this instance of the component
@@ -103,7 +103,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
           </IndirectChild>
         );
       } else if (child.type === 'HTML Element') {
-        // if indirect chidl is an HTML element, render an IndirectChild component with no children
+        // if indirect child is an HTML element, render an IndirectChild component with no children
         // if the HTML element has children, then also render its children
         // get the default style/placeholder value for that type of HTML element
         // combine the default style of that HTML element and combine in with the custom styles applied to that element
@@ -111,7 +111,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
           (type: HTMLType) => type.id === child.typeId
         );
         const HTMLDefaultStyle = HTMLType.style;
-        const HTMLDefaultPlacholder = HTMLType.placeHolderShort;
+        const HTMLDefaultPlaceholder = HTMLType.placeHolderShort;
         const combinedStyle = combineStyles(HTMLDefaultStyle, child.style);
         return (
           <React.Fragment
@@ -124,7 +124,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
             {child.children.length === 0 ? (
               <IndirectChild
                 style={combinedStyle}
-                placeHolder={HTMLDefaultPlacholder}
+                placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
                 key={
                   'indChild' +
@@ -137,7 +137,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
             ) : (
               <IndirectChild
                 style={combinedStyle}
-                placeHolder={HTMLDefaultPlacholder}
+                placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
                 key={
                   'indChild' +
