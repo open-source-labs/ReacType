@@ -163,16 +163,6 @@ const ProjectManager = () => {
 
   return (
     <div>
-      <RouteLink to={'/tutorial'} style={{textDecoration: 'none'}}>
-        <Button
-          color="primary"
-          style={{ ...style.button, marginLeft: '15%', textDecoration: 'none' }}
-          variant="outlined"
-          className={classes.button}
-        >
-          Tutorial
-        </Button>
-      </RouteLink>
       <Button
         color="primary"
         style={{ ...style.button, marginLeft: '15%' }}
