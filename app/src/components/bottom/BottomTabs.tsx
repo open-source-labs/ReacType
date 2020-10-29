@@ -11,7 +11,6 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 import { styleContext } from '../../containers/AppContainer';
 
-
 const BottomTabs = () => {
   // state that controls which tab the user is on
   const [state, dispatch] = useContext(StateContext);
@@ -63,11 +62,11 @@ const BottomTabs = () => {
               value={theme}
               onChange={changeTheme}
             >
-              <option value={'monokai'}>Monokai</option>
-              <option value={'github'}>Github</option>
-              <option value={'solarized_dark'}>Solarized Dark</option>
-              <option value={'terminal'}>Terminal</option>
-              <option value={'solarized_light'}>Solarized Light</option>
+              <option style ={{backgroundColor: '#252526'}} value={'monokai'}>Monokai</option>
+              <option style ={{backgroundColor: '#252526'}} value={'github'}>Github</option>
+              <option style ={{backgroundColor: '#252526'}} value={'solarized_dark'}>Solarized Dark</option>
+              <option style ={{backgroundColor: '#252526'}} value={'terminal'}>Terminal</option>
+              <option style ={{backgroundColor: '#252526'}} value={'solarized_light'}>Solarized Light</option>
             </NativeSelect>
           </div>
         </FormControl>
