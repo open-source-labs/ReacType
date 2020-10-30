@@ -119,7 +119,7 @@ const reducer = (state: State, action: Action) => {
         return state;
       
       const components = [...state.components];
-      
+      console.log('adding =>', action.payload.componentName);
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -129,7 +129,7 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
-
+      console.log('new comp =>', newComponent);
       components.push(newComponent);
 
       const rootComponents = [...state.rootComponents];

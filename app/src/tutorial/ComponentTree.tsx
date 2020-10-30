@@ -15,6 +15,7 @@ const useStyles = makeStyles({});
 const ComponentTree: React.FC<RouteComponentProps> = () => {
   return (
     <div>
+      <h1>Component Tree</h1>
       ComponentTree
       <Link to={`/tutorial`}>
         <button>Tutorial</button>

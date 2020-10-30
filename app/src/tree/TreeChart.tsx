@@ -29,15 +29,15 @@ function TreeChart({ data }) {
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
-
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
     const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
     const root = hierarchy(data[canvasId - 1]);
     const treeLayout = tree().size([height, width - 125]);
+    console.log(root);
 
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
