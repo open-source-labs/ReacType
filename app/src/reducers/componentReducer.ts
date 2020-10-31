@@ -89,7 +89,24 @@ const reducer = (state: State, action: Action) => {
   };
 
   const updateIds = (components: Component[]) => {
+    // component IDs should be array index + 1
     components.forEach((comp, i) => (comp.id = i + 1));
+    
+    // create KV pairs of component names and corresponding IDs 
+    const componentIds = {};
+    components.forEach(component => {
+      console.log(component);
+      if (!component.isPage ) componentIds[component.name] = component.id;
+    });
+
+    // assign correct ID to components that are children inside of remaining pages
+    components.forEach(page => {
+      if (page.isPage) {
+        page.children.forEach(child => {
+          if (child.type === 'Component') child.typeId = componentIds[child.name]; 
+        });
+      }
+    });
   };
 
   const updateRoots = (components: Component[]) => {
