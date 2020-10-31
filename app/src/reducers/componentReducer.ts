@@ -95,7 +95,6 @@ const reducer = (state: State, action: Action) => {
     // create KV pairs of component names and corresponding IDs 
     const componentIds = {};
     components.forEach(component => {
-      console.log(component);
       if (!component.isPage ) componentIds[component.name] = component.id;
     });
 
@@ -125,6 +124,25 @@ const reducer = (state: State, action: Action) => {
     for (let i = 0; i < initialState.HTMLTypes.length; i+=1) {
       arrayOfElements[i] = initialState.HTMLTypes[i];
     }
+  }
+
+  const deleteComponentFromPages = (components, name) => {
+    const searchNestedComps = (childComponents) => {
+      console.log(childComponents);
+      if (childComponents.length === 0) return;
+      childComponents.forEach((comp, i) => {
+        if (comp.isPage){
+          comp.children.forEach((child, i, arr) => {
+            if (child.name === name) {
+              arr.splice(i, 1);
+            }
+          })
+        } 
+        searchNestedComps(childComponents.children)
+      });
+    }
+    components.forEach(comp => searchNestedComps(comp.children));
+    console.log(components);
   }
 
   switch (action.type) {
@@ -370,8 +388,14 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE REUSABLE COMPONENT' : {
       const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+      console.log(name);
       const components: Component[] = deleteById(id);
       updateIds(components);
+
+      // check if reusable comp is inside a page
+      deleteComponentFromPages(components, name);
+
       const canvasFocus = { componentId: 1, childId: null };
 
       const rootComponents = updateRoots(components);
