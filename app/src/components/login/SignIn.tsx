@@ -111,12 +111,12 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   };
 
   /*
-    Response Options: 
+    Response Options:
     Success
     Error
-    No Username Input 
-    No Password Input 
-    Incorrect Password 
+    No Username Input
+    No Password Input
+    Incorrect Password
     Invalid Username
   */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -226,7 +226,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           className={classes.submit}
           onClick={() => {
             // messages the main proces to open new window for github oauth
-            console.log('open github')
+            console.log('open github');
+            console.log(window.api);
             window.api.github();
           }}
         >

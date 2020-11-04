@@ -15,7 +15,7 @@ import backgroundcolor from '../../../resources/customizing_elements_images/Back
 
 const Customization: React.FC<RouteComponentProps> = () => {
   return (
-    <div>
+    <div className="tutorial_styling">
       <Link to={`/tutorial`}>
         <button>Back to Tutorial Page</button>
       </Link>
@@ -51,7 +51,6 @@ const Customization: React.FC<RouteComponentProps> = () => {
       <br />
       <h2>Background Color</h2>
       <img src={backgroundcolor} />
-
       <br />
       <p>
         Select an element, type in the color you wish to change the background

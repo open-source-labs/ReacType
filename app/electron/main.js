@@ -435,8 +435,4 @@ ipcMain.on('tutorial', event => {
   // });
 });
 
-
-
-
-
 //module.exports = dialog;

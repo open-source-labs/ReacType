@@ -14,7 +14,7 @@ import codechange from '../../../resources/customizing_elements_images/CodeChang
 
 const Styling: React.FC<RouteComponentProps> = () => {
   return (
-    <div>
+    <div className="tutorial_styling">
       <Link to={`/tutorial`}>
         <button>Back to Tutorial Page</button>
       </Link>
