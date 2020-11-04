@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { StateContext } from '../../context/context';
 import AceEditor from 'react-ace';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,21 +9,17 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
-
-// const useStyles = makeStyles(theme => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   }
-// }));
-
-// const optionColor = '#252526';
+import useResizeObserver from '../../tree/useResizeObserver';
 
 const CodePreview = ({ theme, setTheme }) => {
+  const wrapper = useRef();
+  console.log(wrapper.current);
+  const dimensions = useResizeObserver(wrapper);
+  const { width, height } =
+    dimensions || 0;
+
   const [state, dispatch] = useContext(StateContext);
+  const [divHeight, setDivHeight] = useState(0);
   // const classes = useStyles();
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -37,14 +33,21 @@ const CodePreview = ({ theme, setTheme }) => {
     setTheme(e.target.value);
   };
 
+  useEffect(() => {
+    setDivHeight(height);
+    console.log(divHeight);
+  }, [height])
+
   return (
     <div
+    ref={wrapper}
       style={{
         height: '90%',
         maxWidth: '100%',
         justifyContent: 'center'
       }}
     >
+      {/* <h1>{divHeight}</h1> */}
       <AceEditor
         mode="javascript"
         theme={theme}

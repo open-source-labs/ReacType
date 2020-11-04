@@ -223,8 +223,17 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/'
+      'https://github.com/',
+      'https://nextjs.org',
+      'https://nextjs.org/',
+      'http://nextjs.org',
+      'http://nextjs.org/',
+      'https://www.nextjs.org',
+      'https://www.nextjs.org/',
+      'http://www.nextjs.org',
+      'http://www.nextjs.org/',
     ];
+    console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
@@ -233,7 +242,7 @@ app.on('web-contents-created', (event, contents) => {
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
       return;
-    }
+    } else console.log(`Successful navigation to ${parsedUrl}`);
   });
 
   contents.on('will-redirect', (event, navigationUrl) => {
@@ -242,8 +251,15 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com',
-      'app://rse/'
+      'https://github.com/',
+      'https://nextjs.org',
+      'https://nextjs.org/',
+      'http://nextjs.org',
+      'http://nextjs.org/',
+      'https://www.nextjs.org',
+      'https://www.nextjs.org/',
+      'http://www.nextjs.org',
+      'http://www.nextjs.org/',
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -276,10 +292,31 @@ app.on('web-contents-created', (event, contents) => {
   // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
   contents.on('new-window', async (event, navigationUrl) => {
     // Log and prevent opening up a new window
-    console.error(
-      `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
-    );
-
+    const parsedUrl = new URL(navigationUrl);
+    const validOrigins = [
+      selfHost,
+      'http://localhost:5000',
+      'https://reactype.herokuapp.com',
+      'https://github.com/',
+      'https://nextjs.org',
+      'https://nextjs.org/',
+      'http://nextjs.org',
+      'http://nextjs.org/',
+      'https://www.nextjs.org',
+      'https://www.nextjs.org/',
+      'http://www.nextjs.org',
+      'http://www.nextjs.org/',
+    ];
+    console.log('parsed URL origin', parsedUrl.origin);
+    // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
+    if (!validOrigins.includes(parsedUrl.origin)) {
+      console.error(
+        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
+      );
+      // if the requested URL is not in the whitelisted array, then don't navigate there
+      event.preventDefault();
+      return;
+    } else console.log(`Successful navigation to ${parsedUrl}`);
     event.preventDefault();
     return;
   });
