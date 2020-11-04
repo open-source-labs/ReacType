@@ -4,6 +4,8 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+const buttonClasses =
+'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -29,7 +31,8 @@ const HTMLItem: React.FC<{
   name: string;
   id: number;
   Icon: any;
-}> = ({ name, id, Icon }) => {
+  handleDelete: (id: number) => void;
+}> = ({ name, id, Icon, handleDelete }) => {
   const classes = useStyles();
 
   const [{ isDragging }, drag] = useDrag({
@@ -58,6 +61,7 @@ const HTMLItem: React.FC<{
         >
           {Icon && <Icon />}
         </span>
+        <button className={buttonClasses} onClick={() => { handleDelete(id) }} > X </button>
       </div>
     </Grid>
   );
