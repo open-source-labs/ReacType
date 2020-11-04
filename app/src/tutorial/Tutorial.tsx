@@ -19,7 +19,7 @@ import StyleIcon from '@material-ui/icons/Style';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 
-export const PageContext = createContext({ page: null, setPage: null});
+export const PageContext = createContext('');
 
 const useStyles = makeStyles({
   root: {
@@ -121,12 +121,12 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   const cards = topics.map((topic, i) => {
     return (
       <div key={`k${i}`} className={classes.cardWrapper}>
-        <Link to={'/tutorialPages'} style={{ textDecoration: 'none' }} >
+        <Link to={`/tutorialPage/${topic}`} style={{ textDecoration: 'none' }} >
           <Card className={classes.root} variant="elevation">
             <CardContent>
               <Typography className={classes.title}>{topic}</Typography>
             </CardContent>
-            <CardActions className={classes.cardActions}>
+            <CardActions className={classes.cardActions} onClick={() => setPage(topic)}>
                 {icons[i]}
             </CardActions>
           </Card>
@@ -136,12 +136,10 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   });
 
   return (
-    <PageContext.Provider value={{ page, setPage }} >
-      <Container maxWidth="xl" className={classes.container}>
-        <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
-        <div className={classes.wrapper}>{cards}</div>
-      </Container>
-    </PageContext.Provider>
+    <Container maxWidth="xl" className={classes.container}>
+      <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
+      <div className={classes.wrapper}>{cards}</div>
+    </Container>
   );
 };
 

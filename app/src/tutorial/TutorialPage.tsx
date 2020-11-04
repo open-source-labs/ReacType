@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Pages from './Pages';
 import Customization from './Customization';
@@ -10,14 +11,27 @@ import ComponentTree from './ComponentTree';
 import HTMLElements from './HtmlElements';
 import CodePreview from './CodePreview';
 
-import { PageContext } from './Tutorial';
+const useStyles = makeStyles({
+  tutorial_page: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  main_tutorial: {
+    flexGrow: 2
+  },
+  sidebar: {
+    flexGrow: 1
+  }
+})
 
-const TutorialPage: React.FC<RouteComponentProps> = () => {
-  const { page, setPage } = useContext(PageContext);
+const TutorialPage: React.FC<RouteComponentProps> = (props) => {
+  const classes = useStyles();
+  const [page, setPage] = useState(props.match.params.learn);
 
   return (
-    <div>
-      <div className="main-tutorial">
+    <div className={classes.tutorial_page}>
+      <div className={classes.main_tutorial}>
         {page === 'Pages' && <Pages/>}
         {page === 'Route Links' && <RouteLinks/>}
         {page === 'Code Preview' && <CodePreview/>}
@@ -28,9 +42,9 @@ const TutorialPage: React.FC<RouteComponentProps> = () => {
         {page === 'Styling' && <Styling/>}
         {page === 'Customization' && <Customization/>}
       </div>
-      <div className="sidebar">
+      <div className={classes.sidebar}>
         <Link to={`/tutorial`}>
-          <button>Tutorial Main</button>
+          <button>Tutorial Home</button>
         </Link>
         <ul>
           <li onClick={() => setPage('Pages')}>Pages</li>

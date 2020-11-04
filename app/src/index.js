@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
-import TutorialPage from './tutorial/TutorialPages.tsx';
+import TutorialPage from './tutorial/TutorialPage.tsx';
 
 
 import {
@@ -16,6 +16,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -38,7 +39,7 @@ ReactDOM.render(
       <Route exact path="/signup" component={SignUp} />
       <PrivateRoute exact path="/" component={App} />
       <Route exact path="/tutorial" component={Tutorial}/>
-      <Route exact path="/tutorialPage" component={TutorialPage} />
+      <Route exact path="/tutorialPage/:learn" component={TutorialPage} value={'test'} />
     </Switch>
   </Router>,
   document.getElementById('app')
