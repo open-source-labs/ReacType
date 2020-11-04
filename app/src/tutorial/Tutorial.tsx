@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -17,6 +17,9 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import StyleIcon from '@material-ui/icons/Style';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
+
+
+export const PageContext = createContext({ page: null, setPage: null});
 
 const useStyles = makeStyles({
   root: {
@@ -84,6 +87,9 @@ const useStyles = makeStyles({
 
 const Tutorial: React.FC<RouteComponentProps> = () => {
   const classes = useStyles();
+  const initial = useContext(PageContext);
+  const [page, setPage] = useState(initial);
+
   const topics = [
     'Pages',
     'Route Links',
@@ -95,17 +101,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     'Styling',
     'Customization'
   ];
-  const routes = [
-    '/pages',
-    '/links',
-    '/code-preview',
-    '/reusable-components',
-    '/canvas',
-    '/component-tree',
-    '/html-elements',
-    '/styling',
-    '/customization'
-  ];
+
   const icons = [
     <MenuBookIcon className={classes.icons} />,
     <LinkIcon className={classes.icons} />,
@@ -125,28 +121,27 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   const cards = topics.map((topic, i) => {
     return (
       <div key={`k${i}`} className={classes.cardWrapper}>
-        <Card className={classes.root} variant="elevation">
-          <CardContent>
-            <Typography className={classes.title}>{topic}</Typography>
-          </CardContent>
-          <CardActions className={classes.cardActions}>
-            <Link to={routes[i]} style={{ textDecoration: 'none' }}>
-              {icons[i]}
-            </Link>
-          </CardActions>
-        </Card>
+        <Link to={'/tutorialPages'} style={{ textDecoration: 'none' }} >
+          <Card className={classes.root} variant="elevation">
+            <CardContent>
+              <Typography className={classes.title}>{topic}</Typography>
+            </CardContent>
+            <CardActions className={classes.cardActions}>
+                {icons[i]}
+            </CardActions>
+          </Card>
+        </Link>
       </div>
     );
   });
 
   return (
-    <Container maxWidth="xl" className={classes.container}>
-      <h1 className={classes.pageTitle}>Reactype Tutorial</h1>
-      <div className={classes.wrapper}>{cards}</div>
-      {/* <Link to={`/`}>
-          <button>Application</button>
-        </Link> */}
-    </Container>
+    <PageContext.Provider value={{ page, setPage }} >
+      <Container maxWidth="xl" className={classes.container}>
+        <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
+        <div className={classes.wrapper}>{cards}</div>
+      </Container>
+    </PageContext.Provider>
   );
 };
 

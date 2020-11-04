@@ -117,9 +117,9 @@ const reducer = (state: State, action: Action) => {
         action.payload.componentName === ''
       )
         return state;
-      
+
       const components = [...state.components];
-      
+
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -176,20 +176,20 @@ const reducer = (state: State, action: Action) => {
           }
         });
       }
-      
+
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (childTypeExists('Component', parentComponentId, originalComponent))
         return state;
       }
-      
+
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = (type === 'Component') ? componentName : el.tag;
         }
         return name;
       }, '');
-      
+
       if (type === 'Route Link') {
         components.find(comp => {
           if (comp.id === typeId) {
@@ -200,7 +200,7 @@ const reducer = (state: State, action: Action) => {
       }
       const newChild: ChildElement = {
         type,
-        typeId: components.length + 1,
+        typeId,
         name: newName,
         childId: state.nextChildId,
         style: {},
@@ -310,7 +310,7 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE CHILD': {
       // if in-focus instance is a top-level component and not a child, don't delete anything
-            
+
       if (!state.canvasFocus.childId) return state;
 
       // find the current component in focus
@@ -436,7 +436,9 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'OPEN PROJECT': {
+      console.log("BEFORE: ", action.payload.HTMLTypes);
       convertToJSX(action.payload.HTMLTypes);
+      console.log("AFTER: ", action.payload.HTMLTypes);
       return {
         ...action.payload
       };
@@ -450,6 +452,20 @@ const reducer = (state: State, action: Action) => {
         HTMLTypes
       };
     }
+
+    case 'DELETE ELEMENT': {
+      const HTMLTypes = [...state.HTMLTypes];
+      for (let i = 0; i < HTMLTypes.length; i+=1) {
+        if (HTMLTypes[i].id === action.payload) {
+          HTMLTypes.splice(i, 1);
+        }
+      }
+      return {
+        ...state,
+        HTMLTypes
+      }
+    }
+
     default:
       return state;
   }

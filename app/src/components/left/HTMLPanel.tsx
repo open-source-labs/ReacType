@@ -27,7 +27,7 @@ const HTMLPanel = (): JSX.Element => {
     setName(e.target.value);
   };
 
-  const checkNameDupe = (inputName: String) => {
+  const checkNameDupe = (inputName: String): boolean => {
     let checkList = state.HTMLTypes.slice();
 
     // checks to see if inputted comp name already exists
@@ -66,6 +66,8 @@ const HTMLPanel = (): JSX.Element => {
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
+    console.log(inputTag);
+    console.log(inputName);
     const newElement = {
       id: currentID,
       tag: inputTag,
@@ -79,13 +81,19 @@ const HTMLPanel = (): JSX.Element => {
       type: 'ADD ELEMENT',
       payload: newElement
     });
-    const nextID = currentID + 1;
+    let nextID = 0;
+    for (let i = 0; i < state.HTMLTypes.length; i+=1) {
+      if (state.HTMLTypes[i].id > nextID) {
+        nextID = state.HTMLTypes.id;
+      }
+    }
+    nextID += 1;
     setCurrentID(nextID);
     setTag('');
     setName('');
   };
 
-  const alphanumeric = input => {
+  const alphanumeric = (input:string): boolean => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
@@ -110,6 +118,13 @@ const HTMLPanel = (): JSX.Element => {
     createOption(tag, name);
     resetError();
   };
+
+  const handleDelete = (id: number): void => {
+    dispatch({
+      type: "DELETE ELEMENT",
+      payload: id
+    });
+  }
 
   return (
     <div>
@@ -167,6 +182,7 @@ const HTMLPanel = (): JSX.Element => {
             key={`html-${option.name}`}
             id={option.id}
             Icon={option.icon}
+            handleDelete={handleDelete}
           />
         ))}
       </Grid>
@@ -175,9 +191,6 @@ const HTMLPanel = (): JSX.Element => {
 };
 
 const useStyles = makeStyles({
-  inputField: {
-    marginTop: '15px'
-  },
   inputWrapper: {
     // height: '115px',
     textAlign: 'center',
@@ -191,25 +204,6 @@ const useStyles = makeStyles({
     border: '1px solid rgba(70,131,83)',
     padding: '20px',
     margin: '20px'
-  },
-  rootCheckBox: {},
-  rootCheckBoxLabel: {
-    color: 'white'
-  },
-  panelWrapper: {
-    width: '100%',
-    marginTop: '15px'
-  },
-  panelWrapperList: {
-    // maxHeight: '400px',
-    minHeight: '120px',
-    // overflowY: 'auto',
-    marginLeft: '-15px',
-    marginRight: '-15px'
-  },
-  panelSubheader: {
-    textAlign: 'center',
-    color: '#fff'
   },
   input: {
     color: '#fff',
@@ -228,24 +222,6 @@ const useStyles = makeStyles({
     zIndex: 20,
     color: '#fff',
     marginTop: '-10px'
-  },
-  btnGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '10px',
-    marginLeft: '10px'
-  },
-  button: {
-    fontSize: '1rem',
-    height: '40px',
-    maginTop: '10px',
-    width: '100%',
-    // border: '1px solid rgba(70,131,83)',
-    backgroundColor: 'rgba(1,212,109,0.1)'
-  },
-  rootToggle: {
-    color: '#01d46d',
-    fontSize: '0.85rem'
   }
 });
 
