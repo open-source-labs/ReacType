@@ -89,7 +89,23 @@ const reducer = (state: State, action: Action) => {
   };
 
   const updateIds = (components: Component[]) => {
+    // component IDs should be array index + 1
     components.forEach((comp, i) => (comp.id = i + 1));
+    
+    // create KV pairs of component names and corresponding IDs 
+    const componentIds = {};
+    components.forEach(component => {
+      if (!component.isPage ) componentIds[component.name] = component.id;
+    });
+
+    // assign correct ID to components that are children inside of remaining pages
+    components.forEach(page => {
+      if (page.isPage) {
+        page.children.forEach(child => {
+          if (child.type === 'Component') child.typeId = componentIds[child.name]; 
+        });
+      }
+    });
   };
 
   const updateRoots = (components: Component[]) => {
@@ -110,6 +126,25 @@ const reducer = (state: State, action: Action) => {
     }
   }
 
+  const deleteComponentFromPages = (components, name) => {
+    const searchNestedComps = (childComponents) => {
+      console.log(childComponents);
+      if (childComponents.length === 0) return;
+      childComponents.forEach((comp, i) => {
+        if (comp.isPage){
+          comp.children.forEach((child, i, arr) => {
+            if (child.name === name) {
+              arr.splice(i, 1);
+            }
+          })
+        } 
+        searchNestedComps(childComponents.children)
+      });
+    }
+    components.forEach(comp => searchNestedComps(comp.children));
+    console.log(components);
+  }
+
   switch (action.type) {
     case 'ADD COMPONENT': {
       if (
@@ -119,7 +154,7 @@ const reducer = (state: State, action: Action) => {
         return state;
       
       const components = [...state.components];
-      
+      console.log('adding =>', action.payload.componentName);
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -129,7 +164,7 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
-
+      console.log('new comp =>', newComponent);
       components.push(newComponent);
 
       const rootComponents = [...state.rootComponents];
@@ -200,7 +235,7 @@ const reducer = (state: State, action: Action) => {
       }
       const newChild: ChildElement = {
         type,
-        typeId: components.length + 1,
+        typeId,
         name: newName,
         childId: state.nextChildId,
         style: {},
@@ -353,8 +388,14 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE REUSABLE COMPONENT' : {
       const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+      console.log(name);
       const components: Component[] = deleteById(id);
       updateIds(components);
+
+      // check if reusable comp is inside a page
+      deleteComponentFromPages(components, name);
+
       const canvasFocus = { componentId: 1, childId: null };
 
       const rootComponents = updateRoots(components);
