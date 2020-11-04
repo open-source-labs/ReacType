@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { ChildElement } from '../interfaces/Interfaces';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
 import RouteLink from '../components/main/RouteLink';
+import { StateContext } from '../context/context';
 
 // helper method to render all direct children of a component
 // direct children are clickable and draggable
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
+  const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
-    console.log('child', child);
-    const { type, typeId, style, childId, children, attributes } = child;
+    const { type, typeId, style, childId, children, attributes, name } = child;
+    if (name === '') child.name = state.components[typeId - 1 ].name; 
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
     if (type === 'Component') {
@@ -23,6 +25,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           key={'DirChild' + childId.toString()}
+          name={child.name}
         />
       );
     }
@@ -35,6 +38,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           key={'DirChild' + childId.toString()}
+          name={child.name}
         />
       );
     }
@@ -48,6 +52,7 @@ const renderChildren = (children: ChildElement[]) => {
           style={style}
           children={children}
           key={'DirChild' + childId.toString()}
+          name={child.name}
         />
       );
     }
@@ -62,6 +67,7 @@ const renderChildren = (children: ChildElement[]) => {
           style={style}
           children={children}
           key={'DirChild' + childId.toString()}
+          name={child.name}
         />
       );
     }
