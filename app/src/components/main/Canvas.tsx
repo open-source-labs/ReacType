@@ -8,6 +8,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
+  console.log('state.comps', state.components);
 
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(

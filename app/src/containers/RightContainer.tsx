@@ -215,9 +215,9 @@ const RightContainer = (): JSX.Element => {
   };
 
   const handleDeleteReusableComponent = () => {
-    isChildOfPage()
+    /*isChildOfPage()
       ? handleDialogError('component')
-      : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+      :*/ dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   };
 
   const isReusable = (configTarget): boolean => {

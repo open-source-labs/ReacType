@@ -26,7 +26,6 @@ const reducer = (state: State, action: Action) => {
     // We're going to keep track of the nodes we need to search through with an Array
     //  Initialize this array with the top level node
     const nodeArr: (Component | ChildElement)[] = [component];
-    nodeArr.forEach(node => console.log('node', node));
     // iterate through each node in the array as long as there are elements in the array
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -90,8 +89,32 @@ const reducer = (state: State, action: Action) => {
   };
 
   const updateIds = (components: Component[]) => {
+    // component IDs should be array index + 1
     components.forEach((comp, i) => (comp.id = i + 1));
+    
+    // create KV pairs of component names and corresponding IDs 
+    const componentIds = {};
+    components.forEach(component => {
+      if (!component.isPage ) componentIds[component.name] = component.id;
+    });
+
+    // assign correct ID to components that are children inside of remaining pages
+    components.forEach(page => {
+      if (page.isPage) {
+        page.children.forEach(child => {
+          if (child.type === 'Component') child.typeId = componentIds[child.name]; 
+        });
+      }
+    });
   };
+
+  const updateRoots = (components: Component[]) => {
+    const roots = [];
+    components.forEach(comp => {
+      if (comp.isPage) roots.push(comp.id);
+    });
+    return roots;
+  }
 
   const deleteById = (id: number): Component[] =>
     [...state.components].filter(comp => comp.id != id);
@@ -103,6 +126,25 @@ const reducer = (state: State, action: Action) => {
     }
   }
 
+  const deleteComponentFromPages = (components, name) => {
+    const searchNestedComps = (childComponents) => {
+      console.log(childComponents);
+      if (childComponents.length === 0) return;
+      childComponents.forEach((comp, i) => {
+        if (comp.isPage){
+          comp.children.forEach((child, i, arr) => {
+            if (child.name === name) {
+              arr.splice(i, 1);
+            }
+          })
+        } 
+        searchNestedComps(childComponents.children)
+      });
+    }
+    components.forEach(comp => searchNestedComps(comp.children));
+    console.log(components);
+  }
+
   switch (action.type) {
     case 'ADD COMPONENT': {
       if (
@@ -110,6 +152,9 @@ const reducer = (state: State, action: Action) => {
         action.payload.componentName === ''
       )
         return state;
+      
+      const components = [...state.components];
+      console.log('adding =>', action.payload.componentName);
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -119,8 +164,7 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
-
-      const components = [...state.components];
+      console.log('new comp =>', newComponent);
       components.push(newComponent);
 
       const rootComponents = [...state.rootComponents];
@@ -134,7 +178,6 @@ const reducer = (state: State, action: Action) => {
       };
 
       const nextComponentId = state.nextComponentId + 1;
-      console.log('new comps', components);
       return {
         ...state,
         components,
@@ -190,7 +233,6 @@ const reducer = (state: State, action: Action) => {
           }
         })
       }
-
       const newChild: ChildElement = {
         type,
         typeId,
@@ -327,52 +369,37 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
+
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus };
     }
 
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
-      // console.log('id', id);
-      // const pageName = state.components[id-1].name;
-      // // check if page is linked to in other pages      
-      // console.log(state.components);
-      // console.log(pageName);
-
-      // //const currentComponents = [...state.components];
-
-      // const isLinked = (comps) => {
-      //   if (comps.length === 0) return;
-      //   comps.forEach((comp, i, array) => {
-      //     if (comp.type === 'Route Link' && comp.name === pageName) {
-      //       console.log('found link', i, comp);
-      //       array.splice(i, 1);
-      //         // delete the comp
-      //     }
-      //     if (comp.children.length > 0) isLinked(comp.children);
-      //   })  
-      // }
-      // isLinked(state.components);
 
       const components: Component[] = deleteById(id);
       updateIds(components);
 
       // rebuild rootComponents with correct page IDs
-      const rootComponents: number[] = [];
-      components.forEach(comp => {
-        if (comp.isPage) rootComponents.push(comp.id);
-      });
-      //console.log('curr', currentComponents);
-      console.log('comps', components);
+      const rootComponents = updateRoots(components);
+
       const canvasFocus = { componentId: 1, childId: null }
       return {...state, rootComponents, components, canvasFocus}
     }
     case 'DELETE REUSABLE COMPONENT' : {
       const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+      console.log(name);
       const components: Component[] = deleteById(id);
       updateIds(components);
+
+      // check if reusable comp is inside a page
+      deleteComponentFromPages(components, name);
+
       const canvasFocus = { componentId: 1, childId: null };
-      return {...state, components, canvasFocus, nextComponentId: id };
+
+      const rootComponents = updateRoots(components);
+      return {...state, rootComponents, components, canvasFocus, nextComponentId: id };
     }
 
     case 'SET INITIAL STATE': {
@@ -439,7 +466,6 @@ const reducer = (state: State, action: Action) => {
         components,
         canvasFocus
       };
-      // return { ...initialState };
     }
 
     case 'UPDATE PROJECT NAME': {
@@ -451,9 +477,7 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'OPEN PROJECT': {
-      console.log("BEFORE FUNCTION: ", action.payload.HTMLTypes);
       convertToJSX(action.payload.HTMLTypes);
-      console.log("AFTER FUNCTION: ", action.payload.HTMLTypes);
       return {
         ...action.payload
       };
