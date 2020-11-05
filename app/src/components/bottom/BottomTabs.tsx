@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   bottomHeader: {
     flex: 1,
@@ -92,7 +92,8 @@ const useStyles = makeStyles(theme => ({
     Width: '200px'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242'
+    borderBottom: '0.5px solid #424242',
+    minHeight: '50%'
   },
   tabsIndicator: {
     backgroundColor: '#1de9b6'
@@ -129,10 +130,10 @@ const useStyles = makeStyles(theme => ({
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing(3) // JZ: updated syntax as per deprecation warning
+    padding: theme.spacing(3)
   },
   padding: {
-    padding: `0 ${theme.spacing(2)}px` // JZ: updated syntax as per deprecation warning
+    padding: `0 ${theme.spacing(2)}px` 
   },
   switch: {
     marginRight: '10px',
