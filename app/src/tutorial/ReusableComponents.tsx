@@ -9,39 +9,10 @@ import reusablecomponents1 from '../../../resources/reusable_components_tutorial
 import reusablecomponents2 from '../../../resources/reusable_components_tutorial_images/reusablecomponents2.png';
 import reusablecomponents3 from '../../../resources/reusable_components_tutorial_images/reusablecomponents3.png';
 
-<<<<<<< HEAD
-const ReusableComponents: React.FC<RouteComponentProps> = () => {
-
-  const body = document.querySelector('body');
-  body.style.overflowY = 'auto';
-  const useStyles = makeStyles({
-    title: {
-      color: '#14151f',
-      fontSize: 25
-    },
-    text: {
-      color: '#2e2f3e',
-      fontSize: 20
-    },
-    wrapper: {
-      margin: '30px 30px 30px 30px',
-      width: 'auto'
-    },
-    img: {
-      borderRadius: '3px',
-      // alignSelf: 'center'
-    },
-    imgWrapper: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      // border: '1px solid black',
-      width: 'auto'
-    }
-  });
-
-  const classes = useStyles();
-
+const ReusableComponents: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Reusable Components Tutorial</h1>
@@ -70,15 +41,6 @@ const ReusableComponents: React.FC<RouteComponentProps> = () => {
         <p className={classes.text}>You can place a reusable component inside Pages and populate the component itself with the HTML Elements.</p>
         
       </div>
-=======
-const ReusableComponents: React.FC<{
-  classes: any;
-  setPage: Function;
-}> = ({ classes, setPage }) => {
-  return (
-    <div>
-      ReusableComponents
->>>>>>> 2a650b9c905f532c943c7a8fc17e18e4fdc68eb4
     </div>
   );
 };
