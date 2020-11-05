@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,38 +8,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import canvas1 from '../../../resources/canvas_tutorial_images/canvas1.png';
 import drag1 from '../../../resources/canvas_tutorial_images/drag1.png';
 
-const Canvas: React.FC<RouteComponentProps> = () => {
-
-  const body = document.querySelector('body');
-  body.style.overflowY = 'auto';
-  const useStyles = makeStyles({
-    title: {
-      color: '#14151f',
-      fontSize: 54
-    },
-    text: {
-      color: '#2e2f3e',
-      fontSize: 24
-    },
-    wrapper: {
-      margin: '30px 30px 30px 30px',
-      width: 'auto'
-    },
-    img: {
-      borderRadius: '3px',
-      // alignSelf: 'center'
-    },
-    imgWrapper: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      // border: '1px solid black',
-      width: 'auto'
-    }
-  });
-
-  const classes = useStyles();
-
+const Canvas: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Canvas Tutorial</h1>
@@ -68,5 +40,5 @@ const Canvas: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export default withRouter(Canvas);
+export default Canvas;
 

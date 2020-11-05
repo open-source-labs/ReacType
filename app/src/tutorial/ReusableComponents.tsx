@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ import reusablecomponents1 from '../../../resources/reusable_components_tutorial
 import reusablecomponents2 from '../../../resources/reusable_components_tutorial_images/reusablecomponents2.png';
 import reusablecomponents3 from '../../../resources/reusable_components_tutorial_images/reusablecomponents3.png';
 
+<<<<<<< HEAD
 const ReusableComponents: React.FC<RouteComponentProps> = () => {
 
   const body = document.querySelector('body');
@@ -69,9 +70,18 @@ const ReusableComponents: React.FC<RouteComponentProps> = () => {
         <p className={classes.text}>You can place a reusable component inside Pages and populate the component itself with the HTML Elements.</p>
         
       </div>
+=======
+const ReusableComponents: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
+  return (
+    <div>
+      ReusableComponents
+>>>>>>> 2a650b9c905f532c943c7a8fc17e18e4fdc68eb4
     </div>
   );
 };
 
-export default withRouter(ReusableComponents);
+export default ReusableComponents;
 

@@ -29,14 +29,14 @@ const isDev =
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
-// main.js is what controls the lifecycle of the electron application
+// main.js is what controls the lifecycle of the electron applicaton
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 let menuBuilder;
 
-// function to create a new browser window
+// function to create a new broswer window
 // this function will be called when Electron has initialized itself
 async function createWindow() {
   if (isDev) {
@@ -55,9 +55,10 @@ async function createWindow() {
     // full screen
     width: 1920,
     height: 1080,
+    minWidth: 980,
     // window title
     title: `ReacType`,
-    // the browser window will not display initially as it's loading
+    // the browser window will not display intiially as it's loading
     // once the browser window renders, a function is called below  that hides the splash screen and displays the browser window
     show: false,
     // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
@@ -65,14 +66,14 @@ async function createWindow() {
       zoomFactor: 0.7,
       // enable devtools when in development mode
       devTools: isDev,
-      // crucial security feature - blocks rendering process from having access to node modules
+      // crucial security feature - blocks rendering process from having access to node moduels
       nodeIntegration: false,
       // web workers will not have access to node
       nodeIntegrationInWorker: false,
-      // disallow experimental feature to allow node.js support in sub-frames (i-frames/child windows)
+      // disallow experimental feature to allow node.js suppport in subframes (iframes/child windows)
       nodeIntegrationInSubFrames: false,
-      // runs electron apis and preload script in a separate JS context
-      // separate context has access to document/window but has it's own built-ins and is isolate from changes to global environment by loaded page
+      // runs electron apis and preload script in a seperate JS context
+      // sepearate context has access to document/window but has it's own built-ins and is isolate from chagnes to gloval environment by locaded page
       // Electron API only available from preload, not loaded page
       contextIsolation: true,
       // disables remote module. critical for ensuring that rendering process doesn't have access to node functionality
@@ -100,7 +101,7 @@ async function createWindow() {
 
   // Load app
   if (isDev) {
-    // load app from web-dev server
+    // load app from webdev server
     win.loadURL(selfHost);
   } else {
     // load local file if in production
@@ -223,8 +224,10 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/'
+      'https://github.com/',
+      'https://nextjs.org',
     ];
+    console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
@@ -233,7 +236,7 @@ app.on('web-contents-created', (event, contents) => {
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
       return;
-    }
+    } else console.log(`Successful navigation to ${parsedUrl}`);
   });
 
   contents.on('will-redirect', (event, navigationUrl) => {
@@ -242,8 +245,8 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com',
-      'app://rse/'
+      'https://github.com/',
+      'https://nextjs.org',
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -257,12 +260,12 @@ app.on('web-contents-created', (event, contents) => {
 
       event.preventDefault();
       return;
-    }
+    } else console.log('Succesful link sent to browser');
   });
 
   // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
   // The web-view is used to embed guest content in a page
-  // This event listener deletes web-views if they happen to occur in the app
+  // This event listener deletes webviews if they happen to occur in the app
   // https://www.electronjs.org/docs/api/web-contents#event-will-attach-webview
   contents.on('will-attach-webview', (event, webPreferences, params) => {
     // Strip away preload scripts if unused or verify their location is legitimate
@@ -276,12 +279,26 @@ app.on('web-contents-created', (event, contents) => {
   // https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows
   contents.on('new-window', async (event, navigationUrl) => {
     // Log and prevent opening up a new window
-    console.error(
-      `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
-    );
-
-    event.preventDefault();
-    return;
+    const parsedUrl = new URL(navigationUrl);
+    const validOrigins = [
+      selfHost,
+      'http://localhost:5000',
+      'https://reactype.herokuapp.com',
+      'https://github.com/',
+      'https://nextjs.org',
+    ];
+    console.log('parsed URL origin', parsedUrl.origin);
+    // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
+    if (!validOrigins.includes(parsedUrl.origin)) {
+      console.error(
+        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
+      );
+      // if the requested URL is not in the whitelisted array, then don't navigate there
+      event.preventDefault();
+      return;
+    } else console.log(`Successful new window to ${parsedUrl}`);
+    // event.preventDefault();
+    // return;
   });
 });
 
@@ -360,9 +377,15 @@ ipcMain.on('delete_cookie', event => {
     .catch(err => console.log('Error deleting cookie:', err));
 });
 
-// opens new window for github oauth when button on sign in page is clicked
+// opens new window for github oauth when button on signin page is clicked
 ipcMain.on('github', event => {
-  // create new browser window object with size, title, security options
+  // your github applications credentials
+  const options = {
+    client_id: 'your_client_id',
+    client_secret: 'your_client_secret',
+    scopes: ['user:email', 'notifications']
+  };
+  // create new browserwindow object with size, title, security options
   const github = new BrowserWindow({
     width: 800,
     height: 600,
@@ -376,8 +399,11 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
+  const githubUrl = 'https://github.com/login/oauth/authorize?';
+  const authUrl =
+    githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
   // redirects to relevant server endpoint
-  github.loadURL(`${serverUrl}/github`);
+  github.loadURL(authUrl);
   // show window
   github.show();
   // if final callback is reached and we get a redirect from server back to our app, close oauth window
@@ -399,10 +425,11 @@ ipcMain.on('github', event => {
 });
 
 ipcMain.on('tutorial', event => {
-  // create new browser window object with size, title, security options
+  // create new browserwindow object with size, title, security options
   const tutorial = new BrowserWindow({
     width: 800,
     height: 600,
+    minWidth: 661,
     title: 'Tutorial',
     webPreferences: {
       nodeIntegration: false,
@@ -434,9 +461,5 @@ ipcMain.on('tutorial', event => {
   //   }
   // });
 });
-
-
-
-
 
 //module.exports = dialog;

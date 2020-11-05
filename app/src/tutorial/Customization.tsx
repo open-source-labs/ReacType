@@ -1,5 +1,9 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import display from '../../../resources/customizing_elements_images/Display.png';
+import flex from '../../../resources/customizing_elements_images/Flex.png';
+import height from '../../../resources/customizing_elements_images/Height.png';
+import width from '../../../resources/customizing_elements_images/Width.png';
+import backgroundcolor from '../../../resources/customizing_elements_images/BackgroundColor.png';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -8,19 +12,55 @@ import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 // Left-hand portion of the app, where component options are displayed
 
-const Customization: React.FC<RouteComponentProps> = () => {
+const Customization: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
-    <div>
-      Customization
-      <Link to={`/`}>
-        <button>Application</button>
-      </Link>
-      <Link to={`/tutorial`}>
-        <button>Tutorial</button>
-      </Link>
+    <div className="tutorial_styling">
+      <h1 style={{ color: 'black' }}>Customizing Elements</h1>
+      <hr />
+      <h2>Display</h2>
+      <br />
+      <img src={display} />
+      <p>
+        After having moved a page, component, route link, or element into the
+        canvas, select the one that needs customizing simply by clicking on it.
+        Then, to give it a display feature of either a block, inline-block, or
+        flex styling, select from the drop down box.
+        <br />
+        <br />
+        <img src={flex} />
+        <br />
+        <br />
+        If the display option 'flex' is chosen, few more sub-options are
+        displayed under the display option.
+      </p>
+      <br />
+      <hr />
+      <h2>Width</h2>
+      <img src={width} />
+      <br />
+      <p>Change the width of each component, route link, or element.</p>
+      <br />
+      <hr />
+      <h2>Height</h2>
+      <img src={height} />
+      <br />
+      <p>Change the height of each component, route link, or element.</p>
+      <br />
+      <hr />
+      <h2>Background Color</h2>
+      <img src={backgroundcolor} />
+      <br />
+      <p>
+        Select an element, type in the color you wish to change the background
+        color to, and click save!
+      </p>
+      <br />
+      <hr />
     </div>
   );
 };
 
-export default withRouter(Customization);
-
+export default Customization;

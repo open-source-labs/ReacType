@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,6 +36,7 @@ const CodePreview: React.FC<RouteComponentProps> = () => {
 
   const classes = useStyles();
 
+<<<<<<< HEAD
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Code Preview</h1>
@@ -45,9 +46,18 @@ const CodePreview: React.FC<RouteComponentProps> = () => {
         <p className={classes.text}>This preview will populate and generate in real-time as you use the drag-n-drop functionality with the canvas.</p>
         <p className={classes.text}>To learn more about the canvas, find the tutorial labeled "Canvas".</p>
       </div>
+=======
+const CodePreview: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
+  return (
+    <div>
+      CodePreview
+>>>>>>> 2a650b9c905f532c943c7a8fc17e18e4fdc68eb4
     </div>
   );
 };
 
-export default withRouter(CodePreview);
+export default CodePreview;
 

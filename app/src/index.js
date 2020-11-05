@@ -39,7 +39,7 @@ ReactDOM.render(
       <Route exact path="/signup" component={SignUp} />
       <PrivateRoute exact path="/" component={App} />
       <Route exact path="/tutorial" component={Tutorial}/>
-      <Route exact path="/tutorialPage/:learn" component={TutorialPage} value={'test'} />
+      <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
     </Switch>
   </Router>,
   document.getElementById('app')
