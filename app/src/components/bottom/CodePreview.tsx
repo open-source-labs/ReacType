@@ -13,7 +13,7 @@ import useResizeObserver from '../../tree/useResizeObserver';
 
 const CodePreview = ({ theme, setTheme }) => {
   const wrapper = useRef();
-  console.log(wrapper.current);
+  //console.log(wrapper.current);
   const dimensions = useResizeObserver(wrapper);
   const { width, height } =
     dimensions || 0;
@@ -35,7 +35,7 @@ const CodePreview = ({ theme, setTheme }) => {
 
   useEffect(() => {
     setDivHeight(height);
-    console.log(divHeight);
+    //console.log(divHeight);
   }, [height])
 
   return (

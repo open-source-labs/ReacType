@@ -1,17 +1,11 @@
 import React from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import link1 from '../../../resources/route_links_tutorial_images/links1.png';
-import tree2 from '../../../resources/tree_tutorial_images/tree2.png';
-import tree3 from '../../../resources/tree_tutorial_images/tree3.png';
-import tree4 from '../../../resources/tree_tutorial_images/tree4.png';
-import tree5 from '../../../resources/tree_tutorial_images/tree5.png';
-import pages from '../../../resources/tree_tutorial_images/pages.png';
-import re_comps from '../../../resources/tree_tutorial_images/re_comps.png';
+import links2 from '../../../resources/route_links_tutorial_images/links2.png';
+import links3 from '../../../resources/route_links_tutorial_images/links3.png';
+import links4 from '../../../resources/route_links_tutorial_images/links4.png';
+import links6 from '../../../resources/route_links_tutorial_images/links6.png';
+import linksCanvas from '../../../resources/route_links_tutorial_images/links-canvas.png';
 // import Grid from '@material-ui/core/Grid';
 
 // import ComponentPanel from '../components/left/ComponentPanel';
@@ -35,9 +29,13 @@ const ComponentTree: React.FC<RouteComponentProps> = () => {
       margin: '30px 30px 30px 30px',
       width: 'auto'
     },
-    img: {
+    smallImg: {
       borderRadius: '3px',
-      // alignSelf: 'center'
+      height: '300px',
+      marginRight: '20px'
+    },
+    largeImg: {
+      height: '700px'
     },
     imgWrapper: {
       display: 'flex',
@@ -51,30 +49,25 @@ const ComponentTree: React.FC<RouteComponentProps> = () => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Next.js Route Links</h1>
-      <h2></h2>
-      <p className={classes.text}>Users are able to drag-and-drop 'Link' components which allow navigation to different pages.</p>
-      <p className={classes.text}>For more information on 'Link', please <a href="https://nextjs.org/docs/api-reference/next/link" target="_blank">visit the official documentation on nextjs.org.</a></p>
+      <h2>Route Links are only available for Next.js projects.</h2>
+      <p className={classes.text}>Users are able to drag-and-drop 'Link' components onto the canvas which allow navigation to different pages.</p>
       <div className={classes.imgWrapper}>
-        <img className={classes.img} src={link1}></img>
+        <img className={classes.largeImg} src={linksCanvas}></img>
       </div>
-      <p className={classes.text}>Each tree begins with a root node. The current page that is selected represents the root node.</p>
+      <p className={classes.text}>Each page found in the 'Pages' section can be navigated to via a 'Link'. Clicking on the 'Route Link' dropdown will display all the created pages in your application.</p>
       <div className={classes.imgWrapper}>
-        {/* <img className={classes.img} src={pages}></img> */}
-        <img className={classes.img} src={tree2}></img>
+        <img className={classes.smallImg} src={links2}></img>
+        <img className={classes.smallImg} src={links3}></img>
       </div>
-      <p className={classes.text}>Reusable components are shown attached to the current page along with their subtrees of components and HTML elements.</p>
+      <p className={classes.text}>The code generator will automatically <code>import Link from 'next/link'</code> and create your Link component in the bottom panel.</p>
       <div className={classes.imgWrapper}>
-        {/* <img className={classes.img} src={re_comps}></img> */}
-        <img className={classes.img} src={tree3}></img>
-      </div>  
-      <p className={classes.text}>HTML elements are shown by their tag name.</p>
-      <div className={classes.imgWrapper}>
-        <img className={classes.img} src={tree4}></img>
+        <img className={classes.largeImg} src={links4}></img>
       </div>
-      <p className={classes.text}>You can also view the tree for each reusable component.</p>
+      <p className={classes.text}>Clicking on a Link component on the canvas will navigate to the corresponding page.</p>
       <div className={classes.imgWrapper}>
-        <img className={classes.img} src={tree5}></img>
+        <img className={classes.smallImg} src={links6}></img>
       </div>
+      <p className={classes.text}>For more information on 'Link' for Next.js, please <a href="https://nextjs.org/docs/api-reference/next/link" target="_blank">visit the official documentation on nextjs.org.</a></p>
       <Link to={`/tutorial`}>
         <button>Tutorial</button>
       </Link>

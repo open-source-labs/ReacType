@@ -15,7 +15,8 @@ const useStyles = makeStyles({
   tutorial_page: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    fontSize: '30px'
   },
   main_tutorial: {
     flexGrow: 2

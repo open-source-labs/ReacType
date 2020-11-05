@@ -127,21 +127,21 @@ const reducer = (state: State, action: Action) => {
   }
 
   const deleteComponentFromPages = (components, name) => {
+    console.log('name', name);
     const searchNestedComps = (childComponents) => {
-      console.log(childComponents);
-      if (childComponents.length === 0) return;
-      childComponents.forEach((comp, i) => {
-        if (comp.isPage){
-          comp.children.forEach((child, i, arr) => {
-            if (child.name === name) {
-              arr.splice(i, 1);
-            }
-          })
-        }
-        searchNestedComps(childComponents.children)
-      });
+      console.log('child components', childComponents);
+      // if (childComponents.length === 0) return console.log('empty children array');
+      // childComponents.forEach((comp, i, arr) => {
+      //   console.log('each individual comp', comp);
+      //   if (comp.name === name){
+      //     arr.splice(i, 1);
+      //   } else searchNestedComps(childComponents.children)
+      // });
     }
-    components.forEach(comp => searchNestedComps(comp.children));
+    components.forEach(comp => {
+      console.log('current comp', comp);
+      searchNestedComps(comp.children)
+    });
     console.log(components);
   }
 
@@ -393,7 +393,7 @@ const reducer = (state: State, action: Action) => {
       updateIds(components);
 
       // check if reusable comp is inside a page
-      deleteComponentFromPages(components, name);
+      //deleteComponentFromPages(components, name);
 
       const canvasFocus = { componentId: 1, childId: null };
 

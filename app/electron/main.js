@@ -225,13 +225,6 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
-      'https://nextjs.org/',
-      'http://nextjs.org',
-      'http://nextjs.org/',
-      'https://www.nextjs.org',
-      'https://www.nextjs.org/',
-      'http://www.nextjs.org',
-      'http://www.nextjs.org/',
     ];
     console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
@@ -253,13 +246,6 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
-      'https://nextjs.org/',
-      'http://nextjs.org',
-      'http://nextjs.org/',
-      'https://www.nextjs.org',
-      'https://www.nextjs.org/',
-      'http://www.nextjs.org',
-      'http://www.nextjs.org/',
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -273,7 +259,7 @@ app.on('web-contents-created', (event, contents) => {
 
       event.preventDefault();
       return;
-    }
+    } else console.log('Succesful link sent to browser');
   });
 
   // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
@@ -299,13 +285,6 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
-      'https://nextjs.org/',
-      'http://nextjs.org',
-      'http://nextjs.org/',
-      'https://www.nextjs.org',
-      'https://www.nextjs.org/',
-      'http://www.nextjs.org',
-      'http://www.nextjs.org/',
     ];
     console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
@@ -316,9 +295,9 @@ app.on('web-contents-created', (event, contents) => {
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
       return;
-    } else console.log(`Successful navigation to ${parsedUrl}`);
-    event.preventDefault();
-    return;
+    } else console.log(`Successful new window to ${parsedUrl}`);
+    // event.preventDefault();
+    // return;
   });
 });
 
