@@ -22,6 +22,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { ipcRenderer } from 'electron';
 
 function Copyright() {
   return (
@@ -111,12 +112,12 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   };
 
   /*
-    Response Options: 
+    Response Options:
     Success
     Error
-    No Username Input 
-    No Password Input 
-    Incorrect Password 
+    No Username Input
+    No Password Input
+    Incorrect Password
     Invalid Username
   */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -226,7 +227,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           className={classes.submit}
           onClick={() => {
             // messages the main proces to open new window for github oauth
-            console.log('open github')
+            console.log('open github');
+            console.log(window.api);
+            // ipcRenderer.send('github-oauth', 'getToken');
             window.api.github();
           }}
         >
