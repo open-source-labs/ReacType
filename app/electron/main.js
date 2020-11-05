@@ -55,6 +55,7 @@ async function createWindow() {
     // full screen
     width: 1920,
     height: 1080,
+    minWidth: 980,
     // window title
     title: `ReacType`,
     // the browser window will not display initially as it's loading
@@ -419,6 +420,7 @@ ipcMain.on('tutorial', event => {
   const tutorial = new BrowserWindow({
     width: 800,
     height: 600,
+    minWidth: 661,
     title: 'Tutorial',
     webPreferences: {
       nodeIntegration: false,

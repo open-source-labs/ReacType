@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,35 +19,10 @@ import re_comps from '../../../resources/tree_tutorial_images/re_comps.png';
 
 // Left-hand portion of the app, where component options are displayed
 
-const ComponentTree: React.FC<RouteComponentProps> = () => {
-  const body = document.querySelector('body');
-  body.style.overflowY = 'auto';
-  const useStyles = makeStyles({
-    title: {
-      color: '#14151f',
-      fontSize: 54
-    },
-    text: {
-      color: '#2e2f3e',
-      fontSize: 24
-    },
-    wrapper: {
-      margin: '30px 30px 30px 30px',
-      width: 'auto'
-    },
-    img: {
-      borderRadius: '3px',
-      // alignSelf: 'center'
-    },
-    imgWrapper: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      // border: '1px solid black',
-      width: 'auto'
-    }
-  });
-  const classes = useStyles();
+const ComponentTree: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div className={classes.wrapper}>
       <h1 className={classes.title}>React Component Tree</h1>
@@ -65,7 +40,7 @@ const ComponentTree: React.FC<RouteComponentProps> = () => {
       <div className={classes.imgWrapper}>
         {/* <img className={classes.img} src={re_comps}></img> */}
         <img className={classes.img} src={tree3}></img>
-      </div>  
+      </div>
       <p className={classes.text}>HTML elements are shown by their tag name.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={tree4}></img>
@@ -74,11 +49,8 @@ const ComponentTree: React.FC<RouteComponentProps> = () => {
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={tree5}></img>
       </div>
-      <Link to={`/tutorial`}>
-        <button>Tutorial</button>
-      </Link>
     </div>
   );
 };
 
-export default withRouter(ComponentTree);
+export default ComponentTree;

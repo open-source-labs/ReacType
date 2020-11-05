@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -8,19 +8,16 @@ import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 // Left-hand portion of the app, where component options are displayed
 
-const ReusableComponents: React.FC<RouteComponentProps> = () => {
+const ReusableComponents: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div>
       ReusableComponents
-      <Link to={`/`}>
-        <button>Application</button>
-      </Link>
-      <Link to={`/tutorial`}>
-        <button>Tutorial</button>
-      </Link>
     </div>
   );
 };
 
-export default withRouter(ReusableComponents);
+export default ReusableComponents;
 

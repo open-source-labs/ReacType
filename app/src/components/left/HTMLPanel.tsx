@@ -6,11 +6,19 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
+  const [state, dispatch] = useContext(StateContext);
+
+  let startingID = 0;
+  for (let i = 0; i < state.HTMLTypes.length; i+=1) {
+    if (state.HTMLTypes[i].id >= startingID) {
+      startingID = state.HTMLTypes[i].id;
+    }
+  }
+  startingID += 1;
 
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
-  const [currentID, setCurrentID] = useState(12);
-  const [state, dispatch] = useContext(StateContext);
+  const [currentID, setCurrentID] = useState(startingID);
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
@@ -81,14 +89,8 @@ const HTMLPanel = (): JSX.Element => {
       type: 'ADD ELEMENT',
       payload: newElement
     });
-    let nextID = 0;
-    for (let i = 0; i < state.HTMLTypes.length; i+=1) {
-      if (state.HTMLTypes[i].id > nextID) {
-        nextID = state.HTMLTypes.id;
-      }
-    }
-    nextID += 1;
-    setCurrentID(nextID);
+
+    setCurrentID(currentID + 1);
     setTag('');
     setName('');
   };
