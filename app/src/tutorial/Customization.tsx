@@ -3,7 +3,7 @@ import display from '../../../resources/customizing_elements_images/Display.png'
 import flex from '../../../resources/customizing_elements_images/Flex.png';
 import height from '../../../resources/customizing_elements_images/Height.png';
 import width from '../../../resources/customizing_elements_images/Width.png';
-import backgroundcolor from '../../../resources/customizing_elements_images/BackgroundColor.png';
+import backgroundColor from '../../../resources/customizing_elements_images/BackgroundColor.png';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -51,7 +51,7 @@ const Customization: React.FC<{
       <br />
       <hr />
       <h2>Background Color</h2>
-      <img src={backgroundcolor} />
+      <img src={backgroundColor} />
       <br />
       <p>
         Select an element, type in the color you wish to change the background

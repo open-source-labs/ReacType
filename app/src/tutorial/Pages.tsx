@@ -1,8 +1,8 @@
 import React from 'react';
 import pages from '../../../resources/pages_images/Pages.png';
 import toggle from '../../../resources/pages_images/Toggle.png';
-import deletepage from '../../../resources/pages_images/DeletePage.png';
-import addelements from '../../../resources/pages_images/AddElements.png';
+import deletePage from '../../../resources/pages_images/DeletePage.png';
+import addElements from '../../../resources/pages_images/AddElements.png';
 
 // import Grid from '@material-ui/core/Grid';
 
@@ -28,7 +28,7 @@ const Pages: React.FC<{
       </p>
       <br />
       <img src={toggle} style={{ marginRight: '20px' }} />
-      <img src={addelements} style={{ outline: '1px solid black' }} />
+      <img src={addElements} style={{ outline: '1px solid black' }} />
       <br />
       <p>
         Switch between pages by selecting the page and customize it by dragging
@@ -37,7 +37,7 @@ const Pages: React.FC<{
         on).
       </p>
       <br />
-      <img src={deletepage} />
+      <img src={deletePage} />
       <p>Delete the page by simply clicking the button.</p>
     </div>
   );
