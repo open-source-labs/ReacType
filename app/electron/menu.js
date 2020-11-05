@@ -18,6 +18,7 @@ var MenuBuilder = function(mainWindow, appName) {
     const tutorial = new BrowserWindow({
       width: 1224,
       height: 1024,
+      minWidth: 661,
       title: 'Tutorial',
       webPreferences: {
         nodeIntegration: false,

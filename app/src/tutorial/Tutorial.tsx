@@ -19,7 +19,6 @@ import StyleIcon from '@material-ui/icons/Style';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 
-export const PageContext = createContext('');
 
 const useStyles = makeStyles({
   root: {
@@ -87,17 +86,15 @@ const useStyles = makeStyles({
 
 const Tutorial: React.FC<RouteComponentProps> = () => {
   const classes = useStyles();
-  const initial = useContext(PageContext);
-  const [page, setPage] = useState(initial);
 
   const topics = [
     'Pages',
-    'Route Links',
-    'Code Preview',
-    'Reusable Components',
+    'Route_Links',
+    'Code_Preview',
+    'Reusable_Components',
     'Canvas',
-    'Component Tree',
-    'HTML Elements',
+    'Component_Tree',
+    'HTML_Elements',
     'Styling',
     'Customization'
   ];
@@ -126,7 +123,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
             <CardContent>
               <Typography className={classes.title}>{topic}</Typography>
             </CardContent>
-            <CardActions className={classes.cardActions} onClick={() => setPage(topic)}>
+            <CardActions className={classes.cardActions} >
                 {icons[i]}
             </CardActions>
           </Card>
