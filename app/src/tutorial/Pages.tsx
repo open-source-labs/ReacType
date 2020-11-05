@@ -15,12 +15,8 @@ import addelements from '../../../resources/pages_images/AddElements.png';
 const Pages: React.FC<RouteComponentProps> = () => {
   return (
     <div className="tutorial_styling">
-      Pages
-      <Link to={`/tutorial`}>
-        <button>Tutorial</button>
-      </Link>
-      <br />
-      <h2>Add a New Page</h2>
+      <h1 style={{ color: 'black' }}>Pages</h1>
+      <hr />
       <br />
       <img src={pages} />
       <p>

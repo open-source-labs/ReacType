@@ -15,11 +15,8 @@ import codechange from '../../../resources/customizing_elements_images/CodeChang
 const Styling: React.FC<RouteComponentProps> = () => {
   return (
     <div className="tutorial_styling">
-      <Link to={`/tutorial`}>
-        <button>Back to Tutorial Page</button>
-      </Link>
-      <br />
       <h1 style={{ color: 'black' }}>Styling Features</h1>
+      <hr />
       <h2>Code Preview Theme Changer</h2>
       <img src={theme} />
       <br />
@@ -28,6 +25,7 @@ const Styling: React.FC<RouteComponentProps> = () => {
         view of the code preview!
       </p>
       <br />
+      <hr />
       <h2>Lighting Mode</h2>
       <img src={lighting} />
       <br />
@@ -37,6 +35,7 @@ const Styling: React.FC<RouteComponentProps> = () => {
         background color of the component tree.
       </p>
       <br />
+      <hr />
       <h2>Resize Code Preview & Component Tree</h2>
       <img src={resize} />
       <br />
@@ -45,6 +44,7 @@ const Styling: React.FC<RouteComponentProps> = () => {
         resize the section. Simply click and drag up or down to resize.
       </p>
       <br />
+      <hr />
       <h2>Customize Code Preview</h2>
       <img src={codechange} />
       <br />
@@ -53,6 +53,7 @@ const Styling: React.FC<RouteComponentProps> = () => {
         file!
       </p>
       <br />
+      <hr />
     </div>
   );
 };

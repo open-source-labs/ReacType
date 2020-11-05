@@ -16,12 +16,8 @@ import backgroundcolor from '../../../resources/customizing_elements_images/Back
 const Customization: React.FC<RouteComponentProps> = () => {
   return (
     <div className="tutorial_styling">
-      <Link to={`/tutorial`}>
-        <button>Back to Tutorial Page</button>
-      </Link>
-      <hr />
       <h1 style={{ color: 'black' }}>Customizing Elements</h1>
-      <br />
+      <hr />
       <h2>Display</h2>
       <br />
       <img src={display} />
@@ -39,16 +35,19 @@ const Customization: React.FC<RouteComponentProps> = () => {
         displayed under the display option.
       </p>
       <br />
+      <hr />
       <h2>Width</h2>
       <img src={width} />
       <br />
       <p>Change the width of each component, route link, or element.</p>
       <br />
+      <hr />
       <h2>Height</h2>
       <img src={height} />
       <br />
       <p>Change the height of each component, route link, or element.</p>
       <br />
+      <hr />
       <h2>Background Color</h2>
       <img src={backgroundcolor} />
       <br />
@@ -57,6 +56,7 @@ const Customization: React.FC<RouteComponentProps> = () => {
         color to, and click save!
       </p>
       <br />
+      <hr />
     </div>
   );
 };

@@ -362,6 +362,12 @@ ipcMain.on('delete_cookie', event => {
 
 // opens new window for github oauth when button on signin page is clicked
 ipcMain.on('github', event => {
+  // your github applications credentials
+  const options = {
+    client_id: 'your_client_id',
+    client_secret: 'your_client_secret',
+    scopes: ['user:email', 'notifications']
+  };
   // create new browserwindow object with size, title, security options
   const github = new BrowserWindow({
     width: 800,
@@ -376,8 +382,11 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
+  const githubUrl = 'https://github.com/login/oauth/authorize?';
+  const authUrl =
+    githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
   // redirects to relevant server endpoint
-  github.loadURL(`${serverUrl}/github`);
+  github.loadURL(authUrl);
   // show window
   github.show();
   // if final callback is reached and we get a redirect from server back to our app, close oauth window

@@ -161,7 +161,7 @@ const generateUnformattedCode = (
       }
       ${
         stateful && !classBased
-          ? `const  [value, setValue] = useState("INITIAL VALUE");`
+          ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
           : ``
       }
       ${
@@ -195,7 +195,7 @@ const generateUnformattedCode = (
 
       const ${currentComponent.name} = (props): JSX.Element => {
 
-        const  [value, setValue] = useState("INITIAL VALUE");
+        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
         <>
