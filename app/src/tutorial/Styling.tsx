@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import theme from '../../../resources/customizing_elements_images/Theme.png';
 import lighting from '../../../resources/customizing_elements_images/Lighting.png';
 import resize from '../../../resources/customizing_elements_images/Resize.png';
@@ -12,7 +11,10 @@ import codechange from '../../../resources/customizing_elements_images/CodeChang
 
 // Left-hand portion of the app, where component options are displayed
 
-const Styling: React.FC<RouteComponentProps> = () => {
+const Styling: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div className="tutorial_styling">
       <h1 style={{ color: 'black' }}>Styling Features</h1>
@@ -58,4 +60,4 @@ const Styling: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export default withRouter(Styling);
+export default Styling;

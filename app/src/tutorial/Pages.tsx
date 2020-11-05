@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import pages from '../../../resources/pages_images/Pages.png';
 import toggle from '../../../resources/pages_images/Toggle.png';
 import deletepage from '../../../resources/pages_images/DeletePage.png';
@@ -12,7 +11,10 @@ import addelements from '../../../resources/pages_images/AddElements.png';
 
 // Left-hand portion of the app, where component options are displayed
 
-const Pages: React.FC<RouteComponentProps> = () => {
+const Pages: React.FC<{
+  classes: any;
+  setPage: Function;
+}> = ({ classes, setPage }) => {
   return (
     <div className="tutorial_styling">
       <h1 style={{ color: 'black' }}>Pages</h1>
@@ -41,4 +43,4 @@ const Pages: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export default withRouter(Pages);
+export default Pages;
