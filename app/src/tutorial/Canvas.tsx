@@ -2,35 +2,67 @@ import React from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 // import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-// import ComponentPanel from '../components/left/ComponentPanel';
-// import HTMLPanel from '../components/left/HTMLPanel';
-
-// Left-hand portion of the app, where component options are displayed
+//images
+import canvas1 from '../../../resources/canvas_tutorial_images/canvas1.png';
+import drag1 from '../../../resources/canvas_tutorial_images/drag1.png';
 
 const Canvas: React.FC<RouteComponentProps> = () => {
+
+  const body = document.querySelector('body');
+  body.style.overflowY = 'auto';
+  const useStyles = makeStyles({
+    title: {
+      color: '#14151f',
+      fontSize: 54
+    },
+    text: {
+      color: '#2e2f3e',
+      fontSize: 24
+    },
+    wrapper: {
+      margin: '30px 30px 30px 30px',
+      width: 'auto'
+    },
+    img: {
+      borderRadius: '3px',
+      // alignSelf: 'center'
+    },
+    imgWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      // border: '1px solid black',
+      width: 'auto'
+    }
+  });
+
+  const classes = useStyles();
+
   return (
-    <div className={'rootCanvas'}>
-      <h1>Canvas Tutorial</h1>
-        <div className={'btn'}>
-      <Link to={`/`}>
-        <button >Application</button>
-      </Link>
-      <Link to={`/tutorial`}>
-        <button>Tutorial</button>
-      </Link>
-      </div>
-      <div>
-        <h4>
-          The canvas is located at the center of the page. 
-          The drag-n-drop functionality is implemented for this technology.
-          Select a given HTML tag or a custom HTML tag, click and hold. 
-          Drag the tag on to the center canvas.
-          When div HTML tag is selected and dragged onto the canvas.
-          Users are able to drag-n-drop div tags and other selected tags into other tags on the page.
-        </h4>
-        
-        {/* <img src="" alt=""/> */}
+    <div className={classes.wrapper}>
+      <h1 className={classes.title}>Canvas Tutorial</h1>
+
+      <div className={classes.wrapper}>
+          <h1 className={classes.title}>Canvas</h1>
+          <p className={classes.text}>The canvas is located at the center of the page. </p>
+          
+          <div className={classes.imgWrapper}>
+            <img className={classes.img} src={canvas1}/>
+          </div>
+
+          <h1 className={classes.title}>Drag-n-Drop</h1>
+          <p className={classes.text}>The drag-n-drop functionality is implemented for the canvas to be populated.</p>
+          <p className={classes.text}>This functionality can be located on the entire left container of the application.</p>
+          <p className={classes.text}>Select a given HTML tag or a custom HTML tag, click and hold to drag on to a reusable components or page.</p>
+
+          <div className={classes.imgWrapper}>
+            <img className={classes.img} src={drag1}/>
+          </div>
+
+          <p className={classes.text}>Select a reusable component, click and hold to drag on to a page.</p>
+          <p className={classes.text}>Drag the selected item on to the center canvas.</p>
       </div>
     </div>
   );
