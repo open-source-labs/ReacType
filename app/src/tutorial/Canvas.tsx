@@ -1,8 +1,4 @@
 import React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-
-// import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 
 //images
 import canvas1 from '../../../resources/canvas_tutorial_images/canvas1.png';
@@ -14,28 +10,25 @@ const Canvas: React.FC<{
 }> = ({ classes, setPage }) => {
   return (
     <div className={classes.wrapper}>
-      <h1 className={classes.title}>Canvas Tutorial</h1>
-
-      <div className={classes.wrapper}>
-          <h1 className={classes.title}>Canvas</h1>
-          <p className={classes.text}>The canvas is located at the center of the page. </p>
-          
-          <div className={classes.imgWrapper}>
-            <img className={classes.img} src={canvas1}/>
-          </div>
-
-          <h1 className={classes.title}>Drag-n-Drop</h1>
-          <p className={classes.text}>The drag-n-drop functionality is implemented for the canvas to be populated.</p>
-          <p className={classes.text}>This functionality can be located on the entire left container of the application.</p>
-          <p className={classes.text}>Select a given HTML tag or a custom HTML tag, click and hold to drag on to a reusable components or page.</p>
-
-          <div className={classes.imgWrapper}>
-            <img className={classes.img} src={drag1}/>
-          </div>
-
-          <p className={classes.text}>Select a reusable component, click and hold to drag on to a page.</p>
-          <p className={classes.text}>Drag the selected item on to the center canvas.</p>
+      <h1 className={classes.title}>Canvas</h1>
+      <hr />
+      <p className={classes.text}>The canvas is located at the center of the page. </p>
+      <div className={classes.imgWrapper}>
+        <img className={classes.img} src={canvas1}/>
       </div>
+      <hr/>
+      <h1 className={classes.title}>Drag-n-Drop</h1>
+      <p className={classes.text}>The drag-n-drop functionality is implemented for the canvas to be populated.<br/>
+      This functionality can be located on the entire left container of the application.<br/>
+      Select a given <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Element</span>, custom <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Element</span>, or <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >reusable component</span>, click and hold to drag on to a reusable components or page.
+      </p>
+      <div className={classes.imgWrapper}>
+        <img src={drag1}/>
+      </div>
+      <hr/>
+      <p className={classes.text}>Select a <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >reusable component</span>, click and hold to drag on to a page.<br/>
+      Drag the selected item on to the center canvas.</p>
+      <hr/>
     </div>
   );
 };

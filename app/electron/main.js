@@ -226,6 +226,7 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
+      'https://developer.mozilla.org'
     ];
     console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
@@ -247,6 +248,7 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
+      'https://developer.mozilla.org'
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -286,6 +288,7 @@ app.on('web-contents-created', (event, contents) => {
       'https://reactype.herokuapp.com',
       'https://github.com/',
       'https://nextjs.org',
+      'https://developer.mozilla.org'
     ];
     console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted

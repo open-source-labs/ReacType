@@ -30,6 +30,11 @@ const useStyles = makeStyles({
     // alignSelf: 'center'
     width: '100%'
   },
+  smallImg: {
+    borderRadius: '3px',
+    height: '300px',
+    marginRight: '20px'
+  },
   imgWrapper: {
     display: 'flex',
     flexDirection: 'row',
@@ -45,6 +50,7 @@ const useStyles = makeStyles({
   sidebar: {
     borderLeft: '2px solid lightgrey',
     width: '30%',
+    minHeight: '100%',
     display: 'flex',
     flexDirection:'column',
     justifyContent: 'flex-start',
@@ -62,9 +68,9 @@ const tutorialPageStyle = {
     height: '100%',
   },
   main_tutorial: {
-    width: '70%'
+    width: '70%',
+    minHeight: '100%'
   },
-
   list: {
     listStyle: 'none'
   },
@@ -77,9 +83,7 @@ const tutorialPageStyle = {
   }
 };
 
-const body = document.querySelector('body');
-body.style.overflowY = 'auto';
-console.log(body.style);
+
 const TutorialPage: React.FC<RouteComponentProps> = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);
