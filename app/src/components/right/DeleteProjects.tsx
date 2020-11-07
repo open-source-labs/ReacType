@@ -42,7 +42,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
     const selectedProject = projects.filter(
       (project: any) => project.name === value
     )[0];
-    console.log('selectedProject is', selectedProject);
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
     dispatch({ type: 'SET INITIAL STATE', payload: initialState });

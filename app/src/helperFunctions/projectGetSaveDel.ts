@@ -6,7 +6,6 @@ if (isDev) {
 // helper functions that will do fetch requests to get and save user/guest projects
 
 export const getProjects = (): Promise<any> => {
-  //console.log("Loading user's projects...");
   let userId = window.localStorage.getItem('ssid');
   const body = JSON.stringify({ userId });
   const projects = fetch(`${serverURL}/getProjects`, {

@@ -32,7 +32,6 @@ const ProjectManager = () => {
   const classes = useStyles();
 
   const { style, setStyle } = useContext(styleContext);
-  // console.log('style: ', style);
 
   // Allows users to toggle project between "next.js" and "Classic React"
   // When a user changes the project type, the code of all components is rerendered
