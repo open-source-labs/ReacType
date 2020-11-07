@@ -95,14 +95,15 @@ const reducer = (state: State, action: Action) => {
     // create KV pairs of component names and corresponding IDs
     const componentIds = {};
     components.forEach(component => {
-      if (!component.isPage ) componentIds[component.name] = component.id;
+      if (!component.isPage) componentIds[component.name] = component.id;
     });
 
     // assign correct ID to components that are children inside of remaining pages
     components.forEach(page => {
       if (page.isPage) {
         page.children.forEach(child => {
-          if (child.type === 'Component') child.typeId = componentIds[child.name];
+          if (child.type === 'Component')
+            child.typeId = componentIds[child.name];
         });
       }
     });
@@ -114,21 +115,21 @@ const reducer = (state: State, action: Action) => {
       if (comp.isPage) roots.push(comp.id);
     });
     return roots;
-  }
+  };
 
   const deleteById = (id: number): Component[] =>
     [...state.components].filter(comp => comp.id != id);
 
-  const convertToJSX = (arrayOfElements) => {
+  const convertToJSX = arrayOfElements => {
     // if id exists in state.HTMLTypes
-    for (let i = 0; i < initialState.HTMLTypes.length; i+=1) {
+    for (let i = 0; i < initialState.HTMLTypes.length; i += 1) {
       arrayOfElements[i] = initialState.HTMLTypes[i];
     }
-  }
+  };
 
   const deleteComponentFromPages = (components, name) => {
     console.log('name', name);
-    const searchNestedComps = (childComponents) => {
+    const searchNestedComps = childComponents => {
       console.log('child components', childComponents);
       // if (childComponents.length === 0) return console.log('empty children array');
       // childComponents.forEach((comp, i, arr) => {
@@ -137,13 +138,13 @@ const reducer = (state: State, action: Action) => {
       //     arr.splice(i, 1);
       //   } else searchNestedComps(childComponents.children)
       // });
-    }
+    };
     components.forEach(comp => {
       console.log('current comp', comp);
-      searchNestedComps(comp.children)
+      searchNestedComps(comp.children);
     });
-    console.log(components);
-  }
+    console.log('comp', components);
+  };
 
   switch (action.type) {
     case 'ADD COMPONENT': {
@@ -214,12 +215,12 @@ const reducer = (state: State, action: Action) => {
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (childTypeExists('Component', parentComponentId, originalComponent))
-        return state;
+          return state;
       }
 
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
-          name = (type === 'Component') ? componentName : el.tag;
+          name = type === 'Component' ? componentName : el.tag;
         }
         return name;
       }, '');
@@ -230,7 +231,7 @@ const reducer = (state: State, action: Action) => {
             newName = comp.name;
             return;
           }
-        })
+        });
       }
       const newChild: ChildElement = {
         type,
@@ -382,13 +383,13 @@ const reducer = (state: State, action: Action) => {
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
 
-      const canvasFocus = { componentId: 1, childId: null }
-      return {...state, rootComponents, components, canvasFocus}
+      const canvasFocus = { componentId: 1, childId: null };
+      return { ...state, rootComponents, components, canvasFocus };
     }
-    case 'DELETE REUSABLE COMPONENT' : {
+    case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
       const name: string = state.components[id - 1].name;
-      console.log(name);
+      console.log('name', name);
       const components: Component[] = deleteById(id);
       updateIds(components);
 
@@ -398,7 +399,13 @@ const reducer = (state: State, action: Action) => {
       const canvasFocus = { componentId: 1, childId: null };
 
       const rootComponents = updateRoots(components);
-      return {...state, rootComponents, components, canvasFocus, nextComponentId: id };
+      return {
+        ...state,
+        rootComponents,
+        components,
+        canvasFocus,
+        nextComponentId: id
+      };
     }
 
     case 'SET INITIAL STATE': {
@@ -476,9 +483,9 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'OPEN PROJECT': {
-      console.log("BEFORE: ", action.payload.HTMLTypes);
+      // console.log('BEFORE: ', action.payload.HTMLTypes);
       convertToJSX(action.payload.HTMLTypes);
-      console.log("AFTER: ", action.payload.HTMLTypes);
+      // console.log('AFTER: ', action.payload.HTMLTypes);
       return {
         ...action.payload
       };
@@ -495,7 +502,7 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE ELEMENT': {
       const HTMLTypes = [...state.HTMLTypes];
-      for (let i = 0; i < HTMLTypes.length; i+=1) {
+      for (let i = 0; i < HTMLTypes.length; i += 1) {
         if (HTMLTypes[i].id === action.payload) {
           HTMLTypes.splice(i, 1);
         }
@@ -503,7 +510,7 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         HTMLTypes
-      }
+      };
     }
 
     default:

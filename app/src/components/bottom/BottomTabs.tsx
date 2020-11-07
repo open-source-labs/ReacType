@@ -19,7 +19,7 @@ const BottomTabs = () => {
   treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('monokai');
   const { style } = useContext(styleContext);
-  
+
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
@@ -62,11 +62,27 @@ const BottomTabs = () => {
               value={theme}
               onChange={changeTheme}
             >
-              <option style ={{backgroundColor: '#252526'}} value={'monokai'}>Monokai</option>
-              <option style ={{backgroundColor: '#252526'}} value={'github'}>Github</option>
-              <option style ={{backgroundColor: '#252526'}} value={'solarized_dark'}>Solarized Dark</option>
-              <option style ={{backgroundColor: '#252526'}} value={'terminal'}>Terminal</option>
-              <option style ={{backgroundColor: '#252526'}} value={'solarized_light'}>Solarized Light</option>
+              <option style={{ backgroundColor: '#252526' }} value={'monokai'}>
+                Monokai
+              </option>
+              <option style={{ backgroundColor: '#252526' }} value={'github'}>
+                Github
+              </option>
+              <option
+                style={{ backgroundColor: '#252526' }}
+                value={'solarized_dark'}
+              >
+                Solarized Dark
+              </option>
+              <option style={{ backgroundColor: '#252526' }} value={'terminal'}>
+                Terminal
+              </option>
+              <option
+                style={{ backgroundColor: '#252526' }}
+                value={'solarized_light'}
+              >
+                Solarized Light
+              </option>
             </NativeSelect>
           </div>
         </FormControl>
@@ -83,7 +99,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#333333',
     height: '100%',
     color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   bottomHeader: {
     flex: 1,
@@ -133,7 +149,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   padding: {
-    padding: `0 ${theme.spacing(2)}px` 
+    padding: `0 ${theme.spacing(2)}px`
   },
   switch: {
     marginRight: '10px',

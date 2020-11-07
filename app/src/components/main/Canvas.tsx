@@ -9,11 +9,11 @@ import renderChildren from '../../helperFunctions/renderChildren';
 const findNestedChild = (curr, components) => {
   components.forEach((comp, i) => {
     comp.children.forEach(child => {
-      if (child.name === curr.name) console.log(child.name)
+      if (child.name === curr.name) console.log('childname', child.name);
     });
-    if (comp.children.length !== 0) findNestedChild(curr, comp.children);  
+    if (comp.children.length !== 0) findNestedChild(curr, comp.children);
   });
-}
+};
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
@@ -84,7 +84,7 @@ function Canvas() {
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
-  
+
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>

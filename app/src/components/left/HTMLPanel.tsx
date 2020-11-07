@@ -9,7 +9,7 @@ const HTMLPanel = (): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
 
   let startingID = 0;
-  for (let i = 0; i < state.HTMLTypes.length; i+=1) {
+  for (let i = 0; i < state.HTMLTypes.length; i += 1) {
     if (state.HTMLTypes[i].id >= startingID) {
       startingID = state.HTMLTypes[i].id;
     }
@@ -74,8 +74,8 @@ const HTMLPanel = (): JSX.Element => {
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
-    console.log(inputTag);
-    console.log(inputName);
+    console.log('inputtag', inputTag);
+    console.log('inputname', inputName);
     const newElement = {
       id: currentID,
       tag: inputTag,
@@ -95,7 +95,7 @@ const HTMLPanel = (): JSX.Element => {
     setName('');
   };
 
-  const alphanumeric = (input:string): boolean => {
+  const alphanumeric = (input: string): boolean => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
@@ -123,10 +123,10 @@ const HTMLPanel = (): JSX.Element => {
 
   const handleDelete = (id: number): void => {
     dispatch({
-      type: "DELETE ELEMENT",
+      type: 'DELETE ELEMENT',
       payload: id
     });
-  }
+  };
 
   return (
     <div>
