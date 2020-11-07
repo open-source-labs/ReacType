@@ -77,4 +77,27 @@ userController.verifyUser = (req, res, next) => {
   });
 };
 
+// userController.doesUserExist = (req, res, next) => {
+//   const { email } = req.body;
+//   Users.findOne({ email }, (err, user) => {
+//     if (err) return next({
+//       log: `Error in userController.doesUserExist: ${err}`,
+//         message: {
+//           err: `Error in userController.doesUserExist, check server logs for details`,
+//         },
+//     });
+//     else if(!user) {
+//       console.log('email NOT found', user);
+//       res.locals.userExists = false;
+//       return next();
+//     } 
+//     else {
+//       console.log('email found', user);
+//       res.locals.userExists = true;
+//       return next();
+//     }
+//   })
+// }
+
+
 module.exports = userController;

@@ -163,7 +163,7 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
-      console.log('new comp =>', newComponent);
+      //console.log('new comp =>', newComponent);
       components.push(newComponent);
 
       const rootComponents = [...state.rootComponents];
