@@ -11,7 +11,6 @@ export const styleContext = createContext({
   style: null,
   setStyle: null
 });
-// console.log('styleContext: ', styleContext);
 
 const AppContainer = () => {
   const [theme, setTheme] = useState(theme1);

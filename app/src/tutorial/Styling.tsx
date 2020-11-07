@@ -2,59 +2,53 @@ import React from 'react';
 import theme from '../../../resources/customizing_elements_images/Theme.png';
 import lighting from '../../../resources/customizing_elements_images/Lighting.png';
 import resize from '../../../resources/customizing_elements_images/Resize.png';
-import codechange from '../../../resources/customizing_elements_images/CodeChange.png';
+import codeChange from '../../../resources/customizing_elements_images/CodeChange.png';
 
-// import Grid from '@material-ui/core/Grid';
-
-// import ComponentPanel from '../components/left/ComponentPanel';
-// import HTMLPanel from '../components/left/HTMLPanel';
-
-// Left-hand portion of the app, where component options are displayed
 
 const Styling: React.FC<{
   classes: any;
   setPage: Function;
 }> = ({ classes, setPage }) => {
   return (
-    <div className="tutorial_styling">
-      <h1 style={{ color: 'black' }}>Styling Features</h1>
+    <div className={classes.wrapper}>
+      <h1 className={classes.title}>Styling Features</h1>
       <hr />
       <h2>Code Preview Theme Changer</h2>
-      <img src={theme} />
-      <br />
-      <p>
+      <div className={classes.imgWrapper}>
+        <img src={theme} />
+      </div>
+      <p className={classes.text}>
         Select your favorite theme from the drop down menu to personalize your
-        view of the code preview!
+        view of the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span>!
       </p>
-      <br />
       <hr />
       <h2>Lighting Mode</h2>
-      <img src={lighting} />
-      <br />
-      <p>
+      <div className={classes.imgWrapper}>
+        <img src={lighting} />
+      </div>
+      <p className={classes.text}>
         Spice up the app by toggling between different lighting modes! The
         lighting mode will change the background color of the app as well as the
-        background color of the component tree.
+        background color of the <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span>.
       </p>
-      <br />
       <hr />
       <h2>Resize Code Preview & Component Tree</h2>
-      <img src={resize} />
-      <br />
-      <p>
-        Hover over the line above the code preview and/or component tree to
+      <div className={classes.imgWrapper}>
+        <img className={classes.img} src={resize} />
+      </div>
+      <p className={classes.text}>
+        Hover over the line above the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span> and/or <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span> to
         resize the section. Simply click and drag up or down to resize.
       </p>
-      <br />
       <hr />
       <h2>Customize Code Preview</h2>
-      <img src={codechange} />
-      <br />
-      <p>
+      <div className={classes.imgWrapper}>
+        <img className={classes.img} src={codeChange} />
+      </div>
+      <p className={classes.text}>
         Change your code before exporting and see the changes in your exported
         file!
       </p>
-      <br />
       <hr />
     </div>
   );

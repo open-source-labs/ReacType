@@ -22,7 +22,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const referencedComponent: Component = state.components.find(
     (elem: Component) => elem.id === typeId
   );
-  
+
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
     item: {
@@ -58,8 +58,6 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
 
-  //console.log('reference comp', referencedComponent);
-
   const combinedStyle = combineStyles(
     combineStyles(
       combineStyles(globalDefaultStyle, referencedComponent.style),
@@ -87,7 +85,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
           childReferencedComponent.style,
           child.style
         );
-  
+
         // render an IndirectChild component, and also call renderIndirectChildren recursively to render any of the child Component's children
         return (
           <IndirectChild

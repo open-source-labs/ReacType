@@ -128,7 +128,6 @@ const reducer = (state: State, action: Action) => {
   };
 
   const deleteComponentFromPages = (components, name) => {
-    console.log('name', name);
     const searchNestedComps = childComponents => {
       console.log('child components', childComponents);
       // if (childComponents.length === 0) return console.log('empty children array');
@@ -164,7 +163,6 @@ const reducer = (state: State, action: Action) => {
         children: [],
         isPage: action.payload.root
       };
-      console.log('new comp =>', newComponent);
       components.push(newComponent);
 
       const rootComponents = [...state.rootComponents];
@@ -389,7 +387,6 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
       const name: string = state.components[id - 1].name;
-      console.log('name', name);
       const components: Component[] = deleteById(id);
       updateIds(components);
 
@@ -483,9 +480,7 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'OPEN PROJECT': {
-      // console.log('BEFORE: ', action.payload.HTMLTypes);
       convertToJSX(action.payload.HTMLTypes);
-      // console.log('AFTER: ', action.payload.HTMLTypes);
       return {
         ...action.payload
       };

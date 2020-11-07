@@ -61,7 +61,8 @@ const HTMLItem: React.FC<{
         >
           {Icon && <Icon />}
         </span>
-        <button className={buttonClasses} onClick={() => { handleDelete(id) }} > X </button>
+        {id > 11 &&
+        <button className={buttonClasses} onClick={() => { handleDelete(id) }} > X </button> }
       </div>
     </Grid>
   );

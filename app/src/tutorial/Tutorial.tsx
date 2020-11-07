@@ -113,7 +113,7 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
 
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
-  body.style.backgroundColor = 'lightgray';
+  body.style.backgroundColor = Styling.tutorialGray;
 
   const cards = topics.map((topic, i) => {
     return (

@@ -5,59 +5,122 @@ import height from '../../../resources/customizing_elements_images/Height.png';
 import width from '../../../resources/customizing_elements_images/Width.png';
 import backgroundColor from '../../../resources/customizing_elements_images/BackgroundColor.png';
 
-// import Grid from '@material-ui/core/Grid';
-
-// import ComponentPanel from '../components/left/ComponentPanel';
-// import HTMLPanel from '../components/left/HTMLPanel';
-
-// Left-hand portion of the app, where component options are displayed
-
 const Customization: React.FC<{
   classes: any;
   setPage: Function;
 }> = ({ classes, setPage }) => {
   return (
-    <div className="tutorial_styling">
-      <h1 style={{ color: 'black' }}>Customizing Elements</h1>
+    <div className={classes.wrapper}>
+      <h1 className={classes.title}>Customization</h1>
       <hr />
       <h2>Display</h2>
-      <br />
-      <img src={display} />
-      <p>
-        After having moved a page, component, route link, or element into the
-        canvas, select the one that needs customizing simply by clicking on it.
-        Then, to give it a display feature of either a block, inline-block, or
-        flex styling, select from the drop down box.
-        <br />
-        <br />
+      <div className={classes.imgWrapper}>
+        <img src={display} />
+      </div>
+      <p className={classes.text}>
+        After having moved a{' '}
+        <span className={classes.notLink} onClick={() => setPage('Pages')}>
+          page
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>{' '}
+        into the canvas, select the one that needs customizing simply by
+        clicking on it. Then, to give it a display feature of either a block,
+        inline-block, or flex styling, select from the drop down box.
+      </p>
+      <div className={classes.imgWrapper}>
         <img src={flex} />
-        <br />
-        <br />
+      </div>
+      <p className={classes.text}>
         If the display option 'flex' is chosen, few more sub-options are
         displayed under the display option.
       </p>
-      <br />
       <hr />
       <h2>Width</h2>
-      <img src={width} />
-      <br />
-      <p>Change the width of each component, route link, or element.</p>
-      <br />
+      <div className={classes.imgWrapper}>
+        <img src={width} />
+      </div>
+      <p className={classes.text}>
+        Change the width of each{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>
+        .
+      </p>
       <hr />
       <h2>Height</h2>
-      <img src={height} />
-      <br />
-      <p>Change the height of each component, route link, or element.</p>
-      <br />
+      <div className={classes.imgWrapper}>
+        <img src={height} />
+      </div>
+      <p className={classes.text}>
+        Change the height of each{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>
+        .
+      </p>
       <hr />
       <h2>Background Color</h2>
-      <img src={backgroundColor} />
-      <br />
-      <p>
+      <div className={classes.imgWrapper}>
+        <img src={backgroundColor} />
+      </div>
+      <p className={classes.text}>
         Select an element, type in the color you wish to change the background
         color to, and click save!
       </p>
-      <br />
       <hr />
     </div>
   );

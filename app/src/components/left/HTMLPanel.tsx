@@ -74,8 +74,6 @@ const HTMLPanel = (): JSX.Element => {
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
     // add new component to state
-    console.log('inputtag', inputTag);
-    console.log('inputname', inputName);
     const newElement = {
       id: currentID,
       tag: inputTag,
@@ -89,7 +87,6 @@ const HTMLPanel = (): JSX.Element => {
       type: 'ADD ELEMENT',
       payload: newElement
     });
-
     setCurrentID(currentID + 1);
     setTag('');
     setName('');
