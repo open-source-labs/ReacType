@@ -27,7 +27,7 @@ var MenuBuilder = function(mainWindow, appName) {
         contextIsolation: true,
         enableRemoteModule: false,
         zoomFactor: 1.0,
-        // devTools: false
+        devTools: false
       }
     });
     tutorial.loadURL(`http://localhost:8080/#/tutorial`);

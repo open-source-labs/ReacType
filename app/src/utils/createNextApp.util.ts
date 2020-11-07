@@ -1,4 +1,4 @@
-// Create all files necessary to run a next.js application 
+// Create all files necessary to run a next.js application
 
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/Interfaces';
@@ -46,7 +46,7 @@ export const createPackage = (path, appName) => {
     "@types/react": "^16.9.41",
     "typescript": "^3.9.6"
   }
-}  
+}
   `;
   window.api.writeFile(filePath, data, err => {
     if (err) {
@@ -110,7 +110,7 @@ export const initFolders = (path:string, appName: string) => {
 
 //createBaseTsx
 export const createBaseTsx = (path, appName) => {
-  
+
   const filePath:string = `${path}/${appName}/pages/_app.tsx`;
   const data:string = `
   import React from 'react';
@@ -123,7 +123,7 @@ export const createBaseTsx = (path, appName) => {
       </>
     )
   }
-  
+
   export default Base;
   `;
   window.api.writeFile(filePath, data, err => {
@@ -147,13 +147,13 @@ async function createNextAppUtil({
   rootComponents: number[];
 }) {
   console.log('in the createNextApplication util');
-  
+
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
   await createPackage(path, appName);
   await createTsConfig(path, appName);
   await createNextFiles(components, path, appName, rootComponents);
-  
+
 }
 export default createNextAppUtil;
