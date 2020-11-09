@@ -1,4 +1,6 @@
 import tree from '../app/src/tree/TreeChart';
+import { StateContext } from '../app/src/context/context';
+import { initialState, HTMLTypes } from '../app/src/context/initialState';
 
 xdescribe('Testing the tree functionality', function () {
 
