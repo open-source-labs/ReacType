@@ -8,6 +8,7 @@ import CodePreview from '../app/src/components/bottom/CodePreview';
 import CanvasContainer from '../app/src/components/main/CanvasContainer';
 import Canvas from '../app/src/components/main/Canvas';
 
+// npm test -- -u
 
 describe('Test the CanvasContainer component', () => {
   const target = shallow(<CanvasContainer />);
