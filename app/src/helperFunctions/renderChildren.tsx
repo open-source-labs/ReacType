@@ -11,7 +11,6 @@ import { StateContext } from '../context/context';
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
-  console.log('children: ', children);
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
     const { type, typeId, style, childId, children, attributes, name } = child;

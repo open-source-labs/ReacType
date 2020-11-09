@@ -117,8 +117,31 @@ const reducer = (state: State, action: Action) => {
     return roots;
   };
 
-  const deleteById = (id: number): Component[] =>
-    [...state.components].filter(comp => comp.id != id);
+  const deleteById = (id: number): Component[] => {
+    const name: string = state.components[id - 1].name;
+    console.log('name: ', name);
+
+    const checkChildren = child => {
+      child.forEach(el => {
+        if (el.children.length) {
+          const arr = [];
+          for (let i = 0; i < el.children.length; i++) {
+            if (el.children[i].name !== name) {
+              arr.push(el.children[i]);
+            }
+          }
+          el.children = arr;
+          checkChildren(el.children);
+        }
+      });
+    };
+
+    if (state.components.length) {
+      // for each item in the array, check to see if the children array is not empty
+      checkChildren(state.components);
+    }
+    return [...state.components].filter(comp => comp.id != id);
+  };
 
   const convertToJSX = arrayOfElements => {
     // if id exists in state.HTMLTypes
@@ -386,15 +409,15 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
-      const name: string = state.components[id - 1].name;
+
+      // updated list of components after deleting a component
+      const componentsArr = state.components;
+      console.log('componentsArr: ', componentsArr);
       const components: Component[] = deleteById(id);
       updateIds(components);
 
-      // check if reusable comp is inside a page
-      //deleteComponentFromPages(components, name);
-
       const canvasFocus = { componentId: 1, childId: null };
-
+      console.log('components', components);
       const rootComponents = updateRoots(components);
       return {
         ...state,
