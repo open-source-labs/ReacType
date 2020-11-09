@@ -3,24 +3,23 @@ import Grid from '@material-ui/core/Grid';
 import { StateContext } from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
+import initialState from '../../context/initialState';
 
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
-
-  let startingID = 0;
-  for (let i = 0; i < state.HTMLTypes.length; i+=1) {
-    if (state.HTMLTypes[i].id >= startingID) {
-      startingID = state.HTMLTypes[i].id;
-    }
-  }
-  startingID += 1;
-
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
-  const [currentID, setCurrentID] = useState(startingID);
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
+  const [state, dispatch] = useContext(StateContext);
+  let startingID = 0;
+  state.HTMLTypes.forEach((el) => {
+    if (el.id >= startingID) {
+      startingID = el.id;
+    }
+  })
+  startingID += 1;
+  const [currentID, setCurrentID] = useState(startingID);
 
   const buttonClasses =
     'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';

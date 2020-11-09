@@ -1,13 +1,17 @@
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
+import { StateContext } from '../app/src/context/context';
+import initialState from '../app/src/context/initialState';
 import MainContainer from '../app/src/containers/MainContainer';
 import BottomPanel from '../app/src/components/bottom/BottomPanel';
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
 import CodePreview from '../app/src/components/bottom/CodePreview';
 import CanvasContainer from '../app/src/components/main/CanvasContainer';
 import Canvas from '../app/src/components/main/Canvas';
-
+import HTMLPanel from '../app/src/components/left/HTMLPanel';
+import HTMLItem from '../app/src/components/left/HTMLItem';
+import LeftContainer from '../app/src/containers/LeftContainer';
 
 describe('Test the CanvasContainer component', () => {
   const target = shallow(<CanvasContainer />);
@@ -39,3 +43,25 @@ describe('Test the BottomTabs component', () => {
   })
 })
 
+describe('Test All 10 default HTML elements have rendered', () => {
+
+  const target = shallow(
+  <StateContext.Provider value={initialState} >
+    <HTMLPanel />
+  </StateContext.Provider>
+  );
+
+  it('Matches snapshot', () => {
+    expect(target).toMatchSnapshot();
+  })
+  it('Contains 10 HTMLItem component', () => {
+    expect(target.contains(<HTMLItem/>)).toBe(true);
+    expect(target.find(HTMLItem)).toHaveLength(10);
+  })
+  // it('Contains custom HTML form', () => {
+  //   expect(target.find('form')).toBe(true)
+  // })
+  // it('Contains 10 HTML Items', () => {
+  //   expect(target.contains(<HTMLItem />)).toBe(true)
+  // })
+})
