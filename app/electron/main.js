@@ -248,10 +248,10 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/',
+      'https://github.com',
       'https://nextjs.org',
       'https://developer.mozilla.org',
-      'https://www.facebook.com',
+      'https://www.facebook.com'
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -406,12 +406,10 @@ ipcMain.on('github', event => {
   });
   // const authUrl =
   //   githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
-  const authUrl =
-    `${githubUrl}client_id=${process.env.GITHUB_ID}`;
+  const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
   github.loadURL(authUrl);
   github.show();
-  const handleCallback = (url) => {
-
+  const handleCallback = url => {
     const raw_code = /code=([^&]\*)/.exec(url) || null;
     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
     const error = /\?error=(.+)\$/.exec(url);
@@ -430,18 +428,20 @@ ipcMain.on('github', event => {
           'log you in using Github. Please try again.'
       );
     }
-  }
+  };
 
   github.webContents.on('will-navigate', (e, url) => handleCallback(url));
 
   github.webContents.on('did-finish-load', (e, url, a, b) => {
     github.webContents.selectAll();
-  })
+  });
 
-  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) => handleCallback(newUrl));
-  
+  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
+    handleCallback(newUrl)
+  );
+
   // Reset the authWindow on close
-  github.on('close', () => authWindow = null, false);
+  github.on('close', () => (authWindow = null), false);
 
   // if final callback is reached and we get a redirect from server back to our app, close oauth window
   github.webContents.on('will-redirect', (e, callbackUrl) => {
@@ -460,9 +460,10 @@ ipcMain.on('github', event => {
         message: 'Github Oauth Successful!'
       });
       github.close();
-      win.webContents.executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
+      win.webContents
+        .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
         .then(result => win.loadURL(selfHost))
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
   });
 });
