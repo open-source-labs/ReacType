@@ -67,9 +67,7 @@ sessionController.startSession = (req, res, next) => {
 
 //
 sessionController.gitHubResponse = (req, res, next) => {
-  console.log('entered session controller');
   const { code } = req.query;
-
   fetch(
     `https://github.com/login/oauth/access_token`,{
       method: 'POST',
@@ -85,9 +83,6 @@ sessionController.gitHubResponse = (req, res, next) => {
     })
     .then(res => res.json())
     .then(token => {
-      console.log(`github token ${JSON.stringify(token)}`)
-      console.log(token['access_token']);
-      console.log(token['scope']);
       res.locals.token = token['access_token'];
       return next();
     })
@@ -95,11 +90,9 @@ sessionController.gitHubResponse = (req, res, next) => {
 }
 
 sessionController.gitHubSendToken = (req, res, next) => {
-  console.log('entered git send token');
   const { token } = res.locals;
-  console.log('=>', token);
   fetch(
-    `https://api.github.com/user`,{
+    `https://api.github.com/user/emails`,{
       method: 'GET',
       headers: {
         'Accept': 'application/vnd.github.v3+json',
@@ -108,16 +101,12 @@ sessionController.gitHubSendToken = (req, res, next) => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(`github data ${JSON.stringify(data)}`);
-      console.log(`github username ${JSON.stringify(data['login'])}`);
-      res.locals.userName = data['login'];
+      res.locals.githubEmail = data[0]['email'];
+      res.locals.signUpType = 'oauth';
       return next();
     })
     .catch(err => res.status(500).json({message: `${err.message} in gitHubSendToken`}))
 }
-
-
-
 
 // creates a session when logging in with github
 sessionController.githubSession = (req, res, next) => {

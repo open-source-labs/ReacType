@@ -58,16 +58,21 @@ app.get(
   '/github/callback',
   sessionController.gitHubResponse,
   sessionController.gitHubSendToken,
-  // sessionController.githubSession,
-  // cookieController.setSSIDCookie,
+  userController.createUser,
+  userController.verifyUser,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
   (req, res) => {
     // TODO - figure out how to send a response that closes window
     if (isDev) {
-      return res.status(200).redirect('http://localhost:8080');
+      return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
     } else {
       return res.status(200).redirect('app://rse');
     }
   }
+  // (req, res) => {
+  //   return res.status(200).json({ sessionId: res.locals.ssid });
+  // }
 );
 
 app.post(

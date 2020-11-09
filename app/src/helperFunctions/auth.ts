@@ -8,11 +8,13 @@ if (isDev) {
 
 export const sessionIsCreated = (
   username: string,
-  password: string
+  password: string,
+  isFbOauth: boolean
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
-    password
+    password,
+    isFbOauth
   });
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
@@ -74,45 +76,3 @@ export const newUserIsCreated = (
     });
   return result;
 };
-
-// export const isNewUser = (
-//   email: string,
-// ): Promise<string> => {
-//   const body = JSON.stringify({
-//     email,
-//   });
-//   const result = fetch(`${serverURL}/facebook`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body
-//   })
-//     .then(res => res.json())
-//     .then(res => console.log(res))
-//     .catch(err => {
-//       return 'Error';
-//     })
-//   return result;
-// };
-
-// export const isNewUser = (
-//   email: string,
-// ) => {
-//   const body = JSON.stringify({
-//     email,
-//   });
-//   console.log('before fetch');
-//   const result = fetch(`${serverURL}/facebook`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body
-//   })
-//     .then(res => res.json())
-//     .catch(err => {
-//       return 'Error';
-//     })
-//   return result;
-//};

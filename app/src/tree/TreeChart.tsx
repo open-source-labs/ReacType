@@ -37,7 +37,6 @@ function TreeChart({ data }) {
     // transform hierarchical data
     const root = hierarchy(data[canvasId - 1]);
     const treeLayout = tree().size([height, width - 125]);
-    //console.log(root);
 
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display

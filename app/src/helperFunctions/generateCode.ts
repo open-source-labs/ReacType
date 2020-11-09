@@ -245,10 +245,6 @@ const generateCode = (
   projectType: string,
   HTMLTypes: HTMLType[]
 ) => {
-  // console.log('components', components);
-  // console.log('componentId', componentId);
-  // console.log('rootComponents', rootComponents);
-  // console.log('projectType', projectType);
   const code = generateUnformattedCode(
     components,
     componentId,

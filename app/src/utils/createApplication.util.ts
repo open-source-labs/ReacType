@@ -98,7 +98,7 @@ export const createDefaultCSS = (path, appName, components) => {
   components.forEach(comp => {
     data += compToCSS(comp);
   })
-  
+
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('default.css error:', err.message);

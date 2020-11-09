@@ -97,6 +97,15 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'Header 2',
     placeHolderLong: '',
     icon: HeaderIcon
+  },
+  {
+    id: 5,
+    tag: 'span',
+    name: 'Span',
+    style: { fontSize: '1.5em' },
+    placeHolderShort: 'Span',
+    placeHolderLong: '',
+    icon: HeaderIcon
   }
 ];
 
