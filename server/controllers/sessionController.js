@@ -1,6 +1,7 @@
+require('dotenv').config();
+const fetch = require('node-fetch');
 const { Sessions } = require('../models/reactypeModels');
 const sessionController = {};
-
 // isLoggedIn finds appropriate session for this request in database, then verifies whether or not the session is still valid
 sessionController.isLoggedIn = (req, res, next) => {
   let cookieId;
@@ -63,6 +64,49 @@ sessionController.startSession = (req, res, next) => {
     }
   });
 };
+
+//
+sessionController.gitHubResponse = (req, res, next) => {
+  const { code } = req.query;
+  fetch(
+    `https://github.com/login/oauth/access_token`,{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: process.env.GITHUB_ID,
+        client_secret: process.env.GITHUB_SECRET,
+        code
+      })
+    })
+    .then(res => res.json())
+    .then(token => {
+      res.locals.token = token['access_token'];
+      return next();
+    })
+    .catch(err => res.status(500).json({message: `${err.message} in gitHubResponse`}))
+}
+
+sessionController.gitHubSendToken = (req, res, next) => {
+  const { token } = res.locals;
+  fetch(
+    `https://api.github.com/user/emails`,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `token ${token}`
+      },
+    })
+    .then(res => res.json())
+    .then(data => {
+      res.locals.githubEmail = data[0]['email'];
+      res.locals.signUpType = 'oauth';
+      return next();
+    })
+    .catch(err => res.status(500).json({message: `${err.message} in gitHubSendToken`}))
+}
 
 // creates a session when logging in with github
 sessionController.githubSession = (req, res, next) => {

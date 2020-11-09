@@ -3,6 +3,7 @@
 exports[`Test the BottomTabs component Matches snapshot 1`] = `
 <div
   className="makeStyles-root-1"
+  style={null}
 >
   <Styled(MuiBox)
     display="flex"
@@ -28,9 +29,94 @@ exports[`Test the BottomTabs component Matches snapshot 1`] = `
         disableRipple={true}
         label="Code Preview"
       />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-5",
+            "selected": "makeStyles-tabSelected-6",
+          }
+        }
+        disableRipple={true}
+        label="Component Tree"
+      />
     </WithStyles(ForwardRef(Tabs))>
+    <WithStyles(ForwardRef(FormControl))>
+      <div
+        className="flex-container"
+      >
+        <div
+          className="flex1"
+        >
+          Change Theme:
+        </div>
+        <WithStyles(ForwardRef(NativeSelect))
+          className="flex2"
+          onChange={[Function]}
+          style={
+            Object {
+              "color": "white",
+            }
+          }
+          value="monokai"
+        >
+          <option
+            style={
+              Object {
+                "backgroundColor": "#252526",
+              }
+            }
+            value="monokai"
+          >
+            Monokai
+          </option>
+          <option
+            style={
+              Object {
+                "backgroundColor": "#252526",
+              }
+            }
+            value="github"
+          >
+            Github
+          </option>
+          <option
+            style={
+              Object {
+                "backgroundColor": "#252526",
+              }
+            }
+            value="solarized_dark"
+          >
+            Solarized Dark
+          </option>
+          <option
+            style={
+              Object {
+                "backgroundColor": "#252526",
+              }
+            }
+            value="terminal"
+          >
+            Terminal
+          </option>
+          <option
+            style={
+              Object {
+                "backgroundColor": "#252526",
+              }
+            }
+            value="solarized_light"
+          >
+            Solarized Light
+          </option>
+        </WithStyles(ForwardRef(NativeSelect))>
+      </div>
+    </WithStyles(ForwardRef(FormControl))>
   </Styled(MuiBox)>
-  <CodePreview />
+  <CodePreview
+    setTheme={[Function]}
+    theme="monokai"
+  />
 </div>
 `;
 
