@@ -248,7 +248,7 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/',
+      'https://github.com',
       'https://nextjs.org',
       'https://developer.mozilla.org',
       'https://www.facebook.com',
@@ -439,7 +439,7 @@ ipcMain.on('github', event => {
   })
 
   github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) => handleCallback(newUrl));
-  
+
   // Reset the authWindow on close
   github.on('close', () => authWindow = null, false);
 
