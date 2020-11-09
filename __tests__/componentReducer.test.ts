@@ -3,11 +3,9 @@ import { State, Action, Component, ChildElement } from '../app/src/interfaces/In
 
 import initialState from '../app/src/context/initialState';
 
-
 describe('Testing componentReducer functionality', function () {
   let state: State = initialState;
-  
-
+ 
   // TEST 'ADD COMPONENT'
   describe('ADD COMPONENT reducer', () => {
     it('should add new reuseable component to state', () => {

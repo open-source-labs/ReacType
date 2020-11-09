@@ -4,10 +4,37 @@ const { Users } = require('../models/reactypeModels');
 const userController = {};
 const bcrypt = require('bcryptjs');
 
+const randomPassword = () => {
+  function getRandomSpecialChar() {
+    const code = Math.round(Math.random() * (38 - 37) + 37);
+    return String.fromCharCode(code);
+  }
+  function getRandomDigit() {
+    const code = Math.round(Math.random() * (57 - 48) + 48);
+    return String.fromCharCode(code);
+  }
+  function getRandomLetter() {
+    const code = Math.round(Math.random() * (90 - 65) + 65);
+    return String.fromCharCode(code);
+  }
+  let password = '';
+  for (let i = 0; i < 6; i += 1) {
+    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar(); 
+  }
+  return password;
+}
+
 userController.createUser = (req, res, next) => {
-  const { email, username, password } = req.body;
+  
+  let { email, username, password } = req.body;
+  if (res.locals.signUpType === 'oauth') {
+    email = res.locals.githubEmail; 
+    username = email;
+    password = randomPassword();
+  } 
   // error handling if username or password is missing
-  // TODO make this more vague for security purposes
+  // TODO: make this more vague for security purposes
+
   if (!username) {
     return res.status(400).json('No username input');
   }
@@ -21,8 +48,15 @@ userController.createUser = (req, res, next) => {
   // create user using username and password
   Users.create({ username, password, email }, (err, newUser) => {
     if (err) {
+      if (err.keyValue.email && res.locals.signUpType === 'oauth') {
+        return next();
+      }
       if (err.keyValue.email) {
         return res.status(400).json('Email Taken');
+      }
+      if (err.keyValue.username && res.locals.signUpType === 'oauth') {
+        res.locals.githubPassword = password;
+        return next();
       }
       if (err.keyValue.username) {
         return res.status(400).json('Username Taken');
@@ -45,7 +79,11 @@ userController.createUser = (req, res, next) => {
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 
 userController.verifyUser = (req, res, next) => {
-  const { username, password } = req.body;
+  let { username, password, isFbOauth } = req.body;
+  if (res.locals.signUpType === 'oauth') {
+    username = res.locals.githubEmail;
+    password = res.locals.githubPassword;
+  }
   if (!username) {
     return res.status(400).json('No Username Input');
   }
@@ -60,7 +98,12 @@ userController.verifyUser = (req, res, next) => {
           err: `Error in userController.verifyUser, check server logs for details`,
         },
       });
-    } else if (user) {
+    } 
+    else if (user && (res.locals.signUpType === 'oauth' || isFbOauth)) {
+      res.locals.id = user.id;
+      return next();
+    } 
+    else if (user) {
       // bcrypt compare function checks input password against hashed password
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (isMatch) {
@@ -76,5 +119,36 @@ userController.verifyUser = (req, res, next) => {
     }
   });
 };
+
+// userController.doesUserExist = (req, res, next) => {
+//   const { email } = req.body;
+//   Users.findOne({ email }, (err, user) => {
+//     if (err) return next({
+//       log: `Error in userController.doesUserExist: ${err}`,
+//         message: {
+//           err: `Error in userController.doesUserExist, check server logs for details`,
+//         },
+//     });
+//     else if(!user) {
+//       console.log('email NOT found', user);
+//       res.locals.userExists = false;
+//       return next();
+//     } 
+//     else {
+//       console.log('email found', user);
+//       res.locals.userExists = true;
+//       return next();
+//     }
+//   })
+// }
+
+// userController.isOauth = (req, res, next) => {
+//   const { signUpType } = res.localsbody;
+//   if (signUpType === 'oauth'){
+//     return next();
+//   } else {
+//     return next();
+//   }
+// }
 
 module.exports = userController;

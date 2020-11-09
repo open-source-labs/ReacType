@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   // since JS can be written for both server / browser, the "target" specifies what environment webpack should write for
@@ -16,6 +17,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
+  plugins: [
+    new Dotenv()
+  ],
   module: {
     rules: [
       {

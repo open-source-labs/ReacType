@@ -40,21 +40,39 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes for initial github oauth and callback
-app.get('/github', passport.authenticate('github'));
+app.get(
+  '/github', 
+  (req, res) => {
+    console.log('git hub');
+    res.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}`);
+  });
+
+// app.post(
+//   '/facebook', 
+//   userController.doesUserExist,
+//   (req, res) => {
+//     return res.status(200).json({ userStatus: res.locals.userExists });
+// });
 
 app.get(
   '/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  sessionController.githubSession,
+  sessionController.gitHubResponse,
+  sessionController.gitHubSendToken,
+  userController.createUser,
+  userController.verifyUser,
   cookieController.setSSIDCookie,
+  sessionController.startSession,
   (req, res) => {
     // TODO - figure out how to send a response that closes window
     if (isDev) {
-      return res.status(200).redirect('http://localhost:8080');
+      return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
     } else {
       return res.status(200).redirect('app://rse');
     }
   }
+  // (req, res) => {
+  //   return res.status(200).json({ sessionId: res.locals.ssid });
+  // }
 );
 
 app.post(

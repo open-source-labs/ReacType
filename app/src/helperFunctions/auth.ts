@@ -8,11 +8,13 @@ if (isDev) {
 
 export const sessionIsCreated = (
   username: string,
-  password: string
+  password: string,
+  isFbOauth: boolean
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
-    password
+    password,
+    isFbOauth
   });
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
