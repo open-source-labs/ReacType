@@ -15,7 +15,7 @@ const HTMLPanel = (): JSX.Element => {
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
-  })
+  });
   startingID += 1;
 
   const [currentID, setCurrentID] = useState(startingID);
@@ -90,7 +90,7 @@ const HTMLPanel = (): JSX.Element => {
     setName('');
   };
 
-  const alphanumeric = (input:string): boolean => {
+  const alphanumeric = (input: string): boolean => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
@@ -118,10 +118,10 @@ const HTMLPanel = (): JSX.Element => {
 
   const handleDelete = (id: number): void => {
     dispatch({
-      type: "DELETE ELEMENT",
+      type: 'DELETE ELEMENT',
       payload: id
     });
-  }
+  };
 
   return (
     <div>

@@ -153,7 +153,25 @@ const RightContainer = (): JSX.Element => {
 
   const isChildOfPage = (): boolean => {
     let isChild: boolean = false;
+
+    // id of target we want to check
     const { id } = configTarget;
+    // put in logic here to check for all nested children
+    // const checkAllChildren = comps => {
+    //   comps.forEach(el => {
+    //     if (el.children.length > 0) {
+    //       checkAllChildren(el.children);
+    //     }
+    //     if (el.type === 'Component' && el.typeId === id) {
+    //       isChild = true;
+    //     }
+    //   });
+    // };
+    // const copyComp = [...state.components];
+    // checkAllChildren(copyComp);
+    // return isChild;
+
+    // was here previously
     state.components.forEach(comp => {
       comp.children.forEach(child => {
         if (child.type === 'Component' && child.typeId === id) {
@@ -215,9 +233,10 @@ const RightContainer = (): JSX.Element => {
   };
 
   const handleDeleteReusableComponent = () => {
-    isChildOfPage()
-      ? handleDialogError('component')
-      : dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+    // isChildOfPage()
+    //   ? handleDialogError('component')
+    //   :
+    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
   };
 
   const isReusable = (configTarget): boolean => {

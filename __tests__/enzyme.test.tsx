@@ -16,39 +16,37 @@ import LeftContainer from '../app/src/containers/LeftContainer';
 
 // npm test -- -u
 
-
 describe('Test the CanvasContainer component', () => {
   const target = shallow(<CanvasContainer />);
   it('Matches snapshot', () => {
-    expect(target).toMatchSnapshot()
-  })
+    expect(target).toMatchSnapshot();
+  });
   it('Contains Canvas component', () => {
     expect(target.contains(<Canvas />)).toBe(true);
-  })
-})
+  });
+});
 
 describe('Test the MainContainer component', () => {
   const target = shallow(<MainContainer />);
   it('Contains CanvasContainer component', () => {
     expect(target.contains(<CanvasContainer />)).toBe(true);
-  })
+  });
   it('Contains BottomPanel component', () => {
     expect(target.contains(<BottomPanel />)).toBe(true);
-  })
-})
+  });
+});
 
 describe('Test the BottomTabs component', () => {
   const target = shallow(<BottomTabs />);
   it('Matches snapshot', () => {
-    expect(target).toMatchSnapshot()
-  })
-})
+    expect(target).toMatchSnapshot();
+  });
+});
 
 describe('Test All 10 default HTML elements have rendered', () => {
-
   const target = shallow(
-    <DndProvider backend={HTML5Backend} >
-      <StateContext.Provider value={initialState} >
+    <DndProvider backend={HTML5Backend}>
+      <StateContext.Provider value={initialState}>
         <HTMLPanel />
       </StateContext.Provider>
     </DndProvider>
