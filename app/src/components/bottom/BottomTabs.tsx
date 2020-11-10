@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
@@ -19,7 +19,7 @@ const BottomTabs = () => {
   treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('monokai');
   const { style } = useContext(styleContext);
-  
+
   // method changes the
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
@@ -133,7 +133,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   padding: {
-    padding: `0 ${theme.spacing(2)}px` 
+    padding: `0 ${theme.spacing(2)}px`
   },
   switch: {
     marginRight: '10px',

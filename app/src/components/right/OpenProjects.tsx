@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
 
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 
 export interface ProjectDialogProps {
   open: boolean;

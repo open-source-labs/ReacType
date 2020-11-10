@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
