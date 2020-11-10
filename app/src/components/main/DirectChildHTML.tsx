@@ -7,7 +7,7 @@ import {
 } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';

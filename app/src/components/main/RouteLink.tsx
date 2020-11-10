@@ -2,7 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 

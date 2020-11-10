@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 

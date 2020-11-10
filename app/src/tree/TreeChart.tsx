@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { select, hierarchy, tree, linkHorizontal } from "d3";
 import useResizeObserver from "./useResizeObserver";
-import { StateContext } from '../context/context';
+import StateContext from '../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
