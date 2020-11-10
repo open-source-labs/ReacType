@@ -90,7 +90,32 @@ const reducer = (state: State, action: Action) => {
 
   const updateIds = (components: Component[]) => {
     // component IDs should be array index + 1
+    console.log('component', components);
     components.forEach((comp, i) => (comp.id = i + 1));
+
+    // putting components' name and id into an obj
+    const obj = {};
+    components.forEach(el => {
+      obj[el.name] = el.id;
+    });
+    // update all id and typeid to match one another
+    const updateAllIds = comp => {
+      comp.forEach(el => {
+        if (el.children.length > 0) {
+          for (let i = 0; i < el.children.length; i++) {
+            el.children[i].childId = i + 1;
+            if (obj[el.children[i].name]) {
+              el.children[i].typeId = obj[el.children[i].name];
+            }
+            if (el.children[i].children.length > 0) {
+              updateAllIds(el.children[i].children);
+            }
+          }
+        }
+      });
+    };
+
+    updateAllIds(components);
 
     // create KV pairs of component names and corresponding IDs
     const componentIds = {};
@@ -107,6 +132,7 @@ const reducer = (state: State, action: Action) => {
         });
       }
     });
+    return components;
   };
 
   const updateRoots = (components: Component[]) => {
@@ -119,7 +145,7 @@ const reducer = (state: State, action: Action) => {
 
   const deleteById = (id: number): Component[] => {
     const name: string = state.components[id - 1].name;
-    console.log('name: ', name);
+    // console.log('name: ', name);
 
     const checkChildren = child => {
       child.forEach(el => {
@@ -135,12 +161,15 @@ const reducer = (state: State, action: Action) => {
         }
       });
     };
-
-    if (state.components.length) {
+    const copyComp = [...state.components];
+    console.log('before check children', copyComp);
+    if (copyComp.length) {
       // for each item in the array, check to see if the children array is not empty
-      checkChildren(state.components);
+      checkChildren(copyComp);
     }
-    return [...state.components].filter(comp => comp.id != id);
+    console.log('after check children', copyComp);
+    const filteredArr = [...copyComp].filter(comp => comp.id != id);
+    return updateIds(filteredArr);
   };
 
   const convertToJSX = arrayOfElements => {
@@ -199,6 +228,7 @@ const reducer = (state: State, action: Action) => {
       };
 
       const nextComponentId = state.nextComponentId + 1;
+      console.log('add components', components);
       return {
         ...state,
         components,
@@ -399,7 +429,6 @@ const reducer = (state: State, action: Action) => {
       const id: number = state.canvasFocus.componentId;
 
       const components: Component[] = deleteById(id);
-      updateIds(components);
 
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
@@ -411,14 +440,20 @@ const reducer = (state: State, action: Action) => {
       const id: number = state.canvasFocus.componentId;
 
       // updated list of components after deleting a component
-      const componentsArr = state.components;
-      console.log('componentsArr: ', componentsArr);
       const components: Component[] = deleteById(id);
-      updateIds(components);
 
       const canvasFocus = { componentId: 1, childId: null };
-      console.log('components', components);
       const rootComponents = updateRoots(components);
+
+      // console.log('state', state);
+      // const updatedCode = generateCode(
+      //   rootComponents,
+      //   state.canvasFocus.componentId,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes
+      // );
+      // console.log('updatedCode', updatedCode);
       return {
         ...state,
         rootComponents,
