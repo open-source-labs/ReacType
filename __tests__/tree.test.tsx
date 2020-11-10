@@ -1,35 +1,48 @@
-import tree from '../app/src/tree/TreeChart';
+import TreeChart from '../app/src/tree/TreeChart';
+import React, { useReducer } from 'react';
+import '@testing-library/jest-dom';
+import { render, fireEvent, cleanup, screen } from '@testing-library/react';
 import { StateContext } from '../app/src/context/context';
-import { initialState, HTMLTypes } from '../app/src/context/initialState';
+import { State, Action, Component, ChildElement } from '../app/src/interfaces/Interfaces';
+import initialState from '../app/src/context/initialState';
+import reducer from '../app/src/reducers/componentReducer';
 
-xdescribe('Testing the tree functionality', function () {
 
-  //TEST 'ADD COMPONENT TO PAGE'
-  xdescribe('ADD COMPONENT TO PAGE', () => {
-    it('should add a new reusable component to page', () => {
+function Test() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <StateContext.Provider value={[state, dispatch]} >
+      <TreeChart />
+    </StateContext.Provider>
+  );
+}
 
-    })
-  })
+test('Test the tree functionality', function () {
+  render(<Test/>);
 
-  //TEST 'ADD COMPONENT TO ANOTHER COMPONENT'
-  xdescribe('ADD COMPONENT TO ANOTHER COMPONENT', () => {
-    it('should add child component to top-level component', () => {
+  screen.getByRole('');
+  
+  {/*TEST 'ADD COMPONENT TO PAGE' */}
+  
+  {/* TEST 'ADD COMPONENT TO ANOTHER COMPONENT'
+   xdescribe('ADD COMPONENT TO ANOTHER COMPONENT', () => {
+     it('should add child component to top-level component', () => {
 
-    })
-  })
+     })
+   })
 
-  //TEST 'ADD A HTML ELEMENT TO A PAGE'
-  xdescribe('ADD CHILD TO COMPONENT', () => {
-    it('should add child component to top-level component', () => {
+   TEST 'ADD A HTML ELEMENT TO A PAGE'
+   xdescribe('ADD CHILD TO COMPONENT', () => {
+     it('should add child component to top-level component', () => {
 
-    })
-  })
+     })
+   })
 
-  //TEST 'ADD A HTML ELEMENT TO A COMPONENT'
-  xdescribe('', () => {
-    it('', () => {
+   TEST 'ADD A HTML ELEMENT TO A COMPONENT'
+   xdescribe('', () => {
+     it('', () => {
 
-    })
-  })
+     })
+   }) */}
 
 })
