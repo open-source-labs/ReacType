@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
@@ -9,8 +9,12 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import useResizeObserver from '../../tree/useResizeObserver';
+import { string } from 'prop-types';
 
-const CodePreview = ({ theme, setTheme }) => {
+const CodePreview: React.FC<{
+  theme: string | null;
+  setTheme: any | null;
+  }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { width, height } =

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';

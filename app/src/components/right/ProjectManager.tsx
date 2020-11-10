@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
