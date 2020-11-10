@@ -4,7 +4,7 @@ import { State, Action, Component, ChildElement } from '../app/src/interfaces/In
 import initialState from '../app/src/context/initialState';
 
 
-xdescribe('Testing componentReducer functionality', function () {
+describe('Testing componentReducer functionality', function () {
   let state: State = initialState;
 
 

@@ -6,7 +6,7 @@ if (isDev) {
 }
 
 // tests user signup and login routes
-xdescribe('User authentication tests', () => {
+describe('User authentication tests', () => {
   let num = Math.floor(Math.random() * 1000);
 
   describe('/signup', () => {
@@ -61,4 +61,4 @@ xdescribe('User authentication tests', () => {
   });
 });
 
-describe('User Login Tests', () => {});
+xdescribe('User Login Tests', () => {});

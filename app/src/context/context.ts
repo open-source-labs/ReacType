@@ -1,4 +1,6 @@
 import React from 'react';
 import { State } from '../interfaces/Interfaces';
 
-export const StateContext = React.createContext<State | {}>([{}, () => {}]);
+const StateContext = React.createContext<State | {}>([{}, () => {}]);
+
+export default StateContext;

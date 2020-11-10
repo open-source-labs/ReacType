@@ -1,7 +1,8 @@
 import { shallow, mount } from 'enzyme';
 import React, { useState, useContext } from 'react';
-
-import { StateContext } from '../app/src/context/context';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import StateContext from '../app/src/context/context';
 import initialState from '../app/src/context/initialState';
 import MainContainer from '../app/src/containers/MainContainer';
 import BottomPanel from '../app/src/components/bottom/BottomPanel';
@@ -38,30 +39,19 @@ describe('Test the BottomTabs component', () => {
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot()
   })
-  it('Contains a CodePreview component', () => {
-    expect(target.contains(<CodePreview />)).toBe(true);
-  })
 })
 
 describe('Test All 10 default HTML elements have rendered', () => {
 
   const target = shallow(
-  <StateContext.Provider value={initialState} >
-    <HTMLPanel />
-  </StateContext.Provider>
+    <DndProvider backend={HTML5Backend} >
+      <StateContext.Provider value={initialState} >
+        <HTMLPanel />
+      </StateContext.Provider>
+    </DndProvider>
   );
 
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot();
-  })
-  it('Contains 10 HTMLItem component', () => {
-    expect(target.contains(<HTMLItem/>)).toBe(true);
-    expect(target.find(HTMLItem)).toHaveLength(10);
-  })
-  // it('Contains custom HTML form', () => {
-  //   expect(target.find('form')).toBe(true)
-  // })
-  // it('Contains 10 HTML Items', () => {
-  //   expect(target.contains(<HTMLItem />)).toBe(true)
-  // })
-})
+  });
+});

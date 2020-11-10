@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
-import initialState from '../../context/initialState';
 
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
@@ -12,13 +11,13 @@ const HTMLPanel = (): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
+
   let startingID = 0;
-  state.HTMLTypes.forEach((el) => {
-    if (el.id >= startingID) {
-      startingID = el.id;
-    }
+  state.HTMLTypes.forEach(element => {
+    if (element.id >= startingID) startingID = element.id;
   })
   startingID += 1;
+
   const [currentID, setCurrentID] = useState(startingID);
 
   const buttonClasses =

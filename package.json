@@ -141,6 +141,7 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^10.4.6",
     "@types/chai": "^4.2.11",
     "@types/enzyme": "^3.10.5",
