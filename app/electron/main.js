@@ -404,8 +404,6 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
-  // const authUrl =
-  //   githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
   const authUrl =
     `${githubUrl}client_id=${process.env.GITHUB_ID}`;
   github.loadURL(authUrl);

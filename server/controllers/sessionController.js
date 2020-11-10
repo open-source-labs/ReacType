@@ -67,7 +67,14 @@ sessionController.startSession = (req, res, next) => {
 
 //
 sessionController.gitHubResponse = (req, res, next) => {
+  // console.log(req)
   const { code } = req.query;
+  // console.log('code =>', code);
+  if (!code) return next({
+    log: 'Undefined or no code received from github.com',
+    message: 'Undefined or no code received from github.com',
+    status: 400
+  });
   fetch(
     `https://github.com/login/oauth/access_token`,{
       method: 'POST',
@@ -105,7 +112,13 @@ sessionController.gitHubSendToken = (req, res, next) => {
       res.locals.signUpType = 'oauth';
       return next();
     })
-    .catch(err => res.status(500).json({message: `${err.message} in gitHubSendToken`}))
+    .catch(err =>{ 
+      if (err.message === `Cannot read property 'email' of undefined`) {
+        return res.status(400).json({message: `${err.message} in gitHubSendToken`});
+      } else {
+        return res.status(500).json({message: `${err.message} in gitHubSendToken`});
+      }
+    });
 }
 
 // creates a session when logging in with github
