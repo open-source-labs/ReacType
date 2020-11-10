@@ -16,7 +16,7 @@ import {
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import initialState from '../../context/initialState';
 
 export interface ProjectDialogProps {

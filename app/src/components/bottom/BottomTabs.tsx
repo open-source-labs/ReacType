@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
