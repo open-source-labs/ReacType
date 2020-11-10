@@ -404,8 +404,6 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
-  // const authUrl =
-  //   githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
   const authUrl =
     `${githubUrl}client_id=${process.env.GITHUB_ID}`;
   github.loadURL(authUrl);
@@ -439,7 +437,7 @@ ipcMain.on('github', event => {
   })
 
   github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) => handleCallback(newUrl));
-  
+
   // Reset the authWindow on close
   github.on('close', () => authWindow = null, false);
 

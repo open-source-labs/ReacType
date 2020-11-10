@@ -1,9 +1,8 @@
 const express = require('express');
-// const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const passport = require('passport');
-require('./passport-setup');
+// const passport = require('passport');
+// require('./passport-setup');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -18,10 +17,9 @@ const isDev = process.env.NODE_ENV === 'development';
 
 console.log('PORT is ', PORT);
 
-// handle parsing request body
 app.use(express.json());
-// cookie parser
 app.use(cookieParser());
+
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
@@ -36,23 +34,8 @@ app.use(
 // subsequent logins seem to be working fine, however
 
 // initializes passport and passport sessions
-app.use(passport.initialize());
-app.use(passport.session());
-
-// routes for initial github oauth and callback
-app.get(
-  '/github', 
-  (req, res) => {
-    console.log('git hub');
-    res.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}`);
-  });
-
-// app.post(
-//   '/facebook', 
-//   userController.doesUserExist,
-//   (req, res) => {
-//     return res.status(200).json({ userStatus: res.locals.userExists });
-// });
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.get(
   '/github/callback',
@@ -63,16 +46,12 @@ app.get(
   cookieController.setSSIDCookie,
   sessionController.startSession,
   (req, res) => {
-    // TODO - figure out how to send a response that closes window
     if (isDev) {
       return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
     } else {
       return res.status(200).redirect('app://rse');
     }
   }
-  // (req, res) => {
-  //   return res.status(200).json({ sessionId: res.locals.ssid });
-  // }
 );
 
 app.post(
