@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';

@@ -11,7 +11,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { StateContext } from '../context/context';
+import StateContext from '../context/context';
 import ProjectManager from '../components/right/ProjectManager';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -153,7 +153,25 @@ const RightContainer = (): JSX.Element => {
 
   const isChildOfPage = (): boolean => {
     let isChild: boolean = false;
+
+    // id of target we want to check
     const { id } = configTarget;
+    // put in logic here to check for all nested children
+    // const checkAllChildren = comps => {
+    //   comps.forEach(el => {
+    //     if (el.children.length > 0) {
+    //       checkAllChildren(el.children);
+    //     }
+    //     if (el.type === 'Component' && el.typeId === id) {
+    //       isChild = true;
+    //     }
+    //   });
+    // };
+    // const copyComp = [...state.components];
+    // checkAllChildren(copyComp);
+    // return isChild;
+
+    // was here previously
     state.components.forEach(comp => {
       comp.children.forEach(child => {
         if (child.type === 'Component' && child.typeId === id) {

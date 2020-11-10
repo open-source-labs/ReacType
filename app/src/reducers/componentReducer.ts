@@ -413,6 +413,7 @@ const reducer = (state: State, action: Action) => {
       );
       const child = { ...directParent.children[childIndexValue] };
       directParent.children.splice(childIndexValue, 1);
+
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -442,18 +443,33 @@ const reducer = (state: State, action: Action) => {
       // updated list of components after deleting a component
       const components: Component[] = deleteById(id);
 
-      const canvasFocus = { componentId: 1, childId: null };
       const rootComponents = updateRoots(components);
 
-      // console.log('state', state);
-      // const updatedCode = generateCode(
-      //   rootComponents,
-      //   state.canvasFocus.componentId,
+      // console.log('canvas', state);
+      // const component = findComponent(
+      //   state.components,
+      //   state.canvasFocus.componentId
+      // );
+      // console.log('component: ', component);
+      // const { directParent, childIndexValue } = findParent(
+      //   component,
+      //   state.canvasFocus.componentId
+      // );
+      // console.log('childIndexValue: ', childIndexValue);
+      // console.log('directparent', directParent);
+      // const child = { ...directParent.children[childIndexValue] };
+      // directParent.children.splice(childIndexValue, 1);
+
+      // component.code = generateCode(
+      //   [...state.components],
+      //   id,
       //   [...state.rootComponents],
       //   state.projectType,
       //   state.HTMLTypes
       // );
-      // console.log('updatedCode', updatedCode);
+
+      const canvasFocus = { componentId: 1, childId: null };
+
       return {
         ...state,
         rootComponents,

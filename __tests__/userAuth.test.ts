@@ -3,10 +3,10 @@ import { sessionIsCreated, newUserIsCreated } from '../app/src/helperFunctions/a
 describe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
-  let password; 
+  let password;
 
   // Called under SignIn.tsx
-  describe('sessionIsCreated', async () => {
+  describe('sessionIsCreated', () => {
     it('returns the message \'No Username Input\' when no username is entered', async () => {
       username = '';
       password = 'codesmith1!'
@@ -37,7 +37,7 @@ describe('Login Tests', () => {
 
     it('returns the message \'Success\' when the user passes all auth checks', async () => {
       username = 'reactyp3test';
-      password = 'codesmith1!'; 
+      password = 'codesmith1!';
       const result = await sessionIsCreated(username, password).then((loginStatus) => loginStatus);
       expect(result).toEqual('Success');
     })

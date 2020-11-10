@@ -7,7 +7,7 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
-
+import FacebookLogin from "react-facebook-login";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,14 +23,13 @@ import Container from '@material-ui/core/Container';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { ipcRenderer } from 'electron';
+import { newUserIsCreated, isNewUser } from '../../helperFunctions/auth';
+import randomPassword from '../../helperFunctions/randomPassword';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © ReacType '}
-      {/* <Link color="inherit" href="https://reactype.io/#fullCarousel">
-        ReacType
-      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -42,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -53,20 +52,43 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 1)
-    // width: '240px',
-    // height: '60px'
+    margin: theme.spacing(1, 0, 1),
+    cursor: 'pointer'
   },
   root: {
-    // "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "green"
-    // },
-    // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "red"
-    // },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#3EC1AC'
     }
+  },
+  facebookBtn: {
+    backgroundColor: 'blue',
+    color: 'white',
+    // margin: theme.spacing(1, 0, 1),
+    // fontSize: '20px',
+    cursor: 'pointer',
+    border: '0',
+    outline: '0',
+    position: 'relative',
+    alignItems:' center',
+    userSelect: 'none',
+    verticalAlign: 'middle',
+    justifyCcontent: 'center',
+    textDecoration: 'none',
+    padding: '6px 16px',
+    fontSize: '0.875rem',
+    minWidth: '64px',
+    // box-sizing: border-box,
+    transition: 'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    // font-family: "Roboto", "Helvetica", "Arial", sans-serif,
+    // fontWeight: '500',
+    // line-height: 1.75,
+    // border-radius: 4px,
+    // letter-spacing: 0.02857em,
+    // text-transform: uppercase,
+    // color: rgba(0, 0, 0, 0.87),
+    boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+    width: '396px',
+    // margin: 8px 0px 8px
   }
 }));
 
@@ -80,6 +102,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidPassMsg, setInvalidPassMsg] = useState('');
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
+  const FBAPPID = process.env.REACT_APP_FB_APP_ID;
 
   // this useEffect will check for cookies and set an item in localstorage for github Oauth session validation
   useEffect(() => {
@@ -87,6 +110,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
+        console.log(cookie);
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
           clearInterval(githubCookie);
@@ -111,22 +135,13 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     }
   };
 
-  /*
-    Response Options:
-    Success
-    Error
-    No Username Input
-    No Password Input
-    Incorrect Password
-    Invalid Username
-  */
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     setInvalidUser(false);
     setInvalidUserMsg('');
     setInvalidPass(false);
     setInvalidPassMsg('');
-    sessionIsCreated(username, password).then(loginStatus => {
+    sessionIsCreated(username, password, false).then(loginStatus => {
       if (loginStatus === 'Success') {
         props.history.push('/');
       } else {
@@ -162,6 +177,24 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     props.history.push('/');
   };
 
+  const responseFacebook = response => {
+    if (response.accessToken) {
+      newUserIsCreated(response.email, response.email, randomPassword())
+        .then(userCreated => {
+          if (userCreated === 'Success') {
+            props.history.push('/');
+          } else {
+            sessionIsCreated(response.email, randomPassword(), true)
+              .then(loginStatus => {
+                if (loginStatus === 'Success') {
+                  props.history.push('/');
+                }
+              })
+          }
+        });
+      }
+  }
+  const classBtn = 'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -219,7 +252,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-        {/* Hiding github oauth button as it's still buggy and not fully working */}
         <Button
           fullWidth
           variant="contained"
@@ -228,14 +260,30 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           onClick={() => {
             // messages the main proces to open new window for github oauth
             console.log('open github');
-            console.log(window.api);
             // ipcRenderer.send('github-oauth', 'getToken');
             window.api.github();
           }}
+          //onClick={handleGitHubOauth}
         >
           <GitHubIcon />
         </Button>
-
+      {/* <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+        onClick={e => handleLoginGuest(e)}
+      > */}
+        <FacebookLogin
+          appId={FBAPPID} 
+          autoLoad={false}
+          fields="name, email, picture"
+          callback={responseFacebook}
+          icon="fa-facebook-square"
+          cssClass={classBtn}
+          textButton=' Login with Facebook'
+        />
+      {/* </Button> */}
         <Button
           fullWidth
           variant="contained"
@@ -245,7 +293,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Continue as Guest
         </Button>
-
         <Grid container>
           <Grid item xs>
             <RouteLink to={`/signup`} className="nav_link">

@@ -4,7 +4,7 @@ import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
 import RouteLink from '../components/main/RouteLink';
-import { StateContext } from '../context/context';
+import StateContext from '../context/context';
 
 // helper method to render all direct children of a component
 // direct children are clickable and draggable

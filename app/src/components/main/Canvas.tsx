@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { StateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
@@ -17,7 +17,7 @@ const findNestedChild = (curr, components) => {
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
-
+  console.log('components', state.components);
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
