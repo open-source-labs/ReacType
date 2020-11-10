@@ -14,7 +14,7 @@ const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
     const { type, typeId, style, childId, children, attributes, name } = child;
-    if (name === '') child.name = state.components[typeId - 1 ].name;
+    if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
     if (type === 'Component') {
