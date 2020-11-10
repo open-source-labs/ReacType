@@ -4,7 +4,8 @@ const {
   dialog,
   BrowserWindow,
   session,
-  ipcMain
+  ipcMain,
+  webContents
 } = require('electron');
 
 // The splash screen is what appears while the app is loading
@@ -23,6 +24,7 @@ const MenuBuilder = require('./menu');
 
 const path = require('path');
 // const fs = require('fs');
+require('dotenv').config();
 
 const isDev =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -224,20 +226,20 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/',
+      'https://github.com',
       'https://nextjs.org',
+      'https://www.facebook.com',
       'https://developer.mozilla.org'
     ];
-    console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted and the attempt to navigate was blocked.`
+        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
       return;
-    } else console.log(`Successful navigation to ${parsedUrl}`);
+    }
   });
 
   contents.on('will-redirect', (event, navigationUrl) => {
@@ -246,9 +248,10 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/',
+      'https://github.com',
       'https://nextjs.org',
-      'https://developer.mozilla.org'
+      'https://developer.mozilla.org',
+      'https://www.facebook.com',
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -262,7 +265,7 @@ app.on('web-contents-created', (event, contents) => {
 
       event.preventDefault();
       return;
-    } else console.log('Successful link sent to browser');
+    }
   });
 
   // https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation
@@ -286,11 +289,11 @@ app.on('web-contents-created', (event, contents) => {
       selfHost,
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
-      'https://github.com/',
       'https://nextjs.org',
-      'https://developer.mozilla.org'
+      'https://developer.mozilla.org',
+      'https://github.com',
+      'https://www.facebook.com'
     ];
-    console.log('parsed URL origin', parsedUrl.origin);
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
@@ -299,9 +302,7 @@ app.on('web-contents-created', (event, contents) => {
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
       return;
-    } else console.log(`Successful new window to ${parsedUrl}`);
-    // event.preventDefault();
-    // return;
+    }
   });
 });
 
@@ -382,10 +383,11 @@ ipcMain.on('delete_cookie', event => {
 
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
-  // your github applications credentials
+  // your  applications credentials
+  const githubUrl = 'https://github.com/login/oauth/authorize?';
   const options = {
-    client_id: 'your_client_id',
-    client_secret: 'your_client_secret',
+    client_id: process.env.GITHUB_ID,
+    client_secret: process.env.GITHUB_SECRET,
     scopes: ['user:email', 'notifications']
   };
   // create new browser window object with size, title, security options
@@ -402,15 +404,50 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
-  const githubUrl = 'https://github.com/login/oauth/authorize?';
+  // const authUrl =
+  //   githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
   const authUrl =
-    githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes;
-  // redirects to relevant server endpoint
+    `${githubUrl}client_id=${process.env.GITHUB_ID}`;
   github.loadURL(authUrl);
-  // show window
   github.show();
+  const handleCallback = (url) => {
+
+    const raw_code = /code=([^&]\*)/.exec(url) || null;
+    const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
+    const error = /\?error=(.+)\$/.exec(url);
+
+    if (code || error) {
+      // Close the browser if code found or error
+      authWindow.destroy();
+    }
+
+    // If there is a code, proceed to get token from github
+    if (code) {
+      self.requestGithubToken(options, code);
+    } else if (error) {
+      alert(
+        "Oops! Something went wrong and we couldn't" +
+          'log you in using Github. Please try again.'
+      );
+    }
+  }
+
+  github.webContents.on('will-navigate', (e, url) => handleCallback(url));
+
+  github.webContents.on('did-finish-load', (e, url, a, b) => {
+    github.webContents.selectAll();
+  })
+
+  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) => handleCallback(newUrl));
+
+  // Reset the authWindow on close
+  github.on('close', () => authWindow = null, false);
+
   // if final callback is reached and we get a redirect from server back to our app, close oauth window
   github.webContents.on('will-redirect', (e, callbackUrl) => {
+    const matches = callbackUrl.match(/(?<=\?=).*/);
+    const ssid = matches ? matches[0] : '';
+    callbackUrl = callbackUrl.replace(/\?=.*/, '');
     let redirectUrl = 'app://rse/';
     if (isDev) {
       redirectUrl = 'http://localhost:8080/';
@@ -423,6 +460,9 @@ ipcMain.on('github', event => {
         message: 'Github Oauth Successful!'
       });
       github.close();
+      win.webContents.executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
+        .then(result => win.loadURL(selfHost))
+        .catch(err => console.log(err))
     }
   });
 });

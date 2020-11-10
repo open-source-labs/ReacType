@@ -14,6 +14,9 @@ import HTMLPanel from '../app/src/components/left/HTMLPanel';
 import HTMLItem from '../app/src/components/left/HTMLItem';
 import LeftContainer from '../app/src/containers/LeftContainer';
 
+// npm test -- -u
+
+
 describe('Test the CanvasContainer component', () => {
   const target = shallow(<CanvasContainer />);
   it('Matches snapshot', () => {
