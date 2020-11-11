@@ -81,6 +81,7 @@ function TreeChart({ data }) {
     if (data !== previouslyRenderedData) {
       enteringAndUpdatingLinks
         .attr('stroke-dashoffset', function() {
+          
           return this.getTotalLength();
         })
         .attr('stroke-dashoffset', 0);
@@ -117,6 +118,7 @@ function TreeChart({ data }) {
     display: 'flex',
     justifyContent: 'center'
   };
+
   return (
     // <div theme={theme} style={{ backgroundColor: 'black' }}>
     <div ref={wrapperRef} style={wrapperStyles}>
