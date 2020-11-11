@@ -143,24 +143,24 @@ const reducer = (state: State, action: Action) => {
     return roots;
   };
 
+  const checkChildren = child => {
+    child.forEach(el => {
+      if (el.children.length) {
+        const arr = [];
+        for (let i = 0; i < el.children.length; i++) {
+          if (el.children[i].name !== name) {
+            arr.push(el.children[i]);
+          }
+        }
+        el.children = arr;
+        checkChildren(el.children);
+      }
+    });
+  };
+
   const deleteById = (id: number): Component[] => {
     const name: string = state.components[id - 1].name;
     // console.log('name: ', name);
-
-    const checkChildren = child => {
-      child.forEach(el => {
-        if (el.children.length) {
-          const arr = [];
-          for (let i = 0; i < el.children.length; i++) {
-            if (el.children[i].name !== name) {
-              arr.push(el.children[i]);
-            }
-          }
-          el.children = arr;
-          checkChildren(el.children);
-        }
-      });
-    };
     const copyComp = [...state.components];
     console.log('before check children', copyComp);
     if (copyComp.length) {
@@ -571,11 +571,14 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE ELEMENT': {
       const HTMLTypes = [...state.HTMLTypes];
+      const components = [...state.components];
+      deleteById(action.payload);
       for (let i = 0; i < HTMLTypes.length; i += 1) {
         if (HTMLTypes[i].id === action.payload) {
           HTMLTypes.splice(i, 1);
         }
       }
+
       return {
         ...state,
         HTMLTypes
