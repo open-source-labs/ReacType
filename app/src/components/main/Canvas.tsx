@@ -9,11 +9,11 @@ import renderChildren from '../../helperFunctions/renderChildren';
 const findNestedChild = (curr, components) => {
   components.forEach((comp, i) => {
     comp.children.forEach(child => {
-      if (child.name === curr.name) console.log(child.name)
+      if (child.name === curr.name) console.log('childname', child.name);
     });
     if (comp.children.length !== 0) findNestedChild(curr, comp.children);
   });
-}
+};
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);

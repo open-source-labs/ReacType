@@ -1,5 +1,9 @@
-import { Component, State, ChildElement, HTMLType } from '../interfaces/Interfaces';
-
+import {
+  Component,
+  State,
+  ChildElement,
+  HTMLType
+} from '../interfaces/Interfaces';
 
 declare global {
   interface Window {
@@ -28,6 +32,7 @@ const generateUnformattedCode = (
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
+      console.log('child', child);
       if (child.type === 'Component') {
         const referencedComponent = components.find(
           elem => elem.id === child.typeId
@@ -220,7 +225,6 @@ const generateUnformattedCode = (
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
   if (process.env.NODE_ENV === 'test') {

@@ -15,31 +15,103 @@ const Customization: React.FC<{
       <hr />
       <h2>Display</h2>
       <div className={classes.imgWrapper}>
-      <img src={display} />
+        <img src={display} />
       </div>
       <p className={classes.text}>
-        After having moved a <span className={classes.notLink} onClick={() => setPage('Pages')} >page</span>, <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >component</span>, <span className={classes.notLink} onClick={() => setPage('Route_Links')} >route link</span>, or <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >element</span> into the
-        canvas, select the one that needs customizing simply by clicking on it.
-        Then, to give it a display feature of either a block, inline-block, or
-        flex styling, select from the drop down box.</p>
+        After having moved a{' '}
+        <span className={classes.notLink} onClick={() => setPage('Pages')}>
+          page
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>{' '}
+        into the canvas, select the one that needs customizing simply by
+        clicking on it. Then, to give it a display feature of either a block,
+        inline-block, or flex styling, select from the drop down box.
+      </p>
       <div className={classes.imgWrapper}>
         <img src={flex} />
       </div>
       <p className={classes.text}>
-        If the display option 'flex' is chosen, few more sub-options are displayed under the display option.
+        If the display option 'flex' is chosen, few more sub-options are
+        displayed under the display option.
       </p>
       <hr />
       <h2>Width</h2>
       <div className={classes.imgWrapper}>
         <img src={width} />
       </div>
-      <p className={classes.text}>Change the width of each <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >component</span>, <span className={classes.notLink} onClick={() => setPage('Route_Links')} >route link</span>, or <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >element</span>.</p>
+      <p className={classes.text}>
+        Change the width of each{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>
+        .
+      </p>
       <hr />
       <h2>Height</h2>
       <div className={classes.imgWrapper}>
         <img src={height} />
       </div>
-      <p className={classes.text}>Change the height of each <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >component</span>, <span className={classes.notLink} onClick={() => setPage('Route_Links')} >route link</span>, or <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >element</span>.</p>
+      <p className={classes.text}>
+        Change the height of each{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Reusable_Components')}
+        >
+          component
+        </span>
+        ,{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('Route_Links')}
+        >
+          route link
+        </span>
+        , or{' '}
+        <span
+          className={classes.notLink}
+          onClick={() => setPage('HTML_Elements')}
+        >
+          element
+        </span>
+        .
+      </p>
       <hr />
       <h2>Background Color</h2>
       <div className={classes.imgWrapper}>
