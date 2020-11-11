@@ -1,9 +1,8 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
   withRouter,
-  useHistory,
   RouteComponentProps
 } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
@@ -12,18 +11,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { ipcRenderer } from 'electron';
-import { newUserIsCreated, isNewUser } from '../../helperFunctions/auth';
+import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
 
 function Copyright() {
@@ -60,36 +55,6 @@ const useStyles = makeStyles(theme => ({
       borderColor: '#3EC1AC'
     }
   },
-  facebookBtn: {
-    backgroundColor: 'blue',
-    color: 'white',
-    // margin: theme.spacing(1, 0, 1),
-    // fontSize: '20px',
-    cursor: 'pointer',
-    border: '0',
-    outline: '0',
-    position: 'relative',
-    alignItems:' center',
-    userSelect: 'none',
-    verticalAlign: 'middle',
-    justifyCcontent: 'center',
-    textDecoration: 'none',
-    padding: '6px 16px',
-    fontSize: '0.875rem',
-    minWidth: '64px',
-    // box-sizing: border-box,
-    transition: 'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    // font-family: "Roboto", "Helvetica", "Arial", sans-serif,
-    // fontWeight: '500',
-    // line-height: 1.75,
-    // border-radius: 4px,
-    // letter-spacing: 0.02857em,
-    // text-transform: uppercase,
-    // color: rgba(0, 0, 0, 0.87),
-    boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
-    width: '396px',
-    // margin: 8px 0px 8px
-  }
 }));
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
@@ -258,32 +223,20 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           color="default"
           className={classes.submit}
           onClick={() => {
-            // messages the main proces to open new window for github oauth
-            console.log('open github');
-            // ipcRenderer.send('github-oauth', 'getToken');
             window.api.github();
           }}
-          //onClick={handleGitHubOauth}
         >
-          <GitHubIcon />
+        <GitHubIcon />
         </Button>
-      {/* <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        onClick={e => handleLoginGuest(e)}
-      > */}
         <FacebookLogin
           appId={FBAPPID} 
           autoLoad={false}
           fields="name, email, picture"
           callback={responseFacebook}
           icon="fa-facebook-square"
-          cssClass={classBtn}
+          cssClass={'oauth-btn'}
           textButton=' Login with Facebook'
         />
-      {/* </Button> */}
         <Button
           fullWidth
           variant="contained"
