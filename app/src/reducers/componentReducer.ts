@@ -3,7 +3,8 @@ import {
   State,
   Action,
   Component,
-  ChildElement
+  ChildElement,
+  HTMLType
 } from '../interfaces/Interfaces';
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
@@ -569,12 +570,24 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'DELETE ELEMENT': {
-      const HTMLTypes = [...state.HTMLTypes];
-      for (let i = 0; i < HTMLTypes.length; i += 1) {
-        if (HTMLTypes[i].id === action.payload) {
-          HTMLTypes.splice(i, 1);
+      let name: string = '';
+      const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter(el => {
+        if (el.id === action.payload) {
+          name = el.tag;
         }
-      }
+        return el.id !== action.payload;
+      });
+      const components: Component[] = deleteById(action.payload, name);
+      const rootComponents: number[] = updateRoots(components);
+      components.forEach((el, i) => {
+        el.code = generateCode(
+          components,
+          components[i].id,
+          rootComponents,
+          state.projectType,
+          state.HTMLTypes
+        );
+      })
       return {
         ...state,
         HTMLTypes
