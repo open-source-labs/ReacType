@@ -32,6 +32,7 @@
     "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
     "dev": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\" \"cross-env NODE_ENV=development npm run server\" -k",
+    "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"cross-env NODE_ENV=production npm run server\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron .",
     "pack": "electron-builder --dir",

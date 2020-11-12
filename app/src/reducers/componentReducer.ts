@@ -457,6 +457,7 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
       const name: string = state.components[id - 1].name;
+
       const components: Component[] = deleteById(id, name);
 
       // rebuild rootComponents with correct page IDs
@@ -467,6 +468,7 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
       const name: string = state.components[id - 1].name;
+
       // updated list of components after deleting a component
       const components: Component[] = deleteById(id, name);
       const rootComponents: number[] = updateRoots(components);
@@ -605,7 +607,6 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       })
-
       return {
         ...state,
         HTMLTypes,
