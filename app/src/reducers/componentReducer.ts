@@ -437,7 +437,9 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
-      const components: Component[] = deleteById(id);
+      const name: string = state.components[id - 1].name;
+
+      const components: Component[] = deleteById(id, name);
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
       const canvasFocus = { componentId: 1, childId: null };
@@ -445,8 +447,10 @@ const reducer = (state: State, action: Action) => {
     }
     case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+
       // updated list of components after deleting a component
-      const components: Component[] = deleteById(id);
+      const components: Component[] = deleteById(id, name);
       const rootComponents: number[] = updateRoots(components);
 
       // iterate over the length of the components array
