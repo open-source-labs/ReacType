@@ -27,7 +27,6 @@ test('Renders HTMLPanel component', () => {
     <Test/>
   );
   expect(screen.getAllByRole('textbox')).toHaveLength(2);
-  // console.log(container.firstChild);
   expect(screen.getByText('Div')).toBeInTheDocument();
   expect(screen.getByText('Image')).toBeInTheDocument();
   expect(screen.getByText('Form')).toBeInTheDocument();

@@ -10,18 +10,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../right/createModal';
 
-const checkChildren = (child, currentComponent) => {
-  for (let i = 0; i < child.length; i+=1) {
-    if (child[i].children.length) {
-      for (let j = 0; j < child[i].children.length; j+=1) {
-        if (child[i].children[j].name === currentComponent.name) {
-          return true;
-        }
-      }
-      return checkChildren(child[i].children, currentComponent);
-    }
-  }
-  return false;
+const findNestedChild = (curr, components) => {
+  components.forEach((comp, i) => {
+    comp.children.forEach(child => {
+      if (child.name === curr.name) {};
+    });
+    if (comp.children.length !== 0) findNestedChild(curr, comp.children);
+  });
+
 };
 
 function Canvas() {
