@@ -1,23 +1,34 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
-
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useMemo,
+  Component
+} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
-import { stateContext } from '../context/context';
-import HTMLTypes from '../context/HTMLTypes';
-
-
+import StateContext from '../context/context';
 import ProjectManager from '../components/right/ProjectManager';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ErrorMessages from '../constants/ErrorMessages';
+import { styleContext } from './AppContainer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import createModal from '../components/right/createModal';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = (props): JSX.Element => {
-
+const RightContainer = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -25,6 +36,11 @@ const RightContainer = (props): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
+  const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
+  const [deleteIndexError, setDeleteIndexError] = useState(false);
+  const [deleteComponentError, setDeleteComponentError] = useState(false);
+  const { style } = useContext(styleContext);
+  const [modal, setModal] = useState(null);
 
   const resetFields = () => {
     const style = configTarget.child
@@ -116,7 +132,7 @@ const RightContainer = (props): JSX.Element => {
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
-        focusTarget.child.name = HTMLTypes.find(
+        focusTarget.child.name = state.HTMLTypes.find(
           elem => elem.id === focusChild.typeId
         ).name;
       }
@@ -130,6 +146,47 @@ const RightContainer = (props): JSX.Element => {
     state.canvasFocus.childId,
     state.canvasFocus.componentId
   ]);
+
+  const isPage = (configTarget): boolean => {
+    const { components, rootComponents } = state;
+    return components
+      .filter(component => rootComponents.includes(component.id))
+      .some(el => el.id === configTarget.id);
+  };
+
+  const isIndex = (): boolean => configTarget.id === 1;
+
+  const isChildOfPage = (): boolean => {
+    let isChild: boolean = false;
+
+    // id of target we want to check
+    const { id } = configTarget;
+    state.components.forEach(comp => {
+      comp.children.forEach(child => {
+        if (child.type === 'Component' && child.typeId === id) {
+          isChild = true;
+        }
+      });
+    });
+    return isChild;
+  };
+
+  const isLinkedTo = (): boolean => {
+    const { id } = configTarget;
+    const pageName = state.components[id - 1].name;
+    let isLinked = false;
+    const searchNestedChildren = comps => {
+      if (comps.length === 0) return;
+      comps.forEach((comp, i) => {
+        if (comp.type === 'Route Link' && comp.name === pageName) {
+          isLinked = true;
+        }
+        if (comp.children.length > 0) searchNestedChildren(comp.children);
+      });
+    };
+    searchNestedChildren(state.components);
+    return isLinked;
+  };
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
@@ -156,8 +213,95 @@ const RightContainer = (props): JSX.Element => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
 
+  const handlePageDelete = id => () => {
+    // TODO: return modal
+    if (isLinkedTo()) return setDeleteLinkedPageError(true);
+    isIndex()
+      ? handleDialogError('index')
+      : dispatch({ type: 'DELETE PAGE', payload: { id } });
+  };
+
+  // const handleDeleteReusableComponent = () => {
+  //   dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  // };
+
+  const isReusable = (configTarget): boolean => {
+    return state.components
+      .filter(comp => !state.rootComponents.includes(comp.id))
+      .some(el => el.id == configTarget.id);
+  };
+
+  const handleDialogError = err => {
+    if (err === 'index') setDeleteIndexError(true);
+    else setDeleteComponentError(true);
+  };
+
+  const handleCloseDialogError = () => {
+    setDeleteIndexError(false);
+    setDeleteComponentError(false);
+    setDeleteLinkedPageError(false);
+  };
+
+  // closes out the open modal
+  const closeModal = (): void => setModal('');
+
+  // creates modal that asks if user wants to clear all components
+  // if user clears their components, then their components are removed from state and the modal is closed
+  const clearComps = (): void => {
+    // Reset state for project to initial state
+    const handleDeleteReusableComponent = (): void => {
+      closeModal();
+      dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+    };
+
+    // set modal options
+    const children = (
+      <List className="export-preference">
+        <ListItem
+          key={'delete'}
+          button
+          onClick={handleDeleteReusableComponent}
+          style={{
+            border: '1px solid #3f51b5',
+            marginBottom: '2%',
+            marginTop: '5%'
+          }}
+        >
+          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+        </ListItem>
+        <ListItem
+          key={'not delete'}
+          button
+          onClick={closeModal}
+          style={{
+            border: '1px solid #3f51b5',
+            marginBottom: '2%',
+            marginTop: '5%'
+          }}
+        >
+          <ListItemText primary={'No'} style={{ textAlign: 'center' }} />
+        </ListItem>
+      </List>
+    );
+
+    // create modal
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message:
+          'Deleting this component will delete all instances of this component within the application. Do you still wish to proceed?',
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
+  };
+
   return (
-    <div className="column right ">
+    <div className="column right" style={style}>
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -356,12 +500,75 @@ const RightContainer = (props): JSX.Element => {
                 DELETE INSTANCE
               </Button>
             </div>
+          ) : isPage(configTarget) ? (
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={handlePageDelete(configTarget.id)}
+              >
+                DELETE PAGE
+              </Button>
+            </div>
           ) : (
-            ''
+            <div className={classes.buttonRow}>
+              <Button
+                color="secondary"
+                className={classes.button}
+                onClick={clearComps}
+              >
+                DELETE REUSABLE COMPONENT
+              </Button>
+            </div>
           )}
         </div>
         <ProjectManager />
       </div>
+      <Dialog
+        open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
+        onClose={handleCloseDialogError}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {deleteIndexError ? ErrorMessages.deleteIndexTitle : ''}
+          {deleteComponentError ? ErrorMessages.deleteComponentTitle : ''}
+          {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageTitle : ''}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {deleteIndexError ? ErrorMessages.deleteIndexMessage : ''}
+            {deleteComponentError ? ErrorMessages.deleteComponentMessage : ''}
+            {deleteLinkedPageError ? ErrorMessages.deleteLinkedPageMessage : ''}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogError} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* <Dialog
+        open={deleteComponentError}
+        onClose={handleCloseDialogError}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {ErrorMessages.deleteComponentTitle}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {ErrorMessages.deleteComponentMessage}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogError} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog> */}
+      {modal}
     </div>
   );
 };
@@ -420,8 +627,7 @@ const useStyles = makeStyles({
       marginBottom: '0',
       marginTop: '10px'
     }
-  },
-
+  }
 });
 
 export default RightContainer;

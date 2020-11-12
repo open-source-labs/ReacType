@@ -16,7 +16,7 @@ import {
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import initialState from '../../context/initialState';
 
 export interface ProjectDialogProps {
@@ -29,7 +29,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -42,7 +42,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
     const selectedProject = projects.filter(
       (project: any) => project.name === value
     )[0];
-    console.log('selectedProject is', selectedProject);
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
     dispatch({ type: 'SET INITIAL STATE', payload: initialState });
@@ -118,7 +117,7 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBotton: '10px'
+    marginBottom: '10px'
   },
   avatar: {
     backgroundColor: blue[100],

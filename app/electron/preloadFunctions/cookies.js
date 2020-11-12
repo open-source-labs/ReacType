@@ -18,4 +18,8 @@ const github = () => {
   return ipcRenderer.send('github');
 };
 
-module.exports = { setCookie, getCookie, delCookie, github };
+const tutorial = () => {
+  return ipcRenderer.send('tutorial');
+};
+
+module.exports = { setCookie, getCookie, delCookie, github, tutorial };

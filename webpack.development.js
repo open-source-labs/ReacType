@@ -25,7 +25,8 @@ module.exports = merge(base, {
     watchContentBase: true, // Watch the content base for changes
     watchOptions: {
       ignored: /node_modules/ // Ignore this path, probably not needed since we define contentBase above
-    }
+    },
+    // https: true
   },
   plugins: [
     // miniCssExtractPlugin is included here because it's used as a loader in wepack.config.js

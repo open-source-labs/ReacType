@@ -2,9 +2,8 @@ import React, { useContext, useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
-import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
@@ -15,12 +14,12 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement) {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
-  const HTMLType: HTMLType = HTMLTypes.find(
+  const HTMLType: HTMLType = state.HTMLTypes.find(
     (type: HTMLType) => type.id === typeId
   );
 

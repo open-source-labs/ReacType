@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
 
 function IndirectChild({ style, children, placeHolder, linkId }) {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
 
   // when a user clicks a link, the focus should change to that component

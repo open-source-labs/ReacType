@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
 
@@ -21,12 +21,17 @@ import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 
+// import { useStyles } from '../left/ComponentPanel';
+import { styleContext } from '../../containers/AppContainer';
+
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   const classes = useStyles();
+
+  const { style, setStyle } = useContext(styleContext);
 
   // Allows users to toggle project between "next.js" and "Classic React"
   // When a user changes the project type, the code of all components is rerendered
@@ -71,6 +76,7 @@ const ProjectManager = () => {
           <ListItemText
             primary={'Yes, delete all project data'}
             style={{ textAlign: 'center' }}
+            onClick={closeModal}
           />
         </ListItem>
       </List>
@@ -155,62 +161,77 @@ const ProjectManager = () => {
   };
 
   return (
-    // <div className={classes.logoutButton}>
-    <div className={classes.projectManagerWrapper}>
-      {state.name && state.isLoggedIn ? (
-        <p style={{ color: 'white' }}>
-          Your current project is <strong>{state.name}</strong>
-        </p>
-      ) : null}
-      {!state.name && state.isLoggedIn ? (
-        <p style={{ color: 'white' }}>
-          Select "Save project as" to create and save a project
-        </p>
-      ) : null}
+    <div>
+      <Button
+        color="primary"
+        style={{ ...style.button, marginLeft: '15%' }}
+        variant="outlined"
+        className={classes.button}
+        onClick={() => {
+          !style.backgroundColor
+            ? setStyle({ backgroundColor: '#00001a' })
+            : setStyle({});
+        }}
+      >
+        Change Lighting
+      </Button>
 
-      <div className={classes.projectTypeWrapper}>
-        <FormControl>
-          <Select
-            variant="outlined"
-            labelId="project-type-label"
-            id="demo-simple-select"
-            className={classes.projectSelector}
-            value={state.projectType}
-            onChange={handleProjectChange}
-          >
-            <MenuItem value={'Next.js'}>Next.js</MenuItem>
-            <MenuItem value={'Classic React'}>Classic React</MenuItem>
-          </Select>
-        </FormControl>
+      <div className={classes.projectManagerWrapper}>
+        {state.name && state.isLoggedIn ? (
+          <p style={{ color: 'white' }}>
+            Your current project is <strong>{state.name}</strong>
+          </p>
+        ) : null}
+        {!state.name && state.isLoggedIn ? (
+          <p style={{ color: 'white' }}>
+            Select "Save project as" to create and save a project
+          </p>
+        ) : null}
+
+        <div className={classes.projectTypeWrapper}>
+          <FormControl>
+            <Select
+              variant="outlined"
+              labelId="project-type-label"
+              id="demo-simple-select"
+              className={classes.projectSelector}
+              value={state.projectType}
+              onChange={handleProjectChange}
+            >
+              <MenuItem value={'Next.js'}>Next.js</MenuItem>
+              <MenuItem value={'Classic React'}>Classic React</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        {state.isLoggedIn ? <SaveProjectButton /> : ''}
+        {state.isLoggedIn ? <ProjectsFolder /> : ''}
+        {state.isLoggedIn ? <DeleteProjects /> : ''}
+        {/* <div className={classes.btnGroup}> */}
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
+          onClick={showGenerateAppModal}
+          endIcon={<PublishIcon />}
+        >
+          EXPORT PROJECT
+        </Button>
+
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="primary"
+          onClick={clearWorkspace}
+          endIcon={<WarningIcon />}
+        >
+          CLEAR WORKSPACE
+        </Button>
+        <br />
+        <br />
+        <LoginButton />
+        {/* </div> */}
+        {modal}
       </div>
-      {state.isLoggedIn ? <SaveProjectButton /> : ''}
-      {state.isLoggedIn ? <ProjectsFolder /> : ''}
-      {state.isLoggedIn ? <DeleteProjects /> : ''}
-      {/* <div className={classes.btnGroup}> */}
-      <Button
-        className={classes.button}
-        variant="outlined"
-        color="primary"
-        onClick={showGenerateAppModal}
-        endIcon={<PublishIcon />}
-      >
-        EXPORT PROJECT
-      </Button>
-
-      <Button
-        className={classes.button}
-        variant="outlined"
-        color="primary"
-        onClick={clearWorkspace}
-        endIcon={<WarningIcon />}
-      >
-        CLEAR WORKSPACE
-      </Button>
-      <br />
-      <br />
-      <LoginButton />
-      {/* </div> */}
-      {modal}
     </div>
   );
 };

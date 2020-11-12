@@ -7,10 +7,9 @@ import {
 } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import IndirectChild from './IndirectChild';
-import HTMLTypes from '../../context/HTMLTypes';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildHTML({
@@ -19,12 +18,12 @@ function DirectChildHTML({
   typeId,
   style,
 }: ChildElement) {
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
-  const HTMLType: HTMLType = HTMLTypes.find(
+  const HTMLType: HTMLType = state.HTMLTypes.find(
     (type: HTMLType) => type.id === typeId
   );
 
@@ -67,7 +66,6 @@ function DirectChildHTML({
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
-
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       {HTMLType.placeHolderShort}

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = (): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
@@ -30,6 +30,10 @@ const ComponentPanel = (): JSX.Element => {
       setErrorMsg('Component name cannot be blank.');
     } else if (type === 'dupe') {
       setErrorMsg('Component name already exists.');
+    } else if (type === 'letters') {
+      setErrorMsg('Component name must start with a letter.');
+    } else if (type === 'symbolsDetected') {
+      setErrorMsg('Component name must not contain symbols.');
     }
   };
 
@@ -45,6 +49,7 @@ const ComponentPanel = (): JSX.Element => {
   // check if name of new component is the same as an existing component
   const checkNameDupe = (inputName: String) => {
     let checkList = state.components.slice();
+
     // checks to see if inputted comp name already exists
     let dupe = false;
     checkList.forEach(comp => {
@@ -63,7 +68,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // Add a new component
   const createOption = (inputName: String) => {
-    // format name so first letter is capitalized and there are no whitespaces
+    // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, '');
     const formattedName =
       inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
@@ -78,8 +83,21 @@ const ComponentPanel = (): JSX.Element => {
     setCompName('');
   };
 
+  const alphanumeric = input => {
+    let letterNumber = /^[0-9a-zA-Z]+$/;
+    if (input.match(letterNumber)) return true;
+    return false;
+  };
+
   const handleNameSubmit = () => {
-    if (compName.trim() === '') {
+    let letters = /[a-zA-Z]/;
+    if (!compName.charAt(0).match(letters)) {
+      triggerError('letters');
+      return;
+    } else if (!alphanumeric(compName)) {
+      triggerError('symbolsDetected');
+      return;
+    } else if (compName.trim() === '') {
       triggerError('empty');
       return;
     } else if (checkNameDupe(compName)) {
@@ -143,30 +161,34 @@ const ComponentPanel = (): JSX.Element => {
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
-            .map(comp => (
-              <ComponentPanelItem
-                isFocus={isFocus(comp.id)}
-                key={`comp-${comp.id}`}
-                name={comp.name}
-                id={comp.id}
-                root={true}
-              />
-            ))}
+            .map(comp => {
+              return (
+                <ComponentPanelItem
+                  isFocus={isFocus(comp.id)}
+                  key={`comp-${comp.id}`}
+                  name={comp.name}
+                  id={comp.id}
+                  root={true}
+                />
+              );
+            })}
         </Grid>
         {/* Display all reusable components */}
         <h4>Reusable components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
-            .map(comp => (
-              <ComponentPanelItem
-                isFocus={isFocus(comp.id)}
-                key={`comp-${comp.id}`}
-                name={comp.name}
-                id={comp.id}
-                root={false}
-              />
-            ))}
+            .map(comp => {
+              return (
+                <ComponentPanelItem
+                  isFocus={isFocus(comp.id)}
+                  key={`comp-${comp.id}`}
+                  name={comp.name}
+                  id={comp.id}
+                  root={false}
+                />
+              );
+            })}
         </Grid>
         {/* Display navigation components - (only applies to next.js which has routing built in) */}
         {state.projectType === 'Next.js' ? (
