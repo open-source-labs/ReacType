@@ -89,37 +89,37 @@ const reducer = (state: State, action: Action) => {
     return;
   };
 
+  // update all ids and typeIds to match one another
+  const updateAllIds = (comp: Component[] | ChildElement[]) => {
+    // put components' names and ids into an obj
+    const obj = {};
+    comp.forEach(el => {
+      obj[el.name] = el.id;
+    });
+    // for each of the components, if it has children, iterate through that children array
+    comp.forEach(el => {
+      if (el.children.length > 0) {
+        for (let i = 0; i < el.children.length; i++) {
+          // update each child's childId
+          el.children[i].childId = i + 1;
+          // if the child's name and id exists in the object
+          if (obj[el.children[i].name]) {
+            // set the child's typeId to be the value in the object of the child's name key
+            el.children[i].typeId = obj[el.children[i].name];
+          }
+          // recursively call the updateAllIds function on the child's children array if
+          // the child's children array is greater than 0
+          if (el.children[i].children.length > 0) {
+            updateAllIds(el.children[i].children);
+          }
+        }
+      }
+    });
+  };
+
   const updateIds = (components: Component[]) => {
     // component IDs should be array index + 1
     components.forEach((comp, i) => (comp.id = i + 1));
-
-    // put components' names and ids into an obj
-    const obj = {};
-    components.forEach(el => {
-      obj[el.name] = el.id;
-    });
-    // update all ids and typeIds to match one another
-    const updateAllIds = (comp: Component[] | ChildElement[]) => {
-      // for each of the components, if it has children, iterate through that children array
-      comp.forEach(el => {
-        if (el.children.length > 0) {
-          for (let i = 0; i < el.children.length; i++) {
-            // update each child's childId
-            el.children[i].childId = i + 1;
-            // if the child's name and id exists in the object
-            if (obj[el.children[i].name]) {
-              // set the child's typeId to be the value in the object of the child's name key
-              el.children[i].typeId = obj[el.children[i].name];
-            }
-            // recursively call the updateAllIds function on the child's children array if
-            // the child's children array is greater than 0
-            if (el.children[i].children.length > 0) {
-              updateAllIds(el.children[i].children);
-            }
-          }
-        }
-      });
-    };
 
     updateAllIds(components);
 
@@ -151,9 +151,8 @@ const reducer = (state: State, action: Action) => {
     return roots;
   };
 
-  const deleteById = (id: number): Component[] => {
+  const deleteById = (id: number, name: string): Component[] => {
     // name of the component we want to delete
-    const name: string = state.components[id - 1].name;
 
     const checkChildren = (child: Component[] | ChildElement[]) => {
       // for each of the components in the passed in components array, if the child
