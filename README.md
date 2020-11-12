@@ -3,18 +3,25 @@
   <h1 align="center">ReacType </h1>
 </p>
 
-**ReacType Server** is the backend complement to the visual React prototyping tool **ReacType**. It is built in **Node.js** with the **Express** framework linked to **MongoDB** to handle user authentication (personal accounts on our own database as well as through Github Oauth), sessions, and user project management. The server itself is officially deployed through Heroku, but you can host your own local environment to communicate with the database with this repo.
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Release: 3.0](https://img.shields.io/badge/Release-3.0-orange)
 
-**For future development teams**: If you wish to update the server and re-deploy through heroku, you will need to get the credentials from one of the last team members:
+**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
+In other words, **you can draw prototypes and export React / Typescript code!**
 
-- [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
-- [Andrew Cho](https://www.linkedin.com/in/andrewjcho84/) [@andrewjcho84](https://github.com/andrewjcho84)
-- [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
-- [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
+**ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. The user can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-Redeployment should also be done with only the server subtree and not the entire repo. See this <a href="https://medium.com/@shalandy/deploy-git-subdirectory-to-heroku-ea05e95fce1f">article</a> about deploying just a subdirectory.
+**New with version 3.0:**
 
-If `npm` is your package manager, you just need to run the script `npm run dev` and it will start the server on `http://localhost:5000` for your development environment.
+- Export code as a [Next.js](https://nextjs.org/) project
+- Create nestable components/HTML elements using a drag-and-drop canvas
+- Add CSS to any element on the canvas
+- Components and HTML canvas elements are rendered in the canvas in the same way they'll be rendered in the exported project
+- View dynamically generated Next.js or classic React code as you build your project
+- Authenticate with Github or email
+- Save data for multiple projects in the cloud
+- Critical Electron security gaps resolved
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
