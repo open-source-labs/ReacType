@@ -20,6 +20,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorMessages from '../constants/ErrorMessages';
 import { styleContext } from './AppContainer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import createModal from '../components/right/createModal';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (): JSX.Element => {
@@ -36,6 +40,7 @@ const RightContainer = (): JSX.Element => {
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
+  const [modal, setModal] = useState(null);
 
   const resetFields = () => {
     const style = configTarget.child
@@ -156,22 +161,6 @@ const RightContainer = (): JSX.Element => {
 
     // id of target we want to check
     const { id } = configTarget;
-    // put in logic here to check for all nested children
-    // const checkAllChildren = comps => {
-    //   comps.forEach(el => {
-    //     if (el.children.length > 0) {
-    //       checkAllChildren(el.children);
-    //     }
-    //     if (el.type === 'Component' && el.typeId === id) {
-    //       isChild = true;
-    //     }
-    //   });
-    // };
-    // const copyComp = [...state.components];
-    // checkAllChildren(copyComp);
-    // return isChild;
-
-    // was here previously
     state.components.forEach(comp => {
       comp.children.forEach(child => {
         if (child.type === 'Component' && child.typeId === id) {
@@ -232,12 +221,9 @@ const RightContainer = (): JSX.Element => {
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
 
-  const handleDeleteReusableComponent = () => {
-    // isChildOfPage()
-    //   ? handleDialogError('component')
-    //   :
-    dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
-  };
+  // const handleDeleteReusableComponent = () => {
+  //   dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+  // };
 
   const isReusable = (configTarget): boolean => {
     return state.components
@@ -254,6 +240,64 @@ const RightContainer = (): JSX.Element => {
     setDeleteIndexError(false);
     setDeleteComponentError(false);
     setDeleteLinkedPageError(false);
+  };
+
+  // closes out the open modal
+  const closeModal = (): void => setModal('');
+
+  // creates modal that asks if user wants to clear all components
+  // if user clears their components, then their components are removed from state and the modal is closed
+  const clearComps = (): void => {
+    // Reset state for project to initial state
+    const handleDeleteReusableComponent = (): void => {
+      closeModal();
+      dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+    };
+
+    // set modal options
+    const children = (
+      <List className="export-preference">
+        <ListItem
+          key={'delete'}
+          button
+          onClick={handleDeleteReusableComponent}
+          style={{
+            border: '1px solid #3f51b5',
+            marginBottom: '2%',
+            marginTop: '5%'
+          }}
+        >
+          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+        </ListItem>
+        <ListItem
+          key={'not delete'}
+          button
+          onClick={closeModal}
+          style={{
+            border: '1px solid #3f51b5',
+            marginBottom: '2%',
+            marginTop: '5%'
+          }}
+        >
+          <ListItemText primary={'No'} style={{ textAlign: 'center' }} />
+        </ListItem>
+      </List>
+    );
+
+    // create modal
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message:
+          'Deleting this component will delete all instances of this component within the application. Do you still wish to proceed?',
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
   };
 
   return (
@@ -471,7 +515,7 @@ const RightContainer = (): JSX.Element => {
               <Button
                 color="secondary"
                 className={classes.button}
-                onClick={handleDeleteReusableComponent}
+                onClick={clearComps}
               >
                 DELETE REUSABLE COMPONENT
               </Button>
@@ -524,6 +568,7 @@ const RightContainer = (): JSX.Element => {
           </Button>
         </DialogActions>
       </Dialog> */}
+      {modal}
     </div>
   );
 };

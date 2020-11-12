@@ -17,7 +17,6 @@ const findNestedChild = (curr, components) => {
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
-  console.log('components', state.components);
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
