@@ -5,12 +5,11 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import { ConfirmationNumberRounded } from '@material-ui/icons';
 
 const findNestedChild = (curr, components) => {
   components.forEach((comp, i) => {
     comp.children.forEach(child => {
-      if (child.name === curr.name) ConfirmationNumberRounded;
+      if (child.name === curr.name) {};
     });
     if (comp.children.length !== 0) findNestedChild(curr, comp.children);
   });

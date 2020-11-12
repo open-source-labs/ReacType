@@ -86,7 +86,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const handleSignUp = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const email = props.location.state.email;
-    console.log(email);
     // Reset Error Validation
     setInvalidPasswordMsg('');
     setInvalidVerifyPasswordMsg('');
@@ -132,7 +131,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     }
 
     // get username and email from FB
-    
+
     newUserIsCreated(email, email, password).then(userCreated => {
       if (userCreated === 'Success') {
         props.history.push('/');

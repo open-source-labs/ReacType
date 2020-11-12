@@ -466,7 +466,6 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       }
-      console.log('components', components);
 
       const canvasFocus = { componentId: 1, childId: null };
 
