@@ -81,8 +81,7 @@ function TreeChart({ data }) {
     if (data !== previouslyRenderedData) {
       enteringAndUpdatingLinks
         .attr('stroke-dashoffset', function() {
-          
-          return this.getTotalLength();
+          return this.length;
         })
         .attr('stroke-dashoffset', 0);
     }
