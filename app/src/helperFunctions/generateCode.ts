@@ -32,7 +32,6 @@ const generateUnformattedCode = (
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
-      console.log('child', child);
       if (child.type === 'Component') {
         const referencedComponent = components.find(
           elem => elem.id === child.typeId

@@ -9,6 +9,7 @@ import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
 import { isValueObject } from 'immutable';
+import Canvas from '../components/main/Canvas';
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
@@ -90,23 +91,28 @@ const reducer = (state: State, action: Action) => {
 
   const updateIds = (components: Component[]) => {
     // component IDs should be array index + 1
-    console.log('component', components);
     components.forEach((comp, i) => (comp.id = i + 1));
 
-    // putting components' name and id into an obj
+    // put components' names and ids into an obj
     const obj = {};
     components.forEach(el => {
       obj[el.name] = el.id;
     });
-    // update all id and typeid to match one another
-    const updateAllIds = comp => {
+    // update all ids and typeIds to match one another
+    const updateAllIds = (comp: Component[] | ChildElement[]) => {
+      // for each of the components, if it has children, iterate through that children array
       comp.forEach(el => {
         if (el.children.length > 0) {
           for (let i = 0; i < el.children.length; i++) {
+            // update each child's childId
             el.children[i].childId = i + 1;
+            // if the child's name and id exists in the object
             if (obj[el.children[i].name]) {
+              // set the child's typeId to be the value in the object of the child's name key
               el.children[i].typeId = obj[el.children[i].name];
             }
+            // recursively call the updateAllIds function on the child's children array if
+            // the child's children array is greater than 0
             if (el.children[i].children.length > 0) {
               updateAllIds(el.children[i].children);
             }
@@ -137,6 +143,8 @@ const reducer = (state: State, action: Action) => {
 
   const updateRoots = (components: Component[]) => {
     const roots = [];
+    // for each of the components in the passed in array of components, if the child component
+    // is a page, push its id into the roots array
     components.forEach(comp => {
       if (comp.isPage) roots.push(comp.id);
     });
@@ -144,30 +152,36 @@ const reducer = (state: State, action: Action) => {
   };
 
   const deleteById = (id: number): Component[] => {
+    // name of the component we want to delete
     const name: string = state.components[id - 1].name;
-    // console.log('name: ', name);
 
-    const checkChildren = child => {
+    const checkChildren = (child: Component[] | ChildElement[]) => {
+      // for each of the components in the passed in components array, if the child
+      // component has a children array, iterate through the array of children
       child.forEach(el => {
         if (el.children.length) {
           const arr = [];
           for (let i = 0; i < el.children.length; i++) {
+            // check to see if the name variable doesn't match the name of the child
             if (el.children[i].name !== name) {
+              // if so, push into the new array the child component
               arr.push(el.children[i]);
             }
           }
+          // set the children array to be the new array
           el.children = arr;
+          // recursively call the checkChildren function with the updated children array
           checkChildren(el.children);
         }
       });
     };
+    // creating a copy of the components array
     const copyComp = [...state.components];
-    console.log('before check children', copyComp);
+
     if (copyComp.length) {
-      // for each item in the array, check to see if the children array is not empty
       checkChildren(copyComp);
     }
-    console.log('after check children', copyComp);
+
     const filteredArr = [...copyComp].filter(comp => comp.id != id);
     return updateIds(filteredArr);
   };
@@ -181,7 +195,6 @@ const reducer = (state: State, action: Action) => {
 
   const deleteComponentFromPages = (components, name) => {
     const searchNestedComps = childComponents => {
-      console.log('child components', childComponents);
       // if (childComponents.length === 0) return console.log('empty children array');
       // childComponents.forEach((comp, i, arr) => {
       //   console.log('each individual comp', comp);
@@ -191,10 +204,8 @@ const reducer = (state: State, action: Action) => {
       // });
     };
     components.forEach(comp => {
-      console.log('current comp', comp);
       searchNestedComps(comp.children);
     });
-    console.log('comp', components);
   };
 
   switch (action.type) {
@@ -228,7 +239,6 @@ const reducer = (state: State, action: Action) => {
       };
 
       const nextComponentId = state.nextComponentId + 1;
-      console.log('add components', components);
       return {
         ...state,
         components,
@@ -428,45 +438,31 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE PAGE': {
       const id: number = state.canvasFocus.componentId;
-
       const components: Component[] = deleteById(id);
-
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
-
       const canvasFocus = { componentId: 1, childId: null };
       return { ...state, rootComponents, components, canvasFocus };
     }
     case 'DELETE REUSABLE COMPONENT': {
       const id: number = state.canvasFocus.componentId;
-
       // updated list of components after deleting a component
       const components: Component[] = deleteById(id);
+      const rootComponents: number[] = updateRoots(components);
 
-      const rootComponents = updateRoots(components);
-
-      // console.log('canvas', state);
-      // const component = findComponent(
-      //   state.components,
-      //   state.canvasFocus.componentId
-      // );
-      // console.log('component: ', component);
-      // const { directParent, childIndexValue } = findParent(
-      //   component,
-      //   state.canvasFocus.componentId
-      // );
-      // console.log('childIndexValue: ', childIndexValue);
-      // console.log('directparent', directParent);
-      // const child = { ...directParent.children[childIndexValue] };
-      // directParent.children.splice(childIndexValue, 1);
-
-      // component.code = generateCode(
-      //   [...state.components],
-      //   id,
-      //   [...state.rootComponents],
-      //   state.projectType,
-      //   state.HTMLTypes
-      // );
+      // iterate over the length of the components array
+      for (let i = 0; i < components.length; i++) {
+        // for each components' code, run the generateCode function to
+        // update the code preview on the app
+        components[i].code = generateCode(
+          components,
+          components[i].id,
+          rootComponents,
+          state.projectType,
+          state.HTMLTypes
+        );
+      }
+      console.log('components', components);
 
       const canvasFocus = { componentId: 1, childId: null };
 
