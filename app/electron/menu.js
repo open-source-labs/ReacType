@@ -31,10 +31,9 @@ var MenuBuilder = function(mainWindow, appName) {
         devTools: false
       }
     });
-    console.log(process.env.NODE_ENV);
     if (process.env.NODE_ENV === 'development') {
       tutorial.loadURL(`http://localhost:8080/#/tutorial`);}
-    else {
+    else if (process.env.NODE_ENV === 'production'){
       tutorial.loadURL(`${Protocol.scheme}://rse/index-prod.html#/tutorial`);
     }
     tutorial.show();
