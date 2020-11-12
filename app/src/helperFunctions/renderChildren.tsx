@@ -24,7 +24,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           style={style}
-          key={'DirChild' + childId.toString()}
+          key={'DirChildComp' + childId.toString() + name}
           name={child.name}
         />
       );
@@ -37,7 +37,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           style={style}
-          key={'DirChild' + childId.toString()}
+          key={'DirChildHTML' + childId.toString() + name}
           name={child.name}
         />
       );
@@ -51,7 +51,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          key={'DirChild' + childId.toString()}
+          key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
         />
       );
@@ -66,7 +66,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           style={style}
           children={children}
-          key={'DirChild' + childId.toString()}
+          key={'RouteLink' + childId.toString() + name}
           name={child.name}
         />
       );
