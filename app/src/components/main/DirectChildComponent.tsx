@@ -125,7 +125,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
                 placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
                 key={
-                  'indChild' +
+                  'indChildHTML' +
                   child.childId.toString() +
                   child.typeId.toString()
                 }
@@ -138,7 +138,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
                 placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
                 key={
-                  'indChild' +
+                  'indChildNest' +
                   child.childId.toString() +
                   child.typeId.toString()
                 }
@@ -155,7 +155,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
         return (
           <IndirectChild
             key={
-              'indChild' + child.childId.toString() + child.typeId.toString()
+              'RouteLink' + child.childId.toString() + child.typeId.toString()
             }
             style={combinedStyle}
             placeHolder=""
