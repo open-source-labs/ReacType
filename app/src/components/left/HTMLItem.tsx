@@ -61,7 +61,7 @@ const HTMLItem: React.FC<{
     const children = (
       <List className="export-preference">
         <ListItem
-          key={'clear'}
+          key={`clear${deleteID}`}
           button
           onClick={() => handleDelete(deleteID)}
           style={{
@@ -77,7 +77,7 @@ const HTMLItem: React.FC<{
           />
         </ListItem>
         <ListItem
-          key={'close'}
+          key={`close${deleteID}`}
           button
           onClick={closeModal}
           style={{
@@ -111,7 +111,7 @@ const HTMLItem: React.FC<{
   };
 
   return (
-    <Grid item xs={5} key={`html-${name}`}>
+    <Grid item xs={5} key={`html-g${name}`}>
       <div ref={drag} className={classes.HTMLPanelItem}>
         <h3>{name}</h3>
         <span
