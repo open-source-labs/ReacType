@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const isMac = process.platform === 'darwin';
 const port = 5000;
+const Protocol = require('./protocol');
 const tutorialRoute = `http://localhost:${port}/tutorial`;
 
 // Create a template for a menu and create menu using that template
@@ -16,7 +17,7 @@ var MenuBuilder = function(mainWindow, appName) {
 
   const openTutorial = () => {
     const tutorial = new BrowserWindow({
-      width: 800,
+      width: 1126,
       height: 900,
       minWidth: 661,
       title: 'Tutorial',
@@ -30,7 +31,12 @@ var MenuBuilder = function(mainWindow, appName) {
         devTools: false
       }
     });
-    tutorial.loadURL(`http://localhost:8080/#/tutorial`);
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV === 'development') {
+      tutorial.loadURL(`http://localhost:8080/#/tutorial`);}
+    else {
+      tutorial.loadURL(`${Protocol.scheme}://rse/index-prod.html#/tutorial`);
+    }
     tutorial.show();
   };
 
