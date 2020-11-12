@@ -143,24 +143,24 @@ const reducer = (state: State, action: Action) => {
     return roots;
   };
 
-  const checkChildren = child => {
-    child.forEach(el => {
-      if (el.children.length) {
-        const arr = [];
-        for (let i = 0; i < el.children.length; i++) {
-          if (el.children[i].name !== name) {
-            arr.push(el.children[i]);
-          }
-        }
-        el.children = arr;
-        checkChildren(el.children);
-      }
-    });
-  };
-
   const deleteById = (id: number): Component[] => {
     const name: string = state.components[id - 1].name;
     // console.log('name: ', name);
+
+    const checkChildren = child => {
+      child.forEach(el => {
+        if (el.children.length) {
+          const arr = [];
+          for (let i = 0; i < el.children.length; i++) {
+            if (el.children[i].name !== name) {
+              arr.push(el.children[i]);
+            }
+          }
+          el.children = arr;
+          checkChildren(el.children);
+        }
+      });
+    };
     const copyComp = [...state.components];
     console.log('before check children', copyComp);
     if (copyComp.length) {
@@ -570,18 +570,36 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'DELETE ELEMENT': {
-      const HTMLTypes = [...state.HTMLTypes];
-      const components = [...state.components];
-      deleteById(action.payload);
-      for (let i = 0; i < HTMLTypes.length; i += 1) {
-        if (HTMLTypes[i].id === action.payload) {
-          HTMLTypes.splice(i, 1);
+      let name: string = '';
+      const HTMLTypes = [...state.HTMLTypes].filter(el => {
+        if (el.id === action.payload) {
+          name = el.name;
         }
-      }
+        return el.id !== action.payload;
+      });
 
+      const deleteElements = compCopy => {
+        compCopy.forEach(child => {
+          if (child.children.length) {
+            const arr = [];
+            for (let i = 0; i < child.children.length; i+=1) {
+              if (child.name !== name) {
+                arr.push(child.children[i]);
+              }
+              child.children = arr;
+              deleteElements(child.children);
+            }
+          }
+        })
+      }
+      const components = [...state.components];
+      console.log("components in delete element: ", components);
+      deleteElements(components);
+      console.log("components in delete element after deleteElements: ", components);
       return {
         ...state,
-        HTMLTypes
+        HTMLTypes,
+        components
       };
     }
 

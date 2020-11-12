@@ -56,14 +56,14 @@ const HTMLItem: React.FC<{
 
   // creates modal that asks if user wants to clear workspace
   // if user clears their workspace, then their components are removed from state and the modal is closed
-  const deleteAllInstances = (id: number) => {
+  const deleteAllInstances = (deleteID: number) => {
     // set modal options
     const children = (
       <List className="export-preference">
         <ListItem
           key={'clear'}
           button
-          onClick={() => handleDelete(id)}
+          onClick={() => handleDelete(deleteID)}
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
