@@ -605,14 +605,11 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       })
-      let childId: null | number = ((state.canvasFocus.childId - 1) === 0) ? null : state.canvasFocus.childId - 1;
 
-      const canvasFocus = { ...state.canvasFocus, childId };
       return {
         ...state,
         HTMLTypes,
-        components,
-        canvasFocus
+        components
       };
     }
 

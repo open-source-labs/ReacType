@@ -96,14 +96,8 @@ function Canvas() {
         return;
       }
 
-      const addingComponent = state.components.find(elem => elem.id === item.instanceTypeId);
-
-      if (checkChildren([addingComponent], currentComponent)) {
-        triedToNestIncorrectly();
-      } else {
-        // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
+      const runReducers = () => {
         if (item.newInstance) {
-          console.log("still added");
           dispatch({
             type: 'ADD CHILD',
             payload: {
@@ -123,6 +117,20 @@ function Canvas() {
             }
           });
         }
+      }
+
+      const addingComponent = state.components.find(elem => elem.id === item.instanceTypeId);
+
+      if (item.instanceType === "HTML Element") {
+        return runReducers();
+      } else if (item.instanceType === 'Route Link') {
+        return runReducers();
+      } else if (checkChildren([addingComponent], currentComponent)) {
+        triedToNestIncorrectly();
+        return;
+      } else {
+        // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
+        return runReducers();
       }
     },
     collect: monitor => ({
