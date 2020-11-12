@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="50" src="https://github.com/team-reactype/ReacType/blob/master/app/src/public/icons/png/256x256.png?raw=true">
+  <img width="50" src="url('./app/src/public/icons/png/256x256.png)">
   <h1 align="center">ReacType </h1>
 </p>
 
@@ -109,20 +109,26 @@ npm run dev
 - Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can also select "Continue as guest" on the log-in page of the app to not use any features that rely on the server (authentication and saving project data.)
 
 ## To Run Your Exported Next.js Project
+
 - Open exported project directory
 - Install dependencies
 
 ```bash
 npm install
 ```
+
 - Build the app
+
 ```bash
 npm run build
 ```
+
 - Start an instance
+
 ```bash
 npm run start
 ```
+
 - Open browser and navigate to localhost at specified port
 
 ## License

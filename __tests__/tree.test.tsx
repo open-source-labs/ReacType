@@ -108,8 +108,8 @@ function Test() {
 test('Test the tree functionality', function () {
   render(<Test/>);
 
-  screen.getByText('index');
-  screen.getByText('A');
-  // screen.getByText('B');
+  expect(screen.getByText('index')).toBeInTheDocument();
+  expect(screen.getByText('A')).toBeInTheDocument();
+  expect(screen.getByText('B')).toBeInTheDocument();
 
 })
