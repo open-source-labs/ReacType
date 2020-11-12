@@ -15,7 +15,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'div',
     name: 'Div',
     style: {},
-    placeHolderShort: '',
+    placeHolderShort: 'div',
     placeHolderLong: '',
     icon: HeaderIcon
   },
