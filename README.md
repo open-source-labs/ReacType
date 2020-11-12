@@ -1,8 +1,8 @@
-<p align="center">
+<!-- <p align="center">
   <img width="50" src="url('./app/src/public/icons/png/256x256.png)">
   <h1 align="center">ReacType </h1>
 </p>
-
+ -->
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Release: 3.0](https://img.shields.io/badge/Release-3.0-orange)
