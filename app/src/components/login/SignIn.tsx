@@ -6,7 +6,7 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from 'react-facebook-login';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#3EC1AC'
     }
-  },
+  }
 }));
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
@@ -144,22 +144,25 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
   const responseFacebook = response => {
     if (response.accessToken) {
-      newUserIsCreated(response.email, response.email, randomPassword())
-        .then(userCreated => {
+      newUserIsCreated(response.email, response.email, randomPassword()).then(
+        userCreated => {
           if (userCreated === 'Success') {
             props.history.push('/');
           } else {
-            sessionIsCreated(response.email, randomPassword(), true)
-              .then(loginStatus => {
+            sessionIsCreated(response.email, randomPassword(), true).then(
+              loginStatus => {
                 if (loginStatus === 'Success') {
                   props.history.push('/');
                 }
-              })
+              }
+            );
           }
-        });
-      }
-  }
-  const classBtn = 'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
+        }
+      );
+    }
+  };
+  const classBtn =
+    'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
