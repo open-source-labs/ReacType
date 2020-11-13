@@ -3,7 +3,7 @@
   <h1 align="center">ReacType </h1>
 </p>
 
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)(https://github.com/team-reactype/ReacType/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Release: 4.0](https://img.shields.io/badge/Release-4.0-orange)
 
