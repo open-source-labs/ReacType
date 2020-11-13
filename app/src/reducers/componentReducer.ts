@@ -257,7 +257,6 @@ const reducer = (state: State, action: Action) => {
 
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
-      updateAllIds(components);
 
       // find component that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
@@ -328,11 +327,7 @@ const reducer = (state: State, action: Action) => {
         componentId: state.canvasFocus.componentId,
         childId: newChild.childId
       };
-
-      let nextChildId: number = 1;
-      for (let i = 0; i < parentComponent.children.length; i+=1) {
-        nextChildId +=1;
-      }
+      const nextChildId = state.nextChildId + 1;
       return { ...state, components, nextChildId, canvasFocus };
     }
     // move an instance from one position in a component to another position in a component
@@ -376,12 +371,7 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
-      let nextChildId: number = 1;
-      for (let i = 0; i < component.children.length; i+=1) {
-        nextChildId +=1;
-      }
-      updateAllIds(components);
-      return { ...state, components, nextChildId };
+      return { ...state, components };
     }
     // Change the focus component and child
     case 'CHANGE FOCUS': {
@@ -389,10 +379,9 @@ const reducer = (state: State, action: Action) => {
         componentId,
         childId
       }: { componentId: number; childId: number | null } = action.payload;
-      const canvasFocus = { componentId, childId };
-      const components = [...state.components];
-      updateAllIds(components);
-      return { ...state, canvasFocus, components };
+
+      const canvasFocus = { ...state.canvasFocus, componentId, childId };
+      return { ...state, canvasFocus };
     }
     case 'UPDATE CSS': {
       const { style } = action.payload;
@@ -418,7 +407,7 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE CHILD': {
       // if in-focus instance is a top-level component and not a child, don't delete anything
 
-      // if (!state.canvasFocus.childId) return state;
+      if (!state.canvasFocus.childId) return state;
 
       // find the current component in focus
       const components = [...state.components];
@@ -443,15 +432,8 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
-      let nextChildId: number = 1;
-      for (let i = 0; i < component.children.length; i+=1) {
-        nextChildId +=1;
-      }
-
-      let childId: null | number = ((state.canvasFocus.childId - 1) === 0) ? null : state.canvasFocus.childId - 1;
-      const canvasFocus = { ...state.canvasFocus, childId };
-      updateAllIds(components);
-      return { ...state, components, canvasFocus, nextChildId };
+      const canvasFocus = { ...state.canvasFocus, childId: null };
+      return { ...state, components, canvasFocus };
     }
 
     case 'DELETE PAGE': {
@@ -459,7 +441,6 @@ const reducer = (state: State, action: Action) => {
       const name: string = state.components[id - 1].name;
 
       const components: Component[] = deleteById(id, name);
-
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
       const canvasFocus = { componentId: 1, childId: null };
@@ -474,10 +455,10 @@ const reducer = (state: State, action: Action) => {
       const rootComponents: number[] = updateRoots(components);
 
       // iterate over the length of the components array
-      components.forEach((el, i) => {
+      for (let i = 0; i < components.length; i++) {
         // for each components' code, run the generateCode function to
         // update the code preview on the app
-        el.code = generateCode(
+        components[i].code = generateCode(
           components,
           components[i].id,
           rootComponents,
@@ -485,7 +466,6 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       }
-
 
       const canvasFocus = { componentId: 1, childId: null };
 
@@ -574,14 +554,13 @@ const reducer = (state: State, action: Action) => {
 
     case 'OPEN PROJECT': {
       convertToJSX(action.payload.HTMLTypes);
-      // action.payload.canvasFocus = { ...action.payload.canvasFocus, childId: null}
       return {
         ...action.payload
       };
     }
 
     case 'ADD ELEMENT': {
-      const HTMLTypes: HTMLType[] = [...state.HTMLTypes];
+      const HTMLTypes = [...state.HTMLTypes];
       HTMLTypes.push(action.payload);
       return {
         ...state,
@@ -607,11 +586,10 @@ const reducer = (state: State, action: Action) => {
           state.projectType,
           state.HTMLTypes
         );
-      })
+      });
       return {
         ...state,
-        HTMLTypes,
-        components
+        HTMLTypes
       };
     }
 

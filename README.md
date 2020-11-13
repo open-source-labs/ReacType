@@ -5,27 +5,27 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Release: 3.0](https://img.shields.io/badge/Release-3.0-orange)
+![Release: 4.0](https://img.shields.io/badge/Release-4.0-orange)
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / Typescript code!**
 
 **ReacType** allows the user to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. The user can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
-**New with version 3.0:**
+**New with version 4.0:**
 
-- Export code as a [Next.js](https://nextjs.org/) project
-- Create nestable components/HTML elements using a drag-and-drop canvas
-- Add CSS to any element on the canvas
-- Components and HTML canvas elements are rendered in the canvas in the same way they'll be rendered in the exported project
-- View dynamically generated Next.js or classic React code as you build your project
-- Authenticate with Github or email
-- Save data for multiple projects in the cloud
-- Critical Electron security gaps resolved
+- View dynamically created components/HTML elements in the component tree
+- View Typescript syntax for React
+- Code preview is fully editable (make changes before exporting project)
+- Create custom HTML elements
+- Improved UI experience
+- Implemented a comprehensive tutorial page with images
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
+
+- **Microsoft users**:
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
