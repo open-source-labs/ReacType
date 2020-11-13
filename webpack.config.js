@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   // since JS can be written for both server / browser, the "target" specifies what environment webpack should write for
@@ -16,6 +17,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
+  plugins: [
+    new Dotenv()
+  ],
   module: {
     rules: [
       {
@@ -79,7 +83,7 @@ module.exports = {
       // url loader converts file into base 64 encoded string that can be passed inline into the file rather than be imported from a seperate file
       // you can set limits for the file size at which this inline encoding happens, but there is no limit set currently
       {
-        test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
+        test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/i,
         use: 'url-loader'
       }
     ]

@@ -15,7 +15,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'div',
     name: 'Div',
     style: {},
-    placeHolderShort: '',
+    placeHolderShort: 'div',
     placeHolderLong: '',
     icon: HeaderIcon
   },
@@ -66,7 +66,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'a',
     name: 'Link',
     style: { border: 'none' },
-    placeHolderShort: <a href="">Link</a>,
+    placeHolderShort: <a href="#">Link</a>,
     placeHolderLong: '',
     icon: LinkIcon
   },
@@ -95,6 +95,15 @@ const HTMLTypes: HTMLType[] = [
     name: 'Header 2',
     style: { fontSize: '1.5em' },
     placeHolderShort: 'Header 2',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
+    id: 5,
+    tag: 'span',
+    name: 'Span',
+    style: { fontSize: '1.5em' },
+    placeHolderShort: 'Span',
     placeHolderLong: '',
     icon: HeaderIcon
   }

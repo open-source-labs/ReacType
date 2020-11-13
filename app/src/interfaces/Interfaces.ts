@@ -1,19 +1,21 @@
 import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
-  name: String;
-  isLoggedIn: Boolean;
+  name: string;
+  isLoggedIn: boolean;
   components: Component[];
   rootComponents: number[];
   projectType: string;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
   nextChildId: number;
+  HTMLTypes: HTMLType[];
 }
 
 export interface ChildElement {
   type: string;
   typeId: number;
+  name: string;
   childId: number;
   //   update this interface later so that we enforce that each value of style object is a string
   style: object;
@@ -27,6 +29,7 @@ export interface Component {
   style: object;
   code: string;
   children: ChildElement[];
+  isPage: boolean;
 }
 
 export interface Action {

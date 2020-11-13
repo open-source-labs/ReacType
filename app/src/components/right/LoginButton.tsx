@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function LoginButton() {
   let history = useHistory();
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   const classes = useStyles();
 

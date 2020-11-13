@@ -3,10 +3,8 @@ import { State, Action, Component, ChildElement } from '../app/src/interfaces/In
 
 import initialState from '../app/src/context/initialState';
 
-
 describe('Testing componentReducer functionality', function () {
   let state: State = initialState;
-  
 
   // TEST 'ADD COMPONENT'
   describe('ADD COMPONENT reducer', () => {
@@ -44,7 +42,7 @@ describe('Testing componentReducer functionality', function () {
       const newParent = state.components[0];
       // expect new parent's children array to have length 1
       expect(newParent.children.length).toEqual(1);
-      // expect new child to have type 'Component' 
+      // expect new child to have type 'Component'
       expect(newParent.children[0].type).toEqual('Component');
       const addedChild = state.components.find(comp => comp.id === newParent.children[0].typeId);
       // expect new child typeId to correspond to component with name 'TestRegular'
@@ -68,7 +66,7 @@ describe('Testing componentReducer functionality', function () {
         type: 'CHANGE POSITION',
         payload: {
           currentChildId: 1,
-          newParentChildId: null 
+          newParentChildId: null
         }
       }
       state = reducer(state, actionChangePos);

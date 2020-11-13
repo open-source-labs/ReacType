@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { stateContext } from '../../context/context';
+import StateContext from '../../context/context';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,7 @@ import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-  const [state, dispatch] = useContext(stateContext);
+  const [state, dispatch] = useContext(StateContext);
 
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);

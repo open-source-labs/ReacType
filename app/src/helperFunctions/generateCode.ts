@@ -1,7 +1,9 @@
-import { Component, State, ChildElement } from '../interfaces/Interfaces';
-import HTMLTypes from '../context/HTMLTypes';
-
-
+import {
+  Component,
+  State,
+  ChildElement,
+  HTMLType
+} from '../interfaces/Interfaces';
 
 declare global {
   interface Window {
@@ -9,12 +11,13 @@ declare global {
   }
 }
 
-// generate code based on the component heirarchy
+// generate code based on the component hierarchy
 const generateUnformattedCode = (
   comps: Component[],
   componentId: number,
   rootComponents: number[],
-  projectType: string
+  projectType: string,
+  HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
   // find the component that we're going to generate code for
@@ -25,7 +28,7 @@ const generateUnformattedCode = (
 
   const isRoot = rootComponents.includes(componentId);
 
-  // get metadata for each child (e.g. the name/tag of the component/elemnt)
+  // get metadata for each child (e.g. the name/tag of the component/element)
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
@@ -102,7 +105,7 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
         }
-        // route links are only a next.js feature. if the user creates a rotue link and then switches projects, generate code for a normal link instead
+        // route links are only a next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
           return projectType === 'Next.js'
             ? `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
@@ -112,7 +115,7 @@ const generateUnformattedCode = (
       .join('\n')}`;
   };
 
-  // format styles stored in object to match React's inline style format
+  // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
@@ -158,11 +161,11 @@ const generateUnformattedCode = (
       ${
         classBased
           ? `class ${currentComponent.name} extends Component {`
-          : `const ${currentComponent.name} = (props) => {`
+          : `const ${currentComponent.name} = (props): JSX.Element => {`
       }
       ${
         stateful && !classBased
-          ? `const  [value, setValue] = useState("INITIAL VALUE");`
+          ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
           : ``
       }
       ${
@@ -194,10 +197,10 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-      const ${currentComponent.name} = (props) => {
-      
-        const  [value, setValue] = useState("INITIAL VALUE");
-      
+      const ${currentComponent.name} = (props): JSX.Element => {
+
+        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+
       return (
         <>
         ${
@@ -213,7 +216,7 @@ const generateUnformattedCode = (
         </>
         );
       }
-      
+
       export default ${currentComponent.name};
     `;
   }
@@ -221,7 +224,6 @@ const generateUnformattedCode = (
 
 // formats code with prettier linter
 const formatCode = (code: string) => {
-
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
   if (process.env.NODE_ENV === 'test') {
@@ -238,18 +240,20 @@ const formatCode = (code: string) => {
   }
 };
 
-// generate code based on component heirarchy and then return the rendered code
+// generate code based on component hierarchy and then return the rendered code
 const generateCode = (
   components: Component[],
   componentId: number,
   rootComponents: number[],
-  projectType: string
+  projectType: string,
+  HTMLTypes: HTMLType[]
 ) => {
   const code = generateUnformattedCode(
     components,
     componentId,
     rootComponents,
-    projectType
+    projectType,
+    HTMLTypes
   );
   return formatCode(code);
 };
