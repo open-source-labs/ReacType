@@ -4,8 +4,8 @@
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Release: 4.0](https://img.shields.io/badge/Release-4.0-orange)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Release: 4.0](https://img.shields.io/badge/Release-4.0-white)
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / Typescript code!**
