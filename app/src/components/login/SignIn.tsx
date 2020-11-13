@@ -217,7 +217,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-        <Button
+        {/* <Button
           fullWidth
           variant="contained"
           color="default"
@@ -229,14 +229,14 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         <GitHubIcon />
         </Button>
         <FacebookLogin
-          appId={FBAPPID} 
+          appId={FBAPPID}
           autoLoad={false}
           fields="name, email, picture"
           callback={responseFacebook}
           icon="fa-facebook-square"
           cssClass={'oauth-btn'}
           textButton=' Login with Facebook'
-        />
+        /> */}
         <Button
           fullWidth
           variant="contained"
