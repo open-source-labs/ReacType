@@ -36,6 +36,10 @@ function mime(filename) {
   return type || null;
 }
 
+/* requestHandler
+      servers index-prod.html when we access the root endpoint '/'
+      read the file above and pass on an object includes mimeType, charset, and exisiting data read from the file 
+*/
 function requestHandler(req, next) {
   // The URL() constructor returns a newly created URL object representing the URL defined by the parameters.
   const reqUrl = new URL(req.url);
@@ -52,6 +56,7 @@ function requestHandler(req, next) {
   // use fs module to read index-prod.html (reqPath) in dist folder
   fs.readFile(path.join(DIST_PATH, reqPath), (err, data) => {
     const mimeType = mime(reqFilename); // returns the file type
+    // check if there is no error and file type is valid, pass on the info to the next middleware
     if (!err && mimeType !== null) {
       next({
         mimeType,
