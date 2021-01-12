@@ -1,8 +1,8 @@
 import React from 'react';
 
-import reusableComponents1 from '../../../resources/reusable_components_tutorial_images/reusableComponents1.png';
-import reusableComponents2 from '../../../resources/reusable_components_tutorial_images/reusableComponents2.png';
-import reusableComponents3 from '../../../resources/reusable_components_tutorial_images/reusableComponents3.png';
+import reusableComponents1 from '../../../resources/reusable_components_tutorial_images/reusablecomponents1.png';
+import reusableComponents2 from '../../../resources/reusable_components_tutorial_images/reusablecomponents2.png';
+import reusableComponents3 from '../../../resources/reusable_components_tutorial_images/reusablecomponents3.png';
 
 const ReusableComponents: React.FC<{
   classes: any;
