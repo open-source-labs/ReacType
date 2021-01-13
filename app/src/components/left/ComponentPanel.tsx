@@ -48,7 +48,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // check if name of new component is the same as an existing component
   const checkNameDupe = (inputName: String) => {
-    let checkList = state.components.slice();
+    let checkList = state.components.slice(); // makes copy of components array
 
     // checks to see if inputted comp name already exists
     let dupe = false;
@@ -61,7 +61,7 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   // "Root" components are not draggable into the main canvas
-  // If next.js mode is on, root components will be seperate pages
+  // If next.js mode is on, root components will be separate pages
   const toggleRootStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsRoot(isRoot ? false : true);
   };
@@ -69,9 +69,9 @@ const ComponentPanel = (): JSX.Element => {
   // Add a new component
   const createOption = (inputName: String) => {
     // format name so first letter is capitalized and there are no white spaces
-    let inputNameClean = inputName.replace(/\s+/g, '');
+    let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
     const formattedName =
-      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
+      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1); // capitalizes first letter
     // add new component to state
     dispatch({
       type: 'ADD COMPONENT',
@@ -83,13 +83,14 @@ const ComponentPanel = (): JSX.Element => {
     setCompName('');
   };
 
+  // checks whether component name includes any non-alphanumeric chars
   const alphanumeric = input => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
   };
 
-  const handleNameSubmit = () => {
+  const handleNameSubmit = () => { // creates a component if no error conditions triggered
     let letters = /[a-zA-Z]/;
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
@@ -118,6 +119,7 @@ const ComponentPanel = (): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div>
           <div className={classes.inputWrapper}>
+            {/* This renders the text field at the top left of the app, above the "ADD" button */}
             <TextField
               color={'primary'}
               label="Component Name"
@@ -131,6 +133,7 @@ const ComponentPanel = (): JSX.Element => {
               onChange={handleNameInput}
             />
             <div className={classes.btnGroup}>
+              {/* This renders the checkbox adjacent to the "Component Name" text box */}
               <FormControlLabel
                 value="top"
                 control={
@@ -140,12 +143,13 @@ const ComponentPanel = (): JSX.Element => {
                     onChange={toggleRootStatus}
                   />
                 }
-                label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
+                label={state.projectType === 'Next.js' ? 'Page' : 'Root'} // name varies depending on mode
                 className={classes.rootCheckBoxLabel}
                 labelPlacement="top"
               />
             </div>
           </div>
+          {/* Renders the ADD button */}
           <Button
             className={classes.button}
             color="primary"
@@ -157,6 +161,7 @@ const ComponentPanel = (): JSX.Element => {
       </div>
       {/* Display all root components */}
       <div className={classes.panelWrapperList}>
+        {/* Heading just below ADD button */}
         <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
