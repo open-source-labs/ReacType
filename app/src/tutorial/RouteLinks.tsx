@@ -1,10 +1,10 @@
 import React from 'react';
 
-import links2 from '../../../resources/route_links_tutorial_images/links2.png';
-import links3 from '../../../resources/route_links_tutorial_images/links3.png';
-import links4 from '../../../resources/route_links_tutorial_images/links4.png';
-import links6 from '../../../resources/route_links_tutorial_images/links6.png';
-import linksCanvas from '../../../resources/route_links_tutorial_images/links-canvas.png';
+import links2 from '../../../resources/route_links_tutorial_images/links2.PNG';
+import links3 from '../../../resources/route_links_tutorial_images/links3.PNG';
+import links4 from '../../../resources/route_links_tutorial_images/links4.PNG';
+import links6 from '../../../resources/route_links_tutorial_images/links6.PNG';
+import linksCanvas from '../../../resources/route_links_tutorial_images/links-canvas.PNG';
 
 const RouteLinks: React.FC<{
   classes: any;
