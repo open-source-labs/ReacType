@@ -12,6 +12,8 @@ import cloneDeep from '../helperFunctions/cloneDeep';
 import { isValueObject } from 'immutable';
 import Canvas from '../components/main/Canvas';
 
+let separator = initialState.HTMLTypes[1];
+
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
   // otherwise generate classic react code
@@ -258,7 +260,7 @@ const reducer = (state: State, action: Action) => {
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
 
-      // find component that we're adding a child to
+      // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
 
       let componentName = '';
@@ -302,16 +304,28 @@ const reducer = (state: State, action: Action) => {
         style: {},
         children: componentChildren
       };
+      const newSeparator: ChildElement = {
+        type,
+        typeId: separator.id,
+        name: 'separator',
+        childId: state.nextChildId,
+        style: separator.style,
+        children: []
+      };
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
       if (childId === null) {
+        parentComponent.children.push(newSeparator);
         parentComponent.children.push(newChild);
+        parentComponent.children.push(newSeparator);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         const directParent = findChild(parentComponent, childId);
+        directParent.children.push(newSeparator);
         directParent.children.push(newChild);
+        directParent.children.push(newSeparator);
       }
 
       parentComponent.code = generateCode(

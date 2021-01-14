@@ -56,6 +56,19 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
+    else if (type === 'separator' && typeId === 1000) {
+      return (
+        <DirectChildHTMLNestable
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          style={style}
+          children={children}
+          key={'DirChildHTMLNest' + childId.toString() + name}
+          name={child.name}
+        />
+      );
+    }
     // A route link is a next.js navigation link
     // The route link component includes a clickable link that, when clicked, will change the user focus to the referenced component
     else if (type === 'Route Link') {

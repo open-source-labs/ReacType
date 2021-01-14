@@ -15,13 +15,14 @@ const initialState: State = {
       isPage: true
     },
   ],
-  separator: {
-      id: 1000,
-      name: 'separator',
-      style: {},
-      code: '',
-      children: [],
-      isPage: false},
+  // separator: {
+  //   type: 'HTML type',
+  //   typeId: 1000,
+  //   name: 'separator',
+  //   childId: 1000,
+  //   style: {backgroundColor: 'red', height: '30px', width: 'default'},
+  //   children: [],
+  //   },
   projectType: 'Next.js',
   rootComponents: [1],
   canvasFocus: { componentId: 1, childId: null },

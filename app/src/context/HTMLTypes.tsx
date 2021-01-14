@@ -19,6 +19,16 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon
   },
+  // do not move this separator out of order in the array
+  {
+    id: 1000,
+    tag: 'separator',
+    name: 'separator',
+    style: {backgroundColor: 'mint', height: '30px', width: 'default'},
+    placeHolderShort: 'S',
+    placeHolderLong: 'S',
+    icon: ''
+  },
   {
     id: 1,
     tag: 'img',
