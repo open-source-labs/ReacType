@@ -97,6 +97,8 @@ const ProjectManager = () => {
     );
   };
 
+  //----------------------------------CREATE MODAL FOR EXPORT OPTIONS-------------------------------------
+
   const showGenerateAppModal = () => {
     const children = (
       <List className="export-preference">
@@ -160,6 +162,8 @@ const ProjectManager = () => {
     );
   };
 
+  //--------------------------Change Lighting Button----------------------------------
+
   return (
     <div>
       <Button
@@ -176,6 +180,8 @@ const ProjectManager = () => {
         Change Lighting
       </Button>
 
+  {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
+
       <div className={classes.projectManagerWrapper}>
         {state.name && state.isLoggedIn ? (
           <p style={{ color: 'white' }}>
@@ -187,6 +193,8 @@ const ProjectManager = () => {
             Select "Save project as" to create and save a project
           </p>
         ) : null}
+
+  {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
 
         <div className={classes.projectTypeWrapper}>
           <FormControl>
@@ -207,6 +215,9 @@ const ProjectManager = () => {
         {state.isLoggedIn ? <ProjectsFolder /> : ''}
         {state.isLoggedIn ? <DeleteProjects /> : ''}
         {/* <div className={classes.btnGroup}> */}
+
+{/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
+
         <Button
           className={classes.button}
           variant="outlined"
@@ -216,6 +227,8 @@ const ProjectManager = () => {
         >
           EXPORT PROJECT
         </Button>
+
+{/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
 
         <Button
           className={classes.button}
