@@ -68,6 +68,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
         borderRadius: '8px'
       }}
     >
+      {/* Route Link component */}
       <div className="compPanelItem">
         <h3>Route Link</h3>
         <Select
