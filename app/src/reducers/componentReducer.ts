@@ -308,7 +308,7 @@ const reducer = (state: State, action: Action) => {
         type,
         typeId: separator.id,
         name: 'separator',
-        childId: state.nextChildId,
+        childId: 1000,
         style: separator.style,
         children: []
       };

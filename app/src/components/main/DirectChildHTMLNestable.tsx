@@ -99,9 +99,9 @@ function DirectChildHTMLNestable({
   };
 
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
-  const ourStyle = (HTMLType) ? HTMLType.style : separator.style;
+  
   const combinedStyle = combineStyles(
-    combineStyles(combineStyles(defaultNestableStyle, ourStyle), style),
+    combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
 

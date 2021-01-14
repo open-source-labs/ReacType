@@ -56,7 +56,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    else if (type === 'separator' && typeId === 1000) {
+    else if (type === 'HTML Element' && typeId === 1000) {
       return (
         <DirectChildHTMLNestable
           childId={childId}
