@@ -6,6 +6,7 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
+  separator: object;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
   nextChildId: number;
