@@ -20,7 +20,8 @@ const initialState: State = {
   canvasFocus: { componentId: 1, childId: null },
   nextComponentId: 2,
   nextChildId: 1,
-  nextSeparatorId: 1000,
+  nextTopSeparatorId: 1000,
+  nextBottomSeparatorId: 5000,
   HTMLTypes
 };
 

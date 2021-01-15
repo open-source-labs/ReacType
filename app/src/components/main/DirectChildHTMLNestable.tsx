@@ -34,6 +34,7 @@ function DirectChildHTMLNestable({
       instanceType: type,
       instanceTypeId: typeId
     },
+    
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -71,8 +72,9 @@ function DirectChildHTMLNestable({
         });
       }
     },
+    
     collect: (monitor: any) => {
-      console.log('monitor', monitor)
+      
       return ({
       isOver: !!monitor.isOver({ shallow: true })
     })}

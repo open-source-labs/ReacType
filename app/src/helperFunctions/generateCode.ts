@@ -20,7 +20,7 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
-  console.log('components in generateCode ', components)
+ 
   // find the component that we're going to generate code for
   const currentComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
@@ -32,7 +32,7 @@ const generateUnformattedCode = (
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     // declare an array of enriched children
-    console.log('curr children', currentComponent.children)
+    
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
       
@@ -51,7 +51,7 @@ const generateUnformattedCode = (
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
         if (referencedHTML.tag === 'div' || referencedHTML.tag === 'separator') {
-          console.log('in if statement')
+      
           child.children = getEnrichedChildren(child);
         }
         return child;
@@ -69,7 +69,7 @@ const generateUnformattedCode = (
 
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
-      console.log('writeNested ', enrichedChildren)
+      
     return `${enrichedChildren
       .map((child: any) => {
         if (child.type === 'Component') {
