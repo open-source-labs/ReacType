@@ -308,7 +308,7 @@ const reducer = (state: State, action: Action) => {
         type,
         typeId: separator.id,
         name: 'separator',
-        childId: 1000,
+        childId: state.nextSeparatorId,
         style: separator.style,
         children: []
       };
@@ -342,7 +342,8 @@ const reducer = (state: State, action: Action) => {
         childId: newChild.childId
       };
       const nextChildId = state.nextChildId + 1;
-      return { ...state, components, nextChildId, canvasFocus };
+      const nextSeparatorId = state.nextSeparatorId + 1;
+      return { ...state, components, nextChildId, canvasFocus, nextSeparatorId };
     }
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
@@ -534,6 +535,7 @@ const reducer = (state: State, action: Action) => {
     // Reset all component data back to their initial state but maintain the user's project name and log-in status
     case 'RESET STATE': {
       const nextChildId = 1;
+      const nextSeparatorId = 1000;
       const rootComponents = [1];
       const nextComponentId = 2;
       const canvasFocus = {
@@ -551,6 +553,7 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         nextChildId,
+        nextSeparatorId,
         rootComponents,
         nextComponentId,
         components,

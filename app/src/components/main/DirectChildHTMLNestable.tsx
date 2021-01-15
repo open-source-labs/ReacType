@@ -71,9 +71,11 @@ function DirectChildHTMLNestable({
         });
       }
     },
-    collect: (monitor: any) => ({
+    collect: (monitor: any) => {
+      console.log('monitor', monitor)
+      return ({
       isOver: !!monitor.isOver({ shallow: true })
-    })
+    })}
   });
 
   const changeFocus = (componentId: number, childId: number | null) => {
