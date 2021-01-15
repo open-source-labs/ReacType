@@ -21,7 +21,9 @@ const useStyles = makeStyles({
     marginBottom: '10px',
     marginRight: '5px',
     marginLeft: '5px',
-    border: '2px dotted rgba(255,255,255, 0.45)',
+    // border: '2px solid rgba(255,255,255, 0.45)',
+    //-------------------------------------CHANGED----------------------------------------
+    border: '1.5px solid rgba(247, 167, 62, 0.65)',
     borderRadius: '8px',
     cursor: 'grab',
     '& > h3': {

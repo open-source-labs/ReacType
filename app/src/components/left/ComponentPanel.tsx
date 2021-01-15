@@ -225,7 +225,9 @@ const useStyles = makeStyles({
     marginBottom: '15px'
   },
   addComponentWrapper: {
-    border: '1px solid rgba(70,131,83)',
+    // border: '1px solid rgba(70,131,83)',
+    //-------------------CHANGED----------------------------------------------
+    border: '1px solid rgba(247, 167, 62, 0.75)',
     padding: '20px',
     margin: '20px'
   },

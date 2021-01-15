@@ -4,6 +4,8 @@
   box-sizing: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
 html {
   box-sizing: border-box;
   /* overflow: hidden; */
@@ -12,7 +14,10 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open sans', sans-serif;
+  /* font-family: 'Open sans', sans-serif; */
+  /* ------------------------------------CHANGED FONT-FAMILY------------------------------ */
+  font-family: 'Raleway', sans-serif;
+  font-size: .9 em;
   font-weight: 400;
   overflow: hidden;
 }
@@ -90,7 +95,7 @@ BUTTONS
 */
 
 .btn {
-  font-size: 16px;
+  font-size: 24px;
 }
 
 /*
@@ -401,6 +406,8 @@ h3 {
   cursor: pointer;
 }
 
+/* ----------------------------RIGHT PANEL---------------------------------- */
+
 .right {
   padding-top: 35px;
   width: 420px;
@@ -414,7 +421,7 @@ h3 {
   width: 100%;
 }
 
-.oauth-btn {
+/* .oauth-btn {
   -webkit-font-smoothing: antialiased;
   border: 0;
   display: inline-flex;
@@ -444,7 +451,7 @@ h3 {
   width: 396px;
   cursor: pointer;
   margin: 8px 0px 8px;
-}
+} */
 
 .oauth-btn:hover {
   background-color: #4e76c7;

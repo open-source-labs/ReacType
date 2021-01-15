@@ -251,7 +251,9 @@ const ProjectManager = () => {
 
 const useStyles = makeStyles({
   projectManagerWrapper: {
-    border: '1px solid rgba(70,131,83)',
+    // border: '1px solid rgba(70,131,83)',
+    //---------------------------------CHANGED BORDER-----------------------------------------
+    border: '1px solid rgba(247, 167, 62)',
     padding: '20px',
     margin: '40px',
     display: 'flex',
