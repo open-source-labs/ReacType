@@ -6,11 +6,16 @@ import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable'
 import RouteLink from '../components/main/RouteLink';
 import StateContext from '../context/context';
 
+
+// const findNestedChild = (childArr) => {
+//   if (!childArr.length) 
+// };
 // helper method to render all direct children of a component
 // direct children are clickable and draggable
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
+  
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
     const { type, typeId, style, childId, children, attributes, name } = child;
@@ -30,7 +35,7 @@ const renderChildren = (children: ChildElement[]) => {
       );
     }
     // child is a non-nestable type of HTML element (everything except for divs)
-    else if (type === 'HTML Element' && typeId !== 11) {
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000) {
       return (
         <DirectChildHTML
           childId={childId}
@@ -44,6 +49,22 @@ const renderChildren = (children: ChildElement[]) => {
     }
     // child is a nestable type of HTML element (divs)
     else if (type === 'HTML Element' && typeId === 11) {
+      
+      return (
+        <DirectChildHTMLNestable
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          style={style}
+          children={children}
+          key={'DirChildHTMLNest' + childId.toString() + name}
+          name={child.name}
+        />
+      );
+    }
+    else if (type === 'HTML Element' && typeId === 1000) {
+      
+
       return (
         <DirectChildHTMLNestable
           childId={childId}

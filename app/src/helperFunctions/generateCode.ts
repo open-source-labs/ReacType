@@ -20,6 +20,7 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
+ 
   // find the component that we're going to generate code for
   const currentComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
@@ -28,14 +29,20 @@ const generateUnformattedCode = (
 
   const isRoot = rootComponents.includes(componentId);
 
-  // get metadata for each child (e.g. the name/tag of the component/element)
+  // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
+    // declare an array of enriched children
+    
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
+      
+      // check if child is a component
       if (child.type === 'Component') {
+        // verify that the child is in the components array in state
         const referencedComponent = components.find(
           elem => elem.id === child.typeId
         );
+        // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
         child['name'] = referencedComponent.name;
@@ -43,7 +50,8 @@ const generateUnformattedCode = (
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
-        if (referencedHTML.tag === 'div') {
+        if (referencedHTML.tag === 'div' || referencedHTML.tag === 'separator') {
+      
           child.children = getEnrichedChildren(child);
         }
         return child;
@@ -53,13 +61,15 @@ const generateUnformattedCode = (
           (comp: Component) => comp.id === child.typeId
         ).name;
         return child;
-      }
+      } 
     });
-    return enrichedChildren;
+    
+    return enrichedChildren; 
   };
 
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
+      
     return `${enrichedChildren
       .map((child: any) => {
         if (child.type === 'Component') {
@@ -75,7 +85,13 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(
               child.style
             )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'h1') {
+          } else if (child.tag === 'separator') {
+            return `<${child.tag}${formatStyles(
+              child.style
+            )}>${writeNestedElements(child.children)}</${child.tag}>`;
+          }
+          
+          else if (child.tag === 'h1') {
             return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${
               child.tag
             }>`;
@@ -226,18 +242,22 @@ const generateUnformattedCode = (
 const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
-  if (process.env.NODE_ENV === 'test') {
-    const { format } = require('prettier');
-    return format(code, {
-      singleQuote: true,
-      trailingComma: 'es5',
-      bracketSpacing: true,
-      jsxBracketSameLine: true,
-      parser: 'babel'
-    });
-  } else {
-    return window.api.formatCode(code);
-  }
+  // if (process.env.NODE_ENV === 'test') {
+  //   const { format } = require('prettier');
+  //   return format(code, {
+  //     singleQuote: true,
+  //     trailingComma: 'es5',
+  //     bracketSpacing: true,
+  //     jsxBracketSameLine: true,
+  //     parser: 'babel'
+  //   });
+  // } else {
+  //   console.log('prettier')
+  //   return window.api.formatCode(code);
+    
+  // }
+  /* Error occured with "prettier" module despite reinstallation, for now formatCode returns the original codes without styling from prettier */
+  return code;
 };
 
 // generate code based on component hierarchy and then return the rendered code

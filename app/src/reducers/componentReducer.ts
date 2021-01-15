@@ -11,7 +11,14 @@ import generateCode from '../helperFunctions/generateCode';
 import cloneDeep from '../helperFunctions/cloneDeep';
 import { isValueObject } from 'immutable';
 import Canvas from '../components/main/Canvas';
+import { LensTwoTone } from '@material-ui/icons';
 
+let separator = initialState.HTMLTypes[1];
+// const manageSeparator = (arr) => {
+//   //input: components children array
+
+ 
+// }
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js, next component code should be generated
   // otherwise generate classic react code
@@ -257,8 +264,9 @@ const reducer = (state: State, action: Action) => {
 
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
+      
 
-      // find component that we're adding a child to
+      // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
 
       let componentName = '';
@@ -302,16 +310,36 @@ const reducer = (state: State, action: Action) => {
         style: {},
         children: componentChildren
       };
+      const topSeparator: ChildElement = {
+        type,
+        typeId: separator.id,
+        name: 'separator',
+        childId: state.nextTopSeparatorId,
+        style: separator.style,
+        children: []
+      };
+      const bottomSeparator: ChildElement = {
+        type,
+        typeId: separator.id,
+        name: 'separator',
+        childId: state.nextBottomSeparatorId,
+        style: separator.style,
+        children: []
+      };
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
       if (childId === null) {
+        parentComponent.children.push(topSeparator);
         parentComponent.children.push(newChild);
+        parentComponent.children.push(bottomSeparator);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         const directParent = findChild(parentComponent, childId);
+        directParent.children.push(topSeparator);
         directParent.children.push(newChild);
+        directParent.children.push(bottomSeparator);
       }
 
       parentComponent.code = generateCode(
@@ -328,7 +356,11 @@ const reducer = (state: State, action: Action) => {
         childId: newChild.childId
       };
       const nextChildId = state.nextChildId + 1;
-      return { ...state, components, nextChildId, canvasFocus };
+      const nextTopSeparatorId = state.nextTopSeparatorId + 1;
+      const nextBottomSeparatorId = state.nextBottomSeparatorId + 1;
+      components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[1] : child)
+      console.log('add child components', components)
+      return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId, nextBottomSeparatorId };
     }
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
@@ -338,7 +370,8 @@ const reducer = (state: State, action: Action) => {
       if (currentChildId === newParentChildId) return state;
 
       // find the current component in focus
-      const components = [...state.components];
+      let components = [...state.components];
+
       const component = findComponent(
         components,
         state.canvasFocus.componentId
@@ -370,7 +403,10 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
-
+        
+      // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
+      components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
+     
       return { ...state, components };
     }
     // Change the focus component and child
@@ -520,6 +556,8 @@ const reducer = (state: State, action: Action) => {
     // Reset all component data back to their initial state but maintain the user's project name and log-in status
     case 'RESET STATE': {
       const nextChildId = 1;
+      const nextTopSeparatorId = 1000;
+      const nextBottomSeparatorId = 5000;
       const rootComponents = [1];
       const nextComponentId = 2;
       const canvasFocus = {
@@ -537,6 +575,8 @@ const reducer = (state: State, action: Action) => {
       return {
         ...state,
         nextChildId,
+        nextTopSeparatorId,
+        nextBottomSeparatorId,
         rootComponents,
         nextComponentId,
         components,

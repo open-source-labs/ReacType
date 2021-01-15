@@ -13,13 +13,15 @@ const initialState: State = {
       code: '<div>Drag in a component or HTML element into the canvas!</div>',
       children: [],
       isPage: true
-    }
+    },
   ],
   projectType: 'Next.js',
   rootComponents: [1],
   canvasFocus: { componentId: 1, childId: null },
   nextComponentId: 2,
   nextChildId: 1,
+  nextTopSeparatorId: 1000,
+  nextBottomSeparatorId: 5000,
   HTMLTypes
 };
 

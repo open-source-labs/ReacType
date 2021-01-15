@@ -6,7 +6,8 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-
+import initialState from '../../context/initialState'
+const {separator} = initialState;
 function DirectChildHTMLNestable({
   childId,
   type,
@@ -33,6 +34,7 @@ function DirectChildHTMLNestable({
       instanceType: type,
       instanceTypeId: typeId
     },
+    
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -70,9 +72,12 @@ function DirectChildHTMLNestable({
         });
       }
     },
-    collect: (monitor: any) => ({
+    
+    collect: (monitor: any) => {
+      
+      return ({
       isOver: !!monitor.isOver({ shallow: true })
-    })
+    })}
   });
 
   const changeFocus = (componentId: number, childId: number | null) => {
@@ -92,13 +97,13 @@ function DirectChildHTMLNestable({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid rgb(11,212,112)'
-        : '1px Solid grey',
+        : '1px Solid gray', 
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
 
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
-
+  
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
