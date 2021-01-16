@@ -524,7 +524,7 @@ const reducer = (state: State, action: Action) => {
         
       // delete the element from its former parent's children array
       directParent.children.splice(childIndexValue, 1);
-
+       
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -534,18 +534,25 @@ const reducer = (state: State, action: Action) => {
       );
       let nextTopSeparatorId = state.nextTopSeparatorId;
       const handleSeparators = (arr) => {
-        
+        if (arr.length === 1) {
+          arr.splice(0,1)
+        };
         arr.forEach((child, index) => {
+          console.log('inside forEach', child)
         // check for double separators in the middle of the array
         if (child.name === 'separator' && arr[index + 1].name === 'separator') {
-       
+       console.log('first if statement')
           arr.splice(index, 1); // removes extra separator from array
         } 
         // check for duplicaed separator at the end of array and remove it if separator is at the last index
-        if (arr[arr.length-1].name === 'separator') arr.splice(arr.length-1, 1);
+        if (arr[arr.length-1].name === 'separator') {
+          console.log('second if')
+          arr.splice(arr.length-1, 1);
+        }
        
         // check for missing separators
         if (child.name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
+          console.log('third if')
             // initialize topSeparator inside the if condition so that every time this condition evaluated to true, a new topSeparator with incremented id will be created
             const topSeparator: ChildElement = {
               type: 'HTML Element',
@@ -561,14 +568,21 @@ const reducer = (state: State, action: Action) => {
             nextTopSeparatorId +=1;
         }
            // check is length is > 0 or it is a nested element
+           console.log('before if statement')
         if (child.children.length) {
+          console.log('inside if statement')
           // recursive call if children array
           handleSeparators(child.children)
         }
-      });
+      }
+      
+      );
+      console.log('arr', arr)
       return arr;
      }
+    
       handleSeparators(components[0].children)
+     
       const canvasFocus = { ...state.canvasFocus, childId: null };
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     }
