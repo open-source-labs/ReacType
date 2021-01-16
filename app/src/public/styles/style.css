@@ -17,7 +17,7 @@ body {
   /* font-family: 'Open sans', sans-serif; */
   /* ------------------------------------CHANGED FONT-FAMILY------------------------------ */
   font-family: 'Raleway', sans-serif;
-  font-size: .9 em;
+  font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
 }
@@ -33,7 +33,7 @@ body {
 ***************/
 
 /* Sean sucks button */
-#app
+/* #app
   > div
   > div
   > div
@@ -43,7 +43,7 @@ body {
   > div:nth-child(2)
   > button {
   font-size: 20px;
-}
+} */
 
 /*
 ///////////////////////////////////////////
@@ -100,6 +100,18 @@ BUTTONS
 
 /*
 ///////////////////////////////////////////
+TOP NAVBAR
+/////////////////////////////////////////////
+*/
+
+/* .top {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+} */
+
+/*
+///////////////////////////////////////////
 LEFT COLUMN
 /////////////////////////////////////////////
 */
@@ -112,6 +124,7 @@ LEFT COLUMN
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
+  top: 65px;
   /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
 }
 
@@ -160,6 +173,8 @@ h1 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 876px;
+  align-self: flex-end;
   /* overflow-x: hidden; */
 }
 
@@ -258,7 +273,7 @@ RIGHT COLUMN
   transition: width 250ms ease-in-out;
   width: 100%;
   height: 100%;
-  min-height: 500px;
+  min-height: 25%;
   /* display: flex; */
   /* flex-direction: row; */
   background-color: #fcfcfc;
@@ -411,6 +426,10 @@ h3 {
 .right {
   padding-top: 35px;
   width: 420px;
+}
+
+.rightContainer {
+  top: 65px;
 }
 
 .rightPanelWrapper {

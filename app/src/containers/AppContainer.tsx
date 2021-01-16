@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext } from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
+import NavBar from '../components/top/NavBar';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import RightContainer from './RightContainer';
@@ -25,6 +26,7 @@ const AppContainer = () => {
     <MuiThemeProvider theme={theme}>
       <div className="app-container">
         <styleContext.Provider value={{ style, setStyle }}>
+          <NavBar />
           <LeftContainer />
           <MainContainer />
           <RightContainer />

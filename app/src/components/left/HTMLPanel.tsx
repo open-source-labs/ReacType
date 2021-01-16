@@ -145,7 +145,6 @@ const HTMLPanel = (): JSX.Element => {
           />
         ))}
       </Grid>
-      
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit}>
