@@ -405,8 +405,22 @@ const reducer = (state: State, action: Action) => {
       );
         
       // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
+      // this line replaces a separator with the element dragged-and-dropped onto that separator
       components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
      
+      components[0].children.forEach((child, index) => {
+        // check for double separators
+        if (child.name === 'separator' && components[0].children[index + 1].name === 'separator') {
+          components[0].children.splice(index, 1); // removes extra separator from array
+        } else {
+          // check for missing separators
+            // edge case
+          if ()
+          // recursive call if children array
+        }
+
+      });
+
       return { ...state, components };
     }
     // Change the focus component and child
