@@ -425,15 +425,24 @@ const reducer = (state: State, action: Action) => {
         
       // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
       // components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
-      components[0].children = components[0].children.map(child => {
-         if (child.name === 'separator' && child.children.length) {
-        
-           return  child.children[0] 
-        
-      } else {
-        return child
-      }
-    })
+    //   components[0].children = components[0].children.map(child => {
+    //      if (child.name === 'separator' && child.children.length) {
+    //        return  child.children[0] 
+    //   } else {
+    //     return child
+    //   }
+    // })
+    const mergeSeparator = (arr) => {
+      console.log('mergeSep arr', arr)
+            return arr.map((child) => {
+              if (child.name === 'div' && child.children.length) mergeSeparator(child.children);
+              if (child.name === 'separator' && child.children.length) {
+                console.log('separator to be merged', child)
+                return child.children[0];
+              }
+              else return child;
+            });
+        }
      let nextTopSeparatorId = state.nextTopSeparatorId;
       const handleSeparators = (arr) => {
     
@@ -471,6 +480,7 @@ const reducer = (state: State, action: Action) => {
       });
       return arr;
      }
+     components[0].children = mergeSeparator(components[0].children);
       handleSeparators(components[0].children)
       return { ...state, components, nextTopSeparatorId };
     }
