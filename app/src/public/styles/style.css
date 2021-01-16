@@ -22,6 +22,10 @@ body {
   overflow: hidden;
 }
 
+/* #columns-container {
+  top: 65px;
+} */
+
 /* span > button {
   background-color: #01d46d;
   width: 600px;
@@ -32,7 +36,7 @@ body {
 *
 ***************/
 
-/* Sean sucks button */
+/* Some button */
 /* #app
   > div
   > div
@@ -81,7 +85,8 @@ header {
 
 .column {
   /* width: 25%; */
-  background-color: #252526;
+  background-color: #daf2f5;
+  /* margin-top: 65px; */
 }
 
 /* .column-right-export-btn {
@@ -95,7 +100,7 @@ BUTTONS
 */
 
 .btn {
-  font-size: 24px;
+  font-size: 1.0em;
 }
 
 /*
@@ -119,12 +124,11 @@ LEFT COLUMN
 .left {
   padding: 10px;
   display: flex;
-  width: 380px;
-  min-width: 380px;
+  width: 250px;
+  min-width: 250px;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-  top: 65px;
   /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
 }
 
@@ -147,6 +151,7 @@ LEFT COLUMN
   padding-right: 5rem;
   padding-top: 3rem;
   padding-left: 1rem;
+  /* width: 50%; */
 }
 
 .component-input {
@@ -173,8 +178,10 @@ h1 {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 876px;
-  align-self: flex-end;
+  min-width: 700px;
+  /* margin-top: 65px; */
+  /* height: 876px; */
+  /* align-self: flex-end; */
   /* overflow-x: hidden; */
 }
 
@@ -276,7 +283,7 @@ RIGHT COLUMN
   min-height: 25%;
   /* display: flex; */
   /* flex-direction: row; */
-  background-color: #fcfcfc;
+  /* background-color: #fcfcfc; */
 }
 
 .htmlattr {
@@ -309,7 +316,8 @@ RIGHT COLUMN
 
 .flex1 {
   padding: 10px 20px 10px 5px;
-  color: #01d46d;
+  /* color: #01d46d; */
+  /* color: #41658A; */
 }
 
 .flex2 {
@@ -429,7 +437,7 @@ h3 {
 }
 
 .rightContainer {
-  top: 65px;
+  margin-top: 65px;
 }
 
 .rightPanelWrapper {

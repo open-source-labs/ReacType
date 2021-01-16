@@ -24,13 +24,18 @@ const AppContainer = () => {
   return (
     // Mui theme provider provides themed styling to all MUI components in app
     <MuiThemeProvider theme={theme}>
+      <div>
+        <NavBar />
+      </div>
       <div className="app-container">
         <styleContext.Provider value={{ style, setStyle }}>
-          <NavBar />
-          <LeftContainer />
-          <MainContainer />
-          <RightContainer />
+          
+          {/* <div id="columns-container"> */}
+            <LeftContainer />
+            <MainContainer />
+            <RightContainer />
         </styleContext.Provider>
+      {/* </div> */}
       </div>
     </MuiThemeProvider>
   );

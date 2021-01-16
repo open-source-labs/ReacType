@@ -18,9 +18,10 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     // minWidth: '340px',
     minHeight: '60px',
-    marginBottom: '10px',
-    marginRight: '5px',
-    marginLeft: '5px',
+    // marginBottom: '10px',
+    // marginRight: '5px',
+    // marginLeft: '5px',
+    width: '70px',
     // border: '2px solid rgba(255,255,255, 0.45)',
     //-------------------------------------CHANGED----------------------------------------
     border: '1.5px solid rgba(247, 167, 62, 0.65)',

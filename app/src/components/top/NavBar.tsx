@@ -26,14 +26,14 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} className="top">
-      <AppBar position="static">
+    <div className={classes.root}>
+      <AppBar className="top" position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            ReactType
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

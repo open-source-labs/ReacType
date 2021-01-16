@@ -53,8 +53,8 @@ const CodePreview: React.FC<{
         width="100%"
         height="100%"
         style={{
-          border: '2px solid #33eb91',
-          borderRadius: '8px'
+          // border: '2px solid #33eb91',
+          // borderRadius: '8px'
         }}
         onChange={handleCodeSnipChange}
         value={currentComponent.code}

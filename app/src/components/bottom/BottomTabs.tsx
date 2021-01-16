@@ -17,7 +17,7 @@ const BottomTabs = () => {
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
-  const [theme, setTheme] = useState('monokai');
+  const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 
   // method changes the
@@ -53,6 +53,7 @@ const BottomTabs = () => {
             label="Component Tree"
           />
         </Tabs>
+        {/* Removed all style={{ backgroundColor: '#252526' }} from within each option tag.  Its functionality was not apparent on page. */}
         <FormControl>
           <div className="flex-container">
             <div className="flex1">Change Theme:</div>
@@ -62,27 +63,26 @@ const BottomTabs = () => {
               value={theme}
               onChange={changeTheme}
             >
-              <option style={{ backgroundColor: '#252526' }} value={'monokai'}>
-                Monokai
-              </option>
-              <option style={{ backgroundColor: '#252526' }} value={'github'}>
+              <option value={'github'}>
                 Github
               </option>
+              <option value={'monokai'}>
+                Monokai
+              </option>
               <option
-                style={{ backgroundColor: '#252526' }}
                 value={'solarized_dark'}
               >
                 Solarized Dark
               </option>
-              <option style={{ backgroundColor: '#252526' }} value={'terminal'}>
-                Terminal
-              </option>
               <option
-                style={{ backgroundColor: '#252526' }}
                 value={'solarized_light'}
               >
                 Solarized Light
               </option>
+              <option value={'terminal'}>
+                Terminal
+              </option>
+              
             </NativeSelect>
           </div>
         </FormControl>
@@ -96,7 +96,7 @@ const BottomTabs = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#333333',
+    backgroundColor: '#3ea3d6',
     height: '100%',
     color: '#fff',
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
@@ -108,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     Width: '200px'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242',
+    // borderBottom: '0.5px solid #424242',
     minHeight: '50%'
   },
   tabsIndicator: {
