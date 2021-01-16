@@ -135,7 +135,8 @@ const HTMLPanel = (): JSX.Element => {
       payload: id
     });
   };
-
+  // filter out separator so that it will not appear on the html panel
+const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div>
       <h4> HTML Elements</h4>
@@ -186,7 +187,7 @@ const HTMLPanel = (): JSX.Element => {
         justify="center"
         alignItems="center"
       >
-        {state.HTMLTypes.map(option => (
+        {htmlTypesToRender.map(option => (
           <HTMLItem
             name={option.name}
             key={`html-${option.name}`}
