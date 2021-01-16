@@ -318,14 +318,7 @@ const reducer = (state: State, action: Action) => {
         style: separator.style,
         children: []
       };
-      // const bottomSeparator: ChildElement = {
-      //   type,
-      //   typeId: separator.id,
-      //   name: 'separator',
-      //   childId: state.nextBottomSeparatorId,
-      //   style: separator.style,
-      //   children: []
-      // };
+      
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
@@ -357,10 +350,10 @@ const reducer = (state: State, action: Action) => {
       };
       const nextChildId = state.nextChildId + 1;
       const nextTopSeparatorId = state.nextTopSeparatorId + 1;
-      const nextBottomSeparatorId = state.nextBottomSeparatorId + 1;
+      
       components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[1] : child)
       console.log('add child components', components)
-      return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId, nextBottomSeparatorId };
+      return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId};
     }
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
@@ -426,7 +419,11 @@ const reducer = (state: State, action: Action) => {
           // check for missing separators
             if (child.name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
               arr.splice(index, 0, topSeparator)
+              const nextTopSeparatorId = state.nextTopSeparatorId + 1;
             }
+
+      
+      
             // check is length is > 0 or it is a nested element
           if (child.children.length) {
             // recursive call if children array
