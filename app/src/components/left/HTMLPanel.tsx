@@ -123,9 +123,29 @@ const HTMLPanel = (): JSX.Element => {
     });
   };
 
+// ----------------------SWITCHED ORDER OF HTML ELEMENTS AND CUSTOM HTML ELEMENT GENERATOR--------------------------
+
   return (
     <div>
-      <h4> HTML Elements</h4>
+      {/* <h4> HTML Elements</h4> */}
+      <Grid
+        container
+        spacing={1}
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        {state.HTMLTypes.map(option => (
+          <HTMLItem
+            name={option.name}
+            key={`html-${option.name}`}
+            id={option.id}
+            Icon={option.icon}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </Grid>
+      
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit}>
@@ -166,23 +186,6 @@ const HTMLPanel = (): JSX.Element => {
           </form>
         </div>
       </div>
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
-        {state.HTMLTypes.map(option => (
-          <HTMLItem
-            name={option.name}
-            key={`html-${option.name}`}
-            id={option.id}
-            Icon={option.icon}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </Grid>
     </div>
   );
 };
@@ -198,7 +201,9 @@ const useStyles = makeStyles({
     marginBottom: '15px'
   },
   addComponentWrapper: {
-    border: '1px solid rgba(70,131,83)',
+    // border: '1px solid rgba(70,131,83)',
+    //----------------------------------CHANGED---------------------------------------
+    border: '1px solid rgba(247, 167, 62, 0.45)',
     padding: '20px',
     margin: '20px'
   },
