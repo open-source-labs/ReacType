@@ -302,6 +302,8 @@ const RightContainer = (): JSX.Element => {
 
   return (
     <div className="column right" style={style}>
+      <ProjectManager />
+  {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -522,7 +524,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           )}
         </div>
-        <ProjectManager />
+        {/* <ProjectManager /> */}
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}

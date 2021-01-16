@@ -259,13 +259,15 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifySelf: 'flex-end'
+    justifySelf: 'flex-end',
+    width: '80%'
   },
 
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
-    right: '150px'
+    right: '150px',
+    // width: '100%'
   },
   btnGroup: {
     display: 'flex',
@@ -282,17 +284,20 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.1)',
     fontSize: '1em',
     minWidth: '300px',
+    // width: '50%',
     marginTop: '10px',
     marginBotton: '10px'
   },
   projectTypeWrapper: {
-    width: '300px',
+    // width: '300px',
+    // width: '100%',
     marginTop: '10px',
     marginBotton: '10px'
   },
   projectSelector: {
     backgroundColor: 'rgba(255,255,255,0.15)',
-    width: '300px',
+    // width: '300px',
+    // width: '100%',
     color: '#fff'
   }
 });

@@ -127,6 +127,7 @@ const HTMLPanel = (): JSX.Element => {
 
   return (
     <div>
+      <h4> HTML Elements</h4>
       <Grid
         container
         spacing={1}
@@ -144,7 +145,6 @@ const HTMLPanel = (): JSX.Element => {
           />
         ))}
       </Grid>
-      <h4> HTML Elements</h4>
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit}>
