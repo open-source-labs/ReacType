@@ -318,28 +318,28 @@ const reducer = (state: State, action: Action) => {
         style: separator.style,
         children: []
       };
-      const bottomSeparator: ChildElement = {
-        type,
-        typeId: separator.id,
-        name: 'separator',
-        childId: state.nextBottomSeparatorId,
-        style: separator.style,
-        children: []
-      };
+      // const bottomSeparator: ChildElement = {
+      //   type,
+      //   typeId: separator.id,
+      //   name: 'separator',
+      //   childId: state.nextBottomSeparatorId,
+      //   style: separator.style,
+      //   children: []
+      // };
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
 
       if (childId === null) {
         parentComponent.children.push(topSeparator);
         parentComponent.children.push(newChild);
-        parentComponent.children.push(bottomSeparator);
+        //parentComponent.children.push(bottomSeparator);
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         const directParent = findChild(parentComponent, childId);
         directParent.children.push(topSeparator);
         directParent.children.push(newChild);
-        directParent.children.push(bottomSeparator);
+        //directParent.children.push(bottomSeparator);
       }
 
       parentComponent.code = generateCode(
@@ -365,7 +365,14 @@ const reducer = (state: State, action: Action) => {
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
       const { currentChildId, newParentChildId } = action.payload;
-
+      const topSeparator: ChildElement = {
+        type: 'HTML Element',
+        typeId: separator.id,
+        name: 'separator',
+        childId: state.nextTopSeparatorId,
+        style: separator.style,
+        children: []
+      };
       // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update sate
       if (currentChildId === newParentChildId) return state;
 
@@ -406,7 +413,30 @@ const reducer = (state: State, action: Action) => {
         
       // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
       components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
-     
+     const handleSeparators = (arr) => {
+        console.log('handling array', arr)
+        arr.forEach((child, index) => {
+          console.log('in forEach, child', child )
+        // check for double separators
+        if (child.name === 'separator' && arr[index + 1].name === 'separator') {
+          arr.splice(index, 1); // removes extra separator from array
+          console.log('after removing separator', arr)
+        } 
+        else {
+          // check for missing separators
+            if (child.name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
+              arr.splice(index, 0, topSeparator)
+            }
+            // check is length is > 0 or it is a nested element
+          if (child.children.length) {
+            // recursive call if children array
+            handleSeparators(child.children)
+          }
+        }
+      });
+      return arr;
+      }
+      components[0].children = handleSeparators(components[0].children)
       return { ...state, components };
     }
     // Change the focus component and child
