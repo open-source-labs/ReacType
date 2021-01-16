@@ -391,7 +391,7 @@ const reducer = (state: State, action: Action) => {
         return arr;
       }
      
-      let addChildArray = components[0].children
+      let addChildArray = components[0].children;
       addChildArray = mergeSeparator(addChildArray);
       if (directParent && directParent.name === 'separator') handleSeparators(addChildArray)
       components[0].children = addChildArray;

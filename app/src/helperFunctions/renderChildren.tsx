@@ -55,7 +55,7 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
+          style={{border: 'none !important'}}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
@@ -70,7 +70,7 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
+          style={{border: '0px'}}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}

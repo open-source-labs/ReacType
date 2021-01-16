@@ -24,7 +24,7 @@ const HTMLTypes: HTMLType[] = [
     id: 1000,
     tag: 'separator',
     name: 'separator',
-    style: {backgroundColor: 'blue'},
+    style: {},
     placeHolderShort: 'S',
     placeHolderLong: 'S',
     icon: ''
