@@ -352,7 +352,8 @@ const reducer = (state: State, action: Action) => {
       const nextTopSeparatorId = state.nextTopSeparatorId + 1;
       
       components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[1] : child)
-      console.log('add child components', components)
+      const addArray = components[0].children
+      console.log('add child components', addArray)
       return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId};
     }
     // move an instance from one position in a component to another position in a component
@@ -383,7 +384,9 @@ const reducer = (state: State, action: Action) => {
         component,
         currentChildId
       );
+      console.log('prev Separator', { ...directParent.children[childIndexValue-1] })
       const child = { ...directParent.children[childIndexValue] };
+      console.log('moving child', child)
       directParent.children.splice(childIndexValue, 1);
 
       // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
@@ -405,36 +408,54 @@ const reducer = (state: State, action: Action) => {
       );
         
       // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
-      components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
-     const handleSeparators = (arr) => {
+      // components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
+      components[0].children = components[0].children.map(child => {
+         if (child.name === 'separator' && child.children.length) {
+           console.log('separato to be merged', child)
+           return  child.children[0] 
+        
+      } else {
+        return child
+      }
+    })
+     let nextTopSeparatorId = state.nextTopSeparatorId;
+      const handleSeparators = (arr) => {
         console.log('handling array', arr)
         arr.forEach((child, index) => {
-          console.log('in forEach, child', child )
-        // check for double separators
+        // check for double separators in the middle of the array
         if (child.name === 'separator' && arr[index + 1].name === 'separator') {
+          console.log('found dups', child)
           arr.splice(index, 1); // removes extra separator from array
-          console.log('after removing separator', arr)
         } 
-        else {
-          // check for missing separators
-            if (child.name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
-              arr.splice(index, 0, topSeparator)
-              const nextTopSeparatorId = state.nextTopSeparatorId + 1;
-            }
-
-      
-      
-            // check is length is > 0 or it is a nested element
-          if (child.children.length) {
-            // recursive call if children array
-            handleSeparators(child.children)
-          }
+        // check for duplicaed separator at the end of array and remove it if separator is at the last index
+        if (arr[arr.length-1].name === 'separator') arr.splice(arr.length-1, 1);
+       
+        // check for missing separators
+        if (child.name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
+            // initialize topSeparator inside the if condition so that every time this condition evaluated to true, a new topSeparator with incremented id will be created
+            const topSeparator: ChildElement = {
+              type: 'HTML Element',
+              typeId: separator.id,
+              name: 'separator',
+              childId: nextTopSeparatorId,
+              style: separator.style,
+              children: []
+            };
+            // add a topSeparator before the element that does not have one
+            arr.splice(index, 0, topSeparator)
+            // update this value in state
+            nextTopSeparatorId +=1;
+        }
+           // check is length is > 0 or it is a nested element
+        if (child.children.length) {
+          // recursive call if children array
+          handleSeparators(child.children)
         }
       });
       return arr;
-      }
-      components[0].children = handleSeparators(components[0].children)
-      return { ...state, components };
+     }
+      handleSeparators(components[0].children)
+      return { ...state, components, nextTopSeparatorId };
     }
     // Change the focus component and child
     case 'CHANGE FOCUS': {
