@@ -24,6 +24,9 @@ import DeleteProjects from './DeleteProjects';
 // import { useStyles } from '../left/ComponentPanel';
 import { styleContext } from '../../containers/AppContainer';
 
+// import theme for NavBar
+import { theme1 } from '../../public/styles/theme';
+
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
@@ -162,7 +165,7 @@ const ProjectManager = () => {
     );
   };
 
-  //--------------------------Change Lighting Button----------------------------------
+  //--------------------------Dark Mode Button----------------------------------
 
   return (
     <div>
@@ -173,11 +176,12 @@ const ProjectManager = () => {
         className={classes.button}
         onClick={() => {
           !style.backgroundColor
-            ? setStyle({ backgroundColor: '#00001a' })
+            ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
             : setStyle({});
+          //check for NavBar color and import NavBar
         }}
       >
-        Change Lighting
+        Dark Mode
       </Button>
 
   {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}

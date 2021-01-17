@@ -13,13 +13,14 @@ export const styleContext = createContext({
   setStyle: null
 });
 
+//use context to enable darkmode functionality on navbar
+
 const AppContainer = () => {
   //theme1 sets button font color to green
   const [theme, setTheme] = useState(theme1);
   const initialStyle = useContext(styleContext);
   const [style, setStyle] = useState(initialStyle);
 
-  console.log(theme)
 
   return (
     // Mui theme provider provides themed styling to all MUI components in app

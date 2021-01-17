@@ -15,21 +15,28 @@ const useStyles = makeStyles({
   HTMLPanelItem: {
     color: 'white',
     // this is experimental for version: BLADERUNNER THEME
-    backgroundColor: 'transparent',
+    backgroundColor: '#a7cced',
     // minWidth: '340px',
-    minHeight: '60px',
+    height: '45px',
+    fontSize: '80%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    // justifyContent: 'center',
+    textAlign: 'center',
+    margin: '10px auto',
     // marginBottom: '10px',
     // marginRight: '5px',
     // marginLeft: '5px',
-    width: '70px',
+    width: '90px',
     // border: '2px solid rgba(255,255,255, 0.45)',
     //-------------------------------------CHANGED----------------------------------------
-    border: '1.5px solid rgba(247, 167, 62, 0.65)',
+    border: '2ßpx solid rgba(225, 225, 225, 1.0)',
     borderRadius: '8px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
-      paddingTop: '18px'
+      // paddingTop: '18px'
     }
   }
 });
@@ -115,17 +122,17 @@ const HTMLItem: React.FC<{
 
   return (
     <Grid item xs={5} key={`html-g${name}`}>
-      <div ref={drag} className={classes.HTMLPanelItem}>
+      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
         <h3>{name}</h3>
-        <span
+        {/* <span
           style={{
             verticalAlign: 'middle',
             display: 'inline-block',
-            marginLeft: '5px'
+            // marginLeft: '5px'
           }}
         >
           {Icon && <Icon />}
-        </span>
+        </span> */}
         {id > 11 &&
         <button className={buttonClasses} onClick={() => deleteAllInstances(id)} > X </button> }
       </div>

@@ -10,11 +10,11 @@ export const theme1 = createMuiTheme({
   palette: {
     primary: {
       // light: '#00e676',
-      main: '#3ea3d6' // bright blu
+      main: '#3ea3d6' // bright blue
       // main: '#0582ca' // punchy blue
       // main: 'red'
       //main:'#00FFFF' // teal color
-      // dark: '#14a37f',
+      // type: 'dark'
       // contrastText: '#fff'
     }
   }

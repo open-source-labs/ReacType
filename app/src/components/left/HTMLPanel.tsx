@@ -126,15 +126,15 @@ const HTMLPanel = (): JSX.Element => {
 // ----------------------SWITCHED ORDER OF HTML ELEMENTS AND CUSTOM HTML ELEMENT GENERATOR--------------------------
 
   return (
-    <div>
+    <div className="HTMLItems">
       {/* <h4> HTML Elements</h4> */}
-      <Grid
+      {/* <Grid
         container
         spacing={1}
         direction="row"
         justify="center"
         alignItems="center"
-      >
+      > */}
         {state.HTMLTypes.map(option => (
           <HTMLItem
             name={option.name}
@@ -144,7 +144,7 @@ const HTMLPanel = (): JSX.Element => {
             handleDelete={handleDelete}
           />
         ))}
-      </Grid>
+      {/* </Grid> */}
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit}>

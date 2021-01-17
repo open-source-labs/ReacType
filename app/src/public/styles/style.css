@@ -22,6 +22,11 @@ body {
   overflow: hidden;
 }
 
+h4 {
+  color: white;
+  text-align: center;
+}
+
 /* #columns-container {
   top: 65px;
 } */
@@ -85,7 +90,7 @@ header {
 
 .column {
   /* width: 25%; */
-  background-color: #daf2f5;
+  background-color: #ececea;
   /* margin-top: 65px; */
 }
 
@@ -99,20 +104,8 @@ BUTTONS
 /////////////////////////////////////////////
 */
 
-.btn {
-  font-size: 1.0em;
-}
-
-/*
-///////////////////////////////////////////
-TOP NAVBAR
-/////////////////////////////////////////////
-*/
-
-/* .top {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
+/* .btn {
+  font-size: 1em;
 } */
 
 /*
@@ -147,12 +140,24 @@ LEFT COLUMN
 /* affecting HTMl elements in HTML Panel */
 .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
   /* padding: 3rem; */
-  margin: -5rem;
+  /* margin: -5rem;
   padding-right: 5rem;
   padding-top: 3rem;
-  padding-left: 1rem;
+  padding-left: 1rem; */
   /* width: 50%; */
 }
+
+.HTMLItems {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* .HTMLItem  {
+  align-items: center;
+} */
 
 .component-input {
   bottom: 2.8%;
@@ -398,19 +403,6 @@ a.nav_link:hover {
 
 .makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
   background-color: rgba(25, 25, 25, 0.8);
-}
-
-h4 {
-  color: white;
-  text-align: center;
-}
-
-h3 {
-  margin: 0;
-  padding-left: 15px;
-  padding-top: 15px;
-  font-size: 1em;
-  letter-spacing: 0.5px;
 }
 
 .compPanelItem {
