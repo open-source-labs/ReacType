@@ -506,9 +506,13 @@ const reducer = (state: State, action: Action) => {
         childId
       }: { componentId: number; childId: number | null } = action.payload;
 
-      const canvasFocus = { ...state.canvasFocus, componentId, childId };
-      return { ...state, canvasFocus };
+      if (childId < 1000) {
+        const canvasFocus = { ...state.canvasFocus, componentId, childId };
+        return { ...state, canvasFocus };
+      }
+      return { ...state };
     }
+
     case 'UPDATE CSS': {
       const { style } = action.payload;
       const components = [...state.components];
