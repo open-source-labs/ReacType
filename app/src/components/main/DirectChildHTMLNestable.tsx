@@ -32,12 +32,14 @@ function DirectChildHTMLNestable({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
     },
-    
-    collect: (monitor: any) => ({
+    canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
+    collect: (monitor: any) => {
+      return ({
       isDragging: !!monitor.isDragging()
     })
+  }
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
