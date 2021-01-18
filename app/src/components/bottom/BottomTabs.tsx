@@ -20,7 +20,7 @@ const BottomTabs = () => {
   const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 
-  // method changes the
+  // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };

@@ -117,8 +117,8 @@ LEFT COLUMN
 .left {
   padding: 10px;
   display: flex;
-  width: 250px;
-  min-width: 250px;
+  width: 150px;
+  min-width: 175px;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
@@ -149,15 +149,15 @@ LEFT COLUMN
 
 .HTMLItems {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   width: 100%;
 }
 
-/* .HTMLItem  {
-  align-items: center;
-} */
+#HTMLItem:hover  {
+  background-color: #a7cced;
+}
 
 .component-input {
   bottom: 2.8%;

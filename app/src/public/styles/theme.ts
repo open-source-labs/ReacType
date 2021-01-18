@@ -9,14 +9,12 @@ export const theme1 = createMuiTheme({
   // },
   palette: {
     primary: {
-      // light: '#00e676',
       main: '#3ea3d6' // bright blue
-      // main: '#0582ca' // punchy blue
-      // main: 'red'
-      //main:'#00FFFF' // teal color
-      // type: 'dark'
-      // contrastText: '#fff'
-    }
+    },
+    // secondary: {
+    //   main: '#42464C' //dark mode color
+    // }
+
   }
 });
 

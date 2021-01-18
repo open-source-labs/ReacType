@@ -148,7 +148,7 @@ const HTMLPanel = (): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit}>
-            <h4>Create New Element: </h4>
+            <h4>New Element: </h4>
             <label className={classes.inputLabel}>
               Tag:
               <input
@@ -197,14 +197,16 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'space-between',
     // paddingLeft: '35px',
-    marginBottom: '15px'
+    marginBottom: '15px',
+    width: '50%'
   },
   addComponentWrapper: {
     // border: '1px solid rgba(70,131,83)',
     //----------------------------------CHANGED---------------------------------------
     border: '1px solid rgba(247, 167, 62, 0.45)',
     padding: '20px',
-    margin: '20px'
+    margin: '20px',
+    width: '50%'
   },
   input: {
     color: '#fff',

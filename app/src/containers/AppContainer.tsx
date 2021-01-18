@@ -18,6 +18,7 @@ export const styleContext = createContext({
 const AppContainer = () => {
   //theme1 sets button font color to green
   const [theme, setTheme] = useState(theme1);
+  // const [theme, setTheme] = useState('primary');
   const initialStyle = useContext(styleContext);
   const [style, setStyle] = useState(initialStyle);
 
