@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { select, hierarchy, tree, linkHorizontal } from "d3";
+import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from "./useResizeObserver";
 import StateContext from '../context/context';
 
@@ -26,6 +27,24 @@ function TreeChart({ data }) {
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
 
+  // function to filter out separators to prevent render on tree chart
+  const removeSeparators = (arr) => {
+    // loop over array
+    for (let i = 0; i < arr.length; i++) {
+      // if element is separator, remove it
+      if (arr[i].name === 'separator') arr.splice(i, 1);
+      // if element has a children array and that array has length, recursive call
+      if (arr[i].name === 'div' && arr[i].children.length) removeSeparators(arr[i].children);
+    }
+    // return mutated array
+    return arr;
+  };
+
+  // create a deep clone of data to avoid mutating the actual children array in removing separators
+  const dataDeepClone = cloneDeep(data);
+
+  removeSeparators(dataDeepClone[0].children);
+
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
@@ -35,7 +54,7 @@ function TreeChart({ data }) {
     const { width, height } =
     dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(data[canvasId - 1]);
+    const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
     const treeLayout = tree().size([height, width - 125]);
 
     // Returns a new link generator with horizontal display.

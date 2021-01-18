@@ -339,15 +339,12 @@ const reducer = (state: State, action: Action) => {
       // components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[1] : child)
       
       const mergeSeparator = (arr) => {
-        console.log('in function', arr)
         return arr.map((child) => {
           if (child.name === 'div' && child.children.length) {
             const divContents = mergeSeparator(child.children);
-            console.log('divContents', divContents);
             return { ...child, children: divContents }
           }
           else if (child.name === 'separator' && child.children.length) {
-            console.log('separator triggered', child.children[1]);
             return child.children[1];
           }
           else return child;
