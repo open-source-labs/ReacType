@@ -40,7 +40,7 @@ const generateUnformattedCode = (
       if (child.type === 'Component') {
         // verify that the child is in the components array in state
         const referencedComponent = components.find(
-          elem => elem.id === child.typeId
+          elem => (elem.id === child.typeId)
         );
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))

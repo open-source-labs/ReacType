@@ -296,7 +296,7 @@ const reducer = (state: State, action: Action) => {
         children: componentChildren
       };
       const topSeparator: ChildElement = {
-        type,
+        type: 'HTML Element',
         typeId: separator.id,
         name: 'separator',
         childId: state.nextTopSeparatorId,
