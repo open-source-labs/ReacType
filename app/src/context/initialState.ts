@@ -15,7 +15,7 @@ const initialState: State = {
       isPage: true
     },
   ],
-  projectType: 'Next.js',
+  projectType: 'Classic React',
   rootComponents: [1],
   canvasFocus: { componentId: 1, childId: null },
   nextComponentId: 2,

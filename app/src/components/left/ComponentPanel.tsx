@@ -61,7 +61,7 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   // "Root" components are not draggable into the main canvas
-  // If next.js mode is on, root components will be separate pages
+  // If next.js or Gatsby.js mode is on, root components will be separate pages
   const toggleRootStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsRoot(isRoot ? false : true);
   };
@@ -143,7 +143,7 @@ const ComponentPanel = (): JSX.Element => {
                     onChange={toggleRootStatus}
                   />
                 }
-                label={state.projectType === 'Next.js' ? 'Page' : 'Root'} // name varies depending on mode
+                label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
                 className={classes.rootCheckBoxLabel}
                 labelPlacement="top"
               />
@@ -162,7 +162,7 @@ const ComponentPanel = (): JSX.Element => {
       {/* Display all root components */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
+        <h4>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
@@ -195,10 +195,10 @@ const ComponentPanel = (): JSX.Element => {
               );
             })}
         </Grid>
-        {/* Display navigation components - (only applies to next.js which has routing built in) */}
-        {state.projectType === 'Next.js' ? (
+        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
+        {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
           <React.Fragment>
-            <h4>Navigation</h4>
+            <h4>Routing</h4>
             <Grid
               container
               direction="row"

@@ -20,8 +20,6 @@ let separator = initialState.HTMLTypes[1];
  
 // }
 const reducer = (state: State, action: Action) => {
-  // if the project type is set as Next.js, next component code should be generated
-  // otherwise generate classic react code
 
   // find top-level component given a component id
   const findComponent = (components: Component[], componentId: number) => {
@@ -684,8 +682,8 @@ const reducer = (state: State, action: Action) => {
         );
       });
 
-      // also update the name of the root component of the application to fit classic React and next.js conventions
-      if (projectType === 'Next.js') components[0]['name'] = 'index';
+      // also update the name of the root component of the application to fit classic React and next.js or gatsby.js conventions
+      if (projectType === 'Next.js' || projectType === 'Gatsby.js') components[0]['name'] = 'index';
       else components[0]['name'] = 'App';
 
       return { ...state, components, projectType };
@@ -694,7 +692,6 @@ const reducer = (state: State, action: Action) => {
     case 'RESET STATE': {
       const nextChildId = 1;
       const nextTopSeparatorId = 1000;
-      const nextBottomSeparatorId = 5000;
       const rootComponents = [1];
       const nextComponentId = 2;
       const canvasFocus = {
@@ -713,7 +710,6 @@ const reducer = (state: State, action: Action) => {
         ...state,
         nextChildId,
         nextTopSeparatorId,
-        nextBottomSeparatorId,
         rootComponents,
         nextComponentId,
         components,
