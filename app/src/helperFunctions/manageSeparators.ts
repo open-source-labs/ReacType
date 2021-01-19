@@ -7,7 +7,10 @@ const manageSeparators = {};
 
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
 
-manageSeparators.handleSeparators = (arr) => {
+manageSeparators.handleSeparators = (arr, str) => {
+  if (str === 'delete' && arr.length === 1) {
+    arr.splice(0, 1);
+  }
   for (let index = 0; index < arr.length; index++) {
     if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
       arr.splice(index, 1); // removes extra separator from array
@@ -33,20 +36,21 @@ manageSeparators.handleSeparators = (arr) => {
     // check is length is > 0 or it is a nested element
     if (arr[index].children.length) {
     // recursive call if children array
+
       manageSeparators.handleSeparators(arr[index].children);
     }
   }
   return manageSeparators.nextTopSeparatorId;
 };
 
-manageSeparators.mergeSeparator = (arr) => {
+manageSeparators.mergeSeparator = (arr, index) => {
   return arr.map((child) => {
     if (child.name === 'div' && child.children.length) {
-      const divContents = manageSeparators.mergeSeparator(child.children);
+      const divContents = manageSeparators.mergeSeparator(child.children, index);
       return { ...child, children: divContents }
     }
     else if (child.name === 'separator' && child.children.length) {
-      return child.children[1];
+      return child.children[index];
     }
     else return child;
   });
