@@ -56,10 +56,10 @@ const BottomTabs = () => {
         {/* Removed all style={{ backgroundColor: '#252526' }} from within each option tag.  Its functionality was not apparent on page. */}
         <FormControl>
           <div className="flex-container">
-            <div className="flex1">Change Theme:</div>
+            <div className="flex1"></div>
             <NativeSelect
               className="flex2"
-              style={{ color: 'white' }}
+              style={{ color: '#091833' }}
               value={theme}
               onChange={changeTheme}
             >
@@ -98,7 +98,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: '#3ea3d6',
     height: '100%',
-    color: '#fff',
+    color: '#091921',
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   bottomHeader: {
@@ -112,7 +112,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6'
+    backgroundColor: '#545E75'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -133,15 +133,15 @@ const useStyles = makeStyles(theme => ({
       '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
-      color: '#1de9b6',
+      color: 'white',
       opacity: 1
     },
     '&$tabSelected': {
-      color: '#33eb91',
+      color: 'white',
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: '#4aedc4'
+      color: 'white'
     }
   },
   tabSelected: {},
