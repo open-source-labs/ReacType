@@ -85,12 +85,7 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(
               child.style
             )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          } // else if (child.tag === 'separator') {
-          //   return `<${child.tag}${formatStyles(
-          //     child.style
-          //   )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          // }
-          
+          } 
           else if (child.tag === 'h1') {
             return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${
               child.tag

@@ -31,14 +31,14 @@ function DirectChildHTMLNestable({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
-      return ({
-      isDragging: !!monitor.isDragging()
-    })
-  }
+      return {
+        isDragging: !!monitor.isDragging()
+      };
+    }
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
@@ -62,7 +62,7 @@ function DirectChildHTMLNestable({
           }
         });
       }
-      // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
+      // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
         dispatch({
           type: 'CHANGE POSITION',
@@ -73,12 +73,12 @@ function DirectChildHTMLNestable({
         });
       }
     },
-    
+
     collect: (monitor: any) => {
-      
-      return ({
-      isOver: !!monitor.isOver({ shallow: true })
-    })}
+      return {
+        isOver: !!monitor.isOver({ shallow: true })
+      };
+    }
   });
 
   const changeFocus = (componentId: number, childId: number | null) => {
@@ -94,22 +94,18 @@ function DirectChildHTMLNestable({
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
-  const interactiveStyle = {
-    border:
-      state.canvasFocus.childId === childId
-        ? '3px solid rgb(11,212,112)'
-        : '1px Solid gray',
-    boxShadow:
-      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+  const separatorStyle = {
+    // // height? padding?
+    // padding: '5px',
+    // margin: '5px',
   };
 
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
-  
+
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
+    separatorStyle
   );
-
-  console.log('combined style', combinedStyle);
 
   drag(drop(ref));
   return (

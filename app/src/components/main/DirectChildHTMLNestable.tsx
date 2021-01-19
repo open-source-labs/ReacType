@@ -6,8 +6,7 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import initialState from '../../context/initialState'
-const {separator} = initialState;
+
 function DirectChildHTMLNestable({
   childId,
   type,
@@ -104,19 +103,12 @@ function DirectChildHTMLNestable({
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
 
-  // state.components[0].children.forEach((child) => {
-  //   child.style.border = 'none';
-  //   console.log(state.components[0].children);
-  // });
-
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
   
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
-
-  console.log('combined style', combinedStyle);
 
   drag(drop(ref));
   return (
