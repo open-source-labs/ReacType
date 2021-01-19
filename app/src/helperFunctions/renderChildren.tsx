@@ -7,10 +7,6 @@ import SeparatorChild from '../components/main/SeparatorChild';
 import RouteLink from '../components/main/RouteLink';
 import StateContext from '../context/context';
 
-
-// const findNestedChild = (childArr) => {
-//   if (!childArr.length) 
-// };
 // helper method to render all direct children of a component
 // direct children are clickable and draggable
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
