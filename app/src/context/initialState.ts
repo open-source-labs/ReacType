@@ -21,7 +21,6 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  nextBottomSeparatorId: 5000,
   HTMLTypes
 };
 

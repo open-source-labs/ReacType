@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   State,
   Action,
@@ -8,19 +7,10 @@ import {
 } from '../interfaces/Interfaces';
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
-import cloneDeep from '../helperFunctions/cloneDeep';
-import { isValueObject } from 'immutable';
-import Canvas from '../components/main/Canvas';
-import { LensTwoTone } from '@material-ui/icons';
 
+ // separator is the element that appears between other HTML elements/components
 let separator = initialState.HTMLTypes[1];
-// const manageSeparator = (arr) => {
-//   //input: components children array
-
- 
-// }
 const reducer = (state: State, action: Action) => {
-
   // find top-level component given a component id
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
@@ -49,14 +39,6 @@ const reducer = (state: State, action: Action) => {
     }
     // if no search is found return -1
     return { directParent: null, childIndexValue: null };
-  };
-
-  const deleteChild = (component: Component, currentChildId: number) => {
-    const { directParent, childIndexValue } = findParent(
-      component,
-      currentChildId
-    );
-    directParent.children.splice(childIndexValue, 1);
   };
 
   // determine if there's child of a given type in a component
@@ -126,9 +108,7 @@ const reducer = (state: State, action: Action) => {
   const updateIds = (components: Component[]) => {
     // component IDs should be array index + 1
     components.forEach((comp, i) => (comp.id = i + 1));
-
     updateAllIds(components);
-
     // create KV pairs of component names and corresponding IDs
     const componentIds = {};
     components.forEach(component => {
@@ -159,7 +139,6 @@ const reducer = (state: State, action: Action) => {
 
   const deleteById = (id: number, name: string): Component[] => {
     // name of the component we want to delete
-
     const checkChildren = (child: Component[] | ChildElement[]) => {
       // for each of the components in the passed in components array, if the child
       // component has a children array, iterate through the array of children
@@ -182,11 +161,9 @@ const reducer = (state: State, action: Action) => {
     };
     // creating a copy of the components array
     const copyComp = [...state.components];
-
     if (copyComp.length) {
       checkChildren(copyComp);
     }
-
     const filteredArr = [...copyComp].filter(comp => comp.id != id);
     return updateIds(filteredArr);
   };
@@ -247,11 +224,9 @@ const reducer = (state: State, action: Action) => {
 
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
-      
-
+    
       // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
-
       let componentName = '';
       let componentChildren = [];
 
@@ -308,14 +283,12 @@ const reducer = (state: State, action: Action) => {
       if (childId === null) {
         parentComponent.children.push(topSeparator);
         parentComponent.children.push(newChild);
-        
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         directParent = findChild(parentComponent, childId);
         directParent.children.push(topSeparator);
         directParent.children.push(newChild);
-        
       }
 
       parentComponent.code = generateCode(
@@ -332,10 +305,8 @@ const reducer = (state: State, action: Action) => {
         childId: newChild.childId
       };
       const nextChildId = state.nextChildId + 1;
-      let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-      
-      // components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[1] : child)
-      
+      //let nextTopSeparatorId = state.nextTopSeparatorId + 1;
+            
       const mergeSeparator = (arr) => {
         return arr.map((child) => {
           if (child.name === 'div' && child.children.length) {
@@ -349,46 +320,48 @@ const reducer = (state: State, action: Action) => {
         });
       };
       
-      const handleSeparators = (arr) => {
-      
-        for (let index = 0; index < arr.length; index++) {
+      // const handleSeparators = (arr) => {
+      //   for (let index = 0; index < arr.length; index++) {
        
-          if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
+      //     if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
    
-            arr.splice(index, 1); // removes extra separator from array
-          } 
-          // check for duplicaed separator at the end of array and remove it if separator is at the last index
-          if (arr[arr.length-1].name === 'separator') arr.splice(arr.length-1, 1);
+      //       arr.splice(index, 1); // removes extra separator from array
+      //     } 
+      //     // check for duplicated separator at the end of array and remove it if separator is at the last index
+      //     if (arr[arr.length-1].name === 'separator') arr.splice(arr.length-1, 1);
        
-          // check for missing separators
-          if (arr[index].name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
+      //     // check for missing separators
+      //     if (arr[index].name !== 'separator' && (index === 0|| arr[index - 1].name !== 'separator')) {
          
-            // initialize topSeparator inside the if condition so that every time this condition evaluated to true, a new topSeparator with incremented id will be created
-            const topSeparator: ChildElement = {
-              type: 'HTML Element',
-              typeId: separator.id,
-              name: 'separator',
-              childId: nextTopSeparatorId,
-              style: separator.style,
-              children: []
-            };
-            // add a topSeparator before the element that does not have one
-            arr.splice(index, 0, topSeparator)
-            // update this value in state
-            nextTopSeparatorId +=1;
-          }
-          // check is length is > 0 or it is a nested element
-          if (arr[index].children.length) {
-          // recursive call if children array
-            handleSeparators(arr[index].children)
-          }
-        }
-        return arr;
-      }
+      //       // initialize topSeparator inside the if condition so that every time this condition evaluated to true, a new topSeparator with incremented id will be created
+      //       const topSeparator: ChildElement = {
+      //         type: 'HTML Element',
+      //         typeId: separator.id,
+      //         name: 'separator',
+      //         childId: nextTopSeparatorId,
+      //         style: separator.style,
+      //         children: []
+      //       };
+      //       // add a topSeparator before the element that does not have one
+      //       arr.splice(index, 0, topSeparator)
+      //       // update this value in state
+      //       nextTopSeparatorId +=1;
+      //     }
+      //     // check is length is > 0 or it is a nested element
+      //     if (arr[index].children.length) {
+      //     // recursive call if children array
+      //       handleSeparators(arr[index].children)
+      //     }
+      //   }
+      //   return arr;
+      // }
      
       let addChildArray = components[0].children;
       addChildArray = mergeSeparator(addChildArray);
-      if (directParent && directParent.name === 'separator') handleSeparators(addChildArray)
+      if (directParent && directParent.name === 'separator') {
+        console.log('in conditional, before calling func')
+        handleSeparators(addChildArray)
+      }
       components[0].children = addChildArray;
       
       return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId};
@@ -436,15 +409,6 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
         
-      // loop through the children array of the current component, check if each item is a separator, if it is, replace the separator with the item inside its children array, if not, ignore
-      // components[0].children = components[0].children.map(child => (child.name === 'separator' && child.children.length) ? child.children[0] : child)
-      //   components[0].children = components[0].children.map(child => {
-      //      if (child.name === 'separator' && child.children.length) {
-      //        return  child.children[0] 
-      //   } else {
-      //     return child
-      //   }
-      // })
       const mergeSeparator = (arr) => {
         return arr.map((child) => {
           if (child.name === 'div' && child.children.length) {
