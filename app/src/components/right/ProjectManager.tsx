@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,12 +25,17 @@ import DeleteProjects from './DeleteProjects';
 import { styleContext } from '../../containers/AppContainer';
 
 // import theme for NavBar
-import { theme1 } from '../../public/styles/theme';
+// import { theme1 } from '../../public/styles/theme';
+// console.log('theme1', theme1)
 
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
+
+  // state to keep track of dark/light mode
+  // const theme = createMuiTheme(theme1);
+
 
   const classes = useStyles();
 
@@ -100,7 +105,7 @@ const ProjectManager = () => {
     );
   };
 
-  //----------------------------------CREATE MODAL FOR EXPORT OPTIONS-------------------------------------
+  // ----------------------------------CREATE MODAL FOR EXPORT OPTIONS-------------------------------------
 
   const showGenerateAppModal = () => {
     const children = (
@@ -165,11 +170,11 @@ const ProjectManager = () => {
     );
   };
 
-  //--------------------------Dark Mode Button----------------------------------
+  // --------------------------Dark Mode Button----------------------------------
 
   return (
     <div>
-      <Button
+      {/* <Button
         color="primary"
         style={{ ...style.button, marginLeft: '15%' }}
         variant="outlined"
@@ -178,11 +183,12 @@ const ProjectManager = () => {
           !style.backgroundColor
             ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
             : setStyle({});
-          //check for NavBar color and import NavBar
+          changeTheme();
+          
         }}
       >
         Dark Mode
-      </Button>
+      </Button> */}
 
   {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
 
