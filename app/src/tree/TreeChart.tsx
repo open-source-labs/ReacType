@@ -46,8 +46,6 @@ function TreeChart({ data }) {
     removeSeparators(component.children);
   });
 
-  // removeSeparators(dataDeepClone[0].children);
-
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
