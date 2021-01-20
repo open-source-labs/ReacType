@@ -310,7 +310,6 @@ const reducer = (state: State, action: Action) => {
         directParent = findChild(parentComponent, childId);
         directParent.children.push(topSeparator);
         directParent.children.push(newChild);
-        
       }
 
       parentComponent.code = generateCode(

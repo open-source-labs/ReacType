@@ -54,8 +54,6 @@ const ComponentPanelItem: React.FC<{
     },
     canDrag: !root && !isFocus, // dragging not permitted if component is root component or current component
     collect: (monitor: any) => ({
-      // not clear !! is needed on the next line -- monitor.isDragging() already returns a boolean, and quick testing w/out still works
-      // on the other hand, commenting out this line of code entirely does not appear to change anything
       isDragging: !!monitor.isDragging(), // !! converts an object to a boolean (i.e., if falsy, becomes false => !!0 === false)
     }),
   });

@@ -36,7 +36,6 @@ manageSeparators.handleSeparators = (arr, str) => {
     // check is length is > 0 or it is a nested element
     if (arr[index].children.length) {
     // recursive call if children array
-
       manageSeparators.handleSeparators(arr[index].children);
     }
   }
@@ -44,6 +43,7 @@ manageSeparators.handleSeparators = (arr, str) => {
 };
 
 manageSeparators.mergeSeparator = (arr, index) => {
+  console.log('mergerSeparator',arr)
   return arr.map((child) => {
     if (child.name === 'div' && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);

@@ -118,9 +118,6 @@ const generateUnformattedCode = (
         }
         // route links are for gastby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
-          // return projectType === 'Next.js' 
-          //   ? `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
-          //   : `<div><a>${child.name}</a></div>`;
           if (projectType === 'Next.js') {
             return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
           } else if (projectType === 'Gatsby.js') {

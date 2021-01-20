@@ -43,7 +43,9 @@ function TreeChart({ data }) {
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
 
-  removeSeparators(dataDeepClone[0].children);
+  dataDeepClone.forEach((component) => {
+    removeSeparators(component.children);
+  });
 
   // will be called initially and on every data change
   useEffect(() => {
