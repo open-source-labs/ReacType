@@ -31,14 +31,14 @@ function DirectChildHTMLNestable({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
-      return ({
-      isDragging: !!monitor.isDragging()
-    })
-  }
+      return {
+        isDragging: !!monitor.isDragging()
+      };
+    }
   });
 
   // both useDrop and useDrag used here to allow canvas components to be both a drop target and drag source
@@ -73,12 +73,12 @@ function DirectChildHTMLNestable({
         });
       }
     },
-    
+
     collect: (monitor: any) => {
-      
-      return ({
-      isOver: !!monitor.isOver({ shallow: true })
-    })}
+      return {
+        isOver: !!monitor.isOver({ shallow: true })
+      };
+    }
   });
 
   const changeFocus = (componentId: number, childId: number | null) => {
@@ -104,7 +104,7 @@ function DirectChildHTMLNestable({
   };
 
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
-  
+
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
