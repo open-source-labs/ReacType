@@ -202,6 +202,7 @@ const reducer = (state: State, action: Action) => {
         return state;
 
       const components = [...state.components];
+      
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -224,6 +225,7 @@ const reducer = (state: State, action: Action) => {
       };
 
       const nextComponentId = state.nextComponentId + 1;
+      console.log('add component', components)
       return {
         ...state,
         components,
@@ -242,7 +244,7 @@ const reducer = (state: State, action: Action) => {
 
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
-      
+      console.log('add child', components)
 
       // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
@@ -327,11 +329,13 @@ const reducer = (state: State, action: Action) => {
       };
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-     
-      let addChildArray = components[0].children;
+     console.log('canvasFocus', canvasFocus)
+     console.log('components',components)
+      // let addChildArray = components[0].children;
+      let addChildArray = components[canvasFocus.componentId-1].children
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
       if (directParent && directParent.name === 'separator') nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
-      components[0].children = addChildArray;
+      components[canvasFocus.componentId-1].children = addChildArray;
       
       return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId };
     }
@@ -380,8 +384,8 @@ const reducer = (state: State, action: Action) => {
       
       let nextTopSeparatorId = state.nextTopSeparatorId;
      
-      components[0].children = manageSeparators.mergeSeparator(components[0].children, 0);
-      nextTopSeparatorId = manageSeparators.handleSeparators(components[0].children, 'change position')
+      components[state.canvasFocus.componentId-1].children = manageSeparators.mergeSeparator(components[state.canvasFocus.componentId-1].children, 0);
+      nextTopSeparatorId = manageSeparators.handleSeparators(components[state.canvasFocus.componentId-1].children, 'change position')
       return { ...state, components, nextTopSeparatorId };
     }
     // Change the focus component and child
@@ -448,8 +452,9 @@ const reducer = (state: State, action: Action) => {
       );
     
       
-     let nextTopSeparatorId = manageSeparators.handleSeparators(components[0].children, 'delete')
       const canvasFocus = { ...state.canvasFocus, childId: null };
+      console.log('before invoking handleSep')
+     let nextTopSeparatorId = manageSeparators.handleSeparators(components[canvasFocus.componentId-1].children, 'delete')
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     }
 
@@ -538,7 +543,6 @@ const reducer = (state: State, action: Action) => {
     case 'RESET STATE': {
       const nextChildId = 1;
       const nextTopSeparatorId = 1000;
-      const nextBottomSeparatorId = 5000;
       const rootComponents = [1];
       const nextComponentId = 2;
       const canvasFocus = {
@@ -557,7 +561,6 @@ const reducer = (state: State, action: Action) => {
         ...state,
         nextChildId,
         nextTopSeparatorId,
-        nextBottomSeparatorId,
         rootComponents,
         nextComponentId,
         components,

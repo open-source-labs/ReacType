@@ -11,6 +11,7 @@ manageSeparators.handleSeparators = (arr, str) => {
   if (str === 'delete' && arr.length === 1) {
     arr.splice(0, 1);
   }
+
   for (let index = 0; index < arr.length; index++) {
     if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
       arr.splice(index, 1); // removes extra separator from array
@@ -36,7 +37,7 @@ manageSeparators.handleSeparators = (arr, str) => {
     // check is length is > 0 or it is a nested element
     if (arr[index].children.length) {
     // recursive call if children array
-      manageSeparators.handleSeparators(arr[index].children);
+       (str === 'delete') ? manageSeparators.handleSeparators(arr[index].children, str) : manageSeparators.handleSeparators(arr[index].children);
     }
   }
   return manageSeparators.nextTopSeparatorId;
