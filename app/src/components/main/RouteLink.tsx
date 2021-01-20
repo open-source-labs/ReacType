@@ -55,7 +55,7 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid rgb(11,212,112)'
+        ? '3px solid #a7cced'
         : '1px Solid grey',
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''

@@ -13,10 +13,7 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: 'white',
-    // this is experimental for version: BLADERUNNER THEME
-    // backgroundColor: '#a7cced',
-    // minWidth: '340px',
+    color: '#77b6ed',
     height: '35px',
     width: '90px',
     fontSize: '80%',
@@ -26,13 +23,11 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: '5px auto',
     marginLeft: '30px',
-    //-------------------------------------CHANGED----------------------------------------
-    border: '2ßpx solid rgba(225, 225, 225, 1.0)',
+    // border: '2px solid rgba(225, 225, 225, 1.0)',
     borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
-      // paddingTop: '18px'
     }
   }
 });
@@ -130,7 +125,7 @@ const HTMLItem: React.FC<{
           {Icon && <Icon />}
         </span> */}
         {id > 11 &&
-        <button className={buttonClasses} onClick={() => deleteAllInstances(id)} > X </button> }
+        <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
       </div>
       {modal}
     </Grid>

@@ -123,32 +123,36 @@ const HTMLPanel = (): JSX.Element => {
     });
   };
 
-// ----------------------SWITCHED ORDER OF HTML ELEMENTS AND CUSTOM HTML ELEMENT GENERATOR--------------------------
-
   return (
     <div className="HTMLItems">
-      {/* <h4> HTML Elements</h4> */}
-      {/* <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="center"
-        alignItems="center"
-      > */}
+      <div className="HTMLElements">
         {state.HTMLTypes.map(option => (
-          <HTMLItem
-            name={option.name}
-            key={`html-${option.name}`}
-            id={option.id}
-            Icon={option.icon}
-            handleDelete={handleDelete}
-          />
-        ))}
-      {/* </Grid> */}
+            <HTMLItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              Icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          ))}
+      </div> 
+      <div className="lineDiv">
+        <hr
+          style={{
+            borderColor: '#f5f5f5',
+            borderStyle: 'solid',
+            color: '#f5f5f5',
+            backgroundColor: 'white',
+            height: '0.5px',
+            width: '100%',
+            marginLeft: '0px'
+          }}
+        />
+      </div>
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
-          <form onSubmit={handleSubmit}>
-            <h4>New Element: </h4>
+          <form onSubmit={handleSubmit} className="customForm">
+            <h5>New Element: </h5>
             <label className={classes.inputLabel}>
               Tag:
               <input
@@ -164,7 +168,7 @@ const HTMLPanel = (): JSX.Element => {
             </label>
             <br></br>
             <label className={classes.inputLabel}>
-              Tag Name:
+              Element Name:
               <input
                 color={'primary'}
                 type="text"
@@ -177,14 +181,28 @@ const HTMLPanel = (): JSX.Element => {
             </label>
             <input
               className={buttonClasses}
+              id="submitButton"
               color="primary"
               type="submit"
               value="Add Element"
-              style={{ marginTop: '15px' }}
+              style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
             />
           </form>
         </div>
       </div>
+        <div className="lineDiv">
+          <hr
+            style={{
+              borderColor: '#f5f5f5',
+              borderStyle: 'solid',
+              color: '#f5f5f5',
+              backgroundColor: 'white',
+              height: '0.5px',
+              width: '100%',
+              marginLeft: '0px'
+            }}
+          />
+        </div>
     </div>
   );
 };
@@ -198,27 +216,30 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     // paddingLeft: '35px',
     marginBottom: '15px',
-    width: '50%'
+    width: '100%'
   },
   addComponentWrapper: {
     // border: '1px solid rgba(70,131,83)',
     //----------------------------------CHANGED---------------------------------------
-    border: '1px solid rgba(247, 167, 62, 0.45)',
-    padding: '20px',
-    margin: '20px',
-    width: '50%'
+    // border: '1px solid rgba(247, 167, 62, 0.45)',
+    // padding: '20px',
+    // margin: '20px',
+    width: '100%',
+    marginBottom: '0px'
   },
   input: {
     color: '#fff',
     borderRadius: '5px',
-    paddingLeft: '15px',
-    paddingRight: '10px',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    border: '1px solid rgba(51,235,145,0.75)',
+    // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    marginLeft: '10px'
+    marginLeft: '10px',
+    width: '100px',
+    height: '30px'
   },
   inputLabel: {
     fontSize: '16px',

@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { flexbox } from '@material-ui/system';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = (): JSX.Element => {
@@ -117,24 +118,27 @@ const ComponentPanel = (): JSX.Element => {
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
         <div>
+          <h4 className={classes.newComponent}>New Component:</h4>
+          {/* <label className={classes.inputLabel}>Name:</label> */}
           <div className={classes.inputWrapper}>
             <TextField
               color={'primary'}
-              label="Component Name"
+              // label="Component Name"
               variant="outlined"
               className={classes.inputField}
               InputProps={{ className: classes.input }}
-              InputLabelProps={{ className: classes.inputLabel }}
+              // InputLabelProps={{ className: classes.inputLabel }}
               value={compName}
               error={errorStatus}
               helperText={errorStatus ? errorMsg : ''}
               onChange={handleNameInput}
             />
-            <div className={classes.btnGroup}>
+            <div className={classes.btnGroup} id="checkboxContainer">
               <FormControlLabel
                 value="top"
                 control={
                   <Checkbox
+                    className={classes.rootCheckbox}
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
@@ -151,10 +155,23 @@ const ComponentPanel = (): JSX.Element => {
             color="primary"
             onClick={handleNameSubmit}
           >
-            ADD
+            CREATE
           </Button>
         </div>
       </div>
+      <div className="lineDiv">
+          <hr
+            style={{
+              borderColor: '#f5f5f5',
+              borderStyle: 'solid',
+              color: '#f5f5f5',
+              backgroundColor: 'white',
+              height: '0.5px',
+              width: '100%',
+              marginLeft: '0px'
+            }}
+          />
+        </div>
       {/* Display all root components */}
       <div className={classes.panelWrapperList}>
         <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
@@ -213,27 +230,35 @@ const ComponentPanel = (): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
-    marginTop: '15px'
+    marginTop: '0px'
   },
   inputWrapper: {
     // height: '115px',
     textAlign: 'center',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingLeft: '35px',
-    marginBottom: '15px'
+    paddingLeft: '35px',
+    marginBottom: '15px',
   },
   addComponentWrapper: {
     // border: '1px solid rgba(70,131,83)',
     //-------------------CHANGED----------------------------------------------
-    border: '1px solid rgba(247, 167, 62, 0.75)',
-    padding: '20px',
-    margin: '20px'
+    // border: '1px solid rgba(247, 167, 62, 0.75)',
+    padding: 'auto',
+    marginLeft: '25px',
+    display: 'inline-block',
+    // flexDirection: 'column',
+    // justifyContent: 'space-between'
   },
-  rootCheckBox: {},
-  rootCheckBoxLabel: {
+  rootCheckBox: {
+    borderColor: 'white',
     color: 'white'
+  },
+  rootCheckBoxLabel: {
+    color: 'white',
+    borderColor: 'white'
   },
   panelWrapper: {
     width: '100%',
@@ -251,30 +276,41 @@ const useStyles = makeStyles({
     color: '#fff'
   },
   input: {
-    color: '#fff',
+    // color: 'white',
+    borderStyle: 'solid',
     borderRadius: '5px',
-    paddingLeft: '15px',
-    paddingRight: '10px',
+    borderColor: 'white',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
+    marginLeft: '-34px',
+    width: '120px',
+    height: '30px',
     whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    border: '1px solid rgba(51,235,145,0.75)',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+    // border: '1px solid white'
+    // overflowX: 'hidden',
+    // textOverflow: 'ellipsis',
+    // border: '1px solid rgba(51,235,145,0.75)',
+    // backgroundColor: 'rgba(255,255,255,0.15)'
+  },
+  newComponent: {
+    color: '#3d88e3',
+    fontSize: '.95em',
+    marginTop: '0px'
   },
   inputLabel: {
-    fontSize: '14px',
-    zIndex: 20,
+    fontSize: '.77em',
+    // zIndex: 20,
     color: '#fff',
-    marginTop: '-10px'
+    marginLeft: '10px'
   },
   btnGroup: {
     display: 'flex',
     flexDirection: 'column',
     paddingTop: '10px',
-    marginLeft: '10px'
+    // marginLeft: '10px'
   },
   button: {
-    fontSize: '1rem',
+    fontSize: '.8rem',
     height: '40px',
     maginTop: '10px',
     width: '100%',

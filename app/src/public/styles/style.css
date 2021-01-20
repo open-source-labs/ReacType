@@ -14,45 +14,17 @@ html {
 body {
   margin: 0;
   padding: 0;
-  /* font-family: 'Open sans', sans-serif; */
-  /* ------------------------------------CHANGED FONT-FAMILY------------------------------ */
   font-family: 'Raleway', sans-serif;
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
+  overflow: auto;
 }
 
 h4 {
-  color: white;
+  color: #77b6ed;
   text-align: center;
 }
-
-/* #columns-container {
-  top: 65px;
-} */
-
-/* span > button {
-  background-color: #01d46d;
-  width: 600px;
-}  */
-/**************
-*
-* for Material React Table found in Add Child Props
-*
-***************/
-
-/* Some button */
-/* #app
-  > div
-  > div
-  > div
-  > div.main-container
-  > div.bottom-panel
-  > div
-  > div:nth-child(2)
-  > button {
-  font-size: 20px;
-} */
 
 /*
 ///////////////////////////////////////////
@@ -115,9 +87,9 @@ LEFT COLUMN
 */
 
 .left {
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
   display: flex;
-  width: 150px;
+  width: 175px;
   min-width: 175px;
   flex-direction: column;
   position: relative;
@@ -138,14 +110,14 @@ LEFT COLUMN
 } */
 
 /* affecting HTMl elements in HTML Panel */
-.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+/* .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline { */
   /* padding: 3rem; */
   /* margin: -5rem;
   padding-right: 5rem;
   padding-top: 3rem;
   padding-left: 1rem; */
   /* width: 50%; */
-}
+/* } */
 
 .HTMLItems {
   display: flex;
@@ -155,8 +127,65 @@ LEFT COLUMN
   width: 100%;
 }
 
-#HTMLItem:hover  {
+.HTMLElements {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+#HTMLItem:hover {
   background-color: #a7cced;
+  color: white;
+}
+
+#submitButton:hover {
+  background-color: #a7cced;
+  color: white;
+}
+
+.lineDiv {
+  width: 150%;
+  margin-left: 0px;
+  /* background-color: red; */
+} 
+
+.customForm {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 35px;
+  color: white;
+}
+
+.customForm h5 {
+  color: #3d88e3;
+  text-align: center;
+  font-size: 95%;
+}
+
+.customForm label {
+  font-size: 75%;
+  /* display: inline-block; */
+  float: left;
+  clear: left;
+  /* width: 250px; */
+  text-align: center;
+}
+
+.customForm input {
+  /* width: 150px; */
+  float: left;
+  margin: 10px auto;
+  border-color: white;
+  /* width: 120px; */
+}
+
+#newElement {
+  display: flex;
+  align-items: center;
 }
 
 .component-input {
@@ -391,14 +420,15 @@ a.nav_link:hover {
   opacity: 0.75;
 }
 
-.componentPanelWrapper {
-  margin-top: 75px;
-  width: 100%;
-}
-
 .inputName {
   margin-bottom: 35px;
   text-align: center;
+}
+
+#checkboxContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-left: -40px;
 }
 
 .makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
