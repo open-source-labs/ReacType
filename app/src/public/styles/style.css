@@ -18,7 +18,7 @@ body {
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 h4 {
