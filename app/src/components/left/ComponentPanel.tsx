@@ -7,8 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 // The component panel section of the left panel displays all components and has the ability to add new components

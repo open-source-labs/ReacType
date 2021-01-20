@@ -95,9 +95,8 @@ function DirectChildHTMLNestable({
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
-    // // height? padding?
-    // padding: '5px',
-    // margin: '5px',
+    padding: '5px 10px',
+    margin: '1px 10px',
   };
 
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
