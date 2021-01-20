@@ -14,13 +14,14 @@ export const styleContext = createContext({
   setStyle: null
 });
 
-// const theme = createMuiTheme(theme1);
+// setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
-const darkTheme = theme2;
-console.log('dark', darkTheme)
+const darkTheme = theme2; // dark mode color in theme.ts not reached
+// console.log('dark', darkTheme)
 
 const AppContainer = () => {
 
+  // setting state for changing light vs dark themes; linked to NavBar.tsx
   const [isThemeLight, setTheme] = useState(true);
 
   const initialStyle = useContext(styleContext);

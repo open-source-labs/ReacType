@@ -1,38 +1,11 @@
 import React, { useState, useContext } from 'react';
-import StateContext from '../../context/context';
-
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import WarningIcon from '@material-ui/icons/Warning';
-import PublishIcon from '@material-ui/icons/Publish';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
-
-import exportProject from '../../utils/exportProject.util';
-
-import ProjectsFolder from './OpenProjects';
-import createModal from './createModal';
-import LoginButton from './LoginButton';
-import SaveProjectButton from './SaveProjectButton';
-import DeleteProjects from './DeleteProjects';
-
-// import { useStyles } from '../left/ComponentPanel';
 import { styleContext } from '../../containers/AppContainer';
 
-// ProjectManager function moved to NavBar.tsx
-const ProjectManager = () => {
-  // state to keep track of whether a modal should display
+// Modal modularized from ProjectManager.tsx
+const ExportModal = () => {
+  // State to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
-
-  // state to keep track of dark/light mode
-  // const theme = createMuiTheme(theme1);
-
 
   const classes = useStyles();
 
@@ -87,7 +60,7 @@ const ProjectManager = () => {
       </List>
     );
 
-    // create modal
+    // Create modal
     setModal(
       createModal({
         closeModal,
@@ -124,21 +97,21 @@ const ProjectManager = () => {
       </List>
     );
 
-    // helper function called by showGenerateAppModal
-    // this function will prompt the user to choose an app directory once they've chosen their export option
+    // Helper function called by showGenerateAppModal
+    // This function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
-      // set export option: 0 --> export only components, 1 --> export full project
+      // Set export option: 0 --> export only components, 1 --> export full project
       genOption = genOpt;
       window.api.chooseAppDir();
       closeModal();
     };
 
-    // removes all listeners for the app_dir_selected event
-    // this is important because otherwise listeners will pile up and events will trigger multiple events
+    // Removes all listeners for the app_dir_selected event
+    // This is important because otherwise listeners will pile up and events will trigger multiple events
     window.api.removeAllAppDirChosenListeners();
 
-    // add listener for when an app directory is chosen
-    // when a directory is chosen, the callback will export the project to the chosen folder
+    // Add listener for when an app directory is chosen
+    // When a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
     window.api.addAppDirChosenListener(path => {
       exportProject(
@@ -167,29 +140,11 @@ const ProjectManager = () => {
     );
   };
 
-  // --------------------------Dark Mode Button (moved to NavBar.tsx)----------------------------------
-
   return (
     <div>
-      {/* <Button
-        color="primary"
-        style={{ ...style.button, marginLeft: '15%' }}
-        variant="outlined"
-        className={classes.button}
-        onClick={() => {
-          !style.backgroundColor
-            ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
-            : setStyle({});
-          changeTheme();
-          
-        }}
-      >
-        Dark Mode
-      </Button> */}
-
   {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
-
-      <div className={classes.projectManagerWrapper}>
+      
+      {/* <div className={classes.projectManagerWrapper}>
         {state.name && state.isLoggedIn ? (
           <p style={{ color: 'white' }}>
             Your current project is <strong>{state.name}</strong>
@@ -199,12 +154,12 @@ const ProjectManager = () => {
           <p style={{ color: 'white' }}>
             Select "Save project as" to create and save a project
           </p>
-        ) : null}
+        ) : null} */}
 
   {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
 
-        <div className={classes.projectTypeWrapper}> */}
-         <FormControl>
+        <div className={classes.projectTypeWrapper}>
+          <FormControl>
             <Select
               variant="outlined"
               labelId="project-type-label"
@@ -220,8 +175,8 @@ const ProjectManager = () => {
         </div>
         {state.isLoggedIn ? <SaveProjectButton /> : ''}
         {state.isLoggedIn ? <ProjectsFolder /> : ''}
-        {state.isLoggedIn ? <DeleteProjects /> : ''} */}
-        {/* <div className={classes.btnGroup}>
+        {state.isLoggedIn ? <DeleteProjects /> : ''}
+ 
 
 {/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
 
@@ -237,7 +192,7 @@ const ProjectManager = () => {
 
 {/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
 
-        <Button 
+        <Button
           className={classes.button}
           variant="outlined"
           color="primary"
@@ -245,68 +200,66 @@ const ProjectManager = () => {
           endIcon={<WarningIcon />}
         >
           CLEAR WORKSPACE
-        </Button> 
+        </Button>
         <br />
         <br />
-        <LoginButton /> */}
-        </div>
-        {modal} 
+        <LoginButton />
+        {/* </div> */}
+        {modal}
       </div>
     </div>
   );
 };
 
-const useStyles = makeStyles({
-  projectManagerWrapper: {
-    // border: '1px solid rgba(70,131,83)',
-    //---------------------------------CHANGED BORDER-----------------------------------------
-    border: '1px solid rgba(247, 167, 62)',
-    padding: '20px',
-    margin: '40px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifySelf: 'flex-end',
-    width: '80%'
-  },
+// const useStyles = makeStyles({
+//   projectManagerWrapper: {
+//     border: '1px solid rgba(247, 167, 62)',
+//     padding: '20px',
+//     margin: '40px',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifySelf: 'flex-end',
+//     width: '80%'
+//   },
 
-  logoutButton: {
-    position: 'absolute',
-    bottom: '50px',
-    right: '150px',
-    // width: '100%'
+//   logoutButton: {
+//     position: 'absolute',
+//     bottom: '50px',
+//     right: '150px',
+    // width: '100%'//commented out
   },
-  btnGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    position: 'absolute',
-    bottom: '40px',
-    left: '0px'
-  },
+//   btnGroup: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     width: '100%',
+//     position: 'absolute',
+//     bottom: '40px',
+//     left: '0px'
+//   },
 
-  button: {
-    backgroundColor: 'rgba(1,212,109,0.1)',
-    fontSize: '1em',
-    minWidth: '300px',
-    // width: '50%',
-    marginTop: '10px',
-    marginBotton: '10px'
-  },
-  projectTypeWrapper: {
-    // width: '300px',
-    // width: '100%',
-    marginTop: '10px',
-    marginBotton: '10px'
-  },
-  projectSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    // width: '300px',
-    // width: '100%',
-    color: '#fff'
-  }
+//   button: {
+//     backgroundColor: 'rgba(1,212,109,0.1)',
+//     fontSize: '1em',
+//     minWidth: '300px',
+//     // width: '50%',
+//     marginTop: '10px',
+//     marginBotton: '10px'
+//   },
+//   projectTypeWrapper: {
+//     // width: '300px',
+//     // width: '100%',
+//     marginTop: '10px',
+//     marginBotton: '10px'
+//   },
+//   projectSelector: {
+//     backgroundColor: 'rgba(255,255,255,0.15)',
+//     // width: '300px',
+//     // width: '100%',
+//     color: '#fff'
+//   }
 });
 
-export default withRouter(ProjectManager);
+export default withRouter(ExportModal);

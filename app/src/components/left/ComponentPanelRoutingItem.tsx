@@ -95,7 +95,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.3)'
   },
   focusMark: {
-    backgroundColor: '#01d46d',
+    backgroundColor: '#808080',
     position: 'absolute',
     width: '12px',
     height: '12px',
@@ -104,7 +104,7 @@ const useStyles = makeStyles({
     top: '30px'
   },
   routeSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#808080',
     marginLeft: '20px',
     color: '#fff',
     height: '60%',

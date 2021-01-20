@@ -282,7 +282,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.1)'
   },
   rootToggle: {
-    color: '#01d46d',
+    color: '#808080',
     fontSize: '0.85rem'
   }
 });
