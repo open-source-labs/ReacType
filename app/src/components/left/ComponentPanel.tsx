@@ -133,12 +133,7 @@ const ComponentPanel = (): JSX.Element => {
               helperText={errorStatus ? errorMsg : ''}
               onChange={handleNameInput}
             />
-<<<<<<< HEAD
             <div className={classes.btnGroup} id="checkboxContainer">
-=======
-            <div className={classes.btnGroup}>
-              {/* This renders the checkbox adjacent to the "Component Name" text box */}
->>>>>>> 7e86e7f6d3e4bf0c6d77dabb8658131167f9bec4
               <FormControlLabel
                 value="top"
                 control={

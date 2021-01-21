@@ -98,12 +98,12 @@ function DirectChildHTMLNestable({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid rgb(#77b6ed)'
-        : '1px Solid grey',
+        : '1px solid grey',
     boxShadow:
       state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
+  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),

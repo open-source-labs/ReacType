@@ -139,8 +139,14 @@ const HTMLPanel = (): JSX.Element => {
 const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      {/* <div className="HTMLElements">
-        {state.HTMLTypes.map(option => (
+      <Grid
+          // container
+          // spacing={1}
+          // direction='column'
+          // justify='center'
+          // alignItems='center'
+        >
+          {htmlTypesToRender.map(option => (
             <HTMLItem
               name={option.name}
               key={`html-${option.name}`}
@@ -149,7 +155,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
               handleDelete={handleDelete}
             />
           ))}
-      </div>  */}
+        </Grid>
       <div className="lineDiv">
         <hr
           style={{
@@ -205,12 +211,12 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
           </form>
         </div>
       </div>
-        <Grid
-          container
-          spacing={1}
-          direction=“row”
-          justify=“center”
-          alignItems=“center”
+        {/* <Grid
+          // container
+          // spacing={1}
+          // direction='column'
+          // justify='center'
+          // alignItems='center'
         >
           {htmlTypesToRender.map(option => (
             <HTMLItem
@@ -221,7 +227,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
               handleDelete={handleDelete}
             />
           ))}
-        </Grid>
+        </Grid> */}
     </div>
   );
 };
