@@ -89,8 +89,8 @@ LEFT COLUMN
 .left {
   padding: 10px 10px 10px 0px;
   display: flex;
-  width: 175px;
-  min-width: 175px;
+  width: 200px;
+  min-width: 200px;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
@@ -137,7 +137,7 @@ LEFT COLUMN
 }
 
 #HTMLItemsGrid {
-  margin-left: 15px;
+  margin-left: 27px;
 }
 
 #HTMLItem {
@@ -148,6 +148,10 @@ LEFT COLUMN
 #HTMLItem:hover {
   background-color: #a7cced;
   color: white;
+}
+
+#submitButton {
+  margin-left: 5px;
 }
 
 #submitButton:hover {
@@ -180,22 +184,24 @@ LEFT COLUMN
 .customForm h5 {
   color: #3d88e3;
   text-align: center;
-  font-size: 95%;
+  font-size: 100%;
+  font-weight: 700;
+  width: 125%;
+  margin-left: -5px;
 }
 
-.customForm label {
-  font-size: 75%;
-  /* display: inline-block; */
+/* .customForm label {
+  font-size: 80%;
   float: left;
   clear: left;
-  /* width: 250px; */
-  text-align: center;
-}
+  display: flex;
+  align-items: center;
+} */
 
 .customForm input {
   /* width: 150px; */
   float: left;
-  margin: 20px 0px 0px -5px;
+  margin: 20px 0px 0px -13px;
   border-color: white;
   /* width: 120px; */
 }

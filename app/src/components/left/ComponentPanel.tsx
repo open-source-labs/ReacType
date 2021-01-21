@@ -117,11 +117,11 @@ const ComponentPanel = (): JSX.Element => {
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
         <div>
-          <h4 className={classes.newComponent}>New Component:</h4>
+          <h5 className={classes.newComponent}>New Component:</h5>
           {/* <label className={classes.inputLabel}>Name:</label> */}
           <div className={classes.inputWrapper}>
             {/* This renders the text field at the top left of the app, above the "ADD" button */}
-            <TextField
+            <input
               color={'primary'}
               // label="Component Name"
               variant="outlined"
@@ -181,13 +181,16 @@ const ComponentPanel = (): JSX.Element => {
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
               return (
-                <ComponentPanelItem
+                <div className="classes.dragComponents">
+                  <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
                   key={`comp-${comp.id}`}
                   name={comp.name}
                   id={comp.id}
                   root={true}
-                />
+                  />
+                </div>
+                
               );
             })}
         </Grid>
@@ -231,7 +234,20 @@ const ComponentPanel = (): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
-    marginTop: '0px'
+    // marginTop: '0px'
+    color: '#77b6ed',
+    borderRadius: '5px',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    // border: '1px solid rgba(51,235,145,0.75)',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    margin: '0px 0px 0px 10px',
+    width: '140px',
+    height: '30px',
+    borderColor: 'white'
   },
   inputWrapper: {
     // height: '115px',
@@ -270,33 +286,40 @@ const useStyles = makeStyles({
     minHeight: '120px',
     // overflowY: 'auto',
     marginLeft: '-15px',
-    marginRight: '-15px'
+    marginRight: '-15px',
+    width: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  dragComponents: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '500px',
+    backgroundColor: 'red',
+    border: '5px solid red'
   },
   panelSubheader: {
     textAlign: 'center',
     color: '#fff'
   },
   input: {
-    // color: 'white',
-    borderStyle: 'solid',
-    borderRadius: '5px',
-    borderColor: 'white',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
-    marginLeft: '-34px',
-    width: '120px',
-    height: '30px',
-    whiteSpace: 'nowrap',
-    // border: '1px solid white'
-    // overflowX: 'hidden',
-    // textOverflow: 'ellipsis',
-    // border: '1px solid rgba(51,235,145,0.75)',
-    // backgroundColor: 'rgba(255,255,255,0.15)'
+    
+    // borderStyle: 'solid',
+    // borderRadius: '5px',
+    // borderColor: 'white',
+    // marginLeft: '-34px',
+    // width: '120px',
+    // height: '30px',
+    // whiteSpace: 'nowrap',
+
   },
   newComponent: {
     color: '#3d88e3',
     fontSize: '95%',
-    marginTop: '0px'
+    margin: '0px'
   },
   inputLabel: {
     fontSize: '.77em',
@@ -327,7 +350,7 @@ const useStyles = makeStyles({
   rootToggle: {
     color: '#808080',
     fontSize: '0.85rem'
-  }
+  },
 });
 
 export default ComponentPanel;
