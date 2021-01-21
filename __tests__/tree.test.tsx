@@ -111,5 +111,6 @@ test('Test the tree functionality', function () {
   expect(screen.getByText('index')).toBeInTheDocument();
   expect(screen.getByText('A')).toBeInTheDocument();
   expect(screen.getByText('B')).toBeInTheDocument();
+  expect(screen.queryByText('separator')).toBe(null);
 
 })
