@@ -319,7 +319,6 @@ const reducer = (state: State, action: Action) => {
       };
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-      // let addChildArray = components[0].children;
       let addChildArray = components[canvasFocus.componentId-1].children
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
       if (directParent && directParent.name === 'separator') nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
