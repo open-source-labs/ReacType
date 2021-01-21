@@ -116,29 +116,31 @@ const ComponentPanel = (): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
-        <div>
           <h4 className={classes.newComponent}>New Component:</h4>
-          {/* <label className={classes.inputLabel}>Name:</label> */}
-          <div className={classes.inputWrapper}>
-            {/* This renders the text field at the top left of the app, above the "ADD" button */}
-            <TextField
-              color={'primary'}
-              // label="Component Name"
-              variant="outlined"
-              className={classes.inputField}
-              InputProps={{ className: classes.input }}
-              // InputLabelProps={{ className: classes.inputLabel }}
-              value={compName}
-              error={errorStatus}
-              helperText={errorStatus ? errorMsg : ''}
-              onChange={handleNameInput}
-            />
+          {/* input for new component */}
+          <div style={{display: 'flex', justifyContent:'space-around'}}>
+            <div>
+               <label className={classes.inputLabel}>Name:</label>
+                <div className={classes.inputWrapper}>
+                    <TextField
+                    color={'primary'}
+                    variant="outlined"
+                    className={classes.inputField}
+                    InputProps={{ className: classes.input }}
+                    value={compName}
+                    error={errorStatus}
+                    helperText={errorStatus ? errorMsg : ''}
+                  onChange={handleNameInput}
+              />
+              </div>
+            </div>
+           
             <div className={classes.btnGroup} id="checkboxContainer">
               <FormControlLabel
                 value="top"
                 control={
                   <Checkbox
-                    className={classes.rootCheckbox}
+                    className={classes.rootCheckBox}
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
@@ -157,7 +159,7 @@ const ComponentPanel = (): JSX.Element => {
           >
             Create
           </button>
-        </div>
+       
       </div>
       <div className="lineDiv">
           <hr
@@ -240,26 +242,22 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: '35px',
+    // paddingLeft: '35px',
     marginBottom: '15px',
   },
   addComponentWrapper: {
-    // border: '1px solid rgba(70,131,83)',
-    //-------------------CHANGED----------------------------------------------
-    // border: '1px solid rgba(247, 167, 62, 0.75)',
     padding: 'auto',
     marginLeft: '21px',
     display: 'inline-block',
-    // flexDirection: 'column',
-    // justifyContent: 'space-between'
+    width: '100%',
   },
   rootCheckBox: {
-    borderColor: 'white',
-    color: 'white'
+    borderColor: '#77b6ed',
+    color: '#77b6ed'
   },
   rootCheckBoxLabel: {
-    color: 'white',
-    borderColor: 'white'
+    color: '#77b6ed',
+    borderColor: '#77b6ed'
   },
   panelWrapper: {
     width: '100%',
@@ -287,11 +285,6 @@ const useStyles = makeStyles({
     width: '120px',
     height: '30px',
     whiteSpace: 'nowrap',
-    // border: '1px solid white'
-    // overflowX: 'hidden',
-    // textOverflow: 'ellipsis',
-    // border: '1px solid rgba(51,235,145,0.75)',
-    // backgroundColor: 'rgba(255,255,255,0.15)'
   },
   newComponent: {
     color: '#3d88e3',
@@ -299,9 +292,8 @@ const useStyles = makeStyles({
     marginTop: '0px'
   },
   inputLabel: {
-    fontSize: '.77em',
-    // zIndex: 20,
-    color: '#fff',
+    fontSize: '1em',
+    color: '#77b6ed',
     marginLeft: '10px'
   },
   btnGroup: {
@@ -317,9 +309,7 @@ const useStyles = makeStyles({
     fontFamily: '"Raleway", sans-serif',
     fontSize: '90%',
     textAlign: 'center',
-    margin: '-20px 0px 5px 11px',
-    // marginLeft: '30px',
-    // border: '1px solid white',
+    margin: '-20px 0px 5px 150px',
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',

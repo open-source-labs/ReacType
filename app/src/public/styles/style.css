@@ -318,7 +318,8 @@ RIGHT COLUMN
 */
 
 #rightContainer {
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .export {
