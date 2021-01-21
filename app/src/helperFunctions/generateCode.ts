@@ -20,6 +20,7 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
+
   // find the component that we're going to generate code for
   const currentComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
@@ -28,14 +29,20 @@ const generateUnformattedCode = (
 
   const isRoot = rootComponents.includes(componentId);
 
-  // get metadata for each child (e.g. the name/tag of the component/element)
+  // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
+    // declare an array of enriched children
+
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       const child = { ...elem };
+
+      // check if child is a component
       if (child.type === 'Component') {
+        // verify that the child is in the components array in state
         const referencedComponent = components.find(
           elem => elem.id === child.typeId
         );
+        // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
         child['name'] = referencedComponent.name;
@@ -43,7 +50,10 @@ const generateUnformattedCode = (
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
-        if (referencedHTML.tag === 'div') {
+        if (
+          referencedHTML.tag === 'div' ||
+          referencedHTML.tag === 'separator'
+        ) {
           child.children = getEnrichedChildren(child);
         }
         return child;
@@ -55,6 +65,7 @@ const generateUnformattedCode = (
         return child;
       }
     });
+
     return enrichedChildren;
   };
 
@@ -101,17 +112,20 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(child.style)}>BUTTON</${
               child.tag
             }>`;
-          } else {
+          } else if (child.tag !== 'separator') {
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
         }
-        // route links are only a next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
+        // route links are for gastby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
-          return projectType === 'Next.js'
-            ? `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
-            : `<div><a>${child.name}</a></div>`;
+          if (projectType === 'Next.js') {
+            return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
+          } else if (projectType === 'Gatsby.js') {
+            return `<div><Link to="/${child.name}">${child.name}</Link>`
+          } else return `<div><a>${child.name}</a></div>`
         }
       })
+      .filter(element => !!element)
       .join('\n')}`;
   };
 
@@ -132,7 +146,7 @@ const generateUnformattedCode = (
 
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
-    projectType === 'Next.js'
+    projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
           .map((comp: string) => {
             return isRoot
@@ -151,7 +165,7 @@ const generateUnformattedCode = (
 
   // create final component code. component code differs between classic react and next.js
   // classic react code
-  if (projectType !== 'Next.js') {
+  if (projectType === 'Classic React') {
     return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
     ${classBased ? `import React, {Component} from 'react';` : ''}
@@ -190,7 +204,7 @@ const generateUnformattedCode = (
     `;
   }
   // next.js component code
-  else {
+  else if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
     ${importsMapped}
@@ -219,6 +233,37 @@ const generateUnformattedCode = (
 
       export default ${currentComponent.name};
     `;
+  } else {
+    return `
+    import React, { useState } from 'react';
+    import { StaticQuery, graphql } from 'gatsby';
+    ${links ? `import { Link } from 'gatsby'` : ``}
+    
+    ${importsMapped}
+   
+
+      const ${currentComponent.name} = (props): JSX.Element => {
+
+        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+
+      return (
+        <>
+        ${
+          isRoot
+            ? `<head>
+        <title>${currentComponent.name}</title>
+        </head>`
+            : ``
+        }
+        <div className="${currentComponent.name}" style={props.style}>
+        ${writeNestedElements(enrichedChildren)}
+        </div>
+        </>
+        );
+      }
+
+      export default ${currentComponent.name};
+    `;
   }
 };
 
@@ -236,8 +281,11 @@ const formatCode = (code: string) => {
       parser: 'babel'
     });
   } else {
+    // console.log('prettier');
     return window.api.formatCode(code);
   }
+  /* Error occured with "prettier" module despite reinstallation, for now formatCode returns the original codes without styling from prettier */
+  // return code;
 };
 
 // generate code based on component hierarchy and then return the rendered code

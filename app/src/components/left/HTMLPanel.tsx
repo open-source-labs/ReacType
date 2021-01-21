@@ -4,6 +4,19 @@ import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
 
+/*
+DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
+  Elements' header. The boxes containing each HTML element are rendered in
+  HTMLItem, which itself is rendered by this component.
+
+Central state contains all available HTML elements (stored in the HTMLTypes property).
+  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
+  initialState.tsx.
+
+Hook state:
+  -tag: 
+*/
+
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
   const [tag, setTag] = useState('');
@@ -122,7 +135,8 @@ const HTMLPanel = (): JSX.Element => {
       payload: id
     });
   };
-
+  // filter out separator so that it will not appear on the html panel
+const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div>
       <h4> HTML Elements</h4>
@@ -173,7 +187,7 @@ const HTMLPanel = (): JSX.Element => {
         justify="center"
         alignItems="center"
       >
-        {state.HTMLTypes.map(option => (
+        {htmlTypesToRender.map(option => (
           <HTMLItem
             name={option.name}
             key={`html-${option.name}`}

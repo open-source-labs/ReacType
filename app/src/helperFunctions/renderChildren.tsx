@@ -3,6 +3,7 @@ import { ChildElement } from '../interfaces/Interfaces';
 import DirectChildComponent from '../components/main/DirectChildComponent';
 import DirectChildHTML from '../components/main/DirectChildHTML';
 import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable';
+import SeparatorChild from '../components/main/SeparatorChild';
 import RouteLink from '../components/main/RouteLink';
 import StateContext from '../context/context';
 
@@ -30,7 +31,7 @@ const renderChildren = (children: ChildElement[]) => {
       );
     }
     // child is a non-nestable type of HTML element (everything except for divs)
-    else if (type === 'HTML Element' && typeId !== 11) {
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000) {
       return (
         <DirectChildHTML
           childId={childId}
@@ -46,6 +47,19 @@ const renderChildren = (children: ChildElement[]) => {
     else if (type === 'HTML Element' && typeId === 11) {
       return (
         <DirectChildHTMLNestable
+          childId={childId}
+          type={type}
+          typeId={typeId}
+          style={style}
+          children={children}
+          key={'DirChildHTMLNest' + childId.toString() + name}
+          name={child.name}
+        />
+      );
+    }
+    else if (type === 'HTML Element' && typeId === 1000) {
+      return (
+        <SeparatorChild
           childId={childId}
           type={type}
           typeId={typeId}

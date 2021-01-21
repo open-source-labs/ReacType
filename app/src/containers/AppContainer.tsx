@@ -7,6 +7,7 @@ import RightContainer from './RightContainer';
 import { theme1 } from '../public/styles/theme';
 import { makeStyles } from '@material-ui/core/styles';
 
+
 export const styleContext = createContext({
   style: null,
   setStyle: null

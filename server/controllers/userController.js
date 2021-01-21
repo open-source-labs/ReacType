@@ -4,36 +4,37 @@ const { Users } = require('../models/reactypeModels');
 const userController = {};
 const bcrypt = require('bcryptjs');
 
-const randomPassword = () => {
-  function getRandomSpecialChar() {
-    const code = Math.round(Math.random() * (38 - 37) + 37);
-    return String.fromCharCode(code);
-  }
-  function getRandomDigit() {
-    const code = Math.round(Math.random() * (57 - 48) + 48);
-    return String.fromCharCode(code);
-  }
-  function getRandomLetter() {
-    const code = Math.round(Math.random() * (90 - 65) + 65);
-    return String.fromCharCode(code);
-  }
-  let password = '';
-  for (let i = 0; i < 6; i += 1) {
-    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar(); 
-  }
-  return password;
-}
+// random password is subtituted when user uses Oauth and no new password is provided
+// const randomPassword = () => {
+//   function getRandomSpecialChar() {
+//     const code = Math.round(Math.random() * (38 - 37) + 37);
+//     return String.fromCharCode(code);
+//   }
+//   function getRandomDigit() {
+//     const code = Math.round(Math.random() * (57 - 48) + 48);
+//     return String.fromCharCode(code);
+//   }
+//   function getRandomLetter() {
+//     const code = Math.round(Math.random() * (90 - 65) + 65);
+//     return String.fromCharCode(code);
+//   }
+//   let password = '';
+//   for (let i = 0; i < 6; i += 1) {
+//     password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
+//   }
+//   return password;
+// }
 
 userController.createUser = (req, res, next) => {
-  
   let { email, username, password } = req.body;
-  if (res.locals.signUpType === 'oauth') {
-    email = res.locals.githubEmail; 
-    username = email;
-    password = randomPassword();
-  } 
-  // error handling if username or password is missing
-  // TODO: make this more vague for security purposes
+
+  // use this condition for Oauth login
+  // if (res.locals.signUpType === 'oauth') {
+  //   email = res.locals.githubEmail;
+  //   username = email;
+  //   password = randomPassword();
+  // }
+  // error handling if username or email or password is missing
 
   if (!username) {
     return res.status(400).json('No username input');
@@ -47,6 +48,7 @@ userController.createUser = (req, res, next) => {
 
   // create user using username and password
   Users.create({ username, password, email }, (err, newUser) => {
+    // handle error of creating a new user
     if (err) {
       if (err.keyValue.email && res.locals.signUpType === 'oauth') {
         return next();
@@ -64,14 +66,14 @@ userController.createUser = (req, res, next) => {
       return next({
         log: `Error in userController.createUser: ${err}`,
         message: {
-          err: `Error in userController.createUser. Check server logs for details`,
-        },
+          err:
+            'Error in userController.createUser. Check server logs for details'
+        }
       });
-    } else {
-      // this id property will be used in other middleware for cookie
-      res.locals.id = newUser.id;
-      return next();
     }
+    // if no error found when creating a new user, send back user ID in res.locals
+    res.locals.id = newUser.id;
+    return next();
   });
 };
 
@@ -80,10 +82,11 @@ userController.createUser = (req, res, next) => {
 
 userController.verifyUser = (req, res, next) => {
   let { username, password, isFbOauth } = req.body;
-  if (res.locals.signUpType === 'oauth') {
-    username = res.locals.githubEmail;
-    password = res.locals.githubPassword;
-  }
+  // handle Oauth
+  // if (res.locals.signUpType === 'oauth') {
+  //   username = res.locals.githubEmail;
+  //   password = res.locals.githubPassword;
+  // }
   if (!username) {
     return res.status(400).json('No Username Input');
   }
@@ -95,60 +98,30 @@ userController.verifyUser = (req, res, next) => {
       return next({
         log: `Error in userController.verifyUser: ${err}`,
         message: {
-          err: `Error in userController.verifyUser, check server logs for details`,
-        },
+          err: `Error in userController.verifyUser, check server logs for details`
+        }
       });
-    } 
-    else if (user && (res.locals.signUpType === 'oauth' || isFbOauth)) {
+    }
+    if (user && (res.locals.signUpType === 'oauth' || isFbOauth)) {
       res.locals.id = user.id;
       return next();
-    } 
-    else if (user) {
+    }
+    if (user) {
       // bcrypt compare function checks input password against hashed password
-      bcrypt.compare(password, user.password).then((isMatch) => {
+      // eslint-disable-next-line arrow-parens
+      bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // if password matches, save user id for following middleware
           res.locals.id = user.id;
           return next();
-        } else {
-          return res.status(400).json('Incorrect Password');
         }
+        // if hashed password is not matched saved password in db, send 400 response
+        return res.status(400).json('Incorrect Password');
       });
     } else {
       return res.status(400).json('Invalid Username');
     }
   });
 };
-
-// userController.doesUserExist = (req, res, next) => {
-//   const { email } = req.body;
-//   Users.findOne({ email }, (err, user) => {
-//     if (err) return next({
-//       log: `Error in userController.doesUserExist: ${err}`,
-//         message: {
-//           err: `Error in userController.doesUserExist, check server logs for details`,
-//         },
-//     });
-//     else if(!user) {
-//       console.log('email NOT found', user);
-//       res.locals.userExists = false;
-//       return next();
-//     } 
-//     else {
-//       console.log('email found', user);
-//       res.locals.userExists = true;
-//       return next();
-//     }
-//   })
-// }
-
-// userController.isOauth = (req, res, next) => {
-//   const { signUpType } = res.localsbody;
-//   if (signUpType === 'oauth'){
-//     return next();
-//   } else {
-//     return next();
-//   }
-// }
 
 module.exports = userController;
