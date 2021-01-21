@@ -204,9 +204,9 @@ const ProjectManager = () => {
             </Select>
           </FormControl>
         </div>
-        {state.isLoggedIn ? <SaveProjectButton /> : ''}
+        {/* {state.isLoggedIn ? <SaveProjectButton /> : ''}
         {state.isLoggedIn ? <ProjectsFolder /> : ''}
-        {state.isLoggedIn ? <DeleteProjects /> : ''} 
+        {state.isLoggedIn ? <DeleteProjects /> : ''}  */}
         {/* <div className={classes.btnGroup}>
 
 {/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
