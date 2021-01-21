@@ -3,7 +3,6 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  Component
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -157,21 +156,6 @@ const RightContainer = (): JSX.Element => {
 
   const isIndex = (): boolean => configTarget.id === 1;
 
-  const isChildOfPage = (): boolean => {
-    let isChild: boolean = false;
-
-    // id of target we want to check
-    const { id } = configTarget;
-    state.components.forEach(comp => {
-      comp.children.forEach(child => {
-        if (child.type === 'Component' && child.typeId === id) {
-          isChild = true;
-        }
-      });
-    });
-    return isChild;
-  };
-
   const isLinkedTo = (): boolean => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
@@ -220,16 +204,6 @@ const RightContainer = (): JSX.Element => {
     isIndex()
       ? handleDialogError('index')
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
-  };
-
-  // const handleDeleteReusableComponent = () => {
-  //   dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
-  // };
-
-  const isReusable = (configTarget): boolean => {
-    return state.components
-      .filter(comp => !state.rootComponents.includes(comp.id))
-      .some(el => el.id == configTarget.id);
   };
 
   const handleDialogError = err => {
@@ -553,26 +527,6 @@ const RightContainer = (): JSX.Element => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <Dialog
-        open={deleteComponentError}
-        onClose={handleCloseDialogError}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {ErrorMessages.deleteComponentTitle}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {ErrorMessages.deleteComponentMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialogError} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog> */}
       {modal}
     </div>
   );

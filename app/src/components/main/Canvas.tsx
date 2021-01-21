@@ -5,22 +5,14 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-const findNestedChild = (curr, components) => {
-  components.forEach((comp, i) => {
-    comp.children.forEach(child => {
-      if (child.name === curr.name) {
-      }
-    });
-    if (comp.children.length !== 0) findNestedChild(curr, comp.children);
-  });
-};
+
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  findNestedChild(currentComponent, state.components);
+  
   // changes focus of the canvas to a new component / child
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
@@ -81,6 +73,7 @@ function Canvas() {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
+      {/* currentComponent is the selected component on Left Panel (eg: App or Index with green dot to the left)  */}
       {renderChildren(currentComponent.children)}
     </div>
   );

@@ -198,8 +198,9 @@ const ProjectManager = () => {
               value={state.projectType}
               onChange={handleProjectChange}
             >
-              <MenuItem value={'Next.js'}>Next.js</MenuItem>
               <MenuItem value={'Classic React'}>Classic React</MenuItem>
+              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
+              <MenuItem value={'Next.js'}>Next.js</MenuItem>
             </Select>
           </FormControl>
         </div>

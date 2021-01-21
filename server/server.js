@@ -1,21 +1,18 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
 // const passport = require('passport');
 // require('./passport-setup');
-const bodyParser = require('body-parser');
+
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
 const projectController = require('./controllers/projectController');
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 const isDev = process.env.NODE_ENV === 'development';
-
-console.log('PORT is ', PORT);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,7 +22,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ['http://localhost:8080', 'app://rse'],
-    credentials: true,
+    credentials: true
   })
 );
 
@@ -37,22 +34,23 @@ app.use(
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-app.get(
-  '/github/callback',
-  sessionController.gitHubResponse,
-  sessionController.gitHubSendToken,
-  userController.createUser,
-  userController.verifyUser,
-  cookieController.setSSIDCookie,
-  sessionController.startSession,
-  (req, res) => {
-    if (isDev) {
-      return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
-    } else {
-      return res.status(200).redirect('app://rse');
-    }
-  }
-);
+// // for Oauth which is currently not working
+// app.get(
+//   '/github/callback',
+//   sessionController.gitHubResponse,
+//   sessionController.gitHubSendToken,
+//   userController.createUser,
+//   userController.verifyUser,
+//   cookieController.setSSIDCookie,
+//   sessionController.startSession,
+//   (req, res) => {
+//     if (isDev) {
+//       return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
+//     } else {
+//       return res.status(200).redirect('app://rse');
+//     }
+//   }
+// );
 
 app.post(
   '/signup',
@@ -113,14 +111,14 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware',
     status: 500,
-    message: { err: 'An error occurred' },
+    message: { err: 'An error occurred' }
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-//starts server on PORT
+// starts server on PORT
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });

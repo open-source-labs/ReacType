@@ -7,6 +7,29 @@ const port = 5000;
 const Protocol = require('./protocol');
 const tutorialRoute = `http://localhost:${port}/tutorial`;
 
+/* 
+DESCRIPTION: This file generates an array containing a menu based on the operating system the user is running.
+
+menuBuilder: The entire file is encompassed in menuBuilder. Ultimately, menuBuilder returns a function called
+  buildMenu that uses defaultTemplate to construct a menu at the top of the application (as invoked in main.js)
+
+  Standard menu roles (e.g., undo, redo, quit, paste, etc.) come from Electron API and need not be separately coded
+
+openTutorial: opens browser window containing tutorial on how to use the app
+  -Creates a browser window
+  -Tutorial is invoked within the "Help" menu
+
+defaultTemplate: returns an array of submenus (each an array)
+  -First, checks whether user is on a Mac (node returns 'darwin' for process.platform)
+    -Then generates a dropdown menu at the top of the screen (e.g., "File") accordingly
+    -The Mac check is necessary primarily for the first menu column, which is the name of the app
+  -If user is not on a Mac, alternative menus are generated
+  -Each menu:
+    -"label" is the field at the top of each menu (e.g., "File", "Edit", "View", etc.)
+    -"role" is a subitem within each menu (e.g., under "File," "Quit")
+    -"type: separator" creates a horizontal line in a menu (e.g., under "Redo" in the "Edit" menu)
+*/
+
 // Create a template for a menu and create menu using that template
 var MenuBuilder = function(mainWindow, appName) {
   // https://electronjs.org/docs/api/menu#main-process

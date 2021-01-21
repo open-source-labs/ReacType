@@ -4,6 +4,19 @@ import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
 
+/*
+DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
+  Elements' header. The boxes containing each HTML element are rendered in
+  HTMLItem, which itself is rendered by this component.
+
+Central state contains all available HTML elements (stored in the HTMLTypes property).
+  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
+  initialState.tsx.
+
+Hook state:
+  -tag: 
+*/
+
 const HTMLPanel = (): JSX.Element => {
   const classes = useStyles();
   const [tag, setTag] = useState('');
@@ -122,10 +135,11 @@ const HTMLPanel = (): JSX.Element => {
       payload: id
     });
   };
-
+  // filter out separator so that it will not appear on the html panel
+const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <div className="HTMLElements">
+      {/* <div className="HTMLElements">
         {state.HTMLTypes.map(option => (
             <HTMLItem
               name={option.name}
@@ -135,7 +149,7 @@ const HTMLPanel = (): JSX.Element => {
               handleDelete={handleDelete}
             />
           ))}
-      </div> 
+      </div>  */}
       <div className="lineDiv">
         <hr
           style={{
@@ -191,19 +205,23 @@ const HTMLPanel = (): JSX.Element => {
           </form>
         </div>
       </div>
-        {/* <div className="lineDiv">
-          <hr
-            style={{
-              borderColor: '#f5f5f5',
-              borderStyle: 'solid',
-              color: '#f5f5f5',
-              backgroundColor: 'white',
-              height: '0.5px',
-              width: '100%',
-              margin: '0px 0px 0px 0px'
-            }}
-          />
-        </div> */}
+        <Grid
+          container
+          spacing={1}
+          direction=“row”
+          justify=“center”
+          alignItems=“center”
+        >
+          {htmlTypesToRender.map(option => (
+            <HTMLItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              Icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </Grid>
     </div>
   );
 };
