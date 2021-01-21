@@ -271,21 +271,19 @@ const generateUnformattedCode = (
 const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
-  if (process.env.NODE_ENV === 'test') {
-    const { format } = require('prettier');
-    return format(code, {
-      singleQuote: true,
-      trailingComma: 'es5',
-      bracketSpacing: true,
-      jsxBracketSameLine: true,
-      parser: 'babel'
-    });
-  } else {
-    // console.log('prettier');
-    return window.api.formatCode(code);
-  }
-  /* Error occured with "prettier" module despite reinstallation, for now formatCode returns the original codes without styling from prettier */
-  // return code;
+  // if (process.env.NODE_ENV === 'test') {
+  //   const { format } = require('prettier');
+  //   return format(code, {
+  //     singleQuote: true,
+  //     trailingComma: 'es5',
+  //     bracketSpacing: true,
+  //     jsxBracketSameLine: true,
+  //     parser: 'babel'
+  //   });
+  // } else {
+  //   return window.api.formatCode(code);
+  // }
+  return code;
 };
 
 // generate code based on component hierarchy and then return the rendered code

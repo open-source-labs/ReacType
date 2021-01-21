@@ -138,14 +138,44 @@ const HTMLPanel = (): JSX.Element => {
   // filter out separator so that it will not appear on the html panel
 const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
-    <div>
-      <h4> HTML Elements</h4>
+    <div className="HTMLItems">
+      <Grid
+          // container
+          // spacing={1}
+          // direction='column'
+          // justify='center'
+          // alignItems='center'
+        >
+          {htmlTypesToRender.map(option => (
+            <HTMLItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              Icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </Grid>
+      <div className="lineDiv">
+        <hr
+          style={{
+            borderColor: '#f5f5f5',
+            borderStyle: 'solid',
+            color: '#f5f5f5',
+            backgroundColor: 'white',
+            height: '0.5px',
+            width: '100%',
+            marginLeft: '0px'
+          }}
+        />
+      </div>
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
-          <form onSubmit={handleSubmit}>
-            <h4>Create New Element: </h4>
+          <form onSubmit={handleSubmit} className="customForm">
+            <h5>New Element: </h5>
             <label className={classes.inputLabel}>
               Tag:
+            </label>
               <input
                 color={'primary'}
                 type="text"
@@ -156,47 +186,48 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
                 style={{ marginBottom: '10px' }}
               />
               {errorStatus && <span>{errorMsg}</span>}
-            </label>
             <br></br>
             <label className={classes.inputLabel}>
-              Tag Name:
-              <input
-                color={'primary'}
-                type="text"
-                name="Tag Name"
-                value={name}
-                onChange={handleNameChange}
-                className={classes.input}
-              />
-              {errorStatus && <span>{errorMsg}</span>}
+              Element Name:
             </label>
             <input
-              className={buttonClasses}
-              color="primary"
+              color={'primary'}
+              type="text"
+              name="Tag Name"
+              value={name}
+              onChange={handleNameChange}
+              className={classes.input}
+            />
+            {errorStatus && <span>{errorMsg}</span>}           
+            <input
+              // className={buttonClasses}
+              className={classes.addElementButton}
+              id="submitButton"
+              // color="primary"
               type="submit"
               value="Add Element"
-              style={{ marginTop: '15px' }}
+              // style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
             />
           </form>
         </div>
       </div>
-      <Grid
-        container
-        spacing={1}
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
-        {htmlTypesToRender.map(option => (
-          <HTMLItem
-            name={option.name}
-            key={`html-${option.name}`}
-            id={option.id}
-            Icon={option.icon}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </Grid>
+        {/* <Grid
+          // container
+          // spacing={1}
+          // direction='column'
+          // justify='center'
+          // alignItems='center'
+        >
+          {htmlTypesToRender.map(option => (
+            <HTMLItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              Icon={option.icon}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </Grid> */}
     </div>
   );
 };
@@ -209,31 +240,57 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'space-between',
     // paddingLeft: '35px',
-    marginBottom: '15px'
+    marginBottom: '15px',
+    width: '100%'
   },
   addComponentWrapper: {
-    border: '1px solid rgba(70,131,83)',
-    padding: '20px',
-    margin: '20px'
+    // border: '1px solid rgba(70,131,83)',
+    //----------------------------------CHANGED---------------------------------------
+    // border: '1px solid rgba(247, 167, 62, 0.45)',
+    // padding: '20px',
+    // margin: '20px',
+    width: '100%',
+    margin: '5px 0px 0px 0px'
   },
   input: {
     color: '#fff',
     borderRadius: '5px',
-    paddingLeft: '15px',
-    paddingRight: '10px',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    border: '1px solid rgba(51,235,145,0.75)',
+    // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    marginLeft: '10px'
+    margin: '0px 0px 0px 10px',
+    width: '100px',
+    height: '30px'
   },
   inputLabel: {
     fontSize: '16px',
     zIndex: 20,
-    color: '#fff',
-    marginTop: '-10px'
-  }
+    color: '#77b6ed',
+    margin: '-10px 0px -10px -5px'
+  },
+  addElementButton: {
+    color: '#77b6ed',
+    backgroundColor: 'transparent',
+    height: '40px',
+    width: '105px',
+    fontFamily: '"Raleway", sans-serif',
+    fontSize: '85%',
+    textAlign: 'center',
+    margin: '5px auto',
+    marginLeft: '25px',
+    // border: '1px solid rgba(225, 225, 225, 1.0)',
+    borderStyle: 'none',
+    transition: '0.3s',
+    borderRadius: '25px',
+    // cursor: 'grab',
+    // '& > h3': {
+    //   display: 'inline-block'
+    //   }
+    }
 });
 
 export default HTMLPanel;

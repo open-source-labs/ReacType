@@ -23,6 +23,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
+import ComponentPanel from '../components/left/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (): JSX.Element => {
@@ -241,8 +242,9 @@ const RightContainer = (): JSX.Element => {
             marginTop: '5%'
           }}
         >
-          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+        <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
+
         <ListItem
           key={'not delete'}
           button
@@ -276,6 +278,9 @@ const RightContainer = (): JSX.Element => {
 
   return (
     <div className="column right" style={style}>
+      <ComponentPanel />
+      <ProjectManager />
+  {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -467,7 +472,7 @@ const RightContainer = (): JSX.Element => {
           {configTarget.child ? (
             <div className={classes.buttonRow}>
               <Button
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={handleDelete}
               >
@@ -496,7 +501,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           )}
         </div>
-        <ProjectManager />
+        {/* <ProjectManager /> */}
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
@@ -561,7 +566,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: 'rgba(255,0,0,0.75)'
+      color: '#808080' // color for delete page
     }
   },
   button: {
@@ -570,7 +575,7 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#01d46d',
+    color: '#3ea3d6', // color for 'index' under parent component
     fontSize: '1.75rem'
   },
   configHeader: {

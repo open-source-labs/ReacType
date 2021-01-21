@@ -99,7 +99,7 @@ function DirectChildHTMLNestable({
     margin: '1px 10px',
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'white';
+  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),

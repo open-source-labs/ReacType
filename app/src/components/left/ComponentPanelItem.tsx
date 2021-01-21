@@ -94,7 +94,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.3)'
   },
   focusMark: {
-    backgroundColor: '#01d46d',
+    backgroundColor: '#808080',
     position: 'absolute',
     width: '12px',
     height: '12px',

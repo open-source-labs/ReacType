@@ -4,6 +4,8 @@
   box-sizing: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
 html {
   box-sizing: border-box;
   /* overflow: hidden; */
@@ -12,31 +14,16 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
+  /* overflow: auto; */
 }
 
-/* span > button {
-  background-color: #01d46d;
-  width: 600px;
-}  */
-/**************
-*
-* for Material React Table found in Add Child Props
-*
-***************/
-
-#app
-  > div
-  > div
-  > div
-  > div.main-container
-  > div.bottom-panel
-  > div
-  > div:nth-child(2)
-  > button {
-  font-size: 20px;
+h4 {
+  color: #77b6ed;
+  text-align: center;
 }
 
 /*
@@ -75,7 +62,8 @@ header {
 
 .column {
   /* width: 25%; */
-  background-color: #252526;
+  background-color: #ececea;
+  /* margin-top: 65px; */
 }
 
 /* .column-right-export-btn {
@@ -88,9 +76,9 @@ BUTTONS
 /////////////////////////////////////////////
 */
 
-.btn {
-  font-size: 16px;
-}
+/* .btn {
+  font-size: 1em;
+} */
 
 /*
 ///////////////////////////////////////////
@@ -99,10 +87,10 @@ LEFT COLUMN
 */
 
 .left {
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
   display: flex;
-  width: 380px;
-  min-width: 380px;
+  width: 175px;
+  min-width: 175px;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
@@ -122,12 +110,95 @@ LEFT COLUMN
 } */
 
 /* affecting HTMl elements in HTML Panel */
-.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline {
+/* .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline { */
   /* padding: 3rem; */
-  margin: -5rem;
+  /* margin: -5rem;
   padding-right: 5rem;
   padding-top: 3rem;
-  padding-left: 1rem;
+  padding-left: 1rem; */
+  /* width: 50%; */
+/* } */
+
+.HTMLItems {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.HTMLElements {
+  /* margin-left: 10px; */
+  margin: 0px 0px 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+#HTMLItem {
+  /* transition: background 0.5s ease-in-out; */
+  transition: 0.3s;
+}
+
+#HTMLItem:hover {
+  background-color: #a7cced;
+  color: white;
+}
+
+#submitButton:hover {
+  background-color: #a7cced;
+  color: white;
+  border: none;
+}
+
+#addComponentButton:hover {
+  background-color: #a7cced;
+  color: white;
+  border: none;
+}
+
+.lineDiv {
+  width: 150%;
+  margin-left: 0px;
+  /* background-color: red; */
+} 
+
+.customForm {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 43px;
+  color: white;
+}
+
+.customForm h5 {
+  color: #3d88e3;
+  text-align: center;
+  font-size: 95%;
+}
+
+.customForm label {
+  font-size: 75%;
+  /* display: inline-block; */
+  float: left;
+  clear: left;
+  /* width: 250px; */
+  text-align: center;
+}
+
+.customForm input {
+  /* width: 150px; */
+  float: left;
+  margin: 20px 0px 0px -5px;
+  border-color: white;
+  /* width: 120px; */
+}
+
+#newElement {
+  display: flex;
+  align-items: center;
 }
 
 .component-input {
@@ -154,6 +225,10 @@ h1 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 700px;
+  /* margin-top: 65px; */
+  /* height: 876px; */
+  /* align-self: flex-end; */
   /* overflow-x: hidden; */
 }
 
@@ -252,10 +327,10 @@ RIGHT COLUMN
   transition: width 250ms ease-in-out;
   width: 100%;
   height: 100%;
-  min-height: 500px;
+  min-height: 25%;
   /* display: flex; */
   /* flex-direction: row; */
-  background-color: #fcfcfc;
+  /* background-color: #fcfcfc; */
 }
 
 .htmlattr {
@@ -288,7 +363,8 @@ RIGHT COLUMN
 
 .flex1 {
   padding: 10px 20px 10px 5px;
-  color: #01d46d;
+  /* color: #01d46d; */
+  /* color: #41658A; */
 }
 
 .flex2 {
@@ -357,31 +433,19 @@ a.nav_link:hover {
   opacity: 0.75;
 }
 
-.componentPanelWrapper {
-  margin-top: 75px;
-  width: 100%;
-}
-
 .inputName {
   margin-bottom: 35px;
   text-align: center;
 }
 
+#checkboxContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-left: -40px;
+}
+
 .makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
   background-color: rgba(25, 25, 25, 0.8);
-}
-
-h4 {
-  color: white;
-  text-align: center;
-}
-
-h3 {
-  margin: 0;
-  padding-left: 15px;
-  padding-top: 15px;
-  font-size: 1em;
-  letter-spacing: 0.5px;
 }
 
 .compPanelItem {
@@ -400,9 +464,15 @@ h3 {
   cursor: pointer;
 }
 
+/* ----------------------------RIGHT PANEL---------------------------------- */
+
 .right {
   padding-top: 35px;
   width: 420px;
+}
+
+.rightContainer {
+  margin-top: 65px;
 }
 
 .rightPanelWrapper {
@@ -413,7 +483,7 @@ h3 {
   width: 100%;
 }
 
-.oauth-btn {
+/* .oauth-btn {
   -webkit-font-smoothing: antialiased;
   border: 0;
   display: inline-flex;
@@ -443,7 +513,7 @@ h3 {
   width: 396px;
   cursor: pointer;
   margin: 8px 0px 8px;
-}
+} */
 
 .oauth-btn:hover {
   background-color: #4e76c7;

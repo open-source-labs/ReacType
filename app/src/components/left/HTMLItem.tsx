@@ -13,20 +13,21 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: 'white',
-    // this is experimental for version: BLADERUNNER THEME
-    backgroundColor: 'transparent',
-    // minWidth: '340px',
-    minHeight: '60px',
-    marginBottom: '10px',
-    marginRight: '5px',
-    marginLeft: '5px',
-    border: '2px dotted rgba(255,255,255, 0.45)',
-    borderRadius: '8px',
+    color: '#77b6ed',
+    height: '35px',
+    width: '90px',
+    fontSize: '80%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: 'center',
+    margin: '7px auto',
+    marginLeft: '30px',
+    // border: '2px solid rgba(225, 225, 225, 1.0)',
+    borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
-      paddingTop: '18px'
     }
   }
 });
@@ -112,19 +113,19 @@ const HTMLItem: React.FC<{
 
   return (
     <Grid item xs={5} key={`html-g${name}`}>
-      <div ref={drag} className={classes.HTMLPanelItem}>
+      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
         <h3>{name}</h3>
-        <span
+        {/* <span
           style={{
             verticalAlign: 'middle',
             display: 'inline-block',
-            marginLeft: '5px'
+            // marginLeft: '5px'
           }}
         >
           {Icon && <Icon />}
-        </span>
+        </span> */}
         {id > 11 &&
-        <button className={buttonClasses} onClick={() => deleteAllInstances(id)} > X </button> }
+        <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
       </div>
       {modal}
     </Grid>
