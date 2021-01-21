@@ -324,7 +324,7 @@ const useStyles = makeStyles({
     borderRadius: '25px',
   },
   rootToggle: {
-    color: '#01d46d',
+    color: '#808080',
     fontSize: '0.85rem'
   }
 });

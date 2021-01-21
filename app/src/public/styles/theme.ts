@@ -7,21 +7,21 @@ export const theme1 = createMuiTheme({
   // typography: {
   //   useNextVariants: true
   // },
+  
   palette: {
     primary: {
       main: '#3ea3d6' // bright blue
     },
-    // secondary: {
-    //   main: '#42464C' //dark mode color
-    // }
-
-  }
+  },
 });
 
-// export const theme2 = createMuiTheme({
-//   // overrides: {
-//   //   MuiContainer: {}
-//   // }
-// });
+
+export const theme2 = createMuiTheme({
+  palette: {
+    secondary: {
+      main: '#304D6D' //dark mode color
+    },
+  },
+});
 
 // export default theme;

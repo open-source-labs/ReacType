@@ -268,8 +268,9 @@ const RightContainer = (): JSX.Element => {
             marginTop: '5%'
           }}
         >
-          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+        <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
+
         <ListItem
           key={'not delete'}
           button
@@ -497,7 +498,7 @@ const RightContainer = (): JSX.Element => {
           {configTarget.child ? (
             <div className={classes.buttonRow}>
               <Button
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={handleDelete}
               >
@@ -611,7 +612,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: 'rgba(255,0,0,0.75)'
+      color: '#808080' // color for delete page
     }
   },
   button: {
@@ -620,7 +621,7 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#01d46d',
+    color: '#3ea3d6', // color for 'index' under parent component
     fontSize: '1.75rem'
   },
   configHeader: {
