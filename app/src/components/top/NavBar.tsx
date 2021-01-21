@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,8 +9,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { styleContext } from '../../containers/AppContainer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import createModal from '../right/createModal';
+import StateContext from '../../context/context';
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -69,13 +73,65 @@ export default function ButtonAppBar(props) {
 
   // State for export menu button
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+  // State for clear canvas button
+  const [modal, setModal] = useState(null);
+  const [state, dispatch] = useContext(StateContext);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // ---Clear canvas functionality---
+  // Closes out the open modal
+  const closeModal = () => setModal('');
+
+  // Creates modal that asks if user wants to clear workspace
+  // If user clears their workspace, then their components are removed from state and the modal is closed
+  const clearWorkspace = () => {
+    // Reset state for project to initial state
+    const resetState = () => {
+      dispatch({ type: 'RESET STATE', payload: {} });
+    };
+
+    // Set modal options
+    const children = (
+      <List className="export-preference">
+        <ListItem
+          key={'clear'}
+          button
+          onClick={resetState}
+          style={{
+            border: '1px solid #3f51b5',
+            marginBottom: '2%',
+            marginTop: '5%'
+          }}
+        >
+          <ListItemText
+            primary={'Yes, delete all project data'}
+            style={{ textAlign: 'center' }}
+            onClick={closeModal}
+          />
+        </ListItem>
+      </List>
+    );
+
+    // Create modal
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message: 'Are you sure want to delete all data?',
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
   };
 
   return (
@@ -88,7 +144,9 @@ export default function ButtonAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             ReactType
           </Typography>
-          <Button color="inherit">Clear Canvas</Button>
+          <Button color="inherit" onClick={clearWorkspace}>
+            Clear Canvas
+          </Button>
           <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -128,6 +186,7 @@ export default function ButtonAppBar(props) {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
+      {modal}
     </div>
   );
 }

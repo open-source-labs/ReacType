@@ -16,7 +16,7 @@ import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
 import exportProject from '../../utils/exportProject.util';
 
 import ProjectsFolder from './OpenProjects';
-import createModal from './createModal';
+import createModal from '../right/createModal';
 import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
@@ -167,25 +167,10 @@ const ProjectManager = () => {
     );
   };
 
-  // --------------------------Dark Mode Button (moved to NavBar.tsx)----------------------------------
 
   return (
     <div>
-      {/* <Button
-        color="primary"
-        style={{ ...style.button, marginLeft: '15%' }}
-        variant="outlined"
-        className={classes.button}
-        onClick={() => {
-          !style.backgroundColor
-            ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
-            : setStyle({});
-          changeTheme();
-          
-        }}
-      >
-        Dark Mode
-      </Button> */}
+
 
   {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
 
@@ -203,8 +188,8 @@ const ProjectManager = () => {
 
   {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
 
-        <div className={classes.projectTypeWrapper}> */}
-         <FormControl>
+        <div className={classes.projectTypeWrapper}> 
+         <FormControl size='small'>
             <Select
               variant="outlined"
               labelId="project-type-label"
@@ -220,7 +205,7 @@ const ProjectManager = () => {
         </div>
         {state.isLoggedIn ? <SaveProjectButton /> : ''}
         {state.isLoggedIn ? <ProjectsFolder /> : ''}
-        {state.isLoggedIn ? <DeleteProjects /> : ''} */}
+        {state.isLoggedIn ? <DeleteProjects /> : ''} 
         {/* <div className={classes.btnGroup}>
 
 {/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
@@ -237,7 +222,7 @@ const ProjectManager = () => {
 
 {/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
 
-        <Button 
+        {/* <Button 
           className={classes.button}
           variant="outlined"
           color="primary"
@@ -245,14 +230,14 @@ const ProjectManager = () => {
           endIcon={<WarningIcon />}
         >
           CLEAR WORKSPACE
-        </Button> 
+        </Button>  */}
         <br />
         <br />
-        <LoginButton /> */}
+        {/* <LoginButton />  */}
         </div>
         {modal} 
       </div>
-    </div>
+    
   );
 };
 
@@ -260,7 +245,7 @@ const useStyles = makeStyles({
   projectManagerWrapper: {
     // border: '1px solid rgba(70,131,83)',
     //---------------------------------CHANGED BORDER-----------------------------------------
-    border: '1px solid rgba(247, 167, 62)',
+    // border: '1px solid rgba(247, 167, 62)',
     padding: '20px',
     margin: '40px',
     display: 'flex',

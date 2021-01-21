@@ -269,7 +269,7 @@ const RightContainer = (): JSX.Element => {
         >
         <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
-        
+
         <ListItem
           key={'not delete'}
           button
@@ -303,7 +303,7 @@ const RightContainer = (): JSX.Element => {
 
   return (
     <div className="column right" style={style}>
-      {/* <ProjectManager /> */}
+      <ProjectManager />
   {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">
         <div>
@@ -619,7 +619,7 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#808080',
+    color: '#3ea3d6', // color for 'index' under parent component
     fontSize: '1.75rem'
   },
   configHeader: {
