@@ -8,7 +8,7 @@ const manageSeparators = {};
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
 
 manageSeparators.handleSeparators = (arr, str) => {
-  if ((str === 'delete' || str === 'change position') && arr.length === 1) {
+  if ((str === 'delete' || str === 'change position') && arr.length === 1 && arr[0].name === 'separator') {
     arr.splice(0, 1);
   }
 
