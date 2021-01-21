@@ -136,6 +136,10 @@ LEFT COLUMN
   flex-wrap: wrap;
 }
 
+#HTMLItemsGrid {
+  margin-left: 15px;
+}
+
 #HTMLItem {
   /* transition: background 0.5s ease-in-out; */
   transition: 0.3s;
@@ -312,6 +316,10 @@ h1 {
 RIGHT COLUMN
 /////////////////////////////////////////////
 */
+
+#rightContainer {
+  overflow: scroll;
+}
 
 .export {
   border-top: 1px solid #ccc;
