@@ -8,7 +8,7 @@ const manageSeparators = {};
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
 
 manageSeparators.handleSeparators = (arr, str) => {
-  if (str === 'delete' && arr.length === 1) {
+  if ((str === 'delete' || str === 'change position') && arr.length === 1) {
     arr.splice(0, 1);
   }
 
@@ -37,14 +37,13 @@ manageSeparators.handleSeparators = (arr, str) => {
     // check is length is > 0 or it is a nested element
     if (arr[index].children.length) {
     // recursive call if children array
-       (str === 'delete') ? manageSeparators.handleSeparators(arr[index].children, str) : manageSeparators.handleSeparators(arr[index].children);
+       (str === 'delete' || str === 'change position') ? manageSeparators.handleSeparators(arr[index].children, str) : manageSeparators.handleSeparators(arr[index].children);
     }
   }
   return manageSeparators.nextTopSeparatorId;
 };
 
 manageSeparators.mergeSeparator = (arr, index) => {
-  console.log('mergerSeparator',arr)
   return arr.map((child) => {
     if (child.name === 'div' && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);
