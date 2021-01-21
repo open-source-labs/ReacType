@@ -277,7 +277,7 @@ const RightContainer = (): JSX.Element => {
   };
 
   return (
-    <div className="column right" style={style}>
+    <div className="column right" id="rightContainer" style={style}>
       <ComponentPanel />
       <ProjectManager />
   {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}

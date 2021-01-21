@@ -145,6 +145,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
           // direction='column'
           // justify='center'
           // alignItems='center'
+          id="HTMLItemsGrid"
         >
           {htmlTypesToRender.map(option => (
             <HTMLItem
