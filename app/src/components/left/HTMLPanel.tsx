@@ -155,6 +155,7 @@ const HTMLPanel = (): JSX.Element => {
             <h5>New Element: </h5>
             <label className={classes.inputLabel}>
               Tag:
+            </label>
               <input
                 color={'primary'}
                 type="text"
@@ -165,32 +166,32 @@ const HTMLPanel = (): JSX.Element => {
                 style={{ marginBottom: '10px' }}
               />
               {errorStatus && <span>{errorMsg}</span>}
-            </label>
             <br></br>
             <label className={classes.inputLabel}>
               Element Name:
-              <input
-                color={'primary'}
-                type="text"
-                name="Tag Name"
-                value={name}
-                onChange={handleNameChange}
-                className={classes.input}
-              />
-              {errorStatus && <span>{errorMsg}</span>}
             </label>
             <input
-              className={buttonClasses}
+              color={'primary'}
+              type="text"
+              name="Tag Name"
+              value={name}
+              onChange={handleNameChange}
+              className={classes.input}
+            />
+            {errorStatus && <span>{errorMsg}</span>}           
+            <input
+              // className={buttonClasses}
+              className={classes.addElementButton}
               id="submitButton"
-              color="primary"
+              // color="primary"
               type="submit"
               value="Add Element"
-              style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
+              // style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
             />
           </form>
         </div>
       </div>
-        <div className="lineDiv">
+        {/* <div className="lineDiv">
           <hr
             style={{
               borderColor: '#f5f5f5',
@@ -199,10 +200,10 @@ const HTMLPanel = (): JSX.Element => {
               backgroundColor: 'white',
               height: '0.5px',
               width: '100%',
-              marginLeft: '0px'
+              margin: '0px 0px 0px 0px'
             }}
           />
-        </div>
+        </div> */}
     </div>
   );
 };
@@ -225,7 +226,7 @@ const useStyles = makeStyles({
     // padding: '20px',
     // margin: '20px',
     width: '100%',
-    marginBottom: '0px'
+    margin: '5px 0px 0px 0px'
   },
   input: {
     color: '#fff',
@@ -237,16 +238,35 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    marginLeft: '10px',
+    margin: '0px 0px 0px 10px',
     width: '100px',
     height: '30px'
   },
   inputLabel: {
     fontSize: '16px',
     zIndex: 20,
-    color: '#fff',
-    marginTop: '-10px'
-  }
+    color: '#77b6ed',
+    margin: '-10px 0px -10px -5px'
+  },
+  addElementButton: {
+    color: '#77b6ed',
+    backgroundColor: 'transparent',
+    height: '40px',
+    width: '105px',
+    fontFamily: '"Raleway", sans-serif',
+    fontSize: '85%',
+    textAlign: 'center',
+    margin: '5px auto',
+    marginLeft: '25px',
+    // border: '1px solid rgba(225, 225, 225, 1.0)',
+    borderStyle: 'none',
+    transition: '0.3s',
+    borderRadius: '25px',
+    // cursor: 'grab',
+    // '& > h3': {
+    //   display: 'inline-block'
+    //   }
+    }
 });
 
 export default HTMLPanel;

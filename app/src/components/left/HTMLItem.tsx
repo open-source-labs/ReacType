@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
     textAlign: 'center',
-    margin: '5px auto',
+    margin: '7px auto',
     marginLeft: '30px',
     // border: '2px solid rgba(225, 225, 225, 1.0)',
     borderRadius: '25px',

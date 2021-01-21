@@ -8,13 +8,14 @@ import { styleContext } from './AppContainer';
 const LeftContainer = (): JSX.Element => {
   const { style } = useContext(styleContext);
 
-// --------------------------SWITCHED HTML PANEL AND COMPONENT PANEL ORDER----------------------------
+// --------------------------COMPONENT PANEL MOVED TO RIGHTCONTAINER----------------------------
 
   return (
     <div className="column left" style={style}>
       <Grid container direction="row" alignItems="center">
         <HTMLPanel />
-        <ComponentPanel />
+        {/* <ComponentPanel /> */}
+     
       </Grid>
     </div>
   );

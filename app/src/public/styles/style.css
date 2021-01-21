@@ -128,11 +128,17 @@ LEFT COLUMN
 }
 
 .HTMLElements {
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  margin: 0px 0px 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+
+#HTMLItem {
+  /* transition: background 0.5s ease-in-out; */
+  transition: 0.3s;
 }
 
 #HTMLItem:hover {
@@ -143,6 +149,13 @@ LEFT COLUMN
 #submitButton:hover {
   background-color: #a7cced;
   color: white;
+  border: none;
+}
+
+#addComponentButton:hover {
+  background-color: #a7cced;
+  color: white;
+  border: none;
 }
 
 .lineDiv {
@@ -156,7 +169,7 @@ LEFT COLUMN
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 35px;
+  margin-left: 43px;
   color: white;
 }
 
@@ -178,7 +191,7 @@ LEFT COLUMN
 .customForm input {
   /* width: 150px; */
   float: left;
-  margin: 10px auto;
+  margin: 20px 0px 0px -5px;
   border-color: white;
   /* width: 120px; */
 }

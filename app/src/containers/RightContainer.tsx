@@ -24,6 +24,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
+import ComponentPanel from '../components/left/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = (): JSX.Element => {
@@ -302,6 +303,7 @@ const RightContainer = (): JSX.Element => {
 
   return (
     <div className="column right" style={style}>
+      <ComponentPanel />
       <ProjectManager />
   {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">

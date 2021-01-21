@@ -150,13 +150,13 @@ const ComponentPanel = (): JSX.Element => {
               />
             </div>
           </div>
-          <Button
-            className={classes.button}
-            color="primary"
+          <button
+            className={classes.addComponentButton}
+            id="addComponentButton"
             onClick={handleNameSubmit}
           >
-            CREATE
-          </Button>
+            Create
+          </button>
         </div>
       </div>
       <div className="lineDiv">
@@ -247,7 +247,7 @@ const useStyles = makeStyles({
     //-------------------CHANGED----------------------------------------------
     // border: '1px solid rgba(247, 167, 62, 0.75)',
     padding: 'auto',
-    marginLeft: '25px',
+    marginLeft: '21px',
     display: 'inline-block',
     // flexDirection: 'column',
     // justifyContent: 'space-between'
@@ -294,7 +294,7 @@ const useStyles = makeStyles({
   },
   newComponent: {
     color: '#3d88e3',
-    fontSize: '.95em',
+    fontSize: '95%',
     marginTop: '0px'
   },
   inputLabel: {
@@ -307,15 +307,21 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     paddingTop: '10px',
-    // marginLeft: '10px'
   },
-  button: {
-    fontSize: '.8rem',
+  addComponentButton: {
+    color: '#77b6ed',
+    backgroundColor: 'transparent',
     height: '40px',
-    maginTop: '10px',
-    width: '100%',
-    // border: '1px solid rgba(70,131,83)',
-    backgroundColor: 'rgba(1,212,109,0.1)'
+    width: '100px',
+    fontFamily: '"Raleway", sans-serif',
+    fontSize: '90%',
+    textAlign: 'center',
+    margin: '-20px 0px 5px 11px',
+    // marginLeft: '30px',
+    // border: '1px solid white',
+    borderStyle: 'none',
+    transition: '0.3s',
+    borderRadius: '25px',
   },
   rootToggle: {
     color: '#01d46d',
