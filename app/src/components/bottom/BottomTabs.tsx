@@ -10,6 +10,8 @@ import { emitKeypressEvents } from 'readline';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 import { styleContext } from '../../containers/AppContainer';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -20,11 +22,17 @@ const BottomTabs = () => {
   const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 
+  
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
-
+ // Allows users to toggle project between "next.js" and "Classic React"
+  // When a user changes the project type, the code of all components is rerendered
+  const handleProjectChange = event => {
+    const projectType = event.target.value;
+    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+  };
   const { components, HTMLTypes } = state;
 
   const changeTheme = e => {
@@ -33,7 +41,7 @@ const BottomTabs = () => {
 
   return (
     <div className={classes.root} style={style}>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
         <Tabs
           value={tab}
           onChange={handleChange}
@@ -53,39 +61,22 @@ const BottomTabs = () => {
             label="Component Tree"
           />
         </Tabs>
-        {/* Removed all style={{ backgroundColor: '#252526' }} from within each option tag.  Its functionality was not apparent on page. */}
-        <FormControl>
-          <div className="flex-container">
-            <div className="flex1"></div>
-            <NativeSelect
-              className="flex2"
-              style={{ color: '#091833' }}
-              value={theme}
-              onChange={changeTheme}
+        <div className={classes.projectTypeWrapper}> 
+         <FormControl size='small'>
+            <Select
+              variant="outlined"
+              labelId="project-type-label"
+              id="demo-simple-select"
+              className={classes.projectSelector}
+              value={state.projectType}
+              onChange={handleProjectChange}
             >
-              <option value={'github'}>
-                Github
-              </option>
-              <option value={'monokai'}>
-                Monokai
-              </option>
-              <option
-                value={'solarized_dark'}
-              >
-                Solarized Dark
-              </option>
-              <option
-                value={'solarized_light'}
-              >
-                Solarized Light
-              </option>
-              <option value={'terminal'}>
-                Terminal
-              </option>
-              
-            </NativeSelect>
-          </div>
-        </FormControl>
+              <MenuItem value={'Classic React'}>Classic React</MenuItem>
+              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
+              <MenuItem value={'Next.js'}>Next.js</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </Box>
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 1 && <Tree data={components} />}
@@ -99,7 +90,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#3ea3d6',
     height: '100%',
     color: '#091921',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    
   },
   bottomHeader: {
     flex: 1,
@@ -154,6 +146,18 @@ const useStyles = makeStyles(theme => ({
   switch: {
     marginRight: '10px',
     marginTop: '2px'
+  }, 
+  projectTypeWrapper: {
+    // width: '300px',
+    // width: '100%',
+    marginTop: '10px',
+    marginBotton: '10px'
+  },
+  projectSelector: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    // width: '300px',
+    // width: '100%',
+    color: '#fff'
   }
 }));
 

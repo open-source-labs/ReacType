@@ -254,7 +254,7 @@ const useStyles = makeStyles({
     margin: '5px 0px 0px 0px'
   },
   input: {
-    color: '#fff',
+    color: '#77b6ed',
     borderRadius: '5px',
     // paddingLeft: '15px',
     // paddingRight: '10px',
@@ -264,14 +264,15 @@ const useStyles = makeStyles({
     // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    width: '100px',
+    width: '140px',
     height: '30px'
   },
   inputLabel: {
-    fontSize: '16px',
+    fontSize: '85%',
     zIndex: 20,
     color: '#77b6ed',
-    margin: '-10px 0px -10px -5px'
+    margin: '-10px 0px -10px 0px',
+    width: '125%'
   },
   addElementButton: {
     color: '#77b6ed',
@@ -281,8 +282,8 @@ const useStyles = makeStyles({
     fontFamily: '"Raleway", sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    margin: '5px auto',
-    marginLeft: '25px',
+    // margin: '5px auto',
+    marginLeft: '75px',
     // border: '1px solid rgba(225, 225, 225, 1.0)',
     borderStyle: 'none',
     transition: '0.3s',

@@ -20,7 +20,7 @@ function TreeChart({ data }) {
   const wrapperRef = useRef();
 
   const xPosition = 50;
-  const textAndBorderColor = 'rgb(51, 235, 145)';
+  const textAndBorderColor = '#42464C';
 
   const dimensions = useResizeObserver(wrapperRef);
 
@@ -135,7 +135,8 @@ function TreeChart({ data }) {
     width: '100%',
     height: '90%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#bdbdbd',
   };
 
   return (
