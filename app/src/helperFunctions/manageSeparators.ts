@@ -7,7 +7,7 @@ const manageSeparators = {};
 
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
 
-manageSeparators.handleSeparators = (arr, str) => {
+manageSeparators.handleSeparators = (arr: object[], str: string) => {
   if ((str === 'delete' || str === 'change position') && arr.length === 1 && arr[0].name === 'separator') {
     arr.splice(0, 1);
   }
@@ -43,7 +43,7 @@ manageSeparators.handleSeparators = (arr, str) => {
   return manageSeparators.nextTopSeparatorId;
 };
 
-manageSeparators.mergeSeparator = (arr, index) => {
+manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
     if (child.name === 'div' && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);
