@@ -5,12 +5,6 @@ import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import WarningIcon from '@material-ui/icons/Warning';
-import PublishIcon from '@material-ui/icons/Publish';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
 import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
 
 import exportProject from '../../utils/exportProject.util';
@@ -21,7 +15,6 @@ import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 
-// import { useStyles } from '../left/ComponentPanel';
 import { styleContext } from '../../containers/AppContainer';
 
 // ProjectManager function moved to NavBar.tsx
@@ -38,12 +31,7 @@ const ProjectManager = () => {
 
   const { style, setStyle } = useContext(styleContext);
 
-  // Allows users to toggle project between "next.js" and "Classic React"
-  // When a user changes the project type, the code of all components is rerendered
-  const handleProjectChange = event => {
-    const projectType = event.target.value;
-    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
-  };
+  
 
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components
@@ -188,7 +176,7 @@ const ProjectManager = () => {
 
   {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
 
-        <div className={classes.projectTypeWrapper}> 
+        {/* <div className={classes.projectTypeWrapper}> 
          <FormControl size='small'>
             <Select
               variant="outlined"
@@ -203,7 +191,7 @@ const ProjectManager = () => {
               <MenuItem value={'Next.js'}>Next.js</MenuItem>
             </Select>
           </FormControl>
-        </div>
+        </div> */}
         {/* {state.isLoggedIn ? <SaveProjectButton /> : ''}
         {state.isLoggedIn ? <ProjectsFolder /> : ''}
         {state.isLoggedIn ? <DeleteProjects /> : ''}  */}
@@ -243,18 +231,15 @@ const ProjectManager = () => {
 };
 
 const useStyles = makeStyles({
-  projectManagerWrapper: {
-    // border: '1px solid rgba(70,131,83)',
-    //---------------------------------CHANGED BORDER-----------------------------------------
-    // border: '1px solid rgba(247, 167, 62)',
-    padding: '20px',
-    margin: '40px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifySelf: 'flex-end',
-    width: '80%'
-  },
+  // projectManagerWrapper: {
+  //   padding: '20px',
+  //   // margin: '40px',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   justifySelf: 'flex-end',
+  //   width: '80%'
+  // },
 
   logoutButton: {
     position: 'absolute',
@@ -277,22 +262,9 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.1)',
     fontSize: '1em',
     minWidth: '300px',
-    // width: '50%',
     marginTop: '10px',
     marginBotton: '10px'
   },
-  projectTypeWrapper: {
-    // width: '300px',
-    // width: '100%',
-    marginTop: '10px',
-    marginBotton: '10px'
-  },
-  projectSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    // width: '300px',
-    // width: '100%',
-    color: '#fff'
-  }
 });
 
 export default withRouter(ProjectManager);
