@@ -118,11 +118,11 @@ const ComponentPanel = (): JSX.Element => {
       <div className={classes.addComponentWrapper}>
           <h4 className={classes.newComponent}>New Component:</h4>
           {/* input for new component */}
-          <div style={{display: 'flex', justifyContent:'space-around'}}>
-            <div>
+          <div style={{display: 'flex', justifyContent:'space-around', marginTop: '20px', alignItems:'baseline'}}>
+            <div style={{alignSelf:'center'}}>
                <label className={classes.inputLabel}>Name:</label>
                 <div className={classes.inputWrapper}>
-                    <TextField
+                    <input
                     color={'primary'}
                     variant="outlined"
                     className={classes.inputField}
@@ -135,7 +135,7 @@ const ComponentPanel = (): JSX.Element => {
               </div>
             </div>
            
-            <div className={classes.btnGroup} id="checkboxContainer">
+            <div className={classes.btnGroup} id="checkboxContainer" style={{marginBottom: '30px'}}>
               <FormControlLabel
                 value="top"
                 control={
@@ -183,13 +183,14 @@ const ComponentPanel = (): JSX.Element => {
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
               return (
-                <ComponentPanelItem
+                  <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
                   key={`comp-${comp.id}`}
                   name={comp.name}
                   id={comp.id}
                   root={true}
-                />
+                  />
+               
               );
             })}
         </Grid>
@@ -233,7 +234,20 @@ const ComponentPanel = (): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
-    marginTop: '0px'
+    marginTop: '10px',
+    color: '#77b6ed',
+    borderRadius: '5px',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    // border: '1px solid rgba(51,235,145,0.75)',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    margin: '0px 0px 0px 10px',
+    width: '140px',
+    height: '30px',
+    borderColor: 'white'
   },
   inputWrapper: {
     // height: '115px',
@@ -253,7 +267,8 @@ const useStyles = makeStyles({
   },
   rootCheckBox: {
     borderColor: '#77b6ed',
-    color: '#77b6ed'
+    color: '#77b6ed',
+    padding: '0px'
   },
   rootCheckBoxLabel: {
     color: '#77b6ed',
@@ -261,35 +276,42 @@ const useStyles = makeStyles({
   },
   panelWrapper: {
     width: '100%',
-    marginTop: '15px'
+    marginTop: '15px', 
+    display: 'flex',
+    flexDirection:'column',
+    alignItems:'center'
   },
   panelWrapperList: {
     // maxHeight: '400px',
     minHeight: '120px',
     // overflowY: 'auto',
     marginLeft: '-15px',
-    marginRight: '-15px'
+    marginRight: '-15px',
+    width: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  dragComponents: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '500px',
+    backgroundColor: 'red',
+    border: '5px solid red'
   },
   panelSubheader: {
     textAlign: 'center',
     color: '#fff'
   },
   input: {
-    // color: 'white',
-    borderStyle: 'solid',
-    borderRadius: '5px',
-    borderColor: 'white',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
-    marginLeft: '-34px',
-    width: '120px',
-    height: '30px',
-    whiteSpace: 'nowrap',
+   
   },
   newComponent: {
     color: '#3d88e3',
     fontSize: '95%',
-    marginTop: '0px'
+    marginBottom: '20px'
   },
   inputLabel: {
     fontSize: '1em',
@@ -299,7 +321,6 @@ const useStyles = makeStyles({
   btnGroup: {
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: '10px',
   },
   addComponentButton: {
     color: '#77b6ed',
@@ -317,7 +338,17 @@ const useStyles = makeStyles({
   rootToggle: {
     color: '#808080',
     fontSize: '0.85rem'
-  }
+  },
 });
 
 export default ComponentPanel;
+ {/* // color: 'white',
+    borderStyle: 'solid',
+    borderRadius: '5px',
+    borderColor: 'white',
+    // paddingLeft: '15px',
+    // paddingRight: '10px',
+    marginLeft: '-34px',
+    width: '120px',
+    height: '30px',
+    whiteSpace: 'nowrap', */}
