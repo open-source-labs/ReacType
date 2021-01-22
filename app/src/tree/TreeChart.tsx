@@ -28,7 +28,7 @@ function TreeChart({ data }) {
   const previouslyRenderedData = usePrevious(data);
 
   // function to filter out separators to prevent render on tree chart
-  const removeSeparators = (arr) => {
+  const removeSeparators = (arr: object[]) => {
     // loop over array
     for (let i = 0; i < arr.length; i++) {
       // if element is separator, remove it
