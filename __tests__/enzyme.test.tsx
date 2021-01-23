@@ -17,6 +17,8 @@ import AppContainer from '../app/src/containers/AppContainer';
 import NavBar from '../app/src/components/top/NavBar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Tab from '@material-ui/core/Tab';
+import RightContainer from '../app/src/containers/RightContainer';
+import ProjectManager from '../app/src/components/right/ProjectManager';
 // npm test -- -u
 
 describe('Test the CanvasContainer component', () => {
@@ -99,7 +101,13 @@ describe('Test AppContainer container', () => {
       )
     ).toBeDefined();
   });
- 
+  // testing for a RightContainer
+  it('Should render RightContainer', () => {
+    expect(
+      target.contains(
+        <RightContainer />,
+      ),
+    ).toBe(true);
 });
 
 // testing for NavBar component
