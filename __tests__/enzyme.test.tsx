@@ -128,3 +128,4 @@ describe('Test NavBar component', () => {
      ).toEqual('Login');
   });
 });
+
