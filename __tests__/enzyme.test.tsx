@@ -15,7 +15,8 @@ import HTMLItem from '../app/src/components/left/HTMLItem';
 import LeftContainer from '../app/src/containers/LeftContainer';
 import AppContainer from '../app/src/containers/AppContainer';
 import NavBar from '../app/src/components/top/NavBar';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Tab from '@material-ui/core/Tab';
 // npm test -- -u
 
 describe('Test the CanvasContainer component', () => {
@@ -40,8 +41,20 @@ describe('Test the MainContainer component', () => {
 
 describe('Test the BottomTabs component', () => {
   const target = shallow(<BottomTabs />);
+    //// comment out snapshot test because we modified UI intentionally
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot();
+  });
+  it('Has two tabs called "Code Preview" and "Component Tree" ', () => {
+    expect(target.find(Tab)).toHaveLength(2);
+    expect(target.find(Tab).at(0).prop('label')).toEqual('Code Preview');
+    expect(target.find(Tab).at(1).prop('label')).toEqual('Component Tree');
+  });
+  it('Has a dropdown selection menu for Classic React, Gatsby.js, and Next.js', () => {
+    expect(target.find(MenuItem)).toHaveLength(3);
+    expect(target.find(MenuItem).at(0).text()).toEqual('Classic React');
+    expect(target.find(MenuItem).at(1).text()).toEqual('Gatsby.js');
+    expect(target.find(MenuItem).at(2).text()).toEqual('Next.js');
   });
 });
 
@@ -53,7 +66,7 @@ describe('Test All 10 default HTML elements have rendered', () => {
       </StateContext.Provider>
     </DndProvider>
   );
-
+    // comment out snapshot test because we modified UI intentionally
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot();
   });
@@ -86,7 +99,6 @@ describe('Test NavBar component', () => {
   const target = shallow(
     <NavBar setTheme={props.setTheme} isThemeLight={props.isThemeLight} />
   );
-  console.log('array', target.find('.navbarButton'));
   // testing for 4 generic buttons in NavBar
   it('Should render 4 buttons: "Clear Canvas", "Export", "Dark Mode", "Login"', () => {
     expect(target.find('.navbarButton')).toHaveLength(4);
