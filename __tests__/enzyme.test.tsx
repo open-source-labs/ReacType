@@ -78,7 +78,7 @@ describe('Test AppContainer container', () => {
 
   const props = {
     setTheme: jest.fn(),
-    isThemeLight: jest.fn()
+    isThemeLight: jest.fn(),
   };
 
   // testing for a NavBar
@@ -89,12 +89,14 @@ describe('Test AppContainer container', () => {
       )
     ).toBeDefined();
   });
+ 
 });
+
 // testing for NavBar component
 describe('Test NavBar component', () => {
   const props = {
     setTheme: jest.fn(),
-    isThemeLight: jest.fn()
+    isThemeLight: jest.fn(),
   };
   const target = shallow(
     <NavBar setTheme={props.setTheme} isThemeLight={props.isThemeLight} />
@@ -106,25 +108,25 @@ describe('Test NavBar component', () => {
       target
         .find('.navbarButton')
         .at(0)
-        .text()
+        .text(),
     ).toEqual('Clear Canvas');
      expect(
        target
          .find('.navbarButton')
          .at(1)
-         .text()
+         .text(),
      ).toEqual('Export');
       expect(
       target
         .find('.navbarButton')
         .at(2)
-        .text()
+        .text(),
     ).toEqual('Dark Mode');
      expect(
        target
          .find('.navbarButton')
          .at(3)
-         .text()
+         .text(),
      ).toEqual('Login');
   });
 });

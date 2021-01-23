@@ -283,7 +283,8 @@ const formatCode = (code: string) => {
   // } else {
   //   return window.api.formatCode(code);
   // }
-  return code;
+   return code;
+
 };
 
 // generate code based on component hierarchy and then return the rendered code
