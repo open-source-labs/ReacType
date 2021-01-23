@@ -1,5 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import {
+  withStyles,
+  createStyles,
+  makeStyles,
+  Theme
+} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -21,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      width: '100%',
+      width: '100%'
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -30,43 +35,43 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       color: 'white'
-    },
-  }),
+    }
+  })
 );
 
 // Drop down menu button for export
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
-  },
-})((props) => (
+    border: '1px solid #d3d4d5'
+  }
+})(props => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     {...props}
   />
 ));
 
-const StyledMenuItem = withStyles((theme) => ({
+const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
       backgroundColor: theme.palette.primary.main,
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
+        color: theme.palette.common.white
+      }
+    }
+  }
 }))(MenuItem);
 
-export default function ButtonAppBar(props) {
+export default function NavBar(props) {
   const classes = useStyles();
 
   const { style, setStyle } = useContext(styleContext);
@@ -77,10 +82,10 @@ export default function ButtonAppBar(props) {
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -134,56 +139,68 @@ export default function ButtonAppBar(props) {
     );
   };
 
+  // added className="navbarButton" to test for buttons in enzyme.test.tsx
   return (
     <div className={classes.root} style={style}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             ReactType
           </Typography>
-          <Button color="inherit" onClick={clearWorkspace}>
+          <Button color="inherit" onClick={clearWorkspace} className="navbarButton">
             Clear Canvas
           </Button>
           <Button
-        aria-controls="customized-menu"
-        aria-haspopup="true"
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-      >
-        Export
-      </Button>
+            aria-controls="customized-menu"
+            aria-haspopup="true"
+            variant="contained"
+            color="primary"
+            onClick={handleClick}
+            className="navbarButton"
+          >
+            Export
+          </Button>
 
-      <StyledMenu
-        id="customized-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <StyledMenuItem>
-          <ListItemText primary="Classic React" />
-        </StyledMenuItem>
+          <StyledMenu
+            id="customized-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <StyledMenuItem>
+              <ListItemText primary="Classic React" />
+            </StyledMenuItem>
 
-        <StyledMenuItem>
-          <ListItemText primary="Next.js" />
-        </StyledMenuItem>
+            <StyledMenuItem>
+              <ListItemText primary="Next.js" />
+            </StyledMenuItem>
 
-        <StyledMenuItem>
-          <ListItemText primary="Gatsby" />
-        </StyledMenuItem>
-      </StyledMenu>
-          <Button color="inherit" onClick={() => {
-           !style.backgroundColor
-           ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
-           : setStyle({});
-           props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
-          }}
-          >Dark Mode</Button>
-          <Button color="inherit">Login</Button>
+            <StyledMenuItem>
+              <ListItemText primary="Gatsby" />
+            </StyledMenuItem>
+          </StyledMenu>
+          <Button
+            className="navbarButton"
+            color="inherit"
+            onClick={() => {
+              !style.backgroundColor
+                ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
+                : setStyle({});
+              props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
+            }}
+          >
+            Dark Mode
+          </Button>
+          <Button color="inherit" className="navbarButton">Login</Button>
         </Toolbar>
       </AppBar>
       {modal}

@@ -13,6 +13,8 @@ import Canvas from '../app/src/components/main/Canvas';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
 import HTMLItem from '../app/src/components/left/HTMLItem';
 import LeftContainer from '../app/src/containers/LeftContainer';
+import AppContainer from '../app/src/containers/AppContainer';
+import NavBar from '../app/src/components/top/NavBar';
 
 // npm test -- -u
 
@@ -54,5 +56,63 @@ describe('Test All 10 default HTML elements have rendered', () => {
 
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot();
+  });
+});
+
+// testing for AppContainer
+describe('Test AppContainer container', () => {
+  const target = shallow(<AppContainer />);
+
+  const props = {
+    setTheme: jest.fn(),
+    isThemeLight: jest.fn()
+  };
+
+  // testing for a NavBar
+  it('Should render NavBar', () => {
+    expect(
+      target.find(
+        <NavBar setTheme={props.setTheme} isThemeLight={props.isThemeLight} />
+      )
+    ).toBeDefined();
+  });
+});
+// testing for NavBar component
+describe('Test NavBar component', () => {
+  const props = {
+    setTheme: jest.fn(),
+    isThemeLight: jest.fn()
+  };
+  const target = shallow(
+    <NavBar setTheme={props.setTheme} isThemeLight={props.isThemeLight} />
+  );
+  console.log('array', target.find('.navbarButton'));
+  // testing for 4 generic buttons in NavBar
+  it('Should render 4 buttons: "Clear Canvas", "Export", "Dark Mode", "Login"', () => {
+    expect(target.find('.navbarButton')).toHaveLength(4);
+    expect(
+      target
+        .find('.navbarButton')
+        .at(0)
+        .text()
+    ).toEqual('Clear Canvas');
+     expect(
+       target
+         .find('.navbarButton')
+         .at(1)
+         .text()
+     ).toEqual('Export');
+      expect(
+      target
+        .find('.navbarButton')
+        .at(2)
+        .text()
+    ).toEqual('Dark Mode');
+     expect(
+       target
+         .find('.navbarButton')
+         .at(3)
+         .text()
+     ).toEqual('Login');
   });
 });
