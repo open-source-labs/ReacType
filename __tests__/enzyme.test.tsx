@@ -58,7 +58,7 @@ describe('Test the BottomTabs component', () => {
   });
 });
 
-describe('Test All 10 default HTML elements have rendered', () => {
+describe('Test HTMLPanel Component', () => {
   const target = shallow(
     <DndProvider backend={HTML5Backend}>
       <StateContext.Provider value={initialState}>
@@ -66,10 +66,20 @@ describe('Test All 10 default HTML elements have rendered', () => {
       </StateContext.Provider>
     </DndProvider>
   );
-    // comment out snapshot test because we modified UI intentionally
+
+  const props = {
+    name: 'abc',
+    key:'html-abc',
+    id:1,
+    Icon:'icon',
+    handleDelete: jest.fn()
+  };
+
   it('Matches snapshot', () => {
     expect(target).toMatchSnapshot();
   });
+  it('Should render HTMLItem', () => {
+    expect(target.find(<HTMLItem {...props} />)).toBeDefined();
 });
 
 // testing for AppContainer
@@ -130,4 +140,13 @@ describe('Test NavBar component', () => {
      ).toEqual('Login');
   });
 });
+
+describe('Test LeftContainer container', () => {
+  const target = shallow(<LeftContainer />);
+
+  it('Should render HTMLPanel', () => {
+    expect(target.find(<HTMLPanel />)).toBeDefined();
+  });
+});
+
 
