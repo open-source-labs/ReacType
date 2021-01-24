@@ -131,8 +131,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "TextFormatIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -141,16 +139,25 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "id": 11,
             "name": "Div",
             "placeHolderLong": "",
-            "placeHolderShort": "",
+            "placeHolderShort": "div",
             "style": Object {},
             "tag": "div",
+          },
+          Object {
+            "icon": "",
+            "id": 1000,
+            "name": "separator",
+            "placeHolderLong": "",
+            "placeHolderShort": "",
+            "style": Object {
+              "border": "none",
+            },
+            "tag": "separator",
           },
           Object {
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "ImageIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -167,8 +174,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "DescriptionIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -185,8 +190,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "ListIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -215,8 +218,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "EditAttributesIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -238,8 +239,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "LinkIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -249,7 +248,7 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "name": "Link",
             "placeHolderLong": "",
             "placeHolderShort": <a
-              href=""
+              href="#"
             >
               Link
             </a>,
@@ -262,8 +261,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "LocalParkingIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -280,8 +277,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "TextFormatIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -300,8 +295,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "TextFormatIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -320,8 +313,6 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
             "icon": Object {
               "$$typeof": Symbol(react.memo),
               "compare": null,
-              "displayName": "TextFormatIcon",
-              "muiName": "SvgIcon",
               "type": Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "render": [Function],
@@ -355,7 +346,367 @@ exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = 
         "name": "",
         "nextChildId": 1,
         "nextComponentId": 2,
-        "projectType": "Next.js",
+        "nextTopSeparatorId": 1000,
+        "projectType": "Classic React",
+        "rootComponents": Array [
+          1,
+        ],
+      }
+    }
+  >
+    <HTMLPanel />
+  </ContextProvider>
+</ContextProvider>
+`;
+
+exports[`Test HTMLPanel Component Matches snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "dragDropManager": DragDropManagerImpl {
+        "backend": HTML5BackendImpl {
+          "actions": Object {
+            "beginDrag": [Function],
+            "drop": [Function],
+            "endDrag": [Function],
+            "hover": [Function],
+            "publishDragSource": [Function],
+          },
+          "altKeyPressed": false,
+          "asyncEndDragFrameId": null,
+          "currentDragSourceNode": null,
+          "currentNativeHandle": null,
+          "currentNativeSource": null,
+          "dragEnterTargetIds": Array [],
+          "dragOverTargetIds": null,
+          "dragStartSourceIds": null,
+          "dropTargetIds": Array [],
+          "endDragIfSourceWasRemovedFromDOM": [Function],
+          "endDragNativeItem": [Function],
+          "enterLeaveCounter": EnterLeaveCounter {
+            "entered": Array [],
+            "isNodeInDocument": [Function],
+          },
+          "getSourceClientOffset": [Function],
+          "handleSelectStart": [Function],
+          "handleTopDragEndCapture": [Function],
+          "handleTopDragEnter": [Function],
+          "handleTopDragEnterCapture": [Function],
+          "handleTopDragLeaveCapture": [Function],
+          "handleTopDragOver": [Function],
+          "handleTopDragOverCapture": [Function],
+          "handleTopDragStart": [Function],
+          "handleTopDragStartCapture": [Function],
+          "handleTopDrop": [Function],
+          "handleTopDropCapture": [Function],
+          "isNodeInDocument": [Function],
+          "monitor": DragDropMonitorImpl {
+            "registry": HandlerRegistryImpl {
+              "dragSources": Map {},
+              "dropTargets": Map {},
+              "pinnedSource": null,
+              "pinnedSourceId": null,
+              "store": Object {
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+                Symbol(observable): [Function],
+              },
+              "types": Map {},
+            },
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+          },
+          "mouseMoveTimeoutTimer": null,
+          "options": OptionsReader {
+            "globalContext": [Window],
+          },
+          "registry": HandlerRegistryImpl {
+            "dragSources": Map {},
+            "dropTargets": Map {},
+            "pinnedSource": null,
+            "pinnedSourceId": null,
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+            "types": Map {},
+          },
+          "sourceNodeOptions": Map {},
+          "sourceNodes": Map {},
+          "sourcePreviewNodeOptions": Map {},
+          "sourcePreviewNodes": Map {},
+        },
+        "handleRefCountChange": [Function],
+        "isSetUp": false,
+        "monitor": DragDropMonitorImpl {
+          "registry": HandlerRegistryImpl {
+            "dragSources": Map {},
+            "dropTargets": Map {},
+            "pinnedSource": null,
+            "pinnedSourceId": null,
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+            "types": Map {},
+          },
+          "store": Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          },
+        },
+        "store": Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        },
+      },
+    }
+  }
+>
+  <ContextProvider
+    value={
+      Object {
+        "HTMLTypes": Array [
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 11,
+            "name": "Div",
+            "placeHolderLong": "",
+            "placeHolderShort": "div",
+            "style": Object {},
+            "tag": "div",
+          },
+          Object {
+            "icon": "",
+            "id": 1000,
+            "name": "separator",
+            "placeHolderLong": "",
+            "placeHolderShort": "",
+            "style": Object {
+              "border": "none",
+            },
+            "tag": "separator",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 1,
+            "name": "Image",
+            "placeHolderLong": "",
+            "placeHolderShort": "Image",
+            "style": Object {},
+            "tag": "img",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 2,
+            "name": "Form",
+            "placeHolderLong": "",
+            "placeHolderShort": "Form",
+            "style": Object {},
+            "tag": "form",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 3,
+            "name": "List",
+            "placeHolderLong": "",
+            "placeHolderShort": <ul>
+              <li>
+                item 1
+              </li>
+              <li>
+                item 2
+              </li>
+              <li>
+                item 3
+              </li>
+            </ul>,
+            "style": Object {
+              "color": "purple",
+            },
+            "tag": "li",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 4,
+            "name": "Button",
+            "placeHolderLong": "",
+            "placeHolderShort": <button>
+              Button
+            </button>,
+            "style": Object {
+              "border": "none",
+              "textAlign": "center",
+            },
+            "tag": "button",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 6,
+            "name": "Link",
+            "placeHolderLong": "",
+            "placeHolderShort": <a
+              href="#"
+            >
+              Link
+            </a>,
+            "style": Object {
+              "border": "none",
+            },
+            "tag": "a",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 8,
+            "name": "Paragraph",
+            "placeHolderLong": "",
+            "placeHolderShort": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu",
+            "style": Object {},
+            "tag": "p",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 9,
+            "name": "Header 1",
+            "placeHolderLong": "",
+            "placeHolderShort": "Header 1",
+            "style": Object {
+              "fontSize": "2em",
+            },
+            "tag": "h1",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 10,
+            "name": "Header 2",
+            "placeHolderLong": "",
+            "placeHolderShort": "Header 2",
+            "style": Object {
+              "fontSize": "1.5em",
+            },
+            "tag": "h2",
+          },
+          Object {
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 5,
+            "name": "Span",
+            "placeHolderLong": "",
+            "placeHolderShort": "Span",
+            "style": Object {
+              "fontSize": "1.5em",
+            },
+            "tag": "span",
+          },
+        ],
+        "canvasFocus": Object {
+          "childId": null,
+          "componentId": 1,
+        },
+        "components": Array [
+          Object {
+            "children": Array [],
+            "code": "<div>Drag in a component or HTML element into the canvas!</div>",
+            "id": 1,
+            "isPage": true,
+            "name": "index",
+            "style": Object {},
+          },
+        ],
+        "isLoggedIn": false,
+        "name": "",
+        "nextChildId": 1,
+        "nextComponentId": 2,
+        "nextTopSeparatorId": 1000,
+        "projectType": "Classic React",
         "rootComponents": Array [
           1,
         ],
@@ -373,8 +724,11 @@ exports[`Test the BottomTabs component Matches snapshot 1`] = `
   style={null}
 >
   <Styled(MuiBox)
+    alignItems="center"
     display="flex"
     justifyContent="space-between"
+    paddingBottom="10px"
+    paddingRight="10px"
   >
     <WithStyles(ForwardRef(Tabs))
       classes={
@@ -407,82 +761,41 @@ exports[`Test the BottomTabs component Matches snapshot 1`] = `
         label="Component Tree"
       />
     </WithStyles(ForwardRef(Tabs))>
-    <WithStyles(ForwardRef(FormControl))>
-      <div
-        className="flex-container"
+    <div
+      className="makeStyles-projectTypeWrapper-10"
+    >
+      <WithStyles(ForwardRef(FormControl))
+        size="small"
       >
-        <div
-          className="flex1"
-        >
-          Change Theme:
-        </div>
-        <WithStyles(ForwardRef(NativeSelect))
-          className="flex2"
+        <WithStyles(ForwardRef(Select))
+          className="makeStyles-projectSelector-11"
+          id="demo-simple-select"
+          labelId="project-type-label"
           onChange={[Function]}
-          style={
-            Object {
-              "color": "white",
-            }
-          }
-          value="monokai"
+          variant="outlined"
         >
-          <option
-            style={
-              Object {
-                "backgroundColor": "#252526",
-              }
-            }
-            value="monokai"
+          <WithStyles(ForwardRef(MenuItem))
+            value="Classic React"
           >
-            Monokai
-          </option>
-          <option
-            style={
-              Object {
-                "backgroundColor": "#252526",
-              }
-            }
-            value="github"
+            Classic React
+          </WithStyles(ForwardRef(MenuItem))>
+          <WithStyles(ForwardRef(MenuItem))
+            value="Gatsby.js"
           >
-            Github
-          </option>
-          <option
-            style={
-              Object {
-                "backgroundColor": "#252526",
-              }
-            }
-            value="solarized_dark"
+            Gatsby.js
+          </WithStyles(ForwardRef(MenuItem))>
+          <WithStyles(ForwardRef(MenuItem))
+            value="Next.js"
           >
-            Solarized Dark
-          </option>
-          <option
-            style={
-              Object {
-                "backgroundColor": "#252526",
-              }
-            }
-            value="terminal"
-          >
-            Terminal
-          </option>
-          <option
-            style={
-              Object {
-                "backgroundColor": "#252526",
-              }
-            }
-            value="solarized_light"
-          >
-            Solarized Light
-          </option>
-        </WithStyles(ForwardRef(NativeSelect))>
-      </div>
-    </WithStyles(ForwardRef(FormControl))>
+            Next.js
+          </WithStyles(ForwardRef(MenuItem))>
+        </WithStyles(ForwardRef(Select))>
+      </WithStyles(ForwardRef(FormControl))>
+    </div>
   </Styled(MuiBox)>
   <CodePreview
     setTheme={[Function]}
-    theme="monokai"
+    theme="solarized_light"
   />
 </div>
 `;
