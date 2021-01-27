@@ -13,7 +13,6 @@ function usePrevious(value) {
 }
 
 function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
-  console.log('data', data);
   const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
@@ -59,7 +58,6 @@ function TreeChart({ data }) { // data is components from state - passed in from
   
   // remove separators
   dataDeepClone.forEach(component => {
-    console.log('comp', component);
     removeSeparators(component.children);
   });
 
