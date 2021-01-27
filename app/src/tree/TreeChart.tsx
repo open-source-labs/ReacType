@@ -47,10 +47,6 @@ function TreeChart({ data }) { // data is components from state - passed in from
     return arr;
   };
 
-  // const updateComps = (arr) => {
-  //   for (let i = 0;)
-  // }
-
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
 
