@@ -57,8 +57,7 @@
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "electron": "<rootDir>/__mocks__/electron.ts"
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "ts",
@@ -114,6 +113,7 @@
     "cors": "^2.8.5",
     "d3": "^6.2.0",
     "dotenv": "^8.2.0",
+    "electron": "^9.4.2",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-splashscreen": "^1.0.0",
@@ -137,6 +137,7 @@
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.22",
     "react-router-dom": "^5.2.0",
+    "regenerator-runtime": "^0.13.7",
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
@@ -162,7 +163,6 @@
     "csp-html-webpack-plugin": "^4.0.0",
     "css-loader": "^2.1.1",
     "dotenv-webpack": "^5.0.1",
-    "electron": "^9.1.0",
     "electron-builder": "^22.7.0",
     "enzyme-to-json": "^3.5.0",
     "eslint": "^4.19.1",
