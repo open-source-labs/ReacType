@@ -1,3 +1,5 @@
+// Future developers: This file needs to move to right folder: src/components/right
+
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
@@ -116,7 +118,7 @@ const ComponentPanel = (): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
-          <h4 className={classes.newComponent}>New Component:</h4>
+          <h4 className={classes.newComponent}>New Component</h4>
           {/* input for new component */}
           <div style={{display: 'flex', justifyContent:'space-around', marginTop: '20px', alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
@@ -175,9 +177,10 @@ const ComponentPanel = (): JSX.Element => {
           />
         </div>
       {/* Display all root components */}
+      {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root components'}</h4>
+        <h4>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
@@ -195,7 +198,7 @@ const ComponentPanel = (): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4>Reusable components</h4>
+        <h4>Reusable Components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))

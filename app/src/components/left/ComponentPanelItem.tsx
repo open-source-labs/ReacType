@@ -71,13 +71,13 @@ const ComponentPanelItem: React.FC<{
       ref={drag}
       xs={8}
       style={{
-        color: 'white',
+        color: '#3EA3D6',
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',
         border: root
-          ? '2px dotted rgba(255,255,255, 0.45)'
-          : '2px solid rgba(255,255,255, 0.75)',
+          ? '2px dotted #3EA3D6'
+          : '2px solid #3EA3D6',
         borderRadius: '8px'
       }}
     >

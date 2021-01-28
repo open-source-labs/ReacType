@@ -297,7 +297,7 @@ const RightContainer = (): JSX.Element => {
               </h4>
             ) : (
               <h4>
-                Parent component
+                Parent Component:
                 <br />
                 <span className={classes.compName}>{configTarget.name}</span>
               </h4>
@@ -575,13 +575,14 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#3D88E3', // color for 'index' under parent component
+    color: '#7EBBEC', // color for 'index' under parent component
     fontSize: '1rem'
   },
+  // 'Parent Component' font size
   configHeader: {
     height: '70px',
     '& > h4': {
-      fontSize: '1.25rem',
+      fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
       marginTop: '10px'
