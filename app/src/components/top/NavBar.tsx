@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import LoginButton from '../right/LoginButton'
+import ExportButton from '../right/ExportButton'
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 
@@ -166,7 +167,8 @@ export default function NavBar(props) {
           >
             Clear Canvas
           </Button>
-          <Button
+          {/* ==================================ExportButton================================================== */}
+          {/* <Button
             // aria-controls="customized-menu"
             // aria-haspopup="true"
             variant="contained"
@@ -176,7 +178,9 @@ export default function NavBar(props) {
             id="navbarButton"
           >
             Export
-          </Button>
+          </Button> */}
+
+          <ExportButton />
 
           <StyledMenu
             id="customized-menu"
