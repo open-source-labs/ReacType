@@ -283,7 +283,12 @@ const formatCode = (code: string) => {
   // } else {
   //   return window.api.formatCode(code);
   // }
-  return code;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 63636136af04d0e7331ea9149f07a11672488847
+   return code;
+
 };
 
 // generate code based on component hierarchy and then return the rendered code

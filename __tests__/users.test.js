@@ -1,12 +1,14 @@
 const request = require('supertest');
 //let server = 'https://reactype.herokuapp.com';
-let server = 'http://localhost:5000';
+let server = 'http://localhost:8080';
 const isDev = process.env.NODE_ENV === 'development';
-if (isDev) {
-  server = 'http://localhost:5000';
-}
+// if (isDev) {
+//   server = 'http://localhost:5000';
+// } else {
+//   server = 'http://localhost:8080';
+// }
 
-console.log('is Dev====???', process.env.NODE_ENV);
+console.log('is Dev===???', process.env.NODE_ENV);
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
@@ -15,16 +17,17 @@ describe('User authentication tests', () => {
   describe('/signup', () => {
     describe('POST', () => {
       it('responds with status 200 and json object on valid new user signup', () => {
+        console.log('server', server)
         return request(server)
           .post('/signup')
           .send({
             username: `supertest${num}`,
             email: `test${num}@test.com`,
-            password: `${num}`,
-          })  
-          .expect('Content-Type', /json/)
+            password: `${num}`
+          })
+         .set('Content-Type', 'application/json')  
           .expect(200)
-          .then((res) => expect(typeof res.body).toBe('object'));
+          .then(res => expect(typeof res.body).toBe('object'));
       });
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
@@ -32,11 +35,12 @@ describe('User authentication tests', () => {
           .send({
             username: 'reactyp3test',
             email: 'testaccount@gmail.com',
-            password: 'password',
+            password: 'password'
           })
+          .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
-          .then((res) => expect(typeof res.body).toBe('string'));
+          .then(res => expect(typeof res.body).toBe('string'));
       });
     });
   });
@@ -46,9 +50,10 @@ describe('User authentication tests', () => {
         return request(server)
           .post('/login')
           .send({ username: 'testing', password: 'codesmith1!' })
+          .set('Accept', 'application/json')
           .expect(200)
           .expect('Content-Type', /json/)
-          .then((res) =>
+          .then(res =>
             expect(res.body.sessionId).toEqual('5fa99d1930e67b513c17ba61')
           );
       });

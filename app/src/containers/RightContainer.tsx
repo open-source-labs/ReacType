@@ -555,9 +555,9 @@ const useStyles = makeStyles({
     marginTop: '20px'
   },
   configType: {
-    color: '#fff',
+    color: '#77b6ed',
     minWidth: '185px',
-    fontSize: '1em'
+    fontSize: '85%'
   },
   configValue: {
     marginLeft: '20px'
@@ -575,8 +575,8 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#3ea3d6', // color for 'index' under parent component
-    fontSize: '1.75rem'
+    color: '#3D88E3', // color for 'index' under parent component
+    fontSize: '1rem'
   },
   configHeader: {
     height: '70px',

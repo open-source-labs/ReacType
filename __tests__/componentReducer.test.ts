@@ -91,9 +91,10 @@ describe('Testing componentReducer functionality', function () {
       state = reducer(state, action);
       // expect only one remaining child
       const delParent = state.components.find(comp => comp.id === state.canvasFocus.componentId);
-      // expect remaining child to have type 'Component'
-      expect(delParent.children.length).toEqual(1);
+      // expect remaining child to have type 'Component' and to be preceded by separator
+      expect(delParent.children.length).toEqual(2);
       expect(delParent.children[delParent.children.length -1].type).toEqual('Component');
+      expect(delParent.children[delParent.children.length -2].name).toEqual('separator');
     })
   })
 
