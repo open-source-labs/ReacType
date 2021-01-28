@@ -21,7 +21,7 @@ describe('User authentication tests', () => {
             username: `supertest${num}`,
             email: `test${num}@test.com`,
             password: `${num}`,
-          })
+          })  
           .expect('Content-Type', /json/)
           .expect(200)
           .then((res) => expect(typeof res.body).toBe('object'));
