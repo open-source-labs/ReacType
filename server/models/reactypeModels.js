@@ -4,13 +4,12 @@
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const SALT_WORK_FACTOR = 14;
-require('dotenv').config();
+const config = require('../../config');
 
+const SALT_WORK_FACTOR = 14;
 // connect to mongo db
 mongoose
-  .connect(
-    'mongodb+srv://reactype:reactype@cluster0.q71no.mongodb.net/ReacType?retryWrites=true&w=majority',
+  .connect(config.URI,
     {
       // options for the connect method to parse the URI
       useNewUrlParser: true,

@@ -26,8 +26,7 @@ const bcrypt = require('bcryptjs');
 // }
 
 userController.createUser = (req, res, next) => {
-  console.log('req body', req.body)
-  let { email, username, password } = req.body;
+  const { email, username, password } = req.body;
 
   // use this condition for Oauth login
   // if (res.locals.signUpType === 'oauth') {
@@ -108,7 +107,6 @@ userController.verifyUser = (req, res, next) => {
       return next();
     }
     if (user) {
-      console.log('user', user)
       // bcrypt compare function checks input password against hashed password
       // eslint-disable-next-line arrow-parens
       bcrypt.compare(password, user.password).then(isMatch => {
@@ -122,7 +120,6 @@ userController.verifyUser = (req, res, next) => {
         return res.status(400).json('Incorrect Password');
       });
     } else {
-      console.log('username', user.username)
       return res.status(400).json('Invalid Username');
     }
   });
