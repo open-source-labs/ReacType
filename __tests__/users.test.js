@@ -1,6 +1,7 @@
 const request = require('supertest');
 //let server = 'https://reactype.herokuapp.com';
 let server = 'http://localhost:5000';
+let frontEndServer = 'http://localhost:8080';
 const isDev = process.env.NODE_ENV === 'development';
 if (isDev) {
   server = 'http://localhost:5000';
@@ -15,8 +16,8 @@ describe('User authentication tests', () => {
   describe('/signup', () => {
     describe('GET', () => {
       it('respond with status 200 and load signup file', () => {
-        return request(server)
-          .get('/signup')
+        return request(frontEndServer)
+          .get('/#/signup')
           .expect('Content-Type', /text\/html/)
           .expect(200);
       });
@@ -51,8 +52,8 @@ describe('User authentication tests', () => {
   describe('/login', () => {
     describe('GET', () => {
       it('respond with status 200 and load login file', () => {
-        return request(server)
-          .get('/login')
+        return request(frontEndServer)
+          .get('/#/login')
           .expect('Content-Type', /text\/html/)
           .expect(200);
       });
