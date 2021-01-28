@@ -108,6 +108,7 @@ userController.verifyUser = (req, res, next) => {
       return next();
     }
     if (user) {
+      console.log('user', user)
       // bcrypt compare function checks input password against hashed password
       // eslint-disable-next-line arrow-parens
       bcrypt.compare(password, user.password).then(isMatch => {
@@ -117,9 +118,11 @@ userController.verifyUser = (req, res, next) => {
           return next();
         }
         // if hashed password is not matched saved password in db, send 400 response
+        
         return res.status(400).json('Incorrect Password');
       });
     } else {
+      console.log('username', user.username)
       return res.status(400).json('Invalid Username');
     }
   });

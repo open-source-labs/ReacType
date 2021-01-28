@@ -283,7 +283,6 @@ const formatCode = (code: string) => {
   // } else {
   //   return window.api.formatCode(code);
   // }
-
    return code;
 
 };

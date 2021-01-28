@@ -3,11 +3,8 @@ const request = require('supertest');
 let server = 'http://localhost:5000';
 let browser = 'http://localhost:8080';
 const isDev = process.env.NODE_ENV === 'development';
-if (isDev) {
-  server = 'http://localhost:5000';
-}
 
-console.log('is Dev====???', process.env.NODE_ENV);
+console.log('is Dev===???', process.env.NODE_ENV);
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
@@ -29,11 +26,11 @@ describe('User authentication tests', () => {
           .send({
             username: `supertest${num}`,
             email: `test${num}@test.com`,
-            password: `${num}`,
+            password: `${num}`
           })
-          .expect('Content-Type', /json/)
+         .set('Content-Type', 'application/json')  
           .expect(200)
-          .then((res) => expect(typeof res.body).toBe('object'));
+          .then(res => expect(typeof res.body).toBe('object'));
       });
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
@@ -43,6 +40,7 @@ describe('User authentication tests', () => {
             email: 'reactype@gmail.com',
             password: 'Reactype123!@#'
           })
+          .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
           .then(res => expect(typeof res.body).toBe('string'));

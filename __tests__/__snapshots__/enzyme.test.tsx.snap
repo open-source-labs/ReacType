@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test All 10 default HTML elements have rendered Matches snapshot 1`] = `
+exports[`Test HTMLPanel Component Matches snapshot 1`] = `
 <ContextProvider
   value={
     Object {
