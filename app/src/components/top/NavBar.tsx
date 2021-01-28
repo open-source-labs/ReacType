@@ -18,6 +18,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import LoginButton from '../right/LoginButton'
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 
@@ -155,16 +156,24 @@ export default function NavBar(props) {
           <Typography variant="h6" className={classes.title}>
             ReactType
           </Typography>
-          <Button color="inherit" onClick={clearWorkspace} className="navbarButton">
+          <Button 
+            variant="contained"
+            color="primary"
+            style={{minWidth: '137.69px'}}
+            onClick={clearWorkspace} 
+            className="navbarButton" 
+            id="navbarButton"
+          >
             Clear Canvas
           </Button>
           <Button
-            aria-controls="customized-menu"
-            aria-haspopup="true"
+            // aria-controls="customized-menu"
+            // aria-haspopup="true"
             variant="contained"
             color="primary"
             onClick={handleClick}
             className="navbarButton"
+            id="navbarButton"
           >
             Export
           </Button>
@@ -190,7 +199,10 @@ export default function NavBar(props) {
           </StyledMenu>
           <Button
             className="navbarButton"
-            color="inherit"
+            id="navbarButton"
+            color="primary"
+            variant="contained"
+            style={{minWidth: '113.97px'}}
             onClick={() => {
               !style.backgroundColor
                 ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
@@ -200,7 +212,8 @@ export default function NavBar(props) {
           >
             Dark Mode
           </Button>
-          <Button color="inherit" className="navbarButton">Login</Button>
+          {/* <Button color="inherit" className="navbarButton">Login</Button> */}
+          <LoginButton />
         </Toolbar>
       </AppBar>
       {modal}
