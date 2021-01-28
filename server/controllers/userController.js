@@ -26,6 +26,7 @@ const bcrypt = require('bcryptjs');
 // }
 
 userController.createUser = (req, res, next) => {
+  console.log('req body', req.body)
   let { email, username, password } = req.body;
 
   // use this condition for Oauth login
