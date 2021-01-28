@@ -9,13 +9,13 @@ describe('Login Tests', () => {
   describe('sessionIsCreated', () => {
     it('returns the message \'No Username Input\' when no username is entered', async () => {
       username = '';
-      password = 'codesmith1!'
+      password = 'Reactype123!@#'
       const result = await sessionIsCreated(username, password).then((loginStatus) => loginStatus);
       expect(result).toEqual('No Username Input');
     })
 
     it('returns the message \'No Password Input\' when no password is entered', async () => {
-      username = 'reactyp3test';
+      username = 'reactype123';
       password = ''
       const result = await sessionIsCreated(username, password).then((loginStatus) => loginStatus);
       expect(result).toEqual('No Password Input');
@@ -36,8 +36,8 @@ describe('Login Tests', () => {
     })
 
     it('returns the message \'Success\' when the user passes all auth checks', async () => {
-      username = 'reactyp3test';
-      password = 'codesmith1!';
+      username = 'reactype123';
+      password = 'Reactype123!@#';
       const result = await sessionIsCreated(username, password).then((loginStatus) => loginStatus);
       expect(result).toEqual('Success');
     })
