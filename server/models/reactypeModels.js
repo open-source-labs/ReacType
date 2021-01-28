@@ -9,16 +9,19 @@ require('dotenv').config();
 
 // connect to mongo db
 mongoose
-  .connect(process.env.MONGO_URI, {
-    // options for the connect method to parse the URI
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
-    useFindAndModify: false,
-    // sets the name of the DB that our collections are part of
-    dbName: 'ReacType'
-  })
+  .connect(
+    'mongodb+srv://reactype:reactype@cluster0.q71no.mongodb.net/ReacType?retryWrites=true&w=majority',
+    {
+      // options for the connect method to parse the URI
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+      useFindAndModify: false,
+      // sets the name of the DB that our collections are part of
+      dbName: 'ReacType'
+    }
+  )
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
 
