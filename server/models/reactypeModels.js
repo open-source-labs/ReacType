@@ -1,6 +1,7 @@
 /*
  @desc: defines Schemas for the app: sessionSchema (cookieId, created_at), userSchema (username, password, email), projectSchema (name, userId, project, created_at)
  @export: Users, Sessions, Projects (3 schemas)
+ @important: URI to database is hidden in config.js file which is not available to future team. we recommend that your team will create a mongoDB database to test in dev mode. the real database is deployed in heroku
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');

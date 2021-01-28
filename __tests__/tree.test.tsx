@@ -13,6 +13,7 @@ import initialState from '../app/src/context/initialState';
 import reducer from '../app/src/reducers/componentReducer';
 import 'd3';
 
+// tester populates the components array used for this testing suite
 const tester = [
   {
     id: 1,
@@ -100,6 +101,7 @@ const tester = [
   }
 ];
 
+// renders a tree of the components in tester
 function Test() {
   const [state, dispatch] = useReducer(reducer, initialState);
   state.components = tester;
@@ -112,9 +114,10 @@ function Test() {
 
 test('Test the tree functionality', function() {
   render(<Test />);
-
+  // elements that are not separators should appear in the tree
   expect(screen.getByText('index')).toBeInTheDocument();
   expect(screen.getByText('A')).toBeInTheDocument();
   expect(screen.getByText('B')).toBeInTheDocument();
+  // tree should not include separators
   expect(screen.queryByText('separator')).toBe(null);
 });

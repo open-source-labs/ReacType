@@ -1,10 +1,11 @@
 import { sessionIsCreated, newUserIsCreated } from '../app/src/helperFunctions/auth';
 
+// tests auth.ts helper function and associated server routes
 describe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
   let password;
-  let isFbOauth;
+  let isFbOauth; // whether OAuth is used
 
   // Called under SignIn.tsx
   describe('sessionIsCreated', () => {
@@ -25,7 +26,7 @@ describe('Login Tests', () => {
     })
 
     it('returns the message \'Invalid Username\' when username does not exist', async () => {
-      username = 'l!b'; //breaks the 4 character minimum and no special characters
+      username = 'l!b'; //breaks the 4 character minimum and no special characters restriction
       password = 'test';
       isFbOauth = false;
       const result = await sessionIsCreated(username, password, isFbOauth).then((loginStatus) => loginStatus);
@@ -39,7 +40,8 @@ describe('Login Tests', () => {
       const result = await sessionIsCreated(username, password, isFbOauth).then((loginStatus) => loginStatus);
       expect(result).toEqual('Incorrect Password');
     })
-
+    // note that the username and password in this test are kept in the heroku database
+    // DO NOT CHANGE unless you have access to the heroku database
     it('returns the message \'Success\' when the user passes all auth checks', async () => {
       username = 'testing';
       password = 'codesmith1!';

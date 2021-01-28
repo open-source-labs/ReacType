@@ -1,15 +1,15 @@
 const request = require('supertest');
-//let server = 'https://reactype.herokuapp.com';
-let server = 'http://localhost:5000';
-let browser = 'http://localhost:8080';
-const isDev = process.env.NODE_ENV === 'development';
-
-console.log('is Dev===???', process.env.NODE_ENV);
+// let server = 'https://reactype.herokuapp.com';
+// const isDev = process.env.NODE_ENV === 'development';
+const server = 'http://localhost:5000';
+const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
-  let num = Math.floor(Math.random() * 1000);
+  const num = Math.floor(Math.random() * 1000);
 
+  // tests whether signup page is returned on navigation to /#/signup endpoint
+  // note that /#/ is required in endpoint because it is accessed via hash router
   describe('/signup', () => {
     describe('GET', () => {
       it('respond with status 200 and load signup file', () => {
@@ -19,6 +19,7 @@ describe('User authentication tests', () => {
           .expect(200);
       });
     });
+    // tests whether new user can sign up
     describe('POST', () => {
       it('responds with status 200 and json object on valid new user signup', () => {
         return request(server)
@@ -32,6 +33,7 @@ describe('User authentication tests', () => {
           .expect(200)
           .then(res => expect(typeof res.body).toBe('object'));
       });
+      // if invalid signup input, should respond with status 400
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
           .post('/signup')
@@ -47,6 +49,7 @@ describe('User authentication tests', () => {
       });
     });
   });
+  // tests whether login page is returned on navigation to /#/login endpoint
   describe('/login', () => {
     describe('GET', () => {
       it('respond with status 200 and load login file', () => {
@@ -56,6 +59,7 @@ describe('User authentication tests', () => {
           .expect(200);
       });
     });
+    // tests whether existing login information permits user to log in
     describe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
@@ -67,6 +71,7 @@ describe('User authentication tests', () => {
             expect(res.body.sessionId).toEqual('60123800e51f92e14363d97e')
           );
       });
+      // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
         return request(server)
           .post('/login')
@@ -78,6 +83,7 @@ describe('User authentication tests', () => {
     });
   });
 });
+// OAuth tests (currently inoperative)
 describe('Github oauth tests', () => {
   describe('/github/callback?code=', () => {
     describe('GET', () => {
