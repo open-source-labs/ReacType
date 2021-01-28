@@ -1,23 +1,27 @@
 const request = require('supertest');
-//let server = 'https://reactype.herokuapp.com';
-let server = 'http://localhost:8080';
-const isDev = process.env.NODE_ENV === 'development';
-// if (isDev) {
-//   server = 'http://localhost:5000';
-// } else {
-//   server = 'http://localhost:8080';
-// }
-
-console.log('is Dev===???', process.env.NODE_ENV);
+// let server = 'https://reactype.herokuapp.com';
+// const isDev = process.env.NODE_ENV === 'development';
+const server = 'http://localhost:5000';
+const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
-  let num = Math.floor(Math.random() * 1000);
+  const num = Math.floor(Math.random() * 1000);
 
+  // tests whether signup page is returned on navigation to /#/signup endpoint
+  // note that /#/ is required in endpoint because it is accessed via hash router
   describe('/signup', () => {
+    describe('GET', () => {
+      it('respond with status 200 and load signup file', () => {
+        return request(browser)
+          .get('/#/signup')
+          .expect('Content-Type', /text\/html/)
+          .expect(200);
+      });
+    });
+    // tests whether new user can sign up
     describe('POST', () => {
       it('responds with status 200 and json object on valid new user signup', () => {
-        console.log('server', server)
         return request(server)
           .post('/signup')
           .send({
@@ -29,13 +33,14 @@ describe('User authentication tests', () => {
           .expect(200)
           .then(res => expect(typeof res.body).toBe('object'));
       });
+      // if invalid signup input, should respond with status 400
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
           .post('/signup')
           .send({
-            username: 'reactyp3test',
-            email: 'testaccount@gmail.com',
-            password: 'password'
+            username: 'reactype123',
+            email: 'reactype@gmail.com',
+            password: 'Reactype123!@#'
           })
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -44,19 +49,29 @@ describe('User authentication tests', () => {
       });
     });
   });
+  // tests whether login page is returned on navigation to /#/login endpoint
   describe('/login', () => {
+    describe('GET', () => {
+      it('respond with status 200 and load login file', () => {
+        return request(browser)
+          .get('/#/login')
+          .expect('Content-Type', /text\/html/)
+          .expect(200);
+      });
+    });
+    // tests whether existing login information permits user to log in
     describe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
           .post('/login')
-          .send({ username: 'testing', password: 'codesmith1!' })
-          .set('Accept', 'application/json')
+          .send({ username: 'reactype123', password: 'Reactype123!@#' })
           .expect(200)
           .expect('Content-Type', /json/)
           .then(res =>
-            expect(res.body.sessionId).toEqual('5fa99d1930e67b513c17ba61')
+            expect(res.body.sessionId).toEqual('60123800e51f92e14363d97e')
           );
       });
+      // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
         return request(server)
           .post('/login')
@@ -68,10 +83,11 @@ describe('User authentication tests', () => {
     });
   });
 });
+// OAuth tests (currently inoperative)
 describe('Github oauth tests', () => {
   describe('/github/callback?code=', () => {
     describe('GET', () => {
-      it('responds with status 400 and error message if no code received', () => {
+      xit('responds with status 400 and error message if no code received', () => {
         return request(server)
           .get('/github/callback?code=')
           .expect(400)
@@ -79,7 +95,7 @@ describe('Github oauth tests', () => {
             return expect(res.text).toEqual('\"Undefined or no code received from github.com\"');
           });
       });
-      it('responds with status 400 if invalid code received', () => {
+      xit('responds with status 400 if invalid code received', () => {
         return request(server)
           .get('/github/callback?code=123456')
           .expect(400)

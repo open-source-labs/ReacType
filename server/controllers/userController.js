@@ -26,8 +26,7 @@ const bcrypt = require('bcryptjs');
 // }
 
 userController.createUser = (req, res, next) => {
-  console.log('req body', req.body)
-  let { email, username, password } = req.body;
+  const { email, username, password } = req.body;
 
   // use this condition for Oauth login
   // if (res.locals.signUpType === 'oauth') {
@@ -51,7 +50,7 @@ userController.createUser = (req, res, next) => {
   Users.create({ username, password, email }, (err, newUser) => {
     // handle error of creating a new user
     if (err) {
-      if (err.keyValue.email && res.locals.signUpType === 'oauth') {
+      if (res.locals.signUpType === 'oauth') {
         return next();
       }
       if (err.keyValue.email) {
@@ -117,6 +116,7 @@ userController.verifyUser = (req, res, next) => {
           return next();
         }
         // if hashed password is not matched saved password in db, send 400 response
+        
         return res.status(400).json('Incorrect Password');
       });
     } else {
