@@ -51,7 +51,6 @@ userController.createUser = (req, res, next) => {
   Users.create({ username, password, email }, (err, newUser) => {
     // handle error of creating a new user
     if (err) {
-      console.log('err', err)
       if (res.locals.signUpType === 'oauth') {
         return next();
       }
