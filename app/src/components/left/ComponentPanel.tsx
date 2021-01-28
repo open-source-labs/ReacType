@@ -238,7 +238,7 @@ const ComponentPanel = (): JSX.Element => {
 const useStyles = makeStyles({
   inputField: {
     marginTop: '10px',
-    color: '#77b6ed',
+    color: '#186BB4',
     borderRadius: '5px',
     // paddingLeft: '15px',
     // paddingRight: '10px',
@@ -269,13 +269,13 @@ const useStyles = makeStyles({
     width: '100%',
   },
   rootCheckBox: {
-    borderColor: '#77b6ed',
-    color: '#77b6ed',
+    borderColor: '#186BB4',
+    color: '#186BB4',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    color: '#77b6ed',
-    borderColor: '#77b6ed'
+    color: '#186BB4',
+    borderColor: '#186BB4'
   },
   panelWrapper: {
     width: '100%',
@@ -318,7 +318,7 @@ const useStyles = makeStyles({
   },
   inputLabel: {
     fontSize: '1em',
-    color: '#77b6ed',
+    color: '#186BB4',
     marginLeft: '10px'
   },
   btnGroup: {
@@ -326,7 +326,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   addComponentButton: {
-    color: '#77b6ed',
+    color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '100px',

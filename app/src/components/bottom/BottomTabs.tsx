@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#545E75'
+    backgroundColor: '#545E75',
   },
   tabRoot: {
     textTransform: 'initial',
@@ -133,7 +133,7 @@ const useStyles = makeStyles(theme => ({
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: 'white'
+      color: 'red',
     }
   },
   tabSelected: {},

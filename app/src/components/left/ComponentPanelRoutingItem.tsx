@@ -79,7 +79,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
       ref={drag}
       xs={8}
       style={{
-        color: 'white',
+        color: '#186BB4',
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',
@@ -113,7 +113,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
 
 const useStyles = makeStyles({
   activeFocus: {
-    backgroundColor: 'rgba(1,212,109,0.3)'
+    backgroundColor: '#808080',
   },
   focusMark: {
     backgroundColor: '#808080',

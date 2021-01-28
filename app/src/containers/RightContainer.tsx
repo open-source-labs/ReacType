@@ -555,7 +555,7 @@ const useStyles = makeStyles({
     marginTop: '20px'
   },
   configType: {
-    color: '#77b6ed',
+    color: '#186BB4',
     minWidth: '185px',
     fontSize: '85%'
   },
@@ -575,7 +575,7 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#7EBBEC', // color for 'index' under parent component
+    color: '#186BB4', // color for 'index' under parent component
     fontSize: '1rem'
   },
   // 'Parent Component' font size
