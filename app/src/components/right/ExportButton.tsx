@@ -4,7 +4,7 @@
 // import ListItem from '@material-ui/core/ListItem';
 // import ListItemText from '@material-ui/core/ListItemText';
 // import { makeStyles } from '@material-ui/core/styles';
-// import createModal from '../right/createModal';
+// import createModal from './createModal';
 // import exportProject from '../../utils/exportProject.util';
 // import { styleContext } from '../../containers/AppContainer';
 // import StateContext from '../../context/context';
@@ -54,6 +54,7 @@ export default function ExportButton() {
 
 
   const showGenerateAppModal = () => {
+    console.log('state:', state)
     const children = (
       <List className="export-preference">
         {genOptions.map((option: string, i: number) => (
@@ -128,6 +129,7 @@ export default function ExportButton() {
         >
           EXPORT
         </Button>
+        {modal}
     </div>
   );
 };

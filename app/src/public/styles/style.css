@@ -538,5 +538,6 @@ a.nav_link:hover {
 
 #navbarButton {
   color: white;
+  margin: 0px 5px 0px 5px;
   /* min-width: 138px; */
 }

@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
-
+import Button from '@material-ui/core/Button';
 import exportProject from '../../utils/exportProject.util';
 
 import ProjectsFolder from './OpenProjects';
@@ -204,11 +204,11 @@ const ProjectManager = () => {
           variant="outlined"
           color="primary"
           onClick={showGenerateAppModal}
-          endIcon={<PublishIcon />}
+          
         >
           EXPORT PROJECT
         </Button> */}
-
+        {/* endIcon={<PublishIcon /> */}
 {/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
 
         {/* <Button 
