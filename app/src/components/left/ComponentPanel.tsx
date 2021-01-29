@@ -290,6 +290,7 @@ const useStyles = makeStyles({
     // overflowY: 'auto',
     marginLeft: '-15px',
     marginRight: '-15px',
+    // marginTop: '25px',
     width: '300px',
     display: 'flex',
     flexDirection: 'column',
@@ -312,7 +313,7 @@ const useStyles = makeStyles({
    
   },
   newComponent: {
-    color: '#3d88e3',
+    color: '#155084',
     fontSize: '95%',
     marginBottom: '20px'
   },
@@ -339,7 +340,7 @@ const useStyles = makeStyles({
     borderRadius: '25px',
   },
   rootToggle: {
-    color: '#808080',
+    color: '#696969',
     fontSize: '0.85rem'
   },
 });

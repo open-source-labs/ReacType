@@ -22,7 +22,7 @@ body {
 }
 
 h4 {
-  color: #3d88e3;
+  color: #155084;
   text-align: center;
 }
 
@@ -182,7 +182,9 @@ LEFT COLUMN
 }
 
 .customForm h5 {
-  color: #3d88e3;
+  /* color: #3d88e3; */
+  /*color for 'New Element' in HTMLPanel.tsx */
+  color: #155084;
   text-align: center;
   font-size: 100%;
   font-weight: 700;
@@ -467,11 +469,13 @@ a.nav_link:hover {
   height: 100%;
   position: relative;
   display: flex;
+  /* justify-content: center; */
+  /* margin-bottom: 25px; */
 }
 
 .compPanelItem h3 {
-  padding-top: 25px;
-  font-size: 1.25emem;
+  /* padding-top: 25px; */
+  font-size: 1.25em;
   letter-spacing: 0.75px;
 }
 

@@ -566,7 +566,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: '#808080' // color for delete page
+      color: '#696969' // color for delete page
     }
   },
   button: {

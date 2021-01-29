@@ -83,7 +83,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',
-        border: '2px solid rgba(211,201,121, 0.75)',
+        border: '2px dotted #186BB4',
         borderRadius: '8px'
       }}
     >
