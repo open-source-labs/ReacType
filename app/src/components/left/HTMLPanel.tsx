@@ -72,6 +72,8 @@ const HTMLPanel = (props): JSX.Element => {
       setErrorMsg('Tag/ Tag name must start with a letter.');
     } else if (type === 'symbolsDetected') {
       setErrorMsg('Tag/ Tag name must not contain symbols.');
+    } else if (type === 'length') {
+      setErrorMsg('Element name cannot exceed 10 characters.');
     }
   };
 
@@ -124,6 +126,9 @@ const HTMLPanel = (props): JSX.Element => {
     } else if (checkNameDupe(tag) || checkNameDupe(name)) {
       triggerError('dupe');
       return;
+    } else if (name.length > 10) {
+      triggerError('length');
+      return;
     }
     createOption(tag, name);
     resetError();
@@ -136,23 +141,25 @@ const HTMLPanel = (props): JSX.Element => {
     });
   };
   // filter out separator so that it will not appear on the html panel
-const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
+  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <Grid
-          id="HTMLItemsGrid"
-        >
-          {htmlTypesToRender.map(option => (
-            <HTMLItem
-              name={option.name}
-              key={`html-${option.name}`}
-              id={option.id}
-              Icon={option.icon}
-              handleDelete={handleDelete}
-              isThemeLight={isThemeLight}
-            />
-          ))}
-        </Grid>
+      <div id="HTMLItemsTopHalf">
+        <Grid
+            id="HTMLItemsGrid"
+          >
+            {htmlTypesToRender.map(option => (
+              <HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                Icon={option.icon}
+                handleDelete={handleDelete}
+                isThemeLight={isThemeLight}
+              />
+            ))}
+          </Grid>
+      </div>
       <div className="lineDiv">
         <hr
           style={{
@@ -167,7 +174,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
-            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New Element: </h5>
+            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h5>
             <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
             </label>
