@@ -6,6 +6,7 @@ import {
   Theme
 } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -25,6 +26,7 @@ import DeleteProjects from '../right/DeleteProjects';
 import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
+import logo from '../../public/icons/win/logo.png';
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -153,14 +155,8 @@ export default function NavBar(props) {
     <div className={classes.root} style={style}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+          {/* <Avatar alt="Remy Sharp" src="../../public/icons/win/512x512.png" /> */}
+          <Avatar src={logo}></Avatar>
           <Typography variant="h6" className={classes.title}>
             ReactType
           </Typography>
@@ -191,7 +187,7 @@ export default function NavBar(props) {
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
           >
-            Dark Mode
+            {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
           </Button>
 
 {/* ================================MANAGE PROJECT DROPDOWN====================================== */}

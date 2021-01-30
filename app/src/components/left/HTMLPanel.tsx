@@ -140,11 +140,6 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
   return (
     <div className="HTMLItems">
       <Grid
-          // container
-          // spacing={1}
-          // direction='column'
-          // justify='center'
-          // alignItems='center'
           id="HTMLItemsGrid"
         >
           {htmlTypesToRender.map(option => (
@@ -201,68 +196,39 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
             />
             {errorStatus && <span>{errorMsg}</span>}           
             <input
-              // className={buttonClasses}
               className={classes.addElementButton}
               id="submitButton"
-              // color="primary"
               type="submit"
               value="Add Element"
-              // style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
+              
             />
           </form>
         </div>
       </div>
-        {/* <Grid
-          // container
-          // spacing={1}
-          // direction='column'
-          // justify='center'
-          // alignItems='center'
-        >
-          {htmlTypesToRender.map(option => (
-            <HTMLItem
-              name={option.name}
-              key={`html-${option.name}`}
-              id={option.id}
-              Icon={option.icon}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </Grid> */}
+        
     </div>
   );
 };
 
 const useStyles = makeStyles({
   inputWrapper: {
-    // height: '115px',
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingLeft: '35px',
     marginBottom: '15px',
     width: '100%'
   },
   addComponentWrapper: {
-    // border: '1px solid rgba(70,131,83)',
-    //----------------------------------CHANGED---------------------------------------
-    // border: '1px solid rgba(247, 167, 62, 0.45)',
-    // padding: '20px',
-    // margin: '20px',
     width: '100%',
     margin: '5px 0px 0px 0px'
   },
   input: {
-    // color: '#77b6ed',
     color: '#186BB4',
     borderRadius: '5px',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
     width: '140px',
@@ -283,16 +249,10 @@ const useStyles = makeStyles({
     fontFamily: '"Raleway", sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    // margin: '5px auto',
     marginLeft: '75px',
-    // border: '1px solid rgba(225, 225, 225, 1.0)',
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
-    // cursor: 'grab',
-    // '& > h3': {
-    //   display: 'inline-block'
-    //   }
     }
 });
 

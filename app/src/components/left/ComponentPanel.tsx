@@ -240,12 +240,9 @@ const useStyles = makeStyles({
     marginTop: '10px',
     color: '#186BB4',
     borderRadius: '5px',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
     width: '140px',
@@ -253,13 +250,11 @@ const useStyles = makeStyles({
     borderColor: 'white'
   },
   inputWrapper: {
-    // height: '115px',
     textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingLeft: '35px',
     marginBottom: '15px',
   },
   addComponentWrapper: {
@@ -346,13 +341,3 @@ const useStyles = makeStyles({
 });
 
 export default ComponentPanel;
- {/* // color: 'white',
-    borderStyle: 'solid',
-    borderRadius: '5px',
-    borderColor: 'white',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
-    marginLeft: '-34px',
-    width: '120px',
-    height: '30px',
-    whiteSpace: 'nowrap', */}

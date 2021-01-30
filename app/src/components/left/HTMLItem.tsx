@@ -23,7 +23,6 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: '7px auto',
     marginLeft: '30px',
-    // border: '2px solid rgba(225, 225, 225, 1.0)',
     borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
@@ -115,15 +114,6 @@ const HTMLItem: React.FC<{
     <Grid item xs={5} key={`html-g${name}`}>
       <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
         <h3>{name}</h3>
-        {/* <span
-          style={{
-            verticalAlign: 'middle',
-            display: 'inline-block',
-            // marginLeft: '5px'
-          }}
-        >
-          {Icon && <Icon />}
-        </span> */}
         {id > 11 &&
         <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
       </div>
