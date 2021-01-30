@@ -13,7 +13,7 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: '#77b6ed',
+    color: '#186BB4',
     height: '35px',
     width: '90px',
     fontSize: '80%',
