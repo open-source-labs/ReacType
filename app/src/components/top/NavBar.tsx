@@ -156,8 +156,8 @@ export default function NavBar(props) {
       <AppBar position="static">
         <Toolbar>
           {/* <Avatar alt="Remy Sharp" src="../../public/icons/win/512x512.png" /> */}
-          <Avatar src={logo}></Avatar>
-          <Typography variant="h6" className={classes.title}>
+          <Avatar src={logo} ></Avatar>
+          <Typography variant="h6" style={{marginLeft: '1rem'}} className={classes.title}>
             ReactType
           </Typography>
           <Button 
