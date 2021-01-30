@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { flexbox } from '@material-ui/system';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
-const ComponentPanel = (): JSX.Element => {
+const ComponentPanel = ({isThemeLight}): JSX.Element => {
+  console.log(isThemeLight)
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
 
@@ -118,16 +119,22 @@ const ComponentPanel = (): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
-          <h4 className={classes.newComponent}>New Component</h4>
+          <h4 
+            className={isThemeLight ? `${classes.newComponent} ${classes.lightThemeFontColor}` : `${classes.newComponent} ${classes.darkThemeFontColor}`}
+          >
+            New Component
+          </h4>
           {/* input for new component */}
           <div style={{display: 'flex', justifyContent:'space-around', marginTop: '20px', alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
-               <label className={classes.inputLabel}>Name:</label>
+              <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+                Name:
+              </label>
                 <div className={classes.inputWrapper}>
                     <input
                     color={'primary'}
                     variant="outlined"
-                    className={classes.inputField}
+                    className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
                     InputProps={{ className: classes.input }}
                     value={compName}
                     error={errorStatus}
@@ -142,20 +149,20 @@ const ComponentPanel = (): JSX.Element => {
                 value="top"
                 control={
                   <Checkbox
-                    className={classes.rootCheckBox}
+                    className={isThemeLight ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}` : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`}
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
                   />
                 }
                 label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
-                className={classes.rootCheckBoxLabel}
+                className={isThemeLight ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}` : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`}
                 labelPlacement="top"
               />
             </div>
           </div>
           <button
-            className={classes.addComponentButton}
+            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
             id="addComponentButton"
             onClick={handleNameSubmit}
           >
@@ -166,10 +173,8 @@ const ComponentPanel = (): JSX.Element => {
       <div className="lineDiv">
           <hr
             style={{
-              borderColor: '#f5f5f5',
+              borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
               borderStyle: 'solid',
-              color: '#f5f5f5',
-              backgroundColor: 'white',
               height: '0.5px',
               width: '100%',
               marginLeft: '0px'
@@ -180,7 +185,7 @@ const ComponentPanel = (): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
@@ -198,7 +203,7 @@ const ComponentPanel = (): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4>Reusable Components</h4>
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
@@ -210,6 +215,7 @@ const ComponentPanel = (): JSX.Element => {
                   name={comp.name}
                   id={comp.id}
                   root={false}
+                  isThemeLight={isThemeLight}
                 />
               );
             })}
@@ -238,7 +244,7 @@ const ComponentPanel = (): JSX.Element => {
 const useStyles = makeStyles({
   inputField: {
     marginTop: '10px',
-    color: '#186BB4',
+    // color: '#186BB4',
     borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -265,11 +271,11 @@ const useStyles = makeStyles({
   },
   rootCheckBox: {
     borderColor: '#186BB4',
-    color: '#186BB4',
+    // color: '#186BB4',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    color: '#186BB4',
+    // color: '#186BB4',
     borderColor: '#186BB4'
   },
   panelWrapper: {
@@ -314,7 +320,7 @@ const useStyles = makeStyles({
   },
   inputLabel: {
     fontSize: '1em',
-    color: '#186BB4',
+    // color: '#186BB4',
     marginLeft: '10px'
   },
   btnGroup: {
@@ -322,7 +328,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   addComponentButton: {
-    color: '#186BB4',
+    // color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '100px',
@@ -338,6 +344,12 @@ const useStyles = makeStyles({
     color: '#696969',
     fontSize: '0.85rem'
   },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
+  }
 });
 
 export default ComponentPanel;

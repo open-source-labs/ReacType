@@ -169,6 +169,7 @@ LEFT COLUMN
   background-color: #a7cced;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .lineDiv {
@@ -187,9 +188,6 @@ LEFT COLUMN
 }
 
 .customForm h5 {
-  /* color: #3d88e3; */
-  /*color for 'New Element' in HTMLPanel.tsx */
-  color: #155084;
   text-align: center;
   font-size: 100%;
   font-weight: 700;
@@ -197,13 +195,6 @@ LEFT COLUMN
   margin-left: -5px;
 }
 
-/* .customForm label {
-  font-size: 80%;
-  float: left;
-  clear: left;
-  display: flex;
-  align-items: center;
-} */
 
 .customForm input {
   /* width: 150px; */

@@ -17,14 +17,14 @@ Hook state:
   -tag: 
 */
 
-const HTMLPanel = (): JSX.Element => {
+const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
-
+  const {isThemeLight} = props;
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -144,28 +144,25 @@ const HTMLPanel = (): JSX.Element => {
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <div id="HTMLItemsTopHalf">
-        <Grid
-            id="HTMLItemsGrid"
-          >
-            {htmlTypesToRender.map(option => (
-              <HTMLItem
-                name={option.name}
-                key={`html-${option.name}`}
-                id={option.id}
-                Icon={option.icon}
-                handleDelete={handleDelete}
-              />
-            ))}
-          </Grid>
-      </div>
+      <Grid
+          id="HTMLItemsGrid"
+        >
+          {htmlTypesToRender.map(option => (
+            <HTMLItem
+              name={option.name}
+              key={`html-${option.name}`}
+              id={option.id}
+              Icon={option.icon}
+              handleDelete={handleDelete}
+              isThemeLight={isThemeLight}
+            />
+          ))}
+        </Grid>
       <div className="lineDiv">
         <hr
           style={{
-            borderColor: '#f5f5f5',
+            borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
             borderStyle: 'solid',
-            color: '#f5f5f5',
-            backgroundColor: 'white',
             height: '0.5px',
             width: '100%',
             marginLeft: '0px'
@@ -175,8 +172,13 @@ const HTMLPanel = (): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
+<<<<<<< HEAD
             <h5>New HTML Tag: </h5>
             <label className={classes.inputLabel}>
+=======
+            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New Element: </h5>
+            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+>>>>>>> 098ac2df1d6b011b0285b48eb7080e8dbe2b48a9
               Tag:
             </label>
               <input
@@ -190,7 +192,7 @@ const HTMLPanel = (): JSX.Element => {
               />
               {errorStatus && <span>{errorMsg}</span>}
             <br></br>
-            <label className={classes.inputLabel}>
+            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
             </label>
             <input
@@ -203,7 +205,7 @@ const HTMLPanel = (): JSX.Element => {
             />
             {errorStatus && <span>{errorMsg}</span>}           
             <input
-              className={classes.addElementButton}
+              className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
               value="Add Element"
@@ -231,7 +233,6 @@ const useStyles = makeStyles({
     margin: '5px 0px 0px 0px'
   },
   input: {
-    color: '#186BB4',
     borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -244,12 +245,10 @@ const useStyles = makeStyles({
   inputLabel: {
     fontSize: '85%',
     zIndex: 20,
-    color: '#186BB4',
     margin: '-10px 0px -10px 0px',
     width: '125%'
   },
   addElementButton: {
-    color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '105px',
@@ -260,6 +259,12 @@ const useStyles = makeStyles({
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
+    },
+    lightThemeFontColor: {
+      color: '#186BB4'
+    },
+    darkThemeFontColor: {
+      color: '#fff'
     }
 });
 

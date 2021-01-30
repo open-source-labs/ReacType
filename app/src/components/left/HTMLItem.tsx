@@ -29,34 +29,25 @@ const useStyles = makeStyles({
       display: 'inline-block',
     }
   },
-  HTMLCustomPanelItem: {
-    color: '#186BB4',
-    height: '35px',
-    width: '90px',
-    fontSize: '80%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // alignitems: 'center',
-    textAlign: 'center',
-    margin: '7px auto',
-    marginLeft: '30px',
-    borderRadius: '25px',
-    cursor: 'grab',
-    '& > h3': {
-      display: 'inline-block',
-    }
+  lightThemeFontColor: {
+    color: '#186BB4'
   },
+  darkThemeFontColor: {
+    color: '#fff'
+  }
   
 });
 
-const HTMLItem: React.FC<{
+const HTMLItem : React.FC<{
   name: string;
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
+  isThemeLight: boolean;
+}> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
+  
   const classes = useStyles();
+  
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
