@@ -283,10 +283,6 @@ const formatCode = (code: string) => {
   // } else {
   //   return window.api.formatCode(code);
   // }
-<<<<<<< HEAD
-=======
-
->>>>>>> 63636136af04d0e7331ea9149f07a11672488847
    return code;
 
 };
