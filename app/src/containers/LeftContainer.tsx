@@ -14,8 +14,6 @@ const LeftContainer = (): JSX.Element => {
     <div className="column left" style={style}>
       <Grid container direction="row" alignItems="center">
         <HTMLPanel />
-        {/* <ComponentPanel /> */}
-     
       </Grid>
     </div>
   );

@@ -17,7 +17,7 @@ export const styleContext = createContext({
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
-// console.log('dark', darkTheme)
+
 
 const AppContainer = () => {
 
@@ -30,7 +30,7 @@ const AppContainer = () => {
 
   return (
     // Mui theme provider provides themed styling to all MUI components in app
-    <MuiThemeProvider theme={isThemeLight ? createMuiTheme(lightTheme) : createMuiTheme(darkTheme)}>
+    <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
       <styleContext.Provider value={{ style, setStyle }}>
       <div>
         <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>

@@ -22,7 +22,7 @@ body {
 }
 
 h4 {
-  color: #77b6ed;
+  color: #155084;
   text-align: center;
 }
 
@@ -111,12 +111,12 @@ LEFT COLUMN
 
 /* affecting HTMl elements in HTML Panel */
 /* .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline { */
-  /* padding: 3rem; */
-  /* margin: -5rem;
+/* padding: 3rem; */
+/* margin: -5rem;
   padding-right: 5rem;
   padding-top: 3rem;
   padding-left: 1rem; */
-  /* width: 50%; */
+/* width: 50%; */
 /* } */
 
 .HTMLItems {
@@ -170,7 +170,7 @@ LEFT COLUMN
   width: 150%;
   margin-left: 0px;
   /* background-color: red; */
-} 
+}
 
 .customForm {
   width: 100px;
@@ -182,7 +182,9 @@ LEFT COLUMN
 }
 
 .customForm h5 {
-  color: #3d88e3;
+  /* color: #3d88e3; */
+  /*color for 'New Element' in HTMLPanel.tsx */
+  color: #155084;
   text-align: center;
   font-size: 100%;
   font-weight: 700;
@@ -467,16 +469,19 @@ a.nav_link:hover {
   height: 100%;
   position: relative;
   display: flex;
+  /* justify-content: center; */
+  /* margin-bottom: 25px; */
 }
 
 .compPanelItem h3 {
-  padding-top: 25px;
-  font-size: 1.15em;
+  /* padding-top: 25px; */
+  font-size: 1.25em;
   letter-spacing: 0.75px;
 }
 
 .compPanelItem:hover {
   cursor: pointer;
+  padding-bottom: 25px;
 }
 
 /* ----------------------------RIGHT PANEL---------------------------------- */
@@ -532,4 +537,16 @@ a.nav_link:hover {
 
 .oauth-btn:hover {
   background-color: #4e76c7;
+}
+
+/*===========================NAVBAR=================================*/
+
+#navbarButton {
+  color: white;
+  margin: 0px 5px 0px 5px;
+  /* min-width: 138px; */
+}
+
+#customized-menu {
+  width: 16%;
 }

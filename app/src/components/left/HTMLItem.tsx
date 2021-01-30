@@ -13,7 +13,7 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: '#77b6ed',
+    color: '#186BB4',
     height: '35px',
     width: '90px',
     fontSize: '80%',
@@ -23,13 +23,13 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: '7px auto',
     marginLeft: '30px',
-    // border: '2px solid rgba(225, 225, 225, 1.0)',
     borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
     }
-  }
+  },
+  
 });
 
 const HTMLItem: React.FC<{
@@ -115,17 +115,8 @@ const HTMLItem: React.FC<{
     <Grid item xs={5} key={`html-g${name}`}>
       <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
         <h3>{name}</h3>
-        {/* <span
-          style={{
-            verticalAlign: 'middle',
-            display: 'inline-block',
-            // marginLeft: '5px'
-          }}
-        >
-          {Icon && <Icon />}
-        </span> */}
         {id > 11 &&
-        <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
+        <button id="newElement" onClick={() => deleteAllInstances(id)} >x</button> }
       </div>
       {modal}
     </Grid>

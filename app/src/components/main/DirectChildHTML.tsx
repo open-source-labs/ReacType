@@ -55,9 +55,7 @@ function DirectChildHTML({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #a7cced'
-        : '1px Solid grey',
-    boxShadow:
-      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+        : '1px Solid grey'
   };
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),

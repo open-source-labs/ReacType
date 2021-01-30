@@ -87,9 +87,9 @@ const BottomTabs = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#3ea3d6',
+    backgroundColor: '#186BB4',
     height: '100%',
-    color: '#091921',
+    color: '#E8E8E8',
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
     
   },
@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#545E75'
+    backgroundColor: 'white',
   },
   tabRoot: {
     textTransform: 'initial',
@@ -133,7 +133,7 @@ const useStyles = makeStyles(theme => ({
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: 'white'
+      color: 'white',
     }
   },
   tabSelected: {},
@@ -157,7 +157,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(255,255,255,0.15)',
     // width: '300px',
     // width: '100%',
-    color: '#fff'
+    color: 'white'
   }
 }));
 

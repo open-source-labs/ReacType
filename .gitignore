@@ -108,6 +108,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# config file for db URI 
+config.js
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

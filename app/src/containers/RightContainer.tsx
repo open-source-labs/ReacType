@@ -291,13 +291,15 @@ const RightContainer = (): JSX.Element => {
                   ? ' component'
                   : ' element'}{' '}
                 <br />
+                <br />
                 <span className={classes.compName}>
                   {configTarget.child.name}
                 </span>
               </h4>
             ) : (
               <h4>
-                Parent component
+                Parent Component:
+                <br />
                 <br />
                 <span className={classes.compName}>{configTarget.name}</span>
               </h4>
@@ -555,7 +557,7 @@ const useStyles = makeStyles({
     marginTop: '20px'
   },
   configType: {
-    color: '#77b6ed',
+    color: '#186BB4',
     minWidth: '185px',
     fontSize: '85%'
   },
@@ -566,7 +568,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: '#808080' // color for delete page
+      color: '#696969' // color for delete page
     }
   },
   button: {
@@ -575,13 +577,14 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   compName: {
-    color: '#3D88E3', // color for 'index' under parent component
+    color: '#186BB4', // color for 'index' under parent component
     fontSize: '1rem'
   },
+  // 'Parent Component' font size
   configHeader: {
     height: '70px',
     '& > h4': {
-      fontSize: '1.25rem',
+      fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
       marginTop: '10px'
