@@ -18,7 +18,9 @@ export const styleContext = createContext({
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 
-
+export const themeContext = createContext({
+  
+})
 const AppContainer = () => {
 
   // setting state for changing light vs dark themes; linked to NavBar.tsx
@@ -37,12 +39,10 @@ const AppContainer = () => {
       </div>
       <div className="app-container">
         
-          {/* <div id="columns-container"> */}
-            <LeftContainer />
-            <MainContainer />
-            <RightContainer />
+            <LeftContainer isThemeLight={isThemeLight}/>
+            <MainContainer isThemeLight={isThemeLight}/>
+            <RightContainer isThemeLight={isThemeLight}/>
 
-      {/* </div> */}
       </div>
       </styleContext.Provider>
     </MuiThemeProvider>

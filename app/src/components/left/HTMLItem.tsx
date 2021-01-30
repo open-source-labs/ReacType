@@ -13,7 +13,6 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: '#186BB4',
     height: '35px',
     width: '90px',
     fontSize: '80%',
@@ -29,16 +28,25 @@ const useStyles = makeStyles({
       display: 'inline-block',
     }
   },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
+  }
   
 });
 
-const HTMLItem: React.FC<{
+const HTMLItem : React.FC<{
   name: string;
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
+  isThemeLight: boolean;
+}> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
+  
   const classes = useStyles();
+  
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -113,7 +121,7 @@ const HTMLItem: React.FC<{
 
   return (
     <Grid item xs={5} key={`html-g${name}`}>
-      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         {id > 11 &&
         <button id="newElement" onClick={() => deleteAllInstances(id)} >x</button> }
