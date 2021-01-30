@@ -190,7 +190,9 @@ const HTMLPanel = (props): JSX.Element => {
                 style={{ marginBottom: '10px' }}
                 
               />
-              {errorStatus && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+              
+              {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
+               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                                 <em>{errorMsg}</em>
                               </span>}
               
@@ -207,7 +209,9 @@ const HTMLPanel = (props): JSX.Element => {
               autocomplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
-            {errorStatus && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+
+            {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
+              && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                               <em>{errorMsg}</em>
                             </span>}           
             <input
@@ -271,17 +275,19 @@ const useStyles = makeStyles({
     color: '#186BB4'
   },
   darkThemeFontColor: {
-    color: '#fff'
+    color: '#ffffff'
   },
   errorMessage: {
     fontSize:"11px", 
-    marginTop: "10px"
+    marginTop: "10px",
+    width: "150px",
+    marginLeft: "-15px"
   },
   errorMessageLight: {
-    color: '#6B6B6B',
+    color: '#6B6B6B'
   },
   errorMessageDark: {
-    color: '#8D8D86',
+    color: 'white'
   }
 });
 
