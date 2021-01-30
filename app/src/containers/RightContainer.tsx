@@ -27,7 +27,7 @@ import ComponentPanel from '../components/left/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
-  const classes = useStyles();
+  const classes = useStyles(isThemeLight);
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
@@ -562,14 +562,14 @@ const useStyles = makeStyles({
   configValue: {
     marginLeft: '20px'
   },
-  buttonRow: {
+  buttonRow: isThemeLight => ({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: 'red', // color for delete page
-      border: '1px solid red'
+      color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
+      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
     }
-  },
+  }),
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
