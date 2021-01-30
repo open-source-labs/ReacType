@@ -149,7 +149,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
               id={option.id}
               Icon={option.icon}
               handleDelete={handleDelete}
-              isThemeLight={props.isThemeLight}
+              isThemeLight={isThemeLight}
             />
           ))}
         </Grid>

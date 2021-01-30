@@ -19,7 +19,7 @@ const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 
 export const themeContext = createContext({
-  
+
 })
 const AppContainer = () => {
 
@@ -40,7 +40,7 @@ const AppContainer = () => {
       <div className="app-container">
         
             <LeftContainer isThemeLight={isThemeLight}/>
-            <MainContainer isThemeLight={isThemeLight}/>
+            <MainContainer />
             <RightContainer isThemeLight={isThemeLight}/>
 
       </div>
