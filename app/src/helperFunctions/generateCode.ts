@@ -268,22 +268,24 @@ const generateUnformattedCode = (
 };
 
 // formats code with prettier linter
+// to test in dev mode, comment out conditional statements and uncomment 'return code';
+// to test in prod mode, vice versa
 const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead
-  if (process.env.NODE_ENV === 'test') {
-    const { format } = require('prettier');
-    return format(code, {
-      singleQuote: true,
-      trailingComma: 'es5',
-      bracketSpacing: true,
-      jsxBracketSameLine: true,
-      parser: 'babel'
-    });
-  } else {
-    return window.api.formatCode(code);
-  }
-  //  return code;
+  // if (process.env.NODE_ENV === 'test') {
+  //   const { format } = require('prettier');
+  //   return format(code, {
+  //     singleQuote: true,
+  //     trailingComma: 'es5',
+  //     bracketSpacing: true,
+  //     jsxBracketSameLine: true,
+  //     parser: 'babel'
+  //   });
+  // } else {
+  //   return window.api.formatCode(code);
+  // }
+   return code;
 
 };
 

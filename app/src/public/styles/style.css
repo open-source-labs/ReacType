@@ -541,3 +541,7 @@ a.nav_link:hover {
   margin: 0px 5px 0px 5px;
   /* min-width: 138px; */
 }
+
+#customized-menu {
+  width: 16%;
+}
