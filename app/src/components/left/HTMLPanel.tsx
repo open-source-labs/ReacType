@@ -189,7 +189,9 @@ const HTMLPanel = (props): JSX.Element => {
                 style={{ marginBottom: '10px' }}
                 
               />
-              {errorStatus && <span style={{fontSize:"11px", marginTop: "10px", color: "red"}}><em>{errorMsg}</em></span>}
+              {errorStatus && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+                                <em>{errorMsg}</em>
+                              </span>}
               
             <br></br>
             <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
@@ -204,7 +206,9 @@ const HTMLPanel = (props): JSX.Element => {
               autocomplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
-            {errorStatus && <span style={{fontSize:"11px", marginTop: "10px", color: "red"}}><em>{errorMsg}</em></span>}           
+            {errorStatus && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+                              <em>{errorMsg}</em>
+                            </span>}           
             <input
 
               className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
@@ -261,13 +265,23 @@ const useStyles = makeStyles({
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
-    },
-    lightThemeFontColor: {
-      color: '#186BB4'
-    },
-    darkThemeFontColor: {
-      color: '#fff'
-    }
+  },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
+  },
+  errorMessage: {
+    fontSize:"11px", 
+    marginTop: "10px"
+  },
+  errorMessageLight: {
+    color: '#6B6B6B',
+  },
+  errorMessageDark: {
+    color: '#8D8D86',
+  }
 });
 
 export default HTMLPanel;
