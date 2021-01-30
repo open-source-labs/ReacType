@@ -13,6 +13,7 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
+    color: '#186BB4',
     height: '35px',
     width: '90px',
     fontSize: '80%',
@@ -127,10 +128,10 @@ const HTMLItem : React.FC<{
         </div>}
       {id > 11 &&
       <span id="customHTMLElement">
-      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
       </div>
-        <button id="newElement" onClick={() => deleteAllInstances(id)} >X</button>
+        <button id="newElement" style={{color: isThemeLight ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
      </span>
       }
       {modal}

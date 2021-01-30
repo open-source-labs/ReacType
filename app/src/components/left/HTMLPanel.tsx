@@ -174,6 +174,7 @@ const HTMLPanel = (props): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
+
             <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h5>
             <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
