@@ -65,15 +65,15 @@ const HTMLPanel = (props): JSX.Element => {
   const triggerError = (type: String) => {
     setErrorStatus(true);
     if (type === 'empty') {
-      setErrorMsg('Tag/ Tag name cannot be blank.');
+      setErrorMsg('* Input cannot be blank. *');
     } else if (type === 'dupe') {
-      setErrorMsg('Tag/ Tag name already exists.');
+      setErrorMsg('* Input already exists. *');
     } else if (type === 'letters') {
-      setErrorMsg('Tag/ Tag name must start with a letter.');
+      setErrorMsg('* Input must start with a letter. *');
     } else if (type === 'symbolsDetected') {
-      setErrorMsg('Tag/ Tag name must not contain symbols.');
+      setErrorMsg('* Input must not contain symbols. *');
     } else if (type === 'length') {
-      setErrorMsg('Element name cannot exceed 10 characters.');
+      setErrorMsg('* Input cannot exceed 10 characters. *');
     }
   };
 
@@ -183,11 +183,14 @@ const HTMLPanel = (props): JSX.Element => {
                 type="text"
                 name="Tag"
                 value={tag}
+                autocomplete="off"
                 onChange={handleTagChange}
-                className={classes.input}
+                className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginBottom: '10px' }}
+                
               />
-              {errorStatus && <span>{errorMsg}</span>}
+              {errorStatus && <span style={{fontSize:"11px", marginTop: "10px", color: "red"}}><em>{errorMsg}</em></span>}
+              
             <br></br>
             <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
@@ -198,10 +201,12 @@ const HTMLPanel = (props): JSX.Element => {
               name="Tag Name"
               value={name}
               onChange={handleNameChange}
-              className={classes.input}
+              autocomplete="off"
+              className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
-            {errorStatus && <span>{errorMsg}</span>}           
+            {errorStatus && <span style={{fontSize:"11px", marginTop: "10px", color: "red"}}><em>{errorMsg}</em></span>}           
             <input
+
               className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
@@ -237,7 +242,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
     width: '140px',
-    height: '30px'
+    height: '30px',
   },
   inputLabel: {
     fontSize: '85%',

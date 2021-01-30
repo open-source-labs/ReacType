@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
-import ComponentPanel from '../components/left/ComponentPanel';
+import ComponentPanel from '../components/right/ComponentPanel';
 import HTMLPanel from '../components/left/HTMLPanel';
 import { styleContext } from './AppContainer';
 

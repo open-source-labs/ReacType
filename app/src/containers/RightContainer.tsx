@@ -23,7 +23,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
-import ComponentPanel from '../components/left/ComponentPanel'
+import ComponentPanel from '../components/right/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
@@ -536,7 +536,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
 
 const useStyles = makeStyles({
   select: {
-    fontSize: '1.25em',
+    fontSize: '1em',
     '> .MuiSelect-icon': {
       color: '#186BB4'
     }
