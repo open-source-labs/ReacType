@@ -24,7 +24,6 @@ const ProjectManager = () => {
   const [state, dispatch] = useContext(StateContext);
 
   // state to keep track of dark/light mode
-  // const theme = createMuiTheme(theme1);
 
 
   const classes = useStyles();
@@ -157,95 +156,16 @@ const ProjectManager = () => {
 
 
   return (
-    <div>
-
-
-  {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
-
-      <div className={classes.projectManagerWrapper}>
-        {state.name && state.isLoggedIn ? (
-          <p style={{ color: 'white' }}>
-            Your current project is <strong>{state.name}</strong>
-          </p>
-        ) : null}
-        {!state.name && state.isLoggedIn ? (
-          <p style={{ color: 'white' }}>
-            Select "Save project as" to create and save a project
-          </p>
-        ) : null}
-
-  {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
-
-        {/* <div className={classes.projectTypeWrapper}> 
-         <FormControl size='small'>
-            <Select
-              variant="outlined"
-              labelId="project-type-label"
-              id="demo-simple-select"
-              className={classes.projectSelector}
-              value={state.projectType}
-              onChange={handleProjectChange}
-            >
-              <MenuItem value={'Classic React'}>Classic React</MenuItem>
-              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
-              <MenuItem value={'Next.js'}>Next.js</MenuItem>
-            </Select>
-          </FormControl>
-        </div> */}
-        {/* {state.isLoggedIn ? <SaveProjectButton /> : ''}
-        {state.isLoggedIn ? <ProjectsFolder /> : ''}
-        {state.isLoggedIn ? <DeleteProjects /> : ''}  */}
-        {/* <div className={classes.btnGroup}>
-
-{/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
-
-        {/* <Button
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={showGenerateAppModal}
-          
-        >
-          EXPORT PROJECT
-        </Button> */}
-        {/* endIcon={<PublishIcon /> */}
-{/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
-
-        {/* <Button 
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={clearWorkspace}
-          endIcon={<WarningIcon />}
-        >
-          CLEAR WORKSPACE
-        </Button>  */}
-        <br />
-        <br />
-        {/* <LoginButton />  */}
-        </div>
-        {modal} 
-      </div>
-    
+    <div> {modal} </div>
   );
 };
 
 const useStyles = makeStyles({
-  // projectManagerWrapper: {
-  //   padding: '20px',
-  //   // margin: '40px',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   justifySelf: 'flex-end',
-  //   width: '80%'
-  // },
 
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
     right: '150px',
-    // width: '100%'
   },
   btnGroup: {
     display: 'flex',
