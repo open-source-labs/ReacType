@@ -278,7 +278,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
 
   return (
     <div className="column right" id="rightContainer" style={style}>
-      <ComponentPanel />
+      <ComponentPanel isThemeLight={isThemeLight}/>
       <ProjectManager />
   {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">

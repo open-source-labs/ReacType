@@ -156,10 +156,8 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
       <div className="lineDiv">
         <hr
           style={{
-            borderColor: '#f5f5f5',
+            borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
             borderStyle: 'solid',
-            color: '#f5f5f5',
-            backgroundColor: 'white',
             height: '0.5px',
             width: '100%',
             marginLeft: '0px'

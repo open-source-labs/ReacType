@@ -14,6 +14,7 @@ import { flexbox } from '@material-ui/system';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
+  console.log(isThemeLight)
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
 
@@ -172,10 +173,8 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       <div className="lineDiv">
           <hr
             style={{
-              borderColor: '#f5f5f5',
+              borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
               borderStyle: 'solid',
-              color: '#f5f5f5',
-              backgroundColor: 'white',
               height: '0.5px',
               width: '100%',
               marginLeft: '0px'
@@ -186,7 +185,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
@@ -204,7 +203,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4>Reusable Components</h4>
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
@@ -216,6 +215,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                   name={comp.name}
                   id={comp.id}
                   root={false}
+                  isThemeLight={isThemeLight}
                 />
               );
             })}
