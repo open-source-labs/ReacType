@@ -143,7 +143,7 @@ LEFT COLUMN
 #HTMLItem {
   /* transition: background 0.5s ease-in-out; */
   transition: 0.3s;
-}
+ } 
 
 #HTMLItem:hover {
   background-color: #a7cced;
@@ -208,9 +208,24 @@ LEFT COLUMN
   /* width: 120px; */
 }
 
+/* deleteAllInstances button in HTMLItem.tsx - 'x' attached to custom HTML element */
 #newElement {
+  color: #186BB4; 
+  border: none;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  justify-self: flex-end;
+  align-self: flex-start;
+  width: .5em;
+}
+
+/* span container in HTMLItem.tsx */
+#customHTMLElement {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 125px;
 }
 
 .component-input {
