@@ -116,7 +116,7 @@ const HTMLItem: React.FC<{
       <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
         <h3>{name}</h3>
         {id > 11 &&
-        <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
+        <button id="newElement" onClick={() => deleteAllInstances(id)} >x</button> }
       </div>
       {modal}
     </Grid>
