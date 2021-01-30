@@ -291,6 +291,7 @@ const RightContainer = (): JSX.Element => {
                   ? ' component'
                   : ' element'}{' '}
                 <br />
+                <br />
                 <span className={classes.compName}>
                   {configTarget.child.name}
                 </span>
@@ -298,6 +299,7 @@ const RightContainer = (): JSX.Element => {
             ) : (
               <h4>
                 Parent Component:
+                <br />
                 <br />
                 <span className={classes.compName}>{configTarget.name}</span>
               </h4>
