@@ -72,6 +72,8 @@ const HTMLPanel = (): JSX.Element => {
       setErrorMsg('Tag/ Tag name must start with a letter.');
     } else if (type === 'symbolsDetected') {
       setErrorMsg('Tag/ Tag name must not contain symbols.');
+    } else if (type === 'length') {
+      setErrorMsg('Element name cannot exceed 10 characters.');
     }
   };
 
@@ -124,6 +126,9 @@ const HTMLPanel = (): JSX.Element => {
     } else if (checkNameDupe(tag) || checkNameDupe(name)) {
       triggerError('dupe');
       return;
+    } else if (name.length > 10) {
+      triggerError('length');
+      return;
     }
     createOption(tag, name);
     resetError();
@@ -168,7 +173,7 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
-            <h5>New Element: </h5>
+            <h5>New HTML Tag: </h5>
             <label className={classes.inputLabel}>
               Tag:
             </label>
