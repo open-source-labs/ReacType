@@ -144,20 +144,22 @@ const HTMLPanel = (props): JSX.Element => {
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <Grid
-          id="HTMLItemsGrid"
-        >
-          {htmlTypesToRender.map(option => (
-            <HTMLItem
-              name={option.name}
-              key={`html-${option.name}`}
-              id={option.id}
-              Icon={option.icon}
-              handleDelete={handleDelete}
-              isThemeLight={isThemeLight}
-            />
-          ))}
-        </Grid>
+      <div id="HTMLItemsTopHalf">
+        <Grid
+            id="HTMLItemsGrid"
+          >
+            {htmlTypesToRender.map(option => (
+              <HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                Icon={option.icon}
+                handleDelete={handleDelete}
+                isThemeLight={isThemeLight}
+              />
+            ))}
+          </Grid>
+      </div>
       <div className="lineDiv">
         <hr
           style={{
@@ -172,13 +174,9 @@ const HTMLPanel = (props): JSX.Element => {
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
-<<<<<<< HEAD
-            <h5>New HTML Tag: </h5>
-            <label className={classes.inputLabel}>
-=======
-            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New Element: </h5>
+
+            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h5>
             <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
->>>>>>> 098ac2df1d6b011b0285b48eb7080e8dbe2b48a9
               Tag:
             </label>
               <input

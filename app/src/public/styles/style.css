@@ -151,7 +151,7 @@ LEFT COLUMN
  } 
 
 #HTMLItem:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
 }
 
@@ -160,13 +160,13 @@ LEFT COLUMN
 }
 
 #submitButton:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
   border: none;
 }
 
 #addComponentButton:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
   border: none;
   cursor: pointer;
@@ -206,8 +206,9 @@ LEFT COLUMN
 
 /* deleteAllInstances button in HTMLItem.tsx - 'x' attached to custom HTML element */
 #newElement {
-  color: #186BB4; 
+  /* color: #186BB4; */
   border: none;
+  background: none;
   display: flex;
   align-items: center;
   justify-content: flex-start;

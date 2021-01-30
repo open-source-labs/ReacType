@@ -123,15 +123,15 @@ const HTMLItem : React.FC<{
   return (
     <Grid item xs={5} key={`html-g${name}`}>
       { id <= 11 &&
-      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         </div>}
       {id > 11 &&
       <span id="customHTMLElement">
-      <div ref={drag} className={classes.HTMLCustomPanelItem} id="HTMLItem">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
       </div>
-        <button id="newElement" onClick={() => deleteAllInstances(id)} >X</button>
+        <button id="newElement" style={{color: isThemeLight ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
      </span>
       }
       {modal}
