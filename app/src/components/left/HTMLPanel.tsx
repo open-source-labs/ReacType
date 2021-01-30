@@ -254,7 +254,8 @@ const useStyles = makeStyles({
     margin: '5px 0px 0px 0px'
   },
   input: {
-    color: '#77b6ed',
+    // color: '#77b6ed',
+    color: '#186BB4',
     borderRadius: '5px',
     // paddingLeft: '15px',
     // paddingRight: '10px',
@@ -270,12 +271,12 @@ const useStyles = makeStyles({
   inputLabel: {
     fontSize: '85%',
     zIndex: 20,
-    color: '#77b6ed',
+    color: '#186BB4',
     margin: '-10px 0px -10px 0px',
     width: '125%'
   },
   addElementButton: {
-    color: '#77b6ed',
+    color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '105px',

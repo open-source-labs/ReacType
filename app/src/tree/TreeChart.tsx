@@ -20,7 +20,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
   const wrapperRef = useRef();
 
   const xPosition = 50;
-  const textAndBorderColor = '#42464C';
+  const textAndBorderColor = '#bdbdbd';
 
   const dimensions = useResizeObserver(wrapperRef);
 
@@ -144,7 +144,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
     height: '90%',
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: '#bdbdbd',
+    backgroundColor: '#42464C',
   };
 
   return (
