@@ -538,3 +538,15 @@ a.nav_link:hover {
 .oauth-btn:hover {
   background-color: #4e76c7;
 }
+
+/*===========================NAVBAR=================================*/
+
+#navbarButton {
+  color: white;
+  margin: 0px 5px 0px 5px;
+  /* min-width: 138px; */
+}
+
+#customized-menu {
+  width: 16%;
+}

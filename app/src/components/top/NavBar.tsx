@@ -18,6 +18,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import LoginButton from '../right/LoginButton'
+import ExportButton from '../right/ExportButton'
+import SaveProjectButton from '../right/SaveProjectButton';
+import DeleteProjects from '../right/DeleteProjects';
+import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 
@@ -35,6 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       color: 'white'
+    },
+    manageProject: {
+      display: 'flex',
+      justifyContent: 'center'
     }
   })
 );
@@ -63,7 +72,7 @@ const StyledMenu = withStyles({
 const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
-      backgroundColor: theme.palette.primary.main,
+      // backgroundColor: theme.palette.primary.main,
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
         color: theme.palette.common.white
       }
@@ -155,42 +164,26 @@ export default function NavBar(props) {
           <Typography variant="h6" className={classes.title}>
             ReactType
           </Typography>
-          <Button color="inherit" onClick={clearWorkspace} className="navbarButton">
-            Clear Canvas
-          </Button>
-          <Button
-            aria-controls="customized-menu"
-            aria-haspopup="true"
+          <Button 
             variant="contained"
             color="primary"
-            onClick={handleClick}
-            className="navbarButton"
+            style={{minWidth: '137.69px'}}
+            onClick={clearWorkspace} 
+            className="navbarButton" 
+            id="navbarButton"
           >
-            Export
+            Clear Canvas
           </Button>
-
-          <StyledMenu
-            id="customized-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <StyledMenuItem>
-              <ListItemText primary="Classic React" />
-            </StyledMenuItem>
-
-            <StyledMenuItem>
-              <ListItemText primary="Next.js" />
-            </StyledMenuItem>
-
-            <StyledMenuItem>
-              <ListItemText primary="Gatsby" />
-            </StyledMenuItem>
-          </StyledMenu>
+          {/* ==================================ExportButton================================================== */}
+          <ExportButton />
+          
+          
           <Button
             className="navbarButton"
-            color="inherit"
+            id="navbarButton"
+            color="primary"
+            variant="contained"
+            style={{minWidth: '113.97px'}}
             onClick={() => {
               !style.backgroundColor
                 ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
@@ -200,7 +193,51 @@ export default function NavBar(props) {
           >
             Dark Mode
           </Button>
-          <Button color="inherit" className="navbarButton">Login</Button>
+
+{/* ================================MANAGE PROJECT DROPDOWN====================================== */}
+          
+          {state.isLoggedIn ? // render Manage Project button/dropdown only if user is logged in
+            <Button
+            // aria-controls="customized-menu"
+            // aria-haspopup="true"
+            variant="contained"
+            color="primary"
+            onClick={handleClick}
+            className="navbarButton"
+            id="navbarButton"
+          >
+            MANAGE PROJECT
+          </Button> : <span></span>}
+          
+          <StyledMenu  // Dropdown menu connected to Manage Project Button
+            id="customized-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <StyledMenuItem
+              className={classes.manageProject}
+              onClick={handleClose}
+            >
+              <SaveProjectButton />
+            </StyledMenuItem>
+
+            <StyledMenuItem
+              className={classes.manageProject}
+              onClick={handleClose}
+            >
+              <ProjectsFolder />
+            </StyledMenuItem>
+
+            <StyledMenuItem
+              className={classes.manageProject}
+              onClick={handleClose}
+            >
+              <DeleteProjects />
+            </StyledMenuItem>
+          </StyledMenu>
+          <LoginButton />
         </Toolbar>
       </AppBar>
       {modal}

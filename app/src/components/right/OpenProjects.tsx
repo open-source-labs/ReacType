@@ -100,8 +100,9 @@ export default function ProjectsFolder() {
   return (
     <div>
       <Button
-        className={classes.button}
-        variant="outlined"
+        // className={classes.button}
+        // id="navbarButton"
+        // variant="contained"
         color="primary"
         onClick={handleClickOpen}
         endIcon={<FolderOpenIcon />}
