@@ -28,7 +28,8 @@ const useStyles = makeStyles({
     '& > h3': {
       display: 'inline-block',
     }
-  }
+  },
+  
 });
 
 const HTMLItem: React.FC<{
