@@ -4,13 +4,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
 // import orange from '@material-ui/core/colors/orange';
 
 export const theme1 = createMuiTheme({
-  // typography: {
-  //   useNextVariants: true
-  // },
+  
   
   palette: {
     primary: {
-      main: '#3ea3d6' // bright blue
+      main: '#186BB4', // light mode color
     },
   },
 });
@@ -19,7 +17,7 @@ export const theme1 = createMuiTheme({
 export const theme2 = createMuiTheme({
   palette: {
     secondary: {
-      main: '#304D6D' //dark mode color
+      main: '#304D6D', // dark mode color
     },
   },
 });

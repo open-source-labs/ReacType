@@ -1,40 +1,48 @@
+// import React, { useState, useContext } from 'react';
+// import Button from '@material-ui/core/Button';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import { makeStyles } from '@material-ui/core/styles';
+// import createModal from './createModal';
+// import exportProject from '../../utils/exportProject.util';
+// import { styleContext } from '../../containers/AppContainer';
+// import StateContext from '../../context/context';
+
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
 
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
+import WarningIcon from '@material-ui/icons/Warning';
+import PublishIcon from '@material-ui/icons/Publish';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
+
 import exportProject from '../../utils/exportProject.util';
 
 import ProjectsFolder from './OpenProjects';
-import createModal from '../right/createModal';
+import createModal from './createModal';
 import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 
+// import { useStyles } from '../left/ComponentPanel';
 import { styleContext } from '../../containers/AppContainer';
 
-// ProjectManager function moved to NavBar.tsx
-const ProjectManager = () => {
-  // state to keep track of whether a modal should display
+
+export default function ExportButton() {
+
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
 
-  // state to keep track of dark/light mode
-
-
-  const classes = useStyles();
-
   const { style, setStyle } = useContext(styleContext);
 
-  
-
-  // State to keep track of how the user wants their components to be exported
-  // GenOption = 0 --> export only components
-  // GenOption = 1 --> export an entire project w/ webpack, server, etc.
   const genOptions: string[] = [
     'Export components',
     'Export components with application files'
@@ -44,54 +52,9 @@ const ProjectManager = () => {
   // Closes out the open modal
   const closeModal = () => setModal('');
 
-  // Creates modal that asks if user wants to clear workspace
-  // If user clears their workspace, then their components are removed from state and the modal is closed
-  const clearWorkspace = () => {
-    // Reset state for project to initial state
-    const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
-    };
-
-    // Set modal options
-    const children = (
-      <List className="export-preference">
-        <ListItem
-          key={'clear'}
-          button
-          onClick={resetState}
-          style={{
-            border: '1px solid #3f51b5',
-            marginBottom: '2%',
-            marginTop: '5%'
-          }}
-        >
-          <ListItemText
-            primary={'Yes, delete all project data'}
-            style={{ textAlign: 'center' }}
-            onClick={closeModal}
-          />
-        </ListItem>
-      </List>
-    );
-
-    // create modal
-    setModal(
-      createModal({
-        closeModal,
-        children,
-        message: 'Are you sure want to delete all data?',
-        primBtnLabel: null,
-        primBtnAction: null,
-        secBtnAction: null,
-        secBtnLabel: null,
-        open: true
-      })
-    );
-  };
-
-  // ----------------------------------CREATE MODAL FOR EXPORT OPTIONS (moved to NavBar.tsx)-------------------------------------
 
   const showGenerateAppModal = () => {
+    console.log('state:', state)
     const children = (
       <List className="export-preference">
         {genOptions.map((option: string, i: number) => (
@@ -154,37 +117,19 @@ const ProjectManager = () => {
     );
   };
 
-
   return (
-    <div> {modal} </div>
+    <div>
+       <Button
+          // className={classes.button}
+          variant="contained"
+          color="primary"
+          onClick={showGenerateAppModal}
+          // endIcon={<PublishIcon />}
+          id="navbarButton"
+        >
+          EXPORT
+        </Button>
+        {modal}
+    </div>
   );
 };
-
-const useStyles = makeStyles({
-
-  logoutButton: {
-    position: 'absolute',
-    bottom: '50px',
-    right: '150px',
-  },
-  btnGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    position: 'absolute',
-    bottom: '40px',
-    left: '0px'
-  },
-
-  button: {
-    backgroundColor: 'rgba(1,212,109,0.1)',
-    fontSize: '1em',
-    minWidth: '300px',
-    marginTop: '10px',
-    marginBotton: '10px'
-  },
-});
-
-export default withRouter(ProjectManager);

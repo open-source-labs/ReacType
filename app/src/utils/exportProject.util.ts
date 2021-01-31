@@ -19,8 +19,8 @@ const exportProject = (
   } // export all component files, but don't create all application files
   else if (genOption === 0) {
     createFiles(components, path, appName, false);
-  } // Create fully functional Next.js application
-  else if (genOption === 1 && projectType === 'Next.js') {
+  } // Create fully functional Next.js and Gatsby.js application files
+  else if (genOption === 1 && (projectType === 'Next.js' || projectType === 'Gatsby.js')) {
     createNextApp({ path, appName, components, rootComponents }).catch(err =>
       console.log(err)
     );
