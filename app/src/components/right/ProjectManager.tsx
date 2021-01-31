@@ -168,58 +168,7 @@ const ProjectManager = () => {
             Your current project is <strong>{state.name}</strong>
           </p>
         ) : null}
-        {!state.name && state.isLoggedIn ? (
-          <p style={{ color: 'white' }}>
-            Select "Save project as" to create and save a project
-          </p>
-        ) : null}
 
-  {/* ---------------------------PROJECT TYPE SELECTOR---------------------------------------------- */}
-
-        {/* <div className={classes.projectTypeWrapper}> 
-         <FormControl size='small'>
-            <Select
-              variant="outlined"
-              labelId="project-type-label"
-              id="demo-simple-select"
-              className={classes.projectSelector}
-              value={state.projectType}
-              onChange={handleProjectChange}
-            >
-              <MenuItem value={'Classic React'}>Classic React</MenuItem>
-              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
-              <MenuItem value={'Next.js'}>Next.js</MenuItem>
-            </Select>
-          </FormControl>
-        </div> */}
-        {/* {state.isLoggedIn ? <SaveProjectButton /> : ''}
-        {state.isLoggedIn ? <ProjectsFolder /> : ''}
-        {state.isLoggedIn ? <DeleteProjects /> : ''}  */}
-        {/* <div className={classes.btnGroup}>
-
-{/* ---------------------------EXPORT PROJECT BUTTON----------------------------- */}
-
-        {/* <Button
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={showGenerateAppModal}
-          
-        >
-          EXPORT PROJECT
-        </Button> */}
-        {/* endIcon={<PublishIcon /> */}
-{/* -----------------------CLEAR WORKSPACE AND LOGIN BUTTONS-------------------------------*/}
-
-        {/* <Button 
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={clearWorkspace}
-          endIcon={<WarningIcon />}
-        >
-          CLEAR WORKSPACE
-        </Button>  */}
         <br />
         <br />
         {/* <LoginButton />  */}
