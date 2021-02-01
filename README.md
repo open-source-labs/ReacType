@@ -28,7 +28,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![Gif of adding](https://imgur.com/a/VkObopE)
+![Gif of adding](https://imgur.com/a/VkObopE.gif)
 
 ### How to use
 
