@@ -5,7 +5,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-// ADD RELEASE ICON HERE
+![Version 5.0](https://img.shields.io/badge/Release-5.0-lightgrey.svg)
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -28,7 +28,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![Gif of adding](https://i.imgur.com/Ioqkr00.gif)
+![Gif of adding](https://imgur.com/a/VkObopE)
 
 ### How to use
 
@@ -77,6 +77,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
 
+[Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
+
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
@@ -121,7 +123,7 @@ npm run dev
 
 - Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can select "Continue as guest" on the login page of the app, which will not use any features that rely on the server (authentication and saving project data.)
 
-## To Run Your Exported Next.js Project
+## To Run Your Exported Next.js or Gatsby.js Project
 
 - Open exported project directory
 - Install dependencies
