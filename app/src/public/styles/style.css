@@ -22,7 +22,7 @@ body {
 }
 
 h4 {
-  color: #77b6ed;
+  color: #155084;
   text-align: center;
 }
 
@@ -111,12 +111,12 @@ LEFT COLUMN
 
 /* affecting HTMl elements in HTML Panel */
 /* .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline { */
-  /* padding: 3rem; */
-  /* margin: -5rem;
+/* padding: 3rem; */
+/* margin: -5rem;
   padding-right: 5rem;
   padding-top: 3rem;
   padding-left: 1rem; */
-  /* width: 50%; */
+/* width: 50%; */
 /* } */
 
 .HTMLItems {
@@ -125,6 +125,11 @@ LEFT COLUMN
   justify-content: space-around;
   flex-wrap: wrap;
   width: 100%;
+}
+
+#HTMLItemsTopHalf {
+  height: 52vh;
+  overflow-y: auto;
 }
 
 .HTMLElements {
@@ -143,10 +148,10 @@ LEFT COLUMN
 #HTMLItem {
   /* transition: background 0.5s ease-in-out; */
   transition: 0.3s;
-}
+ } 
 
 #HTMLItem:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
 }
 
@@ -155,22 +160,23 @@ LEFT COLUMN
 }
 
 #submitButton:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
   border: none;
 }
 
 #addComponentButton:hover {
-  background-color: #a7cced;
+  background-color: #297ac2;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .lineDiv {
   width: 150%;
   margin-left: 0px;
   /* background-color: red; */
-} 
+}
 
 .customForm {
   width: 100px;
@@ -182,7 +188,6 @@ LEFT COLUMN
 }
 
 .customForm h5 {
-  color: #3d88e3;
   text-align: center;
   font-size: 100%;
   font-weight: 700;
@@ -190,13 +195,6 @@ LEFT COLUMN
   margin-left: -5px;
 }
 
-/* .customForm label {
-  font-size: 80%;
-  float: left;
-  clear: left;
-  display: flex;
-  align-items: center;
-} */
 
 .customForm input {
   /* width: 150px; */
@@ -206,9 +204,25 @@ LEFT COLUMN
   /* width: 120px; */
 }
 
+/* deleteAllInstances button in HTMLItem.tsx - 'x' attached to custom HTML element */
 #newElement {
+  /* color: #186BB4; */
+  border: none;
+  background: none;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  justify-self: flex-end;
+  align-self: flex-start;
+  width: .5em;
+}
+
+/* span container in HTMLItem.tsx */
+#customHTMLElement {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 125px;
 }
 
 .component-input {
@@ -236,17 +250,9 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-width: 700px;
-  /* margin-top: 65px; */
-  /* height: 876px; */
-  /* align-self: flex-end; */
-  /* overflow-x: hidden; */
 }
 
 .main-header {
-  /* display: flex; */
-  /* border-left: 1px solid grey;
-  border-right: 1px solid grey;
-  border-bottom: 1px solid grey; */
   background-color: #212121;
   box-shadow: 0 5px 7px -2px rgba(0, 0, 0, 0.1);
   z-index: 10;
@@ -258,16 +264,12 @@ h1 {
 }
 
 .main {
-  /* border-left: 1px solid grey; */
-  /* border-right: 1px solid grey; */
   background: #fff;
   flex: 1;
   width: 100%;
   overflow: auto;
   display: flex;
   background-color: #e4e4e4;
-  /* justify-content: center;
-  align-items: center; */
 }
 
 .draggable {
@@ -343,13 +345,9 @@ RIGHT COLUMN
   width: 100%;
   height: 100%;
   min-height: 25%;
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* background-color: #fcfcfc; */
 }
 
 .htmlattr {
-  /* background-size: auto; */
   height: 80%;
   overflow-y: scroll;
   margin-left: 50px;
@@ -378,8 +376,6 @@ RIGHT COLUMN
 
 .flex1 {
   padding: 10px 20px 10px 5px;
-  /* color: #01d46d; */
-  /* color: #41658A; */
 }
 
 .flex2 {
@@ -470,13 +466,13 @@ a.nav_link:hover {
 }
 
 .compPanelItem h3 {
-  padding-top: 25px;
-  font-size: 1.15em;
+  font-size: 1.25em;
   letter-spacing: 0.75px;
 }
 
 .compPanelItem:hover {
   cursor: pointer;
+  padding-bottom: 25px;
 }
 
 /* ----------------------------RIGHT PANEL---------------------------------- */
@@ -532,4 +528,16 @@ a.nav_link:hover {
 
 .oauth-btn:hover {
   background-color: #4e76c7;
+}
+
+/*===========================NAVBAR=================================*/
+
+#navbarButton {
+  color: white;
+  margin: 0px 5px 0px 5px;
+  /* min-width: 138px; */
+}
+
+#customized-menu {
+  width: 16%;
 }

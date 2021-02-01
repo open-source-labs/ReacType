@@ -1,24 +1,27 @@
 /*
  @desc: defines Schemas for the app: sessionSchema (cookieId, created_at), userSchema (username, password, email), projectSchema (name, userId, project, created_at)
  @export: Users, Sessions, Projects (3 schemas)
+ @important: URI to database is hidden in config.js file which is not available to future team. we recommend that your team will create a mongoDB database to test in dev mode. the real database is deployed in heroku
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const SALT_WORK_FACTOR = 14;
-require('dotenv').config();
+const config = require('../../config');
 
+const SALT_WORK_FACTOR = 14;
 // connect to mongo db
 mongoose
-  .connect(process.env.MONGO_URI, {
-    // options for the connect method to parse the URI
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
-    useFindAndModify: false,
-    // sets the name of the DB that our collections are part of
-    dbName: 'ReacType'
-  })
+  .connect(config.URI,
+    {
+      // options for the connect method to parse the URI
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+      useFindAndModify: false,
+      // sets the name of the DB that our collections are part of
+      dbName: 'ReacType'
+    }
+  )
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
 
