@@ -303,8 +303,8 @@ const useStyles = makeStyles({
     alignItems: 'center',
     textAlign: 'center',
     width: '500px',
-    backgroundColor: 'red',
-    border: '5px solid red'
+    backgroundColor: '#186BB4',
+    border: '5px solid #186BB4'
   },
   panelSubheader: {
     textAlign: 'center',
