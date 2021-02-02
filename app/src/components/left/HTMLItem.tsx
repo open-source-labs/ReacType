@@ -23,22 +23,31 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: '7px auto',
     marginLeft: '30px',
-    // border: '2px solid rgba(225, 225, 225, 1.0)',
     borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
     }
+  },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
   }
+  
 });
 
-const HTMLItem: React.FC<{
+const HTMLItem : React.FC<{
   name: string;
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
+  isThemeLight: boolean;
+}> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
+  
   const classes = useStyles();
+  
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -113,20 +122,18 @@ const HTMLItem: React.FC<{
 
   return (
     <Grid item xs={5} key={`html-g${name}`}>
-      <div ref={drag} className={classes.HTMLPanelItem} id="HTMLItem">
+      { id <= 11 &&
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
-        {/* <span
-          style={{
-            verticalAlign: 'middle',
-            display: 'inline-block',
-            // marginLeft: '5px'
-          }}
-        >
-          {Icon && <Icon />}
-        </span> */}
-        {id > 11 &&
-        <button className={buttonClasses} id="newElement" onClick={() => deleteAllInstances(id)} > X </button> }
+        </div>}
+      {id > 11 &&
+      <span id="customHTMLElement">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
+        <h3>{name}</h3>
       </div>
+        <button id="newElement" style={{color: isThemeLight ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
+     </span>
+      }
       {modal}
     </Grid>
   );

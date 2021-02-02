@@ -17,14 +17,14 @@ Hook state:
   -tag: 
 */
 
-const HTMLPanel = (): JSX.Element => {
+const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
   const [tag, setTag] = useState('');
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
-
+  const {isThemeLight} = props;
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -65,13 +65,15 @@ const HTMLPanel = (): JSX.Element => {
   const triggerError = (type: String) => {
     setErrorStatus(true);
     if (type === 'empty') {
-      setErrorMsg('Tag/ Tag name cannot be blank.');
+      setErrorMsg('* Input cannot be blank. *');
     } else if (type === 'dupe') {
-      setErrorMsg('Tag/ Tag name already exists.');
+      setErrorMsg('* Input already exists. *');
     } else if (type === 'letters') {
-      setErrorMsg('Tag/ Tag name must start with a letter.');
+      setErrorMsg('* Input must start with a letter. *');
     } else if (type === 'symbolsDetected') {
-      setErrorMsg('Tag/ Tag name must not contain symbols.');
+      setErrorMsg('* Input must not contain symbols. *');
+    } else if (type === 'length') {
+      setErrorMsg('* Input cannot exceed 10 characters. *');
     }
   };
 
@@ -124,6 +126,9 @@ const HTMLPanel = (): JSX.Element => {
     } else if (checkNameDupe(tag) || checkNameDupe(name)) {
       triggerError('dupe');
       return;
+    } else if (name.length > 10) {
+      triggerError('length');
+      return;
     }
     createOption(tag, name);
     resetError();
@@ -136,34 +141,30 @@ const HTMLPanel = (): JSX.Element => {
     });
   };
   // filter out separator so that it will not appear on the html panel
-const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
+  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <Grid
-          // container
-          // spacing={1}
-          // direction='column'
-          // justify='center'
-          // alignItems='center'
-          id="HTMLItemsGrid"
-        >
-          {htmlTypesToRender.map(option => (
-            <HTMLItem
-              name={option.name}
-              key={`html-${option.name}`}
-              id={option.id}
-              Icon={option.icon}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </Grid>
+      <div id="HTMLItemsTopHalf">
+        <Grid
+            id="HTMLItemsGrid"
+          >
+            {htmlTypesToRender.map(option => (
+              <HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                Icon={option.icon}
+                handleDelete={handleDelete}
+                isThemeLight={isThemeLight}
+              />
+            ))}
+          </Grid>
+      </div>
       <div className="lineDiv">
         <hr
           style={{
-            borderColor: '#f5f5f5',
+            borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
             borderStyle: 'solid',
-            color: '#f5f5f5',
-            backgroundColor: 'white',
             height: '0.5px',
             width: '100%',
             marginLeft: '0px'
@@ -173,8 +174,9 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
-            <h5>New Element: </h5>
-            <label className={classes.inputLabel}>
+
+            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h5>
+            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
             </label>
               <input
@@ -182,13 +184,20 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
                 type="text"
                 name="Tag"
                 value={tag}
+                autocomplete="off"
                 onChange={handleTagChange}
-                className={classes.input}
+                className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginBottom: '10px' }}
+                
               />
-              {errorStatus && <span>{errorMsg}</span>}
+              
+              {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
+               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+                                <em>{errorMsg}</em>
+                              </span>}
+              
             <br></br>
-            <label className={classes.inputLabel}>
+            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
             </label>
             <input
@@ -197,103 +206,89 @@ const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separato
               name="Tag Name"
               value={name}
               onChange={handleNameChange}
-              className={classes.input}
+              autocomplete="off"
+              className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
-            {errorStatus && <span>{errorMsg}</span>}           
+
+            {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
+              && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+                              <em>{errorMsg}</em>
+                            </span>}           
             <input
-              // className={buttonClasses}
-              className={classes.addElementButton}
+
+              className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
-              // color="primary"
               type="submit"
               value="Add Element"
-              // style={{ marginLeft: '-5px', borderRadius: 25, width: '110px', textAlign: 'center', fontSize: '80%' }}
+              
             />
           </form>
         </div>
       </div>
-        {/* <Grid
-          // container
-          // spacing={1}
-          // direction='column'
-          // justify='center'
-          // alignItems='center'
-        >
-          {htmlTypesToRender.map(option => (
-            <HTMLItem
-              name={option.name}
-              key={`html-${option.name}`}
-              id={option.id}
-              Icon={option.icon}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </Grid> */}
+        
     </div>
   );
 };
 
 const useStyles = makeStyles({
   inputWrapper: {
-    // height: '115px',
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingLeft: '35px',
     marginBottom: '15px',
     width: '100%'
   },
   addComponentWrapper: {
-    // border: '1px solid rgba(70,131,83)',
-    //----------------------------------CHANGED---------------------------------------
-    // border: '1px solid rgba(247, 167, 62, 0.45)',
-    // padding: '20px',
-    // margin: '20px',
     width: '100%',
     margin: '5px 0px 0px 0px'
   },
   input: {
-    // color: '#77b6ed',
-    color: '#186BB4',
     borderRadius: '5px',
-    // paddingLeft: '15px',
-    // paddingRight: '10px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
-    // border: '1px solid rgba(51,235,145,0.75)',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
     width: '140px',
-    height: '30px'
+    height: '30px',
   },
   inputLabel: {
     fontSize: '85%',
     zIndex: 20,
-    color: '#186BB4',
     margin: '-10px 0px -10px 0px',
     width: '125%'
   },
   addElementButton: {
-    color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '105px',
     fontFamily: '"Raleway", sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    // margin: '5px auto',
     marginLeft: '75px',
-    // border: '1px solid rgba(225, 225, 225, 1.0)',
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
-    // cursor: 'grab',
-    // '& > h3': {
-    //   display: 'inline-block'
-    //   }
-    }
+  },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#ffffff'
+  },
+  errorMessage: {
+    fontSize:"11px", 
+    marginTop: "10px",
+    width: "150px",
+    marginLeft: "-15px"
+  },
+  errorMessageLight: {
+    color: '#6B6B6B'
+  },
+  errorMessageDark: {
+    color: 'white'
+  }
 });
 
 export default HTMLPanel;

@@ -24,7 +24,6 @@ const ProjectManager = () => {
   const [state, dispatch] = useContext(StateContext);
 
   // state to keep track of dark/light mode
-  // const theme = createMuiTheme(theme1);
 
 
   const classes = useStyles();
@@ -157,44 +156,16 @@ const ProjectManager = () => {
 
 
   return (
-    <div>
-
-
-  {/* ----------------------------PROJECT MANAGER DIV--------------------------------------------- */}
-
-      <div className={classes.projectManagerWrapper}>
-        {state.name && state.isLoggedIn ? (
-          <p style={{ color: 'white' }}>
-            Your current project is <strong>{state.name}</strong>
-          </p>
-        ) : null}
-
-        <br />
-        <br />
-        {/* <LoginButton />  */}
-        </div>
-        {modal} 
-      </div>
-    
+    <div> {modal} </div>
   );
 };
 
 const useStyles = makeStyles({
-  // projectManagerWrapper: {
-  //   padding: '20px',
-  //   // margin: '40px',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   alignItems: 'center',
-  //   justifySelf: 'flex-end',
-  //   width: '80%'
-  // },
 
   logoutButton: {
     position: 'absolute',
     bottom: '50px',
     right: '150px',
-    // width: '100%'
   },
   btnGroup: {
     display: 'flex',

@@ -23,18 +23,18 @@ const HtmlElements: React.FC<{
       <p className={classes.text}>You can create new custom elements to better suit your needs.<br/>
       Click <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element" target="_blank">here</a> for a link to more HTML tags that you can add.<br/>
       "Tag" should be the HTML tag you are creating and "Tag Name" should be something that makes it easy to remember what this tag is/does.<br/>
-      You can also create your own custom elements besides the standard HTML Elements in the document above. For example you can create an element &lt;hello&gt;&lt;hello&gt; and it will work! You can add functionality to these elements once you export your project. Just be sure to import them into the files that you are using them! For more information on how to create custom tags check out these resources from <a href="https://www.html5rocks.com/en/tutorials/webcomponents/customelements/" target="_blank">HTML5Rocks</a> and <a href="https://www.smashingmagazine.com/2014/03/introduction-to-custom-elements/" target="_blank">smashing magazine</a>.
+      You can also create your own custom elements besides the standard HTML Elements. For example you can create an element &lt;hello&gt;&lt;hello&gt; and it will work! You can add functionality to these elements once you export your project. Just be sure to import them into the files where you are using them! For more information on how to create custom tags check out these resources from <a href="https://www.html5rocks.com/en/tutorials/webcomponents/customelements/" target="_blank">HTML5Rocks</a> and <a href="https://www.smashingmagazine.com/2014/03/introduction-to-custom-elements/" target="_blank">smashing magazine</a>.
       </p>
       <div className={classes.imgWrapper} >
         <img className={classes.smallImg} src={createNew} />
       </div>
       <hr/>
-      <h2>Delete Buttons</h2>
+      {/* <h2>Delete Buttons</h2>
       <p className={classes.text}>Delete buttons that you don't need.</p>
       <div className={classes.imgWrapper} >
         <img className={classes.smallImg} src={newTag} />
       </div>
-      <hr/>
+      <hr/> */}
       <h2>Persisting Elements</h2>
       <p className={classes.text}>Saving the project (available only to users) will allow you to save custom elements that you created. However, when opening a new project, only the tags saved for each specific project will show up again.<br/>
       In order to save custom tags across multiple projects, we recommend creating custom tags first, then saving multiple projects with the custom tags. This will allow access to custom tags across multiple projects.</p>

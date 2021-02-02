@@ -17,7 +17,7 @@ const Pages: React.FC<{
       </div>
       <p className={classes.text}>
         Start off by giving your page a name. Make sure to check the page box
-        next to the textbox. Then, simply click the add button and it'll show in
+        next to the Name input. Then, simply click the add button and it will show in
         the pages section below.
       </p>
       <div className={classes.imgWrapper}>
@@ -33,15 +33,15 @@ const Pages: React.FC<{
         <span className={classes.notLink} onClick={() => setPage('Canvas')}>
           canvas
         </span>{' '}
-        of the page you're on. (Note the green dot next to the page name shows
-        you which page you are currently on).
+        of the page you're on. (Note the gray dot next to the page name signals
+        which page you are currently on).
       </p>
       <hr />
       <div className={classes.imgWrapper}>
         <img src={deletePage} />
       </div>
       <p className={classes.text}>
-        Delete the page by simply clicking the button.
+        Delete the page by simply clicking the delete button below the style attribute dropdowns.
       </p>
       <hr />
     </div>
