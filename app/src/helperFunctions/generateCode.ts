@@ -121,7 +121,8 @@ const generateUnformattedCode = (
           if (projectType === 'Next.js') {
             return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
           } else if (projectType === 'Gatsby.js') {
-            return `<div><Link to="/${child.name}">${child.name}</Link>`
+            return `<div><Link to="/${child.name}">${child.name}</Link></div>`
+            // return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`            
           } else return `<div><a>${child.name}</a></div>`
         }
       })
@@ -236,10 +237,9 @@ const generateUnformattedCode = (
   } else {
     return `
     import React, { useState } from 'react';
+    ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
-    
-    ${importsMapped}
    
 
       const ${currentComponent.name} = (props): JSX.Element => {
@@ -282,10 +282,12 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-  } else {
+
+  } else if (process.env.NODE_ENV === 'production') {
     return window.api.formatCode(code);
+  } else {
+   return code;
   }
-  //  return code;
 
 };
 
