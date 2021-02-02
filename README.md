@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="50" src=https://i.imgur.com/Z2aKWji.png?1>
+  <img width="50" src="https://i.imgur.com/Yn70tqI.png">
   <h1 align="center">ReacType </h1>
 </p>
 
