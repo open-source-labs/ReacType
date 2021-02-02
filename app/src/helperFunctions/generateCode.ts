@@ -282,11 +282,13 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
+
   } else if (process.env.NODE_ENV === 'production') {
     return window.api.formatCode(code);
   } else {
    return code;
   }
+
 };
 
 // generate code based on component hierarchy and then return the rendered code
