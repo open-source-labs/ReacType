@@ -8,7 +8,6 @@
 
 html {
   box-sizing: border-box;
-  /* overflow: hidden; */
 }
 
 body {
@@ -18,7 +17,6 @@ body {
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
-  /* overflow: auto; */
 }
 
 h4 {
@@ -66,24 +64,10 @@ header {
   /* margin-top: 65px; */
 }
 
-/* .column-right-export-btn {
-  transition: display 400ms ease-in-out 300ms;
-} */
-
 /*
-///////////////////////////////////////////
-BUTTONS
-/////////////////////////////////////////////
-*/
-
-/* .btn {
-  font-size: 1em;
-} */
-
-/*
-///////////////////////////////////////////
+/////////////////////////////////////////////////
 LEFT COLUMN
-/////////////////////////////////////////////
+/////////////////////////////////////////////////
 */
 
 .left {
@@ -96,28 +80,6 @@ LEFT COLUMN
   overflow-x: hidden;
   /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
 }
-
-/* .htmlPanel {
-  position: absolute;
-  bottom: 0;
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-bottom: 50px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  padding: 1%;
-} */
-
-/* affecting HTMl elements in HTML Panel */
-/* .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-8.MuiGrid-align-items-xs-baseline { */
-/* padding: 3rem; */
-/* margin: -5rem;
-  padding-right: 5rem;
-  padding-top: 3rem;
-  padding-left: 1rem; */
-/* width: 50%; */
-/* } */
 
 .HTMLItems {
   display: flex;
@@ -133,7 +95,6 @@ LEFT COLUMN
 }
 
 .HTMLElements {
-  /* margin-left: 10px; */
   margin: 0px 0px 20px 10px;
   display: flex;
   flex-direction: column;
@@ -146,7 +107,6 @@ LEFT COLUMN
 }
 
 #HTMLItem {
-  /* transition: background 0.5s ease-in-out; */
   transition: 0.3s;
  } 
 
@@ -165,17 +125,9 @@ LEFT COLUMN
   border: none;
 }
 
-#addComponentButton:hover {
-  background-color: #297ac2;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
 .lineDiv {
   width: 150%;
   margin-left: 0px;
-  /* background-color: red; */
 }
 
 .customForm {
@@ -195,18 +147,14 @@ LEFT COLUMN
   margin-left: -5px;
 }
 
-
 .customForm input {
-  /* width: 150px; */
   float: left;
   margin: 20px 0px 0px -13px;
   border-color: white;
-  /* width: 120px; */
 }
 
 /* deleteAllInstances button in HTMLItem.tsx - 'x' attached to custom HTML element */
 #newElement {
-  /* color: #186BB4; */
   border: none;
   background: none;
   display: flex;
@@ -236,9 +184,9 @@ LEFT COLUMN
 }
 
 /*
-///////////////////////////////////////////
+/////////////////////////////////////////////////
 MAIN COLUMN
-/////////////////////////////////////////////
+////////////////////////////////////////////////
 */
 
 h1 {
@@ -320,14 +268,44 @@ h1 {
 }
 
 /*
-///////////////////////////////////////////
+//////////////////////////////////////////////////
 RIGHT COLUMN
-/////////////////////////////////////////////
+/////////////////////////////////////////////////
 */
 
 #rightContainer {
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.right {
+  padding-top: 35px;
+  width: 420px;
+}
+
+.rightContainer {
+  margin-top: 65px;
+}
+
+.rightPanelWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+#addComponentButton:hover {
+  background-color: #297ac2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#checkboxContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-left: -40px;
 }
 
 .export {
@@ -338,7 +316,31 @@ RIGHT COLUMN
   flex-direction: row;
 }
 
-/* BOTTOM PANEL */
+.makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
+  background-color: rgba(25, 25, 25, 0.8);
+}
+
+.compPanelItem {
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.compPanelItem h3 {
+  font-size: 1.25em;
+  letter-spacing: 0.75px;
+}
+
+.compPanelItem:hover {
+  cursor: pointer;
+  padding-bottom: 25px;
+}
+
+/* 
+/////////////////////////////////////////////////////
+BOTTOM PANEL 
+/////////////////////////////////////////////////////
+*/
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
@@ -384,6 +386,21 @@ RIGHT COLUMN
   border: rgb(68, 68, 68) solid 1px;
   border-radius: 5px;
   background-color: 252526;
+}
+
+/*
+//////////////////////////////////////////
+NAVBAR
+//////////////////////////////////////////
+*/
+
+#navbarButton {
+  color: white;
+  margin: 0px 5px 0px 5px;
+}
+
+#customized-menu {
+  width: 16%;
 }
 
 /* Material-UI */
@@ -449,95 +466,6 @@ a.nav_link:hover {
   text-align: center;
 }
 
-#checkboxContainer {
-  display: flex;
-  justify-content: space-around;
-  margin-left: -40px;
-}
-
-.makeStyles-panelWrapperList-4::-webkit-scrollbar-track {
-  background-color: rgba(25, 25, 25, 0.8);
-}
-
-.compPanelItem {
-  height: 100%;
-  position: relative;
-  display: flex;
-}
-
-.compPanelItem h3 {
-  font-size: 1.25em;
-  letter-spacing: 0.75px;
-}
-
-.compPanelItem:hover {
-  cursor: pointer;
-  padding-bottom: 25px;
-}
-
-/* ----------------------------RIGHT PANEL---------------------------------- */
-
-.right {
-  padding-top: 35px;
-  width: 420px;
-}
-
-.rightContainer {
-  margin-top: 65px;
-}
-
-.rightPanelWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
-}
-
-/* .oauth-btn {
-  -webkit-font-smoothing: antialiased;
-  border: 0;
-  display: inline-flex;
-  outline: 0;
-  position: relative;
-  align-items: center;
-  user-select: none;
-  vertical-align: middle;
-  justify-content: center;
-  text-decoration: none;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  padding: 6px 16px;
-  font-size: 0.875rem;
-  min-width: 64px;
-  box-sizing: border-box;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 500;
-  line-height: 1.75;
-  border-radius: 4px;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-  color: white;
-  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  background-color:#4267B2;
-  width: 396px;
-  cursor: pointer;
-  margin: 8px 0px 8px;
-} */
-
 .oauth-btn:hover {
   background-color: #4e76c7;
-}
-
-/*===========================NAVBAR=================================*/
-
-#navbarButton {
-  color: white;
-  margin: 0px 5px 0px 5px;
-  /* min-width: 138px; */
-}
-
-#customized-menu {
-  width: 16%;
 }

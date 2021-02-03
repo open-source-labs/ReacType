@@ -1,20 +1,17 @@
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
-
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
+import { withRouter, Link  } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import exportProject from '../../utils/exportProject.util';
-
 import ProjectsFolder from './OpenProjects';
 import createModal from '../right/createModal';
 import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
-
 import { styleContext } from '../../containers/AppContainer';
 
 // ProjectManager function moved to NavBar.tsx
@@ -22,15 +19,8 @@ const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
-
-  // state to keep track of dark/light mode
-
-
   const classes = useStyles();
-
   const { style, setStyle } = useContext(styleContext);
-
-  
 
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components

@@ -189,7 +189,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
-    // resetFields();
+   
     return styleObj;
   };
 

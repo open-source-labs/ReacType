@@ -13,15 +13,6 @@ const Styling: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Styling Features</h1>
       <hr />
-      {/* <h2>Code Preview Theme Changer</h2>
-      <div className={classes.imgWrapper}>
-        <img src={theme} />
-      </div>
-      <p className={classes.text}>
-        Select your favorite theme from the drop down menu to personalize your
-        view of the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span>!
-      </p>
-      <hr /> */}
       <h2>Dark Mode</h2>
       <div className={classes.imgWrapper}>
         <img src={lighting} />
@@ -29,7 +20,6 @@ const Styling: React.FC<{
       <p className={classes.text}>
         Spice up the app by switching to DARK MODE! DARK
         MODE will change the background and text colors of the app.
-        {/* background color of the <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span>. */}
       </p>
       <hr />
       <h2>Resize Code Preview & Component Tree</h2>

@@ -97,7 +97,7 @@ function DirectChildHTMLNestable({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid rgb(#186BB4)'
+        ? '1px solid #186BB4'
         : '1px solid grey',
   };
 

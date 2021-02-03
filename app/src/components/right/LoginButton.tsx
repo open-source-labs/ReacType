@@ -20,7 +20,6 @@ export default function LoginButton() {
     // destroy cookie in production via electron main process
     // window.api.delCookie();
     // uses useHistory to return to the login page
-    console.log('CONNECTED!!!')
     history.push('/login');
   };
 

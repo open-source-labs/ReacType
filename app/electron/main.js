@@ -11,7 +11,6 @@ const {
   BrowserWindow,
   session,
   ipcMain,
-  webContents
 } = require('electron');
 
 // The splash screen is what appears while the app is loading

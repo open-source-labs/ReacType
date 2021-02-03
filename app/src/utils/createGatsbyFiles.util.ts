@@ -1,5 +1,5 @@
 // Create all component files for a Gatsby.js application
-// this function is identical to the Next.js function
+// all components are stored in a src folder
 // "Root" level components are stored in a pages directory
 // all other components will be in a components directory
 

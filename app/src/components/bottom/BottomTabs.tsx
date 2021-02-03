@@ -100,7 +100,6 @@ const useStyles = makeStyles(theme => ({
     Width: '200px'
   },
   tabsRoot: {
-    // borderBottom: '0.5px solid #424242',
     minHeight: '50%'
   },
   tabsIndicator: {
@@ -148,15 +147,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: '2px'
   }, 
   projectTypeWrapper: {
-    // width: '300px',
-    // width: '100%',
     marginTop: '10px',
     marginBotton: '10px'
   },
   projectSelector: {
     backgroundColor: 'rgba(255,255,255,0.15)',
-    // width: '300px',
-    // width: '100%',
     color: 'white'
   }
 }));

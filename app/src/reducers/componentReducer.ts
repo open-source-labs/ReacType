@@ -13,7 +13,7 @@ let separator = initialState.HTMLTypes[1];
  
 // }
 const reducer = (state: State, action: Action) => {
-  // if the project type is set as Next.js, next component code should be generated
+  // if the project type is set as Next.js or Gatsby.js, next/gatsby component code should be generated
   // otherwise generate classic react code
 
   // find top-level component given a component id
@@ -54,14 +54,14 @@ const reducer = (state: State, action: Action) => {
     directParent.children.splice(childIndexValue, 1);
   };
 
-  // determine if there's child of a given type in a component
+  // determine if there's a child of a given type in a component
   const childTypeExists = (
     type: string,
     typeId: number,
     component: Component
   ) => {
     const nodeArr = [...component.children];
-    // breadth first search through component tree to see if a child exists
+    // breadth-first search through component tree to see if a child exists
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
@@ -124,7 +124,7 @@ const reducer = (state: State, action: Action) => {
 
     updateAllIds(components);
 
-    // create KV pairs of component names and corresponding IDs
+    // create key-value pairs of component names and corresponding IDs
     const componentIds = {};
     components.forEach(component => {
       if (!component.isPage) componentIds[component.name] = component.id;
@@ -154,7 +154,6 @@ const reducer = (state: State, action: Action) => {
 
   const deleteById = (id: number, name: string): Component[] => {
     // name of the component we want to delete
-
     const checkChildren = (child: Component[] | ChildElement[]) => {
       // for each of the components in the passed in components array, if the child
       // component has a children array, iterate through the array of children
@@ -298,7 +297,8 @@ const reducer = (state: State, action: Action) => {
       };
       
 
-      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+      // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
+      // we also add a separator before any new child
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
@@ -321,7 +321,8 @@ const reducer = (state: State, action: Action) => {
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
       let addChildArray = components[canvasFocus.componentId-1].children
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
-      if (directParent && directParent.name === 'separator') nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
+      if (directParent && directParent.name === 'separator') 
+        nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
       components[canvasFocus.componentId-1].children = addChildArray;
 
       parentComponent.code = generateCode(
@@ -473,7 +474,7 @@ const reducer = (state: State, action: Action) => {
 
       // iterate over the length of the components array
       for (let i = 0; i < components.length; i++) {
-        // for each components' code, run the generateCode function to
+        // for each component's code, run the generateCode function to
         // update the code preview on the app
         components[i].code = generateCode(
           components,
@@ -528,7 +529,7 @@ const reducer = (state: State, action: Action) => {
         );
       });
 
-      // also update the name of the root component of the application to fit classic React and next.js conventions
+      // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
       if (projectType === 'Next.js' || projectType === 'Gatsby.js') components[0]['name'] = 'index';
       else components[0]['name'] = 'App';
 

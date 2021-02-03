@@ -60,8 +60,6 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-  //const email = 'email';
-  //console.log(props.location.state);
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
 
@@ -131,7 +129,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     }
 
     // get username and email from FB
-
     newUserIsCreated(email, email, password).then(userCreated => {
       if (userCreated === 'Success') {
         props.history.push('/');
@@ -139,7 +136,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
         console.log(userCreated);
       }
     });
-    // }
   };
 
   return (

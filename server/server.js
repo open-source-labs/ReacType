@@ -1,7 +1,4 @@
 const express = require('express');
-// const passport = require('passport');
-// require('./passport-setup');
-
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const userController = require('./controllers/userController');

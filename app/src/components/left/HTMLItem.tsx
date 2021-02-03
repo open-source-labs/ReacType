@@ -120,7 +120,7 @@ const HTMLItem : React.FC<{
     );
   };
 
-  return (
+  return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
       { id <= 11 &&
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">

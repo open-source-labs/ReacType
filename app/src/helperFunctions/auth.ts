@@ -29,7 +29,6 @@ export const sessionIsCreated = (
       return res.json();
     })
     .then(data => {
-      console.log('data', data)
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);

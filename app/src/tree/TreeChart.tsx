@@ -148,11 +148,9 @@ function TreeChart({ data }) { // data is components from state - passed in from
   };
 
   return (
-    // <div theme={theme} style={{ backgroundColor: 'black' }}>
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>
-    // </div>
   );
 }
 

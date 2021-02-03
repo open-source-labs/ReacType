@@ -1,7 +1,7 @@
 // Create all files necessary to run a classic react application
 
 import createFiles from './createFiles.util';
-import { Component, State, ChildElement } from '../interfaces/Interfaces';
+import { Component} from '../interfaces/Interfaces';
 
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();

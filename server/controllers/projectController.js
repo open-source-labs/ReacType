@@ -33,7 +33,6 @@ projectController.saveProject = (req, res, next) => {
 };
 
 // gets all of current user's projects
-
 projectController.getProjects = (req, res, next) => {
   const { userId } = req.body;
   Projects.find({ userId }, (err, projects) => {
