@@ -166,7 +166,7 @@ const generateUnformattedCode = (
   const stateful = true;
   const classBased = false;
 
-  // create final component code. component code differs between classic react and next.js
+  // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
     return `
@@ -237,6 +237,7 @@ const generateUnformattedCode = (
       export default ${currentComponent.name};
     `;
   } else {
+    // gatsby component code
     return `
     import React, { useState } from 'react';
     ${importsMapped}
@@ -270,8 +271,6 @@ const generateUnformattedCode = (
 };
 
 // formats code with prettier linter
-// to test in dev mode, comment out conditional statements and uncomment 'return code';
-// to test in prod mode, vice versa
 const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
   // so we reference original prettier format function instead

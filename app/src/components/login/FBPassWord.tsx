@@ -136,7 +136,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
         console.log(userCreated);
       }
     });
-    // }
   };
 
   return (

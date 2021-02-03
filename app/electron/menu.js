@@ -174,7 +174,6 @@ var MenuBuilder = function(mainWindow, appName) {
               ])
         ]
       },
-      // { role: "viewMenu" }
       {
         label: 'View',
         submenu: [

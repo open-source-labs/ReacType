@@ -7,6 +7,7 @@ const manageSeparators = {};
 
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
 
+// this function checks for two separators in a row or missing separators and adds/removes as needed
 manageSeparators.handleSeparators = (arr: object[], str: string) => {
   if ((str === 'delete' || str === 'change position') && arr.length === 1 && arr[0].name === 'separator') {
     arr.splice(0, 1);
@@ -16,7 +17,7 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
     if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
       arr.splice(index, 1); // removes extra separator from array
     } 
-    // check for duplicaed separator at the end of array and remove it if separator is at the last index
+    // check for duplicated separator at the end of array and remove it if separator is at the last index
     if (arr[arr.length - 1].name === 'separator') arr.splice(arr.length - 1, 1);
     // check for missing separators
     if (arr[index].name !== 'separator' && (index === 0 || arr[index - 1].name !== 'separator')) {
@@ -43,6 +44,7 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
   return manageSeparators.nextTopSeparatorId;
 };
 
+// this function replaces separators onto which an element is dropped with the element itself
 manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
     if (child.name === 'div' && child.children.length) {

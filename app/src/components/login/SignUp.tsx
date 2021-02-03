@@ -27,9 +27,6 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © ReacType '}
-      {/* <Link color="inherit" href="https://reactype.io/#fullCarousel">
-        ReacType
-      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
