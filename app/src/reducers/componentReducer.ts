@@ -474,7 +474,7 @@ const reducer = (state: State, action: Action) => {
 
       // iterate over the length of the components array
       for (let i = 0; i < components.length; i++) {
-        // for each components' code, run the generateCode function to
+        // for each component's code, run the generateCode function to
         // update the code preview on the app
         components[i].code = generateCode(
           components,
@@ -529,7 +529,7 @@ const reducer = (state: State, action: Action) => {
         );
       });
 
-      // also update the name of the root component of the application to fit classic React and next.js conventions
+      // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
       if (projectType === 'Next.js' || projectType === 'Gatsby.js') components[0]['name'] = 'index';
       else components[0]['name'] = 'App';
 

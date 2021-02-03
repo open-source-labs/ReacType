@@ -116,7 +116,7 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
           }
         }
-        // route links are for gastby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
+        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
           if (projectType === 'Next.js') {
             // if route link points to index, to go endpoint / rather than /index

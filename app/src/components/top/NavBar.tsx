@@ -192,8 +192,6 @@ export default function NavBar(props) {
           
           {state.isLoggedIn ? // render Manage Project button/dropdown only if user is logged in
             <Button
-            // aria-controls="customized-menu"
-            // aria-haspopup="true"
             variant="contained"
             color="primary"
             onClick={handleClick}
