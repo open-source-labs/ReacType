@@ -1,6 +1,6 @@
 import React, { useReducer} from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
 import StateContext from '../app/src/context/context';

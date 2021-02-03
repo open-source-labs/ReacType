@@ -70,7 +70,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // A route link is a next.js navigation link
+    // A route link is a next.js or gatsby.js navigation link
     // The route link component includes a clickable link that, when clicked, will change the user focus to the referenced component
     else if (type === 'Route Link') {
       return (

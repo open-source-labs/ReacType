@@ -1,5 +1,5 @@
 import reducer from '../app/src/reducers/componentReducer';
-import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
+import { State, Action } from '../app/src/interfaces/InterfacesNew';
 
 import initialState from '../app/src/context/initialState';
 

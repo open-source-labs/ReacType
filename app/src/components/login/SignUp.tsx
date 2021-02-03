@@ -52,12 +52,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   },
   root: {
-    // "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "green"
-    // },
-    // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-    //   borderColor: "red"
-    // },
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#3EC1AC'
     }
@@ -179,7 +173,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       setInvalidVerifyPassword(false);
     }
 
-    // if(!invalidUsername && !invalidPassword && !invalidEmail && !invalidVerifyPassword) {
     newUserIsCreated(username, email, password).then(userCreated => {
       if (userCreated === 'Success') {
 
@@ -197,7 +190,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
         }
       }
     });
-    // }
   };
 
   return (

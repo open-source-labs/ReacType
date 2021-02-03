@@ -1,6 +1,6 @@
 const request = require('supertest');
-// let server = 'https://reactype.herokuapp.com';
-// const isDev = process.env.NODE_ENV === 'development';
+// let server = 'https://reactype.herokuapp.com'; /* This is for production mode */
+
 const server = 'http://localhost:5000';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 

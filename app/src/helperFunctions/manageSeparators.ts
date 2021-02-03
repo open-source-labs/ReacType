@@ -21,7 +21,8 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
     if (arr[arr.length - 1].name === 'separator') arr.splice(arr.length - 1, 1);
     // check for missing separators
     if (arr[index].name !== 'separator' && (index === 0 || arr[index - 1].name !== 'separator')) {
-      // initialize topSeparator inside the if condition so that every time this condition evaluated to true, a new topSeparator with incremented id will be created
+      // initialize topSeparator inside the if condition so that every time this condition evaluated to true, 
+        // a new topSeparator with incremented id will be created
       const topSeparator: ChildElement = {
         type: 'HTML Element',
         typeId: separator.id,
