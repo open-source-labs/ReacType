@@ -3,8 +3,6 @@ import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 
 
-// const IPC = require('electron').ipcRenderer;
-
 const BottomPanel = () => {
   return (
     <Resizable

@@ -12,7 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
-  console.log(isThemeLight)
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
 
@@ -242,7 +241,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 const useStyles = makeStyles({
   inputField: {
     marginTop: '10px',
-    // color: '#186BB4',
     borderRadius: '5px',
     whiteSpace: 'nowrap',
     overflowX: 'hidden',
@@ -269,11 +267,9 @@ const useStyles = makeStyles({
   },
   rootCheckBox: {
     borderColor: '#186BB4',
-    // color: '#186BB4',
     padding: '0px'
   },
   rootCheckBoxLabel: {
-    // color: '#186BB4',
     borderColor: '#186BB4'
   },
   panelWrapper: {
@@ -284,12 +280,9 @@ const useStyles = makeStyles({
     alignItems:'center'
   },
   panelWrapperList: {
-    // maxHeight: '400px',
     minHeight: '120px',
-    // overflowY: 'auto',
     marginLeft: '-15px',
     marginRight: '-15px',
-    // marginTop: '25px',
     width: '300px',
     display: 'flex',
     flexDirection: 'column',
@@ -318,7 +311,6 @@ const useStyles = makeStyles({
   },
   inputLabel: {
     fontSize: '1em',
-    // color: '#186BB4',
     marginLeft: '10px'
   },
   btnGroup: {
@@ -326,7 +318,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   addComponentButton: {
-    // color: '#186BB4',
     backgroundColor: 'transparent',
     height: '40px',
     width: '100px',

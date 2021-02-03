@@ -28,7 +28,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
   const [_, dispatch] = useContext(StateContext);
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
-    // onClose(selectedValue);
     onClose();
   };
 
@@ -63,16 +62,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
             <ListItemText primary={project.name} />
           </ListItem>
         ))}
-        {/* Change state to empty for new project */}
-        {/* ***TODO*** Add project functionality
-        <ListItem autoFocus button onClick={() => handleClose()}>
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="New Project" />
-        </ListItem> */}
       </List>
     </Dialog>
   );
@@ -100,9 +89,6 @@ export default function ProjectsFolder() {
   return (
     <div>
       <Button
-        // className={classes.button}
-        // id="navbarButton"
-        // variant="contained"
         color="primary"
         onClick={handleClickOpen}
         endIcon={<FolderOpenIcon />}

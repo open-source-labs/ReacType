@@ -54,14 +54,14 @@ const reducer = (state: State, action: Action) => {
     directParent.children.splice(childIndexValue, 1);
   };
 
-  // determine if there's child of a given type in a component
+  // determine if there's a child of a given type in a component
   const childTypeExists = (
     type: string,
     typeId: number,
     component: Component
   ) => {
     const nodeArr = [...component.children];
-    // breadth first search through component tree to see if a child exists
+    // breadth-first search through component tree to see if a child exists
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
@@ -124,7 +124,7 @@ const reducer = (state: State, action: Action) => {
 
     updateAllIds(components);
 
-    // create KV pairs of component names and corresponding IDs
+    // create key-value pairs of component names and corresponding IDs
     const componentIds = {};
     components.forEach(component => {
       if (!component.isPage) componentIds[component.name] = component.id;
@@ -154,7 +154,6 @@ const reducer = (state: State, action: Action) => {
 
   const deleteById = (id: number, name: string): Component[] => {
     // name of the component we want to delete
-
     const checkChildren = (child: Component[] | ChildElement[]) => {
       // for each of the components in the passed in components array, if the child
       // component has a children array, iterate through the array of children
@@ -298,7 +297,7 @@ const reducer = (state: State, action: Action) => {
       };
       
 
-      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+      // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);

@@ -1,17 +1,6 @@
-// import React, { useState, useContext } from 'react';
-// import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import { makeStyles } from '@material-ui/core/styles';
-// import createModal from './createModal';
-// import exportProject from '../../utils/exportProject.util';
-// import { styleContext } from '../../containers/AppContainer';
-// import StateContext from '../../context/context';
 
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
-
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,7 +21,7 @@ import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 
-// import { useStyles } from '../left/ComponentPanel';
+
 import { styleContext } from '../../containers/AppContainer';
 
 
@@ -54,7 +43,6 @@ export default function ExportButton() {
 
 
   const showGenerateAppModal = () => {
-    console.log('state:', state)
     const children = (
       <List className="export-preference">
         {genOptions.map((option: string, i: number) => (
@@ -120,11 +108,9 @@ export default function ExportButton() {
   return (
     <div>
        <Button
-          // className={classes.button}
           variant="contained"
           color="primary"
           onClick={showGenerateAppModal}
-          // endIcon={<PublishIcon />}
           id="navbarButton"
         >
           EXPORT

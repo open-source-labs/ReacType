@@ -52,7 +52,7 @@ const CodePreview: React.FC<{
         value={currentComponent.code}
         name="Code_div"
         readOnly={false}
-        // editorProps={{ $blockScrolling: false }}
+        editorProps={{ $blockScrolling: false }}
         fontSize={16}
         tabSize={2}
       />
