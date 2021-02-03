@@ -1,11 +1,11 @@
 <p align="center">
-  <img width="50" src=https://i.imgur.com/Z2aKWji.png?1>
+  <img width="50" src="https://i.imgur.com/Yn70tqI.png">
   <h1 align="center">ReacType </h1>
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-// ADD RELEASE ICON HERE
+![Version 5.0](https://img.shields.io/badge/Release-5.0-lightgrey.svg)
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -28,7 +28,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![Gif of adding](https://i.imgur.com/Ioqkr00.gif)
+![Gif of adding](https://i.imgur.com/d1oHiTm.gif)
 
 ### How to use
 
@@ -73,6 +73,12 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Jin Soo Lim](https://www.linkedin.com/in/jin-soo-lim-3a567b1b3/) [@jinsoolim](https://github.com/jinsoolim)
 
+[Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
+
+[Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
+
+[Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
+
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
@@ -115,9 +121,9 @@ npm run prod
 npm run dev
 ```
 
-- Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can also select "Continue as guest" on the log-in page of the app to not use any features that rely on the server (authentication and saving project data.)
+- Please note that the development build is not connected to the production server. `npm run dev` should spin up the development server from the server folder of this repo. For additional information, the readme is [here](https://github.com/open-source-labs/ReacType/blob/master/server/README.md). Alternatively, you can select "Continue as guest" on the login page of the app, which will not use any features that rely on the server (authentication and saving project data.)
 
-## To Run Your Exported Next.js Project
+## To Run Your Exported Next.js or Gatsby.js Project
 
 - Open exported project directory
 - Install dependencies
