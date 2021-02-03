@@ -1,5 +1,5 @@
 import reducer from '../app/src/reducers/componentReducer';
-import { State, Action, Component, ChildElement } from '../app/src/interfaces/InterfacesNew';
+import { State, Action } from '../app/src/interfaces/InterfacesNew';
 
 import initialState from '../app/src/context/initialState';
 
@@ -27,7 +27,7 @@ describe('Testing componentReducer functionality', function () {
 
   // TEST 'ADD CHILD'
   describe('ADD CHILD reducer', () => {
-    it('should add child component to top-level component', () => {
+    it('should add child component and separator to top-level component', () => {
       const action: Action = {
         type: 'ADD CHILD',
         payload: {
@@ -40,11 +40,13 @@ describe('Testing componentReducer functionality', function () {
       state.canvasFocus = { componentId: 1, childId: null };
       state = reducer(state, action);
       const newParent = state.components[0];
-      // expect new parent's children array to have length 1
-      expect(newParent.children.length).toEqual(1);
+      // expect new parent's children array to have length 2 (component + separator)
+      expect(newParent.children.length).toEqual(2);
+      // expect first element in children array to be separator
+      expect(newParent.children[0].name).toEqual('separator');
       // expect new child to have type 'Component'
-      expect(newParent.children[0].type).toEqual('Component');
-      const addedChild = state.components.find(comp => comp.id === newParent.children[0].typeId);
+      expect(newParent.children[1].type).toEqual('Component');
+      const addedChild = state.components.find(comp => comp.id === newParent.children[1].typeId);
       // expect new child typeId to correspond to component with name 'TestRegular'
       expect(addedChild.name).toEqual('TestRegular');
     })
@@ -89,9 +91,10 @@ describe('Testing componentReducer functionality', function () {
       state = reducer(state, action);
       // expect only one remaining child
       const delParent = state.components.find(comp => comp.id === state.canvasFocus.componentId);
-      // expect remaining child to have type 'Component'
-      expect(delParent.children.length).toEqual(1);
+      // expect remaining child to have type 'Component' and to be preceded by separator
+      expect(delParent.children.length).toEqual(2);
       expect(delParent.children[delParent.children.length -1].type).toEqual('Component');
+      expect(delParent.children[delParent.children.length -2].name).toEqual('separator');
     })
   })
 

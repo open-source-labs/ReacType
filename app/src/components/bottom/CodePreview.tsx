@@ -29,11 +29,6 @@ const CodePreview: React.FC<{
   const handleCodeSnipChange = val => {
     currentComponent.code = val;
   };
-
-  const changeTheme = e => {
-    setTheme(e.target.value);
-  };
-
   useEffect(() => {
     setDivHeight(height);
   }, [height])
@@ -42,9 +37,10 @@ const CodePreview: React.FC<{
     <div
     ref={wrapper}
       style={{
-        height: '90%',
+        height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center'
+        justifyContent: 'center',
+       
       }}
     >
       <AceEditor
@@ -52,15 +48,10 @@ const CodePreview: React.FC<{
         theme={theme}
         width="100%"
         height="100%"
-        style={{
-          border: '2px solid #33eb91',
-          borderRadius: '8px'
-        }}
         onChange={handleCodeSnipChange}
         value={currentComponent.code}
         name="Code_div"
         readOnly={false}
-        editorProps={{ $blockScrolling: true }}
         fontSize={16}
         tabSize={2}
       />

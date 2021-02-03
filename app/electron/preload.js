@@ -15,6 +15,20 @@ const {
   tutorial
 } = require('./preloadFunctions/cookies');
 
+/* 
+DESCRIPTION: This file appears to limit the node methods the Electron app can access.
+
+Per the docs:
+  -Main World is the JavaScript context in which the renderer code runs (that is, the page)
+  -Isolated World is where preload scripts run
+  -contextBridge is a module that safely exposes APIs from the isolated context in which preload scripts run
+    to the context in which the website or application runs (i.e., from Isolated World to Main World) 
+
+We likely should not change this file unless we determine additional methods are necessary
+or some methods are not used.
+
+*/
+
 // Expose protected methods that allow the renderer process to use select node methods
 // without exposing all node functionality. This is a critical security feature
 // 'mainWorld" is the context that the main renderer runs in

@@ -161,8 +161,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       );
     }
   };
+
   const classBtn =
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -205,11 +207,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
           helperText={invalidPassMsg}
           error={invalidPass}
         />
-        {/* **TODO** Make 'Remember Me' functional
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        /> */}
 
         <Button
           fullWidth
@@ -220,26 +217,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-        {/* <Button
-          fullWidth
-          variant="contained"
-          color="default"
-          className={classes.submit}
-          onClick={() => {
-            window.api.github();
-          }}
-        >
-        <GitHubIcon />
-        </Button>
-        <FacebookLogin
-          appId={FBAPPID}
-          autoLoad={false}
-          fields="name, email, picture"
-          callback={responseFacebook}
-          icon="fa-facebook-square"
-          cssClass={'oauth-btn'}
-          textButton=' Login with Facebook'
-        /> */}
+        
         <Button
           fullWidth
           variant="contained"

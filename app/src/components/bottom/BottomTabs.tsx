@@ -10,6 +10,8 @@ import { emitKeypressEvents } from 'readline';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 import { styleContext } from '../../containers/AppContainer';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const BottomTabs = () => {
   // state that controls which tab the user is on
@@ -17,14 +19,20 @@ const BottomTabs = () => {
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   treeWrapper: HTMLDivElement;
-  const [theme, setTheme] = useState('monokai');
+  const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 
-  // method changes the
+  
+  // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
-
+ // Allows users to toggle project between "next.js" and "Classic React"
+  // When a user changes the project type, the code of all components is rerendered
+  const handleProjectChange = event => {
+    const projectType = event.target.value;
+    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+  };
   const { components, HTMLTypes } = state;
 
   const changeTheme = e => {
@@ -33,7 +41,7 @@ const BottomTabs = () => {
 
   return (
     <div className={classes.root} style={style}>
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
         <Tabs
           value={tab}
           onChange={handleChange}
@@ -53,39 +61,22 @@ const BottomTabs = () => {
             label="Component Tree"
           />
         </Tabs>
-        <FormControl>
-          <div className="flex-container">
-            <div className="flex1">Change Theme:</div>
-            <NativeSelect
-              className="flex2"
-              style={{ color: 'white' }}
-              value={theme}
-              onChange={changeTheme}
+        <div className={classes.projectTypeWrapper}> 
+         <FormControl size='small'>
+            <Select
+              variant="outlined"
+              labelId="project-type-label"
+              id="demo-simple-select"
+              className={classes.projectSelector}
+              value={state.projectType}
+              onChange={handleProjectChange}
             >
-              <option style={{ backgroundColor: '#252526' }} value={'monokai'}>
-                Monokai
-              </option>
-              <option style={{ backgroundColor: '#252526' }} value={'github'}>
-                Github
-              </option>
-              <option
-                style={{ backgroundColor: '#252526' }}
-                value={'solarized_dark'}
-              >
-                Solarized Dark
-              </option>
-              <option style={{ backgroundColor: '#252526' }} value={'terminal'}>
-                Terminal
-              </option>
-              <option
-                style={{ backgroundColor: '#252526' }}
-                value={'solarized_light'}
-              >
-                Solarized Light
-              </option>
-            </NativeSelect>
-          </div>
-        </FormControl>
+              <MenuItem value={'Classic React'}>Classic React</MenuItem>
+              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
+              <MenuItem value={'Next.js'}>Next.js</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </Box>
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 1 && <Tree data={components} />}
@@ -96,10 +87,11 @@ const BottomTabs = () => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#333333',
+    backgroundColor: '#186BB4',
     height: '100%',
-    color: '#fff',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+    color: '#E8E8E8',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+    
   },
   bottomHeader: {
     flex: 1,
@@ -108,11 +100,10 @@ const useStyles = makeStyles(theme => ({
     Width: '200px'
   },
   tabsRoot: {
-    borderBottom: '0.5px solid #424242',
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: '#1de9b6'
+    backgroundColor: 'white',
   },
   tabRoot: {
     textTransform: 'initial',
@@ -133,15 +124,15 @@ const useStyles = makeStyles(theme => ({
       '"Segoe UI Symbol"'
     ].join(','),
     '&:hover': {
-      color: '#1de9b6',
+      color: 'white',
       opacity: 1
     },
     '&$tabSelected': {
-      color: '#33eb91',
+      color: 'white',
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: '#4aedc4'
+      color: 'white',
     }
   },
   tabSelected: {},
@@ -154,6 +145,14 @@ const useStyles = makeStyles(theme => ({
   switch: {
     marginRight: '10px',
     marginTop: '2px'
+  }, 
+  projectTypeWrapper: {
+    marginTop: '10px',
+    marginBotton: '10px'
+  },
+  projectSelector: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    color: 'white'
   }
 }));
 

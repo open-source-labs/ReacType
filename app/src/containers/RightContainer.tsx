@@ -3,7 +3,6 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  Component
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -24,10 +23,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
+import ComponentPanel from '../components/right/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = (): JSX.Element => {
-  const classes = useStyles();
+const RightContainer = ({isThemeLight}): JSX.Element => {
+  const classes = useStyles(isThemeLight);
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
@@ -156,21 +156,6 @@ const RightContainer = (): JSX.Element => {
 
   const isIndex = (): boolean => configTarget.id === 1;
 
-  const isChildOfPage = (): boolean => {
-    let isChild: boolean = false;
-
-    // id of target we want to check
-    const { id } = configTarget;
-    state.components.forEach(comp => {
-      comp.children.forEach(child => {
-        if (child.type === 'Component' && child.typeId === id) {
-          isChild = true;
-        }
-      });
-    });
-    return isChild;
-  };
-
   const isLinkedTo = (): boolean => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
@@ -204,7 +189,7 @@ const RightContainer = (): JSX.Element => {
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
-    // resetFields();
+   
     return styleObj;
   };
 
@@ -219,16 +204,6 @@ const RightContainer = (): JSX.Element => {
     isIndex()
       ? handleDialogError('index')
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
-  };
-
-  // const handleDeleteReusableComponent = () => {
-  //   dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
-  // };
-
-  const isReusable = (configTarget): boolean => {
-    return state.components
-      .filter(comp => !state.rootComponents.includes(comp.id))
-      .some(el => el.id == configTarget.id);
   };
 
   const handleDialogError = err => {
@@ -267,8 +242,9 @@ const RightContainer = (): JSX.Element => {
             marginTop: '5%'
           }}
         >
-          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+        <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
+
         <ListItem
           key={'not delete'}
           button
@@ -301,7 +277,10 @@ const RightContainer = (): JSX.Element => {
   };
 
   return (
-    <div className="column right" style={style}>
+    <div className="column right" id="rightContainer" style={style}>
+      <ComponentPanel isThemeLight={isThemeLight}/>
+      <ProjectManager />
+  {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -312,20 +291,22 @@ const RightContainer = (): JSX.Element => {
                   ? ' component'
                   : ' element'}{' '}
                 <br />
-                <span className={classes.compName}>
+                <br />
+                <span className={isThemeLight ? `${classes.compName} ${classes.lightThemeFontColor}` : `${classes.compName} ${classes.darkThemeFontColor}`}>
                   {configTarget.child.name}
                 </span>
               </h4>
             ) : (
-              <h4>
-                Parent component
+              <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor} >
+                Parent Component:
+                <br />
                 <br />
                 <span className={classes.compName}>{configTarget.name}</span>
               </h4>
             )}
           </div>
           <div className={classes.configRow}>
-            <div className={classes.configType}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Display:</h3>
             </div>
             <div className={classes.configValue}>
@@ -336,7 +317,7 @@ const RightContainer = (): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: classes.selectInput }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                 >
                   <MenuItem value=""></MenuItem>
                   <MenuItem value={'block'}>block</MenuItem>
@@ -361,7 +342,7 @@ const RightContainer = (): JSX.Element => {
                       onChange={handleChange}
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: classes.selectInput }}
+                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
                       <MenuItem value=""></MenuItem>
                       <MenuItem value={'row'}>row</MenuItem>
@@ -382,7 +363,7 @@ const RightContainer = (): JSX.Element => {
                       onChange={handleChange}
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: classes.selectInput }}
+                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
                       <MenuItem value=""></MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
@@ -407,7 +388,7 @@ const RightContainer = (): JSX.Element => {
                       name="flexalign"
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: classes.selectInput }}
+                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
                       <MenuItem value=""></MenuItem>
                       <MenuItem value={'stretch'}>stretch</MenuItem>
@@ -421,7 +402,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           )}
           <div className={classes.configRow}>
-            <div className={classes.configType}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Width:</h3>
             </div>
             <div className={classes.configValue}>
@@ -432,7 +413,7 @@ const RightContainer = (): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: classes.selectInput }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                 >
                   <MenuItem value=""></MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -443,7 +424,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           </div>
           <div className={classes.configRow}>
-            <div className={classes.configType}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Height:</h3>
             </div>
             <div className={classes.configValue}>
@@ -454,7 +435,7 @@ const RightContainer = (): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: classes.selectInput }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                 >
                   <MenuItem value=""></MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -465,7 +446,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           </div>
           <div className={classes.configRow}>
-            <div className={classes.configType}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Background color:</h3>
             </div>
             <div className={classes.configValue}>
@@ -474,7 +455,7 @@ const RightContainer = (): JSX.Element => {
                   variant="filled"
                   name="bgcolor"
                   className={classes.select}
-                  inputProps={{ className: classes.selectInput }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                   value={BGColor}
                   onChange={handleChange}
                 />
@@ -484,7 +465,7 @@ const RightContainer = (): JSX.Element => {
           <div className={classes.buttonRow}>
             <Button
               color="primary"
-              className={classes.button}
+              className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
               onClick={handleSave}
             >
               SAVE
@@ -493,7 +474,7 @@ const RightContainer = (): JSX.Element => {
           {configTarget.child ? (
             <div className={classes.buttonRow}>
               <Button
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={handleDelete}
               >
@@ -522,7 +503,7 @@ const RightContainer = (): JSX.Element => {
             </div>
           )}
         </div>
-        <ProjectManager />
+       
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
@@ -548,26 +529,6 @@ const RightContainer = (): JSX.Element => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <Dialog
-        open={deleteComponentError}
-        onClose={handleCloseDialogError}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {ErrorMessages.deleteComponentTitle}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {ErrorMessages.deleteComponentMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialogError} color="primary">
-            OK
-          </Button>
-        </DialogActions>
-      </Dialog> */}
       {modal}
     </div>
   );
@@ -575,13 +536,12 @@ const RightContainer = (): JSX.Element => {
 
 const useStyles = makeStyles({
   select: {
-    fontSize: '1.25em',
+    fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: 'white'
+      color: '#186BB4'
     }
   },
   selectInput: {
-    color: '#fff',
     paddingTop: '15px',
     paddingLeft: '15px'
   },
@@ -596,37 +556,49 @@ const useStyles = makeStyles({
     marginTop: '20px'
   },
   configType: {
-    color: '#fff',
     minWidth: '185px',
-    fontSize: '1em'
+    fontSize: '85%'
   },
   configValue: {
     marginLeft: '20px'
   },
-  buttonRow: {
+  buttonRow: isThemeLight => ({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
-      color: 'rgba(255,0,0,0.75)'
+      color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
+      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
     }
-  },
+  }),
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
-    paddingRight: '20px'
+    paddingRight: '20px',
+  },
+  saveButtonLight: {
+    border: '1px solid #186BB4'
+  },
+  saveButtonDark: {
+    border: '1px solid #3F51B5'
   },
   compName: {
-    color: '#01d46d',
-    fontSize: '1.75rem'
+    fontSize: '1rem'
   },
+  // 'Parent Component' font size
   configHeader: {
     height: '70px',
     '& > h4': {
-      fontSize: '1.25rem',
+      fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
       marginTop: '10px'
     }
+  },
+   lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
   }
 });
 

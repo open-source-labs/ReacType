@@ -6,8 +6,11 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
+  separator: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
+  nextTopSeparatorId: number;
+  nextBottomSeparatorId: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
 }
@@ -17,7 +20,6 @@ export interface ChildElement {
   typeId: number;
   name: string;
   childId: number;
-  //   update this interface later so that we enforce that each value of style object is a string
   style: object;
   attributes?: object;
   children?: ChildElement[];

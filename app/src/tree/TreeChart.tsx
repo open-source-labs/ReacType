@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, useContext } from "react";
-import { select, hierarchy, tree, linkHorizontal } from "d3";
-import useResizeObserver from "./useResizeObserver";
+import React, { useRef, useEffect, useContext } from 'react';
+import { select, hierarchy, tree, linkHorizontal } from 'd3';
+import cloneDeep from 'lodash/cloneDeep';
+import useResizeObserver from './useResizeObserver';
 import StateContext from '../context/context';
 
 function usePrevious(value) {
@@ -11,7 +12,7 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) {
+function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
   const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
@@ -19,12 +20,39 @@ function TreeChart({ data }) {
   const wrapperRef = useRef();
 
   const xPosition = 50;
-  const textAndBorderColor = 'rgb(51, 235, 145)';
+  const textAndBorderColor = '#bdbdbd';
 
   const dimensions = useResizeObserver(wrapperRef);
 
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
+
+  // function to filter out separators to prevent render on tree chart
+  const removeSeparators = (arr: object[]) => {
+    // loop over array
+    for (let i = 0; i < arr.length; i++) {
+      // if element is separator, remove it
+      if (arr[i].name === 'separator') {
+        arr.splice(i, 1);
+        i -= 1;
+      }
+      // if element has a children array and that array has length, recursive call
+      else if ((arr[i].name === 'div' || arr[i].type === 'Component') && arr[i].children.length) {
+        // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
+        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
+        removeSeparators(arr[i].children);
+      }
+    }
+    // return mutated array
+    return arr;
+  };
+
+  // create a deep clone of data to avoid mutating the actual children array in removing separators
+  const dataDeepClone = cloneDeep(data);
+  // remove separators and update components to current versions
+  dataDeepClone.forEach(component => {
+    removeSeparators(component.children);
+  });
 
   // will be called initially and on every data change
   useEffect(() => {
@@ -33,9 +61,9 @@ function TreeChart({ data }) {
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
     const { width, height } =
-    dimensions || wrapperRef.current.getBoundingClientRect();
+      dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(data[canvasId - 1]);
+    const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
     const treeLayout = tree().size([height, width - 125]);
 
     // Returns a new link generator with horizontal display.
@@ -115,15 +143,14 @@ function TreeChart({ data }) {
     width: '100%',
     height: '90%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#42464C',
   };
 
   return (
-    // <div theme={theme} style={{ backgroundColor: 'black' }}>
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>
-    // </div>
   );
 }
 

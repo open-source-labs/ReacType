@@ -97,8 +97,6 @@ export default function ProjectsFolder() {
   return (
     <div>
       <Button
-        className={classes.button}
-        variant="outlined"
         color="primary"
         onClick={handleClickOpen}
         endIcon={<DeleteRoundedIcon />}

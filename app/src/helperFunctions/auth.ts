@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' ;
 let serverURL = 'https://reactype.herokuapp.com';
 if (isDev) {
   serverURL = 'http://localhost:5000';
@@ -16,6 +16,7 @@ export const sessionIsCreated = (
     password,
     isFbOauth
   });
+  
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',

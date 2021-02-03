@@ -13,31 +13,41 @@ const buttonClasses =
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: 'white',
-    // this is experimental for version: BLADERUNNER THEME
-    backgroundColor: 'transparent',
-    // minWidth: '340px',
-    minHeight: '60px',
-    marginBottom: '10px',
-    marginRight: '5px',
-    marginLeft: '5px',
-    border: '2px dotted rgba(255,255,255, 0.45)',
-    borderRadius: '8px',
+    color: '#186BB4',
+    height: '35px',
+    width: '90px',
+    fontSize: '80%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: 'center',
+    margin: '7px auto',
+    marginLeft: '30px',
+    borderRadius: '25px',
     cursor: 'grab',
     '& > h3': {
       display: 'inline-block',
-      paddingTop: '18px'
     }
+  },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
   }
+  
 });
 
-const HTMLItem: React.FC<{
+const HTMLItem : React.FC<{
   name: string;
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
+  isThemeLight: boolean;
+}> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
+  
   const classes = useStyles();
+  
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -110,22 +120,20 @@ const HTMLItem: React.FC<{
     );
   };
 
-  return (
+  return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
-      <div ref={drag} className={classes.HTMLPanelItem}>
+      { id <= 11 &&
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
-        <span
-          style={{
-            verticalAlign: 'middle',
-            display: 'inline-block',
-            marginLeft: '5px'
-          }}
-        >
-          {Icon && <Icon />}
-        </span>
-        {id > 11 &&
-        <button className={buttonClasses} onClick={() => deleteAllInstances(id)} > X </button> }
+        </div>}
+      {id > 11 &&
+      <span id="customHTMLElement">
+      <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
+        <h3>{name}</h3>
       </div>
+        <button id="newElement" style={{color: isThemeLight ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
+     </span>
+      }
       {modal}
     </Grid>
   );

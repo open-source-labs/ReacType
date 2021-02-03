@@ -27,7 +27,6 @@ const useStyles = makeStyles({
   },
   img: {
     borderRadius: '3px',
-    // alignSelf: 'center'
     width: '100%'
   },
   smallImg: {
@@ -39,7 +38,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    // border: '1px solid black',
     width: 'auto'
   },
   notLink: {

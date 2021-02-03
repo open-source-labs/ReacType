@@ -1,6 +1,7 @@
 import createApplicationUtil from './createApplication.util';
 import createNextApp from './createNextApp.util';
 import createFiles from './createFiles.util';
+import createGatsbyApp from './createGatsbyApp.util';
 
 // When a user clicks the "Export project" function from the app, this function is invoked
 const exportProject = (
@@ -19,11 +20,14 @@ const exportProject = (
   } // export all component files, but don't create all application files
   else if (genOption === 0) {
     createFiles(components, path, appName, false);
-  } // Create fully functional Next.js application
+  } // Create fully functional Next.js and Gatsby.js application files
   else if (genOption === 1 && projectType === 'Next.js') {
     createNextApp({ path, appName, components, rootComponents }).catch(err =>
       console.log(err)
     );
+  } else if (genOption === 1 && projectType === 'Gatsby.js') {
+    createGatsbyApp({ path, appName, components, rootComponents }).catch(err =>
+      console.log(err));
   }
 };
 

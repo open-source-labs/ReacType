@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
@@ -8,6 +8,7 @@
   "contributors": [
     "Aaron Bumanglag",
     "Adam Singer",
+    "Alex Wolinsky",
     "Andrew Cho",
     "Brian Han",
     "Charles Finocchiaro",
@@ -18,6 +19,9 @@
     "Fredo Chen",
     "Jesse Zuniga",
     "Jin Soo Lim",
+    "Julie Wu",
+    "Linh Tran",
+    "Luke Madden",
     "Mitchel Severe",
     "Natalie Vick",
     "Sean Sadykoff",
@@ -34,7 +38,7 @@
     "dev": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=development electron .\" \"cross-env NODE_ENV=development npm run server\" -k",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"cross-env NODE_ENV=production npm run server\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
-    "prod": "npm run prod-build && electron .",
+    "prod": "npm run prod-build && electron . --no-sandbox",
     "pack": "electron-builder --dir",
     "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
@@ -57,8 +61,7 @@
   "license": "MIT",
   "jest": {
     "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "electron": "<rootDir>/__mocks__/electron.ts"
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "ts",
@@ -95,6 +98,7 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.9.6",
+    "@material-ui/system": "^4.11.2",
     "@types/js-cookie": "^2.2.6",
     "@types/node": "^14.0.20",
     "@types/prettier": "^1.19.0",
@@ -113,6 +117,7 @@
     "cors": "^2.8.5",
     "d3": "^6.2.0",
     "dotenv": "^8.2.0",
+    "electron": "^9.4.2",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-splashscreen": "^1.0.0",
@@ -121,6 +126,7 @@
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",
+    "lodash": "^4.17.20",
     "node-fetch": "^2.6.0",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
@@ -135,6 +141,7 @@
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.22",
     "react-router-dom": "^5.2.0",
+    "regenerator-runtime": "^0.13.7",
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
@@ -160,7 +167,6 @@
     "csp-html-webpack-plugin": "^4.0.0",
     "css-loader": "^2.1.1",
     "dotenv-webpack": "^5.0.1",
-    "electron": "^9.1.0",
     "electron-builder": "^22.7.0",
     "enzyme-to-json": "^3.5.0",
     "eslint": "^4.19.1",

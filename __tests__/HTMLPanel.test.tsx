@@ -22,7 +22,7 @@ function Test() {
 }
 
 
-test('Renders HTMLPanel component', () => {
+test('Renders HTMLPanel component properly', () => {
   render(
     <Test/>
   );
@@ -37,7 +37,8 @@ test('Renders HTMLPanel component', () => {
   expect(screen.getByText('Header 1')).toBeInTheDocument();
   expect(screen.getByText('Header 2')).toBeInTheDocument();
   expect(screen.getByText('Span')).toBeInTheDocument();
-})
+  expect(screen.queryByText('separator')).toBe(null);
+});
 
 test('Adds new custom element', () => {
   render(
@@ -54,5 +55,4 @@ test('Adds new custom element', () => {
   fireEvent.click(screen.getByDisplayValue('Add Element'));
 
   expect(screen.getByText('Testing')).toBeInTheDocument();
-})
-
+});

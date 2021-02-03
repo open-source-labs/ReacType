@@ -1,11 +1,10 @@
-import React, { useMemo, useContext, useRef, Children } from 'react';
+import React, {  useContext, } from 'react';
 import {
-  State,
   Component,
   ChildElement,
   HTMLType
 } from '../../interfaces/Interfaces';
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
@@ -14,7 +13,6 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
-  const ref = useRef(null);
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
@@ -52,10 +50,10 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid rgb(11,212,112)'
+        ? '3px solid #a7cced'
         : '1px Solid grey',
     boxShadow:
-      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+      state.canvasFocus.childId === childId ? '1px 1px 3px #a7cced' : ''
   };
 
   const combinedStyle = combineStyles(

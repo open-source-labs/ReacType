@@ -5,22 +5,14 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-const findNestedChild = (curr, components) => {
-  components.forEach((comp, i) => {
-    comp.children.forEach(child => {
-      if (child.name === curr.name) {
-      }
-    });
-    if (comp.children.length !== 0) findNestedChild(curr, comp.children);
-  });
-};
+
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  findNestedChild(currentComponent, state.components);
+  
   // changes focus of the canvas to a new component / child
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
@@ -65,11 +57,14 @@ function Canvas() {
       isOver: !!monitor.isOver()
     })
   });
+
+  // Styling for Canvas
   const defaultCanvasStyle = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? 'lightyellow' : 'white',
-    border: '3px solid #01d46d',
+    backgroundColor: isOver ? 'lightyellow' : '#F5F5F5',
+    backgroundImage: "url('https://www.transparenttextures.com/patterns/diagonal-noise.png')",
+    border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid'
   };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
@@ -78,6 +73,7 @@ function Canvas() {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
+      {/* currentComponent is the selected component on Left Panel (eg: App or Index with green dot to the left)  */}
       {renderChildren(currentComponent.children)}
     </div>
   );

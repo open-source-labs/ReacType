@@ -16,9 +16,9 @@ export default function LoginButton() {
     // clear local storage
     window.localStorage.clear();
     // destroys cookie by backdating expiration time
-    document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // destroy cookie in production via electron main process
-    window.api.delCookie();
+    // window.api.delCookie();
     // uses useHistory to return to the login page
     history.push('/login');
   };
@@ -27,9 +27,10 @@ export default function LoginButton() {
     return (
       <Button
         variant="contained"
+        color="primary"
+        id="navbarButton"
+        style={{minWidth: '102.11px'}}
         onClick={handleLogout}
-        color="secondary"
-        className={classes.button}
         endIcon={<ExitToAppIcon />}
       >
         Log Out
@@ -39,9 +40,10 @@ export default function LoginButton() {
     return (
       <Button
         variant="contained"
+        color="primary"
+        id="navbarButton"
+        style={{minWidth: '102.11px'}}
         onClick={handleLogout}
-        color="secondary"
-        className={classes.button}
         endIcon={<ExitToAppIcon />}
       >
         Log In

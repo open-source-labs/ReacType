@@ -1,3 +1,9 @@
+/*
+@description: main.js is what controls the lifecycle of the electron application from initialization to termination.
+@actions: codes for Github Oauth has been commented out because of lack of functionality. 
+*/
+require('dotenv').config();
+const path = require('path');
 const {
   app,
   protocol,
@@ -5,33 +11,29 @@ const {
   BrowserWindow,
   session,
   ipcMain,
-  webContents
 } = require('electron');
 
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
 
+// to install react dev tool extension
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS
 } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
+// import custom protocol in protocol.js
 const Protocol = require('./protocol');
 // menu from another file to modularize the code
 const MenuBuilder = require('./menu');
 
-const path = require('path');
-// const fs = require('fs');
-require('dotenv').config();
-
+// mode that the app is running in
 const isDev =
   process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
-
-// main.js is what controls the lifecycle of the electron application
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -41,14 +43,13 @@ let menuBuilder;
 // function to create a new browser window
 // this function will be called when Electron has initialized itself
 async function createWindow() {
+  // install react dev tools if we are in development mode
   if (isDev) {
     await installExtension([REACT_DEVELOPER_TOOLS])
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err));
   } else {
-    // Needs to happen before creating/loading the browser window;
-    // not necessarily instead of extensions, just using this code block
-    // so I don't have to write another 'if' statement
+    // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
   }
 
@@ -196,19 +197,10 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  // if (process.platform !== 'darwin') {
-  //   app.quit();
-  // } else {
-  //   ContextMenu.clearMainBindings(ipcMain);
-  // }
   app.quit();
 });
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow();
   }
@@ -360,155 +352,154 @@ if (isDev) {
   serverUrl = 'http://localhost:5000';
 }
 
-// for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
-ipcMain.on('set_cookie', event => {
-  session.defaultSession.cookies
-    .get({ url: serverUrl })
-    .then(cookie => {
-      // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
-      // checking for a cookie inside array will only emit reply when a cookie exists
-      if (cookie[0]) {
-        //console.log(cookie);
-        event.reply('give_cookie', cookie);
-      }
-    })
-    .catch(error => {
-      console.log('Error giving cookies in set_cookie:', error);
-    });
-});
+// // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
+// ipcMain.on('set_cookie', event => {
+//   session.defaultSession.cookies
+//     .get({ url: serverUrl })
+//     .then(cookie => {
+//       // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
+//       // checking for a cookie inside array will only emit reply when a cookie exists
+//       if (cookie[0]) {
+//         //console.log(cookie);
+//         event.reply('give_cookie', cookie);
+//       }
+//     })
+//     .catch(error => {
+//       console.log('Error giving cookies in set_cookie:', error);
+//     });
+// });
 
-// again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
-ipcMain.on('delete_cookie', event => {
-  session.defaultSession.cookies
-    .remove(serverUrl, 'ssid')
-    // .then(removed => {
-    //   console.log('Cookies deleted', removed);
-    // })
-    .catch(err => console.log('Error deleting cookie:', err));
-});
+// // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
+// ipcMain.on('delete_cookie', event => {
+//   session.defaultSession.cookies
+//     .remove(serverUrl, 'ssid')
+//     // .then(removed => {
+//     //   console.log('Cookies deleted', removed);
+//     // })
+//     .catch(err => console.log('Error deleting cookie:', err));
+// });
 
-// opens new window for github oauth when button on sign in page is clicked
-ipcMain.on('github', event => {
-  // your  applications credentials
-  const githubUrl = 'https://github.com/login/oauth/authorize?';
-  const options = {
-    client_id: process.env.GITHUB_ID,
-    client_secret: process.env.GITHUB_SECRET,
-    scopes: ['user:email', 'notifications']
-  };
-  // create new browser window object with size, title, security options
-  const github = new BrowserWindow({
-    width: 800,
-    height: 600,
-    title: 'Github Oauth',
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      nodeIntegrationInSubFrames: false,
-      contextIsolation: true,
-      enableRemoteModule: false,
-      zoomFactor: 1.0
-    }
-  });
-  const authUrl =
-    `${githubUrl}client_id=${process.env.GITHUB_ID}`;
-  github.loadURL(authUrl);
-  github.show();
-  const handleCallback = url => {
-    const raw_code = /code=([^&]\*)/.exec(url) || null;
-    const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
-    const error = /\?error=(.+)\$/.exec(url);
+// // opens new window for github oauth when button on sign in page is clicked
+// ipcMain.on('github', event => {
+//   // your  applications credentials
+//   const githubUrl = 'https://github.com/login/oauth/authorize?';
+//   const options = {
+//     client_id: process.env.GITHUB_ID,
+//     client_secret: process.env.GITHUB_SECRET,
+//     scopes: ['user:email', 'notifications']
+//   };
+//   // create new browser window object with size, title, security options
+//   const github = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     title: 'Github Oauth',
+//     webPreferences: {
+//       nodeIntegration: false,
+//       nodeIntegrationInWorker: false,
+//       nodeIntegrationInSubFrames: false,
+//       contextIsolation: true,
+//       enableRemoteModule: false,
+//       zoomFactor: 1.0
+//     }
+//   });
+//   const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
+//   github.loadURL(authUrl);
+//   github.show();
+//   const handleCallback = url => {
+//     const raw_code = /code=([^&]\*)/.exec(url) || null;
+//     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
+//     const error = /\?error=(.+)\$/.exec(url);
 
-    if (code || error) {
-      // Close the browser if code found or error
-      authWindow.destroy();
-    }
+//     if (code || error) {
+//       // Close the browser if code found or error
+//       authWindow.destroy();
+//     }
 
-    // If there is a code, proceed to get token from github
-    if (code) {
-      self.requestGithubToken(options, code);
-    } else if (error) {
-      alert(
-        "Oops! Something went wrong and we couldn't" +
-          'log you in using Github. Please try again.'
-      );
-    }
-  };
+//     // If there is a code, proceed to get token from github
+//     if (code) {
+//       self.requestGithubToken(options, code);
+//     } else if (error) {
+//       alert(
+//         "Oops! Something went wrong and we couldn't" +
+//           'log you in using Github. Please try again.'
+//       );
+//     }
+//   };
 
-  github.webContents.on('will-navigate', (e, url) => handleCallback(url));
+//   github.webContents.on('will-navigate', (e, url) => handleCallback(url));
 
-  github.webContents.on('did-finish-load', (e, url, a, b) => {
-    github.webContents.selectAll();
-  });
+//   github.webContents.on('did-finish-load', (e, url, a, b) => {
+//     github.webContents.selectAll();
+//   });
 
-  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
-    handleCallback(newUrl)
-  );
+//   github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
+//     handleCallback(newUrl)
+//   );
 
-  // Reset the authWindow on close
-  github.on('close', () => (authWindow = null), false);
+//   // Reset the authWindow on close
+//   github.on('close', () => (authWindow = null), false);
 
-  // if final callback is reached and we get a redirect from server back to our app, close oauth window
-  github.webContents.on('will-redirect', (e, callbackUrl) => {
-    const matches = callbackUrl.match(/(?<=\?=).*/);
-    const ssid = matches ? matches[0] : '';
-    callbackUrl = callbackUrl.replace(/\?=.*/, '');
-    let redirectUrl = 'app://rse/';
-    if (isDev) {
-      redirectUrl = 'http://localhost:8080/';
-    }
-    if (callbackUrl === redirectUrl) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'ReacType',
-        icon: resolve('app/src/public/icons/png/256x256.png'),
-        message: 'Github Oauth Successful!'
-      });
-      github.close();
-      win.webContents
-        .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then(result => win.loadURL(selfHost))
-        .catch(err => console.log(err));
-    }
-  });
-});
+//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
+//   github.webContents.on('will-redirect', (e, callbackUrl) => {
+//     const matches = callbackUrl.match(/(?<=\?=).*/);
+//     const ssid = matches ? matches[0] : '';
+//     callbackUrl = callbackUrl.replace(/\?=.*/, '');
+//     let redirectUrl = 'app://rse/';
+//     if (isDev) {
+//       redirectUrl = 'http://localhost:8080/';
+//     }
+//     if (callbackUrl === redirectUrl) {
+//       dialog.showMessageBox({
+//         type: 'info',
+//         title: 'ReacType',
+//         icon: resolve('app/src/public/icons/png/256x256.png'),
+//         message: 'Github Oauth Successful!'
+//       });
+//       github.close();
+//       win.webContents
+//         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
+//         .then(result => win.loadURL(selfHost))
+//         .catch(err => console.log(err));
+//     }
+//   });
+// });
 
-ipcMain.on('tutorial', event => {
-  // create new browser window object with size, title, security options
-  const tutorial = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 661,
-    title: 'Tutorial',
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      nodeIntegrationInSubFrames: false,
-      contextIsolation: true,
-      enableRemoteModule: false,
-      zoomFactor: 1.0
-    }
-  });
-  // redirects to relevant server endpoint
-  //github.loadURL(`${serverUrl}/github`);
-  // show window
-  tutorial.show();
-  // if final callback is reached and we get a redirect from server back to our app, close oauth window
-  // github.webContents.on('will-redirect', (e, callbackUrl) => {
-  //   let redirectUrl = 'app://rse/';
-  //   if (isDev) {
-  //     redirectUrl = 'http://localhost:8080/';
-  //   }
-  //   if (callbackUrl === redirectUrl) {
-  //     dialog.showMessageBox({
-  //       type: 'info',
-  //       title: 'ReacType',
-  //       icon: resolve('app/src/public/icons/png/256x256.png'),
-  //       message: 'Github Oauth Successful!'
-  //     });
-  //     github.close();
-  //   }
-  // });
-});
+// ipcMain.on('tutorial', event => {
+//   // create new browser window object with size, title, security options
+//   const tutorial = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     minWidth: 661,
+//     title: 'Tutorial',
+//     webPreferences: {
+//       nodeIntegration: false,
+//       nodeIntegrationInWorker: false,
+//       nodeIntegrationInSubFrames: false,
+//       contextIsolation: true,
+//       enableRemoteModule: false,
+//       zoomFactor: 1.0
+//     }
+//   });
+//   // redirects to relevant server endpoint
+//   //github.loadURL(`${serverUrl}/github`);
+//   // show window
+//   tutorial.show();
+//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
+//   // github.webContents.on('will-redirect', (e, callbackUrl) => {
+//   //   let redirectUrl = 'app://rse/';
+//   //   if (isDev) {
+//   //     redirectUrl = 'http://localhost:8080/';
+//   //   }
+//   //   if (callbackUrl === redirectUrl) {
+//   //     dialog.showMessageBox({
+//   //       type: 'info',
+//   //       title: 'ReacType',
+//   //       icon: resolve('app/src/public/icons/png/256x256.png'),
+//   //       message: 'Github Oauth Successful!'
+//   //     });
+//   //     github.close();
+//   //   }
+//   // });
+// });
 
-//module.exports = dialog;
+module.exports = dialog;

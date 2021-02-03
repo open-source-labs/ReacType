@@ -1,18 +1,17 @@
+// Future developers: This file needs to move to right folder: src/components/right
+
 import React, { useState, useContext } from 'react';
 import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-
 import { makeStyles } from '@material-ui/core/styles';
 
+
 // The component panel section of the left panel displays all components and has the ability to add new components
-const ComponentPanel = (): JSX.Element => {
+const ComponentPanel = ({isThemeLight}): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
 
@@ -48,7 +47,7 @@ const ComponentPanel = (): JSX.Element => {
 
   // check if name of new component is the same as an existing component
   const checkNameDupe = (inputName: String) => {
-    let checkList = state.components.slice();
+    let checkList = state.components.slice(); // makes copy of components array
 
     // checks to see if inputted comp name already exists
     let dupe = false;
@@ -61,7 +60,7 @@ const ComponentPanel = (): JSX.Element => {
   };
 
   // "Root" components are not draggable into the main canvas
-  // If next.js mode is on, root components will be seperate pages
+  // If next.js or Gatsby.js mode is on, root components will be separate pages
   const toggleRootStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsRoot(isRoot ? false : true);
   };
@@ -69,9 +68,9 @@ const ComponentPanel = (): JSX.Element => {
   // Add a new component
   const createOption = (inputName: String) => {
     // format name so first letter is capitalized and there are no white spaces
-    let inputNameClean = inputName.replace(/\s+/g, '');
+    let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
     const formattedName =
-      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
+      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1); // capitalizes first letter
     // add new component to state
     dispatch({
       type: 'ADD COMPONENT',
@@ -83,13 +82,14 @@ const ComponentPanel = (): JSX.Element => {
     setCompName('');
   };
 
+  // checks whether component name includes any non-alphanumeric chars
   const alphanumeric = input => {
     let letterNumber = /^[0-9a-zA-Z]+$/;
     if (input.match(letterNumber)) return true;
     return false;
   };
 
-  const handleNameSubmit = () => {
+  const handleNameSubmit = () => { // creates a component if no error conditions triggered
     let letters = /[a-zA-Z]/;
     if (!compName.charAt(0).match(letters)) {
       triggerError('letters');
@@ -116,65 +116,91 @@ const ComponentPanel = (): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
-        <div>
-          <div className={classes.inputWrapper}>
-            <TextField
-              color={'primary'}
-              label="Component Name"
-              variant="outlined"
-              className={classes.inputField}
-              InputProps={{ className: classes.input }}
-              InputLabelProps={{ className: classes.inputLabel }}
-              value={compName}
-              error={errorStatus}
-              helperText={errorStatus ? errorMsg : ''}
-              onChange={handleNameInput}
-            />
-            <div className={classes.btnGroup}>
+          <h4 
+            className={isThemeLight ? `${classes.newComponent} ${classes.lightThemeFontColor}` : `${classes.newComponent} ${classes.darkThemeFontColor}`}
+          >
+            New Component
+          </h4>
+          {/* input for new component */}
+          <div style={{display: 'flex', justifyContent:'space-around', marginTop: '20px', alignItems:'baseline'}}>
+            <div style={{alignSelf:'center'}}>
+              <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+                Name:
+              </label>
+                <div className={classes.inputWrapper}>
+                    <input
+                    color={'primary'}
+                    variant="outlined"
+                    className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
+                    InputProps={{ className: classes.input }}
+                    value={compName}
+                    error={errorStatus}
+                    helperText={errorStatus ? errorMsg : ''}
+                  onChange={handleNameInput}
+              />
+              </div>
+            </div>
+           
+            <div className={classes.btnGroup} id="checkboxContainer" style={{marginBottom: '30px'}}>
               <FormControlLabel
                 value="top"
                 control={
                   <Checkbox
+                    className={isThemeLight ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}` : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`}
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
                   />
                 }
-                label={state.projectType === 'Next.js' ? 'Page' : 'Root'}
-                className={classes.rootCheckBoxLabel}
+                label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
+                className={isThemeLight ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}` : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`}
                 labelPlacement="top"
               />
             </div>
           </div>
-          <Button
-            className={classes.button}
-            color="primary"
+          <button
+            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+            id="addComponentButton"
             onClick={handleNameSubmit}
           >
-            ADD
-          </Button>
-        </div>
+            Create
+          </button>
+       
       </div>
+      <div className="lineDiv">
+          <hr
+            style={{
+              borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
+              borderStyle: 'solid',
+              height: '0.5px',
+              width: '100%',
+              marginLeft: '0px'
+            }}
+          />
+        </div>
       {/* Display all root components */}
+      {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
-        <h4>{state.projectType === 'Next.js' ? 'Pages' : 'Root components'}</h4>
+        {/* Heading just below ADD button */}
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
               return (
-                <ComponentPanelItem
+                  <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
                   key={`comp-${comp.id}`}
                   name={comp.name}
                   id={comp.id}
                   root={true}
-                />
+                  />
+               
               );
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4>Reusable components</h4>
+        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
         <Grid container direction="row" justify="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
@@ -186,14 +212,15 @@ const ComponentPanel = (): JSX.Element => {
                   name={comp.name}
                   id={comp.id}
                   root={false}
+                  isThemeLight={isThemeLight}
                 />
               );
             })}
         </Grid>
-        {/* Display navigation components - (only applies to next.js which has routing built in) */}
-        {state.projectType === 'Next.js' ? (
+        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
+        {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
           <React.Fragment>
-            <h4>Navigation</h4>
+            <h4>Routing</h4>
             <Grid
               container
               direction="row"
@@ -213,75 +240,104 @@ const ComponentPanel = (): JSX.Element => {
 
 const useStyles = makeStyles({
   inputField: {
-    marginTop: '15px'
+    marginTop: '10px',
+    borderRadius: '5px',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    margin: '0px 0px 0px 10px',
+    width: '140px',
+    height: '30px',
+    borderColor: 'white'
   },
   inputWrapper: {
-    // height: '115px',
     textAlign: 'center',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // paddingLeft: '35px',
-    marginBottom: '15px'
+    marginBottom: '15px',
   },
   addComponentWrapper: {
-    border: '1px solid rgba(70,131,83)',
-    padding: '20px',
-    margin: '20px'
+    padding: 'auto',
+    marginLeft: '21px',
+    display: 'inline-block',
+    width: '100%',
   },
-  rootCheckBox: {},
+  rootCheckBox: {
+    borderColor: '#186BB4',
+    padding: '0px'
+  },
   rootCheckBoxLabel: {
-    color: 'white'
+    borderColor: '#186BB4'
   },
   panelWrapper: {
     width: '100%',
-    marginTop: '15px'
+    marginTop: '15px', 
+    display: 'flex',
+    flexDirection:'column',
+    alignItems:'center'
   },
   panelWrapperList: {
-    // maxHeight: '400px',
     minHeight: '120px',
-    // overflowY: 'auto',
     marginLeft: '-15px',
-    marginRight: '-15px'
+    marginRight: '-15px',
+    width: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  dragComponents: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    width: '500px',
+    backgroundColor: '#186BB4',
+    border: '5px solid #186BB4'
   },
   panelSubheader: {
     textAlign: 'center',
     color: '#fff'
   },
   input: {
-    color: '#fff',
-    borderRadius: '5px',
-    paddingLeft: '15px',
-    paddingRight: '10px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    border: '1px solid rgba(51,235,145,0.75)',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+   
+  },
+  newComponent: {
+    color: '#155084',
+    fontSize: '95%',
+    marginBottom: '20px'
   },
   inputLabel: {
-    fontSize: '14px',
-    zIndex: 20,
-    color: '#fff',
-    marginTop: '-10px'
+    fontSize: '1em',
+    marginLeft: '10px'
   },
   btnGroup: {
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: '10px',
-    marginLeft: '10px'
   },
-  button: {
-    fontSize: '1rem',
+  addComponentButton: {
+    backgroundColor: 'transparent',
     height: '40px',
-    maginTop: '10px',
-    width: '100%',
-    // border: '1px solid rgba(70,131,83)',
-    backgroundColor: 'rgba(1,212,109,0.1)'
+    width: '100px',
+    fontFamily: '"Raleway", sans-serif',
+    fontSize: '90%',
+    textAlign: 'center',
+    margin: '-20px 0px 5px 150px',
+    borderStyle: 'none',
+    transition: '0.3s',
+    borderRadius: '25px',
   },
   rootToggle: {
-    color: '#01d46d',
+    color: '#696969',
     fontSize: '0.85rem'
+  },
+  lightThemeFontColor: {
+    color: '#186BB4'
+  },
+  darkThemeFontColor: {
+    color: '#fff'
   }
 });
 

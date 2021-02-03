@@ -1,10 +1,10 @@
 import React from 'react';
 
-import links2 from '../../../resources/route_links_tutorial_images/links2.png';
-import links3 from '../../../resources/route_links_tutorial_images/links3.png';
-import links4 from '../../../resources/route_links_tutorial_images/links4.png';
-import links6 from '../../../resources/route_links_tutorial_images/links6.png';
-import linksCanvas from '../../../resources/route_links_tutorial_images/links-canvas.png';
+import links2 from '../../../resources/route_links_tutorial_images/links2.PNG';
+import links3 from '../../../resources/route_links_tutorial_images/links3.PNG';
+import links4 from '../../../resources/route_links_tutorial_images/links4.PNG';
+import links6 from '../../../resources/route_links_tutorial_images/links6.PNG';
+import linksCanvas from '../../../resources/route_links_tutorial_images/links-canvas.PNG';
 
 const RouteLinks: React.FC<{
   classes: any;
@@ -14,7 +14,7 @@ const RouteLinks: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Next.js Route Links</h1>
       <hr/>
-      <h2>Route Links are only available for Next.js projects.</h2>
+      <h2>Route Links are only available for Next.js and Gatsby.js projects.</h2>
       <p className={classes.text}>Users are able to drag-and-drop 'Link' components onto the canvas which allow navigation to different <span className={classes.notLink} onClick={() => setPage('Pages')} >pages</span>.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={linksCanvas}></img>
@@ -36,7 +36,7 @@ const RouteLinks: React.FC<{
         <img className={classes.smallImg} src={links6}></img>
       </div>
       <hr/>
-      <p className={classes.text}>For more information on 'Link' for Next.js, please <a href="https://nextjs.org/docs/api-reference/next/link" target="_blank">visit the official documentation on nextjs.org.</a></p>
+      <p className={classes.text}>For more information on 'Link' for Next.js, please <a href="https://nextjs.org/docs/api-reference/next/link" target="_blank">visit the official documentation section at nextjs.org.</a> For more information on 'Link' for Gatsby.js, please <a href="https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-link/" target="_blank">visit the official documentation section at www.gatsbyjs.com.</a></p>
       <hr/>
     </div>
   );
