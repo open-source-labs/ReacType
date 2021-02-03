@@ -298,6 +298,7 @@ const reducer = (state: State, action: Action) => {
       
 
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
+      // we also add a separator before any new child
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
@@ -320,7 +321,8 @@ const reducer = (state: State, action: Action) => {
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
       let addChildArray = components[canvasFocus.componentId-1].children
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
-      if (directParent && directParent.name === 'separator') nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
+      if (directParent && directParent.name === 'separator') 
+        nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
       components[canvasFocus.componentId-1].children = addChildArray;
 
       parentComponent.code = generateCode(
