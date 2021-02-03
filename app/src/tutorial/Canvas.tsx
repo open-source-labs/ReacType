@@ -19,7 +19,7 @@ const Canvas: React.FC<{
       <hr/>
       <h1 className={classes.title}>Drag-n-Drop</h1>
       <p className={classes.text}>The drag-n-drop functionality is implemented for the canvas to be populated.<br/>
-      This functionality can be located on the entire left container of the application.<br/>
+      This functionality can be located in the left container of the application for elements, and the right container for components.<br/>
       Select a given <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Element</span>, custom <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Element</span>, or <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >reusable component</span>, click and hold to drag on to a reusable components or page.
       </p>
       <div className={classes.imgWrapper}>

@@ -119,10 +119,12 @@ const generateUnformattedCode = (
         // route links are for gastby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
           if (projectType === 'Next.js') {
-            return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`
+            // if route link points to index, to go endpoint / rather than /index
+            if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
+            else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
           } else if (projectType === 'Gatsby.js') {
-            return `<div><Link to="/${child.name}">${child.name}</Link></div>`
-            // return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`            
+            if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
+            else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
           } else return `<div><a>${child.name}</a></div>`
         }
       })
@@ -282,13 +284,11 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-
   } else if (process.env.NODE_ENV === 'production') {
     return window.api.formatCode(code);
   } else {
    return code;
   }
-
 };
 
 // generate code based on component hierarchy and then return the rendered code

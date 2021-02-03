@@ -44,14 +44,14 @@ const Customization: React.FC<{
           element
         </span>{' '}
         into the canvas, select the one that needs customizing simply by
-        clicking on it. Then, to give it a display feature of either a block,
-        inline-block, or flex styling, select from the drop down box.
+        clicking on it. Then, to give it block,
+        inline-block, or flex styling, select from the drop down box in the right container.
       </p>
       <div className={classes.imgWrapper}>
         <img src={flex} />
       </div>
       <p className={classes.text}>
-        If the display option 'flex' is chosen, few more sub-options are
+        If the display option 'flex' is chosen, a few more sub-options are
         displayed under the display option.
       </p>
       <hr />
@@ -119,7 +119,7 @@ const Customization: React.FC<{
       </div>
       <p className={classes.text}>
         Select an element, type in the color you wish to change the background
-        color to, and click save!
+        color to, and click save. The code preview will be updated to include your custom styling!
       </p>
       <hr />
     </div>

@@ -13,7 +13,7 @@ const Styling: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Styling Features</h1>
       <hr />
-      <h2>Code Preview Theme Changer</h2>
+      {/* <h2>Code Preview Theme Changer</h2>
       <div className={classes.imgWrapper}>
         <img src={theme} />
       </div>
@@ -21,15 +21,15 @@ const Styling: React.FC<{
         Select your favorite theme from the drop down menu to personalize your
         view of the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span>!
       </p>
-      <hr />
-      <h2>Lighting Mode</h2>
+      <hr /> */}
+      <h2>Dark Mode</h2>
       <div className={classes.imgWrapper}>
         <img src={lighting} />
       </div>
       <p className={classes.text}>
-        Spice up the app by toggling between different lighting modes! The
-        lighting mode will change the background color of the app as well as the
-        background color of the <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span>.
+        Spice up the app by switching to DARK MODE! DARK
+        MODE will change the background and text colors of the app.
+        {/* background color of the <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span>. */}
       </p>
       <hr />
       <h2>Resize Code Preview & Component Tree</h2>
@@ -46,7 +46,7 @@ const Styling: React.FC<{
         <img className={classes.img} src={codeChange} />
       </div>
       <p className={classes.text}>
-        Change your code before exporting and see the changes in your exported
+        Manually change your code before exporting and see the changes in your exported
         file!
       </p>
       <hr />
