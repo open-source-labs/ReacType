@@ -6,7 +6,7 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import RightContainer from './RightContainer';
 import { theme1, theme2 } from '../public/styles/theme';
-import { makeStyles } from '@material-ui/core/styles';
+
 
 
 export const styleContext = createContext({

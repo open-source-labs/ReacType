@@ -19,7 +19,7 @@ const HTMLTypes: HTMLType[] = [
     placeHolderLong: '',
     icon: HeaderIcon
   },
-  // do not move this separator element out of order in this array
+  // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]'
   {
     id: 1000,

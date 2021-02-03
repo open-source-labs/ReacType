@@ -1,5 +1,4 @@
 import React from 'react';
-
 import defaultElements from '../../../resources/html_elements_tutorial_images/defaultElements.png';
 import createNew from '../../../resources/html_elements_tutorial_images/createNew.png';
 import newTag from '../../../resources/html_elements_tutorial_images/newTag.png';
@@ -29,12 +28,6 @@ const HtmlElements: React.FC<{
         <img className={classes.smallImg} src={createNew} />
       </div>
       <hr/>
-      {/* <h2>Delete Buttons</h2>
-      <p className={classes.text}>Delete buttons that you don't need.</p>
-      <div className={classes.imgWrapper} >
-        <img className={classes.smallImg} src={newTag} />
-      </div>
-      <hr/> */}
       <h2>Persisting Elements</h2>
       <p className={classes.text}>Saving the project (available only to users) will allow you to save custom elements that you created. However, when opening a new project, only the tags saved for each specific project will show up again.<br/>
       In order to save custom tags across multiple projects, we recommend creating custom tags first, then saving multiple projects with the custom tags. This will allow access to custom tags across multiple projects.</p>

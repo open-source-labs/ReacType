@@ -2,7 +2,6 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
-
 import App from './components/App.tsx';
 import SignIn from './components/login/SignIn.tsx';
 import SignUp from './components/login/SignUp.tsx';
