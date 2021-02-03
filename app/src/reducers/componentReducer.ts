@@ -13,7 +13,7 @@ let separator = initialState.HTMLTypes[1];
  
 // }
 const reducer = (state: State, action: Action) => {
-  // if the project type is set as Next.js, next component code should be generated
+  // if the project type is set as Next.js or Gatsby.js, next/gatsby component code should be generated
   // otherwise generate classic react code
 
   // find top-level component given a component id

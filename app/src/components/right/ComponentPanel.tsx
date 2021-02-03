@@ -5,12 +5,10 @@ import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
-import { flexbox } from '@material-ui/system';
+
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
