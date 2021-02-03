@@ -16,7 +16,7 @@ In other words, **you can draw prototypes and export React / TypeScript code!**
 **New with version 5.0:**
 
 - Elements may be added to components in any location, rather than only at the bottom
-- Compatability with Gatsby.js
+- Compatibility with Gatsby.js
 - Modernized and cleaner UI, including enhanced dark mode
 - Tutorial has been updated to reflect other modifications
 
