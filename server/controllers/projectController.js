@@ -1,4 +1,5 @@
 const { Projects } = require('../models/reactypeModels');
+
 const projectController = {};
 
 // saveProject saves current workspace to database
@@ -21,14 +22,13 @@ projectController.saveProject = (req, res, next) => {
         return next({
           log: `Error in projectController.saveProject: ${err}`,
           message: {
-            err: `Error in projectController.saveProject, check server logs for details`
-          }
+            err: 'Error in projectController.saveProject, check server logs for details',
+          },
         });
-      } else {
-        res.locals.savedProject = result;
-        return next();
       }
-    }
+      res.locals.savedProject = result;
+      return next();
+    },
   );
 };
 
@@ -40,14 +40,13 @@ projectController.getProjects = (req, res, next) => {
       return next({
         log: `Error in projectController.getProjects: ${err}`,
         message: {
-          err: `Error in projectController.getProjects, check server logs for details`
-        }
+          err: 'Error in projectController.getProjects, check server logs for details',
+        },
       });
-    } else {
-      // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map(elem => elem.project);
-      return next();
     }
+    // so it returns each project like it is in state, not the whole object in DB
+    res.locals.projects = projects.map(elem => elem.project);
+    return next();
   });
 };
 
@@ -61,13 +60,12 @@ projectController.deleteProject = (req, res, next) => {
       return next({
         log: `Error in projectController.deleteProject: ${err}`,
         message: {
-          err: `Error in projectController.deleteProject, check server logs for details`
-        }
+          err: 'Error in projectController.deleteProject, check server logs for details',
+        },
       });
-    } else {
-      res.locals.deleted = deleted;
-      return next();
     }
+    res.locals.deleted = deleted;
+    return next();
   });
 };
 

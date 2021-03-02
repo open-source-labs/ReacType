@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { Book, TitleOutlined } = require('@material-ui/icons');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
@@ -19,8 +20,8 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ['http://localhost:8080', 'app://rse'],
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
 
 // TODO: github Oauth still needs debugging
@@ -50,19 +51,32 @@ app.use(
 // );
 
 
+/*
+GraphQl Router
+*/
+/* ******************************************************************* */
+const { ApolloServer } = require('apollo-server-express');
 
+const query = require('./graphQL/resolvers/query');
 
+const mutation = require('./graphQL/resolvers/mutation');
 
+const resolvers = {
+  Query: query,
+  Mutation: mutation,
+};
 
+const { typeDefs } = require('./graphQL/typeDefs');
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+/** ****************************************************************** */
 
 app.post(
   '/signup',
   userController.createUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => {
-    return res.status(200).json({ sessionId: res.locals.ssid });
-  }
+  (req, res) => res.status(200).json({ sessionId: res.locals.ssid }),
 );
 
 app.post(
@@ -70,9 +84,7 @@ app.post(
   userController.verifyUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => {
-    return res.status(200).json({ sessionId: res.locals.ssid });
-  }
+  (req, res) => res.status(200).json({ sessionId: res.locals.ssid }),
 );
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
@@ -80,33 +92,25 @@ app.post(
   '/saveProject',
   sessionController.isLoggedIn,
   projectController.saveProject,
-  (req, res) => {
-    return res.status(200).json(res.locals.savedProject);
-  }
+  (req, res) => res.status(200).json(res.locals.savedProject),
 );
 
 app.post(
   '/getProjects',
   sessionController.isLoggedIn,
   projectController.getProjects,
-  (req, res) => {
-    return res.status(200).json(res.locals.projects);
-  }
+  (req, res) => res.status(200).json(res.locals.projects),
 );
 
 app.delete(
   '/deleteProject',
   sessionController.isLoggedIn,
   projectController.deleteProject,
-  (req, res) => {
-    return res.status(200).json(res.locals.deleted);
-  }
+  (req, res) => res.status(200).json(res.locals.deleted),
 );
 
 // catch-all route handler
-app.use('*', (req, res) => {
-  return res.status(404).send('Page not found');
-});
+app.use('*', (req, res) => res.status(404).send('Page not found'));
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -114,7 +118,7 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware',
     status: 500,
-    message: { err: 'An error occurred' }
+    message: { err: 'An error occurred' },
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
