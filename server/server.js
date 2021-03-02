@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { Book, TitleOutlined } = require('@material-ui/icons');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
@@ -53,64 +54,22 @@ app.use(
 /*
 GraphQl Router
 */
-/*********************************************************************/
-// const { ApolloServer } = require('apollo-server-express');
+/* ******************************************************************* */
+const { ApolloServer } = require('apollo-server-express');
 
-// const { typeDefs } = require('./graphQL/typedef');
-// const resolvers = require('./graphQL/resolvers');
+const query = require('./graphQL/resolvers/query');
 
-// const server = new ApolloServer({ typeDefs, resolvers });
-// server.applyMiddleware({ app });
+const mutation = require('./graphQL/resolvers/mutation');
 
-
-
-const { gql } = require('apollo-server-express');
-const { graphqlHTTP } = require('express-graphql');
-const { buildSchema } = require('graphql');
-const books = require('./graphQL/books.json');
-
-const rootValue = {
-  books: () => books,
+const resolvers = {
+  Query: query,
+  Mutation: mutation,
 };
 
-const schema = buildSchema(`
-# Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-# This "Book" type defines the queryable fields for every book in our data source.
-type Book {
-  title: String
-  author: String
-}
-
-type Author {
-  name: String
-  books: [Book]
-}  
-
-# The "Query" type is special: it lists all of the available queries that
-# clients can execute, along with the return type for each. In this
-# case, the "books" query returns an array of zero or more Books (defined above).
-type Query {
-  books: [Book]
-  authors: [Author]
-}
-
-type Mutation {
-  addBook(title: String, author: String): Book
-}
-`);
-
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    rootValue,
-    graphiql: { headerEditorEnabled: true },
-  }),
-);
-
-
-/*********************************************************************/
+const { typeDefs } = require('./graphQL/typeDefs');
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+/** ****************************************************************** */
 
 app.post(
   '/signup',
