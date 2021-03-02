@@ -54,22 +54,61 @@ app.use(
 GraphQl Router
 */
 /*********************************************************************/
-const { ApolloServer, gql } = require('apollo-server-express');
+// const { ApolloServer } = require('apollo-server-express');
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+// const { typeDefs } = require('./graphQL/typedef');
+// const resolvers = require('./graphQL/resolvers');
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
+// const server = new ApolloServer({ typeDefs, resolvers });
+// server.applyMiddleware({ app });
+
+
+
+const { gql } = require('apollo-server-express');
+const { graphqlHTTP } = require('express-graphql');
+const { buildSchema } = require('graphql');
+const books = require('./graphQL/books.json');
+
+const rootValue = {
+  books: () => books,
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
+const schema = buildSchema(`
+# Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+# This "Book" type defines the queryable fields for every book in our data source.
+type Book {
+  title: String
+  author: String
+}
+
+type Author {
+  name: String
+  books: [Book]
+}  
+
+# The "Query" type is special: it lists all of the available queries that
+# clients can execute, along with the return type for each. In this
+# case, the "books" query returns an array of zero or more Books (defined above).
+type Query {
+  books: [Book]
+  authors: [Author]
+}
+
+type Mutation {
+  addBook(title: String, author: String): Book
+}
+`);
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    rootValue,
+    graphiql: { headerEditorEnabled: true },
+  }),
+);
+
 
 /*********************************************************************/
 

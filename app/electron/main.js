@@ -1,6 +1,6 @@
 /*
 @description: main.js is what controls the lifecycle of the electron application from initialization to termination.
-@actions: codes for Github Oauth has been commented out because of lack of functionality. 
+@actions: codes for Github Oauth has been commented out because of lack of functionality.
 */
 require('dotenv').config();
 const path = require('path');
@@ -20,7 +20,7 @@ const { resolve } = require('app-root-path');
 // to install react dev tool extension
 const {
   default: installExtension,
-  REACT_DEVELOPER_TOOLS
+  REACT_DEVELOPER_TOOLS,
 } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
@@ -30,8 +30,7 @@ const Protocol = require('./protocol');
 const MenuBuilder = require('./menu');
 
 // mode that the app is running in
-const isDev =
-  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -60,7 +59,7 @@ async function createWindow() {
     height: 1080,
     minWidth: 980,
     // window title
-    title: `ReacType`,
+    title: 'ReacType',
     // the browser window will not display initially as it's loading
     // once the browser window renders, a function is called below  that hides the splash screen and displays the browser window
     show: false,
@@ -83,8 +82,8 @@ async function createWindow() {
       enableRemoteModule: false,
       // path of preload script. preload is how the renderer page will have access to electron functionality
       preload: path.join(__dirname, 'preload.js'),
-      nativeWindowOpen: true
-    }
+      nativeWindowOpen: true,
+    },
   });
 
   // Splash screen that appears while loading
@@ -99,7 +98,7 @@ async function createWindow() {
     logo: resolve('app/src/public/icons/png/64x64.png'),
     color: '#3BBCAF',
     website: 'www.reactype.io',
-    text: 'Initializing ...'
+    text: 'Initializing ...',
   });
 
   // Load app
@@ -122,7 +121,7 @@ async function createWindow() {
   if (isDev) {
     win.webContents.once('dom-ready', () => {
       debug();
-      //win.webContents.openDevTools();
+      // win.webContents.openDevTools();
     });
   }
 
@@ -147,13 +146,13 @@ async function createWindow() {
   ses
     .fromPartition(partition)
     .setPermissionRequestHandler((webContents, permission, callback) => {
-      let allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
+      const allowedPermissions = []; // Full list here: https://developer.chrome.com/extensions/declare_permissions#manifest
 
       if (allowedPermissions.includes(permission)) {
         callback(true); // Approve permission request
       } else {
         console.error(
-          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
+          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`,
         );
 
         callback(false); // Deny
@@ -165,10 +164,10 @@ async function createWindow() {
   // we could use this over _all_ urls
   ses
     .fromPartition(partition)
-    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
+    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, (listener) => {
       if (listener.url.indexOf('http://') >= 0) {
         listener.callback({
-          cancel: true
+          cancel: true,
         });
       }
     });
@@ -185,9 +184,9 @@ protocol.registerSchemesAsPrivileged([
       standard: true,
       secure: true,
       allowServiceWorkers: true,
-      supportFetchAPI: true
-    }
-  }
+      supportFetchAPI: true,
+    },
+  },
 ]);
 
 // This method will be called when Electron has finished
@@ -223,16 +222,15 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://developer.mozilla.org',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`
+        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`,
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
-      return;
     }
   });
 
@@ -247,20 +245,19 @@ app.on('web-contents-created', (event, contents) => {
       'https://developer.mozilla.org',
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
     ];
 
     // Log and prevent the app from redirecting to a new page
     if (
-      !validOrigins.includes(parsedUrl.origin) &&
-      !validOrigins.includes(parsedUrl.href)
+      !validOrigins.includes(parsedUrl.origin)
+      && !validOrigins.includes(parsedUrl.href)
     ) {
       console.error(
-        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
+        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`,
       );
 
       event.preventDefault();
-      return;
     }
   });
 
@@ -290,16 +287,15 @@ app.on('web-contents-created', (event, contents) => {
       'https://github.com',
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
+        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`,
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
-      return;
     }
   });
 });
@@ -331,15 +327,15 @@ app.on('remote-get-current-web-contents', (event, webContents) => {
 // When a user selects "Export project", a function (chooseAppDir loaded via preload.js)
 // is triggered that sends a "choose_app_dir" message to the main process
 // when the "choose_app_dir" message is received it triggers this event listener
-ipcMain.on('choose_app_dir', event => {
+ipcMain.on('choose_app_dir', (event) => {
   // dialog displays the native system's dialogue for selecting files
   // once a directory is chosen send a message back to the renderer with the path of the directory
   dialog
     .showOpenDialog(win, {
       properties: ['openDirectory'],
-      buttonLabel: 'Export'
+      buttonLabel: 'Export',
     })
-    .then(directory => {
+    .then((directory) => {
       if (!directory) return;
       event.sender.send('app_dir_selected', directory.filePaths[0]);
     })

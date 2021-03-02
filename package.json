@@ -38,7 +38,7 @@
     "dev": "concurrently --success first \"nodemon server/server.js\" \"cross-env NODE_ENV=development electron .\" \"cross-env NODE_ENV=development npm run server\" -k",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"cross-env NODE_ENV=production npm run server\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
-    "prod": "npm run prod-build && electron . --no-sandbox",
+    "prod": "npm run prod-build && electron . --no-sandbox", 
     "pack": "electron-builder --dir",
     "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
