@@ -9,11 +9,18 @@ import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
 
+/*
+*  Dashboard
+*/
+import Dashboard from './Dashboard/FormsContainer.jsx';
+import styles from './Dashboard/styles.css';
+
+
 import {
   HashRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -36,6 +43,7 @@ ReactDOM.render(
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/password" component={FBPassWord} />
       <PrivateRoute exact path="/" component={App} />
+      <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/tutorial" component={Tutorial} />
       <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
     </Switch>

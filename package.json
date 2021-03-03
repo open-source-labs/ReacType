@@ -46,7 +46,8 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {
     "type": "git",
@@ -198,7 +199,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
     "url-loader": "^4.1.0",
-    "webpack": "^4.42.0",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
