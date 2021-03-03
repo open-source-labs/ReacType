@@ -13,6 +13,10 @@ const {
   ipcMain,
 } = require('electron');
 
+// ELECTRON WINDOW MANAGER
+const windowManager = require('electron-window-manager');
+
+
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
@@ -55,8 +59,10 @@ async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     // full screen
-    width: 1920,
-    height: 1080,
+    // width: 1920,
+    // height: 1080,
+    width: 1024,
+    height: 576,
     minWidth: 980,
     // window title
     title: 'ReacType',
@@ -193,6 +199,17 @@ protocol.registerSchemesAsPrivileged([
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
+
+// TRYING ELECTRON-WINDOW-MANAGER When the application is ready
+
+// app.on('ready', () => {
+//   windowManager.setDefaultSetup({'width': 800, 'height': 450, 'position': 'right'});
+//   // Open Dashboard window
+//   const dashboard = windowManager.open('home', 'Welcome ...', 'http://localhost:5000/home.html');
+//   dashboard.toggleDevTools(false);
+//   // Load ReacType window
+//   createWindow();
+// });
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

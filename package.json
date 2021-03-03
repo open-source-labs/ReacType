@@ -38,7 +38,7 @@
     "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"nodemon server/server.js\" ",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"nodemon server/server.js\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
-    "prod": "npm run prod-build && electron . --no-sandbox", 
+    "prod": "npm run prod-build && electron . --no-sandbox",
     "pack": "electron-builder --dir",
     "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
@@ -46,7 +46,8 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {
     "type": "git",
@@ -122,6 +123,7 @@
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-splashscreen": "^1.0.0",
+    "electron-window-manager": "^1.0.6",
     "enzyme": "^3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
     "express-graphql": "^0.12.0",
@@ -197,7 +199,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
     "url-loader": "^4.1.0",
-    "webpack": "^4.42.0",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"

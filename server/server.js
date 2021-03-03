@@ -1,5 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+
 const cors = require('cors');
 const { Book, TitleOutlined } = require('@material-ui/icons');
 const userController = require('./controllers/userController');
@@ -70,6 +71,13 @@ const { typeDefs } = require('./graphQL/typeDefs');
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 /** ****************************************************************** */
+
+// const path = require('path');
+// // Serve Static Assets
+// app.use(express.static(path.resolve(__dirname, './assets')));
+/* ******************************************************************* */
+
+
 
 app.post(
   '/signup',
