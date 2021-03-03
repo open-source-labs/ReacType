@@ -1,3 +1,6 @@
+const windowManager = require('electron-window-manager');
+const electron = require('electron');
+
 /*
 @description: main.js is what controls the lifecycle of the electron application from initialization to termination.
 @actions: codes for Github Oauth has been commented out because of lack of functionality.
