@@ -30,8 +30,8 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // child is a non-nestable type of HTML element (everything except for divs)
-    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000) {
+    // child is a non-nestable type of HTML element (everything except for divs and forms)
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2) {
       return (
         <DirectChildHTML
           childId={childId}
@@ -43,8 +43,8 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // child is a nestable type of HTML element (divs)
-    else if (type === 'HTML Element' && typeId === 11) {
+    // child is a nestable type of HTML element (divs and forms)
+    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2)) {
       return (
         <DirectChildHTMLNestable
           childId={childId}

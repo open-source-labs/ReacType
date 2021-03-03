@@ -8,7 +8,7 @@ const initialState: State = {
   components: [
     {
       id: 1,
-      name: 'index',
+      name: 'App',
       style: {},
       code: '<div>Drag in a component or HTML element into the canvas!</div>',
       children: [],
