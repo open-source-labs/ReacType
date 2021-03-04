@@ -34,6 +34,7 @@ const generateUnformattedCode = (
     // declare an array of enriched children
 
     const enrichedChildren = currentComponent.children.map((elem: any) => {
+      //enrichedChildren is iterating through the children array
       const child = { ...elem };
 
       // check if child is a component
@@ -52,7 +53,7 @@ const generateUnformattedCode = (
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' ||
+          referencedHTML.tag === 'separator' || 
           referencedHTML.tag === 'form'
         ) {
           child.children = getEnrichedChildren(child);

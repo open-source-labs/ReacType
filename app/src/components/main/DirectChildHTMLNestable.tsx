@@ -12,11 +12,13 @@ function DirectChildHTMLNestable({
   type,
   typeId,
   style,
-  children
+  children,
+  name,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
-
+  // console.log('name', name)
+  // console.log('children', children)
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
@@ -31,7 +33,8 @@ function DirectChildHTMLNestable({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId
+      instanceTypeId: typeId,
+      name: name //added code <--
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
@@ -58,7 +61,7 @@ function DirectChildHTMLNestable({
           payload: {
             type: item.instanceType,
             typeId: item.instanceTypeId,
-            childId: childId
+            childId: childId,
           }
         });
       }
@@ -68,7 +71,7 @@ function DirectChildHTMLNestable({
           type: 'CHANGE POSITION',
           payload: {
             currentChildId: item.childId,
-            newParentChildId: childId
+            newParentChildId: childId,
           }
         });
       }
