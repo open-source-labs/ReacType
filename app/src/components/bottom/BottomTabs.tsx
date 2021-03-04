@@ -25,6 +25,7 @@ const BottomTabs = () => {
   
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
+    // console.log('value ==>', value) // value is 'code';
     setTab(value);
   };
  // Allows users to toggle project between "next.js" and "Classic React"
@@ -157,3 +158,4 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default BottomTabs;
+

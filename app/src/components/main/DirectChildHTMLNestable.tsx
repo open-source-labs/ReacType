@@ -111,6 +111,7 @@ function DirectChildHTMLNestable({
   drag(drop(ref));
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
+      {HTMLType.placeHolderShort}
       {renderChildren(children)}
     </div>
   );

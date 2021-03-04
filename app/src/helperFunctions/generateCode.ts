@@ -52,7 +52,8 @@ const generateUnformattedCode = (
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator'
+          referencedHTML.tag === 'separator' ||
+          referencedHTML.tag === 'form'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -95,9 +96,9 @@ const generateUnformattedCode = (
               child.tag
             }>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag}${formatStyles(child.style)}>FORM</${
-              child.tag
-            }>`;
+            return `<${child.tag}${formatStyles(
+              child.style
+              )}>${writeNestedElements(child.children)}</${child.tag}>`;
           } else if (child.tag === 'p') {
             return `<${child.tag}${formatStyles(
               child.style
