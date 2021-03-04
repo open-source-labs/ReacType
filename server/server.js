@@ -72,11 +72,6 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 /** ****************************************************************** */
 
-// const path = require('path');
-// // Serve Static Assets
-// app.use(express.static(path.resolve(__dirname, './assets')));
-/* ******************************************************************* */
-
 
 
 app.post(
