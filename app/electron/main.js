@@ -1,4 +1,4 @@
-const windowManager = require('electron-window-manager');
+
 const electron = require('electron');
 
 /*
@@ -16,8 +16,6 @@ const {
   ipcMain,
 } = require('electron');
 
-// ELECTRON WINDOW MANAGER
-const windowManager = require('electron-window-manager');
 
 
 // The splash screen is what appears while the app is loading
@@ -130,7 +128,7 @@ async function createWindow() {
   if (isDev) {
     win.webContents.once('dom-ready', () => {
       debug();
-      // win.webContents.openDevTools();
+      win.webContents.openDevTools();
     });
   }
 
