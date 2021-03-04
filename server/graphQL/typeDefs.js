@@ -21,6 +21,7 @@ const typeDefs = gql`
   }
   type Test {
     description: String
+    id: ID
   }
   type Query {
     readTest(id: String): Test
