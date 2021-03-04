@@ -1,58 +1,23 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-  ApolloClient, InMemoryCache, gql, ApolloProvider, useQuery,
-} from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import Form from './Form.jsx';
 
+// Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
+// 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
+// 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
 const FormsContainer = () => {
-  // const [tests, updateTests] = useState([]);
-  /* GET using fetch */
-  // useEffect(() => {
-  //   console.log('inside useEffect');
-
-  //   fetch('http://localhost:5000/graphql', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Accept: 'application/json',
-  //     },
-  //     body: JSON.stringify({ query: '{readAllTests { description }}' }),
-  //   })
-  //     .then(res => res.json())
-  //     .then((resp) => {
-  //       // console.log('resp: ', resp);
-  //       const myTests = resp.data.readAllTests;
-  //       console.log('myTests: ', myTests);
-  //       updateTests(myTests);
-  //     })
-  //     .catch(err => console.log('error in readAllTests', err));
-  // }, []);
-
-
-  /* RULES OF HOOKS: DO NOT use hooks within hooks or conditionals */
-  // useEffect(() => {
-  //   const GET_TESTS = gql`query {readAllTests { description }}`;
-  //   const { loading, error, data } = useQuery(GET_TESTS);
-  //   if (loading) console.log('Loading...');
-  //   if (error) console.log(`Error :${error}`);
-  //   const myTests = data.readAllTests;
-  //   console.log('myTests: ', myTests);
-  //   updateTests(myTests);
-  // }, []);
-
-
+  // define the graphQL query string
   const GET_TESTS = gql`query {readAllTests { description id }}`;
-
+  // useQuery hook abstracts fetch request
   const { loading, error, data } = useQuery(GET_TESTS);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}</p>;
-
+  // based on resolver(readAllTests) for this query, the data is stored in the data object with the key 'readAllTests'
   const myTests = data.readAllTests;
-  console.log('myTests: ', myTests);
-
+  // generate an array of Form components based on data
   const forms = myTests.map((test, index) => <Form key={index} id={test.id} description={test.description} />);
 
   return (

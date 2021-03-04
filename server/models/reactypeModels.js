@@ -66,14 +66,17 @@ const projectSchema = new Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Test schema for implementing GraphQL
 const testSchema = new Schema({
   name: String,
 });
+const Tests = mongoose.model('Tests', testSchema);
+/* *********************************************** */
+
 
 const Users = mongoose.model('Users', userSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
-const Tests = mongoose.model('Tests', testSchema);
 
 module.exports = {
   Users, Sessions, Projects, Tests,

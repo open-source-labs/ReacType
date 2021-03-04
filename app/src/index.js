@@ -8,12 +8,6 @@ import SignUp from './components/login/SignUp.tsx';
 import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
-/*
-*  Dashboard
-*/
-import Dashboard from './Dashboard/FormsContainer.jsx';
-import styles from './Dashboard/styles.css';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import {
   HashRouter as Router,
@@ -22,10 +16,28 @@ import {
   Switch,
 } from 'react-router-dom';
 
+
+/*
+*  Dashboard
+*/
+import Dashboard from './Dashboard/FormsContainer.jsx';
+import styles from './Dashboard/styles.css';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache()
+});
+
+/*
+*  
+*/
+
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={ (props) => {
       return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
         <Component {...props} />
       ) : (
@@ -36,24 +48,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 
-const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql',
-  cache: new InMemoryCache()
-});
-
 ReactDOM.render(
   <ApolloProvider client={client}>
-  <Router>
-    <Switch>
-      <Route exact path="/login" component={SignIn} />
-      <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/password" component={FBPassWord} />
-      <PrivateRoute exact path="/" component={App} />
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/tutorial" component={Tutorial} />
-      <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
-    </Switch>
-  </Router>
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/password" component={FBPassWord} />
+        <PrivateRoute exact path="/" component={App} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/tutorial" component={Tutorial} />
+        <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
+      </Switch>
+    </Router>
   </ ApolloProvider>,
   document.getElementById('app')
 );

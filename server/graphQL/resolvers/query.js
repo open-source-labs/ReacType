@@ -1,5 +1,8 @@
 const { Tests } = require('../../models/reactypeModels');
 
+// Link to Apollo Query Types:
+// https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
+
 module.exports = {
   readTest: async (parent, args) => {
     const resp = await Tests.findOne({ _id: args.id });

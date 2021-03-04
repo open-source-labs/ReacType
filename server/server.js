@@ -58,16 +58,21 @@ GraphQl Router
 /* ******************************************************************* */
 const { ApolloServer } = require('apollo-server-express');
 
+// Query resolvers
 const query = require('./graphQL/resolvers/query');
-
+// Mutation resolvers
 const mutation = require('./graphQL/resolvers/mutation');
 
+// package resolvers into one variable to pass to Apollo Server
 const resolvers = {
   Query: query,
   Mutation: mutation,
 };
 
+// schemas used for graphQL
 const { typeDefs } = require('./graphQL/typeDefs');
+
+// instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 /** ****************************************************************** */
