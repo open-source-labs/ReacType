@@ -23,3 +23,8 @@ $button-blue: #24BCFF; */
   width: 250px;
 }
 
+.formContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+

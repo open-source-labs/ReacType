@@ -8,11 +8,11 @@ import Form from './Form.jsx';
 
 
 const FormsContainer = () => {
-  // const [tests, updateTests] = useState([]);
+  
   /* GET using fetch */
+  // const [tests, updateTests] = useState([]);
   // useEffect(() => {
   //   console.log('inside useEffect');
-
   //   fetch('http://localhost:5000/graphql', {
   //     method: 'POST',
   //     headers: {
@@ -32,16 +32,9 @@ const FormsContainer = () => {
   // }, []);
 
 
-  /* RULES OF HOOKS: DO NOT use hooks within hooks or conditionals */
-  // useEffect(() => {
-  //   const GET_TESTS = gql`query {readAllTests { description }}`;
-  //   const { loading, error, data } = useQuery(GET_TESTS);
-  //   if (loading) console.log('Loading...');
-  //   if (error) console.log(`Error :${error}`);
-  //   const myTests = data.readAllTests;
-  //   console.log('myTests: ', myTests);
-  //   updateTests(myTests);
-  // }, []);
+  /* RULES OF HOOKS: DO NOT useState and useQuery together */
+  /* updateTest triggers re-rendering which in turn triggers useQuery and create an infinite loop. Just use the */
+  /* NOTE: useEffect is use for async function such as fetching. When using useQuery, loading is immediately return and the component will automatically render when the result is returned */
 
 
   const GET_TESTS = gql`query {readAllTests { description id }}`;
@@ -60,7 +53,9 @@ const FormsContainer = () => {
         <Link to="/">
           <button type="button">Go Back</button>
         </Link>
-        {forms}
+        <div className = "formContainer">
+          {forms}
+        </div>
       </div>
   );
 };
