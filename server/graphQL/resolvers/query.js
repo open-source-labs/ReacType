@@ -3,12 +3,12 @@ const { Tests } = require('../../models/reactypeModels');
 module.exports = {
   readTest: async (parent, args) => {
     const resp = await Tests.findOne({ _id: args.id });
-    if (resp) return { description: args.id };
+    if (resp) return { description: resp.name };
     return { description: 'Error reading' };
   },
   readAllTests: async () => {
     const resp = await Tests.find({});
-    console.log('resp', resp);
+    // console.log('resp', resp);
     if (resp) {
       return resp.map(elem => ({ description: elem.name }));
     }
