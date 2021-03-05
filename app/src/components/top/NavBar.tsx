@@ -168,7 +168,7 @@ export default function NavBar(props) {
           </Typography>
 
           {/* ==================================Dashboard Button================================================== */}
-          <Link to='/dashboard'>
+          <Link to='/dashboard' style ={ {textDecoration: 'none'} }>
             <Button
               variant="contained"
               color="primary"

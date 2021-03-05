@@ -12,7 +12,7 @@ const FormsContainer = () => {
   // define the graphQL query string
   const GET_TESTS = gql`query {readAllTests { description id likes }}`;
   // useQuery hook abstracts fetch request
-  const { loading, error, data } = useQuery(GET_TESTS);
+  const { loading, error, data } = useQuery(GET_TESTS, { pollInterval: 1000	} );
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}</p>;
   // based on resolver(readAllTests) for this query, the data is stored in the data object with the key 'readAllTests'
