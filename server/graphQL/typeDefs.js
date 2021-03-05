@@ -9,16 +9,17 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
 
   type Mutation {
-    addTest(name: String): Test
-    updateTest(id: String, name: String): Test
-    deleteTest(id: String): Test
+    addTest(name: String, likes: Int): Test
+    updateTest(id: ID, name: String, likes: Int): Test
+    deleteTest(id: ID): Test
   }
   type Test {
     description: String
+    likes: Int
     id: ID
   }
   type Query {
-    readTest(id: String): Test
+    readTest(id: ID): Test
     readAllTests: [Test]
   }
 `;

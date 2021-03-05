@@ -69,6 +69,7 @@ const projectSchema = new Schema({
 // Test schema for implementing GraphQL
 const testSchema = new Schema({
   name: String,
+  likes: Number,
 });
 const Tests = mongoose.model('Tests', testSchema);
 /* *********************************************** */
