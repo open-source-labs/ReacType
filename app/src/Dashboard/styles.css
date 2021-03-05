@@ -1,0 +1,25 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Oswald&display=swap');
+
+
+$primary-black: #22292f;
+$secondary-black: #606f7b;
+$teriary-grey: #f0f0f0;
+$light-grey: #bfcbd4;
+$light-blue: #759cc9;
+$button-blue: #24BCFF; */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid  #f0f0f0;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  margin: 5px;
+  border-radius: 5px;
+  color: #606f7b;
+  align-items: center;
+  height: 300px;
+  justify-content: min;
+  width: 250px;
+}
+

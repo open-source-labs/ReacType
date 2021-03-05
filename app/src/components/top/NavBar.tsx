@@ -28,6 +28,14 @@ import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 
+
+
+// ROUTING TO DASHBOARD 
+import { Link } from "react-router-dom";
+
+
+
+
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -158,6 +166,21 @@ export default function NavBar(props) {
           <Typography variant="h6" style={{marginLeft: '1rem'}} className={classes.title}>
             ReacType
           </Typography>
+
+          {/* ==================================Dashboard Button================================================== */}
+          <Link to='/dashboard'>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{minWidth: '137.69px'}}
+              className="navbarButton" 
+              id="navbarButton1"
+            >
+              Dashboard
+            </Button>
+          </Link>
+          {/* ==================================Dashboard Button================================================== */}
+
           <Button 
             variant="contained"
             color="primary"

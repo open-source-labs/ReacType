@@ -61,13 +61,23 @@ const projectSchema = new Schema({
   project: { type: Object, required: true },
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'Users'
+    ref: 'Users',
   },
   createdAt: { type: Date, default: Date.now }
 });
+
+// Test schema for implementing GraphQL
+const testSchema = new Schema({
+  name: String,
+});
+const Tests = mongoose.model('Tests', testSchema);
+/* *********************************************** */
+
 
 const Users = mongoose.model('Users', userSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
 
-module.exports = { Users, Sessions, Projects };
+module.exports = {
+  Users, Sessions, Projects, Tests,
+};
