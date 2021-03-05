@@ -6,8 +6,7 @@ const { Tests } = require('../../models/reactypeModels');
 */
 
 
-module.exports = {
-  
+module.exports = { 
   addTest: async (parent, args) => {
     const resp = await Tests.create({ name: args.name });
     console.log('Added test', resp);
