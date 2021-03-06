@@ -14,16 +14,20 @@ const ProjectContainer = () => {
     getAllProjects(userId: $userId) { 
       name 
       likes 
-      id 
+      id
+      userId
+      username 
     }
   }`;
 
-  // For now, if cookie exists, pull projects for the specific user only, otherwise pull all projects
-  const userSSID = window.localStorage.getItem('ssid') || '';
   let myVar = {};
-  if (userSSID !== 'guest') {
-    myVar = { userId: userSSID };
-  }
+  // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
+  const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
+  const username = window.localStorage.getItem('username') || 'unavailable';
+  // if (userSSID !== 'guest') {
+  //   myVar = { userId: userSSID };
+  // }
+
   // useQuery hook abstracts fetch request
   const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar } ); // Need to find where the userId is stored for the logged in user.
   if (loading) return <p>Loading...</p>;
@@ -36,12 +40,14 @@ const ProjectContainer = () => {
     key= { index }
     name = {proj.name}
     likes = {proj.likes}
-    userId = {userSSID}
+    userId = {proj.userId}
+    username = {proj.username}
     projId = {proj.id}
     />);
 
   return (
       <div>
+        <h1> Public Dashboard </h1>
         <Link to="/">
           <button type="button">Go Back</button>
         </Link>

@@ -1,4 +1,4 @@
-const { Tests, Projects } = require('../../models/reactypeModels');
+const { Tests, Projects, Users } = require('../../models/reactypeModels');
 
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
@@ -32,6 +32,7 @@ const Project = {
         name: resp.name,
         id: resp._id,
         userId: resp.userId,
+        username: resp.username,
         likes: resp.likes,
       });
     }
@@ -41,13 +42,15 @@ const Project = {
       name: 'Error',
       id: 'Error',
       userId: 'Error',
+      username: 'Error',
       likes: -1,
     };
   },
 
   getAllProjects: async (parent, { userId }) => {
+
     let resp = await Projects.find({});
-    // console.log('resp >>> ', resp);
+    // console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
@@ -58,6 +61,7 @@ const Project = {
         name: proj.name,
         id: proj._id,
         userId: proj.userId,
+        username: proj.username,
         likes: proj.likes,
       }));
     }
@@ -67,6 +71,7 @@ const Project = {
       name: 'Error',
       id: 'Error',
       userId: 'Error',
+      username: 'Error',
       likes: -1,
     }];
   },

@@ -29,7 +29,7 @@ const Project = gql`
 
   type Mutation {
     addLike(projId: ID!, likes: Int!): Project
-    makeCopy(projId: ID!, userId: ID!): Project
+    makeCopy(projId: ID!, userId: ID!, username: String!): Project
   }
 
   type Project {
@@ -37,12 +37,12 @@ const Project = gql`
     likes: Int
     id: ID!
     userId: ID!
+    username: String!
   }
 
   type Query {
     getProject(projId: ID!): Project
     getAllProjects(userId: ID): [Project]
-    getLikedProjects(userId: ID): [Project]
   }
 `;
 

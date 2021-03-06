@@ -47,6 +47,7 @@ const Project = {
         name: resp.name,
         id: resp._id,
         userId: resp.userId,
+        username: resp.username,
         likes: resp.likes,
       })}
 
@@ -55,11 +56,12 @@ const Project = {
       name: 'Error',
       id: 'Error',
       userId: 'Error',
+      username: 'Error',
       likes: -1,
     };
   },
 
-  makeCopy: async (parent, { projId, userId }) => {
+  makeCopy: async (parent, { projId, userId, username }) => {
     const filter = { _id: projId };
     const target = await Projects.findOne(filter);
     // make a copy with the passed in userId
@@ -68,6 +70,7 @@ const Project = {
       likes: target.likes,
       project: target.project,
       userId,
+      username,
     };
     const resp = await Projects.create(copy);
 
@@ -76,6 +79,7 @@ const Project = {
         name: resp.name,
         id: resp._id,
         userId: resp.userId,
+        username: resp.username,
         likes: resp.likes,
       })}
 
@@ -84,6 +88,7 @@ const Project = {
       name: 'Error',
       id: 'Error',
       userId: 'Error',
+      username: 'Error',
       likes: -1,
     };
   },
