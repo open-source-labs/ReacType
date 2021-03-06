@@ -35,13 +35,14 @@ const Project = gql`
   type Project {
     name: String!
     likes: Int
-    projId: ID!
+    id: ID!
     userId: ID!
   }
 
   type Query {
     getProject(projId: ID!): Project
-    getAllProjects: [Project]
+    getAllProjects(userId: ID): [Project]
+    getLikedProjects(userId: ID): [Project]
   }
 `;
 

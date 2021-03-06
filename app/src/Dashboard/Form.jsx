@@ -46,7 +46,7 @@ const Form = ({ description, id, likes }) => {
 // Variable validation using propTypes
 Form.propTypes = {
   description: PropTypes.string.isRequired,
-  id: PropTypes.id.isRequired,
+  id: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
 };
 

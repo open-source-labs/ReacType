@@ -45,7 +45,7 @@ const Project = {
     if (resp) {
       return ({
         name: resp.name,
-        projId: resp._id,
+        id: resp._id,
         userId: resp.userId,
         likes: resp.likes,
       })}
@@ -53,7 +53,7 @@ const Project = {
     // TODO: Go back to this to see how to handle error later
     return {
       name: 'Error',
-      projId: 'Error',
+      id: 'Error',
       userId: 'Error',
       likes: -1,
     };
@@ -74,7 +74,7 @@ const Project = {
     if (resp) {
       return ({
         name: resp.name,
-        projId: resp._id,
+        id: resp._id,
         userId: resp.userId,
         likes: resp.likes,
       })}
@@ -82,7 +82,7 @@ const Project = {
     // TODO: Go back to this to see how to handle error later
     return {
       name: 'Error',
-      projId: 'Error',
+      id: 'Error',
       userId: 'Error',
       likes: -1,
     };

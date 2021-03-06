@@ -8,7 +8,7 @@ $light-grey: #bfcbd4;
 $light-blue: #759cc9;
 $button-blue: #24BCFF; */
 
-.form {
+.form , .project{
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -23,7 +23,7 @@ $button-blue: #24BCFF; */
   width: 250px;
 }
 
-.formContainer {
+.formContainer , .projectContainer{
   display: flex;
   flex-flow: row wrap;
 }

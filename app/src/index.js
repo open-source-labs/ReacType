@@ -20,7 +20,9 @@ import {
 /*
 *  Dashboard
 */
-import Dashboard from './Dashboard/FormsContainer.jsx';
+// import TestDashboard from './Dashboard/FormsContainer.jsx';
+import ProjectDashboard from './Dashboard/ProjectContainer.jsx';
+
 import styles from './Dashboard/styles.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -56,7 +58,7 @@ ReactDOM.render(
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/password" component={FBPassWord} />
         <PrivateRoute exact path="/" component={App} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/dashboard" component={ProjectDashboard} />
         <Route exact path="/tutorial" component={Tutorial} />
         <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
       </Switch>

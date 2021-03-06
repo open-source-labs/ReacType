@@ -58,7 +58,7 @@ const sessionSchema = new Schema({
 
 const projectSchema = new Schema({
   name: String,
-  likes: Number,
+  likes: { type: Number, default: 0 },
   project: { type: Object, required: true },
   userId: {
     type: Schema.Types.ObjectId,

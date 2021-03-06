@@ -30,38 +30,47 @@ const Project = {
     if (resp) {
       return ({
         name: resp.name,
-        projId: resp._id,
+        id: resp._id,
         userId: resp.userId,
         likes: resp.likes,
-      })}
+      });
+    }
 
     // TODO: Go back to this to see how to handle error later
-    return { 
+    return {
       name: 'Error',
-      projId: 'Error',
+      id: 'Error',
       userId: 'Error',
       likes: -1,
     };
   },
 
-  getAllProjects: async () => {
-    const resp = await Projects.find({});
+  getAllProjects: async (parent, { userId }) => {
+    let resp = await Projects.find({});
+    // console.log('resp >>> ', resp);
+    if (userId) {
+      // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
+      resp = resp.filter(proj => proj.userId == userId);
+    }
+
     if (resp) {
       return resp.map(proj => ({
         name: proj.name,
-        projId: proj._id,
+        id: proj._id,
         userId: proj.userId,
         likes: proj.likes,
       }));
     }
+
     // TODO: Go back to this to see how to handle error later
-    return [{ 
+    return [{
       name: 'Error',
-      projId: 'Error',
+      id: 'Error',
       userId: 'Error',
       likes: -1,
     }];
   },
+
 
 };
 
