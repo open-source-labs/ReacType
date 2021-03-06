@@ -3,7 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
 
 
-const Project = ({ name, likes, projId, userId, username }) => {
+const Project = ({ name, likes, id, userId, username }) => {
 
   // IMPORTANT: 
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
@@ -38,7 +38,7 @@ const Project = ({ name, likes, projId, userId, username }) => {
     const myVar = {
       variables:
       {
-        projId,
+        projId: id,
         likes: likes + 1,
       },
     };
@@ -58,7 +58,7 @@ const Project = ({ name, likes, projId, userId, username }) => {
     const myVar = {
       variables:
       {
-        projId,
+        projId: id,
         userId: currUserSSID,
         username: currUsername,
       },
@@ -84,7 +84,7 @@ const Project = ({ name, likes, projId, userId, username }) => {
 // Variable validation using propTypes
 Project.propTypes = {
   name: PropTypes.string.isRequired,
-  projId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,

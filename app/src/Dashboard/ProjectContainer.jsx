@@ -42,7 +42,7 @@ const ProjectContainer = () => {
     likes = {proj.likes}
     userId = {proj.userId}
     username = {proj.username}
-    projId = {proj.id}
+    id = {proj.id}
     />);
 
   return (
