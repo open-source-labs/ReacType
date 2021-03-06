@@ -58,17 +58,20 @@ const sessionSchema = new Schema({
 
 const projectSchema = new Schema({
   name: String,
+  likes: { type: Number, default: 0 },
   project: { type: Object, required: true },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'Users',
   },
+  username: {type: String, required: true }, 
   createdAt: { type: Date, default: Date.now }
 });
 
 // Test schema for implementing GraphQL
 const testSchema = new Schema({
   name: String,
+  likes: Number,
 });
 const Tests = mongoose.model('Tests', testSchema);
 /* *********************************************** */
