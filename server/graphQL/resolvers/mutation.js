@@ -49,7 +49,7 @@ const Project = {
         userId: resp.userId,
         username: resp.username,
         likes: resp.likes,
-      })}
+      })} 
 
     // TODO: Go back to this to see how to handle error later
     return {
