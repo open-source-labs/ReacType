@@ -64,7 +64,7 @@ const projectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users',
   },
-  username: {type: String, required: true },
+  username: {type: String, required: true }, 
   createdAt: { type: Date, default: Date.now }
 });
 
