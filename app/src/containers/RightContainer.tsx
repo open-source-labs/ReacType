@@ -3,7 +3,10 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
 } from 'react';
+import customHooks from '../helperFunctions/customHook';
+import initialState from '../context/initialState';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -41,6 +44,31 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
+  const [prevState, setPrevState] = useState(state);
+  // const [ref, setRef] = useRef();
+
+  // const prevCountRef = useRef();
+  // useEffect(() => {
+  //   prevCountRef.current = prevState;
+  // });
+  // const prevCount = prevCountRef.current;
+  // console.log('prevCount <-- before', prevCount);
+  // console.log('prevState <-- now', prevState);
+  // console.log('prevState', prevState);
+//state.components[0].children
+// function usePrevious(value) {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   });
+//   return ref.current;
+// }
+// const prevCount = customHooks(state);
+// console.log('prevCount <-- before', prevCount);
+// console.log('prevState <-- now', prevState)
+// console.log('state in rightContainer', state);
+
+
 
   const resetFields = () => {
     const style = configTarget.child
@@ -192,6 +220,45 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
    
     return styleObj;
   };
+
+/****************************** UNDO AND REDO ****************************************** */
+// undo functionality
+// onClick this function will be invoked.
+// set current state components.children to previous state and store current state children array in another place holder to not lose current state before reassigning to previous position.
+const undoAction = () => {
+  dispatch({ type: 'UNDO', payload: {} });
+// const undoAction = () => {
+  // dispatch({ type: 'UNDO', payload: {value} })
+  // const ref = useRef();
+  // useEffect(() => {
+  //   ref.current = value;
+  // });
+  // console.log('ref.curr', ref.current)
+  // return ref.current;
+  // dispatch({ type: 'UNDO', payload: {} });
+  // const childrenArr = state.components[0].children;
+  // const result = [];
+  // // console.log('state.components', state.components[0].children)
+  // for(let i = 0; i < prevState.children.length - 3; i++) {
+  //   result.push(prevState.children[i]);
+  // }
+  // setPrevState(result);
+};
+// };
+
+// const prevCount = undoAction(prevState);
+// console.log('prevCount', prevCount);
+
+const handleClick = (e, data) => {
+  console.log(data);
+}
+
+const redoAction = () => {
+  dispatch({ type: 'REDO', payload: {} });
+}
+
+
+
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
@@ -502,6 +569,28 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               </Button>
             </div>
           )}
+          <div className = {classes.buttonRow}>
+            <Button
+            color="primary"
+            className={classes.button}
+            onClick={undoAction}
+            // onClick={((e) => handleClick(e, prevCount))}
+            >
+
+              {/* <i className="fas fa-backward"/> */}
+              <i className="fas fa-undo"></i>
+            </Button>
+            <Button
+            color="primary"
+            className={classes.button}
+            // onClick={clearComps}
+            // onClick={redoAction}
+            // onClick = {handleClick}
+            >
+              <i className="fas fa-redo"></i>
+              {/* <i className="fas fa-forward"/> */}
+            </Button>
+        </div>
         </div>
        
       </div>

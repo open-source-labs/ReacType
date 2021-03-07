@@ -27,7 +27,7 @@ const CodePreview: React.FC<{
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-console.log('currentComp in CodePreview', currentComponent)
+// console.log('currentComp in CodePreview', currentComponent)
   const handleCodeSnipChange = val => {
     currentComponent.code = val;
   };

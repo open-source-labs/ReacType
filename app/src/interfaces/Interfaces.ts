@@ -13,6 +13,16 @@ export interface State {
   nextBottomSeparatorId: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
+  past: any[];
+}
+export interface PastElement {
+  type: string;
+  typeId: number;
+  name: string;
+  childId: number;
+  style: object;
+  attributes?: object;
+  children?: PastElement[];
 }
 
 export interface ChildElement {

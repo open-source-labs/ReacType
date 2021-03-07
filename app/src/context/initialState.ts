@@ -21,7 +21,8 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes
+  HTMLTypes,
+  past: []
 };
 
 export default initialState;
