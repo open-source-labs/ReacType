@@ -1,4 +1,5 @@
 const { Tests, Projects } = require('../../models/reactypeModels');
+
 /*
 * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
 * Link to Apollo Mutations:
@@ -64,14 +65,18 @@ const Project = {
   makeCopy: async (parent, { projId, userId, username }) => {
     const filter = { _id: projId };
     const target = await Projects.findOne(filter);
+    
     // make a copy with the passed in userId
+    // IMPORTANT: DO NOT CHANGE copy.name, it will create a nother copy of the document with the origional project name.
     const copy = {
-      name: target.name,
-      likes: target.likes,
+      name: target.name,   
       project: target.project,
       userId,
       username,
     };
+    
+    // IMPORTANT: MUST MAKE A DEEP COPY OF target.project, otherwise, field 'style' is lost during the copy process. See 'minimize' option in projectSchema
+    
     const resp = await Projects.create(copy);
 
     if (resp) {
