@@ -104,7 +104,7 @@ const Project = {
     const filter = { _id: projId };
     const options = { strict: true };
     const resp = await Projects.findOneAndDelete(filter, options);
-    console.log("resp", resp);
+    // console.log("resp", resp);
     if (resp) {
       return ({
         name: resp.name,

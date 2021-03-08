@@ -1,45 +1,25 @@
 import React from 'react';
-import { gql, useMutation } from '@apollo/client';
-import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
+import { ADD_LIKE, MAKE_COPY, DELETE_PROJECT } from './gqlStrings';
 
+// Variable validation using typescript
+type props = {
+  name: string,
+  id: string,
+  userId: string,
+  username: string,
+  likes: number,
+};
 
 const Project = ({
-  name, likes, id, userId, username,
-}) => {
+  name, likes, id, username,
+}: props) : JSX.Element => {
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
 
-  const ADD_LIKE = gql`
-  mutation AddLike($projId: ID!, $likes: Int!) {
-    addLike(projId: $projId, likes: $likes) 
-    {
-      id
-      likes
-    }
-  }`;
-
   const [addLike] = useMutation(ADD_LIKE);
-
-
-  const MAKE_COPY = gql`
-  mutation MakeCopy ($userId: ID!, $projId: ID!, $username: String!) {
-    makeCopy(userId: $userId, projId: $projId, username: $username) 
-    {
-      id
-    }
-  }`;
-
   const [makeCopy] = useMutation(MAKE_COPY);
-
-  const DELETE_PROJECT = gql`
-  mutation DeleteProject($projId: ID!) {
-    deleteProject(projId: $projId) 
-    {
-      id
-    }
-  }`;
-
   const [deleteProject] = useMutation(DELETE_PROJECT);
 
   function handleLike(e) {
@@ -59,9 +39,7 @@ const Project = ({
   // Use current user info to make a make copy of another user's project
   const currUserSSID = window.localStorage.getItem('ssid') || 'unavailable';
   const currUsername = window.localStorage.getItem('username') || 'unavailable';
-  // if (userSSID !== 'guest') {
-  //   myVar = { userId: userSSID };
-  // }
+ 
 
   function handleDownload(e) {
     e.preventDefault();
@@ -91,25 +69,15 @@ const Project = ({
   return (
   <div className = 'project'>
     <h2>Project: { name }</h2>
-    {/* <h3>Project ID: {projId} </h3> */}
     <h3>Author: { username }</h3>
     <h3>Likes: { likes }</h3>
     <div>
       <button onClick={ handleLike }>like me!</button>
-      <button onClick={ handleDownload }>download me!</button>
+      {currUsername !== username ?  <button onClick={ handleDownload }>download me!</button> : <span></span>}
       <button onClick={ handleDelete }>delete</button>
     </div>
   </div>
   );
-};
-
-// Variable validation using propTypes
-Project.propTypes = {
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  likes: PropTypes.number.isRequired,
 };
 
 
