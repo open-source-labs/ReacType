@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { gql, useQuery } from '@apollo/client';
+import SortBy from './SortMenu.jsx';
+import Navbar from './NavbarDd.tsx';
 
 import Project from './Project.jsx';
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
@@ -47,6 +49,7 @@ const ProjectContainer = () => {
 
   return (
       <div>
+        <Navbar/>
         <h1> Public Dashboard </h1>
         <Link to="/">
           <button type="button">Go Back</button>
