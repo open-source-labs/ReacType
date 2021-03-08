@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { gql, useQuery } from '@apollo/client';
 
-import Project from './Project.jsx';
+import Project from './Project.tsx';
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
