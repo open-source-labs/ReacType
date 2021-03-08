@@ -33,28 +33,40 @@ const ProjectContainer = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}</p>;
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
-  const myProjs = data.getAllProjects;
-  console.log('Projects >>> ', myProjs);
+  const projects = data.getAllProjects;
+  console.log('Projects >>> ', projects);
   // generate an array of Project components based on data
-  const projects = myProjs.map((proj, index) => <Project 
-    key= { index }
-    name = {proj.name}
-    likes = {proj.likes}
-    userId = {proj.userId}
-    username = {proj.username}
-    id = {proj.id}
-    />);
+  const publicProjects = [];
+  const userProjects = []; 
+  projects.forEach((proj, index) => {
+    const component = <Project 
+                  key= { index }
+                  name = {proj.name}
+                  likes = {proj.likes}
+                  userId = {proj.userId}
+                  username = {proj.username}
+                  id = {proj.id}
+                />;
+    if (username === proj.username) userProjects.push(component);
+    else publicProjects.push(component);
+  });
 
   return (
       <div>
-        <h1> Public Dashboard </h1>
         <Link to="/">
           <button type="button">Go Back</button>
         </Link>
+        <h1> Public Dashboard </h1>
         <div className = "projectContainer">
-          {projects}
+            {publicProjects}
         </div>
-      </div>
+        <hr></hr>
+        <h1> User Dashboard </h1>
+        <div className = "projectContainer">
+            {userProjects}
+        </div>
+
+        </div>
   );
 };
 
