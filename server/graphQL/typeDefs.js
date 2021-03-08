@@ -6,23 +6,47 @@ const { gql } = require('apollo-server-express');
 // The schema specifies which queries and mutations are available for clients
 // to execute against your data graph.
 
-const typeDefs = gql`
+const Test = gql`
 
   type Mutation {
-    addTest(name: String): Test
-    updateTest(id: String, name: String): Test
-    deleteTest(id: String): Test
+    addTest(name: String, likes: Int): Test
+    updateTest(id: ID, name: String, likes: Int): Test
+    deleteTest(id: ID): Test
   }
   type Test {
     description: String
+    likes: Int
     id: ID
   }
   type Query {
-    readTest(id: String): Test
+    readTest(id: ID): Test
     readAllTests: [Test]
   }
 `;
 
+//NOTE: Project type does not return the detail of the project's components, but info needed for the dashboard
+const Project = gql`
+
+  type Mutation {
+    addLike(projId: ID!, likes: Int!): Project
+    makeCopy(projId: ID!, userId: ID!, username: String!): Project
+  }
+
+  type Project {
+    name: String!
+    likes: Int
+    id: ID!
+    userId: ID!
+    username: String!
+  }
+
+  type Query {
+    getProject(projId: ID!): Project
+    getAllProjects(userId: ID): [Project]
+  }
+`;
+
 module.exports = {
-  typeDefs,
+  typeDefsTest: Test,
+  typeDefsProject: Project,
 };
