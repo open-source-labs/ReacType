@@ -30,6 +30,7 @@ const Project = gql`
   type Mutation {
     addLike(projId: ID!, likes: Int!): Project
     makeCopy(projId: ID!, userId: ID!, username: String!): Project
+    deleteProject(projId: ID!): Project
   }
 
   type Project {

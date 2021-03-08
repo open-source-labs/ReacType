@@ -20,9 +20,9 @@ const Test = {
     const update = { name: args.name, likes: args.likes };
     const options = { new: true };
     const resp = await Tests.findOneAndUpdate(filter, update, options);
-  
+
     console.log('Updated database with', resp);
-  
+
     if (resp) return { description: resp.name, id: resp._id, likes: resp.likes };
     return { description: 'Error updating', id: resp._id, likes: 0 };
   },
@@ -37,12 +37,12 @@ const Test = {
 
 
 const Project = {
-  addLike: async (parent, { projId, likes}) => {
+  addLike: async (parent, { projId, likes }) => {
     const filter = { _id: projId };
     const update = { likes };
     const options = { new: true };
     const resp = await Projects.findOneAndUpdate(filter, update, options);
-    
+
     if (resp) {
       return ({
         name: resp.name,
@@ -50,7 +50,8 @@ const Project = {
         userId: resp.userId,
         username: resp.username,
         likes: resp.likes,
-      })} 
+      });
+    }
 
     // TODO: Go back to this to see how to handle error later
     return {
@@ -86,9 +87,33 @@ const Project = {
         userId: resp.userId,
         username: resp.username,
         likes: resp.likes,
-      })}
+      });
+    }
 
     // TODO: Go back to this to see how to handle error later
+    return {
+      name: 'Error',
+      id: 'Error',
+      userId: 'Error',
+      username: 'Error',
+      likes: -1,
+    };
+  },
+
+  deleteProject: async (parent, { projId }) => {
+    const filter = { _id: projId };
+    const options = { strict: true };
+    const resp = await Projects.findOneAndDelete(filter, options);
+    console.log("resp", resp);
+    if (resp) {
+      return ({
+        name: resp.name,
+        likes: resp.likes,
+        id: resp._id,
+        userId: resp.userId,
+        username: resp.username,
+      });
+    }
     return {
       name: 'Error',
       id: 'Error',

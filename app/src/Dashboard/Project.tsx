@@ -3,9 +3,10 @@ import { gql, useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
 
 
-const Project = ({ name, likes, id, userId, username }) => {
-
-  // IMPORTANT: 
+const Project = ({
+  name, likes, id, userId, username,
+}) => {
+  // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
 
@@ -28,9 +29,18 @@ const Project = ({ name, likes, id, userId, username }) => {
       id
     }
   }`;
-  
-  const [ makeCopy ] = useMutation(MAKE_COPY);
 
+  const [makeCopy] = useMutation(MAKE_COPY);
+
+  const DELETE_PROJECT = gql`
+  mutation DeleteProject($projId: ID!) {
+    deleteProject(projId: $projId) 
+    {
+      id
+    }
+  }`;
+
+  const [deleteProject] = useMutation(DELETE_PROJECT);
 
   function handleLike(e) {
     e.preventDefault();
@@ -67,6 +77,17 @@ const Project = ({ name, likes, id, userId, username }) => {
     makeCopy(myVar);
   }
 
+  function handleDelete(e) {
+    e.preventDefault();
+    const myVar = {
+      variables:
+      {
+        projId: id,
+      },
+    };
+    deleteProject(myVar);
+  }
+
   return (
   <div className = 'project'>
     <h2>Project: { name }</h2>
@@ -76,6 +97,7 @@ const Project = ({ name, likes, id, userId, username }) => {
     <div>
       <button onClick={ handleLike }>like me!</button>
       <button onClick={ handleDownload }>download me!</button>
+      <button onClick={ handleDelete }>delete</button>
     </div>
   </div>
   );
