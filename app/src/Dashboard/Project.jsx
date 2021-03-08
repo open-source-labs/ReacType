@@ -96,7 +96,11 @@ const Project = ({
     <h3>Likes: { likes }</h3>
     <div>
       <button onClick={ handleLike }>like me!</button>
-      <button onClick={ handleDownload }>download me!</button>
+      {
+        currUsername !== username
+          ? <button onClick={ handleDownload }>download me!</button>
+          : null
+      }
       <button onClick={ handleDelete }>delete</button>
     </div>
   </div>
