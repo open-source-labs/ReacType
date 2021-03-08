@@ -44,7 +44,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
-  const [prevState, setPrevState] = useState(state);
+  // const [prevState, setPrevState] = useState(state);
   // const [ref, setRef] = useRef();
 
   // const prevCountRef = useRef();

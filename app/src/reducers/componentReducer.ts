@@ -681,9 +681,11 @@ const reducer = (state: State, action: Action) => {
       // } else {
       // }
       console.log('state before past reassigned', state);
-    state.components[0].children = state.past.pop();
-    // state.past[state.past.length - 1];
-    // state.past.pop();
+      console.log('checking if the one before equals the one after', state.past[state.past.length - 1] == state.past[state.past.length - 2])
+      // if(state.past[state.past.length - 1] === state.past[state.past.length - 2])
+    state.components[0].children = state.past[state.past.length - 1];
+    // state.future.push(state.past[state.past.length - 1]);
+    state.past.pop();
     // deletedNested = false;
       console.log('state after past reassigned', state);
       state.components.forEach((el, i) => {

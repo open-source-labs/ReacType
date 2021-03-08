@@ -41,7 +41,8 @@ function Canvas() {
   // function inner() {
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       state.past.push(deepCopiedState.components[0].children);
-      console.log('state.past in canvas', state.past)
+      // state.future.push(deepCopiedState.components[0].children);
+      console.log('state.past in canvas', state)
   }
       // console.log('deepCopiedState', deepCopiedState);
       // stateSnapArr.push(deepCopiedState);
@@ -73,7 +74,7 @@ function Canvas() {
       //code here
       // 6.0 didDrop is firing when HTML tags are moved up
       snapShotFunc();
-      console.log('snapShotFunc invoked');                        // < ------ snapShotFunc here
+      // console.log('snapShotFunc invoked');                        // < ------ snapShotFunc here
       if (didDrop) {
         return;
       }
