@@ -17,6 +17,14 @@ function DirectChildHTMLNestable({
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
+
+  // const snapShotFunc = () => {
+  //   // make a deep clone of state ( JSON.parse(JSON.stringify(<object>)) ? )
+  //   // function inner() {
+  //       const deepCopiedState = JSON.parse(JSON.stringify(state));
+  //       state.past.push(deepCopiedState.components[0].children);
+  //       console.log('state.past in directChildHTMLNest', state.past)
+  //   }
   // console.log('name', name)
   // console.log('children', children)
   // find the HTML element corresponding with this instance of an HTML element
@@ -50,6 +58,7 @@ function DirectChildHTMLNestable({
     // triggered on drop
     drop: (item: any, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
+      // snapShotFunc();  
       if (didDrop) {
         return;
       }

@@ -8,6 +8,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
+import { isObjectType } from 'graphql';
 
 let separator = initialState.HTMLTypes[1];
  
@@ -260,6 +261,7 @@ const reducer = (state: State, action: Action) => {
 
       if (type === 'Component') {
         components.forEach(comp => {
+          console.log('comp in ADDD CHILD', comp)
           if (comp.id === typeId) {
             componentName = comp.name;
             componentChildren = comp.children;
@@ -625,7 +627,7 @@ const reducer = (state: State, action: Action) => {
       //iterate through past arr, grab the 1 before the end, reassign state to equal that grabbed obj
       // let past: object[] = state.past[state.past.length - 1];
       // console.log()
-      console.log('state before past', state);
+      // console.log('state before past', state);
       // const pastBy = state.past[state.past.length - 1];
       // console.log('pastBy', pastBy);
       // console.log('state.past - 1', state.past[state.past.length - 1])
@@ -636,32 +638,56 @@ const reducer = (state: State, action: Action) => {
         //if it is nested, go into that object and do something
       //else, have state.comp.children = state.past[state.past.length - 1]
       //pop from past
-      // const child = state.components[0].children
-      // for(let i = 0; i < child.length; i++) {
-      //   // console.log('each children obj', child[i])
-      //   if(child[i].children.length === 2) {
-      //     // child[i].children = state.past[state.past.length - 2]//[];
-      //     child[i].children = [];
-      //     console.log('children of div or form', child[i])
-          
-      //     // child[i].children = state.past[state.past.length - 1]
+      // const pastArr = state.past;
+      // let deletedNested = false;
+      // for(let i = 0; i < pastArr.length; i++) {
+      //   // console.log('each children obj', pastArr[i])
+      //   for(let currObj in pastArr[i]) {
+      //     // console.log('for in loop currObj', currObj)
+      //     if(pastArr[i][currObj].name === "div" /*deletedNested === false*/) {
+      //       console.log(pastArr[i][currObj].children, '<== pastArr[i][currObj]');
+      //       if(pastArr[i][currObj].children.length === 2) {
+      //         //   pastArr[i][currObj].children = [];
+      //         pastArr[i][currObj].children = [];
+      //         // deletedNested = true;
+      //         //   // state.components[0].children = pastArr[i][currObj].children
+      //         //   console.log('for in loop, val for div --> ', state)
+      //         // if(pastArr[i][currObj].children.length > 2) {
+      //         } else if(pastArr[i][currObj].children.length > 2) {
+      //           console.log('past greater than 2', pastArr[i][currObj].children)
+      //         }
+      //       } 
       //   }
-      //   // child[i] = state.past[state.past.length - 1]  
+
       // }
-      let nestedChildren: any[] = state.components[0].children[0].children;
-      // check if there are any tags in the children of the children (nested tags)
-      if(nestedChildren.length === 2){
-        // if there are, execute undo code specific to nested children, otherwise, execute code below for non-nested children
-        nestedChildren = [];
-      } else if(nestedChildren.length > 2) {
-       nestedChildren = nestedChildren[nestedChildren.length - 2]; 
-      } else {
-      state.components[0].children = state.past[state.past.length - 1]
-      state.past.pop();
-      }
+
+        // if(child[i].children.length === 2) {
+          // console.log(child[i])
+        //   // child[i].children = state.past[state.past.length - 2]//[];
+        //   child[i].children = [];
+        //   console.log('children of div or form', child[i])
+          
+        //   // child[i].children = state.past[state.past.length - 1]
+        // }
+        // child[i] = state.past[state.past.length - 1]  
+      // let nestedChildren: any[] = state.components[0].children[0].children;
+      // // check if there are any tags in the children of the children (nested tags)
+      // if(nestedChildren.length === 2){
+      //   // if there are, execute undo code specific to nested children, otherwise, execute code below for non-nested children
+      //   nestedChildren = [];
+      //   state.components[0].children[0].children = nestedChildren;
+      // } else if(nestedChildren.length > 2) {
+      //  nestedChildren = nestedChildren[nestedChildren.length - 2]; 
+      // } else {
+      // }
+      console.log('state before past reassigned', state);
+    state.components[0].children = state.past.pop();
+    // state.past[state.past.length - 1];
+    // state.past.pop();
+    // deletedNested = false;
       console.log('state after past reassigned', state);
       state.components.forEach((el, i) => {
-        console.log('el in undo', el)
+        // console.log('el in undo', el)
         el.code = generateCode(
           state.components,
           state.components[i].id,

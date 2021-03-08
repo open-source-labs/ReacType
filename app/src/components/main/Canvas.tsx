@@ -40,12 +40,14 @@ function Canvas() {
   // make a deep clone of state ( JSON.parse(JSON.stringify(<object>)) ? )
   // function inner() {
       const deepCopiedState = JSON.parse(JSON.stringify(state));
+      state.past.push(deepCopiedState.components[0].children);
+      console.log('state.past in canvas', state.past)
+  }
       // console.log('deepCopiedState', deepCopiedState);
       // stateSnapArr.push(deepCopiedState);
-      state.past.push(deepCopiedState.components[0].children);
       // state.past.push(deepCopiedState);
       // console.log('state after push', state)
-      console.log('state in canvas', state.past)
+      // console.log('state in canvas', state);
       // return;
       // snapStateArr.push(5);
       // return snapStateArr;
@@ -61,7 +63,6 @@ function Canvas() {
   //   return [...previousState].push(deepCopiedState);
   // })
   // console.log('prevState: ', prevState)
-}
 
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
@@ -71,7 +72,8 @@ function Canvas() {
       // returns false for direct drop target
       //code here
       // 6.0 didDrop is firing when HTML tags are moved up
-      snapShotFunc();                         // < ------ snapShotFunc here
+      snapShotFunc();
+      console.log('snapShotFunc invoked');                        // < ------ snapShotFunc here
       if (didDrop) {
         return;
       }
