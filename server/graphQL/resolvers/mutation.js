@@ -19,6 +19,7 @@ const Project = {
         id: resp._id,
         userId: resp.userId,
         likes: resp.likes,
+        published: resp.published,
       });
     }
 
@@ -39,7 +40,7 @@ const Project = {
 
     // check if user account exists
     const user = await Users.findOne({ _id: userId });
-    console.log ('User >>> ', user);
+
     if (user) {
       // make a copy with the passed in userId
       const copy = {
@@ -58,7 +59,9 @@ const Project = {
           userId: resp.userId,
           username: resp.username,
           likes: resp.likes,
-        })}
+          published: resp.published,
+        });
+      }
 
       throw new UserInputError('Internal Server Error');
     }
@@ -67,8 +70,28 @@ const Project = {
       argumentName: 'userId',
     });
   },
+
+  publishProject: async (parent, { projId, published }) => {
+
+    const filter = { _id: projId };
+    const update = { published };
+    const options = { new: true };
+    const resp = await Projects.findOneAndUpdate(filter, update, options);
+    if (resp) {
+      return ({
+        name: resp.name,
+        id: resp._id,
+        userId: resp.userId,
+        likes: resp.likes,
+        published: resp.published,
+      });
+    }
+
+    throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
+  },
+
 };
 
-module.exports = {
-  ProjectMutation: Project,
-};
+module.exports = Project;

@@ -12,11 +12,13 @@ const Project = gql`
     addLike(projId: ID!, likes: Int!): Project
     makeCopy(projId: ID!, userId: ID!, username: String!): Project
     deleteProject(projId: ID!): Project
+    publishProject(projId: ID!, published: Boolean!): Project
   }
 
   type Project {
     name: String!
     likes: Int
+    published: Boolean!
     id: ID!
     userId: ID!
     username: String!
@@ -28,6 +30,4 @@ const Project = gql`
   }
 `;
 
-module.exports = {
-  typeDefsProject: Project,
-};
+module.exports = Project;

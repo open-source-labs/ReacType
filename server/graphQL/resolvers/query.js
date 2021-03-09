@@ -15,6 +15,7 @@ const Project = {
         userId: resp.userId,
         username: resp.username,
         likes: resp.likes,
+        published: resp.published,
       });
     }
 
@@ -44,16 +45,15 @@ const Project = {
         userId: proj.userId,
         username: proj.username,
         likes: proj.likes,
+        published: proj.published,
       }));
     }
 
-    // resp is null, return error message 
+    // resp is null, return error message
     throw new UserInputError('Internal Server Error');
   },
 
 
 };
 
-module.exports = {
-  ProjectQuery: Project,
-};
+module.exports = Project;
