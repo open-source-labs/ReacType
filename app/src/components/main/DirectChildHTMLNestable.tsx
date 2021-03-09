@@ -17,8 +17,13 @@ function DirectChildHTMLNestable({
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
-  // console.log('name', name)
-  // console.log('children', children)
+// stores a snapshot of state into the past array for nested elements for the UNDO case
+const snapShotFunc = () => {
+  const deepCopiedState = JSON.parse(JSON.stringify(state));
+  state.past.push(deepCopiedState.components[0].children);
+  // state.future.push(deepCopiedState.components[0].children);
+  // console.log('state.past in directChildHTMLNest', state)
+};
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
@@ -50,6 +55,7 @@ function DirectChildHTMLNestable({
     // triggered on drop
     drop: (item: any, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
+      snapShotFunc();
       if (didDrop) {
         return;
       }

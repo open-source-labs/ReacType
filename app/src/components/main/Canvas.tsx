@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import customHooks from '../helperFunctions/customHook';
 import _ from 'lodash';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -11,6 +10,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 // const snapStateArr = [];
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
+  console.log('state in Canvas', state);
   // const [ prevState, setPrevState ] = useState<Array<object>>([]); // NOT USING
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
@@ -30,48 +30,23 @@ function Canvas() {
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
     changeFocus(state.canvasFocus.componentId, null);
   }
-  function onChangeHandler(event) {
-    // console.log('working', event.target)
-  }
 
-  // stores a limited snapshot of previous state to use in the useDrop function, for UNDO functionality
-  // const snapStateArr = [];
+  // stores a snapshot of state into the past array for UNDO
   const snapShotFunc = () => {
-  // make a deep clone of state ( JSON.parse(JSON.stringify(<object>)) ? )
-  // function inner() {
+    // make a deep clone of state
       const deepCopiedState = JSON.parse(JSON.stringify(state));
-      // console.log('deepCopiedState', deepCopiedState);
-      // stateSnapArr.push(deepCopiedState);
       state.past.push(deepCopiedState.components[0].children);
-      // state.past.push(deepCopiedState);
-      // console.log('state after push', state)
-      console.log('state in canvas', state.past)
-      // return;
-      // snapStateArr.push(5);
-      // return snapStateArr;
-    // }
-    // inner();
+      // console.log('state in snapShotFunc', state.past)
+    }
 
-    // return;
-  // const prevCount = customHooks(state);
-  // console.log('prevCount', prevCount);
-  // console.log('state', state);
-
-  // setPrevState( previousState => {
-  //   return [...previousState].push(deepCopiedState);
-  // })
-  // console.log('prevState: ', prevState)
-}
-
+  
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
       // returns false for direct drop target
-      //code here
-      // 6.0 didDrop is firing when HTML tags are moved up
-      snapShotFunc();                         // < ------ snapShotFunc here
+      snapShotFunc();
       if (didDrop) {
         return;
       }
@@ -118,7 +93,7 @@ function Canvas() {
   // Direct children are draggable/clickable
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
-    <div ref={drop} style={canvasStyle} onClick={onClickHandler} onChange={onChangeHandler}>
+    <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
       {/* currentComponent is the selected component on Left Panel (eg: App or Index with green dot to the left)  */}
       {renderChildren(currentComponent.children)}
     </div>
