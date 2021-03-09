@@ -26,18 +26,19 @@ const ProjectContainer = () => {
   console.log('Projects >>> ', projects);
   // generate an array of Project components based on data
   const publicProjects = [];
-  const userProjects = []; 
+  const userProjects = [];
   projects.forEach((proj, index) => {
     const component = <Project
                   key= { index }
                   name = {proj.name}
                   likes = {proj.likes}
+                  published = { proj.published }
                   userId = {proj.userId}
                   username = {proj.username}
                   id = {proj.id}
                 />;
     if (username === proj.username) userProjects.push(component);
-    else publicProjects.push(component);
+    if (proj.published) publicProjects.push(component);
   });
 
   return (

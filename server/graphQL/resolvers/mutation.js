@@ -71,6 +71,26 @@ const Project = {
     });
   },
 
+  deleteProject: async (parent, { projId }) => {
+    const filter = { _id: projId };
+    const options = { strict: true };
+    const resp = await Projects.findOneAndDelete(filter, options);
+  
+    if (resp) {
+      return ({
+        name: resp.name,
+        id: resp._id,
+        userId: resp.userId,
+        likes: resp.likes,
+        published: resp.published,
+      });
+    }
+
+    throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
+  },
+
   publishProject: async (parent, { projId, published }) => {
 
     const filter = { _id: projId };
