@@ -12,7 +12,8 @@ function Canvas() {
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  
+  // console.log('currentComponent', currentComponent)
+
   // changes focus of the canvas to a new component / child
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
@@ -31,6 +32,7 @@ function Canvas() {
       if (didDrop) {
         return;
       }
+      console.log('item', item)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
         dispatch({
@@ -47,6 +49,7 @@ function Canvas() {
         dispatch({
           type: 'CHANGE POSITION',
           payload: {
+            // name: item.name,
             currentChildId: item.childId,
             newParentChildId: null
           }

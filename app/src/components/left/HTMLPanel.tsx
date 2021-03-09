@@ -184,7 +184,7 @@ const HTMLPanel = (props): JSX.Element => {
                 type="text"
                 name="Tag"
                 value={tag}
-                autocomplete="off"
+                autoComplete="off"
                 onChange={handleTagChange}
                 className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginBottom: '10px' }}
@@ -206,7 +206,7 @@ const HTMLPanel = (props): JSX.Element => {
               name="Tag Name"
               value={name}
               onChange={handleNameChange}
-              autocomplete="off"
+              autoComplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
 

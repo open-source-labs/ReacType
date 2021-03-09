@@ -75,8 +75,6 @@ const Project = {
       likes: -1,
     }];
   },
-
-
 };
 
 module.exports = {

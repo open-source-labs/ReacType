@@ -1,21 +1,14 @@
 // import { supportsResultCaching } from '@apollo/client/cache/inmemory/entityStore';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
+import { useQuery } from '@apollo/client';
+import { GET_PROJECTS } from './gqlStrings';
+import Project from './Project.tsx';
 
-const sortByRating = () => {
-  console.log("rating")
-};
 
-const sortByDate = () => {
-  console.log("date")
-};
 
-const sortByUser = () => {
-  console.log("user")
-};
 
 export default function SortMenu() {
-  
   const [isOpen, setIsOpen] = useState(false);
   const toggling = () => setIsOpen(!isOpen);
 
@@ -62,5 +55,5 @@ export default function SortMenu() {
         )
       }
     </div>
-  )
+  );
 }
