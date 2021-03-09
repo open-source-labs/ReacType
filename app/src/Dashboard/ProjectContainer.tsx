@@ -9,6 +9,10 @@ import Project from './Project.tsx';
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
 const ProjectContainer = () => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> typescript
   let myVar = {};
   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';

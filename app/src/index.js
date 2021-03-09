@@ -16,12 +16,11 @@ import {
   Switch,
 } from 'react-router-dom';
 
-
 /*
 *  Dashboard
 */
-// import TestDashboard from './Dashboard/FormsContainer.jsx';
-import ProjectDashboard from './Dashboard/ProjectContainer.jsx';
+// import TestDashboard from './Dashboard/FormsContainer.ts';
+import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 import styles from './Dashboard/styles.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';

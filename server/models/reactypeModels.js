@@ -64,8 +64,11 @@ const projectSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users',
   },
+  username: {type: String, required: true }, 
   createdAt: { type: Date, default: Date.now }
-});
+}, { minimize: false }
+);
+// option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 
 // Test schema for implementing GraphQL
 const testSchema = new Schema({

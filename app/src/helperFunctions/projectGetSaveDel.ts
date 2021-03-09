@@ -32,7 +32,8 @@ export const saveProject = (
   const body = JSON.stringify({
     name,
     project: workspace,
-    userId: window.localStorage.getItem('ssid')
+    userId: window.localStorage.getItem('ssid'),
+    username: window.localStorage.getItem('username'),
   });
   const project = fetch(`${serverURL}/saveProject`, {
     method: 'POST',
