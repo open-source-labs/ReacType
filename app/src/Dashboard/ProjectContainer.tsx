@@ -10,7 +10,6 @@ import NavBar from './NavbarDash';
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
 const ProjectContainer = () => {
-
   let myVar = {};
   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
@@ -28,18 +27,19 @@ const ProjectContainer = () => {
   console.log('Projects >>> ', projects);
   // generate an array of Project components based on data
   const publicProjects = [];
-  const userProjects = []; 
+  const userProjects = [];
   projects.forEach((proj, index) => {
     const component = <Project
                   key= { index }
                   name = {proj.name}
                   likes = {proj.likes}
+                  published = { proj.published }
                   userId = {proj.userId}
                   username = {proj.username}
                   id = {proj.id}
                 />;
     if (username === proj.username) userProjects.push(component);
-    else publicProjects.push(component);
+    if (proj.published) publicProjects.push(component);
   });
 
  

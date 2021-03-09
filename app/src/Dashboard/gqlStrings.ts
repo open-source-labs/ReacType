@@ -8,7 +8,8 @@ export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
     likes 
     id
     userId
-    username 
+    username
+    published 
   }
 }`;
 
@@ -19,11 +20,10 @@ export const ADD_LIKE = gql`
     addLike(projId: $projId, likes: $likes) 
     {
       id
-      likes
     }
   }`;
 
-export const  MAKE_COPY = gql`
+export const MAKE_COPY = gql`
   mutation MakeCopy ($userId: ID!, $projId: ID!, $username: String!) {
     makeCopy(userId: $userId, projId: $projId, username: $username) 
     {
@@ -36,5 +36,14 @@ export const DELETE_PROJECT = gql`
     deleteProject(projId: $projId) 
     {
       id
+    }
+  }`;
+
+export const PUBLISH_PROJECT = gql`
+  mutation Publish($projId: ID!, $published: Boolean!) {
+    publishProject(projId: $projId, published: $published) 
+    {
+      id
+      published
     }
   }`;
