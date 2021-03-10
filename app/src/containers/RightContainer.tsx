@@ -43,7 +43,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
-  const [prevState, setPrevState] = useState(state);
 
 
   const resetFields = () => {
@@ -197,10 +196,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     return styleObj;
   };
 
-/****************************** UNDO AND REDO ****************************************** */
-// undo functionality
-// onClick this function will be invoked.
-// set current state components.children to previous state and store current state children array in another place holder to not lose current state before reassigning to previous position.
+// UNDO/REDO functionality--onClick these functions will be invoked.
 const undoAction = () => {
   dispatch({ type: 'UNDO', payload: {} });
 };
@@ -523,23 +519,15 @@ const redoAction = () => {
             color="primary"
             className={classes.button}
             onClick={undoAction}
-            // onClick={((e) => handleClick(e, prevCount))}
             >
-
-              {/* <i className="fas fa-backward"/> */}
               <i className="fas fa-undo"></i>
             </Button>
             <Button
             color="primary"
             className={classes.button}
             onClick={redoAction}
-
-            // onClick={clearComps}
-            // onClick={redoAction}
-            // onClick = {handleClick}
             >
               <i className="fas fa-redo"></i>
-              {/* <i className="fas fa-forward"/> */}
             </Button>
         </div>
         </div>

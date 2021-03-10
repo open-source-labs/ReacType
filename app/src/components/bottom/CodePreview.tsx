@@ -16,9 +16,7 @@ const CodePreview: React.FC<{
   setTheme: any | null;
   }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
-  // console.log('wrapper', wrapper)
   const dimensions = useResizeObserver(wrapper);
-  // console.log('dimensions', dimensions)
   const { width, height } =
     dimensions || 0;
 
@@ -27,7 +25,7 @@ const CodePreview: React.FC<{
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-// console.log('currentComp in CodePreview', currentComponent)
+
   const handleCodeSnipChange = val => {
     currentComponent.code = val;
   };

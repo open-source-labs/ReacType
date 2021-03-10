@@ -7,50 +7,44 @@ import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-// const snapStateArr = [];
+
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
-  console.log('state in Canvas', state);
-  // const [ prevState, setPrevState ] = useState<Array<object>>([]); // NOT USING
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
     );
 
-  // console.log('currentComponent', currentComponent)
-
   // changes focus of the canvas to a new component / child
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-    
   };
+
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
     changeFocus(state.canvasFocus.componentId, null);
-  }
+  };
 
   // stores a snapshot of state into the past array for UNDO
   const snapShotFunc = () => {
     // make a deep clone of state
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       state.past.push(deepCopiedState.components[0].children);
-      // console.log('state in snapShotFunc', state.past)
-    }
-
+  };
   
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
-      // returns false for direct drop target
+      // takes a snapshot of state to be used in UNDO and REDO cases
       snapShotFunc();
+      // returns false for direct drop target
       if (didDrop) {
         return;
       }
-      // console.log('item', item)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
         dispatch({
