@@ -46,8 +46,8 @@ const generateUnformattedCode = (
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
-        child['name'] = referencedComponent.name;
-        return child;
+          child['name'] = referencedComponent.name;
+          return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
@@ -67,7 +67,6 @@ const generateUnformattedCode = (
         return child;
       }
     });
-
     return enrichedChildren;
   };
 

@@ -252,7 +252,6 @@ const reducer = (state: State, action: Action) => {
 
       if (type === 'Component') {
         components.forEach(comp => {
-          console.log('comp in ADDD CHILD', comp)
           if (comp.id === typeId) {
             componentName = comp.name;
             componentChildren = comp.children;
