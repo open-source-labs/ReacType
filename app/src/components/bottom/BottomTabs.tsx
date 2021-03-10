@@ -25,8 +25,6 @@ const BottomTabs = () => {
   
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
-    // console.log('value', value)
-    // console.log('setTab', setTab)
     setTab(value);
   };
  // Allows users to toggle project between "next.js" and "Classic React"
@@ -36,7 +34,6 @@ const BottomTabs = () => {
     dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
   };
   const { components, HTMLTypes } = state;
-  // console.log('components', components)
 
   const changeTheme = e => {
     setTheme(e.target.value);

@@ -3,7 +3,9 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
 } from 'react';
+import initialState from '../context/initialState';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -41,6 +43,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
+
 
   const resetFields = () => {
     const style = configTarget.child
@@ -192,6 +195,15 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
    
     return styleObj;
   };
+
+// UNDO/REDO functionality--onClick these functions will be invoked.
+const undoAction = () => {
+  dispatch({ type: 'UNDO', payload: {} });
+};
+
+const redoAction = () => {
+  dispatch({ type: 'REDO', payload: {} });
+};
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
@@ -502,6 +514,22 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               </Button>
             </div>
           )}
+          <div className = {classes.buttonRow}>
+            <Button
+            color="primary"
+            className={classes.button}
+            onClick={undoAction}
+            >
+              <i className="fas fa-undo"></i>
+            </Button>
+            <Button
+            color="primary"
+            className={classes.button}
+            onClick={redoAction}
+            >
+              <i className="fas fa-redo"></i>
+            </Button>
+        </div>
         </div>
        
       </div>
