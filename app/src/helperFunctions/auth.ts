@@ -30,6 +30,9 @@ export const sessionIsCreated = (
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
+        // save username locally, will be added to saved project for each user
+        window.localStorage.setItem('username', username);
+
         return 'Success';
       }
       return data; // error message returned from userController.verifyUser
@@ -61,6 +64,8 @@ export const newUserIsCreated = (
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
         window.localStorage.setItem('ssid', data.sessionId);
+        // save username locally, will be added to saved project for each user
+        window.localStorage.setItem('username', username);
         return 'Success';
       }
       return data; // response is either Email Taken or Username Taken, refer to userController.createUser

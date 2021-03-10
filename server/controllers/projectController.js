@@ -6,11 +6,11 @@ const projectController = {};
 
 projectController.saveProject = (req, res, next) => {
   // pull project name and project itself from body
-  const { name, project, userId } = req.body;
+  const { name, project, userId, username } = req.body;
   // pull ssid from cookies for user id
   Projects.findOneAndUpdate(
     // looks in projects collection for project by user and name
-    { name, userId },
+    { name, userId, username },
     // update or insert the project
     { project },
     // Options:

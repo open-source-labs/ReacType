@@ -23,7 +23,7 @@ const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes,
   past: [],
-  future: [],
+  future: []
 };
 
 export default initialState;

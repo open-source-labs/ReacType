@@ -193,15 +193,6 @@ const reducer = (state: State, action: Action) => {
     }
   };
 
-/******************************* REDO ARRAY ********************************* */
-// let redoArr = [];
-// let stateSnap = [state];
-// console.log('stateSnap', stateSnap)
-// const redoArrFunc = (...htmlTag) => {
-  // redoArr.push(...htmlTag);
-  // return redoArr;
-// }
-
   switch (action.type) {
     case 'ADD COMPONENT': {
       if (
@@ -624,72 +615,14 @@ const reducer = (state: State, action: Action) => {
       };
     }
     case 'UNDO': {
-      //iterate through past arr, grab the 1 before the end, reassign state to equal that grabbed obj
-      // let past: object[] = state.past[state.past.length - 1];
-      // console.log()
-      // console.log('state before past', state);
-      // const pastBy = state.past[state.past.length - 1];
-      // console.log('pastBy', pastBy);
-      // console.log('state.past - 1', state.past[state.past.length - 1])
-      // state.past = [];
-
-
-      //check if state.components[0].children is nested
-        //if it is nested, go into that object and do something
-      //else, have state.comp.children = state.past[state.past.length - 1]
-      //pop from past
-      // const pastArr = state.past;
-      // let deletedNested = false;
-      // for(let i = 0; i < pastArr.length; i++) {
-      //   // console.log('each children obj', pastArr[i])
-      //   for(let currObj in pastArr[i]) {
-      //     // console.log('for in loop currObj', currObj)
-      //     if(pastArr[i][currObj].name === "div" /*deletedNested === false*/) {
-      //       console.log(pastArr[i][currObj].children, '<== pastArr[i][currObj]');
-      //       if(pastArr[i][currObj].children.length === 2) {
-      //         //   pastArr[i][currObj].children = [];
-      //         pastArr[i][currObj].children = [];
-      //         // deletedNested = true;
-      //         //   // state.components[0].children = pastArr[i][currObj].children
-      //         //   console.log('for in loop, val for div --> ', state)
-      //         // if(pastArr[i][currObj].children.length > 2) {
-      //         } else if(pastArr[i][currObj].children.length > 2) {
-      //           console.log('past greater than 2', pastArr[i][currObj].children)
-      //         }
-      //       } 
-      //   }
-
-      // }
-
-        // if(child[i].children.length === 2) {
-          // console.log(child[i])
-        //   // child[i].children = state.past[state.past.length - 2]//[];
-        //   child[i].children = [];
-        //   console.log('children of div or form', child[i])
-          
-        //   // child[i].children = state.past[state.past.length - 1]
-        // }
-        // child[i] = state.past[state.past.length - 1]  
-      // let nestedChildren: any[] = state.components[0].children[0].children;
-      // // check if there are any tags in the children of the children (nested tags)
-      // if(nestedChildren.length === 2){
-      //   // if there are, execute undo code specific to nested children, otherwise, execute code below for non-nested children
-      //   nestedChildren = [];
-      //   state.components[0].children[0].children = nestedChildren;
-      // } else if(nestedChildren.length > 2) {
-      //  nestedChildren = nestedChildren[nestedChildren.length - 2]; 
-      // } else {
-      // }
-      console.log('state before past reassigned', state);
-      console.log('checking if the one before equals the one after', state.past[state.past.length - 1] == state.past[state.past.length - 2])
-      // if(state.past[state.past.length - 1] === state.past[state.past.length - 2])
-    state.components[0].children = state.past[state.past.length - 1];
-    // state.future.push(state.past[state.past.length - 1]);
-    state.past.pop();
-    // deletedNested = false;
-      console.log('state after past reassigned', state);
+      //if past is empty, return state
+      if (state.past.length === 0) return {...state};
+      //the children array of state.components[0] will equal the last element of the past array
+        state.components[0].children = state.past[state.past.length-1];
+        //the last element of past array gets pushed into future;
+        state.future.push(state.past.pop());
+      //generate code for the Code Preview
       state.components.forEach((el, i) => {
-        // console.log('el in undo', el)
         el.code = generateCode(
           state.components,
           state.components[i].id,
@@ -700,103 +633,28 @@ const reducer = (state: State, action: Action) => {
       });
       return {
         ...state
-      }
+      };
     }
-
-
-
-      // console.log('state', state);
-      // const childrenArr = state.components[0].children;
-      // const children: Array<object | null> = [];
-      // const children = [];
-      // console.log('state.components', state.components[0].children)
-
-      // // console.log('state', state);
-      // // const childrenArr = state.components[0].children;
-      // // const children: Array<object | null> = [];
-      // const children = state.components[0].children;
-      // const past = [];
-
-      // // console.log('children', children)
-      // // console.log('state.components', state.components)
-      // children.forEach(htmlTag => past.push(htmlTag));
-      // // console.log('past', past);
-      // redoArr.push(past[past.length-2], past[past.length-1]);
-
-
-      // if(state.past.length >= 2) {
-      //   // state.past.splice(0, state.past.length -1);
-      //   state.past.length = 2;
-      //   } else {
-      //   state.past.push(past[past.length-2], past[past.length-1])
-      // }
-
-
-      // // redoArrFunc(past[past.length - 2], past[past.length-1])
-      // console.log('redoArr', redoArr);
-      // state.components[0].children = past.slice(0, past.length - 2);
-      // // console.log('state with past', state.components[0].children)
-      // // console.log('entire state with new past', state)
-      // state.components.forEach((el, i) => {
-      //   // console.log('el in undo', el)
-      //   el.code = generateCode(
-      //     state.components,
-      //     state.components[i].id,
-      //     state.rootComponents,
-      //     state.projectType,
-      //     state.HTMLTypes
-      //   );
-      // });
-      // // state.components[0].children.splice(0, state.components[0].children.length);
-      // console.log('the final boss in UNDO', state)
-      // return {
-      //   ...state,
-      // }
-
-      // console.log('state', state);
-      // let stateSnap = [state];
-      // stateSnap = stateSnap.slice(0, stateSnap.length +1);
-      // console.log('stateSnap in UNDOOOO', stateSnap);
-      // console.log('stateSnap in UNDO before push', stateSnap)
-      // stateSnap.push(state);
-      // // redoArr.push(stateSnap);
-      // console.log('stateSnap in UNDO after push', stateSnap)
-      // console.log('redoArr in undo', redoArr);
-
-      
-
-    // }
-////////////Reference ADD ELEMENT case to see how id is being incremented
     case 'REDO': {
-      // const children = state.components[0].children;
-      // if(redoArr.length >= 2) redoArr.length = 2;
-      // children.push(redoArr);
-      let {past} = state;
-      const children = state.components[0].children;
-      // while(past.length <= 2) {
-        children.push(...past)
-        // children.push(past[past.length -2]);
-      // }
+      //nothing left to redo
+      if(state.future.length === 0) return {...state};
+      //the children array of state.components[0] will equal the last element of the future array
+        state.components[0].children = state.future[state.future.length - 1];
+        //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
+        state.past.push(state.future.pop());
+      //generate code for the Code Preview
       state.components.forEach((el, i) => {
-        // console.log('el in undo', el)
         el.code = generateCode(
           state.components,
           state.components[i].id,
           state.rootComponents,
           state.projectType,
           state.HTMLTypes
-        );
+          );
       });
-      past.splice(0, past.length);
-      console.log('the final boss in REDO', state)
-      // console.log('past destructured', past)
-      // console.log('redoItems', redoItems)
-      // console.log('state in redo', state)
-      // console.log(redoArr())eeeeeeeeeeeeeeweeeee
-      // console.log('children in Redo', children)
       return {
         ...state
-      }
+      };
     }
 
     default:

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import customHooks from '../helperFunctions/customHook';
 import _ from 'lodash';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -8,77 +7,44 @@ import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-// const snapStateArr = [];
+
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
-  // const [ prevState, setPrevState ] = useState<Array<object>>([]); // NOT USING
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
     );
 
-  // console.log('currentComponent', currentComponent)
-
   // changes focus of the canvas to a new component / child
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-    
   };
+
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
     changeFocus(state.canvasFocus.componentId, null);
-  }
-  function onChangeHandler(event) {
-    // console.log('working', event.target)
-  }
+  };
 
-  // stores a limited snapshot of previous state to use in the useDrop function, for UNDO functionality
-  // const snapStateArr = [];
+  // stores a snapshot of state into the past array for UNDO
   const snapShotFunc = () => {
-  // make a deep clone of state ( JSON.parse(JSON.stringify(<object>)) ? )
-  // function inner() {
+    // make a deep clone of state
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       state.past.push(deepCopiedState.components[0].children);
-      // state.future.push(deepCopiedState.components[0].children);
-      console.log('state.past in canvas', state)
-  }
-      // console.log('deepCopiedState', deepCopiedState);
-      // stateSnapArr.push(deepCopiedState);
-      // state.past.push(deepCopiedState);
-      // console.log('state after push', state)
-      // console.log('state in canvas', state);
-      // return;
-      // snapStateArr.push(5);
-      // return snapStateArr;
-    // }
-    // inner();
-
-    // return;
-  // const prevCount = customHooks(state);
-  // console.log('prevCount', prevCount);
-  // console.log('state', state);
-
-  // setPrevState( previousState => {
-  //   return [...previousState].push(deepCopiedState);
-  // })
-  // console.log('prevState: ', prevState)
-
+  };
+  
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
-      // returns false for direct drop target
-      //code here
-      // 6.0 didDrop is firing when HTML tags are moved up
+      // takes a snapshot of state to be used in UNDO and REDO cases
       snapShotFunc();
-      // console.log('snapShotFunc invoked');                        // < ------ snapShotFunc here
+      // returns false for direct drop target
       if (didDrop) {
         return;
       }
-      // console.log('item', item)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
         dispatch({
@@ -121,7 +87,7 @@ function Canvas() {
   // Direct children are draggable/clickable
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
-    <div ref={drop} style={canvasStyle} onClick={onClickHandler} onChange={onChangeHandler}>
+    <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
       {/* currentComponent is the selected component on Left Panel (eg: App or Index with green dot to the left)  */}
       {renderChildren(currentComponent.children)}
     </div>
