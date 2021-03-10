@@ -627,9 +627,11 @@ const reducer = (state: State, action: Action) => {
       //the children array of state.components[0] will equal the last element of the past array
         state.components[0].children = state.past[state.past.length-1];
         //the last element of past array gets pushed into future;
-        // state.future.push(state.past[state.past.length - 1]);
+        state.future.push(state.past.pop());
+          // state.past[state.past.length - 1]);
         //pop the last element off the past array
-        state.past.pop();
+        // state.past.pop();
+        console.log('state in UNDO', state);
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -646,15 +648,15 @@ const reducer = (state: State, action: Action) => {
     }
     case 'REDO': {
       //nothing left to undo
-      if (state.past.length === 0) return {...state};
+      // if (state.past.length === 0) return {...state};
       //nothing left to redo
-      else if(state.future.length === 0) return {...state};
+      if(state.future.length === 0) return {...state};
       //the children array of state.components[0] will equal the last element of the future array
         state.components[0].children = state.future[state.future.length - 1];
         //the last element of the future array gets pushed into the past array
-        state.past.push(state.future[state.future.length - 1])
+        state.past.push(state.future.pop());
         //the last element of the future array gets popped off
-        state.future.pop();
+        console.log('state in REDO', state);
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -664,11 +666,11 @@ const reducer = (state: State, action: Action) => {
           state.projectType,
           state.HTMLTypes
           );
-        });
-        return {
-          ...state
-        };
-      }
+      });
+      return {
+        ...state
+      };
+    }
 
     default:
       return state;

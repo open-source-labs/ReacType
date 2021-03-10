@@ -14,7 +14,9 @@ export interface State {
   nextChildId: number;
   HTMLTypes: HTMLType[];
   past: any[];
+  future: any[];
 }
+
 export interface PastElement {
   type: string;
   typeId: number;
