@@ -133,8 +133,9 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port: ${PORT}`);
+// });
 
-module.export = PORT;
+// module.exports = PORT;
+module.exports = app;
