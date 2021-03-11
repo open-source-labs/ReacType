@@ -620,6 +620,8 @@ const reducer = (state: State, action: Action) => {
         state.components[0].children = state.past[state.past.length-1];
         //the last element of past array gets pushed into future;
         state.future.push(state.past.pop());
+
+        console.log('state in undo', state)
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -641,6 +643,8 @@ const reducer = (state: State, action: Action) => {
         state.components[0].children = state.future[state.future.length - 1];
         //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
         state.past.push(state.future.pop());
+
+        console.log('state in redo', state)
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(

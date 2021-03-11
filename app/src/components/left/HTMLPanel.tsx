@@ -188,7 +188,6 @@ const HTMLPanel = (props): JSX.Element => {
                 onChange={handleTagChange}
                 className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginBottom: '10px' }}
-                
               />
               
               {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))

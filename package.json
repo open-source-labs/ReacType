@@ -198,7 +198,6 @@
     "nodemon": "^2.0.4",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",
-    "spectron": "^11.1.0",
     "style-loader": "^0.20.3",
     "supertest": "^4.0.2",
     "ts-jest": "^25.3.0",
