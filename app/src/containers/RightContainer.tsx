@@ -356,7 +356,7 @@ const redoAction = () => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value=""></MenuItem>
+                      <MenuItem value="">none</MenuItem>
                       <MenuItem value={'row'}>row</MenuItem>
                       <MenuItem value={'column'}>column</MenuItem>
                     </Select>
@@ -377,7 +377,7 @@ const redoAction = () => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value=""></MenuItem>
+                      <MenuItem value="">none</MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
                       <MenuItem value={'flex-end'}>flex-end</MenuItem>
                       <MenuItem value={'center'}>center</MenuItem>
@@ -402,7 +402,7 @@ const redoAction = () => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value=""></MenuItem>
+                      <MenuItem value="">none</MenuItem>
                       <MenuItem value={'stretch'}>stretch</MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
                       <MenuItem value={'flex-end'}>flex-end</MenuItem>

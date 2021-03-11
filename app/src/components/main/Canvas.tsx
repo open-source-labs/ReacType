@@ -32,6 +32,7 @@ function Canvas() {
     // make a deep clone of state
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       state.past.push(deepCopiedState.components[0].children);
+      console.log('state in snapShotFunc', state)
   };
   
   // This hook will allow the user to drag items from the left panel on to the canvas

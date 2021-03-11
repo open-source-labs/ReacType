@@ -54,7 +54,7 @@ const snapShotFunc = () => {
     drop: (item: any, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
       // takes a snapshot of state to be used in UNDO and REDO cases
-      snapShotFunc();
+      // snapShotFunc();
       if (didDrop) {
         return;
       }
