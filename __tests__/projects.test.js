@@ -2,7 +2,8 @@ const request = require('supertest');
 let server = 'https://reactype.herokuapp.com';
 const isDev = process.env.NODE_ENV === 'development';
 if (isDev) {
-  server = 'http://localhost:5000';
+  // server = 'http://localhost:5000';
+  server = require('./server');
 }
 
 // save and get projects endpoint testing
