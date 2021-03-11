@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 // --------------------------Sorting Buttons------------------------------------//
 const sortByRating = (props) => {
-  console.log('rating');
-  console.log("props", props);
+  // console.log('rating');
+  // console.log("props", props);
 
   // should change state to true: then in the return for project container, a conditional rendering will occur
 
@@ -67,6 +67,7 @@ const sortByUser = (props) => {
 const sortMethods = ['rating', 'date', 'user'];
 
 export default function NavBar(props) {
+  console.log(props)
 
   const classes = useStyles();
   const { style, setStyle } = useContext(styleContext);
@@ -74,15 +75,9 @@ export default function NavBar(props) {
 
   // toggle dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('rating');
 
   const toggling = () => setIsOpen(!isOpen);
-// function not working properly, you have to go through the process and click twice
-  const optionClicked = value => () => {
-    setSelectedOption(value);
-    setIsOpen(false);
-    console.log('selectedOption', selectedOption);
-  };
+
   
   return (
     <div className={classes.root} style={style}>
@@ -110,7 +105,10 @@ export default function NavBar(props) {
               isOpen && (
                 <div className="sortDoc">
                   {sortMethods.map((option, index) => (
-                    <Button onClick={optionClicked(option)}
+                    <Button onClick={() => {
+                      props.optionClicked(option);
+                      toggling();
+                    }}
                     variant="contained"
                     color="primary"
                     style={{ minWidth: '137.69px' }}
