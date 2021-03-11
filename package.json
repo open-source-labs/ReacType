@@ -50,7 +50,7 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose",
+    "test": "cross-env NODE_ENV=test jest --verbose --forceExit",
     "server": "nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },

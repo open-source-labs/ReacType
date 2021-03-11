@@ -12,6 +12,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json());
 app.use(cookieParser());
@@ -133,9 +135,9 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-// app.listen(PORT, () => {
-//   console.log(`Server listening on port: ${PORT}`);
-// });
+if (isDev || isProd) {
+  app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+  module.exports = PORT;
+}
 
-// module.exports = PORT;
-module.exports = app;
+if (isTest) module.exports = app;
