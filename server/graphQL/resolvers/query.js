@@ -52,8 +52,6 @@ const Project = {
     // resp is null, return error message
     throw new UserInputError('Internal Server Error');
   },
-
-
 };
 
 module.exports = Project;

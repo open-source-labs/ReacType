@@ -7,12 +7,14 @@ const projectController = {};
 projectController.saveProject = (req, res, next) => {
   // pull project name and project itself from body
   const { name, project, userId, username } = req.body;
+  // create createdBy field for the document
+  const createdAt = Date.now();
   // pull ssid from cookies for user id
   Projects.findOneAndUpdate(
     // looks in projects collection for project by user and name
     { name, userId, username },
     // update or insert the project
-    { project },
+    { project, createdAt },
     // Options:
     // upsert: true - if none found, inserts new project, if found, updates project
     // new: true - returns updated document not the original one

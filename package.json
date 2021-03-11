@@ -132,6 +132,7 @@
     "electron-window-manager": "^1.0.6",
     "enzyme": "^3.4.1",
     "enzyme-adapter-react-16": "^1.2.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
     "immutable": "^4.0.0-rc.12",
