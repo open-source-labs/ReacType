@@ -1,11 +1,37 @@
 const request = require('supertest');
 // let server = 'https://reactype.herokuapp.com'; /* This is for production mode */
 
-const server = 'http://localhost:5000';
+// const server = 'http://localhost:5000';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
+  const { Mongoose } = require('mongoose');
+  let server;
+  
+  const user = {
+    username: 'reactype123',
+    email: 'reactype@gmail.com',
+    password: 'Reactype123!@#',
+    userId: '604a552e9167c02198895823'
+  };
+
+  beforeAll((done)=> {
+    const app = require('../server/server.js');
+    const http = require('http');
+    server = http.createServer(app);
+    server.listen(done);
+
+
+
+  });
+
+  afterAll((done)=> {
+    Mongoose.disconnect();
+    server.close(done);
+  });
+
+
   const num = Math.floor(Math.random() * 1000);
 
   // tests whether signup page is returned on navigation to /#/signup endpoint
@@ -27,9 +53,9 @@ describe('User authentication tests', () => {
           .send({
             username: `supertest${num}`,
             email: `test${num}@test.com`,
-            password: `${num}`
+            password: `${num}`,
           })
-         .set('Content-Type', 'application/json')  
+          .set('Content-Type', 'application/json')
           .expect(200)
           .then(res => expect(typeof res.body).toBe('object'));
       });
@@ -37,11 +63,7 @@ describe('User authentication tests', () => {
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
           .post('/signup')
-          .send({
-            username: 'reactype123',
-            email: 'reactype@gmail.com',
-            password: 'Reactype123!@#'
-          })
+          .send(user)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
@@ -64,12 +86,11 @@ describe('User authentication tests', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
           .post('/login')
-          .send({ username: 'reactype123', password: 'Reactype123!@#' })
+          .set('Accept', 'application/json')
+          .send(user)
           .expect(200)
           .expect('Content-Type', /json/)
-          .then(res =>
-            expect(res.body.sessionId).toEqual('60123800e51f92e14363d97e')
-          );
+          .then(res => expect(res.body.sessionId).toEqual(user.userId));
       });
       // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
