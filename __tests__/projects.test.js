@@ -9,33 +9,12 @@ if (isDev) {
   // server = 'http://localhost:5000';
 }
 
+
+const { projectToSave, state } = require('./mockData');
 // save and get projects endpoint testing
 describe('Project endpoints tests', () => {
   // initializes the project to be sent to server/DB
-  const state = {
-    name: 'test',
-    isLoggedIn: false,
-    components: [
-      {
-        id: 1,
-        name: 'index',
-        style: {},
-        code: '<div>Drag in a component or HTML element into the canvas!</div>',
-        children: [],
-      },
-    ],
-    projectType: 'Next.js',
-    rootComponents: [1],
-    canvasFocus: { componentId: 1, childId: null },
-    nextComponentId: 2,
-    nextChildId: 1,
-  };
-  const projectToSave = {
-    name: 'super test project',
-    project: state,
-    userId: '60469fc6c435891422b3a84c',
-    username: 'test',
-  };
+
   
   beforeAll((done)=> {
     const app = require('../server/server.js');
@@ -59,7 +38,7 @@ describe('Project endpoints tests', () => {
           .send(projectToSave)
           .expect(200)
           .expect('Content-Type', /application\/json/)
-          .then((res) => expect(res.body.name).toBe('super test project'));
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     });
   });
@@ -76,7 +55,7 @@ describe('Project endpoints tests', () => {
           .expect('Content-Type', /json/)
           .then((res) => {
             expect(Array.isArray(res.body)).toBeTruthy;
-            expect(res.body[0].name).toBe('test');
+            expect(res.body[0].name).toBe(state.name);
           });
       });
     });
@@ -92,7 +71,7 @@ describe('Project endpoints tests', () => {
           .set('Accept', 'application/json')
           .send({ name, userId })
           .expect(200)
-          .then((res) => expect(res.body.name).toBe('super test project'));
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     });
   });

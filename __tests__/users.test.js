@@ -4,17 +4,13 @@ const request = require('supertest');
 // const server = 'http://localhost:5000';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
+const { user }  = require('./mockData');
+ 
 // tests user signup and login routes
 describe('User authentication tests', () => {
   const { Mongoose } = require('mongoose');
   let server;
   
-  const user = {
-    username: 'reactype123',
-    email: 'reactype@gmail.com',
-    password: 'Reactype123!@#',
-    userId: '604a552e9167c02198895823'
-  };
 
   beforeAll((done)=> {
     const app = require('../server/server.js');
@@ -124,3 +120,4 @@ describe('Github oauth tests', () => {
     });
   });
 });
+

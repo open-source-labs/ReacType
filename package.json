@@ -40,7 +40,7 @@
   "scripts": {
     "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"npm run server\" ",
+    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"nodemon server/server.js\" ",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"npm run server\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
@@ -50,8 +50,8 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose --forceExit",
-    "k-test": "concurrently  \"npm run dev-server\"  \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
+    "test": "cross-env NODE_ENV=test jest --verbose ",
+    "k-test": "concurrently  \"npm run dev-server\"  \"cross-env NODE_ENV=test jest projects.test.js --detectOpenHandles \"",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
