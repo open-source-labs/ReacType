@@ -294,7 +294,7 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
-        children: [],
+        children: []
       };
       
 

@@ -14,7 +14,6 @@ function DirectChildHTML({
   type,
   typeId,
   style,
-  value,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
