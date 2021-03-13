@@ -16,6 +16,7 @@ const Project = {
         username: resp.username,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
@@ -46,6 +47,7 @@ const Project = {
         username: proj.username,
         likes: proj.likes,
         published: proj.published,
+        createdAt: proj.createdAt,
       }));
     }
 

@@ -1,13 +1,14 @@
+const app = require('../server/server');
 const request = require('supertest');
 let server = 'https://reactype.herokuapp.com';
 const isDev = process.env.NODE_ENV === 'development';
 if (isDev) {
   // server = 'http://localhost:5000';
-  server = require('./server');
+  server = require('..server/server');
 }
 
 // save and get projects endpoint testing
-describe('Project endpoints tests', () => {
+describe('Project GraphQL endpoints tests', () => {
   // initializes the project to be sent to server/DB
   const state = {
     name: 'test',
@@ -42,7 +43,7 @@ describe('Project endpoints tests', () => {
           .send(projectToSave)
           .expect('Content-Type', /json/)
           .expect(200)
-          .then((res) => expect(res.body.project.name).toBe('test'));
+          .then(res => expect(res.body.project.name).toBe('test'));
       });
     });
   });
@@ -74,7 +75,7 @@ describe('Project endpoints tests', () => {
           .send({ name, userId })
           .expect(200)
           .expect('Content-Type', /json/)
-          .then((res) => expect(res.body.name).toBe('test'));
+          .then(res => expect(res.body.name).toBe('test'));
       });
     });
   });

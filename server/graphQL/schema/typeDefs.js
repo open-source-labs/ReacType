@@ -22,6 +22,7 @@ const Project = gql`
     id: ID!
     userId: ID!
     username: String!
+    createdAt: String
   }
 
   type Query {

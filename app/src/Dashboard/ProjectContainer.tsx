@@ -35,7 +35,11 @@ const ProjectContainer = () => {
 
   const sortByDate = (projects) => {
     console.log('sort by date', projects);
-    // not sure how to sort by dates
+  
+    const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
+    console.log('sort by date result >>>', sortedRatings);
+
+    return sortedRatings;
   };
 
   const sortByUser = (projects) => {
@@ -56,6 +60,7 @@ const ProjectContainer = () => {
   if (error) return <p>Error :{error}</p>;
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
+  console.log("projects >>>>>>", projects);
   let sortedProjects = [];
   // console.log('Projects >>> ', projects);
   // generate an array of Project components based on data
@@ -69,6 +74,7 @@ const ProjectContainer = () => {
                   published = { proj.published }
                   userId = {proj.userId}
                   username = {proj.username}
+                  createdAt = {proj.createdAt}
                   id = {proj.id}
                   />;
     if (username === proj.username) userDisplay.push(component);
@@ -106,6 +112,7 @@ const ProjectContainer = () => {
       published = { proj.published }
       userId = {proj.userId}
       username = {proj.username}
+      createdAt = {proj.createdAt}
       id = {proj.id}
     />);
   });

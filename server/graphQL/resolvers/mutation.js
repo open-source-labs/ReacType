@@ -20,6 +20,7 @@ const Project = {
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
@@ -83,6 +84,7 @@ const Project = {
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
@@ -104,6 +106,7 @@ const Project = {
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
