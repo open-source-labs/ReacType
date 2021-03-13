@@ -81,7 +81,7 @@ const snapShotFunc = () => {
         });
       }
     },
-
+    
     collect: (monitor: any) => {
       return {
         isOver: !!monitor.isOver({ shallow: true })

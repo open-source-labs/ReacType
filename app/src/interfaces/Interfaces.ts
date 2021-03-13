@@ -17,16 +17,6 @@ export interface State {
   future: any[];
 }
 
-export interface PastElement {
-  type: string;
-  typeId: number;
-  name: string;
-  childId: number;
-  style: object;
-  attributes?: object;
-  children?: PastElement[];
-}
-
 export interface ChildElement {
   type: string;
   typeId: number;
@@ -36,7 +26,6 @@ export interface ChildElement {
   attributes?: object;
   children?: ChildElement[];
 }
-
 export interface Component {
   id: number;
   name: string;

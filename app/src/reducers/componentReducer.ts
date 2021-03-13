@@ -209,7 +209,7 @@ const reducer = (state: State, action: Action) => {
         style: {},
         code: '',
         children: [],
-        isPage: action.payload.root
+        isPage: action.payload.root,
       };
       components.push(newComponent);
 
@@ -237,7 +237,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId
+        childId,
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -285,7 +285,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren
+        children: componentChildren,
+
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -654,6 +655,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    case 'CHANGEDVALUE': {}
 
     default:
       return state;

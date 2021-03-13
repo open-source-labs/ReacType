@@ -46,8 +46,8 @@ const generateUnformattedCode = (
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
-        child['name'] = referencedComponent.name;
-        return child;
+          child['name'] = referencedComponent.name;
+          return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
@@ -67,10 +67,8 @@ const generateUnformattedCode = (
         return child;
       }
     });
-
     return enrichedChildren;
   };
-
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
@@ -176,7 +174,6 @@ const generateUnformattedCode = (
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
-
       ${
         classBased
           ? `class ${currentComponent.name} extends Component {`
