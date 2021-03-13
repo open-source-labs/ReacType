@@ -8,6 +8,8 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 import useResizeObserver from '../../tree/useResizeObserver';
 import { string } from 'prop-types';
 
@@ -16,9 +18,7 @@ const CodePreview: React.FC<{
   setTheme: any | null;
   }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
-  // console.log('wrapper', wrapper)
   const dimensions = useResizeObserver(wrapper);
-  // console.log('dimensions', dimensions)
   const { width, height } =
     dimensions || 0;
 
@@ -27,10 +27,11 @@ const CodePreview: React.FC<{
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-console.log('currentComp in CodePreview', currentComponent)
-  const handleCodeSnipChange = val => {
+
+  const handleCodeSnipChange = (val) => {
     currentComponent.code = val;
   };
+
   useEffect(() => {
     setDivHeight(height);
   }, [height])
@@ -42,7 +43,6 @@ console.log('currentComp in CodePreview', currentComponent)
         height: '100%',
         maxWidth: '100%',
         justifyContent: 'center',
-       
       }}
     >
       <AceEditor

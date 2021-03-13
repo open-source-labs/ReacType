@@ -11,7 +11,7 @@ import manageSeparators from '../helperFunctions/manageSeparators';
 
 let separator = initialState.HTMLTypes[1];
  
-// }
+
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js or Gatsby.js, next/gatsby component code should be generated
   // otherwise generate classic react code
@@ -209,7 +209,7 @@ const reducer = (state: State, action: Action) => {
         style: {},
         code: '',
         children: [],
-        isPage: action.payload.root
+        isPage: action.payload.root,
       };
       components.push(newComponent);
 
@@ -237,7 +237,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId
+        childId,
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -285,7 +285,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren
+        children: componentChildren,
+
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -612,6 +613,49 @@ const reducer = (state: State, action: Action) => {
         HTMLTypes
       };
     }
+    case 'UNDO': {
+      //if past is empty, return state
+      if (state.past.length === 0) return {...state};
+      //the children array of state.components[0] will equal the last element of the past array
+        state.components[0].children = state.past[state.past.length-1];
+        //the last element of past array gets pushed into future;
+        state.future.push(state.past.pop());
+      //generate code for the Code Preview
+      state.components.forEach((el, i) => {
+        el.code = generateCode(
+          state.components,
+          state.components[i].id,
+          state.rootComponents,
+          state.projectType,
+          state.HTMLTypes
+        );
+      });
+      return {
+        ...state
+      };
+    }
+    case 'REDO': {
+      //nothing left to redo
+      if(state.future.length === 0) return {...state};
+      //the children array of state.components[0] will equal the last element of the future array
+        state.components[0].children = state.future[state.future.length - 1];
+        //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
+        state.past.push(state.future.pop());
+      //generate code for the Code Preview
+      state.components.forEach((el, i) => {
+        el.code = generateCode(
+          state.components,
+          state.components[i].id,
+          state.rootComponents,
+          state.projectType,
+          state.HTMLTypes
+          );
+      });
+      return {
+        ...state
+      };
+    }
+    case 'CHANGEDVALUE': {}
 
     default:
       return state;

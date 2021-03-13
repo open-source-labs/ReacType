@@ -58,17 +58,22 @@ const sessionSchema = new Schema({
 
 const projectSchema = new Schema({
   name: String,
+  likes: { type: Number, default: 0 },
+  published: { type: Boolean, default: false },
   project: { type: Object, required: true },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'Users',
   },
-  createdAt: { type: Date, default: Date.now }
-});
+  username: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+}, { minimize: false });
+// option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 
 // Test schema for implementing GraphQL
 const testSchema = new Schema({
   name: String,
+  likes: Number,
 });
 const Tests = mongoose.model('Tests', testSchema);
 /* *********************************************** */

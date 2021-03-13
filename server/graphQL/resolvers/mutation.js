@@ -1,33 +1,120 @@
-const { Tests } = require('../../models/reactypeModels');
+const { UserInputError } = require('apollo-server-express');
+const { Projects, Users } = require('../../models/reactypeModels');
 /*
 * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
 * Link to Apollo Mutations:
 * https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 */
 
-
-module.exports = {
+const Project = {
+  addLike: async (parent, { projId, likes }) => {
+    const filter = { _id: projId };
+    const update = { likes };
+    const options = { new: true };
+    const resp = await Projects.findOneAndUpdate(filter, update, options);
   
-  addTest: async (parent, args) => {
-    const resp = await Tests.create({ name: args.name });
-    console.log('Added test', resp);
-    if (resp) return { description: args.name };
-    return { description: 'Error creating test' };
+    if (resp) {
+      return ({
+        name: resp.name,
+        id: resp._id,
+        userId: resp.userId,
+        likes: resp.likes,
+        published: resp.published,
+        createdAt: resp.createdAt,
+      });
+    }
+
+    throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
   },
 
-  updateTest: async (parent, args) => {
-    const filter = { _id: args.id };
-    const update = { name: args.name };
-    const resp = await Tests.updateOne(filter, update);
-    console.log('Updated database with', resp);
-    if (resp) return { description: args.name };
-    return { description: 'Error updating' };
+  makeCopy: async (parent, { projId, userId, username }) => {
+    const filter = { _id: projId };
+    const target = await Projects.findOne(filter);
+
+    if (!target) {
+      throw new UserInputError('Project is not found. Please try another project ID', {
+        argumentName: 'projId',
+      });
+    }
+
+    // check if user account exists
+    const user = await Users.findOne({ _id: userId });
+
+    if (user) {
+      // make a copy with the passed in userId
+      const copy = {
+        name: target.name,
+        project: target.project,
+        userId,
+        username,
+      };
+
+      // Make a copy of the requested project
+      const resp = await Projects.create(copy);
+      if (resp) {
+        return ({
+          name: resp.name,
+          id: resp._id,
+          userId: resp.userId,
+          username: resp.username,
+          likes: resp.likes,
+          published: resp.published,
+        });
+      }
+
+      throw new UserInputError('Internal Server Error');
+    }
+
+    throw new UserInputError('User is not found. Please try another user ID', {
+      argumentName: 'userId',
+    });
   },
 
-  deleteTest: async (parent, args) => {
-    const filter = { _id: args.id };
-    const resp = await Tests.deleteOne(filter);
-    if (resp) return { description: args.name };
-    return { description: 'Error updating' };
+  deleteProject: async (parent, { projId }) => {
+    const filter = { _id: projId };
+    const options = { strict: true };
+    const resp = await Projects.findOneAndDelete(filter, options);
+  
+    if (resp) {
+      return ({
+        name: resp.name,
+        id: resp._id,
+        userId: resp.userId,
+        likes: resp.likes,
+        published: resp.published,
+        createdAt: resp.createdAt,
+      });
+    }
+
+    throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
   },
+
+  publishProject: async (parent, { projId, published }) => {
+
+    const filter = { _id: projId };
+    const update = { published };
+    const options = { new: true };
+    const resp = await Projects.findOneAndUpdate(filter, update, options);
+    if (resp) {
+      return ({
+        name: resp.name,
+        id: resp._id,
+        userId: resp.userId,
+        likes: resp.likes,
+        published: resp.published,
+        createdAt: resp.createdAt,
+      });
+    }
+
+    throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
+  },
+
 };
+
+module.exports = Project;

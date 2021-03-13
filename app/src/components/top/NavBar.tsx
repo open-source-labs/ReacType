@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -27,7 +28,6 @@ import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
-
 
 
 // ROUTING TO DASHBOARD 
@@ -168,7 +168,7 @@ export default function NavBar(props) {
           </Typography>
 
           {/* ==================================Dashboard Button================================================== */}
-          <Link to='/dashboard'>
+          {state.isLoggedIn ? <Link to='/dashboard' style ={ {textDecoration: 'none'} }>
             <Button
               variant="contained"
               color="primary"
@@ -178,7 +178,7 @@ export default function NavBar(props) {
             >
               Dashboard
             </Button>
-          </Link>
+          </Link> : <span></span>}
           {/* ==================================Dashboard Button================================================== */}
 
           <Button 
