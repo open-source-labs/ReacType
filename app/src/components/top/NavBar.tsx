@@ -168,7 +168,7 @@ export default function NavBar(props) {
           </Typography>
 
           {/* ==================================Dashboard Button================================================== */}
-          <Link to='/dashboard' style ={ {textDecoration: 'none'} }>
+          {state.isLoggedIn ? <Link to='/dashboard' style ={ {textDecoration: 'none'} }>
             <Button
               variant="contained"
               color="primary"
@@ -178,7 +178,7 @@ export default function NavBar(props) {
             >
               Dashboard
             </Button>
-          </Link>
+          </Link> : <span></span>}
           {/* ==================================Dashboard Button================================================== */}
 
           <Button 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { gql, useQuery } from '@apollo/client';
+
+
 import Form from './Form.jsx';
 
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
