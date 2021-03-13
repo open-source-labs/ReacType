@@ -47,8 +47,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 // --------------------------Sorting Buttons------------------------------------//
 const sortByRating = (props) => {
-  // console.log('rating');
-  // console.log("props", props);
+
 
   // should change state to true: then in the return for project container, a conditional rendering will occur
 
