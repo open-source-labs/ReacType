@@ -8,7 +8,6 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
-import { isObjectType } from 'graphql';
 
 let separator = initialState.HTMLTypes[1];
  
@@ -210,7 +209,7 @@ const reducer = (state: State, action: Action) => {
         style: {},
         code: '',
         children: [],
-        isPage: action.payload.root
+        isPage: action.payload.root,
       };
       components.push(newComponent);
 
@@ -238,7 +237,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId
+        childId,
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -286,7 +285,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren
+        children: componentChildren,
+
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -294,7 +294,7 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
-        children: []
+        children: [],
       };
       
 
@@ -620,8 +620,6 @@ const reducer = (state: State, action: Action) => {
         state.components[0].children = state.past[state.past.length-1];
         //the last element of past array gets pushed into future;
         state.future.push(state.past.pop());
-
-        console.log('state in undo', state)
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -643,8 +641,6 @@ const reducer = (state: State, action: Action) => {
         state.components[0].children = state.future[state.future.length - 1];
         //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
         state.past.push(state.future.pop());
-
-        console.log('state in redo', state)
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -659,6 +655,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    case 'CHANGEDVALUE': {}
 
     default:
       return state;

@@ -1,3 +1,5 @@
+import React, {useContext, useRef, useState} from 'react';
+import StateContext from '../context/context';
 import {
   Component,
   State,
@@ -69,7 +71,6 @@ const generateUnformattedCode = (
     });
     return enrichedChildren;
   };
-
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
@@ -175,7 +176,6 @@ const generateUnformattedCode = (
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
-
       ${
         classBased
           ? `class ${currentComponent.name} extends Component {`

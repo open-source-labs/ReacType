@@ -49,7 +49,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     const style = configTarget.child
     ? configTarget.child.style
     : configTarget.style;
-    console.log('styleContext style', style)
     setDisplayMode(style.display ? style.display : '');
     setFlexDir(style.flexDirection ? style.flexDirection : '');
     setFlexJustify(style.justifyContent ? style.justifyContent : '');
@@ -68,7 +67,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
     let inputVal = e.target.value;
-console.log('inputVal', inputVal)
+
     switch (e.target.name) {
       case 'display':
         setDisplayMode(inputVal);
@@ -213,9 +212,6 @@ const undoRedoKey = useCallback((e) => {
 
 useEffect(() => {
   document.addEventListener("keydown", undoRedoKey);
-  return () => {
-    document.removeEventListener("keydown", undoRedoKey);
-  };
 }, []);
 
   // placeholder for handling deleting instance
