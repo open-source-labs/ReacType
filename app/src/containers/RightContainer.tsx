@@ -26,7 +26,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
-import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
@@ -47,8 +46,8 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
 
   const resetFields = () => {
     const style = configTarget.child
-    ? configTarget.child.style
-    : configTarget.style;
+      ? configTarget.child.style
+      : configTarget.style;
     setDisplayMode(style.display ? style.display : '');
     setFlexDir(style.flexDirection ? style.flexDirection : '');
     setFlexJustify(style.justifyContent ? style.justifyContent : '');
@@ -525,7 +524,6 @@ useEffect(() => {
             </div>
           )}
           <div className = {classes.buttonRow}>
-            {/* <HotKeys keyMap={undoKeyMap} handlers={undoHandlers}> */}
             <Button
             color="primary"
             className={classes.button}
@@ -533,8 +531,6 @@ useEffect(() => {
             >
               <i className="fas fa-undo"></i>
             </Button>
-            {/* </HotKeys> */}
-            {/* <HotKeys> */}
             <Button
             color="primary"
             className={classes.button}
@@ -542,7 +538,6 @@ useEffect(() => {
             >
               <i className="fas fa-redo"></i>
             </Button>
-            {/* </HotKeys> */}
         </div>
         </div>
        

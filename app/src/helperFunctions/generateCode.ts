@@ -1,5 +1,3 @@
-import React, {useContext, useRef, useState} from 'react';
-import StateContext from '../context/context';
 import {
   Component,
   State,
