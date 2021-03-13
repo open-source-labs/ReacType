@@ -8,7 +8,7 @@ if (isDev) {
 }
 
 // save and get projects endpoint testing
-describe('Project GraphQL endpoints tests', () => {
+describe('Project endpoints tests', () => {
   // initializes the project to be sent to server/DB
   const state = {
     name: 'test',
