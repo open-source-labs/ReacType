@@ -1,24 +1,18 @@
 const { Mongoose } = require('mongoose');
 const request = require('supertest');
-let server = 'https://reactype.herokuapp.com';
-const isDev = process.env.NODE_ENV === 'development';
 
 
-
-if (isDev) {
-  // server = 'http://localhost:5000';
-}
-
-
+// initializes the project to be sent to server/DB
 const { projectToSave, state } = require('./mockData');
+
+const app = require('../server/server.js');
+const http = require('http');
+let server;
+
 // save and get projects endpoint testing
 describe('Project endpoints tests', () => {
-  // initializes the project to be sent to server/DB
-
   
   beforeAll((done)=> {
-    const app = require('../server/server.js');
-    const http = require('http');
     server = http.createServer(app);
     server.listen(done);
   });

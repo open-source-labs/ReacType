@@ -1,25 +1,19 @@
+const { Mongoose } = require('mongoose');
 const request = require('supertest');
-// let server = 'https://reactype.herokuapp.com'; /* This is for production mode */
+const http = require('http');
+const app = require('../server/server.js');
 
-// const server = 'http://localhost:5000';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
-const { user }  = require('./mockData');
- 
+const { user } = require('./mockData');
+
 // tests user signup and login routes
 describe('User authentication tests', () => {
-  const { Mongoose } = require('mongoose');
   let server;
-  
 
   beforeAll((done)=> {
-    const app = require('../server/server.js');
-    const http = require('http');
     server = http.createServer(app);
     server.listen(done);
-
-
-
   });
 
   afterAll((done)=> {
@@ -100,19 +94,20 @@ describe('User authentication tests', () => {
     });
   });
 });
+
 // OAuth tests (currently inoperative)
-describe('Github oauth tests', () => {
+xdescribe('Github oauth tests', () => {
   describe('/github/callback?code=', () => {
     describe('GET', () => {
-      xit('responds with status 400 and error message if no code received', () => {
+      it('responds with status 400 and error message if no code received', () => {
         return request(server)
           .get('/github/callback?code=')
           .expect(400)
-          .then(res => {
+          .then((res) => {
             return expect(res.text).toEqual('\"Undefined or no code received from github.com\"');
           });
       });
-      xit('responds with status 400 if invalid code received', () => {
+      it('responds with status 400 if invalid code received', () => {
         return request(server)
           .get('/github/callback?code=123456')
           .expect(400)
