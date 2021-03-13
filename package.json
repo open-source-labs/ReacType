@@ -51,7 +51,7 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "server": "nodemon server/index.js",
+    "server": "nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {

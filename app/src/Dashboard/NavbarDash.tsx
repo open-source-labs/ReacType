@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import {
-  withStyles,
   createStyles,
   makeStyles,
   Theme,
@@ -10,18 +9,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-// ROUTING TO DASHBOARD
 import { Link } from 'react-router-dom';
 import { styleContext } from '../containers/AppContainer';
-import StateContext from '../../context/context';
 import logo from '../../../resources/icon.png';
 
 
@@ -45,38 +34,22 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-// --------------------------Sorting Buttons------------------------------------//
-const sortByRating = (props) => {
-
-
-  // should change state to true: then in the return for project container, a conditional rendering will occur
-
-  // generate a sorted array of public projects based on likes
-  // const sortedProjects = projects.sort((a, b) => ((a.likes > b.likes) ? 1 : -1));
-};
-
-const sortByDate = (props) => {
-  console.log('date');
-};
-
-const sortByUser = (props) => {
-  console.log('user');
-};
-
+// sorting options
 const sortMethods = ['rating', 'date', 'user'];
 
-export default function NavBar(props) {
+// TO DO: set types of props validation
 
+export default function NavBar(props) {
+  // TO DO: import setStyle
   const classes = useStyles();
   const { style, setStyle } = useContext(styleContext);
 
 
-  // toggle dropdown sorting menu
+  // toggle to open and close dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
 
   const toggling = () => setIsOpen(!isOpen);
 
-  
   return (
     <div className={classes.root} style={style}>
       <AppBar position="static">
@@ -86,15 +59,15 @@ export default function NavBar(props) {
             ReacType
           </Typography>
 
-          {/* ==================================Sort by Button================================================== */}
+          {/* ==========================================Sort by Button================================================== */}
          
           <div style ={ { textDecoration: 'none' } }>
             <Button onClick={toggling}
-            variant="contained"
-            color="primary"
-            style={{ minWidth: '137.69px' }}
-            className="navbarButton"
-            id="navbarButtonDash"
+              variant="contained"
+              color="primary"
+              style={{ minWidth: '137.69px' }}
+              className="navbarButton"
+              id="navbarButtonDash"
             >
               Sort documents
             </Button>
@@ -107,12 +80,12 @@ export default function NavBar(props) {
                       props.optionClicked(option);
                       toggling();
                     }}
-                    variant="contained"
-                    color="primary"
-                    style={{ minWidth: '137.69px' }}
-                    className="navbarButton"
-                    key={index}
-                    > {option}
+                      variant="contained"
+                      color="primary"
+                      style={{ minWidth: '137.69px' }}
+                      className="navbarButton"
+                      key={index}
+                      > {option}
                     </Button>
                   ))};
                 </div>
@@ -121,6 +94,7 @@ export default function NavBar(props) {
           </div>
 
           {/* ====================================Home Button============================================== */}
+          
           <div style ={ { textDecoration: 'none' } }>
             <Link to="/">
               <Button

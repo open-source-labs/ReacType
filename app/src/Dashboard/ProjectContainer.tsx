@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project.tsx';
 import NavBar from './NavbarDash';
@@ -20,52 +18,42 @@ const ProjectContainer = () => {
   // }
 
   // --------------------------Sorting Buttons------------------------------------//
+  
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState(null);
 
   const sortByRating = (projects) => {
-    // console.log('sort by rating :', projects);
     // generate a sorted array of public projects based on likes
-    const sortedRatings = projects.sort((a, b) =>  b.likes - a.likes );
-    // console.log('sort by rating result >>>', sortedRatings);
-
-    // setRenderedOption(sortedRatings);
+    const sortedRatings = projects.sort((a, b) =>  b.likes - a.likes);
     return sortedRatings;
   };
 
   const sortByDate = (projects) => {
-    console.log('sort by date', projects);
-  
+    // generate a sorted array of public projects based on date
     const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
-    console.log('sort by date result >>>', sortedRatings);
-
     return sortedRatings;
   };
 
   const sortByUser = (projects) => {
-    console.log('sort by user', projects);
+    // generate a sorted array of public projects based on username
     const sortedRatings = projects.sort((a, b) => b.user - a.user);
-    console.log('sort by rating result >>>', sortedRatings);
-
     return sortedRatings;
   };
-
-
   // ===================================================================================== //
 
   // useQuery hook abstracts fetch request
-  // Need to find where the userId is stored for the logged in user.
-  const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar }); 
+  const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}</p>;
+
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-  console.log("projects >>>>>>", projects);
+
+  // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = [];
-  // console.log('Projects >>> ', projects);
-  // generate an array of Project components based on data
-  let publicDisplay = [];
+  // create array to hold the components Project of loggin-in users
   const userDisplay = [];
+  // generate an array of Project components based on queried data
   projects.forEach((proj, index) => {
     const component = <Project
                   key= { index }
@@ -77,34 +65,27 @@ const ProjectContainer = () => {
                   createdAt = {proj.createdAt}
                   id = {proj.id}
                   />;
+    // sorting the public and private dashboards based on the user's username
     if (username === proj.username) userDisplay.push(component);
     if (proj.published) {
-      // publicDisplay.push(component);
+
       sortedProjects.push(proj);
     }
   });
 
 
-  // function for sorting menu in nav bar
-  
+  // function for selecting drop down sorting menu
   const optionClicked = (value) => {
-    console.log('value', value);
     setSelectedOption(value);
   };
-  
- 
-    
-  console.log('SortedProject >>> ', sortedProjects);
-  
-  // if selectedOption === null, displaySorted = publicProjects
-  // else displaySorted = convert to components from return value of a sortBy function)
+  // checking which sorting method was selected from drop down menu and invoking correct sorting function
   if (selectedOption === 'date') sortedProjects = sortByDate(sortedProjects);
   else if (selectedOption === 'user') sortedProjects = sortByUser(sortedProjects);
   else if (selectedOption === 'rating') sortedProjects = sortByRating(sortedProjects);
   
+  // create an array of components Project that will be conditionally rendered
   const sortedDisplay = [];
   sortedProjects.forEach((proj, index) => {
-    console.log('Pushing to displayProjects >>> ', proj);
     sortedDisplay.push(<Project
       key= { index }
       name = {proj.name}
@@ -116,29 +97,20 @@ const ProjectContainer = () => {
       id = {proj.id}
     />);
   });
-  console.log('displaySorted >>> ', sortedDisplay);
-  
-  
-  // if (selectedOption === 'date') sortByDate(publicProjects);
-  // if (selectedOption === 'user') sortByUser(publicProjects); 
-  // console.log('selectedOption', selectedOption);
-  
-  
-  
+
   return (
     <div>
-        <NavBar optionClicked = {optionClicked}/>
-        <h1> Public Dashboard </h1>
+      <NavBar optionClicked = {optionClicked}/>
+      <h1> Public Dashboard </h1>
         <div className = "projectContainer">
             {sortedDisplay}
         </div>
-        <hr></hr>
+      <hr></hr>
         <h1> User Dashboard </h1>
         <div className = "projectContainer">
-            {userDisplay}
+          {userDisplay}
         </div>
-
-        </div>
+    </div>
   );
 };
 export default ProjectContainer;
