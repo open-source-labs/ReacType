@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
@@ -140,6 +140,19 @@ const HTMLPanel = (props): JSX.Element => {
       payload: id
     });
   };
+
+  const handleCreateElement = useCallback((e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('submitButton').click();
+    }
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", handleCreateElement);
+  }, []);
+
+
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (

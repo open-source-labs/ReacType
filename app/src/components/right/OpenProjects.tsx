@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -86,10 +86,22 @@ export default function ProjectsFolder() {
     setOpen(false);
   };
 
+  const keybindOpenProject = useCallback((e) => {
+    if(e.key === 'o' && e.metaKey) {
+      e.preventDefault();
+      handleClickOpen();
+    }
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", keybindOpenProject);
+  }, []);
+
   return (
     <div>
       <Button
         color="primary"
+        id="openProject"
         onClick={handleClickOpen}
         endIcon={<FolderOpenIcon />}
       >

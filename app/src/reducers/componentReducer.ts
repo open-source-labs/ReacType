@@ -400,12 +400,6 @@ const reducer = (state: State, action: Action) => {
       }
       return { ...state };
 
-      // if (childId < 1000) { // makes separators not selectable
-      //   const canvasFocus = { ...state.canvasFocus, componentId, childId };
-      //   console.log('canvasFocus in reducer', canvasFocus)
-      //   return { ...state, canvasFocus };
-      // }
-      // return { ...state };
     }
 
     case 'UPDATE CSS': {

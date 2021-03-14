@@ -60,7 +60,6 @@ function DirectChildHTML({
         : '1px solid grey'
   };
 
-  console.log('ineractive', interactiveStyle)
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle

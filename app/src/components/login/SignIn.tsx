@@ -99,7 +99,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         setPassword(inputVal);
         break;
     }
-    console.log('username', username, password)
   };
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -134,7 +133,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
-  const keyBindedFunc = useCallback((e) => {
+  const keybindSignIn = useCallback((e) => {
     if(e.key === 'Enter') {
       e.preventDefault();
       document.getElementById('SignIn').click();
@@ -142,7 +141,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keyBindedFunc);
+    document.addEventListener("keydown", keybindSignIn);
   }, []);
 
   // for users not wanting to make an account and use as guest
