@@ -42,6 +42,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
+    console.log(e.target.value)
     setCompName(e.target.value);
   };
 
@@ -108,12 +109,15 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     resetError();
   };
 
-  const keyBindedFunc = useCallback((e) => {
-    (e.key === 'Enter') ? handleNameSubmit() : '';
+  const keyBindSubmit = useCallback((e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('addComponentButton').click();
+    }
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keyBindedFunc);
+    document.addEventListener("keydown", keyBindSubmit);
   }, []);
 
 
@@ -145,7 +149,8 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     value={compName}
                     error={errorStatus}
                     helperText={errorStatus ? errorMsg : ''}
-                  onChange={handleNameInput}
+                    onChange={handleNameInput}
+                    // onSubmit={handleNameSubmit}
               />
               </div>
             </div>
@@ -159,6 +164,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
+                    
                   />
                 }
                 label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
