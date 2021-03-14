@@ -50,9 +50,9 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=development jest --verbose ",
+    "test": "cross-env NODE_ENV=test jest --verbose ",
     "k-test": "concurrently  \"npm run dev-server\"  \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js",
+    "server": "cross-env NODE_ENV=test nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {
@@ -67,6 +67,8 @@
   ],
   "license": "MIT",
   "jest": {
+    "testEnvironment" : "jsdom",
+    "bail": true,
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
@@ -93,10 +95,7 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ],
-
-    "testEnvironment": "node",
-    "bail": true
+    ]
   },
 
   "bugs": {

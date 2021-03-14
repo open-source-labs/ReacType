@@ -1,11 +1,31 @@
 import { sessionIsCreated, newUserIsCreated } from '../app/src/helperFunctions/auth';
 
+const { Mongoose } = require('mongoose');
+
+const http = require('http');
+const app = require('../server/server.js');
+
+let server;
+
+
 // tests auth.ts helper function and associated server routes
 describe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
   let password;
   let isFbOauth; // whether OAuth is used
+
+
+  beforeAll((done) => {
+    server = http.createServer(app);
+    server.listen(done);
+  });
+
+  afterAll((done)=> {
+    Mongoose.disconnect();
+    server.close(done);
+  });
+
 
   // Called under SignIn.tsx
   describe('sessionIsCreated', () => {
