@@ -221,7 +221,8 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const keyBindedFunc = useCallback((e) => {
     (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
     (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
-    (e.key === 'Backspace') ? handleDelete() : '';
+    (e.key === 'Backspace') ? handleDelete() : 
+    (e.key === 's' && e.metaKey) ? handleSave() : '';
   }, []);
   
   useEffect(() => {

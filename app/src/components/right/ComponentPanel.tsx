@@ -120,7 +120,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     document.addEventListener("keydown", keyBindSubmit);
   }, []);
 
-
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
