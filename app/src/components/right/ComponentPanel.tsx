@@ -42,7 +42,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetError();
-    console.log(e.target.value)
     setCompName(e.target.value);
   };
 
@@ -109,7 +108,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     resetError();
   };
 
-  const keyBindSubmit = useCallback((e) => {
+  const keyBindCreateComponent = useCallback((e) => {
     if(e.key === 'Enter') {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
@@ -117,7 +116,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keyBindSubmit);
+    document.addEventListener("keydown", keyBindCreateComponent);
   }, []);
 
   const isFocus = (targetId: Number) => {

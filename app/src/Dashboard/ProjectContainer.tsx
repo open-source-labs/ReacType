@@ -31,9 +31,7 @@ const ProjectContainer = () => {
   const [isThemeLight, setTheme] = useState(true);
 
   const initialStyle = useContext(styleContext);
-  console.log('initialStyle', initialStyle);
   const [style, setStyle] = useState(initialStyle);
-console.log('style in ProjectContainer', style)
 
   // --------------------------Sorting Buttons------------------------------------//
   
@@ -88,20 +86,17 @@ console.log('style in ProjectContainer', style)
     if (proj.published) {
 
       sortedProjects.push(proj);
-      console.log('sortedProjects', sortedProjects)
     }
   });
-
-  // console.log('state in proj container', state)
 
   // function for selecting drop down sorting menu
   const optionClicked = (value) => {
     setSelectedOption(value);
   };
   // checking which sorting method was selected from drop down menu and invoking correct sorting function
-  if (selectedOption === 'date') sortedProjects = sortByDate(sortedProjects);
-  else if (selectedOption === 'user') sortedProjects = sortByUser(sortedProjects);
-  else if (selectedOption === 'rating') sortedProjects = sortByRating(sortedProjects);
+  if (selectedOption === 'Date') sortedProjects = sortByDate(sortedProjects);
+  else if (selectedOption === 'User') sortedProjects = sortByUser(sortedProjects);
+  else if (selectedOption === 'Rating') sortedProjects = sortByRating(sortedProjects);
   
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = [];
@@ -120,7 +115,6 @@ console.log('style in ProjectContainer', style)
 
   return (
     <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-    {/* <styleContext.Provider value={{ style, setStyle }}> */}
     <div className = "dashboardContainer">
       <NavBarDash setTheme={setTheme} styles={[style, setStyle]} isThemeLight={isThemeLight} optionClicked={optionClicked}/>
       <h1> Public Dashboard </h1>
@@ -133,8 +127,8 @@ console.log('style in ProjectContainer', style)
           {userDisplay}
         </div>
     </div>
-    {/* </styleContext.Provider> */}
     </MuiThemeProvider>
   );
 };
+
 export default ProjectContainer;

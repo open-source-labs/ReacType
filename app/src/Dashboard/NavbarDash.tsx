@@ -97,8 +97,7 @@ export default function NavBar(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-console.log('style in navbardash', props.styles)
-console.log('theme', props.isThemeLight)
+
   return (
     <div className={classes.root} style={style}>
       <AppBar position="static">

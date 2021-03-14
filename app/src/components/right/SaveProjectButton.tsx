@@ -54,11 +54,9 @@ export default function FormDialog() {
     (e.key === 's' && e.metaKey) ? handleClickOpen() : '';
   }, []);
 
-    useEffect(() => {
-      document.addEventListener("keydown", saveKeyBind);
-    }, []);
-
-
+  useEffect(() => {
+    document.addEventListener("keydown", saveKeyBind);
+  }, []);
 
   return (
     <div>
