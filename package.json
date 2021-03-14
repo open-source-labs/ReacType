@@ -51,7 +51,7 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "cross-env NODE_ENV=test jest --verbose ",
-    "k-test": "concurrently  \"npm run dev-server\"  \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
+    "k-test": "concurrently   \"cross-env NODE_ENV=test jest enzyme.test.tsx --detectOpenHandles \"",
     "server": "cross-env NODE_ENV=test nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },

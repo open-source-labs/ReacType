@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { shallow, render, mount } from 'enzyme';
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -18,6 +18,7 @@ import NavBar from '../app/src/components/top/NavBar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Tab from '@material-ui/core/Tab';
 import RightContainer from '../app/src/containers/RightContainer';
+import LoginButton from '../app/src/components/right/LoginButton';
 
 /* If there is an error with unmatched snapshots because of intentionally modified codes, delete the contents in enzyme.test.tsx.snap to record new codes as blueprints */
 
@@ -108,11 +109,14 @@ describe('Test AppContainer container', () => {
   });
   // testing for a RightContainer
   it('Should render RightContainer', () => {
+    // This test doesnt work eventhough the component renders
+    // expect(
+    //   target.contains(
+    //     <RightContainer isThemeLight={props.isThemeLight}/>
+    //   )).toBe(true);
     expect(
-      target.contains(
-        <RightContainer />,
-      ),
-    ).toBe(true);
+        target.find(RightContainer)
+      ).toHaveLength(1);
 });
 
 // testing for NavBar component
@@ -121,37 +125,34 @@ describe('Test NavBar component', () => {
     setTheme: jest.fn(),
     isThemeLight: jest.fn(),
   };
-  const target = shallow(
+  const target = shallow (
     <NavBar setTheme={props.setTheme} isThemeLight={props.isThemeLight} />
   );
   // testing for 4 generic buttons in NavBar
-  it('Should render 4 buttons: "Clear Canvas", "Export", "Dark Mode", "Login"', () => {
-    expect(target.find('.navbarButton')).toHaveLength(4);
+  it('Should render 2 buttons: "Clear Canvas", "Dark Mode"', () => {
+    expect(target.find('.navbarButton')).toHaveLength(2);
     expect(
       target
         .find('.navbarButton')
         .at(0)
         .text(),
     ).toEqual('Clear Canvas');
-     expect(
-       target
-         .find('.navbarButton')
-         .at(1)
-         .text(),
-     ).toEqual('Export');
       expect(
       target
         .find('.navbarButton')
-        .at(2)
+        .at(1)
         .text(),
     ).toEqual('Dark Mode');
-     expect(
-       target
-         .find('.navbarButton')
-         .at(3)
-         .text(),
-     ).toEqual('Login');
+    
   });
+
+  it('Should render "Login" button', () => {
+    const wrapper = shallow( <LoginButton />);
+    expect(wrapper).toHaveLength(1);
+    expect(
+        wrapper
+        .find('.navbarButton')
+    ).toHaveLength(1);
 });
 
 describe('Test LeftContainer container', () => {
@@ -161,5 +162,3 @@ describe('Test LeftContainer container', () => {
     expect(target.find(<HTMLPanel />)).toBeDefined();
   });
 });
-
-
