@@ -1,3 +1,4 @@
+const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
@@ -56,7 +57,6 @@ app.use(
 GraphQl Router
 */
 /* ******************************************************************* */
-const { ApolloServer } = require('apollo-server-express');
 
 // Query resolvers
 const Query = require('./graphQL/resolvers/query');

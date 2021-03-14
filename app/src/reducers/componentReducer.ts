@@ -390,14 +390,22 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE FOCUS': {
       const {
         componentId,
-        childId
-      }: { componentId: number; childId: number | null } = action.payload;
-
+        childId,
+      }: { componentId: number; childId: number | null; } = action.payload;
+      
       if (childId < 1000) { // makes separators not selectable
-        const canvasFocus = { ...state.canvasFocus, componentId, childId };
-        return { ...state, canvasFocus };
+        let canvasFocus = { ...state.canvasFocus, componentId, childId};
+        console.log('canvasFocus', canvasFocus)
+        return {...state, canvasFocus}
       }
       return { ...state };
+
+      // if (childId < 1000) { // makes separators not selectable
+      //   const canvasFocus = { ...state.canvasFocus, componentId, childId };
+      //   console.log('canvasFocus in reducer', canvasFocus)
+      //   return { ...state, canvasFocus };
+      // }
+      // return { ...state };
     }
 
     case 'UPDATE CSS': {

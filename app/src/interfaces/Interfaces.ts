@@ -15,6 +15,7 @@ export interface State {
   HTMLTypes: HTMLType[];
   past: any[];
   future: any[];
+  arrowMovements: any[];
 }
 
 export interface ChildElement {
@@ -25,6 +26,9 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  setFocus?: any;
+  index?: number;
+  focus?: boolean;
 }
 export interface Component {
   id: number;

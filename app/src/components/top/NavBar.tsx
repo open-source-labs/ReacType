@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// Drop down menu button for export
+// Drop down menu button for manage
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5'
@@ -99,7 +99,7 @@ export default function NavBar(props) {
   // State for clear canvas button
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
-
+// console.log('style in navbar', style)
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };

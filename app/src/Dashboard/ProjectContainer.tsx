@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect, createContext } from 'react';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECTS } from './gqlStrings';
-import Project from './Project.tsx';
-import NavBar from './NavbarDash';
-
+import Project from './Project';
+import NavBarDash from './NavbarDash';
+import AppContainer from '../containers/AppContainer';
+import { theme1, theme2 } from '../public/styles/theme';
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
+
+export const styleContext = createContext({
+  style: null,
+  setStyle: null
+});
+
+// setting light and dark themes (navbar and background); linked to theme.ts
+const lightTheme = theme1;
+const darkTheme = theme2; // dark mode color in theme.ts not reached
 
 const ProjectContainer = () => {
   const myVar = {};
@@ -16,6 +27,13 @@ const ProjectContainer = () => {
   // if (userSSID !== 'guest') {
   //   myVar = { userId: userSSID };
   // }
+
+  const [isThemeLight, setTheme] = useState(true);
+
+  const initialStyle = useContext(styleContext);
+  console.log('initialStyle', initialStyle);
+  const [style, setStyle] = useState(initialStyle);
+console.log('style in ProjectContainer', style)
 
   // --------------------------Sorting Buttons------------------------------------//
   
@@ -70,9 +88,11 @@ const ProjectContainer = () => {
     if (proj.published) {
 
       sortedProjects.push(proj);
+      console.log('sortedProjects', sortedProjects)
     }
   });
 
+  // console.log('state in proj container', state)
 
   // function for selecting drop down sorting menu
   const optionClicked = (value) => {
@@ -99,8 +119,10 @@ const ProjectContainer = () => {
   });
 
   return (
-    <div>
-      <NavBar optionClicked = {optionClicked}/>
+    <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
+    {/* <styleContext.Provider value={{ style, setStyle }}> */}
+    <div className = "dashboardContainer">
+      <NavBarDash setTheme={setTheme} styles={[style, setStyle]} isThemeLight={isThemeLight} optionClicked={optionClicked}/>
       <h1> Public Dashboard </h1>
         <div className = "projectContainer">
             {sortedDisplay}
@@ -111,6 +133,8 @@ const ProjectContainer = () => {
           {userDisplay}
         </div>
     </div>
+    {/* </styleContext.Provider> */}
+    </MuiThemeProvider>
   );
 };
 export default ProjectContainer;

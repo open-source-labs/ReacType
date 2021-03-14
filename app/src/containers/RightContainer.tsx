@@ -26,6 +26,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
+import { SettingsInputComponentOutlined } from '@material-ui/icons';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
@@ -196,22 +197,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   };
 
 // UNDO/REDO functionality--onClick these functions will be invoked.
-const undoAction = () => {
-  dispatch({ type: 'UNDO', payload: {} });
-};
+  const handleUndo = () => {
+    dispatch({ type: 'UNDO', payload: {} });
+  };
 
-const redoAction = () => {
-  dispatch({ type: 'REDO', payload: {} });
-};
-
-const undoRedoKey = useCallback((e) => {
-  (e.key === 'z' && e.metaKey && !e.shiftKey) ? undoAction() :
-  (e.shiftKey && e.metaKey && e.key === 'z') ? redoAction() : '';
-}, []);
-
-useEffect(() => {
-  document.addEventListener("keydown", undoRedoKey);
-}, []);
+  const handleRedo = () => {
+    dispatch({ type: 'REDO', payload: {} });
+  };
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
@@ -225,6 +217,16 @@ useEffect(() => {
       ? handleDialogError('index')
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
+
+  const keyBindedFunc = useCallback((e) => {
+    (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
+    (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
+    (e.key === 'Backspace') ? handleDelete() : '';
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", keyBindedFunc);
+  }, []);
 
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
@@ -527,14 +529,14 @@ useEffect(() => {
             <Button
             color="primary"
             className={classes.button}
-            onClick={undoAction}
+            onClick={handleUndo}
             >
               <i className="fas fa-undo"></i>
             </Button>
             <Button
             color="primary"
             className={classes.button}
-            onClick={redoAction}
+            onClick={handleRedo}
             >
               <i className="fas fa-redo"></i>
             </Button>

@@ -23,7 +23,8 @@ const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes,
   past: [],
-  future: []
+  future: [],
+  arrowMovements: [],
 };
 
 export default initialState;

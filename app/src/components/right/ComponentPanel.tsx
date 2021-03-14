@@ -1,6 +1,6 @@
 // Future developers: This file needs to move to right folder: src/components/right
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
@@ -107,6 +107,15 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     createOption(compName);
     resetError();
   };
+
+  const keyBindedFunc = useCallback((e) => {
+    (e.key === 'Enter') ? handleNameSubmit() : '';
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", keyBindedFunc);
+  }, []);
+
 
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
