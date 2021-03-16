@@ -210,6 +210,8 @@ const reducer = (state: State, action: Action) => {
         code: '',
         children: [],
         isPage: action.payload.root,
+        past: [],
+        future: [],
       };
       components.push(newComponent);
 
@@ -325,6 +327,8 @@ const reducer = (state: State, action: Action) => {
       if (directParent && directParent.name === 'separator') 
         nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
       components[canvasFocus.componentId-1].children = addChildArray;
+      
+      // const realPast = [];
 
       parentComponent.code = generateCode(
         components,
@@ -616,12 +620,23 @@ const reducer = (state: State, action: Action) => {
       };
     }
     case 'UNDO': {
-      //if past is empty, return state
-      if (state.past.length === 0) return {...state};
-      //the children array of state.components[0] will equal the last element of the past array
-        state.components[0].children = state.past[state.past.length-1];
-        //the last element of past array gets pushed into future;
-        state.future.push(state.past.pop());
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //if the past array is empty, return state
+      if(state.components[focusIndex].past.length === 0) return {...state};
+      //the children array of the focused component will equal the last element of the past array
+      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1]
+      //the last element of the future array gets pushed into the past
+      //the last element of the future array gets popped out
+      state.components[focusIndex].future.push(state.components[focusIndex].past.pop())
+
+      
+      /**OLD CODE */
+      // //if past is empty, return state
+      // if (state.past.length === 0) return {...state};
+      // //the children array of state.components[0] will equal the last element of the past array
+      //   state.components[focusIndex].children = state.past[state.past.length-1];
+      //   //the last element of past array gets pushed into future;
+      //   state.future.push(state.past.pop());
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -637,13 +652,24 @@ const reducer = (state: State, action: Action) => {
       };
     }
     case 'REDO': {
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //if future array is empty, return state
+      if(state.components[focusIndex].future.length === 0) return {...state};
+      //the children array of the focused component will equal the last element of the future array
+      state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
+      //the last element of the future array gets pushed into the past
+        //the last element of the future array gets popped out
+      state.components[focusIndex].past.push(state.components[focusIndex].future.pop())
+
+
+
       //nothing left to redo
-      if(state.future.length === 0) return {...state};
-      //the children array of state.components[0] will equal the last element of the future array
-        state.components[0].children = state.future[state.future.length - 1];
-        //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
-        state.past.push(state.future.pop());
-      //generate code for the Code Preview
+      // if(state.future.length === 0) return {...state};
+      // //the children array of state.components[0] will equal the last element of the future array
+      //   state.components[focusIndex].children = state.future[state.future.length - 1];
+      //   //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
+      //   state.past.push(state.future.pop());
+      // //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
           state.components,

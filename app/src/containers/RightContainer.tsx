@@ -218,17 +218,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
 
-  const keyBindedFunc = useCallback((e) => {
-    (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
-    (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
-    (e.key === 'Backspace') ? handleDelete() : 
-    (e.key === 's' && e.metaKey) ? handleSave() : '';
-  }, []);
-  
-  useEffect(() => {
-    document.addEventListener("keydown", keyBindedFunc);
-  }, []);
-
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
@@ -248,6 +237,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const clearComps = (): void => {
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
+      console.log('state in Delete resuable', state.components)
       closeModal();
       dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
@@ -298,6 +288,26 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       })
     );
   };
+
+  const keyBindedFunc = useCallback((e) => {
+    //Mac
+    (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
+    (e.key === 'z' && e.key === 'Control' && !e.shiftKey) ? handleUndo() :
+    //Windows
+    (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
+    (e.shiftKey && e.key === 'Control' && e.key === 'z') ? handleRedo() :
+    //Delete HTML tag off canvas 
+    (e.key === 'Backspace') ? handleDelete() : 
+    //Delete Reusable Component
+    (e.key === 'Delete') ? clearComps() : 
+    //Save Project as
+    (e.key === 's' && e.metaKey) ? handleSave() : '';
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener("keydown", keyBindedFunc);
+  }, []);
+
 
   return (
     <div className="column right" id="rightContainer" style={style}>
@@ -521,6 +531,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                 color="secondary"
                 className={classes.button}
                 onClick={clearComps}
+                id="deleteComp"
               >
                 DELETE REUSABLE COMPONENT
               </Button>

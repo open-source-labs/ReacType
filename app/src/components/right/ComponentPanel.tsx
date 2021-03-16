@@ -148,7 +148,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     error={errorStatus}
                     helperText={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
-                    // onSubmit={handleNameSubmit}
               />
               </div>
             </div>
