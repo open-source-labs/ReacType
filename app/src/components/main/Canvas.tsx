@@ -19,38 +19,12 @@ function Canvas() {
   const changeFocus = (componentId?: number, childId?: number | null, e?: string) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId, e, /*state*/ } });
   };
-  // console.log('state in canvas', state);
   // onClickHandler is responsible for changing the focused component and child component
-  function onClickHandler(event, compId, childId, e) {
-    // console.log('event.targ', event)
+  function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
     changeFocus(state.canvasFocus.componentId, null);
-    // if(e !== "ArrowUp" && e !== "ArrowDown") changeFocus(state.canvasFocus.componentId, null);
-    // else if(e === "ArrowUp") changeFocus(compId, childId, "ArrowUp")
-    // else if(e === "ArrowDown") changeFocus(compId, childId, "ArrowDown")
   };
-
-
-// const upAndDownKey = (e) => {
-//   if(e.key === "ArrowKey") {
-//     console.log('working')
-//   }
-// }
-
-
-  // const upAndDownKey = useCallback((e) => {
-  //   (e.key === 'ArrowUp') ? changeFocus(state.canvasFocus.componentId, state.canvasFocus.childId + 1) :
-  //   (e.key === 'ArrowDown') ? changeFocus(state.canvasFocus.componentId, state.canvasFocus.childId -1) : '';
-  // }, []);
-  
-  // useEffect(() => {
-  //   document.addEventListener("keydown", upAndDownKey);
-  //   return () => {
-  //     document.removeEventListener('keydown', upAndDownKey);
-  //   }
-  // }, []);
-
 
   // stores a snapshot of state into the past array for UNDO
   const snapShotFunc = () => {
@@ -66,7 +40,6 @@ function Canvas() {
       // state.arrowMovements.push(deepCopiedState.canvasFocus)
       // console.log('state in snapshotFunc', state)
     };
-    // console.log('state in Canvas', state)
   
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({

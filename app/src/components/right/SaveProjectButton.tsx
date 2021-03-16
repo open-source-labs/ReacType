@@ -51,7 +51,11 @@ export default function FormDialog() {
   };
 
   const saveKeyBind = useCallback((e) => {
-    (e.key === 's' && e.metaKey) ? handleClickOpen() : '';
+    //Save Project As
+      //Mac
+    (e.key === 's' && e.metaKey && !e.shiftKey) ? handleClickOpen() : 
+      //Windows
+    (e.key === 's' && e.ctrlKey && !e.shiftKey) ? handleClickOpen() : '';
   }, []);
 
   useEffect(() => {

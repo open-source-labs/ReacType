@@ -288,22 +288,19 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     );
   };
 
-  console.log('state in keybind', state)
-  const focusIndex = state.canvasFocus.componentId - 1;
   const keyBindedFunc = useCallback((e) => {
     const index = 1;
     //Mac
     (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
-    (e.key === 'z' && e.key === 'Control' && !e.shiftKey) ? handleUndo() :
+    (e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
     //Windows
     (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
-    (e.shiftKey && e.key === 'Control' && e.key === 'z') ? handleRedo() :
+    (e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() :
     //Delete HTML tag off canvas 
-    (e.key === 'Backspace') ? handleDelete() : 
-    //Delete Reusable Component
-    // (e.key === 'Delete' && state.components.length > 1) ? handleDeleteReusableComponent() :
-    //Save Project as
-    (e.key === 's' && e.metaKey) ? handleSave() : '';
+    (e.key === 'Backspace') ? handleDelete() :
+    //Save Mac + Windows
+    (e.key === 's' && e.ctrlKey && e.shiftKey) ? handleSave() : '';
+    (e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
   
   useEffect(() => {
@@ -503,6 +500,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               color="primary"
               className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
               onClick={handleSave}
+              id="saveButton"
             >
               SAVE
             </Button>

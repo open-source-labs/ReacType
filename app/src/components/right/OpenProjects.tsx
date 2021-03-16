@@ -91,6 +91,10 @@ export default function ProjectsFolder() {
       e.preventDefault();
       handleClickOpen();
     }
+    if(e.key === 'o' && e.ctrlKey) {
+      e.preventDefault();
+      handleClickOpen();
+    }
   }, []);
   
   useEffect(() => {

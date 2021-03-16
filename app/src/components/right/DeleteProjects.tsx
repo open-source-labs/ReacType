@@ -95,7 +95,13 @@ export default function ProjectsFolder() {
   };
 
   const keybindDeleteProject = useCallback((e) => {
+    //Mac
     if(e.key === 'Backspace' && e.metaKey) {
+      e.preventDefault();
+      handleClickOpen();
+    }
+    //Windows
+    if(e.key === 'Backspace' && e.ctrlKey) {
       e.preventDefault();
       handleClickOpen();
     }
