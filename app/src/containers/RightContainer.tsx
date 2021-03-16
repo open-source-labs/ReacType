@@ -237,7 +237,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const clearComps = (): void => {
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
-      console.log('state in Delete resuable', state.components)
       closeModal();
       dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
@@ -289,7 +288,10 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     );
   };
 
+  console.log('state in keybind', state)
+  const focusIndex = state.canvasFocus.componentId - 1;
   const keyBindedFunc = useCallback((e) => {
+    const index = 1;
     //Mac
     (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
     (e.key === 'z' && e.key === 'Control' && !e.shiftKey) ? handleUndo() :
@@ -299,7 +301,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     //Delete HTML tag off canvas 
     (e.key === 'Backspace') ? handleDelete() : 
     //Delete Reusable Component
-    (e.key === 'Delete') ? clearComps() : 
+    // (e.key === 'Delete' && state.components.length > 1) ? handleDeleteReusableComponent() :
     //Save Project as
     (e.key === 's' && e.metaKey) ? handleSave() : '';
   }, []);

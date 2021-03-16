@@ -66,7 +66,7 @@ function Canvas() {
       // state.arrowMovements.push(deepCopiedState.canvasFocus)
       // console.log('state in snapshotFunc', state)
     };
-    console.log('state in Canvas', state)
+    // console.log('state in Canvas', state)
   
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
