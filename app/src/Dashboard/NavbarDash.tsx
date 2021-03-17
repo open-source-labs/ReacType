@@ -12,13 +12,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { styleContext } from '../containers/AppContainer';
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
-// import logo from '../../../resources/icon.png';
 import greenLogo from '../public/icons/png/512x512.png';
-
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -75,7 +71,6 @@ const StyledMenuItem = withStyles(theme => ({
 }))(MenuItem);
 
 // TO DO: set types of props validation
-
 export default function NavBar(props) {
   // TO DO: import setStyle
   const classes = useStyles();

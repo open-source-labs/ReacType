@@ -26,7 +26,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
-import { SettingsInputComponentOutlined } from '@material-ui/icons';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {

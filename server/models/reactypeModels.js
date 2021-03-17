@@ -63,7 +63,7 @@ const commentsSchema = new Schema({
 
 const sessionSchema = new Schema({
   cookieId: { type: String, required: true, unique: true },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 
 const projectSchema = new Schema({

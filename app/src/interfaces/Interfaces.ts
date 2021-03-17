@@ -23,9 +23,6 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
-  setFocus?: any;
-  index?: number;
-  focus?: boolean;
 }
 export interface Component {
   id: number;
