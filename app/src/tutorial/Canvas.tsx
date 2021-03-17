@@ -32,6 +32,7 @@ const Canvas: React.FC<{
       <h1 className={classes.title}>Keyboard Shortcuts</h1>
         <h2 className={classes.text}>Mac</h2>
           <ul className={classes.text}>
+            <li>Export Project: Command + e</li>
             <li>Undo: Command + z</li>
             <li>Redo: Command + Shift + z</li>
             <li>Save Project As: Command + s</li>
@@ -42,6 +43,7 @@ const Canvas: React.FC<{
           </ul>
         <h2 className={classes.text}>Windows</h2>
           <ul className={classes.text}>
+            <li>Export Project: Control + e</li>
             <li>Undo: Control + z</li>
             <li>Redo: Control + Shift + z</li>
             <li>Save Project As: Control + s</li>
