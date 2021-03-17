@@ -399,7 +399,6 @@ const reducer = (state: State, action: Action) => {
       
       if (childId < 1000) { // makes separators not selectable
         let canvasFocus = { ...state.canvasFocus, componentId, childId};
-        console.log('canvasFocus', canvasFocus)
         return {...state, canvasFocus}
       }
       return { ...state };

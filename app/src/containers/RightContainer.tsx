@@ -289,18 +289,15 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   };
 
   const keyBindedFunc = useCallback((e) => {
-    const index = 1;
-    //Mac
-    (e.key === 'z' && e.metaKey && !e.shiftKey) ? handleUndo() :
-    (e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
-    //Windows
-    (e.shiftKey && e.metaKey && e.key === 'z') ? handleRedo() : 
-    (e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() :
-    //Delete HTML tag off canvas 
+    // the || is for either Mac or Windows OS
+      //Undo
+    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
+      //Redo
+    (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() : 
+      //Delete HTML tag off canvas 
     (e.key === 'Backspace') ? handleDelete() :
-    //Save Mac + Windows
-    (e.key === 's' && e.ctrlKey && e.shiftKey) ? handleSave() : '';
-    (e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
+      //Save
+    (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
   
   useEffect(() => {
