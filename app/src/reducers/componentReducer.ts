@@ -624,8 +624,8 @@ const reducer = (state: State, action: Action) => {
       if(state.components[focusIndex].past.length === 0) return {...state};
       //the children array of the focused component will equal the last element of the past array
       state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1]
-      //the last element of the future array gets pushed into the past
-      //the last element of the future array gets popped out
+      //the last element of the past array gets pushed into the future
+        //the last element of the past array gets popped out
       state.components[focusIndex].future.push(state.components[focusIndex].past.pop())
 
       
@@ -636,6 +636,7 @@ const reducer = (state: State, action: Action) => {
       //   state.components[focusIndex].children = state.past[state.past.length-1];
       //   //the last element of past array gets pushed into future;
       //   state.future.push(state.past.pop());
+
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -668,6 +669,7 @@ const reducer = (state: State, action: Action) => {
       //   state.components[focusIndex].children = state.future[state.future.length - 1];
       //   //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
       //   state.past.push(state.future.pop());
+
       // //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
