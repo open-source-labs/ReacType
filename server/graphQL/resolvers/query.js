@@ -17,6 +17,7 @@ const Project = {
         likes: resp.likes,
         published: resp.published,
         createdAt: resp.createdAt,
+        comments: resp.comments,
       });
     }
 
@@ -48,6 +49,7 @@ const Project = {
         likes: proj.likes,
         published: proj.published,
         createdAt: proj.createdAt,
+        comments: proj.comments,
       }));
     }
 

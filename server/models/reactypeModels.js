@@ -1,7 +1,12 @@
 /*
- @desc: defines Schemas for the app: sessionSchema (cookieId, created_at), userSchema (username, password, email), projectSchema (name, userId, project, created_at)
+ @desc: defines Schemas for the app: sessionSchema (cookieId, created_at), userSchema
+ (username, password, email), projectSchema (name, userId, project, created_at)
+
  @export: Users, Sessions, Projects (3 schemas)
- @important: URI to database is hidden in config.js file which is not available to future team. we recommend that your team will create a mongoDB database to test in dev mode. the real database is deployed in heroku
+
+ @important: URI to database is hidden in config.js file which is not available to future
+ team. we recommend that your team will create a mongoDB database to test in
+ dev mode. the real database is deployed in heroku
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -20,7 +25,7 @@ mongoose
       useFindAndModify: false,
       // sets the name of the DB that our collections are part of
       dbName: 'ReacType'
-    }
+    },
   )
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
@@ -30,7 +35,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: false, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
 });
 
 // mongoose middleware that will run before the save to collection happens (user gets put into database)
@@ -43,12 +48,17 @@ userSchema.pre('save', function cb(next) {
         log: `bcrypt password hashing error: ${err}`,
         message: {
           err: 'bcrypt hash error: check server logs for details.'
-        }
+        },
       });
     }
     this.password = hash;
     return next();
   });
+});
+
+const commentsSchema = new Schema({
+  username: { type: String, required: true },
+  text: { type: String, required: true },
 });
 
 const sessionSchema = new Schema({
@@ -67,6 +77,10 @@ const projectSchema = new Schema({
   },
   username: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comments',
+  }],
 }, { minimize: false });
 // option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 
@@ -80,9 +94,10 @@ const Tests = mongoose.model('Tests', testSchema);
 
 
 const Users = mongoose.model('Users', userSchema);
+const Comments = mongoose.model('Comments', commentsSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
 
 module.exports = {
-  Users, Sessions, Projects, Tests,
+  Users, Comments, Sessions, Projects, Tests,
 };

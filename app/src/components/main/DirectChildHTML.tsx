@@ -48,6 +48,7 @@ function DirectChildHTML({
   function onClickHandler(event) {
     event.stopPropagation();
     changeFocus(state.canvasFocus.componentId, childId);
+    console.log('state in directChild', state)
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -56,12 +57,14 @@ function DirectChildHTML({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #a7cced'
-        : '1px Solid grey'
+        : '1px solid grey'
   };
+
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       {HTMLType.placeHolderShort}

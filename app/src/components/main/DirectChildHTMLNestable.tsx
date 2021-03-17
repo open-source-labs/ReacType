@@ -20,7 +20,15 @@ function DirectChildHTMLNestable({
 // takes a snapshot of state to be used in UNDO and REDO cases
 const snapShotFunc = () => {
   const deepCopiedState = JSON.parse(JSON.stringify(state));
-  state.past.push(deepCopiedState.components[0].children);
+  // state.past.push(deepCopiedState.components[0].children);
+  const focusIndex = state.canvasFocus.componentId - 1;
+  const focus = state.canvasFocus.componentId;
+
+  // state.past.push(deepCopiedState.components[focusIndex].children);
+  state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+
+
+
 };
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas

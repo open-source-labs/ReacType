@@ -23,8 +23,28 @@ $button-blue: #24BCFF; */
   width: 250px;
 }
 
+/* .dashboardContainer {
+  display: grid;
+  grid-template: auto / repeat(2, 1fr);
+} */
+
 .formContainer , .projectContainer{
   display: flex;
   flex-flow: row wrap;
 }
 
+
+/* .formContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.projectContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+} */

@@ -13,8 +13,6 @@ export interface State {
   nextBottomSeparatorId: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
-  past: any[];
-  future: any[];
 }
 
 export interface ChildElement {
@@ -25,6 +23,9 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  setFocus?: any;
+  index?: number;
+  focus?: boolean;
 }
 export interface Component {
   id: number;
@@ -33,6 +34,8 @@ export interface Component {
   code: string;
   children: ChildElement[];
   isPage: boolean;
+  past: any[];
+  future: any[];
 }
 
 export interface Action {
