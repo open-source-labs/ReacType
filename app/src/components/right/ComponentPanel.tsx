@@ -116,7 +116,10 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keyBindCreateComponent);
+    document.addEventListener('keydown', keyBindCreateComponent);
+    return () => {
+      document.removeEventListener('keydown', keyBindCreateComponent)
+    }
   }, []);
 
   const isFocus = (targetId: Number) => {

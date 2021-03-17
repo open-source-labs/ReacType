@@ -86,19 +86,18 @@ export default function ProjectsFolder() {
     setOpen(false);
   };
 
-  const keybindOpenProject = useCallback((e) => {
-    if(e.key === 'o' && e.metaKey) {
-      e.preventDefault();
-      handleClickOpen();
-    }
-    if(e.key === 'o' && e.ctrlKey) {
+  const keyBindOpenProject = useCallback((e) => {
+    if(e.key === 'o' && e.metaKey || e.key === 'o' && e.ctrlKey) {
       e.preventDefault();
       handleClickOpen();
     }
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keybindOpenProject);
+    document.addEventListener('keydown', keyBindOpenProject);
+    return () => {
+      document.removeEventListener('keydown', keyBindOpenProject)
+    }
   }, []);
 
   return (

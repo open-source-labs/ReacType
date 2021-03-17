@@ -94,21 +94,18 @@ export default function ProjectsFolder() {
     setOpen(false);
   };
 
-  const keybindDeleteProject = useCallback((e) => {
-    //Mac
-    if(e.key === 'Backspace' && e.metaKey) {
-      e.preventDefault();
-      handleClickOpen();
-    }
-    //Windows
-    if(e.key === 'Backspace' && e.ctrlKey) {
+  const keyBindDeleteProject = useCallback((e) => {
+    if(e.key === 'Backspace' && e.metaKey || e.key === 'Backspace' && e.ctrlKey) {
       e.preventDefault();
       handleClickOpen();
     }
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keybindDeleteProject);
+    document.addEventListener('keydown', keyBindDeleteProject);
+    return () => {
+      document.removeEventListener('keydown', keyBindDeleteProject)
+    }
   }, []);
 
 

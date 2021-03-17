@@ -59,7 +59,10 @@ export default function FormDialog() {
   }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", saveKeyBind);
+    document.addEventListener('keydown', saveKeyBind);
+    return () => {
+      document.removeEventListener('keydown', saveKeyBind)
+    }
   }, []);
 
   return (

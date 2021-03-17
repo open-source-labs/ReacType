@@ -149,7 +149,10 @@ const HTMLPanel = (props): JSX.Element => {
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", handleCreateElement);
+    document.addEventListener('keydown', handleCreateElement);
+    return () => {
+      document.removeEventListener('keydown', handleCreateElement)
+    }
   }, []);
 
 

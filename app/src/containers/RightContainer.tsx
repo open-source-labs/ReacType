@@ -304,7 +304,10 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   }, []);
   
   useEffect(() => {
-    document.addEventListener("keydown", keyBindedFunc);
+    document.addEventListener('keydown', keyBindedFunc);
+    return () => {
+      document.removeEventListener('keydown', keyBindedFunc)
+    }
   }, []);
 
 
