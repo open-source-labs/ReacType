@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import StateContext from '../../context/context';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -49,6 +49,18 @@ export default function FormDialog() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProjectName(e.target.value);
   };
+
+  const saveKeyBind = useCallback((e) => {
+    //Save Project As, the || is for Mac or Windows
+    (e.key === 's' && e.metaKey && !e.shiftKey || e.key === 's' && e.ctrlKey && !e.shiftKey) ? handleClickOpen() : '';
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', saveKeyBind);
+    return () => {
+      document.removeEventListener('keydown', saveKeyBind)
+    }
+  }, []);
 
   return (
     <div>

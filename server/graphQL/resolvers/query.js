@@ -16,6 +16,8 @@ const Project = {
         username: resp.username,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
+        comments: resp.comments,
       });
     }
 
@@ -47,14 +49,14 @@ const Project = {
         username: proj.username,
         likes: proj.likes,
         published: proj.published,
+        createdAt: proj.createdAt,
+        comments: proj.comments,
       }));
     }
 
     // resp is null, return error message
     throw new UserInputError('Internal Server Error');
   },
-
-
 };
 
 module.exports = Project;

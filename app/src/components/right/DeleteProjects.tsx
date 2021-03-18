@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -93,6 +93,21 @@ export default function ProjectsFolder() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const keyBindDeleteProject = useCallback((e) => {
+    if(e.key === 'Backspace' && e.metaKey || e.key === 'Backspace' && e.ctrlKey) {
+      e.preventDefault();
+      handleClickOpen();
+    }
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindDeleteProject);
+    return () => {
+      document.removeEventListener('keydown', keyBindDeleteProject)
+    }
+  }, []);
+
 
   return (
     <div>

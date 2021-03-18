@@ -1,3 +1,4 @@
+const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
@@ -58,7 +59,6 @@ app.use(
 GraphQl Router
 */
 /* ******************************************************************* */
-const { ApolloServer } = require('apollo-server-express');
 
 // Query resolvers
 const Query = require('./graphQL/resolvers/query');
@@ -139,4 +139,10 @@ if (isDev || isProd) {
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 }
 
+<<<<<<< HEAD
 if (isTest) module.exports = app;
+=======
+// module.export = PORT;
+// module.export = app;
+module.exports = PORT;
+>>>>>>> master

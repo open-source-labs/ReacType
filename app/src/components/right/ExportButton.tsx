@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import StateContext from '../../context/context';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -105,6 +105,19 @@ export default function ExportButton() {
     );
   };
 
+  const exportKeyBind = useCallback((e) => {
+    //Export Project
+    (e.key === 'e' && e.metaKey || e.key === 'e' && e.ctrlKey ) ? showGenerateAppModal() : '';
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', exportKeyBind);
+    return () => {
+      document.removeEventListener('keydown', exportKeyBind)
+    }
+  }, []);
+
+  
   return (
     <div>
        <Button

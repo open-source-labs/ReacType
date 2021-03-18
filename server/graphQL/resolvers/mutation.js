@@ -12,14 +12,15 @@ const Project = {
     const update = { likes };
     const options = { new: true };
     const resp = await Projects.findOneAndUpdate(filter, update, options);
-  
     if (resp) {
+      console.log('resp, update', resp, update);
       return ({
         name: resp.name,
         id: resp._id,
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
@@ -83,6 +84,7 @@ const Project = {
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 
@@ -104,6 +106,7 @@ const Project = {
         userId: resp.userId,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
       });
     }
 

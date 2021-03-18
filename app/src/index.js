@@ -1,3 +1,10 @@
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import {
+  HashRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -9,12 +16,6 @@ import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
 
-import {
-  HashRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from 'react-router-dom';
 
 /*
 *  Dashboard
@@ -23,7 +24,6 @@ import {
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 import styles from './Dashboard/styles.css';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',
