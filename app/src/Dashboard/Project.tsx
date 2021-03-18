@@ -6,6 +6,7 @@ import {
   DELETE_PROJECT,
   PUBLISH_PROJECT,
 } from './gqlStrings';
+import Button from '@material-ui/core/Button';
 
 // Variable validation using typescript
 type props = {
@@ -84,17 +85,20 @@ const Project = ({
   }
 
 
+
+/**TO-DO: change buttons to material UI  */
+
   return (
   <div className = 'project'>
     <h2>Project: { name }</h2>
     <h3>Author: { username }</h3>
     <h3>Likes: { likes }</h3>
     <div>
-      <button onClick={ handleLike }>like me!</button>
-      {currUsername !== username ? <button onClick={ handleDownload }>download me!</button> : <span></span>}
-      {currUsername === username ? <button onClick={ handleDelete }>delete</button> : <span></span>}
+      <Button onClick={ handleLike }>like me!</Button>
+      {currUsername !== username ? <Button onClick={ handleDownload }>download me!</Button> : <span></span>}
+      {currUsername === username ? <Button onClick={ handleDelete }>delete</Button> : <span></span>}
       { currUsername === username
-        ? <button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </button>
+        ? <Button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </Button>
         : <span></span> }
     </div>
   </div>

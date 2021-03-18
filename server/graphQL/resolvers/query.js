@@ -1,5 +1,5 @@
 const { UserInputError } = require('apollo-server-express');
-const { Projects } = require('../../models/reactypeModels');
+const { Projects, Comments } = require('../../models/reactypeModels');
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 
@@ -16,6 +16,8 @@ const Project = {
         username: resp.username,
         likes: resp.likes,
         published: resp.published,
+        createdAt: resp.createdAt,
+        comments: resp.comments, // here we should retrive the comments from the Comments collection and  returns the array of comments here 
       });
     }
 
@@ -27,7 +29,7 @@ const Project = {
 
   getAllProjects: async (parent, { userId }) => {
     let resp = await Projects.find({});
-    // console.log('getAllProjects resp >>> ', resp);
+    console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
@@ -38,6 +40,13 @@ const Project = {
         });
       }
     }
+    // The nested query in the Apollo Server example only works if we nest the comment document directly inside the project document, not applicable in to our
+    // implementation. Since we can just retrieve the comments for each project using the projectId as the filter, we just need to retrive all the comments and parse them to each
+    // project in the return statement
+    
+    // First step is to retrieve all the Comments using await and save them to an array
+    // Next, in the map loop below, filter our the comments for each project
+    // NOTE: There is probably better way to do this, but this will work for now and we can improve it later on
 
     if (resp) {
       return resp.map(proj => ({
@@ -47,6 +56,8 @@ const Project = {
         username: proj.username,
         likes: proj.likes,
         published: proj.published,
+        createdAt: proj.createdAt,
+        comments: proj.comments, // here we should filter the comments for each proj and return it here 
       }));
     }
 
@@ -54,7 +65,35 @@ const Project = {
     throw new UserInputError('Internal Server Error');
   },
 
+  comments: async (parent, { projId }) => {
+    const resp = await Comments.find({ projectId: projId });
+    if (resp) {
+      return resp.map(proj => ({
+        username: proj.username,
+        text: proj.text,
+      }));
+    }
 
+    // resp is null if nothing is found based on the project ID
+    throw new UserInputError('Comments are not found. Please try another projID');
+  },
 };
 
 module.exports = Project;
+
+
+/*
+    addComment(projId: ID!, comment: String!): Project
+  type Comment {
+    id: ID!
+    username: String! 
+    text: String!
+    projectId: ID!
+  }
+
+      comments(projId: ID): [Comment]
+
+
+          getComments(projId: ID): [Comment]
+
+*/

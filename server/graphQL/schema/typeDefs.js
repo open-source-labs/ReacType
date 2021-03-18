@@ -5,7 +5,10 @@ const { gql } = require('apollo-server-express');
 // The schema specifies which queries and mutations are available for clients
 // to execute against your data graph.
 
-//NOTE: Project type does not return the detail of the project's components, but info needed for the dashboard
+// NOTE: Project type does not return the detail of the project's components,
+// but info needed for the dashboard
+
+// line 15, returns type Project from line 29
 const Project = gql`
 
   type Mutation {
@@ -15,6 +18,13 @@ const Project = gql`
     publishProject(projId: ID!, published: Boolean!): Project
   }
 
+  type Comment {
+    id: ID!
+    username: String! 
+    text: String!
+    projectId: ID!
+  }
+
   type Project {
     name: String!
     likes: Int
@@ -22,6 +32,8 @@ const Project = gql`
     id: ID!
     userId: ID!
     username: String!
+    createdAt: String
+    comments: [Comment!]
   }
 
   type Query {

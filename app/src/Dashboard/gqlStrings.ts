@@ -9,7 +9,8 @@ export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
     id
     userId
     username
-    published 
+    published
+
   }
 }`;
 

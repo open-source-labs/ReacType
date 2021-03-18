@@ -209,7 +209,9 @@ const reducer = (state: State, action: Action) => {
         style: {},
         code: '',
         children: [],
-        isPage: action.payload.root
+        isPage: action.payload.root,
+        past: [],
+        future: [],
       };
       components.push(newComponent);
 
@@ -237,7 +239,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId
+        childId,
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -285,7 +287,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren
+        children: componentChildren,
+
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -324,6 +327,8 @@ const reducer = (state: State, action: Action) => {
       if (directParent && directParent.name === 'separator') 
         nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
       components[canvasFocus.componentId-1].children = addChildArray;
+      
+      // const realPast = [];
 
       parentComponent.code = generateCode(
         components,
@@ -389,14 +394,15 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE FOCUS': {
       const {
         componentId,
-        childId
+        childId,
       }: { componentId: number; childId: number | null } = action.payload;
-
+      
       if (childId < 1000) { // makes separators not selectable
-        const canvasFocus = { ...state.canvasFocus, componentId, childId };
-        return { ...state, canvasFocus };
+        const canvasFocus = { ...state.canvasFocus, componentId, childId};
+        return {...state, canvasFocus}
       }
       return { ...state };
+
     }
 
     case 'UPDATE CSS': {
@@ -613,12 +619,15 @@ const reducer = (state: State, action: Action) => {
       };
     }
     case 'UNDO': {
-      //if past is empty, return state
-      if (state.past.length === 0) return {...state};
-      //the children array of state.components[0] will equal the last element of the past array
-        state.components[0].children = state.past[state.past.length-1];
-        //the last element of past array gets pushed into future;
-        state.future.push(state.past.pop());
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //if the past array is empty, return state
+      if(state.components[focusIndex].past.length === 0) return {...state};
+      //the children array of the focused component will equal the last element of the past array
+      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1]
+      //the last element of the past array gets pushed into the future
+        //the last element of the past array gets popped out
+      state.components[focusIndex].future.push(state.components[focusIndex].past.pop())
+
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
@@ -634,13 +643,16 @@ const reducer = (state: State, action: Action) => {
       };
     }
     case 'REDO': {
-      //nothing left to redo
-      if(state.future.length === 0) return {...state};
-      //the children array of state.components[0] will equal the last element of the future array
-        state.components[0].children = state.future[state.future.length - 1];
-        //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
-        state.past.push(state.future.pop());
-      //generate code for the Code Preview
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //if future array is empty, return state
+      if(state.components[focusIndex].future.length === 0) return {...state};
+      //the children array of the focused component will equal the last element of the future array
+      state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
+      //the last element of the future array gets pushed into the past
+        //the last element of the future array gets popped out
+      state.components[focusIndex].past.push(state.components[focusIndex].future.pop())
+
+      // //generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
           state.components,
@@ -654,6 +666,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    case 'CHANGEDVALUE': {}
 
     default:
       return state;

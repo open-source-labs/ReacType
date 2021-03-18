@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -32,7 +33,10 @@ import logo from '../../public/icons/win/logo.png';
 // ROUTING TO DASHBOARD 
 import { Link } from "react-router-dom";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d93eb6bfcae6f1452b6e7451c95370b5d9e558f5
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

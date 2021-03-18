@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import _ from 'lodash';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -16,10 +16,9 @@ function Canvas() {
     );
 
   // changes focus of the canvas to a new component / child
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocus = (componentId?: number, childId?: number | null, e?: string) => {
+    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId, e, /*state*/ } });
   };
-
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
@@ -31,8 +30,10 @@ function Canvas() {
   const snapShotFunc = () => {
     // make a deep clone of state
       const deepCopiedState = JSON.parse(JSON.stringify(state));
-      state.past.push(deepCopiedState.components[0].children);
-  };
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //pushes the last user action on the canvas into the past array of Component
+      state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+    };
   
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
@@ -53,6 +54,7 @@ function Canvas() {
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null
+            
           }
         });
       }
