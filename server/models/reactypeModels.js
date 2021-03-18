@@ -24,9 +24,8 @@ mongoose
       // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
       useFindAndModify: false,
       // sets the name of the DB that our collections are part of
-      dbName: 'ReacType'
-    },
-  )
+      dbName: 'ReacType',
+    })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
 
@@ -38,10 +37,13 @@ const userSchema = new Schema({
   password: { type: String, required: true },
 });
 
-// mongoose middleware that will run before the save to collection happens (user gets put into database)
+// mongoose middleware that will run before the save to
+// collection happens (user gets put into database)
+
 // cannot use arrow function here as context of 'this' is important
 userSchema.pre('save', function cb(next) {
-  // within this context, 'this' refers to the document (new user) about to be saved, in our case, it should have properties username, password, and projects array
+  // within this context, 'this' refers to the document (new user) about to be saved,
+  // in our case, it should have properties username, password, and projects array
   bcrypt.hash(this.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) {
       return next({
@@ -59,6 +61,8 @@ userSchema.pre('save', function cb(next) {
 const commentsSchema = new Schema({
   username: { type: String, required: true },
   text: { type: String, required: true },
+  projectId: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const sessionSchema = new Schema({
@@ -91,7 +95,6 @@ const testSchema = new Schema({
 });
 const Tests = mongoose.model('Tests', testSchema);
 /* *********************************************** */
-
 
 const Users = mongoose.model('Users', userSchema);
 const Comments = mongoose.model('Comments', commentsSchema);

@@ -33,12 +33,6 @@ function Canvas() {
       const focusIndex = state.canvasFocus.componentId - 1;
       //pushes the last user action on the canvas into the past array of Component
       state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-      
-      /** OLD CODE */
-      // state.past.push(deepCopiedState.components[focusIndex].children);
-      // state.past.push(deepCopiedState.components[state.canvasFocus.componentId].children);
-      // state.arrowMovements.push(deepCopiedState.canvasFocus)
-      // console.log('state in snapshotFunc', state)
     };
   
   // This hook will allow the user to drag items from the left panel on to the canvas

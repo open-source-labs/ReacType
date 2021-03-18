@@ -7,6 +7,8 @@ const { gql } = require('apollo-server-express');
 
 // NOTE: Project type does not return the detail of the project's components,
 // but info needed for the dashboard
+
+// line 15, returns type Project from line 29
 const Project = gql`
 
   type Mutation {
@@ -14,6 +16,13 @@ const Project = gql`
     makeCopy(projId: ID!, userId: ID!, username: String!): Project
     deleteProject(projId: ID!): Project
     publishProject(projId: ID!, published: Boolean!): Project
+  }
+
+  type Comment {
+    id: ID!
+    username: String! 
+    text: String!
+    projectId: ID!
   }
 
   type Project {
@@ -24,12 +33,13 @@ const Project = gql`
     userId: ID!
     username: String!
     createdAt: String
-    comments: String![]
+    comments: [Comment!]
   }
 
   type Query {
     getProject(projId: ID!): Project
     getAllProjects(userId: ID): [Project]
+    comments(projId: ID): [Comment]
   }
 `;
 

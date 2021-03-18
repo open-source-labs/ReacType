@@ -1,5 +1,5 @@
 const { UserInputError } = require('apollo-server-express');
-const { Projects, Users } = require('../../models/reactypeModels');
+const { Projects, Users, Comments } = require('../../models/reactypeModels');
 /*
 * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
 * Link to Apollo Mutations:
@@ -115,6 +115,37 @@ const Project = {
     });
   },
 
+  // addComment: async (parent, { projId, comment }) => {
+  //   const filter = { _id: projId };
+  //   const update = { comment };
+  //   const options = { new: true };
+
+  //   // const addedComment = await Comments.create()
+
+
+  //   // finding the project
+  //   // const resp = await Projects.findOneAndUpdate(filter, update, options);
+  //   // if (resp) {
+
+  //   //   const commentData = {
+  //   //     username: resp.username,
+  //   //     text: resp.text,
+  //   //     projectId: resp._id,
+  //   //   }; 
+
+  //   //   const addedComment = await Comments.create(commentData)
+
+  //   //   return ({
+  //   //     name: resp.name,
+  //   //     id: resp._id,
+  //   //     userId: resp.userId,
+  //   //     likes: resp.likes,
+  //   //     published: resp.published,
+  //   //     createdAt: resp.createdAt,
+  //   //     comments: resp.comments,
+  //   //   });
+  //   // }
+  // },
 };
 
 module.exports = Project;

@@ -1,5 +1,6 @@
 const { UserInputError } = require('apollo-server-express');
 const { Projects } = require('../../models/reactypeModels');
+const { Comments } = require('../../models/reactypeModels');
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 
@@ -17,7 +18,7 @@ const Project = {
         likes: resp.likes,
         published: resp.published,
         createdAt: resp.createdAt,
-        comments: resp.comments,
+        // comments: resp.comments,
       });
     }
 
@@ -28,9 +29,8 @@ const Project = {
   },
 
   getAllProjects: async (parent, { userId }) => {
-
     let resp = await Projects.find({});
-    // console.log('getAllProjects resp >>> ', resp);
+    console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
@@ -49,13 +49,43 @@ const Project = {
         likes: proj.likes,
         published: proj.published,
         createdAt: proj.createdAt,
-        comments: proj.comments,
+        // comments: proj.comments,
       }));
     }
 
     // resp is null, return error message
     throw new UserInputError('Internal Server Error');
   },
+
+  comments: async (parent, { projId }) => {
+    const resp = await Comments.find({ projectId: projId });
+    if (resp) {
+      return resp.map(proj => ({
+        username: proj.username,
+        text: proj.text,
+      }));
+    }
+
+    // resp is null if nothing is found based on the project ID
+    throw new UserInputError('Comments are not found. Please try another projID');
+  },
 };
 
 module.exports = Project;
+
+
+/*
+    addComment(projId: ID!, comment: String!): Project
+  type Comment {
+    id: ID!
+    username: String! 
+    text: String!
+    projectId: ID!
+  }
+
+      comments(projId: ID): [Comment]
+
+
+          getComments(projId: ID): [Comment]
+
+*/
