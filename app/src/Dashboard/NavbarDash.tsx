@@ -17,7 +17,7 @@ import logo from '../../../resources/icon.png';
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
-    flexGrow: 1,
+    flexGrow: 1, 
     width: '100%',
   },
   menuButton: {

@@ -48,3 +48,12 @@ export const PUBLISH_PROJECT = gql`
       published
     }
   }`;
+
+  export const ADD_COMMENT = gql`
+  mutation AddComment($projId: ID!, $comment: String!, $username: String!) {
+    addCommet(projId: $projId, comment: $comment, username: $username)
+    {
+      id
+    }
+  }
+  `;

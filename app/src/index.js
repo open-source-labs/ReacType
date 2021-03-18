@@ -1,3 +1,4 @@
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -23,7 +24,6 @@ import {
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 import styles from './Dashboard/styles.css';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',

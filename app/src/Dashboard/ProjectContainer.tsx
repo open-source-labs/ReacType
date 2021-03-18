@@ -64,6 +64,7 @@ const ProjectContainer = () => {
                   username = {proj.username}
                   createdAt = {proj.createdAt}
                   id = {proj.id}
+                  comments = {proj.comments}
                   />;
     // sorting the public and private dashboards based on the user's username
     if (username === proj.username) userDisplay.push(component);

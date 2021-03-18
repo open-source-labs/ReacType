@@ -19,7 +19,7 @@ mongoose
       // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
       useFindAndModify: false,
       // sets the name of the DB that our collections are part of
-      dbName: 'ReacType'
+      dbName: 'ReacType',
     }
   )
   .then(() => console.log('Connected to Mongo DB.'))
@@ -42,13 +42,18 @@ userSchema.pre('save', function cb(next) {
       return next({
         log: `bcrypt password hashing error: ${err}`,
         message: {
-          err: 'bcrypt hash error: check server logs for details.'
-        }
+          err: 'bcrypt hash error: check server logs for details.',
+        },
       });
     }
     this.password = hash;
     return next();
   });
+});
+
+const commentsSchema = new Schema({
+  username: { type: String, required: true },
+  text: { type: String, required: true },
 });
 
 const sessionSchema = new Schema({
@@ -67,6 +72,10 @@ const projectSchema = new Schema({
   },
   username: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comments',
+  }],
 }, { minimize: false });
 // option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 
@@ -80,9 +89,10 @@ const Tests = mongoose.model('Tests', testSchema);
 
 
 const Users = mongoose.model('Users', userSchema);
+const Comments = mongoose.model('Comments', commentsSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
 
 module.exports = {
-  Users, Sessions, Projects, Tests,
+  Users, Comments, Sessions, Projects, Tests,
 };
