@@ -64,7 +64,6 @@ const ProjectContainer = () => {
 
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-  console.log(projects)
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = [];
   // create array to hold the components Project of loggin-in users
@@ -111,6 +110,7 @@ const ProjectContainer = () => {
       username = {proj.username}
       createdAt = {proj.createdAt}
       id = {proj.id}
+      comments = {proj.comments}
     />);
   });
 

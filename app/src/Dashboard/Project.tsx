@@ -30,7 +30,6 @@ const Project = ({
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
-  console.log( 'Projects comments ==> ', comments)
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
   const [deleteProject] = useMutation(DELETE_PROJECT);
@@ -101,7 +100,17 @@ const Project = ({
     addComment(myVar)
   }
 
-
+  const recentComments = [];
+  if (comments.length > 0) { 
+    const reversedCommentArray = comments.slice(0).reverse();
+    const min = Math.min(5, reversedCommentArray.length)
+    for (let i = 0; i < min ; i++) {
+    recentComments.push(<p>
+      { reversedCommentArray[i].username }: 
+      { reversedCommentArray[i].text }
+      </p>)
+    }
+  }
 
   return (
   <div className = 'project'>
@@ -117,10 +126,9 @@ const Project = ({
         ? <Button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </Button>
         : <span></span> }
     </div>
-    <p>
-        { comments.length ? comments[0].username : '' }
-        { comments.length ? comments[0].text : '' }
-    </p>
+    <div>
+      { recentComments }
+    </div>
   </div>
   );
 };
