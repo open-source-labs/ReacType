@@ -50,8 +50,9 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose",
-    "server": "nodemon server/server.js",
+    "test": "cross-env NODE_ENV=test jest --verbose ",
+    "k-test": "concurrently   \"cross-env NODE_ENV=test jest gql.projects.test.js --detectOpenHandles \"",
+    "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {
@@ -66,6 +67,8 @@
   ],
   "license": "MIT",
   "jest": {
+    "testEnvironment" : "jsdom",
+    "bail": true,
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
@@ -94,6 +97,7 @@
       "enzyme-to-json/serializer"
     ]
   },
+
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"
   },

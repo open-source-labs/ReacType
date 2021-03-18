@@ -56,12 +56,14 @@ function DirectChildHTML({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #a7cced'
-        : '1px Solid grey'
+        : '1px solid grey'
   };
+
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       {HTMLType.placeHolderShort}

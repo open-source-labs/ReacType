@@ -196,22 +196,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   };
 
 // UNDO/REDO functionality--onClick these functions will be invoked.
-const undoAction = () => {
-  dispatch({ type: 'UNDO', payload: {} });
-};
+  const handleUndo = () => {
+    dispatch({ type: 'UNDO', payload: {} });
+  };
 
-const redoAction = () => {
-  dispatch({ type: 'REDO', payload: {} });
-};
-
-const undoRedoKey = useCallback((e) => {
-  (e.key === 'z' && e.metaKey && !e.shiftKey) ? undoAction() :
-  (e.shiftKey && e.metaKey && e.key === 'z') ? redoAction() : '';
-}, []);
-
-useEffect(() => {
-  document.addEventListener("keydown", undoRedoKey);
-}, []);
+  const handleRedo = () => {
+    dispatch({ type: 'REDO', payload: {} });
+  };
 
   // placeholder for handling deleting instance
   const handleDelete = () => {
@@ -295,6 +286,26 @@ useEffect(() => {
       })
     );
   };
+
+  const keyBindedFunc = useCallback((e) => {
+    // the || is for either Mac or Windows OS
+      //Undo
+    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
+      //Redo
+    (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() : 
+      //Delete HTML tag off canvas 
+    (e.key === 'Backspace') ? handleDelete() :
+      //Save
+    (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindedFunc);
+    return () => {
+      document.removeEventListener('keydown', keyBindedFunc)
+    }
+  }, []);
+
 
   return (
     <div className="column right" id="rightContainer" style={style}>
@@ -488,6 +499,7 @@ useEffect(() => {
               color="primary"
               className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
               onClick={handleSave}
+              id="saveButton"
             >
               SAVE
             </Button>
@@ -518,6 +530,7 @@ useEffect(() => {
                 color="secondary"
                 className={classes.button}
                 onClick={clearComps}
+                id="deleteComp"
               >
                 DELETE REUSABLE COMPONENT
               </Button>
@@ -527,14 +540,14 @@ useEffect(() => {
             <Button
             color="primary"
             className={classes.button}
-            onClick={undoAction}
+            onClick={handleUndo}
             >
               <i className="fas fa-undo"></i>
             </Button>
             <Button
             color="primary"
             className={classes.button}
-            onClick={redoAction}
+            onClick={handleRedo}
             >
               <i className="fas fa-redo"></i>
             </Button>

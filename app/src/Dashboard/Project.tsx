@@ -7,6 +7,7 @@ import {
   PUBLISH_PROJECT,
   ADD_COMMENT,
 } from './gqlStrings';
+import Button from '@material-ui/core/Button';
 
 // Variable validation using typescript
 type props = {
@@ -29,7 +30,7 @@ const Project = ({
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
-
+  console.log( 'Projects comments ==> ', comments)
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
   const [deleteProject] = useMutation(DELETE_PROJECT);
@@ -113,12 +114,13 @@ const Project = ({
       {currUsername === username ? <button onClick={ handleDelete }>delete</button> : <span></span>}
       {currUsername === username ? <button onClick={ handleComment }>comment</button> : <span></span>}
       { currUsername === username
-        ? <button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </button>
+        ? <Button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </Button>
         : <span></span> }
     </div>
-    {/* <p>
-        {comments}
-    </p> */}
+    <p>
+        { comments.length ? comments[0].username : '' }
+        { comments.length ? comments[0].text : '' }
+    </p>
   </div>
   );
 };

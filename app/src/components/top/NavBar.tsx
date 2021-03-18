@@ -33,9 +33,6 @@ import logo from '../../public/icons/win/logo.png';
 // ROUTING TO DASHBOARD 
 import { Link } from "react-router-dom";
 
-
-
-
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -173,15 +170,14 @@ export default function NavBar(props) {
               variant="contained"
               color="primary"
               style={{minWidth: '137.69px'}}
-              className="navbarButton" 
-              id="navbarButton1"
+              className="navbarButton"
             >
               Dashboard
             </Button>
           </Link> : <span></span>}
           {/* ==================================Dashboard Button================================================== */}
 
-          <Button 
+          <Button
             variant="contained"
             color="primary"
             style={{minWidth: '137.69px'}}
@@ -223,6 +219,14 @@ export default function NavBar(props) {
           >
             MANAGE PROJECT
           </Button> : <span></span>}
+
+
+{/* ================================LOGIN BUTTON====================================== */}
+
+          <LoginButton
+          />
+
+{/* ================================MANAGE PROJECT DROPDOWN====================================== */}
           
           <StyledMenu  // Dropdown menu connected to Manage Project Button
             id="customized-menu"
@@ -252,7 +256,6 @@ export default function NavBar(props) {
               <DeleteProjects />
             </StyledMenuItem>
           </StyledMenu>
-          <LoginButton />
         </Toolbar>
       </AppBar>
       {modal}

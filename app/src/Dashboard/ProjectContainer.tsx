@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect, createContext } from 'react';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECTS } from './gqlStrings';
-import Project from './Project.tsx';
-import NavBar from './NavbarDash';
-
+import Project from './Project';
+import NavBarDash from './NavbarDash';
+import AppContainer from '../containers/AppContainer';
+import { theme1, theme2 } from '../public/styles/theme';
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
+
+export const styleContext = createContext({
+  style: null,
+  setStyle: null
+});
+
+// setting light and dark themes (navbar and background); linked to theme.ts
+const lightTheme = theme1;
+const darkTheme = theme2; // dark mode color in theme.ts not reached
 
 const ProjectContainer = () => {
   const myVar = {};
@@ -16,6 +27,11 @@ const ProjectContainer = () => {
   // if (userSSID !== 'guest') {
   //   myVar = { userId: userSSID };
   // }
+
+  const [isThemeLight, setTheme] = useState(true);
+
+  const initialStyle = useContext(styleContext);
+  const [style, setStyle] = useState(initialStyle);
 
   // --------------------------Sorting Buttons------------------------------------//
   
@@ -48,7 +64,7 @@ const ProjectContainer = () => {
 
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-
+  console.log(projects)
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = [];
   // create array to hold the components Project of loggin-in users
@@ -64,7 +80,7 @@ const ProjectContainer = () => {
                   username = {proj.username}
                   createdAt = {proj.createdAt}
                   id = {proj.id}
-                  comments = {proj.comments}
+                  comments = {proj.comments || []}
                   />;
     // sorting the public and private dashboards based on the user's username
     if (username === proj.username) userDisplay.push(component);
@@ -74,15 +90,14 @@ const ProjectContainer = () => {
     }
   });
 
-
   // function for selecting drop down sorting menu
   const optionClicked = (value) => {
     setSelectedOption(value);
   };
   // checking which sorting method was selected from drop down menu and invoking correct sorting function
-  if (selectedOption === 'date') sortedProjects = sortByDate(sortedProjects);
-  else if (selectedOption === 'user') sortedProjects = sortByUser(sortedProjects);
-  else if (selectedOption === 'rating') sortedProjects = sortByRating(sortedProjects);
+  if (selectedOption === 'Date') sortedProjects = sortByDate(sortedProjects);
+  else if (selectedOption === 'User') sortedProjects = sortByUser(sortedProjects);
+  else if (selectedOption === 'Rating') sortedProjects = sortByRating(sortedProjects);
   
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = [];
@@ -100,8 +115,9 @@ const ProjectContainer = () => {
   });
 
   return (
-    <div>
-      <NavBar optionClicked = {optionClicked}/>
+    <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
+    <div className = "dashboardContainer">
+      <NavBarDash setTheme={setTheme} styles={[style, setStyle]} isThemeLight={isThemeLight} optionClicked={optionClicked}/>
       <h1> Public Dashboard </h1>
         <div className = "projectContainer">
             {sortedDisplay}
@@ -112,6 +128,8 @@ const ProjectContainer = () => {
           {userDisplay}
         </div>
     </div>
+    </MuiThemeProvider>
   );
 };
+
 export default ProjectContainer;
