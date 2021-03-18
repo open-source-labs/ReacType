@@ -139,10 +139,4 @@ if (isDev || isProd) {
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 }
 
-<<<<<<< HEAD
 if (isTest) module.exports = app;
-=======
-// module.export = PORT;
-// module.export = app;
-module.exports = PORT;
->>>>>>> master
