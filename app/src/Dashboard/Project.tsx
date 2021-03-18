@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, } from 'react';
 import { useMutation } from '@apollo/client';
 import { 
   ADD_LIKE,
@@ -30,6 +30,7 @@ const Project = ({
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
+  const [commentVal, setCommentVal] = useState('')
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
   const [deleteProject] = useMutation(DELETE_PROJECT);
@@ -93,11 +94,17 @@ const Project = ({
       variables: 
       {
         projId: id,
-        comment: 'Test Comment',
+        comment: commentVal,
         username: currUsername
       }
     }
     addComment(myVar)
+  }
+
+  function handleChange(e) {
+    e.preventDefault();
+    let commentValue = e.target.value;
+    setCommentVal(commentValue);
   }
 
   const recentComments = [];
@@ -128,6 +135,8 @@ const Project = ({
     </div>
     <div>
       { recentComments }
+      <input type='text' onChange={ handleChange } ></input>
+      <button onClick = { handleComment } >Comment</button>
     </div>
   </div>
   );
