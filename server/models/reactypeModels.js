@@ -61,7 +61,7 @@ userSchema.pre('save', function cb(next) {
 const commentsSchema = new Schema({
   username: { type: String, required: true },
   text: { type: String, required: true },
-  projectId: { type: String, required: true },
+  projectId: { type: Schema.Types.ObjectId, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -81,6 +81,10 @@ const projectSchema = new Schema({
   },
   username: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comments',
+  }]
 }, { minimize: false });
 // option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 

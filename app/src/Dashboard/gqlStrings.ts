@@ -10,7 +10,10 @@ export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
     userId
     username
     published
-
+    comments {
+      username
+      text
+    }
   }
 }`;
 
@@ -48,3 +51,5 @@ export const PUBLISH_PROJECT = gql`
       published
     }
   }`;
+
+

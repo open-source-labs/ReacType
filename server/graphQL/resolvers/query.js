@@ -29,7 +29,7 @@ const Project = {
 
   getAllProjects: async (parent, { userId }) => {
     let resp = await Projects.find({});
-    console.log('getAllProjects resp >>> ', resp);
+    // console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
@@ -47,6 +47,8 @@ const Project = {
     // First step is to retrieve all the Comments using await and save them to an array
     // Next, in the map loop below, filter our the comments for each project
     // NOTE: There is probably better way to do this, but this will work for now and we can improve it later on
+    const comCollection = await Comments.find({});
+    // console.log('comCollection', comCollection);
 
     if (resp) {
       return resp.map(proj => ({
@@ -57,43 +59,12 @@ const Project = {
         likes: proj.likes,
         published: proj.published,
         createdAt: proj.createdAt,
-        comments: proj.comments, // here we should filter the comments for each proj and return it here 
+        comments: comCollection.filter(commentDoc => commentDoc.projectId.toString() === proj._id.toString()), // here we should filter the comments for each proj and return it here 
       }));
     }
-
     // resp is null, return error message
     throw new UserInputError('Internal Server Error');
-  },
-
-  comments: async (parent, { projId }) => {
-    const resp = await Comments.find({ projectId: projId });
-    if (resp) {
-      return resp.map(proj => ({
-        username: proj.username,
-        text: proj.text,
-      }));
-    }
-
-    // resp is null if nothing is found based on the project ID
-    throw new UserInputError('Comments are not found. Please try another projID');
   },
 };
 
 module.exports = Project;
-
-
-/*
-    addComment(projId: ID!, comment: String!): Project
-  type Comment {
-    id: ID!
-    username: String! 
-    text: String!
-    projectId: ID!
-  }
-
-      comments(projId: ID): [Comment]
-
-
-          getComments(projId: ID): [Comment]
-
-*/

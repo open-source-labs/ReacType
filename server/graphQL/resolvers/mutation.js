@@ -115,37 +115,42 @@ const Project = {
     });
   },
 
-  // addComment: async (parent, { projId, comment }) => {
-  //   const filter = { _id: projId };
-  //   const update = { comment };
-  //   const options = { new: true };
+  addComment: async (parent, { projId, comment, username }) => {
+    const filter = { _id: projId };
+    const options = { new: true };
 
-  //   // const addedComment = await Comments.create()
+    // data for the new Comments document
+    const commentDocument = {
+      projectId: projId,
+      text: comment,
+      username,
+    };
+    // creating the new Comments document
+    const newCommentDoc = await Comments.create(commentDocument);
 
+    // target Projects document to add comment _id to
+    const targetProject = await Projects.findOne(filter);
+    // pushing the new Comments documents _id into the targetProject comments array
+    targetProject.comments.push(newCommentDoc._id);
+    // updating the target Projects document in the database
+    const updatedProj = await Projects.findOneAndUpdate(filter, targetProject, options)
 
-  //   // finding the project
-  //   // const resp = await Projects.findOneAndUpdate(filter, update, options);
-  //   // if (resp) {
+    if (updatedProj) {
+      return ({
+        name: updatedProj.name,
+        id: updatedProj._id,
+        userId: updatedProj.userId,
+        likes: updatedProj.likes,
+        published: updatedProj.published,
+        createdAt: updatedProj.createdAt,
+      });
+    }
 
-  //   //   const commentData = {
-  //   //     username: resp.username,
-  //   //     text: resp.text,
-  //   //     projectId: resp._id,
-  //   //   }; 
+    throw new UserInputError('Project cannot be found. Please try another project ID', {
+      argumentName: 'projId',
+    });
+  },
 
-  //   //   const addedComment = await Comments.create(commentData)
-
-  //   //   return ({
-  //   //     name: resp.name,
-  //   //     id: resp._id,
-  //   //     userId: resp.userId,
-  //   //     likes: resp.likes,
-  //   //     published: resp.published,
-  //   //     createdAt: resp.createdAt,
-  //   //     comments: resp.comments,
-  //   //   });
-  //   // }
-  // },
 };
 
 module.exports = Project;

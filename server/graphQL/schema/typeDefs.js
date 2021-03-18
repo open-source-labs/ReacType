@@ -16,6 +16,7 @@ const Project = gql`
     makeCopy(projId: ID!, userId: ID!, username: String!): Project
     deleteProject(projId: ID!): Project
     publishProject(projId: ID!, published: Boolean!): Project
+    addComment(projId: ID!, comment: String!, username: String!): Project
   }
 
   type Comment {
