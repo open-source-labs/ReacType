@@ -33,10 +33,6 @@ import logo from '../../public/icons/win/logo.png';
 // ROUTING TO DASHBOARD 
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d93eb6bfcae6f1452b6e7451c95370b5d9e558f5
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

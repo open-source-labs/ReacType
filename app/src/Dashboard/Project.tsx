@@ -13,16 +13,11 @@ import {
   makeStyles,
   Theme
 } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import ClearIcon from '@material-ui/icons/Clear';
 import CloseIcon from '@material-ui/icons/Close';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
 import PublishIcon from '@material-ui/icons/Publish';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 // Variable validation using typescript
 type props = {
   name: string,

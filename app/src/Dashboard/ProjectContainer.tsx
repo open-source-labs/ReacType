@@ -72,14 +72,15 @@ const ProjectContainer = () => {
   // generate an array of Project components based on queried data
   projects.forEach((proj, index) => {
     const component = <Project
-                  key= { index }
+                  key= {index}
                   name = {proj.name}
                   likes = {proj.likes}
-                  published = { proj.published }
+                  published = {proj.published}
                   userId = {proj.userId}
                   username = {proj.username}
                   createdAt = {proj.createdAt}
                   id = {proj.id}
+                  comments = {proj.comments}
                   />;
     // sorting the public and private dashboards based on the user's username
     if (username === proj.username) userDisplay.push(component);
@@ -110,6 +111,7 @@ const ProjectContainer = () => {
       username = {proj.username}
       createdAt = {proj.createdAt}
       id = {proj.id}
+      comments = {proj.comments}
     />);
   });
 
