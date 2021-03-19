@@ -72,7 +72,6 @@ const BottomTabs = () => {
               onChange={handleProjectChange}
             >
               <MenuItem value={'Classic React'}>Classic React</MenuItem>
-              <MenuItem value={'React for Mobile'}>React for Mobile</MenuItem>
               <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
               <MenuItem value={'Next.js'}>Next.js</MenuItem>
             </Select>

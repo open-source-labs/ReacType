@@ -28,16 +28,17 @@ const Project = {
   },
 
   getAllProjects: async (parent, { userId }) => {
-
     let resp = await Projects.find({});
     // console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
       // if resp = [] after the filtering, this means the userId doesnt exisit in the database, throw error as follow
-      throw new UserInputError(`Project for userId: "${userId}". Please try another id`, {
-        argumentName: 'userId',
-      });
+      if (resp.length === 0) {
+        throw new UserInputError(`Project for userId: "${userId}". Please try another id`, {
+          argumentName: 'userId',
+        });
+      }
     }
 
     if (resp) {
