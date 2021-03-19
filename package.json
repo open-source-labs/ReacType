@@ -67,7 +67,7 @@
   ],
   "license": "MIT",
   "jest": {
-    "testEnvironment" : "jsdom",
+    "testEnvironment": "jsdom",
     "bail": true,
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
@@ -97,7 +97,6 @@
       "enzyme-to-json/serializer"
     ]
   },
-
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"
   },
@@ -139,6 +138,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",

@@ -3,7 +3,7 @@ const request = require('supertest');
 
 
 // initializes the project to be sent to server/DB
-const { projectToSave, state } = require('../app/mockData');
+const { projectToSave, state } = require('../mockData');
 
 const app = require('../server/server.js');
 const http = require('http');
