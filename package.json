@@ -50,8 +50,8 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose ",
-    "k-test": "concurrently   \"cross-env NODE_ENV=test jest gql.projects.test.js --detectOpenHandles \"",
+    "test": " concurrently  \"npm run dev-server\"   \"cross-env NODE_ENV=test jest --verbose \"",
+    "k-test": "concurrently   \"npm run dev-server\" \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
@@ -162,6 +162,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
+    "spectron": "^11.1.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

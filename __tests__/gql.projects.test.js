@@ -9,7 +9,7 @@ const mock = require('../mockData');
 describe('GraphQL tests', () => {
   let server;
   // Mutation test variables
-  const projectId = '6052b90a6287fb36e96a2bfe'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
+  const projectId = '6053a36b6287fb36e92fab59'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
   const testNum = 100;
   const makeCopyUserIdTest = '604333d10004ad51c899e250';
   const makeCopyUsernameTest = 'test1';
@@ -42,11 +42,11 @@ describe('GraphQL tests', () => {
       .send({
         query: mock.GET_PROJECTS,
         variables: {
-          userId: '603ac3454625489e492abe16',
+          userId: '604d21b2b61a1c95f2dc9105',
         },
       })
       .expect(200)
-      .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('603ac3454625489e492abe16')));
+      .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('604d21b2b61a1c95f2dc9105')));
   });
 
   // GraphQL Mutation
