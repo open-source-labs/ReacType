@@ -8,7 +8,8 @@ import {
   ADD_COMMENT,
 } from './gqlStrings';
 import Button from '@material-ui/core/Button';
-
+import AddCommentIcon from '@material-ui/icons/AddComment';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 // Variable validation using typescript
 type props = {
   name: string,
@@ -30,12 +31,18 @@ const Project = ({
   // IMPORTANT:
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
-  const [commentVal, setCommentVal] = useState('')
+  const [commentVal, setCommentVal] = useState('');
+  const [clicked, setClicked] = useState(false);
+
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
   const [deleteProject] = useMutation(DELETE_PROJECT);
   const [publishProject] = useMutation(PUBLISH_PROJECT);
   const [addComment] = useMutation(ADD_COMMENT);
+
+  const handleIconClick = (id) => {
+    setClicked(true);
+  }
 
   function handleLike(e) {
     e.preventDefault();
@@ -49,7 +56,6 @@ const Project = ({
     // send Mutation
     addLike(myVar);
   }
-
 
   function handleDownload(e) {
     e.preventDefault();
@@ -87,17 +93,16 @@ const Project = ({
     publishProject(myVar);
   }
 
-
   function handleComment(e) {
     e.preventDefault();
     const myVar = {
-      variables: 
+      variables:
       {
-        projId: id,
-        comment: commentVal,
-        username: currUsername
-      }
-    }
+      projId: id,
+      comment: commentVal,
+      username: currUsername,
+      },
+    };
     addComment(myVar)
   }
 
@@ -125,18 +130,25 @@ const Project = ({
     <h3>Author: { username }</h3>
     <h3>Likes: { likes }</h3>
     <div>
-      <button onClick={ handleLike }>like me!</button>
-      {currUsername !== username ? <button onClick={ handleDownload }>download me!</button> : <span></span>}
-      {currUsername === username ? <button onClick={ handleDelete }>delete</button> : <span></span>}
-      {currUsername === username ? <button onClick={ handleComment }>comment</button> : <span></span>}
+      {currUsername !== username ? <Button onClick={ handleDownload }>download me!</Button> : <span></span>}
+      {currUsername === username ? <Button onClick={ handleDelete }>delete</Button> : <span></span>}
       { currUsername === username
         ? <Button onClick={ handlePublish }> {published ? 'Unpublish Me!' : 'Publish Me!'} </Button>
         : <span></span> }
     </div>
-    <div>
+    <hr/>
+    <div id = "commentArea">
       { recentComments }
-      <input type='text' onChange={ handleChange } ></input>
-      <button onClick = { handleComment } >Comment</button>
+        <div id = "renderedCom">
+        <br/>
+        <div id = 'comments'>
+          <span>
+            <FavoriteBorderIcon fontSize="Large" id = "heart" onClick = { handleLike }/>
+            <input type="text" placeholder="Add Comment" onChange={ handleChange } id = "commentBox"></input>
+            <AddCommentIcon fontSize="Large" id = "commentButton" onClick={ handleComment }>Comment</AddCommentIcon>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   );
