@@ -5,15 +5,22 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+import Button from '@material-ui/core/Button';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import HomeIcon from '@material-ui/icons/Home';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { styleContext } from '../containers/AppContainer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import SortIcon from '@material-ui/icons/Sort';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import PersonIcon from '@material-ui/icons/Person';
 import greenLogo from '../public/icons/png/512x512.png';
 
 // NavBar text and button styling
@@ -37,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 // sorting options
-const sortMethods = ['Rating', 'Date', 'User'];
+const sortMethods = ['RATING', 'DATE', 'USER'];
 
 // Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
@@ -95,7 +102,7 @@ export default function NavBar(props) {
 
   return (
     <div className={classes.root} style={style}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
           <Avatar src={greenLogo}></Avatar>
           <Typography variant="h6" style={{ marginLeft: '1rem' }} className={classes.title}>
@@ -106,16 +113,17 @@ export default function NavBar(props) {
          
           <div style ={ { textDecoration: 'none' } }>
             <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             onClick={handleClick}
-            className="navbarButton"
-            id="navbarButton"
+            className='navbarButton'
+            id='navbarButton'
+            endIcon={<SortIcon/>}
           >
             SORT PROJECT
           </Button>
           <StyledMenu  // Dropdown menu connected to Manage Project Button
-            id="customized-menus"
+            id='customized-menus'
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
@@ -127,23 +135,29 @@ export default function NavBar(props) {
                       toggling();
                       handleClose();
                     }}
-                      variant="contained"
-                      color="primary"
+                      variant='contained'
+                      color='primary'
                       style={{ minWidth: '137.69px' }}
-                      className="navbarButton"
+                      className={classes.manageProject}
                       key={index}
                       > 
-                      {option}
+                        <Button
+                          color='primary'
+                          endIcon={(option === 'RATING') ? <StarBorderIcon/> : (option === 'DATE') ? <EventNoteIcon/> : (option === 'USER') ? <PersonIcon/> : ''}
+                        >
+                          {option} 
+                        </Button>
                     </StyledMenuItem>
                   ))}
           </StyledMenu>
         </div>
         <Button
-            className="navbarButton"
-            id="navbarDashButton"
-            color="primary"
-            variant="contained"
+            className='navbarButton'
+            id='navbarDashButton'
+            color='primary'
+            variant='contained'
             style={{minWidth: '113.97px'}}
+            endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
               !props.styles[0].backgroundColor
                 ? props.styles[1]({ backgroundColor: '#21262D' }) //dark mode color
@@ -155,15 +169,17 @@ export default function NavBar(props) {
           </Button>
           {/* ====================================Home Button============================================== */}
           
-          <div style ={ { textDecoration: 'none' } }>
-            <Link to="/">
+          <div>
+            <Link to='/' style={{textDecoration: 'none'}}>
               <Button
-                variant="contained"
-                color="primary"
-                style={{ minWidth: '137.69px' }}
+                variant='contained'
+                color='primary'
+                style={{ minWidth: '137.69px'}}
                 className="navbarButton"
                 id="ratingButton"
-                > Home
+                endIcon={<HomeIcon/>}
+                > 
+                HOME
               </Button>
             </Link>
           </div>

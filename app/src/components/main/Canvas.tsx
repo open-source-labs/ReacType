@@ -34,7 +34,6 @@ function Canvas() {
       //pushes the last user action on the canvas into the past array of Component
       state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
     };
-    console.log('state', state)
   
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({

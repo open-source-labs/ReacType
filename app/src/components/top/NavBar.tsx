@@ -8,11 +8,13 @@ import {
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import { styleContext } from '../../containers/AppContainer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -171,11 +173,12 @@ export default function NavBar(props) {
               color="primary"
               style={{minWidth: '137.69px'}}
               className="navbarButton"
+              endIcon={<DashboardIcon/>}
             >
               Dashboard
             </Button>
           </Link> : <span></span>}
-          {/* ==================================Dashboard Button================================================== */}
+          {/* ==================================Clear Canvas Button================================================== */}
 
           <Button
             variant="contained"
@@ -184,6 +187,7 @@ export default function NavBar(props) {
             onClick={clearWorkspace} 
             className="navbarButton" 
             id="navbarButton"
+            endIcon={<DeleteIcon/>}
           >
             Clear Canvas
           </Button>
@@ -197,6 +201,7 @@ export default function NavBar(props) {
             color="primary"
             variant="contained"
             style={{minWidth: '113.97px'}}
+            endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
               !style.backgroundColor
                 ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
@@ -216,6 +221,7 @@ export default function NavBar(props) {
             onClick={handleClick}
             className="navbarButton"
             id="navbarButton"
+            endIcon={<FilterListIcon/>}
           >
             MANAGE PROJECT
           </Button> : <span></span>}
