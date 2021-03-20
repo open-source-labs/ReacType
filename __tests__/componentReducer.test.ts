@@ -1,7 +1,8 @@
 import reducer from '../app/src/reducers/componentReducer';
-import { State, Action } from '../app/src/interfaces/InterfacesNew';
+import { State, Action } from '../app/src/interfaces/Interfaces';
 
 import initialState from '../app/src/context/initialState';
+import { iterate } from 'localforage';
 
 describe('Testing componentReducer functionality', () => {
   let state: State = initialState;
@@ -159,6 +160,48 @@ describe('Testing componentReducer functionality', () => {
     });
   });
 
+  // TEST 'UNDO'
+  describe('UNDO reducer', () => {
+    // problem: past array up to this point is empty because snapshot function is responsible for populating it- not invoked in testing
+    // other ideas: take a snapshot in each of the tests in order to populate the past array
+    it('should move the last element in past array to the future array, both nested within state.components', () => {
+      const focusIndex = state.canvasFocus.componentId - 1;
+      state.components[focusIndex].past.push({
+        type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
+      }, 
+      {
+        type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
+      });
+      state.components[focusIndex].children.push({
+        type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
+      }, 
+      {
+        type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
+      }
+      );
+      // const actionHTML: Action = {
+      //   type: 'ADD CHILD',
+      //   payload: {
+      //     type: 'HTML Element',
+      //     typeId: 9,
+      //     childId: null,
+      //   },
+      // };
+      // state = reducer(state, actionHTML);
+      const actionUndo: Action = {
+        type: 'UNDO',
+        payload: {},
+      }
+      console.log('state 1', state)
+      state = reducer(state, actionUndo);
+      console.log('state 2', state);
+      //const undidEl = state.components[focusIndex].past.pop();
+      //const undidEl = state.components[focusIndex].past.pop()
+      expect(state.components[focusIndex].future.length).toEqual(1);
+      //expect(state.components[focusIndex].past
+    })
+  });
+
   // TEST 'RESET STATE'
   describe('RESET STATE reducer', () => {
     it('should reset project to initial state', () => {
@@ -175,4 +218,6 @@ describe('Testing componentReducer functionality', () => {
       expect(state.components[0].children.length).toEqual(0);
     });
   });
+  
 });
+

@@ -175,7 +175,7 @@
     "@types/chai": "^4.2.11",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/jest": "^25.1.5",
+    "@types/jest": "^25.2.3",
     "apollo": "^2.32.5",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^25.2.4",

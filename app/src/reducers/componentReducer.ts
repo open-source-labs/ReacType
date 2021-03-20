@@ -215,10 +215,11 @@ const reducer = (state: State, action: Action) => {
       };
       components.push(newComponent);
 
+      // functionality if the new component will become the root component
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
 
-      // update the focus to the new component
+      // updates the focus to the new component, which redirects to the new blank canvas of said new component
       const canvasFocus = {
         ...state.canvasFocus,
         componentId: newComponent.id,
@@ -344,7 +345,7 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE POSITION': {
       const { currentChildId, newParentChildId } = action.payload;
      
-      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update sate
+      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update state
       if (currentChildId === newParentChildId) return state;
 
       // find the current component in focus
@@ -628,14 +629,6 @@ const reducer = (state: State, action: Action) => {
         //the last element of the past array gets popped out
       state.components[focusIndex].future.push(state.components[focusIndex].past.pop())
 
-      
-      /**OLD CODE */
-      // //if past is empty, return state
-      // if (state.past.length === 0) return {...state};
-      // //the children array of state.components[0] will equal the last element of the past array
-      //   state.components[focusIndex].children = state.past[state.past.length-1];
-      //   //the last element of past array gets pushed into future;
-      //   state.future.push(state.past.pop());
 
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
@@ -662,15 +655,7 @@ const reducer = (state: State, action: Action) => {
       state.components[focusIndex].past.push(state.components[focusIndex].future.pop())
 
 
-
-      //nothing left to redo
-      // if(state.future.length === 0) return {...state};
-      // //the children array of state.components[0] will equal the last element of the future array
-      //   state.components[focusIndex].children = state.future[state.future.length - 1];
-      //   //the last element of the future array gets pushed into the past array and the last element of the future array gets popped off
-      //   state.past.push(state.future.pop());
-
-      // //generate code for the Code Preview
+      // generate code for the Code Preview
       state.components.forEach((el, i) => {
         el.code = generateCode(
           state.components,
