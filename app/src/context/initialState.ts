@@ -12,7 +12,9 @@ const initialState: State = {
       style: {},
       code: '<div>Drag in a component or HTML element into the canvas!</div>',
       children: [],
-      isPage: true
+      isPage: true,
+      past: [],
+      future: [],
     },
   ],
   projectType: 'Classic React',
@@ -22,8 +24,6 @@ const initialState: State = {
   nextChildId: 1,
   nextTopSeparatorId: 1000,
   HTMLTypes,
-  past: [],
-  future: []
 };
 
 export default initialState;

@@ -23,6 +23,7 @@ const Project = gql`
     userId: ID!
     username: String!
     createdAt: String
+    comments: String
   }
 
   type Query {

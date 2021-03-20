@@ -12,8 +12,8 @@ const Project = {
     const update = { likes };
     const options = { new: true };
     const resp = await Projects.findOneAndUpdate(filter, update, options);
-  
     if (resp) {
+
       return ({
         name: resp.name,
         id: resp._id,

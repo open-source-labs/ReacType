@@ -40,8 +40,8 @@
   "scripts": {
     "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"npm run server\" ",
-    "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"nodemon server/server.js\" -k",
+    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"cross-env NODE_ENV=development nodemon server/server.js\" ",
+    "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"npm run server\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
     "pack": "electron-builder --dir",
@@ -50,8 +50,9 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose",
-    "server": "nodemon server/server.js",
+    "test": " concurrently  \"npm run dev-server\"   \"cross-env NODE_ENV=test jest --verbose \"",
+    "k-test": "concurrently   \"npm run dev-server\" \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
+    "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
   "repository": {
@@ -66,6 +67,8 @@
   ],
   "license": "MIT",
   "jest": {
+    "testEnvironment": "jsdom",
+    "bail": true,
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
     },
@@ -135,6 +138,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",
@@ -158,6 +162,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
+    "spectron": "^11.1.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

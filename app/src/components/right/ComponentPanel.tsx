@@ -1,6 +1,6 @@
 // Future developers: This file needs to move to right folder: src/components/right
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
@@ -108,6 +108,20 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     resetError();
   };
 
+  const keyBindCreateComponent = useCallback((e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('addComponentButton').click();
+    }
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindCreateComponent);
+    return () => {
+      document.removeEventListener('keydown', keyBindCreateComponent)
+    }
+  }, []);
+
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -136,7 +150,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     value={compName}
                     error={errorStatus}
                     helperText={errorStatus ? errorMsg : ''}
-                  onChange={handleNameInput}
+                    onChange={handleNameInput}
               />
               </div>
             </div>
@@ -150,6 +164,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     color="primary"
                     checked={isRoot}
                     onChange={toggleRootStatus}
+                    
                   />
                 }
                 label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
