@@ -64,6 +64,31 @@ module.exports =  {
     addLike(projId: $projId, likes: $likes) 
     {
       id
+      likes
+    }
+  }`,
+
+  PUBLISH_PROJECT: `mutation Publish($projId: ID!, $published: Boolean!) {
+    publishProject(projId: $projId, published: $published) 
+    {
+      id
+      published
+    }
+  }`,
+
+  MAKE_COPY: `mutation MakeCopy ($userId: ID!, $projId: ID!, $username: String!) {
+    makeCopy(userId: $userId, projId: $projId, username: $username) 
+    {
+      id
+      userId
+      username
+    }
+  }`,
+
+  DELETE_PROJECT: `mutation DeleteProject($projId: ID!) {
+    deleteProject(projId: $projId) 
+    {
+      id
     }
   }`,
 };

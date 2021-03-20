@@ -1,14 +1,18 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 const { Mongoose } = require('mongoose');
 const request = require('supertest');
 
 
 // initializes the project to be sent to server/DB
-const { projectToSave, state } = require('../app/mockData');
+const { projectToSave, state } = require('../mockData');
 
 const app = require('../server/server.js');
 const http = require('http');
 let server;
+<<<<<<< HEAD
 =======
 const app = require('../server/server');
 const request = require('supertest');
@@ -19,6 +23,8 @@ if (isDev) {
   server = require('..server/server');
 }
 >>>>>>> d93eb6bfcae6f1452b6e7451c95370b5d9e558f5
+=======
+>>>>>>> master
 
 // save and get projects endpoint testing
 describe('Project endpoints tests', () => {  
@@ -42,11 +48,16 @@ describe('Project endpoints tests', () => {
           .send(projectToSave)
           .expect(200)
 <<<<<<< HEAD
+<<<<<<< HEAD
           .expect('Content-Type', /application\/json/)
           .then((res) => expect(res.body.name).toBe(projectToSave.name));
 =======
           .then(res => expect(res.body.project.name).toBe('test'));
 >>>>>>> d93eb6bfcae6f1452b6e7451c95370b5d9e558f5
+=======
+          .expect('Content-Type', /application\/json/)
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
+>>>>>>> master
       });
     });
   });
@@ -80,11 +91,15 @@ describe('Project endpoints tests', () => {
           .send({ name, userId })
           .expect(200)
 <<<<<<< HEAD
+<<<<<<< HEAD
           .then((res) => expect(res.body.name).toBe(projectToSave.name));
 =======
           .expect('Content-Type', /json/)
           .then(res => expect(res.body.name).toBe('test'));
 >>>>>>> d93eb6bfcae6f1452b6e7451c95370b5d9e558f5
+=======
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
+>>>>>>> master
       });
     });
   });

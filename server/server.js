@@ -137,4 +137,8 @@ app.use((err, req, res, next) => {
 // starts server on PORT
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 
+<<<<<<< HEAD
 module.exports = PORT;
+=======
+if (isTest) module.exports = app;
+>>>>>>> master

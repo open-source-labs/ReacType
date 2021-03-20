@@ -3,13 +3,17 @@ const request = require('supertest');
 const http = require('http');
 const app = require('../server/server.js');
 
-const { GET_PROJECTS, ADD_LIKE } = require('../mockData');
-const { projectToSave, state } = require('../mockData');
+const mock = require('../mockData');
 
 // tests user signup and login routes
 describe('GraphQL tests', () => {
   let server;
-  let projectId = "6052b90a6287fb36e96a2bfe";
+  // Mutation test variables
+  const projectId = '6053a36b6287fb36e92fab59'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
+  const testNum = 100;
+  const makeCopyUserIdTest = '604333d10004ad51c899e250';
+  const makeCopyUsernameTest = 'test1';
+  let makeCopyProjId = '';
 
   beforeAll((done) => {
     server = http.createServer(app);
@@ -27,7 +31,7 @@ describe('GraphQL tests', () => {
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
-        query: GET_PROJECTS,
+        query: mock.GET_PROJECTS,
       })
       .expect(200)
       .then(res => expect(res.body.data.getAllProjects.length).toBeGreaterThanOrEqual(1)));
@@ -36,52 +40,91 @@ describe('GraphQL tests', () => {
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
-        query: GET_PROJECTS,
+        query: mock.GET_PROJECTS,
         variables: {
-          userId: '603ac3454625489e492abe16',
+          userId: '604d21b2b61a1c95f2dc9105',
         },
       })
       .expect(200)
-      .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('603ac3454625489e492abe16')));
+      .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('604d21b2b61a1c95f2dc9105')));
   });
 
   // GraphQL Mutation
   describe('Testing GraphQL mutation', () => {
     // Add likes
-    it('Increment likes by 1', () => request(server)
+    it('addLike should update the "likes" field of the project document', () => request(server)
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
-        mutation: ADD_LIKE,
+        query: mock.ADD_LIKE,
         variables: {
           projId: projectId,
-          likes: 100,
+          likes: testNum,
         },
       })
       .expect(200)
-      .then(res => expect(res.body.data.likes).toBe(1)));
+      .then(res => expect(res.body.data.addLike.likes).toBe(testNum)));
+
+    // Publish project
+    it('Should set the "published" on the project document to TRUE', () => request(server)
+      .post('/graphql')
+      .set('Content-Type', 'application/json')
+      .send({
+        query: mock.PUBLISH_PROJECT,
+        variables: {
+          projId: projectId,
+          published: true,
+        },
+      })
+      .expect(200)
+      .then(res => expect(res.body.data.publishProject.published).toBe(true)));
+
+    it('Should set the "published" on the project document to FALSE', () => request(server)
+      .post('/graphql')
+      .set('Content-Type', 'application/json')
+      .send({
+        query: mock.PUBLISH_PROJECT,
+        variables: {
+          projId: projectId,
+          published: false,
+        },
+      })
+      .expect(200)
+      .then(res => expect(res.body.data.publishProject.published).toBe(false)));
+
+    // Make copy
+    it('Should make a copy of an existing project and change the userId and userName', () => request(server)
+      .post('/graphql')
+      .set('Content-Type', 'application/json')
+      .send({
+        query: mock.MAKE_COPY,
+        variables: {
+          projId: projectId,
+          userId: makeCopyUserIdTest,
+          username: makeCopyUsernameTest,
+        },
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.data.makeCopy.userId).toBe(makeCopyUserIdTest);
+        expect(res.body.data.makeCopy.username).toBe(makeCopyUsernameTest);
+        makeCopyProjId = res.body.data.makeCopy.id;
+      }));
+
+    // Delete copy
+    it('Should make a copy of an existing project and change the userId and userName', () => request(server)
+      .post('/graphql')
+      .set('Content-Type', 'application/json')
+      .send({
+        query: mock.DELETE_PROJECT,
+        variables: {
+          projId: makeCopyProjId,
+        },
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.data.deleteProject.id).toBe(makeCopyProjId);
+      }));
   });
 
-
-  // Publish project
-
-  // Make copy
-
-  // Delete copy
-
-  // Delete project
-
-
-  // it('getAllProjects should return projects that matches the provided userId', () => request(server)
-  //   .post('/graphql')
-  //   .set('Content-Type', 'application/json')
-  //   .send({
-  //     query: GET_PROJECTS,
-  //     variables: {
-  //       userId: '603ac3454625489e492abe16',
-  //     }
-  //   })
-  //   .expect(200)
-  //   .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('603ac3454625489e492abe16')),
-  // );
 });

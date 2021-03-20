@@ -13,7 +13,7 @@ const Project = {
     const options = { new: true };
     const resp = await Projects.findOneAndUpdate(filter, update, options);
     if (resp) {
-      console.log('resp, update', resp, update);
+
       return ({
         name: resp.name,
         id: resp._id,

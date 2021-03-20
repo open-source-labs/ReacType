@@ -5,7 +5,7 @@ const app = require('../server/server.js');
 
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
-const { user } = require('../app/mockData');
+const { user } = require('../mockData');
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
