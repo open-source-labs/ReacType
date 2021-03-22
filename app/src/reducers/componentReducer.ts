@@ -621,14 +621,14 @@ const reducer = (state: State, action: Action) => {
     }
     case 'UNDO': {
       const focusIndex = state.canvasFocus.componentId - 1;
-      //if the past array is empty, return state
+      // if the past array is empty, return state
       if(state.components[focusIndex].past.length === 0) return {...state};
-      //the children array of the focused component will equal the last element of the past array
-      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1]
-      //the last element of the past array gets pushed into the future
-        //the last element of the past array gets popped out
-      state.components[focusIndex].future.push(state.components[focusIndex].past.pop())
-
+      // the children array of the focused component will equal the last element of the past array
+      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1];
+      // the last element of the past array gets popped off
+      const poppedEl = state.components[focusIndex].past.pop();
+      // the last element of the past array gets popped off and pushed into the future array
+      state.components[focusIndex].future.push(poppedEl);
 
       //generate code for the Code Preview
       state.components.forEach((el, i) => {
@@ -651,9 +651,8 @@ const reducer = (state: State, action: Action) => {
       //the children array of the focused component will equal the last element of the future array
       state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
       //the last element of the future array gets pushed into the past
-        //the last element of the future array gets popped out
+      //the last element of the future array gets popped out
       state.components[focusIndex].past.push(state.components[focusIndex].future.pop())
-
 
       // generate code for the Code Preview
       state.components.forEach((el, i) => {
