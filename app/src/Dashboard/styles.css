@@ -8,6 +8,7 @@ $light-grey: #bfcbd4;
 $light-blue: #759cc9;
 $button-blue: #24BCFF; */
 
+
 .form , .project{
   display: flex;
   flex-direction: column;
@@ -98,9 +99,9 @@ $button-blue: #24BCFF; */
 }
 
 .header {
-  background-color: #FE5F55;
-  color: white;
-  opacity: 0.8;
+  background-color: #0CBABA;
+  color: rgba(255, 255, 255, 0.897);
+  opacity: 0.7;
   width: 100%;
 }
 /* .formContainer {
