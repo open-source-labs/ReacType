@@ -26,26 +26,26 @@ describe('Testing componentReducer functionality', () => {
     });
   });
 
- // TEST 'ADD COMPONENT' with new root 
- describe('ADD COMPONENT reducer', () => {
-  it('should add new reuseable component to state as the new root', () => {
-    const action: Action = {
-      type: 'ADD COMPONENT',
-      payload: {
-        componentName: 'TestRootChange',
-        id: 3,
-        root: true,
-      },
-    };
-    state = reducer(state, action);
-    
-    // expect state.components array to have length 3
-    const length = state.components.length;
-    expect(length).toEqual(3);
-    // expect new root to match id of component id of TestRootChange
-    expect(state.rootComponents[state.rootComponents.length - 1]).toEqual(action.payload.id);
+  // TEST 'ADD COMPONENT' with new root 
+  describe('ADD COMPONENT reducer', () => {
+    it('should add new reuseable component to state as the new root', () => {
+      const action: Action = {
+        type: 'ADD COMPONENT',
+        payload: {
+          componentName: 'TestRootChange',
+          id: 3,
+          root: true,
+        },
+      };
+      state = reducer(state, action);
+      
+      // expect state.components array to have length 3
+      const length = state.components.length;
+      expect(length).toEqual(3);
+      // expect new root to match id of component id of TestRootChange
+      expect(state.rootComponents[state.rootComponents.length - 1]).toEqual(action.payload.id);
+    });
   });
-});
 
   // TEST 'ADD CHILD'
   describe('ADD CHILD reducer', () => {
@@ -204,6 +204,7 @@ describe('Testing componentReducer functionality', () => {
         }
       }
       state = reducer(state, actionHTML2);
+      // invoking snapShotFunc is necessary to push actions into the past array, referenced in the UNDO functionality to define children
       snapShotFuncCopy();
 
       const actionUndo: Action = {

@@ -619,6 +619,7 @@ const reducer = (state: State, action: Action) => {
         HTMLTypes
       };
     }
+
     case 'UNDO': {
       const focusIndex = state.canvasFocus.componentId - 1;
       // if the past array is empty, return state
@@ -644,6 +645,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    
     case 'REDO': {
       const focusIndex = state.canvasFocus.componentId - 1;
       //if future array is empty, return state

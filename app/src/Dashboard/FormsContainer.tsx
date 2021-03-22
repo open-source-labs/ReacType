@@ -19,7 +19,6 @@ const FormsContainer = () => {
   if (error) return <p>Error :{error}</p>;
   // based on resolver(readAllTests) for this query, the data is stored in the data object with the key 'readAllTests'
   const myTests = data.readAllTests;
-  console.log('myTests', myTests);
   // generate an array of Form components based on data
   const forms = myTests.map((test, index) => <Form key={index} id={test.id} description={test.description} likes={test.likes}/>);
 
