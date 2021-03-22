@@ -163,42 +163,36 @@ describe('Testing componentReducer functionality', () => {
   // TEST 'UNDO'
   describe('UNDO reducer', () => {
     // problem: past array up to this point is empty because snapshot function is responsible for populating it- not invoked in testing
-    // other ideas: take a snapshot in each of the tests in order to populate the past array
-    it('should move the last element in past array to the future array, both nested within state.components', () => {
+    // undo is not deleting the children because it relies on Canvas.tsx's function Canvas and snapShotFunc inside it
+    it('should remove the last 2 elements in the children array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
-      state.components[focusIndex].past.push({
-        type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
-      }, 
-      {
-        type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
-      });
-      state.components[focusIndex].children.push({
-        type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
-      }, 
-      {
-        type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
+      const actionHTML: Action = {
+        type: 'ADD CHILD',
+        payload: {
+          type: 'HTML Element',
+          typeId: 9,
+          childId: null,
+        }
       }
-      );
-      // const actionHTML: Action = {
-      //   type: 'ADD CHILD',
-      //   payload: {
-      //     type: 'HTML Element',
-      //     typeId: 9,
-      //     childId: null,
-      //   },
-      // };
-      // state = reducer(state, actionHTML);
+      console.log('focusIndex before UNDO', focusIndex);
+      console.log('before add child', state.components[focusIndex]);
+      state = reducer(state, actionHTML);
+      console.log('after add kid', state.components[focusIndex]);
       const actionUndo: Action = {
         type: 'UNDO',
-        payload: {},
-      }
-      console.log('state 1', state)
+         payload: {},
+      };
+      
       state = reducer(state, actionUndo);
-      console.log('state 2', state);
-      //const undidEl = state.components[focusIndex].past.pop();
-      //const undidEl = state.components[focusIndex].past.pop()
-      expect(state.components[focusIndex].future.length).toEqual(1);
-      //expect(state.components[focusIndex].past
+      console.log('focusIndex after UNDO', focusIndex);
+
+      const undoParent = state.components.find(comp => comp.id === state.canvasFocus.componentId);
+ 
+      expect(undoParent.children.length).toEqual(0);
+ 
+      console.log('after undo', state.components[focusIndex]);
+
+      //expect(state.components[focusIndex].children.length).toEqual(0);
     })
   });
 
@@ -221,3 +215,16 @@ describe('Testing componentReducer functionality', () => {
   
 });
 
+  // state.components[focusIndex].past.push({
+      //   type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
+      // }, 
+      // {
+      //   type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
+      // });
+      // state.components[focusIndex].children.push({
+      //   type: "HTML Element", typeId: 1000, name: "separator", childId: 1001, style: { border: "none" }, children: []
+      // }, 
+      // {
+      //   type: "HTML Element", typeId: 4, name: "button", childId: 2, style: { border: "none" }, children: []
+      // }
+      // );
