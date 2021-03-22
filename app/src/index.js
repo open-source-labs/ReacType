@@ -63,5 +63,5 @@ ReactDOM.render(
       </Switch>
     </Router>
   </ ApolloProvider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

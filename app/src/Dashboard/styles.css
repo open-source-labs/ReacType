@@ -18,9 +18,10 @@ $button-blue: #24BCFF; */
   border-radius: 5px;
   color: #606f7b;
   align-items: center;
-  height: 25vh;
+  height: 40vh;
   /* justify-content: min; */
-  width: 15vw;
+  width: 25%;
+  overflow: scroll;
 }
 
 /* .dashboardContainer {
@@ -28,31 +29,44 @@ $button-blue: #24BCFF; */
   grid-template: auto / repeat(2, 1fr);
 } */
 
+.dashboardContainer {
+  overflow: scroll;
+}
+
 .formContainer , .projectContainer{
   display: flex;
   flex-flow: row wrap;
+  overflow: scroll;
 }
 
 .project {
   position: relative;
 }
 
-#commentArea {
+.projectInfo {
+  text-align: center;
+}
+
+.commentArea {
   /* position: absolute; */
   bottom: 0;
   display: inline-block;
   width: 100%;
-  text-align: middle;
+  height: 100%;
+  text-align: center;
+  /* height: 25%; */
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
-#commentBox {
+.commentBox {
   padding: 5%;
-  width: 75%;
+  width: 100%;
   border: 1px solid transparent;
   /* vertical-align: middle; */
 }
 
-#commentButton{
+.commentButton{
   /* float: right; */
   top: 22%;
   right: 5%;
@@ -61,23 +75,33 @@ $button-blue: #24BCFF; */
   padding-bottom: 2%;
 }
 
-#renderedCom {
+.comment {
+  font-size: 125%;
+}
+
+.renderedCom {
   text-align: center;
 }
 
-#comments {
+.comments {
   position: absolute;
   bottom: 0;
   width: 100%;
   border: 1px solid #f0f0f0;
 }
 
-#heart {
-  float: left;
-  position: absolute;
-  top: 16%;
-  left: 2%;
-  color: #f0f0f0;
+.icons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  background-color: #FE5F55;
+  color: white;
+  opacity: 0.8;
+  width: 100%;
 }
 /* .formContainer {
   display: flex;

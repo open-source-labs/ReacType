@@ -17,7 +17,6 @@ export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
   }
 }`;
 
-
 // Mutation
 export const ADD_LIKE = gql`
   mutation AddLike($projId: ID!, $likes: Int!) {
