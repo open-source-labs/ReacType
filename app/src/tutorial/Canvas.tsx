@@ -3,6 +3,7 @@ import React from 'react';
 //images
 import canvas1 from '../../../resources/canvas_tutorial_images/canvas1.png';
 import drag1 from '../../../resources/canvas_tutorial_images/drag1.png';
+import undoRedo from '../../../resources/canvas_tutorial_images/undoRedo.gif';
 
 const Canvas: React.FC<{
   classes: any;
@@ -29,6 +30,12 @@ const Canvas: React.FC<{
       <p className={classes.text}>Select a <span className={classes.notLink} onClick={() => setPage('Reusable_Components')} >reusable component</span>, click and hold to drag on to a page.<br/>
       Drag the selected item on to the center canvas.</p>
       <hr/>
+      <h1 className={classes.title}>Undo and Redo</h1>
+      <p className={classes.text}> The undo functionality is implemented to revert the user's last action.  Redo will reperform the user's last undid action.
+      </p>
+      <div className={classes.imgWrapper}>
+        <img src={undoRedo}/>
+      </div>
       <h1 className={classes.title}>Keyboard Shortcuts</h1>
         <h2 className={classes.text}>Mac</h2>
           <ul className={classes.text}>
