@@ -16,8 +16,8 @@ function Canvas() {
     );
     
     // changes focus of the canvas to a new component / child
-    const changeFocus = (componentId?: number, childId?: number | null, e?: string) => {
-      dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId, e, /*state*/ } });
+    const changeFocus = (componentId?: number, childId?: number | null) => {
+      dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
     };
     // onClickHandler is responsible for changing the focused component and child component
     function onClickHandler(event) {
