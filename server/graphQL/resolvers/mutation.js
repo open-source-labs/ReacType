@@ -133,9 +133,6 @@ const Project = {
     targetProject.comments.push(newCommentDoc._id);
     // updating the target Projects document in the database
     const updatedProj = await Projects.findOneAndUpdate(filter, targetProject, options);
-    console.log('username => ', username)
-    console.log('projId ===> ', projId)
-    console.log('comment ==> ', comment);
     if (updatedProj) {
       return ({
         name: updatedProj.name,

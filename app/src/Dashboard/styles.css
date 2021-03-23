@@ -96,14 +96,20 @@ $button-blue: #24BCFF; */
 }
 
 .header {
-  background-color: #0CBABA;
+  background-color: #186BB4;
   color: rgba(255, 255, 255, 0.897);
-  opacity: 0.6;
   width: 100%;
   position: relative;
 }
 
+.commentField {
+  border: 1px solid  #f0f0f0;
+  padding-left: 2%;
+}
 
+h1 {
+  text-align: center;
+}
 /* .projectContainer {
   display: flex;
   flex-direction: row;

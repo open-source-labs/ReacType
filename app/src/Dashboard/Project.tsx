@@ -1,4 +1,4 @@
-import React, { useState, } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { 
   ADD_LIKE,
@@ -10,6 +10,9 @@ import {
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import AddCommentIcon from '@material-ui/icons/AddComment';
+
+import Button from '@material-ui/core/Button';
+
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import StarIcon from '@material-ui/icons/Star';
@@ -102,6 +105,7 @@ const Project = ({
     publishProject(myVar);
   }
 
+
   //Adds the comment to the project
   function handleComment(e) {
     e.preventDefault();
@@ -116,6 +120,7 @@ const Project = ({
     addComment(myVar)
   }
 
+
   //sets state of commentVal to what the user types in to comment
   function handleChange(e) {
     e.preventDefault();
@@ -123,6 +128,7 @@ const Project = ({
     setCommentVal(commentValue);
   }
 
+  
   const recentComments = [];
   if (comments.length > 0) { 
     const reversedCommentArray = comments.slice(0).reverse();
@@ -136,13 +142,11 @@ const Project = ({
         )}
   }
 
-  // ---Clear canvas functionality---
   // Closes out the open modal
   const closeModal = () => setModal('');
 
-  // Creates modal that asks if user wants to clear workspace
-  // If user clears their workspace, then their components are removed from state and the modal is closed
-  const clearWorkspace = () => {
+  // Creates modal that asks if user wants to delete project
+  const deleteProjectModal = () => {
     //Deletes project from the database
     const handleDelete = (e) => {
       e.preventDefault();
@@ -196,7 +200,7 @@ const Project = ({
   <div className = 'project'>
     <div className = 'header'>
     { currUsername === username ?
-      <IconButton tooltip = "Delete Project" onClick={ clearWorkspace } style={{position: 'absolute', right: '0'}}>
+      <IconButton tooltip = "Delete Project" onClick={ deleteProjectModal } style={{position: 'absolute', right: '0'}}>
         <CloseIcon/>
       </IconButton>
       : '' }
@@ -228,8 +232,8 @@ const Project = ({
           {recentComments}
       </div>
       <div className = 'commentInput'>
-        <input type="text" placeholder="Add Comment" onChange={ handleChange }></input>
-        <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '0', top: '10px'}}/>
+        <input type="text" placeholder="Add Comment" className="commentField" onChange={ handleChange }></input>
+        <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '8', top: '13'}}/>
       </div>
   {modal}
   </div>

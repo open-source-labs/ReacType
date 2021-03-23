@@ -261,7 +261,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
         <ListItem
           key={'not delete'}
           button
-          onClick={closeModal}
+          onClick={closeModal}ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
