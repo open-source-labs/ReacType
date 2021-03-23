@@ -2,8 +2,8 @@ const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
+const path = require('path');
 const cors = require('cors');
-const { Book, TitleOutlined } = require('@material-ui/icons');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
@@ -79,6 +79,11 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 /** ****************************************************************** */
 
+// app.use(express.static(path.resolve(__dirname, '../app/dist')));
+
+app.get('/', (req, res) => {
+  return res.status(200).sendFile(path.resolve(__dirname, '../app/dist/index-prod.html'));
+});
 
 app.post(
   '/signup',
