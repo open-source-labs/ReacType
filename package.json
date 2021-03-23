@@ -50,8 +50,8 @@
     "dist-linux": "npm run prod-build && electron-builder --linux",
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "cross-env NODE_ENV=test jest --verbose ",
-    "k-test": "concurrently   \"cross-env NODE_ENV=test jest gql.projects.test.js --detectOpenHandles \"",
+    "test": " concurrently  \"npm run dev-server\"   \"cross-env NODE_ENV=test jest --verbose \"",
+    "k-test": "concurrently   \"npm run dev-server\" \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "electron": "cross-env NODE_ENV=development electron ."
   },
@@ -67,7 +67,7 @@
   ],
   "license": "MIT",
   "jest": {
-    "testEnvironment" : "jsdom",
+    "testEnvironment": "jsdom",
     "bail": true,
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
@@ -97,7 +97,6 @@
       "enzyme-to-json/serializer"
     ]
   },
-
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"
   },
@@ -139,6 +138,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.2",
@@ -162,6 +162,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
+    "spectron": "^11.1.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {
@@ -174,7 +175,7 @@
     "@types/chai": "^4.2.11",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/jest": "^25.1.5",
+    "@types/jest": "^25.2.3",
     "apollo": "^2.32.5",
     "babel-eslint": "^8.2.6",
     "babel-jest": "^25.2.4",
@@ -206,7 +207,7 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
     "supertest": "^4.0.2",
-    "ts-jest": "^25.3.0",
+    "ts-jest": "^25.5.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6",
     "url-loader": "^4.1.0",

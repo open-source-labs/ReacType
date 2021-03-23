@@ -132,8 +132,7 @@ const Project = {
     // pushing the new Comments documents _id into the targetProject comments array
     targetProject.comments.push(newCommentDoc._id);
     // updating the target Projects document in the database
-    const updatedProj = await Projects.findOneAndUpdate(filter, targetProject, options)
-
+    const updatedProj = await Projects.findOneAndUpdate(filter, targetProject, options);
     if (updatedProj) {
       return ({
         name: updatedProj.name,
@@ -142,6 +141,7 @@ const Project = {
         likes: updatedProj.likes,
         published: updatedProj.published,
         createdAt: updatedProj.createdAt,
+        comments: updatedProj.comments,
       });
     }
 

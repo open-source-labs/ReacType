@@ -57,7 +57,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    else if (type === 'HTML Element' && typeId === 1000) {
+    else if (type === 'HTML Element' && typeId === 1000 /* || typeId === 2 */) {
       return (
         <SeparatorChild
           childId={childId}

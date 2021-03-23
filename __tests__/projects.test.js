@@ -1,25 +1,20 @@
+const { Mongoose } = require('mongoose');
 const request = require('supertest');
-const app = require('../server/server');
-
-let server = 'https://reactype.herokuapp.com';
-const isDev = process.env.NODE_ENV === 'development';
-if (isDev) {
-  // server = 'http://localhost:5000';
-  server = require('..server/server');
-}
-
+// initializes the project to be sent to server/DB
+const { projectToSave, state } = require('../mockData');
+const app = require('../server/server.js');
+const http = require('http');
+let server;
 // save and get projects endpoint testing
 describe('Project endpoints tests', () => {  
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(done);
   });
-
   afterAll((done) => {
     Mongoose.disconnect();
     server.close(done);
   });
-
   // test saveProject endpoint
   describe('/saveProject', () => {
     describe('/POST', () => {
@@ -29,11 +24,11 @@ describe('Project endpoints tests', () => {
           .set('Accept', 'application/json')
           .send(projectToSave)
           .expect(200)
-          .then(res => expect(res.body.project.name).toBe('test'));
+          .expect('Content-Type', /application\/json/)
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     });
   });
-
   // test getProjects endpoint
   describe('/getProjects', () => {
     describe('POST', () => {
@@ -51,7 +46,6 @@ describe('Project endpoints tests', () => {
       });
     });
   });
-
   // test deleteProject endpoint
   describe('/deleteProject', () => {
     describe('DELETE', () => {
@@ -62,8 +56,7 @@ describe('Project endpoints tests', () => {
           .set('Accept', 'application/json')
           .send({ name, userId })
           .expect(200)
-          .expect('Content-Type', /json/)
-          .then(res => expect(res.body.name).toBe('test'));
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     });
   });

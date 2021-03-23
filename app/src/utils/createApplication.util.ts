@@ -136,8 +136,7 @@ export const createPackage = (path, appName) => {
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "webpack": "^4.29.6",
-    "react-native": "^0.62.1"
+    "webpack": "^4.29.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

@@ -1,4 +1,4 @@
-import React, { useState, } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { 
   ADD_LIKE,
@@ -9,8 +9,14 @@ import {
 } from './gqlStrings';
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import AddCommentIcon from '@material-ui/icons/AddComment';
+
+import Button from '@material-ui/core/Button';
+
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -51,27 +57,25 @@ const Project = ({
 
   const noPointer = {cursor: 'default'};
 
-  // const handleIconClick = () => {
-  //   if(clicked === false) {
-  //     setClicked(true);
-  //   } else if (clicked === true) {
-  //     setClicked(false);
-  //   }
-  // }
-
-  //Likes the project when the heart icon is clicked
+  //Likes the project when the star icon is clicked
   function handleLike(e) {
     e.preventDefault();
-    (clicked === false) ? setClicked(true) : (clicked === true) ? setClicked(false) : '';
-    const myVar = {
-      variables:
+    let myVar = {
+      variables: 
       {
         projId: id,
-        likes: likes + 1,
+        likes: likes,
       },
     };
-    // send Mutation
-    addLike(myVar);
+    if(clicked === false) {
+      setClicked(true);
+      myVar.variables.likes = likes + 1
+      addLike(myVar);
+    } else {
+      setClicked(false); 
+      myVar.variables.likes = likes - 1
+      addLike(myVar);
+    }
   }
 
   //Makes a copy of the public project and saves as a user project
@@ -101,6 +105,7 @@ const Project = ({
     publishProject(myVar);
   }
 
+
   //Adds the comment to the project
   function handleComment(e) {
     e.preventDefault();
@@ -115,43 +120,44 @@ const Project = ({
     addComment(myVar)
   }
 
+
   //sets state of commentVal to what the user types in to comment
   function handleChange(e) {
-    const inputVal = e.target.value;
-    setCommentVal(inputVal);
+    e.preventDefault();
+    let commentValue = e.target.value;
+    setCommentVal(commentValue);
   }
 
-  //renders the last 5 comments into the comment area
+  
   const recentComments = [];
   if (comments.length > 0) { 
     const reversedCommentArray = comments.slice(0).reverse();
     const min = Math.min(6, reversedCommentArray.length)
     for (let i = 0; i < min ; i++) {
     recentComments.push(
-    <p>
-      <b>{ reversedCommentArray[i].username }</b>: { reversedCommentArray[i].text }
-    </p>
-    )}
+      <p className='comment'>
+        <b>{ reversedCommentArray[i].username }</b>: 
+        { reversedCommentArray[i].text }
+      </p>
+        )}
   }
 
-  // ---Clear canvas functionality---
   // Closes out the open modal
   const closeModal = () => setModal('');
 
-  // Creates modal that asks if user wants to clear workspace
-  // If user clears their workspace, then their components are removed from state and the modal is closed
-  const clearWorkspace = () => {
+  // Creates modal that asks if user wants to delete project
+  const deleteProjectModal = () => {
     //Deletes project from the database
-  const handleDelete = (e) => {
-    e.preventDefault();
-    const myVar = {
-      variables:
-      {
-        projId: id,
-      },
-    };
-    deleteProject(myVar);
-  }
+    const handleDelete = (e) => {
+      e.preventDefault();
+      const myVar = {
+        variables:
+        {
+          projId: id,
+        },
+      };
+      deleteProject(myVar);
+    }
 
     // Set modal options
     const children = (
@@ -192,45 +198,44 @@ const Project = ({
 
   return (
   <div className = 'project'>
+    <div className = 'header'>
     { currUsername === username ?
-      <IconButton tooltip = "Delete Project" onClick={ clearWorkspace } style={{position: 'absolute', right: '0', padding: '0'}}>
+      <IconButton tooltip = "Delete Project" onClick={ deleteProjectModal } style={{position: 'absolute', right: '0'}}>
         <CloseIcon/>
       </IconButton>
-    : '' }
-    <div className = 'projectInfo'>
-      <h2>Project: { name }</h2>
-      <h3>Author: { username }</h3>
-      <h3>Likes: { likes }</h3>
-    </div>
-    <div className = "icons">
-        <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
-          {clicked ? <FavoriteIcon fontSize='Large' color='secondary'/> : <FavoriteBorderIcon fontSize='Large'/>}
-        </IconButton> 
-      { currUsername !== username ?
-        <IconButton tooltip ="Download Template" style={noPointer} onClick={ handleDownload }>
-          <GetAppIcon fontSize="large" className="download"/> 
-        </IconButton>       
       : '' }
-      { currUsername === username ?
-        <IconButton tooltip ="Publish Template" style={noPointer} onClick={ handlePublish }>
-          <PublishIcon fontSize="large"/> 
-        </IconButton>
-        : '' }
-    </div>
-  <hr/>
-    { published ? 
-      <div className = "commentArea">
-          {recentComments}
-          <br/>
-          <div className = 'comments'>
-            <span>
-              <input type="text" placeholder="Add Comment" onChange={ handleChange } className = "commentBox"></input>
-              <button className = "commentButton" onClick={ handleComment }>Comment</button>
-            </span>
-          </div>
+      <div className = 'projectInfo'>
+        <b>
+          <h2>Project: { name }</h2>
+          <h3>Author: { username }</h3>
+          <h3>Likes: { likes }</h3>
+        </b>
       </div>
-   : '' }
-   {modal}
+
+      <div className = "icons">
+          <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
+            {clicked ? <StarIcon fontSize='Large' style={{color:'#FFD700'}}/> : <StarBorderIcon fontSize='Large' style={{color:'#FFD700'}}/>}
+          </IconButton> 
+        { currUsername !== username ?
+          <IconButton tooltip ="Download Template" style={noPointer} onClick={ handleDownload }>
+            <GetAppIcon fontSize="large" className="download"/> 
+          </IconButton>       
+          : '' }
+        { currUsername === username ?
+          <IconButton tooltip ="Publish Template" style={noPointer} onClick={ handlePublish }>
+            <PublishIcon fontSize="large"/> 
+          </IconButton>
+          : '' }
+      </div>
+    </div>
+      <div className = "commentContainer">
+          {recentComments}
+      </div>
+      <div className = 'commentInput'>
+        <input type="text" placeholder="Add Comment" className="commentField" onChange={ handleChange }></input>
+        <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '8', top: '13'}}/>
+      </div>
+  {modal}
   </div>
   );
 };

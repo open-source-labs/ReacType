@@ -84,7 +84,7 @@ const projectSchema = new Schema({
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comments',
-  }]
+  }],
 }, { minimize: false });
 // option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 

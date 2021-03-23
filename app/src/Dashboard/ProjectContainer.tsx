@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect, createContext } from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project';
@@ -18,6 +20,7 @@ export const styleContext = createContext({
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
+
 
 const ProjectContainer = () => {
   const myVar = {};
@@ -64,7 +67,6 @@ const ProjectContainer = () => {
 
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = [];
   // create array to hold the components Project of loggin-in users
@@ -120,14 +122,14 @@ const ProjectContainer = () => {
     <div className = "dashboardContainer">
       <NavBarDash setTheme={setTheme} styles={[style, setStyle]} isThemeLight={isThemeLight} optionClicked={optionClicked}/>
       <h1> Public Dashboard </h1>
-        <div className = "projectContainer">
+        <Grid className = "projectContainer" container justify='flex-start' wrap='wrap' spacing={3}>
             {sortedDisplay}
-        </div>
+        </Grid>
       <hr></hr>
         <h1> User Dashboard </h1>
-        <div className = "projectContainer">
+        <Grid className = "projectContainer" container justify='flex-start' wrap='wrap'>
           {userDisplay}
-        </div>
+        </Grid>
     </div>
     </MuiThemeProvider>
   );

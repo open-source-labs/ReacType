@@ -8,76 +8,94 @@ $teriary-grey: #f0f0f0;
 $light-grey: #bfcbd4;
 $light-blue: #759cc9;
 $button-blue: #24BCFF; */
-body, html {
-  position: relative;
-  height: 100%;
-}
-.form , .project{
-  width: 22vw;
-  height: 38vh;
-  background:white;
-  margin: 1% 1%;
+
+
+/* .project{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #606f7b;
+  align-items: center;
+  height: 300px;
+  justify-content: min;
+  width: 250px;
+} */
+
+.project {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 5px;
+  border: 1px solid  #f0f0f0;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0,0,0,0.3);
-  text-align: center;
-  position: relative;
-  border: 1px solid  #f0f0f0;
-  overflow: auto;
-  /* border: 2px solid blue; */
+  height: 500px;
+  width: 400px;
+  justify-content: space-between;
 }
 
-.formContainer , .projectContainer{
+
+/* .form , .project{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid  #f0f0f0;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  margin: 5px;
   border-radius: 5px;
-  width: 100vw;
-  height: 40vh;
-  position: relative;
-  margin: 0 auto;
-  overflow-y: scroll;
-  z-index: 5;
+  color: #606f7b;
+  align-items: center;
+  height: 300px;
+  justify-content: min;
+  width: 250px;
+} */
+
+
+.dashboardContainer {
+  /* overflow: scroll; */
+  height: 100%;
+}
+
+ .projectContainer{
   display: flex;
   flex-direction: column-reverse;
   flex-flow: row wrap;
-  justify-content: flex-start;
-  /* border: 2px solid red; */
-}
-
-.headers {
-  border: 1px solid black;
-}
-
-.commentArea {
-  width: 100%;
-  position: relative;
-  text-align: center;
-  overflow-x: hidden;
+  height: 600px;
   overflow-y: scroll;
-
-  /* border: 2px solid purple; */
 }
 
-.commentBox {
-  padding: 5%;
-  width: 100%;
-  border: 1px solid #f0f0f0;
+.projectInfo {
+  text-align: center;
 }
 
-.commentButton{
-  top: 25%;
-  right: 5%;
-  position: absolute;
-  border: 1px solid transparent;
-  background-color: white;
+.commentContainer {
+  text-align: center;
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.commentBtn {
+  color: #bebebed8;
+}
+
+.comment {
+  font-size: 125%;
 }
 
 .renderedCom {
   text-align: center;
 }
 
-.comments {
-  position: absolute;
-  bottom: 0;
+.commentInput {
+  display: flex;
+  height: 100px;
   width: 100%;
-  /* border: 2px solid green; */
+  border: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.commentInput > * {
+  flex: auto;
 }
 
 .icons {
@@ -87,13 +105,25 @@ body, html {
   align-items: center;
 }
 
+.header {
+  background-color: #186BB4;
+  color: rgba(255, 255, 255, 0.897);
+  width: 100%;
+  position: relative;
+}
+
+.commentField {
+  border: 1px solid  #f0f0f0;
+  padding-left: 2%;
+}
+
 h1 {
   text-align: center;
 }
-
-.deleteProject {
-  background-color: transparent;
-  position: absolute;
-  right: 0;
-  border: 1px solid transparent;
-}
+/* .projectContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}  */

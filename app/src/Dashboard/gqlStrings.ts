@@ -51,8 +51,8 @@ export const PUBLISH_PROJECT = gql`
     }
   }`;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($projId: ID! $comment: String!, $username: String!) {
+  export const ADD_COMMENT = gql`
+  mutation AddComment($projId: ID!, $comment: String!, $username: String!) {
     addComment(projId: $projId, comment: $comment, username: $username)
     {
       id
