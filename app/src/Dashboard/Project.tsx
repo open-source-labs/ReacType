@@ -144,16 +144,16 @@ const Project = ({
   // If user clears their workspace, then their components are removed from state and the modal is closed
   const clearWorkspace = () => {
     //Deletes project from the database
-  const handleDelete = (e) => {
-    e.preventDefault();
-    const myVar = {
-      variables:
-      {
-        projId: id,
-      },
-    };
-    deleteProject(myVar);
-  }
+    const handleDelete = (e) => {
+      e.preventDefault();
+      const myVar = {
+        variables:
+        {
+          projId: id,
+        },
+      };
+      deleteProject(myVar);
+    }
 
     // Set modal options
     const children = (
@@ -194,17 +194,18 @@ const Project = ({
 
   return (
   <div className = 'project'>
+    <div className = 'header'>
     { currUsername === username ?
-      <IconButton tooltip = "Delete Project" onClick={ clearWorkspace } style={{position: 'absolute', right: '0', padding: '0'}}>
+      <IconButton tooltip = "Delete Project" onClick={ clearWorkspace } style={{position: 'absolute', right: '0'}}>
         <CloseIcon/>
       </IconButton>
-    : '' }
-    <div className = 'header'>
+      : '' }
       <div className = 'projectInfo'>
         <h2>Project: { name }</h2>
         <h3>Author: { username }</h3>
         <h3>Likes: { likes }</h3>
       </div>
+
       <div className = "icons">
           <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
             {clicked ? <StarIcon fontSize='Large' style={{color:'#FFD700'}}/> : <StarBorderIcon fontSize='Large' style={{color:'#FFD700'}}/>}
@@ -213,7 +214,7 @@ const Project = ({
           <IconButton tooltip ="Download Template" style={noPointer} onClick={ handleDownload }>
             <GetAppIcon fontSize="large" className="download"/> 
           </IconButton>       
-        : '' }
+          : '' }
         { currUsername === username ?
           <IconButton tooltip ="Publish Template" style={noPointer} onClick={ handlePublish }>
             <PublishIcon fontSize="large"/> 
@@ -221,21 +222,14 @@ const Project = ({
           : '' }
       </div>
     </div>
-  <hr/>
-    { published ? 
-      <div className = "commentArea">
+      <div className = "commentContainer">
           {recentComments}
-          <br/>
-          <div className = 'comments'>
-            <span>
-              <input type="text" placeholder="Add Comment" onChange={ handleChange } className = "commentBox"></input>
-              <AddCommentIcon fontSize='Large' onClick={ handleComment } style={{top: '22%', right: '5%', position: 'absolute', paddingTop: '2%', paddingBottom: 
-            '2%'}}/>
-            </span>
-          </div>
       </div>
-   : '' }
-   {modal}
+      <div className = 'commentInput'>
+        <input type="text" placeholder="Add Comment" onChange={ handleChange }></input>
+        <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '0', top: '10px'}}/>
+      </div>
+  {modal}
   </div>
   );
 };
