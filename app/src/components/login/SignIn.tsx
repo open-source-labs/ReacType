@@ -75,7 +75,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
-        console.log(cookie);
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
           clearInterval(githubCookie);

@@ -48,7 +48,6 @@ function DirectChildHTML({
   function onClickHandler(event) {
     event.stopPropagation();
     changeFocus(state.canvasFocus.componentId, childId);
-    console.log('state in directChild', state)
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
