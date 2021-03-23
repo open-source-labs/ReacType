@@ -201,9 +201,11 @@ const Project = ({
     : '' }
     <div className = 'header'>
       <div className = 'projectInfo'>
-        <h2>Project: { name }</h2>
-        <h3>Author: { username }</h3>
-        <h3>Likes: { likes }</h3>
+        <b>
+          <h2>Project: { name }</h2>
+          <h3>Author: { username }</h3>
+          <h3>Likes: { likes }</h3>
+        </b>
       </div>
       <div className = "icons">
           <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
