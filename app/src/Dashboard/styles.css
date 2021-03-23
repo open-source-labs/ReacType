@@ -10,19 +10,45 @@ $light-blue: #759cc9;
 $button-blue: #24BCFF; */
 
 
-.form , .project{
-  width: 22vw;
-  height: 38vh;
-  background:white;
-  margin: 1% 1%;
+/* .project{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: #606f7b;
+  align-items: center;
+  height: 300px;
+  justify-content: min;
+  width: 250px;
+} */
+
+.project {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 5px;
+  border: 1px solid  #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  height: 500px;
+  width: 400px;
+  justify-content: space-between;
+}
+
+
+/* .form , .project{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid  #f0f0f0;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  margin: 5px;
   border-radius: 5px;
   color: #606f7b;
   align-items: center;
-  height: 40vh;
-  /* justify-content: min; */
-  width: 30%;
-  /* overflow: scroll; */
-}
+  height: 300px;
+  justify-content: min;
+  width: 250px;
+} */
 
 
 .dashboardContainer {
@@ -38,15 +64,6 @@ $button-blue: #24BCFF; */
   overflow-y: scroll;
 }
 
-.project {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  height: 500px;
-  width: 400px;
-  justify-content:  space-between;
-}
-
 .projectInfo {
   text-align: center;
 }
@@ -57,15 +74,8 @@ $button-blue: #24BCFF; */
   overflow-y: scroll;
 }
 
-
-
-.commentButton{
-  /* float: right; */
-  /* top: 22%;
-  right: 5%;
-  position: absolute; */
-  padding-top: 2%;
-  padding-bottom: 2%;
+.commentBtn {
+  color: #bebebed8;
 }
 
 .comment {
