@@ -1,5 +1,5 @@
 const { UserInputError } = require('apollo-server-express');
-const { Projects, Users } = require('../../models/reactypeModels');
+const { Projects, Users, Comments } = require('../../models/reactypeModels');
 /*
 * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
 * Link to Apollo Mutations:
@@ -13,7 +13,6 @@ const Project = {
     const options = { new: true };
     const resp = await Projects.findOneAndUpdate(filter, update, options);
     if (resp) {
-
       return ({
         name: resp.name,
         id: resp._id,
@@ -111,6 +110,45 @@ const Project = {
     }
 
     throw new UserInputError('Project is not found. Please try another project ID', {
+      argumentName: 'projId',
+    });
+  },
+
+  addComment: async (parent, { projId, comment, username }) => {
+    const filter = { _id: projId };
+    const options = { new: true };
+
+    // data for the new Comments document
+    const commentDocument = {
+      projectId: projId,
+      text: comment,
+      username,
+    };
+    // creating the new Comments document
+    const newCommentDoc = await Comments.create(commentDocument);
+
+    // target Projects document to add comment _id to
+    const targetProject = await Projects.findOne(filter);
+    // pushing the new Comments documents _id into the targetProject comments array
+    targetProject.comments.push(newCommentDoc._id);
+    // updating the target Projects document in the database
+    const updatedProj = await Projects.findOneAndUpdate(filter, targetProject, options);
+    console.log('username => ', username)
+    console.log('projId ===> ', projId)
+    console.log('comment ==> ', comment);
+    if (updatedProj) {
+      return ({
+        name: updatedProj.name,
+        id: updatedProj._id,
+        userId: updatedProj.userId,
+        likes: updatedProj.likes,
+        published: updatedProj.published,
+        createdAt: updatedProj.createdAt,
+        comments: updatedProj.comments,
+      });
+    }
+
+    throw new UserInputError('Project cannot be found. Please try another project ID', {
       argumentName: 'projId',
     });
   },

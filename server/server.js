@@ -143,5 +143,4 @@ app.use((err, req, res, next) => {
 if (isDev || isProd) {
   app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
 }
-
 if (isTest) module.exports = app;

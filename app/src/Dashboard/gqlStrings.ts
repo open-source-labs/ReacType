@@ -9,11 +9,13 @@ export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
     id
     userId
     username
-    published 
-    createdAt
+    published
+    comments {
+      username
+      text
+    }
   }
 }`;
-
 
 // Mutation
 export const ADD_LIKE = gql`
@@ -46,5 +48,13 @@ export const PUBLISH_PROJECT = gql`
     {
       id
       published
+    }
+  }`;
+
+  export const ADD_COMMENT = gql`
+  mutation AddComment($projId: ID!, $comment: String!, $username: String!) {
+    addComment(projId: $projId, comment: $comment, username: $username)
+    {
+      id
     }
   }`;

@@ -64,7 +64,6 @@ const ProjectContainer = () => {
 
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = [];
   // create array to hold the components Project of loggin-in users
@@ -72,14 +71,15 @@ const ProjectContainer = () => {
   // generate an array of Project components based on queried data
   projects.forEach((proj, index) => {
     const component = <Project
-                  key= { index }
+                  key= {index}
                   name = {proj.name}
                   likes = {proj.likes}
-                  published = { proj.published }
+                  published = {proj.published}
                   userId = {proj.userId}
                   username = {proj.username}
                   createdAt = {proj.createdAt}
                   id = {proj.id}
+                  comments = {proj.comments}
                   />;
     // sorting the public and private dashboards based on the user's username
     if (username === proj.username) userDisplay.push(component);
@@ -94,9 +94,9 @@ const ProjectContainer = () => {
     setSelectedOption(value);
   };
   // checking which sorting method was selected from drop down menu and invoking correct sorting function
-  if (selectedOption === 'Date') sortedProjects = sortByDate(sortedProjects);
-  else if (selectedOption === 'User') sortedProjects = sortByUser(sortedProjects);
-  else if (selectedOption === 'Rating') sortedProjects = sortByRating(sortedProjects);
+  if (selectedOption === 'DATE') sortedProjects = sortByDate(sortedProjects);
+  else if (selectedOption === 'USER') sortedProjects = sortByUser(sortedProjects);
+  else if (selectedOption === 'RATING') sortedProjects = sortByRating(sortedProjects);
   
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = [];
@@ -110,6 +110,7 @@ const ProjectContainer = () => {
       username = {proj.username}
       createdAt = {proj.createdAt}
       id = {proj.id}
+      comments = {proj.comments}
     />);
   });
 

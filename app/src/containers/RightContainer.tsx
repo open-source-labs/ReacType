@@ -26,7 +26,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
-import { SettingsInputComponentOutlined } from '@material-ui/icons';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
@@ -303,7 +304,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {
-      document.removeEventListener('keydown', keyBindedFunc)
+      document.removeEventListener('keydown', keyBindedFunc);
     }
   }, []);
 
@@ -312,7 +313,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     <div className="column right" id="rightContainer" style={style}>
       <ComponentPanel isThemeLight={isThemeLight}/>
       <ProjectManager />
-  {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
+  {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
