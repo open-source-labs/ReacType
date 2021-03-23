@@ -42,7 +42,7 @@ describe('Testing componentReducer functionality', () => {
       // expect state.components array to have length 3
       const length = state.components.length;
       expect(length).toEqual(3);
-      // expect new root to match id of component id of TestRootChange
+      // expect new root to match id of component id of TestRootChange (rootComponents is an array of component ID numbers)
       expect(state.rootComponents[state.rootComponents.length - 1]).toEqual(action.payload.id);
     });
   });
@@ -189,6 +189,7 @@ describe('Testing componentReducer functionality', () => {
       state.components[focusIndex].past = [];
 
       // snapShotFunc taken from src/components/main/canvas.tsx to test undo functionality
+      // snapShotFunc takes a snapshot of state to be used in UNDO/REDO functionality
       const snapShotFuncCopy = () => {
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       // pushes the last user action on the canvas into the past array of Component
