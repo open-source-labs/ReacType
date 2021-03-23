@@ -1,6 +1,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Cabin&family=Oswald&display=swap');
 
 
+
 $primary-black: #22292f;
 $secondary-black: #606f7b;
 $teriary-grey: #f0f0f0;
@@ -10,12 +11,10 @@ $button-blue: #24BCFF; */
 
 
 .form , .project{
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border: 1px solid  #f0f0f0;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-  margin: 5px;
+  width: 22vw;
+  height: 38vh;
+  background:white;
+  margin: 1% 1%;
   border-radius: 5px;
   color: #606f7b;
   align-items: center;
@@ -33,6 +32,7 @@ $button-blue: #24BCFF; */
 
  .projectContainer{
   display: flex;
+  flex-direction: column-reverse;
   flex-flow: row wrap;
   height: 600px;
   overflow-y: scroll;
