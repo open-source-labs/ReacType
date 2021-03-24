@@ -44,6 +44,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
  **New with version 6.0:**
 
+![saveToUserDash](https://user-images.githubusercontent.com/69879756/112248087-98747100-8c12-11eb-940c-033d3a754cff.gif)
+
 ### Features
 
 - **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
@@ -54,6 +56,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Sort By**: Click the 'Sort By' button to choose different metrics to sort the Public Dashboard by.
 - **Form Nesting**: Nesting within form tags is now fully functional
 - **Added Undo and Redo functionality**
+
+![downloadPublicProject](https://user-images.githubusercontent.com/69879756/112248187-c6f24c00-8c12-11eb-9ac4-cf69f65e3a85.gif)
 
 ### Keyboard Shortcuts
 
