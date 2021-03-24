@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
@@ -40,7 +40,7 @@
   "scripts": {
     "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"npm run server\" ",
+    "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"npm run server\" -k",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"nodemon server/server.js\" -k",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
@@ -51,9 +51,7 @@
     "dist-windows": "npm run prod-build && electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": " concurrently  \"npm run dev-server\"   \"cross-env NODE_ENV=test jest --verbose \"",
-    "k-test": "concurrently   \"npm run dev-server\" \"cross-env NODE_ENV=test jest users.test.js --detectOpenHandles \"",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js",
-    "electron": "cross-env NODE_ENV=development electron ."
+    "server": "cross-env NODE_ENV=development nodemon server/server.js"
   },
   "repository": {
     "type": "git",

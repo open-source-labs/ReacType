@@ -8,8 +8,6 @@ import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
 import useResizeObserver from '../../tree/useResizeObserver';
 import { string } from 'prop-types';
 

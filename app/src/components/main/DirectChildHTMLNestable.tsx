@@ -17,7 +17,8 @@ function DirectChildHTMLNestable({
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
-// takes a snapshot of state to be used in UNDO and REDO cases
+
+// takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
 const snapShotFunc = () => {
   //makes a deep clone of state
   const deepCopiedState = JSON.parse(JSON.stringify(state));

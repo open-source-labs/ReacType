@@ -6,7 +6,6 @@ import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 
-
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
   // find the current component to render on the canvas
@@ -25,7 +24,7 @@ function Canvas() {
       changeFocus(state.canvasFocus.componentId, null);
     };
     
-    // stores a snapshot of state into the past array for UNDO
+    // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
     const snapShotFunc = () => {
       // make a deep clone of state
         const deepCopiedState = JSON.parse(JSON.stringify(state));

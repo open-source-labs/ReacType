@@ -60,10 +60,9 @@ async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     // full screen
-    // width: 1920,
-    // height: 1080,
-    width: 1024,
-    height: 576,
+    width: 1920,
+    height: 1080,
+
     minWidth: 980,
     // window title
     title: 'ReacType',
@@ -202,15 +201,6 @@ protocol.registerSchemesAsPrivileged([
 app.on('ready', createWindow);
 
 // TRYING ELECTRON-WINDOW-MANAGER When the application is ready
-
-// app.on('ready', () => {
-//   windowManager.setDefaultSetup({'width': 800, 'height': 450, 'position': 'right'});
-//   // Open Dashboard window
-//   const dashboard = windowManager.open('home', 'Welcome ...', 'http://localhost:5000/home.html');
-//   dashboard.toggleDevTools(false);
-//   // Load ReacType window
-//   createWindow();
-// });
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

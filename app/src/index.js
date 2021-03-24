@@ -15,25 +15,13 @@ import SignUp from './components/login/SignUp.tsx';
 import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
-
-
-/*
-*  Dashboard
-*/
-// import TestDashboard from './Dashboard/FormsContainer.ts';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
-
 import styles from './Dashboard/styles.css';
 
 const client = new ApolloClient({
   uri: 'http://localhost:5000/graphql',
   cache: new InMemoryCache()
 });
-
-/*
-*  
-*/
-
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -47,7 +35,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }}
   />
 );
-
 
 ReactDOM.render(
   <ApolloProvider client={client}>
