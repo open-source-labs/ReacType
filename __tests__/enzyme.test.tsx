@@ -109,11 +109,6 @@ describe('Test AppContainer container', () => {
   });
   // testing for a RightContainer
   it('Should render RightContainer', () => {
-    // This test doesnt work eventhough the component renders
-    // expect(
-    //   target.contains(
-    //     <RightContainer isThemeLight={props.isThemeLight}/>
-    //   )).toBe(true);
     expect(
         target.find(RightContainer)
       ).toHaveLength(1);

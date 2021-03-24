@@ -32,9 +32,6 @@ import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 
-
-// ROUTING TO DASHBOARD
-
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {

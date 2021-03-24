@@ -88,19 +88,11 @@ const projectSchema = new Schema({
 }, { minimize: false });
 // option 'minimize' prevent Mongoose from removing empty 'style' value in the copy
 
-// Test schema for implementing GraphQL
-const testSchema = new Schema({
-  name: String,
-  likes: Number,
-});
-const Tests = mongoose.model('Tests', testSchema);
-/* *********************************************** */
-
 const Users = mongoose.model('Users', userSchema);
 const Comments = mongoose.model('Comments', commentsSchema);
 const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
 
 module.exports = {
-  Users, Comments, Sessions, Projects, Tests,
+  Users, Comments, Sessions, Projects,
 };

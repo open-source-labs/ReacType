@@ -328,8 +328,6 @@ const reducer = (state: State, action: Action) => {
       if (directParent && directParent.name === 'separator') 
         nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
       components[canvasFocus.componentId-1].children = addChildArray;
-      
-      // const realPast = [];
 
       parentComponent.code = generateCode(
         components,
@@ -653,8 +651,9 @@ const reducer = (state: State, action: Action) => {
       //the children array of the focused component will equal the last element of the future array
       state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
       //the last element of the future array gets pushed into the past
+      const poppedEl = state.components[focusIndex].future.pop();
       //the last element of the future array gets popped out
-      state.components[focusIndex].past.push(state.components[focusIndex].future.pop())
+      state.components[focusIndex].past.push(poppedEl);
 
       // generate code for the Code Preview
       state.components.forEach((el, i) => {

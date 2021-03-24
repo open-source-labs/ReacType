@@ -9,10 +9,6 @@ function CanvasContainer() {
     border: '2px Solid grey',
   };
 
-   function onChangeHandler(event) {
-     console.log('working', event.target);
-   }
-
   return (
     <div style={canvasContainerStyle}>
       <Canvas />

@@ -40,15 +40,8 @@ const Project = {
         });
       }
     }
-    // The nested query in the Apollo Server example only works if we nest the comment document directly inside the project document, not applicable in to our
-    // implementation. Since we can just retrieve the comments for each project using the projectId as the filter, we just need to retrive all the comments and parse them to each
-    // project in the return statement
-    
-    // First step is to retrieve all the Comments using await and save them to an array
-    // Next, in the map loop below, filter our the comments for each project
-    // NOTE: There is probably better way to do this, but this will work for now and we can improve it later on
+
     const comCollection = await Comments.find({});
-    // console.log('comCollection', comCollection);
 
     if (resp) {
       return resp.map(proj => ({
@@ -59,7 +52,7 @@ const Project = {
         likes: proj.likes,
         published: proj.published,
         createdAt: proj.createdAt,
-        comments: comCollection.filter(commentDoc => commentDoc.projectId.toString() === proj._id.toString()), // here we should filter the comments for each proj and return it here 
+        comments: comCollection.filter(commentDoc => commentDoc.projectId.toString() === proj._id.toString()), // here we should filter the comments for each proj and return it here
       }));
     }
     // resp is null, return error message
