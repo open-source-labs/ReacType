@@ -1,8 +1,5 @@
-const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-
-const path = require('path');
 const cors = require('cors');
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
@@ -13,8 +10,6 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 const isDev = process.env.NODE_ENV === 'development';
-const isProd = process.env.NODE_ENV === 'production';
-const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,8 +19,8 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ['http://localhost:8080', 'app://rse'],
-    credentials: true,
-  }),
+    credentials: true
+  })
 );
 
 // TODO: github Oauth still needs debugging
@@ -54,37 +49,14 @@ app.use(
 //   }
 // );
 
-
-/*
-GraphQl Router
-*/
-/* ******************************************************************* */
-
-// Query resolvers
-const Query = require('./graphQL/resolvers/query');
-// Mutation resolvers
-const Mutation = require('./graphQL/resolvers/mutation');
-
-// package resolvers into one variable to pass to Apollo Server
-const resolvers = {
-  Query,
-  Mutation,
-};
-
-// schemas used for graphQL
-const typeDefs = require('./graphQL/schema/typeDefs.js');
-
-// instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
-/** ****************************************************************** */
-
 app.post(
   '/signup',
   userController.createUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => res.status(200).json({ sessionId: res.locals.ssid }),
+  (req, res) => {
+    return res.status(200).json({ sessionId: res.locals.ssid });
+  }
 );
 
 app.post(
@@ -92,7 +64,9 @@ app.post(
   userController.verifyUser,
   cookieController.setSSIDCookie,
   sessionController.startSession,
-  (req, res) => res.status(200).json({ sessionId: res.locals.ssid }),
+  (req, res) => {
+    return res.status(200).json({ sessionId: res.locals.ssid });
+  }
 );
 
 // user must be logged in to get or save projects, otherwise they will be redirected to login page
@@ -100,25 +74,33 @@ app.post(
   '/saveProject',
   sessionController.isLoggedIn,
   projectController.saveProject,
-  (req, res) => res.status(200).json(res.locals.savedProject),
+  (req, res) => {
+    return res.status(200).json(res.locals.savedProject);
+  }
 );
 
 app.post(
   '/getProjects',
   sessionController.isLoggedIn,
   projectController.getProjects,
-  (req, res) => res.status(200).json(res.locals.projects),
+  (req, res) => {
+    return res.status(200).json(res.locals.projects);
+  }
 );
 
 app.delete(
   '/deleteProject',
   sessionController.isLoggedIn,
   projectController.deleteProject,
-  (req, res) => res.status(200).json(res.locals.deleted),
+  (req, res) => {
+    return res.status(200).json(res.locals.deleted);
+  }
 );
 
 // catch-all route handler
-app.use('*', (req, res) => res.status(404).send('Page not found'));
+app.use('*', (req, res) => {
+  return res.status(404).send('Page not found');
+});
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -126,7 +108,7 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware',
     status: 500,
-    message: { err: 'An error occurred' },
+    message: { err: 'An error occurred' }
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
@@ -134,7 +116,8 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-if (isDev || isProd) {
-  app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
-}
-if (isTest) module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Server listening on port: ${PORT}`);
+});
+
+module.export = PORT;

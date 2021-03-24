@@ -37,7 +37,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component') && arr[i].children.length) {
+      else if ((arr[i].name === 'div' || arr[i].type === 'Component') && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
         if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
         removeSeparators(arr[i].children);

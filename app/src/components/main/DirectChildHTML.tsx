@@ -24,7 +24,6 @@ function DirectChildHTML({
     (type: HTMLType) => type.id === typeId
   );
 
-
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item
@@ -56,14 +55,12 @@ function DirectChildHTML({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #a7cced'
-        : '1px solid grey'
+        : '1px Solid grey'
   };
-
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
-
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       {HTMLType.placeHolderShort}

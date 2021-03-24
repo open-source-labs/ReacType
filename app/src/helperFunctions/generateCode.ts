@@ -34,7 +34,6 @@ const generateUnformattedCode = (
     // declare an array of enriched children
 
     const enrichedChildren = currentComponent.children.map((elem: any) => {
-      //enrichedChildren is iterating through the children array
       const child = { ...elem };
 
       // check if child is a component
@@ -46,15 +45,14 @@ const generateUnformattedCode = (
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
-          child['name'] = referencedComponent.name;
-          return child;
+        child['name'] = referencedComponent.name;
+        return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' || 
-          referencedHTML.tag === 'form'
+          referencedHTML.tag === 'separator'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -67,8 +65,10 @@ const generateUnformattedCode = (
         return child;
       }
     });
+
     return enrichedChildren;
   };
+
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
@@ -95,9 +95,9 @@ const generateUnformattedCode = (
               child.tag
             }>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag}${formatStyles(
-              child.style
-              )}>${writeNestedElements(child.children)}</${child.tag}>`;
+            return `<${child.tag}${formatStyles(child.style)}>FORM</${
+              child.tag
+            }>`;
           } else if (child.tag === 'p') {
             return `<${child.tag}${formatStyles(
               child.style
@@ -174,6 +174,7 @@ const generateUnformattedCode = (
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
+
       ${
         classBased
           ? `class ${currentComponent.name} extends Component {`

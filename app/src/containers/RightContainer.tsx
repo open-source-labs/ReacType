@@ -3,8 +3,6 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useRef,
-  useCallback,
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -25,9 +23,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
-import ComponentPanel from '../components/right/ComponentPanel';
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
+import ComponentPanel from '../components/right/ComponentPanel'
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({isThemeLight}): JSX.Element => {
@@ -188,22 +184,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    
+
     dispatch({
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
    
     return styleObj;
-  };
-
-// UNDO/REDO functionality--onClick these functions will be invoked.
-  const handleUndo = () => {
-    dispatch({ type: 'UNDO', payload: {} });
-  };
-
-  const handleRedo = () => {
-    dispatch({ type: 'REDO', payload: {} });
   };
 
   // placeholder for handling deleting instance
@@ -261,7 +248,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
         <ListItem
           key={'not delete'}
           button
-          onClick={closeModal}ƒ
+          onClick={closeModal}
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -289,31 +276,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     );
   };
 
-  const keyBindedFunc = useCallback((e) => {
-    // the || is for either Mac or Windows OS
-      //Undo
-    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
-      //Redo
-    (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() : 
-      //Delete HTML tag off canvas 
-    (e.key === 'Backspace') ? handleDelete() :
-      //Save
-    (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
-  }, []);
-  
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindedFunc);
-    return () => {
-      document.removeEventListener('keydown', keyBindedFunc);
-    }
-  }, []);
-
-
   return (
     <div className="column right" id="rightContainer" style={style}>
       <ComponentPanel isThemeLight={isThemeLight}/>
       <ProjectManager />
-  {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
+  {/* -----------------------------MOVED PROJECT MANAGER------------------------------------     */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -352,7 +319,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   className={classes.select}
                   inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                 >
-                  <MenuItem value="">none</MenuItem>
+                  <MenuItem value=""></MenuItem>
                   <MenuItem value={'block'}>block</MenuItem>
                   <MenuItem value={'inline-block'}>inline-block</MenuItem>
                   <MenuItem value={'flex'}>flex</MenuItem>
@@ -377,7 +344,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value="">none</MenuItem>
+                      <MenuItem value=""></MenuItem>
                       <MenuItem value={'row'}>row</MenuItem>
                       <MenuItem value={'column'}>column</MenuItem>
                     </Select>
@@ -398,7 +365,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value="">none</MenuItem>
+                      <MenuItem value=""></MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
                       <MenuItem value={'flex-end'}>flex-end</MenuItem>
                       <MenuItem value={'center'}>center</MenuItem>
@@ -423,7 +390,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       className={classes.select}
                       inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                     >
-                      <MenuItem value="">none</MenuItem>
+                      <MenuItem value=""></MenuItem>
                       <MenuItem value={'stretch'}>stretch</MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
                       <MenuItem value={'flex-end'}>flex-end</MenuItem>
@@ -448,7 +415,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   className={classes.select}
                   inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                 >
-                  <MenuItem value="">none</MenuItem>
+                  <MenuItem value=""></MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
                   <MenuItem value={'50%'}>50%</MenuItem>
                   <MenuItem value={'25%'}>25%</MenuItem>
@@ -470,7 +437,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   className={classes.select}
                   inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                 >
-                  <MenuItem value="">none</MenuItem>
+                  <MenuItem value=""></MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
                   <MenuItem value={'100%'}>100%</MenuItem>
                   <MenuItem value={'50%'}>50%</MenuItem>
@@ -491,7 +458,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
                   value={BGColor}
                   onChange={handleChange}
-                  placeholder="#B6B8B7"
                 />
               </FormControl>
             </div>
@@ -501,7 +467,6 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               color="primary"
               className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
               onClick={handleSave}
-              id="saveButton"
             >
               SAVE
             </Button>
@@ -532,28 +497,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                 color="secondary"
                 className={classes.button}
                 onClick={clearComps}
-                id="deleteComp"
               >
                 DELETE REUSABLE COMPONENT
               </Button>
             </div>
           )}
-          <div className = {classes.buttonRow}>
-            <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleUndo}
-            >
-              <i className="fas fa-undo"></i>
-            </Button>
-            <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleRedo}
-            >
-              <i className="fas fa-redo"></i>
-            </Button>
-        </div>
         </div>
        
       </div>

@@ -11,7 +11,7 @@ import manageSeparators from '../helperFunctions/manageSeparators';
 
 let separator = initialState.HTMLTypes[1];
  
-
+// }
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js or Gatsby.js, next/gatsby component code should be generated
   // otherwise generate classic react code
@@ -209,17 +209,14 @@ const reducer = (state: State, action: Action) => {
         style: {},
         code: '',
         children: [],
-        isPage: action.payload.root,
-        past: [],
-        future: [],
+        isPage: action.payload.root
       };
       components.push(newComponent);
 
-      // functionality if the new component will become the root component
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
 
-      // updates the focus to the new component, which redirects to the new blank canvas of said new component
+      // update the focus to the new component
       const canvasFocus = {
         ...state.canvasFocus,
         componentId: newComponent.id,
@@ -240,7 +237,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId,
+        childId
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -288,8 +285,7 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren,
-
+        children: componentChildren
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -343,7 +339,7 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE POSITION': {
       const { currentChildId, newParentChildId } = action.payload;
      
-      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update state
+      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update sate
       if (currentChildId === newParentChildId) return state;
 
       // find the current component in focus
@@ -393,15 +389,14 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE FOCUS': {
       const {
         componentId,
-        childId,
+        childId
       }: { componentId: number; childId: number | null } = action.payload;
-      
+
       if (childId < 1000) { // makes separators not selectable
-        const canvasFocus = { ...state.canvasFocus, componentId, childId};
-        return {...state, canvasFocus}
+        const canvasFocus = { ...state.canvasFocus, componentId, childId };
+        return { ...state, canvasFocus };
       }
       return { ...state };
-
     }
 
     case 'UPDATE CSS': {
@@ -618,57 +613,6 @@ const reducer = (state: State, action: Action) => {
       };
     }
 
-    case 'UNDO': {
-      const focusIndex = state.canvasFocus.componentId - 1;
-      // if the past array is empty, return state
-      if(state.components[focusIndex].past.length === 0) return {...state};
-      // the children array of the focused component will equal the last element of the past array
-      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1];
-      // the last element of the past array gets popped off
-      const poppedEl = state.components[focusIndex].past.pop();
-      // the last element of the past array gets popped off and pushed into the future array
-      state.components[focusIndex].future.push(poppedEl);
-
-      //generate code for the Code Preview
-      state.components.forEach((el, i) => {
-        el.code = generateCode(
-          state.components,
-          state.components[i].id,
-          state.rootComponents,
-          state.projectType,
-          state.HTMLTypes
-        );
-      });
-      return {
-        ...state
-      };
-    }
-    
-    case 'REDO': {
-      const focusIndex = state.canvasFocus.componentId - 1;
-      //if future array is empty, return state
-      if(state.components[focusIndex].future.length === 0) return {...state};
-      //the children array of the focused component will equal the last element of the future array
-      state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
-      //the last element of the future array gets pushed into the past
-      const poppedEl = state.components[focusIndex].future.pop();
-      //the last element of the future array gets popped out
-      state.components[focusIndex].past.push(poppedEl);
-
-      // generate code for the Code Preview
-      state.components.forEach((el, i) => {
-        el.code = generateCode(
-          state.components,
-          state.components[i].id,
-          state.rootComponents,
-          state.projectType,
-          state.HTMLTypes
-          );
-      });
-      return {
-        ...state
-      };
-    }
     default:
       return state;
   }

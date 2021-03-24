@@ -24,6 +24,7 @@ export interface ChildElement {
   attributes?: object;
   children?: ChildElement[];
 }
+
 export interface Component {
   id: number;
   name: string;
@@ -31,8 +32,6 @@ export interface Component {
   code: string;
   children: ChildElement[];
   isPage: boolean;
-  past: any[];
-  future: any[];
 }
 
 export interface Action {

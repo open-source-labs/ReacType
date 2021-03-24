@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
@@ -75,6 +75,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
+        console.log(cookie);
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
           clearInterval(githubCookie);
@@ -89,7 +90,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
-  
     switch (e.target.name) {
       case 'username':
         setUsername(inputVal);
@@ -131,20 +131,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       }
     });
   };
-
-  const keyBindSignIn = useCallback((e) => {
-    if(e.key === 'Enter') {
-      e.preventDefault();
-      document.getElementById('SignIn').click();
-    }
-  }, []);
-  
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindSignIn);
-    return () => {
-      document.removeEventListener('keydown', keyBindSignIn)
-    }
-  }, []);
 
   // for users not wanting to make an account and use as guest
   const handleLoginGuest = (
@@ -224,7 +210,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
         <Button
           fullWidth
-          id="SignIn"
           variant="contained"
           color="default"
           className={classes.submit}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -11,36 +11,23 @@ function Canvas() {
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
-    );
-    
-    // changes focus of the canvas to a new component / child
-    const changeFocus = (componentId?: number, childId?: number | null) => {
-      dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-    };
-    // onClickHandler is responsible for changing the focused component and child component
-    function onClickHandler(event) {
-      event.stopPropagation();
-      // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-      changeFocus(state.canvasFocus.componentId, null);
-    };
-    
-    // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
-    const snapShotFunc = () => {
-      // make a deep clone of state
-        const deepCopiedState = JSON.parse(JSON.stringify(state));
-        const focusIndex = state.canvasFocus.componentId - 1;
-        //pushes the last user action on the canvas into the past array of Component
-        state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-    };
+  );
   
+  // changes focus of the canvas to a new component / child
+  const changeFocus = (componentId: number, childId: number | null) => {
+    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  };
+  // onClickHandler is responsible for changing the focused component and child component
+  function onClickHandler(event) {
+    event.stopPropagation();
+    // note: a null value for the child id means that we are focusing on the top-level component rather than any child
+    changeFocus(state.canvasFocus.componentId, null);
+  }
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
-      const didDrop = monitor.didDrop();
-      // takes a snapshot of state to be used in UNDO and REDO cases
-      snapShotFunc();
-      // returns false for direct drop target
+      const didDrop = monitor.didDrop(); // returns false for direct drop target
       if (didDrop) {
         return;
       }
@@ -52,7 +39,6 @@ function Canvas() {
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null
-            
           }
         });
       }
@@ -61,7 +47,6 @@ function Canvas() {
         dispatch({
           type: 'CHANGE POSITION',
           payload: {
-            // name: item.name,
             currentChildId: item.childId,
             newParentChildId: null
           }
@@ -93,5 +78,4 @@ function Canvas() {
     </div>
   );
 }
-
 export default Canvas;

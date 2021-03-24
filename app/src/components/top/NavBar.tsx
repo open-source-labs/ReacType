@@ -3,18 +3,15 @@ import {
   withStyles,
   createStyles,
   makeStyles,
-  Theme,
+  Theme
 } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import { styleContext } from '../../containers/AppContainer';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,9 +19,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { Link } from 'react-router-dom';
-import LoginButton from '../right/LoginButton';
-import ExportButton from '../right/ExportButton';
+import LoginButton from '../right/LoginButton'
+import ExportButton from '../right/ExportButton'
 import SaveProjectButton from '../right/SaveProjectButton';
 import DeleteProjects from '../right/DeleteProjects';
 import ProjectsFolder from '../right/OpenProjects';
@@ -33,41 +29,43 @@ import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 
 // NavBar text and button styling
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: 'white',
-  },
-  title: {
-    flexGrow: 1,
-    color: 'white',
-  },
-  manageProject: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      width: '100%'
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+      color: 'white'
+    },
+    title: {
+      flexGrow: 1,
+      color: 'white'
+    },
+    manageProject: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  })
+);
 
 // Drop down menu button for export
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
-  },
+    border: '1px solid #d3d4d5'
+  }
 })(props => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     {...props}
   />
@@ -77,10 +75,10 @@ const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
+        color: theme.palette.common.white
+      }
+    }
+  }
 }))(MenuItem);
 
 export default function NavBar(props) {
@@ -94,7 +92,7 @@ export default function NavBar(props) {
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -124,7 +122,7 @@ export default function NavBar(props) {
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%',
+            marginTop: '5%'
           }}
         >
           <ListItemText
@@ -146,8 +144,8 @@ export default function NavBar(props) {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     );
   };
 
@@ -157,49 +155,32 @@ export default function NavBar(props) {
       <AppBar position="static">
         <Toolbar>
           <Avatar src={logo} ></Avatar>
-          <Typography variant="h6" style={{ marginLeft: '1rem' }} className={classes.title}>
+          <Typography variant="h6" style={{marginLeft: '1rem'}} className={classes.title}>
             ReacType
           </Typography>
-
-          {/* ==================================Dashboard Button================================================== */}
-          {state.isLoggedIn ? <Link to='/dashboard' style ={ { textDecoration: 'none' } }>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ minWidth: '137.69px' }}
-              className="navbarButton"
-              endIcon={<DashboardIcon/>}
-            >
-              Dashboard
-            </Button>
-          </Link> : <span></span>}
-          {/* ==================================Clear Canvas Button================================================== */}
-
-          <Button
+          <Button 
             variant="contained"
             color="primary"
-            style={{ minWidth: '137.69px' }}
-            onClick={clearWorkspace}
-            className="navbarButton"
+            style={{minWidth: '137.69px'}}
+            onClick={clearWorkspace} 
+            className="navbarButton" 
             id="navbarButton"
-            endIcon={<DeleteIcon/>}
           >
             Clear Canvas
           </Button>
           {/* ==================================ExportButton================================================== */}
           <ExportButton />
-
-
+          
+          
           <Button
             className="navbarButton"
             id="navbarButton"
             color="primary"
             variant="contained"
             style={{minWidth: '113.97px'}}
-            endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
               !style.backgroundColor
-                ? setStyle({ backgroundColor: '#21262D' }) // dark mode color
+                ? setStyle({ backgroundColor: '#21262D' }) //dark mode color
                 : setStyle({});
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
@@ -208,28 +189,19 @@ export default function NavBar(props) {
           </Button>
 
 {/* ================================MANAGE PROJECT DROPDOWN====================================== */}
-
-          {state.isLoggedIn // render Manage Project button/dropdown only if user is logged in
-            ? <Button
+          
+          {state.isLoggedIn ? // render Manage Project button/dropdown only if user is logged in
+            <Button
             variant="contained"
             color="primary"
             onClick={handleClick}
             className="navbarButton"
             id="navbarButton"
-            endIcon={<FilterListIcon/>}
           >
             MANAGE PROJECT
           </Button> : <span></span>}
-
-
-{/* ================================LOGIN BUTTON====================================== */}
-
-          <LoginButton
-          />
-
-{/* ================================MANAGE PROJECT DROPDOWN====================================== */}
-
-          <StyledMenu // Dropdown menu connected to Manage Project Button
+          
+          <StyledMenu  // Dropdown menu connected to Manage Project Button
             id="customized-menu"
             anchorEl={anchorEl}
             keepMounted
@@ -257,6 +229,7 @@ export default function NavBar(props) {
               <DeleteProjects />
             </StyledMenuItem>
           </StyledMenu>
+          <LoginButton />
         </Toolbar>
       </AppBar>
       {modal}

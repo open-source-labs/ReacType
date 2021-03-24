@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
+import { useEffect, useState } from "react";
+import ResizeObserver from "resize-observer-polyfill";
 
-const useResizeObserver = (ref) => {
+const useResizeObserver = ref => {
   const [dimensions, setDimensions] = useState(null);
   useEffect(() => {
     // the element being observed (div with green border)
     const observeTarget = ref.current;
-    const resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        // contentRect is an object containing the dimensions of the observed element
+    const resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+          // contentRect is an object containing the dimensions of the observed element
         setDimensions(entry.contentRect);
       });
     });

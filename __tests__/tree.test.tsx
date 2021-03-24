@@ -1,10 +1,14 @@
 import TreeChart from '../app/src/tree/TreeChart';
 import React, { useReducer } from 'react';
 import '@testing-library/jest-dom';
-import {
-  render, screen,
-} from '@testing-library/react';
+import { render, fireEvent, cleanup, screen } from '@testing-library/react';
 import StateContext from '../app/src/context/context';
+import {
+  State,
+  Action,
+  Component,
+  ChildElement
+} from '../app/src/interfaces/Interfaces';
 import initialState from '../app/src/context/initialState';
 import reducer from '../app/src/reducers/componentReducer';
 import 'd3';
@@ -49,13 +53,13 @@ const tester = [
             name: 'A',
             style: {},
             type: 'Component',
-            typeId: 2,
-          },
+            typeId: 2
+          }
         ],
         name: 'div',
         style: {},
         type: 'HTML Element',
-        typeId: 11,
+        typeId: 11
       },
       {
         childId: 3,
@@ -66,16 +70,16 @@ const tester = [
             name: 'B',
             style: {},
             type: 'Component',
-            typeId: 3,
-          },
+            typeId: 3
+          }
         ],
         name: 'div',
         style: {},
         type: 'HTML Element',
-        typeId: 11,
-      },
+        typeId: 11
+      }
     ],
-    isPage: true,
+    isPage: true
   },
   {
     id: 2,
@@ -84,7 +88,7 @@ const tester = [
     style: {},
     code: '',
     children: [],
-    isPage: false,
+    isPage: false
   },
   {
     id: 3,
@@ -93,8 +97,8 @@ const tester = [
     style: {},
     code: '',
     children: [],
-    isPage: false,
-  },
+    isPage: false
+  }
 ];
 
 // renders a tree of the components in tester
@@ -108,7 +112,7 @@ function Test() {
   );
 }
 
-test('Test the tree functionality', () => {
+test('Test the tree functionality', function() {
   render(<Test />);
   // elements that are not separators should appear in the tree
   expect(screen.getByText('index')).toBeInTheDocument();

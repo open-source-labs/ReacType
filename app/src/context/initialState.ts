@@ -8,13 +8,11 @@ const initialState: State = {
   components: [
     {
       id: 1,
-      name: 'App',
+      name: 'index',
       style: {},
       code: '<div>Drag in a component or HTML element into the canvas!</div>',
       children: [],
-      isPage: true,
-      past: [],
-      future: [],
+      isPage: true
     },
   ],
   projectType: 'Classic React',
@@ -23,7 +21,7 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes,
+  HTMLTypes
 };
 
 export default initialState;

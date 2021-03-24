@@ -26,10 +26,9 @@ const CodePreview: React.FC<{
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
-  const handleCodeSnipChange = (val) => {
+  const handleCodeSnipChange = val => {
     currentComponent.code = val;
   };
-
   useEffect(() => {
     setDivHeight(height);
   }, [height])
@@ -41,6 +40,7 @@ const CodePreview: React.FC<{
         height: '100%',
         maxWidth: '100%',
         justifyContent: 'center',
+       
       }}
     >
       <AceEditor

@@ -6,16 +6,13 @@
   "engines": {
     "node": "12.17.0"
   },
-
   "scripts": {
-    "test": "jest --verbose ",
+    "test": "jest --verbose",
     "test:watch": "jest --watch",
     "start": "cross-env NODE_ENV=production nodemon server.js",
     "prod": "cross-env NODE_ENV=production server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js"
   },
-
-
   "keywords": [],
   "author": "",
   "license": "ISC",

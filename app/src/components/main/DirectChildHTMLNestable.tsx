@@ -12,20 +12,11 @@ function DirectChildHTMLNestable({
   type,
   typeId,
   style,
-  children,
-  name,
+  children
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
 
-// takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
-const snapShotFunc = () => {
-  //makes a deep clone of state
-  const deepCopiedState = JSON.parse(JSON.stringify(state));
-  const focusIndex = state.canvasFocus.componentId - 1;
-  //pushes the last user action on the canvas into the past array of Component
-  state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-};
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
@@ -40,8 +31,7 @@ const snapShotFunc = () => {
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
-      name: name //added code <--
+      instanceTypeId: typeId
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
@@ -57,8 +47,6 @@ const snapShotFunc = () => {
     // triggered on drop
     drop: (item: any, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
-      // takes a snapshot of state to be used in UNDO and REDO cases
-      snapShotFunc();
       if (didDrop) {
         return;
       }
@@ -70,7 +58,7 @@ const snapShotFunc = () => {
           payload: {
             type: item.instanceType,
             typeId: item.instanceTypeId,
-            childId: childId,
+            childId: childId
           }
         });
       }
@@ -80,12 +68,12 @@ const snapShotFunc = () => {
           type: 'CHANGE POSITION',
           payload: {
             currentChildId: item.childId,
-            newParentChildId: childId,
+            newParentChildId: childId
           }
         });
       }
     },
-    
+
     collect: (monitor: any) => {
       return {
         isOver: !!monitor.isOver({ shallow: true })
@@ -123,7 +111,6 @@ const snapShotFunc = () => {
   drag(drop(ref));
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
-      {HTMLType.placeHolderShort}
       {renderChildren(children)}
     </div>
   );

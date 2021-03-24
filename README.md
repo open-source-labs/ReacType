@@ -5,18 +5,26 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 6.0](https://img.shields.io/badge/Release-6.0-lightgrey.svg)
+![Version 5.0](https://img.shields.io/badge/Release-5.0-lightgrey.svg)
 
 **ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
 
 **ReacType** allows users to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. Users can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
+
+**New with version 5.0:**
+
+- Elements may be added to components in any location, rather than only at the bottom
+- Compatibility with Gatsby.js
+- Modernized and cleaner UI, including enhanced dark mode
+- Tutorial has been updated to reflect other modifications
+
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 6.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 5.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
@@ -37,46 +45,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 
-- Elements may be added to components in any location, rather than only at the bottom
-- Compatibility with Gatsby.js
-- Modernized and cleaner UI, including enhanced dark mode
-- Tutorial has been updated to reflect other modifications
-
- **New with version 6.0:**
-
-### Features
-
-- **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
-- **Like**: Like other people's templates by clicking on the star icon.
-- **Comment**: Comment on other templates by typing in the input field and clicking the comment icon.
-- **Download**: Save any public template by clicking the download icon to save a copy as your own.
-- **Publish**: Publish any template to the Public Dashboard for other users to download, like, or comment on.  Click again to unpublish projects.
-- **Sort By**: Click the 'Sort By' button to choose different metrics to sort the Public Dashboard by.
-- **Form Nesting**: Nesting within form tags is now fully functional
-- **Added Undo and Redo functionality**
-
-### Keyboard Shortcuts
-
-**Mac**:
- - Export Project: Command + e
- - Undo: Command + z
- - Redo: Command + Shift + z
- - Save Project As: Command + s
- - Save Project: Command + shift + s
- - Delete HTML Tag on Canvas: Backspace
- - Delete Project: Command + Backspace
- - Open Project: Command + o
-
-**Windows**: 
- - Export Project: Control + e
- - Undo: Control + z
- - Redo: Control + Shift + z
- - Save Project As: Control + s
- - Save Project: Control + shift + s
- - Delete HTML Tag on Canvas: Backspace
- - Delete Project: Control + Backspace
- - Open Project: Control + o
- 
 #### Contributors
 
 [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
@@ -86,8 +54,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Alex Wolinsky](https://www.linkedin.com/in/alex-wolinsky-80ab591b2/) [@aw2934](https://github.com/aw2934/)
 
 [Andrew Cho](https://www.linkedin.com/in/andrewjcho84/) [@andrewjcho84](https://github.com/andrewjcho84)
-
-[Anthony Torrero](https://www.linkedin.com/in/anthony-torrero-4b8798159/) [@Anthonytorrero](https://github.com/Anthonytorrero)
 
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
@@ -99,10 +65,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Diego Vazquez](https://www.linkedin.com/in/diegovazquezny/) [@diegovazquezny](https://github.com/diegovazquezny)
 
-[Edward Park](https://www.linkedin.com/in/edwardparkwork/) [@eddypjr](https://github.com/eddypjr)
-
-[Elena Conn](https://www.linkedin.com/in/elena-conn-366346123/) [@elenaconn](https://github.com/elenaconn)
-
 [Eliot Nguyen](https://linkedin.com/in/ibeeliot) [@ibeeliot](https://github.com/ibeeliot)
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
@@ -112,8 +74,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Jin Soo Lim](https://www.linkedin.com/in/jin-soo-lim-3a567b1b3/) [@jinsoolim](https://github.com/jinsoolim)
 
 [Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
-
-[Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
 
 [Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
 
@@ -126,8 +86,6 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
-
-[Shana Hoehn](https://www.linkedin.com/in/shana-hoehn-70297b169/) [@slhoehn](https://github.com/slhoehn)
 
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 

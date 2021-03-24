@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
+import StateContext from '../../context/context';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import StateContext from '../../context/context';
 
 export default function LoginButton() {
-  const history = useHistory();
+  let history = useHistory();
   const [state, dispatch] = useContext(StateContext);
 
   const classes = useStyles();
@@ -28,27 +28,28 @@ export default function LoginButton() {
       <Button
         variant="contained"
         color="primary"
-        className="navbarButton"
-        style={{ minWidth: '102.11px' }}
+        id="navbarButton"
+        style={{minWidth: '102.11px'}}
         onClick={handleLogout}
         endIcon={<ExitToAppIcon />}
       >
         Log Out
       </Button>
     );
-  }
-  return (
+  } else {
+    return (
       <Button
         variant="contained"
         color="primary"
-        className="navbarButton"
-        style={{ minWidth: '102.11px' }}
+        id="navbarButton"
+        style={{minWidth: '102.11px'}}
         onClick={handleLogout}
         endIcon={<ExitToAppIcon />}
       >
         Log In
       </Button>
-  );
+    );
+  }
 }
 
 const useStyles = makeStyles({
@@ -57,6 +58,6 @@ const useStyles = makeStyles({
     fontSize: '1em',
     minWidth: '300px',
     marginTop: '10px',
-    marginBotton: '10px',
-  },
+    marginBotton: '10px'
+  }
 });

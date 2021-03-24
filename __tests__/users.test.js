@@ -1,27 +1,11 @@
-const { Mongoose } = require('mongoose');
 const request = require('supertest');
-const http = require('http');
-const app = require('../server/server.js');
+// let server = 'https://reactype.herokuapp.com'; /* This is for production mode */
 
+const server = 'http://localhost:5000';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
-
-const { user } = require('../mockData');
 
 // tests user signup and login routes
 describe('User authentication tests', () => {
-  let server;
-
-  beforeAll((done)=> {
-    server = http.createServer(app);
-    server.listen(done);
-  });
-
-  afterAll((done)=> {
-    Mongoose.disconnect();
-    server.close(done);
-  });
-
-
   const num = Math.floor(Math.random() * 1000);
 
   // tests whether signup page is returned on navigation to /#/signup endpoint
@@ -43,9 +27,9 @@ describe('User authentication tests', () => {
           .send({
             username: `supertest${num}`,
             email: `test${num}@test.com`,
-            password: `${num}`,
+            password: `${num}`
           })
-          .set('Content-Type', 'application/json')
+         .set('Content-Type', 'application/json')  
           .expect(200)
           .then(res => expect(typeof res.body).toBe('object'));
       });
@@ -53,7 +37,11 @@ describe('User authentication tests', () => {
       it('responds with status 400 and json string on invalid new user signup', () => {
         return request(server)
           .post('/signup')
-          .send(user)
+          .send({
+            username: 'reactype123',
+            email: 'reactype@gmail.com',
+            password: 'Reactype123!@#'
+          })
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
@@ -76,11 +64,12 @@ describe('User authentication tests', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
           .post('/login')
-          .set('Accept', 'application/json')
-          .send(user)
+          .send({ username: 'reactype123', password: 'Reactype123!@#' })
           .expect(200)
           .expect('Content-Type', /json/)
-          .then(res => expect(res.body.sessionId).toEqual(user.userId));
+          .then(res =>
+            expect(res.body.sessionId).toEqual('60123800e51f92e14363d97e')
+          );
       });
       // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
@@ -94,20 +83,19 @@ describe('User authentication tests', () => {
     });
   });
 });
-
 // OAuth tests (currently inoperative)
-xdescribe('Github oauth tests', () => {
+describe('Github oauth tests', () => {
   describe('/github/callback?code=', () => {
     describe('GET', () => {
-      it('responds with status 400 and error message if no code received', () => {
+      xit('responds with status 400 and error message if no code received', () => {
         return request(server)
           .get('/github/callback?code=')
           .expect(400)
-          .then((res) => {
+          .then(res => {
             return expect(res.text).toEqual('\"Undefined or no code received from github.com\"');
           });
       });
-      it('responds with status 400 if invalid code received', () => {
+      xit('responds with status 400 if invalid code received', () => {
         return request(server)
           .get('/github/callback?code=123456')
           .expect(400)
@@ -115,4 +103,3 @@ xdescribe('Github oauth tests', () => {
     });
   });
 });
-

@@ -8,6 +8,7 @@ import RightContainer from './RightContainer';
 import { theme1, theme2 } from '../public/styles/theme';
 
 
+
 export const styleContext = createContext({
   style: null,
   setStyle: null
