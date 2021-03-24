@@ -16,7 +16,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 5.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 6.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
@@ -44,7 +44,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
  **New with version 6.0:**
 
-### Dashboard
+### Features
 
 - **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
 - **Like**: Like other people's templates by clicking on the star icon.
@@ -52,6 +52,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Download**: Save any public template by clicking the download icon to save a copy as your own.
 - **Publish**: Publish any template to the Public Dashboard for other users to download, like, or comment on.  Click again to unpublish projects.
 - **Sort By**: Click the 'Sort By' button to choose different metrics to sort the Public Dashboard by.
+- **Form Nesting**: Nesting within form tags is now fully functional
+- **Added Undo and Redo functionality**
 
 ### Keyboard Shortcuts
 
