@@ -24,7 +24,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 5.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 6.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
