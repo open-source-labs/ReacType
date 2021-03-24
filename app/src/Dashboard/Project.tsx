@@ -10,9 +10,8 @@ import {
 import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import AddCommentIcon from '@material-ui/icons/AddComment';
-
 import Button from '@material-ui/core/Button';
-
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import StarIcon from '@material-ui/icons/Star';
@@ -60,22 +59,14 @@ const Project = ({
   //Likes the project when the star icon is clicked
   function handleLike(e) {
     e.preventDefault();
-    let myVar = {
+    const myVar = {
       variables: 
       {
         projId: id,
-        likes: likes,
+        likes: likes + 1,
       },
     };
-    if(clicked === false) {
-      setClicked(true);
-      myVar.variables.likes = likes + 1
-      addLike(myVar);
-    } else {
-      setClicked(false); 
-      myVar.variables.likes = likes - 1
-      addLike(myVar);
-    }
+    addLike(myVar);
   }
 
   //Makes a copy of the public project and saves as a user project
@@ -214,7 +205,7 @@ const Project = ({
 
       <div className = "icons">
           <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
-            {clicked ? <StarIcon fontSize='Large' style={{color:'#FFD700'}}/> : <StarBorderIcon fontSize='Large' style={{color:'#FFD700'}}/>}
+            <ThumbUpAltIcon fontSize='Large'/>
           </IconButton> 
         { currUsername !== username ?
           <IconButton tooltip ="Download Template" style={noPointer} onClick={ handleDownload }>

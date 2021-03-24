@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",

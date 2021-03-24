@@ -79,12 +79,6 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 /** ****************************************************************** */
 
-// app.use(express.static(path.resolve(__dirname, '../app/dist')));
-
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.resolve(__dirname, '../app/dist/index-prod.html'));
-});
-
 app.post(
   '/signup',
   userController.createUser,
