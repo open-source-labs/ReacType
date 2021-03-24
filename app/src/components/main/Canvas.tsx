@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import _ from 'lodash';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';

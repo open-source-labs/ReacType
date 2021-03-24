@@ -19,15 +19,28 @@ export const styleContext = createContext({
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 
+
+const arrToComponent = (arr) => {
+  return arr.map((proj, index) => <Project
+                                        key= {index}
+                                        name = {proj.name}
+                                        likes = {proj.likes}
+                                        published = {proj.published}
+                                        userId = {proj.userId}
+                                        username = {proj.username}
+                                        createdAt = {proj.createdAt}
+                                        id = {proj.id}
+                                        comments = {proj.comments}
+                                      />);
+};
+
+
 const ProjectContainer = () => {
   const myVar = {};
   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
   const username = window.localStorage.getItem('username') || 'unavailable';
-  // if (userSSID !== 'guest') {
-  //   myVar = { userId: userSSID };
-  // }
-
+ 
   const [isThemeLight, setTheme] = useState(true);
 
   const initialStyle = useContext(styleContext);
@@ -36,11 +49,11 @@ const ProjectContainer = () => {
   // --------------------------Sorting Buttons------------------------------------//
   
   // hook for sorting menu
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState('RATING');
 
   const sortByRating = (projects) => {
     // generate a sorted array of public projects based on likes
-    const sortedRatings = projects.sort((a, b) =>  b.likes - a.likes);
+    const sortedRatings = projects.sort((a, b) => b.likes - a.likes);
     return sortedRatings;
   };
 
@@ -52,10 +65,17 @@ const ProjectContainer = () => {
 
   const sortByUser = (projects) => {
     // generate a sorted array of public projects based on username
-    const sortedRatings = projects.sort((a, b) => b.user - a.user);
+    const sortedRatings = projects.sort((a, b) => b.username - a.username);
     return sortedRatings;
   };
   // ===================================================================================== //
+
+  // function for selecting drop down sorting menu
+  const optionClicked = (value) => {
+    setSelectedOption(value);
+  };
+  // ===================================================================================== //
+
 
   // useQuery hook abstracts fetch request
   const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar });
@@ -64,54 +84,23 @@ const ProjectContainer = () => {
 
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-
-  // create array to hold the data recieved in the public dashboard the will be conditionally rendered
-  let sortedProjects = [];
-  // create array to hold the components Project of loggin-in users
-  const userDisplay = [];
-  // generate an array of Project components based on queried data
-  projects.forEach((proj, index) => {
-    const component = <Project
-                  key= { index }
-                  name = {proj.name}
-                  likes = {proj.likes}
-                  published = { proj.published }
-                  userId = {proj.userId}
-                  username = {proj.username}
-                  createdAt = {proj.createdAt}
-                  id = {proj.id}
-                  />;
-    // sorting the public and private dashboards based on the user's username
-    if (username === proj.username) userDisplay.push(component);
-    if (proj.published) {
-
-      sortedProjects.push(proj);
-    }
-  });
-
-  // function for selecting drop down sorting menu
-  const optionClicked = (value) => {
-    setSelectedOption(value);
-  };
-  // checking which sorting method was selected from drop down menu and invoking correct sorting function
-  if (selectedOption === 'Date') sortedProjects = sortByDate(sortedProjects);
-  else if (selectedOption === 'User') sortedProjects = sortByUser(sortedProjects);
-  else if (selectedOption === 'Rating') sortedProjects = sortByRating(sortedProjects);
   
+  // create array to hold the data recieved in the public dashboard the will be conditionally rendered
+  let sortedProjects = projects.filter(proj => proj.published);
+  const userProjects = projects.filter(proj => proj.username === username);
+
+  // checking which sorting method was selected from drop down menu and invoking correct sorting function
+  if (selectedOption === 'DATE') sortedProjects = sortByDate(sortedProjects);
+  else if (selectedOption === 'USER') sortedProjects = sortByUser(sortedProjects);
+  else if (selectedOption === 'RATING') sortedProjects = sortByRating(sortedProjects);
+  
+
+  // create array to hold the components Project of loggin-in users
+  // generate an array of Project components based on queried data
+  const userDisplay = arrToComponent(userProjects);
+
   // create an array of components Project that will be conditionally rendered
-  const sortedDisplay = [];
-  sortedProjects.forEach((proj, index) => {
-    sortedDisplay.push(<Project
-      key= { index }
-      name = {proj.name}
-      likes = {proj.likes}
-      published = { proj.published }
-      userId = {proj.userId}
-      username = {proj.username}
-      createdAt = {proj.createdAt}
-      id = {proj.id}
-    />);
-  });
+  const sortedDisplay = arrToComponent(sortedProjects);
 
   return (
     <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>

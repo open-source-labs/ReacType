@@ -396,10 +396,10 @@ const reducer = (state: State, action: Action) => {
       const {
         componentId,
         childId,
-      }: { componentId: number; childId: number | null; } = action.payload;
+      }: { componentId: number; childId: number | null } = action.payload;
       
       if (childId < 1000) { // makes separators not selectable
-        let canvasFocus = { ...state.canvasFocus, componentId, childId};
+        const canvasFocus = { ...state.canvasFocus, componentId, childId};
         return {...state, canvasFocus}
       }
       return { ...state };
@@ -670,8 +670,6 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
-    case 'CHANGEDVALUE': {}
-
     default:
       return state;
   }

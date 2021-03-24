@@ -1,26 +1,20 @@
 const { Mongoose } = require('mongoose');
 const request = require('supertest');
-
-
 // initializes the project to be sent to server/DB
 const { projectToSave, state } = require('../mockData');
-
 const app = require('../server/server.js');
 const http = require('http');
 let server;
-
 // save and get projects endpoint testing
 describe('Project endpoints tests', () => {  
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(done);
   });
-
   afterAll((done) => {
     Mongoose.disconnect();
     server.close(done);
   });
-
   // test saveProject endpoint
   describe('/saveProject', () => {
     describe('/POST', () => {
@@ -35,7 +29,6 @@ describe('Project endpoints tests', () => {
       });
     });
   });
-
   // test getProjects endpoint
   describe('/getProjects', () => {
     describe('POST', () => {
@@ -53,7 +46,6 @@ describe('Project endpoints tests', () => {
       });
     });
   });
-
   // test deleteProject endpoint
   describe('/deleteProject', () => {
     describe('DELETE', () => {
