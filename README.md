@@ -49,7 +49,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 ### Features
 
 - **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
-- **Like**: Like other people's templates by clicking on the star icon.
+- **Like**: Like other people's templates by clicking on the thumbs up icon.
 - **Comment**: Comment on other templates by typing in the input field and clicking the comment icon.
 - **Download**: Save any public template by clicking the download icon to save a copy as your own.
 - **Publish**: Publish any template to the Public Dashboard for other users to download, like, or comment on.  Click again to unpublish projects.
