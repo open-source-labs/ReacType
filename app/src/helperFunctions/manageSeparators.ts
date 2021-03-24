@@ -48,7 +48,7 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
 // this function replaces separators onto which an element is dropped with the element itself
 manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
-    if (child.name === 'div' && child.children.length) {
+    if (child.name === 'div' || child.name === 'form' && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);
       return { ...child, children: divContents }
     }

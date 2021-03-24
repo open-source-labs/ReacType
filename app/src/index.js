@@ -1,3 +1,10 @@
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import {
+  HashRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,18 +15,18 @@ import SignUp from './components/login/SignUp.tsx';
 import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
+import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
+import styles from './Dashboard/styles.css';
 
-import {
-  HashRouter as Router,
-  Route,
-  Redirect,
-  Switch
-} from 'react-router-dom';
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache()
+});
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={ (props) => {
       return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
         <Component {...props} />
       ) : (
@@ -30,15 +37,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 ReactDOM.render(
-  <Router>
-    <Switch>
-      <Route exact path="/login" component={SignIn} />
-      <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/password" component={FBPassWord} />
-      <PrivateRoute exact path="/" component={App} />
-      <Route exact path="/tutorial" component={Tutorial} />
-      <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
-    </Switch>
-  </Router>,
-  document.getElementById('app')
+  <ApolloProvider client={client}>
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/password" component={FBPassWord} />
+        <PrivateRoute exact path="/" component={App} />
+        <Route exact path="/dashboard" component={ProjectDashboard} />
+        <Route exact path="/tutorial" component={Tutorial} />
+        <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
+      </Switch>
+    </Router>
+  </ ApolloProvider>,
+  document.getElementById('app'),
 );

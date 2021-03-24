@@ -1,10 +1,11 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import StateContext from '../../context/context';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import WarningIcon from '@material-ui/icons/Warning';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from '@material-ui/core/Button';
@@ -105,6 +106,19 @@ export default function ExportButton() {
     );
   };
 
+  const exportKeyBind = useCallback((e) => {
+    //Export Project
+    (e.key === 'e' && e.metaKey || e.key === 'e' && e.ctrlKey ) ? showGenerateAppModal() : '';
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', exportKeyBind);
+    return () => {
+      document.removeEventListener('keydown', exportKeyBind)
+    }
+  }, []);
+
+  
   return (
     <div>
        <Button
@@ -112,6 +126,7 @@ export default function ExportButton() {
           color="primary"
           onClick={showGenerateAppModal}
           id="navbarButton"
+          endIcon={<GetAppIcon/>}
         >
           EXPORT
         </Button>

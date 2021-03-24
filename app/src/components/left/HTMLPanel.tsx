@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
@@ -140,6 +140,22 @@ const HTMLPanel = (props): JSX.Element => {
       payload: id
     });
   };
+
+  const handleCreateElement = useCallback((e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('submitButton').click();
+    }
+  }, []);
+  
+  useEffect(() => {
+    document.addEventListener('keydown', handleCreateElement);
+    return () => {
+      document.removeEventListener('keydown', handleCreateElement)
+    }
+  }, []);
+
+
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
@@ -184,11 +200,10 @@ const HTMLPanel = (props): JSX.Element => {
                 type="text"
                 name="Tag"
                 value={tag}
-                autocomplete="off"
+                autoComplete="off"
                 onChange={handleTagChange}
                 className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ marginBottom: '10px' }}
-                
               />
               
               {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
@@ -206,7 +221,7 @@ const HTMLPanel = (props): JSX.Element => {
               name="Tag Name"
               value={name}
               onChange={handleNameChange}
-              autocomplete="off"
+              autoComplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
             />
 
