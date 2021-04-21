@@ -12,25 +12,25 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import StateContext from '../context/context';
-import ProjectManager from '../components/right/ProjectManager';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ErrorMessages from '../constants/ErrorMessages';
-import { styleContext } from './AppContainer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import createModal from '../components/right/createModal';
-import ComponentPanel from '../components/right/ComponentPanel';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
+import createModal from '../components/right/createModal';
+import ComponentPanel from '../components/right/ComponentPanel';
+import { styleContext } from './AppContainer';
+import ErrorMessages from '../constants/ErrorMessages';
+import ProjectManager from '../components/right/ProjectManager';
+import StateContext from '../context/context';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = ({isThemeLight}): JSX.Element => {
+const RightContainer = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -38,6 +38,8 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
+  // Caret
+  const [compText, setCompText] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -47,6 +49,17 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const [modal, setModal] = useState(null);
 
   const resetFields = () => {
+    // Caret Start
+    const childrenArray = state.components[0].children;
+    let attributes;
+    for (const element of childrenArray) {
+      if (element.childId === configTarget.child.id) {
+        attributes = element.attributes;
+        setCompText(attributes.text ? attributes.text : '');
+      }
+    }
+    console.log('Attributes: ', configTarget.child);
+    // Caret End
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -67,7 +80,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
 
   // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
-    let inputVal = e.target.value;
+    const inputVal = e.target.value;
 
     switch (e.target.name) {
       case 'display':
@@ -91,6 +104,10 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
+      // Caret
+        case 'compText':
+        setCompText(inputVal);
+        break;
     }
   };
 
@@ -99,10 +116,10 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   const getFocus = () => {
     // find and store component's name based on canvasFocus.componentId
     // note: deep clone here to make sure we don't end up altering state
-    let focusTarget = JSON.parse(
+    const focusTarget = JSON.parse(
       JSON.stringify(
-        state.components.find(comp => comp.id === state.canvasFocus.componentId)
-      )
+        state.components.find(comp => comp.id === state.canvasFocus.componentId),
+      ),
     );
     delete focusTarget.child;
 
@@ -114,7 +131,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     if (childInstanceId) {
       focusTarget.child = {};
       focusTarget.child.id = childInstanceId;
-      focusChild = {}; //child instance being referenced in canvasFocus
+      focusChild = {}; // child instance being referenced in canvasFocus
       const searchArray = [...focusTarget.children];
       while (searchArray.length > 0) {
         const currentChild = searchArray.shift();
@@ -131,13 +148,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-          comp => comp.id === focusChild.typeId
+          comp => comp.id === focusChild.typeId,
         ).name;
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-          elem => elem.id === focusChild.typeId
+          elem => elem.id === focusChild.typeId,
         ).name;
       }
     }
@@ -148,7 +165,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
   // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
   configTarget = useMemo(() => getFocus(), [
     state.canvasFocus.childId,
-    state.canvasFocus.componentId
+    state.canvasFocus.componentId,
   ]);
 
   const isPage = (configTarget): boolean => {
@@ -164,7 +181,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
     let isLinked = false;
-    const searchNestedChildren = comps => {
+    const searchNestedChildren = (comps) => {
       if (comps.length === 0) return;
       comps.forEach((comp, i) => {
         if (comp.type === 'Route Link' && comp.name === pageName) {
@@ -188,16 +205,26 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    
+
+    // Caret
+    const attributesObj: any = {};
+    if (compText !== '') attributesObj.compText = compText;
+
     dispatch({
       type: 'UPDATE CSS',
-      payload: { style: styleObj }
+      payload: { style: styleObj },
     });
-   
+
+    // Caret
+    dispatch({
+      type: 'UPDATE ATTRIBUTES',
+      payload: { attributes: attributesObj },
+    });
+
     return styleObj;
   };
 
-// UNDO/REDO functionality--onClick these functions will be invoked.
+  // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch({ type: 'UNDO', payload: {} });
   };
@@ -219,7 +246,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
 
-  const handleDialogError = err => {
+  const handleDialogError = (err) => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
   };
@@ -252,7 +279,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
         <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
@@ -265,7 +292,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%'
+            marginTop: '5%',
           }}
         >
           <ListItemText primary={'No'} style={{ textAlign: 'center' }} />
@@ -284,28 +311,28 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true
-      })
+        open: true,
+      }),
     );
   };
 
   const keyBindedFunc = useCallback((e) => {
     // the || is for either Mac or Windows OS
-      //Undo
-    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
-      //Redo
-    (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() : 
-      //Delete HTML tag off canvas 
-    (e.key === 'Backspace') ? handleDelete() :
-      //Save
-    (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
+    // Undo
+    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo()
+      // Redo
+      : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
+      // Delete HTML tag off canvas
+        : (e.key === 'Backspace') ? handleDelete()
+        // Save
+          : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
-  
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {
       document.removeEventListener('keydown', keyBindedFunc);
-    }
+    };
   }, []);
 
 
@@ -446,7 +473,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                 >
                   <MenuItem value="">none</MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -468,7 +495,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                 >
                   <MenuItem value="">none</MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -488,7 +515,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   variant="filled"
                   name="bgcolor"
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                   value={BGColor}
                   onChange={handleChange}
                   placeholder="#B6B8B7"
@@ -496,6 +523,26 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               </FormControl>
             </div>
           </div>
+          {/* Caret Start */}
+          <div className={classes.configRow}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+              <h3>Text:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <TextField
+                  variant="filled"
+                  name="compText"
+                  className={classes.select}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  value={compText}
+                  onChange={handleChange}
+                  placeholder="Text"
+                />
+              </FormControl>
+            </div>
+          </div>
+          {/* Caret End */}
           <div className={classes.buttonRow}>
             <Button
               color="primary"
@@ -555,7 +602,7 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             </Button>
         </div>
         </div>
-       
+
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
@@ -590,37 +637,37 @@ const useStyles = makeStyles({
   select: {
     fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: '#186BB4'
-    }
+      color: '#186BB4',
+    },
   },
   selectInput: {
     paddingTop: '15px',
-    paddingLeft: '15px'
+    paddingLeft: '15px',
   },
   formControl: {
     minWidth: '125px',
-    backgroundColor: 'rgba(255,255,255,0.15)'
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
   configRow: {
     display: 'flex',
     paddingLeft: '25px',
     paddingRight: '25px',
-    marginTop: '20px'
+    marginTop: '20px',
   },
   configType: {
     minWidth: '185px',
-    fontSize: '85%'
+    fontSize: '85%',
   },
   configValue: {
-    marginLeft: '20px'
+    marginLeft: '20px',
   },
   buttonRow: isThemeLight => ({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
-      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
-    }
+      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA',
+    },
   }),
   button: {
     fontSize: '1rem',
@@ -628,13 +675,13 @@ const useStyles = makeStyles({
     paddingRight: '20px',
   },
   saveButtonLight: {
-    border: '1px solid #186BB4'
+    border: '1px solid #186BB4',
   },
   saveButtonDark: {
-    border: '1px solid #3F51B5'
+    border: '1px solid #3F51B5',
   },
   compName: {
-    fontSize: '1rem'
+    fontSize: '1rem',
   },
   // 'Parent Component' font size
   configHeader: {
@@ -643,15 +690,15 @@ const useStyles = makeStyles({
       fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
-      marginTop: '10px'
-    }
+      marginTop: '10px',
+    },
   },
-   lightThemeFontColor: {
-    color: '#186BB4'
+  lightThemeFontColor: {
+    color: '#186BB4',
   },
   darkThemeFontColor: {
-    color: '#fff'
-  }
+    color: '#fff',
+  },
 });
 
 export default RightContainer;

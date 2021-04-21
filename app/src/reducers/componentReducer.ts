@@ -207,6 +207,8 @@ const reducer = (state: State, action: Action) => {
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
+        // Caret
+        attributes: {},
         code: '',
         children: [],
         isPage: action.payload.root,
@@ -288,6 +290,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
+        // Caret
+        attributes: {},
         children: componentChildren,
 
       };
@@ -297,6 +301,8 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
+        // Caret
+        attributes: {},
         children: []
       };
       
@@ -414,6 +420,28 @@ const reducer = (state: State, action: Action) => {
       );
       const targetChild = findChild(component, state.canvasFocus.childId);
       targetChild.style = style;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      return { ...state, components };
+    }
+    // Caret
+    case 'UPDATE ATTRIBUTES': {
+      const { attributes } = action.payload;
+      const components = [...state.components];
+
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.attributes = attributes;
 
       component.code = generateCode(
         components,
