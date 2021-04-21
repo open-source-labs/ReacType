@@ -38,6 +38,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
+  // Caret
   const [compText, setCompText] = useState('');
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
@@ -48,6 +49,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   const [modal, setModal] = useState(null);
 
   const resetFields = () => {
+    // Caret Start
     const childrenArray = state.components[0].children;
     let attributes;
     for (const element of childrenArray) {
@@ -57,6 +59,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       }
     }
     console.log('Attributes: ', configTarget.child);
+    // Caret End
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -101,7 +104,8 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      case 'compText':
+      // Caret
+        case 'compText':
         setCompText(inputVal);
         break;
     }
@@ -202,6 +206,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
 
+    // Caret
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
 
@@ -210,6 +215,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       payload: { style: styleObj },
     });
 
+    // Caret
     dispatch({
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj },
@@ -517,6 +523,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
               </FormControl>
             </div>
           </div>
+          {/* Caret Start */}
           <div className={classes.configRow}>
             <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Text:</h3>
@@ -535,6 +542,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
               </FormControl>
             </div>
           </div>
+          {/* Caret End */}
           <div className={classes.buttonRow}>
             <Button
               color="primary"

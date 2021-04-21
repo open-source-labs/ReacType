@@ -207,6 +207,7 @@ const reducer = (state: State, action: Action) => {
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
+        // Caret
         attributes: {},
         code: '',
         children: [],
@@ -289,6 +290,7 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
+        // Caret
         attributes: {},
         children: componentChildren,
 
@@ -299,6 +301,7 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
+        // Caret
         attributes: {},
         children: []
       };
@@ -428,6 +431,7 @@ const reducer = (state: State, action: Action) => {
 
       return { ...state, components };
     }
+    // Caret
     case 'UPDATE ATTRIBUTES': {
       const { attributes } = action.payload;
       const components = [...state.components];

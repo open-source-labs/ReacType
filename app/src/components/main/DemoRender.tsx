@@ -1,3 +1,4 @@
+// 100% Caret
 import React, {
   useState, useCallback, useContext, useEffect,
 } from 'react';

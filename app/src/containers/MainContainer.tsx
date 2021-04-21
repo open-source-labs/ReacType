@@ -9,6 +9,7 @@ import DemoRender from '../components/main/DemoRender';
 
 const MainContainer = () => {
   const { style } = useContext(styleContext);
+  // Caret Start
   const [state, dispatch] = useContext(StateContext);
   const componentsToRender = [];
   useEffect(() => {
@@ -31,11 +32,13 @@ const MainContainer = () => {
       }
     }
   }, [state.components]);
+  // Caret End
 
   return (
     <div className="main-container" style={style} >
       <div className="main">
         <CanvasContainer />
+        {/* Caret Component Render */}
         {console.log('Completed Components to Render', componentsToRender)}
         <DemoRender demo={componentsToRender}/>
       </div>
