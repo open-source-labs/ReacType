@@ -1,4 +1,4 @@
-import { DragObjectWithType } from 'react-dnd';
+nsimport { DragObjectWithType } from 'react-dnd';
 
 export interface State {
   name: string;
@@ -28,6 +28,7 @@ export interface Component {
   id: number;
   name: string;
   style: object;
+  attributes?: object;
   code: string;
   children: ChildElement[];
   isPage: boolean;
