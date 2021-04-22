@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useCallback,
+  useCallback
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -28,9 +28,12 @@ import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
+//////////////////////////////////////////////////////////////////
+import MockStateInterface from '../components/right/MockStateInterface';
+//////////////////////////////////////////////////////////////////
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = ({isThemeLight}): JSX.Element => {
+const RightContainer = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -188,16 +191,20 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    
+
     dispatch({
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
-   
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    console.log('state.components:', state.components);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
     return styleObj;
   };
 
-// UNDO/REDO functionality--onClick these functions will be invoked.
+  // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch({ type: 'UNDO', payload: {} });
   };
@@ -255,13 +262,14 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             marginTop: '5%'
           }}
         >
-        <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
 
         <ListItem
           key={'not delete'}
           button
-          onClick={closeModal}ƒ
+          onClick={closeModal}
+          ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -289,31 +297,45 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
     );
   };
 
-  const keyBindedFunc = useCallback((e) => {
+  const keyBindedFunc = useCallback(e => {
     // the || is for either Mac or Windows OS
-      //Undo
-    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo() :
-      //Redo
-    (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo() : 
-      //Delete HTML tag off canvas 
-    (e.key === 'Backspace') ? handleDelete() :
-      //Save
-    (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
+    //Undo
+    (e.key === 'z' && e.metaKey && !e.shiftKey) ||
+    (e.key === 'z' && e.ctrlKey && !e.shiftKey)
+      ? handleUndo()
+      : //Redo
+      (e.shiftKey && e.metaKey && e.key === 'z') ||
+        (e.shiftKey && e.ctrlKey && e.key === 'z')
+      ? handleRedo()
+      : //Delete HTML tag off canvas
+      e.key === 'Backspace'
+      ? handleDelete()
+      : //Save
+      (e.key === 's' && e.ctrlKey && e.shiftKey) ||
+        (e.key === 's' && e.metaKey && e.shiftKey)
+      ? handleSave()
+      : '';
   }, []);
-  
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {
       document.removeEventListener('keydown', keyBindedFunc);
-    }
+    };
   }, []);
-
 
   return (
     <div className="column right" id="rightContainer" style={style}>
-      <ComponentPanel isThemeLight={isThemeLight}/>
+      {
+        //////////////////////////////////////////////////////////////////////////////////////////////
+      }
+      <MockStateInterface isThemeLight={isThemeLight} />
+      {
+        //////////////////////////////////////////////////////////////////////////////////////////////
+      }
+      <ComponentPanel isThemeLight={isThemeLight} />
       <ProjectManager />
-  {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
+      {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -325,12 +347,24 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   : ' element'}{' '}
                 <br />
                 <br />
-                <span className={isThemeLight ? `${classes.compName} ${classes.lightThemeFontColor}` : `${classes.compName} ${classes.darkThemeFontColor}`}>
+                <span
+                  className={
+                    isThemeLight
+                      ? `${classes.compName} ${classes.lightThemeFontColor}`
+                      : `${classes.compName} ${classes.darkThemeFontColor}`
+                  }
+                >
                   {configTarget.child.name}
                 </span>
               </h4>
             ) : (
-              <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor} >
+              <h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
                 Parent Component:
                 <br />
                 <br />
@@ -339,7 +373,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             )}
           </div>
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Display:</h3>
             </div>
             <div className={classes.configValue}>
@@ -350,7 +390,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                 >
                   <MenuItem value="">none</MenuItem>
                   <MenuItem value={'block'}>block</MenuItem>
@@ -375,7 +419,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       onChange={handleChange}
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
                     >
                       <MenuItem value="">none</MenuItem>
                       <MenuItem value={'row'}>row</MenuItem>
@@ -396,7 +444,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       onChange={handleChange}
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
                     >
                       <MenuItem value="">none</MenuItem>
                       <MenuItem value={'flex-start'}>flex-start</MenuItem>
@@ -421,7 +473,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                       name="flexalign"
                       displayEmpty
                       className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
                     >
                       <MenuItem value="">none</MenuItem>
                       <MenuItem value={'stretch'}>stretch</MenuItem>
@@ -435,7 +491,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             </div>
           )}
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Width:</h3>
             </div>
             <div className={classes.configValue}>
@@ -446,7 +508,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                 >
                   <MenuItem value="">none</MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -457,7 +523,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             </div>
           </div>
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Height:</h3>
             </div>
             <div className={classes.configValue}>
@@ -468,7 +540,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   onChange={handleChange}
                   displayEmpty
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                 >
                   <MenuItem value="">none</MenuItem>
                   <MenuItem value={'auto'}>auto</MenuItem>
@@ -479,7 +555,13 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
             </div>
           </div>
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Background color:</h3>
             </div>
             <div className={classes.configValue}>
@@ -488,7 +570,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
                   variant="filled"
                   name="bgcolor"
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}`  }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                   value={BGColor}
                   onChange={handleChange}
                   placeholder="#B6B8B7"
@@ -499,7 +585,11 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
           <div className={classes.buttonRow}>
             <Button
               color="primary"
-              className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
+              className={
+                isThemeLight
+                  ? `${classes.button} ${classes.saveButtonLight}`
+                  : `${classes.button} ${classes.saveButtonDark}`
+              }
               onClick={handleSave}
               id="saveButton"
             >
@@ -538,24 +628,23 @@ const RightContainer = ({isThemeLight}): JSX.Element => {
               </Button>
             </div>
           )}
-          <div className = {classes.buttonRow}>
+          <div className={classes.buttonRow}>
             <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleUndo}
+              color="primary"
+              className={classes.button}
+              onClick={handleUndo}
             >
               <i className="fas fa-undo"></i>
             </Button>
             <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleRedo}
+              color="primary"
+              className={classes.button}
+              onClick={handleRedo}
             >
               <i className="fas fa-redo"></i>
             </Button>
+          </div>
         </div>
-        </div>
-       
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
@@ -625,7 +714,7 @@ const useStyles = makeStyles({
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
-    paddingRight: '20px',
+    paddingRight: '20px'
   },
   saveButtonLight: {
     border: '1px solid #186BB4'
@@ -646,7 +735,7 @@ const useStyles = makeStyles({
       marginTop: '10px'
     }
   },
-   lightThemeFontColor: {
+  lightThemeFontColor: {
     color: '#186BB4'
   },
   darkThemeFontColor: {
