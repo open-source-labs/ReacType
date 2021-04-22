@@ -403,6 +403,29 @@ NAVBAR
   width: 16%;
 }
 
+/* Caret Start
+/////////////////////////////////////////////////
+ANNOTATIONS
+/////////////////////////////////////////////////
+*/
+
+.annotate-button-empty {
+  float: right;
+  background-color: #3ec1ac;
+}
+
+.annotate-button-filled {
+  float: right;
+}
+
+.annotate-textarea {
+  display: none;
+  width: 400px;
+  height: 250px;
+  float: right;
+}
+/* Caret End
+
 /* Material-UI */
 
 /* Sortable tree sorting */
