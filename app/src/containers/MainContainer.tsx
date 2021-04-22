@@ -15,8 +15,6 @@ const MainContainer = () => {
   useEffect(() => {
     const childrenArray = state.components[0].children;
     console.log('Refrenced Children in State!!!', childrenArray);
-    const codePreviewView = state.components[0].code;
-    console.log('This is the framework for CodePreview', codePreviewView);
     let key = 0;
     for (const element of childrenArray) {
       if (element.name !== 'separator') {
@@ -26,8 +24,8 @@ const MainContainer = () => {
         const elementStyle = element.style;
         const innerText = element.attributes.compText;
         if (elementType !== 'button') {
-          componentsToRender.push(<Box component={elementType} key={key} id={childId}>{innerText}</Box>);
-        } else componentsToRender.push(<Button key={key} id={childId} color={'primary'}>{innerText}</Button>);
+          componentsToRender.push(<Box component={elementType} style={elementStyle} key={key} id={childId}>{innerText}</Box>);
+        } else componentsToRender.push(<Button key={key} id={childId} style={elementStyle} color={'primary'}>{innerText}</Button>);
         key += 1;
       }
     }
@@ -39,7 +37,6 @@ const MainContainer = () => {
       <div className="main">
         <CanvasContainer />
         {/* Caret Component Render */}
-        {console.log('Completed Components to Render', componentsToRender)}
         <DemoRender demo={componentsToRender}/>
       </div>
       <BottomPanel />

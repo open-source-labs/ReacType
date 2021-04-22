@@ -53,12 +53,12 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     const childrenArray = state.components[0].children;
     let attributes;
     for (const element of childrenArray) {
-      if (element.childId === configTarget.child.id) {
+      if (configTarget.child && element.childId === configTarget.child.id) {
         attributes = element.attributes;
         setCompText(attributes.text ? attributes.text : '');
       }
     }
-    console.log('Attributes: ', configTarget.child);
+    console.log('Canvas Element Detail: ', configTarget.child);
     // Caret End
     const style = configTarget.child
       ? configTarget.child.style
@@ -323,7 +323,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       // Redo
       : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
       // Delete HTML tag off canvas
-        : (e.key === 'Backspace') ? handleDelete()
+        : (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA") ? handleDelete()
         // Save
           : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
