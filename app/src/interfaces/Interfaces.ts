@@ -1,4 +1,4 @@
-nsimport { DragObjectWithType } from 'react-dnd';
+import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
   name: string;

@@ -147,7 +147,8 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
           focusTarget.child.style = focusChild.style;
           break;
         }
-        currentChild.children.forEach(child => searchArray.push(child));
+        // Caret Update
+        if (currentChild.name !== 'input' && currentChild.name !== 'img') currentChild.children.forEach(child => searchArray.push(child));
       }
 
       // if type is Component, use child's typeId to search through state components and find matching component's name
