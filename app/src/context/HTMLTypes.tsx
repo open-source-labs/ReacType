@@ -113,8 +113,26 @@ const HTMLTypes: HTMLType[] = [
     id: 5,
     tag: 'span',
     name: 'Span',
-    style: { fontSize: '1.5em' },
+    style: { fontSize: '1em' },
     placeHolderShort: 'Span',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
+    id: 12,
+    tag: 'input',
+    name: 'Input',
+    style: { fontSize: '1em' },
+    placeHolderShort: 'Input',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
+    id: 13,
+    tag: 'label',
+    name: 'Label',
+    style: { fontSize: '1em' },
+    placeHolderShort: <label>Label</label>,
     placeHolderLong: '',
     icon: HeaderIcon
   }
