@@ -37,7 +37,8 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
       manageSeparators.nextTopSeparatorId += 1;
     }
     // check is length is > 0 or it is a nested element
-    if (arr[index].children.length) {
+    // Caret Update
+    if ((arr[index].name !== 'input' && arr[index].name !== 'img') && arr[index].children.length) {
     // recursive call if children array
        (str === 'delete' || str === 'change position') ? manageSeparators.handleSeparators(arr[index].children, str) : manageSeparators.handleSeparators(arr[index].children);
     }
