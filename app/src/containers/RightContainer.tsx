@@ -8,8 +8,6 @@ import React, {
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,14 +18,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
+import FormSelector from '../components/form/Selector';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({ isThemeLight }): JSX.Element => {
@@ -53,7 +50,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     const childrenArray = state.components[0].children;
     let attributes;
     for (const element of childrenArray) {
-      if (element.childId === configTarget.child.id) {
+      if (configTarget.child && element.childId === configTarget.child.id) {
         attributes = element.attributes;
         setCompText(attributes.text ? attributes.text : '');
       }
@@ -105,8 +102,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
         setBGColor(inputVal);
         break;
       // Caret
-        case 'compText':
+      case 'compText':
         setCompText(inputVal);
+        break;
+      default:
         break;
     }
   };
@@ -282,13 +281,13 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
             marginTop: '5%',
           }}
         >
-        <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
+          <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
 
         <ListItem
           key={'not delete'}
           button
-          onClick={closeModal}ƒ
+          onClick={closeModal} ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -322,9 +321,9 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo()
       // Redo
       : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
-      // Delete HTML tag off canvas
+        // Delete HTML tag off canvas
         : (e.key === 'Backspace') ? handleDelete()
-        // Save
+          // Save
           : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
 
@@ -338,9 +337,9 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
 
   return (
     <div className="column right" id="rightContainer" style={style}>
-      <ComponentPanel isThemeLight={isThemeLight}/>
+      <ComponentPanel isThemeLight={isThemeLight} />
       <ProjectManager />
-  {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
+      {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
@@ -357,7 +356,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                 </span>
               </h4>
             ) : (
-              <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor} >
+              <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor} >
                 Parent Component:
                 <br />
                 <br />
@@ -365,146 +364,68 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
               </h4>
             )}
           </div>
-          <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
-              <h3>Display:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <Select
-                  value={displayMode}
-                  name="display"
-                  onChange={handleChange}
-                  displayEmpty
-                  className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                >
-                  <MenuItem value="">none</MenuItem>
-                  <MenuItem value={'block'}>block</MenuItem>
-                  <MenuItem value={'inline-block'}>inline-block</MenuItem>
-                  <MenuItem value={'flex'}>flex</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
+          {/* Caret Start Created new FormSelector component */}
+          <FormSelector
+            classes={classes}
+            isThemeLight={isThemeLight}
+            selectValue={flexAlign}
+            handleChange={handleChange}
+            title='Display:'
+            name='display'
+            items={[{ value: '', text: 'none' }, { value: 'block', text: 'block' }, { value: 'inline-block', text: 'inline-block' }, { value: 'flex', text: 'flex' }]}
+          />
           {/* flex options are hidden until display flex is chosen */}
           {displayMode === 'flex' && (
             <div>
-              <div className={classes.configRow}>
-                <div className={classes.configType}>
-                  <h3>Flex direction:</h3>
-                </div>
-                <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
-                    <Select
-                      value={flexDir}
-                      name="flexdir"
-                      onChange={handleChange}
-                      displayEmpty
-                      className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                    >
-                      <MenuItem value="">none</MenuItem>
-                      <MenuItem value={'row'}>row</MenuItem>
-                      <MenuItem value={'column'}>column</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              </div>
-              <div className={classes.configRow}>
-                <div className={classes.configType}>
-                  <h3>Justify content:</h3>
-                </div>
-                <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
-                    <Select
-                      value={flexJustify}
-                      name="flexjust"
-                      onChange={handleChange}
-                      displayEmpty
-                      className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                    >
-                      <MenuItem value="">none</MenuItem>
-                      <MenuItem value={'flex-start'}>flex-start</MenuItem>
-                      <MenuItem value={'flex-end'}>flex-end</MenuItem>
-                      <MenuItem value={'center'}>center</MenuItem>
-                      <MenuItem value={'space-between'}>space-between</MenuItem>
-                      <MenuItem value={'space-around'}>space-around</MenuItem>
-                      <MenuItem value={'space-evenly'}>space-evenly</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              </div>
-              <div className={classes.configRow}>
-                <div className={classes.configType}>
-                  <h3>Align items:</h3>
-                </div>
-                <div className={classes.configValue}>
-                  <FormControl variant="filled" className={classes.formControl}>
-                    <Select
-                      value={flexAlign}
-                      onChange={handleChange}
-                      name="flexalign"
-                      displayEmpty
-                      className={classes.select}
-                      inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                    >
-                      <MenuItem value="">none</MenuItem>
-                      <MenuItem value={'stretch'}>stretch</MenuItem>
-                      <MenuItem value={'flex-start'}>flex-start</MenuItem>
-                      <MenuItem value={'flex-end'}>flex-end</MenuItem>
-                      <MenuItem value={'center'}>center</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              </div>
+
+              <FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={flexAlign}
+                handleChange={handleChange}
+                title='Flex direction:'
+                name='flexdir'
+                items={[{ value: '', text: 'none' }, { value: 'row', text: 'row' }, { value: 'column', text: 'column' }]}
+              />
+              <FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={flexAlign}
+                handleChange={handleChange}
+                title='Justify content:'
+                name='flexjust'
+                items={[{ value: '', text: 'none' }, { value: 'flex-start', text: 'flex-start' }, { value: 'flex-end', text: 'flex-end' }, { value: 'center', text: 'center' }, { value: 'space-between', text: 'space-between' }, { value: 'space-around', text: 'space-around' }, { value: 'space-evenly', text: 'space-evenly' }]}
+              />
+              <FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={flexAlign}
+                handleChange={handleChange}
+                title='Align items:'
+                name='flexalign'
+                items={[{ value: '', text: 'none' }, { value: 'stretch', text: 'stretch' }, { value: 'flex-start', text: 'flex-start' }, { value: 'flex-end', text: 'flex-end' }, { value: 'center', text: 'center' }]}
+              />
             </div>
           )}
-          <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
-              <h3>Width:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <Select
-                  value={compWidth}
-                  name="width"
-                  onChange={handleChange}
-                  displayEmpty
-                  className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                >
-                  <MenuItem value="">none</MenuItem>
-                  <MenuItem value={'auto'}>auto</MenuItem>
-                  <MenuItem value={'50%'}>50%</MenuItem>
-                  <MenuItem value={'25%'}>25%</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
-          <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
-              <h3>Height:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <Select
-                  value={compHeight}
-                  name="height"
-                  onChange={handleChange}
-                  displayEmpty
-                  className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
-                >
-                  <MenuItem value="">none</MenuItem>
-                  <MenuItem value={'auto'}>auto</MenuItem>
-                  <MenuItem value={'100%'}>100%</MenuItem>
-                  <MenuItem value={'50%'}>50%</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-          </div>
+          <FormSelector
+            classes={classes}
+            isThemeLight={isThemeLight}
+            selectValue={compWidth}
+            handleChange={handleChange}
+            title='Width:'
+            name='width'
+            items={[{ value: '', text: 'none' }, { value: 'auto', text: 'auto' }, { value: '50%', text: '50%' }, { value: '25%', text: '25%' }]}
+          />
+          <FormSelector
+            classes={classes}
+            isThemeLight={isThemeLight}
+            selectValue={compWidth}
+            handleChange={handleChange}
+            title='Height:'
+            name='height'
+            items={[{ value: '', text: 'none' }, { value: 'auto', text: 'auto' }, { value: '100%', text: '100%' }, { value: '50%', text: '50%' }]}
+          />
+          {/* Caret End */}
           <div className={classes.configRow}>
             <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
               <h3>Background color:</h3>
@@ -585,22 +506,22 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
               </Button>
             </div>
           )}
-          <div className = {classes.buttonRow}>
+          <div className={classes.buttonRow}>
             <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleUndo}
+              color="primary"
+              className={classes.button}
+              onClick={handleUndo}
             >
               <i className="fas fa-undo"></i>
             </Button>
             <Button
-            color="primary"
-            className={classes.button}
-            onClick={handleRedo}
+              color="primary"
+              className={classes.button}
+              onClick={handleRedo}
             >
               <i className="fas fa-redo"></i>
             </Button>
-        </div>
+          </div>
         </div>
 
       </div>
