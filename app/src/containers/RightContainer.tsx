@@ -35,8 +35,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
-  // Caret
+  // Caret Start
   const [compText, setCompText] = useState('');
+  const [cssClasses, setCssClasses] = useState('');
+  // Caret End
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -53,9 +55,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       if (configTarget.child && element.childId === configTarget.child.id) {
         attributes = element.attributes;
         setCompText(attributes.text ? attributes.text : '');
+        setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
       }
     }
-    console.log('Attributes: ', configTarget.child);
+    console.log('Canvas Element Detail: ', configTarget.child);
     // Caret End
     const style = configTarget.child
       ? configTarget.child.style
@@ -101,12 +104,16 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      // Caret
+      // Caret Start
       case 'compText':
         setCompText(inputVal);
         break;
+      case 'cssClasses':
+        setCssClasses(inputVal);
+        break;
       default:
         break;
+      // Caret End
     }
   };
 
@@ -208,6 +215,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     // Caret
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
+    if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
 
     dispatch({
       type: 'UPDATE CSS',
@@ -321,9 +329,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo()
       // Redo
       : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
-        // Delete HTML tag off canvas
-        : (e.key === 'Backspace') ? handleDelete()
-          // Save
+      // Delete HTML tag off canvas
+      // Caret
+        : (e.key === 'Backspace' && e.ctrlKey) ? handleDelete()
+        // Save
           : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);
 
@@ -457,6 +466,24 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                   className={classes.select}
                   inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
                   value={compText}
+                  onChange={handleChange}
+                  placeholder="Text"
+                />
+              </FormControl>
+            </div>
+          </div>
+          <div className={classes.configRow}>
+            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+              <h3>Css Classes:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <TextField
+                  variant="filled"
+                  name="cssClasses"
+                  className={classes.select}
+                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  value={cssClasses}
                   onChange={handleChange}
                   placeholder="Text"
                 />
