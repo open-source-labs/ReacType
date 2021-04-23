@@ -38,9 +38,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
-  // Caret
+  // Caret Start
   const [compText, setCompText] = useState('');
   const [cssClasses, setCssClasses] = useState('');
+  // Caret End
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -106,7 +107,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      // Caret
+      // Caret Start
       case 'compText':
         setCompText(inputVal);
         break;
@@ -115,6 +116,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
         break;
       default:
         break;
+      // Caret End
     }
   };
 
@@ -331,7 +333,8 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       // Redo
       : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
       // Delete HTML tag off canvas
-        : (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA") ? handleDelete()
+      // Caret
+        : (e.key === 'Backspace' && e.ctrlKey) ? handleDelete()
         // Save
           : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
   }, []);

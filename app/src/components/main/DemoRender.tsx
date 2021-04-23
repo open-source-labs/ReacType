@@ -31,9 +31,7 @@ const DemoRender = (props): JSX.Element => {
         if (element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType !== 'button') {
-          componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
-        } else componentsToRender.push(<Button key={key} id={childId} className={classRender} style={elementStyle} color={'primary'}>{innerText}{renderedChildren}</Button>);
+        componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
     }
