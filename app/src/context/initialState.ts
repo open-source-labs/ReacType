@@ -16,10 +16,7 @@ const initialState: State = {
       past: [],
       future: [],
       // CARET
-      mockState: {
-        props: {},
-        type: ''
-      }
+      stateProps: []
       // END CARET
     }
   ],

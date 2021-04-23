@@ -33,6 +33,13 @@ export interface Component {
   isPage: boolean;
   past: any[];
   future: any[];
+  stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+}
+
+export interface StateProp {
+  key: string;
+  value: any;
+  type: unknown;
 }
 
 export interface Action {
