@@ -161,6 +161,7 @@
     "seamless-immutable": "^7.1.4",
     "source-map-support": "^0.5.19",
     "spectron": "^11.1.0",
+    "uniqid": "^5.3.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

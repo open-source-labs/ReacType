@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -7,6 +7,12 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import Modal from '@material-ui/core/Modal';
+import Annotation from './Annotation'
+// Caret
+import { makeStyles } from '@material-ui/core';
+// Caret
+import TextField from '@material-ui/core/TextField';
+import uniqid from 'uniqid';
 
 function DirectChildHTMLNestable({
   childId,
@@ -107,34 +113,50 @@ const snapShotFunc = () => {
 
   // Caret Start
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
+
+  const handleAnnoOpen = (id) => {
     setOpen(true);
+    //annotateOpen(id);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleAnnoChange = (event) => {
+    const { value } = event.target;
 
-  const annotateOpen = (id) => {
-    let annotateTextArea = document.getElementById(id);
-    console.log(id);
-    annotateTextArea.addEventListener("change", function(event) {
-      let annotateText = (annotateTextArea as HTMLInputElement).value
-      if(annotateText != '') {
-        document.getElementById(id + 1000).style.background = '#cc99ff';
-      } else {
-        document.getElementById(id + 1000).style.background = '#3ec1ac';
-      }
-    });
-
-    let visible = annotateTextArea.style.display;
-    if(visible === 'block') {
-      annotateTextArea.style.display = 'none';
+    console.log("ID ", event.target.id)
+    console.log(event.target);
+    if(value === '') {
+      document.getElementById("btn" + event.target.id).style.background = '#3ec1ac';
+      document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
     } else {
-      annotateTextArea.style.display = 'block';
+      document.getElementById("btn" + event.target.id).style.background = '#cc99ff';
+      document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
     }
   }
-
+  /*
+  const annotateOpen = (id) => {
+    let annotateTextArea = document.getElementById("txt" + id);
+    console.log(annotateTextArea);
+    console.log('*********')
+    console.log("USING ID " , id);
+    console.log("TEXT ID HERE: ", "txt" + id);
+    
+    annotateTextArea.addEventListener("change", function(event) {
+      let annotateText = (this as HTMLInputElement).value
+      console.log(annotateText)
+      if(annotateText === '') {
+        document.getElementById("btn" + id).style.background = '#cc99ff';
+        document.getElementById("btn" + id).id = 'btn' + id;
+      } else {
+        document.getElementById("btn" + id).id = 'btn' + id;
+        document.getElementById("btn" + id).style.background = '#3ec1ac';
+      }
+    });
+  }
+  */
   // Caret End
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -155,19 +177,35 @@ const snapShotFunc = () => {
   );
   //<textarea className='annotate-textarea' id={state.canvasFocus.childId}></textarea>
   //<button className='annotate-button-empty' onClick={() => annotateOpen(state.canvasFocus.childId)}  id={state.canvasFocus.childId + 1000}>DIRECT CHILD HTML NESTABLE HERE</button>
+  
+  /*
+        <button className='annotate-button-empty' id={"btn" + childId} onClick={() => handleAnnoOpen(childId)}>DIRECT CHILD HTML NESTABLE HERE</button>
+      <Modal 
+        open={open}
+        onClose={handleClose}
+        keepMounted={true}
+      >
+        <textarea className='annotate-textarea' id={state.canvasFocus.childId} onChange={handleAnnoChange}></textarea>
+      </Modal>
+  */
+  
+  
   drag(drop(ref));
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
       {HTMLType.placeHolderShort}
       {renderChildren(children)}
       {/* Caret start */}
-      <button className='annotate-button-empty' onClick={handleOpen}>DIRECT CHILD HTML NESTABLE HERE</button>
-      <Modal 
-        open={open}
-        onClose={handleClose}
+      <Annotation
+        childId={childId}
+        typeId={typeId}
+        type={type}
+        name={name}
+        style={style}
       >
-        <textarea id={state.canvasFocus.childId}></textarea>
-      </Modal>
+
+      </Annotation>
+    
       {/* Caret end */}
     </div>
   );

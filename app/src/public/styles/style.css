@@ -419,10 +419,13 @@ ANNOTATIONS
 }
 
 .annotate-textarea {
-  display: none;
   width: 400px;
   height: 250px;
-  float: right;
+  display: block;
+  position: relative;
+  margin-left: 35%;
+  margin-right: auto;
+  white-space: pre-wrap;
 }
 /* Caret End
 
