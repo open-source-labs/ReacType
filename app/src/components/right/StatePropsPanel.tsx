@@ -1,4 +1,4 @@
-// from ComponentPanel.tsx
+// CARET
 import React, {
   Component,
   useState,
@@ -35,13 +35,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
   const [compName, setCompName] = useState('');
-
   const [newStateProp, setNewStateProp] = useState({});
-
-  const [key, setKey] = useState('');
-  const [value, setValue] = useState('');
-  const [type, setType] = useState('');
-
   const [isRoot, setIsRoot] = useState(false);
 
   const debug = () => {
@@ -52,61 +46,38 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       'state.canvasFocus.components[currentId-1]:',
       state.components[currentId - 1]
     );
-    console.log('key', document.getElementById('key-input').value);
-    console.log('value', document.getElementById('value-input').value);
-    console.log('type', document.getElementById('select-required-label').value);
+    console.log('key', document.getElementById('textfield-key').value);
+    console.log('value', document.getElementById('textfield-value').value);
+    console.log(document.getElementById('type-input').innerHTML);
+    console.log('newStateProp:', newStateProp);
   };
 
-  const handleKeyInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKey(e.target.value);
-  };
-  const handleValueInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // we need to value
-    setValue(e.target.value);
-  };
-  const handleType = (e: React.ChangeEvent<{ value: unknown }>) => {
-    // if (e.target.value === 'string') setType(e.target.value as string);
-
-    console.log('handleType: e.target.value: ', e.target.value);
-
-    // CARET: based on event's type value, setType with correct type
-    switch (e.target.value) {
-      case 'string':
-        setType(e.target.value as string);
-        break;
-      case 'number':
-        setType(e.target.value);
-        setValue(value as type);
-        console.log('value:', value);
-        console.log('typeof value:', typeof value);
-        break;
-      case 'boolean':
-        setType(e.target.value as boolean);
-        break;
-      case 'array':
-        setType(e.target.value as Array);
-        break;
-      case 'undefined':
-        setType(e.target.value as undefined);
-        break;
-      default:
-        setType(e.target.value as any);
-    }
-  };
-
-  const submitMockState = () => {
+  const submitNewState = () => {
     // currently focused component's id
     const currentId = state.canvasFocus.componentId;
 
     // current component
     const currentComponent = state.components[currentId - 1];
+    // grab user inputs for key, value, type
+    const key = document.getElementById('textfield-key').value;
+    const value = document.getElementById('textfield-value').value;
+    const type = document.getElementById('type-input').innerHTML;
 
-    const key = document.getElementById('key-input').value;
-    const value = document.getElementById('value-input').value;
+    // FOR CONSIDERING USER INPUT DATA VISUALIZATION:
+    // case 1: [{ name: 'John Doe'}, {age: 99}, {alive: true}]
+    // case 2: [{ key: 'name', value: 'John Doe', type: 'string'}, {key: 'age', value: 99, type: 'number'}, {key: 'alive', value: true, type: 'boolean'}]
 
-    newstateProp.key = value;
+    // store key, value, type in newStateProp obj
+    newStateProp.key = key;
+    newStateProp.value = value;
+    newStateProp.type = type;
 
+    setNewStateProp(newStateProp);
+    // store this newStateProp obj to our Component's stateProps array
     currentComponent.stateProps.push(newStateProp);
+    // set newStateProp to empty for any new state prop entries
+    setNewStateProp({});
+    console.log('currentComponent.stateProps:', currentComponent.stateProps);
   };
 
   return (
@@ -114,112 +85,47 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       <div>
         <FormControl>
           <label>Create New State</label>
-          <TextField
-            id="textfield-key"
-            label="key:"
-            variant="outlined"
-            value={key}
-          />
-          <TextField
-            id="outlined-basic"
-            label="value:"
-            variant="outlined"
-            value={value}
-          />
-          {/* <TextField
-            id="outlined-basic"
-            label="type:"
-            variant="outlined"
-            value={typeName}
-          /> */}
-          {/* <div className={classes.inputWrapper}>
-            <input
-              id="key-input"
-              color={'primary'}
-              className={
-                isThemeLight
-                  ? `${classes.inputField} ${classes.lightThemeFontColor}`
-                  : `${classes.inputField} ${classes.darkThemeFontColor}`
-              }
-              // InputProps={{ className: classes.input }}
-              // value={key}
-              // onChange={handleKeyInput}
-            />
-          </div> */}
-          {/* <div className={classes.inputWrapper}>
-            <input
-              id="value-input"
-              color={'primary'}
-              className={
-                isThemeLight
-                  ? `${classes.inputField} ${classes.lightThemeFontColor}`
-                  : `${classes.inputField} ${classes.darkThemeFontColor}`
-              }
-              // InputProps={{ className: classes.input }}
-              // value={value}
-              // onChange={handleValueInput}
-            />
-          </div> */}
+          <br />
+          <br />
+          <TextField id="textfield-key" label="key:" variant="outlined" />
+          <TextField id="textfield-value" label="value:" variant="outlined" />
           <FormControl required className={classes.formControl}>
             <InputLabel id="select-required-label">Type</InputLabel>
             <Select
               labelId="select-required-label"
               id="type-input"
-              // value={type}
-              // onChange={handleType}
               className={classes.selectEmpty}
             >
               <MenuItem value="">
                 <em>Types</em>
               </MenuItem>
-              <MenuItem id="type-string" value={`string`}>
+              <MenuItem id="type-selector" value={`string`}>
                 String
               </MenuItem>
-              <MenuItem id="type-number" value={`number`}>
+              <MenuItem id="type-selector" value={`number`}>
                 Number
               </MenuItem>
-              <MenuItem id="type-boolean" value={`boolean`}>
+              <MenuItem id="type-selector" value={`boolean`}>
                 Boolean
               </MenuItem>
-              <MenuItem id="type-array" value={`array`}>
+              <MenuItem id="type-selector" value={`array`}>
                 Array
               </MenuItem>
-              <MenuItem id="type-undefined" value={`undefined`}>
+              <MenuItem id="type-selector" value={`undefined`}>
                 Undefined
               </MenuItem>
-              <MenuItem id="type-any" value={`any`}>
+              <MenuItem id="type-selector" value={`any`}>
                 Any
               </MenuItem>
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
-          <div>
-            {/* <FormControlLabel
-              value="top"
-              control={
-                <Checkbox
-                  className={
-                    isThemeLight
-                      ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
-                      : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
-                  }
-                  color="primary"
-                />
-              }
-              className={
-                isThemeLight
-                  ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
-                  : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
-              }
-              labelPlacement="top"
-            /> */}
-          </div>
           <MyButton type="submit" onClick={debug}>
             debug
           </MyButton>
           <br></br>
           <br></br>
-          <MyButton type="submit" onClick={submitMockState}>
+          <MyButton type="submit" onClick={submitNewState}>
             create
           </MyButton>
           <br></br>
