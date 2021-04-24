@@ -403,6 +403,32 @@ NAVBAR
   width: 16%;
 }
 
+/* Caret Start
+/////////////////////////////////////////////////
+ANNOTATIONS
+/////////////////////////////////////////////////
+*/
+
+.annotate-button-empty {
+  float: right;
+  background-color: #3ec1ac;
+}
+
+.annotate-button-filled {
+  float: right;
+}
+
+.annotate-textarea {
+  width: 400px;
+  height: 250px;
+  display: block;
+  position: relative;
+  margin-left: 35%;
+  margin-right: auto;
+  white-space: pre-wrap;
+}
+/* Caret End
+
 /* Material-UI */
 
 /* Sortable tree sorting */

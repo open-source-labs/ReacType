@@ -45,7 +45,7 @@ const renderChildren = (children: ChildElement[]) => {
     }
     // child is a nestable type of HTML element (divs and forms)
     else if (type === 'HTML Element' && (typeId === 11 || typeId === 2)) {
-      return (
+      return (        <div>
         <DirectChildHTMLNestable
           childId={childId}
           type={type}
@@ -55,6 +55,7 @@ const renderChildren = (children: ChildElement[]) => {
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
         />
+        </div>
       );
     }
     else if (type === 'HTML Element' && typeId === 1000 ) {
