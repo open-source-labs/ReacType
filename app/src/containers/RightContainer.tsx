@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useCallback,
+  useCallback
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -20,6 +20,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
+import TabPanel from '../components/right/TabPanel';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
@@ -124,8 +127,8 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     // note: deep clone here to make sure we don't end up altering state
     const focusTarget = JSON.parse(
       JSON.stringify(
-        state.components.find(comp => comp.id === state.canvasFocus.componentId),
-      ),
+        state.components.find(comp => comp.id === state.canvasFocus.componentId)
+      )
     );
     delete focusTarget.child;
 
@@ -148,20 +151,21 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
           break;
         }
         // Caret Update
-        if (currentChild.name !== 'input' && currentChild.name !== 'img') currentChild.children.forEach(child => searchArray.push(child));
+        if (currentChild.name !== 'input' && currentChild.name !== 'img')
+          currentChild.children.forEach(child => searchArray.push(child));
       }
 
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-          comp => comp.id === focusChild.typeId,
+          comp => comp.id === focusChild.typeId
         ).name;
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-          elem => elem.id === focusChild.typeId,
+          elem => elem.id === focusChild.typeId
         ).name;
       }
     }
@@ -172,7 +176,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
   configTarget = useMemo(() => getFocus(), [
     state.canvasFocus.childId,
-    state.canvasFocus.componentId,
+    state.canvasFocus.componentId
   ]);
 
   const isPage = (configTarget): boolean => {
@@ -188,7 +192,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
     let isLinked = false;
-    const searchNestedChildren = (comps) => {
+    const searchNestedChildren = comps => {
       if (comps.length === 0) return;
       comps.forEach((comp, i) => {
         if (comp.type === 'Route Link' && comp.name === pageName) {
@@ -220,13 +224,13 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
 
     dispatch({
       type: 'UPDATE CSS',
-      payload: { style: styleObj },
+      payload: { style: styleObj }
     });
 
     // Caret
     dispatch({
       type: 'UPDATE ATTRIBUTES',
-      payload: { attributes: attributesObj },
+      payload: { attributes: attributesObj }
     });
 
     return styleObj;
@@ -254,7 +258,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
 
-  const handleDialogError = (err) => {
+  const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
   };
@@ -287,7 +291,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%',
+            marginTop: '5%'
           }}
         >
           <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
@@ -296,11 +300,12 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
         <ListItem
           key={'not delete'}
           button
-          onClick={closeModal} ƒ
+          onClick={closeModal}
+          ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%',
+            marginTop: '5%'
           }}
         >
           <ListItemText primary={'No'} style={{ textAlign: 'center' }} />
@@ -319,22 +324,30 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     );
   };
 
-  const keyBindedFunc = useCallback((e) => {
+  const keyBindedFunc = useCallback(e => {
     // the || is for either Mac or Windows OS
     // Undo
-    (e.key === 'z' && e.metaKey && !e.shiftKey || e.key === 'z' && e.ctrlKey && !e.shiftKey) ? handleUndo()
-      // Redo
-      : (e.shiftKey && e.metaKey && e.key === 'z' || e.shiftKey && e.ctrlKey && e.key === 'z') ? handleRedo()
-      // Delete HTML tag off canvas
+    (e.key === 'z' && e.metaKey && !e.shiftKey) ||
+    (e.key === 'z' && e.ctrlKey && !e.shiftKey)
+      ? handleUndo()
+      : // Redo
+      (e.shiftKey && e.metaKey && e.key === 'z') ||
+        (e.shiftKey && e.ctrlKey && e.key === 'z')
+      ? handleRedo()
+      : // Delete HTML tag off canvas
       // Caret
-        : (e.key === 'Backspace' && e.ctrlKey) ? handleDelete()
-        // Save
-          : (e.key === 's' && e.ctrlKey && e.shiftKey || e.key === 's' && e.metaKey && e.shiftKey) ? handleSave() : '';
+      e.key === 'Backspace' && e.ctrlKey
+      ? handleDelete()
+      : // Save
+      (e.key === 's' && e.ctrlKey && e.shiftKey) ||
+        (e.key === 's' && e.metaKey && e.shiftKey)
+      ? handleSave()
+      : '';
   }, []);
 
   useEffect(() => {
@@ -344,9 +357,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     };
   }, []);
 
-
   return (
     <div className="column right" id="rightContainer" style={style}>
+      {/* CARET */}
+      <TabPanel />
+      {/* CARET */}
       <ComponentPanel isThemeLight={isThemeLight} />
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
@@ -361,12 +376,24 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                   : ' element'}{' '}
                 <br />
                 <br />
-                <span className={isThemeLight ? `${classes.compName} ${classes.lightThemeFontColor}` : `${classes.compName} ${classes.darkThemeFontColor}`}>
+                <span
+                  className={
+                    isThemeLight
+                      ? `${classes.compName} ${classes.lightThemeFontColor}`
+                      : `${classes.compName} ${classes.darkThemeFontColor}`
+                  }
+                >
                   {configTarget.child.name}
                 </span>
               </h4>
             ) : (
-              <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor} >
+              <h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
                 Parent Component:
                 <br />
                 <br />
@@ -380,40 +407,62 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
             isThemeLight={isThemeLight}
             selectValue={flexAlign}
             handleChange={handleChange}
-            title='Display:'
-            name='display'
-            items={[{ value: '', text: 'none' }, { value: 'block', text: 'block' }, { value: 'inline-block', text: 'inline-block' }, { value: 'flex', text: 'flex' }]}
+            title="Display:"
+            name="display"
+            items={[
+              { value: '', text: 'none' },
+              { value: 'block', text: 'block' },
+              { value: 'inline-block', text: 'inline-block' },
+              { value: 'flex', text: 'flex' }
+            ]}
           />
           {/* flex options are hidden until display flex is chosen */}
           {displayMode === 'flex' && (
             <div>
-
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
                 selectValue={flexAlign}
                 handleChange={handleChange}
-                title='Flex direction:'
-                name='flexdir'
-                items={[{ value: '', text: 'none' }, { value: 'row', text: 'row' }, { value: 'column', text: 'column' }]}
+                title="Flex direction:"
+                name="flexdir"
+                items={[
+                  { value: '', text: 'none' },
+                  { value: 'row', text: 'row' },
+                  { value: 'column', text: 'column' }
+                ]}
               />
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
                 selectValue={flexAlign}
                 handleChange={handleChange}
-                title='Justify content:'
-                name='flexjust'
-                items={[{ value: '', text: 'none' }, { value: 'flex-start', text: 'flex-start' }, { value: 'flex-end', text: 'flex-end' }, { value: 'center', text: 'center' }, { value: 'space-between', text: 'space-between' }, { value: 'space-around', text: 'space-around' }, { value: 'space-evenly', text: 'space-evenly' }]}
+                title="Justify content:"
+                name="flexjust"
+                items={[
+                  { value: '', text: 'none' },
+                  { value: 'flex-start', text: 'flex-start' },
+                  { value: 'flex-end', text: 'flex-end' },
+                  { value: 'center', text: 'center' },
+                  { value: 'space-between', text: 'space-between' },
+                  { value: 'space-around', text: 'space-around' },
+                  { value: 'space-evenly', text: 'space-evenly' }
+                ]}
               />
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
                 selectValue={flexAlign}
                 handleChange={handleChange}
-                title='Align items:'
-                name='flexalign'
-                items={[{ value: '', text: 'none' }, { value: 'stretch', text: 'stretch' }, { value: 'flex-start', text: 'flex-start' }, { value: 'flex-end', text: 'flex-end' }, { value: 'center', text: 'center' }]}
+                title="Align items:"
+                name="flexalign"
+                items={[
+                  { value: '', text: 'none' },
+                  { value: 'stretch', text: 'stretch' },
+                  { value: 'flex-start', text: 'flex-start' },
+                  { value: 'flex-end', text: 'flex-end' },
+                  { value: 'center', text: 'center' }
+                ]}
               />
             </div>
           )}
@@ -422,22 +471,38 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
             isThemeLight={isThemeLight}
             selectValue={compWidth}
             handleChange={handleChange}
-            title='Width:'
-            name='width'
-            items={[{ value: '', text: 'none' }, { value: 'auto', text: 'auto' }, { value: '50%', text: '50%' }, { value: '25%', text: '25%' }]}
+            title="Width:"
+            name="width"
+            items={[
+              { value: '', text: 'none' },
+              { value: 'auto', text: 'auto' },
+              { value: '50%', text: '50%' },
+              { value: '25%', text: '25%' }
+            ]}
           />
           <FormSelector
             classes={classes}
             isThemeLight={isThemeLight}
             selectValue={compWidth}
             handleChange={handleChange}
-            title='Height:'
-            name='height'
-            items={[{ value: '', text: 'none' }, { value: 'auto', text: 'auto' }, { value: '100%', text: '100%' }, { value: '50%', text: '50%' }]}
+            title="Height:"
+            name="height"
+            items={[
+              { value: '', text: 'none' },
+              { value: 'auto', text: 'auto' },
+              { value: '100%', text: '100%' },
+              { value: '50%', text: '50%' }
+            ]}
           />
           {/* Caret End */}
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Background color:</h3>
             </div>
             <div className={classes.configValue}>
@@ -446,7 +511,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                   variant="filled"
                   name="bgcolor"
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                   value={BGColor}
                   onChange={handleChange}
                   placeholder="#B6B8B7"
@@ -456,7 +525,13 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
           </div>
           {/* Caret Start */}
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Text:</h3>
             </div>
             <div className={classes.configValue}>
@@ -465,7 +540,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                   variant="filled"
                   name="compText"
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                   value={compText}
                   onChange={handleChange}
                   placeholder="Text"
@@ -474,7 +553,13 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
             </div>
           </div>
           <div className={classes.configRow}>
-            <div className={isThemeLight ? `${classes.configType} ${classes.lightThemeFontColor}` : `${classes.configType} ${classes.darkThemeFontColor}`}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
               <h3>Css Classes:</h3>
             </div>
             <div className={classes.configValue}>
@@ -483,7 +568,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                   variant="filled"
                   name="cssClasses"
                   className={classes.select}
-                  inputProps={{ className: isThemeLight ? `${classes.selectInput} ${classes.lightThemeFontColor}` : `${classes.selectInput} ${classes.darkThemeFontColor}` }}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
                   value={cssClasses}
                   onChange={handleChange}
                   placeholder="Text"
@@ -495,7 +584,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
           <div className={classes.buttonRow}>
             <Button
               color="primary"
-              className={isThemeLight ? `${classes.button} ${classes.saveButtonLight}` : `${classes.button} ${classes.saveButtonDark}`}
+              className={
+                isThemeLight
+                  ? `${classes.button} ${classes.saveButtonLight}`
+                  : `${classes.button} ${classes.saveButtonDark}`
+              }
               onClick={handleSave}
               id="saveButton"
             >
@@ -551,7 +644,6 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
             </Button>
           </div>
         </div>
-
       </div>
       <Dialog
         open={deleteIndexError || deleteLinkedPageError || deleteComponentError}
@@ -586,51 +678,51 @@ const useStyles = makeStyles({
   select: {
     fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: '#186BB4',
-    },
+      color: '#186BB4'
+    }
   },
   selectInput: {
     paddingTop: '15px',
-    paddingLeft: '15px',
+    paddingLeft: '15px'
   },
   formControl: {
     minWidth: '125px',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: 'rgba(255,255,255,0.15)'
   },
   configRow: {
     display: 'flex',
     paddingLeft: '25px',
     paddingRight: '25px',
-    marginTop: '20px',
+    marginTop: '20px'
   },
   configType: {
     minWidth: '185px',
-    fontSize: '85%',
+    fontSize: '85%'
   },
   configValue: {
-    marginLeft: '20px',
+    marginLeft: '20px'
   },
   buttonRow: isThemeLight => ({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {
       color: isThemeLight ? '#808080' : '#ECECEA', // color for delete page
-      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA',
-    },
+      border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
+    }
   }),
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
-    paddingRight: '20px',
+    paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #186BB4',
+    border: '1px solid #186BB4'
   },
   saveButtonDark: {
-    border: '1px solid #3F51B5',
+    border: '1px solid #3F51B5'
   },
   compName: {
-    fontSize: '1rem',
+    fontSize: '1rem'
   },
   // 'Parent Component' font size
   configHeader: {
@@ -639,15 +731,15 @@ const useStyles = makeStyles({
       fontSize: '1rem',
       letterSpacing: '0.5px',
       marginBottom: '0',
-      marginTop: '10px',
-    },
+      marginTop: '10px'
+    }
   },
   lightThemeFontColor: {
-    color: '#186BB4',
+    color: '#186BB4'
   },
   darkThemeFontColor: {
-    color: '#fff',
-  },
+    color: '#fff'
+  }
 });
 
 export default RightContainer;

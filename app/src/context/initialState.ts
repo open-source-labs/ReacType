@@ -15,7 +15,10 @@ const initialState: State = {
       isPage: true,
       past: [],
       future: [],
-    },
+      // CARET
+      stateProps: []
+      // END CARET
+    }
   ],
   projectType: 'Classic React',
   rootComponents: [1],
@@ -23,7 +26,7 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes,
+  HTMLTypes
 };
 
 export default initialState;
