@@ -33,14 +33,17 @@ const reducer = (state: State, action: Action) => {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
       // try to find id of childNode in children
-      for (let i = 0; i <= currentNode.children.length - 1; i++) {
-        // if match is found return object with both the parent and the index value of the child
-        if (currentNode.children[i].childId === childId) {
-          return { directParent: currentNode, childIndexValue: i };
+      // Caret Update
+      if (currentNode.name !== 'input' && currentNode.name !== 'img') {
+        for (let i = 0; i <= currentNode.children.length - 1; i++) {
+          // if match is found return object with both the parent and the index value of the child
+          if (currentNode.children[i].childId === childId) {
+            return { directParent: currentNode, childIndexValue: i };
+          }
         }
+        // if child node isn't found add each of the current node's children to the search array
+        currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
       }
-      // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
     }
     // if no search is found return -1
     return { directParent: null, childIndexValue: null };
@@ -84,7 +87,8 @@ const reducer = (state: State, action: Action) => {
       const currentNode = nodeArr.shift();
       if (currentNode.childId === childId) return currentNode;
       // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach(node => nodeArr.push(node));
+      // Caret Update
+      if (currentNode.name !== 'input' && currentNode.name !== 'img') currentNode.children.forEach(node => nodeArr.push(node));
     }
     // if no match is found return false
     return;
@@ -207,6 +211,8 @@ const reducer = (state: State, action: Action) => {
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
+        // Caret
+        attributes: {},
         code: '',
         children: [],
         isPage: action.payload.root,
@@ -288,6 +294,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
+        // Caret
+        attributes: {},
         children: componentChildren,
 
       };
@@ -297,12 +305,17 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
+        // Caret
+        attributes: {},
         children: []
       };
       
 
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
+      // Caret Update if the newChild Element is an input or img type, delete the children key/value pair
+      if (newChild.name === 'input' && newChild.name === 'img') delete newChild.children;
+
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
@@ -359,20 +372,25 @@ const reducer = (state: State, action: Action) => {
         component,
         currentChildId
       );
-      
-      const child = { ...directParent.children[childIndexValue] };
-     
-      directParent.children.splice(childIndexValue, 1);
-
-      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
-      if (newParentChildId === null) {
-        component.children.push(child);
+      // Caret start
+      // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
+      // Only run if the directParent exists
+      if (directParent) {
+        const child = { ...directParent.children[childIndexValue] };
+       
+        directParent.children.splice(childIndexValue, 1);
+        
+        // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+        if (newParentChildId === null) {
+          component.children.push(child);
+        }
+        // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+        else {
+          const directParent = findChild(component, newParentChildId);
+          directParent.children.push(child);
+        }
       }
-      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-      else {
-        const directParent = findChild(component, newParentChildId);
-        directParent.children.push(child);
-      }
+      // Caret End
       
       let nextTopSeparatorId = state.nextTopSeparatorId;
      
@@ -414,6 +432,28 @@ const reducer = (state: State, action: Action) => {
       );
       const targetChild = findChild(component, state.canvasFocus.childId);
       targetChild.style = style;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      return { ...state, components };
+    }
+    // Caret
+    case 'UPDATE ATTRIBUTES': {
+      const { attributes } = action.payload;
+      const components = [...state.components];
+
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.attributes = attributes;
 
       component.code = generateCode(
         components,
