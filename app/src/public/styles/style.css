@@ -108,7 +108,7 @@ LEFT COLUMN
 
 #HTMLItem {
   transition: 0.3s;
- } 
+}
 
 #HTMLItem:hover {
   background-color: #297ac2;
@@ -162,7 +162,7 @@ LEFT COLUMN
   justify-content: flex-start;
   justify-self: flex-end;
   align-self: flex-start;
-  width: .5em;
+  width: 0.5em;
 }
 
 /* span container in HTMLItem.tsx */
@@ -279,7 +279,7 @@ RIGHT COLUMN
 }
 
 .right {
-  padding-top: 35px;
+  padding-top: 0px;
   width: 420px;
 }
 
@@ -468,4 +468,8 @@ a.nav_link:hover {
 
 .oauth-btn:hover {
   background-color: #4e76c7;
+}
+
+.MuiTypography-body1 {
+  background-color: oldlace;
 }

@@ -31,7 +31,7 @@ import StateContext from '../../context/context';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 
-const MockStateInterface = ({ isThemeLight }): JSX.Element => {
+const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
   const [compName, setCompName] = useState('');
@@ -114,8 +114,8 @@ const MockStateInterface = ({ isThemeLight }): JSX.Element => {
       <div>
         <FormControl>
           <label>Create New State</label>
-          {/* <TextField
-            id="outlined-basic"
+          <TextField
+            id="textfield-key"
             label="key:"
             variant="outlined"
             value={key}
@@ -126,13 +126,13 @@ const MockStateInterface = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={value}
           />
-          <TextField
+          {/* <TextField
             id="outlined-basic"
             label="type:"
             variant="outlined"
             value={typeName}
           /> */}
-          <div className={classes.inputWrapper}>
+          {/* <div className={classes.inputWrapper}>
             <input
               id="key-input"
               color={'primary'}
@@ -145,8 +145,8 @@ const MockStateInterface = ({ isThemeLight }): JSX.Element => {
               // value={key}
               // onChange={handleKeyInput}
             />
-          </div>
-          <div className={classes.inputWrapper}>
+          </div> */}
+          {/* <div className={classes.inputWrapper}>
             <input
               id="value-input"
               color={'primary'}
@@ -159,7 +159,7 @@ const MockStateInterface = ({ isThemeLight }): JSX.Element => {
               // value={value}
               // onChange={handleValueInput}
             />
-          </div>
+          </div> */}
           <FormControl required className={classes.formControl}>
             <InputLabel id="select-required-label">Type</InputLabel>
             <Select
@@ -362,4 +362,4 @@ const MyButton = styled(Button)({
   padding: '0 30px'
 });
 
-export default MockStateInterface;
+export default StatePropsPanel;

@@ -22,7 +22,7 @@ import createModal from '../components/right/createModal';
 import ComponentPanel from '../components/right/ComponentPanel';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
-import MockStateInterface from '../components/right/MockStateInterface';
+import TabPanel from '../components/right/TabPanel';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
@@ -360,7 +360,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   return (
     <div className="column right" id="rightContainer" style={style}>
       {/* CARET */}
-      <MockStateInterface isThemeLight={isThemeLight} />
+      <TabPanel />
       {/* CARET */}
       <ComponentPanel isThemeLight={isThemeLight} />
       <ProjectManager />
