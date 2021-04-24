@@ -125,9 +125,6 @@ const snapShotFunc = () => {
 
   const handleAnnoChange = (event) => {
     const { value } = event.target;
-
-    console.log("ID ", event.target.id)
-    console.log(event.target);
     if(value === '') {
       document.getElementById("btn" + event.target.id).style.background = '#3ec1ac';
       document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
@@ -136,27 +133,6 @@ const snapShotFunc = () => {
       document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
     }
   }
-  /*
-  const annotateOpen = (id) => {
-    let annotateTextArea = document.getElementById("txt" + id);
-    console.log(annotateTextArea);
-    console.log('*********')
-    console.log("USING ID " , id);
-    console.log("TEXT ID HERE: ", "txt" + id);
-    
-    annotateTextArea.addEventListener("change", function(event) {
-      let annotateText = (this as HTMLInputElement).value
-      console.log(annotateText)
-      if(annotateText === '') {
-        document.getElementById("btn" + id).style.background = '#cc99ff';
-        document.getElementById("btn" + id).id = 'btn' + id;
-      } else {
-        document.getElementById("btn" + id).id = 'btn' + id;
-        document.getElementById("btn" + id).style.background = '#3ec1ac';
-      }
-    });
-  }
-  */
   // Caret End
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -175,21 +151,6 @@ const snapShotFunc = () => {
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
-  //<textarea className='annotate-textarea' id={state.canvasFocus.childId}></textarea>
-  //<button className='annotate-button-empty' onClick={() => annotateOpen(state.canvasFocus.childId)}  id={state.canvasFocus.childId + 1000}>DIRECT CHILD HTML NESTABLE HERE</button>
-  
-  /*
-        <button className='annotate-button-empty' id={"btn" + childId} onClick={() => handleAnnoOpen(childId)}>DIRECT CHILD HTML NESTABLE HERE</button>
-      <Modal 
-        open={open}
-        onClose={handleClose}
-        keepMounted={true}
-      >
-        <textarea className='annotate-textarea' id={state.canvasFocus.childId} onChange={handleAnnoChange}></textarea>
-      </Modal>
-  */
-  
-  
   drag(drop(ref));
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
@@ -203,9 +164,7 @@ const snapShotFunc = () => {
         name={name}
         style={style}
       >
-
-      </Annotation>
-    
+      </Annotation>  
       {/* Caret end */}
     </div>
   );
