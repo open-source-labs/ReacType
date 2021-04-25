@@ -31,7 +31,7 @@ const DemoRender = (props): JSX.Element => {
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}</Box>);
+        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
@@ -40,11 +40,12 @@ const DemoRender = (props): JSX.Element => {
   };
 
   useEffect(() => {
-    const childrenArray = state.components[0].children;
+    const focusIndex = state.canvasFocus.componentId - 1;
+    const childrenArray = state.components[focusIndex].children;
     console.log('Refrenced Children in State!!!', childrenArray);
     const renderedComponents = componentBuilder(childrenArray);
     setComponents(renderedComponents);
-  }, [state.components]);
+  }, [state.components, state.canvasFocus]);
 
   return (
     <div id={'renderFocus'} style={demoContainerStyle}>
