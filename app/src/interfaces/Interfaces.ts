@@ -85,3 +85,10 @@ export interface DragItemType {
 export interface LoginInt {
   isLoggedIn: boolean;
 }
+
+// Caret start
+export interface Annotations {
+  id: number;
+  name: string;
+}
+// Caret end

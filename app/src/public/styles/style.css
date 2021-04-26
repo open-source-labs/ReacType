@@ -419,13 +419,26 @@ ANNOTATIONS
 }
 
 .annotate-textarea {
-  width: 400px;
-  height: 250px;
-  display: block;
-  position: relative;
-  margin-left: 35%;
-  margin-right: auto;
-  white-space: pre-wrap;
+  width: 600px;
+  height: 300px;
+  position: fixed;
+  top: 40%;
+  left: 30%;
+
+  resize: none;
+  white-space: pre-line;
+}
+
+.annotate-textarea-header {
+  font-size: 35px;
+  position: fixed;
+  padding-left: 8px;
+  background-color: #4772c7;
+  color: rgb(241, 240, 240);
+  width: 600px;
+  top: 33%;
+  left: 30%;
+
 }
 /* Caret End
 

@@ -1,18 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
+import { ChildElement, HTMLType} from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import Modal from '@material-ui/core/Modal';
+// Caret
 import Annotation from './Annotation'
-// Caret
-import { makeStyles } from '@material-ui/core';
-// Caret
-import TextField from '@material-ui/core/TextField';
-import uniqid from 'uniqid';
 
 function DirectChildHTMLNestable({
   childId,
@@ -111,30 +106,6 @@ const snapShotFunc = () => {
     changeFocus(state.canvasFocus.componentId, childId);
   }
 
-  // Caret Start
-  const [open, setOpen] = React.useState(false);
-
-  const handleAnnoOpen = (id) => {
-    setOpen(true);
-    //annotateOpen(id);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleAnnoChange = (event) => {
-    const { value } = event.target;
-    if(value === '') {
-      document.getElementById("btn" + event.target.id).style.background = '#3ec1ac';
-      document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
-    } else {
-      document.getElementById("btn" + event.target.id).style.background = '#cc99ff';
-      document.getElementById("btn" + event.target.id).id = 'btn' + event.target.id;
-    }
-  }
-  // Caret End
-
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
@@ -151,20 +122,20 @@ const snapShotFunc = () => {
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
+
   drag(drop(ref));
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
-      {HTMLType.placeHolderShort}
+      <strong>{HTMLType.placeHolderShort}</strong>
+      {`  ( ${childId} )`}
+      <Annotation
+        id={childId}
+        name={name}
+      />
       {renderChildren(children)}
       {/* Caret start */}
-      <Annotation
-        childId={childId}
-        typeId={typeId}
-        type={type}
-        name={name}
-        style={style}
-      >
-      </Annotation>  
+
       {/* Caret end */}
     </div>
   );

@@ -3,8 +3,9 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
+import Annotation from './Annotation'
 
-function IndirectChild({ style, children, placeHolder, linkId }) {
+function IndirectChild({ style, children, placeHolder, linkId, childId }) {
   const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
 
@@ -33,6 +34,10 @@ function IndirectChild({ style, children, placeHolder, linkId }) {
         placeHolder
       )}
       {children}
+      {`  ( ${childId} )`}
+      <Annotation
+        id={childId}
+      />
     </div>
   );
 }

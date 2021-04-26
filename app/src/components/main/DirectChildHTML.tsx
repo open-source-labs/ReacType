@@ -8,6 +8,8 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
+// Caret
+import Annotation from './Annotation'
 
 function DirectChildHTML({
   childId,
@@ -66,7 +68,13 @@ function DirectChildHTML({
 
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
-      {HTMLType.placeHolderShort}
+      <strong>{HTMLType.placeHolderShort}</strong>
+      {`  (${childId})`}
+      {/* Caret start */}
+      <Annotation
+        id={childId}
+      />
+      {/* Caret end */}
     </div>
   );
 }
