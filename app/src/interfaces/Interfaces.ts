@@ -36,6 +36,7 @@ export interface Component {
   past: any[];
   future: any[];
   stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+  useStateCodes: string[];
 }
 
 export interface StateProp {
