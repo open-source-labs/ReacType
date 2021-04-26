@@ -6,6 +6,7 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+import validateNewParent from '../../helperFunctions/changePositionValidation'
 
 function DirectChildHTMLNestable({
   childId,
@@ -64,13 +65,16 @@ function DirectChildHTMLNestable({
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
-        dispatch({
-          type: 'CHANGE POSITION',
-          payload: {
-            currentChildId: item.childId,
-            newParentChildId: childId
-          }
-        });
+        // Caret check to see if the selected child is trying to nest within itself
+        if (validateNewParent(state, item.childId, childId) === true) {
+          dispatch({
+            type: 'CHANGE POSITION',
+            payload: {
+              currentChildId: item.childId,
+              newParentChildId: childId
+            }
+          });
+        }
       }
     },
 

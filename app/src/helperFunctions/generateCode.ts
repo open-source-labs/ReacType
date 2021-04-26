@@ -98,7 +98,19 @@ const generateUnformattedCode = (
             return `<${child.tag}${formatStyles(
               child.style
               )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'p') {
+          } 
+            // Caret Start
+            else if (child.tag === 'input') {
+            return `<${child.tag}${formatStyles(child.style)}>Input</${
+              child.tag
+            }>`;
+          } else if (child.tag === 'label') {
+            return `<${child.tag}${formatStyles(child.style)}>Label</${
+              child.tag
+            }>`;
+          } 
+            // Caret End
+            else if (child.tag === 'p') {
             return `<${child.tag}${formatStyles(
               child.style
             )}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${
