@@ -10,6 +10,7 @@ import Modal from '@material-ui/core/Modal';
 import Annotation from './Annotation'
 // Caret
 import { makeStyles } from '@material-ui/core';
+import validateNewParent from '../../helperFunctions/changePositionValidation'
 // Caret
 import TextField from '@material-ui/core/TextField';
 import uniqid from 'uniqid';
@@ -73,6 +74,7 @@ const snapShotFunc = () => {
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
+        console.log("Child added directly to an existing element")
         dispatch({
           type: 'ADD CHILD',
           payload: {
@@ -84,13 +86,16 @@ const snapShotFunc = () => {
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        dispatch({
-          type: 'CHANGE POSITION',
-          payload: {
-            currentChildId: item.childId,
-            newParentChildId: childId,
-          }
-        });
+        // Caret check to see if the selected child is trying to nest within itself
+        if (validateNewParent(state, item.childId, childId) === true) {
+          dispatch({
+            type: 'CHANGE POSITION',
+            payload: {
+              currentChildId: item.childId,
+              newParentChildId: childId,
+            }
+          });
+        }
       }
     },
     
