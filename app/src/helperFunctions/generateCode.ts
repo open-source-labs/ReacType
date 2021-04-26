@@ -73,59 +73,50 @@ const generateUnformattedCode = (
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
       .map((child: any) => {
+        console.log("What is in this child", child);
+        const childId = child.childId;
+        const childStyle = child.style;
+        const innerText = child.attributes.compText;
+        const classRender = child.attributes.cssClasses;
         if (child.type === 'Component') {
           return `<${child.name}${formatStyles(child.style)} />`;
         } else if (child.type === 'HTML Element') {
           if (child.tag === 'img') {
             return `<${child.tag} src=""${formatStyles(child.style)} />`;
           } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${
-              child.tag
-            }>`;
+            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${child.tag}>`;
           } else if (child.tag === 'div') {
-            return `<${child.tag}${formatStyles(
-              child.style
-            )}>${writeNestedElements(child.children)}</${child.tag}>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
+            ${innerText}
+              ${writeNestedElements(child.children)}
+            </${child.tag}>`;
           } else if (child.tag === 'h1') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'h2') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 2</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag}${formatStyles(
-              child.style
-              )}>${writeNestedElements(child.children)}</${child.tag}>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
+              ${innerText}
+                ${writeNestedElements(child.children)}
+              </${child.tag}>`;
           } 
             // Caret Start
             else if (child.tag === 'input') {
-            return `<${child.tag}${formatStyles(child.style)}>Input</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}></${child.tag}>`;
           } else if (child.tag === 'label') {
-            return `<${child.tag}${formatStyles(child.style)}>Label</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } 
             // Caret End
             else if (child.tag === 'p') {
-            return `<${child.tag}${formatStyles(
-              child.style
-            )}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'li') {
             return `<ul${formatStyles(child.style)}><li>item 1</li>
             <li>item 2</li>
             <li>item 3</li></ul>`;
           } else if (child.tag === 'button') {
-            return `<${child.tag}${formatStyles(child.style)}>BUTTON</${
-              child.tag
-            }>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag !== 'separator') {
-            return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
+            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           }
         }
         // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
