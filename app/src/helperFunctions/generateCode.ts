@@ -86,37 +86,35 @@ const generateUnformattedCode = (
           } else if (child.tag === 'a') {
             return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${child.tag}>`;
           } else if (child.tag === 'div') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
-            ${innerText}
-              ${writeNestedElements(child.children)}
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}${writeNestedElements(child.children)}
             </${child.tag}>`;
           } else if (child.tag === 'h1') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'h2') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
               ${innerText}
                 ${writeNestedElements(child.children)}
               </${child.tag}>`;
           } 
             // Caret Start
             else if (child.tag === 'input') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}></${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}></${child.tag}>`;
           } else if (child.tag === 'label') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } 
             // Caret End
             else if (child.tag === 'p') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'li') {
             return `<ul${formatStyles(child.style)}><li>item 1</li>
             <li>item 2</li>
             <li>item 3</li></ul>`;
           } else if (child.tag === 'button') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           } else if (child.tag !== 'separator') {
-            return `<${child.tag} class=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
           }
         }
         // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
