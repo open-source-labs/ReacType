@@ -13,6 +13,7 @@ import Annotation from './Annotation'
 
 function DirectChildHTML({
   childId,
+  name,
   type,
   typeId,
   style,
@@ -68,11 +69,12 @@ function DirectChildHTML({
 
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
-      <strong>{HTMLType.placeHolderShort}</strong>
-      {`  (${childId})`}
+      <strong>{HTMLType.placeHolderShort}</strong>      
       {/* Caret start */}
+      {`  (${childId})`}
       <Annotation
         id={childId}
+        name={name}
       />
       {/* Caret end */}
     </div>

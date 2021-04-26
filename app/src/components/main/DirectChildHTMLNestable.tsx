@@ -128,14 +128,13 @@ const snapShotFunc = () => {
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
       <strong>{HTMLType.placeHolderShort}</strong>
+      {/* Caret start */}
       {`  ( ${childId} )`}
       <Annotation
         id={childId}
         name={name}
       />
       {renderChildren(children)}
-      {/* Caret start */}
-
       {/* Caret end */}
     </div>
   );
