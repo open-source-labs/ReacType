@@ -1,12 +1,5 @@
 // CARET
-import React, {
-  Component,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  useDebugValue
-} from 'react';
+import React, { useState, useContext } from 'react';
 import {
   createStyles,
   makeStyles,
@@ -48,16 +41,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       'currentComponent.useStateCodes:',
       currentComponent.useStateCodes
     );
-    // console.log('state:', state);
-    // console.log('state.canvasFocus:', state.canvasFocus);
-    // console.log(
-    //   'state.canvasFocus.components[currentId-1]:',
-    //   state.components[currentId - 1],
-    // );
-    // console.log('key', document.getElementById('textfield-key').value);
-    // console.log('value', document.getElementById('textfield-value').value);
-    // console.log(document.getElementById('type-input').innerHTML);
-    // console.log('newStateProp:', newStateProp);
   };
 
   const typeConversion = (value, type) => {
@@ -84,10 +67,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     const value = document.getElementById('textfield-value').value;
     const type = document.getElementById('type-input').innerHTML;
 
-    // FOR CONSIDERING USER INPUT DATA VISUALIZATION:
-    // case 1: [{ name: 'John Doe'}, {age: 99}, {alive: true}]
-    // case 2: [{ key: 'name', value: 'John Doe', type: 'string'}, {key: 'age', value: '99', type: 'number'}, {key: 'alive', value: true, type: 'boolean'}]
-
     // store key, value, type in newStateProp object
     newStateProp.key = key;
     newStateProp.type = type.charAt(0).toLowerCase() + type.slice(1);
@@ -109,6 +88,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     const currentComponent = state.components[currentId - 1];
 
     const localStateCode = [];
+    // iterate thru current component's state props to generate code expression for each new state prop entry
     currentComponent.stateProps.forEach(el => {
       const useStateCode = `const [${el.key}, set${el.key
         .charAt(0)
