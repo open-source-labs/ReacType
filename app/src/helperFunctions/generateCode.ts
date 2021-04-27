@@ -103,10 +103,15 @@ const generateUnformattedCode = (
     let innerText = '';
     if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
 
-    const tabSpacer = level => {
+    const tabSpacer = (level: number) => {
       let tabs = ''
       for (let i = 0; i < level; i++) tabs += '  ';
       return tabs;
+    }
+
+    const levelSpacer = (level: number, spaces: number) => {
+      if (level === 2 ) return `\n${tabSpacer(spaces)}`;
+      else return ''
     }
 
     const nestable = childElement.tag === 'div' || 
@@ -117,21 +122,17 @@ const generateUnformattedCode = (
     childElement.tag === 'li';
 
     if (childElement.tag === 'img') {
-      return `<${childElement.tag} src="" ${elementTagDetails(childElement)}/>`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} src="" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
-      return `<${childElement.tag} href=""${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} href=""${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
-      return `<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>`;
-    } else if (nestable && level === 2) {
-      return `\n${tabSpacer(5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (nestable) {
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
-        ${tabSpacer(level - 1)}</${childElement.tag}>`;
-    } else if (nestable && level > 2) {
-      return `<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
-        ${tabSpacer(level - 1)}</${childElement.tag}>`;
+        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){
-      return `<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>`;
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     }    
   }
 
