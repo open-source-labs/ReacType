@@ -46,7 +46,7 @@ const CodePreview: React.FC<{
     >
       <AceEditor
         mode="javascript"
-        theme={theme}
+        theme="solarized_dark"
         width="100%"
         height="100%"
         onChange={handleCodeSnipChange}
