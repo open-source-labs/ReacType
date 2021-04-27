@@ -4,6 +4,7 @@
   box-sizing: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
 html {
@@ -418,27 +419,43 @@ ANNOTATIONS
   float: right;
 }
 
+.annotate-position {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items:flex-start;
+  top: 30%;
+  left: 30%;
+}
+
 .annotate-textarea {
   width: 600px;
   height: 300px;
-  position: fixed;
-  top: 40%;
-  left: 30%;
-
   resize: none;
   white-space: pre-line;
+  font-size: 18px;
 }
 
 .annotate-textarea-header {
   font-size: 35px;
-  position: fixed;
-  padding-left: 8px;
   background-color: #4772c7;
   color: rgb(241, 240, 240);
   width: 600px;
-  top: 33%;
-  left: 30%;
+  font-family: 'Open Sans', sans-serif;
+}
 
+.annotate-textarea-footer {
+  background-color: #4772c7;
+  color: rgb(107, 93, 93);
+  width: 600px;
+}
+
+.annotate-textarea-savebutton {
+  float: right;
+  width: 150px;
+  height: 30px;
+  font-size: 20px;
+  margin: 2.5px 2.5px;
 }
 /* Caret End
 
