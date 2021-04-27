@@ -1,3 +1,4 @@
+import { element } from 'prop-types';
 import {
   Component,
   State,
@@ -63,58 +64,72 @@ const generateUnformattedCode = (
         links = true;
         child.name = components.find(
           (comp: Component) => comp.id === child.typeId
-        ).name;
-        return child;
-      }
-    });
-    return enrichedChildren;
+          ).name;
+          return child;
+        }
+      });
+      return enrichedChildren;
   };
+  // Caret Start
+  // Raised formatStyles so that it is declared before it is referenced. It was backwards.
+  // format styles stored in object to match React inline style format
+  const formatStyles = (styleObj: any) => {
+    if (Object.keys(styleObj).length === 0) return ``;
+    const formattedStyles = [];
+    for (let i in styleObj) {
+      const styleString = i + ': ' + "'" + styleObj[i] + "'";
+      formattedStyles.push(styleString);
+    }
+    return ' style={{' + formattedStyles.join(',') + '}}';
+  };
+
+  // function to dynamically add classes, ids, and styles to an element if it exists.
+  const elementTagDetails = (childElement: object) => {
+    let customizationDetails = "";
+    if (childElement.childId) customizationDetails += (' ' + `id=${childElement.childId}`);
+    if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className=${childElement.attributes.cssClasses}`);
+    if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
+    return customizationDetails;
+  };
+
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any) => {
     return `${enrichedChildren
       .map((child: any) => {
         console.log("What is in this child", child);
-        const childId = child.childId;
-        const childStyle = child.style;
-        const innerText = child.attributes.compText;
-        const classRender = child.attributes.cssClasses;
+        let innerText = '';
+        if (child.attributes && child.attributes.compText) innerText = child.attributes.compText;
         if (child.type === 'Component') {
-          return `<${child.name}${formatStyles(child.style)} />`;
+          return `<${child.name} ${elementTagDetails(child)} />`;
         } else if (child.type === 'HTML Element') {
           if (child.tag === 'img') {
-            return `<${child.tag} src=""${formatStyles(child.style)} />`;
+            return `<${child.tag} src="" ${elementTagDetails(child)}/>`;
           } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${child.tag}>`;
+            return `<${child.tag} href=""${elementTagDetails(child)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'div') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}${writeNestedElements(child.children)}
-            </${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
           } else if (child.tag === 'h1') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'h2') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
           } else if (child.tag === 'form') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>
-              ${innerText}
-                ${writeNestedElements(child.children)}
-              </${child.tag}>`;
-          } 
-            // Caret Start
-            else if (child.tag === 'input') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}></${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
+          } else if (child.tag === 'input') {
+            return `<${child.tag}${elementTagDetails(child)}></${child.tag}>`;
           } else if (child.tag === 'label') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
-          } 
-            // Caret End
-            else if (child.tag === 'p') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
+          } else if (child.tag === 'p') {
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
+          } else if (child.tag === 'ol') {
+            return `<${child.tag} ${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
+          } else if (child.tag === 'ul') {
+            return `<${child.tag} ${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
           } else if (child.tag === 'li') {
-            return `<ul${formatStyles(child.style)}><li>item 1</li>
-            <li>item 2</li>
-            <li>item 3</li></ul>`;
+            return `<${child.tag} ${elementTagDetails(child)}></${child.tag}>`;
           } else if (child.tag === 'button') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
           } else if (child.tag !== 'separator') {
-            return `<${child.tag} className=${classRender} id=${childId} style=${childStyle} ${formatStyles(child.style)}>${innerText}</${child.tag}>`;
+            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
           }
         }
         // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
@@ -133,16 +148,6 @@ const generateUnformattedCode = (
       .join('\n')}`;
   };
 
-  // format styles stored in object to match React inline style format
-  const formatStyles = (styleObj: any) => {
-    if (Object.keys(styleObj).length === 0) return ``;
-    const formattedStyles = [];
-    for (let i in styleObj) {
-      const styleString = i + ': ' + "'" + styleObj[i] + "'";
-      formattedStyles.push(styleString);
-    }
-    return ' style={{' + formattedStyles.join(',') + '}}';
-  };
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 

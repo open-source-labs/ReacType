@@ -49,21 +49,6 @@ const HTMLTypes: HTMLType[] = [
     icon: FormIcon
   },
   {
-    id: 3,
-    tag: 'li',
-    name: 'List',
-    style: { color: 'purple' },
-    placeHolderShort: (
-      <ul>
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-      </ul>
-    ),
-    placeHolderLong: '',
-    icon: ListIcon
-  },
-  {
     id: 4,
     tag: 'button',
     name: 'Button',
@@ -135,6 +120,37 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: <label>Label</label>,
     placeHolderLong: '',
     icon: HeaderIcon
+  },
+  {
+    id: 3,
+    tag: 'li',
+    name: 'List',
+    style: { color: 'purple' },
+    placeHolderShort: (
+      <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+      </ul>
+    ),
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 14,
+    tag: 'ol',
+    name: 'Ordered List',
+    placeHolderShort: 'ol',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 15,
+    tag: 'ul',
+    name: 'Unordered List',
+    placeHolderShort: 'ul',
+    placeHolderLong: '',
+    icon: ListIcon
   }
 ];
 

@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import StateContext from '../../context/context';
 import AceEditor from 'react-ace';
+import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-github';
@@ -38,7 +39,7 @@ const CodePreview: React.FC<{
     <div
     ref={wrapper}
       style={{
-        height: '100%',
+        height: '40vh',
         maxWidth: '100%',
         justifyContent: 'center',
       }}
