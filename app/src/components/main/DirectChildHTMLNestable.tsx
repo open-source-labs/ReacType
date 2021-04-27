@@ -8,6 +8,7 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 // Caret
 import Annotation from './Annotation'
+import validateNewParent from '../../helperFunctions/changePositionValidation'
 
 function DirectChildHTMLNestable({
   childId,
