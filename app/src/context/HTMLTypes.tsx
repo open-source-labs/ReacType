@@ -49,15 +49,6 @@ const HTMLTypes: HTMLType[] = [
     icon: FormIcon
   },
   {
-    id: 3,
-    tag: 'li',
-    name: 'List',
-    style: {},
-    placeHolderShort: 'list item',
-    placeHolderLong: '',
-    icon: ListIcon
-  },
-  {
     id: 4,
     tag: 'button',
     name: 'Button',
@@ -128,6 +119,42 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'label',
     placeHolderLong: '',
     icon: HeaderIcon
+  },
+  {
+    id: 14,
+    tag: 'ol',
+    name: 'Ordered List',
+    style: {},
+    placeHolderShort: 'ordered list',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 15,
+    tag: 'ul',
+    name: 'Unordered List',
+    style: {},
+    placeHolderShort: 'unordered list',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 16,
+    tag: 'menu',
+    name: 'Menu',
+    style: {},
+    placeHolderShort: 'menu',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 3,
+    tag: 'li',
+    name: 'List',
+    style: {},
+    placeHolderShort: 'list item',
+    placeHolderLong: '',
+    icon: ListIcon
   }
 ];
 

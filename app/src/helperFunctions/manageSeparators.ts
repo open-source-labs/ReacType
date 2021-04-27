@@ -49,7 +49,8 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
 // this function replaces separators onto which an element is dropped with the element itself
 manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
-    if ((child.name === 'div' || child.name === 'form') && child.children.length) {
+    // Caret Added additional nested types for lists
+    if ((child.name === 'div' || child.name === 'form' || child.name === 'ol' || child.name === 'ul') && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);
       return { ...child, children: divContents }
     }

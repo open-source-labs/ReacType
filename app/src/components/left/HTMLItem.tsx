@@ -122,11 +122,11 @@ const HTMLItem : React.FC<{
   // Caret updated the id's to reflect the new element types input and label
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
-      { id <= 13 &&
+      { id <= 16 &&
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         </div>}
-      {id > 13 &&
+      {id > 16 &&
       <span id="customHTMLElement">
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
