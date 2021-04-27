@@ -23,6 +23,8 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  // Caret
+  annotations?: string;
 }
 export interface Component {
   id: number;
@@ -36,7 +38,10 @@ export interface Component {
   past: any[];
   future: any[];
   stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+  // Caret
+  annotations?: string;
   useStateCodes: string[];
+
 }
 
 export interface StateProp {
@@ -86,3 +91,10 @@ export interface DragItemType {
 export interface LoginInt {
   isLoggedIn: boolean;
 }
+
+// Caret start
+export interface Annotations {
+  id: number;
+  name: string;
+}
+// Caret end

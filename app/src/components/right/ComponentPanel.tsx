@@ -109,7 +109,8 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   };
 
   const keyBindCreateComponent = useCallback((e) => {
-    if(e.key === 'Enter') {
+    // Caret
+    if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
     }

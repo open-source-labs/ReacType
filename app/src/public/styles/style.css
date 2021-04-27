@@ -4,6 +4,7 @@
   box-sizing: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
 html {
@@ -412,20 +413,65 @@ ANNOTATIONS
 .annotate-button-empty {
   float: right;
   background-color: #3ec1ac;
+  border-radius: 15px;
+  font-size: 14px;
 }
 
 .annotate-button-filled {
   float: right;
+  border-radius: 15px;
+  font-size: 13px;
+}
+
+.annotate-position {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items:flex-start;
+  top: 30%;
+  left: 30%;
+
 }
 
 .annotate-textarea {
-  width: 400px;
-  height: 250px;
-  display: block;
-  position: relative;
-  margin-left: 35%;
-  margin-right: auto;
-  white-space: pre-wrap;
+  width: 600px;
+  height: 300px;
+  resize: none;
+  white-space: pre-line;
+  font-size: 18px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 0px 0px 15px 15px;
+}
+
+.annotate-textarea-header {
+  font-size: 35px;
+  background-color: #4772c7;
+  color: rgb(241, 240, 240);
+  width: 600px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.annotate-textarea-footer {
+  background-color: #4772c7;
+  color: rgb(107, 93, 93);
+  width: 600px;
+  border: 2px;
+  border-style: solid;
+  border-color: black;
+}
+
+.annotate-textarea-savebutton {
+  float: right;
+  width: 150px;
+  height: 30px;
+  font-size: 20px;
+  margin: 2.5px 2.5px;
 }
 /* Caret End
 

@@ -341,7 +341,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       ? handleRedo()
       : // Delete HTML tag off canvas
       // Caret
-      e.key === 'Backspace' && e.ctrlKey
+      e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
       ? handleDelete()
       : // Save
       (e.key === 's' && e.ctrlKey && e.shiftKey) ||
