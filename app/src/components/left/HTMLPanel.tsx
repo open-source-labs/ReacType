@@ -142,7 +142,7 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    if(e.key === 'Enter') {
+    if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
       document.getElementById('submitButton').click();
     }
