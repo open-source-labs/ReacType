@@ -5,13 +5,13 @@ import React, {
   useContext,
   useEffect,
   useCallback,
-  useDebugValue,
+  useDebugValue
 } from 'react';
 import {
   createStyles,
   makeStyles,
   styled,
-  Theme,
+  Theme
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import {
@@ -25,14 +25,14 @@ import {
   Input,
   InputLabel,
   Select,
-  TextField,
+  TextField
 } from '@material-ui/core';
 
 import StateContext from '../../context/context';
 import ComponentPanelItem from './ComponentPanelItem';
 import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 
-
+import TableStateProps from './TableStateProps';
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -42,8 +42,12 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const debug = () => {
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
-    console.log('currentComponent.useStateCodes:', currentComponent.useStateCodes);
-    console.log('currentComponent:', currentComponent)
+    console.log('currentComponent:', currentComponent);
+    console.log('currentComponent.stateProps:', currentComponent.stateProps);
+    console.log(
+      'currentComponent.useStateCodes:',
+      currentComponent.useStateCodes
+    );
     // console.log('state:', state);
     // console.log('state.canvasFocus:', state.canvasFocus);
     // console.log(
@@ -54,21 +58,21 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     // console.log('value', document.getElementById('textfield-value').value);
     // console.log(document.getElementById('type-input').innerHTML);
     // console.log('newStateProp:', newStateProp);
-    
   };
 
   const typeConversion = (value, type) => {
     // based on user input for value, convert value to correct type
-    switch(type){
+    switch (type) {
       case 'String':
-        return String(value)
+        return String(value);
       case 'Number':
-        return Number(value)
+        return Number(value);
       case 'Boolean':
-        return Boolean(value)
-      default: return value;
+        return Boolean(value);
+      default:
+        return value;
     }
-  }
+  };
 
   const submitNewState = () => {
     // currently focused component's id
@@ -88,7 +92,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     newStateProp.key = key;
     newStateProp.type = type.charAt(0).toLowerCase() + type.slice(1);
     newStateProp.value = typeConversion(value, type);
-    
+
     // update newStateProp after storing key, value, type
     setNewStateProp(newStateProp);
     // store this newStateProp obj to our Component's stateProps array
@@ -108,8 +112,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     currentComponent.stateProps.forEach(el => {
       const useStateCode = `const [${el.key}, set${el.key
         .charAt(0)
-        .toUpperCase() + el.key.slice(1)}] = useState<${el.type} | undefined>(${JSON.stringify(el.value)})`;
-        localStateCode.push(useStateCode);
+        .toUpperCase() + el.key.slice(1)}] = useState<${
+        el.type
+      } | undefined>(${JSON.stringify(el.value)})`;
+      localStateCode.push(useStateCode);
     });
     currentComponent.useStateCodes = localStateCode;
   };
@@ -175,119 +181,125 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <label>
           Name: {state.components[state.canvasFocus.componentId - 1].name}
         </label>
+        {/* CARET - HANGING TABLE STATE PROPS */}
+        <div style={{ border: `${3}px solid green` }}>
+          <TableStateProps />
+        </div>
       </div>
     </div>
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  inputField: {
-    marginTop: '10px',
-    borderRadius: '5px',
-    whiteSpace: 'nowrap',
-    overflowX: 'hidden',
-    textOverflow: 'ellipsis',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '140px',
-    height: '30px',
-    borderColor: 'white',
-  },
-  inputWrapper: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '15px',
-  },
-  addComponentWrapper: {
-    padding: 'auto',
-    marginLeft: '21px',
-    display: 'inline-block',
-    width: '100%',
-  },
-  rootCheckBox: {
-    borderColor: '#186BB4',
-    padding: '0px',
-  },
-  rootCheckBoxLabel: {
-    borderColor: '#186BB4',
-  },
-  panelWrapper: {
-    width: '100%',
-    marginTop: '15px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  panelWrapperList: {
-    minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  dragComponents: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '500px',
-    backgroundColor: '#186BB4',
-    border: '5px solid #186BB4',
-  },
-  panelSubheader: {
-    textAlign: 'center',
-    color: '#fff',
-  },
-  input: {},
-  newComponent: {
-    color: '#155084',
-    fontSize: '95%',
-    marginBottom: '20px',
-  },
-  inputLabel: {
-    fontSize: '1em',
-    marginLeft: '10px',
-  },
-  btnGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  addComponentButton: {
-    backgroundColor: 'transparent',
-    height: '40px',
-    width: '100px',
-    fontFamily: '"Raleway", sans-serif',
-    fontSize: '90%',
-    textAlign: 'center',
-    margin: '-20px 0px 5px 150px',
-    borderStyle: 'none',
-    transition: '0.3s',
-    borderRadius: '25px',
-  },
-  rootToggle: {
-    color: '#696969',
-    fontSize: '0.85rem',
-  },
-  lightThemeFontColor: {
-    color: '#186BB4',
-  },
-  darkThemeFontColor: {
-    color: '#fff',
-  },
-  // CARET
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    inputField: {
+      marginTop: '10px',
+      borderRadius: '5px',
+      whiteSpace: 'nowrap',
+      overflowX: 'hidden',
+      textOverflow: 'ellipsis',
+      backgroundColor: 'rgba(255,255,255,0.15)',
+      margin: '0px 0px 0px 10px',
+      width: '140px',
+      height: '30px',
+      borderColor: 'white'
+    },
+    inputWrapper: {
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: '15px'
+    },
+    addComponentWrapper: {
+      padding: 'auto',
+      marginLeft: '21px',
+      display: 'inline-block',
+      width: '100%'
+    },
+    rootCheckBox: {
+      borderColor: '#186BB4',
+      padding: '0px'
+    },
+    rootCheckBoxLabel: {
+      borderColor: '#186BB4'
+    },
+    panelWrapper: {
+      width: '100%',
+      marginTop: '15px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    panelWrapperList: {
+      minHeight: '120px',
+      marginLeft: '-15px',
+      marginRight: '-15px',
+      width: '300px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    dragComponents: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      width: '500px',
+      backgroundColor: '#186BB4',
+      border: '5px solid #186BB4'
+    },
+    panelSubheader: {
+      textAlign: 'center',
+      color: '#fff'
+    },
+    input: {},
+    newComponent: {
+      color: '#155084',
+      fontSize: '95%',
+      marginBottom: '20px'
+    },
+    inputLabel: {
+      fontSize: '1em',
+      marginLeft: '10px'
+    },
+    btnGroup: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    addComponentButton: {
+      backgroundColor: 'transparent',
+      height: '40px',
+      width: '100px',
+      fontFamily: '"Raleway", sans-serif',
+      fontSize: '90%',
+      textAlign: 'center',
+      margin: '-20px 0px 5px 150px',
+      borderStyle: 'none',
+      transition: '0.3s',
+      borderRadius: '25px'
+    },
+    rootToggle: {
+      color: '#696969',
+      fontSize: '0.85rem'
+    },
+    lightThemeFontColor: {
+      color: '#186BB4'
+    },
+    darkThemeFontColor: {
+      color: '#fff'
+    },
+    // CARET
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2)
+    }
+  })
+);
 
 const MyButton = styled(Button)({
   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -297,7 +309,7 @@ const MyButton = styled(Button)({
   color: 'white',
   height: 24,
   width: 40,
-  padding: '0 30px',
+  padding: '0 30px'
 });
 
 export default StatePropsPanel;
