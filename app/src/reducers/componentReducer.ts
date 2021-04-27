@@ -220,7 +220,8 @@ const reducer = (state: State, action: Action) => {
         isPage: action.payload.root,
         past: [],
         future: [],
-        stateProps: []
+        stateProps: [],
+        useStateCodes: [],
       };
       components.push(newComponent);
 

@@ -545,3 +545,14 @@ a.nav_link:hover {
 .MuiTypography-body1 {
   background-color: oldlace;
 }
+
+
+
+/* Caret */
+
+.text-editor .btn{
+  position: absolute;
+  bottom: 90px;
+  right: 30px ;
+  z-index: 999;
+}

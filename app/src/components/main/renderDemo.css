@@ -6,3 +6,191 @@
   width: 100px;
   background-color: #cc0707;
 }
+
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message-a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+.container-body {
+  height: 100vh;
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+
+
+.list-example .body-container {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+}
+
+.list-example ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.list-example li {
+    font-size: 25px;
+    width: 8em;
+    height: 2em;
+    color: orange;
+    border-left: 0.08em solid;
+    position: relative;
+    margin-top: 0.8em;
+    cursor: pointer;
+}
+
+.list-example li::before,
+.list-example li::after
+ {
+    content: '';
+    position: absolute;
+    width: inherit;
+    border-left: inherit;
+    z-index: -1;
+}
+
+.list-example li::before {
+    height: 80%;
+    top: 10%;
+    left: calc(-0.15em - 0.08em * 2);
+    filter: brightness(0.8);
+}
+
+.list-example li::after {
+    height: 60%;
+    top: 20%;
+    left: calc(-0.15em * 2 - 0.08em * 3);
+    filter: brightness(0.6);
+}
+
+.list-example li span {
+    position: relative;
+    height: 120%;
+    top: -10%;
+    box-sizing: border-box;
+    border: 0.08em solid;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    text-transform: capitalize;
+    transform: translateX(calc(-0.15em * 3 - 0.08em * 2));
+    transition: 0.3s;
+}
+
+.list-example li:hover span {
+    transform: translateX(0.15em);
+}
+
+
+/*
+
+
+List Example
+<ul>
+  <li><span>home</span></li>
+  <li><span>products</span></li>
+  <li><span>services</span></li>
+  <li><span>contact</span></li>
+</ul>
+
+
+*/

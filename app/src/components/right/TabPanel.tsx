@@ -1,4 +1,7 @@
-import React, { ReactNode, useState } from 'react';
+
+import React, { ReactNode, useState, useContext } from 'react';
+
+import { useTheme } from '@material-ui/core/styles';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -6,7 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
+import { styleContext } from '../../containers/AppContainer';
 import StatePropsPanel from './StatePropsPanel';
 import ComponentPanel from './ComponentPanel';
 
@@ -17,6 +20,7 @@ interface TabPanelProps {
 }
 
 const TabPanelItem = (props: TabPanelProps) => {
+  const theme = useTheme();
   const { children, index, value, ...other } = props;
   return (
     <div

@@ -16,7 +16,8 @@ const initialState: State = {
       past: [],
       future: [],
       // CARET
-      stateProps: []
+      stateProps: [],
+      useStateCodes: [], // array of strings for each useState codes
       // END CARET
     }
   ],

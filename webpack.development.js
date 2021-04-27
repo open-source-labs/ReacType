@@ -26,6 +26,14 @@ module.exports = merge(base, {
     watchOptions: {
       ignored: /node_modules/ // Ignore this path, probably not needed since we define contentBase above
     },
+    proxy: {
+      '/demoRender': {
+        target: 'http://localhost:5000/'
+      },
+      '/user-styles': {
+        target: 'http://localhost:5000/'
+      },
+    },
     // https: true
   },
   plugins: [
@@ -67,5 +75,5 @@ module.exports = merge(base, {
     //     // do not allow worker scripts
     //     'worker-src': ["'none'"]
     //   })
-  ]
+  ],
 });

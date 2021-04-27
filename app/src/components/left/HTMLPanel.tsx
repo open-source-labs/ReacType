@@ -142,7 +142,6 @@ const HTMLPanel = (props): JSX.Element => {
   };
 
   const handleCreateElement = useCallback((e) => {
-    // Canret
     if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
       document.getElementById('submitButton').click();

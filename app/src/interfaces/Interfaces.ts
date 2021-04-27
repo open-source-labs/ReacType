@@ -40,6 +40,8 @@ export interface Component {
   stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
   // Caret
   annotations?: string;
+  useStateCodes: string[];
+
 }
 
 export interface StateProp {
