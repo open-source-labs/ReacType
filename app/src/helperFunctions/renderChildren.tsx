@@ -18,39 +18,39 @@ const renderChildren = (children: ChildElement[]) => {
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
+    // Caret Start Removed style from prop drills so that styling isn't applied to canvas items
     if (type === 'Component') {
       return (
         <DirectChildComponent
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           key={'DirChildComp' + childId.toString() + name}
           name={child.name}
         />
       );
     }
+    // Caret ommitted orderedlists, unorderedlists, and menus, ommitted li items as non-nestable types because they can be nested within.
     // child is a non-nestable type of HTML element (everything except for divs and forms)
-    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2) {
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16) {
       return (
         <DirectChildHTML
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           key={'DirChildHTML' + childId.toString() + name}
           name={child.name}
         />
       );
     }
+    // Caret Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
     // child is a nestable type of HTML element (divs and forms)
-    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2)) {
+    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16)) {
       return (        <div>
         <DirectChildHTMLNestable
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
@@ -64,7 +64,6 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
@@ -79,7 +78,6 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
           key={'RouteLink' + childId.toString() + name}
           name={child.name}
@@ -88,5 +86,5 @@ const renderChildren = (children: ChildElement[]) => {
     }
   });
 };
-
+// Caret End of removed style from prop drilling
 export default renderChildren;

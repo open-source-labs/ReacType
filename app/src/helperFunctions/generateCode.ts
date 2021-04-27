@@ -55,7 +55,13 @@ const generateUnformattedCode = (
         if (
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' || 
-          referencedHTML.tag === 'form'
+          // Caret Start
+          referencedHTML.tag === 'form' ||
+          referencedHTML.tag === 'ul' ||
+          referencedHTML.tag === 'ol' ||
+          referencedHTML.tag === 'menu' ||
+          referencedHTML.tag === 'li'
+          // Caret End
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -92,45 +98,51 @@ const generateUnformattedCode = (
     return customizationDetails;
   };
 
+  // function to dynamically generate a complete html (& also other library type) elements
+  const elementGenerator = (childElement: object, level: number = 2) => {
+    let innerText = '';
+    if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
+
+    const tabSpacer = level => {
+      let tabs = ''
+      for (let i = 0; i < level; i++) tabs += '  ';
+      return tabs;
+    }
+
+    const nestable = childElement.tag === 'div' || 
+    childElement.tag === 'form' || 
+    childElement.tag === 'ol' || 
+    childElement.tag === 'ul' ||
+    childElement.tag === 'menu' ||
+    childElement.tag === 'li';
+
+    if (childElement.tag === 'img') {
+      return `<${childElement.tag} src="" ${elementTagDetails(childElement)}/>`;
+    } else if (childElement.tag === 'a') {
+      return `<${childElement.tag} href=""${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>`;
+    } else if (childElement.tag === 'input') {
+      return `<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>`;
+    } else if (nestable && level === 2) {
+      return `\n${tabSpacer(5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+        ${tabSpacer(level - 1)}</${childElement.tag}>`;
+    } else if (nestable && level > 2) {
+      return `<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+        ${tabSpacer(level - 1)}</${childElement.tag}>`;
+    } else if (childElement.tag !== 'separator'){
+      return `<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>`;
+    }    
+  }
+
   // write all code that will be under the "return" of the component
-  const writeNestedElements = (enrichedChildren: any) => {
+  const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
       .map((child: any) => {
-        console.log("What is in this child", child);
-        let innerText = '';
-        if (child.attributes && child.attributes.compText) innerText = child.attributes.compText;
         if (child.type === 'Component') {
           return `<${child.name} ${elementTagDetails(child)} />`;
         } else if (child.type === 'HTML Element') {
-          if (child.tag === 'img') {
-            return `<${child.tag} src="" ${elementTagDetails(child)}/>`;
-          } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag === 'div') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'h1') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag === 'h2') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag === 'form') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'input') {
-            return `<${child.tag}${elementTagDetails(child)}></${child.tag}>`;
-          } else if (child.tag === 'label') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag === 'p') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag === 'ol') {
-            return `<${child.tag} ${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'ul') {
-            return `<${child.tag} ${elementTagDetails(child)}>${innerText}\n${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'li') {
-            return `<${child.tag} ${elementTagDetails(child)}></${child.tag}>`;
-          } else if (child.tag === 'button') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          } else if (child.tag !== 'separator') {
-            return `<${child.tag}${elementTagDetails(child)}>${innerText}</${child.tag}>`;
-          }
+          return elementGenerator(child, level);
         }
         // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
         else if (child.type === 'Route Link') {
@@ -145,9 +157,9 @@ const generateUnformattedCode = (
         }
       })
       .filter(element => !!element)
-      .join('\n')}`;
+      .join('')}`;
   };
-
+    // Caret End
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 
@@ -180,11 +192,11 @@ const generateUnformattedCode = (
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
-      ${
-        classBased
-          ? `class ${currentComponent.name} extends Component {`
-          : `const ${currentComponent.name} = (props): JSX.Element => {`
-      }
+    ${
+      classBased
+        ? `class ${currentComponent.name} extends Component {`
+        : `const ${currentComponent.name} = (props): JSX.Element => {`
+    }
       ${
         stateful && !classBased
           ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
@@ -195,7 +207,7 @@ const generateUnformattedCode = (
           ? `constructor(props) {
         super(props);
         this.state = {}
-       }`
+        }`
           : ``
       }
 
@@ -203,12 +215,12 @@ const generateUnformattedCode = (
 
       return (
         <div className="${currentComponent.name}" style={props.style}>
-        ${writeNestedElements(enrichedChildren)}
+          ${writeNestedElements(enrichedChildren)}
         </div>
         );
       }
-      ${classBased ? `}` : ``}
-      export default ${currentComponent.name};
+    ${classBased ? `}` : ``}
+    export default ${currentComponent.name};
     `;
   }
   // next.js component code
@@ -219,27 +231,27 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-      const ${currentComponent.name} = (props): JSX.Element => {
+    const ${currentComponent.name} = (props): JSX.Element => {
 
-        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+      const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
-        <>
-        ${
-          isRoot
-            ? `<Head>
-        <title>${currentComponent.name}</title>
-        </Head>`
-            : ``
-        }
-        <div className="${currentComponent.name}" style={props.style}>
-        ${writeNestedElements(enrichedChildren)}
-        </div>
-        </>
-        );
+      <>
+      ${
+        isRoot
+          ? `<Head>
+      <title>${currentComponent.name}</title>
+      </Head>`
+          : ``
       }
+      <div className="${currentComponent.name}" style={props.style}>
+      ${writeNestedElements(enrichedChildren)}
+      </div>
+      </>
+      );
+    }
 
-      export default ${currentComponent.name};
+    export default ${currentComponent.name};
     `;
   } else {
     // gatsby component code

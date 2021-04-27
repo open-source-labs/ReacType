@@ -34,7 +34,7 @@ const CodePreview: React.FC<{
   useEffect(() => {
     setDivHeight(height);
   }, [height])
-
+  console.log(currentComponent.code);
   return (
     <div
     ref={wrapper}
