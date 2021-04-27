@@ -413,10 +413,14 @@ ANNOTATIONS
 .annotate-button-empty {
   float: right;
   background-color: #3ec1ac;
+  border-radius: 15px;
+  font-size: 14px;
 }
 
 .annotate-button-filled {
   float: right;
+  border-radius: 15px;
+  font-size: 13px;
 }
 
 .annotate-position {
@@ -426,6 +430,7 @@ ANNOTATIONS
   align-items:flex-start;
   top: 30%;
   left: 30%;
+
 }
 
 .annotate-textarea {
@@ -434,6 +439,10 @@ ANNOTATIONS
   resize: none;
   white-space: pre-line;
   font-size: 18px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 0px 0px 15px 15px;
 }
 
 .annotate-textarea-header {
@@ -441,13 +450,20 @@ ANNOTATIONS
   background-color: #4772c7;
   color: rgb(241, 240, 240);
   width: 600px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
   font-family: 'Open Sans', sans-serif;
+  border-radius: 15px 15px 0px 0px;
 }
 
 .annotate-textarea-footer {
   background-color: #4772c7;
   color: rgb(107, 93, 93);
   width: 600px;
+  border: 2px;
+  border-style: solid;
+  border-color: black;
 }
 
 .annotate-textarea-savebutton {

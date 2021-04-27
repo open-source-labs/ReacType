@@ -62,13 +62,15 @@ function Annotation({
     }
   }
 
+  /*
+  <span className='annotate-textarea-footer'>
+        <button className='annotate-textarea-savebutton'>Save Notes</button>
+  </span>
+  */
   const body = (
     <div className='annotate-position'>
       <span className='annotate-textarea-header'>Notes for: {name} ( {id} )</span>
       <textarea className='annotate-textarea' id={id.toString()} onChange={handleAnnoChange}></textarea>
-      <span className='annotate-textarea-footer'>
-        <button className='annotate-textarea-savebutton'>Save Notes</button>
-      </span>
     </div>
   )
 
