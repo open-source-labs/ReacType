@@ -1,22 +1,15 @@
-<<<<<<< HEAD
+
 import React, { ReactNode, useState, useContext } from 'react';
 
 import { useTheme } from '@material-ui/core/styles';
-=======
-import React, { ReactNode, useState } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
->>>>>>> 7bbdd47fbd43f0c8ab841bf8583ed10c22aa89f7
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-<<<<<<< HEAD
 import { styleContext } from '../../containers/AppContainer';
-=======
-
->>>>>>> 7bbdd47fbd43f0c8ab841bf8583ed10c22aa89f7
 import StatePropsPanel from './StatePropsPanel';
 import ComponentPanel from './ComponentPanel';
 
@@ -27,10 +20,7 @@ interface TabPanelProps {
 }
 
 const TabPanelItem = (props: TabPanelProps) => {
-<<<<<<< HEAD
   const theme = useTheme();
-=======
->>>>>>> 7bbdd47fbd43f0c8ab841bf8583ed10c22aa89f7
   const { children, index, value, ...other } = props;
   return (
     <div
@@ -73,17 +63,6 @@ const LinkTab = (props: LinkTabProps) => {
   );
 };
 
-<<<<<<< HEAD
-// const useStyles = makeStyles((theme: Theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   }
-// }));
-
-const TabPanel = () => {
-  const theme = useTheme();
-  // const classes = useStyles();
-=======
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
@@ -93,22 +72,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const TabPanel = () => {
   const classes = useStyles();
->>>>>>> 7bbdd47fbd43f0c8ab841bf8583ed10c22aa89f7
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
-<<<<<<< HEAD
-  console.log("Theme: ", theme);
-
-  return (
-    <div>
-=======
   return (
     <div className={classes.root}>
->>>>>>> 7bbdd47fbd43f0c8ab841bf8583ed10c22aa89f7
       <AppBar position="static">
         <Tabs
           variant="fullWidth"
