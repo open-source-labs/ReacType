@@ -19,6 +19,10 @@ const isTest = process.env.NODE_ENV === 'test';
 app.use(express.json());
 app.use(cookieParser());
 
+
+// Routes
+const stylesRouter = require('./routers/stylesRouter');
+
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
@@ -71,8 +75,15 @@ const resolvers = {
   Mutation,
 };
 
+app.use('/demoRender', express.static(path.join(__dirname, '../app/src/components/main/renderDemo.css')));
+
+
+// Re-direct to route handlers:
+app.use('/user-styles', stylesRouter);
+
 // schemas used for graphQL
 const typeDefs = require('./graphQL/schema/typeDefs.js');
+// const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 const server = new ApolloServer({ typeDefs, resolvers });

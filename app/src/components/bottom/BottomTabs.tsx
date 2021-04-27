@@ -4,6 +4,7 @@ import StateContext from '../../context/context';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
+import StylesEditor from './StylesEditor';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
@@ -39,6 +40,8 @@ const BottomTabs = () => {
     setTheme(e.target.value);
   };
 
+  console.log("Editor Theme: ", theme);
+
   return (
     <div className={classes.root} style={style}>
       <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
@@ -60,6 +63,11 @@ const BottomTabs = () => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Component Tree"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="CSS Editor"
+          />
         </Tabs>
         <div className={classes.projectTypeWrapper}> 
          <FormControl size='small'>
@@ -80,6 +88,7 @@ const BottomTabs = () => {
       </Box>
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 1 && <Tree data={components} />}
+      {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
     </div>
   );
 };
