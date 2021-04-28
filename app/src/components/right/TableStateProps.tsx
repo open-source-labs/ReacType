@@ -7,6 +7,7 @@ import {
 } from '@material-ui/data-grid';
 
 import StateContext from '../../context/context';
+import { PinDropSharp } from '@material-ui/icons';
 
 const columns: GridColumns = [
   {
@@ -53,8 +54,8 @@ const buildRows = () => {
   }
   return rows;
 };
-
-export default function DataTable() {
+ 
+const TableStateProps = (props) => {
   const [editRowsModel, setEditRowsModel] = useState < GridEditRowsModel > ({});
 
   const rows = buildRows();
@@ -66,7 +67,9 @@ export default function DataTable() {
         columns={columns}
         pageSize={5}
         editRowsModel={editRowsModel}
+        onRowClick={props.selectHandler}
       />
     </div>
   );
 }
+export default TableStateProps;
