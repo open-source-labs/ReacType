@@ -99,22 +99,22 @@ const generateUnformattedCode = (
   };
 
   // function to dynamically generate a complete html (& also other library type) elements
+  const tabSpacer = (level: number) => {
+    let tabs = ''
+    for (let i = 0; i < level; i++) tabs += '  ';
+    return tabs;
+  }
+
+  const levelSpacer = (level: number, spaces: number) => {
+    if (level === 2 ) return `\n${tabSpacer(spaces)}`;
+    else return ''
+  }
+
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
     let activeLink = '';
     if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
     if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
-
-    const tabSpacer = (level: number) => {
-      let tabs = ''
-      for (let i = 0; i < level; i++) tabs += '  ';
-      return tabs;
-    }
-
-    const levelSpacer = (level: number, spaces: number) => {
-      if (level === 2 ) return `\n${tabSpacer(spaces)}`;
-      else return ''
-    }
 
     const nestable = childElement.tag === 'div' || 
     childElement.tag === 'form' || 
@@ -162,7 +162,16 @@ const generateUnformattedCode = (
       .filter(element => !!element)
       .join('')}`;
   };
-    // Caret End
+    
+  const writeStateProps = (stateArray: any) => {
+    let stateToRender = '';
+    for (const element of stateArray) {
+      stateToRender += levelSpacer(2, 3) + element + ';'
+    }
+    return stateToRender
+  }
+
+  // Caret End
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 
@@ -202,7 +211,8 @@ const generateUnformattedCode = (
     }
       ${
         stateful && !classBased
-          ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
+          ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currentComponent.useStateCodes)};
+          `
           : ``
       }
       ${
@@ -213,9 +223,8 @@ const generateUnformattedCode = (
         }`
           : ``
       }
-
       ${classBased ? `render(): JSX.Element {` : ``}
-
+      
       return (
         <div className="${currentComponent.name}" style={props.style}>
           ${writeNestedElements(enrichedChildren)}
