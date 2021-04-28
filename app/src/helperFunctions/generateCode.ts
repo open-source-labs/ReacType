@@ -101,7 +101,9 @@ const generateUnformattedCode = (
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
+    let activeLink = '';
     if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
+    if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
 
     const tabSpacer = (level: number) => {
       let tabs = ''
@@ -122,9 +124,9 @@ const generateUnformattedCode = (
     childElement.tag === 'li';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src="" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} href=""${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {

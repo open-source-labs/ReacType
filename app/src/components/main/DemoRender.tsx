@@ -27,11 +27,14 @@ const DemoRender = (props): JSX.Element => {
         const elementStyle = element.style;
         const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
+        const activeLink = element.attributes.compLink;
         let renderedChildren;
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
+        if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
+        else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
+        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}</Box>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
