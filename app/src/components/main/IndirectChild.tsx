@@ -5,7 +5,7 @@ import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
 import Annotation from './Annotation'
 
-function IndirectChild({ style, children, placeHolder, linkId, childId, name }) {
+function IndirectChild({ style, children, placeHolder, linkId, childId, name, annotations }) {
   const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
 
@@ -39,6 +39,7 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name }) 
       <Annotation
         id={childId}
         name={name}
+        annotations={annotations}
       />
       {/* Caret end */}
     </div>
