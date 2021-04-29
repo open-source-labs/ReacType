@@ -100,9 +100,10 @@ const getColumns = (props) => {
 
 // This function iterates thru current component's state props array to build rows to display in grid below
 const buildRows = (props) => {
+  const [state, dispatch] = useContext(StateContext);
   // const [state] = useContext(StateContext);
-  const currentId = props.state.canvasFocus.componentId;
-  const currentComponent = props.state.components[currentId - 1];
+  const currentId = state.canvasFocus.componentId;
+  const currentComponent = state.components[currentId - 1];
   const rows = [];
   
 

@@ -120,7 +120,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     
     currentComponent.stateProps.forEach((element) => {
       console.log('element.id:', element.id);
-      if (element.id == data.rows.id) exists = true;
+      if (element.id === data.rows.id) exists = true;
     });
 
     // if (exists) {
@@ -134,14 +134,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
 
     // }
 
-
     // setInputKey(data.row.key);
-    // setInputType(data.row.type);
+    setInputType(data.row.type);
     // setInputValue(data.row.value);
     // forceUpdate();
-
-    console.log('exists:', exists);
-    console.log('data.row:', data.row);
   }
 
   const handlerDeleteState = (id) => {
@@ -153,9 +149,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     currentComponent.stateProps = currentComponent.stateProps.filter(element => (element.id != id));
 
     updateUseStateCodes();
-    setInputKey("");
-    setInputValue("");
-    setInputType("");
+    setInputKey('');
+    setInputValue('');
+    setInputType('');
 
   }
 
@@ -236,7 +232,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         </label>
         {/* CARET - HANGING TABLE STATE PROPS */}
         <div style={{ border: `${3}px solid green` }}>
-          <TableStateProps state={state} selectHandler={handlerTableSelect} deleteHandler={handlerDeleteState} />
+          <TableStateProps selectHandler={handlerTableSelect} deleteHandler={handlerDeleteState} />
         </div>
       </div>
     </div>
