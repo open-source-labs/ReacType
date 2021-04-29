@@ -31,7 +31,7 @@ const TabPanelItem = (props: TabPanelProps) => {
       {...other}
     >
       {value === index && (
-        <Box p={0}>
+        <Box component='div'>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -54,7 +54,7 @@ interface LinkTabProps {
 const LinkTab = (props: LinkTabProps) => {
   return (
     <Tab
-      component="a"
+      component="div"
       onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         event.preventDefault();
       }}
