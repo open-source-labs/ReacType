@@ -41,6 +41,8 @@ const arrToComponent = arr => arr.map((proj, index) => <Project
                                         id = {proj.id}
                                         comments = {proj.comments}
                                       />);
+
+// Caret Start Pulled from materialUI to create a tab panel                                      
 const a11yProps = (index: any) => ({
   id: `vertical-tab-${index}`,
   'aria-controls': `vertical-tabpanel-${index}`,
@@ -93,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
   },
 }));
+// Caret End of prefab code to generate a tab panel
 
 const ProjectContainer = (): JSX.Element => {
   const classes = useStyles();
@@ -102,6 +105,7 @@ const ProjectContainer = (): JSX.Element => {
     setValue(newValue);
   };
 
+  // Start Caret of old code from project container
   const myVar = {};
   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
@@ -144,7 +148,7 @@ const ProjectContainer = (): JSX.Element => {
   const projects = data.getAllProjects;
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = projects.filter(proj => {
-    return proj.published
+    return proj.published;
   });
   const userProjects = projects.filter((proj) => {
     return proj.username === username;
@@ -161,6 +165,8 @@ const ProjectContainer = (): JSX.Element => {
   const userDisplay = arrToComponent(userProjects);
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = arrToComponent(sortedProjects);
+  // Caret End of old code from Project Container
+
   return (
     <div className={classes.root}>
       <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
