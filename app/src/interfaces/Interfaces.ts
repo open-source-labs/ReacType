@@ -96,5 +96,6 @@ export interface LoginInt {
 export interface Annotations {
   id: number;
   name: string;
+  annotations: string;
 }
 // Caret end

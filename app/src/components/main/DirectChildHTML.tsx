@@ -17,6 +17,7 @@ function DirectChildHTML({
   type,
   typeId,
   style,
+  annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -75,6 +76,7 @@ function DirectChildHTML({
       <Annotation
         id={childId}
         name={name}
+        annotations={annotations}
       />
       {/* Caret end */}
     </div>

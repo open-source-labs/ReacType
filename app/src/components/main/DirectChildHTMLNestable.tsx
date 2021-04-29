@@ -8,6 +8,7 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 // Caret
 import Annotation from './Annotation'
+import validateNewParent from '../../helperFunctions/changePositionValidation'
 
 function DirectChildHTMLNestable({
   childId,
@@ -16,6 +17,7 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
+  annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -137,6 +139,7 @@ const snapShotFunc = () => {
       <Annotation
         id={childId}
         name={name}
+        annotations={annotations}
       />
       {renderChildren(children)}
       {/* Caret end */}
