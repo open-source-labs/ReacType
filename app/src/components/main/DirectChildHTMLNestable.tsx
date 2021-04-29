@@ -17,6 +17,7 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
+  annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -137,6 +138,7 @@ const snapShotFunc = () => {
       <Annotation
         id={childId}
         name={name}
+        annotations={annotations}
       />
       {renderChildren(children)}
       {/* Caret end */}

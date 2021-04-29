@@ -54,6 +54,7 @@ interface LinkTabProps {
 const LinkTab = (props: LinkTabProps) => {
   return (
     <Tab
+      component="div"
       onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         event.preventDefault();
       }}

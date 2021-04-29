@@ -52,7 +52,6 @@ function Canvas() {
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null
-            
           }
         });
       }
