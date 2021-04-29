@@ -19,7 +19,11 @@
 
 .userDashboard {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.projectPanel {
+  width: 100%;
 }
 
  .projectContainer{

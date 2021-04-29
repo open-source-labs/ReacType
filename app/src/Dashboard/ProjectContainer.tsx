@@ -10,15 +10,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-// import {Tab, Tabs} from '@material-ui/core'
-
 import Box from '@material-ui/core/Box';
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project';
 import NavBarDash from './NavbarDash';
 
-
-import AppContainer from '../containers/AppContainer';
 import { theme1, theme2 } from '../public/styles/theme';
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
@@ -45,75 +41,6 @@ const arrToComponent = arr => arr.map((proj, index) => <Project
                                         id = {proj.id}
                                         comments = {proj.comments}
                                       />);
-
-
-// const ProjectContainerDetails = () => {
-//   const myVar = {};
-//   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
-//   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
-//   const username = window.localStorage.getItem('username') || 'unavailable';
-
-//   const [isThemeLight, setTheme] = useState(true);
-
-//   const initialStyle = useContext(styleContext);
-//   const [style, setStyle] = useState(initialStyle);
-
-//   // --------------------------Sorting Buttons------------------------------------//
-
-//   // hook for sorting menu
-//   const [selectedOption, setSelectedOption] = useState('RATING');
-
-//   const sortByRating = (projects) => {
-//     // generate a sorted array of public projects based on likes
-//     const sortedRatings = projects.sort((a, b) => b.likes - a.likes);
-//     return sortedRatings;
-//   };
-
-//   const sortByDate = (projects) => {
-//     // generate a sorted array of public projects based on date
-//     const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
-//     return sortedRatings;
-//   };
-
-//   const sortByUser = (projects) => {
-//     // generate a sorted array of public projects based on username
-//     const sortedRatings = projects.sort((a, b) => b.username - a.username);
-//     return sortedRatings;
-//   };
-//   // ===================================================================================== //
-
-//   // function for selecting drop down sorting menu
-//   const optionClicked = (value) => {
-//     setSelectedOption(value);
-//   };
-//   // ===================================================================================== //
-
-
-//   // useQuery hook abstracts fetch request
-//   const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar });
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>Error :{error}</p>;
-
-//   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
-//   const projects = data.getAllProjects;
-
-//   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
-//   let sortedProjects = projects.filter(proj => proj.published);
-//   const userProjects = projects.filter(proj => proj.username === username);
-
-//   // checking which sorting method was selected from drop down menu and invoking correct sorting function
-//   if (selectedOption === 'DATE') sortedProjects = sortByDate(sortedProjects);
-//   else if (selectedOption === 'USER') sortedProjects = sortByUser(sortedProjects);
-//   else if (selectedOption === 'RATING') sortedProjects = sortByRating(sortedProjects);
-
-
-//   // create array to hold the components Project of loggin-in users
-//   // generate an array of Project components based on queried data
-//   const userDisplay = arrToComponent(userProjects);
-
-//   // create an array of components Project that will be conditionally rendered
-//   const sortedDisplay = arrToComponent(sortedProjects);
-// }
 const a11yProps = (index: any) => ({
   id: `vertical-tab-${index}`,
   'aria-controls': `vertical-tabpanel-${index}`,
@@ -160,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
+    // height: 224,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -184,8 +112,6 @@ const ProjectContainer = (): JSX.Element => {
   const initialStyle = useContext(styleContext);
   const [style, setStyle] = useState(initialStyle);
 
-  // --------------------------Sorting Buttons------------------------------------//
-
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState('RATING');
 
@@ -206,23 +132,16 @@ const ProjectContainer = (): JSX.Element => {
     const sortedRatings = projects.sort((a, b) => b.username - a.username);
     return sortedRatings;
   };
-  // ===================================================================================== //
-
   // function for selecting drop down sorting menu
   const optionClicked = (value) => {
     setSelectedOption(value);
   };
-  // ===================================================================================== //
-
-
   // useQuery hook abstracts fetch request
   const { loading, error, data } = useQuery(GET_PROJECTS, { pollInterval: 2000, variables: myVar });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}</p>;
-
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-  console.log('projects data', projects);
   // create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = projects.filter(proj => {
     return proj.published
@@ -240,17 +159,15 @@ const ProjectContainer = (): JSX.Element => {
   // create array to hold the components Project of loggin-in users
   // generate an array of Project components based on queried data
   const userDisplay = arrToComponent(userProjects);
-  console.log('This is the userDisplay', userDisplay);
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = arrToComponent(sortedProjects);
-  console.log('This is the sortedDisplay', sortedDisplay);
   return (
     <div className={classes.root}>
       <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-      <div >
+      <div className= {'dashboardContainer'}>
         <NavBarDash setTheme={setTheme} styles={[style, setStyle]} isThemeLight={isThemeLight} optionClicked={optionClicked}/>
-        <div >
-        <AppBar position="static">
+        <div className={'userDashboard'}>
+        {/* <AppBar position="static"> */}
           <Tabs
             variant="scrollable"
             orientation="vertical"
@@ -262,14 +179,14 @@ const ProjectContainer = (): JSX.Element => {
             <LinkTab label="Shared Dashboard" {...a11yProps(0)} />
             <LinkTab label="Private Dashboard" {...a11yProps(1)} />
           </Tabs>
-        </AppBar>
-        <TabPanelItem value={value} index={0}>
+        {/* </AppBar> */}
+        <TabPanelItem className= {'projectPanel'} value={value} index={0}>
         <h1> Shared Dashboard </h1>
-          <div >
+          <div className="projectContainer">
               {sortedDisplay}
           </div>
         </TabPanelItem>
-        <TabPanelItem value={value} index={1}>
+        <TabPanelItem className= {'projectPanel'} value={value} index={1}>
         <h1> Private Dashboard </h1>
           <div className="projectContainer">
             {userDisplay}
