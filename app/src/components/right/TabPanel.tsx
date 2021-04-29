@@ -19,7 +19,7 @@ interface TabPanelProps {
   value: any;
 }
 
-const TabPanelItem = (props: TabPanelProps) => {
+const TabPanelItem = (props: TabPanelProps): JSX.Element => {
   const theme = useTheme();
   const { children, index, value, ...other } = props;
   return (
@@ -31,8 +31,8 @@ const TabPanelItem = (props: TabPanelProps) => {
       {...other}
     >
       {value === index && (
-        <Box p={0}>
-          <Typography>{children}</Typography>
+        <Box component={'div'}>
+          {children}
         </Box>
       )}
     </div>
@@ -54,7 +54,6 @@ interface LinkTabProps {
 const LinkTab = (props: LinkTabProps) => {
   return (
     <Tab
-      component="a"
       onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         event.preventDefault();
       }}
@@ -70,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const TabPanel = () => {
+const TabPanel = (): JSX.Element => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
