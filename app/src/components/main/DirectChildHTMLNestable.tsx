@@ -132,7 +132,7 @@ const snapShotFunc = () => {
   drag(drop(ref));
 
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
+    <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <strong>{HTMLType.placeHolderShort}</strong>
       {/* Caret start */}
       {`  ( ${childId} )`}

@@ -69,7 +69,7 @@ function DirectChildHTML({
   );
 
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
+    <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
       <strong>{HTMLType.placeHolderShort}</strong>      
       {/* Caret start */}
       {`  (${childId})`}

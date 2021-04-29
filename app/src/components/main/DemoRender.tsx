@@ -31,8 +31,8 @@ const DemoRender = (props): JSX.Element => {
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
-        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
+        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
+        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
     }
