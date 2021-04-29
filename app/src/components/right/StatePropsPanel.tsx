@@ -26,6 +26,7 @@ import ComponentPanelItem from "./ComponentPanelItem";
 import ComponentPanelRoutingItem from "./ComponentPanelRoutingItem";
 
 import TableStateProps from "./TableStateProps";
+import { exists } from "node:fs";
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -35,6 +36,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
 
+  /*************** TEMPORARY FIX VIA FORCED RENDER ***********/
+  // const [, updateState] = useState();
+  // const forceUpdate = useCallback(() => updateState({}), []);
+  /************************************************************/
   const debug = () => {
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
@@ -66,17 +71,20 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     const currentId = state.canvasFocus.componentId;
     // current component
     const currentComponent = state.components[currentId - 1];
-
+    const statesArray = currentComponent.stateProps;
     const newState = {
+      id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      //  check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
-    };
+    };    
+    console.log('newState {}:', newState)
     // store this newStateProp obj to our Component's stateProps array
     currentComponent.stateProps.push(newState);
+    console.log('currentComponent.stateProps []:', currentComponent.stateProps)
     // reset newStateProp to empty for future new state prop entries
     updateUseStateCodes();
-
     setInputKey("");
     setInputValue("");
     setInputType("");
@@ -100,10 +108,55 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   };
 ////////////////////////////////////////////////////////////////////////////////////
   const handlerTableSelect = (data) => {
-    console.log("data: ", data);
-    setInputKey(data.row.key);
-    setInputType(data.row.type);
-    setInputValue(data.row.value);
+    // currently focused component's id
+    const currentId = state.canvasFocus.componentId;
+    // current component
+    const currentComponent = state.components[currentId - 1];
+    //iterate and delete index 
+    let exists = false;
+    // [ { id, key, value, type } ]
+    
+    console.log("currentComponent.stateProps: ", currentComponent.stateProps);
+    
+    currentComponent.stateProps.forEach((element) => {
+      console.log('element.id:', element.id);
+      if (element.id == data.rows.id) exists = true;
+    });
+
+    // if (exists) {
+    //   setInputKey(data.row.key);
+    //   setInputType(data.row.type);
+    //   setInputValue(data.row.value);
+    // } else {
+    //   setInputKey("");
+    //   setInputValue("");
+    //   setInputType("");
+
+    // }
+
+
+    // setInputKey(data.row.key);
+    // setInputType(data.row.type);
+    // setInputValue(data.row.value);
+    // forceUpdate();
+
+    console.log('exists:', exists);
+    console.log('data.row:', data.row);
+  }
+
+  const handlerDeleteState = (id) => {
+    // currently focused component's id
+    const currentId = state.canvasFocus.componentId;
+    // current component
+    const currentComponent = state.components[currentId - 1];
+    //iterate and delete index 
+    currentComponent.stateProps = currentComponent.stateProps.filter(element => (element.id != id));
+
+    updateUseStateCodes();
+    setInputKey("");
+    setInputValue("");
+    setInputType("");
+
   }
 
   return (
@@ -166,7 +219,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
           <br></br>
           <br></br>
           <MyButton type="submit" onClick={submitNewState}>
-            create
+            Save
           </MyButton>
           <br></br>
           <br></br>
@@ -183,7 +236,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         </label>
         {/* CARET - HANGING TABLE STATE PROPS */}
         <div style={{ border: `${3}px solid green` }}>
-          <TableStateProps selectHandler={handlerTableSelect} />
+          <TableStateProps state={state} selectHandler={handlerTableSelect} deleteHandler={handlerDeleteState} />
         </div>
       </div>
     </div>
