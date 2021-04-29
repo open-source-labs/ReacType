@@ -70,18 +70,22 @@ function Annotation({
         return handleFindAnno(array[i], id);
       }
     }
+    return '';
   }
 
   /**
    * This useEffect allows the annotations to remain persistent when changing between root level components on the right panel
    */
   useEffect(() => {
-    const event = {
-      target : { value: handleFindAnno(childrenArray, id).annotations},
-      id : id,
+    const targetElement = handleFindAnno(childrenArray, id);
+    if (targetElement !== '') {
+      const event = {
+        target : { value: targetElement.annotations},
+        id : id,
+      }
+      console.log("is this a value?", event.target.value);
+      handleAnnoChange(event);
     }
-
-    handleAnnoChange(event);
   }, [state.canvasFocus])
 
   const body = (
