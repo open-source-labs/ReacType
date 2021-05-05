@@ -104,7 +104,4 @@ export interface StatePropsPanelProps {
   deleteHandler: (id: number | any) => void;
 }
 
-export interface TableStateProps {
-}
-
 // Caret end

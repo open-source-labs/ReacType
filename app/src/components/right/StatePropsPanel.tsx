@@ -34,11 +34,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
 
   const [stateProps, setStateProps] = useState([]);
 
-  // detect changes to component.stateProps[], renders and prints its contents
-  useEffect(() => {
-    console.log(new Date().toLocaleDateString(), 'stateProps:', stateProps);
-  }, [stateProps]);
-
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
