@@ -26,7 +26,7 @@ import TableStateProps from "./TableStateProps";
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
+  const [state] = useContext(StateContext);
 
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -37,7 +37,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   // detect changes to component.stateProps[], renders and prints its contents
   useEffect(() => {
     console.log(new Date().toLocaleDateString(), 'stateProps:', stateProps);
-  }, [stateProps])
+  }, [stateProps]);
 
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
@@ -47,10 +47,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const debug = () => {
     console.log("currentComponent:", currentComponent);
     console.log("currentComponent.stateProps:", currentComponent.stateProps);
-    console.log(
-      "currentComponent.useStateCodes:",
-      currentComponent.useStateCodes
-    );
+    console.log("currentComponent.useStateCodes:", currentComponent.useStateCodes);
   };
 
   // convert value to correct type based on user input
@@ -66,6 +63,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         return value;
     }
   };
+
   // clears the input key, value, and type on Form
   const clearForm = () => {
     setInputKey("");
@@ -118,17 +116,16 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       setInputKey(table.row.key);
       setInputType(table.row.type);
       setInputValue(table.row.value);
-    } 
-    else clearForm();
-  }
-
+    } else clearForm();
+  };
+  
   // find & delete table row using its id
-  const handlerRowDelete = (id) => {
-    //iterate and filter out stateProps with matching row id 
-    currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id != id);
+  const handlerRowDelete = (id:any) => {
+    // iterate and filter out stateProps with matching row id 
+    currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id !== id);
     updateUseStateCodes();
     setStateProps(currentComponent.stateProps.slice());
-  }
+  };
   
   return (
     <div style={{'background-color':`#ececea`}}>

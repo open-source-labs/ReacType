@@ -1,20 +1,18 @@
 // CARET
 import React, { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   DataGrid,
-  GridColumns,
   GridEditRowsModel,
 } from '@material-ui/data-grid';
-import {
-  styled,
-} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
+import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from '../../context/context';
 
-import ClearIcon from '@material-ui/icons/Clear';
-import { IconButton, SvgIcon  } from '@material-ui/core';
+import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
 const getColumns = (props) => {
+  const { deleteHandler } : StatePropsPanelProps = props;
   return [
     {
       field: 'id',
@@ -45,29 +43,28 @@ const getColumns = (props) => {
       headerName: 'X',
       width: 70,
       editable: false,
-      renderCell: (params) => {
+      renderCell: function renderCell(params:any) {
         const getIdRow = () => {
-          const api: GridApi = params.api;
-          const fields = api.getAllColumns().map((c) => c.field).filter((c) => c !== "__check__" && !!c);
-          return params.getValue(fields[0]);          
+          const { api } = params;
+          const fields = api.getAllColumns().map((c: any) => c.field).filter((c : any) => c !== '__check__' && !!c);
+          return params.getValue(fields[0]);
         };
         return ( 
           <Button style={{width:`${3}px`}}
             onClick={() => {
-              props.deleteHandler(getIdRow());
+              deleteHandler(getIdRow());
             }}>
             <ClearIcon style={{width:`${15}px`}}/>
           </Button>
         );
-      }
+      },
     },
   ];
 };
 
-
 const TableStateProps = (props) => {
-  const [state, dispatch] = useContext(StateContext);
-  const [editRowsModel, setEditRowsModel] = useState < GridEditRowsModel > ({});
+  const [state] = useContext(StateContext);
+  const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
 
   // get currentComponent by using currently focused component's id
@@ -75,6 +72,8 @@ const TableStateProps = (props) => {
   const currentComponent = state.components[currentId - 1];
 
   const rows = currentComponent.stateProps.slice();
+
+  const { selectHandler } : StatePropsPanelProps = props;
   
   // when component gets mounted, sets the gridColumn
   useEffect(() => {
@@ -84,14 +83,14 @@ const TableStateProps = (props) => {
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
-        // disableMultipleSelection={false}
         rows={rows}
         columns={gridColumns}
         pageSize={5}
         editRowsModel={editRowsModel}
-        onRowClick={props.selectHandler}
+        onRowClick = {selectHandler}
       />
     </div>
   );
-}
+};
+
 export default TableStateProps;
