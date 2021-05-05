@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:react/recommended", "airbnb-base"],
+  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "airbnb-base"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
