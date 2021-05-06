@@ -21,7 +21,7 @@ const DemoRender = (props): JSX.Element => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {
-        console.log('detail from children array', element);
+        // console.log('detail from children array', element);
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
