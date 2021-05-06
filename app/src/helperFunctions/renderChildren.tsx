@@ -27,6 +27,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           key={'DirChildComp' + childId.toString() + name}
           name={child.name}
+          annotations={child.annotations}
         />
       );
     }
@@ -40,6 +41,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           key={'DirChildHTML' + childId.toString() + name}
           name={child.name}
+          annotations={child.annotations}
         />
       );
     }
@@ -54,6 +56,7 @@ const renderChildren = (children: ChildElement[]) => {
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={child.name}
+          annotations={child.annotations}
         />
         </div>
       );
