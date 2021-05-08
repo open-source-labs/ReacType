@@ -98,4 +98,10 @@ export interface Annotations {
   name: string;
   annotations: string;
 }
+
+export interface StatePropsPanelProps {
+  selectHandler: (table: any) => void;
+  deleteHandler: (id: number | any) => void;
+}
+
 // Caret end

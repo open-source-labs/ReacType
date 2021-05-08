@@ -1,5 +1,5 @@
 // CARET
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import {
   createStyles,
   makeStyles,
@@ -22,37 +22,31 @@ import {
 } from "@material-ui/core";
 
 import StateContext from "../../context/context";
-import ComponentPanelItem from "./ComponentPanelItem";
-import ComponentPanelRoutingItem from "./ComponentPanelRoutingItem";
-
 import TableStateProps from "./TableStateProps";
-import { exists } from "node:fs";
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
+  const [state] = useContext(StateContext);
 
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
 
-  /*************** TEMPORARY FIX VIA FORCED RENDER ***********/
-  // const [, updateState] = useState();
-  // const forceUpdate = useCallback(() => updateState({}), []);
-  /************************************************************/
+  const [stateProps, setStateProps] = useState([]);
+
+  // get currentComponent by using currently focused component's id
+  const currentId = state.canvasFocus.componentId;
+  const currentComponent = state.components[currentId - 1];
+
+  // debug console button for development purposes
   const debug = () => {
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
     console.log("currentComponent:", currentComponent);
     console.log("currentComponent.stateProps:", currentComponent.stateProps);
-    console.log(
-      "currentComponent.useStateCodes:",
-      currentComponent.useStateCodes
-    );
+    console.log("currentComponent.useStateCodes:", currentComponent.useStateCodes);
   };
 
+  // convert value to correct type based on user input
   const typeConversion = (value, type) => {
-    // based on user input for value, convert value to correct type
     switch (type) {
       case "String":
         return String(value);
@@ -65,98 +59,71 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     }
   };
 
-  const submitNewState = (e) => {
-    e.preventDefault();
-    // currently focused component's id
-    const currentId = state.canvasFocus.componentId;
-    // current component
-    const currentComponent = state.components[currentId - 1];
-    const statesArray = currentComponent.stateProps;
-    const newState = {
-      id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
-      //  check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
-      key: inputKey,
-      value: typeConversion(inputValue, inputType),
-      type: inputType,
-    };    
-    console.log('newState {}:', newState)
-    // store this newStateProp obj to our Component's stateProps array
-    currentComponent.stateProps.push(newState);
-    console.log('currentComponent.stateProps []:', currentComponent.stateProps)
-    // reset newStateProp to empty for future new state prop entries
-    updateUseStateCodes();
+  // clears the input key, value, and type on Form
+  const clearForm = () => {
     setInputKey("");
     setInputValue("");
     setInputType("");
   };
 
+  // submit new stateProps entries to state context
+  const submitNewState = (e) => {
+    e.preventDefault();
+    const statesArray = currentComponent.stateProps;
+    const newState = {
+      // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
+      id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      key: inputKey,
+      value: typeConversion(inputValue, inputType),
+      type: inputType,
+    };    
+    // store this newStateProp obj to our Component's stateProps array
+    currentComponent.stateProps.push(newState);
+    // reset newStateProp to empty for future new state prop entries
+    updateUseStateCodes();
+    clearForm();
+  };
+  
+  // generates React Hook code snippets for each new stateProp entry
   const updateUseStateCodes = () => {
-    // currently focused component's id
-    const currentId = state.canvasFocus.componentId;
-    // current component
-    const currentComponent = state.components[currentId - 1];
-
+    // array of snippets of state prop codes
     const localStateCode = [];
-    // iterate thru current component's state props to generate code expression for each new state prop entry
-    currentComponent.stateProps.forEach((el) => {
-      const useStateCode = `const [${el.key}, set${
-        el.key.charAt(0).toUpperCase() + el.key.slice(1)
-      }] = useState<${el.type} | undefined>(${JSON.stringify(el.value)})`;
+
+    currentComponent.stateProps.forEach((stateProp) => {
+      const useStateCode = `const [${stateProp.key}, set${
+        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
+      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
       localStateCode.push(useStateCode);
     });
+    // store localStateCodes in global state context
     currentComponent.useStateCodes = localStateCode;
   };
-////////////////////////////////////////////////////////////////////////////////////
-  const handlerTableSelect = (data) => {
-    // currently focused component's id
-    const currentId = state.canvasFocus.componentId;
-    // current component
-    const currentComponent = state.components[currentId - 1];
-    //iterate and delete index 
+  
+  // find table row using its id and if it exists, populate form with its details 
+  const handlerRowSelect = (table) => {
     let exists = false;
-    // [ { id, key, value, type } ]
-    
-    console.log("currentComponent.stateProps: ", currentComponent.stateProps);
-    
-    currentComponent.stateProps.forEach((element) => {
-      console.log('element.id:', element.id);
-      if (element.id === data.rows.id) exists = true;
-    });
-
-    // if (exists) {
-    //   setInputKey(data.row.key);
-    //   setInputType(data.row.type);
-    //   setInputValue(data.row.value);
-    // } else {
-    //   setInputKey("");
-    //   setInputValue("");
-    //   setInputType("");
-
-    // }
-
-    // setInputKey(data.row.key);
-    setInputType(data.row.type);
-    // setInputValue(data.row.value);
-    // forceUpdate();
-  }
-
-  const handlerDeleteState = (id) => {
-    // currently focused component's id
-    const currentId = state.canvasFocus.componentId;
-    // current component
-    const currentComponent = state.components[currentId - 1];
-    //iterate and delete index 
-    currentComponent.stateProps = currentComponent.stateProps.filter(element => (element.id != id));
-
+    currentComponent.stateProps.forEach((stateProp) => {
+      // if stateProp id matches current row's id (table.row.id), flip exists to true
+      if (stateProp.id === table.row.id) exists = true;
+    }); 
+    // if row id exists, populate form with corresponding inputs (key, value, type) from table row
+    if (exists) {
+      setInputKey(table.row.key);
+      setInputType(table.row.type);
+      setInputValue(table.row.value);
+    } else clearForm();
+  };
+  
+  // find & delete table row using its id
+  const handlerRowDelete = (id:any) => {
+    // iterate and filter out stateProps with matching row id 
+    currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id !== id);
     updateUseStateCodes();
-    setInputKey('');
-    setInputValue('');
-    setInputType('');
-
-  }
-
+    setStateProps(currentComponent.stateProps.slice());
+  };
+  
   return (
-    <div style={{ border: `${3}px solid red` }}>
+    <div style={{'background-color':`#ececea`}}>
       <div>
         <FormControl>
           <label>Create New State</label>
@@ -213,11 +180,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             debug
           </MyButton>
           <br></br>
-          <br></br>
           <MyButton type="submit" onClick={submitNewState}>
             Save
           </MyButton>
-          <br></br>
           <br></br>
         </FormControl>
       </div>
@@ -230,9 +195,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <label>
           Name: {state.components[state.canvasFocus.componentId - 1].name}
         </label>
-        {/* CARET - HANGING TABLE STATE PROPS */}
-        <div style={{ border: `${3}px solid green` }}>
-          <TableStateProps selectHandler={handlerTableSelect} deleteHandler={handlerDeleteState} />
+        <div style={{'background-color':`#ececea`}}>
+          <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
         </div>
       </div>
     </div>
