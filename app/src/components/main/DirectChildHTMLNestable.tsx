@@ -70,7 +70,6 @@ const snapShotFunc = () => {
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        console.log("Child added directly to an existing element")
         dispatch({
           type: 'ADD CHILD',
           payload: {

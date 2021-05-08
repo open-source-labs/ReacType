@@ -99,20 +99,22 @@ const generateUnformattedCode = (
   };
 
   // function to dynamically generate a complete html (& also other library type) elements
+  const tabSpacer = (level: number) => {
+    let tabs = ''
+    for (let i = 0; i < level; i++) tabs += '  ';
+    return tabs;
+  }
+
+  const levelSpacer = (level: number, spaces: number) => {
+    if (level === 2 ) return `\n${tabSpacer(spaces)}`;
+    else return ''
+  }
+
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
+    let activeLink = '';
     if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
-
-    const tabSpacer = (level: number) => {
-      let tabs = ''
-      for (let i = 0; i < level; i++) tabs += '  ';
-      return tabs;
-    }
-
-    const levelSpacer = (level: number, spaces: number) => {
-      if (level === 2 ) return `\n${tabSpacer(spaces)}`;
-      else return ''
-    }
+    if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
 
     const nestable = childElement.tag === 'div' || 
     childElement.tag === 'form' || 
@@ -122,9 +124,9 @@ const generateUnformattedCode = (
     childElement.tag === 'li';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src="" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} href=""${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
@@ -160,7 +162,16 @@ const generateUnformattedCode = (
       .filter(element => !!element)
       .join('')}`;
   };
-    // Caret End
+    
+  const writeStateProps = (stateArray: any) => {
+    let stateToRender = '';
+    for (const element of stateArray) {
+      stateToRender += levelSpacer(2, 3) + element + ';'
+    }
+    return stateToRender
+  }
+
+  // Caret End
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 
@@ -200,7 +211,8 @@ const generateUnformattedCode = (
     }
       ${
         stateful && !classBased
-          ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
+          ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currentComponent.useStateCodes)};
+          `
           : ``
       }
       ${
@@ -211,9 +223,8 @@ const generateUnformattedCode = (
         }`
           : ``
       }
-
       ${classBased ? `render(): JSX.Element {` : ``}
-
+      
       return (
         <div className="${currentComponent.name}" style={props.style}>
           ${writeNestedElements(enrichedChildren)}

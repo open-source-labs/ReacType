@@ -14,7 +14,7 @@ import StateContext from '../context/context';
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
-    const { type, typeId, style, childId, children, attributes, name } = child;
+    const { type, typeId, style, childId, children, attributes, name, annotations} = child;
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
@@ -26,7 +26,8 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           key={'DirChildComp' + childId.toString() + name}
-          name={child.name}
+          name={name}
+          annotations={annotations}
         />
       );
     }
@@ -39,7 +40,8 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           key={'DirChildHTML' + childId.toString() + name}
-          name={child.name}
+          name={name}
+          annotations={annotations}
         />
       );
     }
@@ -53,7 +55,8 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
-          name={child.name}
+          name={name}
+          annotations={annotations}
         />
         </div>
       );
@@ -66,7 +69,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
-          name={child.name}
+          name={name}
         />
       );
     }
@@ -80,7 +83,7 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           children={children}
           key={'RouteLink' + childId.toString() + name}
-          name={child.name}
+          name={name}
         />
       );
     }

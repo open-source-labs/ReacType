@@ -21,18 +21,21 @@ const DemoRender = (props): JSX.Element => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {
-        console.log('detail from children array', element);
+       // console.log('detail from children array', element);
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
         const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
+        const activeLink = element.attributes.compLink;
         let renderedChildren;
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType === 'input' || elementType === 'img') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
-        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
+        if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
+        else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
+        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}</Box>);
+        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
     }
@@ -42,7 +45,7 @@ const DemoRender = (props): JSX.Element => {
   useEffect(() => {
     const focusIndex = state.canvasFocus.componentId - 1;
     const childrenArray = state.components[focusIndex].children;
-    console.log('Refrenced Children in State!!!', childrenArray);
+   //console.log('Refrenced Children in State!!!', childrenArray);
     const renderedComponents = componentBuilder(childrenArray);
     setComponents(renderedComponents);
   }, [state.components, state.canvasFocus]);

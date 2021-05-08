@@ -43,6 +43,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   const [BGColor, setBGColor] = useState('');
   // Caret Start
   const [compText, setCompText] = useState('');
+  const [compLink, setCompLink] = useState('');
   const [cssClasses, setCssClasses] = useState('');
   // Caret End
   const [compWidth, setCompWidth] = useState('');
@@ -61,10 +62,10 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       if (configTarget.child && element.childId === configTarget.child.id) {
         attributes = element.attributes;
         setCompText(attributes.text ? attributes.text : '');
+        setCompLink(attributes.link ? attributes.link : '');
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
       }
     }
-    console.log('Canvas Element Detail: ', configTarget.child);
     // Caret End
     const style = configTarget.child
       ? configTarget.child.style
@@ -113,6 +114,9 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
       // Caret Start
       case 'compText':
         setCompText(inputVal);
+        break;
+      case 'compLink':
+        setCompLink(inputVal);
         break;
       case 'cssClasses':
         setCssClasses(inputVal);
@@ -226,6 +230,7 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     // Caret
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
+    if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
 
     dispatch({
@@ -552,6 +557,34 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
                       : `${classes.selectInput} ${classes.darkThemeFontColor}`
                   }}
                   value={compText}
+                  onChange={handleChange}
+                  placeholder="Text"
+                />
+              </FormControl>
+            </div>
+          </div>
+          <div className={classes.configRow}>
+            <div
+              className={
+                isThemeLight
+                  ? `${classes.configType} ${classes.lightThemeFontColor}`
+                  : `${classes.configType} ${classes.darkThemeFontColor}`
+              }
+            >
+              <h3>Link:</h3>
+            </div>
+            <div className={classes.configValue}>
+              <FormControl variant="filled" className={classes.formControl}>
+                <TextField
+                  variant="filled"
+                  name="compLink"
+                  className={classes.select}
+                  inputProps={{
+                    className: isThemeLight
+                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                  }}
+                  value={compLink}
                   onChange={handleChange}
                   placeholder="Text"
                 />

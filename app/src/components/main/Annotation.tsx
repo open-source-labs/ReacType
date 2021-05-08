@@ -12,46 +12,43 @@ function Annotation({
   annotations,
 }: Annotations) {
   const [state, dispatch] = useContext(StateContext);
-  const [annotation, setAnnotations] = useState('');
-  const ref = useRef(null);
+  const [annotation, setAnnotations] = useState(annotations);
   // React hook setting the annotation button modal open/close state
   const [open, setOpen] = React.useState(false);
+  const ref = useRef(null);
+  // focusIndex and childrenArray are used to find the array of all elements on the canvas
   const focusIndex = state.canvasFocus.componentId - 1;
   const childrenArray = state.components[focusIndex].children;
-  
+
   // For showing the modal
   const handleOpen = (id) => {
-    const childEle = handleFindAnno(childrenArray, id);
     setOpen(true);
   };
 
-  // For closing the modal
+  // For closing the modal and setting the global annotation value to the hook value
   const handleClose = (id) => {
-    const focusIndex = state.canvasFocus.componentId - 1;
-    const childrenArray = state.components[focusIndex].children;
     const childEle = handleFindAnno(childrenArray, id);
-    
-    if(childEle) {
+    if (childEle) {
+      // set global annotation value for this component to it's hook value
       childEle.annotations = annotation;
     }
-
     setOpen(false);
   };
 
   /**
    * Handles when text exists in the textarea of the modal. 
    * If text exists/does not exist, corresponding button changes colors.
-   */ 
+   * Sets hook value to what is contained in the textarea
+   */
   const handleAnnoChange = (event) => {
     const { value } = event.target;
 
-    if(value === '' || value === undefined) {
+    if (value === '' || value === undefined) {
       ref.current.style.background = '#3ec1ac';
-      ref.current.id = 'btn' + event.target.id;
-      setAnnotations(value);
     } else {
       ref.current.style.background = '#cc99ff';
-      ref.current.id = 'btn' + event.target.id;
+    }
+    if (value != annotation) {
       setAnnotations(value);
     }
   }
@@ -61,15 +58,21 @@ function Annotation({
    * where the canvas components are placed
    */
   const handleFindAnno = (array, id) => {
-    for(let i = 0; i < array.length; i++) {
-      if(array[i].childId === Number(id)) {
-        return array[i];
-      }
-
-      if(array[i].children.length > 0) {
-        return handleFindAnno(array[i], id);
+    for (let i = 0; i < array.length; i++) {
+      const currentElement = array[i];
+      if (currentElement.childId === id) {
+        return currentElement;
+      // finds nested element if nested within canvas
+      } else if (currentElement.children.length > 0) {
+        // temp is to prevent a return of empty string since canvas element should always exist and allows the
+        // recursion to continue
+        const temp = handleFindAnno(currentElement.children, id) 
+        if (temp != '') {
+          return temp;
+        }
       }
     }
+    return '';
   }
 
   /**
@@ -77,24 +80,23 @@ function Annotation({
    */
   useEffect(() => {
     const event = {
-      target : { value: handleFindAnno(childrenArray, id).annotations},
-      id : id,
+      target: { value: annotation },
+      id: id,
     }
-
     handleAnnoChange(event);
-  }, [state.canvasFocus])
-
+  }, [])
+  
   const body = (
     <div className='annotate-position'>
       <span className='annotate-textarea-header'>Notes for: {name} ( {id} )</span>
-      <textarea className='annotate-textarea' id={id.toString()} onChange={handleAnnoChange}>{handleFindAnno(childrenArray, id).annotations}</textarea>
+      <textarea className='annotate-textarea' id={id.toString()} onChange={handleAnnoChange}>{annotations}</textarea>
     </div>
   )
 
   return (
-    <div style={{padding: '1px', float: 'right'}}>
+    <div style={{ padding: '1px', float: 'right' }}>
       <button className='annotate-button-empty' id={"btn" + id} onClick={() => handleOpen(id)} ref={ref}>Notes</button>
-      <Modal 
+      <Modal
         open={open}
         onClose={() => handleClose(id)}
         keepMounted={true}
