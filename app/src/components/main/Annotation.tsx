@@ -70,8 +70,8 @@ function Annotation({
           return temp;
         }
       }
-      if (element.children.length > 0) return annoRefresh(element.children);
     }
+    return '';
   };
 
   /**
@@ -97,7 +97,7 @@ function Annotation({
       <button className='annotate-button-empty' id={"btn" + id} onClick={() => handleOpen(id)} ref={ref}>Notes</button>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose(id)}
         keepMounted={true}
       >
         {body}
