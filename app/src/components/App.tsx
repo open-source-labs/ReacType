@@ -57,7 +57,24 @@ export const App = (): JSX.Element => {
     }
   }, []);
 
-  useEffect(() => {
+  // Caret this useEffect was triggering a save after every state change, which is bad for performance
+  // useEffect(() => {
+  //   let userId;
+  //   if (Cookies.get('ssid')) {
+  //     userId = Cookies.get('ssid');
+  //   } else {
+  //     userId = window.localStorage.getItem('ssid');
+  //   }
+  //   if (state.isLoggedIn === false) {
+  //     localforage.setItem('guestProject', state);
+  //   } else if (state.name !== '') {
+  //     saveProject(state.name, state);
+  //     localforage.setItem(userId, state);
+  //   }
+  // }, [state]);
+
+  // Caret setInterval alternative for 15 seconds between saves
+  setInterval(() => {
     let userId;
     if (Cookies.get('ssid')) {
       userId = Cookies.get('ssid');
@@ -70,7 +87,7 @@ export const App = (): JSX.Element => {
       saveProject(state.name, state);
       localforage.setItem(userId, state);
     }
-  }, [state]);
+  }, 15000)
 
   return (
     <div className="app">
