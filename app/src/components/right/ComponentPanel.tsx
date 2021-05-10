@@ -148,10 +148,13 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     color={'primary'}
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
-                    InputProps={{ className: classes.input }}
+                    // Caret inputprops and helpertext must be lowercase
+                    inputprops={{ className: classes.input }}
                     value={compName}
-                    error={errorStatus}
-                    helperText={errorStatus ? errorMsg : ''}
+                    // Doesn't accept boolean value needs to be a string
+                    error={errorStatus.toString()}
+                    // Updated
+                    helpertext={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
               />
               </div>
