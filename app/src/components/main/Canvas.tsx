@@ -5,9 +5,13 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+// Caret start
+import Arrow from './Arrow';
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
+  // Caret start
+  Arrow.deleteLines();
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -32,7 +36,7 @@ function Canvas() {
         //pushes the last user action on the canvas into the past array of Component
         state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
     };
-  
+
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,

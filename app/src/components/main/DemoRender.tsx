@@ -7,7 +7,6 @@ import Box from '@material-ui/core/Box';
 import './renderDemo.css';
 import StateContext from '../../context/context';
 
-
 const DemoRender = (props): JSX.Element => {
   const [components, setComponents] = useState([]);
   const [state, dispatch] = useContext(StateContext);
@@ -32,10 +31,10 @@ const DemoRender = (props): JSX.Element => {
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
-        if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
-        else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={childId}></Box>);
-        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}</Box>);
-        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={childId}>{innerText}{renderedChildren}</Box>);
+        if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
+        else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
+        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
+        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
     }
