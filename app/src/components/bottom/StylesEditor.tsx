@@ -13,6 +13,7 @@ import useResizeObserver from '../../tree/useResizeObserver';
 import { string } from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
+import cssRefresher from '../../helperFunctions/cssRefresh';
 
 const StylesEditor: React.FC<{
   theme: string | null;
@@ -20,10 +21,9 @@ const StylesEditor: React.FC<{
 }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
   const [css, setCss] = useState();
-  // const [state, dispatch] = useContext(StateContext);
 
   useEffect(() => {
-    loadFile();
+    loadFile();  
   }, []);
 
   const loadFile = () => {
@@ -52,8 +52,8 @@ const StylesEditor: React.FC<{
     })
       .then(response => response.text())
       .then((data) => {
-        // setCss(data);
-        //message save!
+        // Removes old link to css and creates a new stylesheet link on demo render
+        cssRefresher();
       });
   }
   const saveCss = (e) => {
