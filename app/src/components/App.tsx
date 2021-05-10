@@ -19,7 +19,8 @@ export const App = (): JSX.Element => {
   } else {
     state.isLoggedIn = false;
   }
-
+  
+  
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
@@ -51,43 +52,46 @@ export const App = (): JSX.Element => {
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
-          );
-        }
-      });
+            );
+          }
+        });
+      }
+      }, []);
+  
+  // Caret Start Updated save cycle     
+  useEffect(() => {
+    console.log('Legacy state', state);
+    // provide config properties to legacy projects so new edits can be auto saved
+    if (state.config === undefined) {
+      state.config = {saveFlag:true, saveTimer:false};
+    };
+    console.log('Updated state for legacy projects', state);
+    // New project save configuration to optimize server load and minimize Ajax requests
+    if (state.config.saveFlag) {
+      state.config.saveFlag = false;
+      state.config.saveTimer = true;
+      let userId;
+      if (Cookies.get('ssid')) {
+        userId = Cookies.get('ssid');
+      } else {
+        userId = window.localStorage.getItem('ssid');
+      }
+      if (state.isLoggedIn === false) {
+        localforage.setItem('guestProject', state);
+      } else if (state.name !== '') {
+        saveProject(state.name, state);
+        localforage.setItem(userId, state);
+      }
     }
-  }, []);
-
-  // Caret this useEffect was triggering a save after every state change, which is bad for performance
-  // useEffect(() => {
-  //   let userId;
-  //   if (Cookies.get('ssid')) {
-  //     userId = Cookies.get('ssid');
-  //   } else {
-  //     userId = window.localStorage.getItem('ssid');
-  //   }
-  //   if (state.isLoggedIn === false) {
-  //     localforage.setItem('guestProject', state);
-  //   } else if (state.name !== '') {
-  //     saveProject(state.name, state);
-  //     localforage.setItem(userId, state);
-  //   }
-  // }, [state]);
-
-  // Caret setInterval alternative for 15 seconds between saves
-  setInterval(() => {
-    let userId;
-    if (Cookies.get('ssid')) {
-      userId = Cookies.get('ssid');
-    } else {
-      userId = window.localStorage.getItem('ssid');
+    if (state.config.saveTimer) {
+      state.config.saveTimer = false;
+      setTimeout(() => {
+        state.config.saveFlag = true;
+      }, 15000);
     }
-    if (state.isLoggedIn === false) {
-      localforage.setItem('guestProject', state);
-    } else if (state.name !== '') {
-      saveProject(state.name, state);
-      localforage.setItem(userId, state);
-    }
-  }, 15000)
+  }, [state])
+  // Caret End
+  
 
   return (
     <div className="app">

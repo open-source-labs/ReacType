@@ -5,6 +5,9 @@ import HTMLTypes from './HTMLTypes';
 const initialState: State = {
   name: '',
   isLoggedIn: false,
+  // CARET
+  config: { saveFlag: true, saveTimer: false },
+  // END CARET
   components: [
     {
       id: 1,
