@@ -26,7 +26,7 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          key={'DirChildComp' + childId.toString() + name + (Math.random()*1000).toString()}
+          key={'DirChildComp' + childId.toString() + name}
           name={name}
           annotations={annotations}
         />
@@ -40,7 +40,7 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          key={'DirChildHTML' + childId.toString() + name + (Math.random()*1000).toString()}
+          key={'DirChildHTML' + childId.toString() + name }
           name={name}
           annotations={annotations}
         />
@@ -55,7 +55,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           children={children}
-          key={'DirChildHTMLNest' + childId.toString() + name + (Math.random()*1000).toString()}
+          key={'DirChildHTMLNest' + childId.toString() + name}
           name={name}
           annotations={annotations}
         />
@@ -82,7 +82,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           children={children}
-          key={'RouteLink' + childId.toString() + name + (Math.random()*1000).toString()}
+          key={'RouteLink' + childId.toString() + name}
           name={name}
         />
       );
