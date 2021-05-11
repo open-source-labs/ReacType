@@ -94,6 +94,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
             style={combinedStyle}
             placeHolder=""
             linkId={null}
+            childId={childId}
           >
             {renderIndirectChildren(childReferencedComponent)}
           </IndirectChild>
@@ -122,6 +123,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
+                childId={childId}
                 key={
                   'indChildHTML' +
                   child.childId.toString() +
@@ -135,6 +137,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
                 style={combinedStyle}
                 placeHolder={HTMLDefaultPlaceholder}
                 linkId={null}
+                childId={childId}
                 key={
                   'indChildNest' +
                   child.childId.toString() +
@@ -158,6 +161,7 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
             style={combinedStyle}
             placeHolder=""
             linkId={child.typeId}
+            childId={childId}
           >
             {''}
           </IndirectChild>

@@ -28,12 +28,6 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
 
   return (
     <div style={combinedStyle}>
-      {linkId ? (
-        <div onClick={onClickHandlerRoute}>{linkName}</div>
-      ) : (
-        placeHolder
-      )}
-      {children}
       {/* Caret start */}
       {`  ( ${childId} )`}
       <Annotation
@@ -42,6 +36,12 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
         annotations={annotations}
       />
       {/* Caret end */}
+      {linkId ? (
+        <div onClick={onClickHandlerRoute}>{linkName}</div>
+      ) : (
+        placeHolder
+      )}
+      {children}
     </div>
   );
 }
