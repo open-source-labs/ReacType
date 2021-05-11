@@ -30,7 +30,7 @@ import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 
 // need to pass in props to use the useHistory feature of react router
-const RightContainer = ({ isThemeLight }): JSX.Element => {
+const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   const [state, dispatch] = useContext(StateContext);
   const [displayMode, setDisplayMode] = useState('');
@@ -365,9 +365,9 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
   return (
     <div className="column right" id="rightContainer" style={style}>
       {/* CARET */}
-      <TabPanel />
+      {/* <TabPanel /> */}
       {/* CARET */}
-      <ComponentPanel isThemeLight={isThemeLight} />
+      {/* <ComponentPanel isThemeLight={isThemeLight} /> */}
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
@@ -775,4 +775,4 @@ const useStyles = makeStyles({
   }
 });
 
-export default RightContainer;
+export default CustomizationPanel;

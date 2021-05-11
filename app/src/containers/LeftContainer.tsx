@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
-import ComponentPanel from '../components/right/ComponentPanel';
-import HTMLPanel from '../components/left/HTMLPanel';
+import ComponentDrag from '../components/right/ComponentDrag';
+import DragDropPanel from '../components/left/DragDropPanel';
 import { styleContext } from './AppContainer';
 
 // Left-hand portion of the app, where component options are displayed
@@ -12,8 +12,10 @@ const LeftContainer = (props): JSX.Element => {
 
   return (
     <div className="column left" style={style}>
+      <span align-self={'center'}>Drag & Drop</span>
       <Grid container direction="row" alignItems="center">
-        <HTMLPanel isThemeLight={props.isThemeLight}/>
+        <ComponentDrag isThemeLight={props.isThemeLight}/>
+        <DragDropPanel isThemeLight={props.isThemeLight}/>
       </Grid>
     </div>
   );

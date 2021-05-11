@@ -2,9 +2,6 @@
 
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import StateContext from '../../context/context';
-import Grid from '@material-ui/core/Grid';
-import ComponentPanelItem from './ComponentPanelItem';
-import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
@@ -185,74 +182,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
           >
             Create
           </button>
-       
-      </div>
-      <div className="lineDiv">
-          <hr
-            style={{
-              borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
-              borderStyle: 'solid',
-              height: '0.5px',
-              width: '100%',
-              marginLeft: '0px'
-            }}
-          />
-        </div>
-      {/* Display all root components */}
-      {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
-      <div className={classes.panelWrapperList}>
-        {/* Heading just below ADD button */}
-        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
-          {state.components
-            .filter(comp => state.rootComponents.includes(comp.id))
-            .map(comp => {
-              return (
-                  <ComponentPanelItem
-                  isFocus={isFocus(comp.id)}
-                  key={`comp-${comp.id}`}
-                  name={comp.name}
-                  id={comp.id}
-                  root={true}
-                  />
-               
-              );
-            })}
-        </Grid>
-        {/* Display all reusable components */}
-        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
-          {state.components
-            .filter(comp => !state.rootComponents.includes(comp.id))
-            .map(comp => {
-              return (
-                <ComponentPanelItem
-                  isFocus={isFocus(comp.id)}
-                  key={`comp-${comp.id}`}
-                  name={comp.name}
-                  id={comp.id}
-                  root={false}
-                  isThemeLight={isThemeLight}
-                />
-              );
-            })}
-        </Grid>
-        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
-        {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
-          <React.Fragment>
-            <h4>Routing</h4>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <ComponentPanelRoutingItem key={'premadecomp-1'} />
-            </Grid>
-          </React.Fragment>
-        ) : (
-          ''
-        )}
       </div>
     </div>
   );
@@ -291,38 +220,6 @@ const useStyles = makeStyles({
   },
   rootCheckBoxLabel: {
     borderColor: '#186BB4'
-  },
-  panelWrapper: {
-    width: '100%',
-    marginTop: '15px', 
-    display: 'flex',
-    flexDirection:'column',
-    alignItems:'center'
-  },
-  panelWrapperList: {
-    minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  dragComponents: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '500px',
-    backgroundColor: '#186BB4',
-    border: '5px solid #186BB4'
-  },
-  panelSubheader: {
-    textAlign: 'center',
-    color: '#fff'
-  },
-  input: {
-   
   },
   newComponent: {
     color: '#155084',

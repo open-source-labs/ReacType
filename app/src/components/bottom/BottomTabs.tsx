@@ -5,6 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
+import CustomizationPanel from '../../containers/CustomizationPanel'
+import CreationPanel from './CreationPanel'
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
@@ -68,6 +70,16 @@ const BottomTabs = () => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="CSS Editor"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Customization Panel"
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Creation Panel"
+          />
         </Tabs>
         <div className={classes.projectTypeWrapper}> 
          <FormControl size='small'>
@@ -89,6 +101,8 @@ const BottomTabs = () => {
       {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 1 && <Tree data={components} />}
       {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
+      {tab === 3 && <CustomizationPanel theme={theme} setTheme={setTheme} />}
+      {tab === 4 && <CreationPanel theme={theme} setTheme={setTheme} />}
     </div>
   );
 };

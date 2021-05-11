@@ -25,6 +25,18 @@ h4 {
   text-align: center;
 }
 
+.creation-panel {
+  display: flex;
+  flex-direction: row;
+  align-content: space-evenly;
+}
+
+.state-panel {
+  flex-grow: 2;
+  flex-direction: row;
+  background-color: #fafaf6;
+  color: black;
+}
 /*
 ///////////////////////////////////////////
 Remove focus styling
@@ -87,7 +99,7 @@ LEFT COLUMN
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 100%;
+  flex-grow: 1;
 }
 
 #HTMLItemsTopHalf {
@@ -290,7 +302,7 @@ RIGHT COLUMN
 
 .rightPanelWrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   height: 100%;
   width: 100%;

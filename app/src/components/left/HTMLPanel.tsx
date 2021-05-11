@@ -134,13 +134,6 @@ const HTMLPanel = (props): JSX.Element => {
     resetError();
   };
 
-  const handleDelete = (id: number): void => {
-    dispatch({
-      type: 'DELETE ELEMENT',
-      payload: id
-    });
-  };
-
   const handleCreateElement = useCallback((e) => {
     if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
@@ -155,38 +148,8 @@ const HTMLPanel = (props): JSX.Element => {
     }
   }, []);
 
-
-  // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
     <div className="HTMLItems">
-      <div id="HTMLItemsTopHalf">
-        <Grid
-            id="HTMLItemsGrid"
-          >
-            {htmlTypesToRender.map(option => (
-              <HTMLItem
-                name={option.name}
-                key={`html-${option.name}`}
-                id={option.id}
-                Icon={option.icon}
-                handleDelete={handleDelete}
-                isThemeLight={isThemeLight}
-              />
-            ))}
-          </Grid>
-      </div>
-      <div className="lineDiv">
-        <hr
-          style={{
-            borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
-            borderStyle: 'solid',
-            height: '0.5px',
-            width: '100%',
-            marginLeft: '0px'
-          }}
-        />
-      </div>
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">

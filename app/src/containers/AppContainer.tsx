@@ -4,7 +4,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import NavBar from '../components/top/NavBar';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
-import RightContainer from './RightContainer';
+import RightContainer from './CustomizationPanel';
 import { theme1, theme2 } from '../public/styles/theme';
 
 
@@ -40,7 +40,7 @@ const AppContainer = () => {
         
             <LeftContainer isThemeLight={isThemeLight}/>
             <MainContainer />
-            <RightContainer isThemeLight={isThemeLight}/>
+            {/* <RightContainer isThemeLight={isThemeLight}/> */}
 
       </div>
       </styleContext.Provider>

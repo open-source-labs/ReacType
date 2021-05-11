@@ -123,12 +123,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   };
   
   return (
-    <div style={{'background-color':`#ececea`}}>
+    <div className={'state-panel'}>
       <div>
         <FormControl>
           <label>Create New State</label>
-          <br />
-          <br />
           <TextField
             id="textfield-key"
             label="key:"
@@ -195,7 +193,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <label>
           Name: {state.components[state.canvasFocus.componentId - 1].name}
         </label>
-        <div style={{'background-color':`#ececea`}}>
+        <div >
           <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
         </div>
       </div>
