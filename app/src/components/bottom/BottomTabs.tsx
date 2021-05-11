@@ -16,7 +16,7 @@ import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-const BottomTabs = () => {
+const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
@@ -58,12 +58,12 @@ const BottomTabs = () => {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
+            label="Creation Panel"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Tree"
+            label="Customization"
           />
           <Tab
             disableRipple
@@ -73,12 +73,12 @@ const BottomTabs = () => {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Customization Panel"
+            label="Code Preview"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Creation Panel"
+            label="Component Tree"
           />
         </Tabs>
         <div className={classes.projectTypeWrapper}> 
@@ -98,11 +98,11 @@ const BottomTabs = () => {
           </FormControl>
         </div>
       </Box>
-      {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
-      {tab === 1 && <Tree data={components} />}
+      {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
+      {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
       {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-      {tab === 3 && <CustomizationPanel theme={theme} setTheme={setTheme} />}
-      {tab === 4 && <CreationPanel theme={theme} setTheme={setTheme} />}
+      {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
+      {tab === 4 && <Tree data={components} />}
     </div>
   );
 };

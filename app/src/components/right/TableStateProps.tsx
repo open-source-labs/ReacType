@@ -80,7 +80,7 @@ const TableStateProps = (props) => {
   }, []);
   
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div className={'state-prop-grid'}>
       <DataGrid
         rows={rows}
         columns={gridColumns}

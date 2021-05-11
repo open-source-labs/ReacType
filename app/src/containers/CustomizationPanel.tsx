@@ -407,275 +407,284 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             )}
           </div>
           {/* Caret Start Created new FormSelector component */}
-          <FormSelector
-            classes={classes}
-            isThemeLight={isThemeLight}
-            selectValue={flexAlign}
-            handleChange={handleChange}
-            title="Display:"
-            name="display"
-            items={[
-              { value: '', text: 'none' },
-              { value: 'block', text: 'block' },
-              { value: 'inline-block', text: 'inline-block' },
-              { value: 'flex', text: 'flex' }
-            ]}
-          />
-          {/* flex options are hidden until display flex is chosen */}
-          {displayMode === 'flex' && (
+          <section className={'customization-section'}>
             <div>
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
                 selectValue={flexAlign}
                 handleChange={handleChange}
-                title="Flex direction:"
-                name="flexdir"
+                title="Display:"
+                name="display"
                 items={[
                   { value: '', text: 'none' },
-                  { value: 'row', text: 'row' },
-                  { value: 'column', text: 'column' }
+                  { value: 'block', text: 'block' },
+                  { value: 'inline-block', text: 'inline-block' },
+                  { value: 'flex', text: 'flex' }
+                ]}
+              />
+              {/* flex options are hidden until display flex is chosen */}
+              {displayMode === 'flex' && (
+                <div>
+                  <FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexAlign}
+                    handleChange={handleChange}
+                    title="Flex direction:"
+                    name="flexdir"
+                    items={[
+                      { value: '', text: 'none' },
+                      { value: 'row', text: 'row' },
+                      { value: 'column', text: 'column' }
+                    ]}
+                  />
+                  <FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexAlign}
+                    handleChange={handleChange}
+                    title="Justify content:"
+                    name="flexjust"
+                    items={[
+                      { value: '', text: 'none' },
+                      { value: 'flex-start', text: 'flex-start' },
+                      { value: 'flex-end', text: 'flex-end' },
+                      { value: 'center', text: 'center' },
+                      { value: 'space-between', text: 'space-between' },
+                      { value: 'space-around', text: 'space-around' },
+                      { value: 'space-evenly', text: 'space-evenly' }
+                    ]}
+                  />
+                  <FormSelector
+                    classes={classes}
+                    isThemeLight={isThemeLight}
+                    selectValue={flexAlign}
+                    handleChange={handleChange}
+                    title="Align items:"
+                    name="flexalign"
+                    items={[
+                      { value: '', text: 'none' },
+                      { value: 'stretch', text: 'stretch' },
+                      { value: 'flex-start', text: 'flex-start' },
+                      { value: 'flex-end', text: 'flex-end' },
+                      { value: 'center', text: 'center' }
+                    ]}
+                  />
+                </div>
+              )}
+              <FormSelector
+                classes={classes}
+                isThemeLight={isThemeLight}
+                selectValue={compWidth}
+                handleChange={handleChange}
+                title="Width:"
+                name="width"
+                items={[
+                  { value: '', text: 'none' },
+                  { value: 'auto', text: 'auto' },
+                  { value: '50%', text: '50%' },
+                  { value: '25%', text: '25%' }
                 ]}
               />
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
-                selectValue={flexAlign}
+                selectValue={compWidth}
                 handleChange={handleChange}
-                title="Justify content:"
-                name="flexjust"
+                title="Height:"
+                name="height"
                 items={[
                   { value: '', text: 'none' },
-                  { value: 'flex-start', text: 'flex-start' },
-                  { value: 'flex-end', text: 'flex-end' },
-                  { value: 'center', text: 'center' },
-                  { value: 'space-between', text: 'space-between' },
-                  { value: 'space-around', text: 'space-around' },
-                  { value: 'space-evenly', text: 'space-evenly' }
+                  { value: 'auto', text: 'auto' },
+                  { value: '100%', text: '100%' },
+                  { value: '50%', text: '50%' }
                 ]}
               />
-              <FormSelector
-                classes={classes}
-                isThemeLight={isThemeLight}
-                selectValue={flexAlign}
-                handleChange={handleChange}
-                title="Align items:"
-                name="flexalign"
-                items={[
-                  { value: '', text: 'none' },
-                  { value: 'stretch', text: 'stretch' },
-                  { value: 'flex-start', text: 'flex-start' },
-                  { value: 'flex-end', text: 'flex-end' },
-                  { value: 'center', text: 'center' }
-                ]}
-              />
+              {/* Caret End */}
+              <div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>Background color:</h3>
+                </div>
+                <div className={classes.configValue}>
+                  <FormControl variant="filled" className={classes.formControl}>
+                    <TextField
+                      variant="filled"
+                      name="bgcolor"
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={BGColor}
+                      onChange={handleChange}
+                      placeholder="#B6B8B7"
+                    />
+                  </FormControl>
+                </div>
+              </div>
             </div>
-          )}
-          <FormSelector
-            classes={classes}
-            isThemeLight={isThemeLight}
-            selectValue={compWidth}
-            handleChange={handleChange}
-            title="Width:"
-            name="width"
-            items={[
-              { value: '', text: 'none' },
-              { value: 'auto', text: 'auto' },
-              { value: '50%', text: '50%' },
-              { value: '25%', text: '25%' }
-            ]}
-          />
-          <FormSelector
-            classes={classes}
-            isThemeLight={isThemeLight}
-            selectValue={compWidth}
-            handleChange={handleChange}
-            title="Height:"
-            name="height"
-            items={[
-              { value: '', text: 'none' },
-              { value: 'auto', text: 'auto' },
-              { value: '100%', text: '100%' },
-              { value: '50%', text: '50%' }
-            ]}
-          />
-          {/* Caret End */}
-          <div className={classes.configRow}>
-            <div
-              className={
-                isThemeLight
-                  ? `${classes.configType} ${classes.lightThemeFontColor}`
-                  : `${classes.configType} ${classes.darkThemeFontColor}`
-              }
-            >
-              <h3>Background color:</h3>
+            {/* Caret Start */}
+            <div>
+
+              <div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>Text:</h3>
+                </div>
+                <div className={classes.configValue}>
+                  <FormControl variant="filled" className={classes.formControl}>
+                    <TextField
+                      variant="filled"
+                      name="compText"
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={compText}
+                      onChange={handleChange}
+                      placeholder="Text"
+                    />
+                  </FormControl>
+                </div>
+              </div>
+              <div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>Link:</h3>
+                </div>
+                <div className={classes.configValue}>
+                  <FormControl variant="filled" className={classes.formControl}>
+                    <TextField
+                      variant="filled"
+                      name="compLink"
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={compLink}
+                      onChange={handleChange}
+                      placeholder="Text"
+                    />
+                  </FormControl>
+                </div>
+              </div>
+              <div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>Css Classes:</h3>
+                </div>
+                <div className={classes.configValue}>
+                  <FormControl variant="filled" className={classes.formControl}>
+                    <TextField
+                      variant="filled"
+                      name="cssClasses"
+                      className={classes.select}
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={cssClasses}
+                      onChange={handleChange}
+                      placeholder="Text"
+                    />
+                  </FormControl>
+                </div>
+              </div>
+              {/* Caret End */}
             </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <TextField
-                  variant="filled"
-                  name="bgcolor"
-                  className={classes.select}
-                  inputProps={{
-                    className: isThemeLight
-                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                  }}
-                  value={BGColor}
-                  onChange={handleChange}
-                  placeholder="#B6B8B7"
-                />
-              </FormControl>
+            <div>
+              <div className={classes.buttonRow}>
+                <Button
+                  color="primary"
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleSave}
+                  id="saveButton"
+                >
+                  SAVE
+                </Button>
+              </div>
+              {configTarget.child ? (
+                <div className={classes.buttonRow}>
+                  <Button
+                    color="primary"
+                    className={classes.button}
+                    onClick={handleDelete}
+                  >
+                    DELETE INSTANCE
+                  </Button>
+                </div>
+              ) : isPage(configTarget) ? (
+                <div className={classes.buttonRow}>
+                  <Button
+                    color="secondary"
+                    className={classes.button}
+                    onClick={handlePageDelete(configTarget.id)}
+                  >
+                    DELETE PAGE
+                  </Button>
+                </div>
+              ) : (
+                <div className={classes.buttonRow}>
+                  <Button
+                    color="secondary"
+                    className={classes.button}
+                    onClick={clearComps}
+                    id="deleteComp"
+                  >
+                    DELETE REUSABLE COMPONENT
+                  </Button>
+                </div>
+              )}
+              <div className={classes.buttonRow}>
+                <Button
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleUndo}
+                >
+                  <i className="fas fa-undo"></i>
+                </Button>
+                <Button
+                  color="primary"
+                  className={classes.button}
+                  onClick={handleRedo}
+                >
+                  <i className="fas fa-redo"></i>
+                </Button>
+              </div>
             </div>
-          </div>
-          {/* Caret Start */}
-          <div className={classes.configRow}>
-            <div
-              className={
-                isThemeLight
-                  ? `${classes.configType} ${classes.lightThemeFontColor}`
-                  : `${classes.configType} ${classes.darkThemeFontColor}`
-              }
-            >
-              <h3>Text:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <TextField
-                  variant="filled"
-                  name="compText"
-                  className={classes.select}
-                  inputProps={{
-                    className: isThemeLight
-                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                  }}
-                  value={compText}
-                  onChange={handleChange}
-                  placeholder="Text"
-                />
-              </FormControl>
-            </div>
-          </div>
-          <div className={classes.configRow}>
-            <div
-              className={
-                isThemeLight
-                  ? `${classes.configType} ${classes.lightThemeFontColor}`
-                  : `${classes.configType} ${classes.darkThemeFontColor}`
-              }
-            >
-              <h3>Link:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <TextField
-                  variant="filled"
-                  name="compLink"
-                  className={classes.select}
-                  inputProps={{
-                    className: isThemeLight
-                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                  }}
-                  value={compLink}
-                  onChange={handleChange}
-                  placeholder="Text"
-                />
-              </FormControl>
-            </div>
-          </div>
-          <div className={classes.configRow}>
-            <div
-              className={
-                isThemeLight
-                  ? `${classes.configType} ${classes.lightThemeFontColor}`
-                  : `${classes.configType} ${classes.darkThemeFontColor}`
-              }
-            >
-              <h3>Css Classes:</h3>
-            </div>
-            <div className={classes.configValue}>
-              <FormControl variant="filled" className={classes.formControl}>
-                <TextField
-                  variant="filled"
-                  name="cssClasses"
-                  className={classes.select}
-                  inputProps={{
-                    className: isThemeLight
-                      ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                      : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                  }}
-                  value={cssClasses}
-                  onChange={handleChange}
-                  placeholder="Text"
-                />
-              </FormControl>
-            </div>
-          </div>
-          {/* Caret End */}
-          <div className={classes.buttonRow}>
-            <Button
-              color="primary"
-              className={
-                isThemeLight
-                  ? `${classes.button} ${classes.saveButtonLight}`
-                  : `${classes.button} ${classes.saveButtonDark}`
-              }
-              onClick={handleSave}
-              id="saveButton"
-            >
-              SAVE
-            </Button>
-          </div>
-          {configTarget.child ? (
-            <div className={classes.buttonRow}>
-              <Button
-                color="primary"
-                className={classes.button}
-                onClick={handleDelete}
-              >
-                DELETE INSTANCE
-              </Button>
-            </div>
-          ) : isPage(configTarget) ? (
-            <div className={classes.buttonRow}>
-              <Button
-                color="secondary"
-                className={classes.button}
-                onClick={handlePageDelete(configTarget.id)}
-              >
-                DELETE PAGE
-              </Button>
-            </div>
-          ) : (
-            <div className={classes.buttonRow}>
-              <Button
-                color="secondary"
-                className={classes.button}
-                onClick={clearComps}
-                id="deleteComp"
-              >
-                DELETE REUSABLE COMPONENT
-              </Button>
-            </div>
-          )}
-          <div className={classes.buttonRow}>
-            <Button
-              color="primary"
-              className={classes.button}
-              onClick={handleUndo}
-            >
-              <i className="fas fa-undo"></i>
-            </Button>
-            <Button
-              color="primary"
-              className={classes.button}
-              onClick={handleRedo}
-            >
-              <i className="fas fa-redo"></i>
-            </Button>
-          </div>
+          </section>
         </div>
       </div>
       <Dialog

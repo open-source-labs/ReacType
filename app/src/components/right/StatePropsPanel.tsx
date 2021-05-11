@@ -126,7 +126,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     <div className={'state-panel'}>
       <div>
         <FormControl>
-          <label>Create New State</label>
+          <h4>Create New State</h4>
           <TextField
             id="textfield-key"
             label="key:"
@@ -174,9 +174,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
-          <MyButton type="submit" onClick={debug}>
+          {/* Commenting out the debug button for production */}
+          {/* <MyButton type="submit" onClick={debug}>
             debug
-          </MyButton>
+          </MyButton> */}
           <br></br>
           <MyButton type="submit" onClick={submitNewState}>
             Save
@@ -184,18 +185,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
           <br></br>
         </FormControl>
       </div>
-      <hr></hr>
-      <br></br>
       <br></br>
       <div>
-        <label>Current State</label>
-        <br></br>
-        <label>
-          Name: {state.components[state.canvasFocus.componentId - 1].name}
-        </label>
-        <div >
-          <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
-        </div>
+        <h4>Current State Name: {state.components[state.canvasFocus.componentId - 1].name}</h4>
+        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
       </div>
     </div>
   );
@@ -283,7 +276,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "transparent",
       height: "40px",
       width: "100px",
-      fontFamily: '"Raleway", sans-serif',
+      fontFamily: 'Roboto, Raleway, sans-serif',
       fontSize: "90%",
       textAlign: "center",
       margin: "-20px 0px 5px 150px",
@@ -313,10 +306,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MyButton = styled(Button)({
-  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+  background: "#297ac2",
   border: 0,
   borderRadius: 3,
-  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  boxShadow: "0 2px 2px 2px #297ac2",
   color: "white",
   height: 24,
   width: 40,

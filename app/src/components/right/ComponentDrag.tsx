@@ -80,20 +80,21 @@ const ComponentDrag = ({isThemeLight}): JSX.Element => {
 
 const useStyles = makeStyles({
   panelWrapper: {
-    marginTop: '15px', 
     display: 'flex',
     flexDirection:'column',
     alignItems:'center',
     flexGrow : 1,
+    overflow: 'auto',
   },
   panelWrapperList: {
     minHeight: '120px',
     marginLeft: '-15px',
     marginRight: '-15px',
-    width: '300px',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    wordWrap: 'break-word',
   },
   lightThemeFontColor: {
     color: '#186BB4'

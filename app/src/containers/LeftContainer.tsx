@@ -12,10 +12,12 @@ const LeftContainer = (props): JSX.Element => {
 
   return (
     <div className="column left" style={style}>
-      <span align-self={'center'}>Drag & Drop</span>
-      <Grid container direction="row" alignItems="center">
-        <ComponentDrag isThemeLight={props.isThemeLight}/>
+      <Grid container direction="column" alignItems="center">
+        <h4>Drag & Drop</h4>
         <DragDropPanel isThemeLight={props.isThemeLight}/>
+        <div id={'CompBottomHalf'}>
+          <ComponentDrag isThemeLight={props.isThemeLight}/>
+        </div>
       </Grid>
     </div>
   );

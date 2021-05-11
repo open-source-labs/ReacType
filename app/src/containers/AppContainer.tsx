@@ -37,11 +37,8 @@ const AppContainer = () => {
         <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>
       </div>
       <div className="app-container">
-        
             <LeftContainer isThemeLight={isThemeLight}/>
-            <MainContainer />
-            {/* <RightContainer isThemeLight={isThemeLight}/> */}
-
+            <MainContainer isThemeLight={isThemeLight}/>
       </div>
       </styleContext.Provider>
     </MuiThemeProvider>

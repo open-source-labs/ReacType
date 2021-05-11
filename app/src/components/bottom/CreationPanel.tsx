@@ -7,7 +7,7 @@ const CreationPanel = (props): JSX.Element => {
   return (
     <div className="creation-panel" >
       <ComponentPanel isThemeLight={props.isThemeLight}/>
-      <HTMLPanel />
+      <HTMLPanel isThemeLight={props.isThemeLight}/>
       <StatePropsPanel isThemeLight={props.isThemeLight}/>
     </div>
   );

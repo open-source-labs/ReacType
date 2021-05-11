@@ -73,17 +73,15 @@ const ComponentPanelItem: React.FC<{
       style={{
         color: '#186BB4',
         backgroundColor: 'transparent',
-        height: '75px',
-        marginBottom: '15px',
         border: root
           ? '2px dotted #186BB4'
           : '2px solid #186BB4',
-        borderRadius: '8px'
+        borderRadius: '4px',
       }}
     >
       <div className="compPanelItem" onClick={handleClick}>
         {isFocus && <div className={classes.focusMark}></div>}
-        <h3 style={{paddingLeft: '35%'}}>{name}</h3>
+        <h3 >{name}</h3>
       </div>
     </Grid>
   );
