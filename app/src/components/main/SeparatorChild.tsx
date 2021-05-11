@@ -7,6 +7,7 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation'
+import componentNest from '../../helperFunctions/componentNestValidation'
 
 function DirectChildHTMLNestable({
   childId,
@@ -54,14 +55,16 @@ function DirectChildHTMLNestable({
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        dispatch({
-          type: 'ADD CHILD',
-          payload: {
-            type: item.instanceType,
-            typeId: item.instanceTypeId,
-            childId: childId
-          }
-        });
+        if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
+          dispatch({
+            type: 'ADD CHILD',
+            payload: {
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+            }
+          });
+        } 
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {

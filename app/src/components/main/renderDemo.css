@@ -1,7 +1,7 @@
-.text-color { 
+.tst-text-color { 
   color: #cc0707;
 }
-.btn {
+.tst-btn {
   height: 20px;
   width: 100px;
   background-color: #ffffff;
@@ -10,12 +10,12 @@
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.login-page {
+.tst-login-page {
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
 }
-.form {
+.tst-form {
   position: relative;
   z-index: 1;
   background: #000000;
@@ -25,7 +25,7 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.form input {
+.tst-form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -36,7 +36,7 @@
   box-sizing: border-box;
   font-size: 14px;
 }
-.form button {
+.tst-form button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -50,55 +50,55 @@
   transition: all 0.3 ease;
   cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
+.tst-form button:hover,.form button:active,.form button:focus {
   background: #43A047;
 }
-.form .message {
+.tst-form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
   font-size: 12px;
 }
-.form .message-a {
+.tst-form .message-a {
   color: #4CAF50;
   text-decoration: none;
 }
-.form .register-form {
+.tst-form .register-form {
   display: none;
 }
-.container {
+.tst-container {
   position: relative;
   z-index: 1;
   max-width: 300px;
   margin: 0 auto;
 }
-.container:before, .container:after {
+.tst-container:before, .container:after {
   content: "";
   display: block;
   clear: both;
 }
-.container .info {
+.tst-container .info {
   margin: 50px auto;
   text-align: center;
 }
-.container .info h1 {
+.tst-container .info h1 {
   margin: 0 0 15px;
   padding: 0;
   font-size: 36px;
   font-weight: 300;
   color: #1a1a1a;
 }
-.container .info span {
+.tst-container .info span {
   color: #4d4d4d;
   font-size: 12px;
 }
-.container .info span a {
+.tst-container .info span a {
   color: #000000;
   text-decoration: none;
 }
-.container .info span .fa {
+.tst-container .info span .fa {
   color: #EF3B3A;
 }
-.container-body {
+.tst-container-body {
   height: 100vh;
   background: #76b852; /* fallback for old browsers */
   background: -webkit-linear-gradient(right, #76b852, #8DC26F);
@@ -111,7 +111,7 @@
 }
 
 
-.list-example .body-container {
+.tst-list-example .body-container {
     margin: 0;
     height: 100vh;
     display: flex;
@@ -120,12 +120,12 @@
     background-color: #333;
 }
 
-.list-example ul {
+.tst-list-example ul {
     padding: 0;
     list-style-type: none;
 }
 
-.list-example li {
+.tst-list-example li {
     font-size: 25px;
     width: 8em;
     height: 2em;
@@ -136,8 +136,8 @@
     cursor: pointer;
 }
 
-.list-example li::before,
-.list-example li::after
+.tst-list-example li::before,
+.tst-list-example li::after
  {
     content: '';
     position: absolute;
@@ -146,21 +146,21 @@
     z-index: -1;
 }
 
-.list-example li::before {
+.tst-list-example li::before {
     height: 80%;
     top: 10%;
     left: calc(-0.15em - 0.08em * 2);
     filter: brightness(0.8);
 }
 
-.list-example li::after {
+.tst-list-example li::after {
     height: 60%;
     top: 20%;
     left: calc(-0.15em * 2 - 0.08em * 3);
     filter: brightness(0.6);
 }
 
-.list-example li span {
+.tst-list-example li span {
     position: relative;
     height: 120%;
     top: -10%;
@@ -176,7 +176,7 @@
     transition: 0.3s;
 }
 
-.list-example li:hover span {
+.tst-list-example li:hover span {
     transform: translateX(0.15em);
 }
 

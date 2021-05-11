@@ -6,6 +6,8 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
+  // Caret
+  config?: {};
   separator: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
@@ -97,4 +99,10 @@ export interface Annotations {
   name: string;
   annotations: string;
 }
+
+export interface StatePropsPanelProps {
+  selectHandler: (table: any) => void;
+  deleteHandler: (id: number | any) => void;
+}
+
 // Caret end

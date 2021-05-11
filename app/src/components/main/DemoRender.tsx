@@ -4,8 +4,8 @@ import React, {
 } from 'react';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import './renderDemo.css';
 import StateContext from '../../context/context';
+import cssRefresher from '../../helperFunctions/cssRefresh';
 
 const DemoRender = (props): JSX.Element => {
   const [components, setComponents] = useState([]);
@@ -48,6 +48,11 @@ const DemoRender = (props): JSX.Element => {
     const renderedComponents = componentBuilder(childrenArray);
     setComponents(renderedComponents);
   }, [state.components, state.canvasFocus]);
+
+  useEffect(() => {
+    cssRefresher();
+  }, [])
+
 
   return (
     <div id={'renderFocus'} style={demoContainerStyle}>

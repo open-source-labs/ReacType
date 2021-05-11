@@ -42,7 +42,6 @@ function Annotation({
    */
   const handleAnnoChange = (event) => {
     const { value } = event.target;
-
     if (value === '' || value === undefined) {
       ref.current.style.background = '#3ec1ac';
     } else {
@@ -73,7 +72,7 @@ function Annotation({
       }
     }
     return '';
-  }
+  };
 
   /**
    * This useEffect allows the annotations to remain persistent when changing between root level components on the right panel

@@ -40,7 +40,7 @@ const BottomTabs = () => {
     setTheme(e.target.value);
   };
 
-  console.log("Editor Theme: ", theme);
+  // console.log("Editor Theme: ", theme);
 
   return (
     <div className={classes.root} style={style}>

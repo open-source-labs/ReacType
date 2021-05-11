@@ -18,7 +18,8 @@ const renderChildren = (children: ChildElement[]) => {
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
-    // Caret Start Removed style from prop drills so that styling isn't applied to canvas items
+    // Caret Start Removed style from prop drills so that styling isn't applied to canvas items. 
+    // Also added keys & removed an unnecessary div around DirChildNestables that were causing errors.
     if (type === 'Component') {
       return (
         <DirectChildComponent
@@ -39,7 +40,7 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          key={'DirChildHTML' + childId.toString() + name}
+          key={'DirChildHTML' + childId.toString() + name }
           name={name}
           annotations={annotations}
         />
@@ -48,7 +49,7 @@ const renderChildren = (children: ChildElement[]) => {
     // Caret Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
     // child is a nestable type of HTML element (divs and forms)
     else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16)) {
-      return (        <div>
+      return (       
         <DirectChildHTMLNestable
           childId={childId}
           type={type}
@@ -58,7 +59,6 @@ const renderChildren = (children: ChildElement[]) => {
           name={name}
           annotations={annotations}
         />
-        </div>
       );
     }
     else if (type === 'HTML Element' && typeId === 1000 ) {
@@ -68,7 +68,7 @@ const renderChildren = (children: ChildElement[]) => {
           type={type}
           typeId={typeId}
           children={children}
-          key={'DirChildHTMLNest' + childId.toString() + name}
+          key={'SeparatorChild' + childId.toString() + name + (Math.random()*1000).toString()}
           name={name}
         />
       );
