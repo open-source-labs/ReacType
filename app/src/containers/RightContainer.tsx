@@ -28,6 +28,9 @@ import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
+// Caret
+import Arrow from '../components/main/Arrow';
+import { config } from 'ace-builds';
 
 // need to pass in props to use the useHistory feature of react router
 const RightContainer = ({ isThemeLight }): JSX.Element => {
@@ -182,6 +185,11 @@ const RightContainer = ({ isThemeLight }): JSX.Element => {
     state.canvasFocus.childId,
     state.canvasFocus.componentId
   ]);
+
+  console.log("CONFIG TARGET ****************: " , state.canvasFocus.childId);
+  Arrow.renderArrow(state.canvasFocus.childId);
+  
+
 
   const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;

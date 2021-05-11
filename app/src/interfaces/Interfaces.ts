@@ -43,7 +43,6 @@ export interface Component {
   // Caret
   annotations?: string;
   useStateCodes: string[];
-
 }
 
 export interface StateProp {
