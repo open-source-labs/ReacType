@@ -5,6 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
+import CustomizationPanel from '../../containers/CustomizationPanel'
+import CreationPanel from './CreationPanel'
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import { emitKeypressEvents } from 'readline';
@@ -14,7 +16,7 @@ import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
-const BottomTabs = () => {
+const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
@@ -56,17 +58,27 @@ const BottomTabs = () => {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Creation Panel"
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Customization"
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="CSS Editor"
+          />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Code Preview"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Component Tree"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="CSS Editor"
           />
         </Tabs>
         <div className={classes.projectTypeWrapper}> 
@@ -86,9 +98,11 @@ const BottomTabs = () => {
           </FormControl>
         </div>
       </Box>
-      {tab === 0 && <CodePreview theme={theme} setTheme={setTheme} />}
-      {tab === 1 && <Tree data={components} />}
+      {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
+      {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
       {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
+      {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
+      {tab === 4 && <Tree data={components} />}
     </div>
   );
 };

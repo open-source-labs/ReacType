@@ -70,7 +70,7 @@ const StylesEditor: React.FC<{
       className='text-editor'
       ref={wrapper}
       style={{
-        height: '40vh',
+        height: '100%',
         maxWidth: '100%',
         justifyContent: 'center',
       }}
@@ -89,7 +89,7 @@ const StylesEditor: React.FC<{
         enableBasicAutocompletion={true}
         enableLiveAutocompletion={true}
       />
-      <Fab className='btn' onClick={saveCss} color="secondary" aria-label="add">
+      <Fab className='bttn' onClick={saveCss} color="secondary" aria-label="add">
         <SaveIcon />
       </Fab>
     </div>

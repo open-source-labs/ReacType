@@ -2,13 +2,14 @@
 
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import StateContext from '../../context/context';
-import Grid from '@material-ui/core/Grid';
-import ComponentPanelItem from './ComponentPanelItem';
-import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { makeStyles, styled } from '@material-ui/core/styles';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  InputLabel,
+  TextField,
+} from "@material-ui/core";
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
@@ -138,23 +139,23 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
             New Component
           </h4>
           {/* input for new component */}
-          <div style={{display: 'flex', justifyContent:'space-around', marginTop: '20px', alignItems:'baseline'}}>
+          <div style={{display: 'flex', justifyContent:'space-evenly', marginTop: '20px', alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
-              <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+              <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
                 Name:
-              </label>
+              </InputLabel>
                 <div className={classes.inputWrapper}>
-                    <input
+                    <TextField
                     color={'primary'}
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
                     // Caret inputprops and helpertext must be lowercase
-                    inputprops={{ className: classes.input }}
+                    inputProps={{ className: classes.input }}
                     value={compName}
                     // Doesn't accept boolean value needs to be a string
-                    error={errorStatus.toString()}
+                    error={errorStatus}
                     // Updated
-                    helpertext={errorStatus ? errorMsg : ''}
+                    helperText={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
               />
               </div>
@@ -178,81 +179,13 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
               />
             </div>
           </div>
-          <button
+          <CreateButton
             className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
             id="addComponentButton"
             onClick={handleNameSubmit}
           >
             Create
-          </button>
-       
-      </div>
-      <div className="lineDiv">
-          <hr
-            style={{
-              borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
-              borderStyle: 'solid',
-              height: '0.5px',
-              width: '100%',
-              marginLeft: '0px'
-            }}
-          />
-        </div>
-      {/* Display all root components */}
-      {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
-      <div className={classes.panelWrapperList}>
-        {/* Heading just below ADD button */}
-        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
-          {state.components
-            .filter(comp => state.rootComponents.includes(comp.id))
-            .map(comp => {
-              return (
-                  <ComponentPanelItem
-                  isFocus={isFocus(comp.id)}
-                  key={`comp-${comp.id}`}
-                  name={comp.name}
-                  id={comp.id}
-                  root={true}
-                  />
-               
-              );
-            })}
-        </Grid>
-        {/* Display all reusable components */}
-        <h4 className={ isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
-          {state.components
-            .filter(comp => !state.rootComponents.includes(comp.id))
-            .map(comp => {
-              return (
-                <ComponentPanelItem
-                  isFocus={isFocus(comp.id)}
-                  key={`comp-${comp.id}`}
-                  name={comp.name}
-                  id={comp.id}
-                  root={false}
-                  isThemeLight={isThemeLight}
-                />
-              );
-            })}
-        </Grid>
-        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
-        {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
-          <React.Fragment>
-            <h4>Routing</h4>
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <ComponentPanelRoutingItem key={'premadecomp-1'} />
-            </Grid>
-          </React.Fragment>
-        ) : (
-          ''
-        )}
+          </CreateButton>
       </div>
     </div>
   );
@@ -269,7 +202,8 @@ const useStyles = makeStyles({
     margin: '0px 0px 0px 10px',
     width: '140px',
     height: '30px',
-    borderColor: 'white'
+    borderColor: 'grey',
+    border: '2px solid grey'
   },
   inputWrapper: {
     textAlign: 'center',
@@ -278,6 +212,14 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: '15px',
+  },
+  panelWrapper: {
+    display: 'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    flexGrow : 1,
+    backgroundColor: '#fafaf6',
+    color: '#000000',
   },
   addComponentWrapper: {
     padding: 'auto',
@@ -291,38 +233,6 @@ const useStyles = makeStyles({
   },
   rootCheckBoxLabel: {
     borderColor: '#186BB4'
-  },
-  panelWrapper: {
-    width: '100%',
-    marginTop: '15px', 
-    display: 'flex',
-    flexDirection:'column',
-    alignItems:'center'
-  },
-  panelWrapperList: {
-    minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  dragComponents: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '500px',
-    backgroundColor: '#186BB4',
-    border: '5px solid #186BB4'
-  },
-  panelSubheader: {
-    textAlign: 'center',
-    color: '#fff'
-  },
-  input: {
-   
   },
   newComponent: {
     color: '#155084',
@@ -341,7 +251,7 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     height: '40px',
     width: '100px',
-    fontFamily: '"Raleway", sans-serif',
+    fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '90%',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
@@ -359,6 +269,17 @@ const useStyles = makeStyles({
   darkThemeFontColor: {
     color: '#fff'
   }
+});
+
+const CreateButton = styled(Button)({
+  background: "#297ac2",
+  border: 0,
+  borderRadius: 3,
+  boxShadow: "0 2px 2px 2px #297ac2",
+  color: "white",
+  height: 24,
+  width: 60,
+  padding: "0 30px",
 });
 
 export default ComponentPanel;

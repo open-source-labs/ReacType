@@ -2,7 +2,14 @@ import React, { useState, useCallback, useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  InputLabel,
+  TextField,
+} from "@material-ui/core";
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -134,13 +141,6 @@ const HTMLPanel = (props): JSX.Element => {
     resetError();
   };
 
-  const handleDelete = (id: number): void => {
-    dispatch({
-      type: 'DELETE ELEMENT',
-      payload: id
-    });
-  };
-
   const handleCreateElement = useCallback((e) => {
     if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
@@ -155,55 +155,26 @@ const HTMLPanel = (props): JSX.Element => {
     }
   }, []);
 
-
-  // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator')
   return (
-    <div className="HTMLItems">
-      <div id="HTMLItemsTopHalf">
-        <Grid
-            id="HTMLItemsGrid"
-          >
-            {htmlTypesToRender.map(option => (
-              <HTMLItem
-                name={option.name}
-                key={`html-${option.name}`}
-                id={option.id}
-                Icon={option.icon}
-                handleDelete={handleDelete}
-                isThemeLight={isThemeLight}
-              />
-            ))}
-          </Grid>
-      </div>
-      <div className="lineDiv">
-        <hr
-          style={{
-            borderColor: isThemeLight ? '#f5f5f5' : '#186BB4',
-            borderStyle: 'solid',
-            height: '0.5px',
-            width: '100%',
-            marginLeft: '0px'
-          }}
-        />
-      </div>
+    <div className="HTMLItemCreate">
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
 
-            <h5 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h5>
-            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h4>
+            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
-            </label>
-              <input
+            </InputLabel>
+              <TextField
                 color={'primary'}
+                variant={'outlined'}
                 type="text"
                 name="Tag"
                 value={tag}
                 autoComplete="off"
                 onChange={handleTagChange}
                 className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
-                style={{ marginBottom: '10px' }}
+                style={{ margin: '10px' }}
               />
               
               {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
@@ -212,47 +183,58 @@ const HTMLPanel = (props): JSX.Element => {
                               </span>}
               
             <br></br>
-            <label className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
-            </label>
-            <input
+            </InputLabel>
+            <TextField
               color={'primary'}
+              variant={'outlined'}
               type="text"
               name="Tag Name"
               value={name}
               onChange={handleNameChange}
               autoComplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
+              style={{ margin: '10px' }}
             />
 
             {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                               <em>{errorMsg}</em>
                             </span>}           
-            <input
-
+            <AddElementButton
               className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
               value="Add Element"
-              
-            />
+            >Add Element
+            </AddElementButton>
           </form>
         </div>
       </div>
-        
     </div>
   );
 };
 
 const useStyles = makeStyles({
+  inputField: {
+    marginTop: '10px',
+    borderRadius: '5px',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    margin: '0px 0px 0px 10px',
+    width: '140px',
+    height: '30px',
+  },
   inputWrapper: {
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     marginBottom: '15px',
-    width: '100%'
+    width: '100%',
   },
   addComponentWrapper: {
     width: '100%',
@@ -264,27 +246,26 @@ const useStyles = makeStyles({
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
-    margin: '0px 0px 0px 10px',
-    width: '140px',
+    margin: '0px 0px 0px 0px',
+    width: '160px',
     height: '30px',
+    alignSelf: 'center',
+    border: '2px solid grey'
   },
   inputLabel: {
-    fontSize: '85%',
-    zIndex: 20,
-    margin: '-10px 0px -10px 0px',
-    width: '125%'
+    fontSize: "1em",
+    marginLeft: "10px",
   },
   addElementButton: {
     backgroundColor: 'transparent',
     height: '40px',
     width: '105px',
-    fontFamily: '"Raleway", sans-serif',
+    fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    marginLeft: '75px',
     borderStyle: 'none',
     transition: '0.3s',
-    borderRadius: '25px',
+    borderRadius: '4px',
   },
   lightThemeFontColor: {
     color: '#186BB4'
@@ -304,6 +285,18 @@ const useStyles = makeStyles({
   errorMessageDark: {
     color: 'white'
   }
+});
+
+const AddElementButton = styled(Button)({
+  background: "#297ac2",
+  border: 0,
+  borderRadius: 3,
+  boxShadow: "0 2px 2px 2px #297ac2",
+  color: "white",
+  height: 24,
+  width: 160,
+  padding: "0px 30px",
+  alignSelf: 'center',
 });
 
 export default HTMLPanel;

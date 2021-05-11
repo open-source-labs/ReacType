@@ -4,7 +4,7 @@ import CanvasContainer from '../components/main/CanvasContainer';
 import { styleContext } from './AppContainer';
 import DemoRender from '../components/main/DemoRender';
 
-const MainContainer = () => {
+const MainContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
 
 
@@ -15,7 +15,7 @@ const MainContainer = () => {
         {/* Caret Component Render */}
         <DemoRender />
       </div>
-      <BottomPanel />
+      <BottomPanel isThemeLight={props.isThemeLight}/>
     </div>
   );
 };

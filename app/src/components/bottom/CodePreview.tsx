@@ -38,7 +38,7 @@ const CodePreview: React.FC<{
     <div
     ref={wrapper}
       style={{
-        height: '40vh',
+        height: '100%',
         maxWidth: '100%',
         justifyContent: 'center',
       }}
