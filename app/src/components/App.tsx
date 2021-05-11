@@ -60,12 +60,10 @@ export const App = (): JSX.Element => {
   
   // Caret Start Updated save cycle     
   useEffect(() => {
-    console.log('Legacy state', state);
     // provide config properties to legacy projects so new edits can be auto saved
     if (state.config === undefined) {
       state.config = {saveFlag:true, saveTimer:false};
     };
-    console.log('Updated state for legacy projects', state);
     // New project save configuration to optimize server load and minimize Ajax requests
     if (state.config.saveFlag) {
       state.config.saveFlag = false;
