@@ -129,6 +129,10 @@ app.delete(
   (req, res) => res.status(200).json(res.locals.deleted),
 );
 
+app.get("/", function (req, res) {
+	res.send("Houston, Caret is in orbit!");
+});
+
 // catch-all route handler
 app.use('*', (req, res) => res.status(404).send('Page not found'));
 
