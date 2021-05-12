@@ -15,6 +15,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Arrow from '../main/Arrow';
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
@@ -25,12 +26,11 @@ const BottomTabs = (props): JSX.Element => {
   const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 
-  
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
     setTab(value);
   };
- // Allows users to toggle project between "next.js" and "Classic React"
+  // Allows users to toggle project between "next.js" and "Classic React"
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
@@ -42,7 +42,8 @@ const BottomTabs = (props): JSX.Element => {
     setTheme(e.target.value);
   };
 
-  // console.log("Editor Theme: ", theme);
+  // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
+  Arrow.renderArrow(state.canvasFocus.childId);
 
   return (
     <div className={classes.root} style={style}>
@@ -110,7 +111,7 @@ const BottomTabs = (props): JSX.Element => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#186BB4',
+    backgroundColor: '#003366',
     height: '100%',
     color: '#E8E8E8',
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
@@ -174,7 +175,7 @@ const useStyles = makeStyles(theme => ({
     marginBotton: '10px'
   },
   projectSelector: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#0099E6',
     color: 'white'
   }
 }));

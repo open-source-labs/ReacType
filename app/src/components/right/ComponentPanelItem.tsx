@@ -71,12 +71,13 @@ const ComponentPanelItem: React.FC<{
       ref={drag}
       xs={8}
       style={{
-        color: '#186BB4',
+        color: '#262626',
         backgroundColor: 'transparent',
         border: root
           ? '2px dotted #186BB4'
           : '2px solid #186BB4',
         borderRadius: '4px',
+        borderColor: '#000000',
       }}
     >
       <div className="compPanelItem" onClick={handleClick}>

@@ -14,7 +14,7 @@ const ComponentTree: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>React Component Tree</h1>
       <hr/>
-      <p className={classes.text}>The tree provides the developer with a visual representation of the component hierarchy. The tree updates in real time as the developer adds or deletes components.</p>
+      <p className={classes.text}>The component tree provides the developer with a visual representation of the component hierarchy. The tree updates in real time as the developer adds or deletes components and HTML elements.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={tree1}></img>
       </div>
