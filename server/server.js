@@ -76,7 +76,7 @@ const resolvers = {
   Mutation,
 };
 
-app.use('/demoRender', express.static(path.join(__dirname, '../app/src/components/main/renderDemo.css')));
+app.use('/demoRender', express.static(path.join(__dirname, '../assets/renderDemo.css')));
 
 
 // Re-direct to route handlers:
