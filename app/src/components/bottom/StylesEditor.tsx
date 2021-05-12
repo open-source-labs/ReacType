@@ -15,6 +15,8 @@ import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
+const serverURL = 'https://desolate-scrubland-40010.herokuapp.com';
+
 const StylesEditor: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -31,7 +33,7 @@ const StylesEditor: React.FC<{
       'Content-Type': 'text/css',
       Accept: 'text/css',
     });
-    fetch('/demoRender', {
+    fetch(`${serverURL}/demoRender`, {
       headers: myHeaders,
     })
       .then(response => response.text())
@@ -45,7 +47,7 @@ const StylesEditor: React.FC<{
     // const myHeaders = new Headers({
     //   headers: { 'Content-Type': 'application/json' },
     // });
-    fetch('/user-styles/save', {
+    fetch(`${serverURL}/user-styles/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: css }),

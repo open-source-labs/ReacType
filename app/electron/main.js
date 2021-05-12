@@ -223,6 +223,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://desolate-scrubland-40010.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -246,6 +247,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://desolate-scrubland-40010.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -288,6 +290,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://desolate-scrubland-40010.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://nextjs.org',
