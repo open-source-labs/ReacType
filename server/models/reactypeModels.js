@@ -15,7 +15,7 @@ const config = require('../../config');
 const SALT_WORK_FACTOR = 14;
 // connect to mongo db
 mongoose
-  .connect(config.URI,
+  .connect(process.env.URI,
     {
       // options for the connect method to parse the URI
       useNewUrlParser: true,
