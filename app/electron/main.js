@@ -72,8 +72,8 @@ async function createWindow() {
     // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
-      // enable devtools when in development mode
-      devTools: isDev,
+      // enable devtools when in development mode 
+      devTools: true,
       // crucial security feature - blocks rendering process from having access to node modules
       nodeIntegration: false,
       // web workers will not have access to node
@@ -131,7 +131,7 @@ async function createWindow() {
     });
   }
 
-  // Emitted when the window is closed.
+  // Emitted when the window is closed. 
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
