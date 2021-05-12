@@ -120,7 +120,7 @@ const snapShotFunc = () => {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '1px solid #186BB4'
+        ? '3px solid #186BB4'
         : '1px solid grey',
   };
 

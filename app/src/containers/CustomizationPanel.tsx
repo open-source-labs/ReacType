@@ -29,7 +29,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 // Caret
-import Arrow from '../components/main/Arrow';
+//import Arrow from '../components/main/Arrow';
 import { config } from 'ace-builds';
 
 // need to pass in props to use the useHistory feature of react router
@@ -186,8 +186,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     state.canvasFocus.componentId
   ]);
 
-  console.log("CONFIG TARGET ****************: " , state.canvasFocus.childId);
-  Arrow.renderArrow(state.canvasFocus.childId);
+  //console.log("CONFIG TARGET ****************: " , state.canvasFocus.childId);
+  //Arrow.renderArrow(state.canvasFocus.childId);
   
 
 
@@ -728,7 +728,7 @@ const useStyles = makeStyles({
   select: {
     fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: '#186BB4'
+      color: '#155084'
     }
   },
   selectInput: {
@@ -785,7 +785,7 @@ const useStyles = makeStyles({
     }
   },
   lightThemeFontColor: {
-    color: '#186BB4'
+    color: '#155084'
   },
   darkThemeFontColor: {
     color: '#fff'

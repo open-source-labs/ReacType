@@ -179,13 +179,16 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
               />
             </div>
           </div>
-          <CreateButton
-            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
-            id="addComponentButton"
-            onClick={handleNameSubmit}
-          >
-            Create
-          </CreateButton>
+          <div>
+            <br/>
+            <CreateButton
+              className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+              id="addComponentButton"
+              onClick={handleNameSubmit}
+            >
+              Create
+            </CreateButton>
+          </div>
       </div>
     </div>
   );
@@ -218,7 +221,7 @@ const useStyles = makeStyles({
     flexDirection:'column',
     alignItems:'center',
     flexGrow : 1,
-    backgroundColor: '#fafaf6',
+    backgroundColor: '#F9F9F9',
     color: '#000000',
   },
   addComponentWrapper: {
@@ -264,7 +267,7 @@ const useStyles = makeStyles({
     fontSize: '0.85rem'
   },
   lightThemeFontColor: {
-    color: '#186BB4'
+    color: '#155084'
   },
   darkThemeFontColor: {
     color: '#fff'
@@ -272,10 +275,10 @@ const useStyles = makeStyles({
 });
 
 const CreateButton = styled(Button)({
-  background: "#297ac2",
+  background: "#0099E6",
   border: 0,
   borderRadius: 3,
-  boxShadow: "0 2px 2px 2px #297ac2",
+  boxShadow: "0 0px 0px 2px #1a1a1a",
   color: "white",
   height: 24,
   width: 60,

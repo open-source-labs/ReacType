@@ -45,7 +45,7 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: #fafaf6;
+  background-color: #F9F9F9;
 }
 
 .state-prop-grid {
@@ -56,7 +56,7 @@ h4 {
 
 .HTMLItemCreate {
   flex-grow: 1;
-  background-color: #fafaf6;
+  background-color: #F9F9F9;
   justify-content: center;
 }
 /*
@@ -94,7 +94,7 @@ header {
 }
 
 .column {
-  background-color: #ececea;
+  background-color: #F9F9F9;
 }
 
 /*
@@ -231,7 +231,7 @@ MAIN COLUMN
 */
 
 h1 {
-  color: #ccc;
+  color: rgb(75, 75, 75);
 }
 
 .main-container {
@@ -467,6 +467,7 @@ ANNOTATIONS
   background-color: #3ec1ac;
   border-radius: 15px;
   font-size: 14px;
+  color: rgb(32, 32, 32)
 }
 
 .annotate-button-filled {
@@ -495,11 +496,12 @@ ANNOTATIONS
   border-style: solid;
   border-color: black;
   border-radius: 0px 0px 15px 15px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .annotate-textarea-header {
   font-size: 35px;
-  background-color: #4772c7;
+  background-color: #003366;
   color: rgb(241, 240, 240);
   width: 600px;
   border: 3px;

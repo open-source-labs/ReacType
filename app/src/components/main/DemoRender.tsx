@@ -12,7 +12,7 @@ const DemoRender = (props): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   const demoContainerStyle = {
     width: '100%',
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#FBFBFB',
     border: '2px Solid grey',
   };
 

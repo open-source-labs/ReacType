@@ -97,7 +97,7 @@ const useStyles = makeStyles({
     wordWrap: 'break-word',
   },
   lightThemeFontColor: {
-    color: '#186BB4'
+    color: '#155084'
   },
   darkThemeFontColor: {
     color: '#fff'

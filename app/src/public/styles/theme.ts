@@ -5,7 +5,10 @@ export const theme1 = createMuiTheme({
   
   palette: {
     primary: {
-      main: '#186BB4', // light mode color
+      main: '#003366', // light mode color
+    },
+    secondary: {
+      main: '#0099E6',
     },
   },
 });

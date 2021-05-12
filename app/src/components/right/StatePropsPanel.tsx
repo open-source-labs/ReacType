@@ -306,10 +306,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MyButton = styled(Button)({
-  background: "#297ac2",
+  background: "#0099E6",
   border: 0,
   borderRadius: 3,
-  boxShadow: "0 2px 2px 2px #297ac2",
+  boxShadow: "0 0px 0px 2px #1a1a1a",
   color: "white",
   height: 24,
   width: 40,

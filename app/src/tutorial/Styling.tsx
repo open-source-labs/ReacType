@@ -18,7 +18,7 @@ const Styling: React.FC<{
         <img src={lighting} />
       </div>
       <p className={classes.text}>
-        Spice up the app by switching to DARK MODE! DARK
+        Spice up the app and ease the strian on your eyes by switching to DARK MODE. DARK
         MODE will change the background and text colors of the app.
       </p>
       <hr />
@@ -36,7 +36,7 @@ const Styling: React.FC<{
         <img className={classes.img} src={codeChange} />
       </div>
       <p className={classes.text}>
-        Manually change your code before exporting and see the changes in your exported
+        You can manually change your code in the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span> before exporting and see the changes reflected in your exported
         file!
       </p>
       <hr />

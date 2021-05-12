@@ -43,9 +43,9 @@ function Annotation({
   const handleAnnoChange = (event) => {
     const { value } = event.target;
     if (value === '' || value === undefined) {
-      ref.current.style.background = '#3ec1ac';
+      ref.current.style.background = '#0CD34C';
     } else {
-      ref.current.style.background = '#cc99ff';
+      ref.current.style.background = '#D59DFF';
     }
     if (value != annotation) {
       setAnnotations(value);
@@ -87,7 +87,7 @@ function Annotation({
   
   const body = (
     <div className='annotate-position'>
-      <span className='annotate-textarea-header'>Notes for: {name} ( {id} )</span>
+      <span className='annotate-textarea-header'> Notes for: {name} ( {id} )</span>
       <textarea className='annotate-textarea' id={id.toString()} onChange={handleAnnoChange}>{annotations}</textarea>
     </div>
   )
