@@ -58,7 +58,7 @@ export const App = (): JSX.Element => {
       }
       }, []);
   
-  // Caret Start Updated save cycle     
+
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
     if (state.config === undefined) {
@@ -88,7 +88,6 @@ export const App = (): JSX.Element => {
       }, 15000);
     }
   }, [state])
-  // Caret End
   
 
   return (

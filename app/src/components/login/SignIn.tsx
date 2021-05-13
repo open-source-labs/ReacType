@@ -71,7 +71,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
 
   // this useEffect will check for cookies and set an item in localstorage for github Oauth session validation
   
-  // Caret start
+ 
   // Commented because window api is broken. Work in progress
   /* useEffect(() => {
     const githubCookie = setInterval(() => {
@@ -89,7 +89,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       });
     }, 2000);
   }, []);*/
-  // Caret end
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;

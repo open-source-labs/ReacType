@@ -44,10 +44,6 @@ const StylesEditor: React.FC<{
   }
 
   const saveFile = () => {
-    console.log('saveFile: ', css);
-    // const myHeaders = new Headers({
-    //   headers: { 'Content-Type': 'application/json' },
-    // });
     fetch(`${serverURL}/user-styles/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

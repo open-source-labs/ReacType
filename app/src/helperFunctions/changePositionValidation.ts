@@ -1,4 +1,4 @@
-// 100% Caret
+
 // This function will evaluate the target destination when moving an element on the canvas
 // If the target destination is actually a nested component within its own children array
 // the new target parent is not a valid parent to change position
@@ -15,7 +15,6 @@ const validateNewParent = (state: object, currentChildId: number, toTargetParent
     return nestedParent;
   }
   const parentNestingIntoChild = selfNestingCheck(childrenArray);
-  console.log("Is a Parent trying to nest inside one of it's children? True fails, False passes,", parentNestingIntoChild);
   if (parentNestingIntoChild === true) return false;
   return true;
 };

@@ -1,4 +1,4 @@
-// Caret Start
+
 import React, {
   useRef, useState, useContext, useEffect,
 } from 'react';
@@ -107,4 +107,3 @@ function Annotation({
 }
 
 export default Annotation;
-// Caret End

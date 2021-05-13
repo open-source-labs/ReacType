@@ -111,7 +111,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 
   const keyBindCreateComponent = useCallback((e) => {
 
-    // Caret
     if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
@@ -149,7 +148,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     color={'primary'}
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
-                    // Caret inputprops and helpertext must be lowercase
+                    // inputprops and helpertext must be lowercase
                     inputProps={{ className: classes.input }}
                     value={compName}
                     // Doesn't accept boolean value needs to be a string
