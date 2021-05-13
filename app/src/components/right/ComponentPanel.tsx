@@ -124,10 +124,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     }
   }, []);
 
-  const isFocus = (targetId: Number) => {
-    return state.canvasFocus.componentId === targetId ? true : false;
-  };
-
   return (
     <div className={classes.panelWrapper}>
       {/* Add a new component*/}

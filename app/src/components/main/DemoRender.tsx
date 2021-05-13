@@ -7,6 +7,8 @@ import Box from '@material-ui/core/Box';
 import StateContext from '../../context/context';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
+// DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
+// real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (props): JSX.Element => {
   const [components, setComponents] = useState([]);
   const [state, dispatch] = useContext(StateContext);
@@ -16,7 +18,9 @@ const DemoRender = (props): JSX.Element => {
     border: '2px Solid grey',
   };
 
-  const componentBuilder = (array, key = 0) => {
+  // This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
+  // Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
+  const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {

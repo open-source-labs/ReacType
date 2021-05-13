@@ -5,7 +5,7 @@ import HTMLItem from './HTMLItem';
 import { makeStyles } from '@material-ui/core/styles';
 
 /*
-DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
+DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
   Elements' header. The boxes containing each HTML element are rendered in
   HTMLItem, which itself is rendered by this component.
 
@@ -16,7 +16,7 @@ Central state contains all available HTML elements (stored in the HTMLTypes prop
 Hook state:
   -tag: 
 */
-
+// Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   // const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);

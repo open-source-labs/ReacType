@@ -12,12 +12,12 @@ const ReusableComponents: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Reusable Components</h1>
       <hr/>
-      <p className={classes.text}>To add a Reusable Component, use the top right input form to name a Component. Leave the Root/Page checkbox unchecked. Then select add to create a new Reusable Component.</p>
+      <p className={classes.text}>To add a Reusable Component, use the New Component input form in the Creation Panel to name a Component. Leave the Root/Page checkbox unchecked. Then click Create to add a new Reusable Component.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents1} />
       </div>
       <hr/>
-      <p className={classes.text}>The Components you create will populate the right container under the section 'Reusable Components'.</p>
+      <p className={classes.text}>The Components you create will populate on the left panel under the section 'Reusable Components'.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents2} />
       </div>
@@ -28,7 +28,7 @@ const ReusableComponents: React.FC<{
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents3} />
       </div>
-      <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with the <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Elements</span>.</p>
+      <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with other <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Elements</span>.</p>
       <hr/>
     </div>
   );

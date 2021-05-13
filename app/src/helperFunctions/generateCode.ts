@@ -95,18 +95,20 @@ const generateUnformattedCode = (
     return customizationDetails;
   };
 
-  // function to dynamically generate a complete html (& also other library type) elements
+  // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
   const tabSpacer = (level: number) => {
     let tabs = ''
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
   }
-
+  
+  // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
     if (level === 2 ) return `\n${tabSpacer(spaces)}`;
     else return ''
   }
-
+  
+  // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
     let activeLink = '';
@@ -160,7 +162,8 @@ const generateUnformattedCode = (
               .join('')
             }`;
   };
-    
+  
+  // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
     for (const element of stateArray) {
@@ -205,6 +208,7 @@ const generateUnformattedCode = (
         ? `class ${currentComponent.name} extends Component {`
         : `const ${currentComponent.name} = (props): JSX.Element => {`
     }
+
     ${
       stateful && !classBased
         ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE")${writeStateProps(currentComponent.useStateCodes)};
