@@ -4,7 +4,9 @@
   box-sizing: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html {
   box-sizing: border-box;
@@ -13,7 +15,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto','Raleway', sans-serif;
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
@@ -24,6 +26,39 @@ h4 {
   text-align: center;
 }
 
+.creation-panel {
+  color:black;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.customization-section {
+  color:black;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.state-panel {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #F9F9F9;
+}
+
+.state-prop-grid {
+  height: 300px;
+  width: 500px;
+  flex-grow: 1;
+}
+
+.HTMLItemCreate {
+  flex-grow: 1;
+  background-color: #F9F9F9;
+  justify-content: center;
+}
 /*
 ///////////////////////////////////////////
 Remove focus styling
@@ -59,9 +94,7 @@ header {
 }
 
 .column {
-  /* width: 25%; */
-  background-color: #ececea;
-  /* margin-top: 65px; */
+  background-color: #F9F9F9;
 }
 
 /*
@@ -73,9 +106,10 @@ LEFT COLUMN
 .left {
   padding: 10px 10px 10px 0px;
   display: flex;
-  width: 200px;
-  min-width: 200px;
+  width: 225px;
+  min-width: 225px;
   flex-direction: column;
+  align-content: center;
   position: relative;
   overflow-x: hidden;
   /* box-shadow: 0 5px 7px 2px rgba(0, 0, 0, 0.4); */
@@ -87,11 +121,18 @@ LEFT COLUMN
   justify-content: space-around;
   flex-wrap: wrap;
   width: 100%;
+  flex-grow: 1;
 }
 
 #HTMLItemsTopHalf {
   height: 52vh;
   overflow-y: auto;
+}
+
+#CompBottomHalf{
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 50%;
 }
 
 .HTMLElements {
@@ -103,12 +144,14 @@ LEFT COLUMN
 }
 
 #HTMLItemsGrid {
-  margin-left: 27px;
+  margin-left: 35px;
 }
 
 #HTMLItem {
   transition: 0.3s;
- } 
+  border: 2px solid black;
+  border-radius: 4px;
+}
 
 #HTMLItem:hover {
   background-color: #297ac2;
@@ -131,12 +174,13 @@ LEFT COLUMN
 }
 
 .customForm {
-  width: 100px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 43px;
+  align-content: center;
   color: white;
+  font-size: 95%;
 }
 
 .customForm h5 {
@@ -148,9 +192,8 @@ LEFT COLUMN
 }
 
 .customForm input {
-  float: left;
-  margin: 20px 0px 0px -13px;
-  border-color: white;
+  align-self: center;
+  margin: 10px 0px;
 }
 
 /* deleteAllInstances button in HTMLItem.tsx - 'x' attached to custom HTML element */
@@ -162,7 +205,7 @@ LEFT COLUMN
   justify-content: flex-start;
   justify-self: flex-end;
   align-self: flex-start;
-  width: .5em;
+  width: 0.5em;
 }
 
 /* span container in HTMLItem.tsx */
@@ -190,7 +233,7 @@ MAIN COLUMN
 */
 
 h1 {
-  color: #ccc;
+  color: rgb(75, 75, 75);
 }
 
 .main-container {
@@ -276,23 +319,32 @@ RIGHT COLUMN
 #rightContainer {
   overflow-y: scroll;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
 }
 
 .right {
-  padding-top: 35px;
-  width: 420px;
+  padding-top: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 .rightContainer {
   margin-top: 65px;
+  color: black;
 }
 
 .rightPanelWrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   height: 100%;
   width: 100%;
+}
+
+#addComponentButton {
+  border: 2px black;
+  border-radius: 4px;
 }
 
 #addComponentButton:hover {
@@ -322,18 +374,20 @@ RIGHT COLUMN
 
 .compPanelItem {
   height: 100%;
-  position: relative;
   display: flex;
+  justify-content: center;
+  align-content: center;
+  word-wrap: break-word;
 }
 
 .compPanelItem h3 {
-  font-size: 1.25em;
+  font-size: 1em;
   letter-spacing: 0.75px;
+  padding: 5px 10px;
 }
 
 .compPanelItem:hover {
   cursor: pointer;
-  padding-bottom: 25px;
 }
 
 /* 
@@ -403,6 +457,78 @@ NAVBAR
   width: 16%;
 }
 
+/* 
+/////////////////////////////////////////////////
+ANNOTATIONS
+/////////////////////////////////////////////////
+*/
+
+.annotate-button-empty {
+  float: right;
+  background-color: #3ec1ac;
+  border-radius: 15px;
+  font-size: 14px;
+  color: rgb(32, 32, 32)
+}
+
+.annotate-button-filled {
+  float: right;
+  border-radius: 15px;
+  font-size: 13px;
+}
+
+.annotate-position {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items:flex-start;
+  top: 30%;
+  left: 30%;
+
+}
+
+.annotate-textarea {
+  width: 600px;
+  height: 300px;
+  resize: none;
+  white-space: pre-line;
+  font-size: 18px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 0px 0px 15px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.annotate-textarea-header {
+  font-size: 35px;
+  background-color: #003366;
+  color: rgb(241, 240, 240);
+  width: 600px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.annotate-textarea-footer {
+  background-color: #4772c7;
+  color: rgb(107, 93, 93);
+  width: 600px;
+  border: 2px;
+  border-style: solid;
+  border-color: black;
+}
+
+.annotate-textarea-savebutton {
+  float: right;
+  width: 150px;
+  height: 30px;
+  font-size: 20px;
+  margin: 2.5px 2.5px;
+}
+
 /* Material-UI */
 
 /* Sortable tree sorting */
@@ -466,6 +592,20 @@ a.nav_link:hover {
   text-align: center;
 }
 
-.oauth-btn:hover {
+.oauth-bttn:hover {
   background-color: #4e76c7;
+}
+
+/* .MuiTypography-body1 {
+  background-color: oldlace;
+} */
+
+
+
+
+.text-editor .bttn{
+  position: absolute;
+  bottom: 90px;
+  right: 30px ;
+  z-index: 999;
 }

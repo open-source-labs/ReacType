@@ -14,46 +14,50 @@ import StateContext from '../context/context';
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
-    const { type, typeId, style, childId, children, attributes, name } = child;
+    const { type, typeId, style, childId, children, attributes, name, annotations} = child;
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
+    // Removed style from prop drills so that styling isn't applied to canvas items. 
+    // Also added keys & removed an unnecessary div around DirChildNestables that were causing errors.
     if (type === 'Component') {
       return (
         <DirectChildComponent
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           key={'DirChildComp' + childId.toString() + name}
-          name={child.name}
+          name={name}
+          annotations={annotations}
         />
       );
     }
+    // ommitted orderedlists, unorderedlists, and menus, ommitted li items as non-nestable types because they can be nested within.
     // child is a non-nestable type of HTML element (everything except for divs and forms)
-    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2) {
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16) {
       return (
         <DirectChildHTML
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
-          key={'DirChildHTML' + childId.toString() + name}
-          name={child.name}
+          key={'DirChildHTML' + childId.toString() + name }
+          name={name}
+          annotations={annotations}
         />
       );
     }
+    // Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
     // child is a nestable type of HTML element (divs and forms)
-    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2)) {
-      return (
+    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16)) {
+      return (       
         <DirectChildHTMLNestable
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
-          name={child.name}
+          name={name}
+          annotations={annotations}
         />
       );
     }
@@ -63,10 +67,9 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
-          key={'DirChildHTMLNest' + childId.toString() + name}
-          name={child.name}
+          key={'SeparatorChild' + childId.toString() + name + (Math.random()*1000).toString()}
+          name={name}
         />
       );
     }
@@ -78,14 +81,13 @@ const renderChildren = (children: ChildElement[]) => {
           childId={childId}
           type={type}
           typeId={typeId}
-          style={style}
           children={children}
           key={'RouteLink' + childId.toString() + name}
-          name={child.name}
+          name={name}
         />
       );
     }
   });
 };
-
+// removed style from prop drilling
 export default renderChildren;

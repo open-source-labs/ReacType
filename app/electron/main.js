@@ -72,7 +72,7 @@ async function createWindow() {
     // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
-      // enable devtools when in development mode
+      // enable devtools when in development mode 
       devTools: isDev,
       // crucial security feature - blocks rendering process from having access to node modules
       nodeIntegration: false,
@@ -131,7 +131,7 @@ async function createWindow() {
     });
   }
 
-  // Emitted when the window is closed.
+  // Emitted when the window is closed. 
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -223,6 +223,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -246,6 +247,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -288,6 +290,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://nextjs.org',
@@ -351,7 +354,7 @@ ipcMain.on('choose_app_dir', (event) => {
 });
 
 // define serverURL for cookie and auth purposes based on environment
-let serverUrl = 'https://reactype.herokuapp.com';
+let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverUrl = 'http://localhost:5000';
 }

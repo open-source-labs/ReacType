@@ -19,7 +19,8 @@ export const App = (): JSX.Element => {
   } else {
     state.isLoggedIn = false;
   }
-
+  
+  
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
@@ -51,26 +52,43 @@ export const App = (): JSX.Element => {
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
-          );
-        }
-      });
-    }
-  }, []);
+            );
+          }
+        });
+      }
+      }, []);
+  
 
   useEffect(() => {
-    let userId;
-    if (Cookies.get('ssid')) {
-      userId = Cookies.get('ssid');
-    } else {
-      userId = window.localStorage.getItem('ssid');
+    // provide config properties to legacy projects so new edits can be auto saved
+    if (state.config === undefined) {
+      state.config = {saveFlag:true, saveTimer:false};
+    };
+    // New project save configuration to optimize server load and minimize Ajax requests
+    if (state.config.saveFlag) {
+      state.config.saveFlag = false;
+      state.config.saveTimer = true;
+      let userId;
+      if (Cookies.get('ssid')) {
+        userId = Cookies.get('ssid');
+      } else {
+        userId = window.localStorage.getItem('ssid');
+      }
+      if (state.isLoggedIn === false) {
+        localforage.setItem('guestProject', state);
+      } else if (state.name !== '') {
+        saveProject(state.name, state);
+        localforage.setItem(userId, state);
+      }
     }
-    if (state.isLoggedIn === false) {
-      localforage.setItem('guestProject', state);
-    } else if (state.name !== '') {
-      saveProject(state.name, state);
-      localforage.setItem(userId, state);
+    if (state.config.saveTimer) {
+      state.config.saveTimer = false;
+      setTimeout(() => {
+        state.config.saveFlag = true;
+      }, 15000);
     }
-  }, [state]);
+  }, [state])
+  
 
   return (
     <div className="app">

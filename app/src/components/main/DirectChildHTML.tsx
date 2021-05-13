@@ -8,12 +8,15 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
+import Annotation from './Annotation'
 
 function DirectChildHTML({
   childId,
+  name,
   type,
   typeId,
   style,
+  annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -55,7 +58,7 @@ function DirectChildHTML({
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #a7cced'
+        ? '3px solid #186BB4'
         : '1px solid grey'
   };
 
@@ -65,8 +68,14 @@ function DirectChildHTML({
   );
 
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
-      {HTMLType.placeHolderShort}
+    <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
+      <strong>{HTMLType.placeHolderShort}</strong>      
+      {`  (${childId})`}
+      <Annotation
+        id={childId}
+        name={name}
+        annotations={annotations}
+      />
     </div>
   );
 }

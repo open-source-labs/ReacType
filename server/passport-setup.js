@@ -6,7 +6,7 @@ const githubStrategy = require('passport-github2').Strategy;
 const { Users } = require('./models/reactypeModels');
 const PORT = require('./server.js');
 const isDev = process.env.NODE_ENV === 'development';
-let serverUrl = 'https://reactype.herokuapp.com';
+let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverUrl = 'http://localhost:5000';
 }

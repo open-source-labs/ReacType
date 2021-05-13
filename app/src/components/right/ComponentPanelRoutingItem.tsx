@@ -79,7 +79,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
       ref={drag}
       xs={8}
       style={{
-        color: '#186BB4',
+        color: '#155084',
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',

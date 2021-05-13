@@ -5,9 +5,13 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+// Caret start
+import Arrow from './Arrow';
 
 function Canvas() {
   const [state, dispatch] = useContext(StateContext);
+  // Caret start
+  Arrow.deleteLines();
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -32,7 +36,7 @@ function Canvas() {
         //pushes the last user action on the canvas into the past array of Component
         state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
     };
-  
+
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.INSTANCE,
@@ -52,18 +56,6 @@ function Canvas() {
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null
-            
-          }
-        });
-      }
-      // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
-      else {
-        dispatch({
-          type: 'CHANGE POSITION',
-          payload: {
-            // name: item.name,
-            currentChildId: item.childId,
-            newParentChildId: null
           }
         });
       }
@@ -77,10 +69,10 @@ function Canvas() {
   const defaultCanvasStyle = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? 'lightyellow' : '#F5F5F5',
-    backgroundImage: "url('https://www.transparenttextures.com/patterns/diagonal-noise.png')",
+    backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
+    //backgroundImage: "url('https://www.transparenttextures.com/patterns/diagonal-noise.png')",
     border: '1px solid #FBFBF2',
-    borderStyle: isOver ? 'dotted' : 'solid'
+    borderStyle: isOver ? 'dotted' : 'solid',
   };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component

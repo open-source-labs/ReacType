@@ -1,11 +1,14 @@
-import React, { useContext, useRef } from 'react';
-import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
+import React, { useContext, useEffect, useRef } from 'react';
+import { ChildElement, HTMLType} from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+import Annotation from './Annotation'
+import validateNewParent from '../../helperFunctions/changePositionValidation'
+import componentNest from '../../helperFunctions/componentNestValidation'
 
 function DirectChildHTMLNestable({
   childId,
@@ -14,6 +17,7 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
+  annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -26,6 +30,7 @@ const snapShotFunc = () => {
   //pushes the last user action on the canvas into the past array of Component
   state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
 };
+
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
@@ -65,24 +70,29 @@ const snapShotFunc = () => {
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        dispatch({
-          type: 'ADD CHILD',
-          payload: {
-            type: item.instanceType,
-            typeId: item.instanceTypeId,
-            childId: childId,
-          }
-        });
+        if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
+          dispatch({
+            type: 'ADD CHILD',
+            payload: {
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: childId,
+            }
+          });
+        } 
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        dispatch({
-          type: 'CHANGE POSITION',
-          payload: {
-            currentChildId: item.childId,
-            newParentChildId: childId,
-          }
-        });
+        // check to see if the selected child is trying to nest within itself
+        if (validateNewParent(state, item.childId, childId) === true) {
+          dispatch({
+            type: 'CHANGE POSITION',
+            payload: {
+              currentChildId: item.childId,
+              newParentChildId: childId,
+            }
+          });
+        }
       }
     },
     
@@ -109,7 +119,7 @@ const snapShotFunc = () => {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '1px solid #186BB4'
+        ? '3px solid #186BB4'
         : '1px solid grey',
   };
 
@@ -121,9 +131,16 @@ const snapShotFunc = () => {
   );
 
   drag(drop(ref));
+
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={ref}>
-      {HTMLType.placeHolderShort}
+    <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
+      <strong>{HTMLType.placeHolderShort}</strong>
+      {`  ( ${childId} )`}
+      <Annotation
+        id={childId}
+        name={name}
+        annotations={annotations}
+      />
       {renderChildren(children)}
     </div>
   );

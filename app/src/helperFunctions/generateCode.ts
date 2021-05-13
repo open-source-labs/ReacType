@@ -1,3 +1,4 @@
+import { element } from 'prop-types';
 import {
   Component,
   State,
@@ -54,7 +55,11 @@ const generateUnformattedCode = (
         if (
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' || 
-          referencedHTML.tag === 'form'
+          referencedHTML.tag === 'form' ||
+          referencedHTML.tag === 'ul' ||
+          referencedHTML.tag === 'ol' ||
+          referencedHTML.tag === 'menu' ||
+          referencedHTML.tag === 'li'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -63,75 +68,13 @@ const generateUnformattedCode = (
         links = true;
         child.name = components.find(
           (comp: Component) => comp.id === child.typeId
-        ).name;
-        return child;
-      }
-    });
-    return enrichedChildren;
-  };
-  // write all code that will be under the "return" of the component
-  const writeNestedElements = (enrichedChildren: any) => {
-    return `${enrichedChildren
-      .map((child: any) => {
-        if (child.type === 'Component') {
-          return `<${child.name}${formatStyles(child.style)} />`;
-        } else if (child.type === 'HTML Element') {
-          if (child.tag === 'img') {
-            return `<${child.tag} src=""${formatStyles(child.style)} />`;
-          } else if (child.tag === 'a') {
-            return `<${child.tag} href=""${formatStyles(child.style)}>[LINK]</${
-              child.tag
-            }>`;
-          } else if (child.tag === 'div') {
-            return `<${child.tag}${formatStyles(
-              child.style
-            )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'h1') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 1</${
-              child.tag
-            }>`;
-          } else if (child.tag === 'h2') {
-            return `<${child.tag}${formatStyles(child.style)}>HEADER 2</${
-              child.tag
-            }>`;
-          } else if (child.tag === 'form') {
-            return `<${child.tag}${formatStyles(
-              child.style
-              )}>${writeNestedElements(child.children)}</${child.tag}>`;
-          } else if (child.tag === 'p') {
-            return `<${child.tag}${formatStyles(
-              child.style
-            )}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</${
-              child.tag
-            }>`;
-          } else if (child.tag === 'li') {
-            return `<ul${formatStyles(child.style)}><li>item 1</li>
-            <li>item 2</li>
-            <li>item 3</li></ul>`;
-          } else if (child.tag === 'button') {
-            return `<${child.tag}${formatStyles(child.style)}>BUTTON</${
-              child.tag
-            }>`;
-          } else if (child.tag !== 'separator') {
-            return `<${child.tag}${formatStyles(child.style)}></${child.tag}>`;
-          }
+          ).name;
+          return child;
         }
-        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
-        else if (child.type === 'Route Link') {
-          if (projectType === 'Next.js') {
-            // if route link points to index, to go endpoint / rather than /index
-            if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
-            else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
-          } else if (projectType === 'Gatsby.js') {
-            if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
-            else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
-          } else return `<div><a>${child.name}</a></div>`
-        }
-      })
-      .filter(element => !!element)
-      .join('\n')}`;
+      });
+      return enrichedChildren;
   };
-
+  // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
@@ -142,6 +85,92 @@ const generateUnformattedCode = (
     }
     return ' style={{' + formattedStyles.join(',') + '}}';
   };
+
+  // function to dynamically add classes, ids, and styles to an element if it exists.
+  const elementTagDetails = (childElement: object) => {
+    let customizationDetails = "";
+    if (childElement.childId) customizationDetails += (' ' + `id="${+childElement.childId}"`);
+    if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
+    return customizationDetails;
+  };
+
+  // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
+  const tabSpacer = (level: number) => {
+    let tabs = ''
+    for (let i = 0; i < level; i++) tabs += '  ';
+    return tabs;
+  }
+  
+  // function to dynamically generate the appropriate levels for the code preview
+  const levelSpacer = (level: number, spaces: number) => {
+    if (level === 2 ) return `\n${tabSpacer(spaces)}`;
+    else return ''
+  }
+  
+  // function to dynamically generate a complete html (& also other library type) elements
+  const elementGenerator = (childElement: object, level: number = 2) => {
+    let innerText = '';
+    let activeLink = '';
+    if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
+    if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
+
+    const nestable = childElement.tag === 'div' || 
+    childElement.tag === 'form' || 
+    childElement.tag === 'ol' || 
+    childElement.tag === 'ul' ||
+    childElement.tag === 'menu' ||
+    childElement.tag === 'li';
+
+    if (childElement.tag === 'img') {
+      return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'a') {
+      return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'input') {
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (nestable) {
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag !== 'separator'){
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    }    
+  }
+
+  // write all code that will be under the "return" of the component
+  const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
+    return `${enrichedChildren
+              .map((child: any) => {
+                if (child.type === 'Component') {
+                  return `<${child.name} ${elementTagDetails(child)} />`;
+                } else if (child.type === 'HTML Element') {
+                  return elementGenerator(child, level);
+                }
+                // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
+                else if (child.type === 'Route Link') {
+                  if (projectType === 'Next.js') {
+                    // if route link points to index, to go endpoint / rather than /index
+                    if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
+                    else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
+                  } else if (projectType === 'Gatsby.js') {
+                    if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
+                    else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
+                  } else return `<div><a>${child.name}</a></div>`
+                }
+              })
+              .filter(element => !!element)
+              .join('')
+            }`;
+  };
+  
+  // function to properly incorporate the user created state that is stored in the application state
+  const writeStateProps = (stateArray: any) => {
+    let stateToRender = '';
+    for (const element of stateArray) {
+      stateToRender += levelSpacer(2, 3) + element + ';'
+    }
+    return stateToRender
+  }
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 
@@ -174,35 +203,36 @@ const generateUnformattedCode = (
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
-      ${
-        classBased
-          ? `class ${currentComponent.name} extends Component {`
-          : `const ${currentComponent.name} = (props): JSX.Element => {`
-      }
-      ${
-        stateful && !classBased
-          ? `const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");`
-          : ``
-      }
-      ${
-        classBased && stateful
-          ? `constructor(props) {
-        super(props);
-        this.state = {}
-       }`
-          : ``
-      }
+    ${
+      classBased
+        ? `class ${currentComponent.name} extends Component {`
+        : `const ${currentComponent.name} = (props): JSX.Element => {`
+    }
 
-      ${classBased ? `render(): JSX.Element {` : ``}
-
+    ${
+      stateful && !classBased
+        ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE")${writeStateProps(currentComponent.useStateCodes)};
+        `
+        : ``
+    }
+    ${
+      classBased && stateful
+        ? `constructor(props) {
+      super(props);
+      this.state = {}
+      }`
+        : ``
+    }
+    ${classBased ? `render(): JSX.Element {` : ``}
+      
       return (
         <div className="${currentComponent.name}" style={props.style}>
-        ${writeNestedElements(enrichedChildren)}
+          ${writeNestedElements(enrichedChildren)}
         </div>
         );
       }
-      ${classBased ? `}` : ``}
-      export default ${currentComponent.name};
+    ${classBased ? `}` : ``}
+    export default ${currentComponent.name};
     `;
   }
   // next.js component code
@@ -213,27 +243,27 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-      const ${currentComponent.name} = (props): JSX.Element => {
+    const ${currentComponent.name} = (props): JSX.Element => {
 
-        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+      const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
-        <>
-        ${
-          isRoot
-            ? `<Head>
-        <title>${currentComponent.name}</title>
-        </Head>`
-            : ``
-        }
-        <div className="${currentComponent.name}" style={props.style}>
-        ${writeNestedElements(enrichedChildren)}
-        </div>
-        </>
-        );
+      <>
+      ${
+        isRoot
+          ? `<Head>
+            <title>${currentComponent.name}</title>
+            </Head>`
+          : ``
       }
+      <div className="${currentComponent.name}" style={props.style}>
+      ${writeNestedElements(enrichedChildren)}
+      </div>
+      </>
+      );
+    }
 
-      export default ${currentComponent.name};
+    export default ${currentComponent.name};
     `;
   } else {
     // gatsby component code
@@ -253,8 +283,8 @@ const generateUnformattedCode = (
         ${
           isRoot
             ? `<head>
-        <title>${currentComponent.name}</title>
-        </head>`
+              <title>${currentComponent.name}</title>
+              </head>`
             : ``
         }
         <div className="${currentComponent.name}" style={props.style}>
@@ -285,7 +315,7 @@ const formatCode = (code: string) => {
   } else if (process.env.NODE_ENV === 'production') {
     return window.api.formatCode(code);
   } else {
-   return code;
+    return code;
   }
 };
 

@@ -14,13 +14,23 @@
 
 .dashboardContainer {
   height: 100%;
+  width: 100%
+}
+
+.userDashboard {
+  display: flex;
+  flex-direction: row;
+}
+
+.projectPanel {
+  width: 100%;
 }
 
  .projectContainer{
   display: flex;
   flex-direction: column-reverse;
   flex-flow: row wrap;
-  height: 600px;
+  flex-grow: 1;
   overflow-y: scroll;
 }
 
@@ -66,7 +76,7 @@
 }
 
 .header {
-  background-color: #186BB4;
+  background-color: #0099E6;
   color: rgba(255, 255, 255, 0.897);
   width: 100%;
   position: relative;

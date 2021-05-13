@@ -10,12 +10,12 @@
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const config = require('../../config');
+const URI = process.env.NODE_ENV === 'production' ? process.env.URI : require('../../config').URI;
 
 const SALT_WORK_FACTOR = 14;
 // connect to mongo db
 mongoose
-  .connect(config.URI,
+  .connect(URI,
     {
       // options for the connect method to parse the URI
       useNewUrlParser: true,

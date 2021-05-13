@@ -3,7 +3,7 @@ import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
 
 
-const BottomPanel = () => {
+const BottomPanel = (props): JSX.Element => {
   return (
     <Resizable
       enable={{
@@ -12,7 +12,7 @@ const BottomPanel = () => {
       minHeight={'50%'}
     >
       <div className="bottom-panel" >
-        <BottomTabs  />
+        <BottomTabs isThemeLight={props.isThemeLight}/>
       </div>
     </Resizable>
   );
