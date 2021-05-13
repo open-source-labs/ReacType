@@ -1,5 +1,4 @@
 import React from 'react';
-
 import reusableComponents1 from '../../../resources/reusable_components_tutorial_images/reusablecomponents1.png';
 import reusableComponents2 from '../../../resources/reusable_components_tutorial_images/reusablecomponents2.png';
 import reusableComponents3 from '../../../resources/reusable_components_tutorial_images/reusablecomponents3.png';
@@ -28,7 +27,7 @@ const ReusableComponents: React.FC<{
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents3} />
       </div>
-      <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with the <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Elements</span>.</p>
+      <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with the <span className={classes.notLink} onClick={() => setPage('HTML Elements')} >HTML Elements</span>.</p>
       <hr/>
     </div>
   );

@@ -179,7 +179,11 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             debug
           </MyButton> */}
           <br></br>
-          <MyButton type="submit" onClick={submitNewState}>
+          <MyButton 
+          type="submit" 
+          onClick={submitNewState}
+          className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+          >
             Save
           </MyButton>
           <br></br>
@@ -289,7 +293,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: "0.85rem",
     },
     lightThemeFontColor: {
-      color: "#186BB4",
+      color: "#155084",
     },
     darkThemeFontColor: {
       color: "#fff",

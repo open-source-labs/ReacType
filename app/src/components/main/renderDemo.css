@@ -4,7 +4,7 @@
 .tst-btn {
   height: 20px;
   width: 100px;
-  background-color: #ffffff;
+  background-color: #000000;
 }
 
 
@@ -18,7 +18,7 @@
 .tst-form {
   position: relative;
   z-index: 1;
-  background: #000000;
+  background: #0099E6;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;

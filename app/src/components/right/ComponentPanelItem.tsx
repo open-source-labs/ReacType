@@ -72,6 +72,7 @@ const ComponentPanelItem: React.FC<{
       xs={8}
       style={{
         color: '#262626',
+        display: 'grid',
         backgroundColor: 'transparent',
         border: root
           ? '2px dotted #186BB4'
@@ -80,8 +81,8 @@ const ComponentPanelItem: React.FC<{
         borderColor: '#000000',
       }}
     >
+      {isFocus && <div className={classes.focusMark}></div>}
       <div className="compPanelItem" onClick={handleClick}>
-        {isFocus && <div className={classes.focusMark}></div>}
         <h3 >{name}</h3>
       </div>
     </Grid>
@@ -93,13 +94,11 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.3)'
   },
   focusMark: {
-    backgroundColor: '#808080',
-    position: 'absolute',
+    backgroundColor: 'red',
+    justifySelf: 'left',
     width: '12px',
     height: '12px',
-    borderRadius: '12px',
-    left: '-35px',
-    top: '30px'
+    borderRadius: '25px',
   }
 });
 
