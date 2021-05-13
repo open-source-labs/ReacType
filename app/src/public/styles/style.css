@@ -130,7 +130,9 @@ LEFT COLUMN
 }
 
 #CompBottomHalf{
+  flex-grow: 1;
   overflow-y: auto;
+  margin-bottom: 50%;
 }
 
 .HTMLElements {
@@ -372,10 +374,9 @@ RIGHT COLUMN
 
 .compPanelItem {
   height: 100%;
-  position: center;
+  display: flex;
   justify-content: center;
   align-content: center;
-  display: flex;
   word-wrap: break-word;
 }
 

@@ -31,7 +31,7 @@ import FormSelector from '../components/form/Selector';
 // Caret
 //import Arrow from '../components/main/Arrow';
 import { config } from 'ace-builds';
-
+// Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
+import { wrap } from 'module';
 
 /*
 DESCRIPTION: This component is each box beneath the 'root components' and
@@ -71,6 +72,7 @@ const ComponentPanelItem: React.FC<{
       ref={drag}
       xs={8}
       style={{
+        display: 'grid',
         color: '#262626',
         backgroundColor: 'transparent',
         border: root
@@ -78,10 +80,11 @@ const ComponentPanelItem: React.FC<{
           : '2px solid #186BB4',
         borderRadius: '4px',
         borderColor: '#000000',
+        margin: '5px 0px'
       }}
     >
+      {isFocus && <div className={classes.focusMark}></div>}  
       <div className="compPanelItem" onClick={handleClick}>
-        {isFocus && <div className={classes.focusMark}></div>}
         <h3 >{name}</h3>
       </div>
     </Grid>
@@ -93,13 +96,11 @@ const useStyles = makeStyles({
     backgroundColor: 'rgba(1,212,109,0.3)'
   },
   focusMark: {
-    backgroundColor: '#808080',
-    position: 'absolute',
+    backgroundColor: 'red',
+    justifySelf: 'left',
     width: '12px',
     height: '12px',
-    borderRadius: '12px',
-    left: '-35px',
-    top: '30px'
+    borderRadius: '25px',
   }
 });
 
