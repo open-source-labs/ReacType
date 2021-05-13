@@ -12,7 +12,10 @@ module.exports = merge(base, {
   // sets process.env.NODE_ENV to 'production'
   mode: 'production',
   // nosources-source-map exposes filenames/structure for stack traces but not the rest of the soruce cdoe
-  devtool: 'nosources-source-map', //https://webpack.js.org/configuration/devtool/ && https://github.com/webpack/webpack/issues/5627#issuecomment-389492939
+  // devtool: 'source-map', //https://webpack.js.org/configuration/devtool/ && https://github.com/webpack/webpack/issues/5627#issuecomment-389492939
+  // optimization: {
+  //   minimize: false,
+  // },
   plugins: [
     // miniCssExtractPlugin is included here because it's used as a loader in wepack.config.js
     new MiniCssExtractPlugin(),
