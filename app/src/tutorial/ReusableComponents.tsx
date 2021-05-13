@@ -27,11 +27,7 @@ const ReusableComponents: React.FC<{
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents3} />
       </div>
-<<<<<<< HEAD
       <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with other <span className={classes.notLink} onClick={() => setPage('HTML_Elements')} >HTML Elements</span>.</p>
-=======
-      <p className={classes.text}>You can place a reusable component inside <span className={classes.notLink} onClick={() => setPage('Pages')} >Pages</span> and populate the component itself with the <span className={classes.notLink} onClick={() => setPage('HTML Elements')} >HTML Elements</span>.</p>
->>>>>>> ee444f746bb8ccba4e3ebe3909002bf3ac26fdb1
       <hr/>
     </div>
   );
