@@ -16,11 +16,11 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 6.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 7.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![openingGif](https://user-images.githubusercontent.com/69879756/112249153-84317380-8c14-11eb-95a3-09df3ad510cc.gif)
+![openingGif](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/canvas_tutorial_images/drag1.gif)
 
 ### How to use
 
@@ -42,9 +42,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - Modernized and cleaner UI, including enhanced dark mode
 - Tutorial has been updated to reflect other modifications
 
- **New with version 6.0:**
+ **New with version 7.0.0:**
 
-![saveToUserDash](https://user-images.githubusercontent.com/69879756/112248087-98747100-8c12-11eb-940c-033d3a754cff.gif)
+![CSSEditor](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/csseditor_tutorial_images/DirectCSSEdit.gif)
 
 ### Features
 
@@ -64,7 +64,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Form Nesting**: Nesting within form tags is now fully functional
 - **Added Undo and Redo functionality**
 
-![downloadPublicProject](https://user-images.githubusercontent.com/69879756/112248187-c6f24c00-8c12-11eb-9ac4-cf69f65e3a85.gif)
+![AddAnnotations](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/annotations_tutorial_images/Annotation.gif)
 
 ### Keyboard Shortcuts
 
@@ -90,6 +90,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
  
 #### Contributors
 
+[Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
+
 [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
 
 [Adam Singer](https://linkedin.com/in/adsing) [@spincycle01](https://github.com/spincycle01)
@@ -108,6 +110,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
+[Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
+
 [Diego Vazquez](https://www.linkedin.com/in/diegovazquezny/) [@diegovazquezny](https://github.com/diegovazquezny)
 
 [Edward Park](https://www.linkedin.com/in/edwardparkwork/) [@eddypjr](https://github.com/eddypjr)
@@ -118,11 +122,15 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
+[Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
+
 [Jesse Zuniga](https://linkedin.com/in/jesse-zuniga) [@jzuniga206](https://github.com/jzuniga206)
 
 [Jin Soo Lim](https://www.linkedin.com/in/jin-soo-lim-3a567b1b3/) [@jinsoolim](https://github.com/jinsoolim)
 
 [Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
+
+[Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
 
@@ -151,6 +159,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Tony Ito-Cole](https://linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
+
+[William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
 
 ## To Run Your Own Version
 
