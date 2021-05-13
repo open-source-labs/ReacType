@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
@@ -9,12 +9,14 @@
     "Aaron Bumanglag",
     "Adam Singer",
     "Alex Wolinsky",
+    "Alex Yu",
     "Andrew Cho",
     "Anthony Torrero",
     "Brian Han",
     "Charles Finocchiaro",
     "Chelsey Fewer",
     "Christian Padilla",
+    "Daryl Foster",
     "Diego Vazquez",
     "Edward Park",
     "Elena Conn",
@@ -22,7 +24,9 @@
     "Fredo Chen",
     "Jesse Zuniga",
     "Jin Soo Lim",
+    "Jonathan Calvo Ramirez",
     "Julie Wu",
+    "Kevin Park",
     "Khuong Nguyen",
     "Linh Tran",
     "Luke Madden",
@@ -35,7 +39,8 @@
     "Sophia Huttner",
     "Tolga Mizrakci",
     "Tony Ito-Cole",
-    "Tyler Sullberg"
+    "Tyler Sullberg",
+    "William Yoon"
   ],
   "scripts": {
     "postinstall": "set ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
