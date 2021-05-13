@@ -92,7 +92,7 @@ const generateUnformattedCode = (
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
-    if (childElement.childId) customizationDetails += (' ' + `id="${+childElement.childId+Math.random()*1000}"`);
+    if (childElement.childId) customizationDetails += (' ' + `id="${+childElement.childId}"`);
     if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
@@ -314,10 +314,7 @@ const formatCode = (code: string) => {
       parser: 'babel'
     });
   } else if (process.env.NODE_ENV === 'production') {
-    console.log('WINDOW: ', window);
-    console.log('WINDOW API: ', window.api);
     return window.api.formatCode(code);
-    console.log('After formatCode: ');
   } else {
    return code;
   }

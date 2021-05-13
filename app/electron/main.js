@@ -223,7 +223,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://desolate-scrubland-40010.herokuapp.com',
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -247,7 +247,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://desolate-scrubland-40010.herokuapp.com',
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://github.com',
@@ -290,7 +290,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://desolate-scrubland-40010.herokuapp.com',
+      'https://reactype-caret.herokuapp.com',
       'http://localhost:5000',
       'https://reactype.herokuapp.com',
       'https://nextjs.org',
@@ -354,7 +354,7 @@ ipcMain.on('choose_app_dir', (event) => {
 });
 
 // define serverURL for cookie and auth purposes based on environment
-let serverUrl = 'https://reactype.herokuapp.com';
+let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverUrl = 'http://localhost:5000';
 }

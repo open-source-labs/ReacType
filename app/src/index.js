@@ -20,7 +20,7 @@ import styles from './Dashboard/styles.css';
 
 const client = new ApolloClient({
   // uri: 'http://localhost:5000/graphql',
-  uri: 'https://desolate-scrubland-40010.herokuapp.com/graphql',
+  uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
 
