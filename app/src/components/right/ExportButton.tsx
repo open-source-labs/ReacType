@@ -123,7 +123,7 @@ export default function ExportButton() {
     <div>
        <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           onClick={showGenerateAppModal}
           id="navbarButton"
           endIcon={<GetAppIcon/>}

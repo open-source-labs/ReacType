@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     }
   },
   lightThemeFontColor: {
-    color: '#186BB4'
+    color: '#292929'
   },
   darkThemeFontColor: {
     color: '#fff'
@@ -119,14 +119,14 @@ const HTMLItem : React.FC<{
       })
     );
   };
-
+  // updated the id's to reflect the new element types input and label
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
-      { id <= 11 &&
+      { id <= 16 &&
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         </div>}
-      {id > 11 &&
+      {id > 16 &&
       <span id="customHTMLElement">
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import links2 from '../../../resources/route_links_tutorial_images/links2.PNG';
 import links3 from '../../../resources/route_links_tutorial_images/links3.PNG';
 import links4 from '../../../resources/route_links_tutorial_images/links4.PNG';

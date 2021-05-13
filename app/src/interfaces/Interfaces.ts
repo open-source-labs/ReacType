@@ -6,6 +6,7 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
+  config?: {};
   separator: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
@@ -23,16 +24,27 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  annotations?: string;
 }
 export interface Component {
   id: number;
   name: string;
   style: object;
+  attributes?: object;
   code: string;
   children: ChildElement[];
   isPage: boolean;
   past: any[];
   future: any[];
+  stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+  annotations?: string;
+  useStateCodes: string[];
+}
+
+export interface StateProp {
+  key: string;
+  value: any;
+  type: unknown;
 }
 
 export interface Action {
@@ -75,4 +87,15 @@ export interface DragItemType {
 
 export interface LoginInt {
   isLoggedIn: boolean;
+}
+
+export interface Annotations {
+  id: number;
+  name: string;
+  annotations: string;
+}
+
+export interface StatePropsPanelProps {
+  selectHandler: (table: any) => void;
+  deleteHandler: (id: number | any) => void;
 }

@@ -1,11 +1,13 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import StateContext from '../../context/context';
 import AceEditor from 'react-ace';
+import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
+import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import useResizeObserver from '../../tree/useResizeObserver';
@@ -33,7 +35,6 @@ const CodePreview: React.FC<{
   useEffect(() => {
     setDivHeight(height);
   }, [height])
-
   return (
     <div
     ref={wrapper}
@@ -45,7 +46,7 @@ const CodePreview: React.FC<{
     >
       <AceEditor
         mode="javascript"
-        theme={theme}
+        theme="monokai"
         width="100%"
         height="100%"
         onChange={handleCodeSnipChange}

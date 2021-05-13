@@ -5,6 +5,7 @@ import HTMLTypes from './HTMLTypes';
 const initialState: State = {
   name: '',
   isLoggedIn: false,
+  config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,
@@ -15,7 +16,9 @@ const initialState: State = {
       isPage: true,
       past: [],
       future: [],
-    },
+      stateProps: [],
+      useStateCodes: [], // array of strings for each useState codes
+    }
   ],
   projectType: 'Classic React',
   rootComponents: [1],
@@ -23,7 +26,7 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes,
+  HTMLTypes
 };
 
 export default initialState;

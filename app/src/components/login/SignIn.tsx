@@ -70,7 +70,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const FBAPPID = process.env.REACT_APP_FB_APP_ID;
 
   // this useEffect will check for cookies and set an item in localstorage for github Oauth session validation
-  useEffect(() => {
+  
+ 
+  // Commented because window api is broken. Work in progress
+  /* useEffect(() => {
     const githubCookie = setInterval(() => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
@@ -85,7 +88,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         }
       });
     }, 2000);
-  }, []);
+  }, []);*/
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;

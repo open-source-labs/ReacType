@@ -35,7 +35,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'img',
     name: 'Image',
     style: {},
-    placeHolderShort: 'Image',
+    placeHolderShort: 'image',
     placeHolderLong: '',
     icon: ImageIcon
   },
@@ -44,31 +44,16 @@ const HTMLTypes: HTMLType[] = [
     tag: 'form',
     name: 'Form',
     style: {},
-    placeHolderShort: 'Form',
+    placeHolderShort: 'form',
     placeHolderLong: '',
     icon: FormIcon
-  },
-  {
-    id: 3,
-    tag: 'li',
-    name: 'List',
-    style: { color: 'purple' },
-    placeHolderShort: (
-      <ul>
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-      </ul>
-    ),
-    placeHolderLong: '',
-    icon: ListIcon
   },
   {
     id: 4,
     tag: 'button',
     name: 'Button',
-    style: { textAlign: 'center', border: 'none' },
-    placeHolderShort: <button>Button</button>,
+    style: {},
+    placeHolderShort: 'button',
     placeHolderLong: '',
     icon: ButtonIcon
   },
@@ -76,8 +61,8 @@ const HTMLTypes: HTMLType[] = [
     id: 6,
     tag: 'a',
     name: 'Link',
-    style: { border: 'none' },
-    placeHolderShort: <a href="#">Link</a>,
+    style: {},
+    placeHolderShort: 'link',
     placeHolderLong: '',
     icon: LinkIcon
   },
@@ -86,8 +71,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'p',
     name: 'Paragraph',
     style: {},
-    placeHolderShort:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu',
+    placeHolderShort: 'paragraph',
     placeHolderLong: '',
     icon: ParagraphIcon
   },
@@ -95,8 +79,8 @@ const HTMLTypes: HTMLType[] = [
     id: 9,
     tag: 'h1',
     name: 'Header 1',
-    style: { fontSize: '2em' },
-    placeHolderShort: 'Header 1',
+    style: {},
+    placeHolderShort: 'header 1',
     placeHolderLong: '',
     icon: HeaderIcon
   },
@@ -104,8 +88,8 @@ const HTMLTypes: HTMLType[] = [
     id: 10,
     tag: 'h2',
     name: 'Header 2',
-    style: { fontSize: '1.5em' },
-    placeHolderShort: 'Header 2',
+    style: {},
+    placeHolderShort: 'header 2',
     placeHolderLong: '',
     icon: HeaderIcon
   },
@@ -113,10 +97,64 @@ const HTMLTypes: HTMLType[] = [
     id: 5,
     tag: 'span',
     name: 'Span',
-    style: { fontSize: '1.5em' },
-    placeHolderShort: 'Span',
+    style: {},
+    placeHolderShort: 'span',
     placeHolderLong: '',
     icon: HeaderIcon
+  },
+  {
+    id: 12,
+    tag: 'input',
+    name: 'Input',
+    style: {},
+    placeHolderShort: 'input',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
+    id: 13,
+    tag: 'label',
+    name: 'Label',
+    style: {},
+    placeHolderShort: 'label',
+    placeHolderLong: '',
+    icon: HeaderIcon
+  },
+  {
+    id: 14,
+    tag: 'ol',
+    name: 'Ordered List',
+    style: {},
+    placeHolderShort: 'ordered list',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 15,
+    tag: 'ul',
+    name: 'Unordered List',
+    style: {},
+    placeHolderShort: 'unordered list',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 16,
+    tag: 'menu',
+    name: 'Menu',
+    style: {},
+    placeHolderShort: 'menu',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 3,
+    tag: 'li',
+    name: 'List',
+    style: {},
+    placeHolderShort: 'list item',
+    placeHolderLong: '',
+    icon: ListIcon
   }
 ];
 

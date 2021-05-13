@@ -16,8 +16,13 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 
-app.use(express.json());
+app.use(express.json({limit: '100mb'}));
+app.use(express.urlencoded({limit: '100mb', extended: true }))
 app.use(cookieParser());
+
+
+// Routes
+const stylesRouter = require('./routers/stylesRouter');
 
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
@@ -71,8 +76,15 @@ const resolvers = {
   Mutation,
 };
 
+app.use('/demoRender', express.static(path.join(__dirname, './assets/renderDemo.css')));
+
+
+// Re-direct to route handlers:
+app.use('/user-styles', stylesRouter);
+
 // schemas used for graphQL
 const typeDefs = require('./graphQL/schema/typeDefs.js');
+// const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 const server = new ApolloServer({ typeDefs, resolvers });
@@ -117,12 +129,15 @@ app.delete(
   (req, res) => res.status(200).json(res.locals.deleted),
 );
 
+app.get("/", function (req, res) {
+	res.send("Houston, Caret is in orbit!");
+});
+
 // catch-all route handler
 app.use('*', (req, res) => res.status(404).send('Page not found'));
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.log('invoking global error handler');
   const defaultErr = {
     log: 'Express error handler caught unknown middleware',
     status: 500,

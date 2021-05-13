@@ -165,7 +165,7 @@ export default function NavBar(props) {
           {state.isLoggedIn ? <Link to='/dashboard' style ={ { textDecoration: 'none' } }>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               style={{ minWidth: '137.69px' }}
               className="navbarButton"
               endIcon={<DashboardIcon/>}
@@ -177,7 +177,7 @@ export default function NavBar(props) {
 
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             style={{ minWidth: '137.69px' }}
             onClick={clearWorkspace}
             className="navbarButton"
@@ -193,7 +193,7 @@ export default function NavBar(props) {
           <Button
             className="navbarButton"
             id="navbarButton"
-            color="primary"
+            color="secondary"
             variant="contained"
             style={{minWidth: '113.97px'}}
             endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
@@ -212,7 +212,7 @@ export default function NavBar(props) {
           {state.isLoggedIn // render Manage Project button/dropdown only if user is logged in
             ? <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={handleClick}
             className="navbarButton"
             id="navbarButton"

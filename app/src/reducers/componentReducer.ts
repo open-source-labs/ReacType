@@ -10,7 +10,6 @@ import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
 
 let separator = initialState.HTMLTypes[1];
- 
 
 const reducer = (state: State, action: Action) => {
   // if the project type is set as Next.js or Gatsby.js, next/gatsby component code should be generated
@@ -33,14 +32,18 @@ const reducer = (state: State, action: Action) => {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
       // try to find id of childNode in children
-      for (let i = 0; i <= currentNode.children.length - 1; i++) {
-        // if match is found return object with both the parent and the index value of the child
-        if (currentNode.children[i].childId === childId) {
-          return { directParent: currentNode, childIndexValue: i };
+      if (currentNode.name !== 'input' && currentNode.name !== 'img') {
+        for (let i = 0; i <= currentNode.children.length - 1; i++) {
+          // if match is found return object with both the parent and the index value of the child
+          if (currentNode.children[i].childId === childId) {
+            return { directParent: currentNode, childIndexValue: i };
+          }
         }
+        // if child node isn't found add each of the current node's children to the search array
+        currentNode.children.forEach((node: ChildElement) =>
+          nodeArr.push(node)
+        );
       }
-      // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
     }
     // if no search is found return -1
     return { directParent: null, childIndexValue: null };
@@ -84,7 +87,8 @@ const reducer = (state: State, action: Action) => {
       const currentNode = nodeArr.shift();
       if (currentNode.childId === childId) return currentNode;
       // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach(node => nodeArr.push(node));
+      if (currentNode.name !== 'input' && currentNode.name !== 'img')
+        currentNode.children.forEach(node => nodeArr.push(node));
     }
     // if no match is found return false
     return;
@@ -201,17 +205,20 @@ const reducer = (state: State, action: Action) => {
         return state;
 
       const components = [...state.components];
-      
+
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
+        attributes: {},
         code: '',
         children: [],
         isPage: action.payload.root,
         past: [],
         future: [],
+        stateProps: [],
+        useStateCodes: [],
       };
       components.push(newComponent);
 
@@ -240,7 +247,7 @@ const reducer = (state: State, action: Action) => {
       const {
         type,
         typeId,
-        childId,
+        childId
       }: { type: string; typeId: number; childId: any } = action.payload;
 
       const parentComponentId: number = state.canvasFocus.componentId;
@@ -288,8 +295,8 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        children: componentChildren,
-
+        attributes: {},
+        children: componentChildren
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -297,17 +304,20 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
+        attributes: {},
         children: []
       };
-      
 
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
+      // if the newChild Element is an input or img type, delete the children key/value pair
+      if (newChild.name === 'input' && newChild.name === 'img')
+        delete newChild.children;
+
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
         parentComponent.children.push(newChild);
-        
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
@@ -323,11 +333,14 @@ const reducer = (state: State, action: Action) => {
       };
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-      let addChildArray = components[canvasFocus.componentId-1].children
+      let addChildArray = components[canvasFocus.componentId - 1].children;
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
-      if (directParent && directParent.name === 'separator') 
-        nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
-      components[canvasFocus.componentId-1].children = addChildArray;
+      if (directParent && directParent.name === 'separator')
+        nextTopSeparatorId = manageSeparators.handleSeparators(
+          addChildArray,
+          'add'
+        );
+      components[canvasFocus.componentId - 1].children = addChildArray;
 
       parentComponent.code = generateCode(
         components,
@@ -336,13 +349,19 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
-      
-      return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId };
+
+      return {
+        ...state,
+        components,
+        nextChildId,
+        canvasFocus,
+        nextTopSeparatorId
+      };
     }
     // move an instance from one position in a component to another position in a component
     case 'CHANGE POSITION': {
       const { currentChildId, newParentChildId } = action.payload;
-     
+
       // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update state
       if (currentChildId === newParentChildId) return state;
 
@@ -359,25 +378,36 @@ const reducer = (state: State, action: Action) => {
         component,
         currentChildId
       );
-      
-      const child = { ...directParent.children[childIndexValue] };
-     
-      directParent.children.splice(childIndexValue, 1);
+      // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
+      // Only run if the directParent exists
+      if (directParent) {
+        const child = { ...directParent.children[childIndexValue] };
 
-      // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
-      if (newParentChildId === null) {
-        component.children.push(child);
+        directParent.children.splice(childIndexValue, 1);
+
+        // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+        if (newParentChildId === null) {
+          component.children.push(child);
+        }
+        // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+        else {
+          const directParent = findChild(component, newParentChildId);
+          directParent.children.push(child);
+        }
       }
-      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-      else {
-        const directParent = findChild(component, newParentChildId);
-        directParent.children.push(child);
-      }
-      
+
       let nextTopSeparatorId = state.nextTopSeparatorId;
-     
-      components[state.canvasFocus.componentId-1].children = manageSeparators.mergeSeparator(components[state.canvasFocus.componentId-1].children, 0);
-      nextTopSeparatorId = manageSeparators.handleSeparators(components[state.canvasFocus.componentId-1].children, 'change position')
+
+      components[
+        state.canvasFocus.componentId - 1
+      ].children = manageSeparators.mergeSeparator(
+        components[state.canvasFocus.componentId - 1].children,
+        0
+      );
+      nextTopSeparatorId = manageSeparators.handleSeparators(
+        components[state.canvasFocus.componentId - 1].children,
+        'change position'
+      );
 
       component.code = generateCode(
         components,
@@ -393,15 +423,15 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE FOCUS': {
       const {
         componentId,
-        childId,
+        childId
       }: { componentId: number; childId: number | null } = action.payload;
-      
-      if (childId < 1000) { // makes separators not selectable
-        const canvasFocus = { ...state.canvasFocus, componentId, childId};
-        return {...state, canvasFocus}
+
+      if (childId < 1000) {
+        // makes separators not selectable
+        const canvasFocus = { ...state.canvasFocus, componentId, childId };
+        return { ...state, canvasFocus };
       }
       return { ...state };
-
     }
 
     case 'UPDATE CSS': {
@@ -414,6 +444,27 @@ const reducer = (state: State, action: Action) => {
       );
       const targetChild = findChild(component, state.canvasFocus.childId);
       targetChild.style = style;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      return { ...state, components };
+    }
+    case 'UPDATE ATTRIBUTES': {
+      const { attributes } = action.payload;
+      const components = [...state.components];
+
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.attributes = attributes;
 
       component.code = generateCode(
         components,
@@ -441,20 +492,23 @@ const reducer = (state: State, action: Action) => {
         component,
         state.canvasFocus.childId
       );
-        
+
       // delete the element from its former parent's children array
       directParent.children.splice(childIndexValue, 1);
-        
-      const canvasFocus = { ...state.canvasFocus, childId: null };
-     let nextTopSeparatorId = manageSeparators.handleSeparators(components[canvasFocus.componentId-1].children, 'delete')
 
-     component.code = generateCode(
-      components,
-      state.canvasFocus.componentId,
-      [...state.rootComponents],
-      state.projectType,
-      state.HTMLTypes
-    );
+      const canvasFocus = { ...state.canvasFocus, childId: null };
+      let nextTopSeparatorId = manageSeparators.handleSeparators(
+        components[canvasFocus.componentId - 1].children,
+        'delete'
+      );
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
 
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     }
@@ -535,7 +589,8 @@ const reducer = (state: State, action: Action) => {
       });
 
       // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
-      if (projectType === 'Next.js' || projectType === 'Gatsby.js') components[0]['name'] = 'index';
+      if (projectType === 'Next.js' || projectType === 'Gatsby.js')
+        components[0]['name'] = 'index';
       else components[0]['name'] = 'App';
 
       return { ...state, components, projectType };
@@ -621,9 +676,12 @@ const reducer = (state: State, action: Action) => {
     case 'UNDO': {
       const focusIndex = state.canvasFocus.componentId - 1;
       // if the past array is empty, return state
-      if(state.components[focusIndex].past.length === 0) return {...state};
+      if (state.components[focusIndex].past.length === 0) return { ...state };
       // the children array of the focused component will equal the last element of the past array
-      state.components[focusIndex].children = state.components[focusIndex].past[state.components[focusIndex].past.length - 1];
+      state.components[focusIndex].children =
+        state.components[focusIndex].past[
+          state.components[focusIndex].past.length - 1
+        ];
       // the last element of the past array gets popped off
       const poppedEl = state.components[focusIndex].past.pop();
       // the last element of the past array gets popped off and pushed into the future array
@@ -643,13 +701,16 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
-    
+
     case 'REDO': {
       const focusIndex = state.canvasFocus.componentId - 1;
       //if future array is empty, return state
-      if(state.components[focusIndex].future.length === 0) return {...state};
+      if (state.components[focusIndex].future.length === 0) return { ...state };
       //the children array of the focused component will equal the last element of the future array
-      state.components[focusIndex].children = state.components[focusIndex].future[state.components[focusIndex].future.length - 1]
+      state.components[focusIndex].children =
+        state.components[focusIndex].future[
+          state.components[focusIndex].future.length - 1
+        ];
       //the last element of the future array gets pushed into the past
       const poppedEl = state.components[focusIndex].future.pop();
       //the last element of the future array gets popped out
@@ -663,7 +724,7 @@ const reducer = (state: State, action: Action) => {
           state.rootComponents,
           state.projectType,
           state.HTMLTypes
-          );
+        );
       });
       return {
         ...state
