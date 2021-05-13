@@ -72,7 +72,11 @@ async function createWindow() {
     // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
+<<<<<<< HEAD
       // enable devtools when in development mode 
+=======
+      // enable devtools when in development mode
+>>>>>>> ee444f746bb8ccba4e3ebe3909002bf3ac26fdb1
       devTools: isDev,
       // crucial security feature - blocks rendering process from having access to node modules
       nodeIntegration: false,

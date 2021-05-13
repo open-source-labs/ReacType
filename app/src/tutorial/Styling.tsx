@@ -1,7 +1,7 @@
 import React from 'react';
 import theme from '../../../resources/customizing_elements_images/Theme.png';
 import lighting from '../../../resources/customizing_elements_images/Lighting.png';
-import resize from '../../../resources/customizing_elements_images/Resize.png';
+import resize from '../../../resources/customizing_elements_images/Resize.gif';
 import codeChange from '../../../resources/customizing_elements_images/CodeChange.png';
 
 
@@ -27,7 +27,7 @@ const Styling: React.FC<{
         <img className={classes.img} src={resize} />
       </div>
       <p className={classes.text}>
-        Hover over the line above the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span> and/or <span className={classes.notLink} onClick={() => setPage('Component_Tree')} >component tree</span> to
+        Hover over the line above the <span className={classes.notLink} onClick={() => setPage('Code Preview')} >code preview</span> and/or <span className={classes.notLink} onClick={() => setPage('Component Tree')} >component tree</span> to
         resize the section. Simply click and drag up or down to resize.
       </p>
       <hr />
@@ -36,7 +36,7 @@ const Styling: React.FC<{
         <img className={classes.img} src={codeChange} />
       </div>
       <p className={classes.text}>
-        You can manually change your code in the <span className={classes.notLink} onClick={() => setPage('Code_Preview')} >code preview</span> before exporting and see the changes reflected in your exported
+        You can manually change your code in the <span className={classes.notLink} onClick={() => setPage('Code Preview')} >code preview</span> before exporting and see the changes reflected in your exported
         file!
       </p>
       <hr />

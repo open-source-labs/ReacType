@@ -14,10 +14,13 @@ import CodeIcon from '@material-ui/icons/Code';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import TvIcon from '@material-ui/icons/Tv';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import CommentIcon from '@material-ui/icons/Comment';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import StyleIcon from '@material-ui/icons/Style';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
-
+import SwapVertIcon from '@material-ui/icons/SwapVert';
+import KeyboardIcon from '@material-ui/icons/Keyboard';
+import BrushIcon from '@material-ui/icons/Brush';
 
 
 const useStyles = makeStyles({
@@ -89,14 +92,18 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
 
   const topics = [
     'Pages',
-    'Route_Links',
-    'Code_Preview',
-    'Reusable_Components',
+    'Route Links',
+    'Code Preview',
+    'Reusable Components',
     'Canvas',
-    'Component_Tree',
-    'HTML_Elements',
+    'Component Tree',
+    'HTML Elements',
     'Styling',
-    'Customization'
+    'Customization',
+    'Annotations',
+    'States',
+    'CSS Editor',
+    'Keyboard Shortcuts',
   ];
 
   const icons = [
@@ -108,7 +115,11 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <AccountTreeIcon className={classes.icons} />,
     <AddPhotoAlternateIcon className={classes.icons} />,
     <StyleIcon className={classes.icons} />,
-    <ColorLensIcon className={classes.icons} />
+    <ColorLensIcon className={classes.icons} />,
+    <CommentIcon className={classes.icons} />,
+    <SwapVertIcon className={classes.icons} />,
+    <BrushIcon className={classes.icons} />,
+    <KeyboardIcon className={classes.icons} />,
   ];
 
   const body = document.querySelector('body');

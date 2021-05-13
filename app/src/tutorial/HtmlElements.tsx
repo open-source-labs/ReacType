@@ -33,7 +33,7 @@ const HtmlElements: React.FC<{
       In order to save custom tags across multiple projects, we recommend creating custom tags first, then saving multiple projects with the custom tags. This will allow access to custom tags across multiple projects.</p>
       <hr/>
       <h2>Customization</h2>
-      <p className={classes.text}>Add attributes to elements in the generated code in the code preview. When making changes/editing the code, please make sure not to add anymore components/elements to the canvas. This should be the final step before exporting your project. Please see <span className={classes.notLink} onClick={() => setPage('Code_Preview')}>Code Preview</span> for more details on when/how to make changes to your code in ReacType.</p>
+      <p className={classes.text}>Add attributes to elements in the generated code in the code preview. When making changes/editing the code, please make sure not to add anymore components/elements to the canvas. This should be the final step before exporting your project. Please see <span className={classes.notLink} onClick={() => setPage('Code Preview')}>Code Preview</span> for more details on when/how to make changes to your code in ReacType.</p>
       <div className={classes.imgWrapper} >
         <img className={classes.img} src={codeSnippet} />
       </div>
