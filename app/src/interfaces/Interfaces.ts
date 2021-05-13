@@ -6,7 +6,6 @@ export interface State {
   components: Component[];
   rootComponents: number[];
   projectType: string;
-  // Caret
   config?: {};
   separator: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
@@ -25,14 +24,12 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
-  // Caret
   annotations?: string;
 }
 export interface Component {
   id: number;
   name: string;
   style: object;
-  // Caret
   attributes?: object;
   code: string;
   children: ChildElement[];
@@ -40,7 +37,6 @@ export interface Component {
   past: any[];
   future: any[];
   stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
-  // Caret
   annotations?: string;
   useStateCodes: string[];
 }
@@ -93,7 +89,6 @@ export interface LoginInt {
   isLoggedIn: boolean;
 }
 
-// Caret start
 export interface Annotations {
   id: number;
   name: string;
@@ -104,5 +99,3 @@ export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;
   deleteHandler: (id: number | any) => void;
 }
-
-// Caret end

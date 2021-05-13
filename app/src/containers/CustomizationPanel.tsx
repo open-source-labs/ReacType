@@ -28,8 +28,6 @@ import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
-// Caret
-//import Arrow from '../components/main/Arrow';
 import { config } from 'ace-builds';
 
 // need to pass in props to use the useHistory feature of react router
@@ -41,11 +39,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
   const [BGColor, setBGColor] = useState('');
-  // Caret Start
   const [compText, setCompText] = useState('');
   const [compLink, setCompLink] = useState('');
   const [cssClasses, setCssClasses] = useState('');
-  // Caret End
   const [compWidth, setCompWidth] = useState('');
   const [compHeight, setCompHeight] = useState('');
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
@@ -55,7 +51,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [modal, setModal] = useState(null);
 
   const resetFields = () => {
-    // Caret Start
     const childrenArray = state.components[0].children;
     let attributes;
     for (const element of childrenArray) {
@@ -66,7 +61,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
       }
     }
-    // Caret End
     const style = configTarget.child
       ? configTarget.child.style
       : configTarget.style;
@@ -111,7 +105,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'bgcolor':
         setBGColor(inputVal);
         break;
-      // Caret Start
       case 'compText':
         setCompText(inputVal);
         break;
@@ -123,7 +116,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         break;
       default:
         break;
-      // Caret End
     }
   };
 
@@ -157,7 +149,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           focusTarget.child.style = focusChild.style;
           break;
         }
-        // Caret Update
         if (currentChild.name !== 'input' && currentChild.name !== 'img')
           currentChild.children.forEach(child => searchArray.push(child));
       }
@@ -185,11 +176,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     state.canvasFocus.childId,
     state.canvasFocus.componentId
   ]);
-
-  //console.log("CONFIG TARGET ****************: " , state.canvasFocus.childId);
-  //Arrow.renderArrow(state.canvasFocus.childId);
-  
-
 
   const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
@@ -229,7 +215,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
 
-    // Caret
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
@@ -240,7 +225,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: { style: styleObj }
     });
 
-    // Caret
     dispatch({
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
@@ -353,7 +337,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         (e.shiftKey && e.ctrlKey && e.key === 'z')
       ? handleRedo()
       : // Delete HTML tag off canvas
-      // Caret
       e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
       ? handleDelete()
       : // Save
@@ -372,10 +355,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   return (
     <div className="column right" id="rightContainer" style={style}>
-      {/* CARET */}
-      {/* <TabPanel /> */}
-      {/* CARET */}
-      {/* <ComponentPanel isThemeLight={isThemeLight} /> */}
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
@@ -414,7 +393,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               </h4>
             )}
           </div>
-          {/* Caret Start Created new FormSelector component */}
           <section className={'customization-section'}>
             <div>
               <FormSelector
@@ -509,7 +487,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   { value: '50%', text: '50%' }
                 ]}
               />
-              {/* Caret End */}
               <div className={classes.configRow}>
                 <div
                   className={
@@ -539,7 +516,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
               </div>
             </div>
-            {/* Caret Start */}
             <div>
 
               <div className={classes.configRow}>
@@ -626,7 +602,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
               </div>
-              {/* Caret End */}
             </div>
             <div>
               <div className={classes.buttonRow}>

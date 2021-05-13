@@ -119,7 +119,7 @@ const HTMLItem : React.FC<{
       })
     );
   };
-  // Caret updated the id's to reflect the new element types input and label
+  // updated the id's to reflect the new element types input and label
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
       { id <= 16 &&

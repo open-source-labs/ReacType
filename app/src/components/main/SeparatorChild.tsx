@@ -68,7 +68,7 @@ function DirectChildHTMLNestable({
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
-        // Caret check to see if the selected child is trying to nest within itself
+        // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
           dispatch({
             type: 'CHANGE POSITION',

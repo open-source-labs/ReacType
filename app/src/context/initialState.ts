@@ -5,9 +5,7 @@ import HTMLTypes from './HTMLTypes';
 const initialState: State = {
   name: '',
   isLoggedIn: false,
-  // CARET
   config: { saveFlag: true, saveTimer: false },
-  // END CARET
   components: [
     {
       id: 1,
@@ -18,10 +16,8 @@ const initialState: State = {
       isPage: true,
       past: [],
       future: [],
-      // CARET
       stateProps: [],
       useStateCodes: [], // array of strings for each useState codes
-      // END CARET
     }
   ],
   projectType: 'Classic React',

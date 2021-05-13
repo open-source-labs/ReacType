@@ -32,7 +32,6 @@ const reducer = (state: State, action: Action) => {
       // shift off the first value and assign to an element
       const currentNode = nodeArr.shift();
       // try to find id of childNode in children
-      // Caret Update
       if (currentNode.name !== 'input' && currentNode.name !== 'img') {
         for (let i = 0; i <= currentNode.children.length - 1; i++) {
           // if match is found return object with both the parent and the index value of the child
@@ -88,7 +87,6 @@ const reducer = (state: State, action: Action) => {
       const currentNode = nodeArr.shift();
       if (currentNode.childId === childId) return currentNode;
       // if child node isn't found add each of the current node's children to the search array
-      // Caret Update
       if (currentNode.name !== 'input' && currentNode.name !== 'img')
         currentNode.children.forEach(node => nodeArr.push(node));
     }
@@ -213,7 +211,6 @@ const reducer = (state: State, action: Action) => {
         name: action.payload.componentName,
         nextChildId: 1,
         style: {},
-        // Caret
         attributes: {},
         code: '',
         children: [],
@@ -298,7 +295,6 @@ const reducer = (state: State, action: Action) => {
         name: newName,
         childId: state.nextChildId,
         style: {},
-        // Caret
         attributes: {},
         children: componentChildren
       };
@@ -308,14 +304,13 @@ const reducer = (state: State, action: Action) => {
         name: 'separator',
         childId: state.nextTopSeparatorId,
         style: separator.style,
-        // Caret
         attributes: {},
         children: []
       };
 
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
-      // Caret Update if the newChild Element is an input or img type, delete the children key/value pair
+      // if the newChild Element is an input or img type, delete the children key/value pair
       if (newChild.name === 'input' && newChild.name === 'img')
         delete newChild.children;
 
@@ -383,7 +378,6 @@ const reducer = (state: State, action: Action) => {
         component,
         currentChildId
       );
-      // Caret start
       // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
       // Only run if the directParent exists
       if (directParent) {
@@ -401,7 +395,6 @@ const reducer = (state: State, action: Action) => {
           directParent.children.push(child);
         }
       }
-      // Caret End
 
       let nextTopSeparatorId = state.nextTopSeparatorId;
 
@@ -462,7 +455,6 @@ const reducer = (state: State, action: Action) => {
 
       return { ...state, components };
     }
-    // Caret
     case 'UPDATE ATTRIBUTES': {
       const { attributes } = action.payload;
       const components = [...state.components];

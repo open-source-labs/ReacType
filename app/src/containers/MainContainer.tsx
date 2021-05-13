@@ -11,7 +11,6 @@ const MainContainer = (props): JSX.Element => {
     <div className="main-container" style={style} >
       <div className="main">
         <CanvasContainer />
-        {/* Caret Component Render */}
         <DemoRender />
       </div>
       <BottomPanel isThemeLight={props.isThemeLight}/>

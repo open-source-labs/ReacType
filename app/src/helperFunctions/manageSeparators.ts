@@ -37,7 +37,6 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
       manageSeparators.nextTopSeparatorId += 1;
     }
     // check is length is > 0 or it is a nested element
-    // Caret Update
     if ((arr[index].name !== 'input' && arr[index].name !== 'img') && arr[index].children.length) {
     // recursive call if children array
        (str === 'delete' || str === 'change position') ? manageSeparators.handleSeparators(arr[index].children, str) : manageSeparators.handleSeparators(arr[index].children);
@@ -49,7 +48,7 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
 // this function replaces separators onto which an element is dropped with the element itself
 manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
-    // Caret Added additional nested types for lists
+    // Added additional nested types for lists
     if ((child.name === 'div' || child.name === 'form' || child.name === 'ol' || child.name === 'ul') && child.children.length) {
       const divContents = manageSeparators.mergeSeparator(child.children, index);
       return { ...child, children: divContents }

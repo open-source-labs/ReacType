@@ -1,4 +1,4 @@
-// CARET
+
 import React, { useState, useContext, useEffect } from 'react';
 import {
   DataGrid,

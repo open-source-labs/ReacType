@@ -55,13 +55,11 @@ const generateUnformattedCode = (
         if (
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' || 
-          // Caret Start
           referencedHTML.tag === 'form' ||
           referencedHTML.tag === 'ul' ||
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
           referencedHTML.tag === 'li'
-          // Caret End
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -76,7 +74,6 @@ const generateUnformattedCode = (
       });
       return enrichedChildren;
   };
-  // Caret Start
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
@@ -171,8 +168,6 @@ const generateUnformattedCode = (
     }
     return stateToRender
   }
-
-  // Caret End
 
   const enrichedChildren: any = getEnrichedChildren(currentComponent);
 

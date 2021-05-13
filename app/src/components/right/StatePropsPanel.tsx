@@ -1,4 +1,4 @@
-// CARET
+
 import React, { useState, useContext, useCallback, useEffect } from "react";
 import {
   createStyles,
@@ -37,13 +37,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-
-  // debug console button for development purposes
-  const debug = () => {
-    console.log("currentComponent:", currentComponent);
-    console.log("currentComponent.stateProps:", currentComponent.stateProps);
-    console.log("currentComponent.useStateCodes:", currentComponent.useStateCodes);
-  };
 
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
@@ -174,10 +167,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             </Select>
             <FormHelperText>Required</FormHelperText>
           </FormControl>
-          {/* Commenting out the debug button for production */}
-          {/* <MyButton type="submit" onClick={debug}>
-            debug
-          </MyButton> */}
           <br></br>
           <MyButton type="submit" onClick={submitNewState}>
             Save
@@ -294,7 +283,6 @@ const useStyles = makeStyles((theme: Theme) =>
     darkThemeFontColor: {
       color: "#fff",
     },
-    // CARET
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
