@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     }
   },
   lightThemeFontColor: {
-    color: '#186BB4'
+    color: '#292929'
   },
   darkThemeFontColor: {
     color: '#fff'

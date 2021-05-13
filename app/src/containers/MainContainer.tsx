@@ -7,7 +7,6 @@ import DemoRender from '../components/main/DemoRender';
 const MainContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
 
-
   return (
     <div className="main-container" style={style} >
       <div className="main">

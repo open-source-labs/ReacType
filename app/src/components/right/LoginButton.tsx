@@ -27,7 +27,7 @@ export default function LoginButton() {
     return (
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         className="navbarButton"
         style={{ minWidth: '102.11px' }}
         onClick={handleLogout}
@@ -40,7 +40,7 @@ export default function LoginButton() {
   return (
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         className="navbarButton"
         style={{ minWidth: '102.11px' }}
         onClick={handleLogout}

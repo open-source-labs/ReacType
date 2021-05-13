@@ -314,7 +314,7 @@ const formatCode = (code: string) => {
       parser: 'babel'
     });
   } else if (process.env.NODE_ENV === 'production') {
-    return window.api.formatCode(code);
+    //return window.api.formatCode(code);
   } else {
    return code;
   }

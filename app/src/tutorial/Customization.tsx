@@ -13,6 +13,14 @@ const Customization: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Customization</h1>
       <hr />
+      <p className={classes.text}>
+        Customize your HTML elements on the canvas with the below features. Any changes <br/>
+        made in the <span className={classes.notLink} onClick={() => setPage('Customization')}>
+        Customization</span> panel will be reflected immediately in the <span className={classes.notLink} onClick={() => setPage('Code_Preview')}> 
+        Code Preview </span> and Demo Render. See your changes in real time to decide what's best!<br/><br/>
+        To customize an HTML element, drag it onto the canvas and select it on the canvas. Then use the desired cusotmization feature.
+      </p>
+      <hr />
       <h2>Display</h2>
       <div className={classes.imgWrapper}>
         <img src={display} />
@@ -119,7 +127,31 @@ const Customization: React.FC<{
       </div>
       <p className={classes.text}>
         Select an element, type in the color you wish to change the background
-        color to, and click save. The code preview will be updated to include your custom styling!
+        color to, and click save.
+      </p>
+      <hr />
+      <h2>Text</h2>
+      <div className={classes.imgWrapper}>
+        <img src={backgroundColor} />
+      </div>
+      <p className={classes.text}>
+        Add HTML text to a selected element on the canvas by typing in the desired text.
+      </p>
+      <hr />
+      <h2>Link</h2>
+      <div className={classes.imgWrapper}>
+        <img src={backgroundColor} />
+      </div>
+      <p className={classes.text}>
+        Add a hyperlink to a selected element on the canvas by typing in the url.
+      </p>
+      <hr />
+      <h2>CSS Classes</h2>
+      <div className={classes.imgWrapper}>
+        <img src={backgroundColor} />
+      </div>
+      <p className={classes.text}>
+        Change the CSS class of a selected element on the canvas by typing in the class name.
       </p>
       <hr />
     </div>

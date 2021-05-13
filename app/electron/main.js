@@ -91,6 +91,7 @@ async function createWindow() {
       nativeWindowOpen: true,
     },
   });
+  win.webContents.openDevTools();
 
   // Splash screen that appears while loading
   const hideSplashscreen = initSplashScreen({
