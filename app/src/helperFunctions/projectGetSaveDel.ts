@@ -1,5 +1,5 @@
 const isDev = process.env.NODE_ENV === 'development';
-let serverURL = 'https://reactype.herokuapp.com';
+let serverURL = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverURL = 'http://localhost:5000';
 }

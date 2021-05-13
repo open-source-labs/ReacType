@@ -457,7 +457,7 @@ NAVBAR
   width: 16%;
 }
 
-/* Caret Start
+/* 
 /////////////////////////////////////////////////
 ANNOTATIONS
 /////////////////////////////////////////////////
@@ -528,7 +528,6 @@ ANNOTATIONS
   font-size: 20px;
   margin: 2.5px 2.5px;
 }
-/* Caret End
 
 /* Material-UI */
 
@@ -603,7 +602,6 @@ a.nav_link:hover {
 
 
 
-/* Caret */
 
 .text-editor .bttn{
   position: absolute;

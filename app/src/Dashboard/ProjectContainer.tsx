@@ -42,7 +42,7 @@ const arrToComponent = arr => arr.map((proj, index) => <Project
                                         comments = {proj.comments}
                                       />);
 
-// Caret Start Pulled from materialUI to create a tab panel                                      
+// Start Pulled from materialUI to create a tab panel                                      
 const a11yProps = (index: any) => ({
   id: `vertical-tab-${index}`,
   'aria-controls': `vertical-tabpanel-${index}`,
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
   },
 }));
-// Caret End of prefab code to generate a tab panel
+// End of prefab code to generate a tab panel
 
 const ProjectContainer = (): JSX.Element => {
   const classes = useStyles();
@@ -105,7 +105,7 @@ const ProjectContainer = (): JSX.Element => {
     setValue(newValue);
   };
 
-  // Start Caret of old code from project container
+  // old code from project container
   const myVar = {};
   // Need this for the individual user dasboard, for now, dashboard shows all projects from all users
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
@@ -165,7 +165,7 @@ const ProjectContainer = (): JSX.Element => {
   const userDisplay = arrToComponent(userProjects);
   // create an array of components Project that will be conditionally rendered
   const sortedDisplay = arrToComponent(sortedProjects);
-  // Caret End of old code from Project Container
+  // old code from Project Container
 
   return (
     <div className={classes.root}>

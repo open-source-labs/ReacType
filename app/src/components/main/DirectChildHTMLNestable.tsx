@@ -6,7 +6,6 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-// Caret
 import Annotation from './Annotation'
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
@@ -84,7 +83,7 @@ const snapShotFunc = () => {
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
-        // Caret check to see if the selected child is trying to nest within itself
+        // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
           dispatch({
             type: 'CHANGE POSITION',
@@ -136,7 +135,6 @@ const snapShotFunc = () => {
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <strong>{HTMLType.placeHolderShort}</strong>
-      {/* Caret start */}
       {`  ( ${childId} )`}
       <Annotation
         id={childId}
@@ -144,7 +142,6 @@ const snapShotFunc = () => {
         annotations={annotations}
       />
       {renderChildren(children)}
-      {/* Caret end */}
     </div>
   );
 }

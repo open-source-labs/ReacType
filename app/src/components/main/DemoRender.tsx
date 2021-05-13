@@ -1,4 +1,4 @@
-// 100% Caret
+
 import React, {
   useState, useCallback, useContext, useEffect,
 } from 'react';
@@ -24,7 +24,6 @@ const DemoRender = (props): JSX.Element => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {
-       // console.log('detail from children array', element);
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
@@ -48,7 +47,6 @@ const DemoRender = (props): JSX.Element => {
   useEffect(() => {
     const focusIndex = state.canvasFocus.componentId - 1;
     const childrenArray = state.components[focusIndex].children;
-   //console.log('Refrenced Children in State!!!', childrenArray);
     const renderedComponents = componentBuilder(childrenArray);
     setComponents(renderedComponents);
   }, [state.components, state.canvasFocus]);

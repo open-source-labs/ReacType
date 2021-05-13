@@ -1,4 +1,4 @@
-// 100% Caret
+
 import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';

@@ -59,22 +59,6 @@ function Canvas() {
           }
         });
       }
-      // Caret Start - This code is never used. Adding a new child element to an existing element
-      // or moving existing element to nest in another element is handled by DirectChildHTMLNestable
-      //
-      //if item is not a new instance, change position of element dragged inside div so that the div is the new parent
-      // else {
-      //   console.log("Changed Position, this is not doing shit");
-      //   dispatch({
-      //     type: 'CHANGE POSITION',
-      //     payload: {
-      //       // name: item.name,
-      //       currentChildId: item.childId,
-      //       newParentChildId: null
-      //     }
-      //   });
-      // }
-      // Caret End
     },
     collect: monitor => ({
       isOver: !!monitor.isOver()
