@@ -5,12 +5,12 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 6.0](https://img.shields.io/badge/Release-6.0-lightgrey.svg)
+![Version 7.0.0](https://img.shields.io/badge/Release-7.0.0-lightgrey.svg)
 
-**ReacType** is a visual prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
+**ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
 
-**ReacType** allows users to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and a _real-time component code preview_. Users can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
+**ReacType** allows users to _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ , a _real-time demo render_ , a _real-time component code preview_. Users can create components and drag _instances_ of these components, as well as HTML elements, onto the canvas. This architecture can then be _exported_ as TypeScript application files to be used as a starter template for any repository.
 
 Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windows](https://github.com/team-reactype/ReacType/releases/), [Linux](https://github.com/team-reactype/ReacType/releases/).
 
@@ -47,6 +47,13 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 ![saveToUserDash](https://user-images.githubusercontent.com/69879756/112248087-98747100-8c12-11eb-940c-033d3a754cff.gif)
 
 ### Features
+
+
+- **Live Render Demo**: Live render demo in React using Electron's sandbox environment. Updates in realtime to reflect canvas structure and customization options.
+- **Annotations**: Provide design notes directly on the canvas and have these persist while sharing designs with other engineers.
+- **CSS Editor**: Copy and paste custom css styles and classes into the editor and save to use personal or company designs in an instant.
+- **State & Props Creator**: Create custom state hooks with real-time updates in the code preview.
+- **Application Style Update**: Complete redesign of the entire application for enhanced user experience to maintain a single view application
 
 - **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
 - **Like**: Like other people's templates by clicking on the thumbs up icon.
