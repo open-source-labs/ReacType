@@ -8,6 +8,7 @@ const exportProject = (
   path: string,
   appName: string,
   genOption: number,
+  tests: boolean,
   projectType: string,
   components: any,
   rootComponents: number[]
@@ -26,9 +27,10 @@ const exportProject = (
       console.log(err)
     );
   } else if (genOption === 1 && projectType === 'Gatsby.js') {
-    createGatsbyApp({ path, appName, components, rootComponents }).catch(err =>
+    createGatsbyApp({ path, appName, components, rootComponents, tests }).catch(err =>
       console.log(err));
   }
+
 };
 
 export default exportProject;

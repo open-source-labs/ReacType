@@ -60,15 +60,22 @@ export default function ExportButton() {
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
         ))}
+        <ListItem>
+          <input type="checkbox" id="tests" name="tests"></input>
+          <label for="tests">Include Tests</label>
+        </ListItem>
       </List>
     );
 
+    let testchecked = 0;
     // helper function called by showGenerateAppModal
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
       // set export option: 0 --> export only components, 1 --> export full project
+
       genOption = genOpt;
       window.api.chooseAppDir();
+      testchecked = document.getElementById('tests').checked;
       closeModal();
     };
 
@@ -80,12 +87,14 @@ export default function ExportButton() {
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
     window.api.addAppDirChosenListener(path => {
+      // console.log(testchecked);
       exportProject(
         path,
         state.name
           ? state.name
           : 'New_ReacType_Project_' + Math.ceil(Math.random() * 99).toString(),
         genOption,
+        testchecked,
         state.projectType,
         state.components,
         state.rootComponents

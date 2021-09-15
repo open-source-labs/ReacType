@@ -1,6 +1,7 @@
 // Create all files necessary to run a gatsby.js application
 
 import createGatsbyFiles from './createGatsbyFiles.util';
+import createTestFiles from './createTestSuite.util';
 import { Component } from '../interfaces/Interfaces';
 
 const camelToKebab= (camel:string) => {
@@ -140,14 +141,17 @@ async function createGatsbyAppUtil({
   path,
   appName,
   components,
-  rootComponents
+  rootComponents,
+  testchecked,
 }: {
   path: string;
   appName: string;
   components: Component[];
   rootComponents: number[];
+  testchecked: boolean;
 }) {
   console.log('in the createGatsbyApplication util');
+  console.log('testchecked: ',testchecked);
 
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
@@ -156,5 +160,9 @@ async function createGatsbyAppUtil({
   await createTsConfig(path, appName);
   await createGatsbyFiles(components, path, appName, rootComponents);
 
+  if (testchecked) {
+    console.log('testchecked: ',testchecked);
+    await createTestFiles()
+  }
 }
 export default createGatsbyAppUtil;
