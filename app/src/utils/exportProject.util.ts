@@ -27,7 +27,7 @@ const exportProject = (
       console.log(err)
     );
   } else if (genOption === 1 && projectType === 'Gatsby.js') {
-    createGatsbyApp({ path, appName, components, rootComponents, tests }).catch(err =>
+    createGatsbyApp({ path, appName, components, rootComponents, testchecked: tests }).catch(err =>
       console.log(err));
   }
 

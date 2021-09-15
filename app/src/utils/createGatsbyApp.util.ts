@@ -25,30 +25,64 @@ const compToCSS = (component: Component) => {
 }
 
 //createPackage
-export const createPackage = (path, appName) => {
+export const createPackage = (path, appName, test) => {
+  // console.log('in createpackage: ',test);
   const filePath = `${path}/${appName}/package.json`;
-  const data = `
-{
-  "name": "reactype-gatsby",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "dev": "gatsby develop",
-    "build": "gatsby build",
-    "start": "npm run dev"
-  },
-  "dependencies": {
-    "gatsby": "^2.26.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
-  },
-  "devDependencies": {
-    "@types/node": "^14.0.20",
-    "@types/react": "^16.9.41",
-    "typescript": "^3.9.6"
+  let data = ``;
+  if (!test) {
+    data = `
+      {
+        "name": "reactype-gatsby",
+        "version": "1.0.0",
+        "description": "",
+        "scripts": {
+          "dev": "gatsby develop",
+          "build": "gatsby build",
+          "start": "npm run dev"
+        },
+        "dependencies": {
+          "gatsby": "^2.26.1",
+          "react": "16.13.1",
+          "react-dom": "16.13.1"
+        },
+        "devDependencies": {
+          "@types/node": "^14.0.20",
+          "@types/react": "^16.9.41",
+          "typescript": "^3.9.6"
+        }
+      }
+        `;
+  } else {
+    data = `
+      {
+        "name": "reactype-gatsby",
+        "version": "1.0.0",
+        "description": "",
+        "scripts": {
+          "dev": "gatsby develop",
+          "build": "gatsby build",
+          "start": "npm run dev"
+        },
+        "dependencies": {
+          "gatsby": "^2.26.1",
+          "react": "16.13.1",
+          "react-dom": "16.13.1"
+        },
+        "devDependencies": {
+          "@types/node": "^14.0.20",
+          "@types/react": "^16.9.41",
+          "typescript": "^3.9.6",
+          "@types/enzyme": "^3.10.9",
+          "@types/jest": "^27.0.1",
+          "babel-jest": "^27.2.0",
+          "enzyme": "^3.11.0",
+          "enzyme-adapter-react-16": "^1.15.6",
+          "jest": "^27.2.0",
+          "react-test-renderer": "^17.0.2"
+        }
+      }
+        `;
   }
-}
-  `;
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('package.json error:', err.message);
@@ -152,17 +186,17 @@ async function createGatsbyAppUtil({
 }) {
   console.log('in the createGatsbyApplication util');
   console.log('testchecked: ',testchecked);
-
+  
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
-  await createPackage(path, appName);
+  await createPackage(path, appName, testchecked);
   await createTsConfig(path, appName);
-  await createGatsbyFiles(components, path, appName, rootComponents);
-
   if (testchecked) {
     console.log('testchecked: ',testchecked);
     await createTestFiles()
   }
+  await createGatsbyFiles(components, path, appName, rootComponents);
+  
 }
 export default createGatsbyAppUtil;
