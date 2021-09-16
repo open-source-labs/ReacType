@@ -47,8 +47,8 @@
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
     "dev": "concurrently --success first \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development electron .\" \"npm run server\" -k",
     "p": "concurrently --success first \"npm run dev-server\" \"cross-env NODE_ENV=production electron .\" \"nodemon server/server.js\" -k",
-    "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js", 
-    "prod": "npm run prod-build && electron . --no-sandbox", 
+    "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
+    "prod": "npm run prod-build && electron . --no-sandbox",
     "pack": "electron-builder --dir",
     "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
@@ -63,7 +63,7 @@
     "url": "git+https://github.com/open-source-labs/ReacType.git"
   },
   "keywords": [
-    "electron", 
+    "electron",
     "prototying",
     "react",
     "next.js"
@@ -134,6 +134,7 @@
     "dotenv": "^8.2.0",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^2.2.4",
+    "electron-oauth2": "^3.0.0",
     "electron-splashscreen": "^1.0.0",
     "electron-window-manager": "^1.0.6",
     "enzyme": "^3.4.1",

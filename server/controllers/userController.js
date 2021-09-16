@@ -5,36 +5,35 @@ const userController = {};
 const bcrypt = require('bcryptjs');
 
 // random password is subtituted when user uses Oauth and no new password is provided
-// const randomPassword = () => {
-//   function getRandomSpecialChar() {
-//     const code = Math.round(Math.random() * (38 - 37) + 37);
-//     return String.fromCharCode(code);
-//   }
-//   function getRandomDigit() {
-//     const code = Math.round(Math.random() * (57 - 48) + 48);
-//     return String.fromCharCode(code);
-//   }
-//   function getRandomLetter() {
-//     const code = Math.round(Math.random() * (90 - 65) + 65);
-//     return String.fromCharCode(code);
-//   }
-//   let password = '';
-//   for (let i = 0; i < 6; i += 1) {
-//     password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
-//   }
-//   return password;
-// }
+const randomPassword = () => {
+  function getRandomSpecialChar() {
+    const code = Math.round(Math.random() * (38 - 37) + 37);
+    return String.fromCharCode(code);
+  }
+  function getRandomDigit() {
+    const code = Math.round(Math.random() * (57 - 48) + 48);
+    return String.fromCharCode(code);
+  }
+  function getRandomLetter() {
+    const code = Math.round(Math.random() * (90 - 65) + 65);
+    return String.fromCharCode(code);
+  }
+  let password = '';
+  for (let i = 0; i < 6; i += 1) {
+    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
+  }
+  return password;
+}
 
 userController.createUser = (req, res, next) => {
   const { email, username, password } = req.body;
 
   // use this condition for Oauth login
-  // if (res.locals.signUpType === 'oauth') {
-  //   email = res.locals.githubEmail;
-  //   username = email;
-  //   password = randomPassword();
-  // }
-  // error handling if username or email or password is missing
+  if (res.locals.signUpType === 'oauth') {
+    email = res.locals.githubEmail;
+    username = email;
+    password = randomPassword();
+  }
 
   if (!username) {
     return res.status(400).json('No username input');
@@ -83,10 +82,10 @@ userController.createUser = (req, res, next) => {
 userController.verifyUser = (req, res, next) => {
   let { username, password, isFbOauth } = req.body;
   // handle Oauth
-  // if (res.locals.signUpType === 'oauth') {
-  //   username = res.locals.githubEmail;
-  //   password = res.locals.githubPassword;
-  // }
+  if (res.locals.signUpType === 'oauth') {
+    username = res.locals.githubEmail;
+    password = res.locals.githubPassword;
+  }
   if (!username) {
     return res.status(400).json('No Username Input');
   }

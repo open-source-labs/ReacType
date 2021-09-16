@@ -73,7 +73,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   
  
   // Commented because window api is broken. Work in progress
-  /* useEffect(() => {
+  useEffect(() => {
     const githubCookie = setInterval(() => {
       window.api.setCookie();
       window.api.getCookie(cookie => {
@@ -88,7 +88,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         }
       });
     }, 2000);
-  }, []);*/
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -158,7 +158,15 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     window.localStorage.setItem('ssid', 'guest');
     props.history.push('/');
   };
+  
+  const handleGithubLogin = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      e.preventDefault();
+        window.api.github();
+        props.history.push('/');
 
+    }
   const responseFacebook = response => {
     if (response.accessToken) {
       newUserIsCreated(response.email, response.email, randomPassword()).then(
@@ -235,7 +243,16 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         >
           Sign In
         </Button>
-        
+        <Button
+          fullWidth
+          id="SignInWithGithub"
+          variant="contained"
+          color="default"
+          className={classes.submit}
+          onClick={e => handleGithubLogin(e)}
+        >
+          Sign In With Github
+        </Button>
         <Button
           fullWidth
           variant="contained"
