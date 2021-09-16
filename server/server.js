@@ -1,6 +1,7 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
 
 const path = require('path');
 const cors = require('cors');

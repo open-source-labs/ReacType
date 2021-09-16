@@ -10,7 +10,7 @@
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const URI = process.env.NODE_ENV === 'production' ? process.env.URI : require('../../config').URI;
+const URI = process.env.NODE_ENV === 'production' ? process.env.URI : process.env.URI;
 
 const SALT_WORK_FACTOR = 14;
 // connect to mongo db
