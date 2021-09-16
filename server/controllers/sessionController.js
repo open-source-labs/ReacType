@@ -1,3 +1,5 @@
+const fetch = require ('node-fetch');
+
 require('dotenv').config();
 const { Sessions } = require('../models/reactypeModels');
 
@@ -108,7 +110,7 @@ sessionController.gitHubResponse = (req, res, next) => {
 
 sessionController.gitHubSendToken = (req, res, next) => {
   const { token } = res.locals;
-  fetch(`https://api.github.com/user/emails`, {
+  fetch(`https://api.github.com/user/public_emails`, {
     method: 'GET',
     headers: {
       Accept: 'application/vnd.github.v3+json',

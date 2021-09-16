@@ -26,13 +26,16 @@ const randomPassword = () => {
 }
 
 userController.createUser = (req, res, next) => {
-  const { email, username, password } = req.body;
 
+  let email, username, password;
   // use this condition for Oauth login
   if (res.locals.signUpType === 'oauth') {
     email = res.locals.githubEmail;
     username = email;
     password = randomPassword();
+    res.locals.githubPassword = password;
+  } else {
+    ({ email, username, password } = req.body);
   }
 
   if (!username) {
@@ -82,6 +85,7 @@ userController.createUser = (req, res, next) => {
 userController.verifyUser = (req, res, next) => {
   let { username, password, isFbOauth } = req.body;
   // handle Oauth
+  console.log('We verifying');
   if (res.locals.signUpType === 'oauth') {
     username = res.locals.githubEmail;
     password = res.locals.githubPassword;
