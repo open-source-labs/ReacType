@@ -28,61 +28,46 @@ const compToCSS = (component: Component) => {
 export const createPackage = (path, appName, test) => {
   // console.log('in createpackage: ',test);
   const filePath = `${path}/${appName}/package.json`;
-  let data = ``;
-  if (!test) {
-    data = `
-      {
-        "name": "reactype-gatsby",
-        "version": "1.0.0",
-        "description": "",
-        "scripts": {
-          "dev": "gatsby develop",
-          "build": "gatsby build",
-          "start": "npm run dev"
-        },
-        "dependencies": {
-          "gatsby": "^2.26.1",
-          "react": "16.13.1",
-          "react-dom": "16.13.1"
-        },
-        "devDependencies": {
-          "@types/node": "^14.0.20",
-          "@types/react": "^16.9.41",
-          "typescript": "^3.9.6"
-        }
-      }
-        `;
-  } else {
-    data = `
-      {
-        "name": "reactype-gatsby",
-        "version": "1.0.0",
-        "description": "",
-        "scripts": {
-          "dev": "gatsby develop",
-          "build": "gatsby build",
-          "start": "npm run dev"
-        },
-        "dependencies": {
-          "gatsby": "^2.26.1",
-          "react": "16.13.1",
-          "react-dom": "16.13.1"
-        },
-        "devDependencies": {
-          "@types/node": "^14.0.20",
-          "@types/react": "^16.9.41",
-          "typescript": "^3.9.6",
+  
+  let tsjest = `,
           "@types/enzyme": "^3.10.9",
           "@types/jest": "^27.0.1",
           "babel-jest": "^27.2.0",
           "enzyme": "^3.11.0",
           "enzyme-adapter-react-16": "^1.15.6",
           "jest": "^27.2.0",
-          "react-test-renderer": "^17.0.2"
+          "react-test-renderer": "^17.0.2",
+          "@types/react-dom": "^17.0.9",
+          "@types/enzyme-adapter-react-16": "^1.0.6",
+          "@types/react-test-renderer": "^17.0.1",
+          "babel-preset-gatsby": "^1.13.0",
+          "identity-obj-proxy": "^3.0.0",
+          "ts-jest": "^27.0.5"`;
+ 
+  const data = `
+      {
+        "name": "reactype-gatsby",
+        "version": "1.0.0",
+        "description": "",
+        "scripts": {
+          "dev": "gatsby develop",
+          "build": "gatsby build",
+          "start": "npm run dev"${
+            test ? '"test": "jest"': '' }
+        },
+        "dependencies": {
+          "gatsby": "^2.26.1",
+          "react": "16.13.1",
+          "react-dom": "16.13.1"
+        },
+        "devDependencies": {
+          "@types/node": "^14.0.20",
+          "@types/react": "^16.9.41",
+          "typescript": "^3.9.6"${
+            test ? tsjest : '' }
         }
       }
         `;
-  }
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('package.json error:', err.message);
