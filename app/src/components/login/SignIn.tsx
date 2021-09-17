@@ -165,7 +165,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
       e.preventDefault();
         window.api.github();
         props.history.push('/');
-
     }
   const responseFacebook = response => {
     if (response.accessToken) {

@@ -10,8 +10,8 @@
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const URI = process.env.NODE_ENV === 'production' ? process.env.URI : 'mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority';
-// const mongoURI = ('mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority');
+const mongoURI = 'mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority';
+const URI = process.env.NODE_ENV === 'production' ? mongoURI : 'mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority';
 
 const SALT_WORK_FACTOR = 14;
 // connect to mongo db

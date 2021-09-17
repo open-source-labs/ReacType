@@ -106,6 +106,7 @@ sessionController.gitHubResponse = (req, res, next) => {
         res.status(500).json({ message: `${err.message} in gitHubResponse` })
       }
       );
+      
 };
 
 sessionController.gitHubSendToken = (req, res, next) => {

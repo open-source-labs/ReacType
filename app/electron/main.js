@@ -256,6 +256,7 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
       'https://www.html5rocks.com',
+      'app://rse/'
     ];
 
     // Log and prevent the app from redirecting to a new page
@@ -465,7 +466,7 @@ ipcMain.on('github', event => {
       github.close();
       win.webContents
         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then(result => win.loadURL(selfHost))
+        .then(result => win.loadURL(`app://rse?=${ssid}`))
         .catch(err => console.log(err));
     }
   });
