@@ -15,7 +15,7 @@ const exportProject = (
 ) => {
   // Create fully functional classic react application
   if (genOption === 1 && projectType === 'Classic React') {
-    createApplicationUtil({ path, appName, components }).catch(err =>
+    createApplicationUtil({ path, appName, components, testchecked: tests }).catch(err =>
       console.log(err)
     );
   } // export all component files, but don't create all application files

@@ -206,7 +206,7 @@ const generateUnformattedCode = (
     ${
       classBased
         ? `class ${currentComponent.name} extends Component {`
-        : `const ${currentComponent.name} = (props): JSX.Element => {`
+        : `const ${currentComponent.name} = (props: any): JSX.Element => {`
     }
 
     ${
