@@ -79,9 +79,24 @@ export const createPackage = (path, appName, test) => {
 };
 //createTSConfig (empty)
 export const createTsConfig = (path, appName) => {
-  const filePath = `${path}/${appName}/tsconfig.json`;
+  const filePath:string = `${path}/${appName}/tsconfig.json`;
   //running 'gatsby dev' will autopopulate this with default values
-  window.api.writeFile(filePath, '', err => {
+  const data:string = `{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "jsx": "react",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": ["./src/**/*"]
+}
+`;
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {

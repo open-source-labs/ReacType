@@ -121,8 +121,48 @@ async function createJestPreprocessFile(path: string, appName: string){
 
 async function createComponentTests(path: string, appName: string, components: Component[]) {
   const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-  const data:string = '';
+  console.log(JSON.stringify(components))
+  console.log(components);
 
+  let data:string = `
+  import React from "react"
+  import renderer from "react-test-renderer"
+  import Enzyme, { shallow } from 'enzyme';
+
+
+  import Adapter from 'enzyme-adapter-react-16';
+  Enzyme.configure({ adapter: new Adapter() });
+  `;
+
+  components.forEach(page => {
+
+    let importString = `
+  import ${capitalize(page.name)} from "../src/pages/${page.name}";`;
+    data = data + importString;
+  })
+
+  //let describe = `describe("${page.name}", () => {`
+  components.forEach(page => {
+    data = data + `
+    
+  describe("${capitalize(page.name)}", () => {`
+  
+
+  data = data + `
+    it("renders correctly", () => {
+      const tree = renderer
+          .create(<${capitalize(page.name)} />)
+          .toJSON()
+      expect(tree).toMatchSnapshot()
+    })`
+
+
+    data = data + `
+  });`
+  })
+
+  
+  
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('createTestSuite.util createComponentTests error:', err.message);
@@ -131,6 +171,11 @@ async function createComponentTests(path: string, appName: string, components: C
     }
   });
 }
+
+const capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 
 async function createTestSuite({
   path,

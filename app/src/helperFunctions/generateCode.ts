@@ -274,7 +274,7 @@ const generateUnformattedCode = (
     ${links ? `import { Link } from 'gatsby'` : ``}
    
 
-      const ${currentComponent.name} = (props): JSX.Element => {
+      const ${currentComponent.name} = (props: any): JSX.Element => {
 
         const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
