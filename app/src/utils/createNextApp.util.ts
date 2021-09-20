@@ -3,6 +3,8 @@
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/Interfaces';
 
+import createTestSuiteNext from './createTestSuiteNext.util';
+
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 };
@@ -24,8 +26,20 @@ const compToCSS = (component: Component) => {
 }
 
 //createPackage
-export const createPackage = (path, appName) => {
+export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
+
+  let testpackages = `,
+    "@types/enzyme": "^3.10.9",
+    "@types/jest": "^27.0.1",
+    "babel-jest": "^27.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest": "^27.2.0",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "identity-obj-proxy": "^3.0.0",
+    "ts-jest": "^27.0.5"`;
+
   const data = `
 {
   "name": "reactype-next",
@@ -34,7 +48,9 @@ export const createPackage = (path, appName) => {
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start"${
+      test ? `,
+    "test": "jest"`: '' }
   },
   "dependencies": {
     "next": "9.3.5",
@@ -44,15 +60,18 @@ export const createPackage = (path, appName) => {
   "devDependencies": {
     "@types/node": "^14.0.20",
     "@types/react": "^16.9.41",
-    "typescript": "^3.9.6"
+    "@types/react-dom": "^17.0.9",
+    "typescript": "^3.9.6"${
+      test ? testpackages : '' 
+  }
   }
 }
-  `;
+`;
   window.api.writeFile(filePath, data, err => {
     if (err) {
-      console.log('package.json error:', err.message);
+      console.log('createNextApp.util package.json error:', err.message);
     } else {
-      console.log('package.json written successfully');
+      console.log('createNextApp.util package.json written successfully');
     }
   });
 };
@@ -60,7 +79,46 @@ export const createPackage = (path, appName) => {
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   //running 'next dev' will autopopulate this with default values
-  window.api.writeFile(filePath, '', err => {
+  const data:string = `{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "lib": [
+      "dom",
+      "es2016"
+    ],
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+} 
+`;
+
+
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -139,20 +197,26 @@ async function createNextAppUtil({
   path,
   appName,
   components,
-  rootComponents
+  rootComponents,
+  testchecked,
 }: {
   path: string;
   appName: string;
   components: Component[];
   rootComponents: number[];
+  testchecked: boolean;
 }) {
   console.log('in the createNextApplication util');
 
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
-  await createPackage(path, appName);
+  await createPackage(path, appName, testchecked);
   await createTsConfig(path, appName);
+  if (testchecked) {
+    console.log('testchecked: ',testchecked);
+    await createTestSuiteNext({path, appName, components, rootComponents, testchecked});
+  }
   await createNextFiles(components, path, appName, rootComponents);
 
 }

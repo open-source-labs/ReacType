@@ -23,7 +23,7 @@ const exportProject = (
     createFiles(components, path, appName, false);
   } // Create fully functional Next.js and Gatsby.js application files
   else if (genOption === 1 && projectType === 'Next.js') {
-    createNextApp({ path, appName, components, rootComponents }).catch(err =>
+    createNextApp({ path, appName, components, rootComponents, testchecked: tests }).catch(err =>
       console.log(err)
     );
   } else if (genOption === 1 && projectType === 'Gatsby.js') {

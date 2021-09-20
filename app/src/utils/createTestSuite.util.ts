@@ -7,7 +7,6 @@
 // }
 
 const initFolders = (path: string, appName: string) => {
-  console.log(window); // remember to delete
   let dir = path;
   dir = `${dir}/${appName}`;
   if (!window.api.existsSync(`${dir}/__mocks__`)) {
