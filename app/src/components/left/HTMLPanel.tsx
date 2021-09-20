@@ -2,6 +2,8 @@ import React, { useState, useCallback, useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
+// import { styleContext } from './AppContainer';
+
 import { makeStyles, styled } from '@material-ui/core/styles';
 import {
   Button,
@@ -32,6 +34,7 @@ const HTMLPanel = (props): JSX.Element => {
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
   const {isThemeLight} = props;
+  // const { style } = useContext(styleContext);
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -156,12 +159,12 @@ const HTMLPanel = (props): JSX.Element => {
   }, []);
 
   return (
-    <div className="HTMLItemCreate">
+    <div className="HTMLItemCreate" >
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
 
-            <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor }>New HTML Tag: </h4>
+            <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor } value = "New HTML Tag">New HTML Tag: </h4>
             <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
             </InputLabel>
