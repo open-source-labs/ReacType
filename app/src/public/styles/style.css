@@ -31,6 +31,7 @@ h4 {
   display: flex;
   flex-direction: row;
   height: 100%;
+  background-color: #fff;
 }
 
 .customization-section {
@@ -45,7 +46,6 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: #F9F9F9;
 }
 
 .state-prop-grid {
@@ -56,7 +56,6 @@ h4 {
 
 .HTMLItemCreate {
   flex-grow: 1;
-  background-color: #F9F9F9;
   justify-content: center;
 }
 /*

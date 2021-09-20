@@ -125,7 +125,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   }, []);
 
   return (
-    <div className={classes.panelWrapper}>
+    <div className={`${classes.panelWrapper}`}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
           <h4 
@@ -216,7 +216,6 @@ const useStyles = makeStyles({
     flexDirection:'column',
     alignItems:'center',
     flexGrow : 1,
-    backgroundColor: '#F9F9F9',
     color: '#000000',
   },
   addComponentWrapper: {
