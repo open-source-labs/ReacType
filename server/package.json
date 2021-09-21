@@ -6,7 +6,6 @@
   "engines": {
     "node": "12.17.0"
   },
-
   "scripts": {
     "test": "jest --verbose ",
     "test:watch": "jest --watch",
@@ -14,13 +13,11 @@
     "prod": "cross-env NODE_ENV=production server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js"
   },
-
-
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^2.24.0", 
+    "apollo-server-express": "^2.24.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -28,7 +25,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "graphql": "^15.5.0", 
+    "graphql": "^15.5.0",
     "mongoose": "^5.9.22",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",

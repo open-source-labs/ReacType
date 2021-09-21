@@ -34,6 +34,7 @@ const ComponentDrag = ({isThemeLight}): JSX.Element => {
                   name={comp.name}
                   id={comp.id}
                   root={true}
+                  isThemeLight={isThemeLight}
                   />
                
               );

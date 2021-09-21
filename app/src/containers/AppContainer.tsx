@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext } from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 // import Button from '@material-ui/core/Button';
 import NavBar from '../components/top/NavBar';
 import LeftContainer from './LeftContainer';

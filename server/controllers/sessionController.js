@@ -1,3 +1,5 @@
+const fetch = require ('node-fetch');
+
 require('dotenv').config();
 const { Sessions } = require('../models/reactypeModels');
 
@@ -66,97 +68,107 @@ sessionController.startSession = (req, res, next) => {
   });
 };
 
-// sessionController.gitHubResponse = (req, res, next) => {
-//   // console.log(req)
-//   const { code } = req.query;
-//   // console.log('code =>', code);
-//   if (!code)
-//     return next({
-//       log: 'Undefined or no code received from github.com',
-//       message: 'Undefined or no code received from github.com',
-//       status: 400
-//     });
-//   fetch(`https://github.com/login/oauth/access_token`, {
-//     method: 'POST',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       client_id: process.env.GITHUB_ID,
-//       client_secret: process.env.GITHUB_SECRET,
-//       code
-//     })
-//   })
-//     .then(res => res.json())
-//     .then(token => {
-//       res.locals.token = token['access_token'];
-//       return next();
-//     })
-//     .catch(err =>
-//       res.status(500).json({ message: `${err.message} in gitHubResponse` })
-//     );
-// };
+sessionController.gitHubResponse = (req, res, next) => {
+  console.log('hi')
+  const { code } = req.query;
+  console.log('code:',code)
+  console.log('code =>', code);
+  console.log('JSON:', )
+  console.log(process.env.GITHUB_ID)
+  if (!code)
+    return next({
+      log: 'Undefined or no code received from github.com',
+      message: 'Undefined or no code received from github.com',
+      status: 400
+    });
+    console.log('heyyyy');
+    fetch(`https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`, {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: process.env.GITHUB_ID,
+        client_secret: process.env.GITHUB_SECRET,
+        code
+      })
+    })
+      .then(res => res.json())
+      .then(token => {
+        console.log('hi');
+        console.log('token: ',token['access_token'] )
+        res.locals.token = token['access_token'];
+        return next();
+      })
+      .catch(err => {
+        console.log('hi');
+        res.status(500).json({ message: `${err.message} in gitHubResponse` })
+      }
+      );
+      
+};
 
-// sessionController.gitHubSendToken = (req, res, next) => {
-//   const { token } = res.locals;
-//   fetch(`https://api.github.com/user/emails`, {
-//     method: 'GET',
-//     headers: {
-//       Accept: 'application/vnd.github.v3+json',
-//       Authorization: `token ${token}`
-//     }
-//   })
-//     .then(res => res.json())
-//     .then(data => {
-//       res.locals.githubEmail = data[0]['email'];
-//       res.locals.signUpType = 'oauth';
-//       return next();
-//     })
-//     .catch(err => {
-//       if (err.message === `Cannot read property 'email' of undefined`) {
-//         return res
-//           .status(400)
-//           .json({ message: `${err.message} in gitHubSendToken` });
-//       } else {
-//         return res
-//           .status(500)
-//           .json({ message: `${err.message} in gitHubSendToken` });
-//       }
-//     });
-// };
+sessionController.gitHubSendToken = (req, res, next) => {
+  const { token } = res.locals;
+  fetch(`https://api.github.com/user/public_emails`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/vnd.github.v3+json',
+      Authorization: `token ${token}`
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log('this is data:', data);
+      res.locals.githubEmail = data[0]['email'];
+      res.locals.signUpType = 'oauth';
+      return next();
+    })
+    .catch(err => {
+      if (err.message === `Cannot read property 'email' of undefined`) {
+        return res
+          .status(400)
+          .json({ message: `${err.message} in gitHubSendToken` });
+      } else {
+        return res
+          .status(500)
+          .json({ message: `${err.message} in gitHubSendToken` });
+      }
+    });
+};
 
-// // creates a session when logging in with github
-// sessionController.githubSession = (req, res, next) => {
-//   // req.user is passed in from passport js -> serializeuser/deserializeuser
-//   const cookieId = req.user._id;
-//   Sessions.findOne({ cookieId }, (err, session) => {
-//     if (err) {
-//       return next({
-//         log: `Error in sessionController.githubSession find session: ${err}`,
-//         message: {
-//           err: `Error in sessionController.githubSession find session, check server logs for details`
-//         }
-//       });
-//     } else if (!session) {
-//       Sessions.create({ cookieId }, (err, session) => {
-//         if (err) {
-//           return next({
-//             log: `Error in sessionController.githubSession create session: ${err}`,
-//             message: {
-//               err: `Error in sessionController.githubSession create session, check server logs for details`
-//             }
-//           });
-//         } else {
-//           res.locals.id = session.cookieId;
-//           return next();
-//         }
-//       });
-//     } else {
-//       res.locals.id = session.cookieId;
-//       return next();
-//     }
-//   });
-// };
+// creates a session when logging in with github
+sessionController.githubSession = (req, res, next) => {
+  // req.user is passed in from passport js -> serializeuser/deserializeuser
+  const cookieId = req.user._id;
+  Sessions.findOne({ cookieId }, (err, session) => {
+    if (err) {
+      return next({
+        log: `Error in sessionController.githubSession find session: ${err}`,
+        message: {
+          err: `Error in sessionController.githubSession find session, check server logs for details`
+        }
+      });
+    } else if (!session) {
+      Sessions.create({ cookieId }, (err, session) => {
+        if (err) {
+          return next({
+            log: `Error in sessionController.githubSession create session: ${err}`,
+            message: {
+              err: `Error in sessionController.githubSession create session, check server logs for details`
+            }
+          });
+        } else {
+          res.locals.id = session.cookieId;
+          return next();
+        }
+      });
+    } else {
+      res.locals.id = session.cookieId;
+      return next();
+    }
+  });
+};
 
 module.exports = sessionController;
