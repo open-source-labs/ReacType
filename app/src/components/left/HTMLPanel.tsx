@@ -271,10 +271,16 @@ const useStyles = makeStyles({
     borderRadius: '4px',
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: '#155084',
+    '& .MuiInputBase-root': {
+      color: 'rgba (0, 0, 0, 0.54)',
+    }
   },
   darkThemeFontColor: {
-    color: '#ffffff'
+    color: '#ffffff',
+    '& .MuiInputBase-root': {
+      color: '#fff',
+    }
   },
   errorMessage: {
     fontSize:"11px", 

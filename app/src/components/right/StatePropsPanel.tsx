@@ -130,15 +130,15 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-            className={isThemeLight ? classes.rootLight : classes.rootDark} 
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
             />
           <TextField
             id="textfield-value"
-            className={isThemeLight ? classes.rootLight : classes.rootDark} 
             label="value:"
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
             />
           <FormControl required className={isThemeLight ? `${classes.formControl} ${classes.lightThemeFontColor}` : `${classes.formControl} ${classes.darkThemeFontColor}`}>
             <InputLabel 
@@ -149,7 +149,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             <Select
               labelId="select-required-label"
               id="type-input"
-              className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark}`}
+              className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
             >
@@ -351,6 +351,16 @@ const useStyles = makeStyles((theme: Theme) =>
           borderBottom: '1px solid rgba(0,0,0,0.54)'
         }
       // }
+    },
+    inputTextDark: {
+      '& .MuiInputBase-input': {
+        color: 'white'
+      }
+    },
+    inputTextLight: {
+      '& .MuiInputBase-input': {
+        color: 'rgba(0,0,0,0.54)'
+      }
     }
   })
 );

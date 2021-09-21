@@ -18,35 +18,30 @@ const getColumns = (props) => {
     {
       field: 'id',
       headerName: 'ID',
-      headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
       width: 70,
       editable: false,
     },
     {
       field: 'key',
       headerName: 'Key',
-      headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
       width: 90,
       editable: true,
     },
     {
       field: 'value',
       headerName: 'Value',
-      headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
       width: 90,
       editable: true,
     },
     {
       field: 'type',
       headerName: 'Type',
-      headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
       width: 90,
       editable: false,
     },
     {
       field: 'delete',
       headerName: 'X',
-      headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
       width: 70,
       editable: false,
       renderCell: function renderCell(params:any) {
@@ -100,8 +95,7 @@ const TableStateProps = (props) => {
         pageSize={5}
         editRowsModel={editRowsModel}
         onRowClick = {selectHandler}
-        headerClassName: props.isThemeLight ? 'classes.themeLight' : 'classes.themeDark',
-
+        className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
     </div>
   );
@@ -110,10 +104,25 @@ const TableStateProps = (props) => {
 
 const useStyles = makeStyles({
   themeLight: {
-    color: 'rbga(0,0,0,054)'
+    color: 'rgba(0,0,0,0.54)',
+    '& .MuiTablePagination-root': {
+      color: 'rbga(0,0,0,0.54)'
+    },
   },
   themeDark: {
-    color: 'white'
+    color: 'white',
+    '& .MuiTablePagination-root': {
+      color: 'white'
+    },
+    '& .MuiIconButton-root': {
+      color: 'white'
+    },
+    '& .MuiSvgIcon-root': {
+      color: 'white'
+    },
+    '& .MuiDataGrid-window': {
+      backgroundColor: 'rgba(0,0,0,0.54)'
+    }
   }
 });
 

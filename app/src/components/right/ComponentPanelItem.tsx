@@ -41,7 +41,8 @@ const ComponentPanelItem: React.FC<{
   id: number;
   root: boolean;
   isFocus: boolean;
-}> = ({ name, id, root, isFocus }) => {
+  isThemeLight: boolean;
+}> = ({ name, id, root, isFocus, isThemeLight }) => {
   const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
 
@@ -66,6 +67,7 @@ const ComponentPanelItem: React.FC<{
       payload: { componentId: id, childId: null }
     });
   };
+  console.log('isThemeLight 3:',isThemeLight)
   return (
     <Grid
       item
@@ -73,8 +75,7 @@ const ComponentPanelItem: React.FC<{
       xs={8}
       style={{
         display: 'grid',
-        color: '#262626',
-        display: 'grid',
+        color: isThemeLight ? 'black' : 'white',
         backgroundColor: 'transparent',
         border: root
           ? '2px dotted #186BB4'
@@ -86,7 +87,7 @@ const ComponentPanelItem: React.FC<{
     >
       {isFocus && <div className={classes.focusMark}></div>}  
       <div className="compPanelItem" onClick={handleClick}>
-        <h3 >{name}</h3>
+        <h3>{name}</h3>
       </div>
     </Grid>
   );
@@ -102,6 +103,12 @@ const useStyles = makeStyles({
     width: '12px',
     height: '12px',
     borderRadius: '25px',
+  },
+  lightTheme: {
+    color: 'rgba (0, 0, 0, 0.54)'
+  },
+  darkTheme: {
+    color: '#fff'
   }
 });
 

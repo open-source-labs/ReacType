@@ -261,10 +261,16 @@ const useStyles = makeStyles({
     fontSize: '0.85rem'
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: '#155084',
+    '& .MuiInputBase-root': {
+      color: 'rgba (0, 0, 0, 0.54)',
+    }
   },
   darkThemeFontColor: {
-    color: '#fff'
+    color: '#fff',
+    '& .MuiInputBase-root': {
+      color: '#fff',
+    }
   }
 });
 
