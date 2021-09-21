@@ -67,7 +67,6 @@ const ComponentPanelItem: React.FC<{
       payload: { componentId: id, childId: null }
     });
   };
-  console.log('isThemeLight 3:',isThemeLight)
   return (
     <Grid
       item

@@ -329,28 +329,23 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     underlineDark: {
-        borderBottom: '1px solid white'
-      
+      borderBottom: '1px solid white'
     },
     rootUnderlineDark: {
       '& .MuiSelect-icon': {
         color: '#fff',
       },
-      // '& .MuiInput-underline': {
-        '&::before': {
-          borderBottom: '1px solid #fff'
-        }
-      // }
+      '&::before': {
+        borderBottom: '1px solid #fff'
+      }
     },
-        rootUnderlineLight: {
+    rootUnderlineLight: {
       '& .MuiSelect-icon': {
         color: 'rgba(0,0,0,0.54)',
       },
-      // '& .MuiInput-underline': {
-        '&::before': {
-          borderBottom: '1px solid rgba(0,0,0,0.54)'
-        }
-      // }
+      '&::before': {
+        borderBottom: '1px solid rgba(0,0,0,0.54)'
+      }
     },
     inputTextDark: {
       '& .MuiInputBase-input': {
