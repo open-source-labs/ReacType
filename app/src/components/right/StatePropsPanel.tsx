@@ -123,7 +123,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     <div className={'state-panel'}>
       <div>
         <FormControl>
-          <h4>Create New State</h4>
+          <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Create New State</h4>
           <TextField
             id="textfield-key"
             label="key:"
@@ -140,12 +140,16 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             />
-          <FormControl required className={classes.formControl}>
-            <InputLabel id="select-required-label">Type</InputLabel>
+          <FormControl required className={isThemeLight ? `${classes.formControl} ${classes.lightThemeFontColor}` : `${classes.formControl} ${classes.darkThemeFontColor}`}>
+            <InputLabel 
+              id="select-required-label"
+              className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
+                Type
+            </InputLabel>
             <Select
               labelId="select-required-label"
               id="type-input"
-              className={classes.selectEmpty}
+              className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
             >
@@ -171,7 +175,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
                 Any
               </MenuItem>
             </Select>
-            <FormHelperText>Required</FormHelperText>
+            <FormHelperText
+              className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
+                Required
+            </FormHelperText>
           </FormControl>
           <br></br>
           <MyButton 
@@ -186,8 +193,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       </div>
       <br></br>
       <div>
-        <h4>Current State Name: {state.components[state.canvasFocus.componentId - 1].name}</h4>
-        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
+        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+          Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
+        </h4>
+        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} isThemeLight={isThemeLight} />
       </div>
     </div>
   );
@@ -293,6 +302,9 @@ const useStyles = makeStyles((theme: Theme) =>
     darkThemeFontColor: {
       color: "#fff",
     },
+    greyThemeFontColor: {
+      color: 'rgba(0,0,0,0.54)',
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -315,6 +327,30 @@ const useStyles = makeStyles((theme: Theme) =>
       '& .MuiOutlinedInput-notchedOutline': {
         borderColor: '#fff'
       }
+    },
+    underlineDark: {
+        borderBottom: '1px solid white'
+      
+    },
+    rootUnderlineDark: {
+      '& .MuiSelect-icon': {
+        color: '#fff',
+      },
+      // '& .MuiInput-underline': {
+        '&::before': {
+          borderBottom: '1px solid #fff'
+        }
+      // }
+    },
+        rootUnderlineLight: {
+      '& .MuiSelect-icon': {
+        color: 'rgba(0,0,0,0.54)',
+      },
+      // '& .MuiInput-underline': {
+        '&::before': {
+          borderBottom: '1px solid rgba(0,0,0,0.54)'
+        }
+      // }
     }
   })
 );

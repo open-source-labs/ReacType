@@ -735,6 +735,15 @@ const useStyles = makeStyles({
       border: isThemeLight ? '1px solid #808080' : '1px solid #ECECEA'
     }
   }),
+  // buttonRow: {
+  //   textAlign: 'center',
+  //   marginTop: '25px',
+  //   '& .MuiButton-textSecondary': {
+  //     color: '#808080', // color for delete page
+  //     border: '1px solid #808080' 
+  //   }
+  // },
+
   button: {
     fontSize: '1rem',
     paddingLeft: '20px',
