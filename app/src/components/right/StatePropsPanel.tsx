@@ -5,6 +5,9 @@ import {
   makeStyles,
   styled,
   Theme,
+  createTheme,
+  ThemeProvider,
+  withStyles
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {
@@ -23,6 +26,7 @@ import {
 
 import StateContext from "../../context/context";
 import TableStateProps from "./TableStateProps";
+
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -126,14 +130,16 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-          />
+            className={isThemeLight ? classes.rootLight : classes.rootDark} 
+            />
           <TextField
             id="textfield-value"
+            className={isThemeLight ? classes.rootLight : classes.rootDark} 
             label="value:"
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-          />
+            />
           <FormControl required className={classes.formControl}>
             <InputLabel id="select-required-label">Type</InputLabel>
             <Select
@@ -188,7 +194,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
 };
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+  ({
     inputField: {
       marginTop: "10px",
       borderRadius: "5px",
@@ -294,6 +300,22 @@ const useStyles = makeStyles((theme: Theme) =>
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
+    color: {
+      color: '#fff',
+    },
+    rootLight: {
+      '& .MuiFormLabel-root': {
+        color: 'rgba(0,0,0,0.54)'
+      }
+    },
+    rootDark: {
+      '& .MuiFormLabel-root': {
+        color: '#fff'
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#fff'
+      }
+    }
   })
 );
 
@@ -307,5 +329,6 @@ const MyButton = styled(Button)({
   width: 40,
   padding: "0 30px",
 });
+
 
 export default StatePropsPanel;

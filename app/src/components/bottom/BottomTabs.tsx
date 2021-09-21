@@ -117,7 +117,7 @@ const useStyles = makeStyles(theme => ({
     
   },
   rootLight: isThemeLight => ({
-    backgroundColor: isThemeLight ? '#003366': 'rgb(33,34,45)'
+    backgroundColor: isThemeLight ? 'blue': 'red'
   }),
   bottomHeader: {
     flex: 1,
