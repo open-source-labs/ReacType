@@ -185,9 +185,6 @@ async function createGatsbyAppUtil({
   rootComponents: number[];
   testchecked: boolean;
 }) {
-  console.log('in the createGatsbyApplication util');
-  console.log('testchecked: ',testchecked);
-  
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
@@ -198,6 +195,5 @@ async function createGatsbyAppUtil({
     await createTestSuite({path, appName, components, rootComponents, testchecked});
   }
   await createGatsbyFiles(components, path, appName, rootComponents);
-  
 }
 export default createGatsbyAppUtil;

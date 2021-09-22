@@ -46,7 +46,7 @@ const BottomTabs = (props): JSX.Element => {
   Arrow.renderArrow(state.canvasFocus.childId);
 
   return (
-    <div className={classes.root} style={style}>
+    <div className={`${classes.root} ${classes.rootLight}`} style={style}>
       <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
         <Tabs
           value={tab}
@@ -111,11 +111,13 @@ const BottomTabs = (props): JSX.Element => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#003366',
     height: '100%',
     color: '#E8E8E8',
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
     
+  },
+  rootLight: {
+    backgroundColor: '#003366'
   },
   bottomHeader: {
     flex: 1,

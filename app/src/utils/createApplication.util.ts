@@ -366,8 +366,6 @@ async function createApplicationUtil({
   components: Component[];
   testchecked: boolean;
 }) {
-  console.log('in the createApplication util');
-  console.log('testchecked: ',testchecked);
   await createIndexHtml(path, appName);
   await createIndexTsx(path, appName);
   await createDefaultCSS(path, appName, components);

@@ -1,6 +1,7 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
 
 const path = require('path');
 const cors = require('cors');
@@ -38,26 +39,27 @@ app.use(
 // subsequent logins seem to be working fine, however
 
 // initializes passport and passport sessions
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-// // for Oauth which is currently not working
-// app.get(
-//   '/github/callback',
-//   sessionController.gitHubResponse,
-//   sessionController.gitHubSendToken,
-//   userController.createUser,
-//   userController.verifyUser,
-//   cookieController.setSSIDCookie,
-//   sessionController.startSession,
-//   (req, res) => {
-//     if (isDev) {
-//       return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
-//     } else {
-//       return res.status(200).redirect('app://rse');
-//     }
-//   }
-// );
+// for Oauth which is currently not working
+app.get(
+  '/github/callback',
+  sessionController.gitHubResponse,
+  sessionController.gitHubSendToken,
+  userController.createUser,
+  userController.verifyUser,
+  cookieController.setSSIDCookie,
+  sessionController.startSession,
+  (req, res) => {
+    if (isDev) {
+      return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
+    } else {
+      console.log('res.locals.ssid: ',res.locals.ssid);
+      return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
+    }
+  }
+);
 
 
 /*

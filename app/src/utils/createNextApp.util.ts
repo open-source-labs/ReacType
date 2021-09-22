@@ -206,8 +206,6 @@ async function createNextAppUtil({
   rootComponents: number[];
   testchecked: boolean;
 }) {
-  console.log('in the createNextApplication util');
-
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
@@ -218,6 +216,5 @@ async function createNextAppUtil({
     await createTestSuiteNext({path, appName, components, rootComponents, testchecked});
   }
   await createNextFiles(components, path, appName, rootComponents);
-
 }
 export default createNextAppUtil;

@@ -204,6 +204,8 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  require('electron').app.getPath('userData');
+  win.webContents.executeJavaScript('window.localStorage.clear();');
   app.quit();
 });
 
@@ -256,8 +258,8 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
       'https://www.html5rocks.com',
+      'app://rse/'
     ];
-
     // Log and prevent the app from redirecting to a new page
     if (
       !validOrigins.includes(parsedUrl.origin)
@@ -360,153 +362,152 @@ if (isDev) {
 }
 
 // // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
-// ipcMain.on('set_cookie', event => {
-//   session.defaultSession.cookies
-//     .get({ url: serverUrl })
-//     .then(cookie => {
-//       // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
-//       // checking for a cookie inside array will only emit reply when a cookie exists
-//       if (cookie[0]) {
-//         //console.log(cookie);
-//         event.reply('give_cookie', cookie);
-//       }
-//     })
-//     .catch(error => {
-//       console.log('Error giving cookies in set_cookie:', error);
-//     });
-// });
+ipcMain.on('set_cookie', event => {
+  session.defaultSession.cookies
+    .get({ url: serverUrl })
+    .then(cookie => {
+      // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
+      // checking for a cookie inside array will only emit reply when a cookie exists
+      if (cookie[0]) {
+        event.reply('give_cookie', cookie);
+      }
+    })
+    .catch(error => {
+      console.log('Error giving cookies in set_cookie:', error);
+    });
+});
 
-// // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
-// ipcMain.on('delete_cookie', event => {
-//   session.defaultSession.cookies
-//     .remove(serverUrl, 'ssid')
-//     // .then(removed => {
-//     //   console.log('Cookies deleted', removed);
-//     // })
-//     .catch(err => console.log('Error deleting cookie:', err));
-// });
+// again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
+ipcMain.on('delete_cookie', event => {
+  session.defaultSession.cookies
+    .remove(serverUrl, 'ssid')
+    // .then(removed => {
+    //   console.log('Cookies deleted', removed);
+    // })
+    .catch(err => console.log('Error deleting cookie:', err));
+});
 
-// // opens new window for github oauth when button on sign in page is clicked
-// ipcMain.on('github', event => {
-//   // your  applications credentials
-//   const githubUrl = 'https://github.com/login/oauth/authorize?';
-//   const options = {
-//     client_id: process.env.GITHUB_ID,
-//     client_secret: process.env.GITHUB_SECRET,
-//     scopes: ['user:email', 'notifications']
-//   };
-//   // create new browser window object with size, title, security options
-//   const github = new BrowserWindow({
-//     width: 800,
-//     height: 600,
-//     title: 'Github Oauth',
-//     webPreferences: {
-//       nodeIntegration: false,
-//       nodeIntegrationInWorker: false,
-//       nodeIntegrationInSubFrames: false,
-//       contextIsolation: true,
-//       enableRemoteModule: false,
-//       zoomFactor: 1.0
-//     }
-//   });
-//   const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
-//   github.loadURL(authUrl);
-//   github.show();
-//   const handleCallback = url => {
-//     const raw_code = /code=([^&]\*)/.exec(url) || null;
-//     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
-//     const error = /\?error=(.+)\$/.exec(url);
+// opens new window for github oauth when button on sign in page is clicked
+ipcMain.on('github', event => {
+  // your  applications credentials
+  const githubUrl = 'https://github.com/login/oauth/authorize?';
+  const options = {
+    client_id: process.env.GITHUB_ID,
+    client_secret: process.env.GITHUB_SECRET,
+    scopes: ['user:email', 'notifications']
+  };
+  // create new browser window object with size, title, security options
+  const github = new BrowserWindow({
+    width: 800,
+    height: 600,
+    title: 'Github Oauth',
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      zoomFactor: 1.0
+    }
+  });
+  const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
+  github.loadURL(authUrl);
+  github.show();
+  const handleCallback = url => {
+    const raw_code = /code=([^&]\*)/.exec(url) || null;
+    const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
+    const error = /\?error=(.+)\$/.exec(url);
 
-//     if (code || error) {
-//       // Close the browser if code found or error
-//       authWindow.destroy();
-//     }
+    if (code || error) {
+      // Close the browser if code found or error
+      authWindow.destroy();
+    }
 
-//     // If there is a code, proceed to get token from github
-//     if (code) {
-//       self.requestGithubToken(options, code);
-//     } else if (error) {
-//       alert(
-//         "Oops! Something went wrong and we couldn't" +
-//           'log you in using Github. Please try again.'
-//       );
-//     }
-//   };
+    // If there is a code, proceed to get token from github
+    if (code) {
+      self.requestGithubToken(options, code);
+    } else if (error) {
+      alert(
+        "Oops! Something went wrong and we couldn't" +
+          'log you in using Github. Please try again.'
+      );
+    }
+  };
 
-//   github.webContents.on('will-navigate', (e, url) => handleCallback(url));
+  github.webContents.on('will-navigate', (e, url) => handleCallback(url));
 
-//   github.webContents.on('did-finish-load', (e, url, a, b) => {
-//     github.webContents.selectAll();
-//   });
+  github.webContents.on('did-finish-load', (e, url, a, b) => {
+    github.webContents.selectAll();
+  });
 
-//   github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
-//     handleCallback(newUrl)
-//   );
+  github.webContents.on('did-get-redirect-request', (e, oldUrl, newUrl) =>
+    handleCallback(newUrl)
+  );
 
-//   // Reset the authWindow on close
-//   github.on('close', () => (authWindow = null), false);
+  // Reset the authWindow on close
+  github.on('close', () => (authWindow = null), false);
 
-//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
-//   github.webContents.on('will-redirect', (e, callbackUrl) => {
-//     const matches = callbackUrl.match(/(?<=\?=).*/);
-//     const ssid = matches ? matches[0] : '';
-//     callbackUrl = callbackUrl.replace(/\?=.*/, '');
-//     let redirectUrl = 'app://rse/';
-//     if (isDev) {
-//       redirectUrl = 'http://localhost:8080/';
-//     }
-//     if (callbackUrl === redirectUrl) {
-//       dialog.showMessageBox({
-//         type: 'info',
-//         title: 'ReacType',
-//         icon: resolve('app/src/public/icons/png/256x256.png'),
-//         message: 'Github Oauth Successful!'
-//       });
-//       github.close();
-//       win.webContents
-//         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-//         .then(result => win.loadURL(selfHost))
-//         .catch(err => console.log(err));
-//     }
-//   });
-// });
+  // if final callback is reached and we get a redirect from server back to our app, close oauth window
+  github.webContents.on('will-redirect', (e, callbackUrl) => {
+    const matches = callbackUrl.match(/(?<=\?=).*/);
+    const ssid = matches ? matches[0] : '';
+    callbackUrl = callbackUrl.replace(/\?=.*/, '');
+    let redirectUrl = 'app://rse/';
+    if (isDev) {
+      redirectUrl = 'http://localhost:8080/';
+    }
+    if (callbackUrl === redirectUrl) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'ReacType',
+        icon: resolve('app/src/public/icons/png/256x256.png'),
+        message: 'Github Oauth Successful!'
+      });
+      github.close();
+      win.webContents
+        .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
+        .then(result => win.loadURL(`${redirectUrl}`))
+        .catch(err => console.log(err));
+    }
+  });
+});
 
-// ipcMain.on('tutorial', event => {
-//   // create new browser window object with size, title, security options
-//   const tutorial = new BrowserWindow({
-//     width: 800,
-//     height: 600,
-//     minWidth: 661,
-//     title: 'Tutorial',
-//     webPreferences: {
-//       nodeIntegration: false,
-//       nodeIntegrationInWorker: false,
-//       nodeIntegrationInSubFrames: false,
-//       contextIsolation: true,
-//       enableRemoteModule: false,
-//       zoomFactor: 1.0
-//     }
-//   });
-//   // redirects to relevant server endpoint
-//   //github.loadURL(`${serverUrl}/github`);
-//   // show window
-//   tutorial.show();
-//   // if final callback is reached and we get a redirect from server back to our app, close oauth window
-//   // github.webContents.on('will-redirect', (e, callbackUrl) => {
-//   //   let redirectUrl = 'app://rse/';
-//   //   if (isDev) {
-//   //     redirectUrl = 'http://localhost:8080/';
-//   //   }
-//   //   if (callbackUrl === redirectUrl) {
-//   //     dialog.showMessageBox({
-//   //       type: 'info',
-//   //       title: 'ReacType',
-//   //       icon: resolve('app/src/public/icons/png/256x256.png'),
-//   //       message: 'Github Oauth Successful!'
-//   //     });
-//   //     github.close();
-//   //   }
-//   // });
-// });
+ipcMain.on('tutorial', event => {
+  // create new browser window object with size, title, security options
+  const tutorial = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minWidth: 661,
+    title: 'Tutorial',
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      zoomFactor: 1.0
+    }
+  });
+  // redirects to relevant server endpoint
+  github.loadURL(`${serverUrl}/github`);
+  // show window
+  tutorial.show();
+  // if final callback is reached and we get a redirect from server back to our app, close oauth window
+  github.webContents.on('will-redirect', (e, callbackUrl) => {
+    let redirectUrl = 'app://rse/';
+    if (isDev) {
+      redirectUrl = 'http://localhost:8080/';
+    }
+    if (callbackUrl === redirectUrl) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'ReacType',
+        icon: resolve('app/src/public/icons/png/256x256.png'),
+        message: 'Github Oauth Successful!'
+      });
+      github.close();
+    }
+  });
+});
 
 module.exports = dialog;
