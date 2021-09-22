@@ -204,6 +204,8 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  require('electron').app.getPath('userData');
+  win.webContents.executeJavaScript('window.localStorage.clear();');
   app.quit();
 });
 
@@ -258,7 +260,6 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.html5rocks.com',
       'app://rse/'
     ];
-
     // Log and prevent the app from redirecting to a new page
     if (
       !validOrigins.includes(parsedUrl.origin)
@@ -368,7 +369,6 @@ ipcMain.on('set_cookie', event => {
       // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
       // checking for a cookie inside array will only emit reply when a cookie exists
       if (cookie[0]) {
-        //console.log(cookie);
         event.reply('give_cookie', cookie);
       }
     })
@@ -466,7 +466,7 @@ ipcMain.on('github', event => {
       github.close();
       win.webContents
         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then(result => win.loadURL(`app://rse?=${ssid}`))
+        .then(result => win.loadURL(`${redirectUrl}`))
         .catch(err => console.log(err));
     }
   });

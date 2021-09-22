@@ -10,7 +10,7 @@
     "test": "jest --verbose ",
     "test:watch": "jest --watch",
     "start": "cross-env NODE_ENV=production node server.js",
-    "prod": "cross-env NODE_ENV=production node server.js",
+    "prod": "cross-env NODE_ENV=production nodemon server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js"
   },
   "keywords": [],
