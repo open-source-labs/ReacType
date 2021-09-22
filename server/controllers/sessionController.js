@@ -40,7 +40,7 @@ sessionController.startSession = (req, res, next) => {
         log: `Error in sessionController.startSession find session: ${err}`,
         message: {
           err:
-            'Error in sessionController.startSession find session, check server logs for details'
+          'Error in sessionController.startSession find session, check server logs for details'
         }
       });
       // if session doesn't exist, create a session
@@ -69,19 +69,13 @@ sessionController.startSession = (req, res, next) => {
 };
 
 sessionController.gitHubResponse = (req, res, next) => {
-  console.log('hi')
   const { code } = req.query;
-  console.log('code:',code)
-  console.log('code =>', code);
-  console.log('JSON:', )
-  console.log(process.env.GITHUB_ID)
   if (!code)
     return next({
       log: 'Undefined or no code received from github.com',
       message: 'Undefined or no code received from github.com',
       status: 400
     });
-    console.log('heyyyy');
     fetch(`https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`, {
       method: 'POST',
       headers: {
@@ -96,13 +90,10 @@ sessionController.gitHubResponse = (req, res, next) => {
     })
       .then(res => res.json())
       .then(token => {
-        console.log('hi');
-        console.log('token: ',token['access_token'] )
         res.locals.token = token['access_token'];
         return next();
       })
       .catch(err => {
-        console.log('hi');
         res.status(500).json({ message: `${err.message} in gitHubResponse` })
       }
       );
@@ -120,7 +111,6 @@ sessionController.gitHubSendToken = (req, res, next) => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log('this is data:', data);
       res.locals.githubEmail = data[0]['email'];
       res.locals.signUpType = 'oauth';
       return next();

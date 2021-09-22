@@ -55,6 +55,7 @@ app.get(
     if (isDev) {
       return res.status(200).redirect(`http://localhost:8080?=${res.locals.ssid}`);
     } else {
+      console.log('res.locals.ssid: ',res.locals.ssid);
       return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
     }
   }

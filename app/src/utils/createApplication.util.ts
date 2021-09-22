@@ -346,7 +346,6 @@ async function createApplicationUtil({
   appName: string;
   components: Component[];
 }) {
-  console.log('in the createApplication util');
 
   await createIndexHtml(path, appName);
   await createIndexTsx(path, appName);

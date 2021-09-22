@@ -13,7 +13,6 @@ import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
 const getColumns = (props) => {
   const { deleteHandler } : StatePropsPanelProps = props;
-  console.log('isThemeLight: ',props.isThemeLight)
   return [
     {
       field: 'id',
@@ -71,7 +70,6 @@ const TableStateProps = (props) => {
   
 
   useEffect(() => {
-  console.log('isThemeLight: ',props.isThemeLight)
     setGridColumns(getColumns(props));
   }, [props.isThemeLight])
   // get currentComponent by using currently focused component's id

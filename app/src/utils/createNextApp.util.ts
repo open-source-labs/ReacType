@@ -146,14 +146,11 @@ async function createNextAppUtil({
   components: Component[];
   rootComponents: number[];
 }) {
-  console.log('in the createNextApplication util');
-
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
   await createPackage(path, appName);
   await createTsConfig(path, appName);
   await createNextFiles(components, path, appName, rootComponents);
-
 }
 export default createNextAppUtil;

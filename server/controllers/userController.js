@@ -85,7 +85,6 @@ userController.createUser = (req, res, next) => {
 userController.verifyUser = (req, res, next) => {
   let { username, password, isFbOauth } = req.body;
   // handle Oauth
-  console.log('We verifying');
   if (res.locals.signUpType === 'oauth') {
     username = res.locals.githubEmail;
     password = res.locals.githubPassword;
