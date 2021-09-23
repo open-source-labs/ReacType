@@ -3,6 +3,8 @@
 import createFiles from './createFiles.util';
 import { Component} from '../interfaces/Interfaces';
 
+import createTestSuiteClassic from './createTestSuiteClassic.util'
+
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 };
@@ -108,8 +110,19 @@ export const createDefaultCSS = (path, appName, components) => {
   });
 };
 
-export const createPackage = (path, appName) => {
+export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
+   let tsjest = `,
+    "@types/enzyme": "^3.10.9",
+    "@types/jest": "^27.0.1",
+    "babel-jest": "^27.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest": "^27.2.0",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "ts-jest": "^27.0.5",
+    "enzyme-to-json": "^3.6.2"`;
+
   const data = `
 {
   "name": "reactype",
@@ -119,7 +132,9 @@ export const createPackage = (path, appName) => {
   "scripts": {
     "start": "node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server"${
+      test ? `,
+    "test": "jest"`: '' }
   },
   "nodemonConfig": {
     "ignore": [
@@ -160,7 +175,8 @@ export const createPackage = (path, appName) => {
     "typescript": "^3.8.3",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.2.1"${
+      test ? tsjest : '' }
   }
 }
   `;
@@ -252,18 +268,20 @@ export const createBabel = (path, appName) => {
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   const data = `
-{
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es6",
-    "jsx": "react",
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["./src/**/*"]
-}
+  {
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "module": "commonjs",
+      "target": "es6",
+      "jsx": "react",
+      "lib": ["dom", "es6"],
+      "moduleResolution": "node",
+      "esModuleInterop": true
+    },
+    "include": ["./src/**/*"]
+  }
 `;
   window.api.writeFile(filePath, data, err => {
     if (err) {
@@ -340,22 +358,26 @@ app.listen(8080, () => {
 async function createApplicationUtil({
   path,
   appName,
-  components
+  components,
+  testchecked,
 }: {
   path: string;
   appName: string;
   components: Component[];
+  testchecked: boolean;
 }) {
-
   await createIndexHtml(path, appName);
   await createIndexTsx(path, appName);
   await createDefaultCSS(path, appName, components);
-  await createPackage(path, appName);
+  await createPackage(path, appName, testchecked);
   await createWebpack(path, appName);
   await createBabel(path, appName);
   await createTsConfig(path, appName);
   await createTsLint(path, appName);
   await createServer(path, appName);
+  if (testchecked) {
+    await createTestSuiteClassic({path, appName, components, testchecked});
+  }
   await createFiles(components, path, appName, true);
 }
 export default createApplicationUtil;

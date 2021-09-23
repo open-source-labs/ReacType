@@ -1,6 +1,7 @@
 // Create all files necessary to run a gatsby.js application
 
 import createGatsbyFiles from './createGatsbyFiles.util';
+import createTestSuite from './createTestSuite.util';
 import { Component } from '../interfaces/Interfaces';
 
 const camelToKebab= (camel:string) => {
@@ -24,30 +25,48 @@ const compToCSS = (component: Component) => {
 }
 
 //createPackage
-export const createPackage = (path, appName) => {
+export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
+  
+  let tsjest = `,
+          "@types/enzyme": "^3.10.9",
+          "@types/jest": "^27.0.1",
+          "babel-jest": "^27.2.0",
+          "enzyme": "^3.11.0",
+          "enzyme-adapter-react-16": "^1.15.6",
+          "jest": "^27.2.0",
+          "@types/react-dom": "^17.0.9",
+          "@types/enzyme-adapter-react-16": "^1.0.6",
+          "@types/react-test-renderer": "^17.0.1",
+          "babel-preset-gatsby": "^1.13.0",
+          "identity-obj-proxy": "^3.0.0",
+          "ts-jest": "^27.0.5"`;
+ 
   const data = `
-{
-  "name": "reactype-gatsby",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "dev": "gatsby develop",
-    "build": "gatsby build",
-    "start": "npm run dev"
-  },
-  "dependencies": {
-    "gatsby": "^2.26.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
-  },
-  "devDependencies": {
-    "@types/node": "^14.0.20",
-    "@types/react": "^16.9.41",
-    "typescript": "^3.9.6"
-  }
-}
-  `;
+      {
+        "name": "reactype-gatsby",
+        "version": "1.0.0",
+        "description": "",
+        "scripts": {
+          "dev": "gatsby develop",
+          "build": "gatsby build",
+          "start": "npm run dev"${
+            test ? `,
+          "test": "jest"`: '' }
+        },
+        "dependencies": {
+          "gatsby": "^2.26.1",
+          "react": "16.13.1",
+          "react-dom": "16.13.1"
+        },
+        "devDependencies": {
+          "@types/node": "^14.0.20",
+          "@types/react": "^16.9.41",
+          "typescript": "^3.9.6"${
+            test ? tsjest : '' }
+        }
+      }
+        `;
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('package.json error:', err.message);
@@ -58,9 +77,24 @@ export const createPackage = (path, appName) => {
 };
 //createTSConfig (empty)
 export const createTsConfig = (path, appName) => {
-  const filePath = `${path}/${appName}/tsconfig.json`;
+  const filePath:string = `${path}/${appName}/tsconfig.json`;
   //running 'gatsby dev' will autopopulate this with default values
-  window.api.writeFile(filePath, '', err => {
+  const data:string = `{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "jsx": "react",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": ["./src/**/*"]
+}
+`;
+  window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -110,7 +144,7 @@ export const initFolders = (path:string, appName: string) => {
 };
 
 //createBaseTsx
-export const createBaseTsx = (path, appName) => {
+export const createBaseTsx = (path: string, appName: string) => {
 
   const filePath:string = `${path}/${appName}/src/pages/_app.tsx`;
   const data:string = `
@@ -140,18 +174,23 @@ async function createGatsbyAppUtil({
   path,
   appName,
   components,
-  rootComponents
+  rootComponents,
+  testchecked,
 }: {
   path: string;
   appName: string;
   components: Component[];
   rootComponents: number[];
+  testchecked: boolean;
 }) {
   await initFolders(path, appName);
   await createBaseTsx(path, appName);
   await createDefaultCSS(path, appName, components);
-  await createPackage(path, appName);
+  await createPackage(path, appName, testchecked);
   await createTsConfig(path, appName);
+  if (testchecked) {
+    await createTestSuite({path, appName, components, rootComponents, testchecked});
+  }
   await createGatsbyFiles(components, path, appName, rootComponents);
 }
 export default createGatsbyAppUtil;
