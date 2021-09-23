@@ -87,7 +87,6 @@ export default function ExportButton() {
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
     window.api.addAppDirChosenListener(path => {
-      // console.log(testchecked);
       exportProject(
         path,
         state.name

@@ -188,7 +188,7 @@ const generateUnformattedCode = (
           .join('\n')
       : imports
           .map((comp: string) => {
-            return `import ${comp} from './${comp}.tsx'`;
+            return `import ${comp} from './${comp}'`;
           })
           .join('\n');
 

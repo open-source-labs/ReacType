@@ -2,9 +2,6 @@
 // create config files
 // add webpack dependencies
 // create tests for components
-// const createTestSuite = () => {
-//   console.log('creating test suites');
-// }
 
 const initFolders = (path: string, appName: string) => {
   let dir = path;
@@ -120,12 +117,9 @@ async function createJestPreprocessFile(path: string, appName: string){
 
 async function createComponentTests(path: string, appName: string, components: Component[]) {
   const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-  console.log(JSON.stringify(components))
-  console.log(components);
 
   let data:string = `
   import React from "react"
-  import renderer from "react-test-renderer"
   import Enzyme, { shallow } from 'enzyme';
 
 
@@ -135,9 +129,17 @@ async function createComponentTests(path: string, appName: string, components: C
 
   components.forEach(page => {
 
-    let importString = `
+    let importString = ''
+    if (page.isPage) {
+
+      importString = `
   import ${capitalize(page.name)} from "../src/pages/${page.name}";`;
-    data = data + importString;
+      data = data + importString;
+    } else {
+      importString = `
+  import ${capitalize(page.name)} from "../src/components/${page.name}";`;
+      data = data + importString;   
+    }
   })
 
   //let describe = `describe("${page.name}", () => {`
@@ -149,10 +151,8 @@ async function createComponentTests(path: string, appName: string, components: C
 
   data = data + `
     it("renders correctly", () => {
-      const tree = renderer
-          .create(<${capitalize(page.name)} />)
-          .toJSON()
-      expect(tree).toMatchSnapshot()
+      const tree = shallow(<${capitalize(page.name)} />);
+      expect(tree).toMatchSnapshot();
     })`
 
 
@@ -189,9 +189,6 @@ async function createTestSuite({
   rootComponents: number[];
   testchecked: boolean;
 }) {
-  console.log('in the createGatsbyApplication util');
-  console.log('testchecked: ', testchecked);
-
   await initFolders(path, appName);
   await createMocksFiles(path, appName);
   await createTestsFiles(path, appName);

@@ -59,7 +59,6 @@ module.exports = {
 };
 
 async function createJestTsconfigJsonFile(path: String, appName: String){
-  console.log('got in create jest tsconfig');
   const filePath:string = `${path}/${appName}/jest.tsconfig.json`;
   const data:string = `
 {
@@ -88,7 +87,6 @@ async function createJestTsconfigJsonFile(path: String, appName: String){
   ]
 }
 `;
-  console.log(data);
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('createTestSuiteNext.util createJestTsconfigJsonFile error:', err.message);
@@ -133,8 +131,6 @@ require('enzyme').configure({adapter: new Adapter()});`;
 
 async function createComponentTests(path: string, appName: string, components: Component[]) {
   const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-  console.log(JSON.stringify(components))
-  console.log(components);
 
   let data:string = `
   import { shallow } from 'enzyme'
@@ -142,7 +138,6 @@ async function createComponentTests(path: string, appName: string, components: C
   `;
 
   components.forEach(page => {
-    console.log(page);
     let importString = '';
     if (page.isPage) {
       importString = `
@@ -202,12 +197,7 @@ async function createTestSuite({
   rootComponents: number[];
   testchecked: boolean;
 }) {
-  console.log('in the createGatsbyApplication util');
-  console.log('testchecked: ', testchecked);
-
   await initFolders(path, appName);
-  // await createMocksFiles(path, appName);
-  // await createTestsFiles(path, appName);
   await createJestConfigFile(path, appName);
   await createJestTsconfigJsonFile(path, appName);
   await createJestPreprocessFile(path, appName);

@@ -376,8 +376,7 @@ async function createApplicationUtil({
   await createTsLint(path, appName);
   await createServer(path, appName);
   if (testchecked) {
-    console.log('entering createTestSuiteClassic');
-  await createTestSuiteClassic({path, appName, components, testchecked});
+    await createTestSuiteClassic({path, appName, components, testchecked});
   }
   await createFiles(components, path, appName, true);
 }

@@ -204,7 +204,6 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  require('electron').app.getPath('userData');
   win.webContents.executeJavaScript('window.localStorage.clear();');
   app.quit();
 });

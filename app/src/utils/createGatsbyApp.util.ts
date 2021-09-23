@@ -26,7 +26,6 @@ const compToCSS = (component: Component) => {
 
 //createPackage
 export const createPackage = (path, appName, test) => {
-  // console.log('in createpackage: ',test);
   const filePath = `${path}/${appName}/package.json`;
   
   let tsjest = `,
@@ -36,7 +35,6 @@ export const createPackage = (path, appName, test) => {
           "enzyme": "^3.11.0",
           "enzyme-adapter-react-16": "^1.15.6",
           "jest": "^27.2.0",
-          "react-test-renderer": "^17.0.2",
           "@types/react-dom": "^17.0.9",
           "@types/enzyme-adapter-react-16": "^1.0.6",
           "@types/react-test-renderer": "^17.0.1",
@@ -191,7 +189,6 @@ async function createGatsbyAppUtil({
   await createPackage(path, appName, testchecked);
   await createTsConfig(path, appName);
   if (testchecked) {
-    console.log('testchecked: ',testchecked);
     await createTestSuite({path, appName, components, rootComponents, testchecked});
   }
   await createGatsbyFiles(components, path, appName, rootComponents);

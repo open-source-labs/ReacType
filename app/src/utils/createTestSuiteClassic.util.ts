@@ -2,7 +2,6 @@
 
 
 const initFolders = (path: string, appName: string) => {
-  console.log(window); // remember to delete
   let dir = path;
   dir = `${dir}/${appName}`;
   if (!window.api.existsSync(`${dir}/__tests__`)) {
@@ -53,8 +52,6 @@ const createJestPreprocessFile = (path: string, appName: string) => {
 
 async function createComponentTests(path: string, appName: string, components: Component[]) {
     const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-    console.log(JSON.stringify(components))
-    console.log(components);
   
     let data:string = `
     import { shallow } from 'enzyme'
@@ -146,9 +143,6 @@ async function createTestSuiteClassic({
   components: Component[];
   testchecked: boolean;
 }) {
-  console.log('in the createClassicApplication util');
-  console.log('testchecked: ', testchecked);
-
   await initFolders(path, appName);
   await createJestConfigFile(path, appName);
   await createJestPreprocessFile(path, appName);

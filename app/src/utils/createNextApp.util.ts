@@ -212,7 +212,6 @@ async function createNextAppUtil({
   await createPackage(path, appName, testchecked);
   await createTsConfig(path, appName);
   if (testchecked) {
-    console.log('testchecked: ',testchecked);
     await createTestSuiteNext({path, appName, components, rootComponents, testchecked});
   }
   await createNextFiles(components, path, appName, rootComponents);

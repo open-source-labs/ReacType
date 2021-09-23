@@ -7,7 +7,6 @@ const { Projects, Comments } = require('../../models/reactypeModels');
 const Project = {
   getProject: async (parent, { projId }) => {
     const resp = await Projects.findOne({ _id: projId });
-    // console.log('getProject return >>> ', resp);
     if (resp) {
       return ({
         name: resp.name,
@@ -29,7 +28,6 @@ const Project = {
 
   getAllProjects: async (parent, { userId }) => {
     let resp = await Projects.find({});
-    // console.log('getAllProjects resp >>> ', resp);
     if (userId) {
       // use loosely equal for the callback because there are some discrepancy between the type of userId from the db vs from the mutation query
       resp = resp.filter(proj => proj.userId == userId);
