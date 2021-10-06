@@ -188,7 +188,7 @@ const generateUnformattedCode = (
           .join('\n')
       : imports
           .map((comp: string) => {
-            return `import ${comp} from './${comp}.tsx'`;
+            return `import ${comp} from './${comp}'`;
           })
           .join('\n');
 
@@ -206,7 +206,7 @@ const generateUnformattedCode = (
     ${
       classBased
         ? `class ${currentComponent.name} extends Component {`
-        : `const ${currentComponent.name} = (props): JSX.Element => {`
+        : `const ${currentComponent.name} = (props: any): JSX.Element => {`
     }
 
     ${
@@ -274,7 +274,7 @@ const generateUnformattedCode = (
     ${links ? `import { Link } from 'gatsby'` : ``}
    
 
-      const ${currentComponent.name} = (props): JSX.Element => {
+      const ${currentComponent.name} = (props: any): JSX.Element => {
 
         const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 

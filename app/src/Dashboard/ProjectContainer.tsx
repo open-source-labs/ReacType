@@ -2,7 +2,7 @@ import React, {
   useState, useContext, useEffect, createContext,
 } from 'react';
 import {
-  createMuiTheme, MuiThemeProvider, makeStyles, Theme, useTheme,
+  createTheme, MuiThemeProvider, makeStyles, Theme, useTheme,
 } from '@material-ui/core/styles';
 import { useQuery } from '@apollo/client';
 
