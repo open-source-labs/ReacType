@@ -5,6 +5,9 @@ import {
   makeStyles,
   styled,
   Theme,
+  createTheme,
+  ThemeProvider,
+  withStyles
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {
@@ -23,6 +26,7 @@ import {
 
 import StateContext from "../../context/context";
 import TableStateProps from "./TableStateProps";
+
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -119,27 +123,33 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     <div className={'state-panel'}>
       <div>
         <FormControl>
-          <h4>Create New State</h4>
+          <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Create New State</h4>
           <TextField
             id="textfield-key"
             label="key:"
             variant="outlined"
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-          />
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            />
           <TextField
             id="textfield-value"
             label="value:"
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-          />
-          <FormControl required className={classes.formControl}>
-            <InputLabel id="select-required-label">Type</InputLabel>
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            />
+          <FormControl required className={isThemeLight ? `${classes.formControl} ${classes.lightThemeFontColor}` : `${classes.formControl} ${classes.darkThemeFontColor}`}>
+            <InputLabel 
+              id="select-required-label"
+              className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
+                Type
+            </InputLabel>
             <Select
               labelId="select-required-label"
               id="type-input"
-              className={classes.selectEmpty}
+              className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
             >
@@ -165,7 +175,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
                 Any
               </MenuItem>
             </Select>
-            <FormHelperText>Required</FormHelperText>
+            <FormHelperText
+              className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
+                Required
+            </FormHelperText>
           </FormControl>
           <br></br>
           <MyButton 
@@ -180,15 +193,17 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       </div>
       <br></br>
       <div>
-        <h4>Current State Name: {state.components[state.canvasFocus.componentId - 1].name}</h4>
-        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} />
+        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+          Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
+        </h4>
+        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} isThemeLight={isThemeLight} />
       </div>
     </div>
   );
 };
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+  ({
     inputField: {
       marginTop: "10px",
       borderRadius: "5px",
@@ -287,6 +302,9 @@ const useStyles = makeStyles((theme: Theme) =>
     darkThemeFontColor: {
       color: "#fff",
     },
+    greyThemeFontColor: {
+      color: 'rgba(0,0,0,0.54)',
+    },
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
@@ -294,6 +312,51 @@ const useStyles = makeStyles((theme: Theme) =>
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
+    color: {
+      color: '#fff',
+    },
+    rootLight: {
+      '& .MuiFormLabel-root': {
+        color: 'rgba(0,0,0,0.54)'
+      }
+    },
+    rootDark: {
+      '& .MuiFormLabel-root': {
+        color: '#fff'
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#fff'
+      }
+    },
+    underlineDark: {
+      borderBottom: '1px solid white'
+    },
+    rootUnderlineDark: {
+      '& .MuiSelect-icon': {
+        color: '#fff',
+      },
+      '&::before': {
+        borderBottom: '1px solid #fff'
+      }
+    },
+    rootUnderlineLight: {
+      '& .MuiSelect-icon': {
+        color: 'rgba(0,0,0,0.54)',
+      },
+      '&::before': {
+        borderBottom: '1px solid rgba(0,0,0,0.54)'
+      }
+    },
+    inputTextDark: {
+      '& .MuiInputBase-input': {
+        color: 'white'
+      }
+    },
+    inputTextLight: {
+      '& .MuiInputBase-input': {
+        color: 'rgba(0,0,0,0.54)'
+      }
+    }
   })
 );
 
@@ -307,5 +370,6 @@ const MyButton = styled(Button)({
   width: 40,
   padding: "0 30px",
 });
+
 
 export default StatePropsPanel;

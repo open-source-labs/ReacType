@@ -7,6 +7,7 @@ import {
 import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from '../../context/context';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
@@ -50,9 +51,9 @@ const getColumns = (props) => {
         };
         return ( 
           <Button style={{width:`${3}px`}}
-            onClick={() => {
-              deleteHandler(getIdRow());
-            }}>
+          onClick={() => {
+            deleteHandler(getIdRow());
+          }}>
             <ClearIcon style={{width:`${15}px`}}/>
           </Button>
         );
@@ -62,14 +63,19 @@ const getColumns = (props) => {
 };
 
 const TableStateProps = (props) => {
+  const classes = useStyles();
   const [state] = useContext(StateContext);
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
+  
 
+  useEffect(() => {
+    setGridColumns(getColumns(props));
+  }, [props.isThemeLight])
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-
+  
   const rows = currentComponent.stateProps.slice();
 
   const { selectHandler } : StatePropsPanelProps = props;
@@ -87,9 +93,35 @@ const TableStateProps = (props) => {
         pageSize={5}
         editRowsModel={editRowsModel}
         onRowClick = {selectHandler}
+        className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
     </div>
   );
 };
+
+
+const useStyles = makeStyles({
+  themeLight: {
+    color: 'rgba(0,0,0,0.54)',
+    '& .MuiTablePagination-root': {
+      color: 'rbga(0,0,0,0.54)'
+    },
+  },
+  themeDark: {
+    color: 'white',
+    '& .MuiTablePagination-root': {
+      color: 'white'
+    },
+    '& .MuiIconButton-root': {
+      color: 'white'
+    },
+    '& .MuiSvgIcon-root': {
+      color: 'white'
+    },
+    '& .MuiDataGrid-window': {
+      backgroundColor: 'rgba(0,0,0,0.54)'
+    }
+  }
+});
 
 export default TableStateProps;
