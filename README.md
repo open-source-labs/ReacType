@@ -5,7 +5,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 7.0.0](https://img.shields.io/badge/Release-7.0.0-lightgrey.svg)
+![Version 8.0.0](https://img.shields.io/badge/Release-8.0.0-lightgrey.svg)
 
 **ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -16,7 +16,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 7.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 8.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
@@ -24,7 +24,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 ### How to use
 
-- **Sign-in page**: Sign up for an account, or just continue as a guest. Registered users enjoy additional project-saving functionality.
+- **Sign-in page**: Sign up for an account, sign in via Github, or just continue as a guest. Registered users enjoy additional project-saving functionality.
 - **Tutorial**: Click ‘Tutorial’ from the Help tab’s dropdown menu (at the top left of the application) to view a tutorial.
 - **Start a project (only after registration)**: Registered users can create a new project and select whether they want their project to be a Next.js, Gatsby.js, or classic React project. Also, registered users can save projects to return to them at a later time.
 - **Add Components**: Create components on the right panel. Components can be associated with a route, or they can be used within other components.
@@ -36,19 +36,20 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
+- **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
 
 - Elements may be added to components in any location, rather than only at the bottom
 - Compatibility with Gatsby.js
 - Modernized and cleaner UI, including enhanced dark mode
 - Tutorial has been updated to reflect other modifications
 
- **New with version 7.0.0:**
+ **New with version 8.0.0:**
 
-![CSSEditor](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/csseditor_tutorial_images/DirectCSSEdit.gif)
+![CSSEditor](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/export_tests_images/export-new.gif)
 
 ### Features
 
-
+- **OAuth via Github**: Sign up with your github accounts.
 - **Live Render Demo**: Live render demo in React using Electron's sandbox environment. Updates in realtime to reflect canvas structure and customization options.
 - **Annotations**: Provide design notes directly on the canvas and have these persist while sharing designs with other engineers.
 - **CSS Editor**: Copy and paste custom css styles and classes into the editor and save to use personal or company designs in an instant.
@@ -63,6 +64,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Sort By**: Click the 'Sort By' button to choose different metrics to sort the Public Dashboard by.
 - **Form Nesting**: Nesting within form tags is now fully functional
 - **Added Undo and Redo functionality**
+- **Test Suite Export**: pre-configured configuration & test file exports with application files.
+- **Dark mode**: change the theme of the app for a different asthetic.
 
 ![AddAnnotations](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/annotations_tutorial_images/Annotation.gif)
 
@@ -110,6 +113,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
+[Danial Reilley](https://linkedin.com/in/daniel-reilley)
+[@dreille](https://github.com/dreille)
+
 [Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
 
 [Diego Vazquez](https://www.linkedin.com/in/diegovazquezny/) [@diegovazquezny](https://github.com/diegovazquezny)
@@ -138,11 +144,17 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
+[Miles Wright](https://www.linkedin.com/in/miles-m-wright)
+[@Miles818](https://github.com/Miles818)
+
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
 [Natalie Vick](https://www.linkedin.com/in/vicknatalie/) [@natattackvick](https://github.com/natattackvick)
 
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
+
+[Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
+[@pmhua](https://github.com/pmhua)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
@@ -159,6 +171,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Tony Ito-Cole](https://linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
+
+[William Rittwage](https://www.linkedin.com/in/william-rittwage)
+[@wbrittwage](https://github.com/wbrittwage)
 
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
 
