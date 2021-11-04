@@ -164,6 +164,15 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'switch item',
     placeHolderLong: '',
     icon: ListIcon
+  }, 
+  {
+    id: 18,
+    tag: 'Link',
+    name: 'LinkTo',
+    style: {},
+    placeHolderShort: 'link to',
+    placeHolderLong: '',
+    icon: ListIcon
   }
 ];
 

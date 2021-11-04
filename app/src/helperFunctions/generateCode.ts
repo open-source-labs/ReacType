@@ -120,13 +120,16 @@ const generateUnformattedCode = (
     childElement.tag === 'ol' || 
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
-    childElement.tag === 'li'; 
-    // childElement.tag === 'Switch';
+    childElement.tag === 'li'||
+    childElement.tag === 'Switch';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
       return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    }
+    else if (childElement.tag === 'Link') {
+        return `${levelSpacer(level, 5)}<${childElement.tag} to="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;  
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
