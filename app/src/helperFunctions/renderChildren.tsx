@@ -34,7 +34,7 @@ const renderChildren = (children: ChildElement[]) => {
     }
     // ommitted orderedlists, unorderedlists, and menus, ommitted li items as non-nestable types because they can be nested within.
     // child is a non-nestable type of HTML element (everything except for divs and forms)
-    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16) {
+    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16 && typeId != 17) {
       return (
         <DirectChildHTML
           childId={childId}
@@ -48,7 +48,7 @@ const renderChildren = (children: ChildElement[]) => {
     }
     // Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
     // child is a nestable type of HTML element (divs and forms)
-    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16)) {
+    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16 || typeId === 17)) {
       return (       
         <DirectChildHTMLNestable
           childId={childId}

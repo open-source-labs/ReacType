@@ -120,7 +120,8 @@ const generateUnformattedCode = (
     childElement.tag === 'ol' || 
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
-    childElement.tag === 'li';
+    childElement.tag === 'li' ||
+    childElement.tag === 'switch';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;

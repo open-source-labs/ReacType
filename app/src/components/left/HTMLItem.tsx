@@ -122,11 +122,11 @@ const HTMLItem : React.FC<{
   // updated the id's to reflect the new element types input and label
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
-      { id <= 16 &&
+      { id <= 17 &&
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         </div>}
-      {id > 16 &&
+      {id > 17 &&
       <span id="customHTMLElement">
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
