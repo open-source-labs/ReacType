@@ -158,7 +158,7 @@ const HTMLTypes: HTMLType[] = [
   }, 
   {
     id: 17,
-    tag: 'switch',
+    tag: 'Switch',
     name: 'Switch',
     style: {},
     placeHolderShort: 'switch item',
