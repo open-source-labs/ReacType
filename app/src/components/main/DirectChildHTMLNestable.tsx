@@ -9,6 +9,8 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import Annotation from './Annotation'
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
+// import addRoute from '../../helperFunctions/addRoute';
+import AddRoute from './AddRoute';
 
 function DirectChildHTMLNestable({
   childId,
@@ -79,7 +81,7 @@ const snapShotFunc = () => {
               childId: childId,
             }
           });
-        } 
+        }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
@@ -95,7 +97,7 @@ const snapShotFunc = () => {
         }
       }
     },
-    
+
     collect: (monitor: any) => {
       return {
         isOver: !!monitor.isOver({ shallow: true })
@@ -132,10 +134,16 @@ const snapShotFunc = () => {
 
   drag(drop(ref));
 
+  const routeButton = [];
+  if (typeId === 17) {
+    routeButton.push(<AddRoute id={childId} name={name} />);
+  }
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <strong>{HTMLType.placeHolderShort}</strong>
       {`  ( ${childId} )`}
+      {routeButton}
       <Annotation
         id={childId}
         name={name}

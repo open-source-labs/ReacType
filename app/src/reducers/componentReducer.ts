@@ -8,6 +8,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
+import addRoute from '../helperFunctions/addRoute';
 
 let separator = initialState.HTMLTypes[1];
 
@@ -308,6 +309,7 @@ const reducer = (state: State, action: Action) => {
         children: []
       };
 
+
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
@@ -349,6 +351,14 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
+
+      // TODO: when newChild is a Switch, call addRoute to create a Route child
+      // passing in newChild
+
+      // if (typeId === 17 && !addedInitialRoute) {
+      //   addRoute(newChild);
+      //   addedInitialRoute = true;
+      // }
 
       return {
         ...state,
