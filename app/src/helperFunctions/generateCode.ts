@@ -52,6 +52,7 @@ const generateUnformattedCode = (
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
+        console.log(referencedHTML); 
         if (
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' || 
@@ -59,7 +60,8 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'ul' ||
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
-          referencedHTML.tag === 'li'
+          referencedHTML.tag === 'li' ||
+          referencedHTML.tag === 'Link'
         ) {
           child.children = getEnrichedChildren(child);
         }
@@ -120,18 +122,18 @@ const generateUnformattedCode = (
     childElement.tag === 'ol' || 
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
-    childElement.tag === 'li'||
-    childElement.tag === 'Switch';
+    childElement.tag === 'li';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
       return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    }
-    else if (childElement.tag === 'Link') {
-        return `${levelSpacer(level, 5)}<${childElement.tag} to="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;  
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'Link') {
+      return `${levelSpacer(level, 5)}<${childElement.tag} to="${activeLink}" ${elementTagDetails(childElement)}>${innerText}
+      ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+      ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
@@ -201,6 +203,8 @@ const generateUnformattedCode = (
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
+
+  //import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
   if (projectType === 'Classic React') {
     return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
