@@ -8,6 +8,7 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
+import addRoute from '../helperFunctions/addRoute';
 
 let separator = initialState.HTMLTypes[1];
 
@@ -307,6 +308,7 @@ const reducer = (state: State, action: Action) => {
         attributes: {},
         children: []
       };
+
 
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
