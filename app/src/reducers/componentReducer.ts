@@ -352,14 +352,6 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
-      // TODO: when newChild is a Switch, call addRoute to create a Route child
-      // passing in newChild
-
-      // if (typeId === 17 && !addedInitialRoute) {
-      //   addRoute(newChild);
-      //   addedInitialRoute = true;
-      // }
-
       return {
         ...state,
         components,
