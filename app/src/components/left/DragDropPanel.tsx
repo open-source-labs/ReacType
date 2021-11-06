@@ -14,7 +14,7 @@ Central state contains all available HTML elements (stored in the HTMLTypes prop
   initialState.tsx.
 
 Hook state:
-  -tag: 
+  -tag:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
@@ -37,10 +37,9 @@ const DragDropPanel = (props): JSX.Element => {
       payload: id
     });
   };
-  
-  // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
 
+  // filter out separator so that it will not appear on the html panel
+  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator' && type.name !== 'Route');
   return (
     <div className="HTMLItems">
       <div id="HTMLItemsTopHalf">

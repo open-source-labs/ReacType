@@ -99,3 +99,8 @@ export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;
   deleteHandler: (id: number | any) => void;
 }
+
+export interface AddRoutes {
+  id: number;
+  name: string;
+}

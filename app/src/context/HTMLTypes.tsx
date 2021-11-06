@@ -155,13 +155,13 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'list item',
     placeHolderLong: '',
     icon: ListIcon
-  }, 
+  },
   {
     id: 17,
     tag: 'Switch',
     name: 'Switch',
     style: {},
-    placeHolderShort: 'switch item',
+    placeHolderShort: 'Switch',
     placeHolderLong: '',
     icon: ListIcon
   }, 
@@ -173,6 +173,15 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'link to',
     placeHolderLong: '',
     icon: ListIcon
+  },
+  {
+    id: -1,
+    tag: 'Route',
+    name: 'Route',
+    style: {},
+    placeHolderShort: 'Route',
+    placeHolderLong: '',
+    icon: LinkIcon
   }
 ];
 
