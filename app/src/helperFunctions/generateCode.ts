@@ -59,10 +59,14 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'ul' ||
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
-          referencedHTML.tag === 'li'
+          referencedHTML.tag === 'li' ||
+          referencedHTML.tag === 'Switch' ||
+          referencedHTML.tag === 'Route'
         ) {
           child.children = getEnrichedChildren(child);
         }
+        // when we see a Switch, import React Router
+        if (referencedHTML.tag === 'Switch') importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -89,7 +93,7 @@ const generateUnformattedCode = (
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
-    if (childElement.childId) customizationDetails += (' ' + `id="${+childElement.childId}"`);
+    if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
     if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
@@ -120,8 +124,9 @@ const generateUnformattedCode = (
     childElement.tag === 'ol' || 
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
-    childElement.tag === 'li'; 
-    // childElement.tag === 'Switch';
+    childElement.tag === 'li' ||
+    childElement.tag === 'Switch' ||
+    childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
@@ -130,7 +135,9 @@ const generateUnformattedCode = (
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+      // if Route -> 'exact path=' + activeLink
+      const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){
@@ -195,12 +202,14 @@ const generateUnformattedCode = (
 
   const stateful = true;
   const classBased = false;
+  let importReactRouter;
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
     return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
+    ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
     ${classBased ? `import React, {Component} from 'react';` : ''}
     ${!stateful && !classBased ? `import React from 'react';` : ''}
     ${importsMapped}
@@ -209,7 +218,6 @@ const generateUnformattedCode = (
         ? `class ${currentComponent.name} extends Component {`
         : `const ${currentComponent.name} = (props: any): JSX.Element => {`
     }
-
     ${
       stateful && !classBased
         ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE")${writeStateProps(currentComponent.useStateCodes)};
@@ -225,13 +233,18 @@ const generateUnformattedCode = (
         : ``
     }
     ${classBased ? `render(): JSX.Element {` : ``}
-      
-      return (
+    ${!importReactRouter ?
+    `return (
+      <div className="${currentComponent.name}" style={props.style}>
+        ${writeNestedElements(enrichedChildren)}
+      </div>
+    );` : `return (
+      <Router>
         <div className="${currentComponent.name}" style={props.style}>
           ${writeNestedElements(enrichedChildren)}
         </div>
-        );
-      }
+      </Router>
+    );`}
     ${classBased ? `}` : ``}
     export default ${currentComponent.name};
     `;
