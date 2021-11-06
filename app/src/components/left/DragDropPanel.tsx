@@ -40,6 +40,7 @@ const DragDropPanel = (props): JSX.Element => {
   
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
+
   return (
     <div className="HTMLItems">
       <div id="HTMLItemsTopHalf">
@@ -48,19 +49,19 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>HTML ELEMENTS</h3>
             {htmlTypesToRender.map(option => {
-              if(option.id === 17 || option.id === 18) {
-                return; 
+              if(option.id !== 17 || option.id !== 18) {
+                return (
+                  <HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                    isThemeLight={isThemeLight}
+                  />
+                  ); 
               }
-              return (
-              <HTMLItem
-                name={option.name}
-                key={`html-${option.name}`}
-                id={option.id}
-                Icon={option.icon}
-                handleDelete={handleDelete}
-                isThemeLight={isThemeLight}
-              />
-              ); 
+
             })}
             <h3>REACT ROUTER</h3>
             {htmlTypesToRender.map(option => {

@@ -52,7 +52,6 @@ const generateUnformattedCode = (
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
-        console.log(referencedHTML); 
         if (
           referencedHTML.tag === 'div' ||
           referencedHTML.tag === 'separator' || 
@@ -79,10 +78,16 @@ const generateUnformattedCode = (
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
+    console.log(styleObj); 
+
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
     for (let i in styleObj) {
-      const styleString = i + ': ' + "'" + styleObj[i] + "'";
+      let styleString = i + ': ' + "'" + styleObj[i] + "'"; 
+      // if(i === 'style') {
+      //   styleString = i + ':' + JSON.stringify(styleObj[i]); 
+      // }
+
       formattedStyles.push(styleString);
     }
     return ' style={{' + formattedStyles.join(',') + '}}';
