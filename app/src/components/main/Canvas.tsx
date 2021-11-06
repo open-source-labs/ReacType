@@ -25,6 +25,7 @@ function Canvas() {
     function onClickHandler(event) {
       event.stopPropagation();
       // note: a null value for the child id means that we are focusing on the top-level component rather than any child
+      console.log(state.canvasFocus); 
       changeFocus(state.canvasFocus.componentId, null);
     };
 

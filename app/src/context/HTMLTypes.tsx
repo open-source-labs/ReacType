@@ -163,7 +163,16 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'Switch',
     placeHolderLong: '',
-    icon: HeaderIcon
+    icon: ListIcon
+  }, 
+  {
+    id: 18,
+    tag: 'Link',
+    name: 'LinkTo',
+    style: {},
+    placeHolderShort: 'link to',
+    placeHolderLong: '',
+    icon: ListIcon
   },
   {
     id: -1,
