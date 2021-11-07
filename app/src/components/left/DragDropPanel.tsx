@@ -48,7 +48,7 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>HTML ELEMENTS</h3>
             {htmlTypesToRender.map(option => {
-              if(option.id !== 17 || option.id !== 18) {
+              if(option.id !== 17 && option.id !== 18) {
                 return (
                   <HTMLItem
                     name={option.name}

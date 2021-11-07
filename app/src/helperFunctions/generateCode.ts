@@ -82,15 +82,13 @@ const generateUnformattedCode = (
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
-    console.log(styleObj); 
-
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
     for (let i in styleObj) {
       let styleString = i + ': ' + "'" + styleObj[i] + "'"; 
-      // if(i === 'style') {
-      //   styleString = i + ':' + JSON.stringify(styleObj[i]); 
-      // }
+      if(i === 'style') {
+        styleString = i + ':' + JSON.stringify(styleObj[i]); 
+      }
 
       formattedStyles.push(styleString);
     }
@@ -101,7 +99,10 @@ const generateUnformattedCode = (
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
     if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
-    if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    if (childElement.attributes && childElement.attributes.cssClasses) {
+      console.log(childElement.attributes); 
+      customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    } 
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
   };
@@ -133,7 +134,8 @@ const generateUnformattedCode = (
     childElement.tag === 'menu' ||
     childElement.tag === 'li' ||
     childElement.tag === 'Switch' ||
-    childElement.tag === 'Route';
+    childElement.tag === 'Route' ||
+    childElement.tag === 'Link';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
@@ -141,13 +143,10 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    } else if (childElement.tag === 'Link') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} to="${activeLink}" ${elementTagDetails(childElement)}>${innerText}
-      ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
-      ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
+      const linkPath = (childElement.tag === 'Link' ? (' ' + 'to="' + activeLink + '"') : '');
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}${linkPath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){
@@ -257,7 +256,7 @@ const generateUnformattedCode = (
         </div>
       </Router>
     );`}
-    ${classBased ? `}` : ``}
+    ${classBased ? `}` : `}`}
     export default ${currentComponent.name};
     `;
   }
