@@ -133,8 +133,7 @@ const generateUnformattedCode = (
     childElement.tag === 'menu' ||
     childElement.tag === 'li' ||
     childElement.tag === 'Switch' ||
-    childElement.tag === 'Route' ||
-    childElement.tag === 'Link';
+    childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
@@ -142,10 +141,11 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'LinkTo') {
+      return `${levelSpacer(level, 5)}<Link to="${activeLink}"${elementTagDetails(childElement)}>${innerText}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
-      const linkPath = (childElement.tag === 'Link' ? (' ' + 'to="' + activeLink + '"') : '');
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}${linkPath}>${innerText}
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){

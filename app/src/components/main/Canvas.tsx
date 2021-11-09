@@ -50,7 +50,6 @@ function Canvas() {
       }
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        console.log('Canvas first dispatch')
         dispatch({
           type: 'ADD CHILD',
           payload: {
