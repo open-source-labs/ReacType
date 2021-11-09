@@ -20,6 +20,7 @@ function DirectChildHTMLNestable({
   children,
   name,
   annotations,
+  attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const ref = useRef(null);
@@ -143,6 +144,7 @@ const snapShotFunc = () => {
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <strong>{HTMLType.placeHolderShort}</strong>
       {`  ( ${childId} )`}
+      <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
       {routeButton}
       <Annotation
         id={childId}

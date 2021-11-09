@@ -58,6 +58,7 @@ const renderChildren = (children: ChildElement[]) => {
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={name}
           annotations={annotations}
+          attributes={attributes}
         />
       );
     }
