@@ -67,7 +67,7 @@ const generateUnformattedCode = (
           child.children = getEnrichedChildren(child);
         }
         // when we see a Switch, import React Router
-        if (referencedHTML.tag === 'Switch') importReactRouter = true;
+        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Link') importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -84,15 +84,14 @@ const generateUnformattedCode = (
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
-    for (let i in styleObj) {
-      let styleString = i + ': ' + "'" + styleObj[i] + "'"; 
+    let styleString;
+    for (let i in styleObj) {   
       if(i === 'style') {
-        styleString = i + ':' + JSON.stringify(styleObj[i]); 
+        styleString = i + ':' + JSON.stringify(styleObj[i]);  
+        formattedStyles.push(styleString);
       }
-
-      formattedStyles.push(styleString);
     }
-    return ' style={{' + formattedStyles.join(',') + '}}';
+    return formattedStyles;
   };
 
   // function to dynamically add classes, ids, and styles to an element if it exists.
@@ -215,8 +214,6 @@ const generateUnformattedCode = (
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
-
-  //import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
   if (projectType === 'Classic React') {
     return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
@@ -246,17 +243,17 @@ const generateUnformattedCode = (
     ${classBased ? `render(): JSX.Element {` : ``}
     ${!importReactRouter ?
     `return (
-      <div className="${currentComponent.name}" style={props.style}>
+      <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
         ${writeNestedElements(enrichedChildren)}
       </div>
     );` : `return (
       <Router>
-        <div className="${currentComponent.name}" style={props.style}>
+        <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
           ${writeNestedElements(enrichedChildren)}
         </div>
       </Router>
     );`}
-    ${classBased ? `}` : `}`}
+    ${`}`}
     export default ${currentComponent.name};
     `;
   }
@@ -301,7 +298,7 @@ const generateUnformattedCode = (
 
       const ${currentComponent.name} = (props: any): JSX.Element => {
 
-        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+      const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
         <>
