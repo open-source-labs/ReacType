@@ -732,6 +732,31 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    case 'ADD STATE': {
+      // if (!state.canvasFocus.childId) return state;
+      // find the current component in focus
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+
+      console.log("line 744", component);
+
+      console.log("line 760", component.code); 
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      console.log('line 770', component.code); 
+
+      return { ...state, components};
+    }
     default:
       return state;
   }

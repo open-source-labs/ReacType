@@ -67,7 +67,7 @@ const generateUnformattedCode = (
           child.children = getEnrichedChildren(child);
         }
         // when we see a Switch, import React Router
-        if (referencedHTML.tag === 'Switch') importReactRouter = true;
+        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Link') importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -82,26 +82,26 @@ const generateUnformattedCode = (
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
   const formatStyles = (styleObj: any) => {
-    console.log(styleObj); 
-
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
-    for (let i in styleObj) {
-      let styleString = i + ': ' + "'" + styleObj[i] + "'"; 
-      // if(i === 'style') {
-      //   styleString = i + ':' + JSON.stringify(styleObj[i]); 
-      // }
-
-      formattedStyles.push(styleString);
+    let styleString;
+    for (let i in styleObj) {   
+      if(i === 'style') {
+        styleString = i + ':' + JSON.stringify(styleObj[i]);  
+        formattedStyles.push(styleString);
+      }
     }
-    return ' style={{' + formattedStyles.join(',') + '}}';
+    return formattedStyles;
   };
 
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
     if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
-    if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    if (childElement.attributes && childElement.attributes.cssClasses) {
+      console.log(childElement.attributes); 
+      customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    } 
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
   };
@@ -214,8 +214,6 @@ const generateUnformattedCode = (
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
-
-  //import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
   if (projectType === 'Classic React') {
     return `
     ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
@@ -245,17 +243,17 @@ const generateUnformattedCode = (
     ${classBased ? `render(): JSX.Element {` : ``}
     ${!importReactRouter ?
     `return (
-      <div className="${currentComponent.name}" style={props.style}>
+      <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
         ${writeNestedElements(enrichedChildren)}
       </div>
     );` : `return (
       <Router>
-        <div className="${currentComponent.name}" style={props.style}>
+        <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
           ${writeNestedElements(enrichedChildren)}
         </div>
       </Router>
     );`}
-    ${classBased ? `}` : ``}
+    ${`}`}
     export default ${currentComponent.name};
     `;
   }
@@ -300,7 +298,7 @@ const generateUnformattedCode = (
 
       const ${currentComponent.name} = (props: any): JSX.Element => {
 
-        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+      const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
         <>

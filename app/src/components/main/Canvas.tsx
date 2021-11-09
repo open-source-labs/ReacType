@@ -24,8 +24,7 @@ function Canvas() {
     // onClickHandler is responsible for changing the focused component and child component
     function onClickHandler(event) {
       event.stopPropagation();
-      // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-      console.log(state.canvasFocus);
+      // note: a null value for the child id means that we are focusing on the top-level component rather than any child 
       changeFocus(state.canvasFocus.componentId, null);
     };
 

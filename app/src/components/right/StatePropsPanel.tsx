@@ -29,8 +29,9 @@ import TableStateProps from "./TableStateProps";
 
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
+  const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-  const [state] = useContext(StateContext);
+  
 
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -78,6 +79,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     currentComponent.stateProps.push(newState);
     // reset newStateProp to empty for future new state prop entries
     updateUseStateCodes();
+    dispatch({
+      type: 'ADD STATE'
+    }); 
     clearForm();
   };
   
@@ -113,6 +117,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   
   // find & delete table row using its id
   const handlerRowDelete = (id:any) => {
+    console.log('handlerRowDelete invoked')
     // iterate and filter out stateProps with matching row id 
     currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id !== id);
     updateUseStateCodes();
