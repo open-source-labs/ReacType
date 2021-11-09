@@ -141,10 +141,8 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    } else if (childElement.tag === 'Link') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} to="${activeLink}" ${elementTagDetails(childElement)}>${innerText}
-      ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
-      ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'LinkTo') {
+      return `${levelSpacer(level, 5)}<Link to="${activeLink}"${elementTagDetails(childElement)}>${innerText}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}

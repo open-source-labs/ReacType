@@ -25,7 +25,7 @@ function Canvas() {
     function onClickHandler(event) {
       event.stopPropagation();
       // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-      console.log(state.canvasFocus); 
+      console.log(state.canvasFocus);
       changeFocus(state.canvasFocus.componentId, null);
     };
 
@@ -51,7 +51,6 @@ function Canvas() {
       }
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        console.log('Canvas first dispatch')
         dispatch({
           type: 'ADD CHILD',
           payload: {
