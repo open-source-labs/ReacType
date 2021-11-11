@@ -75,9 +75,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       value: typeConversion(inputValue, inputType),
       type: inputType,
     };    
-    // store this newStateProp obj to our Component's stateProps array
-    // currentComponent.stateProps.push(newState);
-    // reset newStateProp to empty for future new state prop entries
     
     dispatch({
       type: 'ADD STATE', 
@@ -86,20 +83,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     clearForm();
   };
   
-  // generates React Hook code snippets for each new stateProp entry
-  // const updateUseStateCodes = () => {
-  //   // array of snippets of state prop codes
-  //   const localStateCode = [];
-
-  //   currentComponent.stateProps.forEach((stateProp) => {
-  //     const useStateCode = `const [${stateProp.key}, set${
-  //       stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-  //     }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
-  //     localStateCode.push(useStateCode);
-  //   });
-  //   // store localStateCodes in global state context
-  //   return localStateCode;
-  // };
   
   // find table row using its id and if it exists, populate form with its details 
   const handlerRowSelect = (table) => {
@@ -125,7 +108,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       type: 'DELETE STATE', 
       payload: {stateProps: filtered}
     });
-    // updateUseStateCodes();
+    
     setStateProps(filtered);
   };
   

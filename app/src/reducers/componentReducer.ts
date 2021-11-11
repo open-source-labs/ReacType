@@ -778,7 +778,6 @@ const reducer = (state: State, action: Action) => {
 
       currComponent.stateProps = action.payload.stateProps; 
       
-      console.log(currComponent);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);  
 
       currComponent.code = generateCode(
