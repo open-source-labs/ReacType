@@ -204,6 +204,22 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
+  // function to pass into UseStateModal to use state to update attribute
+  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
+
+    // get the stateProps of the componentProvider    
+    const currentComponent = state.components[componentProviderId - 1];
+    const currentComponentProps = currentComponent.stateProps;
+    const newInput = currentComponentProps[statePropsId - 1].value;
+
+    if (attributeName === 'compText') setCompText(newInput);
+    if (attributeName === 'compLink') setCompLink(newInput);
+
+    // TODO: set something to signify that state was used
+    // so it can be handled in generateCode
+
+  }
+
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values
   const handleSave = (): Object => {
@@ -299,7 +315,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           key={'not delete'}
           button
           onClick={closeModal}
-          ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -518,7 +533,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               </div>
             </div>
             <div>
-
               <div className={classes.configRow}>
                 <div
                   className={
@@ -547,7 +561,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
                 <div>
-                  <UseStateModal />
+                  <UseStateModal 
+                  updateAttributeWithState={updateAttributeWithState} 
+                  attributeToChange="compText" 
+                  childId={state.canvasFocus.childId}/>
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -576,6 +593,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       placeholder="Text"
                     />
                   </FormControl>
+                </div>
+                <div>
+                  <UseStateModal 
+                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink" 
+                  childId={state.canvasFocus.childId}/>
                 </div>
               </div>
               <div className={classes.configRow}>

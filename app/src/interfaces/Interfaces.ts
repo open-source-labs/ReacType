@@ -36,7 +36,7 @@ export interface Component {
   isPage: boolean;
   past: any[];
   future: any[];
-  stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+  stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
 }
