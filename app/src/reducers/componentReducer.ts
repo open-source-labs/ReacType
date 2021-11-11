@@ -450,7 +450,27 @@ const reducer = (state: State, action: Action) => {
       }
       return { ...state };
     }
+    case 'UPDATE USE CONTEXT': {
+      const { useContextObj } = action.payload;
 
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      component.useContext = useContextObj;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      return {...state, components }
+
+    }
     case 'UPDATE CSS': {
       const { style } = action.payload;
       const components = [...state.components];

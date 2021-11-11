@@ -5,17 +5,18 @@ import TableStateProps from '../right/TableStateProps';
 
 // TODO: typescript interface or type check
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
+  const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
 
-  // TODO: choose state source
-  const componentProviderId = 1; // for now set to App
-
-  // selectHandler function to pass into TableStateProps
-  // get id of selected component
-  // access the ChildElement
+  // make buttons to choose which component to get state from
+  const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
+  const components = [];
+  for (let i = 0; i < state.components.length; i ++) {
+    components.push(<button onClick={() => setComponentProviderId(i+1)}>{state.components[i].name}</button>)
+  }
 
   // return the selected state's ID back so the value of it can be updated in the customizationpanel.  to the assign the value of selected state to attribute tied to useState button (currently just text)
-  // attribute to change as parameter for UseStateModal
+  // attribute to change as parameter for 
   const body = (
     <div className="useState-position">
       <div className="useState-header">
@@ -29,17 +30,16 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
       </div>
       <div className="useState-window">
         <div className="useState-dropdown">
-          <button>Choose Stateful Component</button>
           <div>
-            <a href="#">component 1</a>
-            <a href="#">component 2</a>
+            {components}
           </div>
         </div>
         <div className="useState-stateDisplay">
           <TableStateProps
+            providerId = {componentProviderId}
             selectHandler={(table) => {
-              console.log('table.row.id',table.row.id);
-              updateAttributeWithState(attributeToChange, componentProviderId, table.row.id)
+              updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
+              setOpen(false);
             }}
             deleteHandler={() => func()}
             isThemeLight={true}

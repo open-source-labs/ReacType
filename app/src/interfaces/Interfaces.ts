@@ -39,6 +39,9 @@ export interface Component {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
+  useContext?: object // {providerId: {attribute: stateId, ....}, ...}
+  // {1: {compText: 1, compLink: 2}}
+  // {1: {compText: 1}, 2: {compLink: 1}, ....}
 }
 
 export interface StateProp {

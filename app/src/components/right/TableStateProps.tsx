@@ -66,6 +66,7 @@ const getColumns = (props) => {
   ];
 };
 
+//, providerId=1
 const TableStateProps = (props) => {
   const classes = useStyles();
   const [state] = useContext(StateContext);
@@ -80,7 +81,14 @@ const TableStateProps = (props) => {
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
   
-  const rows = currentComponent.stateProps.slice();
+  // rows to show are either from current component or from a given provider
+  let rows = [];
+  if (!props.providerId) {
+    rows = currentComponent.stateProps.slice();
+  } else {
+    const providerComponent = state.components[props.providerId - 1];
+    rows = providerComponent.stateProps.slice();
+  }
 
   const { selectHandler } : StatePropsPanelProps = props;
   

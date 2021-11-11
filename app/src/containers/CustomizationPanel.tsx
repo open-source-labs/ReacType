@@ -50,6 +50,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
+  const [useContextObj, setUseContextObj] = useState({});
 
   const resetFields = () => {
     const childrenArray = state.components[0].children;
@@ -212,11 +213,31 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const currentComponentProps = currentComponent.stateProps;
     const newInput = currentComponentProps[statePropsId - 1].value;
 
-    if (attributeName === 'compText') setCompText(newInput);
-    if (attributeName === 'compLink') setCompLink(newInput);
+    if (attributeName === 'compText') {
+      const newContextObj = useContextObj;
+      if (!newContextObj[componentProviderId]) {
+        newContextObj[componentProviderId] = {};
+      }
+      newContextObj[componentProviderId].compText = statePropsId;
+
+      setCompText(newInput);
+      setUseContextObj(newContextObj);
+    }
+    if (attributeName === 'compLink') {
+      const newContextObj = useContextObj;
+      if (!newContextObj[componentProviderId]) {
+        newContextObj[componentProviderId] = {};
+      }
+      newContextObj[componentProviderId].compLink = statePropsId;
+
+      setCompLink(newInput);
+      setUseContextObj(newContextObj);
+    }
 
     // TODO: set something to signify that state was used
     // so it can be handled in generateCode
+
+    // update use context object
 
   }
 
@@ -236,6 +257,15 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+
+    // dispatch to update useContext
+    // type: 'UPDATE USE CONTEXT'
+    // payload: useContext object
+
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
 
     dispatch({
       type: 'UPDATE CSS',
