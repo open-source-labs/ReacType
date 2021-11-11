@@ -29,6 +29,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import { config } from 'ace-builds';
+import UseStateModal from '../components/bottom/UseStateModal';
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
@@ -544,6 +545,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       placeholder="Text"
                     />
                   </FormControl>
+                </div>
+                <div>
+                  <UseStateModal />
                 </div>
               </div>
               <div className={classes.configRow}>
