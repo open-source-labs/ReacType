@@ -75,30 +75,14 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       value: typeConversion(inputValue, inputType),
       type: inputType,
     };    
-    // store this newStateProp obj to our Component's stateProps array
-    currentComponent.stateProps.push(newState);
-    // reset newStateProp to empty for future new state prop entries
-    updateUseStateCodes();
+    
     dispatch({
-      type: 'ADD STATE'
+      type: 'ADD STATE', 
+      payload: {newState: newState}
     }); 
     clearForm();
   };
   
-  // generates React Hook code snippets for each new stateProp entry
-  const updateUseStateCodes = () => {
-    // array of snippets of state prop codes
-    const localStateCode = [];
-
-    currentComponent.stateProps.forEach((stateProp) => {
-      const useStateCode = `const [${stateProp.key}, set${
-        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
-      localStateCode.push(useStateCode);
-    });
-    // store localStateCodes in global state context
-    currentComponent.useStateCodes = localStateCode;
-  };
   
   // find table row using its id and if it exists, populate form with its details 
   const handlerRowSelect = (table) => {
@@ -117,11 +101,15 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   
   // find & delete table row using its id
   const handlerRowDelete = (id:any) => {
-    console.log('handlerRowDelete invoked')
     // iterate and filter out stateProps with matching row id 
-    currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id !== id);
-    updateUseStateCodes();
-    setStateProps(currentComponent.stateProps.slice());
+    const filtered = currentComponent.stateProps.filter(element => element.id !== id); 
+      
+    dispatch({
+      type: 'DELETE STATE', 
+      payload: {stateProps: filtered}
+    });
+    
+    setStateProps(filtered);
   };
   
   return (
