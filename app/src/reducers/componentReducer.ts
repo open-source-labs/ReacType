@@ -9,6 +9,7 @@ import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
 import addRoute from '../helperFunctions/addRoute';
+import cloneDeep from '../helperFunctions/cloneDeep'; 
 
 let separator = initialState.HTMLTypes[1];
 
@@ -195,6 +196,20 @@ const reducer = (state: State, action: Action) => {
     for (let i = 0; i < initialState.HTMLTypes.length; i += 1) {
       arrayOfElements[i] = initialState.HTMLTypes[i];
     }
+  };
+
+  const updateUseStateCodes = (currentComponent) => {
+    // array of snippets of state prop codes
+    const localStateCode = [];
+
+    currentComponent.stateProps.forEach((stateProp) => {
+      const useStateCode = `const [${stateProp.key}, set${
+        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
+      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
+      localStateCode.push(useStateCode);
+    });
+    // store localStateCodes in global state context
+    return localStateCode;
   };
 
   switch (action.type) {
@@ -732,34 +747,55 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
-    case 'ADD STATE': {
+    case 'ADD STATE' : {
       // if (!state.canvasFocus.childId) return state;
       // find the current component in focus
       const components = [...state.components];
-      const component = findComponent(
+      const currComponent = findComponent(
         components,
         state.canvasFocus.componentId
       );
 
-      console.log("line 744", component);
+      currComponent.stateProps.push(action.payload.newState);
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
 
-      console.log("line 760", component.code); 
-
-      component.code = generateCode(
+      currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
       );
-
-      console.log('line 770', component.code); 
-
       return { ...state, components};
     }
+
+    case 'DELETE STATE' : {
+      const components = [...state.components];
+      let currComponent = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+
+      currComponent.stateProps = action.payload.stateProps; 
+      
+      console.log(currComponent);
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
+
+      currComponent.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components};
+    }
+
     default:
       return state;
   }
+
+
 };
 
 export default reducer;

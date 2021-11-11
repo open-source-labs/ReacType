@@ -60,14 +60,14 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
           referencedHTML.tag === 'li' ||
-          referencedHTML.tag === 'Link' ||
+          referencedHTML.tag === 'LinkTo' ||
           referencedHTML.tag === 'Switch' ||
           referencedHTML.tag === 'Route'
         ) {
           child.children = getEnrichedChildren(child);
         }
-        // when we see a Switch, import React Router
-        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Link') importReactRouter = true;
+        // when we see a Switch or LinkTo, import React Router
+        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'LinkTo') importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -142,7 +142,9 @@ const generateUnformattedCode = (
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'LinkTo') {
-      return `${levelSpacer(level, 5)}<Link to="${activeLink}"${elementTagDetails(childElement)}>${innerText}</Link>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<Link to="${activeLink}"${elementTagDetails(childElement)}>${innerText}
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
@@ -212,14 +214,27 @@ const generateUnformattedCode = (
   const classBased = false;
   let importReactRouter;
 
+  const createState = (stateProps) => {
+    let state = '{'; 
+
+    stateProps.forEach((ele) => {
+      state += `${ele.key}: ${(ele.type !== 'string') ? `${ele.value}` :  `"${ele.value}"`}, `; 
+    });  
+
+    state = state.substring(0, state.length - 2) + '}'; 
+
+    return state; 
+  }
+
+
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
     return `
-    ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
+    ${stateful && !classBased ? `import React, { useState, createContext, useContext } from 'react';` : ''}
     ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
-    ${classBased ? `import React, {Component} from 'react';` : ''}
-    ${!stateful && !classBased ? `import React from 'react';` : ''}
+    ${classBased ? `import React, { Component } from 'react';` : ''}
+    ${!stateful && !classBased ? `import React, { createContext, useContext } from 'react';` : ''}
     ${importsMapped}
     ${
       classBased
@@ -228,9 +243,15 @@ const generateUnformattedCode = (
     }
     ${
       stateful && !classBased
-        ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE")${writeStateProps(currentComponent.useStateCodes)};
+        ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currentComponent.useStateCodes)}
         `
         : ``
+    }
+    ${
+      isRoot  && currentComponent.stateProps.length !== 0
+      ? `const ${currentComponent.name}Context = createContext(${createState(currentComponent.stateProps)});`
+      : ``
+
     }
     ${
       classBased && stateful
@@ -243,15 +264,19 @@ const generateUnformattedCode = (
     ${classBased ? `render(): JSX.Element {` : ``}
     ${!importReactRouter ?
     `return (
-      <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
-        ${writeNestedElements(enrichedChildren)}
-      </div>
-    );` : `return (
-      <Router>
+      <${currentComponent.name}Context.Provider value="">
         <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
           ${writeNestedElements(enrichedChildren)}
         </div>
-      </Router>
+      </${currentComponent.name}Context.Provider>  
+    );` : `return (
+      <${currentComponent.name}Context.Provider value="">
+        <Router>
+          <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
+            ${writeNestedElements(enrichedChildren)}
+          </div>
+        </Router>
+      </${currentComponent.name}Context.Provider>  
     );`}
     ${`}`}
     export default ${currentComponent.name};
