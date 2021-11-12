@@ -26,6 +26,8 @@ const generateUnformattedCode = (
   const currentComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
+  let providers: string = '';
+  let context: string = '';
   let links: boolean = false;
 
   const isRoot = rootComponents.includes(componentId);
@@ -47,14 +49,14 @@ const generateUnformattedCode = (
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
-          child['name'] = referencedComponent.name;
-          return child;
+        child['name'] = referencedComponent.name;
+        return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' || 
+          referencedHTML.tag === 'separator' ||
           referencedHTML.tag === 'form' ||
           referencedHTML.tag === 'ul' ||
           referencedHTML.tag === 'ol' ||
@@ -67,15 +69,16 @@ const generateUnformattedCode = (
           child.children = getEnrichedChildren(child);
         }
         // when we see a Switch or LinkTo, import React Router
-        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'LinkTo') importReactRouter = true;
+        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'LinkTo')
+          importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
         child.name = components.find(
           (comp: Component) => comp.id === child.typeId
-          ).name;
-          return child;
-        }
+        ).name;
+        return child;
+      }
       });
       return enrichedChildren;
   };
@@ -225,7 +228,26 @@ const generateUnformattedCode = (
 
     return state; 
   }
+  // check for context
+  if (currentComponent.useContext) {
+    
+    for (const providerId of Object.keys(currentComponent.useContext)) {
+      const attributesAndStateIds = currentComponent.useContext[String(providerId)]; //currently just from App
+      const providerComponent = components[providerId - 1];
+      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
 
+      for (const stateId of Object.values(attributesAndStateIds)) {
+        context +=
+          'const ' +
+          providerComponent.stateProps[stateId - 1].key +
+          ' = ' +
+          providerComponent.name.toLowerCase() +
+          'Context.' +
+          providerComponent.stateProps[stateId - 1].key +
+          ';\n';
+      }
+    }
+  }
 
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
@@ -236,6 +258,8 @@ const generateUnformattedCode = (
     ${classBased ? `import React, { Component } from 'react';` : ''}
     ${!stateful && !classBased ? `import React, { createContext, useContext } from 'react';` : ''}
     ${importsMapped}
+    ${providers}
+    ${context}
     ${
       classBased
         ? `class ${currentComponent.name} extends Component {`
