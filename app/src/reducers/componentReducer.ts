@@ -9,7 +9,7 @@ import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
 import addRoute from '../helperFunctions/addRoute';
-import cloneDeep from '../helperFunctions/cloneDeep'; 
+import cloneDeep from '../helperFunctions/cloneDeep';
 
 let separator = initialState.HTMLTypes[1];
 
@@ -197,7 +197,8 @@ const reducer = (state: State, action: Action) => {
       arrayOfElements[i] = initialState.HTMLTypes[i];
     }
   };
-
+  // () ? returnthis : elsereturnthis
+  // '' + dfsldkjfslkf
   const updateUseStateCodes = (currentComponent) => {
     // array of snippets of state prop codes
     const localStateCode = [];
@@ -777,7 +778,7 @@ const reducer = (state: State, action: Action) => {
       );
 
       currComponent.stateProps.push(action.payload.newState);
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
 
       currComponent.code = generateCode(
         components,
@@ -796,9 +797,9 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId
       );
 
-      currComponent.stateProps = action.payload.stateProps; 
-      
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
+      currComponent.stateProps = action.payload.stateProps;
+
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
 
       currComponent.code = generateCode(
         components,

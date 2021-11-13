@@ -88,9 +88,9 @@ const generateUnformattedCode = (
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
     let styleString;
-    for (let i in styleObj) {   
+    for (let i in styleObj) {
       if(i === 'style') {
-        styleString = i + ':' + JSON.stringify(styleObj[i]);  
+        styleString = i + ':' + JSON.stringify(styleObj[i]);
         formattedStyles.push(styleString);
       }
     }
@@ -102,9 +102,9 @@ const generateUnformattedCode = (
     let customizationDetails = "";
     if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
     if (childElement.attributes && childElement.attributes.cssClasses) {
-      console.log(childElement.attributes); 
+      console.log(childElement.attributes);
       customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
-    } 
+    }
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
   };
@@ -115,13 +115,13 @@ const generateUnformattedCode = (
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
   }
-  
+
   // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
     if (level === 2 ) return `\n${tabSpacer(spaces)}`;
     else return ''
   }
-  
+
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
@@ -129,9 +129,9 @@ const generateUnformattedCode = (
     if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
     if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
 
-    const nestable = childElement.tag === 'div' || 
-    childElement.tag === 'form' || 
-    childElement.tag === 'ol' || 
+    const nestable = childElement.tag === 'div' ||
+    childElement.tag === 'form' ||
+    childElement.tag === 'ol' ||
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
     childElement.tag === 'li' ||
@@ -155,7 +155,7 @@ const generateUnformattedCode = (
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    }    
+    }
   }
 
   // write all code that will be under the "return" of the component
@@ -183,7 +183,7 @@ const generateUnformattedCode = (
               .join('')
             }`;
   };
-  
+
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
@@ -218,19 +218,19 @@ const generateUnformattedCode = (
   let importReactRouter;
 
   const createState = (stateProps) => {
-    let state = '{'; 
+    let state = '{';
 
     stateProps.forEach((ele) => {
-      state += `${ele.key}: ${(ele.type !== 'string') ? `${ele.value}` :  `"${ele.value}"`}, `; 
-    });  
+      state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
+    });
 
-    state = state.substring(0, state.length - 2) + '}'; 
+    state = state.substring(0, state.length - 2) + '}';
 
-    return state; 
+    return state;
   }
   // check for context
   if (currentComponent.useContext) {
-    
+
     for (const providerId of Object.keys(currentComponent.useContext)) {
       const attributesAndStateIds = currentComponent.useContext[String(providerId)]; //currently just from App
       const providerComponent = components[providerId - 1];
@@ -292,7 +292,7 @@ const generateUnformattedCode = (
         <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
           ${writeNestedElements(enrichedChildren)}
         </div>
-      </${currentComponent.name}Context.Provider>  
+      </${currentComponent.name}Context.Provider>
     );` : `return (
       <${currentComponent.name}Context.Provider value="">
         <Router>
@@ -300,7 +300,7 @@ const generateUnformattedCode = (
             ${writeNestedElements(enrichedChildren)}
           </div>
         </Router>
-      </${currentComponent.name}Context.Provider>  
+      </${currentComponent.name}Context.Provider>
     );`}
     ${`}`}
     export default ${currentComponent.name};
@@ -343,7 +343,7 @@ const generateUnformattedCode = (
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
-   
+
 
       const ${currentComponent.name} = (props: any): JSX.Element => {
 

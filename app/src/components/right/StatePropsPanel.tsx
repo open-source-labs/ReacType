@@ -31,7 +31,7 @@ import TableStateProps from "./TableStateProps";
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-  
+
 
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -46,12 +46,14 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
-      case "String":
+      case "string":
         return String(value);
-      case "Number":
+      case "number":
         return Number(value);
-      case "Boolean":
+      case "boolean":
         return Boolean(value);
+      case "array":
+        return JSON.parse(value);
       default:
         return value;
     }
@@ -74,23 +76,23 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
-    };    
-    
+    };
+
     dispatch({
-      type: 'ADD STATE', 
+      type: 'ADD STATE',
       payload: {newState: newState}
-    }); 
+    });
     clearForm();
   };
-  
-  
-  // find table row using its id and if it exists, populate form with its details 
+
+
+  // find table row using its id and if it exists, populate form with its details
   const handlerRowSelect = (table) => {
     let exists = false;
     currentComponent.stateProps.forEach((stateProp) => {
       // if stateProp id matches current row's id (table.row.id), flip exists to true
       if (stateProp.id === table.row.id) exists = true;
-    }); 
+    });
     // if row id exists, populate form with corresponding inputs (key, value, type) from table row
     if (exists) {
       setInputKey(table.row.key);
@@ -98,20 +100,20 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       setInputValue(table.row.value);
     } else clearForm();
   };
-  
+
   // find & delete table row using its id
   const handlerRowDelete = (id:any) => {
-    // iterate and filter out stateProps with matching row id 
-    const filtered = currentComponent.stateProps.filter(element => element.id !== id); 
-      
+    // iterate and filter out stateProps with matching row id
+    const filtered = currentComponent.stateProps.filter(element => element.id !== id);
+
     dispatch({
-      type: 'DELETE STATE', 
+      type: 'DELETE STATE',
       payload: {stateProps: filtered}
     });
-    
+
     setStateProps(filtered);
   };
-  
+
   return (
     <div className={'state-panel'}>
       <div>
@@ -123,7 +125,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
           <TextField
             id="textfield-value"
@@ -131,10 +133,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
           <FormControl required className={isThemeLight ? `${classes.formControl} ${classes.lightThemeFontColor}` : `${classes.formControl} ${classes.darkThemeFontColor}`}>
-            <InputLabel 
+            <InputLabel
               id="select-required-label"
               className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
                 Type
@@ -174,8 +176,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             </FormHelperText>
           </FormControl>
           <br></br>
-          <MyButton 
-          type="submit" 
+          <MyButton
+          type="submit"
           onClick={submitNewState}
           className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
           >
