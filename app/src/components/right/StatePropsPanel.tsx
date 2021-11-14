@@ -37,8 +37,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
 
-  const [stateProps, setStateProps] = useState([]);
-
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -100,17 +98,14 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   };
   
   // find & delete table row using its id
-  const handlerRowDelete = (id:any) => {
-    // iterate and filter out stateProps with matching row id 
-    const filtered = currentComponent.stateProps.filter(element => element.id !== id); 
-      
-    dispatch({
-      type: 'DELETE STATE', 
-      payload: {stateProps: filtered}
-    });
-    
-    setStateProps(filtered);
-  };
+  // const handlerRowDelete = (id:any) => {
+  //   // iterate and filter out stateProps with matching row id 
+  //   const filtered = currentComponent.stateProps.filter(element => element.id !== id);     
+  //   dispatch({
+  //     type: 'DELETE STATE', 
+  //     payload: {stateProps: filtered}
+  //   });
+  // };
   
   return (
     <div className={'state-panel'}>
@@ -189,7 +184,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} isThemeLight={isThemeLight} />
+        <TableStateProps selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
       </div>
     </div>
   );

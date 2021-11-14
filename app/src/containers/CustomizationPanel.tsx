@@ -207,8 +207,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   // function to pass into UseStateModal to use state to update attribute
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
-    console.log('attributeName = ',attributeName); //returns compText or compLink
-    console.log('statePropsId = ', statePropsId);
     // get the stateProps of the componentProvider    
     const currentComponent = state.components[componentProviderId - 1];
     const currentComponentProps = currentComponent.stateProps;
@@ -220,12 +218,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
     if (attributeName === 'compText') {
       const newContextObj = useContextObj;
-      console.log('newContextObj=',newContextObj)
+      console.log('Line 223 newContextObj=',newContextObj)
       if (!newContextObj[componentProviderId]) {
         newContextObj[componentProviderId] = {};
       }
       newContextObj[componentProviderId].compText = statePropsId;
-
+      console.log('Line 288, newContextObj[componentProviderId].compText = ', newContextObj[componentProviderId].compText);
+      console.log('statePropsId = ', statePropsId);
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
@@ -240,7 +239,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setUseContextObj(newContextObj);
     }
 
-    const deleteAttributeWithState = alert('Hello from Customization Panel');
+    
     // TODO: set something to signify that state was used
     // so it can be handled in generateCode
 
@@ -601,7 +600,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <UseStateModal 
                   updateAttributeWithState={updateAttributeWithState} 
                   attributeToChange="compText" 
-                  childId={state.canvasFocus.childId}/>
+                  childId={state.canvasFocus.childId}
+                  />
                 </div>
               </div>
               <div className={classes.configRow}>

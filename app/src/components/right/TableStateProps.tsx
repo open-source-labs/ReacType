@@ -11,8 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
-const getColumns = (props) => {
-  const { deleteHandler } : StatePropsPanelProps = props;
+const getColumns = (props, state, dispatch) => {
   return [
     {
       field: 'id',
@@ -53,8 +52,31 @@ const getColumns = (props) => {
         return ( 
           <Button style={{width:`${3}px`}}
           onClick={() => {
-            deleteHandler(getIdRow());
-          }}>
+            const deleteAttributeWithState = (id) => {
+              console.log('id=',id);
+              console.log('state.components =', state.components)
+              let currentComponent; 
+              if(!props.providerId) {
+                const currentId = state.canvasFocus.componentId;
+                currentComponent = state.components[currentId - 1];
+                console.log('currentId', currentId);
+                console.log('currentComponent =', currentComponent);
+              }
+              else {
+                currentComponent = state.components[props.providerId - 1]; 
+              }
+              const filtered = currentComponent.stateProps.filter(element => element.id !== id);
+              console.log('flitered=', filtered);     
+              dispatch({
+                type: 'DELETE STATE', 
+                payload: {stateProps: filtered}
+              });
+            }
+        
+            deleteAttributeWithState(getIdRow()); 
+          }
+
+          }>
             <ClearIcon style={{width:`${15}px`}}/>
           </Button>
         );
@@ -66,13 +88,13 @@ const getColumns = (props) => {
 //, providerId=1
 const TableStateProps = (props) => {
   const classes = useStyles();
-  const [state] = useContext(StateContext);
+  const [state, dispatch] = useContext(StateContext);
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
   
 
   useEffect(() => {
-    setGridColumns(getColumns(props));
+    setGridColumns(getColumns(props, state, dispatch));
   }, [props.isThemeLight])
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
@@ -91,8 +113,8 @@ const TableStateProps = (props) => {
   
   // when component gets mounted, sets the gridColumn
   useEffect(() => {
-    setGridColumns(getColumns(props));
-  }, []);
+    setGridColumns(getColumns(props, state, dispatch));
+  }, [state]);
   
   return (
     <div className={'state-prop-grid'}>

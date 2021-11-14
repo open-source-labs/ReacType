@@ -4,7 +4,7 @@ import StateContext from '../../context/context';
 import TableStateProps from '../right/TableStateProps';
 
 // TODO: typescript interface or type check
-function UseStateModal({ updateAttributeWithState, deleteAttributeWithState, attributeToChange, childId }) {
+function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
 
@@ -15,6 +15,7 @@ function UseStateModal({ updateAttributeWithState, deleteAttributeWithState, att
     components.push(<button onClick={() => setComponentProviderId(i+1)}>{state.components[i].name}</button>)
   }
 
+    
   // return the selected state's ID back so the value of it can be updated in the customizationpanel.  to the assign the value of selected state to attribute tied to useState button (currently just text)
   // attribute to change as parameter for 
   const body = (
@@ -36,11 +37,8 @@ function UseStateModal({ updateAttributeWithState, deleteAttributeWithState, att
           <TableStateProps
             providerId = {componentProviderId}
             selectHandler={(table) => {
-              console.log('componentProviderId = ',componentProviderId);
-              console.log('table.row = ',table.row);
               updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
             }}
-            deleteHandler={() => deleteAttributeWithState()}
             isThemeLight={true}
           />
         </div>
