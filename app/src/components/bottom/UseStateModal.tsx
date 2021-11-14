@@ -4,7 +4,7 @@ import StateContext from '../../context/context';
 import TableStateProps from '../right/TableStateProps';
 
 // TODO: typescript interface or type check
-function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
+function UseStateModal({ updateAttributeWithState, deleteAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
 
@@ -36,10 +36,11 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
           <TableStateProps
             providerId = {componentProviderId}
             selectHandler={(table) => {
+              console.log('componentProviderId = ',componentProviderId);
+              console.log('table.row = ',table.row);
               updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
-              setOpen(false);
             }}
-            deleteHandler={() => func()}
+            deleteHandler={() => deleteAttributeWithState()}
             isThemeLight={true}
           />
         </div>

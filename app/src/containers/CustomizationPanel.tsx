@@ -207,14 +207,20 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   // function to pass into UseStateModal to use state to update attribute
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
-
+    console.log('attributeName = ',attributeName); //returns compText or compLink
+    console.log('statePropsId = ', statePropsId);
     // get the stateProps of the componentProvider    
     const currentComponent = state.components[componentProviderId - 1];
     const currentComponentProps = currentComponent.stateProps;
     const newInput = currentComponentProps[statePropsId - 1].value;
 
+    console.log('currentComponent = ',currentComponent);
+    console.log('currentComponentProps =', currentComponentProps);
+    console.log('newInput', newInput);
+
     if (attributeName === 'compText') {
       const newContextObj = useContextObj;
+      console.log('newContextObj=',newContextObj)
       if (!newContextObj[componentProviderId]) {
         newContextObj[componentProviderId] = {};
       }
@@ -234,6 +240,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setUseContextObj(newContextObj);
     }
 
+    const deleteAttributeWithState = alert('Hello from Customization Panel');
     // TODO: set something to signify that state was used
     // so it can be handled in generateCode
 
