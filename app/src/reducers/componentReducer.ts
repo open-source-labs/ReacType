@@ -791,9 +791,14 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE STATE' : {
       const components = [...state.components];
-      let currComponent = findComponent(
+      let currComponent = !action.payload.providerId
+      ? findComponent(
         components,
         state.canvasFocus.componentId
+      )
+      : findComponent(
+        components, 
+        action.payload.providerId 
       );
 
       currComponent.stateProps = action.payload.stateProps; 

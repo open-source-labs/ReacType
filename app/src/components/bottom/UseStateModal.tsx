@@ -7,9 +7,9 @@ import TableStateProps from '../right/TableStateProps';
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
+  const [componentProviderId, setComponentProviderId] = useState(1) // id is initialized to App
 
   // make buttons to choose which component to get state from
-  const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
   const components = [];
   for (let i = 0; i < state.components.length; i ++) {
     components.push(<button onClick={() => setComponentProviderId(i+1)}>{state.components[i].name}</button>)

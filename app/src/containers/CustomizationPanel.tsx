@@ -212,19 +212,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const currentComponentProps = currentComponent.stateProps;
     const newInput = currentComponentProps[statePropsId - 1].value;
 
-    console.log('currentComponent = ',currentComponent);
-    console.log('currentComponentProps =', currentComponentProps);
-    console.log('newInput', newInput);
 
     if (attributeName === 'compText') {
       const newContextObj = useContextObj;
-      console.log('Line 223 newContextObj=',newContextObj)
       if (!newContextObj[componentProviderId]) {
         newContextObj[componentProviderId] = {};
       }
       newContextObj[componentProviderId].compText = statePropsId;
-      console.log('Line 288, newContextObj[componentProviderId].compText = ', newContextObj[componentProviderId].compText);
-      console.log('statePropsId = ', statePropsId);
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
