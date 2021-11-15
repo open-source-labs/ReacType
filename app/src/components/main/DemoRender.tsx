@@ -36,6 +36,15 @@ const DemoRender = (props): JSX.Element => {
           renderedChildren = componentBuilder(element.children);
         }
         // check if array was used -> write a forEach / for
+        if (Array.isArray(innerText)) {
+          innerText.forEach(el => {
+            const elementCopy = JSON.parse(JSON.stringify(element));
+            elementCopy.attributes.compText = el;
+            componentsToRender.push(componentBuilder([elementCopy], key++));
+          });
+          continue;
+        }
+
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
