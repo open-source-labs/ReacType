@@ -16,7 +16,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   }
 
   // return the selected state's ID back so the value of it can be updated in the customizationpanel.  to the assign the value of selected state to attribute tied to useState button (currently just text)
-  // attribute to change as parameter for 
+  // attribute to change as parameter for
   const body = (
     <div className="useState-position">
       <div className="useState-header">

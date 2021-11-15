@@ -54,6 +54,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         return Boolean(value);
       case "array":
         return JSON.parse(value);
+      case "object": 
+        return JSON.parse(value);
       default:
         return value;
     }
@@ -162,6 +164,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
               </MenuItem>
               <MenuItem id="type-selector" value={"array"}>
                 Array
+              </MenuItem>
+              <MenuItem id="type-selector" value={"object"}>
+                Object
               </MenuItem>
               <MenuItem id="type-selector" value={"undefined"}>
                 Undefined

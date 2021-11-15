@@ -182,6 +182,15 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'LinkTo',
     placeHolderLong: '',
     icon: ListIcon
+  },
+  {
+    id: 19,
+    tag: 'ForEach',
+    name: 'ForEach', 
+    style: {},
+    placeHolderShort: 'ForEach',
+    placeHolderLong: '',
+    icon: ListIcon
   }
 ];
 

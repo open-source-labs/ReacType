@@ -28,13 +28,14 @@ const DemoRender = (props): JSX.Element => {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
-        const innerText = element.attributes.compText;
+        const innerText = element.attributes.compText; //typeof innertext is an obj if using arr or obj from state
         const classRender = element.attributes.cssClasses;
-        const activeLink = element.attributes.compLink;
+        const activeLink = element.attributes.compLink; //typeof activelink is an obj if using arr or obj from state
         let renderedChildren;
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
+        // check if array was used -> write a forEach / for
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
