@@ -36,6 +36,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
         <div className="useState-stateDisplay">
           <TableStateProps
             providerId = {componentProviderId}
+            canDeleteState = {false}
             selectHandler={(table) => {
               updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
             }}

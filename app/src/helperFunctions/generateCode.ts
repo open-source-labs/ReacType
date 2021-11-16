@@ -242,15 +242,23 @@ const generateUnformattedCode = (
 
     return state; 
   }
+  
+  let importContext = '';
+  //{1: {statesFromProvider: new Set}, 2: ..., 3:...}
+  if(currComponent.useContext) {
+  for (const providerId of Object.keys(currComponent.useContext)) {
+    const providerComponent = components[parseInt(providerId) - 1];
+      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n`;
+  }
+}
   // check for context
   if (currComponent.useContext) {
-    
     for (const providerId of Object.keys(currComponent.useContext)) {
-      const attributesAndStateIds = currComponent.useContext[String(providerId)]; //currently just from App
-      const providerComponent = components[providerId - 1];
+      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //currently just from App
+      const providerComponent = components[parseInt(providerId) - 1];
       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
 
-      for (const stateId of Object.values(attributesAndStateIds)) {
+      for (const stateId of statesFromProvider.values()) {
         context +=
           'const ' +
           providerComponent.stateProps[stateId - 1].key +
@@ -270,6 +278,7 @@ const generateUnformattedCode = (
     ${`import React, { useState, createContext, useContext } from 'react';`}
     ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
     ${importsMapped}
+    ${importContext}
     ${providers}
     ${context}
     ${`const ${currComponent.name} = (props: any): JSX.Element => {`}

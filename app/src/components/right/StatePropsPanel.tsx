@@ -97,16 +97,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     } else clearForm();
   };
   
-  // find & delete table row using its id
-  // const handlerRowDelete = (id:any) => {
-  //   // iterate and filter out stateProps with matching row id 
-  //   const filtered = currentComponent.stateProps.filter(element => element.id !== id);     
-  //   dispatch({
-  //     type: 'DELETE STATE', 
-  //     payload: {stateProps: filtered}
-  //   });
-  // };
-  
   return (
     <div className={'state-panel'}>
       <div>
@@ -184,7 +174,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
+        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
       </div>
     </div>
   );

@@ -211,24 +211,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const currentComponent = state.components[componentProviderId - 1];
     const currentComponentProps = currentComponent.stateProps;
     const newInput = currentComponentProps[statePropsId - 1].value;
+    console.log("useContext of current component = ", currentComponent); 
 
 
     if (attributeName === 'compText') {
       const newContextObj = useContextObj;
       if (!newContextObj[componentProviderId]) {
-        newContextObj[componentProviderId] = {};
+        newContextObj[componentProviderId] = {statesFromProvider : new Set()};
       }
+
       newContextObj[componentProviderId].compText = statePropsId;
+      newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
     if (attributeName === 'compLink') {
       const newContextObj = useContextObj;
       if (!newContextObj[componentProviderId]) {
-        newContextObj[componentProviderId] = {};
+        newContextObj[componentProviderId] = {statesFromProvider : new Set()};
       }
       newContextObj[componentProviderId].compLink = statePropsId;
-
+      newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
+      
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
@@ -240,6 +244,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // update use context object
 
   }
+
+  useEffect(() => {
+    console.log(state.components); 
+  }, state);  
 
   // dispatch to 'UPDATE CSS' called when save button is clicked,
   // passing in style object constructed from all changed input values

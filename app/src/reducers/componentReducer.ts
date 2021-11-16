@@ -468,6 +468,7 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
+      
       return {...state, components }
 
     }
@@ -791,14 +792,9 @@ const reducer = (state: State, action: Action) => {
 
     case 'DELETE STATE' : {
       const components = [...state.components];
-      let currComponent = !action.payload.providerId
-      ? findComponent(
-        components,
-        state.canvasFocus.componentId
-      )
-      : findComponent(
+      let currComponent = findComponent(
         components, 
-        action.payload.providerId 
+        state.canvasFocus.componentId 
       );
 
       currComponent.stateProps = action.payload.stateProps; 

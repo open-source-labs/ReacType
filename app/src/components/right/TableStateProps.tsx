@@ -30,7 +30,18 @@ const TableStateProps = (props) => {
   
   // when component gets mounted, sets the gridColumn
   useEffect(() => {
-    setGridColumns(getColumns(props, state, dispatch));
+
+
+    // get the columns and remove delete buttons 
+    // only if table is displayed as modal 
+    const columns = getColumns(props, state, dispatch); 
+    if(props.canDeleteState) {
+      setGridColumns(columns); 
+    }
+    else {
+      setGridColumns(columns.slice(0, columns.length - 1));
+    }
+    
 
     if (!props.providerId) {
       const currentId = state.canvasFocus.componentId;
@@ -90,44 +101,21 @@ const getColumns = (props, state, dispatch) => {
       width: 70,
       editable: false,
       renderCell: function renderCell(params:any) {
-        const getIdRow = () => {
-          // const fields = api.getAllColumns().map((c: any) => c.field).filter((c : any) => c !== '__check__' && !!c);
-          return params.id;
-          // return params.getValue(fields[0]);
-        };
         return ( 
-          <Button style={{width:`${3}px`}}
-          onClick={() => {
-            const deleteAttributeWithState = (id) => {
-              let currentComponent; 
-              if(!props.providerId) {
+          <Button style={{width:`${3}px`}} onClick={() => {
+                // get the current focused component 
+                // remove the state that the button is clicked 
+                // send a dispatch to rerender the table
                 const currentId = state.canvasFocus.componentId;
-                currentComponent = state.components[currentId - 1];
-                const filtered = currentComponent.stateProps.filter(element => element.id !== id);
-                console.log('filtered:', filtered);     
+                const currentComponent = state.components[currentId - 1];
+
+                const filtered = currentComponent.stateProps.filter(element => element.id !== params.id);  
                 dispatch({
                   type: 'DELETE STATE', 
                   payload: {stateProps: filtered}
                 });
-              }
-              else {
-                currentComponent = state.components[props.providerId - 1]; 
-                console.log("row-id: ", id); 
-                console.log("provider-id: ", props.providerId)
-                console.log("currentProviderComponent: ", currentComponent); 
-                const filtered = currentComponent.stateProps.filter(element => element.id !== id);
-                console.log('filtered:', filtered);     
-                dispatch({
-                  type: 'DELETE STATE', 
-                  payload: {stateProps: filtered, providerId: props.providerId}
-                });
-              }
-            }
-        
-            deleteAttributeWithState(getIdRow()); 
-          }
-
-          }>
+              
+          }}>
             <ClearIcon style={{width:`${15}px`}}/>
           </Button>
         );
