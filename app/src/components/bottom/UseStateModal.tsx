@@ -35,7 +35,12 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
         <div className="useState-stateDisplay">
           <TableStateProps
             providerId = {componentProviderId}
+            // objectId
             selectHandler={(table) => {
+              // if object => show object -> rerender
+                // setObjectId
+
+              // if not object => actually update state
               updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
               setOpen(false);
             }}
