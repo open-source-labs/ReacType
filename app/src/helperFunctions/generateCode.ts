@@ -244,11 +244,10 @@ const generateUnformattedCode = (
   }
   
   let importContext = '';
-  //{1: {statesFromProvider: new Set}, 2: ..., 3:...}
   if(currComponent.useContext) {
   for (const providerId of Object.keys(currComponent.useContext)) {
     const providerComponent = components[parseInt(providerId) - 1];
-      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n`;
+      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
   }
 }
   // check for context
@@ -256,18 +255,19 @@ const generateUnformattedCode = (
     for (const providerId of Object.keys(currComponent.useContext)) {
       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
-      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
-      console.log('statesFromProviders: ', statesFromProvider);
-      console.log('providerComponent: ', providerComponent);
-      for (const stateId of statesFromProvider.values()) {
-        context +=
+      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
+
+      for (let i = 0; i < providerComponent.stateProps.length; i++) {
+        if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
+          context +=
           'const ' +
-          providerComponent.stateProps[stateId - 1].key +
-          ' = ' +
+          providerComponent.stateProps[i].key +
+          'Value = ' +
           providerComponent.name.toLowerCase() +
           'Context.' +
-          providerComponent.stateProps[stateId - 1].key +
-          ';\n';
+          providerComponent.stateProps[i].key +
+          '; \n \t\t';
+        }
       }
     }
   }
@@ -293,7 +293,7 @@ const generateUnformattedCode = (
       ? `  return (
         <${currComponent.name}Context.Provider value="">
           <div className="${currComponent.name}" ${formatStyles(currComponent)}>
-          ${writeNestedElements(enrichedChildren)}
+          \t${writeNestedElements(enrichedChildren)}
           </div>
         </${currComponent.name}Context.Provider>  
       );` 
@@ -301,7 +301,7 @@ const generateUnformattedCode = (
         <${currComponent.name}Context.Provider value="">
           <Router>
             <div className="${currComponent.name}" ${formatStyles(currComponent)}>
-              ${`  ` + writeNestedElements(enrichedChildren)}
+            \t${writeNestedElements(enrichedChildren)}
             </div>
           </Router>
         </${currComponent.name}Context.Provider>  
