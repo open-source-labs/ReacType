@@ -212,27 +212,31 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     const providerComponent = state.components[componentProviderId - 1];
     const providerStates = providerComponent.stateProps;
     const newInput = providerStates[statePropsId - 1].value;
+
+    // states providerComponent
+    // adding new state into provideComponent 
+    // currComponent = canvas focus component 
+    // currComponent = state.components[componentProviderId - 1]; {1 : {Set, compLink, compText}} 
+    // Our set holds the state row ids of that component 
+
     
-    console.log("state-components", JSON.parse(JSON.stringify(state.components))); 
-    console.log("current-component", JSON.parse(JSON.stringify(currentComponent))); 
+    // console.log("state-components", JSON.parse(JSON.stringify(state.components))); 
+    // console.log("current-component", JSON.parse(JSON.stringify(currentComponent))); 
 
     if (attributeName === 'compText') {
       let newContextObj = {...currentComponent.useContext}; 
       if(!newContextObj) {
-        console.log("New Context Obj created"); 
         newContextObj = {}; 
       }
 
       if (!newContextObj[componentProviderId]) {
-        console.log("Provider Id added to our new context obj ", componentProviderId); 
         newContextObj[componentProviderId] = {statesFromProvider : new Set()};
       }
 
       newContextObj[componentProviderId].compText = statePropsId;
       newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
       setCompText(newInput);
-      // setUseContextObj(newContextObj);
-      console.log("newContextObj to be dispatched ", newContextObj); 
+      // setUseContextObj(newContextObj); 
 
       dispatch({
         type: 'UPDATE USE CONTEXT',

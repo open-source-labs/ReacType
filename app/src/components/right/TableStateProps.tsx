@@ -71,7 +71,7 @@ const deleteState = (selectedId) => {
   const filtered = currentComponent.stateProps.filter(element => element.id !== selectedId);  
   dispatch({
     type: 'DELETE STATE', 
-    payload: {stateProps: filtered}
+    payload: {stateProps: filtered, rowId: selectedId}
   });
 }
 

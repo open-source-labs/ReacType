@@ -254,10 +254,11 @@ const generateUnformattedCode = (
   // check for context
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
-      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //currently just from App
+      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
-
+      console.log('statesFromProviders: ', statesFromProvider);
+      console.log('providerComponent: ', providerComponent);
       for (const stateId of statesFromProvider.values()) {
         context +=
           'const ' +
