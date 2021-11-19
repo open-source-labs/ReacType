@@ -126,7 +126,7 @@ const generateUnformattedCode = (
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
     let activeLink = '';
-    
+
     if (childElement.attributes && childElement.attributes.compText) {
       if (childElement.stateUsed && childElement.stateUsed.compText) {
         innerText = '{' + childElement.stateUsed.compText + '}';

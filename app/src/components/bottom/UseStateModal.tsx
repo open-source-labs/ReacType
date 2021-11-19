@@ -14,7 +14,14 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
   const components = [];
   for (let i = 0; i < state.components.length; i ++) {
-    components.push(<button onClick={() => setComponentProviderId(i+1)}>{state.components[i].name}</button>)
+    components.push(<button 
+      onClick={() => {
+        setComponentProviderId(i+1);
+        setDisplayObject(null);
+        setStateKey('');
+      }}>
+        {state.components[i].name}
+      </button>)
   }
 
   // return the selected state's ID back so the value of it can be updated in the customizationpanel.  to the assign the value of selected state to attribute tied to useState button (currently just text)
