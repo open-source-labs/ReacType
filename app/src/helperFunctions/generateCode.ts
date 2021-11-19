@@ -126,9 +126,21 @@ const generateUnformattedCode = (
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
     let activeLink = '';
-    if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
-    if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
-
+    
+    if (childElement.attributes && childElement.attributes.compText) {
+      if (childElement.stateUsed && childElement.stateUsed.compText) {
+        innerText = '{' + childElement.stateUsed.compText + '}';
+      } else {
+        innerText = childElement.attributes.compText;
+      }
+    }
+    if (childElement.attributes && childElement.attributes.compLink) {
+      if (childElement.stateUsed && childElement.stateUsed.compLink) {
+        activeLink = '{' + childElement.stateUsed.compLink + '}';
+      } else {
+        activeLink = '"' +childElement.attributes.compLink + '"';
+      }
+    }
     const nestable = childElement.tag === 'div' ||
     childElement.tag === 'form' ||
     childElement.tag === 'ol' ||
@@ -139,17 +151,17 @@ const generateUnformattedCode = (
     childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'LinkTo') {
-      return `${levelSpacer(level, 5)}<Link to="${activeLink}"${elementTagDetails(childElement)}>${innerText}
+      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(childElement)}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
-      const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path="' + activeLink + '"') : '';
+      const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;

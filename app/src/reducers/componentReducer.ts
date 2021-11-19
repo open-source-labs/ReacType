@@ -451,6 +451,31 @@ const reducer = (state: State, action: Action) => {
       }
       return { ...state };
     }
+
+    case 'UPDATE STATE USED': {
+      
+      const { stateUsedObj } = action.payload;
+
+      const components = [...state.components];
+
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.stateUsed = stateUsedObj;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+
+      return { ...state, components };
+    }
+
     case 'UPDATE USE CONTEXT': {
       const { useContextObj } = action.payload;
 
@@ -472,6 +497,7 @@ const reducer = (state: State, action: Action) => {
       return {...state, components }
 
     }
+    
     case 'UPDATE CSS': {
       const { style } = action.payload;
       const components = [...state.components];
@@ -493,6 +519,7 @@ const reducer = (state: State, action: Action) => {
 
       return { ...state, components };
     }
+
     case 'UPDATE ATTRIBUTES': {
       const { attributes } = action.payload;
       const components = [...state.components];

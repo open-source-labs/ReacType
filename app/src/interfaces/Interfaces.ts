@@ -25,6 +25,7 @@ export interface ChildElement {
   attributes?: object;
   children?: ChildElement[];
   annotations?: string;
+  stateUsed?: object; // {compText: 'key1.key2.a', compLink: 'key3.b'}
 }
 export interface Component {
   id: number;

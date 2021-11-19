@@ -7,6 +7,8 @@ import TableStateProps from '../right/TableStateProps';
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
+  const [displayObject, setDisplayObject] = useState(null)
+  const [stateKey, setStateKey] = useState('');
 
   // make buttons to choose which component to get state from
   const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
@@ -23,7 +25,10 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
         <span>Choose State Source</span>
         <button
           style={{ margin: '5px 5px' ,padding: '1px', float: 'right' }}
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setStateKey('');
+            setDisplayObject(null)
+            setOpen(false)}}
         >
           X
         </button>
@@ -35,14 +40,19 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
         <div className="useState-stateDisplay">
           <TableStateProps
             providerId = {componentProviderId}
-            // objectId
+            displayObject = {displayObject}
             selectHandler={(table) => {
-              // if object => show object -> rerender
-                // setObjectId
-
-              // if not object => actually update state
-              updateAttributeWithState(attributeToChange, componentProviderId, table.row.id);
-              setOpen(false);
+              // if object => show object table
+              if (table.row.type === "object") {
+                setStateKey(stateKey + table.row.key + '.');
+                setDisplayObject(table.row.value);
+              } else {
+                // if not object => actually update state
+                setDisplayObject(null);
+                updateAttributeWithState(attributeToChange, componentProviderId, table.row, stateKey + table.row.key);
+                setStateKey('')
+                setOpen(false);
+              }
             }}
             deleteHandler={() => func()}
             isThemeLight={true}

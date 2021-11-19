@@ -87,8 +87,20 @@ const TableStateProps = (props) => {
     rows = currentComponent.stateProps.slice();
   } else {
     const providerComponent = state.components[props.providerId - 1];
-    rows = providerComponent.stateProps.slice();
+    // changed to get whole object
+    if (props.displayObject){
+      const displayObject = props.displayObject;
+      // const displayObject = providerComponent.stateProps[props.displayObjectId - 1].value;
+      // format the object to match the table data format {id:_, key:_, value:_, type:<might do typeof or leave blank>}
+      let id=1;
+      for (const key in displayObject) {
+        rows.push({id: id++, key:key, value: displayObject[key], type: typeof(displayObject[key])});
+      }  
+    } else {
+      rows = providerComponent.stateProps.slice();
+    }
   }
+  console.log(rows);
 
   const { selectHandler } : StatePropsPanelProps = props;
   
