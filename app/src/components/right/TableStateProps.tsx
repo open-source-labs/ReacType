@@ -50,10 +50,10 @@ const getColumns = (props) => {
           console.log('Line 50 id = ', params.id);
           // const fields = api.getAllColumns().map((c: any) => c.field).filter((c : any) => c !== '__check__' && !!c);
           return params.id;
-          
+
           // return params.getValue(fields[0]);
         };
-        return ( 
+        return (
           <Button style={{width:`${3}px`}}
           onClick={() => {
             deleteHandler(getIdRow());
@@ -72,7 +72,7 @@ const TableStateProps = (props) => {
   const [state] = useContext(StateContext);
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
-  
+
 
   useEffect(() => {
     setGridColumns(getColumns(props));
@@ -80,7 +80,7 @@ const TableStateProps = (props) => {
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  
+
   // rows to show are either from current component or from a given provider
   let rows = [];
   if (!props.providerId) {
@@ -90,12 +90,12 @@ const TableStateProps = (props) => {
     // changed to get whole object
     if (props.displayObject){
       const displayObject = props.displayObject;
-      // const displayObject = providerComponent.stateProps[props.displayObjectId - 1].value;
-      // format the object to match the table data format {id:_, key:_, value:_, type:<might do typeof or leave blank>}
+      // format for DataGrid
       let id=1;
       for (const key in displayObject) {
-        rows.push({id: id++, key:key, value: displayObject[key], type: typeof(displayObject[key])});
-      }  
+        // if key is a number make it a string with brackets aroung number
+        rows.push({ id: id++, key: ( isNaN(key) ? key : '[' + key + ']' ), value: displayObject[key], type: typeof(displayObject[key])});
+      }
     } else {
       rows = providerComponent.stateProps.slice();
     }
@@ -103,12 +103,12 @@ const TableStateProps = (props) => {
   console.log(rows);
 
   const { selectHandler } : StatePropsPanelProps = props;
-  
+
   // when component gets mounted, sets the gridColumn
   useEffect(() => {
     setGridColumns(getColumns(props));
   }, []);
-  
+
   return (
     <div className={'state-prop-grid'}>
       <DataGrid

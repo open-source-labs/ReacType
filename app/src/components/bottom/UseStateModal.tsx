@@ -46,6 +46,9 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
               if (table.row.type === "object") {
                 setStateKey(stateKey + table.row.key + '.');
                 setDisplayObject(table.row.value);
+              } else if (table.row.type === "array") {
+                setStateKey(stateKey + table.row.key)
+                setDisplayObject(table.row.value);
               } else {
                 // if not object => actually update state
                 setDisplayObject(null);
