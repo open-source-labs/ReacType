@@ -262,25 +262,25 @@ const generateUnformattedCode = (
   }
 }
 
-//   if (currComponent.useContext) {
-//     for (const providerId of Object.keys(currComponent.useContext)) {
-//       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
-//       const providerComponent = components[parseInt(providerId) - 1];
-//       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
+  if (currComponent.useContext) {
+    for (const providerId of Object.keys(currComponent.useContext)) {
+      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+      const providerComponent = components[parseInt(providerId) - 1];
+      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
 
-//       for (let i = 0; i < providerComponent.stateProps.length; i++) {
-//         if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
-//           context +=
+      for (let i = 0; i < providerComponent.stateProps.length; i++) {
+        if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
+          context +=
 
-  if (currentComponent.useContext) {
+  // if (currComponent.useContext) {
 
-    for (const providerId of Object.keys(currentComponent.useContext)) {
-      const attributesAndStateIds = currentComponent.useContext[String(providerId)]; //currently just from App
-      const providerComponent = components[providerId - 1];
-      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
+  //   for (const providerId of Object.keys(currComponent.useContext)) {
+  //     const attributesAndStateIds = currComponent.useContext[String(providerId)]; //currently just from App
+  //     const providerComponent = components[providerId - 1];
+  //     providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
 
-      for (const stateId of Object.values(attributesAndStateIds)) {
-        context +=
+  //     for (const stateId of Object.values(attributesAndStateIds)) {
+  //       context +=
 
           'const ' +
           providerComponent.stateProps[i].key +
@@ -293,7 +293,6 @@ const generateUnformattedCode = (
       }
     }
   }
-
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {

@@ -228,6 +228,24 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
+    
+    // get the stateProps of the componentProvider
+    const currentComponent = state.components[state.canvasFocus.componentId - 1];
+    const providerComponent = state.components[componentProviderId - 1];
+    const providerStates = providerComponent.stateProps;
+    let newContextObj = {...currentComponent.useContext}; 
+
+    if(!newContextObj) {
+      newContextObj = {}; 
+    }
+
+    if (!newContextObj[componentProviderId]) {
+      newContextObj[componentProviderId] = {statesFromProvider : new Set()};
+    }
+
+    newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
+
+
 
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;

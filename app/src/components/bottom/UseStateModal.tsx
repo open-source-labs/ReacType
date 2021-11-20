@@ -14,7 +14,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   // make tabs to choose which component to get state from
   const componentTabs = [];
   for (let i = 0; i < state.components.length; i ++) {
-    components.push(<button
+    componentTabs.push(<button
       onClick={() => {
         setComponentProviderId(i+1);
         setDisplayObject(null);
@@ -67,6 +67,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
                 setOpen(false);
               }
             }}
+            deleteHandler={() => func()}
             isThemeLight={true}
           />
         </div>
