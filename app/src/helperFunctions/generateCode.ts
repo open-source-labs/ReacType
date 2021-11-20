@@ -267,21 +267,10 @@ const generateUnformattedCode = (
       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
-
+      
       for (let i = 0; i < providerComponent.stateProps.length; i++) {
         if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
           context +=
-
-  // if (currComponent.useContext) {
-
-  //   for (const providerId of Object.keys(currComponent.useContext)) {
-  //     const attributesAndStateIds = currComponent.useContext[String(providerId)]; //currently just from App
-  //     const providerComponent = components[providerId - 1];
-  //     providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
-
-  //     for (const stateId of Object.values(attributesAndStateIds)) {
-  //       context +=
-
           'const ' +
           providerComponent.stateProps[i].key +
           'Value = ' +

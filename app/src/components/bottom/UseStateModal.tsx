@@ -50,18 +50,22 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
             canDeleteState = {false}
             displayObject = {displayObject}
             selectHandler={(table) => {
-              if (statePropsId < 0) setStatePropsId(table.row.id);
+              // console.log("initial statePropsId:", statePropsId); 
+              // if (statePropsId < 0) setStatePropsId(table.row.id);
+              // console.log("changed statePropsId:", statePropsId); 
               // if object or array => show sub table
               if (table.row.type === "object") {
+                if (statePropsId < 0) setStatePropsId(table.row.id);
                 setStateKey(stateKey + table.row.key + '.');
                 setDisplayObject(table.row.value);
               } else if (table.row.type === "array") {
+                if (statePropsId < 0) setStatePropsId(table.row.id);
                 setStateKey(stateKey + table.row.key)
                 setDisplayObject(table.row.value);
               } else {
                 // if not object or array => update state
                 setDisplayObject(null);
-                updateAttributeWithState(attributeToChange, componentProviderId, statePropsId, table.row, stateKey + table.row.key);
+                updateAttributeWithState(attributeToChange, componentProviderId, statePropsId > 0 ? statePropsId : table.row.id, table.row, stateKey + table.row.key);
                 setStateKey('')
                 setStatePropsId(-1);
                 setOpen(false);

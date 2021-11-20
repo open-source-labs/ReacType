@@ -206,25 +206,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  // function to pass into UseStateModal to use state to update attribute
-//   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
-//     // get the stateProps of the componentProvider
-//     const currentComponent = state.components[state.canvasFocus.componentId - 1];
-//     const providerComponent = state.components[componentProviderId - 1];
-//     const providerStates = providerComponent.stateProps;
-//     const newInput = providerStates[statePropsId - 1].value;
-//     let newContextObj = {...currentComponent.useContext}; 
-
-//     if(!newContextObj) {
-//       newContextObj = {}; 
-//     }
-
-//     if (!newContextObj[componentProviderId]) {
-//       newContextObj[componentProviderId] = {statesFromProvider : new Set()};
-//     }
-
-//     newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
-//   }
     
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
@@ -243,6 +224,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       newContextObj[componentProviderId] = {statesFromProvider : new Set()};
     }
 
+    console.log('statePropsId in customization', statePropsId);
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
 
 
