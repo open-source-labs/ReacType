@@ -25,6 +25,7 @@ export interface ChildElement {
   attributes?: object;
   children?: ChildElement[];
   annotations?: string;
+  stateUsed?: object; 
 }
 export interface Component {
   id: number;

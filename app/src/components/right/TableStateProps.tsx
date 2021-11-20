@@ -10,12 +10,12 @@ import StateContext from '../../context/context';
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
-
 const TableStateProps = (props) => {
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
+
   const [rows, setRows] = useState([]); 
   
   const columnTabs = [
@@ -68,6 +68,26 @@ const deleteState = (selectedId) => {
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
 
+  // rows to show are either from current component or from a given provider
+  let rows = [];
+  if (!props.providerId) {
+    rows = currentComponent.stateProps.slice();
+  } else {
+    const providerComponent = state.components[props.providerId - 1];
+    // changed to get whole object
+    if (props.displayObject){
+      const displayObject = props.displayObject;
+      // format for DataGrid
+      let id=1;
+      for (const key in displayObject) {
+        // if key is a number make it a string with brackets aroung number
+        rows.push({ id: id++, key: ( isNaN(key) ? key : '[' + key + ']' ), value: displayObject[key], type: typeof(displayObject[key])});
+      }
+    } else {
+      rows = providerComponent.stateProps.slice();
+    }
+  }
+
   const filtered = currentComponent.stateProps.filter(element => element.id !== selectedId);  
   dispatch({
     type: 'DELETE STATE', 
@@ -82,6 +102,7 @@ const deleteState = (selectedId) => {
 
  
   const { selectHandler } : StatePropsPanelProps = props;
+
   
   // the delete button needs to be updated to remove 
   // the states from the current focused component 
@@ -109,7 +130,6 @@ const deleteState = (selectedId) => {
     }
   }, [props.providerId, state]);
   
-
   return (
     <div className={'state-prop-grid'}>
       <DataGrid

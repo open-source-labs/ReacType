@@ -81,7 +81,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
  - Delete Project: Command + Backspace
  - Open Project: Command + o
 
-**Windows**: 
+**Windows**:
  - Export Project: Control + e
  - Undo: Control + z
  - Redo: Control + Shift + z
@@ -90,7 +90,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
  - Delete HTML Tag on Canvas: Backspace
  - Delete Project: Control + Backspace
  - Open Project: Control + o
- 
+
 #### Contributors
 
 [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
@@ -111,7 +111,11 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Chelsey Fewer](https://www.linkedin.com/in/chelsey-fewer/) [@chelseyeslehc](https://github.com/chelseyeslehc)
 
+[Chris Tang] (https://www.linkedin.com/in/chrisjtang/) [@chrisjtang](https://github.com/chrisjtang)
+
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
+
+[Crys Lim] (https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
 
 [Danial Reilley](https://linkedin.com/in/daniel-reilley)
 [@dreille](https://github.com/dreille)
@@ -156,6 +160,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
 [@pmhua](https://github.com/pmhua)
 
+[Ron Fu] (https://www.linkedin.com/in/ronfu)[@rfvisuals] (https://github.com/rfvisuals)
+
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
 [Shana Hoehn](https://www.linkedin.com/in/shana-hoehn-70297b169/) [@slhoehn](https://github.com/slhoehn)
@@ -171,6 +177,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Tony Ito-Cole](https://linkedin.com/in/tony-ito-cole) [@tonyito](https://github.com/tonyito)
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
+
+[William Cheng] (https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
 
 [William Rittwage](https://www.linkedin.com/in/william-rittwage)
 [@wbrittwage](https://github.com/wbrittwage)
