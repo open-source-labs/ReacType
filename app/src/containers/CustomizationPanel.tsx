@@ -51,6 +51,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
   const [useContextObj, setUseContextObj] = useState({});
+  const [stateUsedObj, setStateUsedObj] = useState({});
 
   const resetFields = () => {
     const childrenArray = state.components[0].children;
@@ -206,12 +207,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   };
 
   // function to pass into UseStateModal to use state to update attribute
-  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
-
-    // get the stateProps of the componentProvider    
-    const currentComponent = state.components[componentProviderId - 1];
-    const currentComponentProps = currentComponent.stateProps;
-    const newInput = currentComponentProps[statePropsId - 1].value;
+  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
+    const newInput = statePropsRow.value;
 
     if (attributeName === 'compText') {
       const newContextObj = useContextObj;
@@ -220,6 +217,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       }
       newContextObj[componentProviderId].compText = statePropsId;
 
+      // update/create stateUsed.compText
+      setStateUsedObj(Object.assign(stateUsedObj, {compText: stateKey}));
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
@@ -230,19 +229,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       }
       newContextObj[componentProviderId].compLink = statePropsId;
 
+      // update/create stateUsed.compLink
+      setStateUsedObj(Object.assign(stateUsedObj, {compLink: stateKey}));
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
 
-    // TODO: set something to signify that state was used
-    // so it can be handled in generateCode
-
-    // update use context object
-
   }
 
-  // dispatch to 'UPDATE CSS' called when save button is clicked,
-  // passing in style object constructed from all changed input values
   const handleSave = (): Object => {
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -258,9 +252,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
 
-    // dispatch to update useContext
-    // type: 'UPDATE USE CONTEXT'
-    // payload: useContext object
+    dispatch({
+      type: 'UPDATE STATE USED',
+      payload: {stateUsedObj: stateUsedObj}
+    })
 
     dispatch({
       type: 'UPDATE USE CONTEXT',
@@ -591,9 +586,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
                 <div>
-                  <UseStateModal 
-                  updateAttributeWithState={updateAttributeWithState} 
-                  attributeToChange="compText" 
+                  <UseStateModal
+                  updateAttributeWithState={updateAttributeWithState}
+                  attributeToChange="compText"
                   childId={state.canvasFocus.childId}/>
                 </div>
               </div>
@@ -625,8 +620,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
                 <div>
-                  <UseStateModal 
-                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink" 
+                  <UseStateModal
+                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
                   childId={state.canvasFocus.childId}/>
                 </div>
               </div>

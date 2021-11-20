@@ -58,7 +58,7 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                     isThemeLight={isThemeLight}
                   />
-                  ); 
+                  );
               }
 
             })}
@@ -74,10 +74,9 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                     isThemeLight={isThemeLight}
                   />
-                  ); 
+                  );
               }
             })}
-
           </Grid>
       </div>
     </div>

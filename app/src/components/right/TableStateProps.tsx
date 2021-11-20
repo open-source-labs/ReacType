@@ -46,14 +46,11 @@ const getColumns = (props) => {
       renderCell: function renderCell(params:any) {
         const getIdRow = () => {
           const { api } = params;
-          console.log('Line 49 params =', params);
-          console.log('Line 50 id = ', params.id);
-          // const fields = api.getAllColumns().map((c: any) => c.field).filter((c : any) => c !== '__check__' && !!c);
           return params.id;
-          
+
           // return params.getValue(fields[0]);
         };
-        return ( 
+        return (
           <Button style={{width:`${3}px`}}
           onClick={() => {
             deleteHandler(getIdRow());
@@ -66,13 +63,12 @@ const getColumns = (props) => {
   ];
 };
 
-//, providerId=1
 const TableStateProps = (props) => {
   const classes = useStyles();
   const [state] = useContext(StateContext);
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
-  
+
 
   useEffect(() => {
     setGridColumns(getColumns(props));
@@ -80,23 +76,34 @@ const TableStateProps = (props) => {
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  
+
   // rows to show are either from current component or from a given provider
   let rows = [];
   if (!props.providerId) {
     rows = currentComponent.stateProps.slice();
   } else {
     const providerComponent = state.components[props.providerId - 1];
-    rows = providerComponent.stateProps.slice();
+    // changed to get whole object
+    if (props.displayObject){
+      const displayObject = props.displayObject;
+      // format for DataGrid
+      let id=1;
+      for (const key in displayObject) {
+        // if key is a number make it a string with brackets aroung number
+        rows.push({ id: id++, key: ( isNaN(key) ? key : '[' + key + ']' ), value: displayObject[key], type: typeof(displayObject[key])});
+      }
+    } else {
+      rows = providerComponent.stateProps.slice();
+    }
   }
 
   const { selectHandler } : StatePropsPanelProps = props;
-  
+
   // when component gets mounted, sets the gridColumn
   useEffect(() => {
     setGridColumns(getColumns(props));
   }, []);
-  
+
   return (
     <div className={'state-prop-grid'}>
       <DataGrid

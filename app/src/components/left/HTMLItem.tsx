@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   darkThemeFontColor: {
     color: '#fff'
   }
-  
+
 });
 
 const HTMLItem : React.FC<{
@@ -45,9 +45,9 @@ const HTMLItem : React.FC<{
   handleDelete: (id: number) => void;
   isThemeLight: boolean;
 }> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
-  
+
   const classes = useStyles();
-  
+
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
