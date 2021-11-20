@@ -36,9 +36,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
-
-  const [stateProps, setStateProps] = useState([]);
-
+  const [errorStatus, setErrorStatus] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -67,11 +66,25 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     setInputValue("");
     setInputType("");
   };
+  //reset error warning
+  const resetError = () => {
+    setErrorStatus(false);
+  };
 
   // submit new stateProps entries to state context
+  let currKey;
   const submitNewState = (e) => {
     e.preventDefault();
     const statesArray = currentComponent.stateProps;
+    //loop though array, access each obj at key property
+    let keyToInt = parseInt(inputKey[0]);
+    if(!isNaN(keyToInt)) {
+      setErrorStatus(true);
+      setErrorMsg('Key name can not start with int.');
+      return;
+    }
+
+    //return alert('key can not start with number');
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
       id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
@@ -83,7 +96,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     dispatch({
       type: 'ADD STATE',
       payload: {newState: newState}
-    });
+    }); 
+    resetError();
     clearForm();
   };
 
@@ -102,20 +116,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       setInputValue(table.row.value);
     } else clearForm();
   };
-
-  // find & delete table row using its id
-  const handlerRowDelete = (id:any) => {
-    // iterate and filter out stateProps with matching row id
-    const filtered = currentComponent.stateProps.filter(element => element.id !== id);
-
-    dispatch({
-      type: 'DELETE STATE',
-      payload: {stateProps: filtered}
-    });
-
-    setStateProps(filtered);
-  };
-
+  
   return (
     <div className={'state-panel'}>
       <div>
@@ -126,6 +127,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             label="key:"
             variant="outlined"
             value={inputKey}
+            error={errorStatus}
             onChange={(e) => setInputKey(e.target.value)}
             className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
@@ -196,7 +198,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} isThemeLight={isThemeLight} />
+        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
       </div>
     </div>
   );

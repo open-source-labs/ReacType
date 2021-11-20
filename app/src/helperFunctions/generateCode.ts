@@ -12,6 +12,24 @@ declare global {
   }
 }
 
+// generate code based on component hierarchy and then return the rendered code
+const generateCode = (
+  components: Component[],
+  componentId: number,
+  rootComponents: number[],
+  projectType: string,
+  HTMLTypes: HTMLType[]
+) => {
+  const code = generateUnformattedCode(
+    components,
+    componentId,
+    rootComponents,
+    projectType,
+    HTMLTypes
+  );
+  return formatCode(code);
+};
+
 // generate code based on the component hierarchy
 const generateUnformattedCode = (
   comps: Component[],
@@ -23,7 +41,7 @@ const generateUnformattedCode = (
   const components = [...comps];
 
   // find the component that we're going to generate code for
-  const currentComponent = components.find(elem => elem.id === componentId);
+  const currComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
   let providers: string = '';
@@ -31,6 +49,7 @@ const generateUnformattedCode = (
   let links: boolean = false;
 
   const isRoot = rootComponents.includes(componentId);
+  let importReactRouter = false;;
 
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
@@ -110,7 +129,7 @@ const generateUnformattedCode = (
 
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
   const tabSpacer = (level: number) => {
-    let tabs = ''
+    let tabs = '  '
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
   }
@@ -199,14 +218,12 @@ const generateUnformattedCode = (
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
     for (const element of stateArray) {
-      stateToRender += levelSpacer(2, 3) + element + ';'
+      stateToRender += levelSpacer(2, 2) + element + ';'
     }
     return stateToRender
   }
 
-  const enrichedChildren: any = getEnrichedChildren(currentComponent);
-
-  const next = true;
+  const enrichedChildren: any = getEnrichedChildren(currComponent);
 
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
@@ -224,9 +241,6 @@ const generateUnformattedCode = (
           })
           .join('\n');
 
-  const stateful = true;
-  const classBased = false;
-  let importReactRouter;
 
   const createState = (stateProps) => {
     let state = '{';
@@ -239,7 +253,25 @@ const generateUnformattedCode = (
 
     return state;
   }
-  // check for context
+  
+  let importContext = '';
+  if(currComponent.useContext) {
+  for (const providerId of Object.keys(currComponent.useContext)) {
+    const providerComponent = components[parseInt(providerId) - 1];
+      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
+  }
+}
+
+//   if (currComponent.useContext) {
+//     for (const providerId of Object.keys(currComponent.useContext)) {
+//       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+//       const providerComponent = components[parseInt(providerId) - 1];
+//       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
+
+//       for (let i = 0; i < providerComponent.stateProps.length; i++) {
+//         if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
+//           context +=
+
   if (currentComponent.useContext) {
 
     for (const providerId of Object.keys(currentComponent.useContext)) {
@@ -249,13 +281,15 @@ const generateUnformattedCode = (
 
       for (const stateId of Object.values(attributesAndStateIds)) {
         context +=
+
           'const ' +
-          providerComponent.stateProps[stateId - 1].key +
-          ' = ' +
+          providerComponent.stateProps[i].key +
+          'Value = ' +
           providerComponent.name.toLowerCase() +
           'Context.' +
-          providerComponent.stateProps[stateId - 1].key +
-          ';\n';
+          providerComponent.stateProps[i].key +
+          '; \n \t\t';
+        }
       }
     }
   }
@@ -264,57 +298,38 @@ const generateUnformattedCode = (
   // classic react code
   if (projectType === 'Classic React') {
     return `
-    ${stateful && !classBased ? `import React, { useState, createContext, useContext } from 'react';` : ''}
+    ${`import React, { useState, createContext, useContext } from 'react';`}
     ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
-    ${classBased ? `import React, { Component } from 'react';` : ''}
-    ${!stateful && !classBased ? `import React, { createContext, useContext } from 'react';` : ''}
     ${importsMapped}
+    ${importContext}
     ${providers}
     ${context}
+    ${`const ${currComponent.name} = (props: any): JSX.Element => {`}
+    ${`  const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currComponent.useStateCodes)}`}
     ${
-      classBased
-        ? `class ${currentComponent.name} extends Component {`
-        : `const ${currentComponent.name} = (props: any): JSX.Element => {`
-    }
-    ${
-      stateful && !classBased
-        ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currentComponent.useStateCodes)}
-        `
-        : ``
-    }
-    ${
-      isRoot  && currentComponent.stateProps.length !== 0
-      ? `const ${currentComponent.name}Context = createContext(${createState(currentComponent.stateProps)});`
+      isRoot  && currComponent.stateProps.length !== 0
+      ? `  const ${currComponent.name}Context = createContext(${createState(currComponent.stateProps)});`
       : ``
-
     }
-    ${
-      classBased && stateful
-        ? `constructor(props) {
-      super(props);
-      this.state = {}
-      }`
-        : ``
-    }
-    ${classBased ? `render(): JSX.Element {` : ``}
-    ${!importReactRouter ?
-    `return (
-      <${currentComponent.name}Context.Provider value="">
-        <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
-          ${writeNestedElements(enrichedChildren)}
-        </div>
-      </${currentComponent.name}Context.Provider>
-    );` : `return (
-      <${currentComponent.name}Context.Provider value="">
-        <Router>
-          <div className="${currentComponent.name}" ${formatStyles(currentComponent)}>
-            ${writeNestedElements(enrichedChildren)}
+    ${!importReactRouter 
+      ? `  return (
+        <${currComponent.name}Context.Provider value="">
+          <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+          \t${writeNestedElements(enrichedChildren)}
           </div>
-        </Router>
-      </${currentComponent.name}Context.Provider>
-    );`}
-    ${`}`}
-    export default ${currentComponent.name};
+        </${currComponent.name}Context.Provider>  
+      );` 
+      : `  return (
+        <${currComponent.name}Context.Provider value="">
+          <Router>
+            <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+            \t${writeNestedElements(enrichedChildren)}
+            </div>
+          </Router>
+        </${currComponent.name}Context.Provider>  
+      );`}
+    ${`}\n`}
+    export default ${currComponent.name};
     `;
   }
   // next.js component code
@@ -325,7 +340,7 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-    const ${currentComponent.name} = (props): JSX.Element => {
+    const ${currComponent.name} = (props): JSX.Element => {
 
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
@@ -334,18 +349,18 @@ const generateUnformattedCode = (
       ${
         isRoot
           ? `<Head>
-            <title>${currentComponent.name}</title>
+            <title>${currComponent.name}</title>
             </Head>`
           : ``
       }
-      <div className="${currentComponent.name}" style={props.style}>
+      <div className="${currComponent.name}" style={props.style}>
       ${writeNestedElements(enrichedChildren)}
       </div>
       </>
       );
     }
 
-    export default ${currentComponent.name};
+    export default ${currComponent.name};
     `;
   } else {
     // gatsby component code
@@ -356,7 +371,7 @@ const generateUnformattedCode = (
     ${links ? `import { Link } from 'gatsby'` : ``}
 
 
-      const ${currentComponent.name} = (props: any): JSX.Element => {
+      const ${currComponent.name} = (props: any): JSX.Element => {
 
       const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
@@ -365,18 +380,18 @@ const generateUnformattedCode = (
         ${
           isRoot
             ? `<head>
-              <title>${currentComponent.name}</title>
+              <title>${currComponent.name}</title>
               </head>`
             : ``
         }
-        <div className="${currentComponent.name}" style={props.style}>
+        <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
         </>
         );
       }
 
-      export default ${currentComponent.name};
+      export default ${currComponent.name};
     `;
   }
 };
@@ -401,22 +416,6 @@ const formatCode = (code: string) => {
   }
 };
 
-// generate code based on component hierarchy and then return the rendered code
-const generateCode = (
-  components: Component[],
-  componentId: number,
-  rootComponents: number[],
-  projectType: string,
-  HTMLTypes: HTMLType[]
-) => {
-  const code = generateUnformattedCode(
-    components,
-    componentId,
-    rootComponents,
-    projectType,
-    HTMLTypes
-  );
-  return formatCode(code);
-};
+
 
 export default generateCode;

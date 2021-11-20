@@ -8,72 +8,63 @@ import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from '../../context/context';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
-const getColumns = (props) => {
-  const { deleteHandler } : StatePropsPanelProps = props;
-  return [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 70,
-      editable: false,
-    },
-    {
-      field: 'key',
-      headerName: 'Key',
-      width: 90,
-      editable: true,
-    },
-    {
-      field: 'value',
-      headerName: 'Value',
-      width: 90,
-      editable: true,
-    },
-    {
-      field: 'type',
-      headerName: 'Type',
-      width: 90,
-      editable: false,
-    },
-    {
-      field: 'delete',
-      headerName: 'X',
-      width: 70,
-      editable: false,
-      renderCell: function renderCell(params:any) {
-        const getIdRow = () => {
-          const { api } = params;
-          return params.id;
-
-          // return params.getValue(fields[0]);
-        };
-        return (
-          <Button style={{width:`${3}px`}}
-          onClick={() => {
-            deleteHandler(getIdRow());
-          }}>
-            <ClearIcon style={{width:`${15}px`}}/>
-          </Button>
-        );
-      },
-    },
-  ];
-};
-
 const TableStateProps = (props) => {
+  const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-  const [state] = useContext(StateContext);
   const [editRowsModel] = useState <GridEditRowsModel> ({});
   const [gridColumns, setGridColumns] = useState([]);
 
+  const [rows, setRows] = useState([]); 
+  
+  const columnTabs = [
+      {
+        field: 'id',
+        headerName: 'ID',
+        width: 70,
+        editable: false,
+      },
+      {
+        field: 'key',
+        headerName: 'Key',
+        width: 90,
+        editable: true,
+      },
+      {
+        field: 'value',
+        headerName: 'Value',
+        width: 90,
+        editable: true,
+      },
+      {
+        field: 'type',
+        headerName: 'Type',
+        width: 90,
+        editable: false,
+      },
+      {
+        field: 'delete',
+        headerName: 'X',
+        width: 70,
+        editable: false,
+        renderCell: function renderCell(params:any) {
+          return ( 
+            <Button style={{width:`${3}px`}} onClick={() => {
+              deleteState(params.id)
+            }}>
+              <ClearIcon style={{width:`${15}px`}}/>
+            </Button>
+          );
+        },
+      },
+  ];
 
-  useEffect(() => {
-    setGridColumns(getColumns(props));
-  }, [props.isThemeLight])
-  // get currentComponent by using currently focused component's id
+
+const deleteState = (selectedId) => {
+  // get the current focused component 
+  // remove the state that the button is clicked 
+  // send a dispatch to rerender the table
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
 
@@ -97,13 +88,48 @@ const TableStateProps = (props) => {
     }
   }
 
+  const filtered = currentComponent.stateProps.filter(element => element.id !== selectedId);  
+  dispatch({
+    type: 'DELETE STATE', 
+    payload: {stateProps: filtered, rowId: selectedId}
+  });
+}
+
+
+  useEffect(() => {
+    setGridColumns(columnTabs);
+  }, [props.isThemeLight])
+
+ 
   const { selectHandler } : StatePropsPanelProps = props;
 
-  // when component gets mounted, sets the gridColumn
+  
+  // the delete button needs to be updated to remove 
+  // the states from the current focused component 
   useEffect(() => {
-    setGridColumns(getColumns(props));
-  }, []);
+    if(props.canDeleteState) {
+      setGridColumns(columnTabs); 
+    }
+    else {
+      setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
+    }
+  }, [state.canvasFocus.componentId]);
 
+  // when we switch between tabs in our modal or focus of our current
+  // component, we need to update the states displayed in our table
+  // we also need to update the table when the state is changed by 
+  // deleting and adding component state
+  useEffect(() => {
+    if (!props.providerId) {
+      const currentId = state.canvasFocus.componentId;
+      const currentComponent = state.components[currentId - 1];
+      setRows(currentComponent.stateProps.slice());
+    } else {
+      const providerComponent = state.components[props.providerId - 1];
+      setRows(providerComponent.stateProps.slice());
+    }
+  }, [props.providerId, state]);
+  
   return (
     <div className={'state-prop-grid'}>
       <DataGrid
@@ -117,6 +143,7 @@ const TableStateProps = (props) => {
     </div>
   );
 };
+
 
 
 const useStyles = makeStyles({

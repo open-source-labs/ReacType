@@ -3,17 +3,16 @@ import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 import TableStateProps from '../right/TableStateProps';
 
-
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
   const [displayObject, setDisplayObject] = useState(null)
   const [stateKey, setStateKey] = useState('');
   const [statePropsId, setStatePropsId] = useState(-1);
+  const [componentProviderId, setComponentProviderId] = useState(1);  
 
-  // make buttons to choose which component to get state from
-  const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
-  const components = [];
+  // make tabs to choose which component to get state from
+  const componentTabs = [];
   for (let i = 0; i < state.components.length; i ++) {
     components.push(<button
       onClick={() => {
@@ -43,11 +42,12 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
       </div>
       <div className="useState-window">
         <div className="useState-dropdown">
-          {components}
+          {componentTabs}
         </div>
         <div className="useState-stateDisplay">
           <TableStateProps
             providerId = {componentProviderId}
+            canDeleteState = {false}
             displayObject = {displayObject}
             selectHandler={(table) => {
               if (statePropsId < 0) setStatePropsId(table.row.id);
@@ -67,7 +67,6 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
                 setOpen(false);
               }
             }}
-            deleteHandler={() => func()}
             isThemeLight={true}
           />
         </div>

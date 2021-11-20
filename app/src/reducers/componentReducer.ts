@@ -494,6 +494,7 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
+      
       return {...state, components }
 
     }
@@ -820,13 +821,27 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(
-        components,
-        state.canvasFocus.componentId
+        components, 
+        state.canvasFocus.componentId 
       );
 
-      currComponent.stateProps = action.payload.stateProps;
+      currComponent.stateProps = action.payload.stateProps; 
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
 
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      components.forEach((component) => {
+        if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
+          // console.log("component that takes state from curr", JSON.parse(JSON.stringify(component))); 
+          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId); 
+          // console.log("component that has deleted state", JSON.parse(JSON.stringify(component))); 
+          component.code = generateCode(
+            components,
+            component.id,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes
+          );
+        } 
+      }); 
 
       currComponent.code = generateCode(
         components,

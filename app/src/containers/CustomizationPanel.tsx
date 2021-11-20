@@ -207,34 +207,52 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   };
 
   // function to pass into UseStateModal to use state to update attribute
+//   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId) => {
+//     // get the stateProps of the componentProvider
+//     const currentComponent = state.components[state.canvasFocus.componentId - 1];
+//     const providerComponent = state.components[componentProviderId - 1];
+//     const providerStates = providerComponent.stateProps;
+//     const newInput = providerStates[statePropsId - 1].value;
+//     let newContextObj = {...currentComponent.useContext}; 
+
+//     if(!newContextObj) {
+//       newContextObj = {}; 
+//     }
+
+//     if (!newContextObj[componentProviderId]) {
+//       newContextObj[componentProviderId] = {statesFromProvider : new Set()};
+//     }
+
+//     newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
+//   }
+    
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
 
     if (attributeName === 'compText') {
-      const newContextObj = useContextObj;
-      if (!newContextObj[componentProviderId]) {
-        newContextObj[componentProviderId] = {};
-      }
       newContextObj[componentProviderId].compText = statePropsId;
-
       // update/create stateUsed.compText
       setStateUsedObj(Object.assign(stateUsedObj, {compText: stateKey}));
       setCompText(newInput);
-      setUseContextObj(newContextObj);
+      dispatch({
+        type: 'UPDATE USE CONTEXT',
+        payload: { useContextObj: newContextObj}
+      });
+       // setUseContextObj(newContextObj); 
     }
+
     if (attributeName === 'compLink') {
-      const newContextObj = useContextObj;
-      if (!newContextObj[componentProviderId]) {
-        newContextObj[componentProviderId] = {};
-      }
-      newContextObj[componentProviderId].compLink = statePropsId;
+      newContextObj[componentProviderId].compLink = statePropsId; 
 
       // update/create stateUsed.compLink
       setStateUsedObj(Object.assign(stateUsedObj, {compLink: stateKey}));
       setCompLink(newInput);
-      setUseContextObj(newContextObj);
+      dispatch({
+        type: 'UPDATE USE CONTEXT',
+        payload: { useContextObj: newContextObj}
+      });
+      // setUseContextObj(newContextObj);
     }
-
   }
 
   const handleSave = (): Object => {
@@ -257,10 +275,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: {stateUsedObj: stateUsedObj}
     })
 
-    dispatch({
-      type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj}
-    })
+    // console.log("useContextObj to be dispatched", useContextObj); 
+    // dispatch({
+    //   type: 'UPDATE USE CONTEXT',
+    //   payload: { useContextObj: useContextObj}
+    // })
 
     dispatch({
       type: 'UPDATE CSS',
