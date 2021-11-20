@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   darkThemeFontColor: {
     color: '#fff'
   }
-  
+
 });
 
 const HTMLItem : React.FC<{
@@ -45,9 +45,9 @@ const HTMLItem : React.FC<{
   handleDelete: (id: number) => void;
   isThemeLight: boolean;
 }> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
-  
+
   const classes = useStyles();
-  
+
   const [modal, setModal] = useState(null);
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -122,11 +122,11 @@ const HTMLItem : React.FC<{
   // updated the id's to reflect the new element types input and label
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
-      { id <= 19 &&
+      { id <= 18 &&
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>
         </div>}
-      {id > 19 &&
+      {id > 18 &&
       <span id="customHTMLElement">
       <div ref={drag} className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
         <h3>{name}</h3>

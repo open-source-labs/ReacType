@@ -9,12 +9,13 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   const [open, setOpen] = useState(false);
   const [displayObject, setDisplayObject] = useState(null)
   const [stateKey, setStateKey] = useState('');
+  const [statePropsId, setStatePropsId] = useState(-1);
 
   // make buttons to choose which component to get state from
   const [componentProviderId, setComponentProviderId] = useState(1) // for now set to App
   const components = [];
   for (let i = 0; i < state.components.length; i ++) {
-    components.push(<button 
+    components.push(<button
       onClick={() => {
         setComponentProviderId(i+1);
         setDisplayObject(null);
@@ -34,6 +35,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
           style={{ margin: '5px 5px' ,padding: '1px', float: 'right' }}
           onClick={() => {
             setStateKey('');
+            setStatePropsId(-1);
             setDisplayObject(null)
             setOpen(false)}}
         >
@@ -49,6 +51,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
             providerId = {componentProviderId}
             displayObject = {displayObject}
             selectHandler={(table) => {
+              if (statePropsId < 0) setStatePropsId(table.row.id);
               // if object => show object table
               if (table.row.type === "object") {
                 setStateKey(stateKey + table.row.key + '.');
@@ -59,8 +62,9 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
               } else {
                 // if not object => actually update state
                 setDisplayObject(null);
-                updateAttributeWithState(attributeToChange, componentProviderId, table.row, stateKey + table.row.key);
+                updateAttributeWithState(attributeToChange, componentProviderId, statePropsId, table.row, stateKey + table.row.key);
                 setStateKey('')
+                setStatePropsId(-1);
                 setOpen(false);
               }
             }}

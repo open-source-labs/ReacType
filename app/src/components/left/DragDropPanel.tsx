@@ -48,7 +48,7 @@ const DragDropPanel = (props): JSX.Element => {
           >
             <h3>HTML ELEMENTS</h3>
             {htmlTypesToRender.map(option => {
-              if(option.id !== 17 && option.id !== 18 && option.id !== 19) {
+              if(option.id !== 17 && option.id !== 18) {
                 return (
                   <HTMLItem
                     name={option.name}
@@ -58,7 +58,7 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                     isThemeLight={isThemeLight}
                   />
-                  ); 
+                  );
               }
 
             })}
@@ -74,23 +74,7 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                     isThemeLight={isThemeLight}
                   />
-                  ); 
-              }
-            })}
-
-            <h3>STATE TOOLS</h3>
-            {htmlTypesToRender.map(option => {
-              if(option.id === 19) {
-                return (
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                    isThemeLight={isThemeLight}
-                  />
-                  ); 
+                  );
               }
             })}
           </Grid>

@@ -102,7 +102,6 @@ const generateUnformattedCode = (
     let customizationDetails = "";
     if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
     if (childElement.attributes && childElement.attributes.cssClasses) {
-      console.log(childElement.attributes);
       customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
     }
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));

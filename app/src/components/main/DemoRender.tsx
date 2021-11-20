@@ -28,34 +28,12 @@ const DemoRender = (props): JSX.Element => {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
-        const innerText = element.attributes.compText; 
+        const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
-        const activeLink = element.attributes.compLink; 
+        const activeLink = element.attributes.compLink;
         let renderedChildren;
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
-        }
-
-        // check if innerText or activeLink is an array
-        const innerTextIsArray = Array.isArray(innerText);
-        const activeLinkIsArray = Array.isArray(activeLink);
-        
-        if (innerTextIsArray || activeLinkIsArray) {
-          // determine how many elements to iterate over
-          let n;
-          if (innerTextIsArray && activeLinkIsArray) {
-            n = Math.min(innerText.length, activeLink.length);
-          } else {
-            n = innerTextIsArray ? innerText.length : activeLink.length;
-          }
-          // make a new element for each value of the array
-          for (let i = 0; i < n; i++) {
-            const elementCopy = JSON.parse(JSON.stringify(element));
-            elementCopy.attributes.compText = innerTextIsArray ? innerText[i] : innerText;
-            elementCopy.attributes.compLink = activeLinkIsArray ? activeLink[i] : activeLink;
-            componentsToRender.push(componentBuilder([elementCopy], key++));
-          }
-          continue;
         }
 
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
