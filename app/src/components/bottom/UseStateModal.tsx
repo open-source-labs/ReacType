@@ -3,7 +3,7 @@ import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 import TableStateProps from '../right/TableStateProps';
 
-// TODO: typescript interface or type check
+
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [state, dispatch] = useContext(StateContext);
   const [open, setOpen] = useState(false);
@@ -25,8 +25,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
       </button>)
   }
 
-  // return the selected state's ID back so the value of it can be updated in the customizationpanel.  to the assign the value of selected state to attribute tied to useState button (currently just text)
-  // attribute to change as parameter for
+  // table to choose state from
   const body = (
     <div className="useState-position">
       <div className="useState-header">
@@ -52,7 +51,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
             displayObject = {displayObject}
             selectHandler={(table) => {
               if (statePropsId < 0) setStatePropsId(table.row.id);
-              // if object => show object table
+              // if object or array => show sub table
               if (table.row.type === "object") {
                 setStateKey(stateKey + table.row.key + '.');
                 setDisplayObject(table.row.value);
@@ -60,7 +59,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
                 setStateKey(stateKey + table.row.key)
                 setDisplayObject(table.row.value);
               } else {
-                // if not object => actually update state
+                // if not object or array => update state
                 setDisplayObject(null);
                 updateAttributeWithState(attributeToChange, componentProviderId, statePropsId, table.row, stateKey + table.row.key);
                 setStateKey('')

@@ -208,13 +208,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   // function to pass into UseStateModal to use state to update attribute
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
-
-    // get the stateProps of the componentProvider
-    // const currentComponent = state.components[componentProviderId - 1];
-    // const currentComponentProps = currentComponent.stateProps;
-    // const newInput = currentComponentProps[statePropsRow.id - 1].value;
-
-    console.log('stateKey', stateKey);
     const newInput = statePropsRow.value;
 
     if (attributeName === 'compText') {

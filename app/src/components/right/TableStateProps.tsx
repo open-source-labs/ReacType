@@ -46,9 +46,6 @@ const getColumns = (props) => {
       renderCell: function renderCell(params:any) {
         const getIdRow = () => {
           const { api } = params;
-          console.log('Line 49 params =', params);
-          console.log('Line 50 id = ', params.id);
-          // const fields = api.getAllColumns().map((c: any) => c.field).filter((c : any) => c !== '__check__' && !!c);
           return params.id;
 
           // return params.getValue(fields[0]);
@@ -66,7 +63,6 @@ const getColumns = (props) => {
   ];
 };
 
-//, providerId=1
 const TableStateProps = (props) => {
   const classes = useStyles();
   const [state] = useContext(StateContext);
@@ -100,7 +96,6 @@ const TableStateProps = (props) => {
       rows = providerComponent.stateProps.slice();
     }
   }
-  console.log(rows);
 
   const { selectHandler } : StatePropsPanelProps = props;
 
