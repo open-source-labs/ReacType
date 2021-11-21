@@ -109,7 +109,7 @@ const generateUnformattedCode = (
     let styleString;
     for (let i in styleObj) {
       if(i === 'style') {
-        styleString = i + ':' + JSON.stringify(styleObj[i]);
+        styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
         formattedStyles.push(styleString);
       }
     }
@@ -143,7 +143,7 @@ const generateUnformattedCode = (
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
-    let activeLink = '';
+    let activeLink = '""';
 
     if (childElement.attributes && childElement.attributes.compText) {
       if (childElement.stateUsed && childElement.stateUsed.compText) {

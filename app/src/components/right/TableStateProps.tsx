@@ -143,7 +143,9 @@ const TableStateProps = props => {
       let id=1;
       for (const key in displayObject) {
         // if key is a number make it a string with brackets aroung number
-        rows.push({ id: id++, key: ( isNaN(key) ? key : '[' + key + ']' ), value: displayObject[key], type: typeof(displayObject[key])});
+        const newKey = isNaN(key) ? key : '[' + key + ']';
+        const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
+        rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
       }
     } else {
         rows = providerComponent.stateProps.slice();
