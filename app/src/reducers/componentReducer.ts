@@ -453,7 +453,7 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'UPDATE STATE USED': {
-      
+
       const { stateUsedObj } = action.payload;
 
       const components = [...state.components];
@@ -494,11 +494,11 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
-      
+
       return {...state, components }
 
     }
-    
+
     case 'UPDATE CSS': {
       const { style } = action.payload;
       const components = [...state.components];
@@ -601,6 +601,9 @@ const reducer = (state: State, action: Action) => {
       for (let i = 0; i < components.length; i++) {
         // for each component's code, run the generateCode function to
         // update the code preview on the app
+        if(components[i].useContext) {
+          delete components[i].useContext[id];
+        }
         components[i].code = generateCode(
           components,
           components[i].id,
@@ -817,22 +820,29 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
-
+    //
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(
-        components, 
-        state.canvasFocus.componentId 
+        components,
+        state.canvasFocus.componentId
       );
 
-      currComponent.stateProps = action.payload.stateProps; 
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
+      currComponent.stateProps = action.payload.stateProps;
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
 
       components.forEach((component) => {
+          // curr component = where you are deleting from state from, also is the canvas focus
+          // curr component id = providerId
+          // we then iterate through the rest of the components
+          // check if a useContext if created and if the useContext contains the providerId
+          // we then delete from the set, statesFromProvider, the row id, and regenerate the code
+          // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
         if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
-          // console.log("component that takes state from curr", JSON.parse(JSON.stringify(component))); 
-          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId); 
-          // console.log("component that has deleted state", JSON.parse(JSON.stringify(component))); 
+          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
+
+          // TODO: go through children to see where it is being used, then reset that compText/compLink/useState
+
           component.code = generateCode(
             components,
             component.id,
@@ -840,8 +850,8 @@ const reducer = (state: State, action: Action) => {
             state.projectType,
             state.HTMLTypes
           );
-        } 
-      }); 
+        }
+      });
 
       currComponent.code = generateCode(
         components,

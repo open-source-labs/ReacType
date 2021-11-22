@@ -206,52 +206,39 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-    
+
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
-    
+
     // get the stateProps of the componentProvider
     const currentComponent = state.components[state.canvasFocus.componentId - 1];
-    const providerComponent = state.components[componentProviderId - 1];
-    const providerStates = providerComponent.stateProps;
-    let newContextObj = {...currentComponent.useContext}; 
+    let newContextObj = {...currentComponent.useContext};
 
     if(!newContextObj) {
-      newContextObj = {}; 
+      newContextObj = {};
     }
 
     if (!newContextObj[componentProviderId]) {
       newContextObj[componentProviderId] = {statesFromProvider : new Set()};
     }
 
-    console.log('statePropsId in customization', statePropsId);
-    newContextObj[componentProviderId].statesFromProvider.add(statePropsId); 
-
-
+    newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
 
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
       // update/create stateUsed.compText
       setStateUsedObj(Object.assign(stateUsedObj, {compText: stateKey}));
       setCompText(newInput);
-      dispatch({
-        type: 'UPDATE USE CONTEXT',
-        payload: { useContextObj: newContextObj}
-      });
-       // setUseContextObj(newContextObj); 
+      setUseContextObj(newContextObj);
     }
 
     if (attributeName === 'compLink') {
-      newContextObj[componentProviderId].compLink = statePropsId; 
+      newContextObj[componentProviderId].compLink = statePropsId;
 
       // update/create stateUsed.compLink
       setStateUsedObj(Object.assign(stateUsedObj, {compLink: stateKey}));
       setCompLink(newInput);
-      dispatch({
-        type: 'UPDATE USE CONTEXT',
-        payload: { useContextObj: newContextObj}
-      });
-      // setUseContextObj(newContextObj);
+      setUseContextObj(newContextObj);
     }
   }
 
@@ -275,11 +262,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: {stateUsedObj: stateUsedObj}
     })
 
-    // console.log("useContextObj to be dispatched", useContextObj); 
-    // dispatch({
-    //   type: 'UPDATE USE CONTEXT',
-    //   payload: { useContextObj: useContextObj}
-    // })
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
 
     dispatch({
       type: 'UPDATE CSS',
