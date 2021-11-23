@@ -599,11 +599,31 @@ const reducer = (state: State, action: Action) => {
 
       // iterate over the length of the components array
       for (let i = 0; i < components.length; i++) {
-        // for each component's code, run the generateCode function to
-        // update the code preview on the app
-        if(components[i].useContext) {
+        //if the component uses context from component being deleted
+        if(components[i].useContext && components[i].useContext[id]) {
+          // iterate over children to see where it is being used, then reset that compText/compLink/useState
+          for (let child of components[i].children) {
+            if (child.stateUsed) {
+              if (child.stateUsed.compTextProviderId === id) {
+                child.attributes.compText = '';
+                delete child.stateUsed.compText;
+                delete child.stateUsed.compTextProviderId;
+                delete child.stateUsed.compTextPropsId;
+              }
+              if (child.stateUsed.compLinkProviderId === id) {
+                child.attributes.compLink = '';
+                delete child.stateUsed.compLink;
+                delete child.stateUsed.compLinkProviderId;
+                delete child.stateUsed.compLinkPropsId;
+              }
+            }
+          }
           delete components[i].useContext[id];
         }
+
+
+        // for each component's code, run the generateCode function to
+        // update the code preview on the app
         components[i].code = generateCode(
           components,
           components[i].id,
@@ -820,7 +840,7 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
-    //
+
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(
@@ -841,7 +861,23 @@ const reducer = (state: State, action: Action) => {
         if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
           component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
 
-          // TODO: go through children to see where it is being used, then reset that compText/compLink/useState
+          // iterate over children to see where it is being used, then reset that compText/compLink/useState
+          for (let child of component.children) {
+            if (child.stateUsed) {
+              if (child.stateUsed.compTextProviderId === currComponent.id && child.stateUsed.compTextPropsId === action.payload.rowId) {
+                child.attributes.compText = '';
+                delete child.stateUsed.compText;
+                delete child.stateUsed.compTextProviderId;
+                delete child.stateUsed.compTextPropsId;
+              }
+              if (child.stateUsed.compLinkProviderId === currComponent.id && child.stateUsed.compLinkPropsId === action.payload.rowId) {
+                child.attributes.compLink = '';
+                delete child.stateUsed.compLink;
+                delete child.stateUsed.compLinkProviderId;
+                delete child.stateUsed.compLinkPropsId;
+              }
+            }
+          }
 
           component.code = generateCode(
             components,

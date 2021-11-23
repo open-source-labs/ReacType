@@ -53,6 +53,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
 
+
   const resetFields = () => {
     const childrenArray = state.components[0].children;
     let attributes;
@@ -227,7 +228,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
       // update/create stateUsed.compText
-      setStateUsedObj(Object.assign(stateUsedObj, {compText: stateKey}));
+      setStateUsedObj({...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId});
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
@@ -236,7 +237,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       newContextObj[componentProviderId].compLink = statePropsId;
 
       // update/create stateUsed.compLink
-      setStateUsedObj(Object.assign(stateUsedObj, {compLink: stateKey}));
+      setStateUsedObj({...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId});
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }

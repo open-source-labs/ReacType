@@ -116,10 +116,9 @@ const TableStateProps = props => {
         rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
       }
     } else {
-        rows = providerComponent.stateProps.slice();
+      rows = providerComponent.stateProps.slice();
     }
   }
-
 
 
   return (

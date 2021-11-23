@@ -50,9 +50,6 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
             canDeleteState = {false}
             displayObject = {displayObject}
             selectHandler={(table) => {
-              // console.log("initial statePropsId:", statePropsId); 
-              // if (statePropsId < 0) setStatePropsId(table.row.id);
-              // console.log("changed statePropsId:", statePropsId); 
               // if object or array => show sub table
               if (table.row.type === "object") {
                 if (statePropsId < 0) setStatePropsId(table.row.id);
