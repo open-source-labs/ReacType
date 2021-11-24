@@ -5,7 +5,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 8.0.0](https://img.shields.io/badge/Release-8.0.0-lightgrey.svg)
+![Version 9.0.0]
 
 **ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -16,7 +16,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 8.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 9.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
@@ -38,31 +38,12 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
-
-- Elements may be added to components in any location, rather than only at the bottom
-- Compatibility with Gatsby.js
-- Modernized and cleaner UI, including enhanced dark mode
-- Tutorial has been updated to reflect other modifications
-
- **New with version 9.0.0:**
-
-![CSSEditor](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/export_tests_images/export-new.gif)
-
-### 9.0.0 New Features
-- **React Router**: Drag-and-drop LinkTo and Router elements (located below the HTML elements list) to implement fully-functional React Router components into your application to dynamically and quickly render components in the live demo render and in your exported application.
-- **Global State Management**: For the first time in ReacType history, users can utilize
-- **Composite Data Structures in State**: State creation in ReacType can now handle composite data types, which includes arrays, objects, and any amount of nesting of composite data types within other composite data types (i.e. arrays of objects and objects with objects as values).
-- **Additional Improvements with Local State Management**:
-- **Annotations**:
-
-
-- **OAuth via Github**: Sign up with your github accounts.
+- **Export project with Tests**: Sign into ReacType with your GitHub account!
 - **Live Render Demo**: Live render demo in React using Electron's sandbox environment. Updates in realtime to reflect canvas structure and customization options.
 - **Annotations**: Provide design notes directly on the canvas and have these persist while sharing designs with other engineers.
 - **CSS Editor**: Copy and paste custom css styles and classes into the editor and save to use personal or company designs in an instant.
 - **State & Props Creator**: Create custom state hooks with real-time updates in the code preview.
 - **Application Style Update**: Complete redesign of the entire application for enhanced user experience to maintain a single view application
-
 - **Dashboard**: Click the 'Dashboard' button to view the Public Dashboard and User Dashboard.
 - **Like**: Like other people's templates by clicking on the thumbs up icon.
 - **Comment**: Comment on other templates by typing in the input field and clicking the comment icon.
@@ -73,8 +54,16 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Added Undo and Redo functionality**
 - **Test Suite Export**: pre-configured configuration & test file exports with application files.
 - **Dark mode**: change the theme of the app for a different asthetic.
+- Elements may be added to components in any location, rather than only at the bottom
+- Compatibility with Gatsby.js
+- Modernized and cleaner UI, including enhanced dark mode
+- Tutorial has been updated to reflect other modifications
 
-![AddAnnotations](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/annotations_tutorial_images/Annotation.gif)
+
+ **New with version 9.0.0:**
+- **React Router**: Drag-and-drop LinkTo and Router elements (located below the HTML elements list) to implement fully-functional React Router components into your application to dynamically and quickly render components in the live demo render and in your exported application.
+- **Global State Management**: For the first time in ReacType history, users can utilize global state management in the form of the Context API!  Any state that is added will automatically be passed around your application with the appropriate UseContext hooks.  
+- **Composite Data Structures in State**: State creation in ReacType can now handle composite data types, which includes arrays, objects, and any amount of nesting of composite data types within other composite data types (i.e. arrays of objects and objects with objects as values).
 
 ### Keyboard Shortcuts
 
