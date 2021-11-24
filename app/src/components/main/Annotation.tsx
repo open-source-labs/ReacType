@@ -36,7 +36,7 @@ function Annotation({
   };
 
   /**
-   * Handles when text exists in the textarea of the modal. 
+   * Handles when text exists in the textarea of the modal.
    * If text exists/does not exist, corresponding button changes colors.
    * Sets hook value to what is contained in the textarea
    */
@@ -53,7 +53,7 @@ function Annotation({
   }
 
   /**
-   * This handler will find the specific anno for the corresponding component on the canvas in the childrenArray - 
+   * This handler will find the specific anno for the corresponding component on the canvas in the childrenArray -
    * where the canvas components are placed
    */
   const handleFindAnno = (array, id) => {
@@ -65,7 +65,7 @@ function Annotation({
       } else if (currentElement.children.length > 0) {
         // temp is to prevent a return of empty string since canvas element should always exist and allows the
         // recursion to continue
-        const temp = handleFindAnno(currentElement.children, id) 
+        const temp = handleFindAnno(currentElement.children, id)
         if (temp != '') {
           return temp;
         }
@@ -84,7 +84,7 @@ function Annotation({
     }
     handleAnnoChange(event);
   }, [])
-  
+
   const body = (
     <div className='annotate-position'>
       <span className='annotate-textarea-header'> Notes for: {name} ( {id} )</span>

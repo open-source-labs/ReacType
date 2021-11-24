@@ -608,3 +608,62 @@ a.nav_link:hover {
   right: 30px ;
   z-index: 999;
 }
+
+.useState-btn {
+  color: rgb(241, 240, 240);
+  background-color: #0099E6;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.useState-btn {
+  color: rgb(241, 240, 240);
+  background-color: #0099E6;
+  border: 1px solid #186BB4;
+  border-radius: 3;
+  box-shadow: "0 0px 0px 2px #1a1a1a";
+  padding: 2px 2px 2px 2px;
+}
+
+/* UseStateModal Styling */
+
+.useState-position {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  top: 30%;
+  left: 30%;
+}
+
+.useState-header {
+  font-size: 35px;
+  background-color: #003366;
+  color: rgb(241, 240, 240);
+  width: 600px;
+  border: 3px;
+  border-style: solid;
+  border-color: black;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.useState-dropdown {
+  align-self: flex-start;
+}
+
+.useState-window {
+  width: 600px;
+  height: 400px;
+  resize: none;
+  white-space: pre-line;
+  font-size: 18px;
+  border: 2px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 0px 0px 15px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(241, 240, 240);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

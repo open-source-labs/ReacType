@@ -2,6 +2,7 @@
 import React, {
   useState, useCallback, useContext, useEffect,
 } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import StateContext from '../../context/context';
@@ -34,9 +35,13 @@ const DemoRender = (props): JSX.Element => {
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
+
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
+        else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
+        else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
+        else if (elementType === 'LinkTo') componentsToRender.push(<Link to={activeLink}>{innerText}</Link>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
@@ -57,9 +62,12 @@ const DemoRender = (props): JSX.Element => {
 
 
   return (
-    <div id={'renderFocus'} style={demoContainerStyle}>
-      {components.map((component, index) => component)}
-    </div>
+    <Router>
+      <div id={'renderFocus'} style={demoContainerStyle}>
+        {components.map((component, index) => component)}
+      </div>
+    </Router>
+
   );
 };
 

@@ -25,6 +25,7 @@ export interface ChildElement {
   attributes?: object;
   children?: ChildElement[];
   annotations?: string;
+  stateUsed?: object; 
 }
 export interface Component {
   id: number;
@@ -36,9 +37,13 @@ export interface Component {
   isPage: boolean;
   past: any[];
   future: any[];
-  stateProps: StateProp[]; // state: [ { key: value, type }, {key: value, type}, {key: value, type} ]
+  stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
+  useContext?: object // structure --> {providerId: {attribute: stateId, ....}, ...}
+  // example:
+  // {1: {compText: 1, compLink: 2}}
+  // {1: {compText: 1}, 2: {compLink: 1}, ....}
 }
 
 export interface StateProp {
@@ -98,4 +103,9 @@ export interface Annotations {
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;
   deleteHandler: (id: number | any) => void;
+}
+
+export interface AddRoutes {
+  id: number;
+  name: string;
 }
