@@ -109,7 +109,7 @@ const generateUnformattedCode = (
     let styleString;
     for (let i in styleObj) {
       if(i === 'style') {
-        styleString = i + ':' + JSON.stringify(styleObj[i]);
+        styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
         formattedStyles.push(styleString);
       }
     }
@@ -143,7 +143,7 @@ const generateUnformattedCode = (
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
-    let activeLink = '';
+    let activeLink = '""';
 
     if (childElement.attributes && childElement.attributes.compText) {
       if (childElement.stateUsed && childElement.stateUsed.compText) {
@@ -253,14 +253,15 @@ const generateUnformattedCode = (
 
     return state;
   }
-  
+
+  // Generate import
   let importContext = '';
   if(currComponent.useContext) {
-  for (const providerId of Object.keys(currComponent.useContext)) {
-    const providerComponent = components[parseInt(providerId) - 1];
-      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
+    for (const providerId of Object.keys(currComponent.useContext)) {
+      const providerComponent = components[parseInt(providerId) - 1];
+        importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
+    }
   }
-}
 
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
@@ -271,20 +272,9 @@ const generateUnformattedCode = (
       for (let i = 0; i < providerComponent.stateProps.length; i++) {
         if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
           context +=
-
-  // if (currComponent.useContext) {
-
-  //   for (const providerId of Object.keys(currComponent.useContext)) {
-  //     const attributesAndStateIds = currComponent.useContext[String(providerId)]; //currently just from App
-  //     const providerComponent = components[providerId - 1];
-  //     providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n';
-
-  //     for (const stateId of Object.values(attributesAndStateIds)) {
-  //       context +=
-
           'const ' +
           providerComponent.stateProps[i].key +
-          'Value = ' +
+          ' = ' +
           providerComponent.name.toLowerCase() +
           'Context.' +
           providerComponent.stateProps[i].key +
@@ -310,14 +300,14 @@ const generateUnformattedCode = (
       ? `  const ${currComponent.name}Context = createContext(${createState(currComponent.stateProps)});`
       : ``
     }
-    ${!importReactRouter 
+    ${!importReactRouter
       ? `  return (
         <${currComponent.name}Context.Provider value="">
           <div className="${currComponent.name}" ${formatStyles(currComponent)}>
           \t${writeNestedElements(enrichedChildren)}
           </div>
-        </${currComponent.name}Context.Provider>  
-      );` 
+        </${currComponent.name}Context.Provider>
+      );`
       : `  return (
         <${currComponent.name}Context.Provider value="">
           <Router>
@@ -325,7 +315,7 @@ const generateUnformattedCode = (
             \t${writeNestedElements(enrichedChildren)}
             </div>
           </Router>
-        </${currComponent.name}Context.Provider>  
+        </${currComponent.name}Context.Provider>
       );`}
     ${`}\n`}
     export default ${currComponent.name};

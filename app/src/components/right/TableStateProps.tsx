@@ -95,43 +95,11 @@ const TableStateProps = props => {
     }
   }, [state.canvasFocus.componentId]);
 
-  // when we switch between tabs in our modal or focus of our current
-  // component, we need to update the states displayed in our table
-  // we also need to update the table when the state is changed by
-  // deleting and adding component state
-  // useEffect(() => {
-  //   // rows to show are either from current component or from a given provider
-  //   let rows = [];
-  //   if (!props.providerId) {
-  //     const currentId = state.canvasFocus.componentId;
-  //     const currentComponent = state.components[currentId - 1];
-  //     rows = currentComponent.stateProps.slice();
-  //   } else {
-  //     const providerComponent = state.components[props.providerId - 1];
-  //     // changed to get whole object
-  //     if (props.displayObject) {
-  //       const displayObject = props.displayObject;
-  //       // format for DataGrid
-  //       let id = 1;
-  //       for (const key in displayObject) {
-  //         // if key is a number make it a string with brackets aroung number
-  //         rows.push({
-  //           id: id++,
-  //           key: isNaN(key) ? key : '[' + key + ']',
-  //           value: displayObject[key],
-  //           type: typeof displayObject[key]
-  //         });
-  //       }
-  //     } else {
-  //       rows = providerComponent.stateProps.slice();
-  //     }
-  //   }
-  // }, [props.providerId, state]);
 
   // rows to show are either from current component or from a given provider
   let rows = [];
   if (!props.providerId) {
-    const currentId = state.canvasFocus.componentId; 
+    const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
     rows = currentComponent.stateProps.slice();
   } else {
@@ -143,13 +111,14 @@ const TableStateProps = props => {
       let id=1;
       for (const key in displayObject) {
         // if key is a number make it a string with brackets aroung number
-        rows.push({ id: id++, key: ( isNaN(key) ? key : '[' + key + ']' ), value: displayObject[key], type: typeof(displayObject[key])});
+        const newKey = isNaN(key) ? key : '[' + key + ']';
+        const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
+        rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
       }
     } else {
-        rows = providerComponent.stateProps.slice();
+      rows = providerComponent.stateProps.slice();
     }
   }
-
 
 
   return (

@@ -24,7 +24,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 ### How to use
 
-- **Sign-in page**: Sign up for an account, sign in via Github, or just continue as a guest. Registered users enjoy additional project-saving functionality.
+- **Sign-in page**: Sign up for an account or just continue as a guest. Registered users enjoy additional project-saving functionality.
 - **Tutorial**: Click ‘Tutorial’ from the Help tab’s dropdown menu (at the top left of the application) to view a tutorial.
 - **Start a project (only after registration)**: Registered users can create a new project and select whether they want their project to be a Next.js, Gatsby.js, or classic React project. Also, registered users can save projects to return to them at a later time.
 - **Add Components**: Create components on the right panel. Components can be associated with a route, or they can be used within other components.
@@ -34,6 +34,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
 - **Component Tree**: Click on the Component Tree tab next to the Code Preview tab to view the component tree hierarchy.
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
+- **Using State in Elements**: As of 9.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
@@ -43,11 +44,17 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - Modernized and cleaner UI, including enhanced dark mode
 - Tutorial has been updated to reflect other modifications
 
- **New with version 8.0.0:**
+ **New with version 9.0.0:**
 
 ![CSSEditor](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/export_tests_images/export-new.gif)
 
-### Features
+### 9.0.0 New Features
+- **React Router**: Drag-and-drop LinkTo and Router elements (located below the HTML elements list) to implement fully-functional React Router components into your application to dynamically and quickly render components in the live demo render and in your exported application.
+- **Global State Management**: For the first time in ReacType history, users can utilize
+- **Composite Data Structures in State**: State creation in ReacType can now handle composite data types, which includes arrays, objects, and any amount of nesting of composite data types within other composite data types (i.e. arrays of objects and objects with objects as values).
+- **Additional Improvements with Local State Management**:
+- **Annotations**:
+
 
 - **OAuth via Github**: Sign up with your github accounts.
 - **Live Render Demo**: Live render demo in React using Electron's sandbox environment. Updates in realtime to reflect canvas structure and customization options.
@@ -115,7 +122,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
-[Crys Lim] (https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
+[Crystal Lim] (https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
 
 [Danial Reilley](https://linkedin.com/in/daniel-reilley)
 [@dreille](https://github.com/dreille)

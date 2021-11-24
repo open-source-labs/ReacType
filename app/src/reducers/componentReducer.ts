@@ -453,7 +453,7 @@ const reducer = (state: State, action: Action) => {
     }
 
     case 'UPDATE STATE USED': {
-      
+
       const { stateUsedObj } = action.payload;
 
       const components = [...state.components];
@@ -494,11 +494,11 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes
       );
 
-      
+
       return {...state, components }
 
     }
-    
+
     case 'UPDATE CSS': {
       const { style } = action.payload;
       const components = [...state.components];
@@ -599,6 +599,29 @@ const reducer = (state: State, action: Action) => {
 
       // iterate over the length of the components array
       for (let i = 0; i < components.length; i++) {
+        //if the component uses context from component being deleted
+        if(components[i].useContext && components[i].useContext[id]) {
+          // iterate over children to see where it is being used, then reset that compText/compLink/useState
+          for (let child of components[i].children) {
+            if (child.stateUsed) {
+              if (child.stateUsed.compTextProviderId === id) {
+                child.attributes.compText = '';
+                delete child.stateUsed.compText;
+                delete child.stateUsed.compTextProviderId;
+                delete child.stateUsed.compTextPropsId;
+              }
+              if (child.stateUsed.compLinkProviderId === id) {
+                child.attributes.compLink = '';
+                delete child.stateUsed.compLink;
+                delete child.stateUsed.compLinkProviderId;
+                delete child.stateUsed.compLinkPropsId;
+              }
+            }
+          }
+          delete components[i].useContext[id];
+        }
+
+
         // for each component's code, run the generateCode function to
         // update the code preview on the app
         components[i].code = generateCode(
@@ -821,18 +844,41 @@ const reducer = (state: State, action: Action) => {
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(
-        components, 
-        state.canvasFocus.componentId 
+        components,
+        state.canvasFocus.componentId
       );
 
-      currComponent.stateProps = action.payload.stateProps; 
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);  
+      currComponent.stateProps = action.payload.stateProps;
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
 
       components.forEach((component) => {
+          // curr component = where you are deleting from state from, also is the canvas focus
+          // curr component id = providerId
+          // we then iterate through the rest of the components
+          // check if a useContext if created and if the useContext contains the providerId
+          // we then delete from the set, statesFromProvider, the row id, and regenerate the code
+          // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
         if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
-          // console.log("component that takes state from curr", JSON.parse(JSON.stringify(component))); 
-          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId); 
-          // console.log("component that has deleted state", JSON.parse(JSON.stringify(component))); 
+          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
+
+          // iterate over children to see where it is being used, then reset that compText/compLink/useState
+          for (let child of component.children) {
+            if (child.stateUsed) {
+              if (child.stateUsed.compTextProviderId === currComponent.id && child.stateUsed.compTextPropsId === action.payload.rowId) {
+                child.attributes.compText = '';
+                delete child.stateUsed.compText;
+                delete child.stateUsed.compTextProviderId;
+                delete child.stateUsed.compTextPropsId;
+              }
+              if (child.stateUsed.compLinkProviderId === currComponent.id && child.stateUsed.compLinkPropsId === action.payload.rowId) {
+                child.attributes.compLink = '';
+                delete child.stateUsed.compLink;
+                delete child.stateUsed.compLinkProviderId;
+                delete child.stateUsed.compLinkPropsId;
+              }
+            }
+          }
+
           component.code = generateCode(
             components,
             component.id,
@@ -840,8 +886,8 @@ const reducer = (state: State, action: Action) => {
             state.projectType,
             state.HTMLTypes
           );
-        } 
-      }); 
+        }
+      });
 
       currComponent.code = generateCode(
         components,

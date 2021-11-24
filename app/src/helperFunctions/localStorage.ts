@@ -6,5 +6,5 @@
 // };
 // export const loadState = () =>
 //   localforage.getItem('state-v1.0.1').then(value => {
-//     // console.log('The value stored in local storage: ', value);
+//     // ('The value stored in local storage: ', value);
 //   });
