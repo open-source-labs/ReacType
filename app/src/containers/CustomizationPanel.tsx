@@ -29,6 +29,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import { config } from 'ace-builds';
+import UseStateModal from '../components/bottom/UseStateModal';
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
@@ -49,6 +50,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [deleteComponentError, setDeleteComponentError] = useState(false);
   const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
+  const [useContextObj, setUseContextObj] = useState({});
+  const [stateUsedObj, setStateUsedObj] = useState({});
+
 
   const resetFields = () => {
     const childrenArray = state.components[0].children;
@@ -203,8 +207,42 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  // dispatch to 'UPDATE CSS' called when save button is clicked,
-  // passing in style object constructed from all changed input values
+
+  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
+    const newInput = statePropsRow.value;
+
+    // get the stateProps of the componentProvider
+    const currentComponent = state.components[state.canvasFocus.componentId - 1];
+    let newContextObj = {...currentComponent.useContext};
+
+    if(!newContextObj) {
+      newContextObj = {};
+    }
+
+    if (!newContextObj[componentProviderId]) {
+      newContextObj[componentProviderId] = {statesFromProvider : new Set()};
+    }
+
+    newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
+
+    if (attributeName === 'compText') {
+      newContextObj[componentProviderId].compText = statePropsId;
+      // update/create stateUsed.compText
+      setStateUsedObj({...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId});
+      setCompText(newInput);
+      setUseContextObj(newContextObj);
+    }
+
+    if (attributeName === 'compLink') {
+      newContextObj[componentProviderId].compLink = statePropsId;
+
+      // update/create stateUsed.compLink
+      setStateUsedObj({...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId});
+      setCompLink(newInput);
+      setUseContextObj(newContextObj);
+    }
+  }
+
   const handleSave = (): Object => {
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -219,6 +257,16 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+
+    dispatch({
+      type: 'UPDATE STATE USED',
+      payload: {stateUsedObj: stateUsedObj}
+    })
+
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
 
     dispatch({
       type: 'UPDATE CSS',
@@ -298,7 +346,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           key={'not delete'}
           button
           onClick={closeModal}
-          ƒ
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
@@ -517,7 +564,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               </div>
             </div>
             <div>
-
               <div className={classes.configRow}>
                 <div
                   className={
@@ -544,6 +590,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       placeholder="Text"
                     />
                   </FormControl>
+                </div>
+                <div>
+                  <UseStateModal
+                  updateAttributeWithState={updateAttributeWithState}
+                  attributeToChange="compText"
+                  childId={state.canvasFocus.childId}/>
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -572,6 +624,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                       placeholder="Text"
                     />
                   </FormControl>
+                </div>
+                <div>
+                  <UseStateModal
+                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
+                  childId={state.canvasFocus.childId}/>
                 </div>
               </div>
               <div className={classes.configRow}>

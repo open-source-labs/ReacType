@@ -14,7 +14,7 @@ Central state contains all available HTML elements (stored in the HTMLTypes prop
   initialState.tsx.
 
 Hook state:
-  -tag: 
+  -tag:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
@@ -37,25 +37,46 @@ const DragDropPanel = (props): JSX.Element => {
       payload: id
     });
   };
-  
+
   // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
+  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator' && type.name !== 'Route');
   return (
     <div className="HTMLItems">
       <div id="HTMLItemsTopHalf">
         <Grid
             id="HTMLItemsGrid"
           >
-            {htmlTypesToRender.map(option => (
-              <HTMLItem
-                name={option.name}
-                key={`html-${option.name}`}
-                id={option.id}
-                Icon={option.icon}
-                handleDelete={handleDelete}
-                isThemeLight={isThemeLight}
-              />
-            ))}
+            <h3>HTML ELEMENTS</h3>
+            {htmlTypesToRender.map(option => {
+              if(option.id !== 17 && option.id !== 18) {
+                return (
+                  <HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                    isThemeLight={isThemeLight}
+                  />
+                  );
+              }
+
+            })}
+            <h3>REACT ROUTER</h3>
+            {htmlTypesToRender.map(option => {
+              if(option.id === 17 || option.id === 18) {
+                return (
+                  <HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                    isThemeLight={isThemeLight}
+                  />
+                  );
+              }
+            })}
           </Grid>
       </div>
     </div>

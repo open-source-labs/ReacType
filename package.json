@@ -1,6 +1,6 @@
 {
   "name": "reactype",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
@@ -15,7 +15,9 @@
     "Brian Han",
     "Charles Finocchiaro",
     "Chelsey Fewer",
+    "Chris Tang",
     "Christian Padilla",
+    "Crystal Lim",
     "Daryl Foster",
     "Diego Vazquez",
     "Edward Park",
@@ -32,6 +34,7 @@
     "Luke Madden",
     "Mitchel Severe",
     "Natalie Vick",
+    "Ron Fu",
     "Sean Sadykoff",
     "Shana Hoehn",
     "Shlomo Porges",
@@ -40,6 +43,7 @@
     "Tolga Mizrakci",
     "Tony Ito-Cole",
     "Tyler Sullberg",
+    "William Cheng",
     "William Yoon"
   ],
   "scripts": {

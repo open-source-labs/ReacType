@@ -29,15 +29,15 @@ import TableStateProps from "./TableStateProps";
 
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
+  const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-  const [state] = useContext(StateContext);
+
 
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
-
-  const [stateProps, setStateProps] = useState([]);
-
+  const [errorStatus, setErrorStatus] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -45,12 +45,16 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
-      case "String":
+      case "string":
         return String(value);
-      case "Number":
+      case "number":
         return Number(value);
-      case "Boolean":
+      case "boolean":
         return Boolean(value);
+      case "array":
+        return JSON.parse(value);
+      case "object": 
+        return JSON.parse(value);
       default:
         return value;
     }
@@ -62,61 +66,55 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     setInputValue("");
     setInputType("");
   };
+  //reset error warning
+  const resetError = () => {
+    setErrorStatus(false);
+  };
 
   // submit new stateProps entries to state context
+  let currKey;
   const submitNewState = (e) => {
     e.preventDefault();
     const statesArray = currentComponent.stateProps;
+    //loop though array, access each obj at key property
+    let keyToInt = parseInt(inputKey[0]);
+    if(!isNaN(keyToInt)) {
+      setErrorStatus(true);
+      setErrorMsg('Key name can not start with int.');
+      return;
+    }
+
+    //return alert('key can not start with number');
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
       id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
-    };    
-    // store this newStateProp obj to our Component's stateProps array
-    currentComponent.stateProps.push(newState);
-    // reset newStateProp to empty for future new state prop entries
-    updateUseStateCodes();
+    };
+
+    dispatch({
+      type: 'ADD STATE',
+      payload: {newState: newState}
+    }); 
+    resetError();
     clearForm();
   };
-  
-  // generates React Hook code snippets for each new stateProp entry
-  const updateUseStateCodes = () => {
-    // array of snippets of state prop codes
-    const localStateCode = [];
 
-    currentComponent.stateProps.forEach((stateProp) => {
-      const useStateCode = `const [${stateProp.key}, set${
-        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
-      localStateCode.push(useStateCode);
-    });
-    // store localStateCodes in global state context
-    currentComponent.useStateCodes = localStateCode;
-  };
-  
-  // find table row using its id and if it exists, populate form with its details 
+
+  // find table row using its id and if it exists, populate form with its details
   const handlerRowSelect = (table) => {
     let exists = false;
     currentComponent.stateProps.forEach((stateProp) => {
       // if stateProp id matches current row's id (table.row.id), flip exists to true
       if (stateProp.id === table.row.id) exists = true;
-    }); 
+    });
     // if row id exists, populate form with corresponding inputs (key, value, type) from table row
     if (exists) {
       setInputKey(table.row.key);
       setInputType(table.row.type);
       setInputValue(table.row.value);
     } else clearForm();
-  };
-  
-  // find & delete table row using its id
-  const handlerRowDelete = (id:any) => {
-    // iterate and filter out stateProps with matching row id 
-    currentComponent.stateProps = currentComponent.stateProps.filter(element => element.id !== id);
-    updateUseStateCodes();
-    setStateProps(currentComponent.stateProps.slice());
   };
   
   return (
@@ -129,8 +127,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             label="key:"
             variant="outlined"
             value={inputKey}
+            error={errorStatus}
             onChange={(e) => setInputKey(e.target.value)}
-            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
           <TextField
             id="textfield-value"
@@ -138,10 +137,10 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`} 
+            className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
           <FormControl required className={isThemeLight ? `${classes.formControl} ${classes.lightThemeFontColor}` : `${classes.formControl} ${classes.darkThemeFontColor}`}>
-            <InputLabel 
+            <InputLabel
               id="select-required-label"
               className={isThemeLight ? classes.greyThemeFontColor : classes.darkThemeFontColor}>
                 Type
@@ -168,6 +167,9 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
               <MenuItem id="type-selector" value={"array"}>
                 Array
               </MenuItem>
+              <MenuItem id="type-selector" value={"object"}>
+                Object
+              </MenuItem>
               <MenuItem id="type-selector" value={"undefined"}>
                 Undefined
               </MenuItem>
@@ -181,8 +183,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
             </FormHelperText>
           </FormControl>
           <br></br>
-          <MyButton 
-          type="submit" 
+          <MyButton
+          type="submit"
           onClick={submitNewState}
           className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
           >
@@ -196,7 +198,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps selectHandler={handlerRowSelect} deleteHandler={handlerRowDelete} isThemeLight={isThemeLight} />
+        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
       </div>
     </div>
   );

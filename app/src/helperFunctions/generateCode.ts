@@ -12,6 +12,24 @@ declare global {
   }
 }
 
+// generate code based on component hierarchy and then return the rendered code
+const generateCode = (
+  components: Component[],
+  componentId: number,
+  rootComponents: number[],
+  projectType: string,
+  HTMLTypes: HTMLType[]
+) => {
+  const code = generateUnformattedCode(
+    components,
+    componentId,
+    rootComponents,
+    projectType,
+    HTMLTypes
+  );
+  return formatCode(code);
+};
+
 // generate code based on the component hierarchy
 const generateUnformattedCode = (
   comps: Component[],
@@ -23,12 +41,15 @@ const generateUnformattedCode = (
   const components = [...comps];
 
   // find the component that we're going to generate code for
-  const currentComponent = components.find(elem => elem.id === componentId);
+  const currComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
+  let providers: string = '';
+  let context: string = '';
   let links: boolean = false;
 
   const isRoot = rootComponents.includes(componentId);
+  let importReactRouter = false;;
 
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
@@ -47,30 +68,36 @@ const generateUnformattedCode = (
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
           imports.push(referencedComponent.name);
-          child['name'] = referencedComponent.name;
-          return child;
+        child['name'] = referencedComponent.name;
+        return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
-          referencedHTML.tag === 'separator' || 
+          referencedHTML.tag === 'separator' ||
           referencedHTML.tag === 'form' ||
           referencedHTML.tag === 'ul' ||
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
-          referencedHTML.tag === 'li'
+          referencedHTML.tag === 'li' ||
+          referencedHTML.tag === 'LinkTo' ||
+          referencedHTML.tag === 'Switch' ||
+          referencedHTML.tag === 'Route'
         ) {
           child.children = getEnrichedChildren(child);
         }
+        // when we see a Switch or LinkTo, import React Router
+        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'LinkTo')
+          importReactRouter = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
         child.name = components.find(
           (comp: Component) => comp.id === child.typeId
-          ).name;
-          return child;
-        }
+        ).name;
+        return child;
+      }
       });
       return enrichedChildren;
   };
@@ -79,63 +106,86 @@ const generateUnformattedCode = (
   const formatStyles = (styleObj: any) => {
     if (Object.keys(styleObj).length === 0) return ``;
     const formattedStyles = [];
+    let styleString;
     for (let i in styleObj) {
-      const styleString = i + ': ' + "'" + styleObj[i] + "'";
-      formattedStyles.push(styleString);
+      if(i === 'style') {
+        styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
+        formattedStyles.push(styleString);
+      }
     }
-    return ' style={{' + formattedStyles.join(',') + '}}';
+    return formattedStyles;
   };
 
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
-    if (childElement.childId) customizationDetails += (' ' + `id="${+childElement.childId}"`);
-    if (childElement.attributes && childElement.attributes.cssClasses) customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
+    if (childElement.attributes && childElement.attributes.cssClasses) {
+      customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+    }
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
   };
 
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
   const tabSpacer = (level: number) => {
-    let tabs = ''
+    let tabs = '  '
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
   }
-  
+
   // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
     if (level === 2 ) return `\n${tabSpacer(spaces)}`;
     else return ''
   }
-  
+
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
-    let activeLink = '';
-    if (childElement.attributes && childElement.attributes.compText) innerText = childElement.attributes.compText;
-    if (childElement.attributes && childElement.attributes.compLink) activeLink = childElement.attributes.compLink;
+    let activeLink = '""';
 
-    const nestable = childElement.tag === 'div' || 
-    childElement.tag === 'form' || 
-    childElement.tag === 'ol' || 
+    if (childElement.attributes && childElement.attributes.compText) {
+      if (childElement.stateUsed && childElement.stateUsed.compText) {
+        innerText = '{' + childElement.stateUsed.compText + '}';
+      } else {
+        innerText = childElement.attributes.compText;
+      }
+    }
+    if (childElement.attributes && childElement.attributes.compLink) {
+      if (childElement.stateUsed && childElement.stateUsed.compLink) {
+        activeLink = '{' + childElement.stateUsed.compLink + '}';
+      } else {
+        activeLink = '"' +childElement.attributes.compLink + '"';
+      }
+    }
+    const nestable = childElement.tag === 'div' ||
+    childElement.tag === 'form' ||
+    childElement.tag === 'ol' ||
     childElement.tag === 'ul' ||
     childElement.tag === 'menu' ||
-    childElement.tag === 'li'; 
-    // childElement.tag === 'Switch';
+    childElement.tag === 'li' ||
+    childElement.tag === 'Switch' ||
+    childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src="${activeLink}" ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} href="${activeLink}" ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'LinkTo') {
+      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(childElement)}>${innerText}
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (nestable) {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}
+      const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator'){
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    }    
+    }
   }
 
   // write all code that will be under the "return" of the component
@@ -163,19 +213,17 @@ const generateUnformattedCode = (
               .join('')
             }`;
   };
-  
+
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
     for (const element of stateArray) {
-      stateToRender += levelSpacer(2, 3) + element + ';'
+      stateToRender += levelSpacer(2, 2) + element + ';'
     }
     return stateToRender
   }
 
-  const enrichedChildren: any = getEnrichedChildren(currentComponent);
-
-  const next = true;
+  const enrichedChildren: any = getEnrichedChildren(currComponent);
 
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
@@ -193,47 +241,84 @@ const generateUnformattedCode = (
           })
           .join('\n');
 
-  const stateful = true;
-  const classBased = false;
 
+  const createState = (stateProps) => {
+    let state = '{';
+
+    stateProps.forEach((ele) => {
+      state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
+    });
+
+    state = state.substring(0, state.length - 2) + '}';
+
+    return state;
+  }
+
+  // Generate import
+  let importContext = '';
+  if(currComponent.useContext) {
+    for (const providerId of Object.keys(currComponent.useContext)) {
+      const providerComponent = components[parseInt(providerId) - 1];
+        importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
+    }
+  }
+
+  if (currComponent.useContext) {
+    for (const providerId of Object.keys(currComponent.useContext)) {
+      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+      const providerComponent = components[parseInt(providerId) - 1];
+      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
+
+      for (let i = 0; i < providerComponent.stateProps.length; i++) {
+        if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
+          context +=
+          'const ' +
+          providerComponent.stateProps[i].key +
+          ' = ' +
+          providerComponent.name.toLowerCase() +
+          'Context.' +
+          providerComponent.stateProps[i].key +
+          '; \n \t\t';
+        }
+      }
+    }
+  }
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
     return `
-    ${stateful && !classBased ? `import React, {useState} from 'react';` : ''}
-    ${classBased ? `import React, {Component} from 'react';` : ''}
-    ${!stateful && !classBased ? `import React from 'react';` : ''}
+    ${`import React, { useState, createContext, useContext } from 'react';`}
+    ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
     ${importsMapped}
+    ${importContext}
+    ${providers}
+    ${context}
+    ${`const ${currComponent.name} = (props: any): JSX.Element => {`}
+    ${`  const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currComponent.useStateCodes)}`}
     ${
-      classBased
-        ? `class ${currentComponent.name} extends Component {`
-        : `const ${currentComponent.name} = (props: any): JSX.Element => {`
+      isRoot  && currComponent.stateProps.length !== 0
+      ? `  const ${currComponent.name}Context = createContext(${createState(currComponent.stateProps)});`
+      : ``
     }
-
-    ${
-      stateful && !classBased
-        ? `const [value, setValue] = useState<any | undefined>("INITIAL VALUE")${writeStateProps(currentComponent.useStateCodes)};
-        `
-        : ``
-    }
-    ${
-      classBased && stateful
-        ? `constructor(props) {
-      super(props);
-      this.state = {}
-      }`
-        : ``
-    }
-    ${classBased ? `render(): JSX.Element {` : ``}
-      
-      return (
-        <div className="${currentComponent.name}" style={props.style}>
-          ${writeNestedElements(enrichedChildren)}
-        </div>
-        );
-      }
-    ${classBased ? `}` : ``}
-    export default ${currentComponent.name};
+    ${!importReactRouter
+      ? `  return (
+        <${currComponent.name}Context.Provider value="">
+          <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+          \t${writeNestedElements(enrichedChildren)}
+          </div>
+        </${currComponent.name}Context.Provider>
+      );`
+      : `  return (
+        <${currComponent.name}Context.Provider value="">
+          <Router>
+            <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+            \t${writeNestedElements(enrichedChildren)}
+            </div>
+          </Router>
+        </${currComponent.name}Context.Provider>
+      );`}
+    ${`}\n`}
+    export default ${currComponent.name};
     `;
   }
   // next.js component code
@@ -244,7 +329,7 @@ const generateUnformattedCode = (
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
 
-    const ${currentComponent.name} = (props): JSX.Element => {
+    const ${currComponent.name} = (props): JSX.Element => {
 
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
@@ -253,18 +338,18 @@ const generateUnformattedCode = (
       ${
         isRoot
           ? `<Head>
-            <title>${currentComponent.name}</title>
+            <title>${currComponent.name}</title>
             </Head>`
           : ``
       }
-      <div className="${currentComponent.name}" style={props.style}>
+      <div className="${currComponent.name}" style={props.style}>
       ${writeNestedElements(enrichedChildren)}
       </div>
       </>
       );
     }
 
-    export default ${currentComponent.name};
+    export default ${currComponent.name};
     `;
   } else {
     // gatsby component code
@@ -273,29 +358,29 @@ const generateUnformattedCode = (
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
-   
 
-      const ${currentComponent.name} = (props: any): JSX.Element => {
 
-        const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
+      const ${currComponent.name} = (props: any): JSX.Element => {
+
+      const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
 
       return (
         <>
         ${
           isRoot
             ? `<head>
-              <title>${currentComponent.name}</title>
+              <title>${currComponent.name}</title>
               </head>`
             : ``
         }
-        <div className="${currentComponent.name}" style={props.style}>
+        <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
         </>
         );
       }
 
-      export default ${currentComponent.name};
+      export default ${currComponent.name};
     `;
   }
 };
@@ -320,22 +405,6 @@ const formatCode = (code: string) => {
   }
 };
 
-// generate code based on component hierarchy and then return the rendered code
-const generateCode = (
-  components: Component[],
-  componentId: number,
-  rootComponents: number[],
-  projectType: string,
-  HTMLTypes: HTMLType[]
-) => {
-  const code = generateUnformattedCode(
-    components,
-    componentId,
-    rootComponents,
-    projectType,
-    HTMLTypes
-  );
-  return formatCode(code);
-};
+
 
 export default generateCode;

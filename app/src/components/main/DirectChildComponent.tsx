@@ -9,9 +9,8 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import renderChildren from '../../helperFunctions/renderChildren'
 
-function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
+function DirectChildComponent({ childId, type, typeId, style, name }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
 
   // find the top-level component corresponding to this instance of the component
@@ -64,13 +63,17 @@ function DirectChildComponent({ childId, type, typeId, style }: ChildElement) {
     interactiveStyle
   );
 
-  return (
+
+  // Renders name and not children of subcomponents to clean up Canvas view when dragging components
+  // into the main canvas.  To render html elements on canvas, import and invoke renderChildren
+  return  (
     <div
       onClick={onClickHandler}
       style={combinedStyle}
       ref={drag}
     >
-      {renderChildren(referencedComponent.children)}
+      <strong>{name}</strong>
+      {`  (${childId})`}
     </div>
   );
 }

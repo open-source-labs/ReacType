@@ -64,7 +64,7 @@ function DirectChildHTMLNestable({
               childId: childId,
             }
           });
-        } 
+        }
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
