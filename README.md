@@ -107,7 +107,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Chelsey Fewer](https://www.linkedin.com/in/chelsey-fewer/) [@chelseyeslehc](https://github.com/chelseyeslehc)
 
-[Chris Tang] (https://www.linkedin.com/in/chrisjtang/) [@chrisjtang](https://github.com/chrisjtang)
+[Chris Tang](https://www.linkedin.com/in/chrisjtang/) [@chrisjtang](https://github.com/chrisjtang)
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
@@ -156,7 +156,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
 [@pmhua](https://github.com/pmhua)
 
-[Ron Fu] (https://www.linkedin.com/in/ronfu)[@rfvisuals] (https://github.com/rfvisuals)
+[Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals] (https://github.com/rfvisuals)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
@@ -174,7 +174,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
 
-[William Cheng] (https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
+[William Cheng](https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
 
 [William Rittwage](https://www.linkedin.com/in/william-rittwage)
 [@wbrittwage](https://github.com/wbrittwage)
