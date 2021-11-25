@@ -111,7 +111,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Christian Padilla](https://linkedin.com/in/ChristianEdwardPadilla) [@ChristianEdwardPadilla](https://github.com/ChristianEdwardPadilla)
 
-[Crystal Lim] (https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
+[Crystal Lim](https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
 
 [Danial Reilley](https://linkedin.com/in/daniel-reilley)
 [@dreille](https://github.com/dreille)
