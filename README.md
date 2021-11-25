@@ -156,7 +156,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
 [@pmhua](https://github.com/pmhua)
 
-[Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals] (https://github.com/rfvisuals)
+[Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
