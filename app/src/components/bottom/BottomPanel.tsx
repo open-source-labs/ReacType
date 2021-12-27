@@ -18,5 +18,4 @@ const BottomPanel = (props): JSX.Element => {
   );
 };
 
-
 export default BottomPanel;
