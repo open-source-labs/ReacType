@@ -381,7 +381,6 @@ ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
     .remove(serverUrl, 'ssid')
     // .then(removed => {
-    //   console.log('Cookies deleted', removed);
     // })
     .catch(err => console.log('Error deleting cookie:', err));
 });
