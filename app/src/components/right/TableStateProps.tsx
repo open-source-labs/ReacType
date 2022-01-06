@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import {
   DataGrid,
   GridEditRowsModel,
-} from '@material-ui/data-grid';
+} from '@mui/x-data-grid';
 import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from '../../context/context';

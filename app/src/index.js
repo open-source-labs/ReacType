@@ -19,7 +19,6 @@ import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 import styles from './Dashboard/styles.css';
 
 const client = new ApolloClient({
-  // uri: 'http://localhost:5000/graphql',
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });

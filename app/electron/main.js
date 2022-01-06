@@ -19,7 +19,7 @@ const {
 
 
 // The splash screen is what appears while the app is loading
-const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
+// const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
 
 // to install react dev tool extension
@@ -49,9 +49,10 @@ let menuBuilder;
 async function createWindow() {
   // install react dev tools if we are in development mode
   if (isDev) {
-    await installExtension([REACT_DEVELOPER_TOOLS])
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(err => console.log('An error occurred: ', err));
+    // await installExtension([REACT_DEVELOPER_TOOLS])
+    //   .then(name => console.log(`Added Extension:  ${name}`))
+    //   .catch(err => console.log('An error occurred: ', err));
+    console.log("install extention");
   } else {
     // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
@@ -106,6 +107,8 @@ async function createWindow() {
     website: 'www.reactype.io',
     text: 'Initializing ...',
   });
+
+
 
   // Load app
   if (isDev) {
