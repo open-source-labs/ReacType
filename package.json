@@ -184,7 +184,7 @@
     "csp-html-webpack-plugin": "^4.0.0",
     "css-loader": "^2.1.1",
     "dotenv-webpack": "^5.0.1",
-    "electron": "^15.3.0",
+    "electron": "^16.0.6",
     "electron-builder": "^22.13.1",
     "electron-splashscreen": "^1.0.0",
     "enzyme-to-json": "^3.5.0",
