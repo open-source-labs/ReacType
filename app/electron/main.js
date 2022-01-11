@@ -19,7 +19,7 @@ const {
 
 
 // The splash screen is what appears while the app is loading
-// const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
+const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
 
 // to install react dev tool extension
