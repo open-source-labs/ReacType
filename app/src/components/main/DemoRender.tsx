@@ -1,16 +1,18 @@
 
 import React, {
-  useState, useCallback, useContext, useEffect,
+  useState, useCallback, useContext, useEffect, useRef
 } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import StateContext from '../../context/context';
 import cssRefresher from '../../helperFunctions/cssRefresh';
-
+import {store} from '../../../src/index';
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (props): JSX.Element => {
+  // const ref = useRef<any>();
+  const iframe = useRef<any>();
   const [components, setComponents] = useState([]);
   const [state, dispatch] = useContext(StateContext);
   const demoContainerStyle = {
@@ -18,6 +20,21 @@ const DemoRender = (props): JSX.Element => {
     backgroundColor: '#FBFBFB',
     border: '2px Solid grey',
   };
+
+  const html = `
+    <html>
+      <head></head>
+      <body>
+        <div id='root'></div>
+        <script>
+          window.addEventListener('message', (e) => {
+            eval(event.data);
+          }, false);
+        </script>
+      </body>
+    </html>
+  `;
+
 
   // This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
   // Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
@@ -48,7 +65,7 @@ const DemoRender = (props): JSX.Element => {
     }
     return componentsToRender;
   };
-
+ 
   useEffect(() => {
     const focusIndex = state.canvasFocus.componentId - 1;
     const childrenArray = state.components[focusIndex].children;
@@ -60,11 +77,15 @@ const DemoRender = (props): JSX.Element => {
     cssRefresher();
   }, [])
 
+  // iframe.current.contentWindow.postMessage(store.getState(), '*');
+  console.log('in store line 81',store.getState())
 
   return (
     <Router>
+      
       <div id={'renderFocus'} style={demoContainerStyle}>
-        {components.map((component, index) => component)}
+        <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html}/>
+        {/* {components.map((component, index) => component)} */}
       </div>
     </Router>
 
