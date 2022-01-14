@@ -24,7 +24,12 @@ const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-const initialState = {code: "initialState"}
+const initialState = {code: `
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  const App = () => <h1>Hello World!</h1>
+
+  ReactDOM.render(<App />, document.querySelector('#app'));`}
 const rootReducer = (state = initialState, action) => {
   console.log('action', action);
   switch (action.type) {

@@ -76,9 +76,9 @@ async function createWindow() {
       // enable devtools when in development mode 
       devTools: true,
       // crucial security feature - blocks rendering process from having access to node modules
-      nodeIntegration: true,
+      nodeIntegration: false,
       // web workers will not have access to node
-      nodeIntegrationInWorker: true,
+      nodeIntegrationInWorker: false,
       // disallow experimental feature to allow node.js support in sub-frames (i-frames/child windows)
       nodeIntegrationInSubFrames: true,
       // runs electron apis and preload script in a separate JS context

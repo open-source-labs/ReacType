@@ -29,7 +29,8 @@ const CodePreview: React.FC<{
   const ref = useRef<any>();
   const iframe = useRef<any>();
   const [input, setInput] = useState('');
-  const [code, setCode] = useState('');
+
+
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -49,32 +50,32 @@ const CodePreview: React.FC<{
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
+
   const handleCodeSnipChange = (val) => {
     currentComponent.code = val;
-
   };
 
   useEffect(() => {
     startService();
   }, []);
 
-  console.log('saved code', store.getState().code)
   useEffect(() => {
     setDivHeight(height);
   }, [height])
 
-useEffect(() => 
-{
- 
+  useEffect(() => {
+    console.log('hello')
+  }, [currentComponent.code])
 
-}, [code])
 
-  const handleChange = (event) => {
-    setInput(event)
-    // iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
+  const handleChange = (data) => {
+   setInput(data)
+   console.log('line 69',input)
   };
 
   const handleClick = async () => {
+    // setInput(currentComponent.code)  
+    // console.log('currentComponent.code', currentComponent.code)
     if(!ref.current) {
       return;
     }
@@ -87,17 +88,13 @@ useEffect(() =>
         fetchPlugin(input)
       ],
       define: {
-        'process.env.NODE_ENV': '"production"',
+        'process.env.NODE_ENV': '"development"',
         global: 'window'
       }
     })
+    console.log('this is input',input)
     store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
-   //setCode();
- 
-
-   // dispatch({type: 'code-preview'})
   }
-
 
 
   return (
@@ -112,10 +109,11 @@ useEffect(() =>
       <AceEditor
         mode="javascript"
         theme="monokai"
-        width="90%"
-        height="50%"
+        width="100%"
+        height="70%"
         onChange={handleChange}
         // value={currentComponent.code}
+        value={input}
         name="Code_div"
         readOnly={false}
         fontSize={16}
@@ -129,7 +127,4 @@ useEffect(() =>
 export default CodePreview;
 
 
-// const App = () => {
-//   return <h1>hello</h1>
-// }
 
