@@ -24,13 +24,9 @@ const CodePreview: React.FC<{
   }> = ({ theme, setTheme }) => {
 
 
- 
-
   const ref = useRef<any>();
   const iframe = useRef<any>();
-  const [input, setInput] = useState('');
-
-
+  
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -49,6 +45,10 @@ const CodePreview: React.FC<{
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
+  const [input, setInput] = useState(currentComponent.code);
+  
+  console.log('this is state', state.components)
+  console.log('currentcomponent.code', currentComponent.code)
 
 
   const handleCodeSnipChange = (val) => {
@@ -64,8 +64,8 @@ const CodePreview: React.FC<{
   }, [height])
 
   useEffect(() => {
-    console.log('hello')
-  }, [currentComponent.code])
+    setInput(currentComponent.code)
+  }, [state])
 
 
   const handleChange = (data) => {
