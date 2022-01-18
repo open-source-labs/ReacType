@@ -80,7 +80,7 @@ async function createWindow() {
       // web workers will not have access to node
       nodeIntegrationInWorker: false,
       // disallow experimental feature to allow node.js support in sub-frames (i-frames/child windows)
-      nodeIntegrationInSubFrames: false,
+      nodeIntegrationInSubFrames: true,
       // runs electron apis and preload script in a separate JS context
       // separate context has access to document/window but has it's own built-ins and is isolate from changes to global environment by located page
       // Electron API only available from preload, not loaded page

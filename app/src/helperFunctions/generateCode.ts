@@ -49,7 +49,7 @@ const generateUnformattedCode = (
   let links: boolean = false;
 
   const isRoot = rootComponents.includes(componentId);
-  let importReactRouter = false;;
+  let importReactRouter = false;
 
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
@@ -287,38 +287,31 @@ const generateUnformattedCode = (
   // classic react code
   if (projectType === 'Classic React') {
     return `
-    ${`import React, { useState, createContext, useContext } from 'react';`}
+    ${`import React, { useState, useEffect} from 'react';`}
+    ${`import ReactDOM from 'react-dom';`}
     ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
     ${importsMapped}
     ${importContext}
     ${providers}
     ${context}
-    ${`const ${currComponent.name} = (props: any): JSX.Element => {`}
-    ${`  const [value, setValue] = useState<any | undefined>("INITIAL VALUE");${writeStateProps(currComponent.useStateCodes)}`}
-    ${
-      isRoot  && currComponent.stateProps.length !== 0
-      ? `  const ${currComponent.name}Context = createContext(${createState(currComponent.stateProps)});`
-      : ``
-    }
+    ${`const ${currComponent.name} = (props) => {`}
+    ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
+
     ${!importReactRouter
       ? `  return (
-        <${currComponent.name}Context.Provider value="">
           <div className="${currComponent.name}" ${formatStyles(currComponent)}>
           \t${writeNestedElements(enrichedChildren)}
           </div>
-        </${currComponent.name}Context.Provider>
       );`
       : `  return (
-        <${currComponent.name}Context.Provider value="">
           <Router>
             <div className="${currComponent.name}" ${formatStyles(currComponent)}>
             \t${writeNestedElements(enrichedChildren)}
             </div>
           </Router>
-        </${currComponent.name}Context.Provider>
       );`}
     ${`}\n`}
-    export default ${currComponent.name};
+    ReactDOM.render(<${currComponent.name} />, document.querySelector('#app'));
     `;
   }
   // next.js component code

@@ -80,8 +80,8 @@ function Canvas() {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
-      {/* currentComponent is the selected component on Left Panel (eg: App or Index with green dot to the left)  */}
-      {renderChildren(currentComponent.children)}
+       
+       {renderChildren(currentComponent.children)}
     </div>
   );
 }

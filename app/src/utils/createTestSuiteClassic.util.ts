@@ -105,33 +105,6 @@ async function createComponentTests(path: string, appName: string, components: C
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   
-// //////////////////////////
-// // DELETE BELOW AFTERWARDS
-// import { shallow } from 'enzyme'
-// import React from 'react';
-
-// import * as Enzyme from 'enzyme'
-// import Adapter from 'enzyme-adapter-react-16'
-
-// Enzyme.configure({
-//   adapter: new Adapter(),
-// })
-
-// describe('Hello, Enzyme!', () => {
-//   it('renders', () => {
-//     const wrapper = shallow(<div>
-//       <h1>Hello, Enzyme!</h1>
-//     </div>)
-//     expect(wrapper.find('h1').html()).toMatch(/Hello, Enzyme/)
-//   })
-
-//   it('renders snapshots, too', () => {
-//     const wrapper = shallow(< />)
-//     expect(wrapper).toMatchSnapshot()
-//   })
-// })
-// // DELETE ABOVE AFTERWARDS
-// //////////////////////////
 async function createTestSuiteClassic({
   path,
   appName,

@@ -12,11 +12,29 @@ import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import useResizeObserver from '../../tree/useResizeObserver';
 import { string } from 'prop-types';
+import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
+import { fetchPlugin } from '../../plugins/fetch-plugin';
+import * as esbuild from 'esbuild-wasm';
+import { useSelector, useDispatch } from 'react-redux';
+import { store } from './../../index';
 
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
   }> = ({ theme, setTheme }) => {
+
+
+  const ref = useRef<any>();
+  const iframe = useRef<any>();
+  
+
+  const startService = async () => {
+    ref.current = await esbuild.startService({
+      worker: true,
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
+    })
+  }
+
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { width, height } =
@@ -27,14 +45,58 @@ const CodePreview: React.FC<{
   const currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
+  const [input, setInput] = useState(currentComponent.code);
+  
+  console.log('this is state', state.components)
+  console.log('currentcomponent.code', currentComponent.code)
+
 
   const handleCodeSnipChange = (val) => {
     currentComponent.code = val;
   };
 
   useEffect(() => {
+    startService();
+  }, []);
+
+  useEffect(() => {
     setDivHeight(height);
   }, [height])
+
+  useEffect(() => {
+    setInput(currentComponent.code)
+  }, [state])
+
+
+  const handleChange = (data) => {
+   setInput(data)
+   console.log('line 69',input)
+  };
+
+  const handleClick = async () => {
+    // setInput(currentComponent.code)  
+    // console.log('currentComponent.code', currentComponent.code)
+    if(!ref.current) {
+      return;
+    }
+    const result = await ref.current.build({
+      entryPoints: ['index.js'],
+      bundle: true,
+      write: false,
+      plugins: [
+        unpkgPathPlugin(),
+        fetchPlugin(input)
+      ],
+      define: {
+        'process.env.NODE_ENV': '"development"',
+        global: 'window'
+      }
+    })
+    console.log('this is input',input)
+    store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
+  }
+
+
   return (
     <div
     ref={wrapper}
@@ -48,16 +110,21 @@ const CodePreview: React.FC<{
         mode="javascript"
         theme="monokai"
         width="100%"
-        height="100%"
-        onChange={handleCodeSnipChange}
-        value={currentComponent.code}
+        height="70%"
+        onChange={handleChange}
+        // value={currentComponent.code}
+        value={input}
         name="Code_div"
         readOnly={false}
         fontSize={16}
         tabSize={2}
       />
+      <button onClick={() => handleClick()}>Fetch</button>
     </div>
   );
 };
 
 export default CodePreview;
+
+
+
