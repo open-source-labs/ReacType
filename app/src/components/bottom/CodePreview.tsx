@@ -11,13 +11,10 @@ import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import useResizeObserver from '../../tree/useResizeObserver';
-import { string } from 'prop-types';
 import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
-import { useSelector, useDispatch } from 'react-redux';
 import { store } from './../../index';
-
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -35,6 +32,8 @@ const CodePreview: React.FC<{
     })
   }
 
+  
+
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { width, height } =
@@ -42,18 +41,12 @@ const CodePreview: React.FC<{
 
   const [state, dispatch] = useContext(StateContext);
   const [divHeight, setDivHeight] = useState(0);
-  const currentComponent = state.components.find(
+  let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  const [input, setInput] = useState(currentComponent.code);
-  
-  console.log('this is state', state.components)
-  console.log('currentcomponent.code', currentComponent.code)
 
+  const [input, setInput] = useState();
 
-  const handleCodeSnipChange = (val) => {
-    currentComponent.code = val;
-  };
 
   useEffect(() => {
     startService();
@@ -64,36 +57,37 @@ const CodePreview: React.FC<{
   }, [height])
 
   useEffect(() => {
-    setInput(currentComponent.code)
-  }, [state])
+
+ setInput(currentComponent.code);
+  store.dispatch({type: "INPUT", payload: currentComponent.code});
+  }, [state.components])
 
 
-  const handleChange = (data) => {
-   setInput(data)
-   console.log('line 69',input)
-  };
 
-  const handleClick = async () => {
-    // setInput(currentComponent.code)  
-    // console.log('currentComponent.code', currentComponent.code)
+
+  const handleChange = async (data) => {
+    setInput(data);
+
+    store.dispatch({type: "INPUT", payload: data});
     if(!ref.current) {
       return;
     }
-    const result = await ref.current.build({
+    let result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
       write: false,
+      incremental:true,
+      minify: true,
       plugins: [
         unpkgPathPlugin(),
-        fetchPlugin(input)
+        fetchPlugin(data)
       ],
       define: {
-        'process.env.NODE_ENV': '"development"',
+        'process.env.NODE_ENV': '"production"',
         global: 'window'
       }
     })
-    console.log('this is input',input)
-    store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
+     store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
   }
 
 
@@ -110,21 +104,21 @@ const CodePreview: React.FC<{
         mode="javascript"
         theme="monokai"
         width="100%"
-        height="70%"
+        height="100%"
         onChange={handleChange}
-        // value={currentComponent.code}
         value={input}
         name="Code_div"
         readOnly={false}
         fontSize={16}
         tabSize={2}
       />
-      <button onClick={() => handleClick()}>Fetch</button>
+
     </div>
   );
 };
 
 export default CodePreview;
+
 
 
 

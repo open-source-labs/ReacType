@@ -3,7 +3,7 @@ import {
   HashRouter as Router,
   Route,
   Redirect,
-  Switch,
+  Switch
 } from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
@@ -24,29 +24,27 @@ const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-const initialState = {code: `
-  import React from 'react';
-  import ReactDOM from 'react-dom';
-  const App = () => <h1>Hello World!</h1>
-
-  ReactDOM.render(<App />, document.querySelector('#app'));`}
+const initialState = { code: ``, input: `` };
 const rootReducer = (state = initialState, action) => {
-  console.log('action', action);
   switch (action.type) {
     case 'SAVE':
-      return {...state, code:action.payload};
+      return { ...state, code: action.payload };
+    case 'INPUT':
+      return { ...state, input: action.payload };
     default:
-        return state;
+      return state;
   }
- 
-}
+};
 
-export const store = createStore(rootReducer)
+export const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={ (props) => {
+    render={props => {
       return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
         <Component {...props} />
       ) : (
@@ -71,6 +69,6 @@ ReactDOM.render(
         </Switch>
       </Router>
     </Provider>
-  </ ApolloProvider>,
-  document.getElementById('app'),
+  </ApolloProvider>,
+  document.getElementById('app')
 );
