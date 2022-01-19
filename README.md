@@ -89,6 +89,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 #### Contributors
 
+[Abeer Faizan](https://www.linkedin.com/in/abeerfaizan/) [@abeer-f](https://github.com/abeer-f)
+
 [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
 
 [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
@@ -103,6 +105,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
+[Bryan Chau](https://www.linkedin.com/in/chaubryan1/) [@bchauu](https://github.com/bchauu)
+
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
 
 [Chelsey Fewer](https://www.linkedin.com/in/chelsey-fewer/) [@chelseyeslehc](https://github.com/chelseyeslehc)
@@ -113,8 +117,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Crystal Lim](https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
 
-[Danial Reilley](https://linkedin.com/in/daniel-reilley)
-[@dreille](https://github.com/dreille)
+[Danial Reilley](https://linkedin.com/in/daniel-reilley) [@dreille](https://github.com/dreille)
 
 [Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
 
@@ -144,8 +147,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
-[Miles Wright](https://www.linkedin.com/in/miles-m-wright)
-[@Miles818](https://github.com/Miles818)
+[Miles Wright](https://www.linkedin.com/in/miles-m-wright) [@Miles818](https://github.com/Miles818)
 
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
@@ -153,8 +155,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
 
-[Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
-[@pmhua](https://github.com/pmhua)
+[Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
@@ -166,6 +167,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
 
+[Stephen Kim](https://www.linkedin.com/in/stephenkim612/) [@stephenkim612](https://github.com/stephenkim612)
+
 [Stormi Hashimoto](https://www.linkedin.com/in/stormikph/) [@stormikph](https://github.com/stormikph)
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
@@ -174,10 +177,11 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
 
+[Ulrich Neujahr](https://www.linkedin.com/in/nobrackets/) [@nobrackets](https://github.com/nobrackets)
+
 [William Cheng](https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
 
-[William Rittwage](https://www.linkedin.com/in/william-rittwage)
-[@wbrittwage](https://github.com/wbrittwage)
+[William Rittwage](https://www.linkedin.com/in/william-rittwage) [@wbrittwage](https://github.com/wbrittwage)
 
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
 
