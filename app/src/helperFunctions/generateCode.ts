@@ -291,9 +291,6 @@ const generateUnformattedCode = (
     ${`import ReactDOM from 'react-dom';`}
     ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
     ${importsMapped}
-    ${importContext}
-    ${providers}
-    ${context}
     ${`const ${currComponent.name} = (props) => {`}
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
 

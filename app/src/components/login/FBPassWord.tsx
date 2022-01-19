@@ -133,7 +133,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       if (userCreated === 'Success') {
         props.history.push('/');
       } else {
-        console.log(userCreated);
+    
       }
     });
   };

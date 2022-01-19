@@ -266,7 +266,7 @@ const reducer = (state: State, action: Action) => {
         typeId,
         childId
       }: { type: string; typeId: number; childId: any } = action.payload;
-console.log("action.payload", action.payload);
+
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
 
