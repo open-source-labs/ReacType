@@ -9,8 +9,6 @@ import CustomizationPanel from '../../containers/CustomizationPanel'
 import CreationPanel from './CreationPanel'
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
-import { emitKeypressEvents } from 'readline';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import FormControl from '@material-ui/core/FormControl';
 import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,7 +20,6 @@ const BottomTabs = (props): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   const [tab, setTab] = useState(0);
   const classes = useStyles();
-  treeWrapper: HTMLDivElement;
   const [theme, setTheme] = useState('solarized_light');
   const { style } = useContext(styleContext);
 

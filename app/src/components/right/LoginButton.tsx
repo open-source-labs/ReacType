@@ -7,10 +7,7 @@ import StateContext from '../../context/context';
 
 export default function LoginButton() {
   const history = useHistory();
-  const [state, dispatch] = useContext(StateContext);
-
-  const classes = useStyles();
-
+  const [state,] = useContext(StateContext);
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     // clear local storage
@@ -22,7 +19,6 @@ export default function LoginButton() {
     // uses useHistory to return to the login page
     history.push('/login');
   };
-
   if (state.isLoggedIn) {
     return (
       <Button
@@ -50,13 +46,3 @@ export default function LoginButton() {
       </Button>
   );
 }
-
-const useStyles = makeStyles({
-  button: {
-    backgroundColor: 'rgba(1,212,109,0.4)',
-    fontSize: '1em',
-    minWidth: '300px',
-    marginTop: '10px',
-    marginBotton: '10px',
-  },
-});

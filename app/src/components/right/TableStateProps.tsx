@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import {
   DataGrid,
   GridEditRowsModel,
-} from '@material-ui/data-grid';
+} from '@mui/x-data-grid';
 import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from '../../context/context';
@@ -15,9 +15,6 @@ const TableStateProps = props => {
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
-
-  // const [rows, setRows] = useState([]);
-
   const columnTabs = [
     {
       field: 'id',
@@ -62,14 +59,12 @@ const TableStateProps = props => {
       }
     }
   ];
-
   const deleteState = selectedId => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
-
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
@@ -84,7 +79,6 @@ const TableStateProps = props => {
   }, [props.isThemeLight]);
 
   const { selectHandler }: StatePropsPanelProps = props;
-
   // the delete button needs to be updated to remove
   // the states from the current focused component
   useEffect(() => {
@@ -94,8 +88,6 @@ const TableStateProps = props => {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
   }, [state.canvasFocus.componentId]);
-
-
   // rows to show are either from current component or from a given provider
   let rows = [];
   if (!props.providerId) {

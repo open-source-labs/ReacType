@@ -1,14 +1,11 @@
 import { AddRoutes } from '../../interfaces/Interfaces'
-import React, {
-  useRef, useState, useContext, useEffect,
-} from 'react';
+import React, { useContext } from 'react';
 import StateContext from '../../context/context';
 
 function AddRoute({
-  id,
-  name
+  id
 }: AddRoutes) {
-  const [state, dispatch] = useContext(StateContext);
+  const [, dispatch] = useContext(StateContext);
 
   const handleClick = (id) => {
     dispatch({

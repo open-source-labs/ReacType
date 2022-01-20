@@ -81,7 +81,6 @@ userController.createUser = (req, res, next) => {
 
 // verifyUser - Obtain username and password from the request body, locate
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
-
 userController.verifyUser = (req, res, next) => {
   let { username, password, isFbOauth } = req.body;
   // handle Oauth
@@ -110,7 +109,6 @@ userController.verifyUser = (req, res, next) => {
     }
     if (user) {
       // bcrypt compare function checks input password against hashed password
-      // eslint-disable-next-line arrow-parens
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
           // if password matches, save user id for following middleware
@@ -118,7 +116,6 @@ userController.verifyUser = (req, res, next) => {
           return next();
         }
         // if hashed password is not matched saved password in db, send 400 response
-        
         return res.status(400).json('Incorrect Password');
       });
     } else {

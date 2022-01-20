@@ -5,7 +5,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 9.0.0]
+![Version 10.0.0]
 
 **ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -16,13 +16,14 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 9.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 10.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![openingGif](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/canvas_tutorial_images/drag1.gif)
-
-### How to use
+<p align='center'>
+  <img src='./app/src/public/ezgif.com-gif-maker.gif'/>
+</p>
+How to use
 
 - **Sign-in page**: Sign up for an account or just continue as a guest. Registered users enjoy additional project-saving functionality.
 - **Tutorial**: Click ‘Tutorial’ from the Help tab’s dropdown menu (at the top left of the application) to view a tutorial.
@@ -34,7 +35,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
 - **Component Tree**: Click on the Component Tree tab next to the Code Preview tab to view the component tree hierarchy.
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
-- **Using State in Elements**: As of 9.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
+- **Using State in Elements**: As of 10.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
@@ -60,10 +61,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - Tutorial has been updated to reflect other modifications
 
 
- **New with version 9.0.0:**
-- **React Router**: Drag-and-drop LinkTo and Router elements (located below the HTML elements list) to implement fully-functional React Router components into your application to dynamically and quickly render components in the live demo render and in your exported application.
-- **Global State Management**: For the first time in ReacType history, users can utilize global state management in the form of the Context API!  Any state that is added will automatically be passed around your application with the appropriate UseContext hooks.  
-- **Composite Data Structures in State**: State creation in ReacType can now handle composite data types, which includes arrays, objects, and any amount of nesting of composite data types within other composite data types (i.e. arrays of objects and objects with objects as values).
+ **New with version 10.0.0:**
+- **Live Code Preview**: See your code preview update in real time as you build. React hooks are enabled for application lifecycle management. Dynamically render functional components using a live code editor. User's can hook event listeners to components and see them render in real time.
 
 ### Keyboard Shortcuts
 
@@ -89,6 +88,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 #### Contributors
 
+[Abeer Faizan](https://www.linkedin.com/in/abeerfaizan/) [@abeer-f](https://github.com/abeer-f)
+
 [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
 
 [Aaron Bumanglag](https://www.linkedin.com/in/akbuma) [@akbuma](https://github.com/akbuma)
@@ -103,6 +104,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
+[Bryan Chau](https://www.linkedin.com/in/chaubryan1/) [@bchauu](https://github.com/bchauu)
+
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
 
 [Chelsey Fewer](https://www.linkedin.com/in/chelsey-fewer/) [@chelseyeslehc](https://github.com/chelseyeslehc)
@@ -113,8 +116,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Crystal Lim](https://linkedin.com/in/crystallim) [@crlim](https://github.com/crlim)
 
-[Danial Reilley](https://linkedin.com/in/daniel-reilley)
-[@dreille](https://github.com/dreille)
+[Danial Reilley](https://linkedin.com/in/daniel-reilley) [@dreille](https://github.com/dreille)
 
 [Daryl Foster](https://www.linkedin.com/in/darylfosterma/) [@MadinventorZero](https://github.com/MadinventorZero)
 
@@ -144,8 +146,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
-[Miles Wright](https://www.linkedin.com/in/miles-m-wright)
-[@Miles818](https://github.com/Miles818)
+[Miles Wright](https://www.linkedin.com/in/miles-m-wright) [@Miles818](https://github.com/Miles818)
 
 [Mitchel Severe](https://www.linkedin.com/in/misevere/) [@mitchelsevere](https://github.com/mitchelsevere)
 
@@ -153,8 +154,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Nel Malikova](https://www.linkedin.com/in/gmalikova/) [@gmal1](https://github.com/gmal1)
 
-[Philip Hua](https://www.linkedin.com/in/philip-minh-hua)
-[@pmhua](https://github.com/pmhua)
+[Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
@@ -166,6 +166,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
 
+[Stephen Kim](https://www.linkedin.com/in/stephenkim612/) [@stephenkim612](https://github.com/stephenkim612)
+
 [Stormi Hashimoto](https://www.linkedin.com/in/stormikph/) [@stormikph](https://github.com/stormikph)
 
 [Tolga Mizrakci](https://linkedin.com/in/tolga-mizrakci) [@tolgamizrakci](https://github.com/tolgamizrakci)
@@ -174,10 +176,11 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 [Tyler Sullberg](https://www.linkedin.com/in/tyler-sullberg) [@tsully](https://github.com/tsully)
 
+[Ulrich Neujahr](https://www.linkedin.com/in/nobrackets/) [@nobrackets](https://github.com/nobrackets)
+
 [William Cheng](https://www.linkedin.com/in/william-cheng-0723/) [@williamcheng12345](https://github.com/WilliamCheng12345)
 
-[William Rittwage](https://www.linkedin.com/in/william-rittwage)
-[@wbrittwage](https://github.com/wbrittwage)
+[William Rittwage](https://www.linkedin.com/in/william-rittwage) [@wbrittwage](https://github.com/wbrittwage)
 
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
 

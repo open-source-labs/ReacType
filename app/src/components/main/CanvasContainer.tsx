@@ -11,6 +11,7 @@ function CanvasContainer() {
 
   return (
     <div style={canvasContainerStyle}>
+      
       <Canvas />
     </div>
   );

@@ -26,5 +26,4 @@ function cloneDeep(
   }
   return value;
 }
-
 export default cloneDeep;

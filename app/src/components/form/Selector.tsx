@@ -13,6 +13,7 @@ const FormSelector = (props): JSX.Element => {
   })
   return (
     <div className={props.classes.configRow}>
+        
       <div className={props.isThemeLight ? `${props.classes.configType} ${props.classes.lightThemeFontColor}` : `${props.classes.configType} ${props.classes.darkThemeFontColor}`}>
         <h3>{props.title}</h3>
       </div>

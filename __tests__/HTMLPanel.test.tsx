@@ -3,13 +3,10 @@ import '@testing-library/jest-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { render, fireEvent, cleanup, screen } from '@testing-library/react';
-
 import StateContext from '../app/src/context/context';
 import initialState from '../app/src/context/initialState';
 import reducer from '../app/src/reducers/componentReducer';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
-
-
 function Test() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
@@ -20,8 +17,6 @@ function Test() {
     </DndProvider>
   )
 }
-
-
 test('Renders HTMLPanel component properly', () => {
   render(
     <Test/>
@@ -44,15 +39,12 @@ test('Adds new custom element', () => {
   render(
     <Test/>
   );
-
   fireEvent.change(screen.getAllByRole('textbox')[0], {
     target: { value: 'Testing' }
   });
   fireEvent.change(screen.getAllByRole('textbox')[1], {
     target: { value: 'Testing' }
   });
-
   fireEvent.click(screen.getByDisplayValue('Add Element'));
-
   expect(screen.getByText('Testing')).toBeInTheDocument();
 });

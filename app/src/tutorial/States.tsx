@@ -4,8 +4,6 @@ import stateTable from '../../../resources/state_tutorial_images/StateTable.png'
 import codePreview from '../../../resources/state_tutorial_images/CodePreview.png';
 import deleteState from '../../../resources/state_tutorial_images/DeleteState.gif';
 
-
-
 const States: React.FC<{
   classes: any;
   setPage: Function;

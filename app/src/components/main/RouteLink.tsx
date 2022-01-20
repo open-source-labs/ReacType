@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -8,7 +8,6 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
 function RouteLink({ childId, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
-  const ref = useRef(null);
 
   // find the name of the Component corresponding with this link
   const routeName: string = state.components.find(
@@ -29,29 +28,24 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
       isDragging: !!monitor.isDragging()
     })
   });
-
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
   };
-
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandlerFocus(event) {
     event.stopPropagation();
     changeFocus(state.canvasFocus.componentId, childId);
   }
-
   //   the route handler will change the focus of the canvas to the component referenced in the route link when the text is selected
   function onClickHandlerRoute(event) {
     event.stopPropagation();
     changeFocus(typeId, null);
   }
-
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style for the routeLink component, and 3) default styling
   const routeStyle = {
     color: 'blue'
   };
-
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
@@ -64,7 +58,6 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
     combineStyles(combineStyles(globalDefaultStyle, routeStyle), style),
     interactiveStyle
   );
-
   return (
     <div onClick={onClickHandlerFocus} style={combinedStyle} ref={drag}>
       <div onClick={onClickHandlerRoute}>{routeName}</div>

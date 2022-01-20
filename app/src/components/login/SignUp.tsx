@@ -60,17 +60,14 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
-
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
-
   const [invalidEmailMsg, setInvalidEmailMsg] = useState('');
   const [invalidUsernameMsg, setInvalidUsernameMsg] = useState('');
   const [invalidPasswordMsg, setInvalidPasswordMsg] = useState('');
   const [invalidVerifyPasswordMsg, setInvalidVerifyPasswordMsg] = useState('');
-
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
@@ -175,7 +172,6 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
 
     newUserIsCreated(username, email, password).then(userCreated => {
       if (userCreated === 'Success') {
-
         props.history.push('/');
       } else {
         switch (userCreated) {

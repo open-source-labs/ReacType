@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import BottomTabs from './BottomTabs';
 import { Resizable } from 're-resizable';
-
 
 const BottomPanel = (props): JSX.Element => {
   return (

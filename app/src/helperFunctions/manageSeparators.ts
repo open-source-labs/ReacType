@@ -1,18 +1,13 @@
 import { ChildElement } from '../interfaces/Interfaces';
 import initialState from '../context/initialState';
-
 const separator = initialState.HTMLTypes[1];
-
 const manageSeparators = {};
-
 manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
-
 // this function checks for two separators in a row or missing separators and adds/removes as needed
 manageSeparators.handleSeparators = (arr: object[], str: string) => {
   if ((str === 'delete' || str === 'change position') && arr.length === 1 && arr[0].name === 'separator') {
     arr.splice(0, 1);
   }
-
   for (let index = 0; index < arr.length; index++) {
     if (arr[index].name === 'separator' && arr[index + 1].name === 'separator') {
       arr.splice(index, 1); // removes extra separator from array
@@ -44,7 +39,6 @@ manageSeparators.handleSeparators = (arr: object[], str: string) => {
   }
   return manageSeparators.nextTopSeparatorId;
 };
-
 // this function replaces separators onto which an element is dropped with the element itself
 manageSeparators.mergeSeparator = (arr: object[], index: number) => {
   return arr.map((child) => {
@@ -59,5 +53,4 @@ manageSeparators.mergeSeparator = (arr: object[], index: number) => {
     else return child;
   });
 };
-
 export default manageSeparators;

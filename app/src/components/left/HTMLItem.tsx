@@ -8,9 +8,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../right/createModal';
 
-const buttonClasses =
-'MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary';
-
 const useStyles = makeStyles({
   HTMLPanelItem: {
     color: '#186BB4',
@@ -47,8 +44,8 @@ const HTMLItem : React.FC<{
 }> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
 
   const classes = useStyles();
-
   const [modal, setModal] = useState(null);
+
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,

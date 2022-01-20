@@ -7,15 +7,9 @@ import {
   PUBLISH_PROJECT,
   ADD_COMMENT,
 } from './gqlStrings';
-import { withStyles, createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import AddCommentIcon from '@material-ui/icons/AddComment';
-import Button from '@material-ui/core/Button';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 import PublishIcon from '@material-ui/icons/Publish';
@@ -47,7 +41,6 @@ const Project = ({
   const [commentVal, setCommentVal] = useState('');
   const [clicked, setClicked] = useState(false);
   const [modal, setModal] = useState(null);
-
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
   const [deleteProject] = useMutation(DELETE_PROJECT);
@@ -55,7 +48,6 @@ const Project = ({
   const [addComment] = useMutation(ADD_COMMENT);
 
   const noPointer = {cursor: 'default'};
-
   //Likes the project when the star icon is clicked
   function handleLike(e) {
     e.preventDefault();
@@ -68,7 +60,6 @@ const Project = ({
     };
     addLike(myVar);
   }
-
   //Makes a copy of the public project and saves as a user project
   function handleDownload(e) {
     e.preventDefault();
@@ -82,7 +73,6 @@ const Project = ({
     };
     makeCopy(myVar);
   }
-
   //Publishes project from user dashboard to public dashboard
   function handlePublish(e) {
     e.preventDefault();
@@ -95,8 +85,6 @@ const Project = ({
     };
     publishProject(myVar);
   }
-
-
   //Adds the comment to the project
   function handleComment(e) {
     e.preventDefault();
@@ -110,16 +98,12 @@ const Project = ({
     };
     addComment(myVar)
   }
-
-
   //sets state of commentVal to what the user types in to comment
   function handleChange(e) {
     e.preventDefault();
     let commentValue = e.target.value;
     setCommentVal(commentValue);
   }
-
-  
   const recentComments = [];
   if (comments.length > 0) { 
     const reversedCommentArray = comments.slice(0).reverse();
@@ -132,10 +116,8 @@ const Project = ({
       </p>
         )}
   }
-
   // Closes out the open modal
   const closeModal = () => setModal('');
-
   // Creates modal that asks if user wants to delete project
   const deleteProjectModal = () => {
     //Deletes project from the database
@@ -149,7 +131,6 @@ const Project = ({
       };
       deleteProject(myVar);
     }
-
     // Set modal options
     const children = (
       <List className="export-preference">
@@ -230,6 +211,4 @@ const Project = ({
   </div>
   );
 };
-
-
 export default Project;

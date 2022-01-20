@@ -1,5 +1,3 @@
-
-
 const initFolders = (path: string, appName: string) => {
   let dir = path;
   dir = `${dir}/${appName}`;
@@ -23,7 +21,6 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
     "^.+\\.jsx?$": "<rootDir>/jest-preprocess.js",
-
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$",
   globals: {
@@ -105,7 +102,6 @@ const babelOptions = {
 }
 
 module.exports = require("babel-jest").default.createTransformer(babelOptions)`;
-
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('createTestSuite.util createJestPreprocessFile error:', err.message);
@@ -150,7 +146,6 @@ import ${capitalize(page.name)} from "../components/${page.name}";`;
     }
   })
 
-  //let describe = `describe("${page.name}", () => {`
   components.forEach(page => {
     data = data + `
     
@@ -163,13 +158,10 @@ import ${capitalize(page.name)} from "../components/${page.name}";`;
       expect(wrapper).toMatchSnapshot()
     })`
 
-
     data = data + `
   });`
   })
 
-  
-  
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('createTestSuiteNext.util createComponentTests error:', err.message);
@@ -182,7 +174,6 @@ import ${capitalize(page.name)} from "../components/${page.name}";`;
 const capitalize = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
 
 async function createTestSuite({
   path,

@@ -19,7 +19,7 @@ const {
 
 
 // The splash screen is what appears while the app is loading
-const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
+// const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
 
 // to install react dev tool extension
@@ -49,14 +49,10 @@ let menuBuilder;
 async function createWindow() {
   // install react dev tools if we are in development mode
   if (isDev) {
-    await installExtension([REACT_DEVELOPER_TOOLS])
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(err => console.log('An error occurred: ', err));
   } else {
     // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
   }
-
   // Create the browser window.
   win = new BrowserWindow({
     // full screen
@@ -69,7 +65,6 @@ async function createWindow() {
     // the browser window will not display initially as it's loading
     // once the browser window renders, a function is called below  that hides the splash screen and displays the browser window
     show: false,
-    // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools when in development mode 
@@ -79,7 +74,7 @@ async function createWindow() {
       // web workers will not have access to node
       nodeIntegrationInWorker: false,
       // disallow experimental feature to allow node.js support in sub-frames (i-frames/child windows)
-      nodeIntegrationInSubFrames: false,
+      nodeIntegrationInSubFrames: true,
       // runs electron apis and preload script in a separate JS context
       // separate context has access to document/window but has it's own built-ins and is isolate from changes to global environment by located page
       // Electron API only available from preload, not loaded page
@@ -93,20 +88,19 @@ async function createWindow() {
   });
 
   // Splash screen that appears while loading
-  const hideSplashscreen = initSplashScreen({
-    mainWindow: win,
-    icon: resolve('app/src/public/icons/png/64x64.png'),
-    url: OfficeTemplate,
-    width: 500,
-    height: 300,
-    brand: 'OS Labs',
-    productName: 'ReacType',
-    logo: resolve('app/src/public/icons/png/64x64.png'),
-    color: '#3BBCAF',
-    website: 'www.reactype.io',
-    text: 'Initializing ...',
-  });
-
+  // const hideSplashscreen = initSplashScreen({
+  //   mainWindow: win,
+  //   icon: resolve('app/src/public/icons/png/64x64.png'),
+  //   url: OfficeTemplate,
+  //   width: 500,
+  //   height: 300,
+  //   brand: 'OS Labs',
+  //   productName: 'ReacType',
+  //   logo: resolve('app/src/public/icons/png/64x64.png'),
+  //   color: '#3BBCAF',
+  //   website: 'www.reactype.io',
+  //   text: 'Initializing ...',
+  // });
   // Load app
   if (isDev) {
     // load app from web-dev server
@@ -119,7 +113,6 @@ async function createWindow() {
   // load page once window is loaded
   win.once('ready-to-show', () => {
     win.show();
-    hideSplashscreen();
   });
 
   // automatically open DevTools when opening the app
@@ -381,7 +374,6 @@ ipcMain.on('delete_cookie', event => {
   session.defaultSession.cookies
     .remove(serverUrl, 'ssid')
     // .then(removed => {
-    //   console.log('Cookies deleted', removed);
     // })
     .catch(err => console.log('Error deleting cookie:', err));
 });

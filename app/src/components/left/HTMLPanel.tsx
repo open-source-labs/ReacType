@@ -1,14 +1,9 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
-import HTMLItem from './HTMLItem';
-// import { styleContext } from './AppContainer';
 
 import { makeStyles, styled } from '@material-ui/core/styles';
 import {
   Button,
-  Checkbox,
-  FormControlLabel,
   InputLabel,
   TextField,
 } from "@material-ui/core";
@@ -34,7 +29,6 @@ const HTMLPanel = (props): JSX.Element => {
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
   const {isThemeLight} = props;
-  // const { style } = useContext(styleContext);
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;

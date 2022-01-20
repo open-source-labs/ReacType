@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 .tst-text-color { 
   color: #cc0707;
 }
@@ -6,9 +8,6 @@
   width: 100px;
   background-color: #000000;
 }
-
-
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .tst-login-page {
   width: 360px;
@@ -110,7 +109,6 @@
   -moz-osx-font-smoothing: grayscale;      
 }
 
-
 .tst-list-example .body-container {
     margin: 0;
     height: 100vh;
@@ -179,19 +177,3 @@
 .tst-list-example li:hover span {
     transform: translateX(0.15em);
 }
-
-
-
-
-/*
-
-List Example
-<ul>
-  <li><span>home</span></li>
-  <li><span>products</span></li>
-  <li><span>services</span></li>
-  <li><span>contact</span></li>
-</ul>
-
-
-*/

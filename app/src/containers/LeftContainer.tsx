@@ -4,7 +4,6 @@ import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
 import StateContext from '../context/context';
 import { styleContext } from './AppContainer';
-
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
@@ -13,11 +12,9 @@ const LeftContainer = (props): JSX.Element => {
   const handleDelete = () => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
-
   const keyBindedFunc = useCallback(e => {
     if (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT") handleDelete();
   }, []);
-
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {
@@ -28,7 +25,7 @@ const LeftContainer = (props): JSX.Element => {
   return (
     <div className="column left" style={style}>
       <Grid container direction="column" alignItems="center">
-        <h4>Drag & Drop</h4>
+        <h4>Drag and Drop</h4>
         <DragDropPanel isThemeLight={props.isThemeLight}/>
         <div id={'CompBottomHalf'}>
           <ComponentDrag isThemeLight={props.isThemeLight}/>

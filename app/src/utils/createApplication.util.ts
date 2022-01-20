@@ -1,14 +1,10 @@
 // Create all files necessary to run a classic react application
-
 import createFiles from './createFiles.util';
 import { Component} from '../interfaces/Interfaces';
-
 import createTestSuiteClassic from './createTestSuiteClassic.util'
-
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 };
-
 const compToCSS = (component: Component) => {
   const name = component.name;
   const styleObj = component.style;
@@ -24,7 +20,6 @@ const compToCSS = (component: Component) => {
   `;
   return cssClass;
 }
-
 function createIndexHtml(path, appName) {
   let dir = path;
   let dirSrc;
@@ -42,7 +37,6 @@ function createIndexHtml(path, appName) {
       window.api.mkdirSync(dirComponent);
     }
   }
-
   const filePath: string = `${dir}/index.html`;
   const data: string = `
 <!DOCTYPE html>
@@ -65,7 +59,6 @@ function createIndexHtml(path, appName) {
     }
   });
 }
-
 export const createIndexTsx = (path, appName) => {
   const filePath = `${path}/${appName}/src/index.tsx`;
   const data = `
@@ -73,7 +66,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import './default.css';
-
 ReactDOM.render(<App />, document.getElementById('root'));
   `;
   window.api.writeFile(filePath, data, err => {
@@ -84,7 +76,6 @@ ReactDOM.render(<App />, document.getElementById('root'));
     }
   });
 };
-
 export const createDefaultCSS = (path, appName, components) => {
   const filePath = `${path}/${appName}/src/default.css`;
   let data = `
@@ -100,7 +91,6 @@ export const createDefaultCSS = (path, appName, components) => {
   components.forEach(comp => {
     data += compToCSS(comp);
   })
-
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('default.css error:', err.message);
@@ -109,7 +99,6 @@ export const createDefaultCSS = (path, appName, components) => {
     }
   });
 };
-
 export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
    let tsjest = `,
@@ -122,7 +111,6 @@ export const createPackage = (path, appName, test) => {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "ts-jest": "^27.0.5",
     "enzyme-to-json": "^3.6.2"`;
-
   const data = `
 {
   "name": "reactype",
@@ -188,23 +176,19 @@ export const createPackage = (path, appName, test) => {
     }
   });
 };
-
 export const createWebpack = (path, appName) => {
   const filePath = `${path}/${appName}/webpack.config.js`;
   const data = `
 var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
 var path = require('path');
-
 module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
   },
-
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'source-map',
-
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -213,7 +197,6 @@ module.exports = {
   devServer: {
     publicPath: '/build/',
   },
-
   module: {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by babel-loader
@@ -248,7 +231,6 @@ module.exports = {
     }
   });
 };
-
 export const createBabel = (path, appName) => {
   const filePath = `${path}/${appName}/.babelrc`;
   const data = `
@@ -264,7 +246,6 @@ export const createBabel = (path, appName) => {
     }
   });
 };
-
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   const data = `
@@ -291,7 +272,6 @@ export const createTsConfig = (path, appName) => {
     }
   });
 };
-
 export const createTsLint = (path, appName) => {
   const filePath = `${path}/${appName}/tslint.json`;
   const data = `
@@ -311,7 +291,6 @@ export const createTsLint = (path, appName) => {
     "no-console": false,
     "ordered-imports": false,
     "comment-format": false
-    // "jsx-key": false,
   }
 }
 `;
@@ -323,25 +302,21 @@ export const createTsLint = (path, appName) => {
     }
   });
 };
-
 export const createServer = (path, appName) => {
   const filePath = `${path}/${appName}/server/server.js`;
   const data = `
 const express = require('express');
 const path = require('path');
 const app = express();
-
 app.get('/testDev', (req, res) => {
   res.send({ dev: 'testDev endpoint hit' });
 });
-
 // statically serve everything in the build folder on the route '/build'
 app.use('/build', express.static(path.join(__dirname, '../build')));
 // serve index.html on the route '/'
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
-
 app.listen(8080, () => {
   console.log('listening on port 8080');
 }); //listens on port 8080 -> http://localhost:8080/
@@ -354,7 +329,6 @@ app.listen(8080, () => {
     }
   });
 };
-
 async function createApplicationUtil({
   path,
   appName,

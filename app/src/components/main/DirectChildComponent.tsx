@@ -1,8 +1,7 @@
 import React, {  useContext, } from 'react';
 import {
   Component,
-  ChildElement,
-  HTMLType
+  ChildElement
 } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -33,17 +32,14 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       isDragging: !!monitor.isDragging()
     })
   });
-
   const changeFocus = (componentId: number, childId: number | null) => {
     dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
   };
-
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
     changeFocus(state.canvasFocus.componentId, childId);
   }
-
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced component, and 3) default styling
   const interactiveStyle = {
@@ -62,8 +58,6 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
     ),
     interactiveStyle
   );
-
-
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components
   // into the main canvas.  To render html elements on canvas, import and invoke renderChildren
   return  (

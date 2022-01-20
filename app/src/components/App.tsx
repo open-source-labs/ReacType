@@ -7,9 +7,8 @@ import StateContext from '../context/context';
 import initialState from '../context/initialState';
 import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
-import { getProjects, saveProject } from '../helperFunctions/projectGetSaveDel';
+import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
-
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -19,8 +18,6 @@ export const App = (): JSX.Element => {
   } else {
     state.isLoggedIn = false;
   }
-  
-  
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
@@ -57,8 +54,6 @@ export const App = (): JSX.Element => {
         });
       }
       }, []);
-  
-
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
     if (state.config === undefined) {
@@ -88,8 +83,6 @@ export const App = (): JSX.Element => {
       }, 15000);
     }
   }, [state])
-  
-
   return (
     <div className="app">
       <DndProvider backend={HTML5Backend}>
@@ -105,5 +98,4 @@ export const App = (): JSX.Element => {
     </div>
   );
 };
-
 export default App;

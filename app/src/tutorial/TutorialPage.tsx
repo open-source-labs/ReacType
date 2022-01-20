@@ -90,7 +90,6 @@ const tutorialPageStyle = {
   }
 };
 
-
 const TutorialPage: React.FC<RouteComponentProps> = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(props.match.params.learn);

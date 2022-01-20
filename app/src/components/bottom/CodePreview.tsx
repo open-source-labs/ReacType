@@ -11,30 +11,79 @@ import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/theme-terminal';
 import { Component } from '../../interfaces/Interfaces';
 import useResizeObserver from '../../tree/useResizeObserver';
-import { string } from 'prop-types';
-
+import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
+import { fetchPlugin } from '../../plugins/fetch-plugin';
+import * as esbuild from 'esbuild-wasm';
+import { store } from './../../index';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
   }> = ({ theme, setTheme }) => {
+
+
+  const ref = useRef<any>();
+  
+  const startService = async () => {
+    ref.current = await esbuild.startService({
+      worker: true,
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
+    })
+  }
+
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
-  const { width, height } =
+  const {height } =
     dimensions || 0;
 
-  const [state, dispatch] = useContext(StateContext);
-  const [divHeight, setDivHeight] = useState(0);
-  const currentComponent = state.components.find(
+  const [state,] = useContext(StateContext);
+  const [, setDivHeight] = useState(0);
+  let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
-  const handleCodeSnipChange = (val) => {
-    currentComponent.code = val;
-  };
+  const [input, setInput] = useState();
+
+
+  useEffect(() => {
+    startService();
+  }, []);
 
   useEffect(() => {
     setDivHeight(height);
   }, [height])
+
+  useEffect(() => {
+
+ setInput(currentComponent.code);
+  store.dispatch({type: "INPUT", payload: currentComponent.code});
+  }, [state.components])
+
+
+  const handleChange = async (data) => {
+    setInput(data);
+
+    store.dispatch({type: "INPUT", payload: data});
+    if(!ref.current) {
+      return;
+    }
+    let result = await ref.current.build({
+      entryPoints: ['index.js'],
+      bundle: true,
+      write: false,
+      incremental:true,
+      minify: true,
+      plugins: [
+        unpkgPathPlugin(),
+        fetchPlugin(data)
+      ],
+      define: {
+        'process.env.NODE_ENV': '"production"',
+        global: 'window'
+      }
+    })
+     store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
+  }
+
   return (
     <div
     ref={wrapper}
@@ -49,15 +98,20 @@ const CodePreview: React.FC<{
         theme="monokai"
         width="100%"
         height="100%"
-        onChange={handleCodeSnipChange}
-        value={currentComponent.code}
+        onChange={handleChange}
+        value={input}
         name="Code_div"
         readOnly={false}
         fontSize={16}
         tabSize={2}
       />
+
     </div>
   );
 };
 
 export default CodePreview;
+
+
+
+

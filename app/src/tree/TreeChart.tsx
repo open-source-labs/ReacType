@@ -21,12 +21,9 @@ function TreeChart({ data }) { // data is components from state - passed in from
 
   const xPosition = 50;
   const textAndBorderColor = '#bdbdbd';
-
   const dimensions = useResizeObserver(wrapperRef);
-
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
-
   // function to filter out separators to prevent render on tree chart
   const removeSeparators = (arr: object[]) => {
     // loop over array
@@ -48,14 +45,12 @@ function TreeChart({ data }) { // data is components from state - passed in from
     // return mutated array
     return arr;
   };
-
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
   // remove separators and update components to current versions
   dataDeepClone.forEach(component => {
     removeSeparators(component.children);
   });
-
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
@@ -67,16 +62,13 @@ function TreeChart({ data }) { // data is components from state - passed in from
     // transform hierarchical data
     const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
     const treeLayout = tree().size([height, width - 125]);
-
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
       .y(link => link.x);
-
     // insert our data into the tree layout
     treeLayout(root);
-
     // node - each element in the tree
     svg
       .selectAll('.node')
@@ -95,7 +87,6 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .attr('opacity', 1)
       .style('fill', 'white')
       .attr('transform', `translate(${xPosition}, 0)`);
-
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
@@ -107,7 +98,6 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .attr('fill', 'none')
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
-
     if (data !== previouslyRenderedData) {
       enteringAndUpdatingLinks
         .attr('stroke-dashoffset', function() {
@@ -115,7 +105,6 @@ function TreeChart({ data }) { // data is components from state - passed in from
         })
         .attr('stroke-dashoffset', 0);
     }
-
     // label - the names of each html element (node)
     svg
       .selectAll('.label')
@@ -131,14 +120,12 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
   }, [data, dimensions, previouslyRenderedData, canvasId]);
-
   const treeStyles = {
     height: '100%',
     width: `100%`,
     margin: '10px 10px 10px 10px',
     overflow: 'auto'
   };
-
   const wrapperStyles = {
     border: `2px solid ${textAndBorderColor}`,
     borderRadius: '8px',
@@ -148,12 +135,10 @@ function TreeChart({ data }) { // data is components from state - passed in from
     justifyContent: 'center',
     backgroundColor: '#42464C',
   };
-
   return (
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>
   );
 }
-
 export default TreeChart;

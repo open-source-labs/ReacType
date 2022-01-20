@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
-import { makeStyles } from '@material-ui/core/styles';
 
 /*
 DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
@@ -18,18 +17,8 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  // const classes = useStyles();
   const [state, dispatch] = useContext(StateContext);
   const {isThemeLight} = props;
-
-  // const useStyles = makeStyles({
-  //   lightThemeFontColor: {
-  //     color: '#186BB4'
-  //   },
-  //   darkThemeFontColor: {
-  //     color: '#ffffff'
-  //   },
-  // });
 
   const handleDelete = (id: number): void => {
     dispatch({

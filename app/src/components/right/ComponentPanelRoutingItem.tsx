@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
 /*
@@ -12,23 +11,18 @@ N.B.: RENDERED ONLY IN NEXT.JS MODE
 
 DESCRIPTION: This is the box beneath the "Navigation" heading. It allows insertion of links
   ("routing items") between pages (which are listed in the "Pages" menu, located above in the app).
-
 First, this component gathers all Pages (as listed in the Pages menu) and puts them in an
   array of names of those Pages (navigableComponents). 
-  
 Next, it sets route (hook state) to the first value in navigableComponents and checks whether
   that value (referencedComponent) still exists in the app's central state (Redux). If it does,
   the variable routeId is set to the id property of referencedComponent. If it doesn't,
   referencedComponent is replaced by index (the only Page guaranteed to exist) in navigableComponents.
-
 Dragging works in the same manner as in ComponentPanelItem.tsx
-
 */
-
 // a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const classes = useStyles();'s there, '
-  const [state, dispatch] = useContext(StateContext);
+  const [state,] = useContext(StateContext);
 
   // find the root components that can be associated with a route
   // These will be the components that are displayed in the dropdown adjacent to "Route Link"
@@ -39,7 +33,6 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
   // set state for the route currently selected in the dropdown
   const [route, setRoute] = useState(navigableComponents[0]);
 
-  // TODO: Add a useMemo so that this isn't recalculated on every render
   let routeId;
   // check if the component in the drop down still references an existing component
   const referencedComponent = state.components.find(
@@ -52,14 +45,11 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
     setRoute(state.components[0].name);
     routeId = 1;
   }
-
   // on switching to another Page in the dropdown menu, update hook state
   const handleRouteChange = event => {
     setRoute(event.target.value);
   };
-
   // useDrag hook allows components in left panel to be drag source
-
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,

@@ -9,9 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import AddIcon from '@material-ui/icons/Add';
 import { blue } from '@material-ui/core/colors';
-
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import StateContext from '../../context/context';
 
@@ -20,7 +18,6 @@ export interface ProjectDialogProps {
   projects: Array<Object>;
   onClose: () => void;
 }
-
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
@@ -30,7 +27,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
   const handleClose = () => {
     onClose();
   };
-
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
     const selectedProject = projects.filter(
@@ -39,7 +35,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
     dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     onClose();
   };
-
   return (
     <Dialog
       onClose={handleClose}
@@ -66,12 +61,9 @@ function ProjectsDialog(props: ProjectDialogProps) {
     </Dialog>
   );
 }
-
 export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
-  const [projects, setProjects] = useState([{ hello: 'cat' }]);
-
-  const classes = useStyles();
+  const [projects, setProjects] = useState([{ hello: 'cat' }])
 
   const handleClickOpen = () => {
     getProjects().then(data => {
@@ -81,11 +73,9 @@ export default function ProjectsFolder() {
       }
     });
   };
-
   const handleClose = () => {
     setOpen(false);
   };
-
   const keyBindOpenProject = useCallback((e) => {
     if(e.key === 'o' && e.metaKey || e.key === 'o' && e.ctrlKey) {
       e.preventDefault();
@@ -99,7 +89,6 @@ export default function ProjectsFolder() {
       document.removeEventListener('keydown', keyBindOpenProject)
     }
   }, []);
-
   return (
     <div>
       <Button
@@ -114,7 +103,6 @@ export default function ProjectsFolder() {
     </div>
   );
 }
-
 const useStyles = makeStyles({
   button: {
     width: '55%',

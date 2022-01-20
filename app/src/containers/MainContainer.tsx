@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {  useContext } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
 import { styleContext } from './AppContainer';
 import DemoRender from '../components/main/DemoRender';
-
 const MainContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
 
@@ -17,5 +16,4 @@ const MainContainer = (props): JSX.Element => {
     </div>
   );
 };
-
 export default MainContainer;

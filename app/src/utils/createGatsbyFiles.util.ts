@@ -2,13 +2,10 @@
 // all components are stored in a src folder
 // "Root" level components are stored in a pages directory
 // all other components will be in a components directory
-
 import { Component } from '../interfaces/Interfaces';
-
 const isRoot = (component: Component, rootArray: number[]) => {
   return rootArray.includes(component.id) ? true : false;
 };
-
 const createGatsbyFiles = (
   components: Component[],
   path: string,
@@ -17,7 +14,6 @@ const createGatsbyFiles = (
 ) => {
   let dir = path;
   dir = `${dir}/${appName}`;
-
   const promises: Array<any> = [];
   components.forEach((component: Component) => {
     let code: string;
@@ -38,10 +34,8 @@ const createGatsbyFiles = (
         return resolve(path);
       });
     });
-
     promises.push(newPromise);
   });
   return Promise.all(promises);
 };
-
 export default createGatsbyFiles;

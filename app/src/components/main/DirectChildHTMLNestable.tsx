@@ -9,7 +9,6 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import Annotation from './Annotation'
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
-// import addRoute from '../../helperFunctions/addRoute';
 import AddRoute from './AddRoute';
 
 function DirectChildHTMLNestable({
@@ -49,7 +48,7 @@ const snapShotFunc = () => {
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      name: name //added code <--
+      name: name 
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {

@@ -8,7 +8,6 @@ import Annotation from './Annotation'
 function IndirectChild({ style, children, placeHolder, linkId, childId, name, annotations }) {
   const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
-
   // when a user clicks a link, the focus should change to that component
   function onClickHandlerRoute(event) {
     event.stopPropagation();
@@ -17,7 +16,6 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
       payload: { componentId: linkId, childId: null }
     });
   }
-
   let linkName: string;
   // if there's a link in this component, then include a link
   if (linkId) {
@@ -25,7 +23,6 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
       .name;
     combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
   }
-
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}

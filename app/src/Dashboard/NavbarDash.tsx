@@ -42,10 +42,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     justifyContent: 'center',
   },
 }));
-
 // sorting options
 const sortMethods = ['RATING', 'DATE', 'USER'];
-
 // Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
   paper: {
@@ -66,7 +64,6 @@ const StyledMenu = withStyles({
     {...props}
   />
 ));
-
 const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
@@ -76,30 +73,22 @@ const StyledMenuItem = withStyles(theme => ({
     }
   }
 }))(MenuItem);
-
 // TO DO: set types of props validation
 export default function NavBar(props) {
   // TO DO: import setStyle
   const classes = useStyles();
   const { style, setStyle } = useContext(styleContext);
-
   const toggling = () => setIsOpen(!isOpen);
-  
   // toggle to open and close dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
-
   // State for sort projects button
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <div className={classes.root} style={style}>
       <AppBar position='static'>
@@ -108,10 +97,7 @@ export default function NavBar(props) {
           <Typography variant="h6" style={{ marginLeft: '1rem' }} className={classes.title}>
             ReacType
           </Typography>
-
-          {/* ==========================================Sort by Button================================================== */}
-         
-          <div style ={ { textDecoration: 'none' } }>
+           <div style ={ { textDecoration: 'none' } }>
             <Button
             variant='contained'
             color='primary'
@@ -166,9 +152,7 @@ export default function NavBar(props) {
             }}
           >
             {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
-          </Button>
-          {/* ====================================Home Button============================================== */}
-          
+          </Button>  
           <div>
             <Link to='/' style={{textDecoration: 'none'}}>
               <Button

@@ -1,24 +1,17 @@
 
-import React, { ReactNode, useState, useContext } from 'react';
-
+import React, { ReactNode, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { styleContext } from '../../containers/AppContainer';
 import StatePropsPanel from './StatePropsPanel';
-import ComponentPanel from './ComponentPanel';
-
 interface TabPanelProps {
   children?: ReactNode;
   index: any;
   value: any;
 }
-
 const TabPanelItem = (props: TabPanelProps): JSX.Element => {
   const theme = useTheme();
   const { children, index, value, ...other } = props;
@@ -62,22 +55,18 @@ const LinkTab = (props: LinkTabProps) => {
     />
   );
 };
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   }
 }));
-
 const TabPanel = (): JSX.Element => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -92,7 +81,6 @@ const TabPanel = (): JSX.Element => {
         </Tabs>
       </AppBar>
       <TabPanelItem value={value} index={0}>
-        {/* <ComponentPanel/> */}
       </TabPanelItem>
       <TabPanelItem value={value} index={1}>
         <StatePropsPanel />
@@ -100,5 +88,4 @@ const TabPanel = (): JSX.Element => {
     </div>
   );
 };
-
 export default TabPanel;

@@ -64,7 +64,6 @@ var MenuBuilder = function(mainWindow, appName) {
 
   let defaultTemplate = function() {
     return [
-      // { role: "appMenu" }
       ...(isMac
         ? [
             {

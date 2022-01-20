@@ -1,6 +1,4 @@
 import { gql } from '@apollo/client';
-
-
 // Query
 export const GET_PROJECTS = gql`query GetAllProjects($userId: ID) {
   getAllProjects(userId: $userId) { 
