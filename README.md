@@ -20,8 +20,9 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
-![openingGif](https://raw.githubusercontent.com/open-source-labs/ReacType/master/resources/canvas_tutorial_images/drag1.gif)
-
+<p align='center'>
+  <img src='./app/src/public/ezgif.com-gif-maker.gif'/>
+</p>
 ### How to use
 
 - **Sign-in page**: Sign up for an account or just continue as a guest. Registered users enjoy additional project-saving functionality.
@@ -34,7 +35,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
 - **Component Tree**: Click on the Component Tree tab next to the Code Preview tab to view the component tree hierarchy.
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
-- **Using State in Elements**: As of 9.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
+- **Using State in Elements**: As of 10.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
@@ -60,10 +61,8 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 - Tutorial has been updated to reflect other modifications
 
 
- **New with version 9.0.0:**
-- **React Router**: Drag-and-drop LinkTo and Router elements (located below the HTML elements list) to implement fully-functional React Router components into your application to dynamically and quickly render components in the live demo render and in your exported application.
-- **Global State Management**: For the first time in ReacType history, users can utilize global state management in the form of the Context API!  Any state that is added will automatically be passed around your application with the appropriate UseContext hooks.  
-- **Composite Data Structures in State**: State creation in ReacType can now handle composite data types, which includes arrays, objects, and any amount of nesting of composite data types within other composite data types (i.e. arrays of objects and objects with objects as values).
+ **New with version 10.0.0:**
+- **Live Code Preview**: See your code preview update in real time as you build. React hooks are enabled for application lifecycle management. Dynamically render functional components using a live code editor. User's can hook event listeners to components and see them render in real time.
 
 ### Keyboard Shortcuts
 
