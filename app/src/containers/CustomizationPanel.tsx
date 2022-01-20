@@ -3,7 +3,6 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useCallback
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,16 +18,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
-import ComponentPanel from '../components/right/ComponentPanel';
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
-import TabPanel from '../components/right/TabPanel';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
-import { config } from 'ace-builds';
 import UseStateModal from '../components/bottom/UseStateModal';
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router

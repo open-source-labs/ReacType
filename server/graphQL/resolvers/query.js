@@ -3,7 +3,6 @@ const { Projects, Comments } = require('../../models/reactypeModels');
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 
-
 const Project = {
   getProject: async (parent, { projId }) => {
     const resp = await Projects.findOne({ _id: projId });

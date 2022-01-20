@@ -1,4 +1,3 @@
-
 const electron = require('electron');
 
 /*
@@ -15,9 +14,6 @@ const {
   session,
   ipcMain,
 } = require('electron');
-
-
-
 // The splash screen is what appears while the app is loading
 const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
@@ -48,11 +44,9 @@ let menuBuilder;
 // this function will be called when Electron has initialized itself
 async function createWindow() {
   // install react dev tools if we are in development mode
-  if (isDev) {
-  } else {
     // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
-  }
+  
   // Create the browser window.
   win = new BrowserWindow({
     // full screen

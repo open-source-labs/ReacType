@@ -1,6 +1,4 @@
-
 import React, { ReactNode, useState } from 'react';
-import { useTheme } from '@material-ui/core/styles';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,7 +11,6 @@ interface TabPanelProps {
   value: any;
 }
 const TabPanelItem = (props: TabPanelProps): JSX.Element => {
-  const theme = useTheme();
   const { children, index, value, ...other } = props;
   return (
     <div

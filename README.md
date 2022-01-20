@@ -23,7 +23,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 <p align='center'>
   <img src='./app/src/public/ezgif.com-gif-maker.gif'/>
 </p>
-### How to use
+ How to use
 
 - **Sign-in page**: Sign up for an account or just continue as a guest. Registered users enjoy additional project-saving functionality.
 - **Tutorial**: Click ‘Tutorial’ from the Help tab’s dropdown menu (at the top left of the application) to view a tutorial.

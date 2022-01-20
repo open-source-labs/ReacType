@@ -7,7 +7,6 @@ const nonce = require('./app/src/utils/createNonce')();
 
 // merges webpack.config.js with production specific configs
 module.exports = merge(base, {
-  // enables optimizations for production mode
   // sets process.env.NODE_ENV to 'production'
   mode: 'production',
   plugins: [
