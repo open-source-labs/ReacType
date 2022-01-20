@@ -46,7 +46,7 @@
     "Tolga Mizrakci",
     "Tony Ito-Cole",
     "Tyler Sullberg",
-    "Ulrich Neuj,ahr",
+    "Ulrich Neujahr",
     "William Cheng",
     "William Yoon"
   ],
@@ -61,8 +61,8 @@
     "pack": "electron-builder --dir",
     "dist": "npm run prod-build && electron-builder",
     "dist-mac": "npm run prod-build && electron-builder --mac",
-    "dist-linux": "npm run prod-build && electron-builder --linux",
-    "dist-windows": "npm run prod-build && electron-builder --windows",
+    "dist-linux": "electron-builder --linux",
+    "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "concurrently  \"npm run dev-server\" \"cross-env NODE_ENV=test jest --verbose \"",
     "server": "nodemon server/server.js"
@@ -194,7 +194,6 @@
     "dotenv-webpack": "^5.0.1",
     "electron": "^16.0.6",
     "electron-builder": "^22.13.1",
-    "electron-splashscreen": "^1.0.0",
     "enzyme-to-json": "^3.5.0",
     "esbuild": "^0.14.10",
     "eslint": "^4.19.1",

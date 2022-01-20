@@ -19,7 +19,7 @@ const {
 
 
 // The splash screen is what appears while the app is loading
-const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
+// const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
 const { resolve } = require('app-root-path');
 
 // to install react dev tool extension
@@ -88,19 +88,19 @@ async function createWindow() {
   });
 
   // Splash screen that appears while loading
-  const hideSplashscreen = initSplashScreen({
-    mainWindow: win,
-    icon: resolve('app/src/public/icons/png/64x64.png'),
-    url: OfficeTemplate,
-    width: 500,
-    height: 300,
-    brand: 'OS Labs',
-    productName: 'ReacType',
-    logo: resolve('app/src/public/icons/png/64x64.png'),
-    color: '#3BBCAF',
-    website: 'www.reactype.io',
-    text: 'Initializing ...',
-  });
+  // const hideSplashscreen = initSplashScreen({
+  //   mainWindow: win,
+  //   icon: resolve('app/src/public/icons/png/64x64.png'),
+  //   url: OfficeTemplate,
+  //   width: 500,
+  //   height: 300,
+  //   brand: 'OS Labs',
+  //   productName: 'ReacType',
+  //   logo: resolve('app/src/public/icons/png/64x64.png'),
+  //   color: '#3BBCAF',
+  //   website: 'www.reactype.io',
+  //   text: 'Initializing ...',
+  // });
   // Load app
   if (isDev) {
     // load app from web-dev server
@@ -113,7 +113,6 @@ async function createWindow() {
   // load page once window is loaded
   win.once('ready-to-show', () => {
     win.show();
-    hideSplashscreen();
   });
 
   // automatically open DevTools when opening the app
