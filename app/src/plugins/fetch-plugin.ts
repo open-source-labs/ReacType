@@ -1,11 +1,9 @@
 import * as esbuild from 'esbuild-wasm';
 import axios from 'axios';
 import localForage from 'localforage';
-
 const fileCache = localForage.createInstance({
   name: 'filecache'
 });
-
 export const fetchPlugin = (inputCode: string) => {
   return {
     name: 'fetch-plugin',
@@ -16,17 +14,14 @@ export const fetchPlugin = (inputCode: string) => {
           contents: inputCode,
         };
       });
-
       build.onLoad({ filter: /.*/}, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
         if(cachedResult) {
           return cachedResult;
         }
       });
-
       build.onLoad({ filter: /.css$/ }, async (args: any) => {
         const { data, request } = await axios.get(args.path);
-
         const escaped = data
           .replace(/\n/g, '')
           .replace(/"/g, '\\"')
@@ -37,7 +32,6 @@ export const fetchPlugin = (inputCode: string) => {
           style.innerText = '${escaped}';
           document.head.appendChild(style)
           `;
-
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents,

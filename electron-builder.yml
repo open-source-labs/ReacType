@@ -1,5 +1,5 @@
 appId: com.electron.reactype
-copyright: Copyright © 2021
+copyright: Copyright © 2022
 productName: ReacType
 directories:
   buildResources: resources
@@ -13,7 +13,7 @@ linux:
     - rpm
     - snap
     - AppImage
-  maintainer: tysullberg@gmail.com
+  maintainer: reactype.io@gmail.com
 mac:
   category: public.app-category.developer-tools
   target: dmg

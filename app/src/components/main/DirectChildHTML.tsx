@@ -1,4 +1,4 @@
-import React, {  useContext, useRef } from 'react';
+import React, {  useContext } from 'react';
 import {
   ChildElement,
   HTMLType
@@ -19,15 +19,12 @@ function DirectChildHTML({
   annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
-  const ref = useRef(null);
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
   const HTMLType: HTMLType = state.HTMLTypes.find(
     (type: HTMLType) => type.id === typeId
   );
-
-
   // hook that allows component to be draggable
   const [{ isDragging }, drag] = useDrag({
     // setting item attributes to be referenced when updating state with new instance of dragged item

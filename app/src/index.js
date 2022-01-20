@@ -18,7 +18,6 @@ import FBPassWord from './components/login/FBPassWord.tsx';
 import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
-import styles from './Dashboard/styles.css';
 
 const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',

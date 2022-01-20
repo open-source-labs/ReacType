@@ -11,7 +11,7 @@ function Annotation({
   name,
   annotations,
 }: Annotations) {
-  const [state, dispatch] = useContext(StateContext);
+  const [state, ] = useContext(StateContext);
   const [annotation, setAnnotations] = useState(annotations);
   // React hook setting the annotation button modal open/close state
   const [open, setOpen] = React.useState(false);
@@ -19,12 +19,10 @@ function Annotation({
   // focusIndex and childrenArray are used to find the array of all elements on the canvas
   const focusIndex = state.canvasFocus.componentId - 1;
   const childrenArray = state.components[focusIndex].children;
-
   // For showing the modal
-  const handleOpen = (id) => {
+  const handleOpen = () => {
     setOpen(true);
   };
-
   // For closing the modal and setting the global annotation value to the hook value
   const handleClose = (id) => {
     const childEle = handleFindAnno(childrenArray, id);
@@ -34,7 +32,6 @@ function Annotation({
     }
     setOpen(false);
   };
-
   /**
    * Handles when text exists in the textarea of the modal.
    * If text exists/does not exist, corresponding button changes colors.
@@ -51,7 +48,6 @@ function Annotation({
       setAnnotations(value);
     }
   }
-
   /**
    * This handler will find the specific anno for the corresponding component on the canvas in the childrenArray -
    * where the canvas components are placed
@@ -73,7 +69,6 @@ function Annotation({
     }
     return '';
   };
-
   /**
    * This useEffect allows the annotations to remain persistent when changing between root level components on the right panel
    */

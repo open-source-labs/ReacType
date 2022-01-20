@@ -56,7 +56,6 @@ module.exports = {
         loader: 'babel-loader',
         // the resolver helps webpack locate the absolute path of imported modules
         resolve: {
-          // TODO: ptoentially remove this resolve not sure if this resolve here is still necessary
           extensions: ['.js', '.jsx', '.json']
         }
       },
@@ -78,8 +77,6 @@ module.exports = {
           extensions: ['.css']
         }
       },
-
-
       // loads common image formats
       // resolves import/require on a file into a url and emits the file into the output directory
       // url loader converts file into base 64 encoded string that can be passed inline into the file rather than be imported from a seperate file

@@ -3,7 +3,6 @@ const { Projects } = require('../models/reactypeModels');
 const projectController = {};
 
 // saveProject saves current workspace to database
-
 projectController.saveProject = (req, res, next) => {
   // pull project name and project itself from body
   const { name, project, userId, username, comments } = req.body;
@@ -53,7 +52,6 @@ projectController.getProjects = (req, res, next) => {
 };
 
 // delete project from database **currently not integrated into app**
-
 projectController.deleteProject = (req, res, next) => {
   // pull project name and userId from req.body
   const { name, userId } = req.body;

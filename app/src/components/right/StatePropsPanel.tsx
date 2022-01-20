@@ -23,25 +23,19 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-
 import StateContext from "../../context/context";
 import TableStateProps from "./TableStateProps";
-
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-
-
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [inputType, setInputType] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  // get currentComponent by using currently focused component's id
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
@@ -70,7 +64,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const resetError = () => {
     setErrorStatus(false);
   };
-
   // submit new stateProps entries to state context
   let currKey;
   const submitNewState = (e) => {
@@ -83,8 +76,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       setErrorMsg('Key name can not start with int.');
       return;
     }
-
-    //return alert('key can not start with number');
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
       id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
@@ -100,8 +91,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     resetError();
     clearForm();
   };
-
-
   // find table row using its id and if it exists, populate form with its details
   const handlerRowSelect = (table) => {
     let exists = false;
@@ -116,7 +105,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       setInputValue(table.row.value);
     } else clearForm();
   };
-  
   return (
     <div className={'state-panel'}>
       <div>
@@ -203,7 +191,6 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     </div>
   );
 };
-
 const useStyles = makeStyles((theme: Theme) =>
   ({
     inputField: {
@@ -361,7 +348,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
 const MyButton = styled(Button)({
   background: "#0099E6",
   border: 0,
@@ -372,6 +358,4 @@ const MyButton = styled(Button)({
   width: 40,
   padding: "0 30px",
 });
-
-
 export default StatePropsPanel;

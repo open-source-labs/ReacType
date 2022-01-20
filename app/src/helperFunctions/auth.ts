@@ -1,11 +1,9 @@
 const fetch = require('node-fetch');
-
 const isDev = process.env.NODE_ENV === 'development';
 let serverURL = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverURL = 'http://localhost:5000';
 }
-
 export const sessionIsCreated = (
   username: string,
   password: string,
@@ -16,7 +14,6 @@ export const sessionIsCreated = (
     password,
     isFbOauth,
   });
-
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',
@@ -32,7 +29,6 @@ export const sessionIsCreated = (
         window.localStorage.setItem('ssid', data.sessionId);
         // save username locally, will be added to saved project for each user
         window.localStorage.setItem('username', username);
-
         return 'Success';
       }
       return data; // error message returned from userController.verifyUser
@@ -40,7 +36,6 @@ export const sessionIsCreated = (
     .catch(err => 'Error');
   return result;
 };
-
 export const newUserIsCreated = (
   username: string,
   email: string,

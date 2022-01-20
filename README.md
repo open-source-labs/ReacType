@@ -5,7 +5,7 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 9.0.0]
+![Version 10.0.0]
 
 **ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -16,7 +16,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 9.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 10.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 

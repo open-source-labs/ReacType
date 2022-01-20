@@ -1,6 +1,5 @@
 import { HTMLType } from '../interfaces/Interfaces';
 import React from 'react';
-
 import ImageIcon from '@material-ui/icons/Image';
 import ParagraphIcon from '@material-ui/icons/LocalParking';
 import FormIcon from '@material-ui/icons/Description';
@@ -8,7 +7,6 @@ import HeaderIcon from '@material-ui/icons/TextFormat';
 import ButtonIcon from '@material-ui/icons/EditAttributes';
 import LinkIcon from '@material-ui/icons/Link';
 import ListIcon from '@material-ui/icons/List';
-
 const HTMLTypes: HTMLType[] = [
   {
     id: 11,
@@ -184,5 +182,4 @@ const HTMLTypes: HTMLType[] = [
     icon: ListIcon
   }
 ];
-
 export default HTMLTypes;

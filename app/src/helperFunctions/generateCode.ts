@@ -11,7 +11,6 @@ declare global {
     api: any;
   }
 }
-
 // generate code based on component hierarchy and then return the rendered code
 const generateCode = (
   components: Component[],
@@ -39,7 +38,6 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[]
 ) => {
   const components = [...comps];
-
   // find the component that we're going to generate code for
   const currComponent = components.find(elem => elem.id === componentId);
   // find the unique components that we need to import into this component file
@@ -47,18 +45,14 @@ const generateUnformattedCode = (
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
-
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
-
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     // declare an array of enriched children
-
     const enrichedChildren = currentComponent.children.map((elem: any) => {
       //enrichedChildren is iterating through the children array
       const child = { ...elem };
-
       // check if child is a component
       if (child.type === 'Component') {
         // verify that the child is in the components array in state
@@ -115,7 +109,6 @@ const generateUnformattedCode = (
     }
     return formattedStyles;
   };
-
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = "";
@@ -126,25 +119,21 @@ const generateUnformattedCode = (
     if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
     return customizationDetails;
   };
-
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
   const tabSpacer = (level: number) => {
     let tabs = '  '
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
   }
-
   // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
     if (level === 2 ) return `\n${tabSpacer(spaces)}`;
     else return ''
   }
-
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
     let activeLink = '""';
-
     if (childElement.attributes && childElement.attributes.compText) {
       if (childElement.stateUsed && childElement.stateUsed.compText) {
         innerText = '{' + childElement.stateUsed.compText + '}';
@@ -187,7 +176,6 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     }
   }
-
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
@@ -213,7 +201,6 @@ const generateUnformattedCode = (
               .join('')
             }`;
   };
-
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
@@ -222,9 +209,7 @@ const generateUnformattedCode = (
     }
     return stateToRender
   }
-
   const enrichedChildren: any = getEnrichedChildren(currComponent);
-
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
@@ -240,20 +225,14 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-
-
   const createState = (stateProps) => {
     let state = '{';
-
     stateProps.forEach((ele) => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
     });
-
     state = state.substring(0, state.length - 2) + '}';
-
     return state;
   }
-
   // Generate import
   let importContext = '';
   if(currComponent.useContext) {
@@ -262,13 +241,11 @@ const generateUnformattedCode = (
         importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
     }
   }
-
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
       providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
-
       for (let i = 0; i < providerComponent.stateProps.length; i++) {
         if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
           context +=
@@ -293,7 +270,6 @@ const generateUnformattedCode = (
     ${importsMapped}
     ${`const ${currComponent.name} = (props) => {`}
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
-
     ${!importReactRouter
       ? `  return (
           <div className="${currComponent.name}" ${formatStyles(currComponent)}>
@@ -318,11 +294,8 @@ const generateUnformattedCode = (
     ${importsMapped}
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
-
     const ${currComponent.name} = (props): JSX.Element => {
-
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
-
       return (
       <>
       ${
@@ -338,7 +311,6 @@ const generateUnformattedCode = (
       </>
       );
     }
-
     export default ${currComponent.name};
     `;
   } else {
@@ -348,12 +320,8 @@ const generateUnformattedCode = (
     ${importsMapped}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
-
-
       const ${currComponent.name} = (props: any): JSX.Element => {
-
       const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
-
       return (
         <>
         ${
@@ -369,12 +337,10 @@ const generateUnformattedCode = (
         </>
         );
       }
-
       export default ${currComponent.name};
     `;
   }
 };
-
 // formats code with prettier linter
 const formatCode = (code: string) => {
   // in test environment, window.api is not defined,
@@ -394,7 +360,4 @@ const formatCode = (code: string) => {
     return code;
   }
 };
-
-
-
 export default generateCode;

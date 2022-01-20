@@ -53,7 +53,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
 
-
   const resetFields = () => {
     const childrenArray = state.components[0].children;
     let attributes;
@@ -77,16 +76,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     setBGColor(style.backgroundColor ? style.backgroundColor : '');
   };
   let configTarget;
-
   // after component renders, reset the input fields with the current styles of the selected child
   useEffect(() => {
     resetFields();
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
-
   // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
     const inputVal = e.target.value;
-
     switch (e.target.name) {
       case 'display':
         setDisplayMode(inputVal);
@@ -122,7 +118,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         break;
     }
   };
-
   // returns the current component referenced in canvasFocus
   // along with its child instance, if it exists
   const getFocus = () => {
@@ -134,11 +129,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       )
     );
     delete focusTarget.child;
-
     // checks if canvasFocus references a childId
     const childInstanceId = state.canvasFocus.childId;
     let focusChild;
-
     // if so, breadth-first search through focusTarget's descendants to find matching child
     if (childInstanceId) {
       focusTarget.child = {};
@@ -171,25 +164,20 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         ).name;
       }
     }
-
     return focusTarget;
   };
-
   // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
   configTarget = useMemo(() => getFocus(), [
     state.canvasFocus.childId,
     state.canvasFocus.componentId
   ]);
-
   const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
     return components
       .filter(component => rootComponents.includes(component.id))
       .some(el => el.id === configTarget.id);
   };
-
   const isIndex = (): boolean => configTarget.id === 1;
-
   const isLinkedTo = (): boolean => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
@@ -206,28 +194,20 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     searchNestedChildren(state.components);
     return isLinked;
   };
-
-
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
-
     // get the stateProps of the componentProvider
     const currentComponent = state.components[state.canvasFocus.componentId - 1];
     let newContextObj = {...currentComponent.useContext};
-
     if(!newContextObj) {
       newContextObj = {};
     }
-
     if (!newContextObj[componentProviderId]) {
       newContextObj[componentProviderId] = {statesFromProvider : new Set()};
     }
-
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
-
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
-      // update/create stateUsed.compText
       setStateUsedObj({...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId});
       setCompText(newInput);
       setUseContextObj(newContextObj);
@@ -235,14 +215,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
     if (attributeName === 'compLink') {
       newContextObj[componentProviderId].compLink = statePropsId;
-
-      // update/create stateUsed.compLink
       setStateUsedObj({...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId});
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
   }
-
   const handleSave = (): Object => {
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -252,49 +229,39 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
     })
-
     dispatch({
       type: 'UPDATE USE CONTEXT',
       payload: { useContextObj: useContextObj}
     })
-
     dispatch({
       type: 'UPDATE CSS',
       payload: { style: styleObj }
     });
-
     dispatch({
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
     });
-
     return styleObj;
   };
-
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch({ type: 'UNDO', payload: {} });
   };
-
   const handleRedo = () => {
     dispatch({ type: 'REDO', payload: {} });
   };
-
   // placeholder for handling deleting instance
   const handleDelete = () => {
     dispatch({ type: 'DELETE CHILD', payload: {} });
   };
-
   const handlePageDelete = id => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
@@ -302,21 +269,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       ? handleDialogError('index')
       : dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
-
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
   };
-
   const handleCloseDialogError = () => {
     setDeleteIndexError(false);
     setDeleteComponentError(false);
     setDeleteLinkedPageError(false);
   };
-
   // closes out the open modal
   const closeModal = (): void => setModal('');
-
   // creates modal that asks if user wants to clear all components
   // if user clears their components, then their components are removed from state and the modal is closed
   const clearComps = (): void => {
@@ -325,7 +288,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       closeModal();
       dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
-
     // set modal options
     const children = (
       <List className="export-preference">
@@ -341,7 +303,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         >
           <ListItemText primary={'Yes'} style={{ textAlign: 'center' }} />
         </ListItem>
-
         <ListItem
           key={'not delete'}
           button
@@ -372,7 +333,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       })
     );
   };
-
   const keyBindedFunc = useCallback(e => {
     // the || is for either Mac or Windows OS
     // Undo
@@ -456,7 +416,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   { value: 'flex', text: 'flex' }
                 ]}
               />
-              {/* flex options are hidden until display flex is chosen */}
               {displayMode === 'flex' && (
                 <div>
                   <FormSelector
@@ -755,7 +714,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     </div>
   );
 };
-
 const useStyles = makeStyles({
   select: {
     fontSize: '1em',
@@ -823,5 +781,4 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
-
 export default CustomizationPanel;

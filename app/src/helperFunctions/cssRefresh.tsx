@@ -1,4 +1,3 @@
-
 // Removes old link to css and creates a new stylesheet link on demo render
 const cssRefresher = () => {
   const oldStylesheet = document.getElementById('Render Stylesheet')
@@ -11,6 +10,4 @@ const cssRefresher = () => {
   newStylesheet.setAttribute("id", 'Render Stylesheet');
   document.getElementById('renderFocus').append(newStylesheet);
 }
-
-
 export default cssRefresher;

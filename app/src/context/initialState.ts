@@ -1,6 +1,5 @@
 import { State } from '../interfaces/Interfaces';
 import HTMLTypes from './HTMLTypes';
-
 // This is the state that will be set for a new project or when the user resets the state of their project
 const initialState: State = {
   name: '',
@@ -28,5 +27,4 @@ const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes
 };
-
 export default initialState;

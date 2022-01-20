@@ -3,8 +3,6 @@ let serverURL = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverURL = 'http://localhost:5000';
 }
-// helper functions that will do fetch requests to get and save user/guest projects
-
 export const getProjects = (): Promise<any> => {
   let userId = window.localStorage.getItem('ssid');
   const body = JSON.stringify({ userId });

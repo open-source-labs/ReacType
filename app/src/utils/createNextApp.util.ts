@@ -1,14 +1,10 @@
 // Create all files necessary to run a next.js application
-
 import createNextFiles from './createNextFiles.util';
 import { Component } from '../interfaces/Interfaces';
-
 import createTestSuiteNext from './createTestSuiteNext.util';
-
 const camelToKebab= (camel:string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 };
-
 const compToCSS = (component: Component) => {
   const name = component.name;
   const styleObj = component.style;
@@ -24,11 +20,9 @@ const compToCSS = (component: Component) => {
   `;
   return cssClass;
 }
-
 //createPackage
 export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
-
   let testpackages = `,
     "@types/enzyme": "^3.10.9",
     "@types/jest": "^27.0.1",
@@ -39,7 +33,6 @@ export const createPackage = (path, appName, test) => {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "identity-obj-proxy": "^3.0.0",
     "ts-jest": "^27.0.5"`;
-
   const data = `
 {
   "name": "reactype-next",
@@ -116,8 +109,6 @@ export const createTsConfig = (path, appName) => {
   ]
 } 
 `;
-
-
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('TSConfig error:', err.message);
@@ -165,15 +156,12 @@ export const initFolders = (path:string, appName: string) => {
     window.api.mkdirSync(dirComponents);
   }
 }
-
 //createBaseTsx
 export const createBaseTsx = (path, appName) => {
-
   const filePath:string = `${path}/${appName}/pages/_app.tsx`;
   const data:string = `
   import React from 'react';
   import '../global.css';
-
   const Base = ({ Component }):JSX.Element => {
     return (
       <>
@@ -181,7 +169,6 @@ export const createBaseTsx = (path, appName) => {
       </>
     )
   }
-
   export default Base;
   `;
   window.api.writeFile(filePath, data, err => {

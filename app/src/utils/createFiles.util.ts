@@ -1,5 +1,4 @@
 // Creates all component files (but not the full application files) and places them in a "components" directory
-
 const createFiles = (
   components: any,
   path: string,
@@ -22,7 +21,6 @@ const createFiles = (
       dir = `${dir}/${appName}/src/components`;
     }
   }
-
   const promises: Array<any> = [];
   components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
@@ -35,10 +33,8 @@ const createFiles = (
         }
       );
     });
-
     promises.push(newPromise);
   });
   return Promise.all(promises);
 };
-
 export default createFiles;

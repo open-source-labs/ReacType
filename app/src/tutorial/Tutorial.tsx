@@ -1,9 +1,7 @@
-import React, { useState, createContext, useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
@@ -21,7 +19,6 @@ import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import BrushIcon from '@material-ui/icons/Brush';
-
 
 const useStyles = makeStyles({
   root: {
@@ -89,7 +86,6 @@ const useStyles = makeStyles({
 
 const Tutorial: React.FC<RouteComponentProps> = () => {
   const classes = useStyles();
-
   const topics = [
     'Pages',
     'Route Links',
@@ -105,7 +101,6 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     'CSS Editor',
     'Keyboard Shortcuts',
   ];
-
   const icons = [
     <MenuBookIcon className={classes.icons} />,
     <LinkIcon className={classes.icons} />,
@@ -121,11 +116,9 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <BrushIcon className={classes.icons} />,
     <KeyboardIcon className={classes.icons} />,
   ];
-
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
   body.style.backgroundColor = Styling.tutorialGray;
-
   const cards = topics.map((topic, i) => {
     return (
       <div key={`k${i}`} className={classes.cardWrapper}>
@@ -142,7 +135,6 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
       </div>
     );
   });
-
   return (
     <Container maxWidth="xl" className={classes.container}>
       <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
@@ -150,5 +142,4 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     </Container>
   );
 };
-
 export default withRouter(Tutorial);

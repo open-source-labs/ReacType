@@ -1,6 +1,6 @@
 // Future developers: This file needs to move to right folder: src/components/right
 
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useContext } from 'react';
 import StateContext from '../../context/context';
 import Grid from '@material-ui/core/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({isThemeLight}): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
+  const [state, ] = useContext(StateContext);
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };

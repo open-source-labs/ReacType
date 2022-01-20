@@ -11,6 +11,5 @@ export const combineStyles = (
       combinedStyle[i] = defaultStyle[i];
     }
   }
-
   return combinedStyle;
 };

@@ -1,5 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
-import StateContext from '../../context/context';
+import React, { useState, useRef, useEffect } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-css';
 import 'ace-builds/src-noconflict/theme-monokai';
@@ -9,9 +8,6 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
-import { Component } from '../../interfaces/Interfaces';
-import useResizeObserver from '../../tree/useResizeObserver';
-import { string } from 'prop-types';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
@@ -82,7 +78,6 @@ const StylesEditor: React.FC<{
         onChange={handleChange}
         value={css}
         name="Css_div"
-        // readOnly={false}
         fontSize={16}
         tabSize={2}
         enableBasicAutocompletion={true}

@@ -22,9 +22,7 @@ const CodePreview: React.FC<{
 
 
   const ref = useRef<any>();
-  const iframe = useRef<any>();
   
-
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
@@ -32,15 +30,13 @@ const CodePreview: React.FC<{
     })
   }
 
-  
-
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
-  const { width, height } =
+  const {height } =
     dimensions || 0;
 
-  const [state, dispatch] = useContext(StateContext);
-  const [divHeight, setDivHeight] = useState(0);
+  const [state,] = useContext(StateContext);
+  const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -61,8 +57,6 @@ const CodePreview: React.FC<{
  setInput(currentComponent.code);
   store.dispatch({type: "INPUT", payload: currentComponent.code});
   }, [state.components])
-
-
 
 
   const handleChange = async (data) => {
@@ -89,7 +83,6 @@ const CodePreview: React.FC<{
     })
      store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
   }
-
 
   return (
     <div

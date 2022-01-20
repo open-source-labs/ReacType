@@ -218,25 +218,19 @@ describe('Testing componentReducer functionality', () => {
       expect(state.components[focusIndex].future.length).toEqual(1);
     })
   });
-
-  
   // TEST 'REDO'
   describe('REDO reducer', () => {
     it('should remove the last element from the future array and push it to the past array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
-  
       const actionRedo: Action = {
         type: 'REDO',
          payload: {},
       };
       state = reducer(state, actionRedo);
-
       expect(state.components[focusIndex].future.length).toEqual(0);
       expect(state.components[focusIndex].past.length).toEqual(1);
     })
   });
-
-
   // TEST 'RESET STATE'
   describe('RESET STATE reducer', () => {
     it('should reset project to initial state', () => {

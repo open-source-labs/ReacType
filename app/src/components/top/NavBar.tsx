@@ -3,7 +3,7 @@ import {
   withStyles,
   createStyles,
   makeStyles,
-  Theme,
+  Theme
 } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
@@ -21,7 +21,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Link } from 'react-router-dom';
 import LoginButton from '../right/LoginButton';
 import ExportButton from '../right/ExportButton';
@@ -33,41 +32,43 @@ import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 
 // NavBar text and button styling
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: 'white',
-  },
-  title: {
-    flexGrow: 1,
-    color: 'white',
-  },
-  manageProject: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      width: '100%'
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+      color: 'white'
+    },
+    title: {
+      flexGrow: 1,
+      color: 'white'
+    },
+    manageProject: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  })
+);
 
 // Drop down menu button for export
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5',
-  },
+    border: '1px solid #d3d4d5'
+  }
 })(props => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'center'
     }}
     {...props}
   />
@@ -77,10 +78,10 @@ const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
+        color: theme.palette.common.white
+      }
+    }
+  }
 }))(MenuItem);
 
 export default function NavBar(props) {
@@ -94,26 +95,22 @@ export default function NavBar(props) {
   const [modal, setModal] = useState(null);
   const [state, dispatch] = useContext(StateContext);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   // ---Clear canvas functionality---
   // Closes out the open modal
   const closeModal = () => setModal('');
-
   // Creates modal that asks if user wants to clear workspace
   // If user clears their workspace, then their components are removed from state and the modal is closed
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
+      dispatch({ type: 'RESET_STATE', payload: {} });
     };
-
     // Set modal options
     const children = (
       <List className="export-preference">
@@ -124,7 +121,7 @@ export default function NavBar(props) {
           style={{
             border: '1px solid #3f51b5',
             marginBottom: '2%',
-            marginTop: '5%',
+            marginTop: '5%'
           }}
         >
           <ListItemText
@@ -135,7 +132,6 @@ export default function NavBar(props) {
         </ListItem>
       </List>
     );
-
     // Create modal
     setModal(
       createModal({
@@ -146,35 +142,39 @@ export default function NavBar(props) {
         primBtnAction: null,
         secBtnAction: null,
         secBtnLabel: null,
-        open: true,
-      }),
+        open: true
+      })
     );
   };
-
-  // added className="navbarButton" to test for buttons in enzyme.test.tsx
   return (
     <div className={classes.root} style={style}>
       <AppBar position="static">
         <Toolbar>
-          <Avatar src={logo} ></Avatar>
-          <Typography variant="h6" style={{ marginLeft: '1rem' }} className={classes.title}>
+          <Avatar src={logo}></Avatar>
+          <Typography
+            variant="h6"
+            style={{ marginLeft: '1rem' }}
+            className={classes.title}
+          >
             ReacType
           </Typography>
-
           {/* ==================================Dashboard Button================================================== */}
-          {state.isLoggedIn ? <Link to='/dashboard' style ={ { textDecoration: 'none' } }>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ minWidth: '137.69px' }}
-              className="navbarButton"
-              endIcon={<DashboardIcon/>}
-            >
-              Dashboard
-            </Button>
-          </Link> : <span></span>}
+          {state.isLoggedIn ? (
+            <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ minWidth: '137.69px' }}
+                className="navbarButton"
+                endIcon={<DashboardIcon />}
+              >
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <span></span>
+          )}
           {/* ==================================Clear Canvas Button================================================== */}
-
           <Button
             variant="contained"
             color="secondary"
@@ -182,21 +182,20 @@ export default function NavBar(props) {
             onClick={clearWorkspace}
             className="navbarButton"
             id="navbarButton"
-            endIcon={<DeleteIcon/>}
+            endIcon={<DeleteIcon />}
           >
             Clear Canvas
           </Button>
-          {/* ==================================ExportButton================================================== */}
           <ExportButton />
-
-
           <Button
             className="navbarButton"
             id="navbarButton"
             color="secondary"
             variant="contained"
-            style={{minWidth: '113.97px'}}
-            endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
+            style={{ minWidth: '113.97px' }}
+            endIcon={
+              props.isThemeLight ? <Brightness3Icon /> : <Brightness5Icon />
+            }
             onClick={() => {
               !style.backgroundColor
                 ? setStyle({ backgroundColor: '#21262D' }) // dark mode color
@@ -206,29 +205,21 @@ export default function NavBar(props) {
           >
             {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
           </Button>
-
-{/* ================================MANAGE PROJECT DROPDOWN====================================== */}
-
-          {state.isLoggedIn // render Manage Project button/dropdown only if user is logged in
-            ? <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleClick}
-            className="navbarButton"
-            id="navbarButton"
-            endIcon={<FilterListIcon/>}
-          >
-            MANAGE PROJECT
-          </Button> : <span></span>}
-
-
-{/* ================================LOGIN BUTTON====================================== */}
-
-          <LoginButton
-          />
-
-{/* ================================MANAGE PROJECT DROPDOWN====================================== */}
-
+          {state.isLoggedIn ? ( // render Manage Project button/dropdown only if user is logged in
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleClick}
+              className="navbarButton"
+              id="navbarButton"
+              endIcon={<FilterListIcon />}
+            >
+              MANAGE PROJECT
+            </Button>
+          ) : (
+            <span></span>
+          )}
+          <LoginButton />
           <StyledMenu // Dropdown menu connected to Manage Project Button
             id="customized-menu"
             anchorEl={anchorEl}
@@ -242,14 +233,12 @@ export default function NavBar(props) {
             >
               <SaveProjectButton />
             </StyledMenuItem>
-
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
             >
               <ProjectsFolder />
             </StyledMenuItem>
-
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}

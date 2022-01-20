@@ -49,14 +49,10 @@ let menuBuilder;
 async function createWindow() {
   // install react dev tools if we are in development mode
   if (isDev) {
-    // await installExtension([REACT_DEVELOPER_TOOLS])
-    //   .then(name => console.log(`Added Extension:  ${name}`))
-    //   .catch(err => console.log('An error occurred: ', err));
   } else {
     // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
   }
-
   // Create the browser window.
   win = new BrowserWindow({
     // full screen
@@ -69,7 +65,6 @@ async function createWindow() {
     // the browser window will not display initially as it's loading
     // once the browser window renders, a function is called below  that hides the splash screen and displays the browser window
     show: false,
-    // icon: path.join(__dirname, '../src/public/icons/png/256x256.png'),
     webPreferences: {
       zoomFactor: 0.7,
       // enable devtools when in development mode 
@@ -106,9 +101,6 @@ async function createWindow() {
     website: 'www.reactype.io',
     text: 'Initializing ...',
   });
-
-
-
   // Load app
   if (isDev) {
     // load app from web-dev server

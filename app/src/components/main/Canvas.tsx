@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -64,13 +64,11 @@ function Canvas() {
       isOver: !!monitor.isOver()
     })
   });
-
   // Styling for Canvas
   const defaultCanvasStyle = {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
-    //backgroundImage: "url('https://www.transparenttextures.com/patterns/diagonal-noise.png')",
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
   };
@@ -80,7 +78,6 @@ function Canvas() {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   return (
     <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
-       
        {renderChildren(currentComponent.children)}
     </div>
   );

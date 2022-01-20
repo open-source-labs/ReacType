@@ -17,7 +17,7 @@ const useResizeObserver = (ref) => {
       resizeObserver.unobserve(observeTarget);
     };
   }, [ref]);
-  return dimensions; // { height, width }
+  return dimensions;
 };
 
 export default useResizeObserver;

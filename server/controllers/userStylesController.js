@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-
 const userStylesController = {};
-
 // Rewrite file
 userStylesController.saveCssFile = (req, res, next) => {
   const newText = req.body.data;
@@ -12,6 +10,5 @@ userStylesController.saveCssFile = (req, res, next) => {
     next();
   });
 };
-
 
 module.exports = userStylesController;

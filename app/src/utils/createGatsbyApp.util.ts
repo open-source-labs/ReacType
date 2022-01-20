@@ -1,5 +1,3 @@
-// Create all files necessary to run a gatsby.js application
-
 import createGatsbyFiles from './createGatsbyFiles.util';
 import createTestSuite from './createTestSuite.util';
 import { Component } from '../interfaces/Interfaces';
@@ -23,11 +21,9 @@ const compToCSS = (component: Component) => {
   `;
   return cssClass;
 }
-
 //createPackage
 export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
-  
   let tsjest = `,
           "@types/enzyme": "^3.10.9",
           "@types/jest": "^27.0.1",
@@ -41,7 +37,6 @@ export const createPackage = (path, appName, test) => {
           "babel-preset-gatsby": "^1.13.0",
           "identity-obj-proxy": "^3.0.0",
           "ts-jest": "^27.0.5"`;
- 
   const data = `
       {
         "name": "reactype-gatsby",
@@ -145,12 +140,10 @@ export const initFolders = (path:string, appName: string) => {
 
 //createBaseTsx
 export const createBaseTsx = (path: string, appName: string) => {
-
   const filePath:string = `${path}/${appName}/src/pages/_app.tsx`;
   const data:string = `
   import React from 'react';
   import '../global.css';
-
   const Base = ({ Component }):JSX.Element => {
     return (
       <>
@@ -158,7 +151,6 @@ export const createBaseTsx = (path: string, appName: string) => {
       </>
     )
   }
-
   export default Base;
   `;
   window.api.writeFile(filePath, data, err => {

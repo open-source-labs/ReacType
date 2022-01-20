@@ -1,37 +1,17 @@
 
 import React, { useState, useContext, useCallback, useEffect } from 'react';
 import StateContext from '../../context/context';
-import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import WarningIcon from '@material-ui/icons/Warning';
-import PublishIcon from '@material-ui/icons/Publish';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import { useHistory, withRouter, Link as RouteLink } from 'react-router-dom';
-
 import exportProject from '../../utils/exportProject.util';
-
-import ProjectsFolder from './OpenProjects';
 import createModal from './createModal';
-import LoginButton from './LoginButton';
-import SaveProjectButton from './SaveProjectButton';
-import DeleteProjects from './DeleteProjects';
-
-
 import { styleContext } from '../../containers/AppContainer';
-
-
 export default function ExportButton() {
-
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(StateContext);
-
-  const { style, setStyle } = useContext(styleContext);
+  const [state,] = useContext(StateContext);
 
   const genOptions: string[] = [
     'Export components',
@@ -66,13 +46,11 @@ export default function ExportButton() {
         </ListItem>
       </List>
     );
-
     let testchecked = 0;
     // helper function called by showGenerateAppModal
     // this function will prompt the user to choose an app directory once they've chosen their export option
     const chooseGenOptions = (genOpt: number) => {
       // set export option: 0 --> export only components, 1 --> export full project
-
       genOption = genOpt;
       window.api.chooseAppDir();
       testchecked = document.getElementById('tests').checked;
@@ -125,8 +103,6 @@ export default function ExportButton() {
       document.removeEventListener('keydown', exportKeyBind)
     }
   }, []);
-
-  
   return (
     <div>
        <Button

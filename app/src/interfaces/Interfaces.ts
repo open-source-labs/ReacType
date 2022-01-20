@@ -41,11 +41,7 @@ export interface Component {
   annotations?: string;
   useStateCodes: string[];
   useContext?: object // structure --> {providerId: {attribute: stateId, ....}, ...}
-  // example:
-  // {1: {compText: 1, compLink: 2}}
-  // {1: {compText: 1}, 2: {compLink: 1}, ....}
 }
-
 export interface StateProp {
   key: string;
   value: any;
@@ -58,17 +54,14 @@ export interface Action {
 }
 
 export interface Payload {}
-
 export interface Reduce {
   state: Context;
   action: Action;
 }
-
 export interface Context {
   state: State;
   dispatch: State;
 }
-
 export interface HTMLType {
   id: number;
   tag: string;
@@ -78,33 +71,27 @@ export interface HTMLType {
   placeHolderLong: string;
   icon: any;
 }
-
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
   instanceType: string;
   instanceTypeId: number;
   childId: number;
 }
-
 export interface DragItemType {
   INSTANCE: string;
 }
-
 export interface LoginInt {
   isLoggedIn: boolean;
 }
-
 export interface Annotations {
   id: number;
   name: string;
   annotations: string;
 }
-
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;
   deleteHandler: (id: number | any) => void;
 }
-
 export interface AddRoutes {
   id: number;
   name: string;

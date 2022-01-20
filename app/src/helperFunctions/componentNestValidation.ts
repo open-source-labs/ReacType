@@ -1,5 +1,3 @@
-
-
 // This function is used in both DirectChildHTMLNestable and SeparatorChild to ensure that user created components do not nest within themselves.
 // To allow such nesting would be a certain paradox and locks the application.
 // This check is done right after the drag functionality resolves and releases. Nothing is done if a component is found trying to nest within itself.
@@ -11,5 +9,4 @@ const componentNest = (children: any, nestId: Number) => {
   }
   return notNested
 }
-
 export default componentNest;

@@ -1,6 +1,3 @@
-
-
-
 const initFolders = (path: string, appName: string) => {
   let dir = path;
   dir = `${dir}/${appName}`;
@@ -25,7 +22,6 @@ module.exports = {
     __PATH_PREFIX__: "",
   }
 } `
-
 
 window.api.writeFile(filePath, data, err => {
     if (err) {
@@ -52,7 +48,6 @@ const createJestPreprocessFile = (path: string, appName: string) => {
 
 async function createComponentTests(path: string, appName: string, components: Component[]) {
     const filePath: string = `${path}/${appName}/__tests__/test.tsx`;
-  
     let data:string = `
     import { shallow } from 'enzyme'
     import React from 'react';
@@ -72,26 +67,21 @@ async function createComponentTests(path: string, appName: string, components: C
       data = data + importString;
     })
   
-    //let describe = `describe("${page.name}", () => {`
     components.forEach(page => {
       data = data + `
       
     describe("${capitalize(page.name)}", () => {`
     
-  
     data = data + `
     it('renders snapshots, too', () => {
         const wrapper = shallow(< ${capitalize(page.name)} />)
         expect(wrapper).toMatchSnapshot()
       })`
-  
-  
+
       data = data + `
     });`
     })
   
-    
-    
     window.api.writeFile(filePath, data, err => {
       if (err) {
         console.log('createTestSuite.util createComponentTests error:', err.message);

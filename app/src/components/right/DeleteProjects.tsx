@@ -10,7 +10,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import { blue } from '@material-ui/core/colors';
-
 import {
   getProjects,
   deleteProject
@@ -18,13 +17,11 @@ import {
 import localforage from 'localforage';
 import StateContext from '../../context/context';
 import initialState from '../../context/initialState';
-
 export interface ProjectDialogProps {
   open: boolean;
   projects: Array<Object>;
   onClose: () => void;
 }
-
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
@@ -79,8 +76,6 @@ export default function ProjectsFolder() {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: 'cat' }]);
 
-  const classes = useStyles();
-
   const handleClickOpen = () => {
     getProjects().then(data => {
       if (data) {
@@ -107,8 +102,6 @@ export default function ProjectsFolder() {
       document.removeEventListener('keydown', keyBindDeleteProject)
     }
   }, []);
-
-
   return (
     <div>
       <Button
