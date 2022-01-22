@@ -23,6 +23,9 @@ const CodePreview: React.FC<{
 
   const ref = useRef<any>();
   
+  /**
+ * Starts the Web Assembly service.
+ */
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
@@ -58,10 +61,12 @@ const CodePreview: React.FC<{
   store.dispatch({type: "INPUT", payload: currentComponent.code});
   }, [state.components])
 
-
+  /**
+ * Handler thats listens to changes in code editor
+ * @param {string} data - Code entered by the user
+ */
   const handleChange = async (data) => {
     setInput(data);
-
     store.dispatch({type: "INPUT", payload: data});
     if(!ref.current) {
       return;
