@@ -40,7 +40,7 @@ export interface Component {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
-  useContext?: object // structure --> {providerId: {attribute: stateId, ....}, ...}
+  useContext?: object 
 }
 export interface StateProp {
   key: string;

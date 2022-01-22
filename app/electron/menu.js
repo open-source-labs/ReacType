@@ -1,15 +1,9 @@
 const { Menu } = require('electron');
 const { BrowserWindow } = require('electron');
-const fs = require('fs');
-const path = require('path');
 const isMac = process.platform === 'darwin';
-const port = 5000;
 const Protocol = require('./protocol');
-const tutorialRoute = `http://localhost:${port}/tutorial`;
-
 /* 
 DESCRIPTION: This file generates an array containing a menu based on the operating system the user is running.
-
 menuBuilder: The entire file is encompassed in menuBuilder. Ultimately, menuBuilder returns a function called
   buildMenu that uses defaultTemplate to construct a menu at the top of the application (as invoked in main.js)
 

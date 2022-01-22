@@ -45,13 +45,7 @@ const reducer = (state: State, action: Action) => {
     // if no search is found return -1
     return { directParent: null, childIndexValue: null };
   };
-  const deleteChild = (component: Component, currentChildId: number) => {
-    const { directParent, childIndexValue } = findParent(
-      component,
-      currentChildId
-    );
-    directParent.children.splice(childIndexValue, 1);
-  };
+
   // determine if there's a child of a given type in a component
   const childTypeExists = (
     type: string,
