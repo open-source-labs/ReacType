@@ -6,6 +6,10 @@ import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import Select from '@material-ui/core/Select';
 
+// ------------------------------------------------
+import MenuItem from '@material-ui/core/MenuItem';
+// ------------------------------------------------
+
 /*
 N.B.: RENDERED ONLY IN NEXT.JS MODE
 
@@ -21,7 +25,7 @@ Dragging works in the same manner as in ComponentPanelItem.tsx
 */
 // a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
-  const classes = useStyles();'s there, '
+  const classes = useStyles(); 's there, '
   const [state,] = useContext(StateContext);
 
   // find the root components that can be associated with a route
