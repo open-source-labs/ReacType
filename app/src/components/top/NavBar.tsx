@@ -109,7 +109,7 @@ export default function NavBar(props) {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET_STATE', payload: {} });
+      dispatch({ type: 'RESET STATE', payload: {} });
     };
     // Set modal options
     const children = (
