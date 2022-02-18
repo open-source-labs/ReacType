@@ -17,8 +17,8 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
-  const {isThemeLight} = props;
+  const [state, dispatch] = useContext(StateContext); 
+  const { isThemeLight } = props;
 
   const handleDelete = (id: number): void => {
     dispatch({
@@ -33,27 +33,43 @@ const DragDropPanel = (props): JSX.Element => {
     <div className="HTMLItems">
       <div id="HTMLItemsTopHalf">
         <Grid
-            id="HTMLItemsGrid"
-          >
-            <h3>HTML ELEMENTS</h3>
-            {htmlTypesToRender.map(option => {
-              if(option.id !== 17 && option.id !== 18) {
-                return (
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                    isThemeLight={isThemeLight}
-                  />
-                  );
-              }
+          id="HTMLItemsGrid"
+        >
+          <h3>HTML ELEMENTS</h3>
+          {htmlTypesToRender.map(option => {
+            if (![17, 18, 19, 20].includes(option.id)) {
+              return (
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                  isThemeLight={isThemeLight}
+                />
+              );
+            }
 
-            })}
-            <h3>REACT ROUTER</h3>
+          })}
+          {state.projectType === "Classic React" ? <h3>REACT ROUTER</h3> : null}
+          {htmlTypesToRender.map(option => {
+            if ((option.id === 17 || option.id === 18) && state.projectType === "Classic React") {
+              return (
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                  isThemeLight={isThemeLight}
+                />
+              );
+            }
+          })}
+
+            {state.projectType === "Next.js" ? <h3>Next.js</h3> : null}
             {htmlTypesToRender.map(option => {
-              if(option.id === 17 || option.id === 18) {
+              if ((option.id === 19 || option.id === 20) && state.projectType === "Next.js") {
                 return (
                   <HTMLItem
                     name={option.name}
@@ -63,10 +79,10 @@ const DragDropPanel = (props): JSX.Element => {
                     handleDelete={handleDelete}
                     isThemeLight={isThemeLight}
                   />
-                  );
+                );
               }
-            })}
-          </Grid>
+          })}
+        </Grid>
       </div>
     </div>
   );

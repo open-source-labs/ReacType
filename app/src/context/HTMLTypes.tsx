@@ -23,7 +23,7 @@ const HTMLTypes: HTMLType[] = [
     id: 1000,
     tag: 'separator',
     name: 'separator',
-    style: { border: 'none'},
+    style: { border: 'none' },
     placeHolderShort: '',
     placeHolderLong: '',
     icon: ''
@@ -180,6 +180,24 @@ const HTMLTypes: HTMLType[] = [
     placeHolderShort: 'LinkTo',
     placeHolderLong: '',
     icon: ListIcon
-  }
+  },
+  {
+    id: 19,
+    tag: 'LinkHref',
+    name: 'LinkHref',
+    style: {},
+    placeHolderShort: 'LinkHref',
+    placeHolderLong: '',
+    icon: ListIcon
+  },
+  {
+    id: 20,
+    tag: 'Image',
+    name: 'Image',
+    style: {},
+    placeHolderShort: 'Image',
+    placeHolderLong: '',
+    icon: ListIcon,
+  },
 ];
 export default HTMLTypes;
