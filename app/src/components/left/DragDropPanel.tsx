@@ -17,7 +17,7 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext); 
+  const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = props;
 
   const handleDelete = (id: number): void => {
@@ -37,7 +37,7 @@ const DragDropPanel = (props): JSX.Element => {
         >
           <h3>HTML ELEMENTS</h3>
           {htmlTypesToRender.map(option => {
-            if (![17, 18, 19, 20].includes(option.id)) {
+            if (!['Switch', 'LinkTo', 'LinkHref', 'Image'].includes(option.name)) {
               return (
                 <HTMLItem
                   name={option.name}
@@ -53,7 +53,7 @@ const DragDropPanel = (props): JSX.Element => {
           })}
           {state.projectType === "Classic React" ? <h3>REACT ROUTER</h3> : null}
           {htmlTypesToRender.map(option => {
-            if ((option.id === 17 || option.id === 18) && state.projectType === "Classic React") {
+            if ((option.name === 'Switch' || option.name === 'LinkTo') && state.projectType === "Classic React") {
               return (
                 <HTMLItem
                   name={option.name}
@@ -69,7 +69,7 @@ const DragDropPanel = (props): JSX.Element => {
 
             {state.projectType === "Next.js" ? <h3>Next.js</h3> : null}
             {htmlTypesToRender.map(option => {
-              if ((option.id === 19 || option.id === 20) && state.projectType === "Next.js") {
+              if ((option.framework === 'nextjs') && state.projectType === "Next.js") {
                 return (
                   <HTMLItem
                     name={option.name}
