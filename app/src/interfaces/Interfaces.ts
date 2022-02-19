@@ -40,7 +40,7 @@ export interface Component {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
-  useContext?: object 
+  useContext?: object
 }
 export interface StateProp {
   key: string;
@@ -53,7 +53,7 @@ export interface Action {
   payload: any;
 }
 
-export interface Payload {}
+export interface Payload { }
 export interface Reduce {
   state: Context;
   action: Action;
@@ -70,6 +70,8 @@ export interface HTMLType {
   placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
   icon: any;
+  framework: string;
+  nestable: boolean;
 }
 export interface DragItem extends DragObjectWithType {
   newInstance: boolean;
