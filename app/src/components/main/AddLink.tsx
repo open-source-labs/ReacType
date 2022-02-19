@@ -8,8 +8,8 @@ import { InputLabel } from '@material-ui/core';
 
 
 function AddLink({ id }: AddRoutes) {
-  const [, dispatch] = useContext(StateContext);
-
+  const [state, dispatch] = useContext(StateContext);
+  console.log('AddLink\'s state', state);
   const handleClick = (id) => {
     dispatch({
       type: 'ADD CHILD',
@@ -21,17 +21,26 @@ function AddLink({ id }: AddRoutes) {
     });
   }
 
+  const handlePageSelect = event => {
+    const selectedPageName = event.target.value;
+    console.log('selectedPages State: ', selectedPageName);
+    // dispatch({ type: 'HREF TO', payload: });
+  }
+
+  console.log('state', state);
+  let pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
+  let dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
   return (
     <div style={{ padding: '1px', float: 'right' }}>
       <FormControl size='small'>
-            <Select
-              variant="outlined"
-            >
-              <MenuItem>Classic React</MenuItem>
-              <MenuItem>Gatsby.js</MenuItem>
-              <MenuItem>Next.js</MenuItem>
-            </Select>
-          </FormControl>
+        <InputLabel>Pages</InputLabel>
+        <Select variant="outlined"
+          onChange={handlePageSelect}
+          id="page-select"
+        >
+          {dropDown}
+        </Select>
+      </FormControl>
     </div>
   );
 }
