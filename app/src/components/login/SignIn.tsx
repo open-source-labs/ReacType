@@ -66,11 +66,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
 
-
   useEffect(() => {
     const githubCookie = setInterval(() => {
-      window.api.setCookie();
-      window.api.getCookie(cookie => {
+      window.api?.setCookie();
+      window.api?.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
@@ -80,7 +79,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         } else if (window.localStorage.getItem('ssid')) {
           clearInterval(githubCookie);
         }
-      });
+      }); 
     }, 2000);
   }, []);
 
@@ -157,6 +156,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
+        console.log('window api', window.api);
         window.api.github();
         props.history.push('/');
     }

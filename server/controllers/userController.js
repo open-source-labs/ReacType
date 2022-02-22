@@ -23,10 +23,10 @@ const randomPassword = () => {
     password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
   }
   return password;
-}
+};
 
 userController.createUser = (req, res, next) => {
-
+  console.log('inside createUser');
   let email, username, password;
   // use this condition for Oauth login
   if (res.locals.signUpType === 'oauth') {
@@ -53,12 +53,14 @@ userController.createUser = (req, res, next) => {
     // handle error of creating a new user
     if (err) {
       if (res.locals.signUpType === 'oauth') {
+        console.log('line 56 of userController'); // oauth enters this condition
         return next();
       }
       if (err.keyValue.email) {
         return res.status(400).json('Email Taken');
       }
       if (err.keyValue.username && res.locals.signUpType === 'oauth') {
+        console.log('line 56 of userController');
         res.locals.githubPassword = password;
         return next();
       }
@@ -75,6 +77,7 @@ userController.createUser = (req, res, next) => {
     }
     // if no error found when creating a new user, send back user ID in res.locals
     res.locals.id = newUser.id;
+    console.log('line 78 of userController');
     return next();
   });
 };
@@ -82,7 +85,9 @@ userController.createUser = (req, res, next) => {
 // verifyUser - Obtain username and password from the request body, locate
 // the appropriate user in the database, and then authenticate the submitted password against the password stored in the database.
 userController.verifyUser = (req, res, next) => {
+  console.log('inside verifyUser');
   let { username, password, isFbOauth } = req.body;
+  console.log(username, password, isFbOauth);
   // handle Oauth
   if (res.locals.signUpType === 'oauth') {
     username = res.locals.githubEmail;
