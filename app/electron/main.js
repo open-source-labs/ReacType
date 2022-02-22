@@ -375,9 +375,8 @@ ipcMain.on('delete_cookie', event => {
 
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
-  // your  applications credentials
-  const githubUrl = 'https://github.com/login/oauth/authorize?';
-  // const githubUrl = 'http://localhost:5000/auth/github';
+  console.log('inside main.js in electron');
+  const githubURL = 'http://localhost:5000/auth/github';
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
@@ -397,8 +396,8 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
-  const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
-  github.loadURL(authUrl);
+
+  github.loadURL(githubURL);
   github.show();
   const handleCallback = url => {
     const raw_code = /code=([^&]\*)/.exec(url) || null;
@@ -443,6 +442,9 @@ ipcMain.on('github', event => {
     if (isDev) {
       redirectUrl = 'http://localhost:8080/';
     }
+    console.log(callbackUrl === redirectUrl);
+    console.log('callbackUrl', callbackUrl);
+    console.log('redirectUrl', redirectUrl);
     if (callbackUrl === redirectUrl) {
       dialog.showMessageBox({
         type: 'info',
