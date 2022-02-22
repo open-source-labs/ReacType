@@ -377,6 +377,7 @@ ipcMain.on('delete_cookie', event => {
 ipcMain.on('github', event => {
   // your  applications credentials
   const githubUrl = 'https://github.com/login/oauth/authorize?';
+  // const githubUrl = 'http://localhost:5000/auth/github';
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,

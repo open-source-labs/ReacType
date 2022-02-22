@@ -12,6 +12,7 @@ export default function LoginButton() {
     e.preventDefault();
     // clear local storage
     window.localStorage.clear();
+    window.api.delCookie();
     // destroys cookie by backdating expiration time
     // document.cookie = 'ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // destroy cookie in production via electron main process
