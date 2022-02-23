@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const isDev = process.env.NODE_ENV === 'development';
 let serverURL = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
-  serverURL = 'http://localhost:5000';
+  serverURL = `http://localhost:${process.env.PORT}`;
 }
 export const sessionIsCreated = (
   username: string,

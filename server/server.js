@@ -13,7 +13,7 @@ const projectController = require('./controllers/projectController');
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
@@ -43,7 +43,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: 'http://localhost:5000/github/callback'
+      callbackURL: `http://localhost:${process.env.PORT}/github/callback`
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);
