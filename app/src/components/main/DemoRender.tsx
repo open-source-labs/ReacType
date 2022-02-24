@@ -12,12 +12,10 @@ import ReactDOMServer from 'react-dom/server';
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
   const [state,] = useContext(StateContext);
-  console.log('state line 14', state);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  
-  console.log('currentComponent.code', currentComponent.code);
+
   // Create React ref to inject transpiled code in inframe 
   const iframe = useRef<any>();
   const demoContainerStyle = {
@@ -50,8 +48,8 @@ const DemoRender = (): JSX.Element => {
     </html>
   `;
 
-//  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
-//   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
+  //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
+  //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
   const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
@@ -68,33 +66,54 @@ const DemoRender = (): JSX.Element => {
         }
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
-        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
+        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(<Box component={'a'} href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
         else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
         else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
-        else if (elementType === 'LinkTo') componentsToRender.push(<Link to={activeLink}>{innerText}</Link>);
+        // else if (elementType === 'LinkTo') componentsToRender.push(<Link to={activeLink}>{innerText}</Link>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
         key += 1;
       }
     }
     return componentsToRender;
   };
-  console.log('state.components', state.components);
+
   let code = '';
-  componentBuilder(state.components[0].children).forEach(element => code += ReactDOMServer.renderToString(element));
+  //compone
+
+  componentBuilder(state.components[0].children).forEach((element, index) => {
+    // if(element.props.component === 'Link') {
+    //   return;
+    //   // element.props.component = 'a';
+    //   // element.props.id = `rend${6}`;
+    // } else if(typeof element.type === 'function') {
+    //   return;
+    // }
+    console.log('element' + index, element);
+    console.log('component' + index, state.components[0].children[index * 2 + 1]);
+    try{
+      if(element.props.component === 'Link') {
+        
+      }
+      // element.props.component = 'a';
+      // element.props.id = `rend${6}`;
+      code += ReactDOMServer.renderToString(element)
+    } catch {
+      return;
+    }
+  });
 
   useEffect(() => {
     cssRefresher();
   }, [])
 
   useEffect(() => {
-    console.log('code', code);
     iframe.current.contentWindow.postMessage(code, '*');
   }, [code])
 
   return (
-      <div id={'renderFocus'} style={demoContainerStyle}>   
-        <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} width='100%' height='100%'/>
-      </div>
+    <div id={'renderFocus'} style={demoContainerStyle}>
+      <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} width='100%' height='100%' />
+    </div>
   );
 };
 
