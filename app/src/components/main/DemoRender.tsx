@@ -79,7 +79,26 @@ const DemoRender = (): JSX.Element => {
 
   let code = '';
   //compone
-  componentBuilder(state.components[0].children).forEach(element => code += ReactDOMServer.renderToString(element));
+
+  componentBuilder(state.components[0].children).forEach(element => {
+    if(element.props.component === 'Link') {
+      return;
+      // element.props.component = 'a';
+      // element.props.id = `rend${6}`;
+    } else if(typeof element.type === 'function') {
+      return;
+    }
+    code += ReactDOMServer.renderToString(element)
+  });
+
+  // state.components[0].children?.forEach(element => {
+  //   if(element.name === 'Switch' || element.name === 'Link') {
+  //     element.name = 'a';
+  //     element.typeId = 6;
+  //   }
+  //   console.log(element)
+  // });
+  // console.log('code', code);
 
   useEffect(() => {
     cssRefresher();

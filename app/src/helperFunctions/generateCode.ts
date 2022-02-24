@@ -92,8 +92,8 @@ const generateUnformattedCode = (
         ).name;
         return child;
       }
-      });
-      return enrichedChildren;
+    });
+    return enrichedChildren;
   };
   // Raised formatStyles so that it is declared before it is referenced. It was backwards.
   // format styles stored in object to match React inline style format
@@ -102,7 +102,7 @@ const generateUnformattedCode = (
     const formattedStyles = [];
     let styleString;
     for (let i in styleObj) {
-      if(i === 'style') {
+      if (i === 'style') {
         styleString = i + '=' + '{' + JSON.stringify(styleObj[i]) + '}';
         formattedStyles.push(styleString);
       }
@@ -116,7 +116,7 @@ const generateUnformattedCode = (
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
     }
-    if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails +=(' ' + formatStyles(childElement));
+    if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails += (' ' + formatStyles(childElement));
     return customizationDetails;
   };
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
@@ -127,7 +127,7 @@ const generateUnformattedCode = (
   }
   // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
-    if (level === 2 ) return `\n${tabSpacer(spaces)}`;
+    if (level === 2) return `\n${tabSpacer(spaces)}`;
     else return ''
   }
   // function to dynamically generate a complete html (& also other library type) elements
@@ -145,17 +145,17 @@ const generateUnformattedCode = (
       if (childElement.stateUsed && childElement.stateUsed.compLink) {
         activeLink = '{' + childElement.stateUsed.compLink + '}';
       } else {
-        activeLink = '"' +childElement.attributes.compLink + '"';
+        activeLink = '"' + childElement.attributes.compLink + '"';
       }
     }
     const nestable = childElement.tag === 'div' ||
-    childElement.tag === 'form' ||
-    childElement.tag === 'ol' ||
-    childElement.tag === 'ul' ||
-    childElement.tag === 'menu' ||
-    childElement.tag === 'li' ||
-    childElement.tag === 'Switch' ||
-    childElement.tag === 'Route';
+      childElement.tag === 'form' ||
+      childElement.tag === 'ol' ||
+      childElement.tag === 'ul' ||
+      childElement.tag === 'menu' ||
+      childElement.tag === 'li' ||
+      childElement.tag === 'Switch' ||
+      childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
@@ -172,34 +172,34 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    } else if (childElement.tag !== 'separator'){
+    } else if (childElement.tag !== 'separator') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     }
   }
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
-              .map((child: any) => {
-                if (child.type === 'Component') {
-                  return `<${child.name} ${elementTagDetails(child)} />`;
-                } else if (child.type === 'HTML Element') {
-                  return elementGenerator(child, level);
-                }
-                // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
-                else if (child.type === 'Route Link') {
-                  if (projectType === 'Next.js') {
-                    // if route link points to index, to go endpoint / rather than /index
-                    if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
-                    else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
-                  } else if (projectType === 'Gatsby.js') {
-                    if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
-                    else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
-                  } else return `<div><a>${child.name}</a></div>`
-                }
-              })
-              .filter(element => !!element)
-              .join('')
-            }`;
+      .map((child: any) => {
+        if (child.type === 'Component') {
+          return `<${child.name} ${elementTagDetails(child)} />`;
+        } else if (child.type === 'HTML Element') {
+          return elementGenerator(child, level);
+        }
+        // route links are for gatsby.js and next.js feature. if the user creates a route link and then switches projects, generate code for a normal link instead
+        else if (child.type === 'Route Link') {
+          if (projectType === 'Next.js') {
+            // if route link points to index, to go endpoint / rather than /index
+            if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
+            else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
+          } else if (projectType === 'Gatsby.js') {
+            if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
+            else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
+          } else return `<div><a>${child.name}</a></div>`
+        }
+      })
+      .filter(element => !!element)
+      .join('')
+      }`;
   };
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
@@ -214,17 +214,17 @@ const generateUnformattedCode = (
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
-          .map((comp: string) => {
-            return isRoot
-              ? `import ${comp} from '../components/${comp}'`
-              : `import ${comp} from './${comp}'`;
-          })
-          .join('\n')
+        .map((comp: string) => {
+          return isRoot
+            ? `import ${comp} from '../components/${comp}'`
+            : `import ${comp} from './${comp}'`;
+        })
+        .join('\n')
       : imports
-          .map((comp: string) => {
-            return `import ${comp} from './${comp}'`;
-          })
-          .join('\n');
+        .map((comp: string) => {
+          return `import ${comp} from './${comp}'`;
+        })
+        .join('\n');
   const createState = (stateProps) => {
     let state = '{';
     stateProps.forEach((ele) => {
@@ -235,27 +235,27 @@ const generateUnformattedCode = (
   }
   // Generate import
   let importContext = '';
-  if(currComponent.useContext) {
+  if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
       const providerComponent = components[parseInt(providerId) - 1];
-        importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t` ;
+      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t`;
     }
   }
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
       const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
-      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t' ;
+      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t';
       for (let i = 0; i < providerComponent.stateProps.length; i++) {
-        if(statesFromProvider.has(providerComponent.stateProps[i].id)) {
+        if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
           context +=
-          'const ' +
-          providerComponent.stateProps[i].key +
-          ' = ' +
-          providerComponent.name.toLowerCase() +
-          'Context.' +
-          providerComponent.stateProps[i].key +
-          '; \n \t\t';
+            'const ' +
+            providerComponent.stateProps[i].key +
+            ' = ' +
+            providerComponent.name.toLowerCase() +
+            'Context.' +
+            providerComponent.stateProps[i].key +
+            '; \n \t\t';
         }
       }
     }
@@ -266,17 +266,17 @@ const generateUnformattedCode = (
     return `
     ${`import React, { useState, useEffect} from 'react';`}
     ${`import ReactDOM from 'react-dom';`}
-    ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`: ``}
+    ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``}
     ${importsMapped}
     ${`const ${currComponent.name} = (props) => {`}
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
     ${!importReactRouter
-      ? `  return (
+        ? `  return (
           <div className="${currComponent.name}" ${formatStyles(currComponent)}>
           \t${writeNestedElements(enrichedChildren)}
           </div>
       );`
-      : `  return (
+        : `  return (
           <Router>
             <div className="${currComponent.name}" ${formatStyles(currComponent)}>
             \t${writeNestedElements(enrichedChildren)}
@@ -298,12 +298,11 @@ const generateUnformattedCode = (
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
       <>
-      ${
-        isRoot
-          ? `<Head>
+      ${isRoot
+        ? `<Head>
             <title>${currComponent.name}</title>
             </Head>`
-          : ``
+        : ``
       }
       <div className="${currComponent.name}" style={props.style}>
       ${writeNestedElements(enrichedChildren)}
@@ -324,13 +323,12 @@ const generateUnformattedCode = (
       const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
         <>
-        ${
-          isRoot
-            ? `<head>
+        ${isRoot
+        ? `<head>
               <title>${currComponent.name}</title>
               </head>`
-            : ``
-        }
+        : ``
+      }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
