@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
@@ -9,14 +9,28 @@ import { Component } from '../../interfaces/Interfaces';
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-
   const [state,] = useContext(StateContext);
+  console.log('state line 14', state);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
+  // const iframe = useRef<any>(); --> we already have this on line 36
+  // const [components, setComponents] = useState([]);
+  // const [state, dispatch] = useContext(StateContext);
+  // const [codeRender, setCodeRender] = useState('') --> not sure about what this does
+  // const demoContainerStyle = {
+  //   width: '100%',
+  //   backgroundColor: '#FBFBFB',
+  //   border: '2px Solid grey',
+  // };
+
+
+
+
+
   console.log('state in DemoRender', state);
-  console.log('currentComponent', currentComponent);
+  console.log('currentComponent.code', currentComponent.code);
   
   // Create React ref to inject transpiled code in inframe 
   const iframe = useRef<any>();
@@ -26,13 +40,15 @@ const DemoRender = (): JSX.Element => {
     border: '2px Solid grey',
   };
 
-  // let code = useSelector((state) => state.code);
-  let code = `<div style="color: red">Will this work?</div><div>second</div>`
-  const html = `<html>
-  <head>
-  </head>
+  let code = useSelector((state) => state.code);
+
+  const html = `
+    <html>
+      <head>
+      </head>
       <body>
         <div id="app">
+          <h1>HELLO WORLD</h1>
         </div>
         <script>
           window.addEventListener('message', (event) => {
@@ -77,12 +93,14 @@ const DemoRender = (): JSX.Element => {
     return componentsToRender;
   };
 
+
   useEffect(() => {
     cssRefresher();
   }, [])
 
   useEffect(() => {
-  iframe.current.contentWindow.postMessage(code, '*');
+    console.log('code', code);
+    iframe.current.contentWindow.postMessage(code, '*');
   }, [code])
 
   return (
