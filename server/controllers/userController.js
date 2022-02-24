@@ -30,6 +30,7 @@ userController.createUser = (req, res, next) => {
   let email, username, password;
   // use this condition for Oauth login
   if (res.locals.signUpType === 'oauth') {
+    console.log('line 33 of create user')
     email = res.locals.githubEmail;
     username = email;
     password = randomPassword();

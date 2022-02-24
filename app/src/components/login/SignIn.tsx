@@ -67,7 +67,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidPass, setInvalidPass] = useState(false);
 
   useEffect(() => {
-    const githubCookie = setInterval(() => {
+    const githubCookie = setTimeout(() => {
       window.api?.setCookie();
       window.api?.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app

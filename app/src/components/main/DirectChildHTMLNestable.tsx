@@ -12,6 +12,8 @@ import componentNest from '../../helperFunctions/componentNestValidation'
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 
+import { styleContext } from '../../containers/AppContainer';
+
 function DirectChildHTMLNestable({
   childId,
   type,
@@ -23,6 +25,7 @@ function DirectChildHTMLNestable({
   attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
+  const { isThemeLight } = useContext(styleContext);
   const ref = useRef(null);
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
@@ -145,8 +148,9 @@ function DirectChildHTMLNestable({
 
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
-      <strong>{HTMLType.placeHolderShort}</strong>
-      {`  ( ${childId} )`}
+      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
+      {/* {`  ( ${childId} )`} */}
+      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
       <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
       {routeButton}
       <Annotation

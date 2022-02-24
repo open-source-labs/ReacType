@@ -8,7 +8,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 // Caret start
 import Arrow from './Arrow';
 
-function Canvas() {
+function Canvas(props): JSX.Element {
   const [state, dispatch] = useContext(StateContext);
   // Caret start
   Arrow.deleteLines();
@@ -72,12 +72,23 @@ function Canvas() {
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
   };
+
+  const darkCanvasStyle = {
+    width: '100%',
+    minHeight: '100%',
+    backgroundColor: isOver ? '#4d4d4d' : '#21262c',
+    border: '1px solid #FBFBF2',
+    borderStyle: isOver ? 'dotted' : 'solid',
+  };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
+  
+  // const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
+  const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
   return (
-    <div ref={drop} style={canvasStyle} onClick={onClickHandler}>
+    <div ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}
     </div>
   );
