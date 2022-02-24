@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
 
+import ReactDOMServer from 'react-dom/server';
+
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
@@ -14,24 +16,8 @@ const DemoRender = (): JSX.Element => {
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-
-  // const iframe = useRef<any>(); --> we already have this on line 36
-  // const [components, setComponents] = useState([]);
-  // const [state, dispatch] = useContext(StateContext);
-  // const [codeRender, setCodeRender] = useState('') --> not sure about what this does
-  // const demoContainerStyle = {
-  //   width: '100%',
-  //   backgroundColor: '#FBFBFB',
-  //   border: '2px Solid grey',
-  // };
-
-
-
-
-
-  console.log('state in DemoRender', state);
-  console.log('currentComponent.code', currentComponent.code);
   
+  console.log('currentComponent.code', currentComponent.code);
   // Create React ref to inject transpiled code in inframe 
   const iframe = useRef<any>();
   const demoContainerStyle = {
@@ -40,7 +26,7 @@ const DemoRender = (): JSX.Element => {
     border: '2px Solid grey',
   };
 
-  let code = useSelector((state) => state.code);
+  // let code = useSelector((state) => state.code);
 
   const html = `
     <html>
@@ -48,12 +34,12 @@ const DemoRender = (): JSX.Element => {
       </head>
       <body>
         <div id="app">
-          <h1>HELLO WORLD</h1>
+        
         </div>
         <script>
           window.addEventListener('message', (event) => {
             try {
-              eval(event.data);
+              app.innerHTML = event.data;
             } catch (err) {
               const app = document.querySelector('#app');
               app.innerHTML = '<div style="color: red;"><h4>Syntax Error</h4>' + err + '</div>';
@@ -92,7 +78,9 @@ const DemoRender = (): JSX.Element => {
     }
     return componentsToRender;
   };
-
+  
+  let code = '';
+  componentBuilder(state.components[0].children).forEach(element => code += ReactDOMServer.renderToString(element));
 
   useEffect(() => {
     cssRefresher();
