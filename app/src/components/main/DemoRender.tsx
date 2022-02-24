@@ -78,7 +78,7 @@ const DemoRender = (): JSX.Element => {
     }
     return componentsToRender;
   };
-  
+  console.log('state.components', state.components);
   let code = '';
   componentBuilder(state.components[0].children).forEach(element => code += ReactDOMServer.renderToString(element));
 
