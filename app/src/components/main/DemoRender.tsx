@@ -12,12 +12,10 @@ import ReactDOMServer from 'react-dom/server';
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
   const [state,] = useContext(StateContext);
-  console.log('state line 14', state);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
-  
-  console.log('currentComponent.code', currentComponent.code);
+
   // Create React ref to inject transpiled code in inframe 
   const iframe = useRef<any>();
   const demoContainerStyle = {
@@ -50,8 +48,8 @@ const DemoRender = (): JSX.Element => {
     </html>
   `;
 
-//  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
-//   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
+  //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
+  //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
   const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
@@ -78,8 +76,9 @@ const DemoRender = (): JSX.Element => {
     }
     return componentsToRender;
   };
-  
+
   let code = '';
+  //compone
   componentBuilder(state.components[0].children).forEach(element => code += ReactDOMServer.renderToString(element));
 
   useEffect(() => {
@@ -87,14 +86,13 @@ const DemoRender = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    console.log('code', code);
     iframe.current.contentWindow.postMessage(code, '*');
   }, [code])
 
   return (
-      <div id={'renderFocus'} style={demoContainerStyle}>   
-        <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} width='100%' height='100%'/>
-      </div>
+    <div id={'renderFocus'} style={demoContainerStyle}>
+      <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} width='100%' height='100%' />
+    </div>
   );
 };
 
