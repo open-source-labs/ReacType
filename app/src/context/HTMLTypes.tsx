@@ -210,7 +210,7 @@ const HTMLTypes: HTMLType[] = [
   },
   {
     id: 18,
-    tag: 'LinkTo',
+    tag: 'Link',
     name: 'LinkTo',
     style: {},
     placeHolderShort: 'LinkTo',
@@ -221,7 +221,7 @@ const HTMLTypes: HTMLType[] = [
   },
   {
     id: 19,
-    tag: 'LinkHref',
+    tag: 'Link',
     name: 'LinkHref',
     style: {},
     placeHolderShort: 'LinkHref',

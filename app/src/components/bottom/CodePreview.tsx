@@ -45,7 +45,11 @@ const CodePreview: React.FC<{
   );
 
   const [input, setInput] = useState();
-
+  
+  useEffect(() => {
+    console.log('CodePreview input', input);
+    console.log('currentComponent.code', currentComponent.code);
+  }, [input])
 
   useEffect(() => {
     startService();

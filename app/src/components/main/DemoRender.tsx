@@ -1,12 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 import { useSelector } from 'react-redux';
+import StateContext from '../../context/context';
+import { Component } from '../../interfaces/Interfaces';
+
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
 
+  const [state,] = useContext(StateContext);
+  let currentComponent = state.components.find(
+    (elem: Component) => elem.id === state.canvasFocus.componentId
+  );
+
+  console.log('state in DemoRender', state);
+  console.log('currentComponent', currentComponent);
+  
   // Create React ref to inject transpiled code in inframe 
   const iframe = useRef<any>();
   const demoContainerStyle = {
@@ -15,13 +26,14 @@ const DemoRender = (): JSX.Element => {
     border: '2px Solid grey',
   };
 
-  let code = useSelector((state) => state.code);
-
-  const html = `
-    <html>
-      <head></head>
+  // let code = useSelector((state) => state.code);
+  let code = `<div style="color: red">Will this work?</div><div>second</div>`
+  const html = `<html>
+  <head>
+  </head>
       <body>
-        <div id="app"></div>
+        <div id="app">
+        </div>
         <script>
           window.addEventListener('message', (event) => {
             try {
@@ -72,7 +84,7 @@ const DemoRender = (): JSX.Element => {
   useEffect(() => {
   iframe.current.contentWindow.postMessage(code, '*');
   }, [code])
- 
+
   return (
       <div id={'renderFocus'} style={demoContainerStyle}>   
         <iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} width='100%' height='100%'/>
