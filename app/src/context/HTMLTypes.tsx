@@ -210,7 +210,7 @@ const HTMLTypes: HTMLType[] = [
   },
   {
     id: 18,
-    tag: 'LinkTo',
+    tag: 'Link',
     name: 'LinkTo',
     style: {},
     placeHolderShort: 'LinkTo',
