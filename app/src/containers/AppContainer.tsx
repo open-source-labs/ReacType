@@ -7,7 +7,8 @@ import RightContainer from './CustomizationPanel';
 import { theme1, theme2 } from '../public/styles/theme';
 export const styleContext = createContext({
   style: null,
-  setStyle: null
+  setStyle: null,
+  isThemeLight: null
 });
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
@@ -20,7 +21,7 @@ const AppContainer = () => {
   return (
     // Mui theme provider provides themed styling to all MUI components in app
     <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-      <styleContext.Provider value={{ style, setStyle }}>
+      <styleContext.Provider value={{ style, setStyle, isThemeLight }}>
       <div>
         <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>
       </div>

@@ -9,7 +9,7 @@ const MainContainer = (props): JSX.Element => {
   return (
     <div className="main-container" style={style} >
       <div className="main">
-        <CanvasContainer />
+        <CanvasContainer isThemeLight={props.isThemeLight}/>
         <DemoRender />
       </div>
       <BottomPanel isThemeLight={props.isThemeLight}/>

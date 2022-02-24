@@ -10,6 +10,8 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import Annotation from './Annotation'
 
+import { styleContext } from '../../containers/AppContainer';
+
 function DirectChildHTML({
   childId,
   name,
@@ -19,6 +21,7 @@ function DirectChildHTML({
   annotations,
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
+  const { isThemeLight } = useContext(styleContext);
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
@@ -59,6 +62,7 @@ function DirectChildHTML({
         : '1px solid grey'
   };
 
+
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
@@ -66,8 +70,9 @@ function DirectChildHTML({
 
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
-      <strong>{HTMLType.placeHolderShort}</strong>      
-      {`  (${childId})`}
+      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>      
+      {/* {`  (${childId})`} */}
+      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
       <Annotation
         id={childId}
         name={name}
