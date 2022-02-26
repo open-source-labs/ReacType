@@ -6,8 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { InputLabel } from '@material-ui/core';
 
+import { styleContext } from '../../containers/AppContainer';
 
 function AddLink({ id }: AddRoutes) {
+  const { isThemeLight } = useContext(styleContext);
   const [state, dispatch] = useContext(StateContext);
   console.log('AddLink\'s state', state);
   const handleClick = (id) => {
@@ -33,10 +35,11 @@ function AddLink({ id }: AddRoutes) {
   return (
     <div style={{ padding: '1px', float: 'right' }}>
       <FormControl size='small'>
-        <InputLabel>Pages</InputLabel>
+        <InputLabel style={ { color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
         <Select variant="outlined"
           onChange={handlePageSelect}
           id="page-select"
+          style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white'}}
         >
           {dropDown}
         </Select>

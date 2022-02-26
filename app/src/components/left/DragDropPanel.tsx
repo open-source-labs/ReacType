@@ -35,7 +35,7 @@ const DragDropPanel = (props): JSX.Element => {
         <Grid
           id="HTMLItemsGrid"
         >
-          <h3>HTML ELEMENTS</h3>
+          <h3 style={ {color: isThemeLight ? '#000' : '#fff'} }>HTML ELEMENTS</h3>
           {htmlTypesToRender.map(option => {
             if (!['Switch', 'LinkTo', 'LinkHref', 'Image'].includes(option.name)) {
               return (
@@ -51,7 +51,7 @@ const DragDropPanel = (props): JSX.Element => {
             }
 
           })}
-          {state.projectType === "Classic React" ? <h3>REACT ROUTER</h3> : null}
+          {state.projectType === "Classic React" ? <h3 style={ {color: isThemeLight ? '#000' : '#fff' } }>REACT ROUTER</h3> : null}
           {htmlTypesToRender.map(option => {
             if ((option.name === 'Switch' || option.name === 'LinkTo') && state.projectType === "Classic React") {
               return (
@@ -67,7 +67,7 @@ const DragDropPanel = (props): JSX.Element => {
             }
           })}
 
-            {state.projectType === "Next.js" ? <h3>Next.js</h3> : null}
+            {state.projectType === "Next.js" ? <h3 style={ {color: isThemeLight? '#000': "#fff"} }>Next.js</h3> : null}
             {htmlTypesToRender.map(option => {
               if ((option.framework === 'nextjs') && state.projectType === "Next.js") {
                 return (
