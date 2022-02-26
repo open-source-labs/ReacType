@@ -224,7 +224,7 @@ const HTMLTypes: HTMLType[] = [
     tag: 'Link',
     name: 'LinkHref',
     style: {},
-    placeHolderShort: 'Link',
+    placeHolderShort: 'LinkHref',
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'nextjs',
