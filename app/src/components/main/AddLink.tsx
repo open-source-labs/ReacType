@@ -24,6 +24,13 @@ function AddLink({ id }: AddRoutes) {
   const handlePageSelect = event => {
     const selectedPageName = event.target.value;
     console.log('selectedPages State: ', selectedPageName);
+    console.log('page state', state.components[0].children);
+    state.components[0].children.forEach(element => {
+      if(element.childId === id) {
+        element.attributes.compLink = event.target.value;
+      }
+    });
+    // selectedPageName.compLink = event.target.value;
     // dispatch({ type: 'HREF TO', payload: });
   }
 

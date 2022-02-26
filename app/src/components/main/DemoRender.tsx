@@ -78,24 +78,12 @@ const DemoRender = (): JSX.Element => {
   };
 
   let code = '';
-  //compone
-
-  componentBuilder(state.components[0].children).forEach((element, index) => {
-    // if(element.props.component === 'Link') {
-    //   return;
-    //   // element.props.component = 'a';
-    //   // element.props.id = `rend${6}`;
-    // } else if(typeof element.type === 'function') {
-    //   return;
-    // }
-    console.log('element' + index, element);
-    console.log('component' + index, state.components[0].children[index * 2 + 1]);
+  const currComponent = state.components.filter(element => element.id === state.canvasFocus.componentId);
+  componentBuilder(currComponent[0].children).forEach(element => {
     try{
       if(element.props.component === 'Link') {
         
       }
-      // element.props.component = 'a';
-      // element.props.id = `rend${6}`;
       code += ReactDOMServer.renderToString(element)
     } catch {
       return;
