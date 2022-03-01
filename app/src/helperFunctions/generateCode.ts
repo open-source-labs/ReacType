@@ -83,7 +83,7 @@ const generateUnformattedCode = (
         ) {
           child.children = getEnrichedChildren(child);
         }
-        console.log('referencedHTML', referencedHTML.tag);
+
         // when we see a Switch or LinkTo, import React Router
         if (referencedHTML.tag === 'Switch' || (referencedHTML.tag === 'Link' && projectType === 'Classic React'))
           importReactRouter = true;
@@ -93,7 +93,6 @@ const generateUnformattedCode = (
           images = true;
         return child;
       } else if (child.type === 'Route Link') {
-        console.log('hit');
         links = true;
         child.name = components.find(
           (comp: Component) => comp.id === child.typeId

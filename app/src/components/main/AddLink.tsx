@@ -23,10 +23,11 @@ function AddLink({ id }: AddRoutes) {
   }
 
   const handlePageSelect = event => {
-    const selectedPageName = event.target.value;
-    state.components[0].children.forEach(element => {
+    const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
+    currComponent.children.forEach(element => {
       if(element.childId === id) {
         element.attributes.compLink = event.target.value;
+        dispatch({type: 'UPDATE ATTRIBUTES', payload: element})
       }
     });
     // selectedPageName.compLink = event.target.value;
@@ -36,13 +37,13 @@ function AddLink({ id }: AddRoutes) {
   let pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
   let dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
   return (
-    <div style={{ padding: '1px', float: 'right' }}>
+    <div style={{paddingBottom: '1px', float: 'right' }}>
       <FormControl size='small'>
         <InputLabel style={ { color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
         <Select variant="outlined"
           onChange={handlePageSelect}
           id="page-select"
-          style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white'}}
+          style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
         >
           {dropDown}
         </Select>
