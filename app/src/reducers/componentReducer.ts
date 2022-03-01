@@ -395,7 +395,11 @@ const reducer = (state: State, action: Action) => {
       if (childId < 1000) {
         // makes separators not selectable
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
-        return { ...state, canvasFocus };
+        //makes it so the code preview will update when clicking on a new component
+        const components = state.components.map(element => {
+          return Object.assign({}, element);
+        });
+        return { ...state, components, canvasFocus };
       }
       return { ...state };
     }
