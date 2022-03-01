@@ -66,6 +66,7 @@ const DemoRender = (): JSX.Element => {
         }
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
+        else if (elementType === 'Image') componentsToRender.push(<Box component='img' src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href='javascript:void(0)' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
         else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
         else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
