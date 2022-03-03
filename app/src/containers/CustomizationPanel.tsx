@@ -711,7 +711,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 const useStyles = makeStyles({
   select: {
     fontSize: '1em',
-    '> .-icon': {
+    '> .MuiSelect-icon': {
       color: '#155084'
     }
   },

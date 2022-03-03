@@ -1,5 +1,5 @@
 import { AddRoutes } from '../../interfaces/Interfaces'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StateContext from '../../context/context';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +11,7 @@ import { styleContext } from '../../containers/AppContainer';
 function AddLink({ id }: AddRoutes) {
   const { isThemeLight } = useContext(styleContext);
   const [state, dispatch] = useContext(StateContext);
+
   const handleClick = (id) => {
     dispatch({
       type: 'ADD CHILD',
@@ -26,16 +27,16 @@ function AddLink({ id }: AddRoutes) {
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
     currComponent.children.forEach(element => {
       if(element.childId === id) {
-        element.attributes.compLink = event.target.value;
-        dispatch({type: 'UPDATE ATTRIBUTES', payload: element})
+        const state = JSON.parse(JSON.stringify(element));
+        state.attributes.compLink = event.target.value;
+        dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
       }
     });
-    // selectedPageName.compLink = event.target.value;
-    // dispatch({ type: 'HREF TO', payload: });
   }
 
   let pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
   let dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
+
   return (
     <div style={{paddingBottom: '1px', float: 'right' }}>
       <FormControl size='small'>
