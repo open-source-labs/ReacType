@@ -30,6 +30,20 @@ import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/actions.js';
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkMode
+  }
+}
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,7 +98,8 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-export default function NavBar(props) {
+//export default function NavBar(props)
+const NavBar = (props) => {
   const classes = useStyles();
 
   const { style, setStyle } = useContext(styleContext);
@@ -197,13 +212,14 @@ export default function NavBar(props) {
               props.isThemeLight ? <Brightness3Icon /> : <Brightness5Icon />
             }
             onClick={() => {
+              props.darkModeToggle();
               !style.backgroundColor
                 ? setStyle({ backgroundColor: '#21262D' }) // dark mode color
                 : setStyle({});
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
           >
-            {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
+            {props.darkMode ? 'Dark Mode' : 'Light Mode'}
           </Button>
           {state.isLoggedIn ? ( // render Manage Project button/dropdown only if user is logged in
             <Button
@@ -252,3 +268,5 @@ export default function NavBar(props) {
     </div>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

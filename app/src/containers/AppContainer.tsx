@@ -5,6 +5,23 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import RightContainer from './CustomizationPanel';
 import { theme1, theme2 } from '../public/styles/theme';
+import { connect } from 'react-redux';
+import * as actions from '../redux/actions/actions';
+// import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkMode
+  }
+}
+
+
 export const styleContext = createContext({
   style: null,
   setStyle: null,
@@ -13,7 +30,7 @@ export const styleContext = createContext({
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
-const AppContainer = () => {
+const AppContainer = (props) => {
   // setting state for changing light vs dark themes; linked to NavBar.tsx
   const [isThemeLight, setTheme] = useState(true);
   const initialStyle = useContext(styleContext);
@@ -33,4 +50,4 @@ const AppContainer = () => {
     </MuiThemeProvider>
   );
 };
-export default AppContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

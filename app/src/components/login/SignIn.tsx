@@ -18,6 +18,20 @@ import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/actions.js';
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkModeSlice.darkMode
+  }
+};
 
 function Copyright() {
   return (
@@ -187,6 +201,15 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <Button
+          color="primary"
+          style={{ minWidth: '113.97px' }}
+          onClick={() => {
+            props.darkModeToggle();
+          }}
+        >
+          {`Dark Mode: ${props.darkMode}`}
+        </Button>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -275,4 +298,4 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   );
 };
 
-export default withRouter(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
