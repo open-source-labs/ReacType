@@ -53,6 +53,7 @@ const DemoRender = (): JSX.Element => {
   const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
+      
       if (element.name !== 'separator') {
         const elementType = element.name;
         const childId = element.childId;
@@ -67,11 +68,15 @@ const DemoRender = (): JSX.Element => {
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'Image') componentsToRender.push(<Box component='img' src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
-        else if (elementType === 'a') componentsToRender.push(<Box component={elementType} href='javascript:void(0)' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
+        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(
+          activeLink ?
+          <Box component='a' href='javascript:void(0)' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>
+          :<Box component='a' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>
+        );
         else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
         else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
-        else if (elementType === 'Link') componentsToRender.push(<Box component='a' href='javascript:void(0)' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>)/*componentsToRender.push(<Link to={activeLink}>{innerText}</Link>);*/
-        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
+        else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>
+        );
         key += 1;
       }
     }
