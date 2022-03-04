@@ -12,17 +12,6 @@ function AddLink({ id, onClickHandler }) {
   const { isThemeLight } = useContext(styleContext);
   const [state, dispatch] = useContext(StateContext);
 
-  const handleClick = (id) => {
-    dispatch({
-      type: 'ADD CHILD',
-      payload: {
-        type: 'HTML Element',
-        typeId: 19,
-        childId: id // this is the id of the parent to attach it to
-      }
-    });
-  }
-
   const handlePageSelect = event => {
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
     currComponent.children.some(element => {
