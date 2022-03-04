@@ -286,13 +286,13 @@ const generateUnformattedCode = (
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
     ${!importReactRouter
         ? `  return (
-          <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+          <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
           \t${writeNestedElements(enrichedChildren)}
           </div>
       );`
         : `  return (
           <Router>
-            <div className="${currComponent.name}" ${formatStyles(currComponent)}>
+            <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
             \t${writeNestedElements(enrichedChildren)}
             </div>
           </Router>
