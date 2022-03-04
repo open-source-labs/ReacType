@@ -26,18 +26,20 @@ function AddLink({ id, onClickHandler }) {
   }
 
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
-  const dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
+  const dropDown = pagesItems.map(comp => <MenuItem style={{ color: 'black' }} value={comp.name}>{comp.name}</MenuItem>);
 
   return (
     <div style={{padding: '1px', float: 'right', display: 'flex', border: '2px solid red', alignSelf: 'center'}}>
       <FormControl size='medium' style={{display: 'flex'}}>
-          <InputLabel style={ { color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
+          {/* <InputLabel style={ { color: isThemeLight? '#fff' : '#000'} }>Pages</InputLabel> */}
           <Select label='pages'
             variant="outlined"
             onMouseDown={onClickHandler}
             onChange={handlePageSelect}
             id="page-select"
-            style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
+            style={ isThemeLight
+                    ? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'}
+                    : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
             >
             {dropDown}
           </Select>
