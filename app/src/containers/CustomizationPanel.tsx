@@ -48,13 +48,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [stateUsedObj, setStateUsedObj] = useState({});
 
   const resetFields = () => {
-    const childrenArray = state.components[0].children;
-    let attributes;
+    const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
+    const childrenArray = currComponent.children;
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
-        attributes = element.attributes;
-        setCompText(attributes.text ? attributes.text : '');
-        setCompLink(attributes.link ? attributes.link : '');
+        const attributes = element.attributes;
+        const style = element.style;
+        setCompText(attributes.compText ? attributes.compText : '');
+        setCompLink(attributes.compLink ? attributes.compLink : '');
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
       }
     }
@@ -73,6 +74,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // after component renders, reset the input fields with the current styles of the selected child
   useEffect(() => {
     resetFields();
+    // const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
+    // const childrenArray = currComponent.children;
+    // console.log('childrenArray', childrenArray)
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
   // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
@@ -399,7 +403,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
-                selectValue={flexAlign}
+                selectValue={displayMode}
                 handleChange={handleChange}
                 title="Display:"
                 name="display"
@@ -415,7 +419,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <FormSelector
                     classes={classes}
                     isThemeLight={isThemeLight}
-                    selectValue={flexAlign}
+                    selectValue={flexDir}
                     handleChange={handleChange}
                     title="Flex direction:"
                     name="flexdir"
@@ -428,7 +432,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <FormSelector
                     classes={classes}
                     isThemeLight={isThemeLight}
-                    selectValue={flexAlign}
+                    selectValue={flexJustify}
                     handleChange={handleChange}
                     title="Justify content:"
                     name="flexjust"

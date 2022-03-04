@@ -321,7 +321,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderBottom: '1px solid white'
     },
     rootUnderlineDark: {
-      '& .MuiSelect-icon': {
+      '& .-icon': {
         color: '#fff',
       },
       '&::before': {
@@ -329,7 +329,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     rootUnderlineLight: {
-      '& .MuiSelect-icon': {
+      '& .-icon': {
         color: 'rgba(0,0,0,0.54)',
       },
       '&::before': {

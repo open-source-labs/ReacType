@@ -45,6 +45,7 @@ const generateUnformattedCode = (
   let providers: string = '';
   let context: string = '';
   let links: boolean = false;
+  let images: boolean = false;
   const isRoot = rootComponents.includes(componentId);
   let importReactRouter = false;
   // returns an array of objects which may include components, html elements, and/or route links
@@ -75,15 +76,21 @@ const generateUnformattedCode = (
           referencedHTML.tag === 'ol' ||
           referencedHTML.tag === 'menu' ||
           referencedHTML.tag === 'li' ||
-          referencedHTML.tag === 'LinkTo' ||
+          referencedHTML.tag === 'Link' ||
           referencedHTML.tag === 'Switch' ||
-          referencedHTML.tag === 'Route'
+          referencedHTML.tag === 'Route' ||
+          referencedHTML.tag === 'Image'
         ) {
           child.children = getEnrichedChildren(child);
         }
+
         // when we see a Switch or LinkTo, import React Router
-        if (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'LinkTo')
+        if (referencedHTML.tag === 'Switch' || (referencedHTML.tag === 'Link' && projectType === 'Classic React'))
           importReactRouter = true;
+        else if(referencedHTML.tag === 'Link')
+          links = true;
+        if(referencedHTML.tag === 'Image')
+          images = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -163,13 +170,20 @@ const generateUnformattedCode = (
       return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
-    } else if (childElement.tag === 'LinkTo') {
-      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(childElement)}>${innerText}
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
+    } else if (childElement.tag === 'Link' && projectType === 'Classic React') {
+      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(childElement)}>
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}${innerText}
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
-    } else if (nestable) {
+    } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
+      return `${levelSpacer(level, 5)}<Link href=${activeLink}${elementTagDetails(childElement)}>
+        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}<a>${innerText}</a>
+        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
+    } else if (childElement.tag === 'Image') {
+      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>`;
+    } else if (nestable) { 
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>${innerText}
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>
+        ${tabSpacer(level)}${innerText}
         ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
         ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag !== 'separator') {
@@ -294,6 +308,8 @@ const generateUnformattedCode = (
     ${importsMapped}
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
+    ${images ? `import Image from 'next/link'` : ``}
+    
     const ${currComponent.name} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
