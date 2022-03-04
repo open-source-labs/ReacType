@@ -24,6 +24,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
+import { OutgoingMessage } from 'http';
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
@@ -47,9 +48,21 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
 
+  //Miko -- save properties of nested div
+  function deepIterate(arr) {
+    const output = [];
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if(arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
+      }
+    }
+    return output;
+  }
+
   const resetFields = () => {
-    const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
-    const childrenArray = currComponent.children;
+    const childrenArray = deepIterate(configTarget.children);
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
         const attributes = element.attributes;
