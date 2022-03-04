@@ -7,8 +7,9 @@ import {
 } from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
-import { createStore } from 'redux';
+import reduxStore from './redux/store';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import App from './components/App.tsx';
@@ -55,7 +56,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Provider store={store}>
+    <Provider store={reduxStore}>
       <Router>
         <Switch>
           <Route exact path="/login" component={SignIn} />

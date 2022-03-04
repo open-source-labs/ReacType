@@ -172,6 +172,11 @@ const HTMLPanel = (props): JSX.Element => {
                 onChange={handleTagChange}
                 className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ margin: '10px' }}
+                InputProps={{
+                  style: {
+                    color: isThemeLight ? 'black' : 'white'
+                  }
+                }}
               />
               
               {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
@@ -192,8 +197,14 @@ const HTMLPanel = (props): JSX.Element => {
               onChange={handleNameChange}
               autoComplete="off"
               className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
-              style={{ margin: '10px' }}
+              style={{}}
+              InputProps={{
+                style: {
+                  color: isThemeLight ? 'black' : 'white'
+                }
+              }}
             />
+            
 
             {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
@@ -244,8 +255,8 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 0px',
-    width: '160px',
-    height: '30px',
+    // width: '200px',
+    // height: '75px',
     alignSelf: 'center',
     border: '2px solid grey'
   },
