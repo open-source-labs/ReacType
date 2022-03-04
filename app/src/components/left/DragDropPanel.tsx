@@ -28,7 +28,7 @@ const DragDropPanel = (props): JSX.Element => {
   };
 
   // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator' && type.name !== 'Route');
+  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
   return (
     <div className="HTMLItems">
       <div id="HTMLItemsTopHalf">
@@ -37,7 +37,7 @@ const DragDropPanel = (props): JSX.Element => {
         >
           <h3 style={ {color: isThemeLight ? '#000' : '#fff'} }>HTML ELEMENTS</h3>
           {htmlTypesToRender.map(option => {
-            if (!['Switch', 'LinkTo', 'LinkHref', 'Image'].includes(option.name)) {
+            if (!['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(option.name)) {
               return (
                 <HTMLItem
                   name={option.name}
@@ -53,7 +53,7 @@ const DragDropPanel = (props): JSX.Element => {
           })}
           {state.projectType === "Classic React" ? <h3 style={ {color: isThemeLight ? '#000' : '#fff' } }>REACT ROUTER</h3> : null}
           {htmlTypesToRender.map(option => {
-            if ((option.name === 'Switch' || option.name === 'LinkTo') && state.projectType === "Classic React") {
+            if ((option.name === 'Switch' || option.name === 'LinkTo' || option.name === 'Route') && state.projectType === "Classic React") {
               return (
                 <HTMLItem
                   name={option.name}

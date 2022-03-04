@@ -8,7 +8,7 @@ import { InputLabel } from '@material-ui/core';
 
 import { styleContext } from '../../containers/AppContainer';
 
-function AddLink({ id }: AddRoutes) {
+function AddLink({ id, onClickHandler }) {
   const { isThemeLight } = useContext(styleContext);
   const [state, dispatch] = useContext(StateContext);
 
@@ -25,29 +25,33 @@ function AddLink({ id }: AddRoutes) {
 
   const handlePageSelect = event => {
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
-    currComponent.children.forEach(element => {
+    currComponent.children.some(element => {
       if(element.childId === id) {
         const state = JSON.parse(JSON.stringify(element));
+        state.childId = id;
         state.attributes.compLink = event.target.value;
         dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
+        return true;
       }
     });
   }
 
-  let pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
-  let dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
+  const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
+  const dropDown = pagesItems.map(comp => <MenuItem value={comp.name}>{comp.name}</MenuItem>);
 
   return (
-    <div style={{paddingBottom: '1px', float: 'right' }}>
-      <FormControl size='small'>
-        <InputLabel style={ { color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
-        <Select variant="outlined"
-          onChange={handlePageSelect}
-          id="page-select"
-          style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
-        >
-          {dropDown}
-        </Select>
+    <div style={{padding: '1px', float: 'right', display: 'flex', border: '2px solid red', alignSelf: 'center'}}>
+      <FormControl size='medium' style={{display: 'flex'}}>
+          <InputLabel style={ { color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
+          <Select label='pages'
+            variant="outlined"
+            onMouseDown={onClickHandler}
+            onChange={handlePageSelect}
+            id="page-select"
+            style={ isThemeLight? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'} : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
+            >
+            {dropDown}
+          </Select>
       </FormControl>
     </div>
   );

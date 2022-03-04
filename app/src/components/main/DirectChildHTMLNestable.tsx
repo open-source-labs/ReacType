@@ -143,9 +143,9 @@ function DirectChildHTMLNestable({
     routeButton.push(<AddRoute id={childId} name={name} />);
   }
   if (typeId === 19) {
-    routeButton.push(<AddLink id={childId} name={name} />);
+    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} />);
   }
-
+  
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
