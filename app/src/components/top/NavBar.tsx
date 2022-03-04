@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => {
   return {
-    darkMode: state.darkMode
+    darkMode: state.darkModeSlice.darkMode
   }
 }
 
@@ -209,14 +209,15 @@ const NavBar = (props) => {
             variant="contained"
             style={{ minWidth: '113.97px' }}
             endIcon={
-              props.isThemeLight ? <Brightness3Icon /> : <Brightness5Icon />
+              props.isThemeLight ? <Brightness5Icon /> : <Brightness3Icon />
             }
             onClick={() => {
               props.darkModeToggle();
-              !style.backgroundColor
-                ? setStyle({ backgroundColor: '#21262D' }) // dark mode color
-                : setStyle({});
-              props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
+              //!style.backgroundColor // this changes the bottom and left background color/
+              !props.isThemeLight //this changes the bottom and left background color
+                ? setStyle(null) 
+                : setStyle({ backgroundColor: '#21262c' }); // dark mode color
+              props.isThemeLight ? props.setTheme(false) : props.setTheme(true); // this changes the draggable items font color
             }}
           >
             {props.darkMode ? 'Dark Mode' : 'Light Mode'}

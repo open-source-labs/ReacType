@@ -1,18 +1,63 @@
 import { createTheme } from '@material-ui/core/styles';
+// theme creator: https://bareynol.github.io/mui-theme-creator/
+
 export const theme1 = createTheme({
   palette: {
+    type: 'dark',
     primary: {
-      main: '#003366', 
+      main: '#3f51b5',
     },
     secondary: {
-      main: '#0099E6',
+      main: '#17a2b8',
+    },
+    background: {
+      paper: '#ffffff',
     },
   },
 });
+
 export const theme2 = createTheme({
   palette: {
+    type: 'light',
+    primary: {
+      main: '#3f51b5',
+    },
     secondary: {
-      main: '#304D6D', 
+      main: '#17a2b8',
+    },
+    background: {
+      paper: '#ffffff',
     },
   },
 });
+
+export const SigninDark = createTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#17a2b8',
+    },
+    background: {
+      paper: '#ffffff',
+    },
+  },
+});
+
+export const SigninLight = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#17a2b8',
+    },
+    background: {
+      paper: '#ffffff',
+    },
+  },
+});
+
