@@ -152,6 +152,12 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
                     // Updated
                     helperText={errorStatus ? errorMsg : ''}
                     onChange={handleNameInput}
+                    style={{}}
+                    InputProps={{
+                      style: {
+                        color: isThemeLight ? 'black' : 'white'
+                      }
+                    }}
               />
               </div>
             </div>
@@ -198,8 +204,8 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 10px',
-    width: '140px',
-    height: '30px',
+    // width: '140px',
+    // height: '30px',
     borderColor: 'grey',
     border: '2px solid grey'
   },
