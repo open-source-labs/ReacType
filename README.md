@@ -35,7 +35,7 @@ How to use
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
 - **Component Tree**: Click on the Component Tree tab next to the Code Preview tab to view the component tree hierarchy.
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
-- **Using State in Elements**: As of 10.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
+- **Using State in Elements**: As of 11.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
@@ -147,11 +147,11 @@ How to use
 
 [Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
 
+[Katrina Henderson](https://www.linkedin.com/in/katrinahenderson/) [@kchender](https://github.com/kchender)
+
 [Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
-
-[Katrina Henderson](https://www.linkedin.com/in/katrinahenderson/) [@kchender](https://github.com/kchender)
 
 [Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
 
