@@ -89,9 +89,9 @@ const BottomTabs = (props): JSX.Element => {
               value={state.projectType}
               onChange={handleProjectChange}
             >
-              <MenuItem value={'Classic React'}>Classic React</MenuItem>
-              <MenuItem value={'Gatsby.js'}>Gatsby.js</MenuItem>
-              <MenuItem value={'Next.js'}>Next.js</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Classic React'}>Classic React</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>Gatsby.js</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Next.js'}>Next.js</MenuItem>
             </Select>
           </FormControl>
         </div>
