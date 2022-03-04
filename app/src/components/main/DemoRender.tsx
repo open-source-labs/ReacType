@@ -61,7 +61,6 @@ const DemoRender = (): JSX.Element => {
         const innerText = element.attributes.compText;
         const classRender = element.attributes.cssClasses;
         const activeLink = element.attributes.compLink;
-        console.log('activeLink', activeLink);
         let renderedChildren;
         if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);

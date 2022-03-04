@@ -51,15 +51,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   //Miko -- save properties of nested div
   function deepIterate(arr) {
     const output = [];
-    function recurse(arr) {
-      for(let i = 0; i < arr.length; i++) {
-        output.push(arr[i]);
-        if(arr[i].children.length) {
-          recurse(arr[i].children);
-        }
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if(arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
       }
     }
-    recurse(arr);
     return output;
   }
 
