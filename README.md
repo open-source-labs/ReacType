@@ -135,7 +135,7 @@ How to use
 
 [Eliot Nguyen](https://linkedin.com/in/ibeeliot) [@ibeeliot](https://github.com/ibeeliot)
 
-[Evan Crews](http://www.linkedin.com/in/<ADD_LINKEDIN_USERNAME>/) [@Evan-Crews](https://github.com/Evan-Crews)
+[Evan Crews](https://www.linkedin.com/in/evan-crews/) [@Evan-Crews](https://github.com/Evan-Crews)
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
