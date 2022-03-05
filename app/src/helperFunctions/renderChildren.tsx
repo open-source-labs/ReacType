@@ -51,7 +51,8 @@ const renderChildren = (children: ChildElement[]) => {
     // child is a nestable type of HTML element (divs and forms)
     else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16 || typeId === 17 || typeId === 18 || typeId === -1 || typeId === 19)) {
       if((typeId === 18 || typeId === 19) && state.projectType === 'Classic React') typeId = 18;
-      else if((typeId === 18 || typeId === 19) && state.projectType === 'Next.js') typeId = 19;
+      if((typeId === 17 || typeId === -1) && state.projectType === 'Next.js') return renderChildren(children);
+      if((typeId === 18 || typeId === 19) && state.projectType === 'Next.js') typeId = 19;
       return (
         <DirectChildHTMLNestable
           childId={childId}
