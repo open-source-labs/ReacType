@@ -176,11 +176,14 @@ const generateUnformattedCode = (
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
       return `${levelSpacer(level, 5)}<Link href=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}<a>${innerText}</a>
+        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(childElement.children, level + 1)}</a>
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'Image') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>`;
-    } else if (nestable) { 
+    } else if (nestable) {
+      if((childElement.tag === 'Route' || childElement.tag === 'Switch') && projectType === 'Next.js') {
+        return `${writeNestedElements(childElement.children, level)}`;
+      } 
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>
         ${tabSpacer(level)}${innerText}
@@ -286,16 +289,16 @@ const generateUnformattedCode = (
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
     ${!importReactRouter
         ? `  return (
-          <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
+          <>
           \t${writeNestedElements(enrichedChildren)}
-          </div>
+          </>
       );`
         : `  return (
           <Router>
-            <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
+            <>
             \t${writeNestedElements(enrichedChildren)}
             </div>
-          </Router>
+          </>
       );`}
     ${`}\n`}
     ReactDOM.render(<${currComponent.name} />, document.querySelector('#app'));
