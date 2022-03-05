@@ -85,7 +85,7 @@ const generateUnformattedCode = (
         }
 
         // when we see a Switch or LinkTo, import React Router
-        if (referencedHTML.tag === 'Switch' || (referencedHTML.tag === 'Link' && projectType === 'Classic React'))
+        if ((referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') && projectType === 'Classic React')
           importReactRouter = true;
         else if(referencedHTML.tag === 'Link')
           links = true;
@@ -295,10 +295,8 @@ const generateUnformattedCode = (
       );`
         : `  return (
           <Router>
-            <>
             \t${writeNestedElements(enrichedChildren)}
-            </div>
-          </>
+          </Router>
       );`}
     ${`}\n`}
     ReactDOM.render(<${currComponent.name} />, document.querySelector('#app'));
@@ -316,17 +314,16 @@ const generateUnformattedCode = (
     const ${currComponent.name} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
-      <>
+        <>
       ${isRoot
-        ? `<Head>
+        ? `
+          <Head>
             <title>${currComponent.name}</title>
-            </Head>`
+          </Head>`
         : ``
       }
-      <div className="${currComponent.name}" style={props.style}>
       ${writeNestedElements(enrichedChildren)}
-      </div>
-      </>
+        </>
       );
     }
     export default ${currComponent.name};
@@ -345,7 +342,7 @@ const generateUnformattedCode = (
         ${isRoot
         ? `<head>
               <title>${currComponent.name}</title>
-              </head>`
+          </head>`
         : ``
       }
         <div className="${currComponent.name}" style={props.style}>
