@@ -314,16 +314,16 @@ const generateUnformattedCode = (
     const ${currComponent.name} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
-        <>
+          <>
       ${isRoot
         ? `
-          <Head>
-            <title>${currComponent.name}</title>
-          </Head>`
+            <Head>
+              <title>${currComponent.name}</title>
+            </Head>`
         : ``
       }
       ${writeNestedElements(enrichedChildren)}
-        </>
+          </>
       );
     }
     export default ${currComponent.name};
