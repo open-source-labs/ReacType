@@ -139,29 +139,32 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
               className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
+              style={ isThemeLight
+                ? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'}
+                : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
             >
-              <MenuItem value="">
+              <MenuItem value="" style={{ color: 'black' }}>
                 <em>Types</em>
               </MenuItem>
-              <MenuItem id="type-selector" value={"string"}>
+              <MenuItem id="type-selector" value={"string"} style={{ color: 'black' }}>
                 String
               </MenuItem>
-              <MenuItem id="type-selector" value={"number"}>
+              <MenuItem id="type-selector" value={"number"} style={{ color: 'black' }}>
                 Number
               </MenuItem>
-              <MenuItem id="type-selector" value={"boolean"}>
+              <MenuItem id="type-selector" value={"boolean"} style={{ color: 'black' }}>
                 Boolean
               </MenuItem>
-              <MenuItem id="type-selector" value={"array"}>
+              <MenuItem id="type-selector" value={"array"} style={{ color: 'black' }}>
                 Array
               </MenuItem>
-              <MenuItem id="type-selector" value={"object"}>
+              <MenuItem id="type-selector" value={"object"} style={{ color: 'black' }}>
                 Object
               </MenuItem>
-              <MenuItem id="type-selector" value={"undefined"}>
+              <MenuItem id="type-selector" value={"undefined"} style={{ color: 'black' }}>
                 Undefined
               </MenuItem>
-              <MenuItem id="type-selector" value={"any"}>
+              <MenuItem id="type-selector" value={"any"} style={{ color: 'black' }}>
                 Any
               </MenuItem>
             </Select>

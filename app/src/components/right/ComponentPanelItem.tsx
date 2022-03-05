@@ -52,9 +52,12 @@ const ComponentPanelItem: React.FC<{
         display: 'grid',
         color: isThemeLight ? 'black' : 'white',
         backgroundColor: 'transparent',
-        border: root
-          ? '2px dotted #186BB4'
-          : '2px solid #186BB4',
+        // border: root
+        //   ? '2px dotted #186BB4'
+        //   : '2px solid #186BB4',
+        border: isThemeLight
+          ? '2px solid black'
+          : '2px solid white',
         borderRadius: '4px',
         borderColor: '#000000',
         margin: '5px 0px'
