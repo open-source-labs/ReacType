@@ -5,8 +5,9 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { InputLabel } from '@material-ui/core';
-
+import { TextField } from '@material-ui/core';
 import { styleContext } from '../../containers/AppContainer';
+import { makeStyles } from '@mui/material/styles'
 
 function AddLink({ id, onClickHandler }) {
   const { isThemeLight } = useContext(styleContext);
@@ -37,15 +38,16 @@ function AddLink({ id, onClickHandler }) {
   }
 
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
-  const dropDown = pagesItems.map(comp => <MenuItem style={{ color: 'black' }} value={comp.name}>{comp.name}</MenuItem>);
+  const dropDown = [<MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} value={comp.name}>{comp.name}</MenuItem>));
+
 
   return (
-    <div style={{padding: '1px', float: 'right', display: 'flex', border: '2px solid red', alignSelf: 'center'}}>
-      <FormControl size='medium' style={{display: 'flex'}}>
-          {/* <InputLabel style={ { color: isThemeLight? '#fff' : '#000'} }>Pages</InputLabel> */}
-          <Select label='pages'
-            variant="outlined"
-            onMouseDown={onClickHandler}
+    <div style={{float: 'right'}}>
+      <FormControl variant='outlined' focused='true' style={ {width: '100%'} }>
+      <InputLabel id='page-select-label' style={ {color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
+          <Select 
+            label='Pages'
+            // onMouseDown={onClickHandler}
             onChange={handlePageSelect}
             id="page-select"
             style={ isThemeLight

@@ -3,6 +3,7 @@ import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { SelectLight, SelectDark } from '../../public/styles/theme';
 
 const FormSelector = (props): JSX.Element => {
   const items = [];
@@ -13,13 +14,13 @@ const FormSelector = (props): JSX.Element => {
   })
   return (
     <div className={props.classes.configRow}>
-        
       <div className={props.isThemeLight ? `${props.classes.configType} ${props.classes.lightThemeFontColor}` : `${props.classes.configType} ${props.classes.darkThemeFontColor}`}>
         <h3>{props.title}</h3>
       </div>
       <div className={props.classes.configValue}>
         <FormControl variant="filled" className={props.classes.formControl}>
           <Select
+            style={props.isThemeLight ? { border: '1px solid #0099e6' } : null }
             value={props.selectValue}
             name={props.name}
             onChange={props.handleChange}
