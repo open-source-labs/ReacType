@@ -23,7 +23,6 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         state.attributes.compLink = event.target.value;
         dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
         return true;
-        console.log(linkDisplayed);
       }
     });
   }
@@ -39,7 +38,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
       <InputLabel id='page-select-label' style={ {color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
           <Select 
             label='Pages'
-            // onMouseDown={onClickHandler}
+            onMouseDown={onClickHandler}
             onChange={handlePageSelect}
             id="page-select"
             value={linkDisplayed}
