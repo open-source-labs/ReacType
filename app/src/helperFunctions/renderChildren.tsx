@@ -14,7 +14,8 @@ import StateContext from '../context/context';
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
   return children.map((child: ChildElement, i: number) => {
-    const { type, typeId, style, childId, children, attributes, name, annotations} = child;
+    const { type, style, childId, children, attributes, name, annotations} = child;
+    let {typeId} = child;
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
@@ -49,6 +50,9 @@ const renderChildren = (children: ChildElement[]) => {
     // Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
     // child is a nestable type of HTML element (divs and forms)
     else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16 || typeId === 17 || typeId === 18 || typeId === -1 || typeId === 19)) {
+      if((typeId === 18 || typeId === 19) && state.projectType === 'Classic React') typeId = 18;
+      if((typeId === 17 || typeId === -1) && state.projectType === 'Next.js') return renderChildren(children);
+      if((typeId === 18 || typeId === 19) && state.projectType === 'Next.js') typeId = 19;
       return (
         <DirectChildHTMLNestable
           childId={childId}

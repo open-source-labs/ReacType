@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, Children } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../context/context';
+import { element } from 'prop-types';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -25,16 +26,18 @@ function TreeChart({ data }) { // data is components from state - passed in from
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
   // function to filter out separators to prevent render on tree chart
+
   const removeSeparators = (arr: object[]) => {
     // loop over array
     for (let i = 0; i < arr.length; i++) {
+      if(arr[i] === undefined) continue;
       // if element is separator, remove it
       if (arr[i].name === 'separator') {
         arr.splice(i, 1);
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component' || arr[i].name === 'LinkTo'
+      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component' || arr[i].name === 'Link'
         || arr[i].name === 'Switch' || arr[i].name === 'Route' || arr[i].name === 'menu'
         || arr[i].name === 'ul' || arr[i].name === 'ol' || arr[i].name === 'li') && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
@@ -47,6 +50,24 @@ function TreeChart({ data }) { // data is components from state - passed in from
   };
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
+  
+  //Miko left off
+  if(state.projectType === 'Next.js') {
+    dataDeepClone.forEach(element => {
+      element.children = sanitize(element.children).filter(element => !Array.isArray(element));
+    })
+
+    function sanitize(children) {
+      return children.map((child) => {
+        if(child.name === 'Switch' || child.name === 'Route') {
+          return sanitize(child.children);
+        } else {
+          return child;
+        }
+      });
+    } 
+  }
+
   // remove separators and update components to current versions
   dataDeepClone.forEach(component => {
     removeSeparators(component.children);
