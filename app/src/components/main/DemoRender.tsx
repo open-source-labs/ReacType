@@ -7,11 +7,12 @@ import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
 
 import ReactDOMServer from 'react-dom/server';
+import { stat } from 'fs/promises';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-  const [state,] = useContext(StateContext);
+  const [state, dispatch] = useContext(StateContext);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -38,6 +39,12 @@ const DemoRender = (): JSX.Element => {
           window.addEventListener('message', (event) => {
             try {
               app.innerHTML = event.data;
+              document.querySelectorAll('a').forEach(element => {
+                element.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  window.top.postMessage(event.target.href, '*');
+                })
+              });
             } catch (err) {
               const app = document.querySelector('#app');
               app.innerHTML = '<div style="color: red;"><h4>Syntax Error</h4>' + err + '</div>';
@@ -47,6 +54,16 @@ const DemoRender = (): JSX.Element => {
       </body>
     </html>
   `;
+
+  //Switch between components when clicking on a link in the live render
+  window.onmessage = (event) => {
+    const component = event.data?.split('/').at(-1);
+    const componentId = component && state.components?.find((el) => {
+      return el.name.toLowerCase() === component.toLowerCase();
+    }).id;
+    componentId && dispatch({ type: 'CHANGE FOCUS', payload: {componentId, childId: null}})
+    
+  };
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
   //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
@@ -68,11 +85,7 @@ const DemoRender = (): JSX.Element => {
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'Image') componentsToRender.push(<Box component='img' src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
-        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(
-          activeLink ?
-          <Box component='a' href='javascript:void(0)' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>
-          :<Box component='a' className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>
-        );
+        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(<Box component='a' href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
         else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
         else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>
