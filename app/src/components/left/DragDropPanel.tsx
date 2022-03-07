@@ -26,7 +26,6 @@ const DragDropPanel = (props): JSX.Element => {
       payload: id
     });
   };
-
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
   return (

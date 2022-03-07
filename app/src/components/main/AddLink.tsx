@@ -1,5 +1,5 @@
 import { AddRoutes } from '../../interfaces/Interfaces'
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StateContext from '../../context/context';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,20 +9,10 @@ import { TextField } from '@material-ui/core';
 import { styleContext } from '../../containers/AppContainer';
 import { makeStyles } from '@mui/material/styles'
 
-function AddLink({ id, onClickHandler }) {
+function AddLink({ id, onClickHandler, linkDisplayed }) {
   const { isThemeLight } = useContext(styleContext);
   const [state, dispatch] = useContext(StateContext);
-
-  const handleClick = (id) => {
-    dispatch({
-      type: 'ADD CHILD',
-      payload: {
-        type: 'HTML Element',
-        typeId: 19,
-        childId: id // this is the id of the parent to attach it to
-      }
-    });
-  }
+  const [link, setLink] = useState('')
 
   const handlePageSelect = event => {
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
@@ -37,6 +27,7 @@ function AddLink({ id, onClickHandler }) {
     });
   }
 
+
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
   const dropDown = [<MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} value={comp.name}>{comp.name}</MenuItem>));
 
@@ -47,9 +38,10 @@ function AddLink({ id, onClickHandler }) {
       <InputLabel id='page-select-label' style={ {color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
           <Select 
             label='Pages'
-            // onMouseDown={onClickHandler}
+            onMouseDown={onClickHandler}
             onChange={handlePageSelect}
             id="page-select"
+            value={linkDisplayed}
             style={ isThemeLight
                     ? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'}
                     : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}

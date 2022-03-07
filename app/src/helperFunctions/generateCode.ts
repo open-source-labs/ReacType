@@ -85,7 +85,7 @@ const generateUnformattedCode = (
         }
 
         // when we see a Switch or LinkTo, import React Router
-        if (referencedHTML.tag === 'Switch' || (referencedHTML.tag === 'Link' && projectType === 'Classic React'))
+        if ((referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') && projectType === 'Classic React')
           importReactRouter = true;
         else if(referencedHTML.tag === 'Link')
           links = true;
@@ -176,11 +176,14 @@ const generateUnformattedCode = (
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
       return `${levelSpacer(level, 5)}<Link href=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}<a>${innerText}</a>
+        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(childElement.children, level + 1)}</a>
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
     } else if (childElement.tag === 'Image') {
       return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>`;
-    } else if (nestable) { 
+    } else if (nestable) {
+      if((childElement.tag === 'Route' || childElement.tag === 'Switch') && projectType === 'Next.js') {
+        return `${writeNestedElements(childElement.children, level)}`;
+      } 
       const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>
         ${tabSpacer(level)}${innerText}
@@ -286,15 +289,13 @@ const generateUnformattedCode = (
     ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
     ${!importReactRouter
         ? `  return (
-          <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
+          <>
           \t${writeNestedElements(enrichedChildren)}
-          </div>
+          </>
       );`
         : `  return (
           <Router>
-            <div className="${currComponent.name}" ${formatStyles(currComponent.style)}>
             \t${writeNestedElements(enrichedChildren)}
-            </div>
           </Router>
       );`}
     ${`}\n`}
@@ -313,17 +314,16 @@ const generateUnformattedCode = (
     const ${currComponent.name} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
-      <>
+          <>
       ${isRoot
-        ? `<Head>
-            <title>${currComponent.name}</title>
+        ? `
+            <Head>
+              <title>${currComponent.name}</title>
             </Head>`
         : ``
       }
-      <div className="${currComponent.name}" style={props.style}>
       ${writeNestedElements(enrichedChildren)}
-      </div>
-      </>
+          </>
       );
     }
     export default ${currComponent.name};
@@ -342,7 +342,7 @@ const generateUnformattedCode = (
         ${isRoot
         ? `<head>
               <title>${currComponent.name}</title>
-              </head>`
+          </head>`
         : ``
       }
         <div className="${currComponent.name}" style={props.style}>

@@ -35,7 +35,7 @@ const HTMLTypes: HTMLType[] = [
   {
     id: 1,
     tag: 'img',
-    name: 'Image',
+    name: 'Img',
     style: {},
     placeHolderShort: 'image',
     placeHolderLong: '',

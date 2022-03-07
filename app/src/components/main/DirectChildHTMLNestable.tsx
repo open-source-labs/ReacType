@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
@@ -27,6 +27,7 @@ function DirectChildHTMLNestable({
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
   const ref = useRef(null);
+  // const [linkDisplayed, setLinkDisplayed] = useState('');
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
@@ -143,7 +144,7 @@ function DirectChildHTMLNestable({
     routeButton.push(<AddRoute id={childId} name={name} />);
   }
   if (typeId === 19) {
-    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} />);
+    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} linkDisplayed={attributes && attributes.compLink ? `${attributes.compLink}` : null} />);
   }
   
   return (
