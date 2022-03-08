@@ -14,10 +14,21 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
   const [state, dispatch] = useContext(StateContext);
   const [link, setLink] = useState('')
 
+  function deepIterate(arr) {
+    const output = [];
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if(arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
+      }
+    }
+    return output;
+  }
+
   const handlePageSelect = event => {
-    console.log('hit');
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
-    currComponent.children.some(element => {
+    deepIterate(currComponent.children).some(element => {
       if(element.childId === id) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
@@ -30,7 +41,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
 
 
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
-  const dropDown = [<MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: isThemeLight? '#000' : '#fff'}} value={comp.name}>{comp.name}</MenuItem>));
+  const dropDown = [<MenuItem style={{ color: '#000' }} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: '#000' }} value={comp.name}>{comp.name}</MenuItem>));
 
 
   return (
