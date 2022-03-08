@@ -89,10 +89,10 @@ export default function FormDialog() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>
+          <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} color='primary'>
             Save
           </Button>
         </DialogActions>
