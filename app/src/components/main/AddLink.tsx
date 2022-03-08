@@ -15,6 +15,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
   const [link, setLink] = useState('')
 
   const handlePageSelect = event => {
+    console.log('hit');
     const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
     currComponent.children.some(element => {
       if(element.childId === id) {

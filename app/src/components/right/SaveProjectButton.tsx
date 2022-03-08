@@ -67,14 +67,16 @@ export default function FormDialog() {
         SAVE PROJECT AS
       </Button>
       <Dialog
+        style={{ color: "#000" }}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Save Project</DialogTitle>
+        <DialogTitle style={{ color: "#000" }} id="form-dialog-title">Save Project</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
+            inputProps={{ style: { color: "black" } }}
             margin="dense"
             id="name"
             label="Project Name"
@@ -87,10 +89,10 @@ export default function FormDialog() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={handleSave} color="primary">
+          <Button onClick={handleSave} color='primary'>
             Save
           </Button>
         </DialogActions>

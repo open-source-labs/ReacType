@@ -48,6 +48,19 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
 
+
+  const currFocus = state.components
+    .find((el) => {
+      return el.id === state.canvasFocus.componentId
+    })
+    .children.find((el) => {
+      return el.childId === state.canvasFocus.componentId;
+    });
+  
+  useEffect( () => {
+    currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+  }, [currFocus?.attributes?.compLink]);
+
   //Miko -- save properties of nested div
   function deepIterate(arr) {
     const output = [];
@@ -87,9 +100,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // after component renders, reset the input fields with the current styles of the selected child
   useEffect(() => {
     resetFields();
-    // const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
-    // const childrenArray = currComponent.children;
-    // console.log('childrenArray', childrenArray)
   }, [state.canvasFocus.componentId, state.canvasFocus.childId]);
   // handles all input field changes, with specific updates called based on input's name
   const handleChange = (e: React.ChangeEvent<{ value: any }>) => {
