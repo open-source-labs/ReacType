@@ -247,18 +247,21 @@ const NavBar = (props) => {
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
+              style = { { color: props.isThemeLight ? 'black' : 'white' } }
             >
               <SaveProjectButton />
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
+              style = { { color: props.isThemeLight ? 'black' : 'white' } }
             >
               <ProjectsFolder />
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
+              style = { { color: props.isThemeLight ? 'black' : 'white' } }
             >
               <DeleteProjects />
             </StyledMenuItem>
