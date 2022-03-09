@@ -33,7 +33,6 @@ sessionController.isLoggedIn = (req, res, next) => {
 
 // startSession - create and save a new session into the database
 sessionController.startSession = (req, res, next) => {
-  console.log('inside startSession');
   // first check if user is logged in already
   Sessions.findOne({ cookieId: res.locals.id }, (err, ses) => {
     if (err) {
@@ -70,7 +69,6 @@ sessionController.startSession = (req, res, next) => {
 };
 
 sessionController.gitHubResponse = (req, res, next) => {
-  console.log('inside gitHubResponse');
   const { code } = req.query;
   if (!code) {
     console.log('code not found');
@@ -97,7 +95,6 @@ sessionController.gitHubResponse = (req, res, next) => {
   )
     .then(res => res.json())
     .then(token => {
-      console.log('token:', token);
       res.locals.token = token['access_token'];
       return next();
     })
@@ -107,7 +104,6 @@ sessionController.gitHubResponse = (req, res, next) => {
 };
 
 sessionController.gitHubSendToken = (req, res, next) => {
-  console.log('inside gitHubSendToken');
   const { token } = res.locals;
   fetch(`https://api.github.com/user/public_emails`, {
     method: 'GET',
@@ -143,7 +139,6 @@ sessionController.gitHubSendToken = (req, res, next) => {
 
 // creates a session when logging in with github
 sessionController.githubSession = (req, res, next) => {
-  console.log('inside gitHubSession');
   // req.user is passed in from passport js -> serializeuser/deserializeuser
   const cookieId = req.user._id;
   Sessions.findOne({ cookieId }, (err, session) => {
