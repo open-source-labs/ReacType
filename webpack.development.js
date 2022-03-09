@@ -22,10 +22,10 @@ module.exports = merge(base, {
     },
     proxy: {
       '/demoRender': {
-        target: `http://localhost:${process.env.PORT}/`
+        target: `http://localhost:${process.env.DEV_PORT}/`
       },
       '/user-styles': {
-        target: `http://localhost:${process.env.PORT}/`
+        target: `http://localhost:${process.env.DEV_PORT}/`
       }
     }
   },
