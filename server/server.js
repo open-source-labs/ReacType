@@ -13,7 +13,7 @@ const projectController = require('./controllers/projectController');
 
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || process.env.DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
@@ -29,7 +29,7 @@ const stylesRouter = require('./routers/stylesRouter');
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
   cors({
-    origin: ['http://localhost:8080', 'app://rse'],
+    origin: [`http://localhost:8080`, 'app://rse'],
     credentials: true
   })
 );
@@ -43,7 +43,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: `http://localhost:${process.env.PORT}/github/callback`
+      callbackURL: `http://localhost:${process.env.DEV_PORT}/github/callback`
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);

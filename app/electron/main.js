@@ -213,7 +213,7 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      `http://localhost:${process.env.PORT}`,
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://github.com',
       'https://nextjs.org',
@@ -237,7 +237,7 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      `http://localhost:${process.env.PORT}`,
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://github.com',
       'https://nextjs.org',
@@ -280,7 +280,7 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      `http://localhost:${process.env.PORT}`,
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://nextjs.org',
       'https://developer.mozilla.org',
@@ -345,7 +345,7 @@ ipcMain.on('choose_app_dir', event => {
 // define serverURL for cookie and auth purposes based on environment
 let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
-  serverUrl = `http://localhost:${process.env.PORT}`;
+  serverUrl = `http://localhost:${process.env.DEV_PORT}`;
 }
 
 // // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
@@ -376,7 +376,7 @@ ipcMain.on('delete_cookie', event => {
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
   console.log('inside main.js in electron');
-  const githubURL = `http://localhost:${process.env.PORT}/auth/github`;
+  const githubURL = `http://localhost:${process.env.DEV_PORT}/auth/github`;
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
