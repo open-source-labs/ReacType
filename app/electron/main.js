@@ -376,7 +376,7 @@ ipcMain.on('delete_cookie', event => {
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
   console.log('inside main.js in electron');
-  const githubURL = `http://localhost:${process.env.PORT}/auth/github`;
+  const githubURL = isDev ? `http://localhost:${process.env.PORT}/auth/github` : 'app://rse/';
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
