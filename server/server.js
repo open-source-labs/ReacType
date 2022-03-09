@@ -18,6 +18,8 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cookieParser());

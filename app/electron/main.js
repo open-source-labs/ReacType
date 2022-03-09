@@ -403,7 +403,7 @@ ipcMain.on('github', event => {
     const raw_code = /code=([^&]\*)/.exec(url) || null;
     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
     const error = /\?error=(.+)\$/.exec(url);
-
+    
     if (code || error) {
       // Close the browser if code found or error
       authWindow.destroy();

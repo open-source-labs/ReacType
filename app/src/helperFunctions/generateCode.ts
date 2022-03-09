@@ -309,7 +309,7 @@ const generateUnformattedCode = (
     ${importsMapped}
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
-    ${images ? `import Image from 'next/link'` : ``}
+    ${images ? `import Image from 'next/image'` : ``}
     
     const ${currComponent.name} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");

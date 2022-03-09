@@ -58,7 +58,7 @@ sessionController.startSession = (req, res, next) => {
           });
         }
         res.locals.ssid = session.cookieId;
-        // return next();
+        return next();
       });
       // if session exists, move onto next middleware
     } else {
