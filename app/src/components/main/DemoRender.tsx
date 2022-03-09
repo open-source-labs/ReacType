@@ -42,8 +42,9 @@ const DemoRender = (): JSX.Element => {
               document.querySelectorAll('a').forEach(element => {
                 element.addEventListener('click', (event) => {
                   event.preventDefault();
-                  window.top.postMessage(event.target.href, '*');
-                })
+                  window.top.postMessage(event.currentTarget.href, '*');
+                  //document.body.style.backgroundColor = 'orange';
+                }, true)
               });
             } catch (err) {
               const app = document.querySelector('#app');
@@ -57,6 +58,7 @@ const DemoRender = (): JSX.Element => {
 
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
+    if(event.data === undefined) return;
     const component = event.data?.split('/').at(-1);
     const componentId = component && state.components?.find((el) => {
       return el.name.toLowerCase() === component.toLowerCase();
@@ -70,7 +72,6 @@ const DemoRender = (): JSX.Element => {
   const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
-      
       if (element.name !== 'separator') {
         const elementType = element.name;
         const childId = element.childId;
@@ -79,13 +80,13 @@ const DemoRender = (): JSX.Element => {
         const classRender = element.attributes.cssClasses;
         const activeLink = element.attributes.compLink;
         let renderedChildren;
-        if (elementType !== 'input' && elementType !== 'img' && element.children.length > 0) {
+        if (elementType !== 'input' && elementType !== 'img' && elementType !== 'Image' && element.children.length > 0) {
           renderedChildren = componentBuilder(element.children);
         }
         if (elementType === 'input') componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'img') componentsToRender.push(<Box component={elementType} src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
         else if (elementType === 'Image') componentsToRender.push(<Box component='img' src={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}></Box>);
-        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(<Box component='a' href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}</Box>);
+        else if (elementType === 'a' || elementType === 'Link') componentsToRender.push(<Box component='a' href={activeLink} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>);
         else if (elementType === 'Switch') componentsToRender.push(<Switch>{renderedChildren}</Switch>);
         else if (elementType === 'Route') componentsToRender.push(<Route exact path={activeLink}>{renderedChildren}</Route>);
         else componentsToRender.push(<Box component={elementType} className={classRender} style={elementStyle} key={key} id={`rend${childId}`}>{innerText}{renderedChildren}</Box>
@@ -98,9 +99,10 @@ const DemoRender = (): JSX.Element => {
 
   let code = '';
   const currComponent = state.components.find(element => element.id === state.canvasFocus.componentId);
+
   componentBuilder(currComponent.children).forEach(element => {
     try{
-      code += ReactDOMServer.renderToString(element)
+      code += ReactDOMServer.renderToString(element);
     } catch {
       return;
     }
