@@ -42,8 +42,9 @@ const DemoRender = (): JSX.Element => {
               document.querySelectorAll('a').forEach(element => {
                 element.addEventListener('click', (event) => {
                   event.preventDefault();
-                  window.top.postMessage(event.target.href, '*');
-                })
+                  window.top.postMessage(event.currentTarget.href, '*');
+                  //document.body.style.backgroundColor = 'orange';
+                }, true)
               });
             } catch (err) {
               const app = document.querySelector('#app');
@@ -57,6 +58,7 @@ const DemoRender = (): JSX.Element => {
 
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
+    if(event.data === undefined) return;
     const component = event.data?.split('/').at(-1);
     const componentId = component && state.components?.find((el) => {
       return el.name.toLowerCase() === component.toLowerCase();
@@ -70,7 +72,6 @@ const DemoRender = (): JSX.Element => {
   const componentBuilder = (array: object, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
-      console.log('array', array);
       if (element.name !== 'separator') {
         const elementType = element.name;
         const childId = element.childId;
@@ -112,7 +113,6 @@ const DemoRender = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    console.log('code', code);
     iframe.current.contentWindow.postMessage(code, '*');
   }, [code])
 
