@@ -157,7 +157,7 @@ How to use
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
-[Michael Ng](https://www.linkedin.com/in/<ADD_USERNAME>/) [@MikoGome](https://github.com/MikoGome)
+[Michael Ng](https://www.linkedin.com/in/michaelng2/) [@MikoGome](https://github.com/MikoGome)
 
 [Miles Wright](https://www.linkedin.com/in/miles-m-wright) [@Miles818](https://github.com/Miles818)
 
