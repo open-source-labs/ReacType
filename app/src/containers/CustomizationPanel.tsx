@@ -51,15 +51,15 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   const currFocus = state.components
     .find((el) => {
-      return el.id === state.canvasFocus.componentId
+      return el.id === state.canvasFocus.componentId;
     })
     .children.find((el) => {
-      return el.childId === state.canvasFocus.componentId;
+      return el.childId === state.canvasFocus.childId;
     });
   
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
-  }, [currFocus?.attributes?.compLink]);
+  }, [state]);
 
   //Miko -- save properties of nested div
   function deepIterate(arr) {

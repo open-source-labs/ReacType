@@ -397,7 +397,6 @@ const reducer = (state: State, action: Action) => {
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
         //makes it so the code preview will update when clicking on a new component
         const components = state.components.map(element => {
-          console.log('element', element);
           return Object.assign({}, element);
         });
         return { ...state, components, canvasFocus };
