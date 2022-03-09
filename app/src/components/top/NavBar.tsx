@@ -30,6 +30,20 @@ import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/actions.js';
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkModeSlice.darkMode
+  }
+}
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,7 +98,8 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-export default function NavBar(props) {
+//export default function NavBar(props)
+const NavBar = (props) => {
   const classes = useStyles();
 
   const { style, setStyle } = useContext(styleContext);
@@ -109,7 +124,7 @@ export default function NavBar(props) {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET_STATE', payload: {} });
+      dispatch({ type: 'RESET STATE', payload: {} });
     };
     // Set modal options
     const children = (
@@ -194,16 +209,18 @@ export default function NavBar(props) {
             variant="contained"
             style={{ minWidth: '113.97px' }}
             endIcon={
-              props.isThemeLight ? <Brightness3Icon /> : <Brightness5Icon />
+              props.isThemeLight ? <Brightness5Icon /> : <Brightness3Icon />
             }
             onClick={() => {
-              !style.backgroundColor
-                ? setStyle({ backgroundColor: '#21262D' }) // dark mode color
-                : setStyle({});
-              props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
+              props.darkModeToggle();
+              //!style.backgroundColor // this changes the bottom and left background color/
+              !props.isThemeLight //this changes the bottom and left background color
+                ? setStyle(null) 
+                : setStyle({ backgroundColor: '#21262c' }); // dark mode color
+              props.isThemeLight ? props.setTheme(false) : props.setTheme(true); // this changes the draggable items font color
             }}
           >
-            {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
+            {props.darkMode ? 'Dark Mode' : 'Light Mode'}
           </Button>
           {state.isLoggedIn ? ( // render Manage Project button/dropdown only if user is logged in
             <Button
@@ -252,3 +269,5 @@ export default function NavBar(props) {
     </div>
   );
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -23,10 +23,9 @@ const randomPassword = () => {
     password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
   }
   return password;
-}
+};
 
 userController.createUser = (req, res, next) => {
-
   let email, username, password;
   // use this condition for Oauth login
   if (res.locals.signUpType === 'oauth') {

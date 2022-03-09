@@ -41,8 +41,8 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle id="project-dialog-title">Open Project</DialogTitle>
-      <List>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Open Project</DialogTitle>
+      <List style={{ color: "#000" }}>
         {projects.map((project: any, index: number) => (
           <ListItem
             button
@@ -61,7 +61,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     </Dialog>
   );
 }
-export default function ProjectsFolder() {
+export default function ProjectsFolder(props) {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: 'cat' }])
 

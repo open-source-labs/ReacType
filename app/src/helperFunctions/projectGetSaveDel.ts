@@ -1,7 +1,7 @@
 const isDev = process.env.NODE_ENV === 'development';
 let serverURL = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
-  serverURL = 'http://localhost:5000';
+  serverURL = `http://localhost:${process.env.DEV_PORT}`;
 }
 export const getProjects = (): Promise<any> => {
   let userId = window.localStorage.getItem('ssid');

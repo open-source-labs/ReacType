@@ -1,4 +1,4 @@
-const fetch = require ('node-fetch');
+const fetch = require('node-fetch');
 
 require('dotenv').config();
 const { Sessions } = require('../models/reactypeModels');
@@ -40,7 +40,7 @@ sessionController.startSession = (req, res, next) => {
         log: `Error in sessionController.startSession find session: ${err}`,
         message: {
           err:
-          'Error in sessionController.startSession find session, check server logs for details'
+            'Error in sessionController.startSession find session, check server logs for details'
         }
       });
       // if session doesn't exist, create a session
@@ -58,7 +58,7 @@ sessionController.startSession = (req, res, next) => {
           });
         }
         res.locals.ssid = session.cookieId;
-        return next();
+        // return next();
       });
       // if session exists, move onto next middleware
     } else {
@@ -70,13 +70,17 @@ sessionController.startSession = (req, res, next) => {
 
 sessionController.gitHubResponse = (req, res, next) => {
   const { code } = req.query;
-  if (!code)
+  if (!code) {
+    console.log('code not found');
     return next({
       log: 'Undefined or no code received from github.com',
       message: 'Undefined or no code received from github.com',
       status: 400
     });
-    fetch(`https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`, {
+  }
+  fetch(
+    `https://github.com/login/oauth/access_token?client_id=${process.env.GITHUB_ID}&client_secret=${process.env.GITHUB_SECRET}&code=${code}`,
+    {
       method: 'POST',
       headers: {
         accept: 'application/json',
@@ -85,19 +89,18 @@ sessionController.gitHubResponse = (req, res, next) => {
       body: JSON.stringify({
         client_id: process.env.GITHUB_ID,
         client_secret: process.env.GITHUB_SECRET,
-        code
+        code: code
       })
+    }
+  )
+    .then(res => res.json())
+    .then(token => {
+      res.locals.token = token['access_token'];
+      return next();
     })
-      .then(res => res.json())
-      .then(token => {
-        res.locals.token = token['access_token'];
-        return next();
-      })
-      .catch(err => {
-        res.status(500).json({ message: `${err.message} in gitHubResponse` })
-      }
-      );
-      
+    .catch(err => {
+      res.status(500).json({ message: `${err.message} in gitHubResponse` });
+    });
 };
 
 sessionController.gitHubSendToken = (req, res, next) => {
@@ -113,6 +116,12 @@ sessionController.gitHubSendToken = (req, res, next) => {
     .then(data => {
       res.locals.githubEmail = data[0]['email'];
       res.locals.signUpType = 'oauth';
+      console.log(
+        'github email:',
+        res.locals.githubEmail,
+        'signup type:',
+        res.locals.signUpType
+      );
       return next();
     })
     .catch(err => {

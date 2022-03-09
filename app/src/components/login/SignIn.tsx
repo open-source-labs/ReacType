@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, createContext } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
@@ -18,6 +18,25 @@ import Container from '@material-ui/core/Container';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/actions.js';
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness5Icon from '@material-ui/icons/Brightness5';
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkModeSlice.darkMode
+  }
+};
 
 function Copyright() {
   return (
@@ -66,11 +85,10 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUser, setInvalidUser] = useState(false);
   const [invalidPass, setInvalidPass] = useState(false);
 
-
   useEffect(() => {
-    const githubCookie = setInterval(() => {
-      window.api.setCookie();
-      window.api.getCookie(cookie => {
+    const githubCookie = setTimeout(() => {
+      window.api?.setCookie();
+      window.api?.getCookie(cookie => {
         // if a cookie exists, set localstorage item with cookie data, clear interval, go back to '/' route to load app
         if (cookie[0]) {
           window.localStorage.setItem('ssid', cookie[0].value);
@@ -80,7 +98,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
         } else if (window.localStorage.getItem('ssid')) {
           clearInterval(githubCookie);
         }
-      });
+      }); 
     }, 2000);
   }, []);
 
@@ -157,6 +175,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
+        console.log('window api', window.api);
         window.api.github();
         props.history.push('/');
     }
@@ -184,95 +203,115 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" color="textPrimary">
-          Sign in
-        </Typography>
-        <TextField
-          className={classes.root}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-          value={username}
-          onChange={handleChange}
-          helperText={invalidUserMsg}
-          error={invalidUser}
-        />
-        <TextField
-          className={classes.root}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={handleChange}
-          helperText={invalidPassMsg}
-          error={invalidPass}
-        />
+    <MuiThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Button
+            color="primary"
+            style={{ 
+              minWidth: '113.97px',
+              top: 10,
+              right: 20,
+              position: "absolute"
+            }}
+            // variant="contained"
+            endIcon={
+              props.darkMode ? <Brightness3Icon /> : <Brightness5Icon />
+            }
+            onClick={() => {
+              props.darkModeToggle();
+            }}
+          >
+            {`Dark Mode: ${props.darkMode}`}
+          </Button>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" color="textPrimary">
+            Sign in
+          </Typography>
+          <TextField
+            className={classes.root}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            value={username}
+            onChange={handleChange}
+            helperText={invalidUserMsg}
+            error={invalidUser}
+          />
+          <TextField
+            className={classes.root}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={handleChange}
+            helperText={invalidPassMsg}
+            error={invalidPass}
+          />
 
-        <Button
-          fullWidth
-          id="SignIn"
-          variant="contained"
-          color="default"
-          className={classes.submit}
-          onClick={e => handleLogin(e)}
-        >
-          Sign In
-        </Button>
-        <Button
-          fullWidth
-          id="SignInWithGithub"
-          variant="contained"
-          color="default"
-          className={classes.submit}
-          onClick={e => handleGithubLogin(e)}
-        >
-          Sign In With Github
-        </Button>
-        <Button
-          fullWidth
-          variant="contained"
-          color="default"
-          className={classes.submit}
-          onClick={e => handleLoginGuest(e)}
-        >
-          Continue as Guest
-        </Button>
-        <Grid container>
-          <Grid item xs>
-            <RouteLink to={`/signup`} className="nav_link">
-              Forgot password?
-            </RouteLink>
+          <Button
+            fullWidth
+            id="SignIn"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => handleLogin(e)}
+          >
+            Sign In
+          </Button>
+          <Button
+            fullWidth
+            id="SignInWithGithub"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => handleGithubLogin(e)}
+          >
+            Sign In With Github
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={e => handleLoginGuest(e)}
+          >
+            Continue as Guest
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                Forgot password?
+              </RouteLink>
+            </Grid>
+            <Grid item>
+              <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                Don't have an account? Sign Up
+              </RouteLink>
+            </Grid>
           </Grid>
-          <Grid item>
-            <RouteLink to={`/signup`} className="nav_link">
-              Don't have an account? Sign Up
-            </RouteLink>
-          </Grid>
-        </Grid>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </MuiThemeProvider>
   );
 };
 
-export default withRouter(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

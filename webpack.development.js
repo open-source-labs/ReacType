@@ -18,16 +18,16 @@ module.exports = merge(base, {
     contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from
     watchContentBase: true, // Watch the content base for changes
     watchOptions: {
-      ignored: /node_modules/ 
+      ignored: /node_modules/
     },
     proxy: {
       '/demoRender': {
-        target: 'http://localhost:5000/'
+        target: `http://localhost:${process.env.DEV_PORT}/`
       },
       '/user-styles': {
-        target: 'http://localhost:5000/'
-      },
-    },
+        target: `http://localhost:${process.env.DEV_PORT}/`
+      }
+    }
   },
   plugins: [
     // miniCssExtractPlugin is included here because it's used as a loader in wepack.config.js
@@ -39,5 +39,5 @@ module.exports = merge(base, {
       filename: 'index.html',
       nonce: nonce
     })
-  ],
+  ]
 });

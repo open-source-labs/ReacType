@@ -7,8 +7,9 @@ import {
 } from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
-import { createStore } from 'redux';
+import store from './redux/store';
 import { Provider } from 'react-redux';
+// import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import App from './components/App.tsx';
@@ -23,22 +24,22 @@ const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-const initialState = { code: ``, input: `` };
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'SAVE':
-      return { ...state, code: action.payload };
-    case 'INPUT':
-      return { ...state, input: action.payload };
-    default:
-      return state;
-  }
-};
+// const initialState = { code: ``, input: `` };
+// const rootReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case 'SAVE':
+//       return { ...state, code: action.payload };
+//     case 'INPUT':
+//       return { ...state, input: action.payload };
+//     default:
+//       return state;
+//   }
+// };
 
-export const store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+// export const store = createStore(
+//   rootReducer,
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// );
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route

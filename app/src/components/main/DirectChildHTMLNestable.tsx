@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { ChildElement, HTMLType} from '../../interfaces/Interfaces';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -10,6 +10,9 @@ import Annotation from './Annotation'
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
 import AddRoute from './AddRoute';
+import AddLink from './AddLink';
+
+import { styleContext } from '../../containers/AppContainer';
 
 function DirectChildHTMLNestable({
   childId,
@@ -22,16 +25,18 @@ function DirectChildHTMLNestable({
   attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
+  const { isThemeLight } = useContext(styleContext);
   const ref = useRef(null);
+  // const [linkDisplayed, setLinkDisplayed] = useState('');
 
-// takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
-const snapShotFunc = () => {
-  //makes a deep clone of state
-  const deepCopiedState = JSON.parse(JSON.stringify(state));
-  const focusIndex = state.canvasFocus.componentId - 1;
-  //pushes the last user action on the canvas into the past array of Component
-  state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-};
+  // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
+  const snapShotFunc = () => {
+    //makes a deep clone of state
+    const deepCopiedState = JSON.parse(JSON.stringify(state));
+    const focusIndex = state.canvasFocus.componentId - 1;
+    //pushes the last user action on the canvas into the past array of Component
+    state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+  };
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
@@ -48,7 +53,7 @@ const snapShotFunc = () => {
       childId: childId,
       instanceType: type,
       instanceTypeId: typeId,
-      name: name 
+      name: name
     },
     canDrag: HTMLType.id !== 1000, // dragging not permitted if element is separator
     collect: (monitor: any) => {
@@ -138,11 +143,15 @@ const snapShotFunc = () => {
   if (typeId === 17) {
     routeButton.push(<AddRoute id={childId} name={name} />);
   }
-
+  if (typeId === 19) {
+    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} linkDisplayed={attributes && attributes.compLink ? `${attributes.compLink}` : null} />);
+  }
+  
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
-      <strong>{HTMLType.placeHolderShort}</strong>
-      {`  ( ${childId} )`}
+      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
+      {/* {`  ( ${childId} )`} */}
+      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
       <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
       {routeButton}
       <Annotation

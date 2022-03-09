@@ -22,6 +22,23 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { element } from 'prop-types';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/actions.js';
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
+
+const mapDispatchToProps = (dispatch) => ({
+  darkModeToggle: () => {
+    dispatch(actions.darkModeToggle());
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    darkMode: state.darkModeSlice.darkMode
+  }
+};
 
 function Copyright() {
   return (
@@ -189,109 +206,126 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <AssignmentIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" color="textPrimary">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.root}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={handleChange}
-                helperText={invalidEmailMsg}
-                error={invalidEmail}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.root}
-                variant="outlined"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                value={username}
-                onChange={handleChange}
-                helperText={invalidUsernameMsg}
-                error={invalidUsername}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.root}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={handleChange}
-                helperText={invalidPasswordMsg}
-                error={invalidPassword}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.root}
-                variant="outlined"
-                required
-                fullWidth
-                name="passwordVerify"
-                label="Verify Password"
-                type="password"
-                id="passwordVerify"
-                autoComplete="verify-password"
-                value={passwordVerify}
-                onChange={handleChange}
-                helperText={invalidVerifyPasswordMsg}
-                error={invalidVerifyPassword}
-              />
-            </Grid>
-          </Grid>
+    <MuiThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
           <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="default"
-            className={classes.submit}
-            onClick={e => handleSignUp(e)}
+            color="primary"
+            style={{ 
+              minWidth: '113.97px',
+              top: 10,
+              right: 20,
+              position: "absolute"
+            }}
+            onClick={() => {
+              props.darkModeToggle();
+            }}
           >
-            Sign Up
+            {`Dark Mode: ${props.darkMode}`}
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <RouteLink to={`/login`} className="nav_link">
-                Already have an account? Sign In
-              </RouteLink>
+          <Avatar className={classes.avatar}>
+            <AssignmentIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" color="textPrimary">
+            Sign up
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.root}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={email}
+                  onChange={handleChange}
+                  helperText={invalidEmailMsg}
+                  error={invalidEmail}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.root}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  value={username}
+                  onChange={handleChange}
+                  helperText={invalidUsernameMsg}
+                  error={invalidUsername}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.root}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={handleChange}
+                  helperText={invalidPasswordMsg}
+                  error={invalidPassword}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.root}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="passwordVerify"
+                  label="Verify Password"
+                  type="password"
+                  id="passwordVerify"
+                  autoComplete="verify-password"
+                  value={passwordVerify}
+                  onChange={handleChange}
+                  helperText={invalidVerifyPasswordMsg}
+                  error={invalidVerifyPassword}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => handleSignUp(e)}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
+                  Already have an account? Sign In
+                </RouteLink>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </MuiThemeProvider>
   );
 };
 
-export default withRouter(SignUp);
+// export default withRouter(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUp));

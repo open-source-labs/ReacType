@@ -12,7 +12,7 @@ const {
   dialog,
   BrowserWindow,
   session,
-  ipcMain,
+  ipcMain
 } = require('electron');
 // The splash screen is what appears while the app is loading
 // const { initSplashScreen, OfficeTemplate } = require('electron-splashscreen');
@@ -21,7 +21,7 @@ const { resolve } = require('app-root-path');
 // to install react dev tool extension
 const {
   default: installExtension,
-  REACT_DEVELOPER_TOOLS,
+  REACT_DEVELOPER_TOOLS
 } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
@@ -31,7 +31,8 @@ const Protocol = require('./protocol');
 const MenuBuilder = require('./menu');
 
 // mode that the app is running in
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const isDev =
+  process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const port = 8080;
 const selfHost = `http://localhost:${port}`;
 
@@ -44,9 +45,9 @@ let menuBuilder;
 // this function will be called when Electron has initialized itself
 async function createWindow() {
   // install react dev tools if we are in development mode
-    // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
-    protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
-  
+  // this will happen before creating the browser window. it returns a Boolean whether the protocol of scheme 'app://' was successfully registered and a file (index-prod.html) was sent as the response
+  protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler);
+
   // Create the browser window.
   win = new BrowserWindow({
     // full screen
@@ -61,7 +62,7 @@ async function createWindow() {
     show: false,
     webPreferences: {
       zoomFactor: 0.7,
-      // enable devtools when in development mode 
+      // enable devtools when in development mode
       devTools: true,
       // crucial security feature - blocks rendering process from having access to node modules
       nodeIntegration: false,
@@ -77,8 +78,8 @@ async function createWindow() {
       enableRemoteModule: false,
       // path of preload script. preload is how the renderer page will have access to electron functionality
       preload: path.join(__dirname, 'preload.js'),
-      nativeWindowOpen: true,
-    },
+      nativeWindowOpen: true
+    }
   });
 
   // Splash screen that appears while loading
@@ -118,12 +119,12 @@ async function createWindow() {
     });
   }
 
-  // Emitted when the window is closed. 
+  // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    win = null;
+    app.quit();
   });
 
   menuBuilder = MenuBuilder(win, 'ReacType');
@@ -145,7 +146,7 @@ async function createWindow() {
         callback(true); // Approve permission request
       } else {
         console.error(
-          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`,
+          `The application tried to request permission for '${permission}'. This permission was not whitelisted and has been blocked.`
         );
 
         callback(false); // Deny
@@ -157,10 +158,10 @@ async function createWindow() {
   // we could use this over _all_ urls
   ses
     .fromPartition(partition)
-    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, (listener) => {
+    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
       if (listener.url.indexOf('http://') >= 0) {
         listener.callback({
-          cancel: true,
+          cancel: true
         });
       }
     });
@@ -177,9 +178,9 @@ protocol.registerSchemesAsPrivileged([
       standard: true,
       secure: true,
       allowServiceWorkers: true,
-      supportFetchAPI: true,
-    },
-  },
+      supportFetchAPI: true
+    }
+  }
 ]);
 
 // This method will be called when Electron has finished
@@ -212,19 +213,19 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      'http://localhost:5000',
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://github.com',
       'https://nextjs.org',
       'https://www.facebook.com',
       'https://developer.mozilla.org',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com',
+      'https://www.html5rocks.com'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`,
+        `The application tried to navigate to the following address: '${parsedUrl}'. This origin is not whitelisted attempt to navigate was blocked.`
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
@@ -236,7 +237,7 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      'http://localhost:5000',
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://github.com',
       'https://nextjs.org',
@@ -248,11 +249,11 @@ app.on('web-contents-created', (event, contents) => {
     ];
     // Log and prevent the app from redirecting to a new page
     if (
-      !validOrigins.includes(parsedUrl.origin)
-      && !validOrigins.includes(parsedUrl.href)
+      !validOrigins.includes(parsedUrl.origin) &&
+      !validOrigins.includes(parsedUrl.href)
     ) {
       console.error(
-        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`,
+        `The application tried to redirect to the following address: '${navigationUrl}'. This attempt was blocked.`
       );
 
       event.preventDefault();
@@ -279,19 +280,19 @@ app.on('web-contents-created', (event, contents) => {
     const validOrigins = [
       selfHost,
       'https://reactype-caret.herokuapp.com',
-      'http://localhost:5000',
+      `http://localhost:${process.env.DEV_PORT}`,
       'https://reactype.herokuapp.com',
       'https://nextjs.org',
       'https://developer.mozilla.org',
       'https://github.com',
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com',
+      'https://www.html5rocks.com'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
       console.error(
-        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`,
+        `The application tried to open a new window at the following address: '${navigationUrl}'. This attempt was blocked.`
       );
       // if the requested URL is not in the whitelisted array, then don't navigate there
       event.preventDefault();
@@ -326,15 +327,15 @@ app.on('remote-get-current-web-contents', (event, webContents) => {
 // When a user selects "Export project", a function (chooseAppDir loaded via preload.js)
 // is triggered that sends a "choose_app_dir" message to the main process
 // when the "choose_app_dir" message is received it triggers this event listener
-ipcMain.on('choose_app_dir', (event) => {
+ipcMain.on('choose_app_dir', event => {
   // dialog displays the native system's dialogue for selecting files
   // once a directory is chosen send a message back to the renderer with the path of the directory
   dialog
     .showOpenDialog(win, {
       properties: ['openDirectory'],
-      buttonLabel: 'Export',
+      buttonLabel: 'Export'
     })
-    .then((directory) => {
+    .then(directory => {
       if (!directory) return;
       event.sender.send('app_dir_selected', directory.filePaths[0]);
     })
@@ -344,7 +345,7 @@ ipcMain.on('choose_app_dir', (event) => {
 // define serverURL for cookie and auth purposes based on environment
 let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
-  serverUrl = 'http://localhost:5000';
+  serverUrl = `http://localhost:${process.env.DEV_PORT}`;
 }
 
 // // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
@@ -374,8 +375,8 @@ ipcMain.on('delete_cookie', event => {
 
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
-  // your  applications credentials
-  const githubUrl = 'https://github.com/login/oauth/authorize?';
+  console.log('inside main.js in electron');
+  const githubURL = `http://localhost:${process.env.DEV_PORT}/auth/github`;
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
@@ -395,8 +396,8 @@ ipcMain.on('github', event => {
       zoomFactor: 1.0
     }
   });
-  const authUrl = `${githubUrl}client_id=${process.env.GITHUB_ID}`;
-  github.loadURL(authUrl);
+
+  github.loadURL(githubURL);
   github.show();
   const handleCallback = url => {
     const raw_code = /code=([^&]\*)/.exec(url) || null;
@@ -441,6 +442,9 @@ ipcMain.on('github', event => {
     if (isDev) {
       redirectUrl = 'http://localhost:8080/';
     }
+    console.log(callbackUrl === redirectUrl);
+    console.log('callbackUrl', callbackUrl);
+    console.log('redirectUrl', redirectUrl);
     if (callbackUrl === redirectUrl) {
       dialog.showMessageBox({
         type: 'info',

@@ -1,11 +1,11 @@
 <p align="center">
-  <img width="50" src="https://i.imgur.com/Yn70tqI.png">
+  <img width="100" src="https://i.imgur.com/Yn70tqI.png">
   <h1 align="center">ReacType </h1>
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version 10.0.0]
+![Version 11.0.0]
 
 **ReacType** is a rapid prototyping tool for developers employing **React** component architecture alongside the comprehensive type-checking of **TypeScript**.
 In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -16,7 +16,7 @@ Download for [MacOS](https://github.com/team-reactype/ReacType/releases), [Windo
 
 - **Mac users**: After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
 
-- **Windows users**: Install the application by running ReacType Setup 10.0.0.exe.
+- **Windows users**: Install the application by running ReacType Setup 11.0.0.exe.
 
 - **Linux users**: Run the application as a super user in order to read and write files.
 
@@ -35,7 +35,7 @@ How to use
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
 - **Component Tree**: Click on the Component Tree tab next to the Code Preview tab to view the component tree hierarchy.
 - **Update Styling**: Select an element on the canvas to update its basic style attributes on the right panel. As you create new instances and add styling, watch as your code dynamically generates in the code preview in the bottom panel.
-- **Using State in Elements**: As of 10.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
+- **Using State in Elements**: As of 11.0.0, you can now select an HTML element on the canvas and then navigate to the customization panel to click a button to pass a variable from state into your element's text or link field.
 - **User Preference Features**: With the click of a button, toggle between light mode and dark mode, depending on your preference.
 - **Export project**: Click the “Export Project’ button to export the project’s application files into a TypeScript file. The exported project is fully functional with Webpack, Express server, routing, etc., and will match what is mocked on the canvas.
 - **Export project with Tests**: Click the "includes tests" checkbox while exporting to include pre-configured Webpack, Jest, and Typescript files along with tests for your project.
@@ -49,7 +49,7 @@ How to use
 - **Like**: Like other people's templates by clicking on the thumbs up icon.
 - **Comment**: Comment on other templates by typing in the input field and clicking the comment icon.
 - **Download**: Save any public template by clicking the download icon to save a copy as your own.
-- **Publish**: Publish any template to the Public Dashboard for other users to download, like, or comment on.  Click again to unpublish projects.
+- **Publish**: Publish any template to the Public Dashboard for other users to download, like, or comment on. Click again to unpublish projects.
 - **Sort By**: Click the 'Sort By' button to choose different metrics to sort the Public Dashboard by.
 - **Form Nesting**: Nesting within form tags is now fully functional
 - **Added Undo and Redo functionality**
@@ -60,31 +60,36 @@ How to use
 - Modernized and cleaner UI, including enhanced dark mode
 - Tutorial has been updated to reflect other modifications
 
+**New with version 11.0.0:**
 
- **New with version 10.0.0:**
-- **Live Code Preview**: See your code preview update in real time as you build. React hooks are enabled for application lifecycle management. Dynamically render functional components using a live code editor. User's can hook event listeners to components and see them render in real time.
+- **Enhanced Next.js Functionality**: Create a Next.js application in Reactype! Take advantage of server side rendering and static site generation by using the new improved Next.js link and image components. Simply drag and drop a Link element onto the canvas which can be coupled with a page to support SSR or optimize performance by using Next.js' Image component to enable on-demand image resizing. After you're done, export your project as a Next.js application written in Typescript!
+- **More Dark Mode**: Cleaned up the dark mode UI and added it to all areas of the application including the sign in and sign up page.
+- **Various Performance Enhancements**: Improved performance by reducing unnecessary re-rendering due to needlessly coupled state hooks
+- **And more:** See CHANGE_LOG.md for more details on what was changed from the previous version as well as plans for upcoming features!
 
 ### Keyboard Shortcuts
 
 **Mac**:
- - Export Project: Command + e
- - Undo: Command + z
- - Redo: Command + Shift + z
- - Save Project As: Command + s
- - Save Project: Command + shift + s
- - Delete HTML Tag on Canvas: Backspace
- - Delete Project: Command + Backspace
- - Open Project: Command + o
+
+- Export Project: Command + e
+- Undo: Command + z
+- Redo: Command + Shift + z
+- Save Project As: Command + s
+- Save Project: Command + shift + s
+- Delete HTML Tag on Canvas: Backspace
+- Delete Project: Command + Backspace
+- Open Project: Command + o
 
 **Windows**:
- - Export Project: Control + e
- - Undo: Control + z
- - Redo: Control + Shift + z
- - Save Project As: Control + s
- - Save Project: Control + shift + s
- - Delete HTML Tag on Canvas: Backspace
- - Delete Project: Control + Backspace
- - Open Project: Control + o
+
+- Export Project: Control + e
+- Undo: Control + z
+- Redo: Control + Shift + z
+- Save Project As: Control + s
+- Save Project: Control + shift + s
+- Delete HTML Tag on Canvas: Backspace
+- Delete Project: Control + Backspace
+- Open Project: Control + o
 
 #### Contributors
 
@@ -105,6 +110,8 @@ How to use
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
 [Bryan Chau](https://www.linkedin.com/in/chaubryan1/) [@bchauu](https://github.com/bchauu)
+
+[Calvin Cao](http://www.linkedin.com/in/calvincao9/) [@calvincao](https://github.com/calvincao)
 
 [Charles Finocchiaro](https://www.linkedin.com/in/charles-finocchiaro-62440040/) [@null267](https://github.com/null267)
 
@@ -128,6 +135,8 @@ How to use
 
 [Eliot Nguyen](https://linkedin.com/in/ibeeliot) [@ibeeliot](https://github.com/ibeeliot)
 
+[Evan Crews](https://www.linkedin.com/in/evan-crews/) [@Evan-Crews](https://github.com/Evan-Crews)
+
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
 [Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
@@ -138,6 +147,8 @@ How to use
 
 [Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
 
+[Katrina Henderson](https://www.linkedin.com/in/katrinahenderson/) [@kchender](https://github.com/kchender)
+
 [Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
@@ -145,6 +156,8 @@ How to use
 [Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
+
+[Michael Ng](https://www.linkedin.com/in/<ADD_USERNAME>/) [@MikoGome](https://github.com/MikoGome)
 
 [Miles Wright](https://www.linkedin.com/in/miles-m-wright) [@Miles818](https://github.com/Miles818)
 
@@ -183,6 +196,8 @@ How to use
 [William Rittwage](https://www.linkedin.com/in/william-rittwage) [@wbrittwage](https://github.com/wbrittwage)
 
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
+
+[Yuanji Huang](https://www.linkedin.com/in/yuanjihuang/) [@kr1spybacon](https://github.com/kr1spybacon)
 
 ## To Run Your Own Version
 

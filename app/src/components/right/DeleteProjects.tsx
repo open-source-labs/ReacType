@@ -51,8 +51,8 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle id="project-dialog-title">Delete Project</DialogTitle>
-      <List>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Delete Project</DialogTitle>
+      <List style={{ color: "#000" }}>
         {projects.map((project: any, index: number) => (
           <ListItem
             button

@@ -14,7 +14,8 @@ import useResizeObserver from '../../tree/useResizeObserver';
 import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
-import { store } from './../../index';
+import store from '../../redux/store';
+// import { store } from './../../index';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -46,7 +47,6 @@ const CodePreview: React.FC<{
 
   const [input, setInput] = useState();
 
-
   useEffect(() => {
     startService();
   }, []);
@@ -58,7 +58,7 @@ const CodePreview: React.FC<{
   useEffect(() => {
 
  setInput(currentComponent.code);
-  store.dispatch({type: "INPUT", payload: currentComponent.code});
+  store.dispatch({type: "CODE_PREVIEW_INPUT", payload: currentComponent.code});
   }, [state.components])
 
   /**
@@ -67,7 +67,7 @@ const CodePreview: React.FC<{
  */
   const handleChange = async (data) => {
     setInput(data);
-    store.dispatch({type: "INPUT", payload: data});
+    store.dispatch({type: "CODE_PREVIEW_INPUT", payload: data});
     if(!ref.current) {
       return;
     }
@@ -86,7 +86,7 @@ const CodePreview: React.FC<{
         global: 'window'
       }
     })
-     store.dispatch({type: "SAVE", payload: result.outputFiles[0].text});
+     store.dispatch({type: "CODE_PREVIEW_SAVE", payload: result.outputFiles[0].text});
   }
 
   return (
@@ -107,7 +107,7 @@ const CodePreview: React.FC<{
         value={input}
         name="Code_div"
         readOnly={false}
-        fontSize={16}
+        fontSize={18}
         tabSize={2}
       />
 

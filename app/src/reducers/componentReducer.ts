@@ -395,7 +395,12 @@ const reducer = (state: State, action: Action) => {
       if (childId < 1000) {
         // makes separators not selectable
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
-        return { ...state, canvasFocus };
+        //makes it so the code preview will update when clicking on a new component
+        const components = state.components.map(element => {
+          console.log('element', element);
+          return Object.assign({}, element);
+        });
+        return { ...state, components, canvasFocus };
       }
       return { ...state };
     }
@@ -579,6 +584,10 @@ const reducer = (state: State, action: Action) => {
       // when a project type is changed, both change the project type in state and also regenerate the code for each component
       const { projectType } = action.payload;
       const components = [...state.components];
+      // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
+      if (projectType === 'Next.js' || projectType === 'Gatsby.js')
+        components[0]['name'] = 'index';
+      else components[0]['name'] = 'App';
       components.forEach(component => {
         component.code = generateCode(
           components,
@@ -588,10 +597,6 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       });
-      // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
-      if (projectType === 'Next.js' || projectType === 'Gatsby.js')
-        components[0]['name'] = 'index';
-      else components[0]['name'] = 'App';
       return { ...state, components, projectType };
     }
     // Reset all component data back to their initial state but maintain the user's project name and log-in status

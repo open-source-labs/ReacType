@@ -10,23 +10,24 @@
  */
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const mongoURI = 'mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority';
-const URI = process.env.NODE_ENV === 'production' ? mongoURI : 'mongodb+srv://Daniel:codesmith@cluster0.mm1df.mongodb.net/Cluster0?retryWrites=true&w=majority';
+require('dotenv').config();
+const mongoURI = process.env.MONGO_DB_NEW;
+const URI =
+  process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB_NEW;
 
-const SALT_WORK_FACTOR = 14;
+const SALT_WORK_FACTOR = 10;
 // connect to mongo db
 mongoose
-  .connect(URI,
-    {
-      // options for the connect method to parse the URI
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
-      useFindAndModify: false,
-      // sets the name of the DB that our collections are part of
-      dbName: 'ReacType',
-    })
+  .connect(URI, {
+    // options for the connect method to parse the URI
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+    useFindAndModify: false,
+    // sets the name of the DB that our collections are part of
+    dbName: 'ReacType'
+  })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
 
@@ -35,7 +36,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: false, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true }
 });
 
 // mongoose middleware that will run before the save to
@@ -51,7 +52,7 @@ userSchema.pre('save', function cb(next) {
         log: `bcrypt password hashing error: ${err}`,
         message: {
           err: 'bcrypt hash error: check server logs for details.'
-        },
+        }
       });
     }
     this.password = hash;
@@ -63,30 +64,35 @@ const commentsSchema = new Schema({
   username: { type: String, required: true },
   text: { type: String, required: true },
   projectId: { type: Schema.Types.ObjectId, required: true },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 });
 
 const sessionSchema = new Schema({
   cookieId: { type: String, required: true, unique: true },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now }
 });
 
-const projectSchema = new Schema({
-  name: String,
-  likes: { type: Number, default: 0 },
-  published: { type: Boolean, default: false },
-  project: { type: Object, required: true },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users',
+const projectSchema = new Schema(
+  {
+    name: String,
+    likes: { type: Number, default: 0 },
+    published: { type: Boolean, default: false },
+    project: { type: Object, required: true },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Users'
+    },
+    username: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comments'
+      }
+    ]
   },
-  username: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comments',
-  }],
-}, { minimize: true });
+  { minimize: true }
+);
 
 const Users = mongoose.model('Users', userSchema);
 const Comments = mongoose.model('Comments', commentsSchema);
@@ -94,5 +100,8 @@ const Sessions = mongoose.model('Sessions', sessionSchema);
 const Projects = mongoose.model('Projects', projectSchema);
 
 module.exports = {
-  Users, Comments, Sessions, Projects,
+  Users,
+  Comments,
+  Sessions,
+  Projects
 };

@@ -24,6 +24,7 @@ import ProjectManager from '../components/right/ProjectManager';
 import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
+import { OutgoingMessage } from 'http';
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
@@ -47,14 +48,40 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
 
+
+  const currFocus = state.components
+    .find((el) => {
+      return el.id === state.canvasFocus.componentId
+    })
+    .children.find((el) => {
+      return el.childId === state.canvasFocus.componentId;
+    });
+  
+  useEffect( () => {
+    currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+  }, [currFocus?.attributes?.compLink]);
+
+  //Miko -- save properties of nested div
+  function deepIterate(arr) {
+    const output = [];
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i].typeId === 1000) continue;
+      output.push(arr[i]);
+      if(arr[i].children.length) {
+        output.push(...deepIterate(arr[i].children));
+      }
+    }
+    return output;
+  }
+
   const resetFields = () => {
-    const childrenArray = state.components[0].children;
-    let attributes;
+    const childrenArray = deepIterate(configTarget.children);
     for (const element of childrenArray) {
       if (configTarget.child && element.childId === configTarget.child.id) {
-        attributes = element.attributes;
-        setCompText(attributes.text ? attributes.text : '');
-        setCompLink(attributes.link ? attributes.link : '');
+        const attributes = element.attributes;
+        const style = element.style;
+        setCompText(attributes.compText ? attributes.compText : '');
+        setCompLink(attributes.compLink ? attributes.compLink : '');
         setCssClasses(attributes.cssClasses ? attributes.cssClasses : '');
       }
     }
@@ -399,7 +426,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
-                selectValue={flexAlign}
+                selectValue={displayMode}
                 handleChange={handleChange}
                 title="Display:"
                 name="display"
@@ -415,7 +442,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <FormSelector
                     classes={classes}
                     isThemeLight={isThemeLight}
-                    selectValue={flexAlign}
+                    selectValue={flexDir}
                     handleChange={handleChange}
                     title="Flex direction:"
                     name="flexdir"
@@ -428,7 +455,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <FormSelector
                     classes={classes}
                     isThemeLight={isThemeLight}
-                    selectValue={flexAlign}
+                    selectValue={flexJustify}
                     handleChange={handleChange}
                     title="Justify content:"
                     name="flexjust"
