@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
+const { DEV_PORT } = require('../config');
 
 const path = require('path');
 const cors = require('cors');
@@ -13,7 +14,7 @@ const projectController = require('./controllers/projectController');
 
 const app = express();
 
-const PORT = process.env.PORT || process.env.DEV_PORT;
+const PORT = process.env.PORT || DEV_PORT;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
@@ -45,7 +46,9 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: `http://localhost:${process.env.DEV_PORT}/github/callback`
+      callbackURL: isDev
+        ? `http://localhost:${DEV_PORT}/github/callback`
+        : `https://reactype-caret.herokuapp.com/github/callback`
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);

@@ -175,7 +175,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
-        console.log('window api', window.api);
         window.api.github();
         props.history.push('/');
     }

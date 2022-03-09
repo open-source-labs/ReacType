@@ -14,6 +14,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
   const [state, dispatch] = useContext(StateContext);
   const [link, setLink] = useState('')
 
+  //this function allows the link to be functional when it's nested
   function deepIterate(arr) {
     const output = [];
     for(let i = 0; i < arr.length; i++) {

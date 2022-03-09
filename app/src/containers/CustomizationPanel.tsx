@@ -61,7 +61,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
   }, [state]);
 
-  //Miko -- save properties of nested div
+  //this function allows properties to persist and appear in nested divs
   function deepIterate(arr) {
     const output = [];
     for(let i = 0; i < arr.length; i++) {
