@@ -70,8 +70,9 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   const createOption = (inputName: String) => {
     // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
-    const formattedName =
-      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1); // capitalizes first letter
+    const formattedName = state.projectType === 'Classic React'
+      ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
+      : inputNameClean;
     // add new component to state
     dispatch({
       type: 'ADD COMPONENT',

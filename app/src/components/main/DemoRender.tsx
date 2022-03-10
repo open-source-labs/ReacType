@@ -25,8 +25,6 @@ const DemoRender = (): JSX.Element => {
     border: '2px Solid grey',
   };
 
-  // let code = useSelector((state) => state.code);
-
   const html = `
     <html>
       <head>
@@ -59,7 +57,7 @@ const DemoRender = (): JSX.Element => {
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
     if(event.data === undefined) return;
-    const component = event.data?.split('/').at(-1);
+    const component:string = event.data?.split('/').at(-1);
     const componentId = component && state.components?.find((el) => {
       return el.name.toLowerCase() === component.toLowerCase();
     }).id;

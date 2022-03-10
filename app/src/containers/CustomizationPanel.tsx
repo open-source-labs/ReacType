@@ -380,7 +380,33 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       document.removeEventListener('keydown', keyBindedFunc);
     };
   }, []);
-
+  
+  if(state.canvasFocus.childId === null) {
+    return (
+      <div className="column right" id="rightContainer" style={style}>
+        <ProjectManager />
+          <div className="rightPanelWrapper">
+            <div>
+              <div className={classes.rootConfigHeader}>
+                  <h4
+                    className={
+                      isThemeLight
+                        ? classes.lightThemeFontColor
+                        : classes.darkThemeFontColor
+                    }
+                  >
+                    Parent Component:
+                    <br />
+                    <br />
+                    <span className={classes.rootCompName}>{configTarget.name}</span>
+                  </h4>
+              </div>
+            </div>
+          </div>
+        <ProjectManager />
+      </div>
+    )
+  }
   return (
     <div className="column right" id="rightContainer" style={style}>
       <ProjectManager />
@@ -388,38 +414,23 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
-            {configTarget.child ? (
-              <h4>
-                Instance of
-                {configTarget.child.type === 'component'
-                  ? ' component'
-                  : ' element'}{' '}
-                <br />
-                <br />
-                <span
-                  className={
-                    isThemeLight
-                      ? `${classes.compName} ${classes.lightThemeFontColor}`
-                      : `${classes.compName} ${classes.darkThemeFontColor}`
-                  }
-                >
-                  {configTarget.child.name}
-                </span>
-              </h4>
-            ) : (
-              <h4
+            <h4>
+              Instance of
+              {configTarget.child.type === 'component'
+                ? ' component'
+                : ' element'}{' '}
+              <br />
+              <br />
+              <span
                 className={
                   isThemeLight
-                    ? classes.lightThemeFontColor
-                    : classes.darkThemeFontColor
+                    ? `${classes.compName} ${classes.lightThemeFontColor}`
+                    : `${classes.compName} ${classes.darkThemeFontColor}`
                 }
               >
-                Parent Component:
-                <br />
-                <br />
-                <span className={classes.compName}>{configTarget.name}</span>
-              </h4>
-            )}
+                {configTarget.child.name}
+              </span>
+            </h4>
           </div>
           <section className={'customization-section'}>
             <div>
@@ -431,7 +442,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 title="Display:"
                 name="display"
                 items={[
-                  { value: '', text: 'none' },
+                  { value: '', text: 'default' },
+                  { value: 'none', text: 'none' },
                   { value: 'block', text: 'block' },
                   { value: 'inline-block', text: 'inline-block' },
                   { value: 'flex', text: 'flex' }
@@ -447,7 +459,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     title="Flex direction:"
                     name="flexdir"
                     items={[
-                      { value: '', text: 'none' },
+                      { value: '', text: 'default' },
                       { value: 'row', text: 'row' },
                       { value: 'column', text: 'column' }
                     ]}
@@ -460,7 +472,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     title="Justify content:"
                     name="flexjust"
                     items={[
-                      { value: '', text: 'none' },
+                      { value: '', text: 'default' },
                       { value: 'flex-start', text: 'flex-start' },
                       { value: 'flex-end', text: 'flex-end' },
                       { value: 'center', text: 'center' },
@@ -477,7 +489,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     title="Align items:"
                     name="flexalign"
                     items={[
-                      { value: '', text: 'none' },
+                      { value: '', text: 'default' },
                       { value: 'stretch', text: 'stretch' },
                       { value: 'flex-start', text: 'flex-start' },
                       { value: 'flex-end', text: 'flex-end' },
@@ -494,8 +506,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 title="Width:"
                 name="width"
                 items={[
-                  { value: '', text: 'none' },
+                  { value: '', text: 'default' },
                   { value: 'auto', text: 'auto' },
+                  { value: '100%', text: '100%'},
                   { value: '50%', text: '50%' },
                   { value: '25%', text: '25%' }
                 ]}
@@ -503,15 +516,16 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <FormSelector
                 classes={classes}
                 isThemeLight={isThemeLight}
-                selectValue={compWidth}
+                selectValue={compHeight}
                 handleChange={handleChange}
                 title="Height:"
                 name="height"
                 items={[
-                  { value: '', text: 'none' },
+                  { value: '', text: 'default' },
                   { value: 'auto', text: 'auto' },
                   { value: '100%', text: '100%' },
-                  { value: '50%', text: '50%' }
+                  { value: '50%', text: '50%' },
+                  { value: '25%', text: '25%' }
                 ]}
               />
               <div className={classes.configRow}>
@@ -785,6 +799,9 @@ const useStyles = makeStyles({
   compName: {
     fontSize: '1rem'
   },
+  rootCompName: {
+    fontSize: '1.75rem'
+  },
   // 'Parent Component' font size
   configHeader: {
     height: '70px',
@@ -793,6 +810,15 @@ const useStyles = makeStyles({
       letterSpacing: '0.5px',
       marginBottom: '0',
       marginTop: '10px'
+    }
+  },
+  rootConfigHeader: {
+    height: '70px',
+    '& > h4': {
+      fontSize: '1.75rem',
+      letterSpacing: '0.5px',
+      marginBottom: '0',
+      marginTop: '30px'
     }
   },
   lightThemeFontColor: {

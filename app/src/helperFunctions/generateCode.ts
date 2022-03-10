@@ -311,7 +311,7 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
     
-    const ${currComponent.name} = (props): JSX.Element => {
+    const ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
           <>
@@ -326,7 +326,7 @@ const generateUnformattedCode = (
           </>
       );
     }
-    export default ${currComponent.name};
+    export default ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)};
     `;
   } else {
     // gatsby component code
