@@ -376,7 +376,9 @@ ipcMain.on('delete_cookie', event => {
 
 // opens new window for github oauth when button on sign in page is clicked
 ipcMain.on('github', event => {
-  const githubURL = `http://localhost:${DEV_PORT}/auth/github`;
+  const githubURL = isDev
+    ? `http://localhost:${DEV_PORT}/auth/github`
+    : `https://reactype-caret.herokuapp.com/auth/github`;
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
