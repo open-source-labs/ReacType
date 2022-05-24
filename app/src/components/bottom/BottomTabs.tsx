@@ -7,6 +7,7 @@ import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel'
 import CreationPanel from './CreationPanel'
+import ContextManager from './ContexManager'
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@material-ui/core/FormControl';
@@ -78,6 +79,11 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Component Tree"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="Context Manager"
+          />
         </Tabs>
         <div className={classes.projectTypeWrapper}> 
          <FormControl size='small'>
@@ -101,6 +107,7 @@ const BottomTabs = (props): JSX.Element => {
       {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
       {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 4 && <Tree data={components} />}
+      {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
     </div>
   );
 };
