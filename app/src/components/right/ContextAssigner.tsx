@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import StateContext from '../../context/context';
 
-export default function ComponentDropDown() {
+export default function ContextAssigner() {
   const [age, setAge] = React.useState('');
   const [componentList, dispatch] = React.useContext(StateContext);
 
@@ -16,9 +16,10 @@ export default function ComponentDropDown() {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+
+    <Box sx={{ minWidth:100 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Select Component</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -26,12 +27,11 @@ export default function ComponentDropDown() {
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {componentList.components.map((component) => {
+           return <MenuItem value={component.name}>{component.name}</MenuItem>
+          })}
         </Select>
       </FormControl>
     </Box>
   );
 }
-

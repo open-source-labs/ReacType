@@ -7,7 +7,7 @@ import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel'
 import CreationPanel from './CreationPanel'
-import ContextManager from './ContexManager'
+import ContextManager from './ContextManager'
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@material-ui/core/FormControl';
