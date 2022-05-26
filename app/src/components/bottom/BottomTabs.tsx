@@ -5,9 +5,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
-import CustomizationPanel from '../../containers/CustomizationPanel'
-import CreationPanel from './CreationPanel'
-import ContextManager from './ContextManager'
+import CustomizationPanel from '../../containers/CustomizationPanel';
+import CreationPanel from './CreationPanel';
+import ContextManager from '../ContextAPIManager/ContextManager';
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@material-ui/core/FormControl';
@@ -44,8 +44,17 @@ const BottomTabs = (props): JSX.Element => {
   Arrow.renderArrow(state.canvasFocus.childId);
 
   return (
-    <div className={`${classes.root} ${classes.rootLight}`} style={{ backgroundColor : '#003366' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
+    <div
+      className={`${classes.root} ${classes.rootLight}`}
+      style={{ backgroundColor: '#003366' }}
+    >
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        paddingBottom="10px"
+        paddingRight="10px"
+      >
         <Tabs
           value={tab}
           onChange={handleChange}
@@ -85,8 +94,8 @@ const BottomTabs = (props): JSX.Element => {
             label="Context Manager"
           />
         </Tabs>
-        <div className={classes.projectTypeWrapper}> 
-         <FormControl size='small'>
+        <div className={classes.projectTypeWrapper}>
+          <FormControl size="small">
             <Select
               variant="outlined"
               labelId="project-type-label"
@@ -95,9 +104,15 @@ const BottomTabs = (props): JSX.Element => {
               value={state.projectType}
               onChange={handleProjectChange}
             >
-              <MenuItem style={{ color: 'black' }} value={'Classic React'}>Classic React</MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>Gatsby.js</MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Next.js'}>Next.js</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Classic React'}>
+                Classic React
+              </MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>
+                Gatsby.js
+              </MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Next.js'}>
+                Next.js
+              </MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -117,8 +132,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     height: '100%',
     color: '#E8E8E8',
-    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-    
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
   },
   rootLight: {
     backgroundColor: '#003366'
@@ -133,7 +147,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: '50%'
   },
   tabsIndicator: {
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   tabRoot: {
     textTransform: 'initial',
@@ -162,7 +176,7 @@ const useStyles = makeStyles(theme => ({
       fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
-      color: 'white',
+      color: 'white'
     }
   },
   tabSelected: {},
@@ -175,7 +189,7 @@ const useStyles = makeStyles(theme => ({
   switch: {
     marginRight: '10px',
     marginTop: '2px'
-  }, 
+  },
   projectTypeWrapper: {
     marginTop: '10px',
     marginBotton: '10px'
@@ -187,4 +201,3 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default BottomTabs;
-
