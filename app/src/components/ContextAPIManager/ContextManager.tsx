@@ -6,22 +6,21 @@ import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles({
   contextContainer: {
     backgroundColor: 'white',
-    display: 'grid',
-    border: '1px solid red',
-    gridTemplateColumns: '25% 75%',
+    // display: 'grid',
+    // gridTemplateColumns: '100%',
     height: '100%'
-  },
-
-  leftContext: {
-    display: 'flex',
-    flexDirection: 'column',
-    border: '1px solid blue'
-  },
-
-  childContext: {
-    flex: '1',
-    border: '1px solid blue'
   }
+
+  // leftContext: {
+  //   display: 'flex',
+  //   // flexDirection: 'column',
+  //   border: '1px solid blue'
+  // }
+
+  // childContext: {
+  //   flex: '1',
+  //   border: '1px solid blue'
+  // }
 });
 const ContextManager = (props): JSX.Element => {
   const classes = useStyles();
@@ -29,14 +28,7 @@ const ContextManager = (props): JSX.Element => {
   return (
     <React.Fragment>
       <div className={classes.contextContainer}>
-        <div className={classes.leftContext}>
-          <div className={classes.childContext}>
-            <ContextTab />
-          </div>
-        </div>
-        <div className="rightContext">
-          <ContextTree />
-        </div>
+        <ContextTab />
       </div>
     </React.Fragment>
   );

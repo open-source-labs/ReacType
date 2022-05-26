@@ -1,8 +1,9 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
+import ContextTable from './AssignerComponents/ContextTable';
 
 const ContextAssigner = () => {
-  return <Typography variant="h1">Context Assigner</Typography>;
+  return <ContextTable />;
 };
 
 export default ContextAssigner;
