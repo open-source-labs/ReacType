@@ -1,7 +1,8 @@
 //context stored in an object
-//it will have another object within to hold the key value pairs
+//it will have another object within to hold the key contextInput pairs
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -13,6 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import Box from '@mui/material/Box';
 
 import ContextTable from './ContextTable';
 
@@ -22,23 +24,23 @@ const filter = createFilterOptions();
 const contextArr = [
   {
     name : 'theme',
-    values: [
-      {key: 'dark', value: 'black'},
-      {key: 'light', value: 'white'},
-      {key: 'darker', value: 'darkest'}
+    contextInputs: [
+      {key: 'dark', contextInput: 'black'},
+      {key: 'light', contextInput: 'white'}    
     ]
     
   },
 
   {
     name : 'mood',
-    values : [
-      {key: 'happy', value: 'rainbow'},
-      {key: 'sad', value: 'blue'},
+    contextInputs : [
+      {key: 'happy', contextInput: 'rainbow'},
+      {key: 'sad', contextInput: 'blue'},
     ]
   }
 ]
 
+//START - Table styling 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -58,34 +60,55 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0
   }
 }));
+//END - table styling
 
-const CreatorForm = () => {
-  // const arr = [1,2,3,4]
-  const [value, setValue] = React.useState(null);
+
+
+const CreatorForm = ({contextStore}) => {
+  // const [contextInput, setContextInput] = useState('');
+
+  //array storing all contexts
+  const {allContext} = contextStore
+  
+  const [contextInput, setContextInput] = React.useState(null);
+
+
+  const dispatch = useDispatch()
+
+  const handleClickSelectContext = () => {
+    console.log(document.getElementById("autoCompleteContextField"))
+    console.log('COMING FROM CLICK EVENT', contextInput);
+
+    // dispatch({type: })
+  }
+
 
   return (
     <Fragment>
+      <Box
+      sx={{ display: 'flex'}} >
     <Autocomplete
-      value={value}
+      id="autoCompleteContextField"
+      value={contextInput}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setValue({
+          setContextInput({
             name: newValue,
           });
         } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setValue({
+          // Create a new contextInput from the user input
+          setContextInput({
             name: newValue.inputValue,
           });
         } else {
-          setValue(newValue);
+          setContextInput(newValue);
         }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
 
         const { inputValue } = params;
-        // Suggest the creation of a new value
+        // Suggest the creation of a new contextInput
         const isExisting = options.some((option) => inputValue === option.name);
         if (inputValue !== '' && !isExisting) {
           filtered.push({
@@ -100,7 +123,7 @@ const CreatorForm = () => {
       clearOnBlur
       handleHomeEndKeys
       id="free-solo-with-text-demo"
-      options={contextArr}
+      options={allContext || []}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
@@ -120,7 +143,11 @@ const CreatorForm = () => {
         <TextField {...params} label="Free solo with text demo" />
       )}
     />
-    <ContextTable target={contextArr[0].values}/>
+    <Button variant="contained" onClick={handleClickSelectContext}>Select/Create</Button>
+    {/* <Button variant="contained">Delete</Button> */}
+    </Box>
+    <ContextTable target={contextArr[0].contextInputs}/>
+    
     </Fragment> 
   );
 }
