@@ -73,9 +73,10 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import ContextCreator from './ContextCreator';
-import ContextAssigner from './ContextAssigner';
-import ContextTree from './ContextTree';
+
+import ContextCreator from './CreatorComponent/ContextCreator';
+import ContextAssigner from './AssignerComponents/ContextAssigner';
+import ContextTree from './Display/ContextTree';
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');

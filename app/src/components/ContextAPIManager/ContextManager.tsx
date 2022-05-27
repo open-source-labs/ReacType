@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ContextTab from './ContextTab';
-import ContextTree from './ContextTree';
+import ContextTree from './Display/ContextTree';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({

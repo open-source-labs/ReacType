@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -45,11 +45,12 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-{/* <Table style={{ width: 400, margin: 'auto' }}></Table> */}
-export default function ContextTable() {
+/* <Table style={{ width: 400, margin: 'auto' }}></Table> */
+// sx={{ width: '40%' }}
+export default function ContextTable({target}) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ width: '50%'}} aria-label="customized table">
+      <Table sx={{ width: '40%' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Context</StyledTableCell>
@@ -57,12 +58,12 @@ export default function ContextTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
+          {target.map((data, index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {data.key}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
+              <StyledTableCell align="right">{data.value}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
