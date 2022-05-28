@@ -16,6 +16,7 @@ const ContextCreator = () => {
     setIsReady(true);
   }, []);
 
+
   const dispatch = useDispatch();
 
   const handleClickSelectContext = contextInput => {
@@ -34,6 +35,7 @@ const ContextCreator = () => {
     dispatch(
       actions.addContextValuesActionCreator({ name, inputKey, inputValue })
     );
+    setState(store.getState().contextSlice);
   };
 
   return (

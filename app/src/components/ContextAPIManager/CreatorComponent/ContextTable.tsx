@@ -45,8 +45,7 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-/* <Table style={{ width: 400, margin: 'auto' }}></Table> */
-// sx={{ width: '40%' }}
+
 export default function ContextTable({target}) {
   return (
     <TableContainer component={Paper}>

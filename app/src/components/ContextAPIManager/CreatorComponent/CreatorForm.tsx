@@ -113,6 +113,7 @@ const CreatorForm = ({
               });
             } else {
               setContextInput(newValue);
+              console.log('selected from drop down', contextInput)
             }
           }}
           filterOptions={(options, params) => {
@@ -121,7 +122,8 @@ const CreatorForm = ({
             const { inputValue } = params;
             // Suggest the creation of a new contextInput
             const isExisting = options.some(
-              option => inputValue === option.name
+              option => inputValue === option.name 
+                // console.log(inputValue)
             );
             if (inputValue !== '' && !isExisting) {
               filtered.push({

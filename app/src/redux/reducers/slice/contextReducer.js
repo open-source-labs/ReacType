@@ -31,12 +31,23 @@ const contextReducer = (state = initialState, action) => {
         ...state,
         allContext: [...state.allContext, newContext]
       };
-
+      
     case types.ADD_CONTEXT_VALUES:
-      console.log('payload is', action.payload);
+      // console.log('payload is', action.payload);
+
+      const newAllContext = [...state.allContext];
+
+      for (let i = 0; i < newAllContext.length; i += 1) {
+        if (newAllContext[i].name === action.payload.name) {
+          newAllContext[i].values.push({ key : action.payload.inputKey , value : action.payload.inputValue})
+        } 
+      }
 
       return {
-        ...state
+        ...state,
+        allContext: newAllContext
+
+          
       };
     default: {
       return state;
