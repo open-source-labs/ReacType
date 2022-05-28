@@ -21,7 +21,7 @@ import { Typography } from '@mui/material';
 
 const filter = createFilterOptions();
 
-//START - Table styling
+//START - Table styling ------------
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -41,7 +41,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0
   }
 }));
-//END - table styling
+//END - table styling --------------------------
 
 const CreatorForm = ({
   contextStore,
@@ -69,6 +69,7 @@ const CreatorForm = ({
     setTableState(targetContext.values);
   };
 
+  // START - autocomplete functionality ----------------
   const handleChange = e => {
     setDataContext(prevDataContext => {
       return {
@@ -85,6 +86,59 @@ const CreatorForm = ({
     handleClickSelectContext(temp);
   };
 
+  const autoOnChange = (event, newValue) => {
+    if (typeof newValue === 'string') {
+      setContextInput({
+        name: newValue
+      });
+    } else if (newValue && newValue.inputValue) {
+      // Create a new contextInput from the user input
+      setContextInput({
+        name: newValue.inputValue
+      });
+    } else {
+      setContextInput(newValue);
+      renderTable(newValue);
+    }
+  };
+
+  const autoFitler = (options, params) => {
+    const filtered = filter(options, params);
+
+    const { inputValue } = params;
+    // Suggest the creation of a new contextInput
+    const isExisting = options.some(
+      option => inputValue === option.name
+      // console.log(inputValue)
+    );
+    if (inputValue !== '' && !isExisting) {
+      filtered.push({
+        inputValue,
+        name: `Add "${inputValue}"`
+      });
+    }
+
+    return filtered;
+  };
+
+  const autoGetOptions = option => {
+    // Value selected with enter, right from the input
+    if (typeof option === 'string') {
+      return option;
+    }
+    // Add "xxx" option created dynamically
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    // Regular option
+    return option.name;
+  };
+
+  const autoRenderOptions = (props, option) => (
+    <li {...props}>{option.name}</li>
+  );
+  // END - autocomplete --------------------------
+
   return (
     <Fragment>
       {/* Input box for context */}
@@ -95,66 +149,18 @@ const CreatorForm = ({
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
-          onChange={(event, newValue) => {
-            if (typeof newValue === 'string') {
-              setContextInput({
-                name: newValue
-              });
-            } else if (newValue && newValue.inputValue) {
-              // Create a new contextInput from the user input
-              setContextInput({
-                name: newValue.inputValue
-              });
-            } else {
-              setContextInput(newValue);
-              renderTable(newValue);
-            }
-          }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
-
-            const { inputValue } = params;
-            // Suggest the creation of a new contextInput
-            const isExisting = options.some(
-              option => inputValue === option.name
-              // console.log(inputValue)
-            );
-            if (inputValue !== '' && !isExisting) {
-              filtered.push({
-                inputValue,
-                name: `Add "${inputValue}"`
-              });
-            }
-
-            return filtered;
-          }}
+          onChange={autoOnChange}
+          filterOptions={autoFitler}
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
-          id="free-solo-with-text-demo"
           options={allContext || []}
-          getOptionLabel={option => {
-            // Value selected with enter, right from the input
-            if (typeof option === 'string') {
-              return option;
-            }
-            // Add "xxx" option created dynamically
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            // Regular option
-            return option.name;
-          }}
-          renderOption={(props, option) => <li {...props}>{option.name}</li>}
+          getOptionLabel={autoGetOptions}
+          renderOption={autoRenderOptions}
           sx={{ width: 300 }}
           freeSolo
           renderInput={params => (
             <TextField {...params} label="Create/Select Context" />
-            // <TextField
-            //   {...params}
-            //   label="Free solo with text demo"
-            //   onKeyUp={() => console.log(params.inputProps.value)}
-            // />
           )}
         />
         <Button variant="contained" onClick={handleClick}>

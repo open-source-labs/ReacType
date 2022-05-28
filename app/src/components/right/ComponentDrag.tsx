@@ -19,7 +19,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
         <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid container direction="row" justifyContent="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
             .map(comp => {
@@ -38,7 +38,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
         </Grid>
         {/* Display all reusable components */}
         <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid container direction="row" justifyContent="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
             .map(comp => {
@@ -61,7 +61,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
             <Grid
               container
               direction="row"
-              justify="center"
+              justifyContent="center"
               alignItems="center"
             >
               <ComponentPanelRoutingItem key={'premadecomp-1'} />
