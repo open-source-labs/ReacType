@@ -1,21 +1,52 @@
 import { Typography } from '@material-ui/core';
-import React, {useEffect, useState } from 'react';
-import { useStore } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useStore } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import CreatorForm  from './CreatorForm';
+import CreatorForm from './CreatorForm';
+import * as actions from '../../../redux/actions/actions';
 
 const ContextCreator = () => {
   const store = useStore();
-  const [state, setState] = useState([]);
-  
+  const [state, setState] = useState(null);
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
-    setState(store.getState().contextSlice)
-  }, [])
+    setState(store.getState().contextSlice);
+    setIsReady(true);
+  }, []);
+
+  const dispatch = useDispatch();
+
+  const handleClickSelectContext = contextInput => {
+    // console.log(document.getElementById('autoCompleteContextField'));
+
+    dispatch(actions.addContextActionCreator(contextInput));
+    setState(prevState => {
+      return {
+        ...prevState,
+        allContext: [...prevState.allContext, contextInput]
+      };
+    });
+  };
+
+  const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
+    dispatch(
+      actions.addContextValuesActionCreator({ name, inputKey, inputValue })
+    );
+  };
+
   return (
     <>
-      <CreatorForm contextStore={state}/>
+      {isReady && (
+        <CreatorForm
+          contextStore={state}
+          handleClickSelectContext={handleClickSelectContext}
+          handleClickInputData={handleClickInputData}
+        />
+      )}
     </>
-  )
+  );
 };
 
 export default ContextCreator;

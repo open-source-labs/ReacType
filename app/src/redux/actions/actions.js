@@ -4,12 +4,12 @@ export const darkModeToggle = () => ({
   type: types.DARK_MODE_TOGGLE
 });
 
-export const addContextActionCreator = (contextName) => ({
+export const addContextActionCreator = contextName => ({
   type: types.ADD_CONTEXT,
-  payload: contextName,
-})
+  payload: contextName
+});
 
-export const addContextValuesActionCreator = (newEntry) => ({
+export const addContextValuesActionCreator = newEntry => ({
   type: types.ADD_CONTEXT_VALUES,
   payload: newEntry
-})
+});

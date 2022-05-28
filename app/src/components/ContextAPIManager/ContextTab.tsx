@@ -79,7 +79,7 @@ import ContextAssigner from './AssignerComponents/ContextAssigner';
 import ContextTree from './Display/ContextTree';
 
 export default function LabTabs() {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState<string>('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
