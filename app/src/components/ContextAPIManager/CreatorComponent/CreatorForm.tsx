@@ -21,24 +21,6 @@ import { Typography } from '@mui/material';
 
 const filter = createFilterOptions();
 
-// const contextArr = [
-//   {
-//     name: 'theme',
-//     contextInputs: [
-//       { key: 'dark', contextInput: 'black' },
-//       { key: 'light', contextInput: 'white' }
-//     ]
-//   },
-
-//   {
-//     name: 'mood',
-//     contextInputs: [
-//       { key: 'happy', contextInput: 'rainbow' },
-//       { key: 'sad', contextInput: 'blue' }
-//     ]
-//   }
-// ];
-
 //START - Table styling
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -69,11 +51,23 @@ const CreatorForm = ({
   //array storing all contexts
   const { allContext } = contextStore;
 
+  //a state to keep track of data in table
+  const [tableState, setTableState] = React.useState([
+    {
+      key: 'Enter key',
+      value: 'Enter value'
+    }
+  ]);
+
   const [contextInput, setContextInput] = React.useState(null);
   const [dataContext, setDataContext] = React.useState({
     inputKey: '',
     inputValue: ''
   });
+
+  const renderTable = targetContext => {
+    setTableState(targetContext.values);
+  };
 
   const handleChange = e => {
     setDataContext(prevDataContext => {
@@ -113,7 +107,7 @@ const CreatorForm = ({
               });
             } else {
               setContextInput(newValue);
-              console.log('selected from drop down', contextInput)
+              renderTable(newValue);
             }
           }}
           filterOptions={(options, params) => {
@@ -122,8 +116,8 @@ const CreatorForm = ({
             const { inputValue } = params;
             // Suggest the creation of a new contextInput
             const isExisting = options.some(
-              option => inputValue === option.name 
-                // console.log(inputValue)
+              option => inputValue === option.name
+              // console.log(inputValue)
             );
             if (inputValue !== '' && !isExisting) {
               filtered.push({
@@ -156,6 +150,11 @@ const CreatorForm = ({
           freeSolo
           renderInput={params => (
             <TextField {...params} label="Create/Select Context" />
+            // <TextField
+            //   {...params}
+            //   label="Free solo with text demo"
+            //   onKeyUp={() => console.log(params.inputProps.value)}
+            // />
           )}
         />
         <Button variant="contained" onClick={handleClick}>
@@ -193,7 +192,7 @@ const CreatorForm = ({
         </Button>
       </Box>
 
-      {/* <ContextTable target={contextArr[0].contextInputs}/> */}
+      <ContextTable target={tableState} />
     </Fragment>
   );
 };
