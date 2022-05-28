@@ -1,47 +1,15 @@
-//context stored in an object
-//it will have another object within to hold the key contextInput pairs
-
 import React, { Fragment, useState, useEffect } from 'react';
-
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Box from '@mui/material/Box';
-
+import Grid from '@mui/material/Grid';
 import ContextTable from './ContextTable';
 import { Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
+
 
 const filter = createFilterOptions();
-
-//START - Table styling ------------
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
-  }
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0
-  }
-}));
-//END - table styling --------------------------
 
 const CreatorForm = ({
   contextStore,
@@ -54,10 +22,11 @@ const CreatorForm = ({
   //a state to keep track of data in table
   const [tableState, setTableState] = React.useState([
     {
-      key: 'Enter key',
+      key: 'Enter Key',
       value: 'Enter value'
     }
   ]);
+
 
   const [contextInput, setContextInput] = React.useState(null);
   const [dataContext, setDataContext] = React.useState({
@@ -66,7 +35,16 @@ const CreatorForm = ({
   });
 
   const renderTable = targetContext => {
-    setTableState(targetContext.values);
+    if (!targetContext.values) {
+      setTableState([
+        {
+          key: 'Enter Key',
+          value: 'Enter value'
+        }
+      ])
+    } else {
+      setTableState(targetContext.values);
+    }
   };
 
   // START - autocomplete functionality ----------------
@@ -141,8 +119,10 @@ const CreatorForm = ({
 
   return (
     <Fragment>
+      <Grid container spacing={2} >
+      <Grid item xs={6} display='flex' direction='column' justifyContent="center" alignItems="center">
       {/* Input box for context */}
-      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
+      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true} >
         Context Input
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
@@ -157,7 +137,7 @@ const CreatorForm = ({
           options={allContext || []}
           getOptionLabel={autoGetOptions}
           renderOption={autoRenderOptions}
-          sx={{ width: 300 }}
+          sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
             <TextField {...params} label="Create/Select Context" />
@@ -168,6 +148,8 @@ const CreatorForm = ({
         </Button>
         {/* <Button variant="contained">Delete</Button> */}
       </Box>
+
+      <Divider variant="middle" sx={{mb: 3}}/>
 
       {/* Input box for context data */}
       <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
@@ -197,8 +179,12 @@ const CreatorForm = ({
           Save
         </Button>
       </Box>
+      </Grid>
 
-      <ContextTable target={tableState} />
+      <Grid item xs={6} >
+      <ContextTable  target={tableState} />
+      </Grid>
+      </Grid>
     </Fragment>
   );
 };

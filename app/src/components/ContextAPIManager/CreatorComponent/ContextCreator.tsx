@@ -23,12 +23,7 @@ const ContextCreator = () => {
     // console.log(document.getElementById('autoCompleteContextField'));
 
     dispatch(actions.addContextActionCreator(contextInput));
-    setState(prevState => {
-      return {
-        ...prevState,
-        allContext: [...prevState.allContext, contextInput]
-      };
-    });
+    setState(store.getState().contextSlice);
   };
 
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
