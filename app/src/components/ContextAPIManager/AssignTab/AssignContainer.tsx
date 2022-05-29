@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
-import ContextTable from './ContextTable';
+import ContextTable from './components/ContextTable';
 
 const ContextAssigner = () => {
   return <ContextTable />;

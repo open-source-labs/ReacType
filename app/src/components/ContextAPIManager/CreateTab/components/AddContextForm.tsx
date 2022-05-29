@@ -3,60 +3,19 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import ContextTable from './ContextTable';
 import { Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
-
 
 const filter = createFilterOptions();
 
-const CreatorForm = ({
+const AddContextForm = ({
   contextStore,
   handleClickSelectContext,
-  handleClickInputData
+  renderTable,
+  contextInput,
+  setContextInput
 }) => {
-  //array storing all contexts
   const { allContext } = contextStore;
-
-  //a state to keep track of data in table
-  const [tableState, setTableState] = React.useState([
-    {
-      key: 'Enter Key',
-      value: 'Enter value'
-    }
-  ]);
-
-
-  const [contextInput, setContextInput] = React.useState(null);
-  const [dataContext, setDataContext] = React.useState({
-    inputKey: '',
-    inputValue: ''
-  });
-
-  const renderTable = targetContext => {
-    if (!targetContext.values) {
-      setTableState([
-        {
-          key: 'Enter Key',
-          value: 'Enter value'
-        }
-      ])
-    } else {
-      setTableState(targetContext.values);
-    }
-  };
-
-  // START - autocomplete functionality ----------------
-  const handleChange = e => {
-    setDataContext(prevDataContext => {
-      return {
-        ...prevDataContext,
-        [e.target.name]: e.target.value
-      };
-    });
-  };
-
+  
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
     const temp = contextInput;
@@ -115,14 +74,10 @@ const CreatorForm = ({
   const autoRenderOptions = (props, option) => (
     <li {...props}>{option.name}</li>
   );
-  // END - autocomplete --------------------------
 
   return (
     <Fragment>
-      <Grid container spacing={2} >
-      <Grid item xs={6} display='flex' direction='column' justifyContent="center" alignItems="center">
-      {/* Input box for context */}
-      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true} >
+      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
         Context Input
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
@@ -148,45 +103,8 @@ const CreatorForm = ({
         </Button>
         {/* <Button variant="contained">Delete</Button> */}
       </Box>
-
-      <Divider variant="middle" sx={{mb: 3}}/>
-
-      {/* Input box for context data */}
-      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
-        Add context data
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField
-          id="outlined-basic"
-          label="Key"
-          variant="outlined"
-          value={dataContext.inputKey}
-          name="inputKey"
-          onChange={e => handleChange(e)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Value"
-          variant="outlined"
-          value={dataContext.inputValue}
-          name="inputValue"
-          onChange={e => handleChange(e)}
-        />
-        <Button
-          variant="contained"
-          onClick={() => handleClickInputData(contextInput, dataContext)}
-        >
-          Save
-        </Button>
-      </Box>
-      </Grid>
-
-      <Grid item xs={6} >
-      <ContextTable  target={tableState} />
-      </Grid>
-      </Grid>
     </Fragment>
   );
 };
 
-export default CreatorForm;
+export default AddContextForm;
