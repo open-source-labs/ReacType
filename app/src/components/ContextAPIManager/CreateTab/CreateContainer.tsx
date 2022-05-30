@@ -8,7 +8,7 @@ import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
 
-const ContextContainer = () => {
+const CreateContainer = () => {
   const defaultTableData = [{key: 'Enter Key', value: 'Enter value'}]
   const store = useStore();
   const [state, setState] = useState([]);
@@ -68,4 +68,4 @@ const ContextContainer = () => {
   );
 };
 
-export default ContextContainer;
+export default CreateContainer;

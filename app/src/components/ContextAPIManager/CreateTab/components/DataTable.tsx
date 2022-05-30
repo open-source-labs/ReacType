@@ -28,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-export default function ContextTable({target}) {
+export default function DataTable({target}) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ width: '510px' }} aria-label="customized table">

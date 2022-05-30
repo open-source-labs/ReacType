@@ -46,7 +46,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
 
-export default function ContextTable() {
+export default function ComponentTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ width: '100%' }} aria-label="customized table">

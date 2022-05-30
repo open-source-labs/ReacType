@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 
-const ContextTree = () => {
+const DisplayContainer = () => {
   return (
     <Typography variant="h1" align="center">
       Beautiful Tree
@@ -11,4 +11,4 @@ const ContextTree = () => {
 
 
 
-export default ContextTree;
+export default DisplayContainer;
