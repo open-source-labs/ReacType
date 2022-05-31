@@ -7,14 +7,16 @@ const initialState = {
       values: [
         { key: 'testKey1', value: 'testValue1' },
         { key: 'testKey2', value: 'testValue2' }
-      ]
+      ],
+      components: []
     },
     {
       name: 'MainContext3',
       values: [
         { key: 'testKey3', value: 'testValue3' },
         { key: 'testKey33', value: 'testValue33' }
-      ]
+      ],
+      components: []
     }
   ]
 };
@@ -24,7 +26,8 @@ const contextReducer = (state = initialState, action) => {
     case types.ADD_CONTEXT:
       const newContext = {
         name: action.payload.name.trim(),
-        values: []
+        values: [],
+        components: []
       };
 
       return {
@@ -49,6 +52,19 @@ const contextReducer = (state = initialState, action) => {
       return {
         ...state,
         allContext: newAllContext
+      };
+    case types.ADD_COMPONENT_TO_CONTEXT: 
+      const newTempState = [...state.allContext];
+
+      for (let i = 0; i < newTempState.length; i += 1) {
+        if (newTempState[i].name === action.payload.context) {
+          newTempState[i].components.push(action.payload.component);
+        }
+      }
+
+      return {
+        ...state,
+        allContext: newTempState
       };
     default: {
       return state;

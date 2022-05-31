@@ -13,3 +13,8 @@ export const addContextValuesActionCreator = newEntry => ({
   type: types.ADD_CONTEXT_VALUES,
   payload: newEntry
 });
+
+export const addComponentToContext = newEntry => ({
+  type: types.ADD_COMPONENT_TO_CONTEXT,
+  payload: newEntry
+});
