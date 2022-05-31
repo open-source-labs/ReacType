@@ -34,7 +34,7 @@ const CreateContainer = () => {
   };
 
   const renderTable = targetContext => {
-    console.log(targetContext)
+    console.log(targetContext);
     if (!targetContext.values) {
       setTableState(defaultTableData);
     } else {
@@ -43,8 +43,8 @@ const CreateContainer = () => {
   };
   return (
     <>
-      <Grid container display="flex" justifyContent="space-evenly" >
-        <Grid item >
+      <Grid container display="flex" justifyContent="space-evenly">
+        <Grid item>
           <Grid
             container
             spacing={2}
@@ -53,7 +53,7 @@ const CreateContainer = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item >
+            <Grid item>
               <AddContextForm
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
@@ -64,7 +64,7 @@ const CreateContainer = () => {
             </Grid>
 
             <Divider variant="middle" />
-            <Grid item >
+            <Grid item>
               <AddDataForm
                 handleClickInputData={handleClickInputData}
                 contextInput={contextInput}
