@@ -15,7 +15,7 @@ const AddContextForm = ({
   setContextInput
 }) => {
   const { allContext } = contextStore;
-  
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
     const temp = contextInput;
@@ -23,42 +23,45 @@ const AddContextForm = ({
     handleClickSelectContext(temp);
   };
 
-  const autoOnChange = (event, newValue) => {
+  const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
         name: newValue
       });
     } else if (newValue && newValue.inputValue) {
       // Create a new contextInput from the user input
+      //console.log(newValue,newValue.inputValue)
       setContextInput({
-        name: newValue.inputValue
+        name: newValue.inputValue,
+        values: []
       });
+      renderTable(newValue);
+
     } else {
       setContextInput(newValue);
       renderTable(newValue);
     }
   };
 
-  const autoFitler = (options, params) => {
+  const filterOptions = (options, params) => {
+   // setBtnDisabled(true);
     const filtered = filter(options, params);
-
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some(
-      option => inputValue === option.name
-      // console.log(inputValue)
-    );
+    const isExisting = options.some(option => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
         name: `Add "${inputValue}"`
       });
+
+     // setBtnDisabled(false);
     }
 
     return filtered;
   };
 
-  const autoGetOptions = option => {
+  const getOptionLabel = option => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -71,7 +74,7 @@ const AddContextForm = ({
     return option.name;
   };
 
-  const autoRenderOptions = (props, option) => (
+  const renderOption = (props, option) => (
     <li {...props}>{option.name}</li>
   );
 
@@ -84,21 +87,25 @@ const AddContextForm = ({
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
-          onChange={autoOnChange}
-          filterOptions={autoFitler}
+          onChange={onChange}
+          filterOptions={filterOptions}
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
           options={allContext || []}
-          getOptionLabel={autoGetOptions}
-          renderOption={autoRenderOptions}
+          getOptionLabel={getOptionLabel}
+          renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
             <TextField {...params} label="Create/Select Context" />
           )}
         />
-        <Button variant="contained" onClick={handleClick}>
+        <Button
+          variant="contained"
+          onClick={handleClick}
+          disabled={btnDisabled ? true : false}
+        >
           Create
         </Button>
         {/* <Button variant="contained">Delete</Button> */}

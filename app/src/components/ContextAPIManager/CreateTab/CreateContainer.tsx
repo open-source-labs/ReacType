@@ -9,7 +9,7 @@ import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
 
 const CreateContainer = () => {
-  const defaultTableData = [{key: 'Enter Key', value: 'Enter value'}]
+  const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
   const store = useStore();
   const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
@@ -27,12 +27,15 @@ const CreateContainer = () => {
   };
 
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
-    dispatch(actions.addContextValuesActionCreator({ name, inputKey, inputValue }));
+    dispatch(
+      actions.addContextValuesActionCreator({ name, inputKey, inputValue })
+    );
     setState(store.getState().contextSlice);
   };
 
   const renderTable = targetContext => {
-    if (!targetContext.values[0]) {
+    console.log(targetContext)
+    if (!targetContext.values) {
       setTableState(defaultTableData);
     } else {
       setTableState(targetContext.values);
@@ -40,27 +43,37 @@ const CreateContainer = () => {
   };
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <AddContextForm
-            contextStore={state}
-            handleClickSelectContext={handleClickSelectContext}
-            renderTable={renderTable}
-            contextInput={contextInput}
-            setContextInput={setContextInput}
-          />
-          <Divider variant="middle" sx={{ mb: 3 }} />
-          <AddDataForm handleClickInputData={handleClickInputData} contextInput={contextInput}/>
-        </Grid>
+      <Grid container display="flex" justifyContent="space-evenly" >
+        <Grid item >
+          <Grid
+            container
+            spacing={2}
+            display="flex"
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item >
+              <AddContextForm
+                contextStore={state}
+                handleClickSelectContext={handleClickSelectContext}
+                renderTable={renderTable}
+                contextInput={contextInput}
+                setContextInput={setContextInput}
+              />
+            </Grid>
 
-        <Grid item xs={6}>
+            <Divider variant="middle" />
+            <Grid item >
+              <AddDataForm
+                handleClickInputData={handleClickInputData}
+                contextInput={contextInput}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider orientation="vertical" variant="middle" flexItem />
+        <Grid item>
           <DataTable target={tableState} />
         </Grid>
       </Grid>
