@@ -8,7 +8,7 @@ const initialState = {
         { key: 'testKey1', value: 'testValue1' },
         { key: 'testKey2', value: 'testValue2' }
       ],
-      components: []
+      components: ['MainContainer', 'SubmitForm']
     },
     {
       name: 'MainContext3',
@@ -16,7 +16,7 @@ const initialState = {
         { key: 'testKey3', value: 'testValue3' },
         { key: 'testKey33', value: 'testValue33' }
       ],
-      components: []
+      components: ['MainContainer', 'EditForm', 'TableContainer']
     }
   ]
 };

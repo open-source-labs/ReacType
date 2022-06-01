@@ -1,50 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from 'react-redux';
 import { Chart } from 'react-google-charts';
+import Grid from '@mui/material/Grid';
 
 const DisplayContainer = () => {
   const store = useStore();
+  const { allContext } = store.getState().contextSlice;
+  const [contextData, setContextData] = useState([]);
 
   useEffect(() => {
-    console.log(store.getState().contextSlice);
+    transformData(allContext);
   }, []);
 
+  const transformData = contexts => {
+    const formattedData = contexts
+      .map(el => {
+        return el.components.map(component => {
+          return [`App ${el.name} ${component}`];
+        });
+      })
+      .flat();
+    setContextData([['Phrases'], ...formattedData]);
+  };
 
-  const data = [
-    ['Phrases'],
-    ['cats are better than dogs'],
-    ['cats eat kibble'],
-    ['cats are better than hamsters'],
-    ['cats are awesome'],
-    ['cats are people too'],
-    ['cats eat mice'],
-    ['cats meowing'],
-    ['cats in the cradle'],
-    ['cats eat mice'],
-    ['cats in the cradle lyrics'],
-    ['cats eat kibble'],
-    ['cats for adoption'],
-    ['cats are family'],
-    ['cats eat mice'],
-    ['cats are better than kittens'],
-    ['cats are evil'],
-    ['cats are weird'],
-    ['cats eat mice'],
-  ];
   const options = {
     wordtree: {
       format: 'implicit',
-      word: 'cats',
-    },
+      word: 'App'
+    }
   };
+  console.log(contextData);
   return (
-    <Chart
-    chartType='WordTree'
-    width='100%'
-    height='400px'
-    data={data}
-    options={options}
-  />
+    <Grid container display="flex" justifyContent="center">
+      <Grid item>
+      <Chart
+        chartType="WordTree"
+        width="100%"
+        height="500px"
+        data={contextData}
+        options={options}
+      />
+      </Grid>
+    </Grid>
   );
 };
 export default DisplayContainer;
