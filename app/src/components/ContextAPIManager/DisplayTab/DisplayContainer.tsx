@@ -29,17 +29,16 @@ const DisplayContainer = () => {
       word: 'App'
     }
   };
-  console.log(contextData);
   return (
     <Grid container display="flex" justifyContent="center">
       <Grid item>
-      <Chart
-        chartType="WordTree"
-        width="100%"
-        height="500px"
-        data={contextData}
-        options={options}
-      />
+        <Chart
+          chartType="WordTree"
+          width="100%"
+          height="450px"
+          data={contextData}
+          options={options}
+        />
       </Grid>
     </Grid>
   );

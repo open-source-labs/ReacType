@@ -117,6 +117,7 @@
     "@apollo/client": "^3.3.11",
     "@babel/cli": "^7.10.4",
     "@babel/register": "^7.10.4",
+    "@mui/icons-material": "^5.8.2",
     "@mui/lab": "^5.0.0-alpha.83",
     "@types/js-cookie": "^2.2.6",
     "@types/node": "^14.0.20",

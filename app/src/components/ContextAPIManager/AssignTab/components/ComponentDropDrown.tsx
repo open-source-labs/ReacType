@@ -1,36 +1,37 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import StateContext from '../../../../context/context';
 
 const filter = createFilterOptions();
 
-const ContextDropDown = ({
+const ComponentDropDown = ({
   contextStore,
-  renderTable,
-  contextInput,
-  setContextInput
+  renderComponentTable,
+  componentInput,
+  setComponentInput
 }) => {
   const { allContext } = contextStore;
+  const [componentList, dispatch] = useContext(StateContext);
 
+  console.log('list of components', componentList);
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
-      setContextInput({
+      setComponentInput({
         name: newValue
       });
     } else if (newValue && newValue.inputValue) {
       // Create a new contextInput from the user input
       //console.log(newValue,newValue.inputValue)
-      setContextInput({
+      setComponentInput({
         name: newValue.inputValue,
         values: []
       });
-      renderTable(newValue);
+      renderComponentTable(newValue);
     } else {
-      setContextInput(newValue);
-      renderTable(newValue);
+      setComponentInput(newValue);
+      renderComponentTable(newValue);
     }
   };
 
@@ -72,19 +73,19 @@ const ContextDropDown = ({
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <Autocomplete
           id="autoCompleteContextField"
-          value={contextInput}
+          value={componentInput}
           onChange={onChange}
           filterOptions={filterOptions}
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
-          options={allContext || []}
+          options={componentList.components || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Select Context" />
+            <TextField {...params} label="Select Component" />
           )}
         />
       </Box>
@@ -92,4 +93,4 @@ const ContextDropDown = ({
   );
 };
 
-export default ContextDropDown;
+export default ComponentDropDown;
