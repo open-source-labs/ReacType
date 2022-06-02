@@ -34,7 +34,6 @@ const CreateContainer = () => {
   };
 
   const renderTable = targetContext => {
-    console.log(targetContext);
     if (!targetContext.values) {
       setTableState(defaultTableData);
     } else {

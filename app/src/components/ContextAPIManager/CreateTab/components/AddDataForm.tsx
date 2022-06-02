@@ -19,7 +19,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
       };
     });
   };
-console.log(contextInput)
+
   return (
     <Fragment>
       <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>

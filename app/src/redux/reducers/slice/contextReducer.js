@@ -36,8 +36,6 @@ const contextReducer = (state = initialState, action) => {
       };
 
     case types.ADD_CONTEXT_VALUES:
-      // console.log('payload is', action.payload);
-
       const newAllContext = [...state.allContext];
 
       for (let i = 0; i < newAllContext.length; i += 1) {
@@ -53,12 +51,12 @@ const contextReducer = (state = initialState, action) => {
         ...state,
         allContext: newAllContext
       };
-    case types.ADD_COMPONENT_TO_CONTEXT: 
+    case types.ADD_COMPONENT_TO_CONTEXT:
       const newTempState = [...state.allContext];
 
       for (let i = 0; i < newTempState.length; i += 1) {
-        if (newTempState[i].name === action.payload.context) {
-          newTempState[i].components.push(action.payload.component);
+        if (newTempState[i].name === action.payload.context.name) {
+          newTempState[i].components.push(action.payload.component.name);
         }
       }
 

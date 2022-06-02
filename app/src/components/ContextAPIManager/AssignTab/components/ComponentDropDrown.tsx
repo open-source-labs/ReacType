@@ -13,9 +13,8 @@ const ComponentDropDown = ({
   setComponentInput
 }) => {
   const { allContext } = contextStore;
-  const [componentList, dispatch] = useContext(StateContext);
+  const [componentList] = useContext(StateContext);
 
-  console.log('list of components', componentList);
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setComponentInput({

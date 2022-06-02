@@ -1,6 +1,6 @@
 import React, { useContext, useState, Fragment, useEffect } from 'react';
 import DataTable from '../CreateTab/components/DataTable';
-import { useStore } from 'react-redux';
+import { useStore, useDispatch } from 'react-redux';
 import ContextDropDown from './components/ContextDropDown';
 import ComponentDropDown from './components/ComponentDropDrown';
 import Divider from '@mui/material/Divider';
@@ -8,12 +8,15 @@ import Grid from '@mui/material/Grid';
 import ComponentTable from './components/ComponentTable';
 import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import * as actions from '../../../redux/actions/actions';
 
 const AssignContainer = () => {
+  const store = useStore();
+  const dispatch = useDispatch();
+
   const [state, setState] = useState([]);
   const defaultTableData = [{ key: 'Key', value: 'Value' }];
   const [tableState, setTableState] = React.useState(defaultTableData);
-  const store = useStore();
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
@@ -29,23 +32,31 @@ const AssignContainer = () => {
       setTableState(targetContext.values);
     }
   };
+  //checks if state is no longer an array, thus an object and will eventually render out the fetched
+  const renderComponentTable = targetComponent => {
+    //target Component is main
 
-  const renderComponentTable = targetContext => {
-    console.log('current component is', targetContext);
-    if (!targetContext.values) {
-      const listOfContexts = [];
-      if (!Array.isArray(state)) {
-        state.allContext.forEach(context => {
-          console.log('each context is', context);
-          if (context.components.includes(targetContext))
-            listOfContexts.push(context.name);
-        });
-      }
-      // setComponentTable(defaultTableData);
+    const listOfContexts = [];
+    if (!Array.isArray(state)) {
+      state.allContext.forEach(context => {
+        if (context.components.includes(targetComponent.name)) {
+          listOfContexts.push(context.name);
+        }
+      });
       setComponentTable(listOfContexts);
-    } else {
-      setComponentTable(targetContext.values);
     }
+  };
+
+  const handleAssignment = () => {
+    dispatch(
+      actions.addComponentToContext({
+        context: contextInput,
+        component: componentInput
+      })
+    );
+
+    setState(store.getState().contextSlice);
+    renderComponentTable(componentInput);
   };
 
   return (
@@ -75,7 +86,7 @@ const AssignContainer = () => {
           </Grid>
         </Grid>
         <Divider orientation="vertical" variant="middle" flexItem>
-          <Button>
+          <Button onClick={handleAssignment}>
             <DoubleArrowIcon fontSize="large" color="primary" />
           </Button>
         </Divider>
