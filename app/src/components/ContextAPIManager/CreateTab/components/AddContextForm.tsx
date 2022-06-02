@@ -104,7 +104,7 @@ const AddContextForm = ({
         <Button
           variant="contained"
           onClick={handleClick}
-          disabled={btnDisabled ? true : false}
+          disabled={btnDisabled}
         >
           Create
         </Button>

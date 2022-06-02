@@ -7,6 +7,7 @@ import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
+import { Typography } from '@mui/material';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
@@ -73,7 +74,14 @@ const CreateContainer = () => {
         </Grid>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
-          <DataTable target={tableState} />
+          <Typography
+            style={{ color: 'black' }}
+            variant="h6"
+            gutterBottom={true}
+          >
+            Context Data Table
+          </Typography>
+          <DataTable target={tableState} contextInput={contextInput} />
         </Grid>
       </Grid>
     </>
