@@ -45,15 +45,15 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-
+{/* <Table style={{ width: 400, margin: 'auto' }}></Table> */}
 export default function ContextTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ width: '100%' }} aria-label="customized table">
+      <Table sx={{ width: '50%'}} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Component</StyledTableCell>
-            <StyledTableCell align="right">Context</StyledTableCell>
+            <StyledTableCell>Context</StyledTableCell>
+            <StyledTableCell align="right">Component</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,10 +62,7 @@ export default function ContextTable() {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.component}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="right">{row.calories}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
