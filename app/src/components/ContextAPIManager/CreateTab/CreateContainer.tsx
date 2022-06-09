@@ -7,6 +7,7 @@ import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
+import { Typography } from '@mui/material';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
@@ -21,15 +22,28 @@ const CreateContainer = () => {
 
   const dispatch = useDispatch();
 
-  const handleClickSelectContext = contextInput => {
+  const handleClickSelectContext = () => {
+    //prevent user from adding duplicate context
+    for (let i = 0; i < state.allContext.length; i += 1) {
+      if (state.allContext[i].name === contextInput.name) {
+        return;
+      } 
+    }
     dispatch(actions.addContextActionCreator(contextInput));
     setState(store.getState().contextSlice);
+    
   };
 
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
     dispatch(
       actions.addContextValuesActionCreator({ name, inputKey, inputValue })
     );
+    setState(store.getState().contextSlice);
+  };
+
+  const handleDeleteContextClick = () => {
+    dispatch(actions.deleteContext(contextInput));
+    setContextInput('');
     setState(store.getState().contextSlice);
   };
 
@@ -56,6 +70,7 @@ const CreateContainer = () => {
               <AddContextForm
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
+                handleDeleteContextClick={handleDeleteContextClick}
                 renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
@@ -73,7 +88,14 @@ const CreateContainer = () => {
         </Grid>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
-          <DataTable target={tableState} />
+          <Typography
+            style={{ color: 'black' }}
+            variant="h6"
+            gutterBottom={true}
+          >
+            Context Data Table
+          </Typography>
+          <DataTable target={tableState} contextInput={contextInput} />
         </Grid>
       </Grid>
     </>

@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableFooter from '@mui/material/TableFooter';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,27 +29,40 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-export default function DataTable({target}) {
+export default function DataTable({ target, contextInput }) {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ width: '510px' }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Key</StyledTableCell>
-            <StyledTableCell align="right">Value</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {target.map((data, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {data.key}
+    <>
+      <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
+        <Table
+          sx={{ width: '510px' }}
+          aria-label="customized table"
+          stickyHeader
+        >
+          <TableHead>
+            <TableRow>
+              {/* <StyledTableCell>Key</StyledTableCell> */}
+              <StyledTableCell align="center" colSpan={3}>
+                {contextInput ? contextInput.name : 'Context Name'}
               </StyledTableCell>
-              <StyledTableCell align="right">{data.value}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {target.map((data, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell component="th" scope="row">
+                  {data.key}
+                </StyledTableCell>
+                <StyledTableCell align="right">{data.value}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+          {/* <TableFooter>
+            <StyledTableCell align="center" colSpan={3}>
+              {contextInput ? contextInput.name : 'Context Name'}
+            </StyledTableCell>
+          </TableFooter> */}
+        </Table>
+      </TableContainer>
+    </>
   );
 }

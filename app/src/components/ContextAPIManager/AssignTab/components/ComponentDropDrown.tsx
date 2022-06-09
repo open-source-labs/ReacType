@@ -84,7 +84,7 @@ const ComponentDropDown = ({
           sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Select Component" />
+            <TextField {...params} label="Select Component" helperText='Select a component for your selected context to consume' />
           )}
         />
       </Box>

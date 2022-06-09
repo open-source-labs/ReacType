@@ -6,10 +6,13 @@ import { Typography } from '@mui/material';
 
 const AddDataForm = ({ handleClickInputData, contextInput }) => {
   //const [contextInput, setContextInput] = React.useState(null);
-  const [dataContext, setDataContext] = React.useState({
-    inputKey: '',
-    inputValue: ''
-  });
+  const defaultInputData = {inputKey: '', inputValue: ''};
+  const [dataContext, setDataContext] = React.useState(defaultInputData);
+
+  const saveData = () => {
+    setDataContext(defaultInputData);
+    handleClickInputData(contextInput, dataContext)
+  }
 
   const handleChange = e => {
     setDataContext(prevDataContext => {
@@ -23,7 +26,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
   return (
     <Fragment>
       <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
-        Add context data
+        Add context data 
       </Typography>
       <Box sx={{ display: 'flex', gap: 2 }}>
         <TextField
@@ -44,7 +47,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
         />
         <Button
           variant="contained"
-          onClick={() => handleClickInputData(contextInput, dataContext)}
+          onClick={saveData}
         >
           Save
         </Button>

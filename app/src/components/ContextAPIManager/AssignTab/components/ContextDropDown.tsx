@@ -84,7 +84,7 @@ const ContextDropDown = ({
           sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Select Context" />
+            <TextField {...params} label="Select Context" helperText='Select a context you would like to assign'/>
           )}
         />
       </Box>
