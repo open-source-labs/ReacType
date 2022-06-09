@@ -10,17 +10,17 @@ const filter = createFilterOptions();
 const AddContextForm = ({
   contextStore,
   handleClickSelectContext,
+  handleDeleteContextClick,
   renderTable,
   contextInput,
   setContextInput
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
+
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
-    const temp = contextInput;
-    setContextInput('');
-    handleClickSelectContext(temp);
+    handleClickSelectContext();
   };
 
   const onChange = (event, newValue) => {
@@ -107,6 +107,13 @@ const AddContextForm = ({
           disabled={btnDisabled}
         >
           Create
+        </Button>
+        <Button
+          color="error"
+          variant="contained"
+          onClick={handleDeleteContextClick}
+        >
+          Delete
         </Button>
         {/* <Button variant="contained">Delete</Button> */}
       </Box>

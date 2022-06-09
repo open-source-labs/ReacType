@@ -22,15 +22,28 @@ const CreateContainer = () => {
 
   const dispatch = useDispatch();
 
-  const handleClickSelectContext = contextInput => {
+  const handleClickSelectContext = () => {
+    //prevent user from adding duplicate context
+    for (let i = 0; i < state.allContext.length; i += 1) {
+      if (state.allContext[i].name === contextInput.name) {
+        return;
+      } 
+    }
     dispatch(actions.addContextActionCreator(contextInput));
     setState(store.getState().contextSlice);
+    
   };
 
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
     dispatch(
       actions.addContextValuesActionCreator({ name, inputKey, inputValue })
     );
+    setState(store.getState().contextSlice);
+  };
+
+  const handleDeleteContextClick = () => {
+    dispatch(actions.deleteContext(contextInput));
+    setContextInput('');
     setState(store.getState().contextSlice);
   };
 
@@ -57,6 +70,7 @@ const CreateContainer = () => {
               <AddContextForm
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
+                handleDeleteContextClick={handleDeleteContextClick}
                 renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
