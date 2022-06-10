@@ -81,7 +81,7 @@ const AssignContainer = () => {
             </Grid>
 
             <Grid item>
-              <DataTable target={tableState} />
+              <DataTable target={tableState} contextInput={contextInput} />
             </Grid>
           </Grid>
         </Grid>

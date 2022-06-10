@@ -36,7 +36,6 @@ const AddContextForm = ({
         values: []
       });
       renderTable(newValue);
-
     } else {
       setContextInput(newValue);
       renderTable(newValue);
@@ -44,7 +43,7 @@ const AddContextForm = ({
   };
 
   const filterOptions = (options, params) => {
-   // setBtnDisabled(true);
+    // setBtnDisabled(true);
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
@@ -55,7 +54,7 @@ const AddContextForm = ({
         name: `Add "${inputValue}"`
       });
 
-     // setBtnDisabled(false);
+      // setBtnDisabled(false);
     }
 
     return filtered;
@@ -74,9 +73,7 @@ const AddContextForm = ({
     return option.name;
   };
 
-  const renderOption = (props, option) => (
-    <li {...props}>{option.name}</li>
-  );
+  const renderOption = (props, option) => <li {...props}>{option.name}</li>;
 
   return (
     <Fragment>

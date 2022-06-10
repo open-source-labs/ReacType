@@ -3,7 +3,7 @@ import * as types from '../../constants/actionTypes';
 const initialState = {
   allContext: [
     {
-      name: 'MainContext1',
+      name: 'ContextExample1',
       values: [
         { key: 'testKey1', value: 'testValue1' },
         { key: 'testKey2', value: 'testValue2' }
@@ -11,7 +11,7 @@ const initialState = {
       components: ['MainContainer', 'SubmitForm']
     },
     {
-      name: 'MainContext3',
+      name: 'ContextExample2',
       values: [
         { key: 'testKey3', value: 'testValue3' },
         { key: 'testKey33', value: 'testValue33' }
@@ -19,6 +19,7 @@ const initialState = {
       components: ['MainContainer', 'EditForm', 'TableContainer']
     }
   ]
+  // allContext: []
 };
 
 const contextReducer = (state = initialState, action) => {
