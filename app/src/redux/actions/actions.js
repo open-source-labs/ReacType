@@ -18,3 +18,8 @@ export const addComponentToContext = newEntry => ({
   type: types.ADD_COMPONENT_TO_CONTEXT,
   payload: newEntry
 });
+
+export const deleteContext = (contextInput) => ({
+  type: types.DELETE_CONTEXT,
+  payload: contextInput
+})

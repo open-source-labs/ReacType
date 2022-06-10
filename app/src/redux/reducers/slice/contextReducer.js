@@ -52,6 +52,13 @@ const contextReducer = (state = initialState, action) => {
         ...state,
         allContext: newAllContext
       };
+    case types.DELETE_CONTEXT:
+      const remains = state.allContext.filter((el) => el.name !== action.payload.name)
+      return {
+        ...state,
+        allContext : remains
+      }
+
     case types.ADD_COMPONENT_TO_CONTEXT:
       const newTempState = [...state.allContext];
 
