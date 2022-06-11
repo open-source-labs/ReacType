@@ -2,22 +2,22 @@ import * as types from '../../constants/actionTypes';
 
 const initialState = {
   allContext: [
-    {
-      name: 'ContextExample1',
-      values: [
-        { key: 'testKey1', value: 'testValue1' },
-        { key: 'testKey2', value: 'testValue2' }
-      ],
-      components: ['MainContainer', 'SubmitForm']
-    },
-    {
-      name: 'ContextExample2',
-      values: [
-        { key: 'testKey3', value: 'testValue3' },
-        { key: 'testKey33', value: 'testValue33' }
-      ],
-      components: ['MainContainer', 'EditForm', 'TableContainer']
-    }
+    // {
+    //   name: 'ContextExample1',
+    //   values: [
+    //     { key: 'testKey1', value: 'testValue1' },
+    //     { key: 'testKey2', value: 'testValue2' }
+    //   ],
+    //   components: ['MainContainer', 'SubmitForm']
+    // },
+    // {
+    //   name: 'ContextExample2',
+    //   values: [
+    //     { key: 'testKey3', value: 'testValue3' },
+    //     { key: 'testKey33', value: 'testValue33' }
+    //   ],
+    //   components: ['MainContainer', 'EditForm', 'TableContainer']
+    // }
   ]
   // allContext: []
 };
@@ -52,12 +52,15 @@ const contextReducer = (state = initialState, action) => {
         ...state,
         allContext: newAllContext
       };
+
     case types.DELETE_CONTEXT:
-      const remains = state.allContext.filter((el) => el.name !== action.payload.name)
+      const tempState = [...state.allContext];
+      const remains = tempState.filter(el => el.name !== action.payload.name);
+
       return {
         ...state,
-        allContext : remains
-      }
+        allContext: remains
+      };
 
     case types.ADD_COMPONENT_TO_CONTEXT:
       const newTempState = [...state.allContext];
