@@ -333,13 +333,25 @@ const generateUnformattedCode = (
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
+    //string to store all imports string for context
     let contextImports = '';
 
     const { allContext } = store.getState().contextSlice;
+
     for (const context of allContext) {
-      contextImports += `import ${context.name}Provider from '../contexts/${context.name}Provider.js'\n\t\t`;
+      contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n\t\t`;
     }
 
+    //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
+    const componentContext = allContext.reduce((acc, curr) => {
+      for (const component of curr.components) {
+        if (acc[component] === undefined) acc[component] = [];
+        acc[component].push(curr.name);
+      }
+      return acc;
+    }, {});
+
+    //return a string with all contexts provider in component's body
     const createRender = () => {
       let result = `${writeNestedElements(enrichedChildren)}`;
       if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
@@ -361,21 +373,31 @@ const generateUnformattedCode = (
       return result;
     };
 
-    // ${
-    //   !importReactRouter
-    //     ? `  return (
-    //       <>
-    //       \t${writeNestedElements(enrichedChildren)}
-    //       </>
-    //   );`
-    //     : `  return (
-    //       <Router>
-    //         \t${writeNestedElements(enrichedChildren)}
-    //       </Router>
-    //   );`
-    // }
+    //decide which imports statements to use for which components
+    const createContextImport = () => {
+      if (!(currComponent.name in componentContext)) return '';
+
+      let importStr = '';
+      componentContext[currComponent.name].forEach(context => {
+        importStr += `import { ${context} } from '../contexts/${context}.js'\n\t\t`;
+      });
+
+      return importStr;
+    };
+
+    //call use context hooks for components that are consuming contexts
+    const createUseContextHook = () => {
+      if (!(currComponent.name in componentContext)) return '';
+
+      let importStr = '';
+      componentContext[currComponent.name].forEach(context => {
+        importStr += `  const [${context}Val] = useContext(${context})\n\t\t`;
+      });
+
+      return importStr;
+    };
     return `
-    ${`import React, { useState, useEffect} from 'react';`}
+    ${`import React, { useState, useEffect, useContext} from 'react';`}
     ${`import ReactDOM from 'react-dom';`}
     ${currComponent.name === 'App' ? contextImports : ''}
     ${
@@ -383,26 +405,20 @@ const generateUnformattedCode = (
         ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
         : ``
     }
+    ${createContextImport()}
     ${importsMapped}
     ${`const ${currComponent.name} = (props) => {`}
+    ${createUseContextHook()}
     ${`  const [value, setValue] = useState("");${writeStateProps(
       currComponent.useStateCodes
     )}`}
+    
       return(\n${createRender()}\n\t\t\t)
     ${`}\n`}
     export default ${currComponent.name}
     `;
-
-    //lcreate function to create render string
-    // create a inital string with children components
-    //if router exist then wrap initial string with router <ROUTER>
-    //loop though context
-    //create template literal for current iteration begining text <Contextname.provider>
-    //inject inital string
-    //</ContextName>
-    //end template
-    //then save new intial string
   }
+  //
   // next.js component code
   else if (projectType === 'Next.js') {
     return `

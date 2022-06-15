@@ -338,6 +338,7 @@ app.listen(8080, () => {
   });
 };
 
+//Generate files for all existing contexts in the current application
 export const createContext = (path, appName) => {
   // const store = useStore();
   const { allContext } = store.getState().contextSlice;
@@ -347,18 +348,18 @@ export const createContext = (path, appName) => {
     for (const ele of context.values) {
       cached[ele.key] = ele.value;
     }
-    const filePath = `${path}/${appName}/src/contexts/${context.name}Provider.js`;
+    const filePath = `${path}/${appName}/src/contexts/${context.name}.js`;
     const data = `
     import {createContext, useState} from 'react'
-    const ${context.name} = createContext();
+    export const ${context.name} = createContext();
 
     const ${context.name}Provider = (props) => {
-      const [${context.name}State] = useState({
+      const [${context.name}State] = useState(
         ${JSON.stringify(cached)}
-      })
+        )
     }
 
-    reuturn (
+    return (
       <${context.name}.Provider value={${context.name}State}>
         {props.children}
       </${context.name}.Provider>

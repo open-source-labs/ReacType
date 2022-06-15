@@ -1,36 +1,32 @@
 import * as types from '../../constants/actionTypes';
 
 const initialState = {
+  //mock data for context slice commented out
   allContext: [
-    {
-      name: 'ContextExample1',
-      values: [
-        { key: 'theme', value: 'testValue1' },
-        { key: 'navbar', value: 'testValue2' }
-      ],
-      components: ['MainContainer', 'SubmitForm']
-    },
-    {
-      name: 'ContextExample2',
-      values: [
-        { key: 'header', value: 'testValue3' },
-        { key: 'footer  ', value: 'testValue33' }
-      ],
-      components: ['MainContainer', 'EditForm', 'TableContainer']
-    }
+    // {
+    //   name: 'FirstContext',
+    //   values: [
+    //     { key: 'theme', value: 'testValue1' },
+    //     { key: 'navbar', value: 'testValue2' }
+    //   ],
+    //   components: ['MainContainer', 'SubmitForm']
+    // },
+    // {
+    //   name: 'ContextExample2',
+    //   values: [
+    //     { key: 'header', value: 'testValue3' },
+    //     { key: 'footer  ', value: 'testValue33' }
+    //   ],
+    //   components: ['MainContainer', 'EditForm', 'TableContainer']
+    // }
   ]
-  // allContext: []
 };
 
 const contextReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_CONTEXT:
-      //MainContext + ainContext
-      let newName =
-        action.payload.name
-          .trim()
-          .charAt(0)
-          .toUpperCase() + action.payload.name.slice(1);
+      let newName = action.payload.name.trim();
+      newName = newName.charAt(0).toUpperCase() + newName.slice(1);
       const newContext = {
         name: newName,
         values: [],
