@@ -30,6 +30,9 @@ How to use
 - **Start a project (only after registration)**: Registered users can create a new project and select whether they want their project to be a Next.js, Gatsby.js, or classic React project. Also, registered users can save projects to return to them at a later time.
 - **Add Components**: Create components on the right panel. Components can be associated with a route, or they can be used within other components.
 - **Delete Components**: Delete components after focusing on them in the right panel. Be careful when deleting components: Upon deletion, all instances of the component will be removed within the application/project.
+- **Context Visualizer**: You can now visually see what component is consuming which context. As you click on the interactive tree, the component assigned to the context will be revealed.
+- **Context Code Preview**: Once contexts have been assigned to the desired components, click ‘Export’ to incorporate context into your existing codebase so you can save it as a file.
+- **Ready to go code**: Added boilerplate codes to components based on which contexts they are consuming.
 - **Add Custom Elements**: Create custom elements or add provided HTML elements into the application. Once the project is exported, the HTML tags generated in the code preview will function as expected. You can specify functionality for custom elements in the code preview. The tutorial on HTML Elements explains more on how to do this.
 - **Delete Custom HTML Elements**: Delete custom HTML elements by clicking on the ‘X’ button adjacent to the element. Be careful when deleting custom elements: All instances of the element will be deleted within the application/project.
 - **Create Instances on the Canvas**: Each component has its own canvas. Add an element to a component by dragging it onto the canvas. Div components are arbitrarily nestable and useful for complex layouts. Next.js and Gatsby.js projects have Link components to enable client-side navigation to other routes.
@@ -107,6 +110,8 @@ How to use
 
 [Anthony Torrero](https://www.linkedin.com/in/anthony-torrero-4b8798159/) [@Anthonytorrero](https://github.com/Anthonytorrero)
 
+[Bianca Picasso](linkedin.com/in/bianca-picasso) [@BiancaPicasso](https://github.com/BiancaPicasso)
+
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
 [Bryan Chau](https://www.linkedin.com/in/chaubryan1/) [@bchauu](https://github.com/bchauu)
@@ -139,6 +144,8 @@ How to use
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
+[Huy Pham](linkedin.com/in/huypham048) [@huypham048](https://github.com/huypham048)
+
 [Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
 
 [Jesse Zuniga](https://linkedin.com/in/jesse-zuniga) [@jzuniga206](https://github.com/jzuniga206)
@@ -148,6 +155,8 @@ How to use
 [Julie Wu](https://www.linkedin.com/in/jwuarchitect/) [@yutingwu4](https://github.com/yutingwu4)
 
 [Katrina Henderson](https://www.linkedin.com/in/katrinahenderson/) [@kchender](https://github.com/kchender)
+
+[Ken Bains](linkedin.com/in/ken-bains) [@ken-Bains](https://github.com/ken-Bains)
 
 [Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
@@ -170,6 +179,8 @@ How to use
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
+
+[Salvatore Saluga](linkedin.com/in/salvatore-saluga) [@SalSaluga](https://github.com/SalSaluga)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 

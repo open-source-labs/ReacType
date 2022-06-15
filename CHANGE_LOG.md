@@ -3,6 +3,17 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 12.0.0 Changes**
+
+-Context Visualizer: You can now visually see what component is consuming which context. As you click on the interactive tree, the component assigned to the context will be revealed.
+-React 18: Updated to React 18
+-Export Feature: Created an exportable context file, integrated with original codebase.
+Ready to go code: Added boilerplate codes to components based on which contexts they are consuming.
+
+**A note to future contributors**
+
+Attempted to implement Facebook and Google OAuth via passport but as of Electron’s current version, neither of them not compatible with electron.
+
 **Version 11.0.0 Changes:**
 
 - Added Next.js functionality
