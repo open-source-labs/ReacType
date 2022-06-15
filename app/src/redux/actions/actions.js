@@ -24,3 +24,7 @@ export const deleteContext = contextInput => ({
   type: types.DELETE_CONTEXT,
   payload: contextInput
 });
+
+export const getAllContext = () => ({
+  type: types.GET_ALL_CONTEXT
+});

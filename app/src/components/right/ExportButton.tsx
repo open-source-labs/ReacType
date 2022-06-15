@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, useCallback, useEffect } from 'react';
 import StateContext from '../../context/context';
 import List from '@material-ui/core/List';
@@ -11,7 +10,7 @@ import createModal from './createModal';
 import { styleContext } from '../../containers/AppContainer';
 export default function ExportButton() {
   const [modal, setModal] = useState(null);
-  const [state,] = useContext(StateContext);
+  const [state] = useContext(StateContext);
 
   const genOptions: string[] = [
     'Export components',
@@ -21,7 +20,6 @@ export default function ExportButton() {
 
   // Closes out the open modal
   const closeModal = () => setModal('');
-
 
   const showGenerateAppModal = () => {
     const children = (
@@ -92,29 +90,31 @@ export default function ExportButton() {
     );
   };
 
-  const exportKeyBind = useCallback((e) => {
+  const exportKeyBind = useCallback(e => {
     //Export Project
-    (e.key === 'e' && e.metaKey || e.key === 'e' && e.ctrlKey ) ? showGenerateAppModal() : '';
+    (e.key === 'e' && e.metaKey) || (e.key === 'e' && e.ctrlKey)
+      ? showGenerateAppModal()
+      : '';
   }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', exportKeyBind);
     return () => {
-      document.removeEventListener('keydown', exportKeyBind)
-    }
+      document.removeEventListener('keydown', exportKeyBind);
+    };
   }, []);
   return (
     <div>
-       <Button
-          variant="contained"
-          color="secondary"
-          onClick={showGenerateAppModal}
-          id="navbarButton"
-          endIcon={<GetAppIcon/>}
-        >
-          EXPORT
-        </Button>
-        {modal}
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={showGenerateAppModal}
+        id="navbarButton"
+        endIcon={<GetAppIcon />}
+      >
+        EXPORT
+      </Button>
+      {modal}
     </div>
   );
-};
+}

@@ -1,9 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import StateContext from '../../../../context/context';
 
 const filter = createFilterOptions();
 
@@ -17,10 +18,17 @@ const AddContextForm = ({
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
+  const [state, dispatch] = useContext(StateContext);
 
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
     handleClickSelectContext();
+
+    //need to trigger the generate code functionality to update the code preview tab. Sending dummy data to trigger with a DELELTE ELEMENT dispatch method
+    dispatch({
+      type: 'DELETE ELEMENT',
+      payload: 'FAKE_ID'
+    });
   };
 
   const onChange = (event, newValue) => {
