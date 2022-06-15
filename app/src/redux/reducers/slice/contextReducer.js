@@ -3,29 +3,36 @@ import * as types from '../../constants/actionTypes';
 const initialState = {
   allContext: [
     {
-      name: 'MainContext1',
+      name: 'ContextExample1',
       values: [
-        { key: 'testKey1', value: 'testValue1' },
-        { key: 'testKey2', value: 'testValue2' }
+        { key: 'theme', value: 'testValue1' },
+        { key: 'navbar', value: 'testValue2' }
       ],
       components: ['MainContainer', 'SubmitForm']
     },
     {
-      name: 'MainContext3',
+      name: 'ContextExample2',
       values: [
-        { key: 'testKey3', value: 'testValue3' },
-        { key: 'testKey33', value: 'testValue33' }
+        { key: 'header', value: 'testValue3' },
+        { key: 'footer  ', value: 'testValue33' }
       ],
       components: ['MainContainer', 'EditForm', 'TableContainer']
     }
   ]
+  // allContext: []
 };
 
 const contextReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_CONTEXT:
+      //MainContext + ainContext
+      let newName =
+        action.payload.name
+          .trim()
+          .charAt(0)
+          .toUpperCase() + action.payload.name.slice(1);
       const newContext = {
-        name: action.payload.name.trim(),
+        name: newName,
         values: [],
         components: []
       };
@@ -51,12 +58,15 @@ const contextReducer = (state = initialState, action) => {
         ...state,
         allContext: newAllContext
       };
+
     case types.DELETE_CONTEXT:
-      const remains = state.allContext.filter((el) => el.name !== action.payload.name)
+      const tempState = [...state.allContext];
+      const remains = tempState.filter(el => el.name !== action.payload.name);
+
       return {
         ...state,
-        allContext : remains
-      }
+        allContext: remains
+      };
 
     case types.ADD_COMPONENT_TO_CONTEXT:
       const newTempState = [...state.allContext];
@@ -70,6 +80,11 @@ const contextReducer = (state = initialState, action) => {
       return {
         ...state,
         allContext: newTempState
+      };
+
+    case types.GET_ALL_CONTEXT:
+      return {
+        ...state
       };
     default: {
       return state;

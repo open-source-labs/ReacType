@@ -1,8 +1,10 @@
 // Create all files necessary to run a classic react application
 import createFiles from './createFiles.util';
-import { Component} from '../interfaces/Interfaces';
-import createTestSuiteClassic from './createTestSuiteClassic.util'
-const camelToKebab= (camel:string) => {
+import { Component } from '../interfaces/Interfaces';
+import createTestSuiteClassic from './createTestSuiteClassic.util';
+import store from '../redux/store.js';
+
+const camelToKebab = (camel: string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 };
 const compToCSS = (component: Component) => {
@@ -15,16 +17,17 @@ const compToCSS = (component: Component) => {
     let cssStyle = `${camelToKebab(property)}: ${styleObj[property]};
     `;
     cssClass += cssStyle;
-  })
+  });
   cssClass += `}
   `;
   return cssClass;
-}
+};
 function createIndexHtml(path, appName) {
   let dir = path;
   let dirSrc;
   let dirServer;
   let dirComponent;
+  let dirContext;
   if (!dir.match(/`${appName}`|\*$/)) {
     dir = `${dir}/${appName}`;
     if (!window.api.existsSync(dir)) {
@@ -35,6 +38,9 @@ function createIndexHtml(path, appName) {
       window.api.mkdirSync(dirServer);
       dirComponent = `${dirSrc}/components`;
       window.api.mkdirSync(dirComponent);
+      //create directory for contexts
+      dirContext = `${dirSrc}/contexts`;
+      window.api.mkdirSync(dirContext);
     }
   }
   const filePath: string = `${dir}/index.html`;
@@ -90,7 +96,7 @@ export const createDefaultCSS = (path, appName, components) => {
   `;
   components.forEach(comp => {
     data += compToCSS(comp);
-  })
+  });
   window.api.writeFile(filePath, data, err => {
     if (err) {
       console.log('default.css error:', err.message);
@@ -101,7 +107,7 @@ export const createDefaultCSS = (path, appName, components) => {
 };
 export const createPackage = (path, appName, test) => {
   const filePath = `${path}/${appName}/package.json`;
-   let tsjest = `,
+  let tsjest = `,
     "@types/enzyme": "^3.10.9",
     "@types/jest": "^27.0.1",
     "babel-jest": "^27.2.0",
@@ -121,8 +127,11 @@ export const createPackage = (path, appName, test) => {
     "start": "node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server"${
-      test ? `,
-    "test": "jest"`: '' }
+      test
+        ? `,
+    "test": "jest"`
+        : ''
+    }
   },
   "nodemonConfig": {
     "ignore": [
@@ -163,8 +172,7 @@ export const createPackage = (path, appName, test) => {
     "typescript": "^3.8.3",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.2.1"${
-      test ? tsjest : '' }
+    "webpack-dev-server": "^3.2.1"${test ? tsjest : ''}
   }
 }
   `;
@@ -329,11 +337,48 @@ app.listen(8080, () => {
     }
   });
 };
+
+export const createContext = (path, appName) => {
+  // const store = useStore();
+  const { allContext } = store.getState().contextSlice;
+
+  for (const context of allContext) {
+    const cached = {};
+    for (const ele of context.values) {
+      cached[ele.key] = ele.value;
+    }
+    const filePath = `${path}/${appName}/src/contexts/${context.name}Provider.js`;
+    const data = `
+    import {createContext, useState} from 'react'
+    const ${context.name} = createContext();
+
+    const ${context.name}Provider = (props) => {
+      const [${context.name}State] = useState({
+        ${JSON.stringify(cached)}
+      })
+    }
+
+    reuturn (
+      <${context.name}.Provider value={${context.name}State}>
+        {props.children}
+      </${context.name}.Provider>
+    );
+    export default ${context.name}Provider   
+  `;
+    window.api.writeFileSync(filePath, data, err => {
+      if (err) {
+        console.log('server file error:', err.message);
+      } else {
+        console.log('server file written successfully');
+      }
+    });
+  }
+};
 async function createApplicationUtil({
   path,
   appName,
   components,
-  testchecked,
+  testchecked
 }: {
   path: string;
   appName: string;
@@ -349,8 +394,9 @@ async function createApplicationUtil({
   await createTsConfig(path, appName);
   await createTsLint(path, appName);
   await createServer(path, appName);
+  await createContext(path, appName);
   if (testchecked) {
-    await createTestSuiteClassic({path, appName, components, testchecked});
+    await createTestSuiteClassic({ path, appName, components, testchecked });
   }
   await createFiles(components, path, appName, true);
 }

@@ -26,7 +26,7 @@ const AssignContainer = () => {
   }, []);
 
   const renderTable = targetContext => {
-    if (!targetContext.values) {
+    if (targetContext === null || !targetContext.values) {
       setTableState(defaultTableData);
     } else {
       setTableState(targetContext.values);
@@ -37,12 +37,17 @@ const AssignContainer = () => {
     //target Component is main
 
     const listOfContexts = [];
-    if (!Array.isArray(state)) {
+    if (
+      !Array.isArray(state) &&
+      targetComponent !== null &&
+      targetComponent.name
+    ) {
       state.allContext.forEach(context => {
         if (context.components.includes(targetComponent.name)) {
           listOfContexts.push(context.name);
         }
       });
+      console.log('setting component table with ', listOfContexts);
       setComponentTable(listOfContexts);
     }
   };
@@ -81,7 +86,7 @@ const AssignContainer = () => {
             </Grid>
 
             <Grid item>
-              <DataTable target={tableState} />
+              <DataTable target={tableState} contextInput={contextInput} />
             </Grid>
           </Grid>
         </Grid>

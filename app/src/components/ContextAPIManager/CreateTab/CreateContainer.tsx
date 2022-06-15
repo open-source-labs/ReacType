@@ -27,11 +27,10 @@ const CreateContainer = () => {
     for (let i = 0; i < state.allContext.length; i += 1) {
       if (state.allContext[i].name === contextInput.name) {
         return;
-      } 
+      }
     }
     dispatch(actions.addContextActionCreator(contextInput));
     setState(store.getState().contextSlice);
-    
   };
 
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
@@ -48,7 +47,12 @@ const CreateContainer = () => {
   };
 
   const renderTable = targetContext => {
-    if (!targetContext.values) {
+    if (
+      targetContext === null ||
+      targetContext === undefined ||
+      !targetContext.values
+    ) {
+      // if (targetContext === null || targetContext === undefined) {
       setTableState(defaultTableData);
     } else {
       setTableState(targetContext.values);

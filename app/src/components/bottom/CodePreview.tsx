@@ -19,27 +19,24 @@ import store from '../../redux/store';
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
-  }> = ({ theme, setTheme }) => {
-
-
+}> = ({ theme, setTheme }) => {
   const ref = useRef<any>();
-  
+
   /**
- * Starts the Web Assembly service.
- */
+   * Starts the Web Assembly service.
+   */
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
-    })
-  }
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
+    });
+  };
 
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
-  const {height } =
-    dimensions || 0;
+  const { height } = dimensions || 0;
 
-  const [state,] = useContext(StateContext);
+  const [state] = useContext(StateContext);
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -53,49 +50,51 @@ const CodePreview: React.FC<{
 
   useEffect(() => {
     setDivHeight(height);
-  }, [height])
+  }, [height]);
 
   useEffect(() => {
-
- setInput(currentComponent.code);
-  store.dispatch({type: "CODE_PREVIEW_INPUT", payload: currentComponent.code});
-  }, [state.components])
+    setInput(currentComponent.code);
+    store.dispatch({
+      type: 'CODE_PREVIEW_INPUT',
+      payload: currentComponent.code
+    });
+  }, [state.components]);
 
   /**
- * Handler thats listens to changes in code editor
- * @param {string} data - Code entered by the user
- */
-  const handleChange = async (data) => {
+   * Handler thats listens to changes in code editor
+   * @param {string} data - Code entered by the user
+   */
+  const handleChange = async data => {
     setInput(data);
-    store.dispatch({type: "CODE_PREVIEW_INPUT", payload: data});
-    if(!ref.current) {
+    store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
+    if (!ref.current) {
       return;
     }
     let result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
       write: false,
-      incremental:true,
+      incremental: true,
       minify: true,
-      plugins: [
-        unpkgPathPlugin(),
-        fetchPlugin(data)
-      ],
+      plugins: [unpkgPathPlugin(), fetchPlugin(data)],
       define: {
         'process.env.NODE_ENV': '"production"',
         global: 'window'
       }
-    })
-     store.dispatch({type: "CODE_PREVIEW_SAVE", payload: result.outputFiles[0].text});
-  }
+    });
+    store.dispatch({
+      type: 'CODE_PREVIEW_SAVE',
+      payload: result.outputFiles[0].text
+    });
+  };
 
   return (
     <div
-    ref={wrapper}
+      ref={wrapper}
       style={{
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}
     >
       <AceEditor
@@ -110,13 +109,8 @@ const CodePreview: React.FC<{
         fontSize={18}
         tabSize={2}
       />
-
     </div>
   );
 };
 
 export default CodePreview;
-
-
-
-

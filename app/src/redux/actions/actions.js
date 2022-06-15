@@ -4,6 +4,7 @@ export const darkModeToggle = () => ({
   type: types.DARK_MODE_TOGGLE
 });
 
+//actions for context slice
 export const addContextActionCreator = contextName => ({
   type: types.ADD_CONTEXT,
   payload: contextName
@@ -19,7 +20,11 @@ export const addComponentToContext = newEntry => ({
   payload: newEntry
 });
 
-export const deleteContext = (contextInput) => ({
+export const deleteContext = contextInput => ({
   type: types.DELETE_CONTEXT,
   payload: contextInput
-})
+});
+
+export const getAllContext = () => ({
+  type: types.GET_ALL_CONTEXT
+});

@@ -31,13 +31,7 @@ const ContextManager = (props): JSX.Element => {
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-                centered={true}
-                // indicatorColor={'warning'}
-                // textColor={'secondary'}
-              >
+              <TabList onChange={handleChange} centered={true}>
                 <Tab label="Create/Edit" value="1" />
                 <Tab label="Assign" value="2" />
                 <Tab label="Display" value="3" />
