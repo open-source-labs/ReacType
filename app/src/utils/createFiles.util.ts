@@ -26,7 +26,10 @@ const createFiles = (
     const newPromise = new Promise((resolve, reject) => {
       window.api.writeFileSync(
         `${dir}/${component.name}.tsx`,
-        window.api.formatCode(component.code),
+
+        //this formatCodefunction has asynchronous issue
+        // window.api.formatCode(component.code),
+        component.code,
         (err: any) => {
           if (err) return reject(err.message);
           return resolve(path);

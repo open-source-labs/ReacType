@@ -44,8 +44,7 @@ function createIndexHtml(path, appName) {
     }
   }
   const filePath: string = `${dir}/index.html`;
-  const data: string = `
-<!DOCTYPE html>
+  const data: string = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -67,8 +66,7 @@ function createIndexHtml(path, appName) {
 }
 export const createIndexTsx = (path, appName) => {
   const filePath = `${path}/${appName}/src/index.tsx`;
-  const data = `
-import React from 'react';
+  const data = `import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import './default.css';
@@ -84,16 +82,15 @@ ReactDOM.render(<App />, document.getElementById('root'));
 };
 export const createDefaultCSS = (path, appName, components) => {
   const filePath = `${path}/${appName}/src/default.css`;
-  let data = `
-  #root div {
-    box-sizing: border-box;
-    width: 100%;
-    border: 1px solid rgba(0,0,0,0.25);
-    padding: 12px;
-    text-align: center;
-    font-family: Helvetica, Arial;
-  }
-  `;
+  let data = `#root div {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.25);
+  padding: 12px;
+  text-align: center;
+  font-family: Helvetica, Arial;
+}
+`;
   components.forEach(comp => {
     data += compToCSS(comp);
   });
@@ -117,8 +114,7 @@ export const createPackage = (path, appName, test) => {
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "ts-jest": "^27.0.5",
     "enzyme-to-json": "^3.6.2"`;
-  const data = `
-{
+  const data = `{
   "name": "reactype",
   "version": "1.0.0",
   "description": "",
@@ -186,8 +182,7 @@ export const createPackage = (path, appName, test) => {
 };
 export const createWebpack = (path, appName) => {
   const filePath = `${path}/${appName}/webpack.config.js`;
-  const data = `
-var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
+  const data = `var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
 var path = require('path');
 module.exports = {
   entry: './src/index.tsx',
@@ -241,8 +236,7 @@ module.exports = {
 };
 export const createBabel = (path, appName) => {
   const filePath = `${path}/${appName}/.babelrc`;
-  const data = `
-{
+  const data = `{
   "presets": ["@babel/env", "@babel/react", "@babel/typescript"]
 }
 `;
@@ -256,21 +250,20 @@ export const createBabel = (path, appName) => {
 };
 export const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
-  const data = `
-  {
-    "compilerOptions": {
-      "outDir": "./dist/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "target": "es6",
-      "jsx": "react",
-      "lib": ["dom", "es6"],
-      "moduleResolution": "node",
-      "esModuleInterop": true
-    },
-    "include": ["./src/**/*"]
-  }
+  const data = `{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react",
+    "lib": ["dom", "es6"],
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": ["./src/**/*"]
+}
 `;
   window.api.writeFile(filePath, data, err => {
     if (err) {
@@ -282,8 +275,7 @@ export const createTsConfig = (path, appName) => {
 };
 export const createTsLint = (path, appName) => {
   const filePath = `${path}/${appName}/tslint.json`;
-  const data = `
-{
+  const data = `{
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "tslint.autoFixOnSave": true,
   "linterOptions": {
@@ -312,8 +304,7 @@ export const createTsLint = (path, appName) => {
 };
 export const createServer = (path, appName) => {
   const filePath = `${path}/${appName}/server/server.js`;
-  const data = `
-const express = require('express');
+  const data = `const express = require('express');
 const path = require('path');
 const app = express();
 app.get('/testDev', (req, res) => {
@@ -349,23 +340,22 @@ export const createContext = (path, appName) => {
       cached[ele.key] = ele.value;
     }
     const filePath = `${path}/${appName}/src/contexts/${context.name}.js`;
-    const data = `
-    import {createContext, useState} from 'react'
-    export const ${context.name} = createContext();
+    const data = `import {createContext, useState} from 'react'
+export const ${context.name} = createContext();
 
-    const ${context.name}Provider = (props) => {
-      const [${context.name}State] = useState(
-        ${JSON.stringify(cached)}
-        )
-    }
+const ${context.name}Provider = (props) => {
+  const [${context.name}State] = useState(
+    ${JSON.stringify(cached)}
+    )
+}
 
-    return (
-      <${context.name}.Provider value={${context.name}State}>
-        {props.children}
-      </${context.name}.Provider>
-    );
-    export default ${context.name}Provider   
-  `;
+return (
+  <${context.name}.Provider value={${context.name}State}>
+    {props.children}
+  </${context.name}.Provider>
+);
+export default ${context.name}Provider   
+`;
     window.api.writeFileSync(filePath, data, err => {
       if (err) {
         console.log('server file error:', err.message);
