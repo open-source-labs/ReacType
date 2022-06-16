@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 
 const initialState = {
-  //mock data for context slice commented out
+  //dummy data for context slice commented out
   allContext: [
     // {
     //   name: 'FirstContext',

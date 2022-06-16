@@ -17,7 +17,7 @@ const DisplayContainer = () => {
     const formattedData = contexts
       .map(el => {
         return el.components.map(component => {
-          return [`App ${el.name} ${component}`];
+          return [`App - ${el.name} - ${component}`];
         });
       })
       .flat();
