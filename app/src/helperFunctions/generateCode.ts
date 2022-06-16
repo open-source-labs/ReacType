@@ -412,7 +412,11 @@ ${`  const [value, setValue] = useState("");${writeStateProps(
   currComponent.useStateCodes
 )}`}
 
-  return(\n${createRender()}\n\t\t\t)
+  return(
+    <>
+${createRender()}
+    </>
+  );
 ${`}\n`}
 export default ${currComponent.name}
 `;
