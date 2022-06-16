@@ -49,16 +49,16 @@ export const App = (): JSX.Element => {
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
-            );
-          }
-        });
-      }
-      }, []);
+          );
+        }
+      });
+    }
+  }, []);
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
     if (state.config === undefined) {
-      state.config = {saveFlag:true, saveTimer:false};
-    };
+      state.config = { saveFlag: true, saveTimer: false };
+    }
     // New project save configuration to optimize server load and minimize Ajax requests
     if (state.config.saveFlag) {
       state.config.saveFlag = false;
@@ -82,7 +82,7 @@ export const App = (): JSX.Element => {
         state.config.saveFlag = true;
       }, 15000);
     }
-  }, [state])
+  }, [state]);
   return (
     <div className="app">
       <DndProvider backend={HTML5Backend}>

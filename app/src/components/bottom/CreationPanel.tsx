@@ -10,6 +10,7 @@ const CreationPanel = (props): JSX.Element => {
   const {style} = useContext(styleContext);
   return (
     <div className="creation-panel" style={style}>
+
       <ComponentPanel isThemeLight={props.isThemeLight}/>
       <HTMLPanel isThemeLight={props.isThemeLight}/>
       <StatePropsPanel isThemeLight={props.isThemeLight}/>

@@ -1,4 +1,5 @@
 import { element } from 'prop-types';
+import store from '../redux/store.js';
 import {
   Component,
   State,
@@ -85,12 +86,13 @@ const generateUnformattedCode = (
         }
 
         // when we see a Switch or LinkTo, import React Router
-        if ((referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') && projectType === 'Classic React')
+        if (
+          (referencedHTML.tag === 'Switch' || referencedHTML.tag === 'Route') &&
+          projectType === 'Classic React'
+        )
           importReactRouter = true;
-        else if(referencedHTML.tag === 'Link')
-          links = true;
-        if(referencedHTML.tag === 'Image')
-          images = true;
+        else if (referencedHTML.tag === 'Link') links = true;
+        if (referencedHTML.tag === 'Image') images = true;
         return child;
       } else if (child.type === 'Route Link') {
         links = true;
@@ -118,25 +120,28 @@ const generateUnformattedCode = (
   };
   // function to dynamically add classes, ids, and styles to an element if it exists.
   const elementTagDetails = (childElement: object) => {
-    let customizationDetails = "";
-    if (childElement.childId && childElement.tag !== 'Route') customizationDetails += (' ' + `id="${+childElement.childId}"`);
+    let customizationDetails = '';
+    if (childElement.childId && childElement.tag !== 'Route')
+      customizationDetails += ' ' + `id="${+childElement.childId}"`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
-      customizationDetails += (' ' + `className="${childElement.attributes.cssClasses}"`);
+      customizationDetails +=
+        ' ' + `className="${childElement.attributes.cssClasses}"`;
     }
-    if (childElement.style && Object.keys(childElement.style).length > 0) customizationDetails += (' ' + formatStyles(childElement));
+    if (childElement.style && Object.keys(childElement.style).length > 0)
+      customizationDetails += ' ' + formatStyles(childElement);
     return customizationDetails;
   };
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
   const tabSpacer = (level: number) => {
-    let tabs = '  '
+    let tabs = '  ';
     for (let i = 0; i < level; i++) tabs += '  ';
     return tabs;
-  }
+  };
   // function to dynamically generate the appropriate levels for the code preview
   const levelSpacer = (level: number, spaces: number) => {
     if (level === 2) return `\n${tabSpacer(spaces)}`;
-    else return ''
-  }
+    else return '';
+  };
   // function to dynamically generate a complete html (& also other library type) elements
   const elementGenerator = (childElement: object, level: number = 2) => {
     let innerText = '';
@@ -155,7 +160,8 @@ const generateUnformattedCode = (
         activeLink = '"' + childElement.attributes.compLink + '"';
       }
     }
-    const nestable = childElement.tag === 'div' ||
+    const nestable =
+      childElement.tag === 'div' ||
       childElement.tag === 'form' ||
       childElement.tag === 'ol' ||
       childElement.tag === 'ul' ||
@@ -165,34 +171,72 @@ const generateUnformattedCode = (
       childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
+        2,
+        3 + level
+      )}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${
+        childElement.tag
+      }>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'input') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}></${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
+        childElement
+      )}></${childElement.tag}>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'Link' && projectType === 'Classic React') {
-      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}${innerText}
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<Link to=${activeLink}${elementTagDetails(
+        childElement
+      )}>
+        ${tabSpacer(level)}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}${innerText}
+        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'Link' && projectType === 'Next.js') {
-      return `${levelSpacer(level, 5)}<Link href=${activeLink}${elementTagDetails(childElement)}>
-        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(childElement.children, level + 1)}</a>
-        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(
+        level,
+        5
+      )}<Link href=${activeLink}${elementTagDetails(childElement)}>
+        ${tabSpacer(level)}<a>${innerText}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}</a>
+        ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'Image') {
-      return `${levelSpacer(level, 5)}<${childElement.tag} src=${activeLink} ${elementTagDetails(childElement)}/>`;
+      return `${levelSpacer(level, 5)}<${
+        childElement.tag
+      } src=${activeLink} ${elementTagDetails(childElement)}/>`;
     } else if (nestable) {
-      if((childElement.tag === 'Route' || childElement.tag === 'Switch') && projectType === 'Next.js') {
+      if (
+        (childElement.tag === 'Route' || childElement.tag === 'Switch') &&
+        projectType === 'Next.js'
+      ) {
         return `${writeNestedElements(childElement.children, level)}`;
-      } 
-      const routePath = (childElement.tag === 'Route') ? (' ' + 'exact path=' + activeLink) : '';
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}${routePath}>
+      }
+      const routePath =
+        childElement.tag === 'Route' ? ' ' + 'exact path=' + activeLink : '';
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
+        childElement
+      )}${routePath}>
         ${tabSpacer(level)}${innerText}
-        ${tabSpacer(level)}${writeNestedElements(childElement.children, level + 1)}
-        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+        ${tabSpacer(level)}${writeNestedElements(
+        childElement.children,
+        level + 1
+      )}
+        ${tabSpacer(level - 1)}</${childElement.tag}>${levelSpacer(
+        2,
+        3 + level
+      )}`;
     } else if (childElement.tag !== 'separator') {
-      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(childElement)}>${innerText}</${childElement.tag}>${levelSpacer(2, (3 + level))}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
+        childElement
+      )}>${innerText}</${childElement.tag}>${levelSpacer(2, 3 + level)}`;
     }
-  }
+  };
   // write all code that will be under the "return" of the component
   const writeNestedElements = (enrichedChildren: any, level: number = 2) => {
     return `${enrichedChildren
@@ -206,50 +250,53 @@ const generateUnformattedCode = (
         else if (child.type === 'Route Link') {
           if (projectType === 'Next.js') {
             // if route link points to index, to go endpoint / rather than /index
-            if (child.name === 'index') return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
-            else return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
+            if (child.name === 'index')
+              return `<div><Link href="/"><a>${child.name}</a></Link></div>`;
+            else
+              return `<div><Link href="/${child.name}"><a>${child.name}</a></Link></div>`;
           } else if (projectType === 'Gatsby.js') {
-            if (child.name === 'index') return `<div><Link to="/">${child.name}</Link></div>`;
-            else return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
-          } else return `<div><a>${child.name}</a></div>`
+            if (child.name === 'index')
+              return `<div><Link to="/">${child.name}</Link></div>`;
+            else
+              return `<div><Link to="/${child.name}">${child.name}</Link></div>`;
+          } else return `<div><a>${child.name}</a></div>`;
         }
       })
       .filter(element => !!element)
-      .join('')
-      }`;
+      .join('')}`;
   };
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
     let stateToRender = '';
     for (const element of stateArray) {
-      stateToRender += levelSpacer(2, 2) + element + ';'
+      stateToRender += levelSpacer(2, 2) + element + ';';
     }
-    return stateToRender
-  }
+    return stateToRender;
+  };
   const enrichedChildren: any = getEnrichedChildren(currComponent);
   // import statements differ between root (pages) and regular components (components)
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
-        .map((comp: string) => {
-          return isRoot
-            ? `import ${comp} from '../components/${comp}'`
-            : `import ${comp} from './${comp}'`;
-        })
-        .join('\n')
+          .map((comp: string) => {
+            return isRoot
+              ? `import ${comp} from '../components/${comp}'`
+              : `import ${comp} from './${comp}'`;
+          })
+          .join('\n')
       : imports
-        .map((comp: string) => {
-          return `import ${comp} from './${comp}'`;
-        })
-        .join('\n');
-  const createState = (stateProps) => {
+          .map((comp: string) => {
+            return `import ${comp} from './${comp}'`;
+          })
+          .join('\n');
+  const createState = stateProps => {
     let state = '{';
-    stateProps.forEach((ele) => {
+    stateProps.forEach(ele => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
     });
     state = state.substring(0, state.length - 2) + '}';
     return state;
-  }
+  };
   // Generate import
   let importContext = '';
   if (currComponent.useContext) {
@@ -260,9 +307,15 @@ const generateUnformattedCode = (
   }
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
-      const statesFromProvider = currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+      const statesFromProvider =
+        currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
       const providerComponent = components[parseInt(providerId) - 1];
-      providers += 'const ' + providerComponent.name.toLowerCase() + 'Context = useContext(' + providerComponent.name + 'Context);\n \t\t';
+      providers +=
+        'const ' +
+        providerComponent.name.toLowerCase() +
+        'Context = useContext(' +
+        providerComponent.name +
+        'Context);\n \t\t';
       for (let i = 0; i < providerComponent.stateProps.length; i++) {
         if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
           context +=
@@ -280,28 +333,92 @@ const generateUnformattedCode = (
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
+    //string to store all imports string for context
+    let contextImports = '';
+
+    const { allContext } = store.getState().contextSlice;
+
+    for (const context of allContext) {
+      contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n\t\t`;
+    }
+
+    //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
+    const componentContext = allContext.reduce((acc, curr) => {
+      for (const component of curr.components) {
+        if (acc[component] === undefined) acc[component] = [];
+        acc[component].push(curr.name);
+      }
+      return acc;
+    }, {});
+
+    //return a string with all contexts provider in component's body
+    const createRender = () => {
+      let result = `${writeNestedElements(enrichedChildren)}`;
+      if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
+      if (allContext.length < 1) return result;
+
+      if (currComponent.name === 'App') {
+        allContext.reverse().forEach((el, i) => {
+          let tabs = `\t\t\t`;
+          if (i === allContext.length - 1) {
+            tabs = `\t\t\t\t`;
+          }
+          result = `${tabs.repeat(allContext.length - i)}<${
+            el.name
+          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
+            el.name
+          }Provider>`;
+        });
+      }
+      return result;
+    };
+
+    //decide which imports statements to use for which components
+    const createContextImport = () => {
+      if (!(currComponent.name in componentContext)) return '';
+
+      let importStr = '';
+      componentContext[currComponent.name].forEach(context => {
+        importStr += `import { ${context} } from '../contexts/${context}.js'\n\t\t`;
+      });
+
+      return importStr;
+    };
+
+    //call use context hooks for components that are consuming contexts
+    const createUseContextHook = () => {
+      if (!(currComponent.name in componentContext)) return '';
+
+      let importStr = '';
+      componentContext[currComponent.name].forEach(context => {
+        importStr += `  const [${context}Val] = useContext(${context})\n\t\t`;
+      });
+
+      return importStr;
+    };
     return `
-    ${`import React, { useState, useEffect} from 'react';`}
+    ${`import React, { useState, useEffect, useContext} from 'react';`}
     ${`import ReactDOM from 'react-dom';`}
-    ${importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``}
+    ${currComponent.name === 'App' ? contextImports : ''}
+    ${
+      importReactRouter
+        ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
+        : ``
+    }
+    ${createContextImport()}
     ${importsMapped}
     ${`const ${currComponent.name} = (props) => {`}
-    ${`  const [value, setValue] = useState("");${writeStateProps(currComponent.useStateCodes)}`}
-    ${!importReactRouter
-        ? `  return (
-          <>
-          \t${writeNestedElements(enrichedChildren)}
-          </>
-      );`
-        : `  return (
-          <Router>
-            \t${writeNestedElements(enrichedChildren)}
-          </Router>
-      );`}
+    ${createUseContextHook()}
+    ${`  const [value, setValue] = useState("");${writeStateProps(
+      currComponent.useStateCodes
+    )}`}
+    
+      return(\n${createRender()}\n\t\t\t)
     ${`}\n`}
-    ReactDOM.render(<${currComponent.name} />, document.querySelector('#app'));
+    export default ${currComponent.name}
     `;
   }
+  //
   // next.js component code
   else if (projectType === 'Next.js') {
     return `
@@ -311,22 +428,25 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
     
-    const ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)} = (props): JSX.Element => {
+    const ${currComponent.name[0].toUpperCase() +
+      currComponent.name.slice(1)} = (props): JSX.Element => {
       const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
           <>
-      ${isRoot
-        ? `
+      ${
+        isRoot
+          ? `
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-        : ``
+          : ``
       }
       ${writeNestedElements(enrichedChildren)}
           </>
       );
     }
-    export default ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)};
+    export default ${currComponent.name[0].toUpperCase() +
+      currComponent.name.slice(1)};
     `;
   } else {
     // gatsby component code
@@ -339,12 +459,13 @@ const generateUnformattedCode = (
       const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
         <>
-        ${isRoot
-        ? `<head>
+        ${
+          isRoot
+            ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-        : ``
-      }
+            : ``
+        }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
