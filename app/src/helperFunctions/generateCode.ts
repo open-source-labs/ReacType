@@ -297,7 +297,8 @@ const generateUnformattedCode = (
     state = state.substring(0, state.length - 2) + '}';
     return state;
   };
-  // Generate import
+
+  // // Generate import --- FROM PREVIOUS ITERATION BEFORE 12.0, NOT WORKING -> CONSIDER DELETING
   let importContext = '';
   if (currComponent.useContext) {
     for (const providerId of Object.keys(currComponent.useContext)) {
@@ -339,7 +340,7 @@ const generateUnformattedCode = (
     const { allContext } = store.getState().contextSlice;
 
     for (const context of allContext) {
-      contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n\t\t`;
+      contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
 
     //build an object with keys representing all components, their values are arrays storing all contexts that those components are consuming
@@ -359,9 +360,9 @@ const generateUnformattedCode = (
 
       if (currComponent.name === 'App') {
         allContext.reverse().forEach((el, i) => {
-          let tabs = `\t\t\t`;
+          let tabs = `\t\t`;
           if (i === allContext.length - 1) {
-            tabs = `\t\t\t\t`;
+            tabs = `\t\t\t`;
           }
           result = `${tabs.repeat(allContext.length - i)}<${
             el.name
@@ -379,7 +380,7 @@ const generateUnformattedCode = (
 
       let importStr = '';
       componentContext[currComponent.name].forEach(context => {
-        importStr += `import { ${context} } from '../contexts/${context}.js'\n\t\t`;
+        importStr += `import { ${context} } from '../contexts/${context}.js'\n`;
       });
 
       return importStr;
@@ -391,32 +392,30 @@ const generateUnformattedCode = (
 
       let importStr = '';
       componentContext[currComponent.name].forEach(context => {
-        importStr += `  const [${context}Val] = useContext(${context})\n\t\t`;
+        importStr += `  const [${context}Val] = useContext(${context})\n`;
       });
 
       return importStr;
     };
-    return `
-    ${`import React, { useState, useEffect, useContext} from 'react';`}
-    ${`import ReactDOM from 'react-dom';`}
-    ${currComponent.name === 'App' ? contextImports : ''}
-    ${
-      importReactRouter
-        ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
-        : ``
-    }
-    ${createContextImport()}
-    ${importsMapped}
-    ${`const ${currComponent.name} = (props) => {`}
-    ${createUseContextHook()}
-    ${`  const [value, setValue] = useState("");${writeStateProps(
-      currComponent.useStateCodes
-    )}`}
-    
-      return(\n${createRender()}\n\t\t\t)
-    ${`}\n`}
-    export default ${currComponent.name}
-    `;
+    return `${`import React, { useState, useEffect, useContext} from 'react';`}
+${currComponent.name === 'App' ? contextImports : ''}
+${
+  importReactRouter
+    ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
+    : ``
+}
+${createContextImport()}
+${importsMapped}
+${`const ${currComponent.name} = (props) => {`}
+${createUseContextHook()}
+${`  const [value, setValue] = useState("");${writeStateProps(
+  currComponent.useStateCodes
+)}`}
+
+  return(\n${createRender()}\n\t\t\t)
+${`}\n`}
+export default ${currComponent.name}
+`;
   }
   //
   // next.js component code
