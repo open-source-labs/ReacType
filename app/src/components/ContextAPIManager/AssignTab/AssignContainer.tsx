@@ -9,6 +9,7 @@ import ComponentTable from './components/ComponentTable';
 import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import * as actions from '../../../redux/actions/actions';
+import StateContext from '../../../context/context';
 
 const AssignContainer = () => {
   const store = useStore();
@@ -20,7 +21,9 @@ const AssignContainer = () => {
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
+  const [stateContext, dispatchContext] = useContext(StateContext);
 
+  //fetching data from redux store
   useEffect(() => {
     setState(store.getState().contextSlice);
   }, []);
@@ -32,7 +35,8 @@ const AssignContainer = () => {
       setTableState(targetContext.values);
     }
   };
-  //checks if state is no longer an array, thus an object and will eventually render out the fetched
+
+  //construct data for table displaying component table
   const renderComponentTable = targetComponent => {
     //target Component is main
 
@@ -47,18 +51,30 @@ const AssignContainer = () => {
           listOfContexts.push(context.name);
         }
       });
-      console.log('setting component table with ', listOfContexts);
       setComponentTable(listOfContexts);
     }
   };
 
+  //handling assignment of contexts to components
   const handleAssignment = () => {
+    if (
+      contextInput === '' ||
+      contextInput === null ||
+      componentInput === '' ||
+      componentInput === null
+    )
+      return;
     dispatch(
       actions.addComponentToContext({
         context: contextInput,
         component: componentInput
       })
     );
+    //trigger generateCode(), update code preview tab
+    dispatchContext({
+      type: 'DELETE ELEMENT',
+      payload: 'FAKE_ID'
+    });
 
     setState(store.getState().contextSlice);
     renderComponentTable(componentInput);

@@ -8,6 +8,7 @@ const DisplayContainer = () => {
   const { allContext } = store.getState().contextSlice;
   const [contextData, setContextData] = useState([]);
 
+  //build data for Google charts, tree rendering
   useEffect(() => {
     transformData(allContext);
   }, []);
