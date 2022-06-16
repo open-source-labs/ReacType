@@ -110,7 +110,7 @@ How to use
 
 [Anthony Torrero](https://www.linkedin.com/in/anthony-torrero-4b8798159/) [@Anthonytorrero](https://github.com/Anthonytorrero)
 
-[Bianca Picasso](linkedin.com/in/bianca-picasso) [@BiancaPicasso](https://github.com/BiancaPicasso)
+[Bianca Picasso](https://www.linkedin.com/in/bianca-picasso) [@BiancaPicasso](https://github.com/BiancaPicasso)
 
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
@@ -144,7 +144,7 @@ How to use
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
-[Huy Pham](linkedin.com/in/huypham048) [@huypham048](https://github.com/huypham048)
+[Huy Pham](https://www.linkedin.com/in/huypham048) [@huypham048](https://github.com/huypham048)
 
 [Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
 
@@ -156,7 +156,7 @@ How to use
 
 [Katrina Henderson](https://www.linkedin.com/in/katrinahenderson/) [@kchender](https://github.com/kchender)
 
-[Ken Bains](linkedin.com/in/ken-bains) [@ken-Bains](https://github.com/ken-Bains)
+[Ken Bains](https://www.linkedin.com/in/ken-bains) [@ken-Bains](https://github.com/ken-Bains)
 
 [Kevin Park](https://www.linkedin.com/in/xkevinpark/) [@xkevinpark](https://github.com/xkevinpark)
 
@@ -180,7 +180,7 @@ How to use
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
-[Salvatore Saluga](linkedin.com/in/salvatore-saluga) [@SalSaluga](https://github.com/SalSaluga)
+[Salvatore Saluga](https://www.linkedin.com/in/salvatore-saluga) [@SalSaluga](https://github.com/SalSaluga)
 
 [Sean Sadykoff](https://www.linkedin.com/in/sean-sadykoff/) [@sean1292](https://github.com/sean1292)
 
