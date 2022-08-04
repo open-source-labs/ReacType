@@ -52,7 +52,7 @@ export default function ContextTable() {
       <Table sx={{ width: '50%'}} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Context</StyledTableCell>
+            <StyledTableCell>State</StyledTableCell>
             <StyledTableCell align="right">Component</StyledTableCell>
           </TableRow>
         </TableHead>

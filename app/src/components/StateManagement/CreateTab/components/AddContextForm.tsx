@@ -86,7 +86,7 @@ const AddContextForm = ({
   return (
     <Fragment>
       <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
-        Context Input
+        State Input
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <Autocomplete

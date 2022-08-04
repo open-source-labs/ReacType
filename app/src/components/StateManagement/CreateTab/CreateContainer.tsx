@@ -9,8 +9,13 @@ import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
+import StatePropsPanel from './components/StatePropsPanel';
+import TableStateProps from './components/TableStateProps';
 
-const CreateContainer = () => {
+//LegacyPD added this in here 
+//import StatePropsPanel from '../../right/StatePropsPanel';
+
+const CreateContainer = (props) => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
   const store = useStore();
   const [state, setState] = useState([]);
@@ -83,7 +88,8 @@ const CreateContainer = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item>
+            {/* LegacyPD deleted the components below because we're going to replace with the component from CreationPanel */}
+            {/* <Grid item>
               <AddContextForm
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
@@ -92,17 +98,21 @@ const CreateContainer = () => {
                 contextInput={contextInput}
                 setContextInput={setContextInput}
               />
-            </Grid>
+            </Grid> */}
 
-            <Divider variant="middle" />
+            {/* <Divider variant="middle" />
             <Grid item>
               <AddDataForm
                 handleClickInputData={handleClickInputData}
                 contextInput={contextInput}
               />
+            </Grid> */}
+            <Grid item>
+            <StatePropsPanel isThemeLight={props.isThemeLight}/>
             </Grid>
           </Grid>
         </Grid>
+    
         <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
           <Typography
@@ -110,7 +120,7 @@ const CreateContainer = () => {
             variant="h6"
             gutterBottom={true}
           >
-            Context Data Table
+            State Data Table
           </Typography>
           <DataTable target={tableState} contextInput={contextInput} />
         </Grid>

@@ -42,7 +42,7 @@ export default function DataTable({ target, contextInput }) {
             <TableRow>
               {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
-                {contextInput ? contextInput.name : 'Context Name'}
+                {contextInput ? contextInput.name : 'State Name'}
               </StyledTableCell>
             </TableRow>
           </TableHead>

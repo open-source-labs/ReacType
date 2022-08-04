@@ -7,8 +7,9 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 import CreateContainer from './CreateTab/CreateContainer';
-import AssignContainer from './AssignTab/AssignContainer';
+// import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
+import { blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ContextManager = (props): JSX.Element => {
+const StateManager = (props): JSX.Element => {
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 
@@ -33,17 +34,19 @@ const ContextManager = (props): JSX.Element => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
                 <Tab label="Create/Edit" value="1" />
-                <Tab label="Assign" value="2" />
-                <Tab label="Display" value="3" />
+                {/* <Tab label="Assign" value="2" /> */}
+                {/* LegacyPD changed the value below */}
+                <Tab label="Display" value="2" />
               </TabList>
             </Box>
             <TabPanel value="1">
-              <CreateContainer />
+              <CreateContainer isThemeLight={props.isThemeLight} />
             </TabPanel>
-            <TabPanel value="2">
+            {/* LegacyPD made changes below to change the value from 3 to 2 */}
+            {/* <TabPanel value="2">
               <AssignContainer />
-            </TabPanel>
-            <TabPanel value="3">
+            </TabPanel> */}
+            <TabPanel value="2">
               <DisplayContainer />
             </TabPanel>
           </TabContext>
@@ -53,4 +56,4 @@ const ContextManager = (props): JSX.Element => {
   );
 };
 
-export default ContextManager;
+export default StateManager;

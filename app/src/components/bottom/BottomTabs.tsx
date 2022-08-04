@@ -11,7 +11,7 @@ import ContextManager from '../ContextAPIManager/ContextManager';
 
 //importing our new StateManagement tab 
   //LegacyPD
-import StateManagement from '../StateManagement/StateManagement'; 
+import StateManager from '../StateManagement/StateManagement'; 
 
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
@@ -135,7 +135,7 @@ const BottomTabs = (props): JSX.Element => {
       {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 4 && <Tree data={components} />}
       {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-      {tab === 6 && <StateManager theme={theme} setTheme={setTheme}/>}
+      {tab === 6 && <StateManager theme={theme} setTheme={setTheme} isThemeLight={props.isThemeLight} />}
     </div>
   );
 };

@@ -26,7 +26,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
   return (
     <Fragment>
       <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
-        Add context data 
+        Add state data 
       </Typography>
       <Box sx={{ display: 'flex', gap: 2 }}>
         <TextField
