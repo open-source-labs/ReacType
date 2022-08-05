@@ -10,6 +10,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
   const [dataContext, setDataContext] = React.useState(defaultInputData);
 
   const saveData = () => {
+    console.log(defaultInputData)
     setDataContext(defaultInputData);
     handleClickInputData(contextInput, dataContext)
   }
