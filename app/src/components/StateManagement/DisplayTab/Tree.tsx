@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useContext, Children } from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
-import StateContext from '../context/context';
+import StateContext from '../../../context/context';
 import { element } from 'prop-types';
 
 function usePrevious(value) {
@@ -13,7 +13,8 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
+function Tree({ data }) { // data is components from state - passed in from BottomTabs
+  console.log("data from displayContainer:", data);
   const [state, dispatch] = useContext(StateContext);
   const canvasId = state.canvasFocus.componentId;
 
@@ -27,26 +28,25 @@ function TreeChart({ data }) { // data is components from state - passed in from
   const previouslyRenderedData = usePrevious(data);
   // function to filter out separators to prevent render on tree chart
 
-  const removeSeparators = (arr: object[]) => {
+  const removeHTMLElements = (arr: object[]) => {
     // loop over array
     for (let i = 0; i < arr.length; i++) {
       if(arr[i] === undefined) continue;
       // if element is separator, remove it
-      if (arr[i].name === 'separator') {
+      if (arr[i].type === 'HTML Element') {
         arr.splice(i, 1);
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component' || arr[i].name === 'Link'
-        || arr[i].name === 'Switch' || arr[i].name === 'Route' || arr[i].name === 'menu'
-        || arr[i].name === 'ul' || arr[i].name === 'ol' || arr[i].name === 'li') && arr[i].children.length) {
+      else if (arr[i].type === 'Component' && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
         if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
-        removeSeparators(arr[i].children);
+        removeHTMLElements(arr[i].children);
       }
     }
     // return mutated array
     return arr;
+    console.log('array:', arr)
   };
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
@@ -70,7 +70,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
 
   // remove separators and update components to current versions
   dataDeepClone.forEach(component => {
-    removeSeparators(component.children);
+    console.log("return from removeSerperator", removeHTMLElements(component.children));
   });
   // will be called initially and on every data change
   useEffect(() => {
@@ -162,4 +162,4 @@ function TreeChart({ data }) { // data is components from state - passed in from
     </div>
   );
 }
-export default TreeChart;
+export default Tree;
