@@ -144,7 +144,40 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .text(node => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
-  }, [data, dimensions, previouslyRenderedData, canvasId]);
+
+
+      //LegacyPD
+      //carly adding onClick event here 
+    svg.on("click", function(element){
+      console.log ("clicked element", element);
+      // console.log("type of element", typeof(element));
+      // console.log("clicked", element.srcElement);
+      // console.log("target", element.target);
+    
+      // for (let key in element) {
+      //   console.log("key", key); 
+      //   if (key === "srcElement") {
+      //     console.log("type of element[key]", typeof element[key]);
+      //     for (let current in element[key]){
+      //       console.log("current", current);
+      //     }
+      //   }
+      // }
+
+      const nameOfClicked = element.srcElement.__data__.data.name;
+      console.log({nameOfClicked});
+
+      const nameOfClickedParent = element.srcElement.__data__.parent.data.name;
+      // loop through data array. Data array is an array of objects
+      // access the name property in the object
+      // compare nameOfClicked to name
+      console.log({nameOfClickedParent});
+
+      // use the data console.logged from line 17
+          // use the name of parent and current components to access stateProps arrays for both of these components
+
+    })
+  }, [data, dimensions, previouslyRenderedData]);
   const treeStyles = {
     height: '100%',
     width: `100%`,
