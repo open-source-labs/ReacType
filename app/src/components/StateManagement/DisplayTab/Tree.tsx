@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useContext, Children } from 'react';
-import { select, hierarchy, tree, linkHorizontal } from 'd3';
+import { select, hierarchy, tree, linkHorizontal} from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../../../context/context';
@@ -140,6 +140,15 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .text(node => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
+
+
+      //LegacyPD
+      //carly adding onClick event here 
+    svg.on("click", function(element){
+      console.log("clicked", element);
+      console.log(data);
+      
+    })
   }, [data, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',

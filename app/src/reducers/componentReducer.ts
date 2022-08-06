@@ -186,6 +186,7 @@ const reducer = (state: State, action: Action) => {
     return localStateCode;
   };
   switch (action.type) {
+    //BEN HERE
     case 'ADD COMPONENT': {
       if (
         typeof action.payload.componentName !== 'string' ||
@@ -270,6 +271,8 @@ const reducer = (state: State, action: Action) => {
       const newChild: ChildElement = {
         type,
         typeId,
+        //parentID -> (state.canvasFocus.id)
+        //parent.stateProps -> {hello: hello}
         name: newName,
         childId: state.nextChildId,
         style: {},

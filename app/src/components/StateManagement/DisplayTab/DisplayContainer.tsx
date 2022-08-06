@@ -11,7 +11,7 @@ function DisplayContainer({data}) { // data is components from state - passed in
   return (
     <div style={{display: 'flex'}}>
       {<Tree data = {data} />}
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates officiis reprehenderit eligendi repellendus incidunt ducimus expedita laborum rem. Quasi sunt voluptatum iusto odio explicabo vero consequuntur vitae quos enim amet.</p>
+      <p>Lorem.</p>
     </div>
   );
 }
