@@ -13,7 +13,9 @@ const CreationPanel = (props): JSX.Element => {
 
       <ComponentPanel isThemeLight={props.isThemeLight}/>
       <HTMLPanel isThemeLight={props.isThemeLight}/>
-      <StatePropsPanel isThemeLight={props.isThemeLight}/>
+
+      {/* LegacyPD wants to move StatePropsPanel into StateManager tab
+       <StatePropsPanel isThemeLight={props.isThemeLight}/>*/}
     </div>
   );
 };
