@@ -274,7 +274,8 @@ const reducer = (state: State, action: Action) => {
         childId: state.nextChildId,
         style: {},
         attributes: {},
-        children: componentChildren
+        children: componentChildren, 
+        stateProps: []
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
