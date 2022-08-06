@@ -24,6 +24,7 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   stateUsed?: object; 
 }

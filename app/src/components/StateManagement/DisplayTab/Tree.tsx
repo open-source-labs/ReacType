@@ -16,7 +16,7 @@ function usePrevious(value) {
 function Tree({ data }) { // data is components from state - passed in from BottomTabs
   console.log("data from displayContainer:", data);
   const [state, dispatch] = useContext(StateContext);
-  const canvasId = state.canvasFocus.componentId;
+  //const canvasId = state.canvasFocus.componentId;
 
   const svgRef = useRef();
   const wrapperRef = useRef();
@@ -81,7 +81,8 @@ function Tree({ data }) { // data is components from state - passed in from Bott
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
+    //LegacyPD changed the value in line below to 0 
+    const root = hierarchy(dataDeepClone[0]); // pass in clone here instead of data
     const treeLayout = tree().size([height, width - 125]);
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
@@ -90,6 +91,9 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .y(link => link.x);
     // insert our data into the tree layout
     treeLayout(root);
+    //BEN - if we can pass in the nodes as the parts of the App children that DO contain the stateprops, then those would be
+    // 
+    //let nodes = d3.hierarchy(treeData, d => d.children);
     // node - each element in the tree
     svg
       .selectAll('.node')
@@ -104,7 +108,7 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       // translate (x, y)
       .attr('cx', node => node.y)
       .attr('cy', node => node.x)
-      .attr('r', 4) // radius of circle
+      .attr('r', 10) // radius of circle
       .attr('opacity', 1)
       .style('fill', 'white')
       .attr('transform', `translate(${xPosition}, 0)`);
@@ -133,22 +137,13 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .join(enter => enter.append('text').attr('opacity', 0))
       .attr('class', 'label')
       .attr('x', node => node.y)
-      .attr('y', node => node.x - 12)
+      .attr('y', node => node.x - 20)
       .attr('text-anchor', 'middle')
       .attr('font-size', 18)
       .style('fill', textAndBorderColor)
       .text(node => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
-
-
-      //LegacyPD
-      //carly adding onClick event here 
-    svg.on("click", function(element){
-      console.log("clicked", element);
-      console.log(data);
-      
-    })
   }, [data, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',

@@ -140,6 +140,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .text(node => node.data.name)
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
+
   }, [data, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',
