@@ -725,6 +725,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
+    //BEN potentially need to change this reducer and DELETE STATE reducer to have the parent props 
     case 'ADD STATE' : {
       // find the current component in focus
       const components = [...state.components];

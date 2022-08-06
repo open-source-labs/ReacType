@@ -1,47 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useStore } from 'react-redux';
-import { Chart } from 'react-google-charts';
-import Grid from '@mui/material/Grid';
+import React, { useRef, useEffect, useContext, Children } from 'react';
+import { select, hierarchy, tree, linkHorizontal } from 'd3';
+import cloneDeep from 'lodash/cloneDeep';
+import useResizeObserver from './useResizeObserver';
+import StateContext from '../../../context/context';
+import { element } from 'prop-types';
+import Tree from './Tree';
 
-const DisplayContainer = () => {
-  const store = useStore();
-  const { allContext } = store.getState().contextSlice;
-  const [contextData, setContextData] = useState([]);
 
-  //build data for Google charts, tree rendering
-  useEffect(() => {
-    transformData(allContext);
-  }, []);
-
-  const transformData = contexts => {
-    const formattedData = contexts
-      .map(el => {
-        return el.components.map(component => {
-          return [`App - ${el.name} - ${component}`];
-        });
-      })
-      .flat();
-    setContextData([['Phrases'], ...formattedData]);
-  };
-
-  const options = {
-    wordtree: {
-      format: 'implicit',
-      word: 'App'
-    }
-  };
+function DisplayContainer({data}) { // data is components from state - passed in from state manager
   return (
-    <Grid container display="flex" justifyContent="center">
-      <Grid item>
-        <Chart
-          chartType="WordTree"
-          width="100%"
-          height="450px"
-          data={contextData}
-          options={options}
-        />
-      </Grid>
-    </Grid>
+    <div style={{display: 'flex'}}>
+      {<Tree data = {data} />}
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates officiis reprehenderit eligendi repellendus incidunt ducimus expedita laborum rem. Quasi sunt voluptatum iusto odio explicabo vero consequuntur vitae quos enim amet.</p>
+    </div>
   );
-};
+}
 export default DisplayContainer;

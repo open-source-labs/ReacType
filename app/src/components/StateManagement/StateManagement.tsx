@@ -5,11 +5,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import StateContext from '../../context/context';
 
 import CreateContainer from './CreateTab/CreateContainer';
 // import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
 import { blue } from '@material-ui/core/colors';
+
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -19,6 +21,9 @@ const useStyles = makeStyles({
 });
 
 const StateManager = (props): JSX.Element => {
+  const [state, dispatch] = useContext(StateContext);
+  const { components, HTMLTypes } = state;
+  console.log('props from statemanger', props)
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 
@@ -47,7 +52,7 @@ const StateManager = (props): JSX.Element => {
               <AssignContainer />
             </TabPanel> */}
             <TabPanel value="2">
-              <DisplayContainer />
+              <DisplayContainer data={components}  />
             </TabPanel>
           </TabContext>
         </Box>
