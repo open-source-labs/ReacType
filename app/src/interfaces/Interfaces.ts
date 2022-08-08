@@ -15,7 +15,7 @@ export interface State {
   nextChildId: number;
   HTMLTypes: HTMLType[];
 }
-
+//legacypd: add stateprops and passedinprops
 export interface ChildElement {
   type: string;
   typeId: number;
@@ -27,7 +27,9 @@ export interface ChildElement {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   stateUsed?: object; 
+  passedInProps: StateProp[]
 }
+//legacypd: add passedinprops
 export interface Component {
   id: number;
   name: string;
@@ -42,6 +44,7 @@ export interface Component {
   annotations?: string;
   useStateCodes: string[];
   useContext?: object
+  passedInProps: StateProp[]
 }
 export interface StateProp {
   key: string;

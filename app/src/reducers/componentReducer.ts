@@ -186,7 +186,7 @@ const reducer = (state: State, action: Action) => {
     return localStateCode;
   };
   switch (action.type) {
-    //BEN HERE
+    //legacypd added passedinprops
     case 'ADD COMPONENT': {
       if (
         typeof action.payload.componentName !== 'string' ||
@@ -207,6 +207,7 @@ const reducer = (state: State, action: Action) => {
         future: [],
         stateProps: [],
         useStateCodes: [],
+        passedInProps: []
       };
       components.push(newComponent);
       // functionality if the new component will become the root component
@@ -278,7 +279,8 @@ const reducer = (state: State, action: Action) => {
         style: {},
         attributes: {},
         children: componentChildren, 
-        stateProps: []
+        stateProps: [], //legacy pd: added stateprops and passedinprops
+        passedInProps: []
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -729,7 +731,7 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
-    //BEN potentially need to change this reducer and DELETE STATE reducer to have the parent props 
+    //legacypd BEN potentially need to change this reducer and DELETE STATE reducer to have the parent props 
     case 'ADD STATE' : {
       // find the current component in focus
       const components = [...state.components];
@@ -741,6 +743,28 @@ const reducer = (state: State, action: Action) => {
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components};
+    }
+    // lagacyPD added switch case to add props form the parent
+    case 'ADD PARENTPROPS' : {
+      // find the current component in focus
+      const components = [...state.components];
+      const currComponent = findComponent(
+        components,
+        //legacyPD - tom
+        // need to change this to match the id form the tree
+        state.canvasFocus.componentId
+      );
+      currComponent.passedInProps.push(action.payload.newState);
+      //currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      currComponent.code = generateCode(
+        components,
+        //change the id here as well
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
