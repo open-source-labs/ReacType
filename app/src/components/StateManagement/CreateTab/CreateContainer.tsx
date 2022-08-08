@@ -113,6 +113,8 @@ const CreateContainer = (props) => {
           </Grid>
         </Grid>
     
+        {/* 
+          LegacyPD commented out the below to move to DisplayContainer
         <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
           <Typography
@@ -123,7 +125,7 @@ const CreateContainer = (props) => {
             State Data Table
           </Typography>
           <DataTable target={tableState} contextInput={contextInput} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

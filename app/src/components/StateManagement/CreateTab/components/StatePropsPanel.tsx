@@ -36,6 +36,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
+  console.log({currentComponent});
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {

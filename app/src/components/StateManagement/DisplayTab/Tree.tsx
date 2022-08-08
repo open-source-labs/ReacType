@@ -14,7 +14,7 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function Tree({ data }) { // data is components from state - passed in from BottomTabs
+function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp }) { // data is components from state - passed in from BottomTabs
   console.log("data from displayContainer:", data);
   const [state, dispatch] = useContext(StateContext);
   //const canvasId = state.canvasFocus.componentId;
@@ -133,6 +133,10 @@ function Tree({ data }) { // data is components from state - passed in from Bott
           console.log(nameOfClickedParent);
         console.log("componentStateProps outside for loop", componentStateProps);
         console.log("parentStateProps outside for loop", parentStateProps);
+        setCurrComponentState(componentStateProps);
+        setParentProps(parentStateProps);
+        setClickedComp(nameOfClicked);
+
       });
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
@@ -172,7 +176,8 @@ function Tree({ data }) { // data is components from state - passed in from Bott
     height: '100%',
     width: `100%`,
     margin: '10px 10px 10px 10px',
-    overflow: 'auto'
+    overflow: 'auto',
+    alignItems: 'center'
   };
   
   const wrapperStyles = {
