@@ -31,6 +31,9 @@ const StateManager = (props): JSX.Element => {
     setValue(newValue);
   };
 
+  // add hook here to access which component has been clicked 
+    // then this will re-render the dataTable 
+
   return (
     <React.Fragment>
       <div className={classes.contextContainer}>

@@ -115,7 +115,9 @@ const CreateContainer = (props) => {
           </Grid>
         </Grid>
     
-        {/* <Divider orientation="vertical" variant="middle" flexItem />
+        {/* 
+          LegacyPD commented out the below to move to DisplayContainer
+        <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
           <Typography
             style={{ color: 'black' }}
