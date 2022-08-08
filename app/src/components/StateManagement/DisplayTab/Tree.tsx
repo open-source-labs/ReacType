@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../../../context/context';
 import { element } from 'prop-types';
+import {StateDisplay} from '../../../interfaces/Interfaces';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -111,7 +112,28 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .attr('r', 10) // radius of circle
       .attr('opacity', 1)
       .style('fill', 'white')
-      .attr('transform', `translate(${xPosition}, 0)`);
+      .attr('transform', `translate(${xPosition}, 0)`)
+      //LegacyPD
+      .on("click", function(element){
+        const nameOfClicked = element.srcElement.__data__.data.name;
+  
+        // App doesn't have a parent element so want to only console log if click on non-App element
+        let nameOfClickedParent = null; 
+        if (nameOfClicked !== "App") nameOfClickedParent = element.srcElement.__data__.parent.data.name;
+        
+        let parentStateProps;
+        let componentStateProps;
+        
+        // iterate through data array to find stateProps for parent and clicked element
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]["name"] === nameOfClicked) componentStateProps = data[i]["stateProps"];
+          if (data[i]["name"] === nameOfClickedParent) parentStateProps = data[i]["stateProps"];
+        }
+          console.log(nameOfClicked);
+          console.log(nameOfClickedParent);
+        console.log("componentStateProps outside for loop", componentStateProps);
+        console.log("parentStateProps outside for loop", parentStateProps);
+      });
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
@@ -145,38 +167,6 @@ function Tree({ data }) { // data is components from state - passed in from Bott
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
 
-
-      //LegacyPD
-      //carly adding onClick event here 
-    svg.on("click", function(element){
-      console.log ("clicked element", element);
-      // console.log("type of element", typeof(element));
-      // console.log("clicked", element.srcElement);
-      // console.log("target", element.target);
-    
-      // for (let key in element) {
-      //   console.log("key", key); 
-      //   if (key === "srcElement") {
-      //     console.log("type of element[key]", typeof element[key]);
-      //     for (let current in element[key]){
-      //       console.log("current", current);
-      //     }
-      //   }
-      // }
-
-      const nameOfClicked = element.srcElement.__data__.data.name;
-      console.log({nameOfClicked});
-
-      const nameOfClickedParent = element.srcElement.__data__.parent.data.name;
-      // loop through data array. Data array is an array of objects
-      // access the name property in the object
-      // compare nameOfClicked to name
-      console.log({nameOfClickedParent});
-
-      // use the data console.logged from line 17
-          // use the name of parent and current components to access stateProps arrays for both of these components
-
-    })
   }, [data, dimensions, previouslyRenderedData]);
   const treeStyles = {
     height: '100%',
@@ -184,6 +174,7 @@ function Tree({ data }) { // data is components from state - passed in from Bott
     margin: '10px 10px 10px 10px',
     overflow: 'auto'
   };
+  
   const wrapperStyles = {
     border: `2px solid ${textAndBorderColor}`,
     borderRadius: '8px',
@@ -193,6 +184,7 @@ function Tree({ data }) { // data is components from state - passed in from Bott
     justifyContent: 'center',
     backgroundColor: '#42464C',
   };
+
   return (
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>

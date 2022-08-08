@@ -99,3 +99,10 @@ export interface AddRoutes {
   id: number;
   name: string;
 }
+
+export interface StateDisplay {
+  parentName: string;
+  componentName: string;
+  parentStateProps: StateProp[];
+  componentStateProps: StateProp[];
+}
