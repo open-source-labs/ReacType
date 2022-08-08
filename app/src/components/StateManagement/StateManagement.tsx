@@ -52,7 +52,7 @@ const StateManager = (props): JSX.Element => {
               <AssignContainer />
             </TabPanel> */}
             <TabPanel value="2">
-              <DisplayContainer data={components}  />
+              <DisplayContainer data={components} props={props.props}  />
             </TabPanel>
           </TabContext>
         </Box>

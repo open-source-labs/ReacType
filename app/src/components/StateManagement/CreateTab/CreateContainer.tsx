@@ -23,6 +23,8 @@ const CreateContainer = (props) => {
   const [contextInput, setContextInput] = React.useState(null);
   const [stateContext, dispatchContext] = useContext(StateContext);
 
+  //pass down stateprops and parent props from state management
+
   //pulling data from redux store
   useEffect(() => {
     setState(store.getState().contextSlice);
@@ -113,7 +115,7 @@ const CreateContainer = (props) => {
           </Grid>
         </Grid>
     
-        <Divider orientation="vertical" variant="middle" flexItem />
+        {/* <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
           <Typography
             style={{ color: 'black' }}
@@ -123,7 +125,7 @@ const CreateContainer = (props) => {
             State Data Table
           </Typography>
           <DataTable target={tableState} contextInput={contextInput} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );
