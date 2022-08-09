@@ -58,6 +58,11 @@ export default function DataTable(props) {
         )}
         {(clickedComp !== 'App' &&
           <TableBody>
+            <StyledTableRow>
+            <StyledTableCell component="th" scope="row" ><b>Key</b></StyledTableCell>
+            <StyledTableCell align="right"><b>Type</b></StyledTableCell>
+            <StyledTableCell align="right"><b>Initial Value</b></StyledTableCell>
+            </StyledTableRow>
             {parentProps ? parentProps.map((data, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
@@ -81,6 +86,11 @@ export default function DataTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
+          <StyledTableRow>
+            <StyledTableCell component="th" scope="row" ><b>Key</b></StyledTableCell>
+            <StyledTableCell align="right"><b>Type</b></StyledTableCell>
+            <StyledTableCell align="right"><b>Initial Value</b></StyledTableCell>
+            </StyledTableRow>
             {currComponentState ? currComponentState.map((data, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
