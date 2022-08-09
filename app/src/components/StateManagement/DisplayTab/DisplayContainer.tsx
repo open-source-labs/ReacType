@@ -34,7 +34,7 @@ function DisplayContainer({data, props}) { // data is components from state - pa
             Total State for {clickedComp}
           </Typography>
           {/* target={tableState} contextInput={contextInput} */}
-          <DataTable currComponentState={currComponentState} setCurrComponentState ={setCurrComponentState} parentProps={parentProps} setParentProps={setParentProps} props={props} clickedComp={clickedComp}  />
+           <DataTable currComponentState={currComponentState} setCurrComponentState ={setCurrComponentState} parentProps={parentProps} setParentProps={setParentProps} props={props} clickedComp={clickedComp}  /> 
         </Grid>
     </div>
   );
