@@ -25,6 +25,7 @@ import {
 } from "@material-ui/core";
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
+import TableParentProps from "./TableParentProps";
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
@@ -36,6 +37,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
+  const [parentProps, setParentProps] = useState([]);
+  const [parentName, setParentName] = useState('No Parents');
   console.log({currentComponent});
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
@@ -106,6 +109,36 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       setInputValue(table.row.value);
     } else clearForm();
   };
+ //use effect to populate parent props table on load and every time canvas focus changes
+  useEffect(() => {
+    const parentInfo = findParent(currentId)
+    
+    setParentProps(parentInfo.parentProps);
+    setParentName(parentInfo.parentName);
+  }, [currentId]);
+
+  const findParent = (childId) => {
+    let arr = [];
+    
+    for (let i = 0; i < data.length; i++){
+      let currComponent = data[i]
+      for (let j = 0; j < currComponent.children.length; j++) {
+        let currChild = currComponent.children[j];
+        if (currChild.typeId === childId) {
+          console.log('the parent is component:', currComponent);
+          console.log('the parents state props are:', currComponent.stateProps);
+          
+          return {parentProps: currComponent.stateProps, 
+                  parentName: currComponent.name
+                }
+        }
+      }
+    }
+    return {parentProps: [], 
+      parentName: ''
+    }
+  }
+
   return (
     <div className={'state-panel'}>
       <div>
@@ -188,9 +221,19 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       <br></br>
       <div>
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
-          Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
+          Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
         <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+    
+          
+            <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+              Props from Parent: {parentName ? parentName : 'No Parents'}
+            </h4>
+        
+            <TableParentProps parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        
+       
+
       </div>
     </div>
   );

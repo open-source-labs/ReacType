@@ -9,12 +9,13 @@ import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 
-const TableStateProps = props => {
+const TableParentProps = props => {
   // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
+  const parentProps = props.parentProps;
   const columnTabs = [
     {
       field: 'id',
@@ -74,6 +75,8 @@ const TableStateProps = props => {
     });
   };
 
+
+
   useEffect(() => {
     setGridColumns(columnTabs);
   }, [props.isThemeLight]);
@@ -82,42 +85,43 @@ const TableStateProps = props => {
   // the delete button needs to be updated to remove
   // the states from the current focused component
 
-
-  
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
+    
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
-  let rows = [];
-  if (!props.providerId) {
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    rows = currentComponent.stateProps.slice();
-  } else {
-    const providerComponent = state.components[props.providerId - 1];
-    // changed to get whole object
-    if (props.displayObject){
-      const displayObject = props.displayObject;
-      // format for DataGrid
-      let id=1;
-      for (const key in displayObject) {
-        // if key is a number make it a string with brackets aroung number
-        const newKey = isNaN(key) ? key : '[' + key + ']';
-        const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
-        rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
-      }
-    } else {
-      rows = providerComponent.stateProps.slice();
-    }
-  }
+  // legacy pd convert parent props into a row array
+  let rows = parentProps;
+  // if (!props.providerId) {
+  //   const currentId = state.canvasFocus.componentId;
+  //   const currentComponent = state.components[currentId - 1];
+  //   rows = currentComponent.stateProps.slice();
+  // } else {
+  //   const providerComponent = state.components[props.providerId - 1];
+  //   // changed to get whole object
+  //   if (props.displayObject){
+  //     const displayObject = props.displayObject;
+  //     // format for DataGrid
+  //     let id=1;
+  //     for (const key in displayObject) {
+  //       // if key is a number make it a string with brackets aroung number
+  //       const newKey = isNaN(key) ? key : '[' + key + ']';
+  //       const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
+  //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
+  //     }
+  //   } else {
+  //     rows = providerComponent.stateProps.slice();
+  //   }
+  // }
 
 
   return (
     <div className={'state-prop-grid'} style={{display: 'flex', gap: "20px"}}>
+         {(rows.length &&   
       <DataGrid
         rows={rows}
         columns={gridColumns}
@@ -125,8 +129,9 @@ const TableStateProps = props => {
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        checkboxSelection
       />
-  
+         )}
     </div>
   );
 };
@@ -155,4 +160,4 @@ const useStyles = makeStyles({
   }
 });
 
-export default TableStateProps;
+export default TableParentProps;
