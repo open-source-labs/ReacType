@@ -85,6 +85,8 @@ const TableStateProps = props => {
 
   //legacypd - tom's secret sauce algo
   const findParentProps = (childId) => {
+    let arr = [];
+    
     for (let i = 0; i < props.data.length; i++){
       let currComponent = props.data[i]
       for (let j = 0; j < currComponent.children.length; j++) {
@@ -96,6 +98,7 @@ const TableStateProps = props => {
         }
       }
     }
+    return -1;
   }
   useEffect(() => {
     if (props.canDeleteState) {

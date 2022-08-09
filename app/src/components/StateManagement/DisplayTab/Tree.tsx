@@ -71,7 +71,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
 
   // remove separators and update components to current versions
   dataDeepClone.forEach(component => {
-    console.log("return from removeSerperator", removeHTMLElements(component.children));
+    removeHTMLElements(component.children);
   });
   // will be called initially and on every data change
   useEffect(() => {
