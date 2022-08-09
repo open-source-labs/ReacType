@@ -115,6 +115,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
       .attr('transform', `translate(${xPosition}, 0)`)
       //LegacyPD
       .on("click", function(element){
+        console.log(element);
         const nameOfClicked = element.srcElement.__data__.data.name;
   
         // App doesn't have a parent element so want to only console log if click on non-App element

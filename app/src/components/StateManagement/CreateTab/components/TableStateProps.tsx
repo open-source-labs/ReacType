@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, useEffect } from 'react';
 import {
   DataGrid,
@@ -11,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 
 const TableStateProps = props => {
+  console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
@@ -48,7 +48,7 @@ const TableStateProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px` }}
+            style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
               deleteState(params.id);
             }}
@@ -87,6 +87,22 @@ const TableStateProps = props => {
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
+    //legacypd - tom's secret sauce algo
+    const findParentProps = (childId) => {
+      for (let i = 0; i < props.data.length; i++){
+        let currComponent = props.data[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === childId) {
+            console.log('the parent is component:', currComponent);
+            console.log('the parents state props are:', currComponent.stateProps);
+            return;
+          }
+        }
+      }
+
+    }
+    findParentProps(state.canvasFocus.componentId)
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
   let rows = [];
@@ -114,7 +130,7 @@ const TableStateProps = props => {
 
 
   return (
-    <div className={'state-prop-grid'}>
+    <div className={'state-prop-grid'} style={{display: 'flex', gap: "20px"}}>
       <DataGrid
         rows={rows}
         columns={gridColumns}

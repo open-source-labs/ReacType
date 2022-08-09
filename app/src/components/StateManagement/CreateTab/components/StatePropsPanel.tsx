@@ -26,7 +26,7 @@ import {
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
 
-const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
+const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
@@ -190,7 +190,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current State Name: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} />
+        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
       </div>
     </div>
   );

@@ -17,6 +17,11 @@ const reducer = (state: State, action: Action) => {
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
   };
+
+  const findParentBen = (components: Component[], componentId: number) => {
+
+    const nodeArr: (Component)[] = [component]
+  }
   // Finds a parent
   // returns object with parent object and index value of child
   const findParent = (component: Component, childId: number) => {
@@ -352,6 +357,7 @@ const reducer = (state: State, action: Action) => {
       );
       // find the moved element's former parent
       // delete the element from it's former parent's children array
+
       const { directParent, childIndexValue } = findParent(
         component,
         currentChildId
@@ -397,6 +403,16 @@ const reducer = (state: State, action: Action) => {
         componentId,
         childId
       }: { componentId: number; childId: number | null } = action.payload;
+
+      const newStateComponents = state.components.slice();
+      // const child = findChild(newStateComponents, childId);
+      // console.log({child})
+      console.log({newStateComponents})
+      console.log({componentId});
+      console.log({childId});
+      // legacy pd added
+      const parent = findParent(findComponent(newStateComponents, componentId), componentId);
+      console.log({parent});
 
       if (childId < 1000) {
         // makes separators not selectable

@@ -21,6 +21,7 @@ const useStyles = makeStyles({
 });
 
 const StateManager = (props): JSX.Element => {
+  console.log('props from statemanagment.tsx', props)
   const [state, dispatch] = useContext(StateContext);
   const { components, HTMLTypes } = state;
   console.log('props from statemanger', props)
@@ -48,7 +49,7 @@ const StateManager = (props): JSX.Element => {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <CreateContainer isThemeLight={props.isThemeLight} />
+              <CreateContainer data={components} isThemeLight={props.isThemeLight } />
             </TabPanel>
             {/* LegacyPD made changes below to change the value from 3 to 2 */}
             {/* <TabPanel value="2">

@@ -45,7 +45,7 @@ export default function DataTable(props) {
           
           {/* this table will contain passed down stateProps data from parent component */}
         {(clickedComp !== 'App' && 
-        <div>
+        
           <TableHead>
             <TableRow>
               {/* <StyledTableCell>Key</StyledTableCell> */}
@@ -55,6 +55,8 @@ export default function DataTable(props) {
               </StyledTableCell>
             </TableRow>
           </TableHead>
+        )}
+        {(clickedComp !== 'App' &&
           <TableBody>
             {parentProps ? parentProps.map((data, index) => (
               <StyledTableRow key={index}>
@@ -64,7 +66,7 @@ export default function DataTable(props) {
               </StyledTableRow>
             )): ''}
           </TableBody>
-          </div>
+          
           )}
           
           {/* this will contain state prop data from selected component */}

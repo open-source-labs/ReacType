@@ -15,12 +15,12 @@ import TableStateProps from './components/TableStateProps';
 //LegacyPD added this in here 
 //import StatePropsPanel from '../../right/StatePropsPanel';
 
-const CreateContainer = (props) => {
+const CreateContainer = ({isThemeLight, data}) => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
   const store = useStore();
   const [state, setState] = useState([]);
-  const [tableState, setTableState] = React.useState(defaultTableData);
-  const [contextInput, setContextInput] = React.useState(null);
+  const [tableState, setTableState] = useState(defaultTableData);
+  const [contextInput, setContextInput] = useState(null);
   const [stateContext, dispatchContext] = useContext(StateContext);
 
   //pass down stateprops and parent props from state management
@@ -110,7 +110,7 @@ const CreateContainer = (props) => {
               />
             </Grid> */}
             <Grid item>
-            <StatePropsPanel isThemeLight={props.isThemeLight}/>
+            <StatePropsPanel isThemeLight={isThemeLight} data={data}/>
             </Grid>
           </Grid>
         </Grid>
