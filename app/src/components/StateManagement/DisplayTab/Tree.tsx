@@ -174,8 +174,8 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
 
   }, [data, dimensions, previouslyRenderedData]);
   const treeStyles = {
-    height: '100%',
-    width: `100%`,
+    height: '400px',
+    width: '100%',
     margin: '10px 10px 10px 10px',
     overflow: 'auto',
     alignItems: 'center'

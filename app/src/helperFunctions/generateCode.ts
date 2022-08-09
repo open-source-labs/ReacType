@@ -122,8 +122,8 @@ const generateUnformattedCode = (
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = '';
-    if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails += ' ' + `id="${+childElement.childId}"`;
+    if (childElement.childId && childElement.tag !== 'Route') //legacypd
+      customizationDetails += ' ' + `id="${+childElement.childId}"` + ' props = {props}';
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
