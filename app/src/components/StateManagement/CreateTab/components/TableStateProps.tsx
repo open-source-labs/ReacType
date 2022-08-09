@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 
 const TableStateProps = props => {
-  console.log('props from table state props', props)
+  // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
@@ -81,27 +81,29 @@ const TableStateProps = props => {
   const { selectHandler }: StatePropsPanelProps = props;
   // the delete button needs to be updated to remove
   // the states from the current focused component
+
+
+  //legacypd - tom's secret sauce algo
+  const findParentProps = (childId) => {
+    for (let i = 0; i < props.data.length; i++){
+      let currComponent = props.data[i]
+      for (let j = 0; j < currComponent.children.length; j++) {
+        let currChild = currComponent.children[j];
+        if (currChild.typeId === childId) {
+          console.log('the parent is component:', currComponent);
+          console.log('the parents state props are:', currComponent.stateProps);
+          return `currComponent.stateProps: ${JSON.stringify(currComponent.stateProps)}`;
+        }
+      }
+    }
+  }
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
-    //legacypd - tom's secret sauce algo
-    const findParentProps = (childId) => {
-      for (let i = 0; i < props.data.length; i++){
-        let currComponent = props.data[i]
-        for (let j = 0; j < currComponent.children.length; j++) {
-          let currChild = currComponent.children[j];
-          if (currChild.typeId === childId) {
-            console.log('the parent is component:', currComponent);
-            console.log('the parents state props are:', currComponent.stateProps);
-            return;
-          }
-        }
-      }
-
-    }
+    
     findParentProps(state.canvasFocus.componentId)
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
@@ -139,6 +141,7 @@ const TableStateProps = props => {
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
+    <div>{findParentProps(state.canvasFocus.componentId)}</div>
     </div>
   );
 };
