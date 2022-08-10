@@ -146,6 +146,7 @@
     "esbuild-wasm": "^0.14.51",
     "eslint-plugin-react-hooks": "^4.6.0",
     "express-graphql": "^0.12.0",
+    "fs": "^0.0.1-security",
     "graphql": "^15.8.0",
     "identity-obj-proxy": "^3.0.0",
     "immutable": "^4.1.0",

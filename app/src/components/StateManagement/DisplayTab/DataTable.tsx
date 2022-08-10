@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import StateContext from "../../../context/context";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -30,10 +31,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function DataTable(props) {
+  // const [state, dispatch] = useContext(StateContext);
+  // console.log('passedInProps from context', state.component.passedInProps)
   const { currComponentState, setCurrComponentState, parentProps, setParentProps, clickedComp } = props;
-  console.log(props);
+  console.log('props inside data table', props);
   console.log({currComponentState});
   console.log({parentProps});
+  console.log({clickedComp});
+  
   return (
     <>
       <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
@@ -51,7 +56,7 @@ export default function DataTable(props) {
               {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
                 {/* contextInput to be replaced by new state hook by other LegacyPD. Want to use component name and parent name instead */}
-                 { 'Props from Parent:'}
+                 { 'Props Passed in from Parent:'}
               </StyledTableCell>
             </TableRow>
           </TableHead>

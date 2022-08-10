@@ -18,8 +18,6 @@ const TableParentProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const parentProps = props.parentProps;
   const parentComponent = props.parentComponent;
-  console.log('this is the hook from parentComponent', {parentComponent});
-  console.log('this is the hook from parentProps', {parentProps});
   const columnTabs = [
     {
       field: 'id',
@@ -55,7 +53,6 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                console.log('props.props inside button', props)
                 console.log('params inside button', params)
               addParentProps(params.row, params.id);
             }}

@@ -40,7 +40,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [parentProps, setParentProps] = useState([]);
   const [parentName, setParentName] = useState('No Parents');
   const [parentComponent, setParentComponent] = useState({});
-  console.log({currentComponent});
+  const [rows1, setRows1] = useState(currentComponent.stateProps);
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
@@ -93,6 +93,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       type: 'ADD STATE',
       payload: {newState: newState}
     }); 
+    setRows1([...rows1, newState])
     resetError();
     clearForm();
   };
@@ -129,10 +130,14 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         if (currChild.typeId === childId) {
           console.log('the parent is component:', currComponent);
           console.log('the parents state props are:', currComponent.stateProps);
-          
-          return {parentProps: currComponent.stateProps, 
-                  parentName: currComponent.name,
-                  parentComponent: currComponent
+          const currComponentCopy = JSON.parse(JSON.stringify(currComponent));
+          // currComponentCopy.stateProps.map((el) => {
+          //   console.log(el)
+          //   el['id'] = el['id'] + 0.01; 
+          // })
+          return {parentProps: currComponentCopy.stateProps, 
+                  parentName: currComponentCopy.name,
+                  parentComponent: currComponentCopy
                 }
         }
       }
@@ -226,7 +231,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
-        <TableStateProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        <TableStateProps rows1={rows1} setRows1={setRows1} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
     
           
             <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>

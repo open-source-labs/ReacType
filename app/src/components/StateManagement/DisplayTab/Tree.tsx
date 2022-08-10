@@ -119,23 +119,25 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
         const nameOfClicked = element.srcElement.__data__.data.name;
   
         // App doesn't have a parent element so want to only console log if click on non-App element
-        let nameOfClickedParent = null; 
-        if (nameOfClicked !== "App") nameOfClickedParent = element.srcElement.__data__.parent.data.name;
+        // let nameOfClickedParent = null; 
+        // if (nameOfClicked !== "App") nameOfClickedParent = element.srcElement.__data__.parent.data.name;
         
-        let parentStateProps;
+        let passedInProps;
         let componentStateProps;
         
         // iterate through data array to find stateProps for parent and clicked element
         for (let i = 0; i < data.length; i++) {
-          if (data[i]["name"] === nameOfClicked) componentStateProps = data[i]["stateProps"];
-          if (data[i]["name"] === nameOfClickedParent) parentStateProps = data[i]["stateProps"];
+          if (data[i]["name"] === nameOfClicked) {
+            componentStateProps = data[i]["stateProps"];
+            passedInProps = data[i]["passedInProps"];
         }
+      }
           console.log(nameOfClicked);
-          console.log(nameOfClickedParent);
+          console.log(passedInProps);
         console.log("componentStateProps outside for loop", componentStateProps);
-        console.log("parentStateProps outside for loop", parentStateProps);
+        console.log("passedInProps outside for loop", passedInProps);
         setCurrComponentState(componentStateProps);
-        setParentProps(parentStateProps);
+        setParentProps(passedInProps);
         setClickedComp(nameOfClicked);
 
       });

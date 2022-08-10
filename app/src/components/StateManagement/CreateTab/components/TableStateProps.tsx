@@ -15,6 +15,13 @@ const TableStateProps = props => {
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
+  const currentId = state.canvasFocus.componentId;
+  const currentComponent = state.components[currentId - 1];
+  const rows1 = props.rows1;
+  const setRows1 = props.setRows1;
+  console.log({currentComponent})
+
+  console.log({rows1})
   const columnTabs = [
     {
       field: 'id',
@@ -90,56 +97,66 @@ const TableStateProps = props => {
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
+
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
+
   let rows = [];
-  console.log('passedInProps after rows declaration', state.components[state.canvasFocus.componentId - 1].passedInProps?.slice()[0]);
-  console.log('type of passedInProps', Array.isArray(state.components[state.canvasFocus.componentId - 1].passedInProps?.slice()));
-  const passedInProps = state.components[state.canvasFocus.componentId - 1].passedInProps?.slice();
-  passedInProps?.forEach(propObj => {
-    rows.push(propObj)
-  })
-  console.log('rows after for loop', rows)
-  // let passedInPropsArray = state.components[state.canvasFocus.componentId - 1].passedInProps?.slice();
-  // console.log({passedInPropsArray})
-  // if (passedInPropsArray[0]) rows.push(passedInPropsArray[0]);
-  console.log('rows in line 98', rows);
-  console.log('props.providerId',props.providerId);
-  if (!props.providerId) {
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    rows = currentComponent.stateProps.slice();
-    //add parentProps to the rows array
-    rows.concat(currentComponent.passedInProps?.slice());
-  } else {
-    const providerComponent = state.components[props.providerId - 1];
-    // changed to get whole object
-    if (props.displayObject){
-      const displayObject = props.displayObject;
-      // format for DataGrid
-      let id=1;
-      const currentId = state.canvasFocus.componentId;
-      const currentComponent = state.components[currentId - 1];
-      for (const key in displayObject) {
-        // if key is a number make it a string with brackets aroung number
-        const newKey = isNaN(key) ? key : '[' + key + ']';
-        const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
-        rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
-      }
-    } else {
-      const currentId = state.canvasFocus.componentId;
-      const currentComponent = state.components[currentId - 1];
-      rows = providerComponent.stateProps.slice();
-      rows.concat(currentComponent.passedInProps?.slice());
-      console.log({rows})
-    }
-  }
+    
+  
+    const passedInProps = currentComponent.passedInProps?.slice();
+    console.log({passedInProps});
+
+    passedInProps?.forEach(propObj => {
+      rows.push(propObj)
+    })
+
+    console.log("rows before pushing stateProps", rows);
+
+    currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
+
+    console.log("rows after pushing stateProps", rows);
+
+  // if (!props.providerId) {
+   
+    // if (rows.length < 1) {
+      //currentComponent.stateProps?.forEach((prop) => rows.push(prop)) 
+    // } else rows.concat(currentComponent.stateProps.slice());
+  
+    //[1,1.01,2,2.02]
+    //[1,3,2,4]
+    //add current props to the rows array
+  //} 
+  // else {
+
+  //   /// LegacyPD: we want to delete this because state management tab shouldn't be using context 
+
+  //   const providerComponent = state.components[props.providerId - 1];
+  //   // changed to get whole object
+  //   if (props.displayObject){
+  //     const displayObject = props.displayObject;
+  //     // format for DataGrid
+  //     let id=1;
+  //     const currentId = state.canvasFocus.componentId;
+  //     const currentComponent = state.components[currentId - 1];
+  //     for (const key in displayObject) {
+  //       // if key is a number make it a string with brackets aroung number
+  //       const newKey = isNaN(key) ? key : '[' + key + ']';
+  //       const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
+  //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
+  //     }
+  //   } else {
+  //     const currentId = state.canvasFocus.componentId;
+  //     const currentComponent = state.components[currentId - 1];
+  //     rows.concat(currentComponent.stateProps.slice());
+  //   }
+  // }
 
 
   return (
     <div className={'state-prop-grid'} style={{display: 'flex', gap: "20px"}}>
       <DataGrid
-        rows={rows}
+        rows={rows1}
         columns={gridColumns}
         pageSize={5}
         editRowsModel={editRowsModel}
