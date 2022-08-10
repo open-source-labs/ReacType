@@ -773,11 +773,11 @@ const reducer = (state: State, action: Action) => {
       const currComponent = findComponent(
         components,
         //legacyPD - tom
-        // need to change this to match the id form the tree
+        // need to change this to match the id from the tree
         state.canvasFocus.componentId
-      );
+      ); 
       currComponent.passedInProps.push(action.payload.passedInProps);
-      console.log('in reducer', currComponent.passedInProps)
+      console.log('in reducer', currComponent)
       //currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,

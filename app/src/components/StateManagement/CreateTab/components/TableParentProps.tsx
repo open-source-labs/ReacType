@@ -8,6 +8,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
+import AddIcon from '@mui/icons-material/Add';
 
 const TableParentProps = props => {
   // console.log('props from table state props', props)
@@ -17,7 +18,8 @@ const TableParentProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const parentProps = props.parentProps;
   const parentComponent = props.parentComponent;
-  console.log({parentComponent});
+  console.log('this is the hook from parentComponent', {parentComponent});
+  console.log('this is the hook from parentProps', {parentProps});
   const columnTabs = [
     {
       field: 'id',
@@ -45,7 +47,7 @@ const TableParentProps = props => {
     },
     {
       field: 'delete',
-      headerName: 'X',
+      headerName: '+',
       width: 70,
       editable: false,
       renderCell: function renderCell(params: any) {
@@ -53,30 +55,34 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(parentComponent, params.id);
+                console.log('props.props inside button', props)
+                console.log('params inside button', params)
+              addParentProps(params.row, params.id);
             }}
           >
-            <ClearIcon style={{ width: `${15}px` }} />
+            <AddIcon style={{ width: `${15}px` }} />
           </Button>
         );
       }
     }
   ];
-  const deleteState = (parentComponent, selectedId) => {
+  const addParentProps = (parentComponentProps, rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
     // const currentId = state.canvasFocus.componentId;
     // const currentComponent = state.components[currentId - 1];
-    console.log("inside of deleteState");
-    console.log({selectedId}); 
-    console.log({parentComponent}) //this isn't working-- returning undefined instead of correct component
-    const filtered = parentComponent?.stateProps?.filter(
-      element => element.id === selectedId
-    );
+    console.log("inside of addParentProps");
+    console.log({rowId}); 
+    console.log('params.row', {parentComponentProps}) //this isn't working-- returning undefined instead of correct component
+    // console.log('parentProps', parentProps) //this isn't working-- returning undefined instead of correct component
+    // const filtered = parentComponent?.stateProps?.filter(
+    //   element => element.id === selectedId - 1
+    // );
+    // console.log({filtered});
     dispatch({
       type: 'ADD PARENTPROPS',
-      payload: { passedInProps: filtered, rowId: selectedId }
+      payload: { passedInProps: parentComponentProps, rowId: rowId }
     });
   };
 
