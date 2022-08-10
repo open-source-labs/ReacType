@@ -93,10 +93,24 @@ const TableStateProps = props => {
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
   let rows = [];
+  console.log('passedInProps after rows declaration', state.components[state.canvasFocus.componentId - 1].passedInProps?.slice()[0]);
+  console.log('type of passedInProps', Array.isArray(state.components[state.canvasFocus.componentId - 1].passedInProps?.slice()));
+  const passedInProps = state.components[state.canvasFocus.componentId - 1].passedInProps?.slice();
+  passedInProps?.forEach(propObj => {
+    rows.push(propObj)
+  })
+  console.log('rows after for loop', rows)
+  // let passedInPropsArray = state.components[state.canvasFocus.componentId - 1].passedInProps?.slice();
+  // console.log({passedInPropsArray})
+  // if (passedInPropsArray[0]) rows.push(passedInPropsArray[0]);
+  console.log('rows in line 98', rows);
+  console.log('props.providerId',props.providerId);
   if (!props.providerId) {
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
     rows = currentComponent.stateProps.slice();
+    //add parentProps to the rows array
+    rows.concat(currentComponent.passedInProps?.slice());
   } else {
     const providerComponent = state.components[props.providerId - 1];
     // changed to get whole object
@@ -104,6 +118,8 @@ const TableStateProps = props => {
       const displayObject = props.displayObject;
       // format for DataGrid
       let id=1;
+      const currentId = state.canvasFocus.componentId;
+      const currentComponent = state.components[currentId - 1];
       for (const key in displayObject) {
         // if key is a number make it a string with brackets aroung number
         const newKey = isNaN(key) ? key : '[' + key + ']';
@@ -111,7 +127,11 @@ const TableStateProps = props => {
         rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
       }
     } else {
+      const currentId = state.canvasFocus.componentId;
+      const currentComponent = state.components[currentId - 1];
       rows = providerComponent.stateProps.slice();
+      rows.concat(currentComponent.passedInProps?.slice());
+      console.log({rows})
     }
   }
 
