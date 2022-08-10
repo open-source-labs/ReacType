@@ -39,6 +39,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const currentComponent = state.components[currentId - 1];
   const [parentProps, setParentProps] = useState([]);
   const [parentName, setParentName] = useState('No Parents');
+  const [parentComponent, setParentComponent] = useState({});
   console.log({currentComponent});
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
@@ -115,6 +116,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     
     setParentProps(parentInfo.parentProps);
     setParentName(parentInfo.parentName);
+    setParentComponent(parentInfo.parentComponent);
   }, [currentId]);
 
   const findParent = (childId) => {
@@ -129,7 +131,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
           console.log('the parents state props are:', currComponent.stateProps);
           
           return {parentProps: currComponent.stateProps, 
-                  parentName: currComponent.name
+                  parentName: currComponent.name,
+                  parentComponent: currComponent
                 }
         }
       }
@@ -230,7 +233,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
               Props from Parent: {parentName ? parentName : 'No Parents'}
             </h4>
         
-            <TableParentProps parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+            <TableParentProps parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         
        
 

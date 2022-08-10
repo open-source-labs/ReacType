@@ -16,6 +16,8 @@ const TableParentProps = props => {
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
   const parentProps = props.parentProps;
+  const parentComponent = props.parentComponent;
+  console.log({parentComponent});
   const columnTabs = [
     {
       field: 'id',
@@ -51,7 +53,7 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id);
+              deleteState(parentComponent, params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -60,18 +62,21 @@ const TableParentProps = props => {
       }
     }
   ];
-  const deleteState = selectedId => {
+  const deleteState = (parentComponent, selectedId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    const filtered = currentComponent.stateProps.filter(
-      element => element.id !== selectedId
+    // const currentId = state.canvasFocus.componentId;
+    // const currentComponent = state.components[currentId - 1];
+    console.log("inside of deleteState");
+    console.log({selectedId}); 
+    console.log({parentComponent}) //this isn't working-- returning undefined instead of correct component
+    const filtered = parentComponent?.stateProps?.filter(
+      element => element.id === selectedId
     );
     dispatch({
-      type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId }
+      type: 'ADD PARENTPROPS',
+      payload: { passedInProps: filtered, rowId: selectedId }
     });
   };
 
@@ -129,7 +134,6 @@ const TableParentProps = props => {
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-        checkboxSelection
       />
          )}
     </div>
