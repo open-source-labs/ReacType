@@ -9,6 +9,7 @@ import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
+import { borderLeft } from '@mui/system';
 
 const Table3 = props => {
   // console.log('props from table state props', props)
@@ -25,7 +26,7 @@ const Table3 = props => {
     {
       field: 'id',
       headerName: 'ID',
-      width: 70,
+      width: 30,
       editable: false
     },
     {
@@ -49,14 +50,16 @@ const Table3 = props => {
     {
       field: 'delete',
       headerName: 'X',
-      width: 70,
+      width: 30,
       editable: false,
+      align: 'left',
       renderCell: function renderCell(params: any) {
         return (
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                console.log('params inside button', params)
+                console.log('params inside delete button', params)
+                console.log('params.id inside delete button', params.id)
               deleteParentProps(params.row, params.id);
             }}
           >
@@ -138,8 +141,9 @@ const Table3 = props => {
           columns={gridColumns}
           pageSize={5}
           editRowsModel={editRowsModel}
-          onRowClick={deleteParentProps}
+          // onRowClick={deleteParentProps}
           className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+          // checkboxSelection
         />
     </div>
   );

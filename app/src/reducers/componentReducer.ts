@@ -796,12 +796,23 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-      currComponent.passedInProps = action.payload.passedInProps;
-      console.log('in delete reducer', currComponent)
-      console.log('in delete reducer 2', action.payload.rowId)
-      const toDelete = currComponent.passedInProps[0]
-      console.log('in delete reducer', {toDelete})
-      delete currComponent.passedInProps[0];
+      console.log('currComponent.passedInProps before splice', currComponent.passedInProps)
+      // currComponent.passedInProps = action.payload.passedInProps;
+      // console.log('in delete reducer after assignment', currComponent.passedInProps)
+      console.log('in delete reducer action.payload.rowId', action.payload.rowId)
+      // const toDelete = currComponent.passedInProps[action.payload.rowId]
+      // console.log('in delete reducer toDelete', {toDelete})
+      let index;
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        if (currComponent.passedInProps[i].id === action.payload.rowId) {
+          index = i;
+          break;
+        }
+      }
+      currComponent.passedInProps.splice(index, 1);
+      // console.log('temp', temp)
+      console.log('currComponent.passedInProps after splice', currComponent.passedInProps)
+      // delete currComponent.passedInProps[0];
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,

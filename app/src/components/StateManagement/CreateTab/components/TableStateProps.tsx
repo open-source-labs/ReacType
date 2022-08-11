@@ -26,7 +26,7 @@ const TableStateProps = props => {
     {
       field: 'id',
       headerName: 'ID',
-      width: 70,
+      width: 30,
       editable: false
     },
     {
@@ -50,7 +50,7 @@ const TableStateProps = props => {
     {
       field: 'delete',
       headerName: 'X',
-      width: 90,
+      width: 30,
       editable: false,
       renderCell: function renderCell(params: any) {
         return (

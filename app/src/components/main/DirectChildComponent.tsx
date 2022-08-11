@@ -54,7 +54,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
   const combinedStyle = combineStyles(
     combineStyles(
       combineStyles(globalDefaultStyle, referencedComponent.style),
-      style
+      // style
     ),
     interactiveStyle
   );
