@@ -803,7 +803,7 @@ const reducer = (state: State, action: Action) => {
       // const toDelete = currComponent.passedInProps[action.payload.rowId]
       // console.log('in delete reducer toDelete', {toDelete})
       let index;
-      for (let i = 0; i < currComponent.passedInProps.length - 1 ; i++) {
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
         if (currComponent.passedInProps[i].id === action.payload.rowId) {
           index = i;
           break;
