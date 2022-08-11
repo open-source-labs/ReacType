@@ -16,6 +16,7 @@ const TableParentProps = props => {
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
+  const [checked, setChecked] = useState(false);
   const parentProps = props.parentProps;
   const parentComponent = props.parentComponent;
   const columnTabs = [
@@ -59,6 +60,7 @@ const TableParentProps = props => {
           >
             <AddIcon style={{ width: `${15}px` }} />
           </Button>
+          
         );
       }
     }
@@ -128,15 +130,16 @@ const TableParentProps = props => {
 
 
   return (
-    <div className={'state-prop-grid'} style={{display: 'flex', gap: "20px"}}>
+    <div className={'state-prop-grid'}>
          {(rows.length &&   
       <DataGrid
         rows={rows}
         columns={gridColumns}
         pageSize={5}
         editRowsModel={editRowsModel}
-        onRowClick={selectHandler}
+        onRowClick={addParentProps}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        checkboxSelection
       />
          )}
     </div>

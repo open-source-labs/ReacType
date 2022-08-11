@@ -8,8 +8,9 @@ import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
+import AddIcon from '@mui/icons-material/Add';
 
-const TableStateProps = props => {
+const Table3 = props => {
   // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
@@ -17,11 +18,8 @@ const TableStateProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const rows1 = props.rows1;
-  const setRows1 = props.setRows1;
-  console.log({currentComponent})
-
-  console.log({rows1})
+  console.log({currentComponent});
+  const passedInProps = currentComponent.name !== 'App' ? currentComponent.passedInProps : '';
   const columnTabs = [
     {
       field: 'id',
@@ -49,7 +47,7 @@ const TableStateProps = props => {
     },
     {
       field: 'delete',
-      headerName: 'X',
+      headerName: '+',
       width: 70,
       editable: false,
       renderCell: function renderCell(params: any) {
@@ -57,29 +55,38 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id);
+                console.log('params inside button', params)
+              deleteParentProps(params.row, params.id);
             }}
           >
-            <ClearIcon style={{ width: `${15}px` }} />
+            <AddIcon style={{ width: `${15}px` }} />
           </Button>
+          
         );
       }
     }
   ];
-  const deleteState = selectedId => {
+  const deleteParentProps = (parentComponentProps, rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    const filtered = currentComponent.stateProps.filter(
-      element => element.id !== selectedId
-    );
+    // const currentId = state.canvasFocus.componentId;
+    // const currentComponent = state.components[currentId - 1];
+    console.log("inside of addParentProps");
+    console.log({rowId}); 
+    console.log('params.row', {parentComponentProps}) //this isn't working-- returning undefined instead of correct component
+    // console.log('parentProps', parentProps) //this isn't working-- returning undefined instead of correct component
+    // const filtered = parentComponent?.stateProps?.filter(
+    //   element => element.id === selectedId - 1
+    // );
+    // console.log({filtered});
     dispatch({
-      type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId }
+      type: 'DELETE PARENTPROPS',
+      payload: { passedInProps: parentComponentProps, rowId: rowId }
     });
   };
+
+
 
   useEffect(() => {
     setGridColumns(columnTabs);
@@ -89,56 +96,27 @@ const TableStateProps = props => {
   // the delete button needs to be updated to remove
   // the states from the current focused component
 
-
-  
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
-
+    
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
-
-  let rows = [];
-    
-  
-    // const passedInProps = currentComponent.passedInProps?.slice();
-    // console.log({passedInProps});
-
-    // passedInProps?.forEach(propObj => {
-    //   rows.push(propObj)
-    // })
-
-    console.log("rows before pushing stateProps", rows);
-
-    currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
-
-    console.log("rows after pushing stateProps", rows);
-
+  // legacy pd convert parent props into a row array
   // if (!props.providerId) {
-   
-    // if (rows.length < 1) {
-      //currentComponent.stateProps?.forEach((prop) => rows.push(prop)) 
-    // } else rows.concat(currentComponent.stateProps.slice());
-  
-    //[1,1.01,2,2.02]
-    //[1,3,2,4]
-    //add current props to the rows array
-  //} 
-  // else {
-
-  //   /// LegacyPD: we want to delete this because state management tab shouldn't be using context 
-
+  //   const currentId = state.canvasFocus.componentId;
+  //   const currentComponent = state.components[currentId - 1];
+  //   rows = currentComponent.stateProps.slice();
+  // } else {
   //   const providerComponent = state.components[props.providerId - 1];
   //   // changed to get whole object
   //   if (props.displayObject){
   //     const displayObject = props.displayObject;
   //     // format for DataGrid
   //     let id=1;
-  //     const currentId = state.canvasFocus.componentId;
-  //     const currentComponent = state.components[currentId - 1];
   //     for (const key in displayObject) {
   //       // if key is a number make it a string with brackets aroung number
   //       const newKey = isNaN(key) ? key : '[' + key + ']';
@@ -146,9 +124,7 @@ const TableStateProps = props => {
   //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
   //     }
   //   } else {
-  //     const currentId = state.canvasFocus.componentId;
-  //     const currentComponent = state.components[currentId - 1];
-  //     rows.concat(currentComponent.stateProps.slice());
+  //     rows = providerComponent.stateProps.slice();
   //   }
   // }
 
@@ -156,14 +132,14 @@ const TableStateProps = props => {
   return (
     <div className={'state-prop-grid'}>
       <DataGrid
-        rows={rows}
+        rows={passedInProps}
         columns={gridColumns}
         pageSize={5}
         editRowsModel={editRowsModel}
-        onRowClick={selectHandler}
+        onRowClick={deleteParentProps}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        checkboxSelection
       />
-  
     </div>
   );
 };
@@ -192,4 +168,4 @@ const useStyles = makeStyles({
   }
 });
 
-export default TableStateProps;
+export default Table3;

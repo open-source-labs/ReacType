@@ -26,6 +26,8 @@ import {
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
 import TableParentProps from "./TableParentProps";
+import Table3 from "./Table3";
+
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
@@ -227,18 +229,22 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         </FormControl>
       </div>
       <br></br>
-      <div>
+      <div style={{display: 'flex', overflowX: 'scroll', width: '1000px'}}>
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
         </h4>
         <TableStateProps rows1={rows1} setRows1={setRows1} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
     
           
-            <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
-              Props from Parent: {parentName ? parentName : 'No Parents'}
-            </h4>
-        
-            <TableParentProps parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+          Available Props from Parent: {parentName ? parentName : 'No Parents'}
+        </h4>
+    
+        <TableParentProps parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+        Passed in Props from Parent: {parentName ? parentName : 'No Parents'}
+        </h4>
+        <Table3 canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         
        
 
