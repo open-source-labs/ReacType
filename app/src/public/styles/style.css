@@ -44,7 +44,7 @@ h4 {
 }
 .state-prop-grid {
   height: 300px;
-  width: 500px;
+  width: max-content;
   flex-grow: 1;
 }
 .HTMLItemCreate {

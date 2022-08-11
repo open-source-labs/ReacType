@@ -26,31 +26,31 @@ const TableStateProps = props => {
     {
       field: 'id',
       headerName: 'ID',
-      width: 70,
+      width: 50,
       editable: false
     },
     {
       field: 'key',
       headerName: 'Key',
-      width: 90,
+      width: 50,
       editable: true
     },
     {
       field: 'value',
       headerName: 'Value',
-      width: 90,
+      width: 50,
       editable: true
     },
     {
       field: 'type',
       headerName: 'Type',
-      width: 90,
+      width: 50,
       editable: false
     },
     {
       field: 'delete',
       headerName: 'X',
-      width: 70,
+      width: 50,
       editable: false,
       renderCell: function renderCell(params: any) {
         return (

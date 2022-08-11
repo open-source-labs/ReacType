@@ -133,7 +133,6 @@ const Table3 = props => {
 
   return (
     <div className={'state-prop-grid'}>
-      ({rows.length &&
         <DataGrid
           rows={rows}
           columns={gridColumns}
@@ -141,10 +140,7 @@ const Table3 = props => {
           editRowsModel={editRowsModel}
           onRowClick={deleteParentProps}
           className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-          checkboxSelection
         />
-      })
-      
     </div>
   );
 };

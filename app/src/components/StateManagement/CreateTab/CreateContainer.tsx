@@ -80,16 +80,16 @@ const CreateContainer = ({isThemeLight, data}) => {
   };
   return (
     <>
-      <Grid container display="flex" justifyContent="space-evenly">
-        <Grid item>
+      <Grid container display="flex" justifyContent="stretch" flexDirection="column">
+        {/* <Grid item>
           <Grid
             container
             spacing={2}
             display="flex"
             direction="column"
             justifyContent="center"
-            alignItems="center"
-          >
+            alignItems="center" */}
+          {/* > */}
             {/* LegacyPD deleted the components below because we're going to replace with the component from CreationPanel */}
             {/* <Grid item>
               <AddContextForm
@@ -109,11 +109,11 @@ const CreateContainer = ({isThemeLight, data}) => {
                 contextInput={contextInput}
               />
             </Grid> */}
-            <Grid item>
+            {/* <Grid item> */}
             <StatePropsPanel isThemeLight={isThemeLight} data={data}/>
-            </Grid>
-          </Grid>
-        </Grid>
+            {/* </Grid> */}
+          {/* </Grid> */}
+        {/* </Grid> */}
     
         {/* 
           LegacyPD commented out the below to move to DisplayContainer
