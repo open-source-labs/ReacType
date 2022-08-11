@@ -48,7 +48,7 @@ const Table3 = props => {
     },
     {
       field: 'delete',
-      headerName: '+',
+      headerName: 'X',
       width: 70,
       editable: false,
       renderCell: function renderCell(params: any) {
