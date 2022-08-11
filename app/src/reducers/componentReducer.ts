@@ -789,6 +789,29 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
+
+    case 'DELETE PARENTPROPS' : {
+      const components = [...state.components];
+      let currComponent = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      currComponent.passedInProps = action.payload.passedInProps;
+      console.log('in delete reducer', currComponent)
+      console.log('in delete reducer 2', action.payload.rowId)
+      const toDelete = currComponent.passedInProps[0]
+      console.log('in delete reducer', {toDelete})
+      delete currComponent.passedInProps[0];
+      currComponent.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components};
+    }
+
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(

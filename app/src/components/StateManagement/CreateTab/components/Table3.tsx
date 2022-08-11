@@ -60,7 +60,7 @@ const Table3 = props => {
               deleteParentProps(params.row, params.id);
             }}
           >
-            <AddIcon style={{ width: `${15}px` }} />
+            <ClearIcon style={{ width: `${15}px` }} />
           </Button>
           
         );
@@ -87,7 +87,7 @@ const Table3 = props => {
     });
   };
 
-
+  console.log('passed in props after delete', currentComponent.passedInProps);
 
   useEffect(() => {
     setGridColumns(columnTabs);
@@ -105,7 +105,8 @@ const Table3 = props => {
     }
     
   }, [state.canvasFocus.componentId]);
-  let rows = passedInProps;
+
+  let rows = passedInProps?.slice();
   // rows to show are either from current component or from a given provider
   // legacy pd convert parent props into a row array
   // if (!props.providerId) {
@@ -129,7 +130,6 @@ const Table3 = props => {
   //     rows = providerComponent.stateProps.slice();
   //   }
   // }
-
 
   return (
     <div className={'state-prop-grid'}>
