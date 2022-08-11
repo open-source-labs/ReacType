@@ -137,9 +137,8 @@ const TableParentProps = props => {
         columns={gridColumns}
         pageSize={5}
         editRowsModel={editRowsModel}
-        onRowClick={addParentProps}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-        checkboxSelection
+        // checkboxSelection
       />
          )}
     </div>

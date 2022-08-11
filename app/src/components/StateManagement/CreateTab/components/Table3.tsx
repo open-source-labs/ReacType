@@ -20,6 +20,7 @@ const Table3 = props => {
   const currentComponent = state.components[currentId - 1];
   console.log({currentComponent});
   const passedInProps = currentComponent.name !== 'App' ? currentComponent.passedInProps : '';
+  
   const columnTabs = [
     {
       field: 'id',
@@ -104,6 +105,7 @@ const Table3 = props => {
     }
     
   }, [state.canvasFocus.componentId]);
+  let rows = passedInProps;
   // rows to show are either from current component or from a given provider
   // legacy pd convert parent props into a row array
   // if (!props.providerId) {
@@ -131,15 +133,18 @@ const Table3 = props => {
 
   return (
     <div className={'state-prop-grid'}>
-      <DataGrid
-        rows={passedInProps}
-        columns={gridColumns}
-        pageSize={5}
-        editRowsModel={editRowsModel}
-        onRowClick={deleteParentProps}
-        className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-        checkboxSelection
-      />
+      ({rows.length &&
+        <DataGrid
+          rows={rows}
+          columns={gridColumns}
+          pageSize={5}
+          editRowsModel={editRowsModel}
+          onRowClick={deleteParentProps}
+          className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+          checkboxSelection
+        />
+      })
+      
     </div>
   );
 };
