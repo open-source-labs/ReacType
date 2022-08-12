@@ -40,6 +40,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
   const [parentProps, setParentProps] = useState([]);
+  const [parentPassedInProps, setParentPassedInProps] = useState([]);
   const [parentName, setParentName] = useState('No Parents');
   const [parentComponent, setParentComponent] = useState({});
   const [rows1, setRows1] = useState(currentComponent.stateProps);
@@ -85,7 +86,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     }
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
-      id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      // id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      id: inputKey,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
@@ -120,6 +122,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     setParentProps(parentInfo.parentProps);
     setParentName(parentInfo.parentName);
     setParentComponent(parentInfo.parentComponent);
+    setParentPassedInProps(parentInfo.parentPassedInProps)
   }, [currentId]);
 
   const findParent = (childId) => {
@@ -139,7 +142,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
           // })
           return {parentProps: currComponentCopy.stateProps, 
                   parentName: currComponentCopy.name,
-                  parentComponent: currComponentCopy
+                  parentComponent: currComponentCopy,
+                  parentPassedInProps: currComponentCopy.passedInProps
                 }
         }
       }
@@ -241,7 +245,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
           Available Props from Parent: {parentName ? parentName : 'No Parents'}
         </h4>
-        <TableParentProps parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        <TableParentProps parentPassedInProps = {parentPassedInProps} parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', width: `${40}px`, color: 'black', justifyContent: 'center'}}>
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">

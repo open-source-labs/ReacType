@@ -14,18 +14,21 @@ const TableParentProps = props => {
   // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
+  const currentId = state.canvasFocus.componentId;
+  const currentComponent = state.components[currentId - 1];
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
   const [checked, setChecked] = useState(false);
   const parentProps = props.parentProps;
+  const parentPassedInProps = props.parentPassedInProps;
   const parentComponent = props.parentComponent;
   const columnTabs = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 30,
-      editable: false
-    },
+    // {
+    //   field: 'id',
+    //   headerName: 'ID',
+    //   width: 30,
+    //   editable: false
+    // },
     {
       field: 'key',
       headerName: 'Key',
@@ -55,7 +58,7 @@ const TableParentProps = props => {
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
                 console.log('params inside button', params)
-              addParentProps(params.row, params.id);
+              addParentProps(params.row, params.id - 1);
             }}
           >
             <AddIcon style={{ width: `${15}px` }} />
@@ -105,7 +108,20 @@ const TableParentProps = props => {
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
   // legacy pd convert parent props into a row array
-  let rows = parentProps;
+  //let rows = parentProps;
+  let rows;
+  
+  if (currentComponent.name === 'App') {rows = []}
+  else { 
+    if (parentProps) {
+      rows = parentProps;
+      if (parentPassedInProps) {
+        rows = [...rows, ...parentPassedInProps]
+      }
+  }
+  }
+
+  console.log({rows});
   // if (!props.providerId) {
   //   const currentId = state.canvasFocus.componentId;
   //   const currentComponent = state.components[currentId - 1];

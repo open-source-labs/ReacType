@@ -19,16 +19,16 @@ const TableStateProps = props => {
   const currentComponent = state.components[currentId - 1];
   const rows1 = props.rows1;
   const setRows1 = props.setRows1;
-  console.log({currentComponent})
+  // console.log({currentComponent})
 
-  console.log({rows1})
+  // console.log({rows1})
   const columnTabs = [
-    {
-      field: 'id',
-      headerName: 'ID',
-      width: 30,
-      editable: false
-    },
+    // {
+    //   field: 'id',
+    //   headerName: 'ID',
+    //   width: 30,
+    //   editable: false
+    // },
     {
       field: 'key',
       headerName: 'Key',
@@ -57,7 +57,7 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id);
+              deleteState(params.id, params.row.key);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -66,7 +66,7 @@ const TableStateProps = props => {
       }
     }
   ];
-  const deleteState = selectedId => {
+  const deleteState = (selectedId, stateName) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
@@ -75,9 +75,12 @@ const TableStateProps = props => {
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
+    const filteredChildren = currentComponent.children.passedInProps.filter(
+      element => element.name !== stateName
+    );
     dispatch({
       type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId }
+      payload: { stateProps: filtered, rowId: selectedId, passedInProps: filteredChildren }
     });
   };
 
