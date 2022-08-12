@@ -44,6 +44,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [parentName, setParentName] = useState('No Parents');
   const [parentComponent, setParentComponent] = useState({});
   const [rows1, setRows1] = useState(currentComponent.stateProps);
+  const [propNum, setPropNum] = useState(1);
+
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
@@ -76,6 +78,14 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   let currKey;
   const submitNewState = (e) => {
     e.preventDefault();
+
+    // don't allow them to submit state without all fields 
+    if (!inputKey|| !inputType || !inputValue) {
+      setErrorStatus(true);
+      setErrorMsg('All fields are required');
+      return;
+    }
+
     const statesArray = currentComponent.stateProps;
     //loop though array, access each obj at key property
     let keyToInt = parseInt(inputKey[0]);
@@ -84,10 +94,28 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       setErrorMsg('Key name can not start with int.');
       return;
     }
+
+    // carly LegacyPD
+    // check here to see if state has already been created with the submitted key 
+      // iterate through all the state keys in all of the components in the app 
+        // outer for loop: iterating through all of the components in the app 
+        for (let i = 0; i < state.components.length; i++) {
+          // inner for loop iterating through the stateProps array for each component 
+          for (let j = 0; j < state.components[i].stateProps.length; j++) {
+          
+          // if find piece of state with the same key as inputKey, create an error
+          if (inputKey === state.components[i].stateProps[j]["key"]) {
+            setErrorStatus(true);
+            setErrorMsg('Key name already in use.');
+            return;
+          }
+          }
+        }
+    setPropNum(prev => prev + 1);
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
       // id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
-      id: inputKey,
+      id: `${currentComponent.name}-${propNum}`,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
@@ -165,6 +193,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
             value={inputKey}
             error={errorStatus}
             onChange={(e) => setInputKey(e.target.value)}
+            helperText={errorStatus ? errorMsg : ''}
             className={isThemeLight ? `${classes.rootLight} ${classes.inputTextLight}` : `${classes.rootDark} ${classes.inputTextDark}`}
             />
           <TextField

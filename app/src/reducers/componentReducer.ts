@@ -776,6 +776,15 @@ const reducer = (state: State, action: Action) => {
         // need to change this to match the id from the tree
         state.canvasFocus.componentId
       ); 
+      // do a check if prop already exists in passed in props
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        let curr = currComponent.passedInProps[i];
+        console.log('inside for loop curr', curr)
+        console.log('inside for loop action.payload.passedInProps', action.payload.passedInProps)
+        if (curr.id === action.payload.passedInProps.id) {
+          return { ...state, components};
+        }
+      }
       currComponent.passedInProps.push(action.payload.passedInProps);
       console.log('in reducer', currComponent)
       //currComponent.useStateCodes = updateUseStateCodes(currComponent);
