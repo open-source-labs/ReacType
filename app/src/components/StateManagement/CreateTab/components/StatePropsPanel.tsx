@@ -43,6 +43,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const [parentName, setParentName] = useState('No Parents');
   const [parentComponent, setParentComponent] = useState({});
   const [rows1, setRows1] = useState(currentComponent.stateProps);
+  const [propNum, setPropNum] = useState(1);
+
   // convert value to correct type based on user input
   const typeConversion = (value, type) => {
     switch (type) {
@@ -108,10 +110,11 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
           }
           }
         }
-
+    setPropNum(prev => prev + 1);
     const newState = {
       // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
-      id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      // id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      id: `${currentComponent.name}-${propNum}`,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
