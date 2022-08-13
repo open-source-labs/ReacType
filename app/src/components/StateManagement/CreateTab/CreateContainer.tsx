@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import DataTable from './components/DataTable';
-import AddDataForm from './components/AddDataForm';
-import AddContextForm from './components/AddContextForm';
 import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
@@ -79,57 +77,9 @@ const CreateContainer = ({isThemeLight, data}) => {
     }
   };
   return (
-    <>
       <Grid container display="flex" justifyContent="stretch" flexDirection="column">
-        {/* <Grid item>
-          <Grid
-            container
-            spacing={2}
-            display="flex"
-            direction="column"
-            justifyContent="center"
-            alignItems="center" */}
-          {/* > */}
-            {/* LegacyPD deleted the components below because we're going to replace with the component from CreationPanel */}
-            {/* <Grid item>
-              <AddContextForm
-                contextStore={state}
-                handleClickSelectContext={handleClickSelectContext}
-                handleDeleteContextClick={handleDeleteContextClick}
-                renderTable={renderTable}
-                contextInput={contextInput}
-                setContextInput={setContextInput}
-              />
-            </Grid> */}
-
-            {/* <Divider variant="middle" />
-            <Grid item>
-              <AddDataForm
-                handleClickInputData={handleClickInputData}
-                contextInput={contextInput}
-              />
-            </Grid> */}
-            {/* <Grid item> */}
-            <StatePropsPanel isThemeLight={isThemeLight} data={data}/>
-            {/* </Grid> */}
-          {/* </Grid> */}
-        {/* </Grid> */}
-    
-        {/* 
-          LegacyPD commented out the below to move to DisplayContainer
-        <Divider orientation="vertical" variant="middle" flexItem />
-        <Grid item>
-          <Typography
-            style={{ color: 'black' }}
-            variant="h6"
-            gutterBottom={true}
-          >
-            State Data Table
-          </Typography>
-          <DataTable target={tableState} contextInput={contextInput} />
-        </Grid> */}
+        <StatePropsPanel isThemeLight={isThemeLight} data={data}/>
       </Grid>
-    </>
   );
 };
 

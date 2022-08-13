@@ -131,7 +131,6 @@ const generateUnformattedCode = (
     if (childElement.style && Object.keys(childElement.style).length > 0)
       customizationDetails += ' ' + formatStyles(childElement);
 
-    console.log({customizationDetails})
     return customizationDetails;
   };
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.

@@ -18,10 +18,6 @@ const reducer = (state: State, action: Action) => {
     return components.find(elem => elem.id === componentId);
   };
 
-  const findParentBen = (components: Component[], componentId: number) => {
-
-    const nodeArr: (Component)[] = [component]
-  }
   // Finds a parent
   // returns object with parent object and index value of child
   const findParent = (component: Component, childId: number) => {
@@ -191,7 +187,6 @@ const reducer = (state: State, action: Action) => {
     return localStateCode;
   };
   switch (action.type) {
-    //legacypd added passedinprops
     case 'ADD COMPONENT': {
       if (
         typeof action.payload.componentName !== 'string' ||
@@ -277,8 +272,6 @@ const reducer = (state: State, action: Action) => {
       const newChild: ChildElement = {
         type,
         typeId,
-        //parentID -> (state.canvasFocus.id)
-        //parent.stateProps -> {hello: hello}
         name: newName,
         childId: state.nextChildId,
         style: {},
@@ -403,16 +396,6 @@ const reducer = (state: State, action: Action) => {
         componentId,
         childId
       }: { componentId: number; childId: number | null } = action.payload;
-
-      const newStateComponents = state.components.slice();
-      // const child = findChild(newStateComponents, childId);
-      // console.log({child})
-      console.log({newStateComponents})
-      console.log({componentId});
-      console.log({childId});
-      // legacy pd added
-      const parent = findParent(findComponent(newStateComponents, componentId), componentId);
-      console.log({parent});
 
       if (childId < 1000) {
         // makes separators not selectable
@@ -747,7 +730,6 @@ const reducer = (state: State, action: Action) => {
         ...state
       };
     }
-    //legacypd BEN potentially need to change this reducer and DELETE STATE reducer to have the parent props 
     case 'ADD STATE' : {
       // find the current component in focus
       const components = [...state.components];
@@ -766,8 +748,11 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
-    // lagacyPD added switch case to add props form the parent
-    case 'ADD PARENTPROPS' : {
+    /* 
+    When props are passed from a parent to a child in the State Manager tab, it will update the components available
+    passedInProps
+    */
+    case 'ADD PASSEDINPROPS' : {
       // find the current component in focus
       const components = [...state.components];
       const currComponent = findComponent(
@@ -779,14 +764,11 @@ const reducer = (state: State, action: Action) => {
       // do a check if prop already exists in passed in props
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
         let curr = currComponent.passedInProps[i];
-        console.log('inside for loop curr', curr)
-        console.log('inside for loop action.payload.passedInProps', action.payload.passedInProps)
         if (curr.id === action.payload.passedInProps.id) {
           return { ...state, components};
         }
       }
       currComponent.passedInProps.push(action.payload.passedInProps);
-      console.log('in reducer', currComponent)
       //currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
@@ -799,18 +781,16 @@ const reducer = (state: State, action: Action) => {
       return { ...state, components};
     }
 
-    case 'DELETE PARENTPROPS' : {
+    case 'DELETE PASSEDINPROPS' : {
       const components = [...state.components];
       let currComponent = findComponent(
         components,
         state.canvasFocus.componentId
       );
-      console.log('currComponent.passedInProps before splice', currComponent.passedInProps)
-      // currComponent.passedInProps = action.payload.passedInProps;
-      // console.log('in delete reducer after assignment', currComponent.passedInProps)
-      console.log('in delete reducer action.payload.rowId', action.payload.rowId)
-      // const toDelete = currComponent.passedInProps[action.payload.rowId]
-      // console.log('in delete reducer toDelete', {toDelete})
+      /*
+      Check whether the current component selected has passed in props and splices out that 
+      piece of state from the array.
+      */
       let index;
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
         if (currComponent.passedInProps[i].id === action.payload.rowId) {
@@ -819,9 +799,7 @@ const reducer = (state: State, action: Action) => {
         }
       }
       currComponent.passedInProps.splice(index, 1);
-      // console.log('temp', temp)
-      console.log('currComponent.passedInProps after splice', currComponent.passedInProps)
-      // delete currComponent.passedInProps[0];
+
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,

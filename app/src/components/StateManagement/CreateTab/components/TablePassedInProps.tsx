@@ -11,15 +11,13 @@ import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import { borderLeft } from '@mui/system';
 
-const Table3 = props => {
-  // console.log('props from table state props', props)
+const TablePassedInProps = props => {
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  console.log({currentComponent});
   const passedInProps = currentComponent.name !== 'App' ? currentComponent.passedInProps : '';
   
   const columnTabs = [
@@ -58,9 +56,7 @@ const Table3 = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                console.log('params inside delete button', params)
-                console.log('params.id inside delete button', params.id)
-              deleteParentProps(params.row, params.id);
+                deletePassedInProps(params.row, params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -70,27 +66,15 @@ const Table3 = props => {
       }
     }
   ];
-  const deleteParentProps = (parentComponentProps, rowId) => {
+  const deletePassedInProps = (parentComponentProps, rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    // const currentId = state.canvasFocus.componentId;
-    // const currentComponent = state.components[currentId - 1];
-    console.log("inside of addParentProps");
-    console.log({rowId}); 
-    console.log('params.row', {parentComponentProps}) //this isn't working-- returning undefined instead of correct component
-    // console.log('parentProps', parentProps) //this isn't working-- returning undefined instead of correct component
-    // const filtered = parentComponent?.stateProps?.filter(
-    //   element => element.id === selectedId - 1
-    // );
-    // console.log({filtered});
     dispatch({
-      type: 'DELETE PARENTPROPS',
+      type: 'DELETE PASSEDINPROPS',
       payload: { passedInProps: parentComponentProps, rowId: rowId }
     });
   };
-
-  console.log('passed in props after delete', currentComponent.passedInProps);
 
   useEffect(() => {
     setGridColumns(columnTabs);
@@ -173,4 +157,4 @@ const useStyles = makeStyles({
   }
 });
 
-export default Table3;
+export default TablePassedInProps;

@@ -21,7 +21,6 @@ export default function LoginButton() {
   // };
 
   const handleLogout = () => {
-    console.log('in handlelogout')
     document.cookie = "SSID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
     //const navigate = useNavigate();
     //navigate('/');

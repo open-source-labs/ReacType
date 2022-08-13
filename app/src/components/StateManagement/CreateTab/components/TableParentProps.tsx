@@ -57,7 +57,6 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                console.log('params inside button', params)
               addParentProps(params.row, params.id - 1);
             }}
           >
@@ -72,18 +71,8 @@ const TableParentProps = props => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    // const currentId = state.canvasFocus.componentId;
-    // const currentComponent = state.components[currentId - 1];
-    console.log("inside of addParentProps");
-    console.log({rowId}); 
-    console.log('params.row', {parentComponentProps}) //this isn't working-- returning undefined instead of correct component
-    // console.log('parentProps', parentProps) //this isn't working-- returning undefined instead of correct component
-    // const filtered = parentComponent?.stateProps?.filter(
-    //   element => element.id === selectedId - 1
-    // );
-    // console.log({filtered});
     dispatch({
-      type: 'ADD PARENTPROPS',
+      type: 'ADD PASSEDINPROPS',
       payload: { passedInProps: parentComponentProps, rowId: rowId }
     });
   };
@@ -121,7 +110,6 @@ const TableParentProps = props => {
   }
   }
 
-  console.log({rows});
   // if (!props.providerId) {
   //   const currentId = state.canvasFocus.componentId;
   //   const currentComponent = state.components[currentId - 1];

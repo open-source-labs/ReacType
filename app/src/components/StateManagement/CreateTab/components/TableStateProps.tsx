@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 
 const TableStateProps = props => {
-  // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
@@ -19,9 +18,7 @@ const TableStateProps = props => {
   const currentComponent = state.components[currentId - 1];
   const rows1 = props.rows1;
   const setRows1 = props.setRows1;
-  // console.log({currentComponent})
-
-  // console.log({rows1})
+  
   const columnTabs = [
     {
       field: 'id',
@@ -68,16 +65,12 @@ const TableStateProps = props => {
   ];
   const deleteState = (selectedId, stateName) => {
     // get the current focused component
-    // remove the state that the button is clicked
     // send a dispatch to rerender the table
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
-    // const filteredChildren = currentComponent.children.passedInProps.filter(
-    //   element => element.name !== stateName
-    // );
     dispatch({
       type: 'DELETE STATE',
       payload: { stateProps: filtered, rowId: selectedId}
@@ -89,10 +82,6 @@ const TableStateProps = props => {
   }, [props.isThemeLight]);
 
   const { selectHandler }: StatePropsPanelProps = props;
-  // the delete button needs to be updated to remove
-  // the states from the current focused component
-
-
   
   useEffect(() => {
     if (props.canDeleteState) {
@@ -105,55 +94,7 @@ const TableStateProps = props => {
   // rows to show are either from current component or from a given provider
 
   let rows = [];
-    
-  
-    // const passedInProps = currentComponent.passedInProps?.slice();
-    // console.log({passedInProps});
-
-    // passedInProps?.forEach(propObj => {
-    //   rows.push(propObj)
-    // })
-
-    console.log("rows before pushing stateProps", rows);
-
-    currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
-
-    console.log("rows after pushing stateProps", rows);
-
-  // if (!props.providerId) {
-   
-    // if (rows.length < 1) {
-      //currentComponent.stateProps?.forEach((prop) => rows.push(prop)) 
-    // } else rows.concat(currentComponent.stateProps.slice());
-  
-    //[1,1.01,2,2.02]
-    //[1,3,2,4]
-    //add current props to the rows array
-  //} 
-  // else {
-
-  //   /// LegacyPD: we want to delete this because state management tab shouldn't be using context 
-
-  //   const providerComponent = state.components[props.providerId - 1];
-  //   // changed to get whole object
-  //   if (props.displayObject){
-  //     const displayObject = props.displayObject;
-  //     // format for DataGrid
-  //     let id=1;
-  //     const currentId = state.canvasFocus.componentId;
-  //     const currentComponent = state.components[currentId - 1];
-  //     for (const key in displayObject) {
-  //       // if key is a number make it a string with brackets aroung number
-  //       const newKey = isNaN(key) ? key : '[' + key + ']';
-  //       const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
-  //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
-  //     }
-  //   } else {
-  //     const currentId = state.canvasFocus.componentId;
-  //     const currentComponent = state.components[currentId - 1];
-  //     rows.concat(currentComponent.stateProps.slice());
-  //   }
-  // }
+  currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
 
 
   return (

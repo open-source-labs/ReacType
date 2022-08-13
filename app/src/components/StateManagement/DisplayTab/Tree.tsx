@@ -1,27 +1,19 @@
-import React, { useRef, useEffect, useContext, Children } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { select, hierarchy, tree, linkHorizontal} from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../../../context/context';
-import { element } from 'prop-types';
-import {StateDisplay} from '../../../interfaces/Interfaces';
 
 function usePrevious(value) {
   const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
+  useEffect(() => ref.current = value);
   return ref.current;
 }
 
-function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp }) { // data is components from state - passed in from BottomTabs
-  console.log("data from displayContainer:", data);
+function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp }) { 
   const [state, dispatch] = useContext(StateContext);
-  //const canvasId = state.canvasFocus.componentId;
-
   const svgRef = useRef();
   const wrapperRef = useRef();
-
   const xPosition = 50;
   const textAndBorderColor = '#bdbdbd';
   const dimensions = useResizeObserver(wrapperRef);
@@ -30,72 +22,62 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
   // function to filter out separators to prevent render on tree chart
 
   const removeHTMLElements = (arr: object[]) => {
-    // loop over array
-    for (let i = 0; i < arr.length; i++) {
+    for(let i = 0; i < arr.length; i++) {
       if(arr[i] === undefined) continue;
       // if element is separator, remove it
-      if (arr[i].type === 'HTML Element') {
+      if(arr[i].type === 'HTML Element') {
         arr.splice(i, 1);
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if (arr[i].type === 'Component' && arr[i].children.length) {
+      else if(arr[i].type === 'Component' && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
-        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
+        if(arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
         removeHTMLElements(arr[i].children);
       }
     }
-    // return mutated array
     return arr;
-    console.log('array:', arr)
   };
+  
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
   
-  //Miko left off
+  // LEGACYPD to look at when trying to figure out how to convert tab to work for NextJS
   if(state.projectType === 'Next.js') {
     dataDeepClone.forEach(element => {
       element.children = sanitize(element.children).filter(element => !Array.isArray(element));
-    })
+    });
 
     function sanitize(children) {
       return children.map((child) => {
-        if(child.name === 'Switch' || child.name === 'Route') {
-          return sanitize(child.children);
-        } else {
-          return child;
-        }
+        if(child.name === 'Switch' || child.name === 'Route') return sanitize(child.children);
+        else return child;
       });
     } 
   }
 
   // remove separators and update components to current versions
-  dataDeepClone.forEach(component => {
-    removeHTMLElements(component.children);
-  });
+  dataDeepClone.forEach(component => removeHTMLElements(component.children));
+  
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    //LegacyPD changed the value in line below to 0 
-    const root = hierarchy(dataDeepClone[0]); // pass in clone here instead of data
+    const root = hierarchy(dataDeepClone[0]); 
     const treeLayout = tree().size([height, width - 125]);
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
       .y(link => link.x);
+    
     // insert our data into the tree layout
     treeLayout(root);
-    //BEN - if we can pass in the nodes as the parts of the App children that DO contain the stateprops, then those would be
-    // 
-    //let nodes = d3.hierarchy(treeData, d => d.children);
-    // node - each element in the tree
+    
     svg
       .selectAll('.node')
       .data(root.descendants())
@@ -109,38 +91,28 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
       // translate (x, y)
       .attr('cx', node => node.y)
       .attr('cy', node => node.x)
-      .attr('r', 10) // radius of circle
+      .attr('r', 10)
       .attr('opacity', 1)
       .style('fill', 'white')
       .attr('transform', `translate(${xPosition}, 0)`)
-      //LegacyPD
-      .on("click", function(element){
-        console.log(element);
+      .on("click", function(element) {
         const nameOfClicked = element.srcElement.__data__.data.name;
-  
-        // App doesn't have a parent element so want to only console log if click on non-App element
-        // let nameOfClickedParent = null; 
-        // if (nameOfClicked !== "App") nameOfClickedParent = element.srcElement.__data__.parent.data.name;
-        
         let passedInProps;
         let componentStateProps;
         
         // iterate through data array to find stateProps for parent and clicked element
-        for (let i = 0; i < data.length; i++) {
-          if (data[i]["name"] === nameOfClicked) {
+        for(let i = 0; i < data.length; i++) {
+          if(data[i]["name"] === nameOfClicked) {
             componentStateProps = data[i]["stateProps"];
             passedInProps = data[i]["passedInProps"];
+          }
         }
-      }
-          console.log(nameOfClicked);
-          console.log(passedInProps);
-        console.log("componentStateProps outside for loop", componentStateProps);
-        console.log("passedInProps outside for loop", passedInProps);
         setCurrComponentState(componentStateProps);
         setParentProps(passedInProps);
         setClickedComp(nameOfClicked);
 
       });
+
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
@@ -159,6 +131,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
         })
         .attr('stroke-dashoffset', 0);
     }
+
     // label - the names of each html element (node)
     svg
       .selectAll('.label')
@@ -175,6 +148,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
       .attr('transform', `translate(${xPosition}, 0)`);
 
   }, [data, dimensions, previouslyRenderedData]);
+  
   const treeStyles = {
     height: '400px',
     width: '100%',
@@ -199,4 +173,5 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
     </div>
   );
 }
+
 export default Tree;

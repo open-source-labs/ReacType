@@ -15,7 +15,7 @@ export interface State {
   nextChildId: number;
   HTMLTypes: HTMLType[];
 }
-//legacypd: add stateprops and passedinprops
+
 export interface ChildElement {
   type: string;
   typeId: number;
@@ -29,7 +29,7 @@ export interface ChildElement {
   stateUsed?: object; 
   passedInProps: StateProp[]
 }
-//legacypd: add passedinprops
+
 export interface Component {
   id: number;
   name: string;
@@ -47,6 +47,7 @@ export interface Component {
   passedInProps: StateProp[]
 }
 export interface StateProp {
+  id: string;
   key: string;
   value: any;
   type: unknown;
@@ -101,12 +102,4 @@ export interface StatePropsPanelProps {
 export interface AddRoutes {
   id: number;
   name: string;
-}
-
-//LegacyPD added this 
-export interface StateDisplay {
-  parentName: string;
-  componentName: string;
-  parentStateProps: StateProp[];
-  componentStateProps: StateProp[];
 }

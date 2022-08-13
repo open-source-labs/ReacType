@@ -26,7 +26,7 @@ import {
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
 import TableParentProps from "./TableParentProps";
-import Table3 from "./Table3";
+import TablePassedInProps from "./TablePassedInProps";
 
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
@@ -99,22 +99,20 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     // check here to see if state has already been created with the submitted key 
       // iterate through all the state keys in all of the components in the app 
         // outer for loop: iterating through all of the components in the app 
-        for (let i = 0; i < state.components.length; i++) {
+    for (let i = 0; i < state.components.length; i++) {
           // inner for loop iterating through the stateProps array for each component 
-          for (let j = 0; j < state.components[i].stateProps.length; j++) {
-          
-          // if find piece of state with the same key as inputKey, create an error
-          if (inputKey === state.components[i].stateProps[j]["key"]) {
-            setErrorStatus(true);
-            setErrorMsg('Key name already in use.');
-            return;
-          }
-          }
+      for (let j = 0; j < state.components[i].stateProps.length; j++) {
+        // if find piece of state with the same key as inputKey, create an error
+        if (inputKey === state.components[i].stateProps[j]["key"]) {
+          setErrorStatus(true);
+          setErrorMsg('Key name already in use.');
+          return;
         }
+      }
+    }
     setPropNum(prev => prev + 1);
     const newState = {
-      // check if array is not empty => true find last elem in array. get id and increment by 1 || else 1
-      // id: statesArray.length > 0 ? statesArray[statesArray.length-1].id + 1 : 1,
+      // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-${propNum}`,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
@@ -161,8 +159,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       for (let j = 0; j < currComponent.children.length; j++) {
         let currChild = currComponent.children[j];
         if (currChild.typeId === childId) {
-          console.log('the parent is component:', currComponent);
-          console.log('the parents state props are:', currComponent.stateProps);
           const currComponentCopy = JSON.parse(JSON.stringify(currComponent));
           // currComponentCopy.stateProps.map((el) => {
           //   console.log(el)
@@ -286,7 +282,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
         Passed in Props from Parent: {parentName ? parentName : 'No Parents'}
         </h4>
-        <Table3 canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+        <TablePassedInProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
         
        

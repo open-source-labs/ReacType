@@ -31,13 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function DataTable(props) {
-  // const [state, dispatch] = useContext(StateContext);
-  // console.log('passedInProps from context', state.component.passedInProps)
   const { currComponentState, setCurrComponentState, parentProps, setParentProps, clickedComp } = props;
-  console.log('props inside data table', props);
-  console.log({currComponentState});
-  console.log({parentProps});
-  console.log({clickedComp});
   
   return (
     <>
@@ -49,43 +43,37 @@ export default function DataTable(props) {
         >
           
           {/* this table will contain passed down stateProps data from parent component */}
+          {/* we are checking if the clicked component is App-- if it is App, it doesn't have any parents so don't need this table*/}
         {(clickedComp !== 'App' && 
-        
+          <>
           <TableHead>
             <TableRow>
-              {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
-                {/* contextInput to be replaced by new state hook by other LegacyPD. Want to use component name and parent name instead */}
                  { 'Props Passed in from Parent:'}
               </StyledTableCell>
             </TableRow>
           </TableHead>
-        )}
-        {(clickedComp !== 'App' &&
           <TableBody>
-            <StyledTableRow>
-            <StyledTableCell component="th" scope="row" ><b>Key</b></StyledTableCell>
-            <StyledTableCell align="right"><b>Type</b></StyledTableCell>
-            <StyledTableCell align="right"><b>Initial Value</b></StyledTableCell>
+          <StyledTableRow>
+          <StyledTableCell component="th" scope="row" ><b>Key</b></StyledTableCell>
+          <StyledTableCell align="right"><b>Type</b></StyledTableCell>
+          <StyledTableCell align="right"><b>Initial Value</b></StyledTableCell>
+          </StyledTableRow>
+          {parentProps ? parentProps.map((data, index) => (
+            <StyledTableRow key={index}>
+              <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
+              <StyledTableCell align="right">{data.type}</StyledTableCell>
+              <StyledTableCell align="right">{data.value}</StyledTableCell>
             </StyledTableRow>
-            {parentProps ? parentProps.map((data, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
-                <StyledTableCell align="right">{data.type}</StyledTableCell>
-                <StyledTableCell align="right">{data.value}</StyledTableCell>
-              </StyledTableRow>
-            )): ''}
-          </TableBody>
+          )): ''}
+        </TableBody>
+        </>
+        )}
           
-          )}
-          
-          {/* this will contain state prop data from selected component */}
-
+          {/* The below table will contain the state initialized for the clicked component */}
           <TableHead>
             <TableRow>
-              {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
-                {/* contextInput to be replaced by new state hook by other LegacyPD. Want to use component name and parent name instead */}
                 {'State Initialized in Current Component:'}
               </StyledTableCell>
             </TableRow>

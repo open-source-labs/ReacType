@@ -21,10 +21,8 @@ const useStyles = makeStyles({
 });
 
 const StateManager = (props): JSX.Element => {
-  console.log('props from statemanagment.tsx', props)
   const [state, dispatch] = useContext(StateContext);
   const { components, HTMLTypes } = state;
-  console.log('props from statemanger', props)
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 
