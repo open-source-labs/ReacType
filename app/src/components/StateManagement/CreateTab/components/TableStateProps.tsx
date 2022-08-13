@@ -92,7 +92,6 @@ const TableStateProps = props => {
 
   }, [state.canvasFocus.componentId]);
   // rows to show are either from current component or from a given provider
-
   let rows = [];
   currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
 
