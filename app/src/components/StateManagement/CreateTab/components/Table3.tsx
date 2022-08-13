@@ -23,12 +23,12 @@ const Table3 = props => {
   const passedInProps = currentComponent.name !== 'App' ? currentComponent.passedInProps : '';
   
   const columnTabs = [
-    // {
-    //   field: 'id',
-    //   headerName: 'ID',
-    //   width: 30,
-    //   editable: false
-    // },
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 30,
+      editable: false
+    },
     {
       field: 'key',
       headerName: 'Key',

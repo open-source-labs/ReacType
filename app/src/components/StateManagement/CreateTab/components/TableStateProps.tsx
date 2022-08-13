@@ -23,12 +23,12 @@ const TableStateProps = props => {
 
   // console.log({rows1})
   const columnTabs = [
-    // {
-    //   field: 'id',
-    //   headerName: 'ID',
-    //   width: 30,
-    //   editable: false
-    // },
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 30,
+      editable: false
+    },
     {
       field: 'key',
       headerName: 'Key',
@@ -75,12 +75,12 @@ const TableStateProps = props => {
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
-    const filteredChildren = currentComponent.children.passedInProps.filter(
-      element => element.name !== stateName
-    );
+    // const filteredChildren = currentComponent.children.passedInProps.filter(
+    //   element => element.name !== stateName
+    // );
     dispatch({
       type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId, passedInProps: filteredChildren }
+      payload: { stateProps: filtered, rowId: selectedId}
     });
   };
 
