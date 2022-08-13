@@ -57,7 +57,7 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              addParentProps(params.row, params.id - 1);
+              addPassedInProps(params.row, params.id - 1);
             }}
           >
             <AddIcon style={{ width: `${15}px` }} />
@@ -67,7 +67,7 @@ const TableParentProps = props => {
       }
     }
   ];
-  const addParentProps = (parentComponentProps, rowId) => {
+  const addPassedInProps = (parentComponentProps, rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
