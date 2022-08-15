@@ -118,7 +118,6 @@ const ProjectManager = () => {
     // when a directory is chosen, the callback will export the project to the chosen folder
     // Note: this listener is imported from the main process via preload.js
     window.api.addAppDirChosenListener(path => {
-      console.log('state compnents', state.components)
       exportProject(
         path,
         state.name

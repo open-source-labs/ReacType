@@ -1,25 +1,19 @@
-import React, { useRef, useEffect, useContext, Children } from 'react';
-import { select, hierarchy, tree, linkHorizontal } from 'd3';
+import React, { useRef, useEffect, useContext } from 'react';
+import { select, hierarchy, tree, linkHorizontal} from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
-import StateContext from '../context/context';
-import { element } from 'prop-types';
+import StateContext from '../../../context/context';
 
 function usePrevious(value) {
   const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
+  useEffect(() => ref.current = value);
   return ref.current;
 }
 
-function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
+function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp }) { 
   const [state, dispatch] = useContext(StateContext);
-  const canvasId = state.canvasFocus.componentId;
-
   const svgRef = useRef();
   const wrapperRef = useRef();
-
   const xPosition = 50;
   const textAndBorderColor = '#bdbdbd';
   const dimensions = useResizeObserver(wrapperRef);
@@ -27,70 +21,63 @@ function TreeChart({ data }) { // data is components from state - passed in from
   const previouslyRenderedData = usePrevious(data);
   // function to filter out separators to prevent render on tree chart
 
-  const removeSeparators = (arr: object[]) => {
-    // loop over array
-    for (let i = 0; i < arr.length; i++) {
+  const removeHTMLElements = (arr: object[]) => {
+    for(let i = 0; i < arr.length; i++) {
       if(arr[i] === undefined) continue;
       // if element is separator, remove it
-      if (arr[i].name === 'separator') {
+      if(arr[i].type === 'HTML Element') {
         arr.splice(i, 1);
         i -= 1;
       }
       // if element has a children array and that array has length, recursive call
-      else if ((arr[i].name === 'div' || arr[i].name === 'form' || arr[i].type === 'Component' || arr[i].name === 'Link'
-        || arr[i].name === 'Switch' || arr[i].name === 'Route' || arr[i].name === 'menu'
-        || arr[i].name === 'ul' || arr[i].name === 'ol' || arr[i].name === 'li') && arr[i].children.length) {
+      else if(arr[i].type === 'Component' && arr[i].children.length) {
         // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
-        if (arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
-        removeSeparators(arr[i].children);
+        if(arr[i].type === 'Component') arr[i] = cloneDeep(data.find(component => component.name === arr[i].name));
+        removeHTMLElements(arr[i].children);
       }
     }
-    // return mutated array
     return arr;
   };
+  
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
   
-  //Miko left off
+  // LEGACYPD to look at when trying to figure out how to convert tab to work for NextJS
   if(state.projectType === 'Next.js') {
     dataDeepClone.forEach(element => {
       element.children = sanitize(element.children).filter(element => !Array.isArray(element));
-    })
+    });
 
     function sanitize(children) {
       return children.map((child) => {
-        if(child.name === 'Switch' || child.name === 'Route') {
-          return sanitize(child.children);
-        } else {
-          return child;
-        }
+        if(child.name === 'Switch' || child.name === 'Route') return sanitize(child.children);
+        else return child;
       });
     } 
   }
 
   // remove separators and update components to current versions
-  dataDeepClone.forEach(component => {
-    removeSeparators(component.children);
-  });
+  dataDeepClone.forEach(component => removeHTMLElements(component.children));
+  
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
-    const { width, height } =
-      dimensions || wrapperRef.current.getBoundingClientRect();
+    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
+    const root = hierarchy(dataDeepClone[0]); 
     const treeLayout = tree().size([height, width - 125]);
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
     const linkGenerator = linkHorizontal()
       .x(link => link.y)
       .y(link => link.x);
+    
     // insert our data into the tree layout
     treeLayout(root);
-    // node - each element in the tree
+    
     svg
       .selectAll('.node')
       .data(root.descendants())
@@ -104,10 +91,28 @@ function TreeChart({ data }) { // data is components from state - passed in from
       // translate (x, y)
       .attr('cx', node => node.y)
       .attr('cy', node => node.x)
-      .attr('r', 4) // radius of circle
+      .attr('r', 10)
       .attr('opacity', 1)
       .style('fill', 'white')
-      .attr('transform', `translate(${xPosition}, 0)`);
+      .attr('transform', `translate(${xPosition}, 0)`)
+      .on("click", function(element) {
+        const nameOfClicked = element.srcElement.__data__.data.name;
+        let passedInProps;
+        let componentStateProps;
+        
+        // iterate through data array to find stateProps for parent and clicked element
+        for(let i = 0; i < data.length; i++) {
+          if(data[i]["name"] === nameOfClicked) {
+            componentStateProps = data[i]["stateProps"];
+            passedInProps = data[i]["passedInProps"];
+          }
+        }
+        setCurrComponentState(componentStateProps);
+        setParentProps(passedInProps);
+        setClickedComp(nameOfClicked);
+
+      });
+
     // link - lines that connect the nodes
     const enteringAndUpdatingLinks = svg
       .selectAll('.link')
@@ -126,6 +131,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
         })
         .attr('stroke-dashoffset', 0);
     }
+
     // label - the names of each html element (node)
     svg
       .selectAll('.label')
@@ -133,7 +139,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .join(enter => enter.append('text').attr('opacity', 0))
       .attr('class', 'label')
       .attr('x', node => node.y)
-      .attr('y', node => node.x - 12)
+      .attr('y', node => node.x - 20)
       .attr('text-anchor', 'middle')
       .attr('font-size', 18)
       .style('fill', textAndBorderColor)
@@ -141,13 +147,16 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
 
-  }, [data, dimensions, previouslyRenderedData, canvasId]);
+  }, [data, dimensions, previouslyRenderedData]);
+  
   const treeStyles = {
-    height: '100%',
-    width: `100%`,
+    height: '400px',
+    width: '100%',
     margin: '10px 10px 10px 10px',
-    overflow: 'auto'
+    overflow: 'auto',
+    alignItems: 'center'
   };
+  
   const wrapperStyles = {
     border: `2px solid ${textAndBorderColor}`,
     borderRadius: '8px',
@@ -157,10 +166,12 @@ function TreeChart({ data }) { // data is components from state - passed in from
     justifyContent: 'center',
     backgroundColor: '#42464C',
   };
+
   return (
     <div ref={wrapperRef} style={wrapperStyles}>
       <svg ref={svgRef} style={treeStyles}></svg>
     </div>
   );
 }
-export default TreeChart;
+
+export default Tree;

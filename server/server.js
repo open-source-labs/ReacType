@@ -1,8 +1,8 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const GitHubStrategy = require('passport-github2').Strategy;
+//const passport = require('passport');
+//const GitHubStrategy = require('passport-github2').Strategy;
 const { DEV_PORT } = require('../config');
 
 const path = require('path');
@@ -39,52 +39,52 @@ app.use(
 // on initial login, redirect back to app is not working correctly when in production environment
 // subsequent logins seem to be working fine, however
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: isDev
-        ? `http://localhost:${DEV_PORT}/github/callback`
-        : `https://reactype-caret.herokuapp.com/github/callback`
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log(profile);
-    }
-  )
-);
+// passport.use(
+//   new GitHubStrategy(
+//     {
+//       clientID: process.env.GITHUB_ID,
+//       clientSecret: process.env.GITHUB_SECRET,
+//       callbackURL: isDev
+//         ? `http://localhost:${DEV_PORT}/github/callback`
+//         : `https://reactype-caret.herokuapp.com/github/callback`
+//     },
+//     function(accessToken, refreshToken, profile, done) {
+//       console.log(profile);
+//     }
+//   )
+// );
 
 // initializes passport and passport sessions
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-app.get(
-  '/auth/github',
-  passport.authenticate('github', { session: false }),
-  (req, res) => {
-    res.send('github');
-  }
-);
+// app.get(
+//   '/auth/github',
+//   passport.authenticate('github', { session: false }),
+//   (req, res) => {
+//     res.send('github');
+//   }
+// );
 
 // for Oauth which is currently not working
-app.get(
-  '/github/callback',
-  sessionController.gitHubResponse,
-  sessionController.gitHubSendToken,
-  userController.createUser,
-  userController.verifyUser,
-  cookieController.setSSIDCookie,
-  sessionController.startSession,
-  (req, res) => {
-    if (isDev) {
-      return res
-        .status(200)
-        .redirect(`http://localhost:8080?=${res.locals.ssid}`);
-    } else {
-      return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
-    }
-  }
-);
+// app.get(
+//   '/github/callback',
+//   sessionController.gitHubResponse,
+//   sessionController.gitHubSendToken,
+//   userController.createUser,
+//   userController.verifyUser,
+//   cookieController.setSSIDCookie,
+//   sessionController.startSession,
+//   (req, res) => {
+//     if (isDev) {
+//       return res
+//         .status(200)
+//         .redirect(`http://localhost:8080?=${res.locals.ssid}`);
+//     } else {
+//       return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
+//     }
+//   }
+// );
 
 // app.get('/github/callback', passport.authenticate('github'), function(
 //   req,
@@ -100,31 +100,31 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-const Query = require('./graphQL/resolvers/query');
+//const Query = require('./graphQL/resolvers/query');
 // Mutation resolvers
-const Mutation = require('./graphQL/resolvers/mutation');
+//const Mutation = require('./graphQL/resolvers/mutation');
 
 // package resolvers into one variable to pass to Apollo Server
-const resolvers = {
-  Query,
-  Mutation
-};
+// const resolvers = {
+//   Query,
+//   Mutation
+// };
 
-app.use(
-  '/demoRender',
-  express.static(path.join(__dirname, './assets/renderDemo.css'))
-);
+// app.use(
+//   '/demoRender',
+//   express.static(path.join(__dirname, './assets/renderDemo.css'))
+// );
 
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
-const typeDefs = require('./graphQL/schema/typeDefs.js');
+//const typeDefs = require('./graphQL/schema/typeDefs.js');
 // const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
+//const server = new ApolloServer({ typeDefs, resolvers });
+//server.applyMiddleware({ app });
 /** ****************************************************************** */
 
 app.post(
@@ -165,9 +165,9 @@ app.delete(
   (req, res) => res.status(200).json(res.locals.deleted)
 );
 
-app.get('/', function(req, res) {
-  res.send('Houston, Caret is in orbit!');
-});
+// app.get('/', function(req, res) {
+//   res.send('Houston, Caret is in orbit!');
+// });
 
 // catch-all route handler
 app.use('*', (req, res) => res.status(404).send('Page not found'));
