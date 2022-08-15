@@ -818,7 +818,20 @@ const reducer = (state: State, action: Action) => {
       );
       currComponent.stateProps = action.payload.stateProps;
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
+
       components.forEach((component) => {
+
+
+        //find all instances of state within child elements and delete state
+
+        
+        if (component.name !== 'App') {
+          component.passedInProps.forEach((prop, i) => {
+            if(prop.id === action.payload.rowId) {
+              component.passedInProps.splice(i,1);
+            }
+          });
+        }
           // curr component = where you are deleting from state from, also is the canvas focus
           // curr component id = providerId
           // we then iterate through the rest of the components
