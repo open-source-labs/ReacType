@@ -258,7 +258,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
 
         </FormControl>
       </div>
-       <>
        <br></br>
       <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -287,7 +286,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         <TablePassedInProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
       </div>
-       </>
     </div>
   );
 };

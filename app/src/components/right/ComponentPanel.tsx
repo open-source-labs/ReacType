@@ -117,7 +117,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       return;
     } else if (checkIfRoot(compName)) {
       triggerError('rootDupe');
-      retur
+      return;
     }
     createOption(compName);
     resetError();
