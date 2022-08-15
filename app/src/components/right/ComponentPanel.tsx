@@ -34,6 +34,8 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       setErrorMsg('Component name must start with a letter.');
     } else if (type === 'symbolsDetected') {
       setErrorMsg('Component name must not contain symbols.');
+    } else if (type === 'rootDupe') {
+      setErrorMsg('Component name cannot be root component name.');
     }
   };
 
@@ -47,18 +49,26 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   };
 
   // check if name of new component is the same as an existing component
-  const checkNameDupe = (inputName: String) => {
+  const checkNameDupe = (inputName: String): boolean => {
     let checkList = state.components.slice(); // makes copy of components array
+    let dupe = false;
 
     // checks to see if inputted comp name already exists
-    let dupe = false;
     checkList.forEach(comp => {
-      if (comp.name.toLowerCase() === inputName.toLowerCase()) {
-        dupe = true;
-      }
+      if (comp.name.toLowerCase() === inputName.toLowerCase()) dupe = true
     });
+
     return dupe;
   };
+
+  const checkIfRoot = (inputName: String): boolean => {
+    let rootDupe = false; 
+    // checks to see if inputted comp name is equal to root component name. Want to prevent that
+     if (inputName.toLowerCase() === 'index'|| inputName.toLowerCase() === 'app') {
+      rootDupe = true;
+    }
+    return rootDupe;
+  }
 
   // "Root" components are not draggable into the main canvas
   // If next.js or Gatsby.js mode is on, root components will be separate pages
@@ -105,6 +115,9 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     } else if (checkNameDupe(compName)) {
       triggerError('dupe');
       return;
+    } else if (checkIfRoot(compName)) {
+      triggerError('rootDupe');
+      retur
     }
     createOption(compName);
     resetError();
