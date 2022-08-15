@@ -54,7 +54,7 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id, params.row.key);
+              deleteState(params.id, params.key);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -73,7 +73,7 @@ const TableStateProps = props => {
     );
     dispatch({
       type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId}
+      payload: { stateProps: filtered, rowId: selectedId }
     });
   };
 
