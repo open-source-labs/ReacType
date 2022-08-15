@@ -825,7 +825,7 @@ const reducer = (state: State, action: Action) => {
         //find all instances of state within child elements and delete state
 
         
-        if (component.name !== 'App') {
+        if (component.name !== 'App' && component.name !== 'index') {
           component.passedInProps.forEach((prop, i) => {
             if(prop.id === action.payload.rowId) {
               component.passedInProps.splice(i,1);
