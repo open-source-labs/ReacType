@@ -21,10 +21,15 @@ export default function LoginButton() {
   // };
 
   const handleLogout = () => {
-    document.cookie = "SSID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    // document.cookie = "ssid=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+    // console.log(document.cookie)
+    //localStorage.clear();
+    window.localStorage.clear();
+    //window.api.delCookie();
     //const navigate = useNavigate();
     //navigate('/');
     window.location.href = 'http://localhost:8080/#/login';
+    window.api.delCookie();
     // window.location.reload();
   }
   if (state.isLoggedIn) {

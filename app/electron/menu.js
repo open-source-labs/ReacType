@@ -39,11 +39,11 @@ var MenuBuilder = function(mainWindow, appName) {
       minWidth: 665,
       title: 'Tutorial',
       webPreferences: {
-        nodeIntegration: false,
+        nodeIntegration: true,
         nodeIntegrationInWorker: false,
         nodeIntegrationInSubFrames: false,
         contextIsolation: true,
-        enableRemoteModule: false,
+        enableRemoteModule: true,
         zoomFactor: 1.0,
         devTools: false
       }
