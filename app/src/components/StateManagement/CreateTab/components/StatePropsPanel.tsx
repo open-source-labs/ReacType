@@ -258,8 +258,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
 
         </FormControl>
       </div>
-
-      {/* {(state.projectType === "Classic React" &&  */}
        <>
        <br></br>
       <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
@@ -290,7 +288,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         </div>
       </div>
        </>
-       {/* )} */}
     </div>
   );
 };
