@@ -237,5 +237,9 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.5.5"
   }
 }
