@@ -255,9 +255,10 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
             Save
           </MyButton>
           <br></br>
+
         </FormControl>
       </div>
-      <br></br>
+       <br></br>
       <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
         <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
@@ -284,9 +285,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         </h4>
         <TablePassedInProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
-        
-       
-
       </div>
     </div>
   );
