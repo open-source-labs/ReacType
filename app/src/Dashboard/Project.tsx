@@ -105,17 +105,17 @@ const Project = ({
     setCommentVal(commentValue);
   }
   const recentComments = [];
-  if (comments.length > 0) { 
-    const reversedCommentArray = comments.slice(0).reverse();
-    const min = Math.min(6, reversedCommentArray.length)
-    for (let i = 0; i < min ; i++) {
-    recentComments.push(
-      <p className='comment'>
-        <b>{ reversedCommentArray[i].username }</b>: 
-        { reversedCommentArray[i].text }
-      </p>
-        )}
-  }
+  // if (comments?.length > 0) { 
+  //   const reversedCommentArray = comments.slice(0).reverse();
+  //   const min = Math.min(6, reversedCommentArray.length)
+  //   for (let i = 0; i < min ; i++) {
+  //   recentComments.push(
+  //     <p className='comment'>
+  //       <b>{ reversedCommentArray[i].username }</b>: 
+  //       { reversedCommentArray[i].text }
+  //     </p>
+  //       )}
+  // }
   // Closes out the open modal
   const closeModal = () => setModal('');
   // Creates modal that asks if user wants to delete project

@@ -119,16 +119,18 @@ const generateUnformattedCode = (
     return formattedStyles;
   };
   // function to dynamically add classes, ids, and styles to an element if it exists.
+  //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = '';
-    if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails += ' ' + `id="${+childElement.childId}"`;
+    if (childElement.childId && childElement.tag !== 'Route') //legacypd
+      customizationDetails += ' ' + `id="${+childElement.childId}"` + ' props = {props}';
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
     }
     if (childElement.style && Object.keys(childElement.style).length > 0)
       customizationDetails += ' ' + formatStyles(childElement);
+
     return customizationDetails;
   };
   // function to fix the spacing of the ace editor for new lines of added content. This was breaking on nested components, leaving everything right justified.
@@ -387,6 +389,7 @@ const generateUnformattedCode = (
     };
 
     //call use context hooks for components that are consuming contexts
+    //LEGACY PD: 
     const createUseContextHook = () => {
       if (!(currComponent.name in componentContext)) return '';
 

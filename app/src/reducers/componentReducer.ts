@@ -17,6 +17,7 @@ const reducer = (state: State, action: Action) => {
   const findComponent = (components: Component[], componentId: number) => {
     return components.find(elem => elem.id === componentId);
   };
+
   // Finds a parent
   // returns object with parent object and index value of child
   const findParent = (component: Component, childId: number) => {
@@ -206,6 +207,7 @@ const reducer = (state: State, action: Action) => {
         future: [],
         stateProps: [],
         useStateCodes: [],
+        passedInProps: []
       };
       components.push(newComponent);
       // functionality if the new component will become the root component
@@ -274,7 +276,9 @@ const reducer = (state: State, action: Action) => {
         childId: state.nextChildId,
         style: {},
         attributes: {},
-        children: componentChildren
+        children: componentChildren, 
+        stateProps: [], //legacy pd: added stateprops and passedinprops
+        passedInProps: []
       };
       const topSeparator: ChildElement = {
         type: 'HTML Element',
@@ -346,6 +350,7 @@ const reducer = (state: State, action: Action) => {
       );
       // find the moved element's former parent
       // delete the element from it's former parent's children array
+
       const { directParent, childIndexValue } = findParent(
         component,
         currentChildId
@@ -743,6 +748,68 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
+    /* 
+    When props are passed from a parent to a child in the State Manager tab, it will update the components available
+    passedInProps
+    */
+    case 'ADD PASSEDINPROPS' : {
+      // find the current component in focus
+      const components = [...state.components];
+      const currComponent = findComponent(
+        components,
+        //legacyPD - tom
+        // need to change this to match the id from the tree
+        state.canvasFocus.componentId
+      ); 
+      // do a check if prop already exists in passed in props
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        let curr = currComponent.passedInProps[i];
+        if (curr.id === action.payload.passedInProps.id) {
+          return { ...state, components};
+        }
+      }
+      currComponent.passedInProps.push(action.payload.passedInProps);
+      //currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      currComponent.code = generateCode(
+        components,
+        //change the id here as well
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components};
+    }
+
+    case 'DELETE PASSEDINPROPS' : {
+      const components = [...state.components];
+      let currComponent = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      /*
+      Check whether the current component selected has passed in props and splices out that 
+      piece of state from the array.
+      */
+      let index;
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        if (currComponent.passedInProps[i].id === action.payload.rowId) {
+          index = i;
+          break;
+        }
+      }
+      currComponent.passedInProps.splice(index, 1);
+
+      currComponent.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components};
+    }
+
     case 'DELETE STATE' : {
       const components = [...state.components];
       let currComponent = findComponent(
@@ -751,7 +818,20 @@ const reducer = (state: State, action: Action) => {
       );
       currComponent.stateProps = action.payload.stateProps;
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
+
       components.forEach((component) => {
+
+
+        //find all instances of state within child elements and delete state
+
+        
+        if (component.name !== 'App') {
+          component.passedInProps.forEach((prop, i) => {
+            if(prop.id === action.payload.rowId) {
+              component.passedInProps.splice(i,1);
+            }
+          });
+        }
           // curr component = where you are deleting from state from, also is the canvas focus
           // curr component id = providerId
           // we then iterate through the rest of the components
