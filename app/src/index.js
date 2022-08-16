@@ -21,7 +21,7 @@ import TutorialPage from './tutorial/TutorialPage.tsx';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5656/graphql',
+  uri: 'https://reactype-1.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
 // const initialState = { code: ``, input: `` };
