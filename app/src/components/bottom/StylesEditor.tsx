@@ -12,7 +12,7 @@ import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
-const serverURL = 'https://reactype-caret.herokuapp.com';
+const serverURL = 'https://reactype-1.herokuapp.com/';
 
 const StylesEditor: React.FC<{
   theme: string | null;

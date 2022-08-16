@@ -1,11 +1,16 @@
 {
   "name": "reactype",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Ahsan Rao",
+    "Benjamin Cauffman",
+    "Carly Jackson",
+    "Darin Ngau",
+    "Thomas Lukasiewicz",
     "Abeer Faizan",
     "Aaron Bumanglag",
     "Adam Singer",
