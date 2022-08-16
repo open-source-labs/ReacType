@@ -73,7 +73,7 @@ const TableParentProps = props => {
     // send a dispatch to rerender the table
     dispatch({
       type: 'ADD PASSEDINPROPS',
-      payload: { passedInProps: parentComponentProps, rowId: rowId }
+      payload: { passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent }
     });
   };
 

@@ -68,9 +68,19 @@ const TableStateProps = props => {
     // send a dispatch to rerender the table
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
-    const filtered = currentComponent.stateProps.filter(
-      element => element.id !== selectedId
-    );
+    // returns an array of the remaining props after deleting selected prop
+    const filtered = currentComponent.stateProps.slice();
+    for (let i = 0; i < filtered.length; i++) {
+      let curr = filtered[i];
+      // filtered.push(curr);
+      if (curr.id === selectedId) {
+        if (i %2 ===0) {
+          filtered.splice(i, 2);
+        } else {
+          filtered.splice(i - 1, 2);
+        }
+      }
+    }
     dispatch({
       type: 'DELETE STATE',
       payload: { stateProps: filtered, rowId: selectedId }

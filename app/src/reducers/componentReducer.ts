@@ -183,6 +183,12 @@ const reducer = (state: State, action: Action) => {
       }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
       localStateCode.push(useStateCode);
     });
+    if (currentComponent.name !== 'App' && currentComponent.name !== 'Index') {
+      currentComponent.passedInProps.forEach((passedInProp) => {
+        const prop = `const ${passedInProp.key} = props.${passedInProp.key}`
+        localStateCode.push(prop);
+      })
+    }
     // store localStateCodes in global state context
     return localStateCode;
   };
@@ -220,6 +226,13 @@ const reducer = (state: State, action: Action) => {
         childId: null
       };
       const nextComponentId = state.nextComponentId + 1;
+      newComponent.code = generateCode(
+        components,
+        newComponent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
       return {
         ...state,
         components,
@@ -739,6 +752,7 @@ const reducer = (state: State, action: Action) => {
       );
       currComponent.stateProps.push(action.payload.newState);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      currComponent.stateProps.push(action.payload.setNewState);
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -746,6 +760,7 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
+      console.log('action.payload', action.payload)
       return { ...state, components};
     }
     /* 
@@ -761,6 +776,7 @@ const reducer = (state: State, action: Action) => {
         // need to change this to match the id from the tree
         state.canvasFocus.componentId
       ); 
+
       // do a check if prop already exists in passed in props
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
         let curr = currComponent.passedInProps[i];
@@ -769,10 +785,9 @@ const reducer = (state: State, action: Action) => {
         }
       }
       currComponent.passedInProps.push(action.payload.passedInProps);
-      //currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
-        //change the id here as well
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
@@ -799,7 +814,7 @@ const reducer = (state: State, action: Action) => {
         }
       }
       currComponent.passedInProps.splice(index, 1);
-
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -819,12 +834,10 @@ const reducer = (state: State, action: Action) => {
       currComponent.stateProps = action.payload.stateProps;
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
 
+      
       components.forEach((component) => {
 
-
         //find all instances of state within child elements and delete state
-
-        
         if (component.name !== 'App') {
           component.passedInProps.forEach((prop, i) => {
             if(prop.id === action.payload.rowId) {

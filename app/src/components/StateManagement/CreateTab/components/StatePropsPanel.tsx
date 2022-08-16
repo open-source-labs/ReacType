@@ -113,15 +113,25 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     setPropNum(prev => prev + 1);
     const newState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
-      id: `${currentComponent.name}-${propNum}`,
+      id: `${currentComponent.name}-${inputKey}`,
       key: inputKey,
       value: typeConversion(inputValue, inputType),
       type: inputType,
     };
 
+    const setNewState = {
+      // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
+      id: `${currentComponent.name}-set${inputKey.slice(0,1).toUpperCase()}${inputKey.slice(1)}`,
+      key: `set${inputKey.slice(0,1).toUpperCase()}${inputKey.slice(1)}`,
+      value: '',
+      type: 'func',
+    };
+
+
+
     dispatch({
       type: 'ADD STATE',
-      payload: {newState: newState}
+      payload: {newState: newState, setNewState: setNewState}
     }); 
     setRows1([...rows1, newState])
     resetError();

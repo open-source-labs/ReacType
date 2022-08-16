@@ -122,8 +122,31 @@ const generateUnformattedCode = (
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = '';
+    let passedInPropsString = '';
+    console.log({childElement})
+    if (childElement.type === 'Component') {
+      let childComponent;
+      for (let i = 0; i < components.length; i++) {
+        if (childElement.name === components[i].name) {
+          childComponent = components[i];
+        }
+      }
+      console.log({childComponent})
+      console.log('childComponent.passedinprops', childComponent.passedInProps)
+
+
+        console.log('past initial length check')
+        console.log('childComponent.passedInProps.length', childComponent.passedInProps.length);
+        childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} ` 
+        console.log({prop})
+      })
+        
+      console.log({passedInPropsString})
+    }
+
+    
     if (childElement.childId && childElement.tag !== 'Route') //legacypd
-      customizationDetails += ' ' + `id="${+childElement.childId}"` + ' props = {props}';
+      customizationDetails += ' ' + `id="${+childElement.childId}"` + `${passedInPropsString}`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -244,7 +267,8 @@ const generateUnformattedCode = (
     return `${enrichedChildren
       .map((child: any) => {
         if (child.type === 'Component') {
-          return `<${child.name} ${elementTagDetails(child)} />`;
+          console.log({enrichedChildren})
+          return `<${child.name} ${elementTagDetails(child)} add props here on creation/>`;
         } else if (child.type === 'HTML Element') {
           return elementGenerator(child, level);
         }
@@ -273,6 +297,7 @@ const generateUnformattedCode = (
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
     }
+    console.log({stateToRender})
     return stateToRender;
   };
   const enrichedChildren: any = getEnrichedChildren(currComponent);
@@ -356,7 +381,10 @@ const generateUnformattedCode = (
 
     //return a string with all contexts provider in component's body
     const createRender = () => {
+      console.log('createRender runs')
       let result = `${writeNestedElements(enrichedChildren)}`;
+      console.log({result})
+      console.log({enrichedChildren})
       if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
       if (allContext.length < 1) return result;
 
@@ -373,6 +401,7 @@ const generateUnformattedCode = (
           }Provider>`;
         });
       }
+      console.log('result from createRender', result);
       return result;
     };
 
