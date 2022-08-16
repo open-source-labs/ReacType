@@ -776,6 +776,23 @@ const reducer = (state: State, action: Action) => {
         // need to change this to match the id from the tree
         state.canvasFocus.componentId
       ); 
+      let parent;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+             parent = JSON.parse(JSON.stringify(currComponent));
+          }
+        }
+      }
+      console.log({parent})
+      parent.children.forEach((child) => {
+        if (child.name === currComponent.name) {
+          child.passedInProps.push(action.payload.passedInProps);
+        }
+      })
+      console.log({parent})
 
       // do a check if prop already exists in passed in props
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
@@ -786,6 +803,13 @@ const reducer = (state: State, action: Action) => {
       }
       currComponent.passedInProps.push(action.payload.passedInProps);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      parent.code = generateCode(
+        components,
+        parent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
