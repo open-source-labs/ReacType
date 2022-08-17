@@ -7,7 +7,7 @@ const mock = require('../mockData');
 describe('GraphQL tests', () => {
   let server;
   // Mutation test variables
-  const projectId = '6053a36b6287fb36e92fab59'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
+  const projectId = '62fd62c6d37748133a6fdc81'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
   const testNum = 100;
   const makeCopyUserIdTest = '604333d10004ad51c899e250';
   const makeCopyUsernameTest = 'test1';

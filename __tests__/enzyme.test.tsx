@@ -1,4 +1,4 @@
-import { shallow, render, mount } from 'enzyme';
+import { shallow} from 'enzyme';
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,7 +7,6 @@ import initialState from '../app/src/context/initialState';
 import MainContainer from '../app/src/containers/MainContainer';
 import BottomPanel from '../app/src/components/bottom/BottomPanel';
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
-import CodePreview from '../app/src/components/bottom/CodePreview';
 import CanvasContainer from '../app/src/components/main/CanvasContainer';
 import Canvas from '../app/src/components/main/Canvas';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
@@ -17,7 +16,6 @@ import AppContainer from '../app/src/containers/AppContainer';
 import NavBar from '../app/src/components/top/NavBar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Tab from '@material-ui/core/Tab';
-import RightContainer from '../app/src/containers/RightContainer';
 import LoginButton from '../app/src/components/right/LoginButton';
 
 /* If there is an error with unmatched snapshots because of intentionally modified codes, delete the contents in enzyme.test.tsx.snap to record new codes as blueprints */
