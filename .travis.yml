@@ -6,8 +6,12 @@ cache:
   directories:
     - node_modules
 install: 
-  - npm install
+  - npm install --legacy-peer-deps
   - npm run prod-build
 script: 
   - npm run test
-
+  - python3 -VV
+  - pip install --upgrade pip
+  - pip -V
+env:
+  global:  PATH=/opt/python/3.7.1/bin:$PATH
