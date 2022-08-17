@@ -415,6 +415,7 @@ const reducer = (state: State, action: Action) => {
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
         //makes it so the code preview will update when clicking on a new component
         const components = state.components.map(element => {
+          console.log({element})
           return Object.assign({}, element);
         });
         return { ...state, components, canvasFocus };
@@ -782,17 +783,17 @@ const reducer = (state: State, action: Action) => {
         for (let j = 0; j < currComponent.children.length; j++) {
           let currChild = currComponent.children[j];
           if (currChild.typeId === state.canvasFocus.componentId) {
-             parent = JSON.parse(JSON.stringify(currComponent));
+             parent = currComponent;
           }
         }
       }
-      console.log({parent})
+
       parent.children.forEach((child) => {
         if (child.name === currComponent.name) {
           child.passedInProps.push(action.payload.passedInProps);
         }
       })
-      console.log({parent})
+
 
       // do a check if prop already exists in passed in props
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
@@ -803,20 +804,22 @@ const reducer = (state: State, action: Action) => {
       }
       currComponent.passedInProps.push(action.payload.passedInProps);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
-      parent.code = generateCode(
-        components,
-        parent.id,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes
-      );
+      
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
-      );
+        );
+        parent.code = generateCode(
+          components,
+          parent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
+
       return { ...state, components};
     }
 
