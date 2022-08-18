@@ -1,11 +1,16 @@
 {
   "name": "reactype",
-  "version": "12.0.0",
+  "version": "13.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Ahsan Rao",
+    "Benjamin Cauffman",
+    "Carly Jackson",
+    "Darin Ngau",
+    "Thomas Lukasiewicz",
     "Abeer Faizan",
     "Aaron Bumanglag",
     "Adam Singer",
@@ -68,8 +73,9 @@
     "dist-linux": "electron-builder --linux",
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "concurrently  \"npm run dev-server\" \"cross-env NODE_ENV=test jest --verbose \"",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js"
+    "test": "jest --verbose",
+    "server": "cross-env NODE_ENV=development nodemon server/server.js",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -86,7 +92,8 @@
     "testEnvironment": "jsdom",
     "bail": true,
     "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js"
     },
     "moduleFileExtensions": [
       "ts",
@@ -98,7 +105,7 @@
       "^.+\\.js?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules"
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
     ],
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
     "globals": {
@@ -144,6 +151,7 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-window-manager": "^1.0.6",
     "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "esbuild-wasm": "^0.14.51",
     "eslint-plugin-react-hooks": "^4.6.0",
     "express-graphql": "^0.12.0",
@@ -167,6 +175,7 @@
     "react-google-login": "^5.2.2",
     "react-router-dom": "^5.2.0",
     "redux-devtools-extension": "^2.13.9",
+    "redux-mock-store": "^1.5.4",
     "regenerator-runtime": "^0.13.9",
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
@@ -188,7 +197,7 @@
     "@mui/styled-engine-sc": "^5.9.3",
     "@mui/x-data-grid": "^5.15.0",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^12.1.2",
     "@types/chai": "^4.3.1",
     "@types/jest": "^28.1.6",
     "apollo": "^2.34.0",
@@ -216,6 +225,7 @@
     "html-loader": "^4.1.0",
     "html-webpack-plugin": "^4.5.2",
     "jest": "^28.1.3",
+    "jest-environment-jsdom": "^28.1.3",
     "mini-css-extract-plugin": "^0.9.0",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.22",
@@ -237,5 +247,9 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.5.5"
   }
 }

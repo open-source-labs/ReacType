@@ -100,15 +100,15 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-//const Query = require('./graphQL/resolvers/query');
+const Query = require('./graphQL/resolvers/query');
 // Mutation resolvers
-//const Mutation = require('./graphQL/resolvers/mutation');
+const Mutation = require('./graphQL/resolvers/mutation');
 
 // package resolvers into one variable to pass to Apollo Server
-// const resolvers = {
-//   Query,
-//   Mutation
-// };
+const resolvers = {
+  Query,
+  Mutation
+};
 
 // app.use(
 //   '/demoRender',
@@ -119,12 +119,35 @@ GraphQl Router
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
-//const typeDefs = require('./graphQL/schema/typeDefs.js');
-// const { dirname } = require('node:path');
+const typeDefs = require('./graphQL/schema/typeDefs.js');
+const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
-//const server = new ApolloServer({ typeDefs, resolvers });
-//server.applyMiddleware({ app });
+
+// async function startApolloServer() {
+//   const app = express();
+//   const httpServer = http.createServer(app);
+//   const server = new ApolloServer({
+//     typeDefs,
+//     resolvers,
+//     csrfPrevention: true,
+//     cache: 'bounded',
+//     plugins: [
+//       ApolloServerPluginDrainHttpServer({ httpServer }),
+//       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+//     ],
+//   });
+
+//   await server.start();
+//   // Mount Apollo middleware here.
+//   server.applyMiddleware({ app, path: '/graphql' });
+//   await new Promise(resolve => httpServer.listen({ port: 8080 }, resolve));
+//   console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`);
+//   return { server, app };
+// }
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app, path: '/graphql' });
 /** ****************************************************************** */
 
 app.post(
@@ -165,9 +188,9 @@ app.delete(
   (req, res) => res.status(200).json(res.locals.deleted)
 );
 
-// app.get('/', function(req, res) {
-//   res.send('Houston, Caret is in orbit!');
-// });
+app.get('/', function(req, res) {
+  res.send('Houston, Caret is in orbit!');
+});
 
 // catch-all route handler
 app.use('*', (req, res) => res.status(404).send('Page not found'));

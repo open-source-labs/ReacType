@@ -47,7 +47,7 @@ const BottomTabs = (props): JSX.Element => {
   };
 
   // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
-  Arrow.renderArrow(state.canvasFocus.childId);
+  Arrow.renderArrow(state.canvasFocus?.childId);
 
   return (
     <div
