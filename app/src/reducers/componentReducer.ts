@@ -177,7 +177,8 @@ const reducer = (state: State, action: Action) => {
   const updateUseStateCodes = (currentComponent) => {
     // array of snippets of state prop codes
     const localStateCode = [];
-    currentComponent.stateProps.forEach((stateProp) => {
+    currentComponent.stateProps.filter((n,i)=>i%2===0).forEach((stateProp) => {
+      
       const useStateCode = `const [${stateProp.key}, set${
         stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
       }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
@@ -840,11 +841,35 @@ const reducer = (state: State, action: Action) => {
           break;
         }
       }
+      let parent;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+             parent = currComponent;
+          }
+        }
+      }
+      parent.children.forEach((child) => {
+        if (child.name === currComponent.name) {
+          child.passedInProps.splice(index, 1);
+        }
+      })
+
+
       currComponent.passedInProps.splice(index, 1);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      parent.code = generateCode(
+        components,
+        parent.id,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes

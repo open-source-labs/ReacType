@@ -146,7 +146,7 @@ const generateUnformattedCode = (
 
     
     if (childElement.childId && childElement.tag !== 'Route') //legacypd
-      customizationDetails += ' ' + `id="${+childElement.childId}"` + `${passedInPropsString}`;
+      customizationDetails += ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -268,7 +268,7 @@ const generateUnformattedCode = (
       .map((child: any) => {
         if (child.type === 'Component') {
           console.log({enrichedChildren})
-          return `<${child.name} ${elementTagDetails(child)} add props here on creation/>`;
+          return `<${child.name} ${elementTagDetails(child)}/>`;
         } else if (child.type === 'HTML Element') {
           return elementGenerator(child, level);
         }
@@ -440,9 +440,7 @@ ${createContextImport()}
 ${importsMapped}
 ${`const ${currComponent.name} = (props) => {`}
 ${createUseContextHook()}
-${`  const [value, setValue] = useState("");${writeStateProps(
-  currComponent.useStateCodes
-)}`}
+${`${writeStateProps(currComponent.useStateCodes)}`}
 
   return(
     <>
@@ -465,7 +463,6 @@ export default ${currComponent.name}
     
     const ${currComponent.name[0].toUpperCase() +
       currComponent.name.slice(1)} = (props): JSX.Element => {
-      const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
           <>
       ${
@@ -491,7 +488,6 @@ export default ${currComponent.name}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
       const ${currComponent.name} = (props: any): JSX.Element => {
-      const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
         <>
         ${
