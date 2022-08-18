@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime'; // if there is an error with moduleNameMapper, npm -S install regenerator-runtime
 
-const { Application } = require('spectron');
+//const { Application } = require('spectron');
 const electronPath = require('electron');
 const path = require('path');
 
@@ -17,7 +17,7 @@ beforeAll(() => {
 }, 15000);
 
 // getWindowsCount() will return 2 instead of 1 in dev mode (one for the actual app, one in the browser at localhost:8080 in dev mode)
-test('Displays App window', async () => {
+xtest('Displays App window', async () => {
   const windowCount = await app.client.getWindowCount();
   // expect(windowCount).toBe(1); // this returns true/passed if in production mode, change mode in script "test" to 'production' instead of 'test'
   expect(windowCount).toBe(2); // 'dev' or 'test' mode results in 2 windows (one for the app and one for the browser)

@@ -6,7 +6,7 @@ const app = require('../server/server.js');
 const http = require('http');
 let server;
 // save and get projects endpoint testing
-describe('Project endpoints tests', () => {  
+xdescribe('Project endpoints tests', () => {  
   beforeAll((done) => {
     server = http.createServer(app);
     server.listen(done);

@@ -9,7 +9,7 @@ let server;
 
 
 // tests auth.ts helper function and associated server routes
-describe('Login Tests', () => {
+xdescribe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
   let password;

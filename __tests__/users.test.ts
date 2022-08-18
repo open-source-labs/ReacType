@@ -26,7 +26,7 @@ describe('User authentication tests', () => {
 
   // tests whether signup page is returned on navigation to /#/signup endpoint
   // note that /#/ is required in endpoint because it is accessed via hash router
-  describe('/signup', () => {
+  xdescribe('/signup', () => {
     describe('GET', () => {
       it('respond with status 200 and load signup file', () => {
         return request(browser)
@@ -36,7 +36,7 @@ describe('User authentication tests', () => {
       });
     });
     // tests whether new user can sign up
-    describe('POST', () => {
+    xdescribe('POST', () => {
       it('responds with status 200 and json object on valid new user signup', () => {
         return request(server)
           .post('/signup')
@@ -62,7 +62,7 @@ describe('User authentication tests', () => {
     });
   });
   // tests whether login page is returned on navigation to /#/login endpoint
-  describe('/login', () => {
+  xdescribe('/login', () => {
     describe('GET', () => {
       it('respond with status 200 and load login file', () => {
         return request(browser)
@@ -72,7 +72,7 @@ describe('User authentication tests', () => {
       });
     });
     // tests whether existing login information permits user to log in
-    describe('POST', () => {
+    xdescribe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
           .post('/login')

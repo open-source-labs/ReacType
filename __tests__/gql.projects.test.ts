@@ -21,7 +21,7 @@ describe('GraphQL tests', () => {
     server.close(done);
   });
   // GraphQL Query
-  describe('Testing GraphQL query', () => {
+  xdescribe('Testing GraphQL query', () => {
     it('getAllProjects should return more than 1 project by default', () => request(server)
       .post('/graphql')
       .set('Content-Type', 'application/json')
@@ -43,7 +43,7 @@ describe('GraphQL tests', () => {
       .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('604d21b2b61a1c95f2dc9105')));
   });
   // GraphQL Mutation
-  describe('Testing GraphQL mutation', () => {
+  xdescribe('Testing GraphQL mutation', () => {
     // Add likes
     it('addLike should update the "likes" field of the project document', () => request(server)
       .post('/graphql')

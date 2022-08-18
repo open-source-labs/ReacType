@@ -21,7 +21,7 @@ import TutorialPage from './tutorial/TutorialPage.tsx';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 const client = new ApolloClient({
-  uri: 'https://reactype-1.herokuapp.com/graphql',
+  uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
 // const initialState = { code: ``, input: `` };

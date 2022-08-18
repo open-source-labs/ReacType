@@ -213,7 +213,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://reactype-1.herokuapp.com',
+      //'https://reactype-1.herokuapp.com',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -238,7 +238,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://reactype-1.herokuapp.com/',
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -282,7 +282,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
-      'https://reactype-1.herokuapp.com/',
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -347,7 +347,7 @@ ipcMain.on('choose_app_dir', event => {
 });
 
 // define serverURL for cookie and auth purposes based on environment
-let serverUrl = 'https://reactype-1.herokuapp.com';
+let serverUrl = 'https://reactype-caret.herokuapp.com';
 if (isDev) {
   serverUrl = `http://localhost:${DEV_PORT}`;
 }
@@ -381,7 +381,7 @@ ipcMain.on('delete_cookie', event => {
 ipcMain.on('github', event => {
   const githubURL = isDev
     ? `http://localhost:${DEV_PORT}/auth/github`
-    : `https://reactype-1.herokuapp.com/auth/github`;
+    : `https://reactype-caret.herokuapp.com/auth/github`;
   console.log(githubURL);
   const options = {
     client_id: process.env.GITHUB_ID,

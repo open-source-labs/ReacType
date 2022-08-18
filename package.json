@@ -92,7 +92,8 @@
     "testEnvironment": "jsdom",
     "bail": true,
     "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js"
     },
     "moduleFileExtensions": [
       "ts",
@@ -104,7 +105,7 @@
       "^.+\\.js?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules"
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
     ],
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
     "globals": {
@@ -150,6 +151,7 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-window-manager": "^1.0.6",
     "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "esbuild-wasm": "^0.14.51",
     "eslint-plugin-react-hooks": "^4.6.0",
     "express-graphql": "^0.12.0",
@@ -173,6 +175,7 @@
     "react-google-login": "^5.2.2",
     "react-router-dom": "^5.2.0",
     "redux-devtools-extension": "^2.13.9",
+    "redux-mock-store": "^1.5.4",
     "regenerator-runtime": "^0.13.9",
     "resize-observer-polyfill": "^1.5.1",
     "seamless-immutable": "^7.1.4",
@@ -194,7 +197,7 @@
     "@mui/styled-engine-sc": "^5.9.3",
     "@mui/x-data-grid": "^5.15.0",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^12.1.2",
     "@types/chai": "^4.3.1",
     "@types/jest": "^28.1.6",
     "apollo": "^2.34.0",

@@ -6,7 +6,7 @@ const cssRefresher = () => {
   const newStylesheet = document.createElement("LINK");
   newStylesheet.setAttribute("rel", "stylesheet")
   newStylesheet.setAttribute("type", "text/css");
-  newStylesheet.setAttribute("href", `https://reactype-1.herokuapp.com/demoRender?${rando}`);
+  newStylesheet.setAttribute("href", `https://reactype-caret.herokuapp.com/demoRender?${rando}`);
   newStylesheet.setAttribute("id", 'Render Stylesheet');
   document.getElementById('renderFocus').append(newStylesheet);
 }
