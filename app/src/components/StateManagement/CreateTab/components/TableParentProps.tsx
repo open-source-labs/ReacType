@@ -100,7 +100,7 @@ const TableParentProps = props => {
   //let rows = parentProps;
   let rows;
   
-  if (currentComponent.name === 'App') {rows = []}
+  if (currentComponent.name === 'App' || currentComponent.name === 'index') {rows = []}
   else { 
     if (parentProps) {
       rows = parentProps;

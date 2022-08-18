@@ -213,6 +213,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -237,6 +238,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -280,6 +282,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',

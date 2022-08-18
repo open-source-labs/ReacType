@@ -103,21 +103,21 @@ const ProjectContainer = (): JSX.Element => {
   const [style, setStyle] = useState(initialStyle);
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState('RATING');
-  // const sortByRating = projects => {
-  //   // generate a sorted array of public projects based on likes
-  //   const sortedRatings = projects.sort((a, b) => b.likes - a.likes);
-  //   return sortedRatings;
-  // };
-  // const sortByDate = projects => {
-  //   // generate a sorted array of public projects based on date
-  //   const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
-  //   return sortedRatings;
-  // };
-  // const sortByUser = projects => {
-  //   // generate a sorted array of public projects based on username
-  //   const sortedRatings = projects.sort((a, b) => b.username - a.username);
-  //   return sortedRatings;
-  // };
+  const sortByRating = projects => {
+    // generate a sorted array of public projects based on likes
+    const sortedRatings = projects.sort((a, b) => b.likes - a.likes);
+    return sortedRatings;
+  };
+  const sortByDate = projects => {
+    // generate a sorted array of public projects based on date
+    const sortedRatings = projects.sort((a, b) => b.createdAt - a.createdAt);
+    return sortedRatings;
+  };
+  const sortByUser = projects => {
+    // generate a sorted array of public projects based on username
+    const sortedRatings = projects.sort((a, b) => b.username - a.username);
+    return sortedRatings;
+  };
   // function for selecting drop down sorting menu
   const optionClicked = value => {
     setSelectedOption(value);
@@ -128,36 +128,23 @@ const ProjectContainer = (): JSX.Element => {
     variables: myVar
   });
   if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error :{error}</p>;
+  if (error) return <p>Error :{error}</p>;
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
-  //const projects = data.getAllProjects;
-  const projects = [
-  {key: 1},
-  {name: 'testproject'},
-  {likes: 10},
-  {published: true},
-  {id: 10},
-  {userId: 10},
-  {username: 'arao7'},
-  {createdAt: 'testDate'},
-  {comments: []}
-  ]
-  // create array to hold the data recieved in the public dashboard the will be conditionally rendered
-  // let sortedProjects = projects.filter(proj => {
-  //   return proj.published;
-  // });
-  // const userProjects = projects.filter(proj => {
-  //   return proj.username === username;
-  // });
-
-  let sortedProjects = projects;
-  const userProjects = projects;
+  const projects = data.getAllProjects;
+  
+  //create array to hold the data recieved in the public dashboard the will be conditionally rendered
+  let sortedProjects = projects.filter(proj => {
+    return proj.published;
+  });
+  const userProjects = projects.filter(proj => {
+    return proj.username === username;
+  });
   // checking which sorting method was selected from drop down menu and invoking correct sorting function
-  // if (selectedOption === 'DATE') sortedProjects = sortByDate(sortedProjects);
-  // else if (selectedOption === 'USER')
-  //   sortedProjects = sortByUser(sortedProjects);
-  // else if (selectedOption === 'RATING')
-  //   sortedProjects = sortByRating(sortedProjects);
+  if (selectedOption === 'DATE') sortedProjects = sortByDate(sortedProjects);
+  else if (selectedOption === 'USER')
+    sortedProjects = sortByUser(sortedProjects);
+  else if (selectedOption === 'RATING')
+    sortedProjects = sortByRating(sortedProjects);
   // create array to hold the components Project of loggin-in users
   // generate an array of Project components based on queried data
   const userDisplay = arrToComponent(userProjects);
