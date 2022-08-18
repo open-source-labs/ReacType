@@ -416,7 +416,7 @@ const reducer = (state: State, action: Action) => {
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
         //makes it so the code preview will update when clicking on a new component
         const components = state.components.map(element => {
-          console.log({element})
+          console.log({element}, 'from change focus')
           return Object.assign({}, element);
         });
         return { ...state, components, canvasFocus };
@@ -884,27 +884,37 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId
       );
       currComponent.stateProps = action.payload.stateProps;
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);
-
+      
       
       components.forEach((component) => {
-
+        console.log('component in for loop', component);
         //find all instances of state within child elements and delete state
 
+        component.children.forEach((child) => {
+          console.log('child.passedinprops before delete',child.passedInProps)
+          if (child.type === 'Component') {
+            child.passedInProps.forEach((prop, i) => {
+              if(prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
+                child.passedInProps.splice(i, 1);
+                console.log('child.passedinprops after delete',child.passedInProps)
+              }
+            });
+          }
+        })
         
         if (component.name !== 'App' && component.name !== 'index') {
           component.passedInProps.forEach((prop, i) => {
-            if(prop.id === action.payload.rowId) {
+            if(prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
               component.passedInProps.splice(i,1);
             }
           });
         }
-          // curr component = where you are deleting from state from, also is the canvas focus
-          // curr component id = providerId
-          // we then iterate through the rest of the components
-          // check if a useContext if created and if the useContext contains the providerId
-          // we then delete from the set, statesFromProvider, the row id, and regenerate the code
-          // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
+        // curr component = where you are deleting from state from, also is the canvas focus
+        // curr component id = providerId
+        // we then iterate through the rest of the components
+        // check if a useContext if created and if the useContext contains the providerId
+        // we then delete from the set, statesFromProvider, the row id, and regenerate the code
+        // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
         if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
           component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
           // iterate over children to see where it is being used, then reset that compText/compLink/useState
@@ -924,15 +934,17 @@ const reducer = (state: State, action: Action) => {
               }
             }
           }
-          component.code = generateCode(
-            components,
-            component.id,
-            [...state.rootComponents],
-            state.projectType,
-            state.HTMLTypes
-          );
         }
-      });
+        component.useStateCodes = updateUseStateCodes(component);
+        component.code = generateCode(
+          components,
+          component.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+          );
+        });
+        currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
