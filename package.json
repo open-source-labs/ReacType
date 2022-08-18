@@ -73,7 +73,7 @@
     "dist-linux": "electron-builder --linux",
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "concurrently -k \"nodemon server/server.js\" \"cross-env NODE_ENV=test jest --verbose\" ",
+    "test": "jest --verbose",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
     "start": "node server/server.js"
   },
