@@ -1,14 +1,18 @@
-const { Mongoose } = require('mongoose');
-const request = require('supertest');
-const http = require('http');
-const app = require('../server/server.js');
+/**
+ * @jest-environment node
+ */
 
-const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
+// const { Mongoose } = require('mongoose');
+// const request = require('supertest');
+// const http = require('http');
+// const app = require('../server/server.js');
 
-const { user } = require('../mockData');
+// const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
+
+// const { user } = require('../mockData');
 
 // tests user signup and login routes
-describe('User authentication tests', () => {
+xdescribe('User authentication tests', () => {
   let server;
 
   beforeAll((done)=> {
@@ -26,7 +30,8 @@ describe('User authentication tests', () => {
 
   // tests whether signup page is returned on navigation to /#/signup endpoint
   // note that /#/ is required in endpoint because it is accessed via hash router
-  xdescribe('/signup', () => {
+
+  describe('/signup', () => {
     describe('GET', () => {
       it('respond with status 200 and load signup file', () => {
         return request(browser)
@@ -36,7 +41,7 @@ describe('User authentication tests', () => {
       });
     });
     // tests whether new user can sign up
-    xdescribe('POST', () => {
+    describe('POST', () => {
       it('responds with status 200 and json object on valid new user signup', () => {
         return request(server)
           .post('/signup')
@@ -62,7 +67,8 @@ describe('User authentication tests', () => {
     });
   });
   // tests whether login page is returned on navigation to /#/login endpoint
-  xdescribe('/login', () => {
+
+  describe('/login', () => {
     describe('GET', () => {
       it('respond with status 200 and load login file', () => {
         return request(browser)
@@ -72,7 +78,7 @@ describe('User authentication tests', () => {
       });
     });
     // tests whether existing login information permits user to log in
-    xdescribe('POST', () => {
+    describe('POST', () => {
       it('responds with status 200 and json object on verified user login', () => {
         return request(server)
           .post('/login')
@@ -96,6 +102,7 @@ describe('User authentication tests', () => {
 });
 
 // OAuth tests (currently inoperative)
+
 xdescribe('Github oauth tests', () => {
   describe('/github/callback?code=', () => {
     describe('GET', () => {

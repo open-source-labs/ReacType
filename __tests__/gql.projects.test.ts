@@ -1,10 +1,16 @@
-const { Mongoose } = require('mongoose');
-const request = require('supertest');
-const http = require('http');
-const app = require('../server/server.js');
-const mock = require('../mockData');
+/**
+ * @jest-environment node
+ */
+
+// const { Mongoose } = require('mongoose');
+// const request = require('supertest');
+// const http = require('http');
+// const app = require('../server/server.js');
+// const mock = require('../mockData');
+
+
 // tests user signup and login routes
-describe('GraphQL tests', () => {
+xdescribe('GraphQL tests', () => {
   let server;
   // Mutation test variables
   const projectId = '62fd62c6d37748133a6fdc81'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
@@ -21,7 +27,9 @@ describe('GraphQL tests', () => {
     server.close(done);
   });
   // GraphQL Query
-  xdescribe('Testing GraphQL query', () => {
+
+
+  describe('Testing GraphQL query', () => {
     it('getAllProjects should return more than 1 project by default', () => request(server)
       .post('/graphql')
       .set('Content-Type', 'application/json')
@@ -43,7 +51,8 @@ describe('GraphQL tests', () => {
       .then(res => expect(res.body.data.getAllProjects[0].userId).toBe('604d21b2b61a1c95f2dc9105')));
   });
   // GraphQL Mutation
-  xdescribe('Testing GraphQL mutation', () => {
+
+  describe('Testing GraphQL mutation', () => {
     // Add likes
     it('addLike should update the "likes" field of the project document', () => request(server)
       .post('/graphql')
