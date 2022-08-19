@@ -123,7 +123,6 @@ const generateUnformattedCode = (
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = '';
     let passedInPropsString = '';
-    console.log({childElement})
     if (childElement.type === 'Component') {
       let childComponent;
       for (let i = 0; i < components.length; i++) {
@@ -131,17 +130,8 @@ const generateUnformattedCode = (
           childComponent = components[i];
         }
       }
-      console.log({childComponent})
-      console.log('childComponent.passedinprops', childComponent.passedInProps)
-
-
-        console.log('past initial length check')
-        console.log('childComponent.passedInProps.length', childComponent.passedInProps.length);
-        childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} ` 
-        console.log({prop})
+      childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} ` 
       })
-        
-      console.log({passedInPropsString})
     }
 
     
@@ -267,7 +257,6 @@ const generateUnformattedCode = (
     return `${enrichedChildren
       .map((child: any) => {
         if (child.type === 'Component') {
-          console.log({enrichedChildren})
           return `<${child.name} ${elementTagDetails(child)}/>`;
         } else if (child.type === 'HTML Element') {
           return elementGenerator(child, level);
@@ -297,7 +286,6 @@ const generateUnformattedCode = (
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
     }
-    console.log({stateToRender})
     return stateToRender;
   };
   const enrichedChildren: any = getEnrichedChildren(currComponent);
@@ -381,27 +369,23 @@ const generateUnformattedCode = (
 
     //return a string with all contexts provider in component's body
     const createRender = () => {
-      console.log('createRender runs')
       let result = `${writeNestedElements(enrichedChildren)}`;
-      console.log({result})
-      console.log({enrichedChildren})
       if (importReactRouter) result = `<Router>\n ${result}\n </Router>`;
       if (allContext.length < 1) return result;
 
       if (currComponent.name === 'App') {
         allContext.reverse().forEach((el, i) => {
-          let tabs = `\t\t`;
-          if (i === allContext.length - 1) {
-            tabs = `\t\t\t`;
-          }
-          result = `${tabs.repeat(allContext.length - i)}<${
-            el.name
-          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-            el.name
-          }Provider>`;
+        let tabs = `\t\t`;
+        if (i === allContext.length - 1) {
+          tabs = `\t\t\t`;
+        }
+        result = `${tabs.repeat(allContext.length - i)}<${
+          el.name
+        }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
+          el.name
+        }Provider>`;
         });
       }
-      console.log('result from createRender', result);
       return result;
     };
 

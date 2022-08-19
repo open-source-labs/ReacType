@@ -775,6 +775,14 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       ); 
+      //prevents passing in props more than one time to the current component
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        let curr = currComponent.passedInProps[i];
+        if (curr.id === action.payload.passedInProps.id) {
+          return { ...state, components};
+        }
+      }
+      
       //find the parent for deleting instances of where the parent is passing props to children
       let parent;
       for (let i = 0; i < components.length; i++){
@@ -796,13 +804,6 @@ const reducer = (state: State, action: Action) => {
       })
 
 
-      //prevents passing in props more than one time to the current component
-      for (let i = 0; i < currComponent.passedInProps.length; i++) {
-        let curr = currComponent.passedInProps[i];
-        if (curr.id === action.payload.passedInProps.id) {
-          return { ...state, components};
-        }
-      }
       // check each components passedInProps property and updating there as well.
       currComponent.passedInProps.push(action.payload.passedInProps);
 
