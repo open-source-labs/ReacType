@@ -16,7 +16,14 @@ function Test() {
 }
 test('Bottom Panel Contains Two Tabs: Code Preview and Component Tree', () => {
   render(<Test/>);
-  expect(screen.getAllByRole('tab')).toHaveLength(2);
+  expect(screen.getAllByRole('tab')).toHaveLength(7);
   expect(screen.getByText('Code Preview')).toBeInTheDocument();
   expect(screen.getByText('Component Tree')).toBeInTheDocument();
+  expect(screen.getByText('Creation Panel')).toBeInTheDocument();
+  expect(screen.getByText('Customization')).toBeInTheDocument();
+  expect(screen.getByText('CSS Editor')).toBeInTheDocument();
+  expect(screen.getByText('Code Preview')).toBeInTheDocument();
+  expect(screen.getByText('Component Tree')).toBeInTheDocument();
+  expect(screen.getByText('Context Manager')).toBeInTheDocument();
+  expect(screen.getByText('State Manager')).toBeInTheDocument();
 })

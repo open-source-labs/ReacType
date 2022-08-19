@@ -1,15 +1,21 @@
+/**
+ * @jest-environment node
+ */
+
 import { sessionIsCreated, newUserIsCreated } from '../app/src/helperFunctions/auth';
 
-const { Mongoose } = require('mongoose');
 
-const http = require('http');
-const app = require('../server/server.js');
+
+// const { Mongoose } = require('mongoose');
+
+// const http = require('http');
+// const app = require('../server/server.js');
 
 let server;
 
-
 // tests auth.ts helper function and associated server routes
-describe('Login Tests', () => {
+
+xdescribe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
   let password;
@@ -28,6 +34,7 @@ describe('Login Tests', () => {
 
 
   // Called under SignIn.tsx
+
   describe('sessionIsCreated', () => {
     it('returns the message \'No Username Input\' when no username is entered', async () => {
       username = '';
@@ -45,7 +52,7 @@ describe('Login Tests', () => {
       expect(result).toEqual('No Password Input');
     });
 
-    it('returns the message \'Invalid Username\' when username does not exist', async () => {
+    it('returns the message \'Invalid Username\' when username does not exist',  async () => {
       username = 'l!b'; //breaks the 4 character minimum and no special characters restriction
       password = 'test';
       isFbOauth = false;
