@@ -853,13 +853,20 @@ const reducer = (state: State, action: Action) => {
                 child.passedInProps.forEach((prop, k) => {
                   if(prop.id === action.payload.rowId) {
                     child.passedInProps.splice(k, 1);
-                    pPKillah(child);
+                    pPKillahChildren(child);
                   }
                 })
               })
             }
           }
         });
+        currComponent.code = generateCode(
+          components,
+          currComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        )
       }
 
       const pPKillah = (myComponent) => {
@@ -872,6 +879,14 @@ const reducer = (state: State, action: Action) => {
               }
             });
           }
+          myComponent.useStateCodes = updateUseStateCodes(myComponent)
+          myComponent.code = generateCode(
+          components,
+          myComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
           return;
         };
         myComponent.passedInProps.forEach((prop, i)=> {
@@ -885,9 +900,10 @@ const reducer = (state: State, action: Action) => {
               })
         }    
       })
+      myComponent.useStateCodes = updateUseStateCodes(myComponent)
       myComponent.code = generateCode(
           components,
-          currComponent.id,
+          myComponent.id,
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes
@@ -963,9 +979,13 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
+      //updates the stateProps array to reflect total state initialized in component minus the selected state to be deleted
       currComponent.stateProps = action.payload.stateProps;
       
-      
+      //CHILDREN ARRAY LOOP (needed for code preview)
+      //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
+      // in the passedInProps array within the children array of the component
+      // using the action.payload.rowId (variable name) and action.payload.otherId (setVariable name))
       components.forEach((component) => {
         console.log('component in for loop', component);
         //find all instances of state within child elements and delete state
@@ -981,7 +1001,11 @@ const reducer = (state: State, action: Action) => {
             });
           }
         })
-        
+
+      // COMPONENT LOOP (needed for tables in State Management Tab)
+      //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
+      // in the passedInProps array within each component
+      // using the action.payload.rowId (variable name) and action.payload.otherId (setVariable name))
         for (let i = 0; i < component.passedInProps?.length; i++) {
           if (component.passedInProps[i]['id'] === action.payload.rowId || component.passedInProps[i]['id'] === action.payload.otherId) {
             console.log('prop.id', component.passedInProps[i]['id']);
@@ -1017,6 +1041,27 @@ const reducer = (state: State, action: Action) => {
         //     }
         //   }
         // }
+        let parent;
+        for (let i = 0; i < components.length; i++){
+          let currComponent = components[i]
+          for (let j = 0; j < currComponent.children.length; j++) {
+            let currChild = currComponent.children[j];
+            if (currChild.typeId === component.id) {
+               parent = currComponent;
+            }
+          }
+        }
+        console.log('ben parent', {parent})
+        if (parent) {
+          parent.code = generateCode(
+            components,
+            parent.id,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes
+          );
+        }
+
         component.useStateCodes = updateUseStateCodes(component);
         component.code = generateCode(
           components,
@@ -1025,15 +1070,16 @@ const reducer = (state: State, action: Action) => {
           state.projectType,
           state.HTMLTypes
           );
+          console.log({component});
         });
-        currComponent.useStateCodes = updateUseStateCodes(currComponent);
-      currComponent.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes
-      );
+      // currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      // currComponent.code = generateCode(
+      //   components,
+      //   state.canvasFocus.componentId,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes
+      // );
       return { ...state, components};
     }
     default:
