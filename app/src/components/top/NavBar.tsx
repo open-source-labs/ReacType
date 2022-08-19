@@ -173,6 +173,18 @@ const NavBar = (props) => {
           >
             ReacType
           </Typography>
+          <Link to="/tutorial" style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ minWidth: '137.69px' }}
+            onClick={clearWorkspace}
+            className="navbarButton"
+            id="navbarButton"
+          >
+            Tutorial
+          </Button>
+          </Link>
           {/* ==================================Dashboard Button================================================== */}
           {state.isLoggedIn ? (
             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
