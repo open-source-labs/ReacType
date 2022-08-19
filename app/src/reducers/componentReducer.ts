@@ -982,11 +982,15 @@ const reducer = (state: State, action: Action) => {
           }
         })
         
-        component.passedInProps?.forEach((prop, i) => {
-          if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
+        for (let i = 0; i < component.passedInProps?.length; i++) {
+          if (component.passedInProps[i]['id'] === action.payload.rowId || component.passedInProps[i]['id'] === action.payload.otherId) {
+            console.log('prop.id', component.passedInProps[i]['id']);
+            console.log('rowid',action.payload.rowId)
+            console.log('otherid',action.payload.otherId)
             component.passedInProps.splice(i,1);
+            i--;
           }
-        });
+        };
         // curr component = where you are deleting from state from, also is the canvas focus
         // curr component id = providerId
         // we then iterate through the rest of the components

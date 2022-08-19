@@ -87,7 +87,7 @@ const TableStateProps = props => {
     console.log({otherId})
     dispatch({
       type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId, otherId: otherId }
+      payload: { stateProps: filtered, rowId: selectedId, otherId: otherId.id }
     });
   };
 
