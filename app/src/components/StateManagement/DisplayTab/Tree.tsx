@@ -20,7 +20,6 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
   // function to filter out separators to prevent render on tree chart
-  console.log({data});
   const removeHTMLElements = (arr: object[]) => {
     for(let i = 0; i < arr.length; i++) {
       if(arr[i] === undefined) continue;
