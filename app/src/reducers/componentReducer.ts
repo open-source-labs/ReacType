@@ -830,50 +830,83 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
+
+      //deletes all instances of passedInProps from the children arrays of the current Component
+      const pPKillah = (currComponent) => {
+        // when there are no children, return up a level
+        if (!currComponent.children) return;
+        currComponent.passedInProps.forEach((prop, i)=> {
+          if (prop.id === action.payload.rowId) {
+            // currComponent.passedInProps.splice(i, 1);
+            console.log('matching component', currComponent)
+            if (currComponent.children.length) {
+              currComponent.children.filter(el => el.type === "Component").forEach((child) => {
+                console.log('inner child',{child})
+                pPKillah(child);
+              })
+            }
+          }
+        });
+      }
+
+      pPKillah(currComponent);
+      
       /*
       Check whether the current component selected has passed in props and splices out that 
       piece of state from the array.
       */
-      let index;
-      for (let i = 0; i < currComponent.passedInProps.length; i++) {
-        if (currComponent.passedInProps[i].id === action.payload.rowId) {
-          index = i;
-          break;
-        }
-      }
-      let parent;
-      for (let i = 0; i < components.length; i++){
-        let currComponent = components[i]
-        for (let j = 0; j < currComponent.children.length; j++) {
-          let currChild = currComponent.children[j];
-          if (currChild.typeId === state.canvasFocus.componentId) {
-             parent = currComponent;
-          }
-        }
-      }
-      parent.children.forEach((child) => {
-        if (child.name === currComponent.name) {
-          child.passedInProps.splice(index, 1);
-        }
-      })
+      // let index;
+      // //find the index of the passedInProps array of the current component
+      // for (let i = 0; i < currComponent.passedInProps.length; i++) {
+      //   if (currComponent.passedInProps[i].id === action.payload.rowId) {
+      //     index = i;
+      //     console.log({currComponent}, 'in delete passedi n props')
+      //     break;
+      //   }
+      // }
+      // // this loop identfies the parent so we can change the children array and modify the passedInProps
+      // //AND we can splice the prop out of the child component's passedInProps
+      // let parent;
+      // for (let i = 0; i < components.length; i++){
+      //   let currComponent = components[i]
+      //   for (let j = 0; j < currComponent.children.length; j++) {
+      //     let currChild = currComponent.children[j];
+      //     if (currChild.typeId === state.canvasFocus.componentId) {
+      //        parent = currComponent;
+      //     }
+      //       currComponent.passedInProps?.forEach((prop, i) => {
+      //         if (prop.id === action.payload.rowId) {
+      //           currComponent.passedInProps.splice(i, 1);
+      //         }
+      //       })
+
+      //   }
+      // }
+      // //this loops splices the passedInProps from the parent components children array (this is needed
+      // // for the code preview)
+      // parent.children.forEach((child) => {
+      //   if (child.name === currComponent.name) {
+      //     child.passedInProps.splice(index, 1);
+      //   }
+      // })
 
 
-      currComponent.passedInProps.splice(index, 1);
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);
-      currComponent.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes
-      );
-      parent.code = generateCode(
-        components,
-        parent.id,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes
-      );
+      // currComponent.passedInProps.splice(index, 1);
+      // currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      // currComponent.code = generateCode(
+      //   components,
+      //   state.canvasFocus.componentId,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes
+      // );
+      // parent.code = generateCode(
+      //   components,
+      //   parent.id,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes
+      // );
       return { ...state, components};
     }
 
