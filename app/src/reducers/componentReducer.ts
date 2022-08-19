@@ -953,6 +953,7 @@ const reducer = (state: State, action: Action) => {
         state.projectType,
         state.HTMLTypes
       );
+      console.log(components)
       return { ...state, components};
     }
 
@@ -973,7 +974,7 @@ const reducer = (state: State, action: Action) => {
           console.log('child.passedinprops before delete',child.passedInProps)
           if (child.type === 'Component') {
             child.passedInProps.forEach((prop, i) => {
-              if(prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
+              if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
                 child.passedInProps.splice(i, 1);
                 console.log('child.passedinprops after delete',child.passedInProps)
               }
@@ -981,13 +982,11 @@ const reducer = (state: State, action: Action) => {
           }
         })
         
-        if (component.name !== 'App' && component.name !== 'index') {
-          component.passedInProps.forEach((prop, i) => {
-            if(prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
-              component.passedInProps.splice(i,1);
-            }
-          });
-        }
+        component.passedInProps?.forEach((prop, i) => {
+          if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
+            component.passedInProps.splice(i,1);
+          }
+        });
         // curr component = where you are deleting from state from, also is the canvas focus
         // curr component id = providerId
         // we then iterate through the rest of the components
