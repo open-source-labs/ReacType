@@ -300,39 +300,39 @@ const generateUnformattedCode = (
     return state;
   };
 
-  // // Generate import --- FROM PREVIOUS ITERATION BEFORE 12.0, NOT WORKING -> CONSIDER DELETING
-  let importContext = '';
-  if (currComponent.useContext) {
-    for (const providerId of Object.keys(currComponent.useContext)) {
-      const providerComponent = components[parseInt(providerId) - 1];
-      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t`;
-    }
-  }
-  if (currComponent.useContext) {
-    for (const providerId of Object.keys(currComponent.useContext)) {
-      const statesFromProvider =
-        currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
-      const providerComponent = components[parseInt(providerId) - 1];
-      providers +=
-        'const ' +
-        providerComponent.name.toLowerCase() +
-        'Context = useContext(' +
-        providerComponent.name +
-        'Context);\n \t\t';
-      for (let i = 0; i < providerComponent.stateProps.length; i++) {
-        if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
-          context +=
-            'const ' +
-            providerComponent.stateProps[i].key +
-            ' = ' +
-            providerComponent.name.toLowerCase() +
-            'Context.' +
-            providerComponent.stateProps[i].key +
-            '; \n \t\t';
-        }
-      }
-    }
-  }
+  // // // Generate import --- FROM PREVIOUS ITERATION BEFORE 12.0, NOT WORKING -> CONSIDER DELETING
+  // let importContext = '';
+  // if (currComponent.useContext) {
+  //   for (const providerId of Object.keys(currComponent.useContext)) {
+  //     const providerComponent = components[parseInt(providerId) - 1];
+  //     importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t`;
+  //   }
+  // }
+  // if (currComponent.useContext) {
+  //   for (const providerId of Object.keys(currComponent.useContext)) {
+  //     const statesFromProvider =
+  //       currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+  //     const providerComponent = components[parseInt(providerId) - 1];
+  //     providers +=
+  //       'const ' +
+  //       providerComponent.name.toLowerCase() +
+  //       'Context = useContext(' +
+  //       providerComponent.name +
+  //       'Context);\n \t\t';
+  //     for (let i = 0; i < providerComponent.stateProps.length; i++) {
+  //       if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
+  //         context +=
+  //           'const ' +
+  //           providerComponent.stateProps[i].key +
+  //           ' = ' +
+  //           providerComponent.name.toLowerCase() +
+  //           'Context.' +
+  //           providerComponent.stateProps[i].key +
+  //           '; \n \t\t';
+  //       }
+  //     }
+  //   }
+  // }
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
