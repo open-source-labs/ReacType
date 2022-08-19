@@ -416,7 +416,6 @@ const reducer = (state: State, action: Action) => {
         const canvasFocus = { ...state.canvasFocus, componentId, childId };
         //makes it so the code preview will update when clicking on a new component
         const components = state.components.map(element => {
-          console.log({element}, 'from change focus')
           return Object.assign({}, element);
         });
         return { ...state, components, canvasFocus };
@@ -831,24 +830,71 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId
       );
 
+      //find the parent
+      let parent;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+             parent = currComponent;
+          }
+        }
+      }
+
       //deletes all instances of passedInProps from the children arrays of the current Component
-      const pPKillah = (currComponent) => {
+      const pPKillahChildren = (currComponent) => {
         // when there are no children, return up a level
         if (!currComponent.children) return;
-        currComponent.passedInProps.forEach((prop, i)=> {
+        currComponent.passedInProps?.forEach((prop, i)=> {
           if (prop.id === action.payload.rowId) {
-            // currComponent.passedInProps.splice(i, 1);
-            console.log('matching component', currComponent)
             if (currComponent.children.length) {
-              currComponent.children.filter(el => el.type === "Component").forEach((child) => {
-                console.log('inner child',{child})
-                pPKillah(child);
+              currComponent.children.filter(el => el.type === "Component").forEach((child, j) => {
+                child.passedInProps.forEach((prop, k) => {
+                  if(prop.id === action.payload.rowId) {
+                    child.passedInProps.splice(k, 1);
+                    pPKillah(child);
+                  }
+                })
               })
             }
           }
         });
       }
 
+      const pPKillah = (myComponent) => {
+        console.log({myComponent})
+        if (myComponent.children.filter((el) => el.type === 'Component').length === 0) {
+          if (myComponent.passedInProps.length > 0) {
+            myComponent.passedInProps.forEach((prop, index) => {
+              if (prop.id === action.payload.rowId){
+                myComponent.passedInProps.splice(index, 1);
+              }
+            });
+          }
+          return;
+        };
+        myComponent.passedInProps.forEach((prop, i)=> {
+          if (prop.id === action.payload.rowId) {
+            myComponent.passedInProps.splice(i, 1);
+            myComponent.children.filter(el => el.type === "Component").forEach((child, i) => {
+              let next = components.find(comp =>
+                comp.id === child.typeId);
+                console.log(myComponent);
+                pPKillah(next);
+              })
+        }    
+      })
+      myComponent.code = generateCode(
+          components,
+          currComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
+      }
+
+      pPKillahChildren(parent);
       pPKillah(currComponent);
       
       /*
@@ -900,13 +946,13 @@ const reducer = (state: State, action: Action) => {
       //   state.projectType,
       //   state.HTMLTypes
       // );
-      // parent.code = generateCode(
-      //   components,
-      //   parent.id,
-      //   [...state.rootComponents],
-      //   state.projectType,
-      //   state.HTMLTypes
-      // );
+      parent.code = generateCode(
+        components,
+        parent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
       return { ...state, components};
     }
 
@@ -948,26 +994,26 @@ const reducer = (state: State, action: Action) => {
         // check if a useContext if created and if the useContext contains the providerId
         // we then delete from the set, statesFromProvider, the row id, and regenerate the code
         // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
-        if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
-          component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
-          // iterate over children to see where it is being used, then reset that compText/compLink/useState
-          for (let child of component.children) {
-            if (child.stateUsed) {
-              if (child.stateUsed.compTextProviderId === currComponent.id && child.stateUsed.compTextPropsId === action.payload.rowId) {
-                child.attributes.compText = '';
-                delete child.stateUsed.compText;
-                delete child.stateUsed.compTextProviderId;
-                delete child.stateUsed.compTextPropsId;
-              }
-              if (child.stateUsed.compLinkProviderId === currComponent.id && child.stateUsed.compLinkPropsId === action.payload.rowId) {
-                child.attributes.compLink = '';
-                delete child.stateUsed.compLink;
-                delete child.stateUsed.compLinkProviderId;
-                delete child.stateUsed.compLinkPropsId;
-              }
-            }
-          }
-        }
+        // if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
+        //   component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
+        //   // iterate over children to see where it is being used, then reset that compText/compLink/useState
+        //   for (let child of component.children) {
+        //     if (child.stateUsed) {
+        //       if (child.stateUsed.compTextProviderId === currComponent.id && child.stateUsed.compTextPropsId === action.payload.rowId) {
+        //         child.attributes.compText = '';
+        //         delete child.stateUsed.compText;
+        //         delete child.stateUsed.compTextProviderId;
+        //         delete child.stateUsed.compTextPropsId;
+        //       }
+        //       if (child.stateUsed.compLinkProviderId === currComponent.id && child.stateUsed.compLinkPropsId === action.payload.rowId) {
+        //         child.attributes.compLink = '';
+        //         delete child.stateUsed.compLink;
+        //         delete child.stateUsed.compLinkProviderId;
+        //         delete child.stateUsed.compLinkPropsId;
+        //       }
+        //     }
+        //   }
+        // }
         component.useStateCodes = updateUseStateCodes(component);
         component.code = generateCode(
           components,
