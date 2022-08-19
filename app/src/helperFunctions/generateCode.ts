@@ -52,7 +52,7 @@ const generateUnformattedCode = (
   // returns an array of objects which may include components, html elements, and/or route links
   const getEnrichedChildren = (currentComponent: Component | ChildElement) => {
     // declare an array of enriched children
-    const enrichedChildren = currentComponent.children.map((elem: any) => {
+    const enrichedChildren = currentComponent.children?.map((elem: any) => {
       //enrichedChildren is iterating through the children array
       const child = { ...elem };
       // check if child is a component
@@ -122,8 +122,21 @@ const generateUnformattedCode = (
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
     let customizationDetails = '';
+    let passedInPropsString = '';
+    if (childElement.type === 'Component') {
+      let childComponent;
+      for (let i = 0; i < components.length; i++) {
+        if (childElement.name === components[i].name) {
+          childComponent = components[i];
+        }
+      }
+      childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} ` 
+      })
+    }
+
+    
     if (childElement.childId && childElement.tag !== 'Route') //legacypd
-      customizationDetails += ' ' + `id="${+childElement.childId}"` + ' props = {props}';
+      customizationDetails += ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -244,7 +257,7 @@ const generateUnformattedCode = (
     return `${enrichedChildren
       .map((child: any) => {
         if (child.type === 'Component') {
-          return `<${child.name} ${elementTagDetails(child)} />`;
+          return `<${child.name} ${elementTagDetails(child)}/>`;
         } else if (child.type === 'HTML Element') {
           return elementGenerator(child, level);
         }
@@ -301,38 +314,38 @@ const generateUnformattedCode = (
   };
 
   // // Generate import --- FROM PREVIOUS ITERATION BEFORE 12.0, NOT WORKING -> CONSIDER DELETING
-  let importContext = '';
-  if (currComponent.useContext) {
-    for (const providerId of Object.keys(currComponent.useContext)) {
-      const providerComponent = components[parseInt(providerId) - 1];
-      importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t`;
-    }
-  }
-  if (currComponent.useContext) {
-    for (const providerId of Object.keys(currComponent.useContext)) {
-      const statesFromProvider =
-        currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
-      const providerComponent = components[parseInt(providerId) - 1];
-      providers +=
-        'const ' +
-        providerComponent.name.toLowerCase() +
-        'Context = useContext(' +
-        providerComponent.name +
-        'Context);\n \t\t';
-      for (let i = 0; i < providerComponent.stateProps.length; i++) {
-        if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
-          context +=
-            'const ' +
-            providerComponent.stateProps[i].key +
-            ' = ' +
-            providerComponent.name.toLowerCase() +
-            'Context.' +
-            providerComponent.stateProps[i].key +
-            '; \n \t\t';
-        }
-      }
-    }
-  }
+  // let importContext = '';
+  // if (currComponent.useContext) {
+  //   for (const providerId of Object.keys(currComponent.useContext)) {
+  //     const providerComponent = components[parseInt(providerId) - 1];
+  //     importContext += `import ${providerComponent.name}Context from './${providerComponent.name}.tsx'\n \t\t`;
+  //   }
+  // }
+  // if (currComponent.useContext) {
+  //   for (const providerId of Object.keys(currComponent.useContext)) {
+  //     const statesFromProvider =
+  //       currComponent.useContext[parseInt(providerId)].statesFromProvider; //{1: {Set, compLink, compText}, 2 : {}...}
+  //     const providerComponent = components[parseInt(providerId) - 1];
+  //     providers +=
+  //       'const ' +
+  //       providerComponent.name.toLowerCase() +
+  //       'Context = useContext(' +
+  //       providerComponent.name +
+  //       'Context);\n \t\t';
+  //     for (let i = 0; i < providerComponent.stateProps.length; i++) {
+  //       if (statesFromProvider.has(providerComponent.stateProps[i].id)) {
+  //         context +=
+  //           'const ' +
+  //           providerComponent.stateProps[i].key +
+  //           ' = ' +
+  //           providerComponent.name.toLowerCase() +
+  //           'Context.' +
+  //           providerComponent.stateProps[i].key +
+  //           '; \n \t\t';
+  //       }
+  //     }
+  //   }
+  // }
   // create final component code. component code differs between classic react, next.js, gatsby.js
   // classic react code
   if (projectType === 'Classic React') {
@@ -362,15 +375,15 @@ const generateUnformattedCode = (
 
       if (currComponent.name === 'App') {
         allContext.reverse().forEach((el, i) => {
-          let tabs = `\t\t`;
-          if (i === allContext.length - 1) {
-            tabs = `\t\t\t`;
-          }
-          result = `${tabs.repeat(allContext.length - i)}<${
-            el.name
-          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-            el.name
-          }Provider>`;
+        let tabs = `\t\t`;
+        if (i === allContext.length - 1) {
+          tabs = `\t\t\t`;
+        }
+        result = `${tabs.repeat(allContext.length - i)}<${
+          el.name
+        }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
+          el.name
+        }Provider>`;
         });
       }
       return result;
@@ -411,9 +424,7 @@ ${createContextImport()}
 ${importsMapped}
 ${`const ${currComponent.name} = (props) => {`}
 ${createUseContextHook()}
-${`  const [value, setValue] = useState("");${writeStateProps(
-  currComponent.useStateCodes
-)}`}
+${`${writeStateProps(currComponent.useStateCodes)}`}
 
   return(
     <>
@@ -436,7 +447,6 @@ export default ${currComponent.name}
     
     const ${currComponent.name[0].toUpperCase() +
       currComponent.name.slice(1)} = (props): JSX.Element => {
-      const  [value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
           <>
       ${
@@ -462,7 +472,6 @@ export default ${currComponent.name}
     import { StaticQuery, graphql } from 'gatsby';
     ${links ? `import { Link } from 'gatsby'` : ``}
       const ${currComponent.name} = (props: any): JSX.Element => {
-      const[value, setValue] = useState<any | undefined>("INITIAL VALUE");
       return (
         <>
         ${

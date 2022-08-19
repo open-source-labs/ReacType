@@ -177,12 +177,19 @@ const reducer = (state: State, action: Action) => {
   const updateUseStateCodes = (currentComponent) => {
     // array of snippets of state prop codes
     const localStateCode = [];
-    currentComponent.stateProps.forEach((stateProp) => {
+    currentComponent.stateProps.filter((n,i)=>i%2===0).forEach((stateProp) => {
+      
       const useStateCode = `const [${stateProp.key}, set${
         stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
       }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
       localStateCode.push(useStateCode);
     });
+    if (currentComponent.name !== 'App' && currentComponent.name !== 'Index') {
+      currentComponent.passedInProps.forEach((passedInProp) => {
+        const prop = `const ${passedInProp.key} = props.${passedInProp.key}`
+        localStateCode.push(prop);
+      })
+    }
     // store localStateCodes in global state context
     return localStateCode;
   };
@@ -220,6 +227,13 @@ const reducer = (state: State, action: Action) => {
         childId: null
       };
       const nextComponentId = state.nextComponentId + 1;
+      newComponent.code = generateCode(
+        components,
+        newComponent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
       return {
         ...state,
         components,
@@ -737,8 +751,10 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
+      //will add update StateProps to current components' array 
       currComponent.stateProps.push(action.payload.newState);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      currComponent.stateProps.push(action.payload.setNewState);
       currComponent.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -757,27 +773,59 @@ const reducer = (state: State, action: Action) => {
       const components = [...state.components];
       const currComponent = findComponent(
         components,
-        //legacyPD - tom
-        // need to change this to match the id from the tree
         state.canvasFocus.componentId
       ); 
-      // do a check if prop already exists in passed in props
+      //prevents passing in props more than one time to the current component
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
         let curr = currComponent.passedInProps[i];
         if (curr.id === action.payload.passedInProps.id) {
           return { ...state, components};
         }
       }
+      
+      //find the parent for deleting instances of where the parent is passing props to children
+      let parent;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+             parent = currComponent;
+          }
+        }
+      }
+
+      //search for whether the child exists in the parent's children array
+      //if so update the passed in props child element with the updates passed in props 
+      parent.children.forEach((child) => {
+        if (child.name === currComponent.name) {
+          child.passedInProps.push(action.payload.passedInProps);
+        }
+      })
+
+
+      // check each components passedInProps property and updating there as well.
       currComponent.passedInProps.push(action.payload.passedInProps);
-      //currComponent.useStateCodes = updateUseStateCodes(currComponent);
+
+      //update the import codes for the current component 
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      //update code preview for current component
       currComponent.code = generateCode(
         components,
-        //change the id here as well
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
-      );
+        );
+        //update code preview for parent component (since we have added it to the children array)
+        parent.code = generateCode(
+          components,
+          parent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
+
       return { ...state, components};
     }
 
@@ -787,22 +835,93 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-      /*
-      Check whether the current component selected has passed in props and splices out that 
-      piece of state from the array.
-      */
-      let index;
-      for (let i = 0; i < currComponent.passedInProps.length; i++) {
-        if (currComponent.passedInProps[i].id === action.payload.rowId) {
-          index = i;
-          break;
+
+      //find the parent of the component that we are deleting from
+      let parent;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+             parent = currComponent;
+          }
         }
       }
-      currComponent.passedInProps.splice(index, 1);
 
-      currComponent.code = generateCode(
+      //deletes all instances of passedInProps from the children arrays of the current Component
+      const deletePassedInPropsChildren = (currComponent) => {
+        // when there are no children, return up a level
+        if (!currComponent.children) return;
+        currComponent.passedInProps?.forEach((prop, i)=> {
+          if (prop.id === action.payload.rowId) {
+            if (currComponent.children.length) {
+              currComponent.children.filter(el => el.type === "Component").forEach((child, j) => {
+                child.passedInProps.forEach((prop, k) => {
+                  if(prop.id === action.payload.rowId) {
+                    child.passedInProps.splice(k, 1);
+                    deletePassedInPropsChildren(child);
+                  }
+                })
+              })
+            }
+          }
+        });
+        //for every component we update, generate new code
+        currComponent.code = generateCode(
+          components,
+          currComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        )
+      }
+      //delete from the components passedInProps array
+      const deletePassedInProps = (myComponent) => {
+        if (myComponent.children.filter((el) => el.type === 'Component').length === 0) {
+          if (myComponent.passedInProps.length > 0) {
+            myComponent.passedInProps.forEach((prop, index) => {
+              if (prop.id === action.payload.rowId){
+                myComponent.passedInProps.splice(index, 1);
+              }
+            });
+          }
+          myComponent.useStateCodes = updateUseStateCodes(myComponent)
+          myComponent.code = generateCode(
+          components,
+          myComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
+          return;
+        };
+        myComponent.passedInProps.forEach((prop, i)=> {
+          if (prop.id === action.payload.rowId) {
+            myComponent.passedInProps.splice(i, 1);
+            myComponent.children.filter(el => el.type === "Component").forEach((child, i) => {
+              let next = components.find(comp =>
+                comp.id === child.typeId);
+                deletePassedInProps(next);
+              })
+        }    
+      })
+      myComponent.useStateCodes = updateUseStateCodes(myComponent)
+      myComponent.code = generateCode(
+          components,
+          myComponent.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+        );
+      }
+
+      deletePassedInPropsChildren(parent);
+      deletePassedInProps(currComponent);
+      
+
+      parent.code = generateCode(
         components,
-        state.canvasFocus.componentId,
+        parent.id,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes
@@ -816,28 +935,42 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
+      //updates the stateProps array to reflect total state initialized in component minus the selected state to be deleted
       currComponent.stateProps = action.payload.stateProps;
-      currComponent.useStateCodes = updateUseStateCodes(currComponent);
-
+      
+      //CHILDREN ARRAY LOOP (needed for code preview)
+      //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
+      // in the passedInProps array within the children array of the component
+      // using the action.payload.rowId (variable name) and action.payload.otherId (setVariable name))
       components.forEach((component) => {
-
-
         //find all instances of state within child elements and delete state
 
-        
-        if (component.name !== 'App' && component.name !== 'index') {
-          component.passedInProps.forEach((prop, i) => {
-            if(prop.id === action.payload.rowId) {
-              component.passedInProps.splice(i,1);
-            }
-          });
-        }
-          // curr component = where you are deleting from state from, also is the canvas focus
-          // curr component id = providerId
-          // we then iterate through the rest of the components
-          // check if a useContext if created and if the useContext contains the providerId
-          // we then delete from the set, statesFromProvider, the row id, and regenerate the code
-          // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
+        component.children.forEach((child) => {
+          if (child.type === 'Component') {
+            child.passedInProps.forEach((prop, i) => {
+              if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
+                child.passedInProps.splice(i, 1);
+              }
+            });
+          }
+        })
+
+      // COMPONENT LOOP (needed for tables in State Management Tab)
+      //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
+      // in the passedInProps array within each component
+      // using the action.payload.rowId (variable name) and action.payload.otherId (setVariable name))
+        for (let i = 0; i < component.passedInProps?.length; i++) {
+          if (component.passedInProps[i]['id'] === action.payload.rowId || component.passedInProps[i]['id'] === action.payload.otherId) {
+            component.passedInProps.splice(i,1);
+            i--;
+          }
+        };
+        // curr component = where you are deleting from state from, also is the canvas focus
+        // curr component id = providerId
+        // we then iterate through the rest of the components
+        // check if a useContext if created and if the useContext contains the providerId
+        // we then delete from the set, statesFromProvider, the row id, and regenerate the code
+        // Ex: useContext {1: {statesFromProvider: Set, compLink, compText}, 2 : ..., 3 : ...}
         if(component.useContext && component.useContext[state.canvasFocus.componentId ]) {
           component.useContext[state.canvasFocus.componentId].statesFromProvider.delete(action.payload.rowId);
           // iterate over children to see where it is being used, then reset that compText/compLink/useState
@@ -857,22 +990,38 @@ const reducer = (state: State, action: Action) => {
               }
             }
           }
-          component.code = generateCode(
+        }
+
+        // find parent 
+        let parent;
+        for (let i = 0; i < components.length; i++){
+          let currComponent = components[i]
+          for (let j = 0; j < currComponent.children.length; j++) {
+            let currChild = currComponent.children[j];
+            if (currChild.typeId === component.id) {
+               parent = currComponent;
+            }
+          }
+        }
+        if (parent) {
+          parent.code = generateCode(
             components,
-            component.id,
+            parent.id,
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes
           );
         }
-      });
-      currComponent.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes
-      );
+
+        component.useStateCodes = updateUseStateCodes(component);
+        component.code = generateCode(
+          components,
+          component.id,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes
+          );
+        });
       return { ...state, components};
     }
     default:

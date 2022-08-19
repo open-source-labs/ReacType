@@ -156,7 +156,7 @@ export const createPackage = (path, appName, test) => {
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "isomorphic-fetch": "^2.2.1",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.1",
     "nodemon": "^1.18.9",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
