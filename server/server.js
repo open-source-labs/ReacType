@@ -188,6 +188,17 @@ app.delete(
   (req, res) => res.status(200).json(res.locals.deleted)
 );
 
+
+//if in production mode, statically serve everything in the build folder on the route '/dist'
+if (process.env.NODE_ENV == 'production'){
+  app.use('/dist', express.static(path.join(__dirname, '../dist')));
+
+// serve index.html on the route '/'
+  app.get('/', (req, res) => {
+    return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+}
+
 app.get('/', function(req, res) {
   res.send('Houston, Caret is in orbit!');
 });
