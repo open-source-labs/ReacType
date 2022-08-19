@@ -34,8 +34,8 @@ const TableStateProps = props => {
     },
     {
       field: 'value',
-      headerName: 'Value',
-      width: 90,
+      headerName: 'Initial Value',
+      width: 100,
       editable: true
     },
     {

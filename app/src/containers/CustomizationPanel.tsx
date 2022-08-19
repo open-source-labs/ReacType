@@ -215,6 +215,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     searchNestedChildren(state.components);
     return isLinked;
   };
+  
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
@@ -241,6 +242,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       setUseContextObj(newContextObj);
     }
   }
+
   const handleSave = (): Object => {
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
