@@ -56,7 +56,7 @@ const TablePassedInProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                deletePassedInProps(params.row, params.id);
+                deletePassedInProps(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -66,13 +66,13 @@ const TablePassedInProps = props => {
       }
     }
   ];
-  const deletePassedInProps = (parentComponentProps, rowId) => {
+  const deletePassedInProps = (rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
     dispatch({
       type: 'DELETE PASSEDINPROPS',
-      payload: { passedInProps: parentComponentProps, rowId: rowId }
+      payload: { rowId: rowId }
     });
   };
 
