@@ -97,16 +97,16 @@ const TableStateProps = props => {
    
     
     //add in passed in props 
-    let propsPassed = currentComponent.passedInProps.slice();
-    console.log("propsPassed:", propsPassed);
+
+    if (currentComponent.name !== 'App' && currentComponent.name !== 'index') {
+    let propsPassed = currentComponent.passedInProps?.slice();
 
     for (let i = 0; i < propsPassed.length; i++) {
       currentProps.push(propsPassed[i]);
     }
+  }
 
     rows = currentProps;
-    console.log("currentProps on line 108: ", currentProps);
-    console.log({rows});
 
   return (
     <div className={'state-prop-grid'}>
