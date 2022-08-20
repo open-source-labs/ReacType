@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useStore } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import DataTable from './components/DataTable';
 import * as actions from '../../../redux/actions/actions';
-import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
 import StatePropsPanel from './components/StatePropsPanel';
-import TableStateProps from './components/TableStateProps';
 
 //LegacyPD added this in here 
 //import StatePropsPanel from '../../right/StatePropsPanel';

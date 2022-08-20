@@ -204,7 +204,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
             />
           <TextField
             id="textfield-value"
-            label="value:"
+            label="initial value:"
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
