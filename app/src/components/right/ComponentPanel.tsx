@@ -64,6 +64,13 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   const checkIfRoot = (inputName: String): boolean => {
     let rootDupe = false; 
     // checks to see if inputted comp name is equal to root component name. Want to prevent that
+    
+    //carly console logs 
+    const rootComponents = state.rootComponents; 
+    const allComponents = state.components; 
+    console.log({rootComponents});
+    console.log({allComponents});
+
      if (inputName.toLowerCase() === 'index'|| inputName.toLowerCase() === 'app') {
       rootDupe = true;
     }

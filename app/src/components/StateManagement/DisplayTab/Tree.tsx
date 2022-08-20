@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, useState } from 'react';
 import { select, hierarchy, tree, linkHorizontal} from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
@@ -10,7 +10,7 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp }) { 
+function Tree({ data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp}) { 
   const [state, dispatch] = useContext(StateContext);
   const svgRef = useRef();
   const wrapperRef = useRef();
@@ -41,7 +41,6 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
   // create a deep clone of data to avoid mutating the actual children array in removing separators
   const dataDeepClone = cloneDeep(data);
   
-  // LEGACYPD to look at when trying to figure out how to convert tab to work for NextJS
   if(state.projectType === 'Next.js') {
     dataDeepClone.forEach(element => {
       element.children = sanitize(element.children).filter(element => !Array.isArray(element));
@@ -57,7 +56,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
 
   // remove separators and update components to current versions
   dataDeepClone.forEach(component => removeHTMLElements(component.children));
-  
+
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
@@ -66,7 +65,31 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
     // (dimensions are null for the first render)
     const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    const root = hierarchy(dataDeepClone[0]); 
+
+    let root;
+    let rootName; 
+
+    if (state.rootComponents.includes(state.canvasFocus.componentId)) {
+      // find out if canvasFocus is a root component 
+      // if yes, set root to be that canvasFocus component 
+        // find that component inside dataDeepClone
+        for (let i = 0; i < dataDeepClone.length; i++) {
+          if (dataDeepClone[i]['id'] === state.canvasFocus.componentId) {
+            // reassign root to be dataDeepClone at that element  
+
+            root = hierarchy(dataDeepClone[i]);
+            rootName = dataDeepClone[i]["name"];
+            
+          }
+        }
+    } else {
+    // if no, set root to be dataDeepClone[0]
+    root = hierarchy(dataDeepClone[0]); 
+    rootName = dataDeepClone[0]["name"];
+    }
+
+    setClickedComp(rootName);
+
     const treeLayout = tree().size([height, width - 125]);
     // Returns a new link generator with horizontal display.
     // To visualize links in a tree diagram rooted on the left edge of the display
@@ -76,7 +99,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
     
     // insert our data into the tree layout
     treeLayout(root);
-    
+
     svg
       .selectAll('.node')
       .data(root.descendants())
@@ -99,7 +122,7 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
         let passedInProps;
         let componentStateProps;
         
-        // iterate through data array to find stateProps for parent and clicked element
+        // iterate through data array to find stateProps and passedInProps
         for(let i = 0; i < data.length; i++) {
           if(data[i]["name"] === nameOfClicked) {
             componentStateProps = data[i]["stateProps"];

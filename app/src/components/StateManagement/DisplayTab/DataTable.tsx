@@ -31,7 +31,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function DataTable(props) {
-  const { currComponentState, setCurrComponentState, parentProps, setParentProps, clickedComp } = props;
+  const { currComponentState, setCurrComponentState, parentProps, setParentProps, clickedComp, data } = props;
+  const [state, dispatch] = useContext(StateContext);
+
+  //determine if the current component is a root component 
+  let isRoot = false;
+
+  //iterate through the data array and see if clickedComp is in state.rootComponents
+  for (let i = 0; i < data.length; i++) {
+    if (data[i]['name'] === clickedComp) {
+      //check to see if clickedComp is in rootComponents
+      if (state.rootComponents.includes(data[i]['id'])) isRoot = true;
+    }
+  }
   
   return (
     <>
@@ -43,8 +55,8 @@ export default function DataTable(props) {
         >
           
           {/* this table will contain passed down stateProps data from parent component */}
-          {/* we are checking if the clicked component is App-- if it is App, it doesn't have any parents so don't need this table*/}
-        {(clickedComp !== 'App' && 
+          {/* we are checking if the clicked component is a root component-- if it is, it doesn't have any parents so don't need this table*/}
+        {(!isRoot && 
           <>
           <TableHead>
             <TableRow>
