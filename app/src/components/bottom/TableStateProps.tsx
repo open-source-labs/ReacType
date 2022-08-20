@@ -30,8 +30,8 @@ const TableStateProps = props => {
     },
     {
       field: 'value',
-      headerName: 'Value',
-      width: 90,
+      headerName: 'Initial Value',
+      width: 100,
       editable: true
     },
     {
@@ -88,24 +88,20 @@ const TableStateProps = props => {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
   }, [state.canvasFocus.componentId]);
-  // rows to show are either from current component or from a given provider
-  let rows = [];
+
+  // create rows to show the current component's state props
+    let rows = [];
     const currentId = state.canvasFocus.componentId;
     const currentComponent = state.components[currentId - 1];
     let currentProps = currentComponent.stateProps.slice();
-
-   
     
-    //add in passed in props 
-
+    //add in passed in props for the current component (if it is not a root component)
     if (currentComponent.name !== 'App' && currentComponent.name !== 'index') {
     let propsPassed = currentComponent.passedInProps?.slice();
-
     for (let i = 0; i < propsPassed.length; i++) {
       currentProps.push(propsPassed[i]);
     }
   }
-
     rows = currentProps;
 
   return (
