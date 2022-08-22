@@ -947,13 +947,14 @@ const reducer = (state: State, action: Action) => {
 
         component.children.forEach((child) => {
           if (child.type === 'Component') {
-            child.passedInProps.forEach((prop, i) => {
-              if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
-                child.passedInProps.splice(i, 1);
+            for (let i = 0; i < child.passedInProps?.length; i++) {
+              if (child.passedInProps[i]['id'] === action.payload.rowId || child.passedInProps[i]['id'] === action.payload.otherId) {
+                child.passedInProps.splice(i,1);
+                i--;
               }
-            });
-          }
-        })
+            };
+          };
+        });
 
       // COMPONENT LOOP (needed for tables in State Management Tab)
       //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
