@@ -181,7 +181,7 @@ describe('Testing componentReducer functionality for stateManagement tab', () =>
   });
   
   // TEST 'DELETE PASSEDINPROPS'
-  xdescribe('DELETE PASSEDINPROPS test', () => {
+  describe('DELETE PASSEDINPROPS test', () => {
     it('should delete the state passed down from parent component in the child component', () => {
       // setting canvas focus to the child component
       state.canvasFocus.componentId = 2;
