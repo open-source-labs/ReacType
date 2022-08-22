@@ -93,7 +93,7 @@ describe('Testing componentReducer functionality for stateManagement tab', () =>
       },
     };
   
-    // setting intial test state
+    // setting test state
     state = reducer(state, action);
     const currComponent = findComponent(state.components, 1);
     
@@ -144,7 +144,7 @@ describe('Testing componentReducer functionality for stateManagement tab', () =>
       },
     };
     
-    // setting intial test state
+    // setting test state
     state = reducer(state, action);
     const currComponent = findComponent(state.components, 2);
     const parentComponent = findComponent(state.components, 1);
@@ -189,28 +189,21 @@ describe('Testing componentReducer functionality for stateManagement tab', () =>
       // action dispatched to be tested
       const action = {
         type: 'DELETE PASSEDINPROPS',
-        payload: {
-          passedInProps: {
-            id: 'App-testAppState',
-            key: 'testAppState',
-            type: 'number',
-            value: 1
-          },
-        },
+        payload: { rowId: 'App-testAppState' },
       };
       
-      // setting intial test state
+      // setting test state
       state = reducer(state, action);
-      const currComponent = findComponent(state.components, 2);
       const parentComponent = findComponent(state.components, 1);
-
+      const currComponent = findComponent(state.components, 2);
+      
       expect(currComponent.passedInProps.length).toEqual(0);
-      expect(parentComponent.children[1].passedInProps.length).toEqual(0);
+      expect(parentComponent.children[1].passedInProps.length).toEqual(0); // need to fix reducer
     });
   });
 
   // TEST 'DELETE STATE'
-  xdescribe('DELETE STATE test', () => {
+  describe('DELETE STATE test', () => {
     it('should delete all instances of state from stateProps and passedInProps', () => {
       
       // setting canvas focus to root component
