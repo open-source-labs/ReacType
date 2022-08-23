@@ -251,6 +251,25 @@ const reducer = (state: State, action: Action) => {
       }: { type: string; typeId: number; childId: any } = action.payload;
       const parentComponentId: number = state.canvasFocus.componentId;
       const components = [...state.components];
+      // disable adding multiple parents
+      
+      let hasDiffParent = false;
+      for (let i = 0; i < components.length; i++){
+        let currComponent = components[i]
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === action.payload.typeId) {
+            console.log('this child already has a parent', currComponent)
+            console.log('same parent?', parentComponentId === currComponent.id)
+            if (parentComponentId !== currComponent.id) {
+              console.log('has diff parent');
+              hasDiffParent = true;
+            }
+          }
+        }
+      }
+      if (hasDiffParent) return {...state}
+
       // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
       let componentName = '';
