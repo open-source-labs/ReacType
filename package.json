@@ -196,7 +196,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mui/material": "^5.9.3",
     "@mui/styled-engine-sc": "^5.9.3",
-    "@mui/x-data-grid": "^5.15.0",
+    "@mui/x-data-grid": "^5.15.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.2",
     "@types/chai": "^4.3.1",
