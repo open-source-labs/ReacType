@@ -20,7 +20,7 @@ const Customization: React.FC<{
         made in the <span className={classes.notLink} onClick={() => setPage('Customization')}>
         customization</span> panel will be reflected immediately in the <span className={classes.notLink} onClick={() => setPage('Code Preview')}> 
         code preview </span> and demo render panel. See your changes in real time to decide what's best!<br/><br/>
-        To customize an HTML element, drag it onto the canvas and select it on the canvas. Then use the desired cusotmization feature.
+        To customize an HTML element, drag it onto the canvas and select it on the canvas. Then use the desired customization feature.
         Once done, press the save button to save your customization changes.
       </p>
       <hr />
