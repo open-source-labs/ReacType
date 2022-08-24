@@ -70,6 +70,7 @@ const reducer = (state: State, action: Action) => {
   const findChild = (component: Component, childId: number) => {
     if (childId === null) return component;
     const nodeArr = [...component.children];
+    console.log({nodeArr})
     // breadth first search through component tree to see if a child exists
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -195,6 +196,7 @@ const reducer = (state: State, action: Action) => {
   };
   switch (action.type) {
     case 'ADD COMPONENT': {
+      console.log('adding component payload', action.payload)
       if (
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
@@ -221,11 +223,12 @@ const reducer = (state: State, action: Action) => {
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
-      const canvasFocus = {
-        ...state.canvasFocus,
-        componentId: newComponent.id,
-        childId: null
-      };
+      //tom commented this out
+      // const canvasFocus = {
+      //   ...state.canvasFocus,
+      //   componentId: newComponent.id,
+      //   childId: null
+      // };
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
         components,
@@ -239,41 +242,30 @@ const reducer = (state: State, action: Action) => {
         components,
         rootComponents,
         nextComponentId,
-        canvasFocus
+        // canvasFocus
       };
     }
     // Add child to a given root component
     case 'ADD CHILD': {
+      console.log('add child started', action.payload)
+      let parentComponentId: number;
       const {
         type,
         typeId,
         childId
       }: { type: string; typeId: number; childId: any } = action.payload;
-      const parentComponentId: number = state.canvasFocus.componentId;
-      const components = [...state.components];
-      // disable adding multiple parents
-      
-      let hasDiffParent = false;
-      for (let i = 0; i < components.length; i++){
-        let currComponent = components[i]
-        for (let j = 0; j < currComponent.children.length; j++) {
-          let currChild = currComponent.children[j];
-          if (currChild.typeId === action.payload.typeId) {
-            console.log('this child already has a parent', currComponent)
-            console.log('same parent?', parentComponentId === currComponent.id)
-            if (parentComponentId !== currComponent.id) {
-              console.log('has diff parent');
-              hasDiffParent = true;
-            }
-          }
-        }
+      if (action.payload.copyId) {
+        parentComponentId = action.payload.copyId;
+      } else {
+        parentComponentId = state.canvasFocus.componentId;
       }
-      if (hasDiffParent) return {...state}
+      
+      const components = [...state.components];
 
-      // find component (an object) that we're adding a child to
       const parentComponent = findComponent(components, parentComponentId);
-      let componentName = '';
-      let componentChildren = [];
+      console.log({parentComponent})
+      let componentName: string = '';
+      let componentChildren: Object[] = [];
       if (type === 'Component') {
         components.forEach(comp => {
           if (comp.id === typeId) {
@@ -334,6 +326,8 @@ const reducer = (state: State, action: Action) => {
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
+        console.log({childId})
+        console.log({directParent})
         directParent = findChild(parentComponent, childId);
         directParent.children.push(topSeparator);
         directParent.children.push(newChild);
@@ -1042,6 +1036,7 @@ const reducer = (state: State, action: Action) => {
         });
       return { ...state, components};
     }
+    
     default:
       return state;
   }
