@@ -58,7 +58,7 @@ const CodePreview: React.FC<{
       type: 'CODE_PREVIEW_INPUT',
       payload: currentComponent.code
     });
-  }, [state.components]);
+  }, [currentComponent]);
 
   /**
    * Handler thats listens to changes in code editor

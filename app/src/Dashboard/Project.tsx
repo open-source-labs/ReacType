@@ -105,7 +105,7 @@ const Project = ({
     setCommentVal(commentValue);
   }
   const recentComments = [];
-  if (comments.length > 0) { 
+  if (comments?.length > 0) { 
     const reversedCommentArray = comments.slice(0).reverse();
     const min = Math.min(6, reversedCommentArray.length)
     for (let i = 0; i < min ; i++) {

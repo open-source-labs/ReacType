@@ -1,13 +1,17 @@
 language: node_js
 node_js:
-  - "10"
-dist: trusty
+  - "16"
+dist: xenial
+arch: amd64
+script: 
+  - python3 -VV
+  - pip install --upgrade pip
+  - pip -V
+  - npm run test
 cache:
   directories:
     - node_modules
 install: 
-  - npm install
-  - npm run prod-build
-script: 
-  - npm run test
-
+  - npm install --legacy-peer-deps
+env:
+  global:  PATH=/opt/python/3.7.1/bin:$PATH

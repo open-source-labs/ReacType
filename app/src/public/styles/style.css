@@ -41,11 +41,14 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+
 }
 .state-prop-grid {
   height: 300px;
-  width: 500px;
+  width: 410px;
   flex-grow: 1;
+  padding-left: 10px; 
+  padding-right: 10px;
 }
 .HTMLItemCreate {
   flex-grow: 1;

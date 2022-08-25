@@ -24,9 +24,12 @@ export interface ChildElement {
   style: object;
   attributes?: object;
   children?: ChildElement[];
+  stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   stateUsed?: object; 
+  passedInProps: StateProp[]
 }
+
 export interface Component {
   id: number;
   name: string;
@@ -41,8 +44,10 @@ export interface Component {
   annotations?: string;
   useStateCodes: string[];
   useContext?: object
+  passedInProps: StateProp[]
 }
 export interface StateProp {
+  id: string;
   key: string;
   value: any;
   type: unknown;

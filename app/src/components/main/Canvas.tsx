@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
@@ -7,9 +7,58 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 // Caret start
 import Arrow from './Arrow';
+import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 
 function Canvas(props): JSX.Element {
   const [state, dispatch] = useContext(StateContext);
+  const [newComp, setNewComp] = useState(false);
+  const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
+  const [copiedComp, setCopiedComp] = useState({});
+
+  useEffect(()=> {
+    if (newComp) {
+      //find updated comp
+      const copy = state.components.find(comp => comp.name === copiedComp.name)
+      // make a array of copied children from the copied component
+      if (copy.children.length){
+        const masterArr = [];
+        const children = copy.children;
+        function deepChildCopy(children, parentId) {
+          for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            let id = (parentId) ? parentId : null;
+            if (child.typeId < 1000){
+              masterArr.push({
+                type: "HTML Element", 
+                typeId: child.typeId, 
+                childId: id
+              })
+              if (child.children.length) {
+                deepChildCopy(child.children, child.childId);
+              } 
+            }
+          }
+        }
+        deepChildCopy(children, null);
+        setCopiedChildrenArr(masterArr);
+      }
+  
+      const components = state.components
+
+        // find the ID of the newly created component
+      const newId = components[components.length -1]['id']      
+      dispatch({
+        type: 'ADD CHILD',
+        payload: {
+          type: "Component",
+          typeId: newId,
+          childId: null
+        }
+      });
+    }
+    setNewComp(false)
+  }, [newComp]) 
+
   // Caret start
   Arrow.deleteLines();
   // find the current component to render on the canvas
@@ -49,7 +98,7 @@ function Canvas(props): JSX.Element {
         return;
       }
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
-      if (item.newInstance) {
+      if (item.newInstance && item.instanceType !== "Component") {
         dispatch({
           type: 'ADD CHILD',
           payload: {
@@ -58,12 +107,73 @@ function Canvas(props): JSX.Element {
             childId: null
           }
         });
+      } else if (item.newInstance && item.instanceType === "Component") {
+        let hasDiffParent = false;
+        const components = state.components;
+        let newChildName = '';
+        // loop over componenets array
+        for (let i = 0; i < components.length; i++) {
+          const comp = components[i];
+          //loop over each componenets child
+          for (let j = 0; j < comp.children.length; j++) {
+            const child = comp.children[j];
+            if (child.name === 'seperator') continue;
+            // check if the item.instanceTypeId matches and child ID
+            if (item.instanceTypeId === child.typeId) {
+              // check if the name of the parent matches the canvas focus name
+              // comp is the parent component
+              // currentComponent is the canvas.focus component
+              if (comp.name === currentComponent.name) {
+                i = components.length;
+                break;
+              } else {
+                // if false
+                setCopiedComp(child);
+                hasDiffParent = true;
+                newChildName = child.name;
+                i = components.length;
+                break;
+              }
+            }
+          }
+        }
+        if (!hasDiffParent) {
+          dispatch({
+            type: 'ADD CHILD',
+            payload: {
+              type: item.instanceType,
+              typeId: item.instanceTypeId,
+              childId: null
+            }
+          });
+        } else {
+
+          // able to duplicate a component in dev only does not work for prod
+          // create a new component
+          
+          // let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
+          // while (components.some(comp => comp.name === name)) {
+          //   name = prompt(`${name} component already exists. \nPlease pick a new name.`);
+          // }
+          // if (name) {
+          //   dispatch({
+          //     type: 'ADD COMPONENT',
+          //     payload: { componentName: name, root: false }
+          //   });
+            
+          //   setNewComp(true);
+          //   setNewComp(!newComp)
+          // }
+          
+        }
+        
       }
     },
     collect: monitor => ({
       isOver: !!monitor.isOver()
     })
   });
+  
   // Styling for Canvas
   const defaultCanvasStyle = {
     width: '100%',

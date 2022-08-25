@@ -1,8 +1,8 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const GitHubStrategy = require('passport-github2').Strategy;
+//const passport = require('passport');
+//const GitHubStrategy = require('passport-github2').Strategy;
 const { DEV_PORT } = require('../config');
 
 const path = require('path');
@@ -39,52 +39,54 @@ app.use(
 // on initial login, redirect back to app is not working correctly when in production environment
 // subsequent logins seem to be working fine, however
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: isDev
-        ? `http://localhost:${DEV_PORT}/github/callback`
-        : `https://reactype-caret.herokuapp.com/github/callback`
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log(profile);
-    }
-  )
-);
+// NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
+
+// passport.use(
+//   new GitHubStrategy(
+//     {
+//       clientID: process.env.GITHUB_ID,
+//       clientSecret: process.env.GITHUB_SECRET,
+//       callbackURL: isDev
+//         ? `http://localhost:${DEV_PORT}/github/callback`
+//         : `https://reactype-caret.herokuapp.com/github/callback`
+//     },
+//     function(accessToken, refreshToken, profile, done) {
+//       console.log(profile);
+//     }
+//   )
+// );
 
 // initializes passport and passport sessions
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-app.get(
-  '/auth/github',
-  passport.authenticate('github', { session: false }),
-  (req, res) => {
-    res.send('github');
-  }
-);
+// app.get(
+//   '/auth/github',
+//   passport.authenticate('github', { session: false }),
+//   (req, res) => {
+//     res.send('github');
+//   }
+// );
 
 // for Oauth which is currently not working
-app.get(
-  '/github/callback',
-  sessionController.gitHubResponse,
-  sessionController.gitHubSendToken,
-  userController.createUser,
-  userController.verifyUser,
-  cookieController.setSSIDCookie,
-  sessionController.startSession,
-  (req, res) => {
-    if (isDev) {
-      return res
-        .status(200)
-        .redirect(`http://localhost:8080?=${res.locals.ssid}`);
-    } else {
-      return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
-    }
-  }
-);
+// app.get(
+//   '/github/callback',
+//   sessionController.gitHubResponse,
+//   sessionController.gitHubSendToken,
+//   userController.createUser,
+//   userController.verifyUser,
+//   cookieController.setSSIDCookie,
+//   sessionController.startSession,
+//   (req, res) => {
+//     if (isDev) {
+//       return res
+//         .status(200)
+//         .redirect(`http://localhost:8080?=${res.locals.ssid}`);
+//     } else {
+//       return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
+//     }
+//   }
+// );
 
 // app.get('/github/callback', passport.authenticate('github'), function(
 //   req,
@@ -110,21 +112,22 @@ const resolvers = {
   Mutation
 };
 
-app.use(
-  '/demoRender',
-  express.static(path.join(__dirname, './assets/renderDemo.css'))
-);
+// app.use(
+//   '/demoRender',
+//   express.static(path.join(__dirname, './assets/renderDemo.css'))
+// );
 
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
 const typeDefs = require('./graphQL/schema/typeDefs.js');
-// const { dirname } = require('node:path');
+const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
+
 const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, path: '/graphql' });
 /** ****************************************************************** */
 
 app.post(
@@ -164,6 +167,17 @@ app.delete(
   projectController.deleteProject,
   (req, res) => res.status(200).json(res.locals.deleted)
 );
+
+
+//if in production mode, statically serve everything in the build folder on the route '/dist'
+if (process.env.NODE_ENV == 'production'){
+  app.use('/dist', express.static(path.join(__dirname, '../dist')));
+
+// serve index.html on the route '/'
+  app.get('/', (req, res) => {
+    return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+}
 
 app.get('/', function(req, res) {
   res.send('Houston, Caret is in orbit!');

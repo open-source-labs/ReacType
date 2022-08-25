@@ -66,7 +66,7 @@ async function createWindow() {
       // enable devtools when in development mode
       devTools: true,
       // crucial security feature - blocks rendering process from having access to node modules
-      nodeIntegration: false,
+      nodeIntegration: true,
       // web workers will not have access to node
       nodeIntegrationInWorker: false,
       // disallow experimental feature to allow node.js support in sub-frames (i-frames/child windows)
@@ -76,10 +76,10 @@ async function createWindow() {
       // Electron API only available from preload, not loaded page
       contextIsolation: true,
       // disables remote module. critical for ensuring that rendering process doesn't have access to node functionality
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       // path of preload script. preload is how the renderer page will have access to electron functionality
       preload: path.join(__dirname, 'preload.js'),
-      nativeWindowOpen: true
+      nativeWindowOpen: true,
     }
   });
 
@@ -213,6 +213,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -221,7 +222,9 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://developer.mozilla.org',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
+      'null',
+      'app://rse/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -237,6 +240,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -246,7 +250,8 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
       'https://www.html5rocks.com',
-      'app://rse/'
+      'app://rse/',
+      'null'
     ];
     // Log and prevent the app from redirecting to a new page
     if (
@@ -280,6 +285,7 @@ app.on('web-contents-created', (event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     const validOrigins = [
       selfHost,
+      //'https://reactype-1.herokuapp.com/',
       'https://reactype-caret.herokuapp.com',
       `http://localhost:${DEV_PORT}`,
       'https://reactype.herokuapp.com',
@@ -288,7 +294,9 @@ app.on('web-contents-created', (event, contents) => {
       'https://github.com',
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
+      'null',
+      'app://rse/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -379,7 +387,6 @@ ipcMain.on('github', event => {
   const githubURL = isDev
     ? `http://localhost:${DEV_PORT}/auth/github`
     : `https://reactype-caret.herokuapp.com/auth/github`;
-  console.log(githubURL);
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,
@@ -391,11 +398,11 @@ ipcMain.on('github', event => {
     height: 600,
     title: 'Github Oauth',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       zoomFactor: 1.0
     }
   });
@@ -470,11 +477,11 @@ ipcMain.on('tutorial', event => {
     minWidth: 661,
     title: 'Tutorial',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       nodeIntegrationInWorker: false,
       nodeIntegrationInSubFrames: false,
       contextIsolation: true,
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       zoomFactor: 1.0
     }
   });
