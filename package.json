@@ -75,9 +75,7 @@
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "jest --verbose",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
-    "start": "node server/server.js",
-    "lint": "eslint '**/*.{js,jsx,ts,tsx,json}'",
-    "lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx,json}'"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
