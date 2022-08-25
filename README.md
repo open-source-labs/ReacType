@@ -48,6 +48,7 @@ If you want to read about using ReacType, the [User Manual](https://reactype-1.h
 - **MacOS**
 Download the latest [release](https://github.com/open-source-labs/ReacType/releases) <br>
 After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
+If you are given a warning that Apple could not scan the app. Please follow these [steps] https://support.apple.com/en-ca/HT202491
 
 - **Windows**
 Download the latest [release](https://github.com/open-source-labs/ReacType/releases)
