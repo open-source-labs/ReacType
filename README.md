@@ -60,7 +60,7 @@ Download the latest [release](https://github.com/open-source-labs/ReacType/relea
 - **Add/delete props**: For a selected component, users can see a list of available props from the parent, add props, and delete props in case they are not required later on.
 - **State/props flow**: If state or props are deleted upstream, it will automatically update the state for its children components.
 - **Visualize state/props flow**: Within the display sub-tab of the state manager tab, users can visualize an interactive tree diagram depicting the state initialized in the current component and passed down props from the parent component.
-- **And more:** See [CHANGE_LOG.md](https://github.com/oslabs-beta/ReacType/blob/dev/CHANGE_LOG.md) for more details on what was changed from the previous version as well as plans for upcoming features!
+- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous version as well as plans for upcoming features!
 
 
 ## Run ReacType using CLI
@@ -129,8 +129,8 @@ Typescript, React.js, Redux, Javascript, D3.js, Node.js (Express), HTML, CSS/SAS
 
 ## Contributions
 
-Here is the up to date [list](https://github.com/oslabs-beta/ReacType/blob/dev/contributors.md) of all co-developers of this product.
-Please visit our [contribution documentation](https://github.com/oslabs-beta/ReacType/blob/dev/contribution_documentation.md) for more information on how you can contribute to ReacType!
+Here is the up to date [list](https://github.com/open-source-labs/ReacType/blob/master/contributors.md) of all co-developers of this product.
+Please visit our [contribution documentation](https://github.com/open-source-labs/ReacType/blob/master/contribution_documentation.md) for more information on how you can contribute to ReacType!
 
 
 ## License
