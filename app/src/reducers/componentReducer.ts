@@ -221,11 +221,13 @@ const reducer = (state: State, action: Action) => {
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
-      const canvasFocus = {
-        ...state.canvasFocus,
-        componentId: newComponent.id,
-        childId: null
-      };
+
+      // change canvas focus to just created component
+      // const canvasFocus = {
+      //   ...state.canvasFocus,
+      //   componentId: newComponent.id,
+      //   childId: null
+      // };
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
         components,
@@ -239,22 +241,28 @@ const reducer = (state: State, action: Action) => {
         components,
         rootComponents,
         nextComponentId,
-        canvasFocus
+        // canvasFocus
       };
     }
     // Add child to a given root component
     case 'ADD CHILD': {
+      let parentComponentId: number;
       const {
         type,
         typeId,
         childId
       }: { type: string; typeId: number; childId: any } = action.payload;
-      const parentComponentId: number = state.canvasFocus.componentId;
+      if (action.payload.copyId) {
+        parentComponentId = action.payload.copyId;
+      } else {
+        parentComponentId = state.canvasFocus.componentId;
+      }
+      
       const components = [...state.components];
-      // find component (an object) that we're adding a child to
+
       const parentComponent = findComponent(components, parentComponentId);
-      let componentName = '';
-      let componentChildren = [];
+      let componentName: string = '';
+      let componentChildren: Object[] = [];
       if (type === 'Component') {
         components.forEach(comp => {
           if (comp.id === typeId) {
@@ -268,6 +276,7 @@ const reducer = (state: State, action: Action) => {
         if (childTypeExists('Component', parentComponentId, originalComponent))
           return state;
       }
+
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = type === 'Component' ? componentName : el.tag;
@@ -316,8 +325,14 @@ const reducer = (state: State, action: Action) => {
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         directParent = findChild(parentComponent, childId);
-        directParent.children.push(topSeparator);
-        directParent.children.push(newChild);
+        //disable nesting a component inside a HTML element
+        if (directParent.type === "HTML Element" && type === "HTML Element") {
+          directParent.children.push(topSeparator);
+          directParent.children.push(newChild);
+        } else {
+          return { ...state };
+        }
+        
       }
       const canvasFocus = {
         ...state.canvasFocus,
@@ -913,7 +928,7 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       }
-
+      
       deletePassedInPropsChildren(parent);
       deletePassedInProps(currComponent);
       
@@ -1023,6 +1038,7 @@ const reducer = (state: State, action: Action) => {
         });
       return { ...state, components};
     }
+    
     default:
       return state;
   }
