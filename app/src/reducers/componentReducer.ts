@@ -221,7 +221,8 @@ const reducer = (state: State, action: Action) => {
       const rootComponents = [...state.rootComponents];
       if (action.payload.root) rootComponents.push(newComponent.id);
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
-      //tom commented this out
+
+      // change canvas focus to just created component
       // const canvasFocus = {
       //   ...state.canvasFocus,
       //   componentId: newComponent.id,
