@@ -4,21 +4,18 @@ import {
   GridEditRowsModel,
 } from '@mui/x-data-grid';
 import Button from '@material-ui/core/Button';
-import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 
 const TableParentProps = props => {
-  // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
-  const [checked, setChecked] = useState(false);
   const parentProps = props.parentProps;
   const parentPassedInProps = props.parentPassedInProps;
   const parentComponent = props.parentComponent;
@@ -77,16 +74,11 @@ const TableParentProps = props => {
     });
   };
 
-
-
   useEffect(() => {
     setGridColumns(columnTabs);
   }, [props.isThemeLight]);
 
-  const { selectHandler }: StatePropsPanelProps = props;
-  // the delete button needs to be updated to remove
-  // the states from the current focused component
-
+  // determine whether or not to include delete column in data grid 
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
@@ -95,11 +87,11 @@ const TableParentProps = props => {
     }
     
   }, [state.canvasFocus.componentId]);
-  // rows to show are either from current component or from a given provider
-  // legacy pd convert parent props into a row array
-  //let rows = parentProps;
+  
+  
   let rows;
   
+  // check if current component is a root component-- if yes, it shouldn't have any parent props
   if (currentComponent.name === 'App' || currentComponent.name === 'index') {rows = []}
   else { 
     if (parentProps) {
@@ -109,29 +101,6 @@ const TableParentProps = props => {
       }
   }
   }
-
-  // if (!props.providerId) {
-  //   const currentId = state.canvasFocus.componentId;
-  //   const currentComponent = state.components[currentId - 1];
-  //   rows = currentComponent.stateProps.slice();
-  // } else {
-  //   const providerComponent = state.components[props.providerId - 1];
-  //   // changed to get whole object
-  //   if (props.displayObject){
-  //     const displayObject = props.displayObject;
-  //     // format for DataGrid
-  //     let id=1;
-  //     for (const key in displayObject) {
-  //       // if key is a number make it a string with brackets aroung number
-  //       const newKey = isNaN(key) ? key : '[' + key + ']';
-  //       const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
-  //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
-  //     }
-  //   } else {
-  //     rows = providerComponent.stateProps.slice();
-  //   }
-  // }
-
 
   return (
     <div className={'state-prop-grid'}> 

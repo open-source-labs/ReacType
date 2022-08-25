@@ -39,6 +39,8 @@ app.use(
 // on initial login, redirect back to app is not working correctly when in production environment
 // subsequent logins seem to be working fine, however
 
+// NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
+
 // passport.use(
 //   new GitHubStrategy(
 //     {
@@ -123,28 +125,6 @@ const typeDefs = require('./graphQL/schema/typeDefs.js');
 const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
-
-// async function startApolloServer() {
-//   const app = express();
-//   const httpServer = http.createServer(app);
-//   const server = new ApolloServer({
-//     typeDefs,
-//     resolvers,
-//     csrfPrevention: true,
-//     cache: 'bounded',
-//     plugins: [
-//       ApolloServerPluginDrainHttpServer({ httpServer }),
-//       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-//     ],
-//   });
-
-//   await server.start();
-//   // Mount Apollo middleware here.
-//   server.applyMiddleware({ app, path: '/graphql' });
-//   await new Promise(resolve => httpServer.listen({ port: 8080 }, resolve));
-//   console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`);
-//   return { server, app };
-// }
 
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app, path: '/graphql' });

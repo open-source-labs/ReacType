@@ -16,9 +16,8 @@ const TableStateProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const rows1 = props.rows1;
-  const setRows1 = props.setRows1;
   
+  // formatting for data grid columns 
   const columnTabs = [
     {
       field: 'id',
@@ -63,6 +62,7 @@ const TableStateProps = props => {
       }
     }
   ];
+
   const deleteState = (selectedId, stateName) => {
     // get the current focused component
     // send a dispatch to rerender the table
@@ -104,6 +104,7 @@ const TableStateProps = props => {
     }
 
   }, [state.canvasFocus.componentId]);
+
   // rows to show are either from current component or from a given provider
   let rows = [];
   currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
@@ -119,7 +120,6 @@ const TableStateProps = props => {
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
-  
     </div>
   );
 };

@@ -8,9 +8,6 @@ import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
-
-//importing our new StateManagement tab 
-  //LegacyPD
 import StateManager from '../StateManagement/StateManagement'; 
 
 import Box from '@material-ui/core/Box';
@@ -99,7 +96,6 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Context Manager"
           />
-          {/* LegacyPD */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}

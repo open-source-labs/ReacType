@@ -10,12 +10,8 @@ const CreationPanel = (props): JSX.Element => {
   const {style} = useContext(styleContext);
   return (
     <div className="creation-panel" style={style}>
-
       <ComponentPanel isThemeLight={props.isThemeLight}/>
       <HTMLPanel isThemeLight={props.isThemeLight}/>
-
-      {/* LegacyPD wants to move StatePropsPanel into StateManager tab
-       <StatePropsPanel isThemeLight={props.isThemeLight}/>*/}
     </div>
   );
 };

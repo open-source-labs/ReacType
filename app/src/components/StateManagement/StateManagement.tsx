@@ -10,7 +10,6 @@ import StateContext from '../../context/context';
 import CreateContainer from './CreateTab/CreateContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
 
-
 const useStyles = makeStyles({
   contextContainer: {
     backgroundColor: 'white',
@@ -39,14 +38,12 @@ const StateManager = (props): JSX.Element => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
                 <Tab label="Create/Edit" value="1" />
-                {/* LegacyPD changed the value below to 2 */}
                 <Tab label="Display" value="2" />
               </TabList>
             </Box>
             <TabPanel value="1">
               <CreateContainer data={components} isThemeLight={props.isThemeLight } />
             </TabPanel>
-            {/* LegacyPD made changes below to change the value from 3 to 2 */}
             <TabPanel value="2">
               <DisplayContainer data={components} props={props.props}  />
             </TabPanel>
