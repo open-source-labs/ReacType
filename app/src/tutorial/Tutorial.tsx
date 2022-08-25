@@ -20,6 +20,9 @@ import ColorLensIcon from '@material-ui/icons/ColorLens';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import BrushIcon from '@material-ui/icons/Brush';
+import HomeIcon from '@material-ui/icons/Home';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles({
   root: {
@@ -137,10 +140,26 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     );
   });
   return (
+    <>
+    <div>
+            <Link to='/' style={{textDecoration: 'none'}}>
+              <Button
+                variant='contained'
+                color='primary'
+                style={{ minWidth: '137.69px'}}
+                className="navbarButton"
+                id="ratingButton"
+                endIcon={<HomeIcon/>}
+                > 
+                HOME
+              </Button>
+            </Link>
+          </div>
     <Container maxWidth="xl" className={classes.container}>
       <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
       <div className={classes.wrapper}>{cards}</div>
     </Container>
+    </>
   );
 };
 export default withRouter(Tutorial);

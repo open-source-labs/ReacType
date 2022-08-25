@@ -222,7 +222,9 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://developer.mozilla.org',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
+      'null',
+      'app://rse/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {
@@ -248,7 +250,8 @@ app.on('web-contents-created', (event, contents) => {
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
       'https://www.html5rocks.com',
-      'app://rse/'
+      'app://rse/',
+      'null'
     ];
     // Log and prevent the app from redirecting to a new page
     if (
@@ -291,7 +294,9 @@ app.on('web-contents-created', (event, contents) => {
       'https://github.com',
       'https://www.facebook.com',
       'https://www.smashingmagazine.com',
-      'https://www.html5rocks.com'
+      'https://www.html5rocks.com',
+      'null',
+      'app://rse/'
     ];
     // Log and prevent the app from navigating to a new page if that page's origin is not whitelisted
     if (!validOrigins.includes(parsedUrl.origin)) {

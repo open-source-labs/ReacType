@@ -850,23 +850,22 @@ const reducer = (state: State, action: Action) => {
 
       //deletes all instances of passedInProps from the children arrays of the current Component
       const deletePassedInPropsChildren = (currComponent) => {
+        const innerFunc = (currChild) => {
         // when there are no children, return up a level
-        if (!currComponent.children) return;
-        currComponent.passedInProps?.forEach((prop, i)=> {
-          if (prop.id === action.payload.rowId) {
-            if (currComponent.children.length) {
-              currComponent.children.filter(el => el.type === "Component").forEach((child, j) => {
-                child.passedInProps.forEach((prop, k) => {
-                  if(prop.id === action.payload.rowId) {
-                    child.passedInProps.splice(k, 1);
-                    deletePassedInPropsChildren(child);
-                  }
-                })
+        if (currChild.children.filter(el => el.type === "Component").length === 0) return;
+          if (currChild.children.length) {
+            currChild.children.filter(el => el.type === "Component").forEach((child, j) => {
+              child.passedInProps.forEach((prop, k) => {
+                if(prop.id === action.payload.rowId) {
+                  child.passedInProps.splice(k, 1);
+                  innerFunc(child);
+                }
               })
-            }
+            })
           }
-        });
+        }
         //for every component we update, generate new code
+        innerFunc(currComponent);
         currComponent.code = generateCode(
           components,
           currComponent.id,
@@ -918,7 +917,6 @@ const reducer = (state: State, action: Action) => {
       deletePassedInPropsChildren(parent);
       deletePassedInProps(currComponent);
       
-
       parent.code = generateCode(
         components,
         parent.id,
@@ -947,13 +945,14 @@ const reducer = (state: State, action: Action) => {
 
         component.children.forEach((child) => {
           if (child.type === 'Component') {
-            child.passedInProps.forEach((prop, i) => {
-              if (prop.id === action.payload.rowId || prop.id === action.payload.otherId) {
-                child.passedInProps.splice(i, 1);
+            for (let i = 0; i < child.passedInProps?.length; i++) {
+              if (child.passedInProps[i]['id'] === action.payload.rowId || child.passedInProps[i]['id'] === action.payload.otherId) {
+                child.passedInProps.splice(i,1);
+                i--;
               }
-            });
-          }
-        })
+            };
+          };
+        });
 
       // COMPONENT LOOP (needed for tables in State Management Tab)
       //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
