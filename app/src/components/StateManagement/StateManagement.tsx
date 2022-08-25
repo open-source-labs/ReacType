@@ -8,9 +8,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import StateContext from '../../context/context';
 
 import CreateContainer from './CreateTab/CreateContainer';
-// import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-import { blue } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles({
@@ -41,8 +39,7 @@ const StateManager = (props): JSX.Element => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
                 <Tab label="Create/Edit" value="1" />
-                {/* <Tab label="Assign" value="2" /> */}
-                {/* LegacyPD changed the value below */}
+                {/* LegacyPD changed the value below to 2 */}
                 <Tab label="Display" value="2" />
               </TabList>
             </Box>
@@ -50,9 +47,6 @@ const StateManager = (props): JSX.Element => {
               <CreateContainer data={components} isThemeLight={props.isThemeLight } />
             </TabPanel>
             {/* LegacyPD made changes below to change the value from 3 to 2 */}
-            {/* <TabPanel value="2">
-              <AssignContainer />
-            </TabPanel> */}
             <TabPanel value="2">
               <DisplayContainer data={components} props={props.props}  />
             </TabPanel>

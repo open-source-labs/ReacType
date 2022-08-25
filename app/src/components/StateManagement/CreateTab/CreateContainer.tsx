@@ -66,7 +66,6 @@ const CreateContainer = ({isThemeLight, data}) => {
       targetContext === undefined ||
       !targetContext.values
     ) {
-      // if (targetContext === null || targetContext === undefined) {
       setTableState(defaultTableData);
     } else {
       setTableState(targetContext.values);
