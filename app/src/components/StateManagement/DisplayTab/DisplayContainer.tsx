@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import Tree from './Tree';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -8,7 +8,7 @@ import StateContext from '../../../context/context';
 
 function DisplayContainer({data, props}) { // "data" is referring to components from state - passed in from StateManagement
 
-  //grabbing intialized state from App using the UseContext to put in lines 16 and 17
+  //grabbing intialized state from App using UseContext
   const [currComponentState, setCurrComponentState] = useState([]);
   const [parentProps, setParentProps] = useState([]);
   const [state, dispatch] = useContext(StateContext);
@@ -18,12 +18,7 @@ function DisplayContainer({data, props}) { // "data" is referring to components 
   // check the canvasFocus
     // if canvasFocus is a root component, use that root component as "root"
     if (state.rootComponents.includes(state.canvasFocus.componentId)) {
-      //find the name of the canvasFocus component in data 
-        //set root equal to that name 
-        // iterate through data (which is an array of objects)
         for (let i = 0; i < data.length; i++) {
-            // find object with id that is equal to state.canvasFocus.componentId 
-            // then set root equal to the name of that component 
           if (data[i]["id"] === state.canvasFocus.componentId) root = data[i]["name"];
         }
     } else if (state.projectType === "Classic React") {
@@ -33,6 +28,7 @@ function DisplayContainer({data, props}) { // "data" is referring to components 
     root = 'index';
    } 
 
+  // root becomes default value of clickedComp
   const [clickedComp, setClickedComp] = useState(root);
   
   return (

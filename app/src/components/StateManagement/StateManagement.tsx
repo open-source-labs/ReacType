@@ -41,18 +41,12 @@ const StateManager = (props): JSX.Element => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
                 <Tab label="Create/Edit" value="1" />
-                {/* <Tab label="Assign" value="2" /> */}
-                {/* LegacyPD changed the value below */}
                 <Tab label="Display" value="2" />
               </TabList>
             </Box>
             <TabPanel value="1">
               <CreateContainer data={components} isThemeLight={props.isThemeLight } />
             </TabPanel>
-            {/* LegacyPD made changes below to change the value from 3 to 2 */}
-            {/* <TabPanel value="2">
-              <AssignContainer />
-            </TabPanel> */}
             <TabPanel value="2">
               <DisplayContainer data={components} props={props.props}  />
             </TabPanel>

@@ -8,8 +8,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import StateContext from "../../../../context/context";
 import { makeStyles } from '@material-ui/core/styles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
-import AddIcon from '@mui/icons-material/Add';
-import { borderLeft } from '@mui/system';
 
 const TablePassedInProps = props => {
   const [state, dispatch] = useContext(StateContext);
@@ -20,6 +18,7 @@ const TablePassedInProps = props => {
   const currentComponent = state.components[currentId - 1];
   const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index')? currentComponent.passedInProps : '';
 
+  //formatting for data grid columns
   const columnTabs = [
     {
       field: 'id',
@@ -66,6 +65,7 @@ const TablePassedInProps = props => {
       }
     }
   ];
+
   const deletePassedInProps = (rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
@@ -80,10 +80,6 @@ const TablePassedInProps = props => {
     setGridColumns(columnTabs);
   }, [props.isThemeLight]);
 
-  const { selectHandler }: StatePropsPanelProps = props;
-  // the delete button needs to be updated to remove
-  // the states from the current focused component
-
   useEffect(() => {
     if (props.canDeleteState) {
       setGridColumns(columnTabs);
@@ -93,31 +89,9 @@ const TablePassedInProps = props => {
     
   }, [state.canvasFocus.componentId]);
 
+  // fill data grid rows with all of the passed in props from parent component (if there are any)
   let rows = passedInProps?.slice();
-  // rows to show are either from current component or from a given provider
-  // legacy pd convert parent props into a row array
-  // if (!props.providerId) {
-  //   const currentId = state.canvasFocus.componentId;
-  //   const currentComponent = state.components[currentId - 1];
-  //   rows = currentComponent.stateProps.slice();
-  // } else {
-  //   const providerComponent = state.components[props.providerId - 1];
-  //   // changed to get whole object
-  //   if (props.displayObject){
-  //     const displayObject = props.displayObject;
-  //     // format for DataGrid
-  //     let id=1;
-  //     for (const key in displayObject) {
-  //       // if key is a number make it a string with brackets aroung number
-  //       const newKey = isNaN(key) ? key : '[' + key + ']';
-  //       const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
-  //       rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
-  //     }
-  //   } else {
-  //     rows = providerComponent.stateProps.slice();
-  //   }
-  // }
-
+  
   return (
     <div className={'state-prop-grid'}>
         <DataGrid
@@ -125,9 +99,7 @@ const TablePassedInProps = props => {
           columns={gridColumns}
           pageSize={5}
           editRowsModel={editRowsModel}
-          // onRowClick={deleteParentProps}
           className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-          // checkboxSelection
         />
     </div>
   );

@@ -135,7 +135,7 @@ const generateUnformattedCode = (
     }
 
     
-    if (childElement.childId && childElement.tag !== 'Route') //legacypd
+    if (childElement.childId && childElement.tag !== 'Route')
       customizationDetails += ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=

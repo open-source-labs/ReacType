@@ -1,27 +1,17 @@
-
-import React, { useState, useContext, useCallback, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
-  createStyles,
   makeStyles,
   styled,
-  Theme,
-  createTheme,
-  ThemeProvider,
-  withStyles
+  Theme
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import {
-  Checkbox,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  FormLabel,
-  Grid,
   MenuItem,
-  Input,
   InputLabel,
   Select,
-  TextField,
+  TextField
 } from "@material-ui/core";
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
@@ -74,8 +64,8 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   const resetError = () => {
     setErrorStatus(false);
   };
+
   // submit new stateProps entries to state context
-  let currKey;
   const submitNewState = (e) => {
     e.preventDefault();
 
@@ -95,14 +85,9 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       return;
     }
 
-    // carly LegacyPD
     // check here to see if state has already been created with the submitted key 
-      // iterate through all the state keys in all of the components in the app 
-        // outer for loop: iterating through all of the components in the app 
     for (let i = 0; i < state.components.length; i++) {
-          // inner for loop iterating through the stateProps array for each component 
       for (let j = 0; j < state.components[i].stateProps.length; j++) {
-        // if find piece of state with the same key as inputKey, create an error
         if (inputKey === state.components[i].stateProps[j]["key"]) {
           setErrorStatus(true);
           setErrorMsg('Key name already in use.');
@@ -127,8 +112,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       type: 'func',
     };
 
-
-
     dispatch({
       type: 'ADD STATE',
       payload: {newState: newState, setNewState: setNewState}
@@ -137,6 +120,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     resetError();
     clearForm();
   };
+
   // find table row using its id and if it exists, populate form with its details
   const handlerRowSelect = (table) => {
     let exists = false;

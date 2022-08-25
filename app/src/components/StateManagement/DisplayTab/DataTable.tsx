@@ -8,7 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableFooter from '@mui/material/TableFooter';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,16 +30,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function DataTable(props) {
-  const { currComponentState, setCurrComponentState, parentProps, setParentProps, clickedComp, data } = props;
+  const { currComponentState, parentProps, clickedComp, data } = props;
   const [state, dispatch] = useContext(StateContext);
 
   //determine if the current component is a root component 
   let isRoot = false;
 
-  //iterate through the data array and see if clickedComp is in state.rootComponents
   for (let i = 0; i < data.length; i++) {
     if (data[i]['name'] === clickedComp) {
-      //check to see if clickedComp is in rootComponents
       if (state.rootComponents.includes(data[i]['id'])) isRoot = true;
     }
   }
@@ -54,8 +51,7 @@ export default function DataTable(props) {
           stickyHeader
         >
           
-          {/* this table will contain passed down stateProps data from parent component */}
-          {/* we are checking if the clicked component is a root component-- if it is, it doesn't have any parents so don't need this table*/}
+          {/* we are checking if the clicked component is a root component-- if yes, it doesn't have any parents so don't need passed-in props table*/}
         {(!isRoot && 
           <>
           <TableHead>
@@ -82,7 +78,7 @@ export default function DataTable(props) {
         </>
         )}
           
-          {/* The below table will contain the state initialized for the clicked component */}
+          {/* The below table will contain the state initialized within the clicked component */}
           <TableHead>
             <TableRow>
               <StyledTableCell align="center" colSpan={3}>

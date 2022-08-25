@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useState } from 'react';
+import React, { useRef, useEffect, useContext} from 'react';
 import { select, hierarchy, tree, linkHorizontal} from 'd3';
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
@@ -71,19 +71,16 @@ function Tree({ data, currComponentState, setCurrComponentState, parentProps, se
 
     if (state.rootComponents.includes(state.canvasFocus.componentId)) {
       // find out if canvasFocus is a root component 
-      // if yes, set root to be that canvasFocus component 
+      // if yes, set root of tree to be that canvasFocus component 
         // find that component inside dataDeepClone
         for (let i = 0; i < dataDeepClone.length; i++) {
           if (dataDeepClone[i]['id'] === state.canvasFocus.componentId) {
-            // reassign root to be dataDeepClone at that element  
-
             root = hierarchy(dataDeepClone[i]);
             rootName = dataDeepClone[i]["name"];
-            
           }
         }
     } else {
-    // if no, set root to be dataDeepClone[0]
+    // if no, set root of tree to be app/index
     root = hierarchy(dataDeepClone[0]); 
     rootName = dataDeepClone[0]["name"];
     }
