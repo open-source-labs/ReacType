@@ -8,6 +8,8 @@ import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
+import StateManager from '../StateManagement/StateManagement'; 
+
 import Box from '@material-ui/core/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,7 +20,8 @@ import Arrow from '../main/Arrow';
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
-  const [state, dispatch] = useContext(StateContext);
+  const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
+  
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
@@ -41,7 +44,7 @@ const BottomTabs = (props): JSX.Element => {
   };
 
   // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
-  Arrow.renderArrow(state.canvasFocus.childId);
+  Arrow.renderArrow(state.canvasFocus?.childId);
 
   return (
     <div
@@ -93,6 +96,11 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Context Manager"
           />
+          <Tab
+            disableRipple
+            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
+            label="State Manager"
+          />
         </Tabs>
         <div className={classes.projectTypeWrapper}>
           <FormControl size="small">
@@ -123,6 +131,7 @@ const BottomTabs = (props): JSX.Element => {
       {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
       {tab === 4 && <Tree data={components} />}
       {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
+      {tab === 6 && <StateManager theme={theme} setTheme={setTheme} isThemeLight={props.isThemeLight} />}
     </div>
   );
 };

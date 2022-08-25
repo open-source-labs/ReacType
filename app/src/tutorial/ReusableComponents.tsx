@@ -11,7 +11,9 @@ const ReusableComponents: React.FC<{
     <div className={classes.wrapper}>
       <h1 className={classes.title}>Reusable Components</h1>
       <hr/>
-      <p className={classes.text}>To add a Reusable Component, use the New Component input form in the Creation Panel to name a Component. Leave the Root/Page checkbox unchecked. Then click Create to add a new Reusable Component.</p>
+      <p className={classes.text}>NOTE: As of version 13.0, each reusable component can only have one parent. Otherwise, you will be prompted to generate a new component to nest. 
+      <br></br>
+      <br></br>To add a Reusable Component, use the New Component input form in the Creation Panel to name a Component. Leave the Root/Page checkbox unchecked. Then click Create to add a new Reusable Component.</p>
       <div className={classes.imgWrapper}>
         <img className={classes.img} src={reusableComponents1} />
       </div>

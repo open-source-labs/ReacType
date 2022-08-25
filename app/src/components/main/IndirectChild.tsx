@@ -11,6 +11,7 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
   // when a user clicks a link, the focus should change to that component
   function onClickHandlerRoute(event) {
     event.stopPropagation();
+    // LEGACY PD CHANGED CHILDID from NULL TO CHILDID
     dispatch({
       type: 'CHANGE FOCUS',
       payload: { componentId: linkId, childId: null }

@@ -131,7 +131,8 @@ const ProjectContainer = (): JSX.Element => {
   if (error) return <p>Error :{error}</p>;
   // based on resolver(getAllProject) for this query, the data is stored in the data object with the key 'getAllProjects'
   const projects = data.getAllProjects;
-  // create array to hold the data recieved in the public dashboard the will be conditionally rendered
+  
+  //create array to hold the data recieved in the public dashboard the will be conditionally rendered
   let sortedProjects = projects.filter(proj => {
     return proj.published;
   });

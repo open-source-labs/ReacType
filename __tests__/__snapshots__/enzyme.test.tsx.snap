@@ -1,0 +1,703 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test HTMLPanel Component Matches snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "dragDropManager": DragDropManagerImpl {
+        "backend": HTML5BackendImpl {
+          "actions": Object {
+            "beginDrag": [Function],
+            "drop": [Function],
+            "endDrag": [Function],
+            "hover": [Function],
+            "publishDragSource": [Function],
+          },
+          "altKeyPressed": false,
+          "asyncEndDragFrameId": null,
+          "currentDragSourceNode": null,
+          "currentNativeHandle": null,
+          "currentNativeSource": null,
+          "dragEnterTargetIds": Array [],
+          "dragOverTargetIds": null,
+          "dragStartSourceIds": null,
+          "dropTargetIds": Array [],
+          "endDragIfSourceWasRemovedFromDOM": [Function],
+          "endDragNativeItem": [Function],
+          "enterLeaveCounter": EnterLeaveCounter {
+            "entered": Array [],
+            "isNodeInDocument": [Function],
+          },
+          "getSourceClientOffset": [Function],
+          "handleSelectStart": [Function],
+          "handleTopDragEndCapture": [Function],
+          "handleTopDragEnter": [Function],
+          "handleTopDragEnterCapture": [Function],
+          "handleTopDragLeaveCapture": [Function],
+          "handleTopDragOver": [Function],
+          "handleTopDragOverCapture": [Function],
+          "handleTopDragStart": [Function],
+          "handleTopDragStartCapture": [Function],
+          "handleTopDrop": [Function],
+          "handleTopDropCapture": [Function],
+          "isNodeInDocument": [Function],
+          "monitor": DragDropMonitorImpl {
+            "registry": HandlerRegistryImpl {
+              "dragSources": Map {},
+              "dropTargets": Map {},
+              "pinnedSource": null,
+              "pinnedSourceId": null,
+              "store": Object {
+                "@@observable": [Function],
+                "dispatch": [Function],
+                "getState": [Function],
+                "replaceReducer": [Function],
+                "subscribe": [Function],
+              },
+              "types": Map {},
+            },
+            "store": Object {
+              "@@observable": [Function],
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+            },
+          },
+          "mouseMoveTimeoutTimer": null,
+          "options": OptionsReader {
+            "globalContext": [Window],
+          },
+          "registry": HandlerRegistryImpl {
+            "dragSources": Map {},
+            "dropTargets": Map {},
+            "pinnedSource": null,
+            "pinnedSourceId": null,
+            "store": Object {
+              "@@observable": [Function],
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+            },
+            "types": Map {},
+          },
+          "sourceNodeOptions": Map {},
+          "sourceNodes": Map {},
+          "sourcePreviewNodeOptions": Map {},
+          "sourcePreviewNodes": Map {},
+        },
+        "handleRefCountChange": [Function],
+        "isSetUp": false,
+        "monitor": DragDropMonitorImpl {
+          "registry": HandlerRegistryImpl {
+            "dragSources": Map {},
+            "dropTargets": Map {},
+            "pinnedSource": null,
+            "pinnedSourceId": null,
+            "store": Object {
+              "@@observable": [Function],
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+            },
+            "types": Map {},
+          },
+          "store": Object {
+            "@@observable": [Function],
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          },
+        },
+        "store": Object {
+          "@@observable": [Function],
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+      },
+    }
+  }
+>
+  <ContextProvider
+    value={
+      Object {
+        "HTMLTypes": Array [
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 11,
+            "name": "Div",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "div",
+            "style": Object {},
+            "tag": "div",
+          },
+          Object {
+            "framework": "",
+            "icon": "",
+            "id": 1000,
+            "name": "separator",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "",
+            "style": Object {
+              "border": "none",
+            },
+            "tag": "separator",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 1,
+            "name": "Img",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "image",
+            "style": Object {},
+            "tag": "img",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 2,
+            "name": "Form",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "form",
+            "style": Object {},
+            "tag": "form",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 4,
+            "name": "Button",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "button",
+            "style": Object {},
+            "tag": "button",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 6,
+            "name": "Link",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "link",
+            "style": Object {},
+            "tag": "a",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 8,
+            "name": "Paragraph",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "paragraph",
+            "style": Object {},
+            "tag": "p",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 9,
+            "name": "Header 1",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "header 1",
+            "style": Object {},
+            "tag": "h1",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 10,
+            "name": "Header 2",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "header 2",
+            "style": Object {},
+            "tag": "h2",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 5,
+            "name": "Span",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "span",
+            "style": Object {},
+            "tag": "span",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 12,
+            "name": "Input",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "input",
+            "style": Object {},
+            "tag": "input",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 13,
+            "name": "Label",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "label",
+            "style": Object {},
+            "tag": "label",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 14,
+            "name": "Ordered List",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "ordered list",
+            "style": Object {},
+            "tag": "ol",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 15,
+            "name": "Unordered List",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "unordered list",
+            "style": Object {},
+            "tag": "ul",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 16,
+            "name": "Menu",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "menu",
+            "style": Object {},
+            "tag": "menu",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 3,
+            "name": "List",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "list item",
+            "style": Object {},
+            "tag": "li",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 17,
+            "name": "Switch",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "Switch",
+            "style": Object {},
+            "tag": "Switch",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": -1,
+            "name": "Route",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "Route",
+            "style": Object {},
+            "tag": "Route",
+          },
+          Object {
+            "framework": "reactClassic",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 18,
+            "name": "LinkTo",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "LinkTo",
+            "style": Object {},
+            "tag": "Link",
+          },
+          Object {
+            "framework": "nextjs",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 19,
+            "name": "LinkHref",
+            "nestable": true,
+            "placeHolderLong": "",
+            "placeHolderShort": "LinkHref",
+            "style": Object {},
+            "tag": "Link",
+          },
+          Object {
+            "framework": "nextjs",
+            "icon": Object {
+              "$$typeof": Symbol(react.memo),
+              "compare": null,
+              "type": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "render": [Function],
+              },
+            },
+            "id": 20,
+            "name": "Image",
+            "nestable": false,
+            "placeHolderLong": "",
+            "placeHolderShort": "Image",
+            "style": Object {},
+            "tag": "Image",
+          },
+        ],
+        "canvasFocus": Object {
+          "childId": null,
+          "componentId": 1,
+        },
+        "components": Array [
+          Object {
+            "children": Array [],
+            "code": "<div>Drag in a component or HTML element into the canvas!</div>",
+            "future": Array [],
+            "id": 1,
+            "isPage": true,
+            "name": "App",
+            "past": Array [],
+            "stateProps": Array [],
+            "style": Object {},
+            "useStateCodes": Array [],
+          },
+        ],
+        "config": Object {
+          "saveFlag": true,
+          "saveTimer": false,
+        },
+        "isLoggedIn": false,
+        "name": "",
+        "nextChildId": 1,
+        "nextComponentId": 2,
+        "nextTopSeparatorId": 1000,
+        "projectType": "Classic React",
+        "rootComponents": Array [
+          1,
+        ],
+      }
+    }
+  >
+    <HTMLPanel />
+  </ContextProvider>
+</ContextProvider>
+`;
+
+exports[`Test the BottomTabs component Matches snapshot 1`] = `
+<div
+  className="makeStyles-root-1 makeStyles-rootLight-2"
+  style={
+    Object {
+      "backgroundColor": "#003366",
+    }
+  }
+>
+  <Styled(MuiBox)
+    alignItems="center"
+    display="flex"
+    justifyContent="space-between"
+    paddingBottom="10px"
+    paddingRight="10px"
+  >
+    <WithStyles(ForwardRef(Tabs))
+      classes={
+        Object {
+          "indicator": "makeStyles-tabsIndicator-5",
+          "root": "makeStyles-tabsRoot-4",
+        }
+      }
+      onChange={[Function]}
+      value={0}
+    >
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="Creation Panel"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="Customization"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="CSS Editor"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="Code Preview"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="Component Tree"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="Context Manager"
+      />
+      <WithStyles(ForwardRef(Tab))
+        classes={
+          Object {
+            "root": "makeStyles-tabRoot-6",
+            "selected": "makeStyles-tabSelected-7",
+          }
+        }
+        disableRipple={true}
+        label="State Manager"
+      />
+    </WithStyles(ForwardRef(Tabs))>
+    <div
+      className="makeStyles-projectTypeWrapper-11"
+    >
+      <WithStyles(ForwardRef(FormControl))
+        size="small"
+      >
+        <WithStyles(ForwardRef(Select))
+          className="makeStyles-projectSelector-12"
+          id="demo-simple-select"
+          labelId="project-type-label"
+          onChange={[Function]}
+          variant="outlined"
+        >
+          <WithStyles(ForwardRef(MenuItem))
+            style={
+              Object {
+                "color": "black",
+              }
+            }
+            value="Classic React"
+          >
+            Classic React
+          </WithStyles(ForwardRef(MenuItem))>
+          <WithStyles(ForwardRef(MenuItem))
+            style={
+              Object {
+                "color": "black",
+              }
+            }
+            value="Gatsby.js"
+          >
+            Gatsby.js
+          </WithStyles(ForwardRef(MenuItem))>
+          <WithStyles(ForwardRef(MenuItem))
+            style={
+              Object {
+                "color": "black",
+              }
+            }
+            value="Next.js"
+          >
+            Next.js
+          </WithStyles(ForwardRef(MenuItem))>
+        </WithStyles(ForwardRef(Select))>
+      </WithStyles(ForwardRef(FormControl))>
+    </div>
+  </Styled(MuiBox)>
+  <CreationPanel />
+</div>
+`;
+
+exports[`Test the CanvasContainer component Matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "lightgrey",
+      "border": "2px Solid grey",
+      "width": "100%",
+    }
+  }
+>
+  <Canvas />
+</div>
+`;
