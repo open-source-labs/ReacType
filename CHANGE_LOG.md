@@ -3,12 +3,45 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 13.0.0 Changes**
+
+New Functionality:<br>
+- Manage state locally: Users can now manage state dynamically within nested components using React Hooks within the state manager tab.
+- Add/delete props: For a selected component, users can see a list of available props from the parent, add props, and delete props in case they are not - required later on.
+- State/props flow: If state or props are deleted upstream, it will automatically update the state for its children components.
+- Visualize state/props flow: Within the display sub-tab of the state manager tab, users can visualize an interactive tree diagram depicting the state initialized in the current component and passed down props from the parent component.
+
+Enhancements:<br>
+- Live code preview: Live rendering of code based on any changes in the state and dragging and nesting of components.
+- Next.js & Gatsby compatibility: New state manager tab is now compatible with next.js and Gatsby.
+- Tutorial: Tutorial is functional and has the latest guides to navigate through the newly added state management tab.
+
+Deployment Updates:<br>
+- Electron app is now available for Windows users.
+- Web based version of the app is available on Heroku.
+
+Bug Fixes:<br>
+- User dashboard: The dashboard works now and shows private and shared projects with the ability for users to drop comments.
+- Login/logout: Users can now signup/login/logout now on both development and production environments.
+- Manage Projects: Github authenticated users are now able to create and save projects.
+- Customization: Use State works as expected now within HTML elements.
+
+What’s next:<br>
+- Adding on click functionality within components. Goal: Make a fully functional tic-tac-toe app.
+- Incorporating material ui into the components so that exported app has visually appealing components.
+- Enabling auto save functionality when dragging and dropping components, and amending component state.
+- Allowing users to click and access projects within the dashboard for review.
+- Adding more integration and E2E testing.
+- Fixing bugs in the heroku (web based) deployment: login/logout, GitHub oauth etc.
+- Enabling google oauth in all environments.
+- Packaging electron app for Linux users.
+- Conversion from monolithic to micro services for better scaling in the future.
+
 **Version 12.0.0 Changes**
 
--Context Visualizer: You can now visually see what component is consuming which context. As you click on the interactive tree, the component assigned to the context will be revealed.
--React 18: Updated to React 18
--Export Feature: Created an exportable context file, integrated with original codebase.
-Ready to go code: Added boilerplate codes to components based on which contexts they are consuming.
+- Context Visualizer: You can now visually see what component is consuming which context. As you click on the interactive tree, the component assigned to the context will be revealed.
+- React 18: Updated to React 18
+- Export Feature: Created an exportable context file, integrated with original codebase. Ready to go code: Added boilerplate codes to components based on which contexts they are consuming.
 
 **A note to future contributors**
 
