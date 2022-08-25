@@ -268,6 +268,7 @@ const reducer = (state: State, action: Action) => {
         if (childTypeExists('Component', parentComponentId, originalComponent))
           return state;
       }
+
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = type === 'Component' ? componentName : el.tag;
@@ -316,8 +317,14 @@ const reducer = (state: State, action: Action) => {
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
         directParent = findChild(parentComponent, childId);
-        directParent.children.push(topSeparator);
-        directParent.children.push(newChild);
+        if (directParent.type === "HTML Element" && type === "HTML Element") {
+          directParent.children.push(topSeparator);
+          directParent.children.push(newChild);
+        } else {
+          console.log('sorry cant drag comp into html bruh')
+          return state;
+        }
+        
       }
       const canvasFocus = {
         ...state.canvasFocus,
