@@ -387,7 +387,6 @@ ipcMain.on('github', event => {
   const githubURL = isDev
     ? `http://localhost:${DEV_PORT}/auth/github`
     : `https://reactype-caret.herokuapp.com/auth/github`;
-  console.log(githubURL);
   const options = {
     client_id: process.env.GITHUB_ID,
     client_secret: process.env.GITHUB_SECRET,

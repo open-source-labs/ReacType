@@ -68,8 +68,6 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
     //carly console logs 
     const rootComponents = state.rootComponents; 
     const allComponents = state.components; 
-    console.log({rootComponents});
-    console.log({allComponents});
 
      if (inputName.toLowerCase() === 'index'|| inputName.toLowerCase() === 'app') {
       rootDupe = true;

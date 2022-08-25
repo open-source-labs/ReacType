@@ -170,10 +170,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         let currChild = currComponent.children[j];
         if (currChild.typeId === childId) {
           const currComponentCopy = JSON.parse(JSON.stringify(currComponent));
-          // currComponentCopy.stateProps.map((el) => {
-          //   console.log(el)
-          //   el['id'] = el['id'] + 0.01; 
-          // })
+
           return {parentProps: currComponentCopy.stateProps, 
                   parentName: currComponentCopy.name,
                   parentComponent: currComponentCopy,

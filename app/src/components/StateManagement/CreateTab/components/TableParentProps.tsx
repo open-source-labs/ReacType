@@ -11,7 +11,6 @@ import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 
 const TableParentProps = props => {
-  // console.log('props from table state props', props)
   const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const currentId = state.canvasFocus.componentId;
