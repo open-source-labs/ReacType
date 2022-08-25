@@ -22,7 +22,6 @@ const ComponentDropDown = ({
       });
     } else if (newValue && newValue.inputValue) {
       // Create a new contextInput from the user input
-      //console.log(newValue,newValue.inputValue)
       setComponentInput({
         name: newValue.inputValue,
         values: []

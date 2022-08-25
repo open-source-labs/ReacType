@@ -38,7 +38,6 @@ const AddContextForm = ({
       });
     } else if (newValue && newValue.inputValue) {
       // Create a new contextInput from the user input
-      //console.log(newValue,newValue.inputValue)
       setContextInput({
         name: newValue.inputValue,
         values: []
