@@ -68,28 +68,28 @@ function Canvas(props): JSX.Element {
     setNewComp(false)
   }, [newComp]) 
 
-  useEffect(()=>{
-    const lastComp = state.components[state.components.length - 1];
-    if (copiedChildrenArr.length) {
-      console.log('setCopiedChildrenArr use effect running')
-      // copiedChildrenArr.forEach(com => console.log(com))
-      // console.log(copiedChildrenArr[0])
-      // console.log(copiedChildrenArr[1])
-      for (let i = 0; i < copiedChildrenArr.length; i++) {
-        dispatch({
-          type: 'ADD CHILD',
-          payload: {...copiedChildrenArr[i], copyId: lastComp.id}
-        });
-      }
-      // dispatch({
-      //   type: 'ADD CHILD',
-      //   payload: {...copiedChildrenArr[1], copyId: lastComp.id}
-      // });
-      // setCopiedChildrenArr(copiedChildrenArr.slice(1))
-      setCopiedChildrenArr([])
-    }
+  // useEffect(()=>{
+  //   const lastComp = state.components[state.components.length - 1];
+  //   if (copiedChildrenArr.length) {
+  //     console.log('setCopiedChildrenArr use effect running')
+  //     // copiedChildrenArr.forEach(com => console.log(com))
+  //     // console.log(copiedChildrenArr[0])
+  //     // console.log(copiedChildrenArr[1])
+  //     for (let i = 0; i < copiedChildrenArr.length; i++) {
+  //       dispatch({
+  //         type: 'ADD CHILD',
+  //         payload: {...copiedChildrenArr[i], copyId: lastComp.id}
+  //       });
+  //     }
+  //     // dispatch({
+  //     //   type: 'ADD CHILD',
+  //     //   payload: {...copiedChildrenArr[1], copyId: lastComp.id}
+  //     // });
+  //     // setCopiedChildrenArr(copiedChildrenArr.slice(1))
+  //     setCopiedChildrenArr([])
+  //   }
     
-  },[copiedChildrenArr])
+  // },[copiedChildrenArr])
 
 
 
@@ -189,17 +189,20 @@ function Canvas(props): JSX.Element {
           while (components.some(comp => comp.name === name)) {
             name = prompt(`${name} component already exists. \nPlease pick a new name.`);
           }
-          dispatch({
-            type: 'ADD COMPONENT',
-            payload: { componentName: name, root: false }
-          });
+          if (name) {
+            dispatch({
+              type: 'ADD COMPONENT',
+              payload: { componentName: name, root: false }
+            });
+            
+            setNewComp(true);
+            console.log({newComp})
+           
+            // console.log({components})
+            // console.log({newId})
+            setNewComp(!newComp)
+          }
           
-          setNewComp(true);
-          console.log({newComp})
-         
-          // console.log({components})
-          // console.log({newId})
-          setNewComp(!newComp)
         }
         
       }
