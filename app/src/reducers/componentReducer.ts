@@ -70,7 +70,6 @@ const reducer = (state: State, action: Action) => {
   const findChild = (component: Component, childId: number) => {
     if (childId === null) return component;
     const nodeArr = [...component.children];
-    console.log({nodeArr})
     // breadth first search through component tree to see if a child exists
     while (nodeArr.length > 0) {
       // shift off the first value and assign to an element
@@ -196,7 +195,6 @@ const reducer = (state: State, action: Action) => {
   };
   switch (action.type) {
     case 'ADD COMPONENT': {
-      console.log('adding component payload', action.payload)
       if (
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
@@ -247,7 +245,6 @@ const reducer = (state: State, action: Action) => {
     }
     // Add child to a given root component
     case 'ADD CHILD': {
-      console.log('add child started', action.payload)
       let parentComponentId: number;
       const {
         type,
@@ -263,7 +260,6 @@ const reducer = (state: State, action: Action) => {
       const components = [...state.components];
 
       const parentComponent = findComponent(components, parentComponentId);
-      console.log({parentComponent})
       let componentName: string = '';
       let componentChildren: Object[] = [];
       if (type === 'Component') {
@@ -327,15 +323,13 @@ const reducer = (state: State, action: Action) => {
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
-        console.log({childId})
-        console.log({directParent})
         directParent = findChild(parentComponent, childId);
+        //disable nesting a component inside a HTML element
         if (directParent.type === "HTML Element" && type === "HTML Element") {
           directParent.children.push(topSeparator);
           directParent.children.push(newChild);
         } else {
-          console.log('sorry cant drag comp into html bruh')
-          return state;
+          return { ...state };
         }
         
       }
@@ -933,7 +927,7 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       }
-
+      
       deletePassedInPropsChildren(parent);
       deletePassedInProps(currComponent);
       

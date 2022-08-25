@@ -17,11 +17,8 @@ function Canvas(props): JSX.Element {
 
   useEffect(()=> {
     if (newComp) {
-      console.log('inside use effect', {state});
-      console.log('copiedComp', copiedComp.name)
       //find updated comp
       const copy = state.components.find(comp => comp.name === copiedComp.name)
-      console.log({copy})
       // make a array of copied children from the copied component
       if (copy.children.length){
         const masterArr = [];
@@ -31,25 +28,19 @@ function Canvas(props): JSX.Element {
             const child = children[i];
             let id = (parentId) ? parentId : null;
             if (child.typeId < 1000){
-              console.log({child})
               masterArr.push({
                 type: "HTML Element", 
                 typeId: child.typeId, 
                 childId: id
               })
               if (child.children.length) {
-                console.log('do a recursive call');
-                console.log('child.childrean array in recursion', child.children)
-                console.log('child.children.id', child.childId)
                 deepChildCopy(child.children, child.childId);
               } 
             }
           }
         }
         deepChildCopy(children, null);
-        console.log({masterArr})
         setCopiedChildrenArr(masterArr);
-        console.log('SADJBFSDJBFLJSHDBFJLDHS', copiedChildrenArr)
       }
   
       const components = state.components
@@ -67,31 +58,6 @@ function Canvas(props): JSX.Element {
     }
     setNewComp(false)
   }, [newComp]) 
-
-  // useEffect(()=>{
-  //   const lastComp = state.components[state.components.length - 1];
-  //   if (copiedChildrenArr.length) {
-  //     console.log('setCopiedChildrenArr use effect running')
-  //     // copiedChildrenArr.forEach(com => console.log(com))
-  //     // console.log(copiedChildrenArr[0])
-  //     // console.log(copiedChildrenArr[1])
-  //     for (let i = 0; i < copiedChildrenArr.length; i++) {
-  //       dispatch({
-  //         type: 'ADD CHILD',
-  //         payload: {...copiedChildrenArr[i], copyId: lastComp.id}
-  //       });
-  //     }
-  //     // dispatch({
-  //     //   type: 'ADD CHILD',
-  //     //   payload: {...copiedChildrenArr[1], copyId: lastComp.id}
-  //     // });
-  //     // setCopiedChildrenArr(copiedChildrenArr.slice(1))
-  //     setCopiedChildrenArr([])
-  //   }
-    
-  // },[copiedChildrenArr])
-
-
 
   // Caret start
   Arrow.deleteLines();
@@ -154,7 +120,6 @@ function Canvas(props): JSX.Element {
             if (child.name === 'seperator') continue;
             // check if the item.instanceTypeId matches and child ID
             if (item.instanceTypeId === child.typeId) {
-              console.log('parent found', comp)
               // check if the name of the parent matches the canvas focus name
               // comp is the parent component
               // currentComponent is the canvas.focus component
@@ -163,7 +128,6 @@ function Canvas(props): JSX.Element {
                 break;
               } else {
                 // if false
-                console.log('different parent');
                 setCopiedComp(child);
                 hasDiffParent = true;
                 newChildName = child.name;
@@ -183,25 +147,23 @@ function Canvas(props): JSX.Element {
             }
           });
         } else {
+
+          // able to duplicate a component in dev only does not work for prod
           // create a new component
-          let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
-          // console.log({newChildName}, 1)
-          while (components.some(comp => comp.name === name)) {
-            name = prompt(`${name} component already exists. \nPlease pick a new name.`);
-          }
-          if (name) {
-            dispatch({
-              type: 'ADD COMPONENT',
-              payload: { componentName: name, root: false }
-            });
+          
+          // let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
+          // while (components.some(comp => comp.name === name)) {
+          //   name = prompt(`${name} component already exists. \nPlease pick a new name.`);
+          // }
+          // if (name) {
+          //   dispatch({
+          //     type: 'ADD COMPONENT',
+          //     payload: { componentName: name, root: false }
+          //   });
             
-            setNewComp(true);
-            console.log({newComp})
-           
-            // console.log({components})
-            // console.log({newId})
-            setNewComp(!newComp)
-          }
+          //   setNewComp(true);
+          //   setNewComp(!newComp)
+          // }
           
         }
         
