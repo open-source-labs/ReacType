@@ -70,14 +70,12 @@ function DirectChildHTML({
 
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
-      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>      
-      {/* {`  (${childId})`} */}
-      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
-      <Annotation
-        id={childId}
-        name={name}
-        annotations={annotations}
-      />
+    <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>      
+    <Annotation
+      id={childId}
+      name={name}
+      annotations={annotations}
+    />
     </div>
   );
 }

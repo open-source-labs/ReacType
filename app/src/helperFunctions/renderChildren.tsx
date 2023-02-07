@@ -20,7 +20,7 @@ const renderChildren = (children: ChildElement[]) => {
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
     // Removed style from prop drills so that styling isn't applied to canvas items.
-    // Also added keys & removed an unnecessary div around DirChildNestables that were causing errors.
+    // Also added keys & removed an unnecessary div around DirChildNestables that was causing errors.
     if (type === 'Component') {
       return (
         <DirectChildComponent
