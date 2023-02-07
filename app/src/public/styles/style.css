@@ -47,7 +47,7 @@ h4 {
   height: 300px;
   width: 410px;
   flex-grow: 1;
-  padding-left: 10px; 
+  padding-left: 10px;
   padding-right: 10px;
 }
 .HTMLItemCreate {
@@ -88,16 +88,43 @@ LEFT COLUMN
 /////////////////////////////////////////////////
 */
 
+.app-container {
+  position: relative;
+}
+
 .left {
   padding: 10px 10px 10px 0px;
   display: flex;
-  width: 225px;
-  min-width: 225px;
+  /* width: 225px;
+  min-width: 225px; */
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
 }
+.hide-show {
+  opacity: 0;
+  width: 0;
+  transition: opacity 0.5s linear, width 0.5s ease-in-out;
+  position: absolute;
+  height: 100%;
+}
+.hide-show:hover {
+  opacity: 1;
+  width: 225px;
+  min-width: 225px;
+  z-index: 289;
+}
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid pink;
+  margin-top: 50%;
+}
+
+
 .HTMLItems {
   display: flex;
   flex-direction: column;
@@ -357,9 +384,9 @@ RIGHT COLUMN
   cursor: pointer;
 }
 
-/* 
+/*
 /////////////////////////////////////////////////////
-BOTTOM PANEL 
+BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
 
@@ -409,6 +436,7 @@ BOTTOM PANEL
   background-color: 252526;
 }
 
+
 /*
 //////////////////////////////////////////
 NAVBAR
@@ -423,7 +451,7 @@ NAVBAR
 #customized-menu {
   width: 16%;
 }
-/* 
+/*
 /////////////////////////////////////////////////
 ANNOTATIONS
 /////////////////////////////////////////////////
