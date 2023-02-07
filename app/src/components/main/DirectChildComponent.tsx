@@ -67,7 +67,6 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       ref={drag}
     >
       <strong>{name}</strong>
-      {`  (${childId})`}
     </div>
   );
 }

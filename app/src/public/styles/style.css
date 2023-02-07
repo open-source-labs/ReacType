@@ -115,15 +115,6 @@ LEFT COLUMN
   min-width: 225px;
   z-index: 289;
 }
-.arrow-right {
-  width: 0;
-  height: 0;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  border-left: 20px solid pink;
-  margin-top: 50%;
-}
-
 
 .HTMLItems {
   display: flex;
@@ -308,8 +299,8 @@ h1 {
 //////////////////////////////////////////////////
 RIGHT COLUMN
 /////////////////////////////////////////////////
+// RIGHT NOW, I'M NOT SURE WHAT RIGHT COL IS REFERING TO
 */
-
 #rightContainer {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -558,11 +549,11 @@ a.nav_link:hover {
 
 /* Additional styling for ReacType X */
 .componentDefault {
-  width: 100%;
+  width: auto;
   border: 2px solid gray;
   min-height: 150px;
   padding: 10px;
-  background-color: lightgray;
+  background-color: rgb(213, 80, 164);
   opacity: 0.75;
 }
 .inputName {
@@ -625,6 +616,13 @@ a.nav_link:hover {
   border-radius: 0px 0px 15px 15px;
   font-family: Arial, Helvetica, sans-serif;
   background-color: rgb(241, 240, 240);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* My Changes to canvas instances container */
+.componentContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
