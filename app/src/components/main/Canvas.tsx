@@ -29,24 +29,24 @@ function Canvas(props): JSX.Element {
             let id = (parentId) ? parentId : null;
             if (child.typeId < 1000){
               masterArr.push({
-                type: "HTML Element", 
-                typeId: child.typeId, 
+                type: "HTML Element",
+                typeId: child.typeId,
                 childId: id
               })
               if (child.children.length) {
                 deepChildCopy(child.children, child.childId);
-              } 
+              }
             }
           }
         }
         deepChildCopy(children, null);
         setCopiedChildrenArr(masterArr);
       }
-  
+
       const components = state.components
 
         // find the ID of the newly created component
-      const newId = components[components.length -1]['id']      
+      const newId = components[components.length -1]['id']
       dispatch({
         type: 'ADD CHILD',
         payload: {
@@ -56,8 +56,8 @@ function Canvas(props): JSX.Element {
         }
       });
     }
-    setNewComp(false)
-  }, [newComp]) 
+    setNewComp(false) // initially set to false
+  }, [newComp])
 
   // Caret start
   Arrow.deleteLines();
@@ -73,7 +73,7 @@ function Canvas(props): JSX.Element {
     // onClickHandler is responsible for changing the focused component and child component
     function onClickHandler(event) {
       event.stopPropagation();
-      // note: a null value for the child id means that we are focusing on the top-level component rather than any child 
+      // note: a null value for the child id means that we are focusing on the top-level component rather than any child
       changeFocus(state.canvasFocus.componentId, null);
     };
 
@@ -150,7 +150,7 @@ function Canvas(props): JSX.Element {
 
           // able to duplicate a component in dev only does not work for prod
           // create a new component
-          
+
           // let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
           // while (components.some(comp => comp.name === name)) {
           //   name = prompt(`${name} component already exists. \nPlease pick a new name.`);
@@ -160,20 +160,20 @@ function Canvas(props): JSX.Element {
           //     type: 'ADD COMPONENT',
           //     payload: { componentName: name, root: false }
           //   });
-            
+
           //   setNewComp(true);
           //   setNewComp(!newComp)
           // }
-          
+
         }
-        
+
       }
     },
     collect: monitor => ({
       isOver: !!monitor.isOver()
     })
   });
-  
+
   // Styling for Canvas
   const defaultCanvasStyle = {
     width: '100%',
@@ -198,7 +198,7 @@ function Canvas(props): JSX.Element {
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
-  
+
   // const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
