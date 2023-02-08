@@ -130,7 +130,8 @@ function DirectChildHTMLNestable({
         : '1px solid grey',
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'rgba(0, 0, 255, 0.0)';
+  // if (isOver) defaultNestableStyle['yellow'];
+  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor']
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
@@ -150,7 +151,7 @@ function DirectChildHTMLNestable({
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <span>
-        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
+        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort + ' nestable'}</strong>
         <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
         {routeButton}
         <Annotation

@@ -12,6 +12,7 @@ const globalDefaultStyle: Object = {
   fontFamily: 'Helvetica Neue',
   maxWidth: 'fit-content',
   minWidth: '250px',
+  backgroundColor: 'pink', // experiment to see what is inherited
 };
 
 export default globalDefaultStyle;

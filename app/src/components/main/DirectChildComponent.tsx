@@ -66,7 +66,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       style={combinedStyle}
       ref={drag}
     >
-      <strong>{name}</strong>
+      <strong>{name + ' kitten'}</strong>
     </div>
   );
 }
