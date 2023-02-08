@@ -33,7 +33,6 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-  
     // child is a non-nestable type of HTML element (aka NOT divs, forms, OrderedLists, UnorderedLists, menus)
     else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16 && typeId !== 17 && typeId !== 18 && typeId !== -1 && typeId !== 19) {
       return (

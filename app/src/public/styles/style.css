@@ -17,6 +17,8 @@ body {
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 h4 {
   color: #155084;
@@ -47,7 +49,7 @@ h4 {
   height: 300px;
   width: 410px;
   flex-grow: 1;
-  padding-left: 10px; 
+  padding-left: 10px;
   padding-right: 10px;
 }
 .HTMLItemCreate {
@@ -88,16 +90,34 @@ LEFT COLUMN
 /////////////////////////////////////////////////
 */
 
+.app-container {
+  position: relative;
+}
+
 .left {
   padding: 10px 10px 10px 0px;
   display: flex;
-  width: 225px;
-  min-width: 225px;
+  /* width: 225px;
+  min-width: 225px; */
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
 }
+.hide-show {
+  opacity: 0;
+  width: 0;
+  transition: opacity 0.5s linear, width 0.5s ease-in-out;
+  position: absolute;
+  height: 100%;
+}
+.hide-show:hover {
+  opacity: 1;
+  width: 225px;
+  min-width: 225px;
+  z-index: 289;
+}
+
 .HTMLItems {
   display: flex;
   flex-direction: column;
@@ -281,7 +301,7 @@ h1 {
 //////////////////////////////////////////////////
 RIGHT COLUMN
 /////////////////////////////////////////////////
-// RIGHT NOW, I'M NOT SURE WHAT RIGHT COL IS REFERING TO 
+// RIGHT NOW, I'M NOT SURE WHAT RIGHT COL IS REFERING TO
 */
 #rightContainer {
   overflow-y: scroll;
@@ -357,9 +377,9 @@ RIGHT COLUMN
   cursor: pointer;
 }
 
-/* 
+/*
 /////////////////////////////////////////////////////
-BOTTOM PANEL 
+BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
 
@@ -409,6 +429,7 @@ BOTTOM PANEL
   background-color: 252526;
 }
 
+
 /*
 //////////////////////////////////////////
 NAVBAR
@@ -423,7 +444,7 @@ NAVBAR
 #customized-menu {
   width: 16%;
 }
-/* 
+/*
 /////////////////////////////////////////////////
 ANNOTATIONS
 /////////////////////////////////////////////////

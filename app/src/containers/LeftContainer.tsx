@@ -4,6 +4,7 @@ import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
 import StateContext from '../context/context';
 import { styleContext } from './AppContainer';
+
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
@@ -23,16 +24,20 @@ const LeftContainer = (props): JSX.Element => {
   }, []);
 
   return (
-    <div className="column left" style={style}>
-      <Grid container direction="column" alignItems="center">
-        <h4>Drag and Drop</h4>
-        <DragDropPanel isThemeLight={props.isThemeLight}/>
-        <div id={'CompBottomHalf'}>
-          <ComponentDrag isThemeLight={props.isThemeLight}/>
+    <div style={{borderRight: "4px solid #3FD0A2"}}>
+        <div className="column left hide-show" style={style}>
+          <Grid container direction="column" alignItems="center">
+            <h4>Drag and Drop</h4>
+            <DragDropPanel isThemeLight={props.isThemeLight}/>
+            <div id={'CompBottomHalf'}>
+              <ComponentDrag isThemeLight={props.isThemeLight}/>
+            </div>
+          </Grid>
         </div>
-      </Grid>
     </div>
   );
 };
+
+{/* <div className="arrow-right"></div> */}
 
 export default LeftContainer;
