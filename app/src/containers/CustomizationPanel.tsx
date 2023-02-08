@@ -56,7 +56,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     .children.find((el) => {
       return el.childId === state.canvasFocus.childId;
     });
-  
+
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
   }, [state]);
@@ -215,7 +215,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     searchNestedChildren(state.components);
     return isLinked;
   };
-  
+
   const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
@@ -382,7 +382,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       document.removeEventListener('keydown', keyBindedFunc);
     };
   }, []);
-  
+
   if(state.canvasFocus.childId === null) {
     return (
       <div className="column right" id="rightContainer" style={style}>

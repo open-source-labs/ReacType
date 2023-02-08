@@ -149,16 +149,16 @@ function DirectChildHTMLNestable({
   
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
-      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
-      {/* {`  ( ${childId} )`} */}
-      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
-      <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
-      {routeButton}
-      <Annotation
-        id={childId}
-        name={name}
-        annotations={annotations}
-      />
+      <span>
+        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
+        <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
+        {routeButton}
+        <Annotation
+          id={childId}
+          name={name}
+          annotations={annotations}
+          />
+      </span>
       {renderChildren(children)}
     </div>
   );
