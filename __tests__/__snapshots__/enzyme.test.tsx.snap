@@ -694,6 +694,7 @@ exports[`Test the CanvasContainer component Matches snapshot 1`] = `
     Object {
       "backgroundColor": "lightgrey",
       "border": "2px Solid grey",
+      "overflow": "auto",
       "width": "100%",
     }
   }
