@@ -7,8 +7,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+
 html {
   box-sizing: border-box;
+  /* height: 100vh;
+  width: 100vw;
+  overflow: auto; */
 }
 body {
   margin: 0;
@@ -66,7 +70,7 @@ header {
 .app-container {
   display: flex;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .mode-change-button {
@@ -208,6 +212,7 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-width: 700px;
+  /* overflow: auto; */
 }
 
 .main-header {
@@ -284,10 +289,11 @@ RIGHT COLUMN
 */
 
 #rightContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 .right {
@@ -362,12 +368,40 @@ RIGHT COLUMN
 BOTTOM PANEL 
 /////////////////////////////////////////////////////
 */
+.bottom-hide {
+  max-height: 8.625rem;
+  box-sizing: border-box;
+  transition: all 0.5s ease-out;
+}
+
+.bottom-hide:focus-within {
+  max-height: 100%;
+}
+
+.bottom-hide:hover {
+  max-height: 100%;
+}
+
+#resize-drag {
+  cursor: row-resize;
+  background-color: silver;
+  height: 16px;
+  top: 0;
+  /* left: 50px; */
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 0px;
+  user-select: none;
+  color:rgb(32, 32, 32);
+  font-size: x-large;
+}
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
   height: 100%;
-  min-height: 25%;
 }
 
 .htmlattr {
