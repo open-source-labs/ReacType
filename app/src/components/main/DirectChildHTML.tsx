@@ -62,6 +62,8 @@ function DirectChildHTML({
         : '1px solid grey'
   };
 
+  // if (state.components[0].children)
+  // console.log(globalDefaultStyle);
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),

@@ -6,6 +6,7 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
 import Annotation from './Annotation'
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
@@ -130,13 +131,40 @@ function DirectChildHTMLNestable({
         : '1px solid grey',
   };
 
+  // incoporated this logic into my nesting check below caused i new error
   // if (isOver) defaultNestableStyle['yellow'];
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor']
+  // defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];//globalDefaultStyle['backgroundColor']
+
+  // if component is not in APP children array, it's a nested component, and should have a differend background color
+  // defaultNestableStyle['backgroundColor'] = state.components[0].children.includes(childId) ? 'blue' : globalDefaultStyle['backgroundColor'];
+
+
+  // console.log('APP DIRECT KIDS: ', state.components[0].children);
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
+
+// WHAT THE CHILDREN ARRAY LOOKS LIKE - LW
+//  ARRAY OF OBJS
+// {type: 'HTML Element', typeId: 1000, name: 'separator', childId: 1000, style: {…}, …}
+// tried adding a conditional to only run this reassignment if state.components[0]['name'] === 'App' DON'T WORK
+
+    state.components[0].children?.forEach(obj => {
+        // console.log('childId : ', obj['childId'], 'childId : ', childId);
+        if (obj['childId'] === childId) {
+          combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
+        } else {
+          combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+        }
+    });
+  
+  // console.log('state: ', state);
+  // helper func i created below does not work now because it cannot reference combined style from its file. - LW
+  // adjustComponentColor(children, childId, state);
+
+  //console.log('combinedStyle : ', combinedStyle);
 
   drag(drop(ref));
 

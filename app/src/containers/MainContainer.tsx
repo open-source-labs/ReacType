@@ -12,7 +12,9 @@ const MainContainer = (props): JSX.Element => {
         <CanvasContainer isThemeLight={props.isThemeLight}/>
         <DemoRender />
       </div>
-      <BottomPanel isThemeLight={props.isThemeLight}/>
+      <div className='bottom-hide'>
+        <BottomPanel isThemeLight={props.isThemeLight}/>
+      </div>
     </div>
   );
 };
