@@ -203,6 +203,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
               className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
+              MenuProps={{ disablePortal: true }}
               style={ isThemeLight
                 ? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'}
                 : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
