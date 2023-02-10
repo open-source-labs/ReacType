@@ -24,8 +24,8 @@ const LeftContainer = (props): JSX.Element => {
   }, []);
 
   return (
-    <div style={{borderRight: "4px solid #3FD0A2"}}>
-        <div className="column left hide-show" style={style}>
+    <div className="left-container hide-show">
+        <div className="column left" style={style}>
           <Grid container direction="column" alignItems="center">
             <h4>Drag and Drop</h4>
             <DragDropPanel isThemeLight={props.isThemeLight}/>
@@ -33,6 +33,11 @@ const LeftContainer = (props): JSX.Element => {
               <ComponentDrag isThemeLight={props.isThemeLight}/>
             </div>
           </Grid>
+        </div>
+        <div className='left-indicator'>
+          <span className="material-symbols-outlined">
+            eject
+          </span>
         </div>
     </div>
   );
