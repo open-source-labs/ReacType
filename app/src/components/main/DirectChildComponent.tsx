@@ -6,6 +6,7 @@ import {
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
+import Annotation from './Annotation'
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
@@ -66,7 +67,14 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       style={combinedStyle}
       ref={drag}
     >
-      <strong>{name + ' kitten'}</strong>
+      
+        <strong>{name + ' cupcake'}</strong>
+        <Annotation
+            id={childId}
+            name={name}
+            annotations={annotations}
+            />
+      
     </div>
   );
 }

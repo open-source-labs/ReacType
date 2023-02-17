@@ -151,15 +151,33 @@ function DirectChildHTMLNestable({
 // {type: 'HTML Element', typeId: 1000, name: 'separator', childId: 1000, style: {…}, …}
 // tried adding a conditional to only run this reassignment if state.components[0]['name'] === 'App' DON'T WORK
 
-    state.components[0].children?.forEach(obj => {
-        // console.log('childId : ', obj['childId'], 'childId : ', childId);
-        if (obj['childId'] === childId) {
-          combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
-        } else {
-          combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
-        }
-    });
-  
+    // state.components[0].children?.forEach(obj => {
+    //     // console.log('childId : ', obj['childId'], 'childId : ', childId);
+    //     if (obj['childId'] === childId) {
+    //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
+    //     } else {
+    //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+    //     }
+    // });
+
+
+  // trying to render components with diff background colors based on how deeply nested they were - doesnt' work as on now
+  //   state.components.forEach(component => {
+  //   // console.log('state.components : ', state.components)
+  //     let color = 'rgb(63, 154,';
+  //     let counter = -10;
+  //     component.children?.forEach(obj => {
+  //     // if (obj['childId'] === childId) {
+  //       counter += 10;
+  //       color = color + counter.toString() + ')'
+  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : color;
+  //     } else {
+  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+  //     }
+  //   })
+  // });
+
+
   // console.log('state: ', state);
   // helper func i created below does not work now because it cannot reference combined style from its file. - LW
   // adjustComponentColor(children, childId, state);

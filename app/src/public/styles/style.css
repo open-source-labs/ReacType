@@ -32,7 +32,7 @@ h4 {
   color:black;
   display: flex;
   flex-direction: row;
-  height: 100%;
+  /* height: 100%; */
   background-color: #fff;
 }
 .customization-section {
@@ -72,7 +72,7 @@ header {
 .app-container {
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 64px);
 }
 
 .mode-change-button {
@@ -389,9 +389,9 @@ BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
 .bottom-hide {
-  max-height: 8.625rem;
+  max-height: 76px;
   box-sizing: border-box;
-  transition: all 0.5s ease-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .bottom-hide:focus-within {
@@ -400,6 +400,12 @@ BOTTOM PANEL
 
 .bottom-hide:hover {
   max-height: 100%;
+}
+
+.tab-content {
+  height: calc(100% - 76px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #resize-drag {

@@ -181,11 +181,8 @@ function Canvas(props): JSX.Element {
     backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
-    // userSelect: 'none',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box',
-    // width: '100vw',
-    // height: '100vh'
   };
 
   const darkCanvasStyle = {
@@ -204,7 +201,7 @@ function Canvas(props): JSX.Element {
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
   // console.log('CURRENTCOMPONENT.CHILDREN : ', currentComponent.children)
   // console.log('STATE: ', state.components);
-
+  // console.log('CURRENTCOMPONENT : ', currentComponent);
   return (
     <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}

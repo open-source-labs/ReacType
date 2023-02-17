@@ -644,6 +644,11 @@ exports[`Test the BottomTabs component Matches snapshot 1`] = `
         size="small"
       >
         <WithStyles(ForwardRef(Select))
+          MenuProps={
+            Object {
+              "disablePortal": true,
+            }
+          }
           className="makeStyles-projectSelector-12"
           id="demo-simple-select"
           labelId="project-type-label"
@@ -684,7 +689,11 @@ exports[`Test the BottomTabs component Matches snapshot 1`] = `
       </WithStyles(ForwardRef(FormControl))>
     </div>
   </Styled(MuiBox)>
-  <CreationPanel />
+  <div
+    className="tab-content"
+  >
+    <CreationPanel />
+  </div>
 </div>
 `;
 

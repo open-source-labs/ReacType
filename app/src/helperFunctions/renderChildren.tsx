@@ -13,9 +13,8 @@ import StateContext from '../context/context';
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
-  // console.log(children);
+
   return children.map((child: ChildElement, i: number) => {
-    console.log('child: ', child);
     const { type, style, childId, children, attributes, name, annotations} = child;
     let {typeId} = child;
     if (name === '') child.name = state.components[typeId - 1].name;

@@ -6,7 +6,7 @@ import StateContext from '../context/context';
 import { element } from 'prop-types';
 
 function usePrevious(value) {
-  const ref = useRef();
+  const ref = useRef(); // creates a ref obj w/ current: value
   useEffect(() => {
     ref.current = value;
   });

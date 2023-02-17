@@ -15,7 +15,7 @@ function Annotation({ id, name, annotations }: Annotations) {
   const childrenArray = state.components[focusIndex].children; //  ADDING SLICE HERE CAUSES STATE to NOT CHANGE...
 
   // ---------------------------------------------- NEW CODE for DELETE BUTTONS (start) ---------------------------------------
-  console.log('State components: ', state.components[0].children); // BRETT ADDED
+  // console.log('State components: ', state.components[0].children); // BRETT ADDED
   const deleteHTMLtype = (id: number) => {
     console.log(id, childrenArray);
     let arrIndex: number = -1;
@@ -51,8 +51,8 @@ function Annotation({ id, name, annotations }: Annotations) {
         }
       }
     }
-    console.log(arrIndex);
-    console.log('arrOfAllChildIDs: ', arrOfAllChildIDs);
+    // console.log(arrIndex);
+    // console.log('arrOfAllChildIDs: ', arrOfAllChildIDs);
   };
   // ---------------------------------------------- NEW CODE for DELETE BUTTONS (end) ---------------------------------------
 
@@ -143,7 +143,7 @@ function Annotation({ id, name, annotations }: Annotations) {
         onClick={() => deleteHTMLtype(id)}
         // ref={ref}
       >
-        DELETE
+        x
       </button>
       {/* <Modal
         open={open}
