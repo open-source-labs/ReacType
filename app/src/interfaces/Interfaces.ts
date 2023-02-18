@@ -22,11 +22,12 @@ export interface ChildElement {
   name: string;
   childId: number;
   style: object;
-  attributes?: object;
+  attributes: object;
+  events: object;
   children?: ChildElement[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
-  stateUsed?: object; 
+  stateUsed?: object;
   passedInProps: StateProp[]
 }
 
@@ -35,6 +36,7 @@ export interface Component {
   name: string;
   style: object;
   attributes?: object;
+  events?: object;
   code: string;
   children: ChildElement[];
   isPage: boolean;
@@ -43,8 +45,8 @@ export interface Component {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   useStateCodes: string[];
-  useContext?: object
-  passedInProps: StateProp[]
+  useContext?: object;
+  passedInProps: StateProp[];
 }
 export interface StateProp {
   id: string;

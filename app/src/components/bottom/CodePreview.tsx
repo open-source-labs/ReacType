@@ -26,7 +26,7 @@ const CodePreview: React.FC<{
    * Starts the Web Assembly service.
    */
   const startService = async () => {
-    ref.current = await esbuild.startService({
+    ref.current = await esbuild.initialize({
       worker: true,
       wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
     });

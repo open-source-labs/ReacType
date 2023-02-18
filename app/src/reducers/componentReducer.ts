@@ -178,7 +178,7 @@ const reducer = (state: State, action: Action) => {
     // array of snippets of state prop codes
     const localStateCode = [];
     currentComponent.stateProps.filter((n,i)=>i%2===0).forEach((stateProp) => {
-      
+
       const useStateCode = `const [${stateProp.key}, set${
         stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
       }] = useState<${stateProp.type} | undefined>(${JSON.stringify(stateProp.value)})`;
@@ -257,7 +257,7 @@ const reducer = (state: State, action: Action) => {
       } else {
         parentComponentId = state.canvasFocus.componentId;
       }
-      
+
       const components = [...state.components];
 
       const parentComponent = findComponent(components, parentComponentId);
@@ -299,7 +299,8 @@ const reducer = (state: State, action: Action) => {
         childId: state.nextChildId,
         style: {},
         attributes: {},
-        children: componentChildren, 
+        events: {},
+        children: componentChildren,
         stateProps: [], //legacy pd: added stateprops and passedinprops
         passedInProps: []
       };
@@ -332,7 +333,7 @@ const reducer = (state: State, action: Action) => {
         } else {
           return { ...state };
         }
-        
+
       }
       const canvasFocus = {
         ...state.canvasFocus,
@@ -508,6 +509,30 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components };
     }
+    //  ------------------------------------------- added code below  -------------------------------------------
+    case 'UPDATE EVENTS': {
+      const { events } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      const event = Object.keys(events)[0];
+      const funcName = events[event];
+      console.log(event, funcName);
+      targetChild.events[event] = funcName;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components };
+    }
+    //  ------------------------------------------- added code above  -------------------------------------------
     case 'DELETE CHILD': {
       // if in-focus instance is a top-level component and not a child, don't delete anything
       if (!state.canvasFocus.childId) return state;
@@ -766,7 +791,7 @@ const reducer = (state: State, action: Action) => {
         components,
         state.canvasFocus.componentId
       );
-      //will add update StateProps to current components' array 
+      //will add update StateProps to current components' array
       currComponent.stateProps.push(action.payload.newState);
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
       currComponent.stateProps.push(action.payload.setNewState);
@@ -779,7 +804,7 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components};
     }
-    /* 
+    /*
     When props are passed from a parent to a child in the State Manager tab, it will update the components available
     passedInProps
     */
@@ -789,7 +814,7 @@ const reducer = (state: State, action: Action) => {
       const currComponent = findComponent(
         components,
         state.canvasFocus.componentId
-      ); 
+      );
       //prevents passing in props more than one time to the current component
       for (let i = 0; i < currComponent.passedInProps.length; i++) {
         let curr = currComponent.passedInProps[i];
@@ -797,7 +822,7 @@ const reducer = (state: State, action: Action) => {
           return { ...state, components};
         }
       }
-      
+
       //find the parent for deleting instances of where the parent is passing props to children
       let parent;
       for (let i = 0; i < components.length; i++){
@@ -811,7 +836,7 @@ const reducer = (state: State, action: Action) => {
       }
 
       //search for whether the child exists in the parent's children array
-      //if so update the passed in props child element with the updates passed in props 
+      //if so update the passed in props child element with the updates passed in props
       parent.children.forEach((child) => {
         if (child.name === currComponent.name) {
           child.passedInProps.push(action.payload.passedInProps);
@@ -822,7 +847,7 @@ const reducer = (state: State, action: Action) => {
       // check each components passedInProps property and updating there as well.
       currComponent.passedInProps.push(action.payload.passedInProps);
 
-      //update the import codes for the current component 
+      //update the import codes for the current component
       currComponent.useStateCodes = updateUseStateCodes(currComponent);
       //update code preview for current component
       currComponent.code = generateCode(
@@ -917,7 +942,7 @@ const reducer = (state: State, action: Action) => {
                 comp.id === child.typeId);
                 deletePassedInProps(next);
               })
-        }    
+        }
       })
       myComponent.useStateCodes = updateUseStateCodes(myComponent)
       myComponent.code = generateCode(
@@ -928,10 +953,10 @@ const reducer = (state: State, action: Action) => {
           state.HTMLTypes
         );
       }
-      
+
       deletePassedInPropsChildren(parent);
       deletePassedInProps(currComponent);
-      
+
       parent.code = generateCode(
         components,
         parent.id,
@@ -950,7 +975,7 @@ const reducer = (state: State, action: Action) => {
       );
       //updates the stateProps array to reflect total state initialized in component minus the selected state to be deleted
       currComponent.stateProps = action.payload.stateProps;
-      
+
       //CHILDREN ARRAY LOOP (needed for code preview)
       //iterate through all components, starting from top, and delete ALL instances of deleted state (provided to us
       // in the passedInProps array within the children array of the component
@@ -1006,7 +1031,7 @@ const reducer = (state: State, action: Action) => {
           }
         }
 
-        // find parent 
+        // find parent
         let parent;
         for (let i = 0; i < components.length; i++){
           let currComponent = components[i]
@@ -1038,7 +1063,7 @@ const reducer = (state: State, action: Action) => {
         });
       return { ...state, components};
     }
-    
+
     default:
       return state;
   }

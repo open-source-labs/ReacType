@@ -47,7 +47,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [modal, setModal] = useState(null);
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
-
+  // ------------------------------------------- added code below -------------------------------------------
+  const [event, setEvent] = useState('');
+  const [funcName, setFuncName] = useState('');
+  // ------------------------------------------- added code above -------------------------------------------
 
   const currFocus = state.components
     .find((el) => {
@@ -59,6 +62,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+    console.log(state);
   }, [state]);
 
   //this function allows properties to persist and appear in nested divs
@@ -135,6 +139,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'cssClasses':
         setCssClasses(inputVal);
         break;
+        // ------------------------------------------- added code below -------------------------------------------
+      case 'event':
+        setEvent(inputVal);
+        break;
+      case 'funcName':
+        setFuncName(inputVal);
+        break;
+        // ------------------------------------------- added code above -------------------------------------------
       default:
         break;
     }
@@ -256,6 +268,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+    //  ------------------------------------------- added code below  -------------------------------------------
+    const eventsObj: any = {};
+    if (event !== '') eventsObj[event] = funcName ? funcName : `handle${event.slice(2)}`;
+    //  ------------------------------------------- added code above  -------------------------------------------
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
@@ -272,6 +288,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
     });
+    //  ------------------------------------------- added code below  -------------------------------------------
+    dispatch({
+      type: 'UPDATE EVENTS',
+      payload: { events: eventsObj }
+    });
+    //  ------------------------------------------- added code above  -------------------------------------------
     return styleObj;
   };
   // UNDO/REDO functionality--onClick these functions will be invoked.
@@ -655,6 +677,48 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
               </div>
+              {/* ------------------------------------------- added new code------------------------------------------- */}
+              <div>
+                <FormSelector
+                  classes={classes}
+                  isThemeLight={isThemeLight}
+                  selectValue={event}
+                  handleChange={handleChange}
+                  title="Event:"
+                  name="event"
+                  items={[
+                    { value: '', text: 'default' },
+                    { value: 'onClick', text: 'onClick' },
+                    { value: 'onChange', text: 'onChange' },
+                  ]}
+                  />
+                </div>
+                { event && (<div className={classes.configRow}>
+                  <div
+                    className={
+                      isThemeLight
+                        ? `${classes.configType} ${classes.lightThemeFontColor}`
+                        : `${classes.configType} ${classes.darkThemeFontColor}`
+                    }
+                  >
+                    <h3>Function Name:</h3>
+                  </div>
+                  <FormControl variant="filled">
+                    <TextField
+                      variant="filled"
+                      name="funcName"
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={funcName}
+                      onChange={handleChange}
+                      placeholder="Function Name"
+                    />
+                  </FormControl>
+                </div> )}
+            {/* ------------------------------------------- added from above -------------------------------------------*/}
             </div>
             <div>
               <div className={classes.buttonRow}>
