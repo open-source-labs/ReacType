@@ -48,8 +48,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
   // ------------------------------------------- added code below -------------------------------------------
-  const [event, setEvent] = useState('');
-  const [funcName, setFuncName] = useState('');
+  // const [event, setEvent] = useState('');
+  // const [funcName, setFuncName] = useState('');
+  const [eventAll, setEventAll] = useState(['', '']);
   // ------------------------------------------- added code above -------------------------------------------
 
   const currFocus = state.components
@@ -99,6 +100,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     setCompWidth(style.width ? style.width : '');
     setCompHeight(style.height ? style.height : '');
     setBGColor(style.backgroundColor ? style.backgroundColor : '');
+    setEventAll(['', '']);
+    // setFuncName('');
   };
   let configTarget;
   // after component renders, reset the input fields with the current styles of the selected child
@@ -141,10 +144,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         break;
         // ------------------------------------------- added code below -------------------------------------------
       case 'event':
-        setEvent(inputVal);
+        setEventAll(inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']);
+        // setFuncName(currFocus.events[inputVal] ? currFocus.events[inputVal] : `handle${event.slice(2)}`);
         break;
       case 'funcName':
-        setFuncName(inputVal);
+        setEventAll([eventAll[0], inputVal]);
         break;
         // ------------------------------------------- added code above -------------------------------------------
       default:
@@ -256,22 +260,30 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   }
 
   const handleSave = (): Object => {
+    //  ------------------------------------------- change code below  -------------------------------------------
+    const actions: object[] = [];
+
     const styleObj: any = {};
-    if (displayMode !== '') styleObj.display = displayMode;
+    let updateCSS: boolean = false;
+    if (displayMode !== '') {
+      updateCSS = true;
+      styleObj.display = displayMode;
+    }
     if (flexDir !== '') styleObj.flexDirection = flexDir;
     if (flexJustify !== '') styleObj.justifyContent = flexJustify;
     if (flexAlign !== '') styleObj.alignItems = flexAlign;
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
+
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-    //  ------------------------------------------- added code below  -------------------------------------------
+
     const eventsObj: any = {};
-    if (event !== '') eventsObj[event] = funcName ? funcName : `handle${event.slice(2)}`;
-    //  ------------------------------------------- added code above  -------------------------------------------
+    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
+
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
@@ -288,12 +300,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
     });
-    //  ------------------------------------------- added code below  -------------------------------------------
     dispatch({
       type: 'UPDATE EVENTS',
       payload: { events: eventsObj }
     });
-    //  ------------------------------------------- added code above  -------------------------------------------
+    setEventAll(['', ''])
+    // setEvent('');
+    // setFuncName('');
+    //  ------------------------------------------- change code above  -------------------------------------------
     return styleObj;
   };
   // UNDO/REDO functionality--onClick these functions will be invoked.
@@ -682,7 +696,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <FormSelector
                   classes={classes}
                   isThemeLight={isThemeLight}
-                  selectValue={event}
+                  selectValue={eventAll[0]}
                   handleChange={handleChange}
                   title="Event:"
                   name="event"
@@ -690,10 +704,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     { value: '', text: 'default' },
                     { value: 'onClick', text: 'onClick' },
                     { value: 'onChange', text: 'onChange' },
+                    { value: 'onMouseOver', text: 'onMouseOver' },
+                    { value: 'onKeyDown', text: 'onKeyDown' }
                   ]}
                   />
                 </div>
-                { event && (<div className={classes.configRow}>
+                { eventAll[0] && (<div className={classes.configRow}>
                   <div
                     className={
                       isThemeLight
@@ -712,7 +728,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                           ? `${classes.selectInput} ${classes.lightThemeFontColor}`
                           : `${classes.selectInput} ${classes.darkThemeFontColor}`
                       }}
-                      value={funcName}
+                      value={eventAll[1]}
                       onChange={handleChange}
                       placeholder="Function Name"
                     />

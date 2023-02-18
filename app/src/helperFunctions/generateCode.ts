@@ -146,7 +146,7 @@ const generateUnformattedCode = (
 
     if (childElement.events && Object.keys(childElement.events).length > 0) {
       for (const [event, funcName] of Object.entries(childElement.events)) {
-        customizationDetails += ' ' + `${event}={${funcName}}`;
+        customizationDetails += ' ' + `${event}={(event) => ${funcName}()}`;
       }
     }
 
@@ -358,7 +358,6 @@ const generateUnformattedCode = (
     //string to store all imports string for context
     let contextImports = '';
     const { allContext } = store.getState().contextSlice;
-
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
@@ -418,31 +417,64 @@ const generateUnformattedCode = (
 
       return importStr;
     };
-    return `${`import React, { useState, useEffect, useContext} from 'react';`}
-    ${currComponent.name === 'App' ? contextImports : ''}
-    ${
-      importReactRouter
-        ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
-        : ``
-    }
-    ${createContextImport()}
-    ${importsMapped}
-    ${`const ${currComponent.name} = (props) => {`}
-    ${createUseContextHook()}
-    ${`${writeStateProps(currComponent.useStateCodes)}`}
+
     //  ------------------------------------------- added code below  -------------------------------------------
+    const createEventHandler = () => {
+      let importStr = '';
+      enrichedChildren.map((child) => {
+        if (child.type === 'HTML Element') {
+          if (child.events) {
+            for (const [event, funcName] of Object.entries(child.events)) {
+              importStr += `\tconst ${funcName} = () => {};\n`
+            }
+          }
+        }
+      })
 
+      return importStr;
+    };
     //  ------------------------------------------- added code above  -------------------------------------------
+    let result = "import React, { useState, useEffect, useContext} from 'react';\n\n";
+    result += currComponent.name === 'APP' ? contextImports : '';
+    result += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``;
+    result += createContextImport() ? `${createContextImport()}\n`: '';
+    result += importsMapped ? `${importsMapped}\n` : '';
+    result += `const ${currComponent.name} = (props) => {\n`;
+    result += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
+    result += createEventHandler() ? `${createEventHandler()}\n` : '';
+    result += `
+  return(
+    <>
+      ${createRender()}
+    </>
+  );`
+    result += `\n}`;
+    return result;
+    // return `${`import React, { useState, useEffect, useContext} from 'react';`}
+    // ${currComponent.name === 'App' ? contextImports : ''}
+    // ${
+    //   importReactRouter
+    //     ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
+    //     : ``
+    // }
+    // ${createContextImport()}
+    // ${importsMapped}
+    // ${`const ${currComponent.name} = (props) => {`}
+    // ${createUseContextHook()}
+    // ${`${writeStateProps(currComponent.useStateCodes)}`}
+    // //  ------------------------------------------- added code below  -------------------------------------------
+    // ${createEventHandler()}
+    // //  ------------------------------------------- added code above  -------------------------------------------
 
 
-      return(
-        <>
-    ${createRender()}
-        </>
-      );
-    ${`}\n`}
-    export default ${currComponent.name}
-    `;
+    //   return(
+    //     <>
+    // ${createRender()}
+    //     </>
+    //   );
+    // ${`}\n`}
+    // export default ${currComponent.name}
+    // `;
   }
   //
   // next.js component code
