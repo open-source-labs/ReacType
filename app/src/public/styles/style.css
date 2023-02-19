@@ -485,6 +485,14 @@ BOTTOM PANEL
   background-color: 252526;
 }
 
+.event-table {
+  height: 300px;
+  width: 410px;
+  flex-grow: 1;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 20px;
+}
 
 /*
 //////////////////////////////////////////

@@ -68,6 +68,7 @@ const generateUnformattedCode = (
         return child;
       } else if (child.type === 'HTML Element') {
         const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
+        console.log('html',child);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
@@ -130,11 +131,10 @@ const generateUnformattedCode = (
           childComponent = components[i];
         }
       }
-      childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} ` 
+      childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} `
       })
     }
 
-    
     if (childElement.childId && childElement.tag !== 'Route')
       customizationDetails += ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
     if (childElement.attributes && childElement.attributes.cssClasses) {
@@ -143,6 +143,12 @@ const generateUnformattedCode = (
     }
     if (childElement.style && Object.keys(childElement.style).length > 0)
       customizationDetails += ' ' + formatStyles(childElement);
+
+    if (childElement.events && Object.keys(childElement.events).length > 0) {
+      for (const [event, funcName] of Object.entries(childElement.events)) {
+        customizationDetails += ' ' + `${event}={(event) => ${funcName}()}`;
+      }
+    }
 
     return customizationDetails;
   };
@@ -351,9 +357,7 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-
     const { allContext } = store.getState().contextSlice;
-
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
@@ -402,7 +406,7 @@ const generateUnformattedCode = (
     };
 
     //call use context hooks for components that are consuming contexts
-    //LEGACY PD: 
+    //LEGACY PD:
     const createUseContextHook = () => {
       if (!(currComponent.name in componentContext)) return '';
 
@@ -413,27 +417,64 @@ const generateUnformattedCode = (
 
       return importStr;
     };
-    return `${`import React, { useState, useEffect, useContext} from 'react';`}
-${currComponent.name === 'App' ? contextImports : ''}
-${
-  importReactRouter
-    ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
-    : ``
-}
-${createContextImport()}
-${importsMapped}
-${`const ${currComponent.name} = (props) => {`}
-${createUseContextHook()}
-${`${writeStateProps(currComponent.useStateCodes)}`}
 
+    //  ------------------------------------------- added code below  -------------------------------------------
+    const createEventHandler = () => {
+      let importStr = '';
+      enrichedChildren.map((child) => {
+        if (child.type === 'HTML Element') {
+          if (child.events) {
+            for (const [event, funcName] of Object.entries(child.events)) {
+              importStr += `\tconst ${funcName} = () => {};\n`
+            }
+          }
+        }
+      })
+
+      return importStr;
+    };
+    //  ------------------------------------------- added code above  -------------------------------------------
+    let result = "import React, { useState, useEffect, useContext} from 'react';\n\n";
+    result += currComponent.name === 'APP' ? contextImports : '';
+    result += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``;
+    result += createContextImport() ? `${createContextImport()}\n`: '';
+    result += importsMapped ? `${importsMapped}\n` : '';
+    result += `const ${currComponent.name} = (props) => {\n`;
+    result += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
+    result += createEventHandler() ? `${createEventHandler()}\n` : '';
+    result += `
   return(
     <>
-${createRender()}
+      ${createRender()}
     </>
-  );
-${`}\n`}
-export default ${currComponent.name}
-`;
+  );`
+    result += `\n}`;
+    return result;
+    // return `${`import React, { useState, useEffect, useContext} from 'react';`}
+    // ${currComponent.name === 'App' ? contextImports : ''}
+    // ${
+    //   importReactRouter
+    //     ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
+    //     : ``
+    // }
+    // ${createContextImport()}
+    // ${importsMapped}
+    // ${`const ${currComponent.name} = (props) => {`}
+    // ${createUseContextHook()}
+    // ${`${writeStateProps(currComponent.useStateCodes)}`}
+    // //  ------------------------------------------- added code below  -------------------------------------------
+    // ${createEventHandler()}
+    // //  ------------------------------------------- added code above  -------------------------------------------
+
+
+    //   return(
+    //     <>
+    // ${createRender()}
+    //     </>
+    //   );
+    // ${`}\n`}
+    // export default ${currComponent.name}
+    // `;
   }
   //
   // next.js component code
@@ -444,7 +485,7 @@ export default ${currComponent.name}
     import Head from 'next/head'
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
-    
+
     const ${currComponent.name[0].toUpperCase() +
       currComponent.name.slice(1)} = (props): JSX.Element => {
       return (

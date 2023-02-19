@@ -6,9 +6,11 @@ import React, {
   useCallback
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import ClearIcon from '@material-ui/icons/Clear';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -47,7 +49,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [modal, setModal] = useState(null);
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
-
+  // ------------------------------------------- added code below -------------------------------------------
+  const [eventAll, setEventAll] = useState(['', '']);
+  const [eventRow, setEventRow] = useState([]);
+  // ------------------------------------------- added code above -------------------------------------------
 
   const currFocus = state.components
     .find((el) => {
@@ -56,9 +61,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     .children.find((el) => {
       return el.childId === state.canvasFocus.childId;
     });
-
+  console.log(currFocus);
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+    if (currFocus) {
+      const addedEvent: [] = [];
+      for (const [event, funcName] of Object.entries(currFocus?.events)){
+        addedEvent.push({ id: event , funcName })
+      }
+      setEventRow(addedEvent);
+    }
+    console.log(state);
   }, [state]);
 
   //this function allows properties to persist and appear in nested divs
@@ -95,6 +108,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     setCompWidth(style.width ? style.width : '');
     setCompHeight(style.height ? style.height : '');
     setBGColor(style.backgroundColor ? style.backgroundColor : '');
+    setEventAll(['', '']);
+    // setFuncName('');
   };
   let configTarget;
   // after component renders, reset the input fields with the current styles of the selected child
@@ -135,6 +150,15 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       case 'cssClasses':
         setCssClasses(inputVal);
         break;
+        // ------------------------------------------- added code below -------------------------------------------
+      case 'event':
+        setEventAll(inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']);
+        // setFuncName(currFocus.events[inputVal] ? currFocus.events[inputVal] : `handle${event.slice(2)}`);
+        break;
+      case 'funcName':
+        setEventAll([eventAll[0], inputVal]);
+        break;
+        // ------------------------------------------- added code above -------------------------------------------
       default:
         break;
     }
@@ -243,19 +267,72 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     }
   }
 
+  const eventColumnTabs = [
+    {
+      field: 'id',
+      headerName: 'Event',
+      width: '40%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'funcName',
+      headerName: 'Function Name',
+      width: '40%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete Event',
+      width: '20%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+      disableColumnFilter: true,
+      renderCell: function renderCell(params: any) {
+        return (
+          <Button
+            style={{ width: `${3}px` }}
+            onClick={() => {
+              // deleteState(params.id);
+            }}
+          >
+            <ClearIcon style={{ width: `${15}px` }} />
+          </Button>
+        );
+      }
+    }
+  ];
+
+
   const handleSave = (): Object => {
+    //  ------------------------------------------- change code below  -------------------------------------------
+    const actions: object[] = [];
+
     const styleObj: any = {};
-    if (displayMode !== '') styleObj.display = displayMode;
+    let updateCSS: boolean = false;
+    if (displayMode !== '') {
+      updateCSS = true;
+      styleObj.display = displayMode;
+    }
     if (flexDir !== '') styleObj.flexDirection = flexDir;
     if (flexJustify !== '') styleObj.justifyContent = flexJustify;
     if (flexAlign !== '') styleObj.alignItems = flexAlign;
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
+
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+
+    const eventsObj: any = {};
+    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
+
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
@@ -272,6 +349,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
     });
+    dispatch({
+      type: 'UPDATE EVENTS',
+      payload: { events: eventsObj }
+    });
+    setEventAll(['', ''])
+    //  ------------------------------------------- change code above  -------------------------------------------
     return styleObj;
   };
   // UNDO/REDO functionality--onClick these functions will be invoked.
@@ -655,6 +738,88 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   </FormControl>
                 </div>
               </div>
+              {/* ------------------------------------------- added new code------------------------------------------- */}
+              <div>
+                <FormSelector
+                  classes={classes}
+                  isThemeLight={isThemeLight}
+                  selectValue={eventAll[0]}
+                  handleChange={handleChange}
+                  title="Event:"
+                  name="event"
+                  items={[
+                    { value: '', text: 'default' },
+                    { value: 'onClick', text: 'onClick' },
+                    { value: 'onChange', text: 'onChange' },
+                    { value: 'onMouseOver', text: 'onMouseOver' },
+                    { value: 'onKeyDown', text: 'onKeyDown' }
+                  ]}
+                  />
+                </div>
+                { eventAll[0] && (<div className={classes.configRow}>
+                  <div
+                    className={
+                      isThemeLight
+                        ? `${classes.configType} ${classes.lightThemeFontColor}`
+                        : `${classes.configType} ${classes.darkThemeFontColor}`
+                    }
+                  >
+                    <h3>Function Name:</h3>
+                  </div>
+                  <FormControl variant="filled">
+                    <TextField
+                      variant="filled"
+                      name="funcName"
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={eventAll[1]}
+                      onChange={handleChange}
+                      placeholder="Function Name"
+                    />
+                  </FormControl>
+                </div> )}
+                { Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+                  <DataGrid
+                    rows={eventRow}
+                    columns={eventColumnTabs}
+                    // pageSize={5}
+                    // editRowsModel={editRowsModel}
+                    // className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+                  />
+                </div>)}
+                {/* <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
+                  <Table
+                    sx={{ width: '510px' }}
+                    aria-label="customized table"
+                    stickyHeader
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="center" colSpan={3}>
+                          Added Event
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <StyledTableRow>
+                        <StyledTableCell component="th" scope="row"><b>Event</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>FuncName</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>X</b></StyledTableCell>
+                      </StyledTableRow>
+                      {currComponentState ? currComponentState.map((data, index) => (
+                        <StyledTableRow key={index}>
+                          <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
+                          <StyledTableCell align="right">{data.type}</StyledTableCell>
+                          <StyledTableCell align="right">{data.value}</StyledTableCell>
+                        </StyledTableRow>
+                      )) : ''}
+                    </TableBody>
+                  </Table>
+                </TableContainer> */}
+            {/* ------------------------------------------- added from above -------------------------------------------*/}
             </div>
             <div>
               <div className={classes.buttonRow}>
