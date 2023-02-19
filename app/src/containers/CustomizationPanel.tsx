@@ -6,9 +6,11 @@ import React, {
   useCallback
 } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import ClearIcon from '@material-ui/icons/Clear';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -48,9 +50,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
   // ------------------------------------------- added code below -------------------------------------------
-  // const [event, setEvent] = useState('');
-  // const [funcName, setFuncName] = useState('');
   const [eventAll, setEventAll] = useState(['', '']);
+  const [eventRow, setEventRow] = useState([]);
   // ------------------------------------------- added code above -------------------------------------------
 
   const currFocus = state.components
@@ -60,9 +61,16 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     .children.find((el) => {
       return el.childId === state.canvasFocus.childId;
     });
-
+  console.log(currFocus);
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+    if (currFocus) {
+      const addedEvent: [] = [];
+      for (const [event, funcName] of Object.entries(currFocus?.events)){
+        addedEvent.push({ id: event , funcName })
+      }
+      setEventRow(addedEvent);
+    }
     console.log(state);
   }, [state]);
 
@@ -259,6 +267,47 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     }
   }
 
+  const eventColumnTabs = [
+    {
+      field: 'id',
+      headerName: 'Event',
+      width: '40%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'funcName',
+      headerName: 'Function Name',
+      width: '40%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete Event',
+      width: '20%',
+      editable: false,
+      flex: 1,
+      disableColumnMenu: true,
+      disableColumnFilter: true,
+      renderCell: function renderCell(params: any) {
+        return (
+          <Button
+            style={{ width: `${3}px` }}
+            onClick={() => {
+              // deleteState(params.id);
+            }}
+          >
+            <ClearIcon style={{ width: `${15}px` }} />
+          </Button>
+        );
+      }
+    }
+  ];
+
+
   const handleSave = (): Object => {
     //  ------------------------------------------- change code below  -------------------------------------------
     const actions: object[] = [];
@@ -305,8 +354,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: { events: eventsObj }
     });
     setEventAll(['', ''])
-    // setEvent('');
-    // setFuncName('');
     //  ------------------------------------------- change code above  -------------------------------------------
     return styleObj;
   };
@@ -734,6 +781,44 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     />
                   </FormControl>
                 </div> )}
+                { Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+                  <DataGrid
+                    rows={eventRow}
+                    columns={eventColumnTabs}
+                    // pageSize={5}
+                    // editRowsModel={editRowsModel}
+                    // className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+                  />
+                </div>)}
+                {/* <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
+                  <Table
+                    sx={{ width: '510px' }}
+                    aria-label="customized table"
+                    stickyHeader
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="center" colSpan={3}>
+                          Added Event
+                        </StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <StyledTableRow>
+                        <StyledTableCell component="th" scope="row"><b>Event</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>FuncName</b></StyledTableCell>
+                        <StyledTableCell align="right"><b>X</b></StyledTableCell>
+                      </StyledTableRow>
+                      {currComponentState ? currComponentState.map((data, index) => (
+                        <StyledTableRow key={index}>
+                          <StyledTableCell component="th" scope="row">{data.key}</StyledTableCell>
+                          <StyledTableCell align="right">{data.type}</StyledTableCell>
+                          <StyledTableCell align="right">{data.value}</StyledTableCell>
+                        </StyledTableRow>
+                      )) : ''}
+                    </TableBody>
+                  </Table>
+                </TableContainer> */}
             {/* ------------------------------------------- added from above -------------------------------------------*/}
             </div>
             <div>
