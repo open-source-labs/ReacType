@@ -117,7 +117,7 @@ function Canvas(props): JSX.Element {
           //loop over each componenets child
           for (let j = 0; j < comp.children.length; j++) {
             const child = comp.children[j];
-            if (child.name === 'seperator') continue;
+            if (child.name === 'separator') continue;
             // check if the item.instanceTypeId matches and child ID
             if (item.instanceTypeId === child.typeId) {
               // check if the name of the parent matches the canvas focus name
@@ -137,7 +137,7 @@ function Canvas(props): JSX.Element {
             }
           }
         }
-        if (!hasDiffParent) {
+        // if (!hasDiffParent) {
           dispatch({
             type: 'ADD CHILD',
             payload: {
@@ -146,8 +146,8 @@ function Canvas(props): JSX.Element {
               childId: null
             }
           });
-        } else {
-
+        // } else {
+        //   alert('something is wrong');
           // able to duplicate a component in dev only does not work for prod
           // create a new component
 
@@ -165,7 +165,7 @@ function Canvas(props): JSX.Element {
           //   setNewComp(!newComp)
           // }
 
-        }
+        // }
 
       }
     },

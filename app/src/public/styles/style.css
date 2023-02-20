@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0');
 
 html {
   box-sizing: border-box;
@@ -98,27 +98,43 @@ LEFT COLUMN
   position: relative;
 }
 
-.left {
-  padding: 10px 10px 10px 0px;
+.left-container {
   display: flex;
-  /* width: 225px;
-  min-width: 225px; */
+}
+
+.left-indicator {
+  height: 50%;
+  width: 20px;
+  background-color: silver;
+  writing-mode: vertical-lr;
+  text-align: center;
+  border-radius: 0 10px 10px 0;
+  align-self: center;
+}
+
+.left {
+  padding: 0px;
+  display: flex;
+  height: 100%;
+  width: 235px;
+  min-width: 225px;
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
 }
+
 .hide-show {
-  opacity: 0;
-  width: 0;
-  transition: opacity 0.5s linear, width 0.5s ease-in-out;
   position: absolute;
   height: 100%;
+  left: -237px;
+  /* opacity: 0; */
+  transition: all 0.5s ease-in-out;
 }
+
 .hide-show:hover {
-  opacity: 1;
-  width: 225px;
-  min-width: 225px;
+  /* opacity: 1; */
+  left: 0px;
   z-index: 289;
 }
 
@@ -469,6 +485,14 @@ BOTTOM PANEL
   background-color: 252526;
 }
 
+.event-table {
+  height: 300px;
+  width: 410px;
+  flex-grow: 1;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 20px;
+}
 
 /*
 //////////////////////////////////////////
