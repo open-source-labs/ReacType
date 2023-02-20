@@ -38,6 +38,7 @@ const CodePreview: React.FC<{
 
   const [state] = useContext(StateContext);
   const [, setDivHeight] = useState(0);
+  const compontents = state.components;
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -58,7 +59,7 @@ const CodePreview: React.FC<{
       type: 'CODE_PREVIEW_INPUT',
       payload: currentComponent.code
     });
-  }, [currentComponent]);
+  }, [currentComponent, compontents]); // Lillian added another dependency here to utilize useEffect
 
   /**
    * Handler thats listens to changes in code editor
