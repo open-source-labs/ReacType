@@ -139,13 +139,8 @@ const generateUnformattedCode = (
     }
 
     if (childElement.childId && childElement.tag !== 'Route')
-<<<<<<< HEAD
       customizationDetails += ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
     
-=======
-      customizationDetails +=
-        ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
->>>>>>> dev
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -406,7 +401,7 @@ const generateUnformattedCode = (
             for (const [event, funcName] of Object.entries(child.events)) {
               importStr += `\tconst ${funcName} = () => {};\n`;
             }
-          }
+          } else return importStr;
         }
       });
 
