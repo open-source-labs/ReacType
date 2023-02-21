@@ -62,20 +62,41 @@ function DirectChildHTML({
         : '1px solid grey'
   };
 
+  // if (state.components[0].children)
+  // console.log(globalDefaultStyle);
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
 
+  // state.components.forEach(component => {
+  //   // console.log('state.components : ', state.components)
+  //     let color = 'rgb(63, 154,';
+  //     let counter = -10;
+  //     component.children?.forEach(obj => {
+  //     // if (obj['childId'] === childId) {
+  //       counter += 10;
+  //       color = color + counter.toString() + ')'
+  //       combinedStyle['backgroundColor'] = color;
+  //     // } else {
+  //     //   combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+  //     // }
+  //   })
+  // });
+
+console.log(name[0].toLowerCase() + name.slice(1))
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
-    <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>      
-    <Annotation
-      id={childId}
-      name={name}
-      annotations={annotations}
-    />
+      <span>
+        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort + ' nonNestable'}</strong>      
+        <Annotation
+          id={childId}
+          name={name[0].toLowerCase() + name.slice(1)}
+          annotations={annotations}
+        />
+      </span>  
     </div>
   );
 }

@@ -13,6 +13,7 @@ import StateContext from '../context/context';
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
+
   return children.map((child: ChildElement, i: number) => {
     const { type, style, childId, children, attributes, name, annotations} = child;
     let {typeId} = child;
@@ -33,8 +34,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // ommitted orderedlists, unorderedlists, and menus, ommitted li items as non-nestable types because they can be nested within.
-    // child is a non-nestable type of HTML element (everything except for divs and forms)
+    // child is a non-nestable type of HTML element (aka NOT divs, forms, OrderedLists, UnorderedLists, menus)
     else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16 && typeId !== 17 && typeId !== 18 && typeId !== -1 && typeId !== 19) {
       return (
         <DirectChildHTML
@@ -47,8 +47,7 @@ const renderChildren = (children: ChildElement[]) => {
         />
       );
     }
-    // Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
-    // child is a nestable type of HTML element (divs and forms)
+    // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
     else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16 || typeId === 17 || typeId === 18 || typeId === -1 || typeId === 19)) {
       if((typeId === 18 || typeId === 19) && state.projectType === 'Classic React') typeId = 18;
       if((typeId === 17 || typeId === -1) && state.projectType === 'Next.js') return renderChildren(children);
