@@ -136,7 +136,8 @@ const generateUnformattedCode = (
     }
 
     if (childElement.childId && childElement.tag !== 'Route')
-      customizationDetails += ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
+      customizationDetails += ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
+    
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -145,6 +146,7 @@ const generateUnformattedCode = (
       customizationDetails += ' ' + formatStyles(childElement);
 
     if (childElement.events && Object.keys(childElement.events).length > 0) {
+      // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
       for (const [event, funcName] of Object.entries(childElement.events)) {
         customizationDetails += ' ' + `${event}={(event) => ${funcName}()}`;
       }

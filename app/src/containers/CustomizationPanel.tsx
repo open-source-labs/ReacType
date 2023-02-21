@@ -58,10 +58,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     .find((el) => {
       return el.id === state.canvasFocus.componentId;
     })
+    // if (state.componets.children)
     .children.find((el) => {
       return el.childId === state.canvasFocus.childId;
     });
-  console.log(currFocus);
+  console.log('currFocus: ', currFocus);
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
     if (currFocus) {
@@ -781,7 +782,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     />
                   </FormControl>
                 </div> )}
-                { Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+                {currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
                   <DataGrid
                     rows={eventRow}
                     columns={eventColumnTabs}
