@@ -54,14 +54,14 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [eventRow, setEventRow] = useState([]);
   // ------------------------------------------- added code above -------------------------------------------
 
-  const currFocus = state.components
-    .find((el) => {
-      return el.id === state.canvasFocus.componentId;
-    })
-    .children.find((el) => {
-      return el.childId === state.canvasFocus.childId;
-    });
-  console.log(currFocus);
+  const currFocus = getFocus().child;
+  // state.components
+  //   .find((el) => {
+  //     return el.id === state.canvasFocus.componentId;
+  //   })
+  //   .children.find((el) => {
+  //     return el.childId === state.canvasFocus.childId;
+  //   });
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
     if (currFocus) {
@@ -71,7 +71,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       }
       setEventRow(addedEvent);
     }
-    console.log(state);
   }, [state]);
 
   //this function allows properties to persist and appear in nested divs
@@ -109,7 +108,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     setCompHeight(style.height ? style.height : '');
     setBGColor(style.backgroundColor ? style.backgroundColor : '');
     setEventAll(['', '']);
-    // setFuncName('');
   };
   let configTarget;
   // after component renders, reset the input fields with the current styles of the selected child
@@ -153,7 +151,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         // ------------------------------------------- added code below -------------------------------------------
       case 'event':
         setEventAll(inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']);
-        // setFuncName(currFocus.events[inputVal] ? currFocus.events[inputVal] : `handle${event.slice(2)}`);
         break;
       case 'funcName':
         setEventAll([eventAll[0], inputVal]);
@@ -165,7 +162,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   };
   // returns the current component referenced in canvasFocus
   // along with its child instance, if it exists
-  const getFocus = () => {
+  function getFocus() {
     // find and store component's name based on canvasFocus.componentId
     // note: deep clone here to make sure we don't end up altering state
     const focusTarget = JSON.parse(
@@ -189,24 +186,26 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         if (currentChild.childId === childInstanceId) {
           focusChild = currentChild;
           focusTarget.child.style = focusChild.style;
+          focusTarget.child.events = focusChild.events;
+          focusTarget.child.attributes = focusChild.attributes;
           break;
         }
         if (currentChild.name !== 'input' && currentChild.name !== 'img')
           currentChild.children.forEach(child => searchArray.push(child));
       }
-
+      
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-          comp => comp.id === focusChild.typeId
-        ).name;
-        // if type is HTML Element, search through HTML types to find matching element's name
+            comp => comp.id === focusChild.typeId
+          ).name;
+          // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-          elem => elem.id === focusChild.typeId
-        ).name;
+            elem => elem.id === focusChild.typeId
+          ).name;
       }
     }
     return focusTarget;
@@ -279,23 +278,23 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     {
       field: 'funcName',
       headerName: 'Function Name',
-      width: '40%',
+      width: '50%',
       editable: false,
       flex: 1,
       disableColumnMenu: true,
     },
     {
       field: 'delete',
-      headerName: 'Delete Event',
-      width: '20%',
+      headerName: 'Delete',
+      width: '10%',
       editable: false,
       flex: 1,
+      sortable: false,
       disableColumnMenu: true,
-      disableColumnFilter: true,
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px` }}
+            style={{ width: `${3}px`, color: 'black' }}
             onClick={() => {
               // deleteState(params.id);
             }}
@@ -781,11 +780,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     />
                   </FormControl>
                 </div> )}
-                { Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+                { currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
                   <DataGrid
                     rows={eventRow}
                     columns={eventColumnTabs}
-                    // pageSize={5}
+                    pageSize={5}
                     // editRowsModel={editRowsModel}
                     // className={props.isThemeLight ? classes.themeLight : classes.themeDark}
                   />
