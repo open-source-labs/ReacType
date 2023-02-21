@@ -24,6 +24,8 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
       .name;
     combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
   }
+
+
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}

@@ -50,8 +50,8 @@ function Annotation({ id, name, annotations }: Annotations) {
         }
       }
     }
-    console.log(arrIndex);
-    console.log('arrOfAllChildIDs: ', arrOfAllChildIDs);
+    // console.log(arrIndex);
+    // console.log('arrOfAllChildIDs: ', arrOfAllChildIDs);
   };
   // ---------------------------------------------- NEW CODE for DELETE BUTTONS (end) ---------------------------------------
 

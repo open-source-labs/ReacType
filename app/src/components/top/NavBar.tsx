@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%'
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
       color: 'white'
     },
     title: {
@@ -188,12 +188,13 @@ const NavBar = (props) => {
           {/* ==================================Dashboard Button================================================== */}
           {state.isLoggedIn ? (
             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-              <Button
+              <Button 
                 variant="contained"
                 color="secondary"
                 style={{ minWidth: '137.69px' }}
                 className="navbarButton"
                 endIcon={<DashboardIcon />}
+                id="navbarButton"
               >
                 Dashboard
               </Button>
@@ -257,16 +258,17 @@ const NavBar = (props) => {
             onClose={handleClose}
           >
             <StyledMenuItem
+              id="navbarButton"
               className={classes.manageProject}
               onClick={handleClose}
             >
-              <SaveProjectButton />
+              <SaveProjectButton/>
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
             >
-              <ProjectsFolder />
+              <ProjectsFolder/>
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}
