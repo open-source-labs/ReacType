@@ -407,27 +407,23 @@ const generateUnformattedCode = (
       return importStr;
     };
     //  ------------------------------------------- added code above  -------------------------------------------
-    let result =
-      "import React, { useState, useEffect, useContext} from 'react';\n\n";
-    result += currComponent.name === 'APP' ? contextImports : '';
-    result += importReactRouter
-      ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
-      : ``;
-    result += createContextImport() ? `${createContextImport()}\n` : '';
-    result += importsMapped ? `${importsMapped}\n` : '';
-    result += `const ${currComponent.name} = (props) => {\n`;
-    result += writeStateProps(currComponent.useStateCodes)
-      ? `\t${writeStateProps(currComponent.useStateCodes)}\n`
-      : '';
-    result += createEventHandler() ? `${createEventHandler()}\n` : '';
-    result += `
+    let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
+    generatedCode += currComponent.name === 'APP' ? contextImports : '';
+    generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``;
+    generatedCode += createContextImport() ? `${createContextImport()}\n`: '';
+    generatedCode += importsMapped ? `${importsMapped}\n` : '';
+    // below is the return statement of the codepreview
+    generatedCode += `const ${currComponent.name} = (props) => {\n`;
+    generatedCode += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
+    generatedCode += createEventHandler() ? `${createEventHandler()}\n` : '';
+    generatedCode += `
   return(
     <>
       ${createRender()}
     </>
-  );`;
-    result += `\n}`;
-    return result;
+  );`
+    generatedCode += `\n}`;
+    return generatedCode;
     // return `${`import React, { useState, useEffect, useContext} from 'react';`}
     // ${currComponent.name === 'App' ? contextImports : ''}
     // ${

@@ -251,7 +251,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
         </FormControl>
       </div>
        <br />
-      <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
+      <div style={{display: 'flex', overflowX: 'scroll'}}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
             Current Component State: {state.components[state.canvasFocus.componentId - 1].name}

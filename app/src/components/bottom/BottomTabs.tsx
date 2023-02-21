@@ -52,7 +52,7 @@ const BottomTabs = (props): JSX.Element => {
       style={{ backgroundColor: '#003366' }}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
-        <Tabs value={tab} onChange={handleChange} classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}>
+        <Tabs value={tab} onChange={handleChange} classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }} variant="scrollable" scrollButtons="auto" >
           <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Creation Panel" />
           <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Customization" />
           <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="CSS Editor" />
@@ -110,7 +110,8 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'initial',
     minWidth: 40,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
+    marginRight: theme.spacing(2), // JZ: updated syntax as per deprecation warning
+    marginLeft: theme.spacing(2),
 
     fontFamily: [
       '-apple-system',
@@ -149,7 +150,8 @@ const useStyles = makeStyles(theme => ({
   },
   projectTypeWrapper: {
     marginTop: '10px',
-    marginBotton: '10px'
+    marginBotton: '10px',
+    marginLeft: '10px',
   },
   projectSelector: {
     backgroundColor: '#0099E6',

@@ -3,7 +3,7 @@ import { Annotations } from '../../interfaces/Interfaces';
 import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 
-function Annotation({ id, name, annotations }: Annotations) {
+function Annotation({ id, name }: Annotations) {
   const [state, dispatch] = useContext(StateContext);
 
   // -------------------------------- NEW CODE for DELETE BUTTONS, REPLACING ANNOTATIONS ---------------------------------------
@@ -20,7 +20,11 @@ function Annotation({ id, name, annotations }: Annotations) {
       <button
         className="annotate-button-empty" // NOTE:  This className no longer accurate --> to update to delete button, same w/ Annotation export throughout
         id={'btn' + id}
-        onClick={() => deleteHTMLtype(id)}
+        onClick={(event) => {
+          event.stopPropagation();
+          deleteHTMLtype(id);
+        }}
+        // ref={ref}
       >
         x
       </button>
