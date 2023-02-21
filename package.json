@@ -1,11 +1,15 @@
 {
   "name": "reactype",
-  "version": "13.0.0",
+  "version": "14.0.0",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Brett Webster",
+    "Lillian Wimberly",
+    "Shirley Liu",
+    "Xiao Wang",
     "Ahsan Rao",
     "Benjamin Cauffman",
     "Carly Jackson",

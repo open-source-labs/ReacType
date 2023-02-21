@@ -6,16 +6,16 @@
 
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/enAcYvB.png">
-</p>
- -->
+</p> -->
+
 <div align="left">
-  
+
 [![StarShield][stars]][stars-url]
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 13.0.0](https://img.shields.io/badge/version-13.0.0-orange)
-  
+![Version: 14.0.0](https://img.shields.io/badge/version-14.0.0-orange)
+
 </div>
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/FPizsat.png">
@@ -41,7 +41,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 ### Documentation
 
-If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now. 
+If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now.
 
 ### Installing
 
