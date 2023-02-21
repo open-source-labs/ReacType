@@ -28,7 +28,7 @@ export interface ChildElement {
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
   annotations?: string;
   stateUsed?: object;
-  passedInProps: StateProp[]
+  passedInProps: StateProp[];
 }
 
 export interface Component {
@@ -60,7 +60,7 @@ export interface Action {
   payload: any;
 }
 
-export interface Payload { }
+export interface Payload {}
 export interface Reduce {
   state: Context;
   action: Action;
@@ -92,6 +92,7 @@ export interface DragItemType {
 export interface LoginInt {
   isLoggedIn: boolean;
 }
+// Annotations TO BE REMOVED
 export interface Annotations {
   id: number;
   name: string;
