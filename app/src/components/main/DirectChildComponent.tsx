@@ -72,7 +72,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
         <Annotation
             id={childId}
             name={name}
-            annotations={annotations}
+            // annotations={annotations}
             />
       
     </div>

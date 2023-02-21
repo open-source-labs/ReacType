@@ -36,7 +36,7 @@ export interface Component {
   name: string;
   style: object;
   attributes?: object;
-  events?: object;
+  events: object;
   code: string;
   children: ChildElement[];
   isPage: boolean;
@@ -95,7 +95,7 @@ export interface LoginInt {
 export interface Annotations {
   id: number;
   name: string;
-  annotations: string;
+  annotations?: string;
 }
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;

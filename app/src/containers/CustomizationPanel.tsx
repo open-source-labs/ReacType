@@ -53,7 +53,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [eventAll, setEventAll] = useState(['', '']);
   const [eventRow, setEventRow] = useState([]);
   // ------------------------------------------- added code above -------------------------------------------
-
   const currFocus = getFocus().child;
   // state.components
   //   .find((el) => {
@@ -64,6 +63,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   //   });
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+    setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: [] = [];
       for (const [event, funcName] of Object.entries(currFocus?.events)){
@@ -296,7 +296,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           <Button
             style={{ width: `${3}px`, color: 'black' }}
             onClick={() => {
-              // deleteState(params.id);
+              deleteEvent(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -306,53 +306,54 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     }
   ];
 
+  const deleteEvent = selectedEvent => {
+    dispatch({
+      type: 'DELETE EVENT',
+      payload: { event: selectedEvent }
+    });
+  };
+
 
   const handleSave = (): Object => {
     //  ------------------------------------------- change code below  -------------------------------------------
-    const actions: object[] = [];
+    dispatch({
+      type: 'UPDATE STATE USED',
+      payload: {stateUsedObj: stateUsedObj}
+    })
+
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
 
     const styleObj: any = {};
-    let updateCSS: boolean = false;
-    if (displayMode !== '') {
-      updateCSS = true;
-      styleObj.display = displayMode;
-    }
+    if (displayMode !== '') styleObj.display = displayMode;
     if (flexDir !== '') styleObj.flexDirection = flexDir;
     if (flexJustify !== '') styleObj.justifyContent = flexJustify;
     if (flexAlign !== '') styleObj.alignItems = flexAlign;
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
+    dispatch({
+      type: 'UPDATE CSS',
+      payload: { style: styleObj }
+    });
 
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-
-    const eventsObj: any = {};
-    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-
-    dispatch({
-      type: 'UPDATE STATE USED',
-      payload: {stateUsedObj: stateUsedObj}
-    })
-    dispatch({
-      type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj}
-    })
-    dispatch({
-      type: 'UPDATE CSS',
-      payload: { style: styleObj }
-    });
     dispatch({
       type: 'UPDATE ATTRIBUTES',
       payload: { attributes: attributesObj }
     });
+
+    const eventsObj: any = {};
+    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
     dispatch({
       type: 'UPDATE EVENTS',
       payload: { events: eventsObj }
     });
-    setEventAll(['', ''])
     //  ------------------------------------------- change code above  -------------------------------------------
     return styleObj;
   };

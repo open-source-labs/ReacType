@@ -3,7 +3,7 @@ import { Annotations } from '../../interfaces/Interfaces';
 import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 
-function Annotation({ id, name, annotations }: Annotations) {
+function Annotation({ id, name }: Annotations) {
   const [state, dispatch] = useContext(StateContext);
   // const [annotation, setAnnotations] = useState(annotations);
   // React hook setting the annotation button modal open/close state
@@ -141,7 +141,10 @@ function Annotation({ id, name, annotations }: Annotations) {
       <button
         className="annotate-button-empty" // NOTE:  This class name no longer accurate
         id={'btn' + id}
-        onClick={() => deleteHTMLtype(id)}
+        onClick={(event) => {
+          event.stopPropagation();
+          deleteHTMLtype(id);
+        }}
         // ref={ref}
       >
         x

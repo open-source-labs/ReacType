@@ -173,12 +173,11 @@ const NavBar = (props) => {
           >
             ReacType
           </Typography>
-          <Link to="/tutorial" style={{ textDecoration: 'none' }}>
+          <Link to="/tutorial" style={{ textDecoration: 'none' }} target='_blank'>
           <Button
             variant="contained"
             color="secondary"
             style={{ minWidth: '137.69px' }}
-            onClick={clearWorkspace}
             className="navbarButton"
             id="navbarButton"
           >
