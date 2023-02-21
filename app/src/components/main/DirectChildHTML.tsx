@@ -1,14 +1,11 @@
-import React, {  useContext } from 'react';
-import {
-  ChildElement,
-  HTMLType
-} from '../../interfaces/Interfaces';
+import React, { useContext } from 'react';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import Annotation from './Annotation'
+import Annotation from './Annotation';
 
 import { styleContext } from '../../containers/AppContainer';
 
@@ -18,7 +15,7 @@ function DirectChildHTML({
   type,
   typeId,
   style,
-  annotations,
+  annotations
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
@@ -36,7 +33,7 @@ function DirectChildHTML({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
@@ -85,18 +82,25 @@ function DirectChildHTML({
   //   })
   // });
 
-console.log(name[0].toLowerCase() + name.slice(1))
+  // console.log(name[0].toLowerCase() + name.slice(1))
 
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
+    <div
+      onClick={onClickHandler}
+      style={combinedStyle}
+      ref={drag}
+      id={`canv${childId}`}
+    >
       <span>
-        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort + ' nonNestable'}</strong>      
+        <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
+          {HTMLType.placeHolderShort + ' nonNestable'}
+        </strong>
         <Annotation
           id={childId}
           name={name[0].toLowerCase() + name.slice(1)}
           annotations={annotations}
         />
-      </span>  
+      </span>
     </div>
   );
 }

@@ -65,8 +65,8 @@ const CodePreview: React.FC<{
    * Handler thats listens to changes in code editor
    * @param {string} data - Code entered by the user
    */
-  const handleChange = async data => {
-    console.log('changed');
+  const handleChange = async (data) => {
+    // console.log('changed');
     setInput(data);
     store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
     if (!ref.current) {

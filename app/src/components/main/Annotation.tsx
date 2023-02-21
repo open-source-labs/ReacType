@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 
 function Annotation({ id, name, annotations }: Annotations) {
-  const [state] = useContext(StateContext);
+  const [state, dispatch] = useContext(StateContext);
   // const [annotation, setAnnotations] = useState(annotations);
   // React hook setting the annotation button modal open/close state
   // const [open, setOpen] = React.useState(false);
@@ -16,40 +16,42 @@ function Annotation({ id, name, annotations }: Annotations) {
 
   // ---------------------------------------------- NEW CODE for DELETE BUTTONS (start) ---------------------------------------
   const deleteHTMLtype = (id: number) => {
-    console.log(id, childrenArray);
-    let arrIndex: number = -1;
+    dispatch({
+      type: 'DELETE CHILD',
+      payload: { id }
+    });
 
-    let arrOfAllChildIDs: number[] = [];
-    recurseAllChildren(childrenArray);
-
-    function recurseAllChildren(childArray) {
-      // console.log('Full Array: ', childArray, arrOfAllChildIDs);
-      for (let index in childArray) {
-        // console.log(index);
-
-        if (childArray[index].children.length) {
-          // console.log('In Recurse - non-endpoint: ', childArray[index].childId);
-          arrOfAllChildIDs.push(childArray[index].childId); // Use this only to pull all non-endpoint childIds, document out breaks
-          if (childArray[index].childId === id) {
-            arrIndex = Number(index);
-            // Remove BOTH element & preceding separator spacing objects from array if NOT nested
-            childArray.splice(arrIndex - 1, 2);
-            break;
-          }
-          recurseAllChildren(childArray[index].children);
-        } else if (childArray[index].childId < 1000)
-          // FILTER OUT separators...
-          // console.log('In Recurse - endpoint: ', childArray[index].childId);
-          arrOfAllChildIDs.push(childArray[index].childId); // Use this only to pull all endpoint childIds, document out breaks
-        if (childArray[index].childId === id) {
-          arrIndex = Number(index);
-          // Remove BOTH element & preceding separator spacing objects from array if NOT nested
-          childArray.splice(arrIndex - 1, 2);
-          // console.log(index, arrIndex, 'ultimate', childArray[index]);
-          break;
-        }
-      }
-    }
+    // console.log(id, childrenArray);
+    // let arrIndex: number = -1;
+    // let arrOfAllChildIDs: number[] = [];
+    // recurseAllChildren(childrenArray);
+    // function recurseAllChildren(childArray) {
+    //   // console.log('Full Array: ', childArray, arrOfAllChildIDs);
+    //   for (let index in childArray) {
+    //     // console.log(index);
+    //     if (childArray[index].children.length) {
+    //       // console.log('In Recurse - non-endpoint: ', childArray[index].childId);
+    //       arrOfAllChildIDs.push(childArray[index].childId); // Use this only to pull all non-endpoint childIds, document out breaks
+    //       if (childArray[index].childId === id) {
+    //         arrIndex = Number(index);
+    //         // Remove BOTH element & preceding separator spacing objects from array if NOT nested
+    //         childArray.splice(arrIndex - 1, 2);
+    //         break;
+    //       }
+    //       recurseAllChildren(childArray[index].children);
+    //     } else if (childArray[index].childId < 1000)
+    //       // FILTER OUT separators...
+    //       // console.log('In Recurse - endpoint: ', childArray[index].childId);
+    //       arrOfAllChildIDs.push(childArray[index].childId); // Use this only to pull all endpoint childIds, document out breaks
+    //     if (childArray[index].childId === id) {
+    //       arrIndex = Number(index);
+    //       // Remove BOTH element & preceding separator spacing objects from array if NOT nested
+    //       childArray.splice(arrIndex - 1, 2);
+    //       // console.log(index, arrIndex, 'ultimate', childArray[index]);
+    //       break;
+    //     }
+    //   }
+    // }
     // console.log(arrIndex);
     // console.log('arrOfAllChildIDs: ', arrOfAllChildIDs);
   };

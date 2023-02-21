@@ -37,10 +37,10 @@ const generateUnformattedCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[]
-  ) => {
+) => {
   const components = [...comps];
   // find the component that we're going to generate code for
-  const currComponent = components.find(elem => elem.id === componentId);
+  const currComponent = components.find((elem) => elem.id === componentId);
   // find the unique components that we need to import into this component file
   let imports: any = [];
   let providers: string = '';
@@ -59,7 +59,7 @@ const generateUnformattedCode = (
       if (child.type === 'Component') {
         // verify that the child is in the components array in state
         const referencedComponent = components.find(
-          elem => elem.id === child.typeId
+          (elem) => elem.id === child.typeId
         );
         // check if imports array include the referenced component, if not, add its name to the imports array (e.g. the name/tag of the component/element)
         if (!imports.includes(referencedComponent.name))
@@ -67,8 +67,10 @@ const generateUnformattedCode = (
         child['name'] = referencedComponent.name;
         return child;
       } else if (child.type === 'HTML Element') {
-        const referencedHTML = HTMLTypes.find(elem => elem.id === child.typeId);
-        console.log('html',child);
+        const referencedHTML = HTMLTypes.find(
+          (elem) => elem.id === child.typeId
+        );
+        // console.log('html',child);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
@@ -131,13 +133,19 @@ const generateUnformattedCode = (
           childComponent = components[i];
         }
       }
-      childComponent.passedInProps.forEach(prop => {passedInPropsString += `${prop.key} = {${prop.key}} `
-      })
+      childComponent.passedInProps.forEach((prop) => {
+        passedInPropsString += `${prop.key} = {${prop.key}} `;
+      });
     }
 
     if (childElement.childId && childElement.tag !== 'Route')
+<<<<<<< HEAD
       customizationDetails += ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
     
+=======
+      customizationDetails +=
+        ' ' + `id = "${+childElement.childId}" ` + `${passedInPropsString}`;
+>>>>>>> dev
     if (childElement.attributes && childElement.attributes.cssClasses) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
@@ -285,13 +293,13 @@ const generateUnformattedCode = (
           } else return `<div><a>${child.name}</a></div>`;
         }
       })
-      .filter(element => !!element)
+      .filter((element) => !!element)
       .join('')}`;
   };
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
-    console.log('currComponent: ', currComponent);
-    console.log('StateArray: ', stateArray)
+    // console.log('currComponent: ', currComponent);
+    // console.log('StateArray: ', stateArray)
     let stateToRender = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
@@ -314,9 +322,9 @@ const generateUnformattedCode = (
             return `import ${comp} from './${comp}'`;
           })
           .join('\n');
-  const createState = stateProps => {
+  const createState = (stateProps) => {
     let state = '{';
-    stateProps.forEach(ele => {
+    stateProps.forEach((ele) => {
       state += ele.key + ':' + JSON.stringify(ele.value) + ', ';
     });
     state = state.substring(0, state.length - 2) + '}';
@@ -350,15 +358,15 @@ const generateUnformattedCode = (
 
       if (currComponent.name === 'App') {
         allContext.reverse().forEach((el, i) => {
-        let tabs = `\t\t`;
-        if (i === allContext.length - 1) {
-          tabs = `\t\t\t`;
-        }
-        result = `${tabs.repeat(allContext.length - i)}<${
-          el.name
-        }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-          el.name
-        }Provider>`;
+          let tabs = `\t\t`;
+          if (i === allContext.length - 1) {
+            tabs = `\t\t\t`;
+          }
+          result = `${tabs.repeat(allContext.length - i)}<${
+            el.name
+          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
+            el.name
+          }Provider>`;
         });
       }
       return result;
@@ -369,7 +377,7 @@ const generateUnformattedCode = (
       if (!(currComponent.name in componentContext)) return '';
 
       let importStr = '';
-      componentContext[currComponent.name].forEach(context => {
+      componentContext[currComponent.name].forEach((context) => {
         importStr += `import { ${context} } from '../contexts/${context}.js'\n`;
       });
 
@@ -382,7 +390,7 @@ const generateUnformattedCode = (
       if (!(currComponent.name in componentContext)) return '';
 
       let importStr = '';
-      componentContext[currComponent.name].forEach(context => {
+      componentContext[currComponent.name].forEach((context) => {
         importStr += `  const [${context}Val] = useContext(${context})\n`;
       });
 
@@ -396,29 +404,34 @@ const generateUnformattedCode = (
         if (child.type === 'HTML Element') {
           if (child.events) {
             for (const [event, funcName] of Object.entries(child.events)) {
-              importStr += `\tconst ${funcName} = () => {};\n`
+              importStr += `\tconst ${funcName} = () => {};\n`;
             }
           }
         }
-      })
+      });
 
       return importStr;
     };
     //  ------------------------------------------- added code above  -------------------------------------------
-    let result = "import React, { useState, useEffect, useContext} from 'react';\n\n";
+    let result =
+      "import React, { useState, useEffect, useContext} from 'react';\n\n";
     result += currComponent.name === 'APP' ? contextImports : '';
-    result += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``;
-    result += createContextImport() ? `${createContextImport()}\n`: '';
+    result += importReactRouter
+      ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
+      : ``;
+    result += createContextImport() ? `${createContextImport()}\n` : '';
     result += importsMapped ? `${importsMapped}\n` : '';
     result += `const ${currComponent.name} = (props) => {\n`;
-    result += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
+    result += writeStateProps(currComponent.useStateCodes)
+      ? `\t${writeStateProps(currComponent.useStateCodes)}\n`
+      : '';
     result += createEventHandler() ? `${createEventHandler()}\n` : '';
     result += `
   return(
     <>
       ${createRender()}
     </>
-  );`
+  );`;
     result += `\n}`;
     return result;
     // return `${`import React, { useState, useEffect, useContext} from 'react';`}
@@ -436,7 +449,6 @@ const generateUnformattedCode = (
     // //  ------------------------------------------- added code below  -------------------------------------------
     // ${createEventHandler()}
     // //  ------------------------------------------- added code above  -------------------------------------------
-
 
     //   return(
     //     <>
@@ -457,8 +469,9 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
 
-    const ${currComponent.name[0].toUpperCase() +
-      currComponent.name.slice(1)} = (props): JSX.Element => {
+    const ${
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    } = (props): JSX.Element => {
       return (
           <>
       ${
@@ -473,8 +486,9 @@ const generateUnformattedCode = (
           </>
       );
     }
-    export default ${currComponent.name[0].toUpperCase() +
-      currComponent.name.slice(1)};
+    export default ${
+      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+    };
     `;
   } else {
     // gatsby component code
