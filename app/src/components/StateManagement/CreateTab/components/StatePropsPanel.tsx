@@ -4,14 +4,14 @@ import {
   styled,
   Theme
 } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import {
   FormControl,
   FormHelperText,
   MenuItem,
   InputLabel,
   Select,
-  TextField
+  TextField,
+  Button
 } from "@material-ui/core";
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
@@ -239,19 +239,21 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
             </FormHelperText>
           </FormControl>
           <br />
-          <MyButton
-          type="submit"
-          onClick={submitNewState}
-          className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+          <Button
+            variant='contained'
+            color='primary'
+            type="submit"
+            onClick={submitNewState}
+            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
           >
             Save
-          </MyButton>
+          </Button>
           <br />
 
         </FormControl>
       </div>
        <br />
-      <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
+      <div style={{display: 'flex', overflowX: 'scroll'}}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
             Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
@@ -370,7 +372,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "-20px 0px 5px 150px",
       borderStyle: "none",
       transition: "0.3s",
-      borderRadius: "25px",
+      // borderRadius: "25px",
     },
     rootToggle: {
       color: "#696969",
@@ -440,13 +442,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 const MyButton = styled(Button)({
-  background: "#0099E6",
-  border: 0,
-  borderRadius: 3,
-  boxShadow: "0 0px 0px 2px #1a1a1a",
-  color: "white",
-  height: 24,
-  width: 40,
-  padding: "0 30px",
+  // background: "#0099E6",
+  // border: 0,
+  // borderRadius: 3,
+  // boxShadow: "0 0px 0px 2px #1a1a1a",
+  // color: "white",
+  // height: 24,
+  // width: 40,
+  // padding: "0 30px",
 });
 export default StatePropsPanel;

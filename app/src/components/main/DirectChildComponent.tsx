@@ -67,14 +67,14 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       style={combinedStyle}
       ref={drag}
     >
-      
-        <strong>{name + ' cupcake'}</strong>
+      <span>
+        <strong>{name}</strong>
         <Annotation
             id={childId}
             name={name}
-            annotations={annotations}
+            // annotations={annotations}
             />
-      
+      </span>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import Modal from '@material-ui/core/Modal';
+import { Modal, Button } from '@material-ui/core';
 import StateContext from '../../context/context';
 import TableStateProps from './TableStateProps';
 
@@ -47,7 +47,10 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
 
   return (
     <div>
-      <button className="useState-btn" onClick={() => setOpen(true)}>USE STATE</button>
+      <Button 
+        variant='contained'
+        color='primary'
+        className="useState-btn" onClick={() => setOpen(true)}>USE STATE</Button>
       <Modal open={open}>{body}</Modal>
     </div>
   );

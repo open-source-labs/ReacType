@@ -8,8 +8,9 @@ import {
   Checkbox,
   FormControlLabel,
   InputLabel,
-  TextField,
+  // TextField,
 } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
@@ -153,14 +154,15 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
             New Component
           </h4>
           {/* input for new component */}
-          <div style={{display: 'flex', justifyContent:'space-evenly', marginTop: '20px', alignItems:'baseline'}}>
+          <div style={{display: 'flex', justifyContent:'space-evenly', marginTop: '20px', marginBottom: '20px',  alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
-              <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+              {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
                 Name:
-              </InputLabel>
+              </InputLabel> */}
                 <div className={classes.inputWrapper}>
                     <TextField
-                    color={'primary'}
+                    label='New Component Name'
+                    color='primary'
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
                     // inputprops and helpertext must be lowercase
@@ -201,13 +203,15 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
           </div>
           <div>
             <br/>
-            <CreateButton
+            <Button
               className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+              color='primary'
+              variant='contained'
               id="addComponentButton"
               onClick={handleNameSubmit}
             >
               Create
-            </CreateButton>
+            </Button>
           </div>
       </div>
     </div>

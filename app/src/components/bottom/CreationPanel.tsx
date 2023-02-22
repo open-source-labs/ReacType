@@ -3,6 +3,7 @@ import ComponentPanel from '../right/ComponentPanel'
 import StatePropsPanel from '../right/StatePropsPanel'
 import HTMLPanel from '../left/HTMLPanel'
 import { styleContext } from '../../containers/AppContainer';
+import Grid from '@mui/material/Grid';
 
 // Creation panel holds all of the creation functionality of the application. ComponentPanel, HTMLPanel, and StatePropsPanel are all hanged here.
 // This allows users to create all aspects of this application in one place.

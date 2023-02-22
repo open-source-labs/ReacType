@@ -1,4 +1,4 @@
-/* imput component
+/* input component
 input component
 button component
 */

@@ -5,8 +5,9 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import {
   Button,
   InputLabel,
-  TextField,
+  // TextField,
 } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -159,12 +160,13 @@ const HTMLPanel = (props): JSX.Element => {
           <form onSubmit={handleSubmit} className="customForm">
 
             <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor } value = "New HTML Tag">New HTML Tag: </h4>
-            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
-            </InputLabel>
+            </InputLabel> */}
               <TextField
-                color={'primary'}
-                variant={'outlined'}
+                label='Tag'
+                color='primary'
+                variant='outlined'
                 type="text"
                 name="Tag"
                 value={tag}
@@ -185,12 +187,13 @@ const HTMLPanel = (props): JSX.Element => {
                               </span>}
               
             <br></br>
-            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
-            </InputLabel>
+            </InputLabel> */}
             <TextField
-              color={'primary'}
-              variant={'outlined'}
+              label='Element Name'
+              color='primary'
+              variant='outlined'
               type="text"
               name="Tag Name"
               value={name}
@@ -210,13 +213,15 @@ const HTMLPanel = (props): JSX.Element => {
               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                               <em>{errorMsg}</em>
                             </span>}           
-            <AddElementButton
+            <Button
               className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
+              color='primary'
+              variant='contained'
               value="Add Element"
             >Add Element
-            </AddElementButton>
+            </Button>
           </form>
         </div>
       </div>
@@ -267,7 +272,7 @@ const useStyles = makeStyles({
   addElementButton: {
     backgroundColor: 'transparent',
     height: '40px',
-    width: '105px',
+    width: '200px',
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
