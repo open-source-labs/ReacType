@@ -755,41 +755,41 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     { value: 'onKeyDown', text: 'onKeyDown' }
                   ]}
                   />
+              </div>
+              { eventAll[0] && (<div className={classes.configRow}>
+                <div
+                  className={
+                    isThemeLight
+                      ? `${classes.configType} ${classes.lightThemeFontColor}`
+                      : `${classes.configType} ${classes.darkThemeFontColor}`
+                  }
+                >
+                  <h3>Function Name:</h3>
                 </div>
-                { eventAll[0] && (<div className={classes.configRow}>
-                  <div
-                    className={
-                      isThemeLight
-                        ? `${classes.configType} ${classes.lightThemeFontColor}`
-                        : `${classes.configType} ${classes.darkThemeFontColor}`
-                    }
-                  >
-                    <h3>Function Name:</h3>
-                  </div>
-                  <FormControl variant="filled">
-                    <TextField
-                      variant="filled"
-                      name="funcName"
-                      inputProps={{
-                        className: isThemeLight
-                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                      }}
-                      value={eventAll[1]}
-                      onChange={handleChange}
-                      placeholder="Function Name"
-                    />
-                  </FormControl>
-                </div> )}
-                { currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
-                  <DataGrid
-                    rows={eventRow}
-                    columns={eventColumnTabs}
-                    pageSize={5}
-                    // editRowsModel={editRowsModel}
-                    // className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+                <FormControl variant="filled">
+                  <TextField
+                    variant="filled"
+                    name="funcName"
+                    inputProps={{
+                      className: isThemeLight
+                        ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                        : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                    }}
+                    value={eventAll[1]}
+                    onChange={handleChange}
+                    placeholder="Function Name"
                   />
-                </div>)}
+                </FormControl>
+              </div> )}
+              { currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+                <DataGrid
+                  rows={eventRow}
+                  columns={eventColumnTabs}
+                  pageSize={5}
+                  // editRowsModel={editRowsModel}
+                  // className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+                />
+              </div>)}
                 {/* <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
                   <Table
                     sx={{ width: '510px' }}
