@@ -392,15 +392,16 @@ const generateUnformattedCode = (
     };
 
     //  ------------------------------------------- added code below  -------------------------------------------
-    const createEventHandler = () => {
+    const createEventHandler = (children) => {
       let importStr = '';
-      enrichedChildren.map((child) => {
+      children.map((child) => {
         if (child.type === 'HTML Element') {
           if (child.events) {
             for (const [event, funcName] of Object.entries(child.events)) {
               importStr += `\tconst ${funcName} = () => {};\n`;
             }
           }
+          if (child.children.length !== 0) importStr += createEventHandler(child.children);
         }
       });
 
@@ -415,7 +416,7 @@ const generateUnformattedCode = (
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
     generatedCode += writeStateProps(currComponent.useStateCodes) ? `\t${writeStateProps(currComponent.useStateCodes)}\n` : '';
-    generatedCode += createEventHandler() ? `${createEventHandler()}\n` : '';
+    generatedCode += createEventHandler(enrichedChildren) ? `${createEventHandler(enrichedChildren)}\n` : '';
     generatedCode += `
   return(
     <>
