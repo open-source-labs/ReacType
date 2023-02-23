@@ -54,13 +54,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [eventRow, setEventRow] = useState([]);
   // ------------------------------------------- added code above -------------------------------------------
   const currFocus = getFocus().child;
-  // state.components
-  //   .find((el) => {
-  //     return el.id === state.canvasFocus.componentId;
-  //   })
-  //   .children.find((el) => {
-  //     return el.childId === state.canvasFocus.childId;
-  //   });
+
   useEffect( () => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
     setEventAll(['', '']);

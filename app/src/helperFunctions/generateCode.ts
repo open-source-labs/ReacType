@@ -410,7 +410,7 @@ const generateUnformattedCode = (
     //  ------------------------------------------- added code above  -------------------------------------------
     let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'APP' ? contextImports : '';
-    generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';` : ``;
+    generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n` : ``;
     generatedCode += createContextImport() ? `${createContextImport()}\n`: '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
     // below is the return statement of the codepreview

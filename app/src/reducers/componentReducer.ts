@@ -85,21 +85,25 @@ const reducer = (state: State, action: Action) => {
   // update all ids and typeIds to match one another
   const updateAllIds = (comp: Component[] | ChildElement[]) => {
     // put components' names and ids into an obj
-    const obj = {};
-    comp.forEach((el) => {
-      obj[el.name] = el.id;
-    });
+    const obj = { spr: 1000, others: 1 };
+    // comp.forEach((el) => {
+    //   if (!obj[el.name]) obj[el.name] = el.id;
+    // });
     // for each of the components, if it has children, iterate through that children array
     comp.forEach((el) => {
       if (el.children.length > 0) {
         for (let i = 0; i < el.children.length; i++) {
           // update each child's childId
-          el.children[i].childId = i + 1;
-          // if the child's name and id exists in the object
-          if (obj[el.children[i].name]) {
-            // set the child's typeId to be the value in the object of the child's name key
-            el.children[i].typeId = obj[el.children[i].name];
+          if (el.children[i].name === 'separator') {
+            el.children[i].childId = obj['spr']++;
+          } else {
+            el.children[i].childId = obj['others']++;
           }
+          // // if the child's name and id exists in the object
+          // if (obj[el.children[i].name]) {
+          //   // set the child's typeId to be the value in the object of the child's name key
+          //   el.children[i].typeId = obj[el.children[i].name];
+          // }
           // recursively call the updateAllIds function on the child's children array if
           // the child's children array is greater than 0
           if (el.children[i].children.length > 0) {
@@ -145,7 +149,7 @@ const reducer = (state: State, action: Action) => {
       // component has a children array, iterate through the array of children
       child.forEach((el) => {
         if (el.children.length) {
-          const arr = [];
+          const arr: ChildElement[] = [];
           for (let i = 0; i < el.children.length; i++) {
             // check to see if the name variable doesn't match the name of the child
             if (el.children[i].name !== name) {
@@ -510,7 +514,6 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components };
     }
-    //  ------------------------------------------- added code below  -------------------------------------------
     case 'UPDATE EVENTS': {
       const { events } = action.payload;
       if (JSON.stringify(events) === '{}') return state;
@@ -552,8 +555,6 @@ const reducer = (state: State, action: Action) => {
       );
       return { ...state, components };
     }
-    //  ------------------------------------------- added code above  -------------------------------------------
-
     case 'DELETE CHILD': {
       // if in-focus instance is a top-level component and not a child, don't delete anything
       if (!state.canvasFocus.childId) return state;
@@ -752,6 +753,7 @@ const reducer = (state: State, action: Action) => {
       });
       const components: Component[] = deleteById(action.payload, name);
       const rootComponents: number[] = updateRoots(components);
+      const canvasFocus = { ...state.canvasFocus, childId: null };
       components.forEach((el, i) => {
         el.code = generateCode(
           components,
@@ -763,6 +765,7 @@ const reducer = (state: State, action: Action) => {
       });
       return {
         ...state,
+        canvasFocus,
         HTMLTypes
       };
     }
