@@ -131,6 +131,7 @@ function DirectChildHTMLNestable({
         : '1px solid grey',
   };
 
+  // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['yellow'];
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];
 
@@ -148,7 +149,7 @@ function DirectChildHTMLNestable({
   if (typeId === 19) {
     routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} linkDisplayed={attributes && attributes.compLink ? `${attributes.compLink}` : null} />);
   }
-  
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
       <span>
