@@ -43,6 +43,4 @@ const LeftContainer = (props): JSX.Element => {
   );
 };
 
-{/* <div className="arrow-right"></div> */}
-
 export default LeftContainer;

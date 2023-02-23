@@ -391,7 +391,6 @@ const generateUnformattedCode = (
       return importStr;
     };
 
-    //  ------------------------------------------- added code below  -------------------------------------------
     const createEventHandler = (children) => {
       let importStr = '';
       children.map((child) => {
@@ -407,7 +406,7 @@ const generateUnformattedCode = (
 
       return importStr;
     };
-    //  ------------------------------------------- added code above  -------------------------------------------
+
     let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'APP' ? contextImports : '';
     generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n` : ``;
