@@ -93,7 +93,7 @@ function DirectChildHTML({
     >
       <span>
         <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
-          {HTMLType.placeHolderShort + ' nonNestable'}
+          {HTMLType.placeHolderShort}
         </strong>
         <Annotation
           id={childId}

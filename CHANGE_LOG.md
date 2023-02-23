@@ -3,6 +3,38 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 14.0.0 Changes**
+
+Changes:<br>
+- Added functionalities & improvements:
+  - Add event listeners:
+    - Added ability to assign event listeners to elements in the bottom customization tab
+    - Can name the function on the event or use the default name provided
+    - Updates reflected in the code preview render
+  - Live code preview: Bottom tool tabs code preview renderings update immediately and automatically to reflect the state
+  - Converted the notation button into a delete button on the canvas elements and reusable components
+  - Code preview render: The formatting for generated code has been corrected for improved readability
+- Major UI changes:
+  - Left panel:
+    - Only display when mouse hovered over
+    - When extended, floats in front of the canvas without affecting the main window formatting
+  - Bottom panel
+    - Retractable feature added
+    - Has internal scroll ability in the tabs
+    - Resized functionality is stable
+  - Add indicator tabs to each to signify to the user they are there
+  - Canvas container:
+    - Changed the formatting to a center column with readable size and label orientation
+    - Standardized the size of components and rate of growth when nesting
+  - Tutorial:
+    - Users can now reference tutorials in split-screen mode without the canvas being auto-cleared when going back from the tutorial
+- Bug fixes:
+  - Reusable component: The drag-and-drop feature for reusable components is now functioning smoothly and without bugs
+
+What's next:<br>
+
+A note for future contributors:<br>
+
 **Version 13.0.0 Changes**
 
 New Functionality:<br>
