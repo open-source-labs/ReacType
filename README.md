@@ -54,12 +54,12 @@ If you are given a warning that Apple could not scan the app. Please follow thes
 Download the latest [release](https://github.com/open-source-labs/ReacType/releases)
 
 
-## New with version 13.0.0
+## Changes with version 14.0.0
 
-- **Manage state locally**: Users can now manage state dynamically within nested components using React Hooks within the state manager tab.
-- **Add/delete props**: For a selected component, users can see a list of available props from the parent, add props, and delete props in case they are not required later on.
-- **State/props flow**: If state or props are deleted upstream, it will automatically update the state for its children components.
-- **Visualize state/props flow**: Within the display sub-tab of the state manager tab, users can visualize an interactive tree diagram depicting the state initialized in the current component and passed down props from the parent component.
+- **Add event listeners**: Users can now add event listeners to elements in the customization tab and view a list of added events. The list can be edited to remove events, and the live code preview will show the events being added and updated.
+- **Delete buttons added**: Delete buttons have been added to canvas components and elements for easier removal. Users can now delete elements or components directly by focusing on them and clicking the delete button.
+- **Live code preview and component tree update**: When users drag-and-drop components and elements, the live code preview and component tree are automatically updated to reflect the changes in real time.
+- **Major UI changes**: The user interface has undergone a major change, including a sliding effect for the left and bottom panels to maximize user visibility. The styling has been unified and the display of canvas hierarchy has been made more prominent for improved clarity.
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous version as well as plans for upcoming features!
 
 
@@ -67,10 +67,15 @@ Download the latest [release](https://github.com/open-source-labs/ReacType/relea
 
 - **Fork** and **Clone** Repository.
 - Open project directory
-- Install dependencies
+- Install dependencies.
 
 ```bash
 npm install
+```
+- If there's any issue with the installation, try using `--legacy-peer-deps` flag instead.
+
+```bash
+npm install --legacy-peer-deps
 ```
 
 - To run the production build

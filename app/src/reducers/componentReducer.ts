@@ -513,6 +513,7 @@ const reducer = (state: State, action: Action) => {
     //  ------------------------------------------- added code below  -------------------------------------------
     case 'UPDATE EVENTS': {
       const { events } = action.payload;
+      if (JSON.stringify(events) === '{}') return state;
       const components = [...state.components];
       const component = findComponent(
         components,
@@ -521,8 +522,26 @@ const reducer = (state: State, action: Action) => {
       const targetChild = findChild(component, state.canvasFocus.childId);
       const event = Object.keys(events)[0];
       const funcName = events[event];
-      console.log(event, funcName);
       targetChild.events[event] = funcName;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes
+      );
+      return { ...state, components };
+    }
+    case 'DELETE EVENT': {
+      const { event } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      delete targetChild.events[event];
 
       component.code = generateCode(
         components,
@@ -551,7 +570,7 @@ const reducer = (state: State, action: Action) => {
       );
 
       //  ------------------------------------------- ALSO added code below  -------------------------------------------
-
+      
       let canvasFocus = { ...state.canvasFocus, childId: null }; // ADDED to avoid null error
       let nextTopSeparatorId = 1000; // ADDED to avoid null error
       const childIdDeleteClicked = action.payload.id; // ADDED to ensure no cross-element deletion possible
@@ -563,7 +582,7 @@ const reducer = (state: State, action: Action) => {
           JSON.stringify(action.payload) === '{}') // Ensuring deletion works for mouseclick OR using delete key, from 2 different dispatch sources
       ) {
         directParent.children.splice(childIndexValue, 1);
-        const canvasFocus = { ...state.canvasFocus, childId: null };
+        // const canvasFocus = { ...state.canvasFocus, childId: null };
         let nextTopSeparatorId = manageSeparators.handleSeparators(
           components[canvasFocus.componentId - 1].children,
           'delete'
@@ -571,7 +590,6 @@ const reducer = (state: State, action: Action) => {
       }
 
       //  ------------------------------------------- ALSO added code above  -------------------------------------------
-
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,

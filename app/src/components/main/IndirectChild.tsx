@@ -29,11 +29,13 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}
-      <Annotation
-        id={childId}
-        name={name}
-        annotations={annotations}
-      />
+      <span>
+        <Annotation
+          id={childId}
+          name={name}
+          annotations={annotations}
+        />
+      </span>
       {linkId ? (
         <div onClick={onClickHandlerRoute}>{linkName}</div>
       ) : (
