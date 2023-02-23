@@ -405,11 +405,11 @@ RIGHT COLUMN
 BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
-.bottom-hide {
+/* .bottom-hide {
   max-height: 76px;
   box-sizing: border-box;
   transition: all 0.5s ease-in-out;
-}
+} */
 
 .bottom-show {
   max-height: 100%;
@@ -524,16 +524,22 @@ ANNOTATIONS
 */
 .annotate-button-empty {
   float: right;
-  background-color: #3ec1ac;
+  background-color: rgb(221, 219, 219);
   border-radius: 15px;
   font-size: 14px;
-  color: rgb(32, 32, 32)
+  /* border-color: #797878; */
+  color: rgb(32, 32, 32);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) 
 }
-.annotate-button-filled {
+
+.annotate-button-empty:hover {
+  background-color: rgb(71, 123, 186);
+}
+/* .annotate-button-filled {
   float: right;
   border-radius: 15px;
   font-size: 13px;
-}
+} */
 .annotate-position {
   display: flex;
   flex-direction: column;

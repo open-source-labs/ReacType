@@ -160,11 +160,11 @@ const HTMLPanel = (props): JSX.Element => {
           <form onSubmit={handleSubmit} className="customForm">
 
             <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor } value = "New HTML Tag">New HTML Tag: </h4>
-            {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
-            </InputLabel> */}
+            </InputLabel>
               <TextField
-                label='Tag'
+                // label='Tag'
                 color='primary'
                 variant='outlined'
                 type="text"
@@ -187,11 +187,11 @@ const HTMLPanel = (props): JSX.Element => {
                               </span>}
               
             <br></br>
-            {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
-            </InputLabel> */}
+            </InputLabel>
             <TextField
-              label='Element Name'
+              // label='Element Name'
               color='primary'
               variant='outlined'
               type="text"

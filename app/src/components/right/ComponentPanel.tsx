@@ -156,12 +156,12 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
           {/* input for new component */}
           <div style={{display: 'flex', justifyContent:'space-evenly', marginTop: '20px', marginBottom: '20px',  alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
-              {/* <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+              <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
                 Name:
-              </InputLabel> */}
+              </InputLabel>
                 <div className={classes.inputWrapper}>
                     <TextField
-                    label='New Component Name'
+                    // label='New Component Name'
                     color='primary'
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
