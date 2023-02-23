@@ -406,9 +406,9 @@ BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
 .bottom-hide {
-  /* max-height: 76px;
+  max-height: 76px;
   box-sizing: border-box;
-  transition: all 0.5s ease-in-out; */
+  transition: all 0.5s ease-in-out;
 }
 
 .bottom-show {
