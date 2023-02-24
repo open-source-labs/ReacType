@@ -5,18 +5,11 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import DeleteButton from './Annotation';
+import DeleteButton from './DeleteButton';
 
 import { styleContext } from '../../containers/AppContainer';
 
-function DirectChildHTML({
-  childId,
-  name,
-  type,
-  typeId,
-  style,
-  annotations
-}: ChildElement) {
+function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
 
@@ -98,7 +91,6 @@ function DirectChildHTML({
         <DeleteButton
           id={childId}
           name={name[0].toLowerCase() + name.slice(1)}
-          annotations={annotations}
         />
       </span>
     </div>

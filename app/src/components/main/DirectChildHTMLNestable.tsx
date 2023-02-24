@@ -7,7 +7,7 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
-import DeleteButton from './Annotation';
+import DeleteButton from './DeleteButton';
 import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
@@ -22,7 +22,6 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
-  annotations,
   attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
@@ -224,7 +223,7 @@ function DirectChildHTMLNestable({
           {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>
         {routeButton}
-        <DeleteButton id={childId} name={name} annotations={annotations} />
+        <DeleteButton id={childId} name={name} />
       </span>
       {renderChildren(children)}
     </div>

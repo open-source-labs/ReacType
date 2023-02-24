@@ -3,7 +3,7 @@ import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
-import DeleteButton from './Annotation';
+import DeleteButton from './DeleteButton';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
@@ -67,11 +67,7 @@ function DirectChildComponent({
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       <strong>{name}</strong>
-      <DeleteButton
-        id={childId}
-        name={name}
-        // annotations={annotations}
-      />
+      <DeleteButton id={childId} name={name} />
     </div>
   );
 }

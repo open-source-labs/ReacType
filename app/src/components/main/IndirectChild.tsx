@@ -3,7 +3,7 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
-import DeleteButton from './Annotation';
+import DeleteButton from './DeleteButton';
 
 function IndirectChild({
   style,
@@ -11,8 +11,7 @@ function IndirectChild({
   placeHolder,
   linkId,
   childId,
-  name,
-  annotations
+  name
 }) {
   const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
@@ -37,7 +36,7 @@ function IndirectChild({
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}
-      <DeleteButton id={childId} name={name} annotations={annotations} />
+      <DeleteButton id={childId} name={name} />
       {linkId ? (
         <div onClick={onClickHandlerRoute}>{linkName}</div>
       ) : (
