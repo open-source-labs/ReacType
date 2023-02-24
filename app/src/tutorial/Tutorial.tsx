@@ -13,7 +13,6 @@ import CodeIcon from '@material-ui/icons/Code';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import TvIcon from '@material-ui/icons/Tv';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import CommentIcon from '@material-ui/icons/Comment';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import StyleIcon from '@material-ui/icons/Style';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
@@ -22,7 +21,6 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 import BrushIcon from '@material-ui/icons/Brush';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-
 
 const useStyles = makeStyles({
   root: {
@@ -100,10 +98,9 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     'HTML Elements',
     'Styling',
     'Customization',
-    'Annotations',
     'States',
     'CSS Editor',
-    'Keyboard Shortcuts',
+    'Keyboard Shortcuts'
   ];
   const icons = [
     <MenuBookIcon className={classes.icons} />,
@@ -115,10 +112,9 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
     <AddPhotoAlternateIcon className={classes.icons} />,
     <StyleIcon className={classes.icons} />,
     <ColorLensIcon className={classes.icons} />,
-    <CommentIcon className={classes.icons} />,
     <SwapVertIcon className={classes.icons} />,
     <BrushIcon className={classes.icons} />,
-    <KeyboardIcon className={classes.icons} />,
+    <KeyboardIcon className={classes.icons} />
   ];
   const body = document.querySelector('body');
   body.style.overflowY = 'auto';
@@ -126,13 +122,13 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   const cards = topics.map((topic, i) => {
     return (
       <div key={`k${i}`} className={classes.cardWrapper}>
-        <Link to={`/tutorialPage/${topic}`} style={{ textDecoration: 'none' }} >
+        <Link to={`/tutorialPage/${topic}`} style={{ textDecoration: 'none' }}>
           <Card className={classes.root} variant="elevation">
             <CardContent>
               <Typography className={classes.title}>{topic}</Typography>
             </CardContent>
-            <CardActions className={classes.cardActions} >
-                {icons[i]}
+            <CardActions className={classes.cardActions}>
+              {icons[i]}
             </CardActions>
           </Card>
         </Link>
@@ -141,25 +137,25 @@ const Tutorial: React.FC<RouteComponentProps> = () => {
   });
   return (
     <>
-    <div>
-            {/* <Link to='/' style={{textDecoration: 'none'}}> */}
-              <Button
-                variant='contained'
-                color='primary'
-                style={{ minWidth: '137.69px'}}
-                className="navbarButton"
-                id="ratingButton"
-                onClick={window.close}
-                endIcon={<CloseIcon/>}
-                > 
-                Close
-              </Button>
-            {/* </Link> */}
-          </div>
-    <Container maxWidth="xl" className={classes.container}>
-      <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
-      <div className={classes.wrapper}>{cards}</div>
-    </Container>
+      <div>
+        {/* <Link to='/' style={{textDecoration: 'none'}}> */}
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ minWidth: '137.69px' }}
+          className="navbarButton"
+          id="ratingButton"
+          onClick={window.close}
+          endIcon={<CloseIcon />}
+        >
+          Close
+        </Button>
+        {/* </Link> */}
+      </div>
+      <Container maxWidth="xl" className={classes.container}>
+        <h1 className={classes.pageTitle}>ReacType Tutorial</h1>
+        <div className={classes.wrapper}>{cards}</div>
+      </Container>
     </>
   );
 };

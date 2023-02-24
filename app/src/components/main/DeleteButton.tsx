@@ -6,8 +6,6 @@ import StateContext from '../../context/context';
 function DeleteButton({ id, name }: DeleteButtons) {
   const [state, dispatch] = useContext(StateContext);
 
-  // -------------------------------- NEW CODE for DELETE BUTTONS, REPLACING ANNOTATIONS ---------------------------------------
-
   const deleteHTMLtype = (id: number) => {
     dispatch({
       type: 'DELETE CHILD',
@@ -18,7 +16,7 @@ function DeleteButton({ id, name }: DeleteButtons) {
   return (
     <div style={{ padding: '1px', float: 'right' }}>
       <button
-        className="annotate-button-empty" // NOTE:  This className no longer accurate --> to update to delete button, same w/ Annotation export throughout
+        className="delete-button-empty"
         id={'btn' + id}
         onClick={(event) => {
           event.stopPropagation();
