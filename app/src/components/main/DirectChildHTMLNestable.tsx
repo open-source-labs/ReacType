@@ -7,9 +7,9 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
-import Annotation from './Annotation'
-import validateNewParent from '../../helperFunctions/changePositionValidation'
-import componentNest from '../../helperFunctions/componentNestValidation'
+import DeleteButton from './Annotation';
+import validateNewParent from '../../helperFunctions/changePositionValidation';
+import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 
@@ -36,7 +36,9 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+    state.components[focusIndex].past.push(
+      deepCopiedState.components[focusIndex].children
+    );
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -78,13 +80,20 @@ function DirectChildHTMLNestable({
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
+        if (
+          (item.instanceType === 'Component' &&
+            componentNest(
+              state.components[item.instanceTypeId - 1].children,
+              childId
+            )) ||
+          item.instanceType !== 'Component'
+        ) {
           dispatch({
             type: 'ADD CHILD',
             payload: {
               type: item.instanceType,
               typeId: item.instanceTypeId,
-              childId: childId,
+              childId: childId
             }
           });
         }
@@ -97,7 +106,7 @@ function DirectChildHTMLNestable({
             type: 'CHANGE POSITION',
             payload: {
               currentChildId: item.childId,
-              newParentChildId: childId,
+              newParentChildId: childId
             }
           });
         }
@@ -128,7 +137,7 @@ function DirectChildHTMLNestable({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #186BB4'
-        : '1px solid grey',
+        : '1px solid grey'
   };
 
   // incoporated this logic into my nesting check below caused i new error
@@ -138,7 +147,6 @@ function DirectChildHTMLNestable({
   // if component is not in APP children array, it's a nested component, and should have a differend background color
   // defaultNestableStyle['backgroundColor'] = state.components[0].children.includes(childId) ? 'blue' : globalDefaultStyle['backgroundColor'];
 
-
   // console.log('APP DIRECT KIDS: ', state.components[0].children);
 
   const combinedStyle = combineStyles(
@@ -146,20 +154,19 @@ function DirectChildHTMLNestable({
     interactiveStyle
   );
 
-// WHAT THE CHILDREN ARRAY LOOKS LIKE - LW
-//  ARRAY OF OBJS
-// {type: 'HTML Element', typeId: 1000, name: 'separator', childId: 1000, style: {…}, …}
-// tried adding a conditional to only run this reassignment if state.components[0]['name'] === 'App' DON'T WORK
+  // WHAT THE CHILDREN ARRAY LOOKS LIKE - LW
+  //  ARRAY OF OBJS
+  // {type: 'HTML Element', typeId: 1000, name: 'separator', childId: 1000, style: {…}, …}
+  // tried adding a conditional to only run this reassignment if state.components[0]['name'] === 'App' DON'T WORK
 
-    // state.components[0].children?.forEach(obj => {
-    //     // console.log('childId : ', obj['childId'], 'childId : ', childId);
-    //     if (obj['childId'] === childId) {
-    //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
-    //     } else {
-    //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
-    //     }
-    // });
-
+  // state.components[0].children?.forEach(obj => {
+  //     // console.log('childId : ', obj['childId'], 'childId : ', childId);
+  //     if (obj['childId'] === childId) {
+  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
+  //     } else {
+  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+  //     }
+  // });
 
   // trying to render components with diff background colors based on how deeply nested they were - doesnt' work as on now
   //   state.components.forEach(component => {
@@ -177,7 +184,6 @@ function DirectChildHTMLNestable({
   //   })
   // });
 
-
   // console.log('state: ', state);
   // helper func i created below does not work now because it cannot reference combined style from its file. - LW
   // adjustComponentColor(children, childId, state);
@@ -191,20 +197,34 @@ function DirectChildHTMLNestable({
     routeButton.push(<AddRoute id={childId} name={name} />);
   }
   if (typeId === 19) {
-    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} linkDisplayed={attributes && attributes.compLink ? `${attributes.compLink}` : null} />);
+    routeButton.push(
+      <AddLink
+        id={childId}
+        onClickHandler={onClickHandler}
+        name={name}
+        linkDisplayed={
+          attributes && attributes.compLink ? `${attributes.compLink}` : null
+        }
+      />
+    );
   }
-  
+
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
+    <div
+      onClick={onClickHandler}
+      style={combinedStyle}
+      ref={ref}
+      id={`canv${childId}`}
+    >
       <span>
-        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort + ' nestable'}</strong>
-        <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
+        <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
+          {HTMLType.placeHolderShort + ' nestable'}
+        </strong>
+        <strong style={{ color: '#0099E6' }}>
+          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
+        </strong>
         {routeButton}
-        <Annotation
-          id={childId}
-          name={name}
-          annotations={annotations}
-          />
+        <DeleteButton id={childId} name={name} annotations={annotations} />
       </span>
       {renderChildren(children)}
     </div>

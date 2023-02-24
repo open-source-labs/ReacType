@@ -93,7 +93,7 @@ export interface LoginInt {
   isLoggedIn: boolean;
 }
 // Annotations TO BE REMOVED
-export interface Annotations {
+export interface DeleteButtons {
   id: number;
   name: string;
   annotations?: string;

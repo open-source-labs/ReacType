@@ -1,9 +1,9 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
-import { Annotations } from '../../interfaces/Interfaces';
+import { DeleteButtons } from '../../interfaces/Interfaces';
 import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 
-function Annotation({ id, name }: Annotations) {
+function DeleteButton({ id, name }: DeleteButtons) {
   const [state, dispatch] = useContext(StateContext);
 
   // -------------------------------- NEW CODE for DELETE BUTTONS, REPLACING ANNOTATIONS ---------------------------------------
@@ -24,7 +24,6 @@ function Annotation({ id, name }: Annotations) {
           event.stopPropagation();
           deleteHTMLtype(id);
         }}
-        // ref={ref}
       >
         x
       </button>
@@ -32,4 +31,4 @@ function Annotation({ id, name }: Annotations) {
   );
 }
 
-export default Annotation;
+export default DeleteButton;
