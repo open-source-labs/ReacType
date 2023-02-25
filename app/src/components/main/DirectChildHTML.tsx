@@ -86,7 +86,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
     >
       <span>
         <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
-          {HTMLType.placeHolderShort + ' nonNestable'}
+          {HTMLType.placeHolderShort}
         </strong>
         <DeleteButton
           id={childId}

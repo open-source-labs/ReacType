@@ -64,6 +64,7 @@ function DirectChildComponent({
   );
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components
   // into the main canvas.  To render html elements on canvas, import and invoke renderChildren
+
   return (
     <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
       <strong>{name}</strong>

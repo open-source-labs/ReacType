@@ -36,7 +36,9 @@ function IndirectChild({
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}
-      <DeleteButton id={childId} name={name} />
+      <span>
+        <DeleteButton id={childId} name={name} />
+      </span>
       {linkId ? (
         <div onClick={onClickHandlerRoute}>{linkName}</div>
       ) : (

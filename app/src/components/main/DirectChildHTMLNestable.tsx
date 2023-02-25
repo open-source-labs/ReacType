@@ -138,56 +138,15 @@ function DirectChildHTMLNestable({
         ? '3px solid #186BB4'
         : '1px solid grey'
   };
-
-  // incoporated this logic into my nesting check below caused i new error
-  // if (isOver) defaultNestableStyle['yellow'];
-  // defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];//globalDefaultStyle['backgroundColor']
-
-  // if component is not in APP children array, it's a nested component, and should have a differend background color
-  // defaultNestableStyle['backgroundColor'] = state.components[0].children.includes(childId) ? 'blue' : globalDefaultStyle['backgroundColor'];
-
-  // console.log('APP DIRECT KIDS: ', state.components[0].children);
+  
+  // interactive style to change color when nested element is hovered over
+  if (isOver) defaultNestableStyle['yellow'];
+  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
     interactiveStyle
   );
-
-  // WHAT THE CHILDREN ARRAY LOOKS LIKE - LW
-  //  ARRAY OF OBJS
-  // {type: 'HTML Element', typeId: 1000, name: 'separator', childId: 1000, style: {…}, …}
-  // tried adding a conditional to only run this reassignment if state.components[0]['name'] === 'App' DON'T WORK
-
-  // state.components[0].children?.forEach(obj => {
-  //     // console.log('childId : ', obj['childId'], 'childId : ', childId);
-  //     if (obj['childId'] === childId) {
-  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : 'grey';
-  //     } else {
-  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
-  //     }
-  // });
-
-  // trying to render components with diff background colors based on how deeply nested they were - doesnt' work as on now
-  //   state.components.forEach(component => {
-  //   // console.log('state.components : ', state.components)
-  //     let color = 'rgb(63, 154,';
-  //     let counter = -10;
-  //     component.children?.forEach(obj => {
-  //     // if (obj['childId'] === childId) {
-  //       counter += 10;
-  //       color = color + counter.toString() + ')'
-  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : color;
-  //     } else {
-  //       combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
-  //     }
-  //   })
-  // });
-
-  // console.log('state: ', state);
-  // helper func i created below does not work now because it cannot reference combined style from its file. - LW
-  // adjustComponentColor(children, childId, state);
-
-  //console.log('combinedStyle : ', combinedStyle);
 
   drag(drop(ref));
 
@@ -216,12 +175,8 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
-          {HTMLType.placeHolderShort + ' nestable'}
-        </strong>
-        <strong style={{ color: '#0099E6' }}>
-          {attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
-        </strong>
+        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
+        <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
         {routeButton}
         <DeleteButton id={childId} name={name} />
       </span>
