@@ -17,13 +17,12 @@ function Annotation({ id, name }: Annotations) {
   return (
     <div style={{ padding: '1px', float: 'right' }}>
       <button
-        className="annotate-button-empty" // NOTE:  This className no longer accurate --> to update to delete button, same w/ Annotation export throughout
+        className="canvasDeleteBttn" // NOTE:  This className no longer accurate --> to update to delete button, same w/ Annotation export throughout
         id={'btn' + id}
         onClick={(event) => {
           event.stopPropagation();
           deleteHTMLtype(id);
         }}
-        // ref={ref}
       >
         x
       </button>

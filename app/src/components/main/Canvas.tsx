@@ -146,27 +146,6 @@ function Canvas(props): JSX.Element {
               childId: null
             }
           });
-        // } else {
-        //   alert('something is wrong');
-          // able to duplicate a component in dev only does not work for prod
-          // create a new component
-
-          // let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
-          // while (components.some(comp => comp.name === name)) {
-          //   name = prompt(`${name} component already exists. \nPlease pick a new name.`);
-          // }
-          // if (name) {
-          //   dispatch({
-          //     type: 'ADD COMPONENT',
-          //     payload: { componentName: name, root: false }
-          //   });
-
-          //   setNewComp(true);
-          //   setNewComp(!newComp)
-          // }
-
-        // }
-
       }
     },
     collect: monitor => ({
@@ -198,9 +177,6 @@ function Canvas(props): JSX.Element {
   // const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
-  // console.log('CURRENTCOMPONENT.CHILDREN : ', currentComponent.children)
-  // console.log('STATE: ', state.components);
-  // console.log('CURRENTCOMPONENT : ', currentComponent);
   return (
     <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}

@@ -15,7 +15,6 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
-
   const referencedComponent: Component = state.components.find(
     (elem: Component) => elem.id === typeId
   );
@@ -65,15 +64,12 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
     <div
       onClick={onClickHandler}
       style={combinedStyle}
-      ref={drag}
-    >
+      ref={drag}>
         <span>
           <strong>{name}</strong>
-
           <Annotation
               id={childId}
               name={name}
-              // annotations={annotations}
               />
         </span>
 
