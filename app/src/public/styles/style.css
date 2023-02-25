@@ -17,7 +17,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto','Raleway', sans-serif;
+  font-family: 'Roboto', 'Raleway', sans-serif;
   font-size: 0.9 em;
   font-weight: 400;
   overflow: hidden;
@@ -29,14 +29,14 @@ h4 {
   text-align: center;
 }
 .creation-panel {
-  color:black;
+  color: black;
   display: flex;
   flex-direction: row;
   /* height: 100%; */
   background-color: #fff;
 }
 .customization-section {
-  color:black;
+  color: black;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -47,7 +47,6 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-
 }
 .state-prop-grid {
   height: 300px;
@@ -85,7 +84,7 @@ header {
   flex-grow: 1;
 }
 .column {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
 }
 
 /*
@@ -151,7 +150,7 @@ LEFT COLUMN
   height: 52vh;
   overflow-y: auto;
 }
-#CompBottomHalf{
+#CompBottomHalf {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 50%;
@@ -443,7 +442,7 @@ BOTTOM PANEL
   text-align: center;
   line-height: 0px;
   user-select: none;
-  color:rgb(32, 32, 32);
+  color: rgb(32, 32, 32);
   font-size: x-large;
 }
 
@@ -517,13 +516,13 @@ NAVBAR
   width: 16%;
 }
 
-
 /*
 /////////////////////////////////////////////////
 CANVAS WINDOW
 /////////////////////////////////////////////////
 */
-DeleteButton {
+
+.delete-button-empty {
   float: right;
   background-color: rgb(221, 219, 219);
   border-radius: 15px;
@@ -532,7 +531,7 @@ DeleteButton {
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) 
 }
 
-DeleteBttn:hover {
+.delete-button-empty:hover {
   color: white;
   background-color: rgb(71, 123, 186);
 }
@@ -598,23 +597,23 @@ a.nav_link:hover {
 .oauth-bttn:hover {
   background-color: #4e76c7;
 }
-.text-editor .bttn{
+.text-editor .bttn {
   position: absolute;
   bottom: 90px;
-  right: 30px ;
+  right: 30px;
   z-index: 999;
 }
 .useState-btn {
   color: rgb(241, 240, 240);
-  background-color: #0099E6;
+  background-color: #0099e6;
   font-family: Arial, Helvetica, sans-serif;
 }
 .useState-btn {
   color: rgb(241, 240, 240);
-  background-color: #0099E6;
-  border: 1px solid #186BB4;
+  background-color: #0099e6;
+  border: 1px solid #186bb4;
   border-radius: 3;
-  box-shadow: "0 0px 0px 2px #1a1a1a";
+  box-shadow: '0 0px 0px 2px #1a1a1a';
   padding: 2px 2px 2px 2px;
 }
 .useState-position {

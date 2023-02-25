@@ -3,9 +3,16 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
-import Annotation from './Annotation'
+import DeleteButton from './DeleteButton';
 
-function IndirectChild({ style, children, placeHolder, linkId, childId, name, annotations }) {
+function IndirectChild({
+  style,
+  children,
+  placeHolder,
+  linkId,
+  childId,
+  name
+}) {
   const [state, dispatch] = useContext(StateContext);
   let combinedStyle = combineStyles(globalDefaultStyle, style);
   // when a user clicks a link, the focus should change to that component
@@ -20,21 +27,17 @@ function IndirectChild({ style, children, placeHolder, linkId, childId, name, an
   let linkName: string;
   // if there's a link in this component, then include a link
   if (linkId) {
-    linkName = state.components.find((comp: Component) => comp.id === linkId)
-      .name;
+    linkName = state.components.find(
+      (comp: Component) => comp.id === linkId
+    ).name;
     combinedStyle = combineStyles(combinedStyle, { color: 'blue' });
   }
-
 
   return (
     <div style={combinedStyle}>
       {`  ( ${childId} )`}
       <span>
-        <Annotation
-          id={childId}
-          name={name}
-          annotations={annotations}
-        />
+        <DeleteButton id={childId} name={name} />
       </span>
       {linkId ? (
         <div onClick={onClickHandlerRoute}>{linkName}</div>
