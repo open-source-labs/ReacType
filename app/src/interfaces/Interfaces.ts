@@ -26,7 +26,6 @@ export interface ChildElement {
   events: object;
   children?: ChildElement[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
-  annotations?: string;
   stateUsed?: object;
   passedInProps: StateProp[];
 }
@@ -43,7 +42,6 @@ export interface Component {
   past: any[];
   future: any[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
-  annotations?: string;
   useStateCodes: string[];
   useContext?: object;
   passedInProps: StateProp[];
@@ -92,11 +90,9 @@ export interface DragItemType {
 export interface LoginInt {
   isLoggedIn: boolean;
 }
-// Annotations TO BE REMOVED
-export interface Annotations {
+export interface DeleteButtons {
   id: number;
   name: string;
-  annotations?: string;
 }
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;
