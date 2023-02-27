@@ -105,6 +105,7 @@ LEFT COLUMN
   height: 50%;
   width: 20px;
   background-color: silver;
+  border: 2px solid black;
   writing-mode: vertical-lr;
   text-align: center;
   border-radius: 0 10px 10px 0;
@@ -362,12 +363,6 @@ RIGHT COLUMN
   cursor: pointer;
 }
 
-#checkboxContainer {
-  display: flex;
-  justify-content: space-around;
-  margin-left: -40px;
-}
-
 .export {
   border-top: 1px solid #ccc;
   display: flex;
@@ -403,6 +398,7 @@ RIGHT COLUMN
 BOTTOM PANEL
 /////////////////////////////////////////////////////
 */
+
 .bottom-hide {
   max-height: 76px;
   box-sizing: border-box;
@@ -446,6 +442,7 @@ BOTTOM PANEL
 
 .bottom-panel {
   transition: width 250ms ease-in-out;
+  background-color: #003366;
   width: 100%;
   height: 100%;
 }
@@ -515,66 +512,27 @@ NAVBAR
 
 /*
 /////////////////////////////////////////////////
-ANNOTATIONS --> now DELETE BUTTON
+CANVAS WINDOW
 /////////////////////////////////////////////////
 */
+
 .delete-button-empty {
   float: right;
-  background-color: #3ec1ac;
+  background-color: rgb(221, 219, 219);
   border-radius: 15px;
   font-size: 14px;
   color: rgb(32, 32, 32);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) 
 }
-.delete-button-filled {
-  float: right;
-  border-radius: 15px;
-  font-size: 13px;
+
+.delete-button-empty:hover {
+  color: white;
+  background-color: rgb(71, 123, 186);
 }
-.delete-position {
+.componentContainer {
   display: flex;
   flex-direction: column;
-  position: fixed;
-  align-items: flex-start;
-  top: 30%;
-  left: 30%;
-}
-.delete-textarea {
-  width: 600px;
-  height: 300px;
-  resize: none;
-  white-space: pre-line;
-  font-size: 18px;
-  border: 3px;
-  border-style: solid;
-  border-color: black;
-  border-radius: 0px 0px 15px 15px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.delete-textarea-header {
-  font-size: 35px;
-  background-color: #003366;
-  color: rgb(241, 240, 240);
-  width: 600px;
-  border: 3px;
-  border-style: solid;
-  border-color: black;
-  font-family: 'Open Sans', sans-serif;
-  border-radius: 15px 15px 0px 0px;
-}
-.delete-textarea-footer {
-  background-color: #4772c7;
-  color: rgb(107, 93, 93);
-  width: 600px;
-  border: 2px;
-  border-style: solid;
-  border-color: black;
-}
-.delete-textarea-savebutton {
-  float: right;
-  width: 150px;
-  height: 30px;
-  font-size: 20px;
-  margin: 2.5px 2.5px;
+  align-items: center;
 }
 
 /* Material-UI */
@@ -691,9 +649,3 @@ a.nav_link:hover {
   align-items: center;
 }
 
-/* My Changes to canvas instances container */
-.componentContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}

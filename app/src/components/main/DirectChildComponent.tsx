@@ -18,7 +18,6 @@ function DirectChildComponent({
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
-
   const referencedComponent: Component = state.components.find(
     (elem: Component) => elem.id === typeId
   );
@@ -64,11 +63,17 @@ function DirectChildComponent({
   );
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components
   // into the main canvas.  To render html elements on canvas, import and invoke renderChildren
+  return  (
+    <div
+      onClick={onClickHandler}
+      style={combinedStyle}
+      ref={drag}
+    >
+        <span>
+          <strong>{name}</strong>
+          <DeleteButton id={childId} name={name} />  
+        </span>
 
-  return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag}>
-      <strong>{name}</strong>
-      <DeleteButton id={childId} name={name} />
     </div>
   );
 }

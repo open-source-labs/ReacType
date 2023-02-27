@@ -146,6 +146,7 @@ function Canvas(props): JSX.Element {
               childId: null
             }
           });
+          // comment out below, not sure what the previous team want to do for this
         // } else {
         //   alert('something is wrong');
           // able to duplicate a component in dev only does not work for prod
@@ -199,9 +200,6 @@ function Canvas(props): JSX.Element {
   // const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
-  // console.log('CURRENTCOMPONENT.CHILDREN : ', currentComponent.children)
-  // console.log('STATE: ', state.components);
-  // console.log('CURRENTCOMPONENT : ', currentComponent);
   return (
     <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}
