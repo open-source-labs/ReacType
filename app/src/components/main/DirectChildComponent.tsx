@@ -1,21 +1,23 @@
-import React, {  useContext, } from 'react';
-import {
-  Component,
-  ChildElement
-} from '../../interfaces/Interfaces';
+import React, { useContext } from 'react';
+import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
-import Annotation from './Annotation'
+import DeleteButton from './DeleteButton';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 
-function DirectChildComponent({ childId, type, typeId, style, name }: ChildElement) {
+function DirectChildComponent({
+  childId,
+  type,
+  typeId,
+  style,
+  name
+}: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
-
   const referencedComponent: Component = state.components.find(
     (elem: Component) => elem.id === typeId
   );
@@ -29,7 +31,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
       instanceType: type,
       instanceTypeId: typeId
     },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: !!monitor.isDragging()
     })
   });
@@ -54,7 +56,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
 
   const combinedStyle = combineStyles(
     combineStyles(
-      combineStyles(globalDefaultStyle, referencedComponent.style),
+      combineStyles(globalDefaultStyle, referencedComponent.style)
       // style
     ),
     interactiveStyle
@@ -69,12 +71,7 @@ function DirectChildComponent({ childId, type, typeId, style, name }: ChildEleme
     >
         <span>
           <strong>{name}</strong>
-
-          <Annotation
-              id={childId}
-              name={name}
-              // annotations={annotations}
-              />
+          <DeleteButton id={childId} name={name} />  
         </span>
 
     </div>
