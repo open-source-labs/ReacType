@@ -5,8 +5,9 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import {
   Button,
   InputLabel,
-  TextField,
+  // TextField,
 } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -163,8 +164,9 @@ const HTMLPanel = (props): JSX.Element => {
               Tag:
             </InputLabel>
               <TextField
-                color={'primary'}
-                variant={'outlined'}
+                // label='Tag'
+                color='primary'
+                variant='outlined'
                 type="text"
                 name="Tag"
                 value={tag}
@@ -189,8 +191,9 @@ const HTMLPanel = (props): JSX.Element => {
               Element Name:
             </InputLabel>
             <TextField
-              color={'primary'}
-              variant={'outlined'}
+              // label='Element Name'
+              color='primary'
+              variant='outlined'
               type="text"
               name="Tag Name"
               value={name}
@@ -204,19 +207,20 @@ const HTMLPanel = (props): JSX.Element => {
                 }
               }}
             />
-            
-
             {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                               <em>{errorMsg}</em>
                             </span>}           
-            <AddElementButton
+            <br></br>
+            <Button
               className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
+              color='primary'
+              variant='contained'
               value="Add Element"
             >Add Element
-            </AddElementButton>
+            </Button>
           </form>
         </div>
       </div>
@@ -267,13 +271,14 @@ const useStyles = makeStyles({
   addElementButton: {
     backgroundColor: 'transparent',
     height: '40px',
-    width: '105px',
+    width: '200px',
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '4px',
+    alignSelf: 'center'
   },
   lightThemeFontColor: {
     color: '#155084',
@@ -288,10 +293,11 @@ const useStyles = makeStyles({
     }
   },
   errorMessage: {
+    display: 'flex',
+    alignSelf: 'center',
     fontSize:"11px", 
     marginTop: "10px",
     width: "150px",
-    marginLeft: "-15px"
   },
   errorMessageLight: {
     color: '#6B6B6B'
@@ -301,16 +307,17 @@ const useStyles = makeStyles({
   }
 });
 
-const AddElementButton = styled(Button)({
-  background: "#0099E6",
-  border: 0,
-  borderRadius: 3,
-  boxShadow: "0 0px 0px 2px #1a1a1a",
-  color: "white",
-  height: 24,
-  width: 160,
-  padding: "0px 30px",
-  alignSelf: 'center',
-});
+// changed to Button component to keep styling consistent
+// const AddElementButton = styled(Button)({
+//   background: "#0099E6",
+//   border: 0,
+//   borderRadius: 3,
+//   boxShadow: "0 0px 0px 2px #1a1a1a",
+//   color: "white",
+//   height: 24,
+//   width: 160,
+//   padding: "0px 30px",
+//   alignSelf: 'center',
+// });
 
 export default HTMLPanel;

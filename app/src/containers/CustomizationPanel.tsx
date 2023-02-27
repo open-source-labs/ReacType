@@ -5,20 +5,22 @@ import React, {
   useMemo,
   useCallback
 } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import {
+  makeStyles,
+  FormControl,
+  TextField, 
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+ } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import createModal from '../components/right/createModal';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
@@ -780,6 +782,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
             <div>
               <div className={classes.buttonRow}>
                 <Button
+                  variant='contained'
                   color="primary"
                   className={
                     isThemeLight
@@ -795,6 +798,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
+                    variant='outlined'
                     color="primary"
                     className={classes.button}
                     onClick={handleDelete}
@@ -805,6 +809,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               ) : isPage(configTarget) ? (
                 <div className={classes.buttonRow}>
                   <Button
+                    variant='outlined'
                     color="secondary"
                     className={classes.button}
                     onClick={handlePageDelete(configTarget.id)}
@@ -815,6 +820,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               ) : (
                 <div className={classes.buttonRow}>
                   <Button
+                    variant='outlined'
                     color="secondary"
                     className={classes.button}
                     onClick={clearComps}
