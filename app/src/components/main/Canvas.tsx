@@ -17,7 +17,7 @@ function Canvas(props): JSX.Element {
 
   useEffect(()=> {
     if (newComp) {
-      //find updated comp
+      // find updated comp
       const copy = state.components.find(comp => comp.name === copiedComp.name)
       // make a array of copied children from the copied component
       if (copy.children.length){
@@ -29,24 +29,24 @@ function Canvas(props): JSX.Element {
             let id = (parentId) ? parentId : null;
             if (child.typeId < 1000){
               masterArr.push({
-                type: "HTML Element", 
-                typeId: child.typeId, 
+                type: "HTML Element",
+                typeId: child.typeId,
                 childId: id
               })
               if (child.children.length) {
                 deepChildCopy(child.children, child.childId);
-              } 
+              }
             }
           }
         }
         deepChildCopy(children, null);
         setCopiedChildrenArr(masterArr);
       }
-  
+
       const components = state.components
 
         // find the ID of the newly created component
-      const newId = components[components.length -1]['id']      
+      const newId = components[components.length -1]['id']
       dispatch({
         type: 'ADD CHILD',
         payload: {
@@ -56,35 +56,35 @@ function Canvas(props): JSX.Element {
         }
       });
     }
-    setNewComp(false)
-  }, [newComp]) 
+    setNewComp(false) // initially set to false
+  }, [newComp])
 
   // Caret start
   Arrow.deleteLines();
   // find the current component to render on the canvas
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
-    );
+  );
 
-    // changes focus of the canvas to a new component / child
-    const changeFocus = (componentId?: number, childId?: number | null) => {
-      dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-    };
-    // onClickHandler is responsible for changing the focused component and child component
-    function onClickHandler(event) {
-      event.stopPropagation();
-      // note: a null value for the child id means that we are focusing on the top-level component rather than any child 
-      changeFocus(state.canvasFocus.componentId, null);
-    };
+  // changes focus of the canvas to a new component / child
+  const changeFocus = (componentId?: number, childId?: number | null) => {
+    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  };
+  // onClickHandler is responsible for changing the focused component and child component
+  function onClickHandler(event) {
+    event.stopPropagation();
+    // note: a null value for the child id means that we are focusing on the top-level component rather than any child
+    changeFocus(state.canvasFocus.componentId, null);
+  };
 
-    // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
-    const snapShotFunc = () => {
-      // make a deep clone of state
-        const deepCopiedState = JSON.parse(JSON.stringify(state));
-        const focusIndex = state.canvasFocus.componentId - 1;
-        //pushes the last user action on the canvas into the past array of Component
-        state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-    };
+  // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
+  const snapShotFunc = () => {
+    // make a deep clone of state
+      const deepCopiedState = JSON.parse(JSON.stringify(state));
+      const focusIndex = state.canvasFocus.componentId - 1;
+      //pushes the last user action on the canvas into the past array of Component
+      state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+  };
 
   // This hook will allow the user to drag items from the left panel on to the canvas
   const [{ isOver }, drop] = useDrop({
@@ -117,7 +117,7 @@ function Canvas(props): JSX.Element {
           //loop over each componenets child
           for (let j = 0; j < comp.children.length; j++) {
             const child = comp.children[j];
-            if (child.name === 'seperator') continue;
+            if (child.name === 'separator') continue;
             // check if the item.instanceTypeId matches and child ID
             if (item.instanceTypeId === child.typeId) {
               // check if the name of the parent matches the canvas focus name
@@ -137,7 +137,7 @@ function Canvas(props): JSX.Element {
             }
           }
         }
-        if (!hasDiffParent) {
+        // if (!hasDiffParent) {
           dispatch({
             type: 'ADD CHILD',
             payload: {
@@ -146,11 +146,12 @@ function Canvas(props): JSX.Element {
               childId: null
             }
           });
-        } else {
-
+          // comment out below, not sure what the previous team want to do for this
+        // } else {
+        //   alert('something is wrong');
           // able to duplicate a component in dev only does not work for prod
           // create a new component
-          
+
           // let name = prompt("Component already has a parent. \nDo you want to create a new component and import its elements?", "Enter component name here");
           // while (components.some(comp => comp.name === name)) {
           //   name = prompt(`${name} component already exists. \nPlease pick a new name.`);
@@ -160,20 +161,20 @@ function Canvas(props): JSX.Element {
           //     type: 'ADD COMPONENT',
           //     payload: { componentName: name, root: false }
           //   });
-            
+
           //   setNewComp(true);
           //   setNewComp(!newComp)
           // }
-          
-        }
-        
+
+        // }
+
       }
     },
     collect: monitor => ({
       isOver: !!monitor.isOver()
     })
   });
-  
+
   // Styling for Canvas
   const defaultCanvasStyle = {
     width: '100%',
@@ -181,6 +182,8 @@ function Canvas(props): JSX.Element {
     backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
+    aspectRatio: 'auto 774 / 1200',
+    boxSizing: 'border-box',
   };
 
   const darkCanvasStyle = {
@@ -193,12 +196,12 @@ function Canvas(props): JSX.Element {
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
-  
+
   // const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
   return (
-    <div ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
+    <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}
     </div>
   );

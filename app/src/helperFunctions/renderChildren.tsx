@@ -13,14 +13,15 @@ import StateContext from '../context/context';
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
   const [state, dispatch] = useContext(StateContext);
+
   return children.map((child: ChildElement, i: number) => {
-    const { type, style, childId, children, attributes, name, annotations} = child;
-    let {typeId} = child;
+    const { type, style, childId, children, attributes, name } = child;
+    let { typeId } = child;
     if (name === '') child.name = state.components[typeId - 1].name;
     // A DirectChildComponent is an instance of a top level component
     // This component will render IndirectChild components (div/components rendered inside a child component)
     // Removed style from prop drills so that styling isn't applied to canvas items.
-    // Also added keys & removed an unnecessary div around DirChildNestables that were causing errors.
+    // Also added keys & removed an unnecessary div around DirChildNestables that was causing errors.
     if (type === 'Component') {
       return (
         <DirectChildComponent
@@ -29,30 +30,57 @@ const renderChildren = (children: ChildElement[]) => {
           typeId={typeId}
           key={'DirChildComp' + childId.toString() + name}
           name={name}
-          annotations={annotations}
         />
       );
     }
-    // ommitted orderedlists, unorderedlists, and menus, ommitted li items as non-nestable types because they can be nested within.
-    // child is a non-nestable type of HTML element (everything except for divs and forms)
-    else if (type === 'HTML Element' && typeId !== 11 && typeId !== 1000 && typeId !== 2 && typeId !== 3 && typeId !== 14 && typeId !== 15 && typeId !== 16 && typeId !== 17 && typeId !== 18 && typeId !== -1 && typeId !== 19) {
+    // child is a non-nestable type of HTML element (aka NOT divs, forms, OrderedLists, UnorderedLists, menus)
+    else if (
+      type === 'HTML Element' &&
+      typeId !== 11 &&
+      typeId !== 1000 &&
+      typeId !== 2 &&
+      typeId !== 3 &&
+      typeId !== 14 &&
+      typeId !== 15 &&
+      typeId !== 16 &&
+      typeId !== 17 &&
+      typeId !== 18 &&
+      typeId !== -1 &&
+      typeId !== 19
+    ) {
       return (
         <DirectChildHTML
           childId={childId}
           type={type}
           typeId={typeId}
-          key={'DirChildHTML' + childId.toString() + name }
+          key={'DirChildHTML' + childId.toString() + name}
           name={name}
-          annotations={annotations}
         />
       );
     }
-    // Added Orderedlists, Unorderedlists, and Menus, changed lists to nestable because they are nestable.
-    // child is a nestable type of HTML element (divs and forms)
-    else if (type === 'HTML Element' && (typeId === 11 || typeId === 2 || typeId === 3 || typeId === 14 || typeId === 15 || typeId === 16 || typeId === 17 || typeId === 18 || typeId === -1 || typeId === 19)) {
-      if((typeId === 18 || typeId === 19) && state.projectType === 'Classic React') typeId = 18;
-      if((typeId === 17 || typeId === -1) && state.projectType === 'Next.js') return renderChildren(children);
-      if((typeId === 18 || typeId === 19) && state.projectType === 'Next.js') typeId = 19;
+    // child is a nestable type of HTML element (divs, forms, OrderedLists, UnorderedLists, menus)
+    else if (
+      type === 'HTML Element' &&
+      (typeId === 11 ||
+        typeId === 2 ||
+        typeId === 3 ||
+        typeId === 14 ||
+        typeId === 15 ||
+        typeId === 16 ||
+        typeId === 17 ||
+        typeId === 18 ||
+        typeId === -1 ||
+        typeId === 19)
+    ) {
+      if (
+        (typeId === 18 || typeId === 19) &&
+        state.projectType === 'Classic React'
+      )
+        typeId = 18;
+      if ((typeId === 17 || typeId === -1) && state.projectType === 'Next.js')
+        return renderChildren(children);
+      if ((typeId === 18 || typeId === 19) && state.projectType === 'Next.js')
+        typeId = 19;
       return (
         <DirectChildHTMLNestable
           childId={childId}
@@ -61,19 +89,22 @@ const renderChildren = (children: ChildElement[]) => {
           children={children}
           key={'DirChildHTMLNest' + childId.toString() + name}
           name={name}
-          annotations={annotations}
           attributes={attributes}
         />
       );
-    }
-    else if (type === 'HTML Element' && typeId === 1000 ) {
+    } else if (type === 'HTML Element' && typeId === 1000) {
       return (
         <SeparatorChild
           childId={childId}
           type={type}
           typeId={typeId}
           children={children}
-          key={'SeparatorChild' + childId.toString() + name + (Math.random()*1000).toString()}
+          key={
+            'SeparatorChild' +
+            childId.toString() +
+            name +
+            (Math.random() * 1000).toString()
+          }
           name={name}
         />
       );

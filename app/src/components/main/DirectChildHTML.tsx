@@ -1,25 +1,15 @@
-import React, {  useContext } from 'react';
-import {
-  ChildElement,
-  HTMLType
-} from '../../interfaces/Interfaces';
+import React, { useContext } from 'react';
+import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import Annotation from './Annotation'
+import DeleteButton from './DeleteButton';
 
 import { styleContext } from '../../containers/AppContainer';
 
-function DirectChildHTML({
-  childId,
-  name,
-  type,
-  typeId,
-  style,
-  annotations,
-}: ChildElement) {
+function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
 
@@ -36,7 +26,7 @@ function DirectChildHTML({
       newInstance: false,
       childId: childId,
       instanceType: type,
-      instanceTypeId: typeId,
+      instanceTypeId: typeId
     },
     collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging()
@@ -62,22 +52,47 @@ function DirectChildHTML({
         : '1px solid grey'
   };
 
+  // if (state.components[0].children)
+  // console.log(globalDefaultStyle);
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
 
+  // state.components.forEach(component => {
+  //   // console.log('state.components : ', state.components)
+  //     let color = 'rgb(63, 154,';
+  //     let counter = -10;
+  //     component.children?.forEach(obj => {
+  //     // if (obj['childId'] === childId) {
+  //       counter += 10;
+  //       color = color + counter.toString() + ')'
+  //       combinedStyle['backgroundColor'] = color;
+  //     // } else {
+  //     //   combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
+  //     // }
+  //   })
+  // });
+
+  // console.log(name[0].toLowerCase() + name.slice(1))
+
   return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={drag} id={`canv${childId}`}>
-      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>      
-      {/* {`  (${childId})`} */}
-      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
-      <Annotation
-        id={childId}
-        name={name}
-        annotations={annotations}
-      />
+    <div
+      onClick={onClickHandler}
+      style={combinedStyle}
+      ref={drag}
+      id={`canv${childId}`}
+    >
+      <span>
+        <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
+          {HTMLType.placeHolderShort}
+        </strong>
+        <DeleteButton
+          id={childId}
+          name={name[0].toLowerCase() + name.slice(1)}
+        />
+      </span>
     </div>
   );
 }
