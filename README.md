@@ -28,9 +28,8 @@
 
 
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/Tuyjd4e.png">
+  <img width="1000" src="https://i.imgur.com/jR53ySV.png">
 </p>
-
 
 
 **ReacType** is a rapid prototyping tool built on Electron that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -56,11 +55,19 @@ Download the latest [release](https://github.com/open-source-labs/ReacType/relea
 
 ## Changes with version 14.0.0
 
-- **Add event listeners**: Users can now add event listeners to elements in the customization tab and view a list of added events. The list can be edited to remove events, and the live code preview will show the events being added and updated.
-- **Delete buttons added**: Delete buttons have been added to canvas components and elements for easier removal. Users can now delete elements or components directly by focusing on them and clicking the delete button.
-- **Live code preview and component tree update**: When users drag-and-drop components and elements, the live code preview and component tree are automatically updated to reflect the changes in real time.
-- **Major UI changes**: The user interface has undergone a major change, including a sliding effect for the left and bottom panels to maximize user visibility. The styling has been unified and the display of canvas hierarchy has been made more prominent for improved clarity.
-- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous version as well as plans for upcoming features!
+- **Added event listeners**: Users can now add event listeners to elements in the customization tab and view a list of added events. The list can be edited to remove events, and the live code preview will show the events being added and updated.
+- **Delete buttons added**: Delete buttons have been added to canvas components and elements for easier removal. Users can now delete elements or components directly by focusing on them and mouse-clicking the delete button.
+- **Live code preview and component tree update**: When users drag-and-drop components and elements, the live code preview and component tree are automatically updated to reflect the changes in real-time.
+- **Major UI enhancement**: The user interface has undergone a major change, including a sliding effect for the left and bottom panels to maximize user visibility. The styling has been unified and the display of the canvas hierarchy has been made more prominent for improved clarity.
+- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
+
+## (_New_) File Structure
+
+Here is the main file structure:
+<p align="center">
+  <img width="1000" src="https://i.imgur.com/RdK8QzW.jpg">
+</p>
+Please refer to the link: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w for more details.
 
 
 ## Run ReacType using CLI
@@ -72,7 +79,7 @@ Download the latest [release](https://github.com/open-source-labs/ReacType/relea
 ```bash
 npm install
 ```
-- If there's any issue with the installation, try using `--legacy-peer-deps` flag instead.
+- If there is a dependency issue during installation, try switching to Node version v16.0.0 and then install. If the dependency issue still persists, try using the `--legacy-peer-deps` flag instead.
 
 ```bash
 npm install --legacy-peer-deps
