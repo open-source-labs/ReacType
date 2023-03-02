@@ -26,7 +26,7 @@ const CodePreview: React.FC<{
    * Starts the Web Assembly service.
    */
   const startService = async () => {
-    ref.current = await esbuild.startService({
+    ref.current = await esbuild.initialize({
       worker: true,
       wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
     });
@@ -58,13 +58,14 @@ const CodePreview: React.FC<{
       type: 'CODE_PREVIEW_INPUT',
       payload: currentComponent.code
     });
-  }, [currentComponent]);
+  }, [currentComponent, state.components]);
 
   /**
    * Handler thats listens to changes in code editor
    * @param {string} data - Code entered by the user
    */
-  const handleChange = async data => {
+  const handleChange = async (data) => {
+    // console.log('changed');
     setInput(data);
     store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
     if (!ref.current) {

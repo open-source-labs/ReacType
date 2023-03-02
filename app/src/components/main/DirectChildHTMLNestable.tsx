@@ -6,9 +6,10 @@ import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import Annotation from './Annotation'
-import validateNewParent from '../../helperFunctions/changePositionValidation'
-import componentNest from '../../helperFunctions/componentNestValidation'
+import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
+import DeleteButton from './DeleteButton';
+import validateNewParent from '../../helperFunctions/changePositionValidation';
+import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 
@@ -21,7 +22,6 @@ function DirectChildHTMLNestable({
   style,
   children,
   name,
-  annotations,
   attributes
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
@@ -35,7 +35,9 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+    state.components[focusIndex].past.push(
+      deepCopiedState.components[focusIndex].children
+    );
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -77,13 +79,20 @@ function DirectChildHTMLNestable({
       // updates state with new instance
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
-        if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
+        if (
+          (item.instanceType === 'Component' &&
+            componentNest(
+              state.components[item.instanceTypeId - 1].children,
+              childId
+            )) ||
+          item.instanceType !== 'Component'
+        ) {
           dispatch({
             type: 'ADD CHILD',
             payload: {
               type: item.instanceType,
               typeId: item.instanceTypeId,
-              childId: childId,
+              childId: childId
             }
           });
         }
@@ -96,7 +105,7 @@ function DirectChildHTMLNestable({
             type: 'CHANGE POSITION',
             payload: {
               currentChildId: item.childId,
-              newParentChildId: childId,
+              newParentChildId: childId
             }
           });
         }
@@ -127,10 +136,12 @@ function DirectChildHTMLNestable({
     border:
       state.canvasFocus.childId === childId
         ? '3px solid #186BB4'
-        : '1px solid grey',
+        : '1px solid grey'
   };
-
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'rgba(0, 0, 255, 0.0)';
+  
+  // interactive style to change color when nested element is hovered over
+  if (isOver) defaultNestableStyle['yellow'];
+  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
@@ -144,21 +155,33 @@ function DirectChildHTMLNestable({
     routeButton.push(<AddRoute id={childId} name={name} />);
   }
   if (typeId === 19) {
-    routeButton.push(<AddLink id={childId} onClickHandler={onClickHandler} name={name} linkDisplayed={attributes && attributes.compLink ? `${attributes.compLink}` : null} />);
-  }
-  
-  return (
-    <div onClick={onClickHandler} style={combinedStyle} ref={ref} id={`canv${childId}`}>
-      <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}</strong>
-      {/* {`  ( ${childId} )`} */}
-      <span style={ {color: isThemeLight ? 'black' : 'white'} }>{`  ( ${childId} )`}</span>
-      <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}</strong>
-      {routeButton}
-      <Annotation
+    routeButton.push(
+      <AddLink
         id={childId}
+        onClickHandler={onClickHandler}
         name={name}
-        annotations={annotations}
+        linkDisplayed={
+          attributes && attributes.compLink ? `${attributes.compLink}` : null
+        }
       />
+    );
+  }
+
+  return (
+    <div
+      onClick={onClickHandler}
+      style={combinedStyle}
+      ref={ref}
+      id={`canv${childId}`}
+    >
+      <span>
+        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}
+        </strong>
+        <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
+        </strong>
+        {routeButton}
+        <DeleteButton id={childId} name={name} />
+      </span>
       {renderChildren(children)}
     </div>
   );

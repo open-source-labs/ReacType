@@ -6,16 +6,16 @@
 
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/enAcYvB.png">
-</p>
- -->
+</p> -->
+
 <div align="left">
-  
+
 [![StarShield][stars]][stars-url]
 [![ContributorShield][contributors]][contributors-url]
 [![ForksShield][forks]][forks-url]
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version: 13.0.0](https://img.shields.io/badge/version-13.0.0-orange)
-  
+![Version: 14.0.0](https://img.shields.io/badge/version-14.0.0-orange)
+
 </div>
 <!-- <p align="center">
   <img width="1000" src="https://i.imgur.com/FPizsat.png">
@@ -28,9 +28,8 @@
 
 
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/Tuyjd4e.png">
+  <img width="1000" src="https://i.imgur.com/jR53ySV.png">
 </p>
-
 
 
 **ReacType** is a rapid prototyping tool built on Electron that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
@@ -41,7 +40,7 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 ### Documentation
 
-If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now. 
+If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now.
 
 ### Installing
 
@@ -54,23 +53,36 @@ If you are given a warning that Apple could not scan the app. Please follow thes
 Download the latest [release](https://github.com/open-source-labs/ReacType/releases)
 
 
-## New with version 13.0.0
+## Changes with version 14.0.0
 
-- **Manage state locally**: Users can now manage state dynamically within nested components using React Hooks within the state manager tab.
-- **Add/delete props**: For a selected component, users can see a list of available props from the parent, add props, and delete props in case they are not required later on.
-- **State/props flow**: If state or props are deleted upstream, it will automatically update the state for its children components.
-- **Visualize state/props flow**: Within the display sub-tab of the state manager tab, users can visualize an interactive tree diagram depicting the state initialized in the current component and passed down props from the parent component.
-- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous version as well as plans for upcoming features!
+- **Added event listeners**: Users can now add event listeners to elements in the customization tab and view a list of added events. The list can be edited to remove events, and the live code preview will show the events being added and updated.
+- **Delete buttons added**: Delete buttons have been added to canvas components and elements for easier removal. Users can now delete elements or components directly by focusing on them and mouse-clicking the delete button.
+- **Live code preview and component tree update**: When users drag-and-drop components and elements, the live code preview and component tree are automatically updated to reflect the changes in real-time.
+- **Major UI enhancement**: The user interface has undergone a major change, including a sliding effect for the left and bottom panels to maximize user visibility. The styling has been unified and the display of the canvas hierarchy has been made more prominent for improved clarity.
+- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
+
+## (_New_) File Structure
+
+Here is the main file structure:
+<p align="center">
+  <img width="1000" src="https://i.imgur.com/RdK8QzW.jpg">
+</p>
+Please refer to the link: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w for more details.
 
 
 ## Run ReacType using CLI
 
 - **Fork** and **Clone** Repository.
 - Open project directory
-- Install dependencies
+- Install dependencies.
 
 ```bash
 npm install
+```
+- If there is a dependency issue during installation, try switching to Node version v16.0.0 and then install. If the dependency issue still persists, try using the `--legacy-peer-deps` flag instead.
+
+```bash
+npm install --legacy-peer-deps
 ```
 
 - To run the production build

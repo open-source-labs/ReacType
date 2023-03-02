@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import Modal from '@material-ui/core/Modal';
 import StateContext from '../../context/context';
 import TableStateProps from './TableStateProps';
@@ -10,7 +10,7 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   const [stateKey, setStateKey] = useState('');
   const [statePropsId, setStatePropsId] = useState(-1);
   const [componentProviderId, setComponentProviderId] = useState(1);  
-
+  const container = useRef(null);
   // table to choose state from
   const body = (
     <div className="useState-position">
@@ -46,9 +46,9 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
   );
 
   return (
-    <div>
+    <div ref={container}>
       <button className="useState-btn" onClick={() => setOpen(true)}>USE STATE</button>
-      <Modal open={open}>{body}</Modal>
+      <Modal open={open} container={container.current}>{body}</Modal>
     </div>
   );
 }

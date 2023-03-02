@@ -51,87 +51,35 @@ const BottomTabs = (props): JSX.Element => {
       className={`${classes.root} ${classes.rootLight}`}
       style={{ backgroundColor: '#003366' }}
     >
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        paddingBottom="10px"
-        paddingRight="10px"
-      >
-        <Tabs
-          value={tab}
-          onChange={handleChange}
-          classes={{
-            root: classes.tabsRoot,
-            indicator: classes.tabsIndicator
-          }}
-        >
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Creation Panel"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Customization"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="CSS Editor"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Code Preview"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Tree"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Context Manager"
-          />
-          <Tab
-            disableRipple
-            classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="State Manager"
-          />
+      <Box display="flex" justifyContent="space-between" alignItems="center" paddingBottom="10px" paddingRight="10px">
+        <Tabs value={tab} onChange={handleChange} classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }} variant="scrollable" scrollButtons="auto" >
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Creation Panel" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Customization" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="CSS Editor" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Code Preview" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Component Tree" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="Context Manager" />
+          <Tab disableRipple classes={{ root: classes.tabRoot, selected: classes.tabSelected }} label="State Manager" />
         </Tabs>
         <div className={classes.projectTypeWrapper}>
           <FormControl size="small">
-            <Select
-              variant="outlined"
-              labelId="project-type-label"
-              id="demo-simple-select"
-              className={classes.projectSelector}
-              value={state.projectType}
-              onChange={handleProjectChange}
-            >
-              <MenuItem style={{ color: 'black' }} value={'Classic React'}>
-                Classic React
-              </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>
-                Gatsby.js
-              </MenuItem>
-              <MenuItem style={{ color: 'black' }} value={'Next.js'}>
-                Next.js
-              </MenuItem>
+            <Select variant="outlined" labelId="project-type-label" id="demo-simple-select" className={classes.projectSelector} value={state.projectType} onChange={handleProjectChange} MenuProps={{ disablePortal: true }}>
+              <MenuItem style={{ color: 'black' }} value={'Classic React'}>Classic React</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Gatsby.js'}>Gatsby.js</MenuItem>
+              <MenuItem style={{ color: 'black' }} value={'Next.js'}>Next.js</MenuItem>
             </Select>
           </FormControl>
         </div>
       </Box>
-      {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
-      {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
-      {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-      {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
-      {tab === 4 && <Tree data={components} />}
-      {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-      {tab === 6 && <StateManager theme={theme} setTheme={setTheme} isThemeLight={props.isThemeLight} />}
+      <div className='tab-content'>
+        {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
+        {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
+        {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
+        {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
+        {tab === 4 && <Tree data={components} />}
+        {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
+        {tab === 6 && <StateManager theme={theme} setTheme={setTheme} isThemeLight={props.isThemeLight} />}
+      </div>
     </div>
   );
 };
@@ -162,7 +110,8 @@ const useStyles = makeStyles(theme => ({
     textTransform: 'initial',
     minWidth: 40,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing(4), // JZ: updated syntax as per deprecation warning
+    marginRight: theme.spacing(2), // JZ: updated syntax as per deprecation warning
+    marginLeft: theme.spacing(2),
 
     fontFamily: [
       '-apple-system',
@@ -201,7 +150,8 @@ const useStyles = makeStyles(theme => ({
   },
   projectTypeWrapper: {
     marginTop: '10px',
-    marginBotton: '10px'
+    marginBotton: '10px',
+    marginLeft: '10px',
   },
   projectSelector: {
     backgroundColor: '#0099E6',
