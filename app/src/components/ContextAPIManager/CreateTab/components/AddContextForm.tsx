@@ -23,12 +23,6 @@ const AddContextForm = ({
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
     handleClickSelectContext();
-
-    //need to trigger the generate code functionality to update the code preview tab. Sending dummy data to trigger with a DELELTE ELEMENT dispatch method
-    dispatch({
-      type: 'DELETE ELEMENT',
-      payload: 'FAKE_ID'
-    });
   };
 
   const onChange = (event, newValue) => {

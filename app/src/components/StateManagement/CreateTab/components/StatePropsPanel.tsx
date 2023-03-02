@@ -4,14 +4,14 @@ import {
   styled,
   Theme
 } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import {
   FormControl,
   FormHelperText,
   MenuItem,
   InputLabel,
   Select,
-  TextField
+  TextField,
+  Button
 } from "@material-ui/core";
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
@@ -203,6 +203,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
               className={isThemeLight ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}` : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`}
               value={inputType}
               onChange={(event, index) => setInputType(index.props.value)}
+              MenuProps={{ disablePortal: true }}
               style={ isThemeLight
                 ? {backgroundColor: '#eef0f1', color: '#000', border: '1px solid black', height: '28px', width: '200px'}
                 : {backgroundColor: 'gray', color: '#fff', border: '1px solid white', height: '28px', width: '200px'}}
@@ -237,44 +238,47 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
                 Required
             </FormHelperText>
           </FormControl>
-          <br></br>
-          <MyButton
-          type="submit"
-          onClick={submitNewState}
-          className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+          <br />
+          <Button
+            variant='contained'
+            color='primary'
+            type="submit"
+            onClick={submitNewState}
+            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
           >
             Save
-          </MyButton>
-          <br></br>
+          </Button>
+          <br />
 
         </FormControl>
       </div>
-       <br></br>
-      <div style={{display: 'flex', overflowX: 'scroll', width: '1700px'}}>
+       <br />
+      <div style={{display: 'flex', overflowX: 'scroll'}}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
-        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
-          Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
-        </h4>
-        <TableStateProps rows1={rows1} setRows1={setRows1} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+          <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+            Current Component State: {state.components[state.canvasFocus.componentId - 1].name}
+          </h4>
+          <TableStateProps rows1={rows1} setRows1={setRows1} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
     
         <div style={{display: 'flex', flexDirection: 'column'}}>
-        <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
-          Available Props from Parent: {parentName ? parentName : 'No Parents'}
-        </h4>
-        <TableParentProps parentPassedInProps = {parentPassedInProps} parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+          <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+            Available Props from Parent: {parentName ? parentName : 'No Parents'}
+          </h4>
+          <TableParentProps parentPassedInProps = {parentPassedInProps} parentComponent ={parentComponent} parentProps={parentProps} canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
+
         <div style={{display: 'flex', flexDirection: 'column', width: `${40}px`, color: 'black', justifyContent: 'center'}}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
-  <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-</svg>
-      </div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+          </svg>
+        </div>
 
         <div style={{display: 'flex', flexDirection: 'column'}}>
-        <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
-        Passed in Props from Parent: {parentName ? parentName : 'No Parents'}
-        </h4>
-        <TablePassedInProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
+          <h4  className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>
+            Passed in Props from Parent: {parentName ? parentName : 'No Parents'}
+          </h4>
+          <TablePassedInProps canDeleteState = {true} selectHandler={handlerRowSelect} isThemeLight={isThemeLight} data={data}/>
         </div>
       </div>
     </div>
@@ -368,7 +372,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "-20px 0px 5px 150px",
       borderStyle: "none",
       transition: "0.3s",
-      borderRadius: "25px",
+      // borderRadius: "25px",
     },
     rootToggle: {
       color: "#696969",
@@ -437,14 +441,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-const MyButton = styled(Button)({
-  background: "#0099E6",
-  border: 0,
-  borderRadius: 3,
-  boxShadow: "0 0px 0px 2px #1a1a1a",
-  color: "white",
-  height: 24,
-  width: 40,
-  padding: "0 30px",
-});
+// change to Button to keep styling consistent
+// const MyButton = styled(Button)({
+  // background: "#0099E6",
+  // border: 0,
+  // borderRadius: 3,
+  // boxShadow: "0 0px 0px 2px #1a1a1a",
+  // color: "white",
+  // height: 24,
+  // width: 40,
+  // padding: "0 30px",
+// });
 export default StatePropsPanel;

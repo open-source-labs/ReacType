@@ -13,7 +13,9 @@ import DisplayContainer from './DisplayTab/DisplayContainer';
 const useStyles = makeStyles({
   contextContainer: {
     backgroundColor: 'white',
-    height: '100%'
+    height: 'fit-content',
+    width: 'fit-content',
+    minWidth: '100%'
   }
 });
 

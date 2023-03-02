@@ -10,7 +10,6 @@ import ReusableComponents from './ReusableComponents';
 import ComponentTree from './ComponentTree';
 import HTMLElements from './HtmlElements';
 import CodePreview from './CodePreview';
-import Annotations from './Annotations';
 import State from './States';
 import DemoRender from './KeyboardShortcuts';
 import CSSEditor from './CSSEditor';
@@ -59,12 +58,12 @@ const useStyles = makeStyles({
     width: '30%',
     minHeight: '100%',
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     fontSize: '1.5em'
   }
-})
+});
 
 const tutorialPageStyle = {
   tutorial_page: {
@@ -72,7 +71,7 @@ const tutorialPageStyle = {
     justifyContent: 'center',
     backgroundColor: '#f2f0f0',
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
   main_tutorial: {
     width: '70%',
@@ -98,38 +97,124 @@ const TutorialPage: React.FC<RouteComponentProps> = (props) => {
     <div style={tutorialPageStyle.tutorial_page}>
       <div style={tutorialPageStyle.main_tutorial}>
         {page === 'Pages' && <Pages classes={classes} setPage={setPage} />}
-        {page === 'Route Links' && <RouteLinks classes={classes} setPage={setPage} />}
-        {page === 'Code Preview' && <CodePreview classes={classes} setPage={setPage} />}
-        {page === 'Reusable Components' && <ReusableComponents classes={classes} setPage={setPage} />}
+        {page === 'Route Links' && (
+          <RouteLinks classes={classes} setPage={setPage} />
+        )}
+        {page === 'Code Preview' && (
+          <CodePreview classes={classes} setPage={setPage} />
+        )}
+        {page === 'Reusable Components' && (
+          <ReusableComponents classes={classes} setPage={setPage} />
+        )}
         {page === 'Canvas' && <Canvas classes={classes} setPage={setPage} />}
-        {page === 'Component Tree' && <ComponentTree classes={classes} setPage={setPage} />}
-        {page === 'HTML Elements' && <HTMLElements classes={classes} setPage={setPage} />}
+        {page === 'Component Tree' && (
+          <ComponentTree classes={classes} setPage={setPage} />
+        )}
+        {page === 'HTML Elements' && (
+          <HTMLElements classes={classes} setPage={setPage} />
+        )}
         {page === 'Styling' && <Styling classes={classes} setPage={setPage} />}
-        {page === 'Customization' && <Customization classes={classes} setPage={setPage} />}
-        {page === 'Annotations' && <Annotations classes={classes} setPage={setPage} />}
+        {page === 'Customization' && (
+          <Customization classes={classes} setPage={setPage} />
+        )}
         {page === 'States' && <State classes={classes} setPage={setPage} />}
-        {page === 'CSS Editor' && <CSSEditor classes={classes} setPage={setPage} />}
-        {page === 'Keyboard Shortcuts' && <DemoRender classes={classes} setPage={setPage} />}
+        {page === 'CSS Editor' && (
+          <CSSEditor classes={classes} setPage={setPage} />
+        )}
+        {page === 'Keyboard Shortcuts' && (
+          <DemoRender classes={classes} setPage={setPage} />
+        )}
       </div>
       <div className={classes.sidebar}>
-        <br/>
+        <br />
         <Link to={`/tutorial`}>
           <button style={tutorialPageStyle.tutHomeButton}>Tutorial Home</button>
         </Link>
         <ul style={tutorialPageStyle.list}>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Pages')}>Pages</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Route Links')}>Route Links</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Code Preview')}>Code Preview</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Reusable Components')}>Reusable Components</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Canvas')}>Canvas</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Component Tree')}>Component Tree</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('HTML Elements')}>HTML Elements</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Styling')}>Styling</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Customization')}>Customization</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Annotations')}>Annotations</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('States')}>States</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('CSS Editor')}>CSS Editor</li>
-          <li style={tutorialPageStyle.listItem} className={classes.notLink} onClick={() => setPage('Keyboard Shortcuts')}>Keyboard Shortcuts</li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Pages')}
+          >
+            Pages
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Route Links')}
+          >
+            Route Links
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Code Preview')}
+          >
+            Code Preview
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Reusable Components')}
+          >
+            Reusable Components
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Canvas')}
+          >
+            Canvas
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Component Tree')}
+          >
+            Component Tree
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('HTML Elements')}
+          >
+            HTML Elements
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Styling')}
+          >
+            Styling
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Customization')}
+          >
+            Customization
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('States')}
+          >
+            States
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('CSS Editor')}
+          >
+            CSS Editor
+          </li>
+          <li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() => setPage('Keyboard Shortcuts')}
+          >
+            Keyboard Shortcuts
+          </li>
         </ul>
       </div>
     </div>
@@ -137,4 +222,3 @@ const TutorialPage: React.FC<RouteComponentProps> = (props) => {
 };
 
 export default withRouter(TutorialPage);
-

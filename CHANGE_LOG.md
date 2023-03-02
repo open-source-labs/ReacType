@@ -3,6 +3,41 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 14.0.0 Changes**
+
+Changes:<br>
+- Added functionality & improvements:
+  - Event listeners:
+    - Added ability to assign event listeners to elements in the bottom customization tab
+    - Can name the function on the event or use the default name provided
+    - Updates reflected in the code preview render
+  - Live code preview: Bottom tool tabs code preview box updates immediately and automatically to reflect the latest changes in state
+  - Converted the annotation button into a delete button on the canvas elements and reusable components
+  - Code preview render: The formatting for generated code has been corrected for improved readability
+- Major UI changes:
+  - Left panel:
+    - Only display when mouse hovered over
+    - When extended, floats in front of the canvas without affecting the main window formatting
+  - Bottom panel
+    - Retractable feature added
+    - Has internal scroll ability in the tabs
+    - Resized functionality is stable
+  - Added indicator tabs to each signifying to the user their presence
+  - Canvas container (upper left):
+    - Changed the formatting to a center column with readable size and label orientation
+    - Standardized the size of components and rate of growth when nesting
+  - Tutorial:
+    - Users can now reference tutorials in split-screen mode without the canvas being auto-cleared when going back and forth from the tutorial
+- Bug fixes:
+  - Reusable component: The drag-and-drop feature for reusable components is now functioning smoothly and without bugs
+
+Recommendations for Future Enhancements:<br>
+- Add function content in the current event listeners' function skeleton.
+- The code output formatting in generateCode.ts is currently difficult to read, and could be improved for better readability.
+- Currently, the project uses two sets of state management tools: useReducer/useContext and Redux. useReducer/useContext is used for handling the customization state, and Redux for managing the code preview, context manager, and dark mode reducer state. However, there seems to be some confusion around how to integrate these two tools effectively. For instance, both tools are used for managing the code preview state, and changing the useReducer/useContext state would replace the corresponding redux state. Need to clean up the logic and find a solution to solve this issue.
+- Some of the files structure is not accurate (e.g., customizationPanel.tsx is in the containers folder instead of the bottom folder), need to rearrange the file hierarchy.
+- Update packages and resolve package dependency issues.
+
 **Version 13.0.0 Changes**
 
 New Functionality:<br>

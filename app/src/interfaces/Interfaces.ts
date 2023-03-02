@@ -22,12 +22,12 @@ export interface ChildElement {
   name: string;
   childId: number;
   style: object;
-  attributes?: object;
+  attributes: object;
+  events: object;
   children?: ChildElement[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
-  annotations?: string;
-  stateUsed?: object; 
-  passedInProps: StateProp[]
+  stateUsed?: object;
+  passedInProps: StateProp[];
 }
 
 export interface Component {
@@ -35,16 +35,16 @@ export interface Component {
   name: string;
   style: object;
   attributes?: object;
+  events: object;
   code: string;
   children: ChildElement[];
   isPage: boolean;
   past: any[];
   future: any[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
-  annotations?: string;
   useStateCodes: string[];
-  useContext?: object
-  passedInProps: StateProp[]
+  useContext?: object;
+  passedInProps: StateProp[];
 }
 export interface StateProp {
   id: string;
@@ -58,7 +58,7 @@ export interface Action {
   payload: any;
 }
 
-export interface Payload { }
+export interface Payload {}
 export interface Reduce {
   state: Context;
   action: Action;
@@ -90,10 +90,9 @@ export interface DragItemType {
 export interface LoginInt {
   isLoggedIn: boolean;
 }
-export interface Annotations {
+export interface DeleteButtons {
   id: number;
   name: string;
-  annotations: string;
 }
 export interface StatePropsPanelProps {
   selectHandler: (table: any) => void;

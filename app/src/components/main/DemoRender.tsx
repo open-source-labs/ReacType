@@ -22,7 +22,8 @@ const DemoRender = (): JSX.Element => {
   const demoContainerStyle = {
     width: '100%',
     backgroundColor: '#FBFBFB',
-    border: '2px Solid grey'
+    border: '2px Solid grey',
+    overflow: 'auto'
   };
 
   const html = `
@@ -55,12 +56,12 @@ const DemoRender = (): JSX.Element => {
   `;
 
   //Switch between components when clicking on a link in the live render
-  window.onmessage = event => {
+  window.onmessage = (event) => {
     if (event.data === undefined) return;
     const component: string = event.data?.split('/').at(-1);
     const componentId =
       component &&
-      state.components?.find(el => {
+      state.components?.find((el) => {
         return el.name.toLowerCase() === component.toLowerCase();
       }).id;
     componentId &&
@@ -166,10 +167,10 @@ const DemoRender = (): JSX.Element => {
 
   let code = '';
   const currComponent = state.components.find(
-    element => element.id === state.canvasFocus.componentId
+    (element) => element.id === state.canvasFocus.componentId
   );
 
-  componentBuilder(currComponent.children).forEach(element => {
+  componentBuilder(currComponent.children).forEach((element) => {
     try {
       code += ReactDOMServer.renderToString(element);
     } catch {

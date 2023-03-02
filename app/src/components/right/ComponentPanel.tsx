@@ -8,8 +8,9 @@ import {
   Checkbox,
   FormControlLabel,
   InputLabel,
-  TextField,
+  // TextField,
 } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
@@ -153,14 +154,15 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
             New Component
           </h4>
           {/* input for new component */}
-          <div style={{display: 'flex', justifyContent:'space-evenly', marginTop: '20px', alignItems:'baseline'}}>
+          <div style={{display: 'flex', justifyContent:'center', marginTop: '20px', marginBottom: '20px',  alignItems:'baseline'}}>
             <div style={{alignSelf:'center'}}>
               <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
                 Name:
               </InputLabel>
                 <div className={classes.inputWrapper}>
                     <TextField
-                    color={'primary'}
+                    // label='New Component Name'
+                    color='primary'
                     variant="outlined"
                     className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
                     // inputprops and helpertext must be lowercase
@@ -199,15 +201,17 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
               />
             </div>
           </div>
-          <div>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
             <br/>
-            <CreateButton
+            <Button
               className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+              color='primary'
+              variant='contained'
               id="addComponentButton"
               onClick={handleNameSubmit}
             >
               Create
-            </CreateButton>
+            </Button>
           </div>
       </div>
     </div>
@@ -276,7 +280,6 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '90%',
     textAlign: 'center',
-    margin: '-20px 0px 5px 150px',
     borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '25px',
@@ -298,16 +301,16 @@ const useStyles = makeStyles({
     }
   }
 });
-
-const CreateButton = styled(Button)({
-  background: "#0099E6",
-  border: 0,
-  borderRadius: 3,
-  boxShadow: "0 0px 0px 2px #1a1a1a",
-  color: "white",
-  height: 24,
-  width: 60,
-  padding: "0 30px",
-});
+// change to Button to make styling consistent
+// const CreateButton = styled(Button)({
+//   background: "#0099E6",
+//   border: 0,
+//   borderRadius: 3,
+//   boxShadow: "0 0px 0px 2px #1a1a1a",
+//   color: "white",
+//   height: 24,
+//   width: 60,
+//   padding: "0 30px",
+// });
 
 export default ComponentPanel;

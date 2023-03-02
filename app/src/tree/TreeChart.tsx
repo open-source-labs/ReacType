@@ -6,7 +6,7 @@ import StateContext from '../context/context';
 import { element } from 'prop-types';
 
 function usePrevious(value) {
-  const ref = useRef();
+  const ref = useRef(); // creates a ref obj w/ current: value
   useEffect(() => {
     ref.current = value;
   });
@@ -141,7 +141,7 @@ function TreeChart({ data }) { // data is components from state - passed in from
       .attr('opacity', 1)
       .attr('transform', `translate(${xPosition}, 0)`);
 
-  }, [data, dimensions, previouslyRenderedData, canvasId]);
+  }, [state.components, dimensions, previouslyRenderedData, canvasId]);
   const treeStyles = {
     height: '100%',
     width: `100%`,

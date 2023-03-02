@@ -18,6 +18,8 @@ Ben Cauffman [LinkedIn](https://www.linkedin.com/in/benjamin-cauffman/) [Github]
 
 [Bianca Picasso](https://www.linkedin.com/in/bianca-picasso) [@BiancaPicasso](https://github.com/BiancaPicasso)
 
+[Brett Webster](https://www.linkedin.com/in/brett-webster-cfa-383b961) [@brett-webster](https://github.com/brett-webster)
+
 [Brian Han](https://www.linkedin.com/in/brianjisoohan/) [@brianjshan](https://github.com/brianjshan)
 
 [Bryan Chau](https://www.linkedin.com/in/chaubryan1/) [@bchauu](https://github.com/bchauu)
@@ -72,6 +74,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Khuong Nguyen](https://www.linkedin.com/in/khuong-nguyen/) [@khuongdn16](https://github.com/khuongdn16)
 
+[Lillian Wimberly](https://www.linkedin.com/in/lillianwimberly/) [@lillwimberly](https://github.com/lillwimberly)
+
 [Linh Tran](https://www.linkedin.com/in/linhtran51/) [@Linhatran](https://github.com/Linhatran)
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
@@ -96,6 +100,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Shana Hoehn](https://www.linkedin.com/in/shana-hoehn-70297b169/) [@slhoehn](https://github.com/slhoehn)
 
+[Shirley Liu](https://www.linkedin.com/in/yijunliu/) [@yijunliu90](https://github.com/yijunliu90)
+
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
@@ -119,5 +125,7 @@ Thomas Lukasiewicz [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-276
 [William Rittwage](https://www.linkedin.com/in/william-rittwage) [@wbrittwage](https://github.com/wbrittwage)
 
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
+
+[Xiao Wang](https://www.linkedin.com/in/xiao-wang-03183285/) [@wang9hu](https://github.com/wang9hu)
 
 [Yuanji Huang](https://www.linkedin.com/in/yuanjihuang/) [@kr1spybacon](https://github.com/kr1spybacon)
