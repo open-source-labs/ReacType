@@ -127,7 +127,11 @@ const { dirname } = require('node:path');
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
 const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app, path: '/graphql' });
+(async function() {
+  await server.start()
+  server.applyMiddleware({ app, path: '/graphql' });
+}());
+
 /** ****************************************************************** */
 
 app.post(

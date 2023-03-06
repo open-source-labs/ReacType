@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 import { useSelector } from 'react-redux';
 import StateContext from '../../context/context';

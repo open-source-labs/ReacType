@@ -2,14 +2,15 @@
 
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import StateContext from '../../context/context';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {
   Button,
   Checkbox,
   FormControlLabel,
   InputLabel,
   // TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import TextField from '@mui/material/TextField';
 
 // The component panel section of the left panel displays all components and has the ability to add new components

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useCallback } from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
 import StateContext from '../context/context';

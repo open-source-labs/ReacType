@@ -6,25 +6,32 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/actions.js';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
+import Brightness3Icon from '@mui/icons-material/Brightness3';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const mapDispatchToProps = (dispatch) => ({
   darkModeToggle: () => {
@@ -50,21 +57,21 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    // marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   avatar: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    // marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(1, 0, 1),
+    // margin: theme.spacing(1, 0, 1),
     cursor: 'pointer'
   },
   root: {
@@ -202,114 +209,116 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
 
   return (
-    <MuiThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Button
-            color="primary"
-            style={{ 
-              minWidth: '113.97px',
-              top: 10,
-              right: 20,
-              position: "absolute"
-            }}
-            // variant="contained"
-            endIcon={
-              props.darkMode ? <Brightness3Icon /> : <Brightness5Icon />
-            }
-            onClick={() => {
-              props.darkModeToggle();
-            }}
-          >
-            {`Dark Mode: ${props.darkMode}`}
-          </Button>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" color="textPrimary">
-            Sign in
-          </Typography>
-          <TextField
-            className={classes.root}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={handleChange}
-            helperText={invalidUserMsg}
-            error={invalidUser}
-          />
-          <TextField
-            className={classes.root}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={handleChange}
-            helperText={invalidPassMsg}
-            error={invalidPass}
-          />
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Button
+              color="primary"
+              style={{ 
+                minWidth: '113.97px',
+                top: 10,
+                right: 20,
+                position: "absolute"
+              }}
+              // variant="contained"
+              endIcon={
+                props.darkMode ? <Brightness3Icon /> : <Brightness5Icon />
+              }
+              onClick={() => {
+                props.darkModeToggle();
+              }}
+            >
+              {`Dark Mode: ${props.darkMode}`}
+            </Button>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" color="textPrimary">
+              Sign in
+            </Typography>
+            <TextField
+              className={classes.root}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={username}
+              onChange={handleChange}
+              helperText={invalidUserMsg}
+              error={invalidUser}
+            />
+            <TextField
+              className={classes.root}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={handleChange}
+              helperText={invalidPassMsg}
+              error={invalidPass}
+            />
 
-          <Button
-            fullWidth
-            id="SignIn"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={e => handleLogin(e)}
-          >
-            Sign In
-          </Button>
-          <Button
-            fullWidth
-            id="SignInWithGithub"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={e => handleGithubLogin(e)}
-          >
-            Sign In With Github
-          </Button>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={e => handleLoginGuest(e)}
-          >
-            Continue as Guest
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
-                Forgot password?
-              </RouteLink>
+            <Button
+              fullWidth
+              id="SignIn"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => handleLogin(e)}
+            >
+              Sign In
+            </Button>
+            <Button
+              fullWidth
+              id="SignInWithGithub"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => handleGithubLogin(e)}
+            >
+              Sign In With Github
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => handleLoginGuest(e)}
+            >
+              Continue as Guest
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                  Forgot password?
+                </RouteLink>
+              </Grid>
+              <Grid item>
+                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                  Don't have an account? Sign Up
+                </RouteLink>
+              </Grid>
             </Grid>
-            <Grid item>
-              <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
-                Don't have an account? Sign Up
-              </RouteLink>
-            </Grid>
-          </Grid>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Container>
-    </MuiThemeProvider>
+          </div>
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

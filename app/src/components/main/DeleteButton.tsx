@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
-import Modal from '@material-ui/core/Modal';
+import Modal from '@mui/material/Modal';
 import StateContext from '../../context/context';
 
 function DeleteButton({ id, name }: DeleteButtons) {

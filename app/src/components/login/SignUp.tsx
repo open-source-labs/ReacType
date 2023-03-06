@@ -8,25 +8,32 @@ import {
 } from 'react-router-dom';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
 import { element } from 'prop-types';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/actions.js';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const mapDispatchToProps = (dispatch) => ({
   darkModeToggle: () => {
@@ -206,124 +213,126 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   };
 
   return (
-    <MuiThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Button
-            color="primary"
-            style={{ 
-              minWidth: '113.97px',
-              top: 10,
-              right: 20,
-              position: "absolute"
-            }}
-            onClick={() => {
-              props.darkModeToggle();
-            }}
-          >
-            {`Dark Mode: ${props.darkMode}`}
-          </Button>
-          <Avatar className={classes.avatar}>
-            <AssignmentIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" color="textPrimary">
-            Sign up
-          </Typography>
-          <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={email}
-                  onChange={handleChange}
-                  helperText={invalidEmailMsg}
-                  error={invalidEmail}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  value={username}
-                  onChange={handleChange}
-                  helperText={invalidUsernameMsg}
-                  error={invalidUsername}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={handleChange}
-                  helperText={invalidPasswordMsg}
-                  error={invalidPassword}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="passwordVerify"
-                  label="Verify Password"
-                  type="password"
-                  id="passwordVerify"
-                  autoComplete="verify-password"
-                  value={passwordVerify}
-                  onChange={handleChange}
-                  helperText={invalidVerifyPasswordMsg}
-                  error={invalidVerifyPassword}
-                />
-              </Grid>
-            </Grid>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
               color="primary"
-              className={classes.submit}
-              onClick={e => handleSignUp(e)}
+              style={{ 
+                minWidth: '113.97px',
+                top: 10,
+                right: 20,
+                position: "absolute"
+              }}
+              onClick={() => {
+                props.darkModeToggle();
+              }}
             >
-              Sign Up
+              {`Dark Mode: ${props.darkMode}`}
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
-                  Already have an account? Sign In
-                </RouteLink>
+            <Avatar className={classes.avatar}>
+              <AssignmentIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" color="textPrimary">
+              Sign up
+            </Typography>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={handleChange}
+                    helperText={invalidEmailMsg}
+                    error={invalidEmail}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    value={username}
+                    onChange={handleChange}
+                    helperText={invalidUsernameMsg}
+                    error={invalidUsername}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={handleChange}
+                    helperText={invalidPasswordMsg}
+                    error={invalidPassword}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="passwordVerify"
+                    label="Verify Password"
+                    type="password"
+                    id="passwordVerify"
+                    autoComplete="verify-password"
+                    value={passwordVerify}
+                    onChange={handleChange}
+                    helperText={invalidVerifyPasswordMsg}
+                    error={invalidVerifyPassword}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    </MuiThemeProvider>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={e => handleSignUp(e)}
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
+                    Already have an account? Sign In
+                  </RouteLink>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

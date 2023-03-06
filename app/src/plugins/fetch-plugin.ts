@@ -59,5 +59,5 @@ export const fetchPlugin = (inputCode: string) => {
         return result;
       });
     }
-  }
+  };
 }

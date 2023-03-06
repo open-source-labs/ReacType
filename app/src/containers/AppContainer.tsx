@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import NavBar from '../components/top/NavBar';
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
@@ -7,6 +7,14 @@ import RightContainer from './CustomizationPanel';
 import { theme1, theme2 } from '../public/styles/theme';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions/actions';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const mapDispatchToProps = (dispatch) => ({
@@ -44,18 +52,20 @@ const AppContainer = (props) => {
   }, []);
 
   return (
-    // Mui theme provider provides themed styling to all MUI components in app
-    <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-      <styleContext.Provider value={{ style, setStyle, isThemeLight }}>
-      <div>
-        <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>
-      </div>
-      <div className="app-container">
-            <LeftContainer isThemeLight={isThemeLight}/>
-            <MainContainer isThemeLight={isThemeLight}/>
-      </div>
-      </styleContext.Provider>
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      // Mui theme provider provides themed styling to all MUI components in app
+      <ThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
+        <styleContext.Provider value={{ style, setStyle, isThemeLight }}>
+        <div>
+          <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>
+        </div>
+        <div className="app-container">
+              <LeftContainer isThemeLight={isThemeLight}/>
+              <MainContainer isThemeLight={isThemeLight}/>
+        </div>
+        </styleContext.Provider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

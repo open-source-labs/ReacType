@@ -1,19 +1,24 @@
 import React, { useState, useContext, createContext } from 'react';
-import {
-  MuiThemeProvider,
-  makeStyles,
-  useTheme
-} from '@material-ui/core/styles';
+import { ThemeProvider, Theme, StyledEngineProvider, useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useQuery } from '@apollo/client';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project';
 import NavBarDash from './NavbarDash';
 
 import { theme1, theme2 } from '../public/styles/theme';
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 // Implement Apollo Client useQuery hook to retrieve data from the server through graphQL. This includes 2 steps:
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
@@ -153,37 +158,39 @@ const ProjectContainer = (): JSX.Element => {
   // old code from Project Container
   return (
     <div className={classes.root}>
-      <MuiThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-        <div className={'dashboardContainer'}>
-          <NavBarDash
-            setTheme={setTheme}
-            styles={[style, setStyle]}
-            isThemeLight={isThemeLight}
-            optionClicked={optionClicked}
-          />
-          <div className={'userDashboard'}>
-            <Tabs
-              variant="scrollable"
-              orientation="vertical"
-              value={value}
-              onChange={handleChange}
-              aria-label="Vertical tabs example"
-              className={classes.tabs}
-            >
-              <LinkTab label="Shared Dashboard" {...a11yProps(0)} />
-              <LinkTab label="Private Dashboard" {...a11yProps(1)} />
-            </Tabs>
-            <TabPanelItem className={'projectPanel'} value={value} index={0}>
-              <h1> Shared Dashboard </h1>
-              <div className="projectContainer">{sortedDisplay}</div>
-            </TabPanelItem>
-            <TabPanelItem className={'projectPanel'} value={value} index={1}>
-              <h1> Private Dashboard </h1>
-              <div className="projectContainer">{userDisplay}</div>
-            </TabPanelItem>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
+          <div className={'dashboardContainer'}>
+            <NavBarDash
+              setTheme={setTheme}
+              styles={[style, setStyle]}
+              isThemeLight={isThemeLight}
+              optionClicked={optionClicked}
+            />
+            <div className={'userDashboard'}>
+              <Tabs
+                variant="scrollable"
+                orientation="vertical"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                className={classes.tabs}
+              >
+                <LinkTab label="Shared Dashboard" {...a11yProps(0)} />
+                <LinkTab label="Private Dashboard" {...a11yProps(1)} />
+              </Tabs>
+              <TabPanelItem className={'projectPanel'} value={value} index={0}>
+                <h1> Shared Dashboard </h1>
+                <div className="projectContainer">{sortedDisplay}</div>
+              </TabPanelItem>
+              <TabPanelItem className={'projectPanel'} value={value} index={1}>
+                <h1> Private Dashboard </h1>
+                <div className="projectContainer">{userDisplay}</div>
+              </TabPanelItem>
+            </div>
           </div>
-        </div>
-      </MuiThemeProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </div>
   );
 };

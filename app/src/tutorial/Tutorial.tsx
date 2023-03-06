@@ -1,26 +1,26 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Styling from '../constants/Styling';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import LinkIcon from '@material-ui/icons/Link';
-import CodeIcon from '@material-ui/icons/Code';
-import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
-import TvIcon from '@material-ui/icons/Tv';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import StyleIcon from '@material-ui/icons/Style';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
-import SwapVertIcon from '@material-ui/icons/SwapVert';
-import KeyboardIcon from '@material-ui/icons/Keyboard';
-import BrushIcon from '@material-ui/icons/Brush';
-import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import LinkIcon from '@mui/icons-material/Link';
+import CodeIcon from '@mui/icons-material/Code';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import TvIcon from '@mui/icons-material/Tv';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import StyleIcon from '@mui/icons-material/Style';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
+import BrushIcon from '@mui/icons-material/Brush';
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles({
   root: {
