@@ -305,13 +305,61 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: { event: selectedEvent }
     });
   };
-
-
-  const handleSave = (): Object => {
+  const handleTailwind = (): Object => {
+    console.log('stateusedobj',stateUsedObj)
+    dispatch({ type: 'CHANGE TAILWIND', payload: true });
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
     })
+
+
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
+
+    const styleObj: any = {};
+    if (displayMode !== '') styleObj.display = displayMode;
+    if (flexDir !== '') styleObj.flexDirection = flexDir;
+    if (flexJustify !== '') styleObj.justifyContent = flexJustify;
+    if (flexAlign !== '') styleObj.alignItems = flexAlign;
+    if (compWidth !== '') styleObj.width = compWidth;
+    if (compHeight !== '') styleObj.height = compHeight;
+    if (BGColor !== '') styleObj.backgroundColor = BGColor;
+    dispatch({
+      type: 'UPDATE CSS',
+      payload: { style: styleObj }
+    });
+
+    const attributesObj: any = {};
+    if (compText !== '') attributesObj.compText = compText;
+    if (compLink !== '') attributesObj.compLink = compLink;
+    if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+    dispatch({
+      type: 'UPDATE ATTRIBUTES',
+      payload: { attributes: attributesObj }
+    });
+
+    const eventsObj: any = {};
+    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
+    dispatch({
+      type: 'UPDATE EVENTS',
+      payload: { events: eventsObj }
+    });
+
+    return styleObj;
+
+
+  }
+
+  const handleSave = (): Object => {
+    console.log('stateusedobj',stateUsedObj)
+    dispatch({
+      type: 'UPDATE STATE USED',
+      payload: {stateUsedObj: stateUsedObj}
+    })
+
 
     dispatch({
       type: 'UPDATE USE CONTEXT',
@@ -795,6 +843,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   SAVE
                 </Button>
               </div>
+              <div onClick={handleTailwind}>tailwind</div>
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button

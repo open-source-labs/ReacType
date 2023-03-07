@@ -241,7 +241,8 @@ const reducer = (state: State, action: Action) => {
         newComponent.id,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return {
         ...state,
@@ -362,7 +363,8 @@ const reducer = (state: State, action: Action) => {
         parentComponentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
 
       return {
@@ -421,9 +423,14 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components, nextTopSeparatorId };
+    }
+    case 'CHANGE TAILWIND' : {
+      console.log('tailwind', state)
+      return {...state, tailwind:true}
     }
     // Change the focus component and child
     case 'CHANGE FOCUS': {
@@ -457,8 +464,10 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
+      console.log('called from the update state used',{...state, components})
       return { ...state, components };
     }
     case 'UPDATE USE CONTEXT': {
@@ -474,7 +483,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -492,7 +502,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -510,7 +521,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -532,7 +544,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -551,7 +564,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -596,7 +610,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     }
@@ -646,7 +661,8 @@ const reducer = (state: State, action: Action) => {
           components[i].id,
           rootComponents,
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       }
       const canvasFocus = { componentId: 1, childId: null };
@@ -678,6 +694,7 @@ const reducer = (state: State, action: Action) => {
     case 'CHANGE PROJECT TYPE': {
       // when a project type is changed, both change the project type in state and also regenerate the code for each component
       const { projectType } = action.payload;
+ 
       const components = [...state.components];
       // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
       if (projectType === 'Next.js' || projectType === 'Gatsby.js')
@@ -689,7 +706,8 @@ const reducer = (state: State, action: Action) => {
           component.id,
           [...state.rootComponents],
           projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       });
       return { ...state, components, projectType };
@@ -760,7 +778,8 @@ const reducer = (state: State, action: Action) => {
           components[i].id,
           rootComponents,
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       });
       return {
@@ -789,7 +808,8 @@ const reducer = (state: State, action: Action) => {
           state.components[i].id,
           state.rootComponents,
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       });
       return {
@@ -816,7 +836,8 @@ const reducer = (state: State, action: Action) => {
           state.components[i].id,
           state.rootComponents,
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       });
       return {
@@ -839,7 +860,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -893,7 +915,8 @@ const reducer = (state: State, action: Action) => {
         state.canvasFocus.componentId,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       //update code preview for parent component (since we have added it to the children array)
       parent.code = generateCode(
@@ -901,7 +924,8 @@ const reducer = (state: State, action: Action) => {
         parent.id,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
 
       return { ...state, components };
@@ -955,7 +979,8 @@ const reducer = (state: State, action: Action) => {
           currComponent.id,
           [...state.rootComponents],
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       };
       //delete from the components passedInProps array
@@ -977,7 +1002,8 @@ const reducer = (state: State, action: Action) => {
             myComponent.id,
             [...state.rootComponents],
             state.projectType,
-            state.HTMLTypes
+            state.HTMLTypes,
+            state.tailwind
           );
           return;
         }
@@ -998,7 +1024,8 @@ const reducer = (state: State, action: Action) => {
           myComponent.id,
           [...state.rootComponents],
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       };
 
@@ -1010,7 +1037,8 @@ const reducer = (state: State, action: Action) => {
         parent.id,
         [...state.rootComponents],
         state.projectType,
-        state.HTMLTypes
+        state.HTMLTypes,
+        state.tailwind
       );
       return { ...state, components };
     }
@@ -1113,7 +1141,8 @@ const reducer = (state: State, action: Action) => {
             parent.id,
             [...state.rootComponents],
             state.projectType,
-            state.HTMLTypes
+            state.HTMLTypes,
+            state.tailwind
           );
         }
 
@@ -1123,7 +1152,8 @@ const reducer = (state: State, action: Action) => {
           component.id,
           [...state.rootComponents],
           state.projectType,
-          state.HTMLTypes
+          state.HTMLTypes,
+          state.tailwind
         );
       });
       return { ...state, components };
