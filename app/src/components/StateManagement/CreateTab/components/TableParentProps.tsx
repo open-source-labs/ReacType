@@ -3,9 +3,9 @@ import {
   DataGrid,
   GridEditRowsModel,
 } from '@mui/x-data-grid';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import StateContext from "../../../../context/context";
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 

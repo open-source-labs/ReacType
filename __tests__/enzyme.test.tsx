@@ -1,5 +1,5 @@
 import { shallow} from 'enzyme';
-import { configure } from 'enzyme';
+// import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16'
 import React from 'react';
 import { DndProvider } from 'react-dnd';
@@ -17,8 +17,8 @@ import HTMLItem from '../app/src/components/left/HTMLItem';
 import LeftContainer from '../app/src/containers/LeftContainer';
 import AppContainer from '../app/src/containers/AppContainer';
 import NavBar from '../app/src/components/top/NavBar';
-import MenuItem from '@material-ui/core/MenuItem';
-import Tab from '@material-ui/core/Tab';
+import MenuItem from '@mui/material/MenuItem';
+import Tab from '@mui/material/Tab';
 import LoginButton from '../app/src/components/right/LoginButton';
 import customizationPanel from '../app/src/containers/CustomizationPanel'
 

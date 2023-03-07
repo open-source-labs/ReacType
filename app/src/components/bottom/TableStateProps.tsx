@@ -4,10 +4,10 @@ import {
   DataGrid,
   GridEditRowsModel,
 } from '@mui/x-data-grid';
-import Button from '@material-ui/core/Button';
-import ClearIcon from '@material-ui/icons/Clear';
+import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
 import StateContext from '../../context/context';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 
 const TableStateProps = props => {

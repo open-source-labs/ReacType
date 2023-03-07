@@ -17,6 +17,7 @@ const initialState: State = {
       future: [],
       stateProps: [],
       useStateCodes: [], // array of strings for each useState codes
+      
     }
   ],
   projectType: 'Classic React',
@@ -25,6 +26,7 @@ const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes
+  HTMLTypes,
+  tailwind:false
 };
 export default initialState;

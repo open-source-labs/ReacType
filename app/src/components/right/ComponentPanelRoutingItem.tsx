@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
 import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import Select from '@material-ui/core/Select';
+import Select from '@mui/material/Select';
 
 // ------------------------------------------------
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
 // ------------------------------------------------
 
 /*

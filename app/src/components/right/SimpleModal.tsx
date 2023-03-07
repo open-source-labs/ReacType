@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import Modal from '@material-ui/core/Modal';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import Modal from '@mui/material/Modal';
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const styles = (theme: any): any => ({
   paper: {
@@ -67,7 +67,7 @@ const SimpleModal = (props: any) => {
               fontSize: '17px',
               fontWeight: 'bold'
             }}
-          >
+            size="large">
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" id="modal-title">

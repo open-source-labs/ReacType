@@ -7,9 +7,8 @@ import React, {
 } from 'react';
 import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
 import {
-  makeStyles,
   FormControl,
-  TextField, 
+  TextField,
   Button,
   Dialog,
   DialogActions,
@@ -19,8 +18,9 @@ import {
   List,
   ListItem,
   ListItemText,
- } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ClearIcon from '@mui/icons-material/Clear';
 import createModal from '../components/right/createModal';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
@@ -305,13 +305,61 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       payload: { event: selectedEvent }
     });
   };
-
-
-  const handleSave = (): Object => {
+  const handleTailwind = (): Object => {
+    console.log('stateusedobj',stateUsedObj)
+    dispatch({ type: 'CHANGE TAILWIND', payload: true });
     dispatch({
       type: 'UPDATE STATE USED',
       payload: {stateUsedObj: stateUsedObj}
     })
+
+
+    dispatch({
+      type: 'UPDATE USE CONTEXT',
+      payload: { useContextObj: useContextObj}
+    })
+
+    const styleObj: any = {};
+    if (displayMode !== '') styleObj.display = displayMode;
+    if (flexDir !== '') styleObj.flexDirection = flexDir;
+    if (flexJustify !== '') styleObj.justifyContent = flexJustify;
+    if (flexAlign !== '') styleObj.alignItems = flexAlign;
+    if (compWidth !== '') styleObj.width = compWidth;
+    if (compHeight !== '') styleObj.height = compHeight;
+    if (BGColor !== '') styleObj.backgroundColor = BGColor;
+    dispatch({
+      type: 'UPDATE CSS',
+      payload: { style: styleObj }
+    });
+
+    const attributesObj: any = {};
+    if (compText !== '') attributesObj.compText = compText;
+    if (compLink !== '') attributesObj.compLink = compLink;
+    if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
+    dispatch({
+      type: 'UPDATE ATTRIBUTES',
+      payload: { attributes: attributesObj }
+    });
+
+    const eventsObj: any = {};
+    if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
+    dispatch({
+      type: 'UPDATE EVENTS',
+      payload: { events: eventsObj }
+    });
+
+    return styleObj;
+
+
+  }
+
+  const handleSave = (): Object => {
+    console.log('stateusedobj',stateUsedObj)
+    dispatch({
+      type: 'UPDATE STATE USED',
+      payload: {stateUsedObj: stateUsedObj}
+    })
+
 
     dispatch({
       type: 'UPDATE USE CONTEXT',
@@ -795,6 +843,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   SAVE
                 </Button>
               </div>
+              <div onClick={handleTailwind}>tailwind</div>
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button

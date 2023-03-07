@@ -11,53 +11,57 @@ import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/grid
 
 function Canvas(props): JSX.Element {
   const [state, dispatch] = useContext(StateContext);
-  const [newComp, setNewComp] = useState(false);
-  const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
-  const [copiedComp, setCopiedComp] = useState({});
+  // const [newComp, setNewComp] = useState(false);
+  // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
+  // const [copiedComp, setCopiedComp] = useState({});
 
-  useEffect(()=> {
-    if (newComp) {
-      // find updated comp
-      const copy = state.components.find(comp => comp.name === copiedComp.name)
-      // make a array of copied children from the copied component
-      if (copy.children.length){
-        const masterArr = [];
-        const children = copy.children;
-        function deepChildCopy(children, parentId) {
-          for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            let id = (parentId) ? parentId : null;
-            if (child.typeId < 1000){
-              masterArr.push({
-                type: "HTML Element",
-                typeId: child.typeId,
-                childId: id
-              })
-              if (child.children.length) {
-                deepChildCopy(child.children, child.childId);
-              }
-            }
-          }
-        }
-        deepChildCopy(children, null);
-        setCopiedChildrenArr(masterArr);
-      }
+  // useEffect(()=> {
+  //   console.log(state.componenets)
+  //   console.log(newComp)
+  //   if (newComp) {
 
-      const components = state.components
+  //     // find updated comp
+  //     const copy = state.components.find(comp => comp.name === copiedComp.name)
+    
+  //     // make a array of copied children from the copied component
+  //     if (copy.children.length){
+  //       const masterArr = [];
+  //       const children = copy.children;
+  //       function deepChildCopy(children, parentId) {
+  //         for (let i = 0; i < children.length; i++) {
+  //           const child = children[i];
+  //           let id = (parentId) ? parentId : null;
+  //           if (child.typeId < 1000){
+  //             masterArr.push({
+  //               type: "HTML Element",
+  //               typeId: child.typeId,
+  //               childId: id
+  //             })
+  //             if (child.children.length) {
+  //               deepChildCopy(child.children, child.childId);
+  //             }
+  //           }
+  //         }
+  //       }
+  //       deepChildCopy(children, null);
+  //       setCopiedChildrenArr(masterArr);
+  //     }
 
-        // find the ID of the newly created component
-      const newId = components[components.length -1]['id']
-      dispatch({
-        type: 'ADD CHILD',
-        payload: {
-          type: "Component",
-          typeId: newId,
-          childId: null
-        }
-      });
-    }
-    setNewComp(false) // initially set to false
-  }, [newComp])
+  //     const components = state.components
+
+  //       // find the ID of the newly created component
+  //     const newId = components[components.length -1]['id']
+  //     dispatch({
+  //       type: 'ADD CHILD',
+  //       payload: {
+  //         type: "Component",
+  //         typeId: newId,
+  //         childId: null
+  //       }
+  //     });
+  //   }
+  //   setNewComp(false) // initially set to false
+  // }, [newComp])
 
   // Caret start
   Arrow.deleteLines();
@@ -97,6 +101,7 @@ function Canvas(props): JSX.Element {
       if (didDrop) {
         return;
       }
+      console.log(currentComponent)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== "Component") {
         dispatch({

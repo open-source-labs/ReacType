@@ -7,6 +7,9 @@ import {
   HTMLType
 } from '../interfaces/Interfaces';
 
+import initialState from '../context/initialState' 
+// let tailwind = initialState.tailwind;
+
 declare global {
   interface Window {
     api: any;
@@ -18,14 +21,17 @@ const generateCode = (
   componentId: number,
   rootComponents: number[],
   projectType: string,
-  HTMLTypes: HTMLType[]
+  HTMLTypes: HTMLType[],
+  tailwind:boolean
 ) => {
   const code = generateUnformattedCode(
     components,
     componentId,
     rootComponents,
     projectType,
-    HTMLTypes
+    HTMLTypes,
+    tailwind
+    
   );
   return formatCode(code);
 };
@@ -36,8 +42,10 @@ const generateUnformattedCode = (
   componentId: number,
   rootComponents: number[],
   projectType: string,
-  HTMLTypes: HTMLType[]
+  HTMLTypes: HTMLType[],
+  tailwind: boolean
 ) => {
+  console.log(tailwind)
   const components = [...comps];
   // find the component that we're going to generate code for
   const currComponent = components.find((elem) => elem.id === componentId);
@@ -124,6 +132,7 @@ const generateUnformattedCode = (
   // function to dynamically add classes, ids, and styles to an element if it exists.
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
+   console.log('from the style area',tailwind)
     let customizationDetails = '';
     let passedInPropsString = '';
     if (childElement.type === 'Component') {
@@ -145,8 +154,46 @@ const generateUnformattedCode = (
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
     }
-    if (childElement.style && Object.keys(childElement.style).length > 0)
-      customizationDetails += ' ' + formatStyles(childElement);
+    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === false) customizationDetails += ' ' + formatStyles(childElement);
+    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === true){
+      console.log(childElement.style, 'shouldsaytrue',tailwind)
+      let {height, alignItems, backgroundColor, display, flexDirection,width, justifyContent} = childElement.style;
+      let w , h , items , bg , d , flexDir , justCon;
+     if(childElement.style.alignItems){
+      // let alignItems = childElement.style.alignItems
+     if( alignItems === "center") items = "items-center, ";
+     else if( alignItems === "flex-end") items = "items-end, ";
+     }
+     if(childElement.style.backgroundColor){
+      // let backgroundColor = childElement.style.backgroundColor;
+      bg = `bg-[${backgroundColor}], `
+     }
+     if(childElement.style.display){
+      // let display = childElement.style.display;
+      if(display === "flex") d = "flex, "
+     }
+     if(childElement.style.flexDirection){
+      // let flexDirection = childElement.style.flexDirection
+      if(flexDirection === "column") flexDir = "flex-col, "
+     }
+     if(childElement.style.height){
+      // let height = childElement.style.height;
+      if(height === "100%") h = "h-full, "
+     }
+     if(childElement.style.justifyContent){
+      // let justifyContent = childElement.style.justifyContent
+      if(justifyContent === "center") justCon = "justify-center, "
+
+     }
+     if(childElement.style.width){
+      // let width = childElement.style.width;
+      if(width === "100%") w = "w-full, "
+
+     } 
+     
+      customizationDetails += ' ' + `className = "${w ? w: '' }${h ? h : ''}${justCon ? justCon: ''}${flexDir ? flexDir: ''}${d ? d : ''}${bg ? bg : ''}${items ? items : ''}"`;
+    }
+     
 
     if (childElement.events && Object.keys(childElement.events).length > 0) {
       // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
