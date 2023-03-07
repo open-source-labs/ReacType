@@ -1,12 +1,12 @@
 import { HTMLType } from '../interfaces/Interfaces';
 import React from 'react';
-import ImageIcon from '@material-ui/icons/Image';
-import ParagraphIcon from '@material-ui/icons/LocalParking';
-import FormIcon from '@material-ui/icons/Description';
-import HeaderIcon from '@material-ui/icons/TextFormat';
-import ButtonIcon from '@material-ui/icons/EditAttributes';
-import LinkIcon from '@material-ui/icons/Link';
-import ListIcon from '@material-ui/icons/List';
+import ImageIcon from '@mui/icons-material/Image';
+import ParagraphIcon from '@mui/icons-material/LocalParking';
+import FormIcon from '@mui/icons-material/Description';
+import HeaderIcon from '@mui/icons-material/TextFormat';
+import ButtonIcon from '@mui/icons-material/EditAttributes';
+import LinkIcon from '@mui/icons-material/Link';
+import ListIcon from '@mui/icons-material/List';
 const HTMLTypes: HTMLType[] = [
   {
     id: 11,

@@ -7,9 +7,8 @@ import React, {
 } from 'react';
 import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
 import {
-  makeStyles,
   FormControl,
-  TextField, 
+  TextField,
   Button,
   Dialog,
   DialogActions,
@@ -19,8 +18,9 @@ import {
   List,
   ListItem,
   ListItemText,
- } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ClearIcon from '@mui/icons-material/Clear';
 import createModal from '../components/right/createModal';
 import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';

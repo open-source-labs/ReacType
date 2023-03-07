@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import Pages from './Pages';
 import Customization from './Customization';

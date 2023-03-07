@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import StateContext from '../../context/context';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
@@ -10,12 +10,12 @@ import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement'; 
 
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
-import FormControl from '@material-ui/core/FormControl';
+import FormControl from '@mui/material/FormControl';
 import { styleContext } from '../../containers/AppContainer';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
 
 const BottomTabs = (props): JSX.Element => {
@@ -142,7 +142,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   padding: {
-    padding: `0 ${theme.spacing(2)}px`
+    padding: `0 ${theme.spacing(2)}`
   },
   switch: {
     marginRight: '10px',

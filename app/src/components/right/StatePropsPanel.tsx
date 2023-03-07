@@ -1,15 +1,10 @@
 
 import React, { useState, useContext, useCallback, useEffect } from "react";
-import {
-  createStyles,
-  makeStyles,
-  styled,
-  Theme,
-  createTheme,
-  ThemeProvider,
-  withStyles
-} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import { styled, Theme, createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Button from "@mui/material/Button";
 import {
   Checkbox,
   FormControl,
@@ -22,9 +17,24 @@ import {
   InputLabel,
   Select,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import StateContext from "../../context/context";
 import TableStateProps from "./TableStateProps";
+
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);

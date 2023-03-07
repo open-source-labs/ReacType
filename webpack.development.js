@@ -16,11 +16,11 @@ module.exports = merge(base, {
     port: '8080',
     hot: true, // Hot-reload this server if changes are detected
     compress: true, // Compress (gzip) files that are served
-    contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from
-    watchContentBase: true, // Watch the content base for changes
-    watchOptions: {
-      ignored: /node_modules/
-    },
+    // contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from, not valid devserver
+    // watchContentBase: true, // Watch the content base for changes , also not valid for dev server
+    // watchOptions: {
+    //   ignored: /node_modules/,
+    // }, //watchOptions not valid dev server config
     proxy: {
       '/demoRender': {
         target: `http://localhost:${DEV_PORT}/`

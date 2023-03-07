@@ -8,8 +8,8 @@ import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
-import Fab from '@material-ui/core/Fab';
-import SaveIcon from '@material-ui/icons/Save';
+import Fab from '@mui/material/Fab';
+import SaveIcon from '@mui/icons-material/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
 const serverURL = 'https://reactype-caret.herokuapp.com';

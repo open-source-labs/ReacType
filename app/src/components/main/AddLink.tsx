@@ -1,11 +1,11 @@
 import { AddRoutes } from '../../interfaces/Interfaces'
 import React, { useContext, useState, useEffect } from 'react';
 import StateContext from '../../context/context';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import { InputLabel } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { InputLabel } from '@mui/material';
+import { TextField } from '@mui/material';
 import { styleContext } from '../../containers/AppContainer';
 import { makeStyles } from '@mui/material/styles'
 
