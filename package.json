@@ -127,6 +127,7 @@
   "homepage": "https://github.com/open-source-labs/ReacType#readme",
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@apollo/federation": "^0.38.1",
     "@apollo/server": "^4.4.1",
     "@babel/cli": "^7.18.10",
     "@babel/register": "^7.18.9",
