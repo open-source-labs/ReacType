@@ -1,5 +1,13 @@
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer } = require('@apollo/server');//changed for v4
+
+//v4 Apollo imports
+import { expressMiddleware } from '@apollo/server/express4';
+import cors from 'cors';
+import { json } from 'body-parser';
+
+//possibly redundant
 const {makeExecutableSchema} = require('@graphql-tools/schema');
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 //const passport = require('passport');
@@ -7,7 +15,7 @@ const cookieParser = require('cookie-parser');
 const { DEV_PORT } = require('../config');
 
 const path = require('path');
-const cors = require('cors');
+
 const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
@@ -131,10 +139,22 @@ const { dirname } = require('node:path');
 const schema = makeExecutableSchema({typeDefs, resolvers});
 
 const server = new ApolloServer({schema});
-(async function() {
-  await server.start()
-  server.applyMiddleware({ app, path: '/graphql' });
-}());
+//V3 syntax
+// (async function() {
+//   await server.start()
+//   server.applyMiddleware({ app, path: '/graphql' });
+// }());
+
+//v4 syntax
+await server.start()
+app.use(
+  '/graphql',
+  cors(),
+  json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => ({ token: req.headers.token }),
+  }),
+);
 
 /** ****************************************************************** */
 
