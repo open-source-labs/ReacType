@@ -7,7 +7,7 @@ import {
   HTMLType
 } from '../interfaces/Interfaces';
 
-import initialState from '../context/initialState' 
+import initialState from '../context/initialState'
 // let tailwind = initialState.tailwind;
 
 declare global {
@@ -22,7 +22,7 @@ const generateCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
-  tailwind:boolean
+  tailwind: boolean
 ) => {
   const code = generateUnformattedCode(
     components,
@@ -31,7 +31,7 @@ const generateCode = (
     projectType,
     HTMLTypes,
     tailwind
-    
+
   );
   return formatCode(code);
 };
@@ -45,7 +45,6 @@ const generateUnformattedCode = (
   HTMLTypes: HTMLType[],
   tailwind: boolean
 ) => {
-  console.log(tailwind)
   const components = [...comps];
   // find the component that we're going to generate code for
   const currComponent = components.find((elem) => elem.id === componentId);
@@ -78,7 +77,6 @@ const generateUnformattedCode = (
         const referencedHTML = HTMLTypes.find(
           (elem) => elem.id === child.typeId
         );
-        // console.log('html',child);
         child['tag'] = referencedHTML.tag;
         if (
           referencedHTML.tag === 'div' ||
@@ -132,7 +130,6 @@ const generateUnformattedCode = (
   // function to dynamically add classes, ids, and styles to an element if it exists.
   //LEGACY PD: CAN ADD PROPS HERE AS JSX ATTRIBUTE
   const elementTagDetails = (childElement: object) => {
-   console.log('from the style area',tailwind)
     let customizationDetails = '';
     let passedInPropsString = '';
     if (childElement.type === 'Component') {
@@ -149,51 +146,59 @@ const generateUnformattedCode = (
 
     if (childElement.childId && childElement.tag !== 'Route')
       customizationDetails += ' ' + `id="${+childElement.childId}" ` + `${passedInPropsString}`;
-    
-    if (childElement.attributes && childElement.attributes.cssClasses) {
+
+    if (childElement.attributes && childElement.attributes.cssClasses && !tailwind) {
       customizationDetails +=
         ' ' + `className="${childElement.attributes.cssClasses}"`;
     }
     if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === false) customizationDetails += ' ' + formatStyles(childElement);
-    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === true){
-      console.log(childElement.style, 'shouldsaytrue',tailwind)
-      let {height, alignItems, backgroundColor, display, flexDirection,width, justifyContent} = childElement.style;
-      let w , h , items , bg , d , flexDir , justCon;
-     if(childElement.style.alignItems){
-      // let alignItems = childElement.style.alignItems
-     if( alignItems === "center") items = "items-center, ";
-     else if( alignItems === "flex-end") items = "items-end, ";
-     }
-     if(childElement.style.backgroundColor){
-      // let backgroundColor = childElement.style.backgroundColor;
-      bg = `bg-[${backgroundColor}], `
-     }
-     if(childElement.style.display){
-      // let display = childElement.style.display;
-      if(display === "flex") d = "flex, "
-     }
-     if(childElement.style.flexDirection){
-      // let flexDirection = childElement.style.flexDirection
-      if(flexDirection === "column") flexDir = "flex-col, "
-     }
-     if(childElement.style.height){
-      // let height = childElement.style.height;
-      if(height === "100%") h = "h-full, "
-     }
-     if(childElement.style.justifyContent){
-      // let justifyContent = childElement.style.justifyContent
-      if(justifyContent === "center") justCon = "justify-center, "
-
-     }
-     if(childElement.style.width){
-      // let width = childElement.style.width;
-      if(width === "100%") w = "w-full, "
-
-     } 
-     
-      customizationDetails += ' ' + `className = "${w ? w: '' }${h ? h : ''}${justCon ? justCon: ''}${flexDir ? flexDir: ''}${d ? d : ''}${bg ? bg : ''}${items ? items : ''}"`;
+    if (childElement.style && Object.keys(childElement.style).length > 0 && tailwind === true) {
+      let { height, alignItems, backgroundColor, display, flexDirection, width, justifyContent } = childElement.style;
+      let w, h, items, bg, d, flexDir, justCon, cssClasses;
+      if (childElement.style.alignItems) {
+        if (alignItems === "center") items = "items-center, ";
+        else if (alignItems === "flex-start") items = "items-start, ";
+        else if (alignItems === "flex-end") items = "items-end, ";
+        else if (alignItems === "stretch") items = "items-stretch, ";
+      }
+      if (childElement.style.backgroundColor) {
+        bg = `bg-[${backgroundColor}], `
+      }
+      if (childElement.style.display) {
+        if (display === "flex") d = "flex, "
+        else if (display === "inline-block") d = "inline-block, "
+        else if (display === "block") d = "block, "
+        else if (display === "none") d = "hidden, "
+      }
+      if (childElement.style.flexDirection) {
+        if (flexDirection === "column") flexDir = "flex-col, "
+      }
+      if (childElement.style.height) {
+        if (height === "100%") h = "h-full, "
+        else if (height === "50%") h = "h-1/2, "
+        else if (height === "25%") h = "h-1/4, "
+        else if (height === "auto") h = "auto, "
+      }
+      if (childElement.style.justifyContent) {
+        if (justifyContent === "center") justCon = "justify-center, "
+        else if (justifyContent === "flex-start") justCon = "justify-start, "
+        else if (justifyContent === "space-between") justCon = "justify-between, "
+        else if (justifyContent === "space-around") justCon = "justify-around, "
+        else if (justifyContent === "flex-end") justCon = "justify-end, "
+        else if (justifyContent === "space-evenly") justCon = "justify-evenly, "
+      }
+      if (childElement.style.width) {
+        if (width === "100%") w = "w-full, "
+        else if (width === "50%") w = "w-1/2, "
+        else if (width === "25%") w = "w-1/4, "
+        else if (width === "auto") w = "w-auto, "
+      }
+      if (childElement.attributes && childElement.attributes.cssClasses) {
+        cssClasses = `${childElement.attributes.cssClasses}, `
+      }
+      customizationDetails += ' ' + `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${h ? h : ''}${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${bg ? bg : ''}${items ? items : ''}"`;
     }
-     
+
 
     if (childElement.events && Object.keys(childElement.events).length > 0) {
       // SPACE BETWEEN ATTRIBUTE EXPRESSIONS
@@ -244,18 +249,15 @@ const generateUnformattedCode = (
       childElement.tag === 'Route';
 
     if (childElement.tag === 'img') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
-        2,
-        3 + level
-      )}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag
+        } src=${activeLink} ${elementTagDetails(childElement)}/>${levelSpacer(
+          2,
+          3 + level
+        )}`;
     } else if (childElement.tag === 'a') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${
-        childElement.tag
-      }>${levelSpacer(2, 3 + level)}`;
+      return `${levelSpacer(level, 5)}<${childElement.tag
+        } href=${activeLink} ${elementTagDetails(childElement)}>${innerText}</${childElement.tag
+        }>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'input') {
       return `${levelSpacer(level, 5)}<${childElement.tag}${elementTagDetails(
         childElement
@@ -280,9 +282,8 @@ const generateUnformattedCode = (
       )}</a>
         ${tabSpacer(level - 1)}</Link>${levelSpacer(2, 3 + level)}`;
     } else if (childElement.tag === 'Image') {
-      return `${levelSpacer(level, 5)}<${
-        childElement.tag
-      } src=${activeLink} ${elementTagDetails(childElement)}/>`;
+      return `${levelSpacer(level, 5)}<${childElement.tag
+        } src=${activeLink} ${elementTagDetails(childElement)}/>`;
     } else if (nestable) {
       if (
         (childElement.tag === 'Route' || childElement.tag === 'Switch') &&
@@ -340,8 +341,6 @@ const generateUnformattedCode = (
   };
   // function to properly incorporate the user created state that is stored in the application state
   const writeStateProps = (stateArray: any) => {
-    // console.log('currComponent: ', currComponent);
-    // console.log('StateArray: ', stateArray)
     let stateToRender = '';
     for (const element of stateArray) {
       stateToRender += levelSpacer(2, 2) + element + ';';
@@ -353,17 +352,17 @@ const generateUnformattedCode = (
   const importsMapped =
     projectType === 'Next.js' || projectType === 'Gatsby.js'
       ? imports
-          .map((comp: string) => {
-            return isRoot
-              ? `import ${comp} from '../components/${comp}'`
-              : `import ${comp} from './${comp}'`;
-          })
-          .join('\n')
+        .map((comp: string) => {
+          return isRoot
+            ? `import ${comp} from '../components/${comp}'`
+            : `import ${comp} from './${comp}'`;
+        })
+        .join('\n')
       : imports
-          .map((comp: string) => {
-            return `import ${comp} from './${comp}'`;
-          })
-          .join('\n');
+        .map((comp: string) => {
+          return `import ${comp} from './${comp}'`;
+        })
+        .join('\n');
   const createState = (stateProps) => {
     let state = '{';
     stateProps.forEach((ele) => {
@@ -404,11 +403,9 @@ const generateUnformattedCode = (
           if (i === allContext.length - 1) {
             tabs = `\t\t\t`;
           }
-          result = `${tabs.repeat(allContext.length - i)}<${
-            el.name
-          }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${
-            el.name
-          }Provider>`;
+          result = `${tabs.repeat(allContext.length - i)}<${el.name
+            }Provider>\n ${result}\n ${tabs.repeat(allContext.length - i)}</${el.name
+            }Provider>`;
         });
       }
       return result;
@@ -458,7 +455,7 @@ const generateUnformattedCode = (
     let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
     generatedCode += currComponent.name === 'APP' ? contextImports : '';
     generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n` : ``;
-    generatedCode += createContextImport() ? `${createContextImport()}\n`: '';
+    generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
     // below is the return statement of the codepreview
     generatedCode += `const ${currComponent.name} = (props) => {\n`;
@@ -507,26 +504,23 @@ const generateUnformattedCode = (
     ${links ? `import Link from 'next/link'` : ``}
     ${images ? `import Image from 'next/image'` : ``}
 
-    const ${
-      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-    } = (props): JSX.Element => {
+    const ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+      } = (props): JSX.Element => {
       return (
           <>
-      ${
-        isRoot
-          ? `
+      ${isRoot
+        ? `
             <Head>
               <title>${currComponent.name}</title>
             </Head>`
-          : ``
+        : ``
       }
       ${writeNestedElements(enrichedChildren)}
           </>
       );
     }
-    export default ${
-      currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
-    };
+    export default ${currComponent.name[0].toUpperCase() + currComponent.name.slice(1)
+      };
     `;
   } else {
     // gatsby component code
@@ -538,13 +532,12 @@ const generateUnformattedCode = (
       const ${currComponent.name} = (props: any): JSX.Element => {
       return (
         <>
-        ${
-          isRoot
-            ? `<head>
+        ${isRoot
+        ? `<head>
               <title>${currComponent.name}</title>
           </head>`
-            : ``
-        }
+        : ``
+      }
         <div className="${currComponent.name}" style={props.style}>
         ${writeNestedElements(enrichedChildren)}
         </div>
