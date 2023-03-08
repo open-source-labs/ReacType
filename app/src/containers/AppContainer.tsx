@@ -53,7 +53,6 @@ const AppContainer = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      // Mui theme provider provides themed styling to all MUI components in app
       <ThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
         <styleContext.Provider value={{ style, setStyle, isThemeLight }}>
         <div>

@@ -429,9 +429,9 @@ const reducer = (state: State, action: Action) => {
       return { ...state, components, nextTopSeparatorId };
     }
     case 'CHANGE TAILWIND' : {
-      console.log('tailwind', state)
-      return {...state, tailwind:true}
+      return {...state, tailwind: action.payload}
     }
+
     // Change the focus component and child
     case 'CHANGE FOCUS': {
       const {
