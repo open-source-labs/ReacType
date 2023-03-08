@@ -251,7 +251,7 @@
     "webpack-merge": "^4.2.2"
   },
   "engines": {
-    "node": "18.x",
-    "npm": "8.19.2"
+    "node": "19.x",
+    "npm": "9.5.0"
   }
 }
