@@ -1,4 +1,8 @@
-const { UserInputError } = require('apollo-server-express');
+// const { UserInputError } = require('apollo-server-express');//v3 syntax
+
+import { ApolloServerErrorCode } from '@apollo/server/errors';// v4 syntax
+//now using ApolloServerErrorCode.BAD_USER_INPUT in place of UserInputError
+
 const { Projects, Comments } = require('../../models/reactypeModels');
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
@@ -20,7 +24,7 @@ const Project = {
     }
 
     // resp is null if nothing is found based on the project ID
-    throw new UserInputError('Project is not found. Please try another project ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Project is not found. Please try another project ID', {
       argumentName: 'projId',
     });
   },
@@ -32,7 +36,7 @@ const Project = {
       resp = resp.filter(proj => proj.userId == userId);
       // if resp = [] after the filtering, this means the userId doesnt exisit in the database, throw error as follow
       if (resp.length === 0) {
-        throw new UserInputError(`Project for userId: "${userId}". Please try another id`, {
+        throw new ApolloServerErrorCode.BAD_USER_INPUT(`Project for userId: "${userId}". Please try another id`, {
           argumentName: 'userId',
         });
       }
@@ -53,7 +57,7 @@ const Project = {
       }));
     }
     // resp is null, return error message
-    throw new UserInputError('Internal Server Error');
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Internal Server Error');
   },
 };
 
