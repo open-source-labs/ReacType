@@ -1,4 +1,5 @@
 const { ApolloServer } = require('apollo-server-express');
+const {makeExecutableSchema} = require('@graphql-tools/schema');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 //const passport = require('passport');
@@ -126,7 +127,10 @@ const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
-const server = new ApolloServer({ typeDefs, resolvers });
+//use make exacutable schema to allow schema to be passed to new server
+const schema = makeExecutableSchema({typeDefs, resolvers});
+
+const server = new ApolloServer({schema});
 (async function() {
   await server.start()
   server.applyMiddleware({ app, path: '/graphql' });
