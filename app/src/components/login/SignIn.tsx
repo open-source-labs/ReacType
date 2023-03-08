@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useEffect, createContext } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
-  withRouter,
   RouteComponentProps
 } from 'react-router-dom';
 import { sessionIsCreated } from '../../helperFunctions/auth';
@@ -18,8 +17,9 @@ import Container from '@mui/material/Container';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions/actions.js';
+// Imports for redux toolkit usage
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
@@ -31,19 +31,6 @@ declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
-
-const mapDispatchToProps = (dispatch) => ({
-  darkModeToggle: () => {
-    dispatch(actions.darkModeToggle());
-  }
-});
-
-const mapStateToProps = (state) => {
-  return {
-    darkMode: state.darkModeSlice.darkMode
-  }
-};
 
 function Copyright() {
   return (
@@ -83,9 +70,12 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
 
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
   const [invalidPassMsg, setInvalidPassMsg] = useState('');
@@ -205,12 +195,17 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     }
   };
 
+  //  NEW DARK MODE
+   const handleDarkModeToggle = () => {
+    dispatch(toggleDarkMode());
+  };
+
   const classBtn =
     'MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth';
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
+      <ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
@@ -224,13 +219,11 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
               }}
               // variant="contained"
               endIcon={
-                props.darkMode ? <Brightness3Icon /> : <Brightness5Icon />
+                !isDarkMode ? <Brightness3Icon /> : <Brightness5Icon />
               }
-              onClick={() => {
-                props.darkModeToggle();
-              }}
+              onClick={handleDarkModeToggle}
             >
-              {`Dark Mode: ${props.darkMode}`}
+              {isDarkMode ? `Light Mode`: `Dark Mode`}
             </Button>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
@@ -302,12 +295,12 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                <RouteLink style={{color: isDarkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
                   Forgot password?
                 </RouteLink>
               </Grid>
               <Grid item>
-                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
+                <RouteLink style={{color: isDarkMode ? '#aaaaaa' : 'black'}} to={`/signup`} className="nav_link">
                   Don't have an account? Sign Up
                 </RouteLink>
               </Grid>
@@ -322,4 +315,4 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default SignIn;

@@ -134,6 +134,7 @@
     "@mui/lab": "^5.0.0-alpha.93",
     "@mui/styles": "^5.11.12",
     "@nestjs/graphql": "^10.0.21",
+    "@reduxjs/toolkit": "^1.9.3",
     "@types/js-cookie": "^3.0.2",
     "@types/node": "^18.6.3",
     "@types/prettier": "^2.6.4",

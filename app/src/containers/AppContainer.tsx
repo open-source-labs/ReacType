@@ -5,8 +5,10 @@ import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
 import RightContainer from './CustomizationPanel';
 import { theme1, theme2 } from '../public/styles/theme';
-import { connect } from 'react-redux';
-import * as actions from '../redux/actions/actions';
+
+// Imports for redux toolkit usage
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 declare module '@mui/styles/defaultTheme' {
@@ -17,19 +19,6 @@ declare module '@mui/styles/defaultTheme' {
 
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-const mapDispatchToProps = (dispatch) => ({
-  darkModeToggle: () => {
-    dispatch(actions.darkModeToggle());
-  }
-});
-
-const mapStateToProps = (state) => {
-  return {
-    darkMode: state.darkModeSlice.darkMode
-  }
-}
-
-
 export const styleContext = createContext({
   style: null,
   setStyle: null,
@@ -38,24 +27,28 @@ export const styleContext = createContext({
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
-const AppContainer = (props) => {
+const AppContainer = () => {
   // setting state for changing light vs dark themes; linked to NavBar.tsx
-  const [isThemeLight, setTheme] = useState(!props.darkMode);
+  
   const initialStyle = useContext(styleContext);
   const [style, setStyle] = useState(initialStyle);
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const [isThemeLight, setTheme] = useState(!isDarkMode);
+  const dispatch = useDispatch();
+
 
   // Set background color of left and bottom panel on the first render
   // Without this hook, the first render is always going to be white
   useEffect(() => {
-    if (isThemeLight) setStyle(null);
+    if (!isDarkMode) setStyle(null);
     else setStyle({ backgroundColor: '#21262c' });
-  }, []);
+  }, [isDarkMode]);
 
   return (
     <StyledEngineProvider injectFirst>
-      // Mui theme provider provides themed styling to all MUI components in app
-      <ThemeProvider theme={isThemeLight ? lightTheme : darkTheme}>
-        <styleContext.Provider value={{ style, setStyle, isThemeLight }}>
+      {/* // Mui theme provider provides themed styling to all MUI components in app */}
+      <ThemeProvider theme={!isDarkMode ? lightTheme : darkTheme}>
+        <styleContext.Provider value={{ style, setStyle, isDarkMode }}>
         <div>
           <NavBar setTheme={setTheme} isThemeLight={isThemeLight}/>
         </div>
@@ -68,4 +61,4 @@ const AppContainer = (props) => {
     </StyledEngineProvider>
   );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default AppContainer;
