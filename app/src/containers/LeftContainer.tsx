@@ -28,7 +28,7 @@ const LeftContainer = (props): JSX.Element => {
         <div className="column left" style={style}>
           <Grid container direction="column" alignItems="center">
             <h4>Drag and Drop</h4>
-            <DragDropPanel isThemeLight={props.isThemeLight}/>
+            <DragDropPanel />
             <div id={'CompBottomHalf'}>
               <ComponentDrag isThemeLight={props.isThemeLight}/>
             </div>

@@ -3,6 +3,8 @@ import Grid from '@mui/material/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 
+import { useSelector } from 'react-redux';
+
 /*
 DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
   Elements' header. The boxes containing each HTML element are rendered in
@@ -18,7 +20,8 @@ Hook state:
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
-  const { isThemeLight } = props;
+  // const { isThemeLight } = props;
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
 
   const handleDelete = (id: number): void => {
     dispatch({
@@ -34,7 +37,7 @@ const DragDropPanel = (props): JSX.Element => {
         <Grid
           id="HTMLItemsGrid"
         >
-          <h3 style={ {color: isThemeLight ? '#000' : '#fff'} }>HTML ELEMENTS</h3>
+          <h3 style={ {color: !isDarkMode ? '#000' : '#fff'} }>HTML ELEMENTS</h3>
           {htmlTypesToRender.map(option => {
             if (!['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(option.name)) {
               return (
@@ -44,13 +47,13 @@ const DragDropPanel = (props): JSX.Element => {
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  isThemeLight={isThemeLight}
+                  
                 />
               );
             }
 
           })}
-          {state.projectType === "Classic React" ? <h3 style={ {color: isThemeLight ? '#000' : '#fff' } }>REACT ROUTER</h3> : null}
+          {state.projectType === "Classic React" ? <h3 style={ {color: !isDarkMode ? '#000' : '#fff' } }>REACT ROUTER</h3> : null}
           {htmlTypesToRender.map(option => {
             if ((option.name === 'Switch' || option.name === 'LinkTo' || option.name === 'Route') && state.projectType === "Classic React") {
               return (
@@ -60,13 +63,13 @@ const DragDropPanel = (props): JSX.Element => {
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  isThemeLight={isThemeLight}
+                  
                 />
               );
             }
           })}
 
-            {state.projectType === "Next.js" ? <h3 style={ {color: isThemeLight? '#000': "#fff"} }>Next.js</h3> : null}
+            {state.projectType === "Next.js" ? <h3 style={ {color: !isDarkMode? '#000': "#fff"} }>Next.js</h3> : null}
             {htmlTypesToRender.map(option => {
               if ((option.framework === 'nextjs') && state.projectType === "Next.js") {
                 return (
@@ -76,7 +79,7 @@ const DragDropPanel = (props): JSX.Element => {
                     id={option.id}
                     Icon={option.icon}
                     handleDelete={handleDelete}
-                    isThemeLight={isThemeLight}
+                    
                   />
                 );
               }
