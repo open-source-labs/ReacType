@@ -1,25 +1,39 @@
-const { ApolloServer } = require('@apollo/server');//changed for v4
+// const { ApolloServer } = require('@apollo/server');//changed for v4
+import { ApolloServer } from '@apollo/server';
 
 //v4 Apollo imports
 import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
-import { json } from 'body-parser';
+import bodyParser from 'body-parser';
+const {json, urlencoded} = bodyParser;
 
 //possibly redundant
-const {makeExecutableSchema} = require('@graphql-tools/schema');
+// const {makeExecutableSchema} = require('@graphql-tools/schema');
+import { makeExecutableSchema } from '@graphql-tools/schema';
 
-const express = require('express');
-const cookieParser = require('cookie-parser');
+// const express = require('express');
+// const cookieParser = require('cookie-parser');
+import express from 'express';
+import cookieParser from 'cookie-parser';
+
 //const passport = require('passport');
 //const GitHubStrategy = require('passport-github2').Strategy;
-const { DEV_PORT } = require('../config');
 
-const path = require('path');
+// const { DEV_PORT } = require('../config');
+import DEV_PORT from '../config.js';
 
-const userController = require('./controllers/userController');
-const cookieController = require('./controllers/cookieController');
-const sessionController = require('./controllers/sessionController');
-const projectController = require('./controllers/projectController');
+// const path = require('path');
+import path from 'path';
+
+// const userController = require('./controllers/userController');
+// const cookieController = require('./controllers/cookieController');
+// const sessionController = require('./controllers/sessionController');
+// const projectController = require('./controllers/projectController');
+
+import userController from './controllers/userController.js';
+import cookieController from './controllers/cookieController.js';
+import sessionController from './controllers/sessionController.js';
+import projectController from './controllers/projectController.js';
 
 const app = express();
 
@@ -33,7 +47,8 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cookieParser());
 
 // Routes
-const stylesRouter = require('./routers/stylesRouter');
+// const stylesRouter = require('./routers/stylesRouter');
+import stylesRouter from './routers/stylesRouter.js';
 
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
@@ -111,9 +126,14 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-const Query = require('./graphQL/resolvers/query');
+// const Query = require('./graphQL/resolvers/query');
+import Query from './graphQL/resolvers/query.js';
+// const {Query} = query;
+
 // Mutation resolvers
-const Mutation = require('./graphQL/resolvers/mutation');
+// const Mutation = require('./graphQL/resolvers/mutation');
+import Mutation from './graphQL/resolvers/mutation.js';
+// const {Mutation} = mutation;
 
 // package resolvers into one variable to pass to Apollo Server
 const resolvers = {
@@ -130,8 +150,11 @@ const resolvers = {
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
-const typeDefs = require('./graphQL/schema/typeDefs.js');
-const { dirname } = require('node:path');
+
+// const typeDefs = require('./graphQL/schema/typeDefs.js');
+import typeDefs from './graphQL/schema/typeDefs.js';
+
+// const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
@@ -228,6 +251,7 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 if (isDev || isProd) {
-  app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+  app.listen(PORT.DEV_PORT, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
 }
 if (isTest) module.exports = app;
+// export default app;

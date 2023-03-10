@@ -1,6 +1,7 @@
 // const { ApolloServerErrorCode.BAD_USER_INPUT } = require('apollo-server-express');
 
-import { ApolloServerErrorCode } from '@apollo/server/errors';// v4 syntax
+// import { ApolloServerErrorCode } from '@apollo/server/errors';// v4 syntax
+const ApolloServerErrorCode = require('@apollo/server/errors');
 //now using ApolloServerErrorCode.BAD_USER_INPUT in place of ApolloServerErrorCode.BAD_USER_INPUT
 
 const { Projects, Users, Comments } = require('../../models/reactypeModels');
