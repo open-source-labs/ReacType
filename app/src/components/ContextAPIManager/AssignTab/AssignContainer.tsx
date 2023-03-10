@@ -28,7 +28,7 @@ const AssignContainer = () => {
   //fetching data from redux store
   useEffect(() => {
     setState(allContext);
-  }, []);
+  }, [allContext]);
 
   const renderTable = targetContext => {
     if (targetContext === null || !targetContext.values) {
@@ -78,7 +78,7 @@ const AssignContainer = () => {
       payload: 'FAKE_ID'
     });
 
-    setState(allContext);
+    // setState(allContext);
     renderComponentTable(componentInput);
   };
 

@@ -14,8 +14,9 @@ import {useSelector, useDispatch } from 'react-redux';
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
   const allContext = useSelector(state => state.contextSlice);
+ 
   const store = useStore();
-  const [state, setState] = useState(allContext);
+  const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
   const [stateContext, dispatchContext] = useContext(StateContext);
@@ -23,6 +24,7 @@ const CreateContainer = () => {
 
   //pulling data from redux store
   useEffect(() => {
+    console.log('allcon',allContext)
    setState(allContext)
     // setState(store.getState().contextSlice);
 
@@ -41,7 +43,7 @@ const CreateContainer = () => {
     setContextInput('');
     dispatch(addContext(contextInput));
  
-    setState(allContext);
+    // setState(allContext);
   };
 
   //update data store when user add new key-value pair to context
@@ -49,14 +51,14 @@ const CreateContainer = () => {
     dispatch(
       addContext({ name, inputKey, inputValue })
     );
-    setState(allContext);
+    // setState(allContext);
   };
 
   //update data store when user deletes context
   const handleDeleteContextClick = () => {
     dispatch(deleteContext(contextInput));
     setContextInput('');
-    setState(allContext);
+    // setState(allContext);
     setTableState(defaultTableData);
     dispatchContext({
       type: 'DELETE ELEMENT',
