@@ -1,6 +1,5 @@
 import React, { useContext, useState, Fragment, useEffect } from 'react';
 import DataTable from '../CreateTab/components/DataTable';
-import { useStore, useDispatch } from 'react-redux';
 import ContextDropDown from './components/ContextDropDown';
 import ComponentDropDown from './components/ComponentDropDrown';
 import Divider from '@mui/material/Divider';
@@ -8,8 +7,10 @@ import Grid from '@mui/material/Grid';
 import ComponentTable from './components/ComponentTable';
 import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import * as actions from '../../../redux/actions/actions';
+// import * as actions from '../../../redux/actions/actions';
 import StateContext from '../../../context/context';
+import {addComponentToContext}  from '../../../redux/reducers/slice/contextReducer'
+import {useSelector, useDispatch , useStore,} from 'react-redux';
 
 const AssignContainer = () => {
   const store = useStore();
@@ -22,10 +23,11 @@ const AssignContainer = () => {
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
   const [stateContext, dispatchContext] = useContext(StateContext);
+  const allContext = useSelector(state => state.contextSlice);
 
   //fetching data from redux store
   useEffect(() => {
-    setState(store.getState().contextSlice);
+    setState(allContext);
   }, []);
 
   const renderTable = targetContext => {
@@ -65,7 +67,7 @@ const AssignContainer = () => {
     )
       return;
     dispatch(
-      actions.addComponentToContext({
+    addComponentToContext({
         context: contextInput,
         component: componentInput
       })
@@ -76,7 +78,7 @@ const AssignContainer = () => {
       payload: 'FAKE_ID'
     });
 
-    setState(store.getState().contextSlice);
+    setState(allContext);
     renderComponentTable(componentInput);
   };
 

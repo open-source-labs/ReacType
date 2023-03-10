@@ -15,6 +15,8 @@ import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
 import store from '../../redux/store';
+import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
+import { useSelector, useDispatch } from 'react-redux';
 // import { store } from './../../index';
 const CodePreview: React.FC<{
   theme: string | null;
@@ -31,6 +33,7 @@ const CodePreview: React.FC<{
       wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
     });
   };
+  const dispatch = useDispatch();
 
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
@@ -54,10 +57,11 @@ const CodePreview: React.FC<{
 
   useEffect(() => {
     setInput(currentComponent.code);
-    store.dispatch({
-      type: 'CODE_PREVIEW_INPUT',
-      payload: currentComponent.code
-    });
+    dispatch(codePreviewInput(currentComponent.code));
+    // store.dispatch({
+    //   type: 'CODE_PREVIEW_INPUT',
+    //   payload: currentComponent.code
+    // });
   }, [currentComponent, state.components]);
 
   /**
@@ -67,7 +71,8 @@ const CodePreview: React.FC<{
   const handleChange = async (data) => {
     // console.log('changed');
     setInput(data);
-    store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
+    dispatch(codePreviewInput(data));
+    // store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
     if (!ref.current) {
       return;
     }
@@ -83,10 +88,11 @@ const CodePreview: React.FC<{
         global: 'window'
       }
     });
-    store.dispatch({
-      type: 'CODE_PREVIEW_SAVE',
-      payload: result.outputFiles[0].text
-    });
+    dispatch(codePreviewSave(result.outputFiles[0].text))
+    // store.dispatch({
+    //   type: 'CODE_PREVIEW_SAVE',
+    //   payload: result.outputFiles[0].text
+    // });
   };
 
   return (
