@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback
 } from 'react';
-import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
+import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
 import {
   FormControl,
   TextField,
@@ -56,13 +56,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   const currFocus = getFocus().child;
 
-  useEffect( () => {
+  useEffect(() => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
     setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: [] = [];
-      for (const [event, funcName] of Object.entries(currFocus?.events)){
-        addedEvent.push({ id: event , funcName })
+      for (const [event, funcName] of Object.entries(currFocus?.events)) {
+        addedEvent.push({ id: event, funcName })
       }
       setEventRow(addedEvent);
     }
@@ -71,10 +71,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   //this function allows properties to persist and appear in nested divs
   function deepIterate(arr) {
     const output = [];
-    for(let i = 0; i < arr.length; i++) {
-      if(arr[i].typeId === 1000) continue;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].typeId === 1000) continue;
       output.push(arr[i]);
-      if(arr[i].children.length) {
+      if (arr[i].children.length) {
         output.push(...deepIterate(arr[i].children));
       }
     }
@@ -186,19 +186,19 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         if (currentChild.name !== 'input' && currentChild.name !== 'img')
           currentChild.children.forEach(child => searchArray.push(child));
       }
-      
+
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-            comp => comp.id === focusChild.typeId
-          ).name;
-          // if type is HTML Element, search through HTML types to find matching element's name
+          comp => comp.id === focusChild.typeId
+        ).name;
+        // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-            elem => elem.id === focusChild.typeId
-          ).name;
+          elem => elem.id === focusChild.typeId
+        ).name;
       }
     }
     return focusTarget;
@@ -232,28 +232,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
+  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey = '') => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
     const currentComponent = state.components[state.canvasFocus.componentId - 1];
-    let newContextObj = {...currentComponent.useContext};
-    if(!newContextObj) {
+    let newContextObj = { ...currentComponent.useContext };
+    if (!newContextObj) {
       newContextObj = {};
     }
     if (!newContextObj[componentProviderId]) {
-      newContextObj[componentProviderId] = {statesFromProvider : new Set()};
+      newContextObj[componentProviderId] = { statesFromProvider: new Set() };
     }
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
-      setStateUsedObj({...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId});
+      setStateUsedObj({ ...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId });
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
 
     if (attributeName === 'compLink') {
       newContextObj[componentProviderId].compLink = statePropsId;
-      setStateUsedObj({...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId});
+      setStateUsedObj({ ...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId });
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
@@ -307,15 +307,22 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   };
 
 
-  const handleSave = (): Object => {
+  const handleSave = (tailwind): Object => {
+    if (tailwind !== true) {
+      dispatch({
+        type: 'CHANGE TAILWIND',
+        payload: false
+      })
+    }
     dispatch({
       type: 'UPDATE STATE USED',
-      payload: {stateUsedObj: stateUsedObj}
+      payload: { stateUsedObj: stateUsedObj }
     })
+
 
     dispatch({
       type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj}
+      payload: { useContextObj: useContextObj }
     })
 
     const styleObj: any = {};
@@ -348,6 +355,15 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     });
     return styleObj;
   };
+  const handleTailwind = (): Object => {
+
+    dispatch({
+      type: 'CHANGE TAILWIND',
+      payload: true
+    });
+    handleSave(true)
+  }
+
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch({ type: 'UNDO', payload: {} });
@@ -434,20 +450,20 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // the || is for either Mac or Windows OS
     // Undo
     (e.key === 'z' && e.metaKey && !e.shiftKey) ||
-    (e.key === 'z' && e.ctrlKey && !e.shiftKey)
+      (e.key === 'z' && e.ctrlKey && !e.shiftKey)
       ? handleUndo()
       : // Redo
       (e.shiftKey && e.metaKey && e.key === 'z') ||
         (e.shiftKey && e.ctrlKey && e.key === 'z')
-      ? handleRedo()
-      : // Delete HTML tag off canvas
-      e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
-      ? handleDelete()
-      : // Save
-      (e.key === 's' && e.ctrlKey && e.shiftKey) ||
-        (e.key === 's' && e.metaKey && e.shiftKey)
-      ? handleSave()
-      : '';
+        ? handleRedo()
+        : // Delete HTML tag off canvas
+        e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
+          ? handleDelete()
+          : // Save
+          (e.key === 's' && e.ctrlKey && e.shiftKey) ||
+            (e.key === 's' && e.metaKey && e.shiftKey)
+            ? handleSave()
+            : '';
   }, []);
 
   useEffect(() => {
@@ -457,28 +473,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     };
   }, []);
 
-  if(state.canvasFocus.childId === null) {
+  if (state.canvasFocus.childId === null) {
     return (
       <div className="column right" id="rightContainer" style={style}>
         <ProjectManager />
-          <div className="rightPanelWrapper">
-            <div>
-              <div className={classes.rootConfigHeader}>
-                  <h4
-                    className={
-                      isThemeLight
-                        ? classes.lightThemeFontColor
-                        : classes.darkThemeFontColor
-                    }
-                  >
-                    Parent Component:
-                    <br />
-                    <br />
-                    <span className={classes.rootCompName}>{configTarget.name}</span>
-                  </h4>
-              </div>
+        <div className="rightPanelWrapper">
+          <div>
+            <div className={classes.rootConfigHeader}>
+              <h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
+                Parent Component:
+                <br />
+                <br />
+                <span className={classes.rootCompName}>{configTarget.name}</span>
+              </h4>
             </div>
           </div>
+        </div>
         <ProjectManager />
       </div>
     )
@@ -584,7 +600,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 items={[
                   { value: '', text: 'default' },
                   { value: 'auto', text: 'auto' },
-                  { value: '100%', text: '100%'},
+                  { value: '100%', text: '100%' },
                   { value: '50%', text: '50%' },
                   { value: '25%', text: '25%' }
                 ]}
@@ -663,9 +679,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
                 <div>
                   <UseStateModal
-                  updateAttributeWithState={updateAttributeWithState}
-                  attributeToChange="compText"
-                  childId={state.canvasFocus.childId}/>
+                    updateAttributeWithState={updateAttributeWithState}
+                    attributeToChange="compText"
+                    childId={state.canvasFocus.childId} />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -697,8 +713,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
                 <div>
                   <UseStateModal
-                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
-                  childId={state.canvasFocus.childId}/>
+                    updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
+                    childId={state.canvasFocus.childId} />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -744,9 +760,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     { value: 'onMouseOver', text: 'onMouseOver' },
                     { value: 'onKeyDown', text: 'onKeyDown' }
                   ]}
-                  />
+                />
               </div>
-              { eventAll[0] && (<div className={classes.configRow}>
+              {eventAll[0] && (<div className={classes.configRow}>
                 <div
                   className={
                     isThemeLight
@@ -770,8 +786,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     placeholder="Function Name"
                   />
                 </FormControl>
-              </div> )}
-              { currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+              </div>)}
+              {currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
                 <DataGrid
                   rows={eventRow}
                   columns={eventColumnTabs}
@@ -792,7 +808,23 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   onClick={handleSave}
                   id="saveButton"
                 >
-                  SAVE
+                  CSS
+                </Button>
+              </div>
+              <div >
+
+                <Button
+                  variant='contained'
+                  color="primary"
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleTailwind}
+                  id="tailwind"
+                >
+                  Tailwind
                 </Button>
               </div>
               {configTarget.child ? (

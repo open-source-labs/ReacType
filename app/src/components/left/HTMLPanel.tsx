@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import StateContext from '../../context/context';
+import { useSelector } from 'react-redux';
 
 import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -30,7 +31,8 @@ const HTMLPanel = (props): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [state, dispatch] = useContext(StateContext);
-  const {isThemeLight} = props;
+  // const {isDarkMode} = props;
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -160,8 +162,8 @@ const HTMLPanel = (props): JSX.Element => {
         <div className={classes.inputWrapper}>
           <form onSubmit={handleSubmit} className="customForm">
 
-            <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor } value = "New HTML Tag">New HTML Tag: </h4>
-            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor } value = "New HTML Tag">New HTML Tag: </h4>
+            <InputLabel className={!isDarkMode ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Tag:
             </InputLabel>
               <TextField
@@ -173,22 +175,22 @@ const HTMLPanel = (props): JSX.Element => {
                 value={tag}
                 autoComplete="off"
                 onChange={handleTagChange}
-                className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
+                className={!isDarkMode ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
                 style={{ margin: '10px' }}
                 InputProps={{
                   style: {
-                    color: isThemeLight ? 'black' : 'white'
+                    color: !isDarkMode ? 'black' : 'white'
                   }
                 }}
               />
               
               {(!tag.charAt(0).match(/[A-Za-z]/) || !alphanumeric(tag) || tag.trim() === '' || checkNameDupe(tag))
-               && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+               && <span className={!isDarkMode ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                                 <em>{errorMsg}</em>
                               </span>}
               
             <br></br>
-            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <InputLabel className={!isDarkMode ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
               Element Name:
             </InputLabel>
             <TextField
@@ -200,21 +202,21 @@ const HTMLPanel = (props): JSX.Element => {
               value={name}
               onChange={handleNameChange}
               autoComplete="off"
-              className={isThemeLight ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
+              className={!isDarkMode ? `${classes.input} ${classes.lightThemeFontColor}` : `${classes.input} ${classes.darkThemeFontColor}`}
               style={{}}
               InputProps={{
                 style: {
-                  color: isThemeLight ? 'black' : 'white'
+                  color: !isDarkMode ? 'black' : 'white'
                 }
               }}
             />
             {(!name.charAt(0).match(/[A-Za-z]/) || !alphanumeric(name) || name.trim() === '' || name.length > 10 || checkNameDupe(name))
-              && <span className={isThemeLight ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
+              && <span className={!isDarkMode ? `${classes.errorMessage} ${classes.errorMessageLight}` : `${classes.errorMessage} ${classes.errorMessageDark}`}>
                               <em>{errorMsg}</em>
                             </span>}           
             <br></br>
             <Button
-              className={isThemeLight ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
+              className={!isDarkMode ? `${classes.addElementButton} ${classes.lightThemeFontColor}` : `${classes.addElementButton} ${classes.darkThemeFontColor}`}
               id="submitButton"
               type="submit"
               color='primary'

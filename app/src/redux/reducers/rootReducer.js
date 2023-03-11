@@ -1,15 +1,15 @@
 import { combineReducers } from 'redux';
 
-
+// Need to import each slice which will be combined in the rootReducer
 import darkModeReducer from './slice/darkModeSlice';
 import codePreviewReducer from './slice/codePreviewSlice';
 import contextReducer from './slice/contextReducer';
 
 const rootReducer = combineReducers({
-  darkModeSlice: darkModeReducer,
+  // Add desired slices here
+  darkMode: darkModeReducer,
   codePreviewSlice: codePreviewReducer,
-  // add the rest of your slice imports here
-  contextSlice: contextReducer,
+  contextSlice: contextReducer
 });
 
 export default rootReducer;

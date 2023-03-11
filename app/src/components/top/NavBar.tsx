@@ -28,20 +28,9 @@ import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
 import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions/actions.js';
-
-const mapDispatchToProps = (dispatch) => ({
-  darkModeToggle: () => {
-    dispatch(actions.darkModeToggle());
-  }
-});
-
-const mapStateToProps = (state) => {
-  return {
-    darkMode: state.darkModeSlice.darkMode
-  }
-}
+// Imports for redux toolkit usage
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,14 +88,22 @@ const StyledMenuItem = withStyles(theme => ({
 //export default function NavBar(props)
 const NavBar = (props) => {
   const classes = useStyles();
-
   const { style, setStyle } = useContext(styleContext);
-
   // State for export menu button
   const [anchorEl, setAnchorEl] = React.useState(null);
   // State for clear canvas button
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(StateContext);
+  const [state, setReset] = useContext(StateContext);
+  const dispatch = useDispatch();
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+
+   //NEW DARK MODE
+   const handleDarkModeToggle = () => {
+    dispatch(toggleDarkMode());
+    // Add your logic to update the style and theme based on darkMode
+    isDarkMode ? setStyle(null) : setStyle({ backgroundColor: '#21262c' });
+    props.setTheme(isDarkMode);
+  };
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -122,7 +119,7 @@ const NavBar = (props) => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
+      setReset({ type: 'RESET STATE', payload: {} });
     };
     // Set modal options
     const children = (
@@ -166,7 +163,9 @@ const NavBar = (props) => {
           <Avatar src={logo}></Avatar>
           <Typography
             variant="h6"
-            style={{ marginLeft: '1rem' }}
+            style={{ 
+              marginLeft: '1rem',
+            color: isDarkMode ? '#fff' : '#0d47a1' }}
             className={classes.title}
           >
             ReacType
@@ -219,18 +218,11 @@ const NavBar = (props) => {
             variant="contained"
             style={{ minWidth: '113.97px' }}
             endIcon={
-              props.isThemeLight ? <Brightness5Icon /> : <Brightness3Icon />
+              props.isThemeLight ? <Brightness3Icon /> : <Brightness5Icon />
             }
-            onClick={() => {
-              props.darkModeToggle();
-              //!style.backgroundColor // this changes the bottom and left background color/
-              !props.isThemeLight //this changes the bottom and left background color
-                ? setStyle(null) 
-                : setStyle({ backgroundColor: '#21262c' }); // dark mode color
-              props.isThemeLight ? props.setTheme(false) : props.setTheme(true); // this changes the draggable items font color
-            }}
+            onClick={handleDarkModeToggle}
           >
-            {props.darkMode ? 'Dark Mode' : 'Light Mode'}
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </Button>
           {state.isLoggedIn ? ( // render Manage Project button/dropdown only if user is logged in
             <Button
@@ -281,4 +273,4 @@ const NavBar = (props) => {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

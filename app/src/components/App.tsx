@@ -93,7 +93,7 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-        <StateContext.Provider value={[state, dispatch]}>
+        <StateContext.Provider value = {[state, dispatch]}>
           <AppContainer />
         </StateContext.Provider>
       </DndProvider>

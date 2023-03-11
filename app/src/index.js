@@ -44,7 +44,7 @@ const client = new ApolloClient({
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props) => {
       return Cookies.get('ssid') || window.localStorage.getItem('ssid') ? (
         <Component {...props} />
       ) : (
