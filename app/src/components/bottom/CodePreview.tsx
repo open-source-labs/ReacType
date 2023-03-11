@@ -16,7 +16,7 @@ import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
 import store from '../../redux/store';
 import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 // import { store } from './../../index';
 const CodePreview: React.FC<{
   theme: string | null;
