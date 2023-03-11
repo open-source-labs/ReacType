@@ -95,7 +95,7 @@ const NavBar = (props) => {
   const [modal, setModal] = useState(null);
   const [state, setReset] = useContext(StateContext);
   const dispatch = useDispatch();
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 
    //NEW DARK MODE
    const handleDarkModeToggle = () => {

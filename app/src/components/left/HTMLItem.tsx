@@ -45,7 +45,7 @@ const HTMLItem : React.FC<{
 
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,

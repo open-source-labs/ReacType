@@ -21,7 +21,7 @@ Hook state:
 const DragDropPanel = (props): JSX.Element => {
   const [state, dispatch] = useContext(StateContext);
   // const { isThemeLight } = props;
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 
   const handleDelete = (id: number): void => {
     dispatch({

@@ -75,7 +75,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
   const [invalidPassMsg, setInvalidPassMsg] = useState('');

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
   const [state,] = useContext(StateContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };

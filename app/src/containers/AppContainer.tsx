@@ -32,7 +32,7 @@ const AppContainer = () => {
   
   const initialStyle = useContext(styleContext);
   const [style, setStyle] = useState(initialStyle);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const [isThemeLight, setTheme] = useState(!isDarkMode);
   const dispatch = useDispatch();
 

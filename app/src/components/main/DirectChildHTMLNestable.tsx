@@ -27,7 +27,7 @@ function DirectChildHTMLNestable({
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const ref = useRef(null);
   // const [linkDisplayed, setLinkDisplayed] = useState('');
 
