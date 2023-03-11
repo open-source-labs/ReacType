@@ -85,7 +85,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color: isThemeLight ? 'black' : 'white' }}>
+        <strong style={{ color:'black'}}>
           {HTMLType.placeHolderShort}
         </strong>
         <DeleteButton
