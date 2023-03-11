@@ -1,5 +1,11 @@
-const { UserInputError } = require('apollo-server-express');
+// const { ApolloServerErrorCode.BAD_USER_INPUT } = require('apollo-server-express');
+
+// import { ApolloServerErrorCode } from '@apollo/server/errors';// v4 syntax
+const ApolloServerErrorCode = require('@apollo/server/errors');
+//now using ApolloServerErrorCode.BAD_USER_INPUT in place of ApolloServerErrorCode.BAD_USER_INPUT
+
 const { Projects, Users, Comments } = require('../../models/reactypeModels');
+
 /*
 * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
 * Link to Apollo Mutations:
@@ -23,7 +29,7 @@ const Project = {
       });
     }
 
-    throw new UserInputError('Project is not found. Please try another project ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Project is not found. Please try another project ID', {
       argumentName: 'projId',
     });
   },
@@ -33,7 +39,7 @@ const Project = {
     const target = await Projects.findOne(filter);
 
     if (!target) {
-      throw new UserInputError('Project is not found. Please try another project ID', {
+      throw new ApolloServerErrorCode.BAD_USER_INPUT('Project is not found. Please try another project ID', {
         argumentName: 'projId',
       });
     }
@@ -63,10 +69,10 @@ const Project = {
         });
       }
 
-      throw new UserInputError('Internal Server Error');
+      throw new ApolloServerErrorCode.BAD_USER_INPUT('Internal Server Error');
     }
 
-    throw new UserInputError('User is not found. Please try another user ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('User is not found. Please try another user ID', {
       argumentName: 'userId',
     });
   },
@@ -87,7 +93,7 @@ const Project = {
       });
     }
 
-    throw new UserInputError('Project is not found. Please try another project ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Project is not found. Please try another project ID', {
       argumentName: 'projId',
     });
   },
@@ -109,7 +115,7 @@ const Project = {
       });
     }
 
-    throw new UserInputError('Project is not found. Please try another project ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Project is not found. Please try another project ID', {
       argumentName: 'projId',
     });
   },
@@ -145,7 +151,7 @@ const Project = {
       });
     }
 
-    throw new UserInputError('Project cannot be found. Please try another project ID', {
+    throw new ApolloServerErrorCode.BAD_USER_INPUT('Project cannot be found. Please try another project ID', {
       argumentName: 'projId',
     });
   },
