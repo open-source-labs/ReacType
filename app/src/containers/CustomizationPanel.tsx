@@ -29,11 +29,16 @@ import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
 import { OutgoingMessage } from 'http';
+import {useDispatch, useSelector} from 'react-redux';
+import { changeTailwind, updateStateUsed, updateUseContext} from '../redux/reducers/slice/appStateSlice';
+
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const dispatch = useDispatch();
+  const state = useSelector(store => store.appState)
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -309,21 +314,23 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   const handleSave = (tailwind): Object => {
     if (tailwind !== true) {
-      dispatch({
-        type: 'CHANGE TAILWIND',
-        payload: false
-      })
+      dispatch(changeTailwind(false))
+      // dispatch({
+      //   type: 'CHANGE TAILWIND',
+      //   payload: false
+      // })
     }
-    dispatch({
-      type: 'UPDATE STATE USED',
-      payload: { stateUsedObj: stateUsedObj }
-    })
+    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj }))
+    // dispatch({
+    //   type: 'UPDATE STATE USED',
+    //   payload: { stateUsedObj: stateUsedObj }
+    // })
 
-
-    dispatch({
-      type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj }
-    })
+dispatch(updateUseContext({ useContextObj: useContextObj }))
+    // dispatch({
+    //   type: 'UPDATE USE CONTEXT',
+    //   payload: { useContextObj: useContextObj }
+    // })
 
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -356,11 +363,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return styleObj;
   };
   const handleTailwind = (): Object => {
-
-    dispatch({
-      type: 'CHANGE TAILWIND',
-      payload: true
-    });
+    dispatch(changeTailwind(true))
+    // dispatch({
+    //   type: 'CHANGE TAILWIND',
+    //   payload: true
+    // });
     handleSave(true)
   }
 

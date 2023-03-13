@@ -470,7 +470,6 @@ const reducer = (state: State, action: Action) => {
         state.HTMLTypes,
         state.tailwind
       );
-      console.log('called from the update state used',{...state, components})
       return { ...state, components };
     }
     case 'UPDATE USE CONTEXT': {

@@ -13,7 +13,7 @@ import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, addChild } from '../../redux/reducers/slice/appStateSlice';
 
 import { styleContext } from '../../containers/AppContainer';
 
@@ -92,14 +92,19 @@ function DirectChildHTMLNestable({
             )) ||
           item.instanceType !== 'Component'
         ) {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: childId
-            }
-          });
+          dispatch(addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: childId
+          }))
+          // dispatch({
+          //   type: 'ADD CHILD',
+          //   payload: {
+          //     type: item.instanceType,
+          //     typeId: item.instanceTypeId,
+          //     childId: childId
+          //   }
+          // });
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent

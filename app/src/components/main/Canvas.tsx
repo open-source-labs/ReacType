@@ -10,7 +10,7 @@ import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 // Redux Toolkit test
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, addChild } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
   // const [state, dispatch] = useContext(StateContext);
@@ -109,14 +109,20 @@ function Canvas(props): JSX.Element {
       console.log(currentComponent)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== "Component") {
-        dispatch({
-          type: 'ADD CHILD',
-          payload: {
-            type: item.instanceType,
-            typeId: item.instanceTypeId,
-            childId: null
-          }
-        });
+   dispatch(addChild({
+    type: item.instanceType,
+    typeId: item.instanceTypeId,
+    childId: null
+  }))
+   
+        // dispatch({
+        //   type: 'ADD CHILD',
+        //   payload: {
+        //     type: item.instanceType,
+        //     typeId: item.instanceTypeId,
+        //     childId: null
+        //   }
+        // });
       } else if (item.newInstance && item.instanceType === "Component") {
         let hasDiffParent = false;
         const components = state.components;
@@ -148,14 +154,19 @@ function Canvas(props): JSX.Element {
           }
         }
         // if (!hasDiffParent) {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: null
-            }
-          });
+          dispatch(addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null
+          }))
+          // dispatch({
+          //   type: 'ADD CHILD',
+          //   payload: {
+          //     type: item.instanceType,
+          //     typeId: item.instanceTypeId,
+          //     childId: null
+          //   }
+          // });
           // comment out below, not sure what the previous team want to do for this
         // } else {
         //   alert('something is wrong');

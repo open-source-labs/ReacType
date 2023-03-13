@@ -1,11 +1,13 @@
 // Main slice for all the component state.///
 import { createSlice } from '@reduxjs/toolkit';
 // Import Interfaces for State, and HTML Types
-import {   State,
+import {
+  State,
   Action,
   Component,
   ChildElement,
-  HTMLType } from '../../../interfaces/Interfaces';
+  HTMLType
+} from '../../../interfaces/Interfaces';
 import HTMLTypes from '../../../context/HTMLTypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
@@ -209,11 +211,10 @@ const updateUseStateCodes = (currentComponent) => {
   currentComponent.stateProps
     .filter((n, i) => i % 2 === 0)
     .forEach((stateProp) => {
-      const useStateCode = `const [${stateProp.key}, set${
-        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
-        stateProp.value
-      )})`;
+      const useStateCode = `const [${stateProp.key}, set${stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
+        }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
+          stateProp.value
+        )})`;
       localStateCode.push(useStateCode);
     });
   if (currentComponent.name !== 'App' && currentComponent.name !== 'Index') {
@@ -232,7 +233,7 @@ const appStateSlice = createSlice({
   name: 'appState',
   initialState,
   reducers: {
-    addComponent: (state,action) => {
+    addComponent: (state, action) => {
       if (
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
@@ -275,27 +276,145 @@ const appStateSlice = createSlice({
         state.HTMLTypes,
         state.tailwind
       );
-      // return {
-      //   ...state,
-      //   components,
-      //   rootComponents,
-      //   nextComponentId
-      //   // canvasFocus
-      // };
-      state.components = components;
-      state.rootComponents = rootComponents;
-      state.nextComponentId = nextComponentId
+      return {
+        ...state,
+        components,
+        rootComponents,
+        nextComponentId
+        // canvasFocus
+      };
+      // state.components = components;
+      // state.rootComponents = rootComponents;
+      // state.nextComponentId = nextComponentId
 
-    
+
     },
-    // addChild: (state,action) => {
-      
-    // }
+    addChild: (state, action) => {
+      let parentComponentId: number;
+      const {
+        type,
+        typeId,
+        childId
+      }: { type: string; typeId: number; childId: any } = action.payload;
+      if (action.payload.copyId) {
+        parentComponentId = action.payload.copyId;
+      } else {
+        parentComponentId = state.canvasFocus.componentId;
+      }
 
+      const components = [...state.components];
 
+      const parentComponent = findComponent(components, parentComponentId);
+      let componentName: string = '';
+      let componentChildren: Object[] = [];
+      if (type === 'Component') {
+        components.forEach((comp) => {
+          if (comp.id === typeId) {
+            componentName = comp.name;
+            componentChildren = comp.children;
+          }
+        });
+      }
+      if (type === 'Component') {
+        const originalComponent = findComponent(state.components, typeId);
+        if (childTypeExists('Component', parentComponentId, originalComponent))
+          return state;
+      }
 
+      let newName = state.HTMLTypes.reduce((name, el) => {
+        if (typeId === el.id) {
+          name = type === 'Component' ? componentName : el.tag;
+        }
+        return name;
+      }, '');
 
-      changeFocus: (state, action) => {
+      if (type === 'Route Link') {
+        components.find((comp) => {
+          if (comp.id === typeId) {
+            newName = comp.name;
+            return;
+          }
+        });
+      }
+      const newChild: ChildElement = {
+        type,
+        typeId,
+        name: newName,
+        childId: state.nextChildId,
+        style: {},
+        attributes: {},
+        events: {},
+        children: componentChildren,
+        stateProps: [], //legacy pd: added stateprops and passedinprops
+        passedInProps: []
+      };
+      const topSeparator: ChildElement = {
+        type: 'HTML Element',
+        typeId: separator.id,
+        name: 'separator',
+        childId: state.nextTopSeparatorId,
+        style: separator.style,
+        attributes: {},
+        children: []
+      };
+      // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
+      // we also add a separator before any new child
+      // if the newChild Element is an input or img type, delete the children key/value pair
+      if (newChild.name === 'input' && newChild.name === 'img')
+        delete newChild.children;
+      let directParent;
+      if (childId === null) {
+        parentComponent.children.push(topSeparator);
+        parentComponent.children.push(newChild);
+      }
+      // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+      else {
+        directParent = findChild(parentComponent, childId);
+        //disable nesting a component inside a HTML element
+        if (directParent.type === 'HTML Element' && type === 'HTML Element') {
+          directParent.children.push(topSeparator);
+          directParent.children.push(newChild);
+        } else {
+          return { ...state };
+        }
+      }
+      const canvasFocus = {
+        ...state.canvasFocus,
+        componentId: state.canvasFocus.componentId,
+        childId: newChild.childId
+      };
+      const nextChildId = state.nextChildId + 1;
+      let nextTopSeparatorId = state.nextTopSeparatorId + 1;
+      let addChildArray = components[canvasFocus.componentId - 1].children;
+      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
+      if (directParent && directParent.name === 'separator')
+        nextTopSeparatorId = manageSeparators.handleSeparators(
+          addChildArray,
+          'add'
+        );
+      components[canvasFocus.componentId - 1].children = addChildArray;
+
+      parentComponent.code = generateCode(
+        components,
+        parentComponentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+
+      return {
+        ...state,
+        components,
+        nextChildId,
+        canvasFocus,
+        nextTopSeparatorId
+      };
+    },
+    changeTailwind: (state, action) => {
+      return { ...state, tailwind: action.payload }
+    },
+    changeFocus: (state, action) => {
       const { componentId, childId } = action.payload;
       if (childId < 1000) {
         // makes separators not selectable
@@ -305,17 +424,53 @@ const appStateSlice = createSlice({
           return Object.assign({}, element);
         });
       }
- 
-    
     },
+    updateStateUsed : (state, action) => {
+      const { stateUsedObj } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.stateUsed = stateUsedObj;
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components };
+    }, 
+    updateUseContext: (state, action) => {
+      const { useContextObj } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      component.useContext = useContextObj;
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components };
+    },
+
     resetAllState: (state) => {
       Object.assign(state, initialState);
     }
-  
+
   }
 });
 
 // Exports the action creator function to be used with useDispatch
-export const {addComponent, changeFocus, resetAllState } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus,changeTailwind, updateStateUsed, resetAllState, updateUseContext } = appStateSlice.actions;
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;
