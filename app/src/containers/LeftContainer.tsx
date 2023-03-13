@@ -4,14 +4,19 @@ import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
 import StateContext from '../context/context';
 import { styleContext } from './AppContainer';
+import { useDispatch } from 'react-redux';
+import { deleteChild } from '../redux/reducers/slice/appStateSlice';
+
 
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch({ type: 'DELETE CHILD', payload: {} });
+    // dispatch({ type: 'DELETE CHILD', payload: {} });
+    dispatch(deleteChild({}))
   };
   const keyBindedFunc = useCallback(e => {
     if (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT") handleDelete();

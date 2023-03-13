@@ -11,11 +11,12 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 //redux toolkit addition
 import { useSelector, useDispatch } from 'react-redux';
+import { setInitialState } from '../redux/reducers/slice/appStateSlice';
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const state = useSelector(store => store.appState);
-  // const dispatch = useDispatch();
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   if (window.localStorage.getItem('ssid') !== 'guest') {
     state.isLoggedIn = true;
@@ -29,10 +30,11 @@ export const App = (): JSX.Element => {
       localforage.getItem('guestProject').then(project => {
         // if project exists, use dispatch to set initial state to that project
         if (project) {
-          dispatch({
-            type: 'SET INITIAL STATE',
-            payload: project
-          });
+          // dispatch({
+          //   type: 'SET INITIAL STATE',
+          //   payload: project
+          // });
+          dispatch(setInitialState({project}))
         }
       });
     } else {
@@ -46,10 +48,11 @@ export const App = (): JSX.Element => {
       //also load user's last project, which was saved in localforage on logout
       localforage.getItem(userId).then(project => {
         if (project) {
-          dispatch({
-            type: 'SET INITIAL STATE',
-            payload: project
-          });
+          // dispatch({
+          //   type: 'SET INITIAL STATE',
+          //   payload: project
+          // });
+          dispatch(setInitialState({project}))
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
