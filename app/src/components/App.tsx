@@ -21,7 +21,7 @@ export const App = (): JSX.Element => {
   if (window.localStorage.getItem('ssid') !== 'guest') {
     state.isLoggedIn = true;
   } else {
-    state.isLoggedIn = false;
+    state.isLoggedIn = false;git 
   }
   // following useEffect runs on first mount
   useEffect(() => {

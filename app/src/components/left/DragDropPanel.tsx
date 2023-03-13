@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 
-import { useSelector } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 

@@ -880,14 +880,96 @@ const appStateSlice = createSlice({
         ...state
       };
     },
+    addState: (state, action) => {
+    // find the current component in focus
+    const components = [...state.components];
+    const currComponent = findComponent(
+    components,
+    state.canvasFocus.componentId
+    );
+    //will add update StateProps to current components' array
+    currComponent.stateProps.push(action.payload.newState);
+    currComponent.useStateCodes = updateUseStateCodes(currComponent);
+    currComponent.stateProps.push(action.payload.setNewState);
+    currComponent.code = generateCode(
+    components,
+    state.canvasFocus.componentId,
+    [...state.rootComponents],
+    state.projectType,
+    state.HTMLTypes,
+    state.tailwind
+    );
+    return { ...state, components };
+    },
+    addPassedInProps: (state, action) => {
+      //When props are passed from a parent to a child in the State Manager tab, it will update the components available passedinprops
+      // find the current component in focus
+      const components = [...state.components];
+      const currComponent = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      //prevents passing in props more than one time to the current component
+      for (let i = 0; i < currComponent.passedInProps.length; i++) {
+        let curr = currComponent.passedInProps[i];
+        if (curr.id === action.payload.passedInProps.id) {
+          return { ...state, components };
+        }
+      }
 
+      //find the parent for deleting instances of where the parent is passing props to children
+      let parent;
+      for (let i = 0; i < components.length; i++) {
+        let currComponent = components[i];
+        for (let j = 0; j < currComponent.children.length; j++) {
+          let currChild = currComponent.children[j];
+          if (currChild.typeId === state.canvasFocus.componentId) {
+            parent = currComponent;
+          }
+        }
+      }
+
+      //search for whether the child exists in the parent's children array
+      //if so update the passed in props child element with the updates passed in props
+      parent.children.forEach((child) => {
+        if (child.name === currComponent.name) {
+          child.passedInProps.push(action.payload.passedInProps);
+        }
+      });
+
+      // check each components passedInProps property and updating there as well.
+      currComponent.passedInProps.push(action.payload.passedInProps);
+
+      //update the import codes for the current component
+      currComponent.useStateCodes = updateUseStateCodes(currComponent);
+      //update code preview for current component
+      currComponent.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      //update code preview for parent component (since we have added it to the children array)
+      parent.code = generateCode(
+        components,
+        parent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+
+      return { ...state, components };
+    }
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
 
-export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps } = appStateSlice.actions;
 
 
 // Exports so we can combine in rootReducer

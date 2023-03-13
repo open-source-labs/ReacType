@@ -1007,4 +1007,5 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
+};
 export default CustomizationPanel;

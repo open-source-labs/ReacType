@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { styled, Theme } from "@mui/material/styles";
 import makeStyles from '@mui/styles/makeStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { addState } from "../../../../redux/reducers/slice/appStateSlice";
 import {
   FormControl,
   FormHelperText,
@@ -17,7 +19,9 @@ import TablePassedInProps from "./TablePassedInProps";
 
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -109,10 +113,11 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       type: 'func',
     };
 
-    dispatch({
-      type: 'ADD STATE',
-      payload: {newState: newState, setNewState: setNewState}
-    }); 
+    // dispatch({
+    //   type: 'ADD STATE',
+    //   payload: {newState: newState, setNewState: setNewState}
+    // }); 
+    dispatch(addState({newState: newState, setNewState: setNewState}))
     setRows1([...rows1, newState])
     resetError();
     clearForm();
