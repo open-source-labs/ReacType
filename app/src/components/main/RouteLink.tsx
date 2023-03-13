@@ -5,9 +5,13 @@ import { ItemTypes } from '../../constants/ItemTypes';
 import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 function RouteLink({ childId, type, typeId, style }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
 
   // find the name of the Component corresponding with this link
   const routeName: string = state.components.find(
@@ -28,18 +32,20 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
       isDragging: !!monitor.isDragging()
     })
   });
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  };
+  // const changeFocus = (componentId: number, childId: number | null) => {
+  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  // };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandlerFocus(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    // changeFocus(state.canvasFocus.componentId, childId);
+    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
   //   the route handler will change the focus of the canvas to the component referenced in the route link when the text is selected
   function onClickHandlerRoute(event) {
     event.stopPropagation();
-    changeFocus(typeId, null);
+    // changeFocus(typeId, null);
+    dispatch(changeFocus({ componentId:typeId, childId: null}));
   }
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style for the routeLink component, and 3) default styling

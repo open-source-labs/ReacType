@@ -83,7 +83,7 @@ function Canvas(props): JSX.Element {
   function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: null}));
+    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   };
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx

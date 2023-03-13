@@ -94,10 +94,10 @@ const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   // State for clear canvas button
   const [modal, setModal] = useState(null);
-  const [state, setReset] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
   const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
-  const appState = useSelector(store => store.appState);
+  const state = useSelector(store => store.appState);
 
    //NEW DARK MODE
    const handleDarkModeToggle = () => {
