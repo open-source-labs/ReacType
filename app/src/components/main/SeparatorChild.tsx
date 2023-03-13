@@ -9,7 +9,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, changePosition } from '../../redux/reducers/slice/appStateSlice';
 
 
 function DirectChildHTMLNestable({
@@ -75,13 +75,14 @@ function DirectChildHTMLNestable({
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch({
-            type: 'CHANGE POSITION',
-            payload: {
-              currentChildId: item.childId,
-              newParentChildId: childId
-            }
-          });
+          // dispatch({
+          //   type: 'CHANGE POSITION',
+          //   payload: {
+          //     currentChildId: item.childId,
+          //     newParentChildId: childId
+          //   }
+          // });
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId}))
         }
       }
     },

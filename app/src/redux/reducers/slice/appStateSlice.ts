@@ -305,17 +305,66 @@ const appStateSlice = createSlice({
           return Object.assign({}, element);
         });
       }
- 
-    
     },
     resetAllState: (state) => {
       Object.assign(state, initialState);
+    },
+    changePosition: (state, action) => {
+      const { currentChildId, newParentChildId } = action.payload;
+      // if the currentChild Id is the same as the newParentId (i.e. a component is trying to drop itself into itself), don't update state
+      if (currentChildId === newParentChildId) return state;
+      // find the current component in focus
+      let components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      // find the moved element's former parent
+      // delete the element from it's former parent's children array
+
+      const { directParent, childIndexValue } = findParent(
+        component,
+        currentChildId
+      );
+      // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
+      // Only run if the directParent exists
+      if (directParent) {
+        const child = { ...directParent.children[childIndexValue] };
+        directParent.children.splice(childIndexValue, 1);
+        // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+        if (newParentChildId === null) {
+          component.children.push(child);
+        }
+        // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+        else {
+          const directParent = findChild(component, newParentChildId);
+          directParent.children.push(child);
+        }
+      }
+      let nextTopSeparatorId = state.nextTopSeparatorId;
+      components[state.canvasFocus.componentId - 1].children =
+        manageSeparators.mergeSeparator(
+          components[state.canvasFocus.componentId - 1].children,
+          0
+        );
+      nextTopSeparatorId = manageSeparators.handleSeparators(
+        components[state.canvasFocus.componentId - 1].children,
+        'change position'
+      );
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components, nextTopSeparatorId };
     }
-  
   }
 });
 
 // Exports the action creator function to be used with useDispatch
-export const {addComponent, changeFocus, resetAllState } = appStateSlice.actions;
+export const {addComponent, changeFocus, resetAllState, changePosition } = appStateSlice.actions;
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;
