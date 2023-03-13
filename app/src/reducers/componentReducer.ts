@@ -8,6 +8,9 @@ import {
 import initialState from '../context/initialState';
 import generateCode from '../helperFunctions/generateCode';
 import manageSeparators from '../helperFunctions/manageSeparators';
+//appState test
+// import appStateSlice from '../redux/reducers/slice/appStateSlice';
+// const { initialState } = appStateSlice;
 
 let separator = initialState.HTMLTypes[1];
 const reducer = (state: State, action: Action) => {

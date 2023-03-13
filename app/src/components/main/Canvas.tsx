@@ -8,9 +8,14 @@ import renderChildren from '../../helperFunctions/renderChildren';
 // Caret start
 import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
+// Redux Toolkit test
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
   const [state, dispatch] = useContext(StateContext);
+  const appState = useSelector(store => store.appState);
+  const dispatchTest = useDispatch();
   // const [newComp, setNewComp] = useState(false);
   // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
   // const [copiedComp, setCopiedComp] = useState({});
@@ -71,14 +76,14 @@ function Canvas(props): JSX.Element {
   );
 
   // changes focus of the canvas to a new component / child
-  const changeFocus = (componentId?: number, childId?: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  };
+  // const changeFocus = (componentId?: number, childId?: number | null) => {
+  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  // };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-    changeFocus(state.canvasFocus.componentId, null);
+    dispatchTest(changeFocus({ componentId: appState.canvasFocus.componentId, childId: null}));
   };
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx

@@ -30,6 +30,7 @@ import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 // Imports for redux toolkit usage
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 // NavBar text and button styling
@@ -96,6 +97,7 @@ const NavBar = (props) => {
   const [state, setReset] = useContext(StateContext);
   const dispatch = useDispatch();
   const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const appState = useSelector(store => store.appState);
 
    //NEW DARK MODE
    const handleDarkModeToggle = () => {
@@ -119,7 +121,7 @@ const NavBar = (props) => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      setReset({ type: 'RESET STATE', payload: {} });
+      dispatch(resetAllState());
     };
     // Set modal options
     const children = (
