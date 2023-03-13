@@ -11,9 +11,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
-const mongoURI = process.env.MONGO_DB_DEV;
+const mongoURI = 'mongodb+srv://Yoheze:Yoheze1234@cluster0.ie4ob6r.mongodb.net/?retryWrites=true&w=majority';
 const URI =
-  process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB_DEV;
+  process.env.NODE_ENV === 'production' ? mongoURI : 'mongodb+srv://Yoheze:Yoheze1234@cluster0.ie4ob6r.mongodb.net/?retryWrites=true&w=majority';
 
 const SALT_WORK_FACTOR = 10;
 // connect to mongo db

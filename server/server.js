@@ -1,9 +1,10 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const cookieParser = require('cookie-parser');
-//const passport = require('passport');
-//const GitHubStrategy = require('passport-github2').Strategy;
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 const { DEV_PORT } = require('../config');
+const passportSetup = require('./routers/passport-setup.js')
 
 const path = require('path');
 const cors = require('cors');
@@ -11,6 +12,7 @@ const userController = require('./controllers/userController');
 const cookieController = require('./controllers/cookieController');
 const sessionController = require('./controllers/sessionController');
 const projectController = require('./controllers/projectController');
+const mongoose = require('mongoose')
 
 const app = express();
 
@@ -41,32 +43,23 @@ app.use(
 
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
-// passport.use(
-//   new GitHubStrategy(
-//     {
-//       clientID: process.env.GITHUB_ID,
-//       clientSecret: process.env.GITHUB_SECRET,
-//       callbackURL: isDev
-//         ? `http://localhost:${DEV_PORT}/github/callback`
-//         : `https://reactype-caret.herokuapp.com/github/callback`
-//     },
-//     function(accessToken, refreshToken, profile, done) {
-//       console.log(profile);
-//     }
-//   )
-// );
+// V.15 Team: Github Oauth and Google Oauth works! (starts here)
+const session = require('express-session');
+const authRoutes = require('./routers/auth.js')
 
-// initializes passport and passport sessions
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(session({
+  secret: 'asdsidfhbos',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 24*60*60*1000 }
+}))
 
-// app.get(
-//   '/auth/github',
-//   passport.authenticate('github', { session: false }),
-//   (req, res) => {
-//     res.send('github');
-//   }
-// );
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/auth', authRoutes)
+// go to other files
+
 
 // for Oauth which is currently not working
 // app.get(
@@ -123,6 +116,7 @@ app.use('/user-styles', stylesRouter);
 // schemas used for graphQL
 const typeDefs = require('./graphQL/schema/typeDefs.js');
 const { dirname } = require('node:path');
+const { Mongoose } = require('mongoose');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
@@ -182,6 +176,10 @@ if (process.env.NODE_ENV == 'production'){
     return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
 }
+
+app.get('/test', (req, res) => {
+  res.send('test request is working');
+})
 
 app.get('/', function(req, res) {
   res.send('Houston, Caret is in orbit!');

@@ -140,7 +140,7 @@ sessionController.gitHubSendToken = (req, res, next) => {
 // creates a session when logging in with github
 sessionController.githubSession = (req, res, next) => {
   // req.user is passed in from passport js -> serializeuser/deserializeuser
-  const cookieId = req.user._id;
+  const cookieId = req.user.id;
   Sessions.findOne({ cookieId }, (err, session) => {
     if (err) {
       return next({
