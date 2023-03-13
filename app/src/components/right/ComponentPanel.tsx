@@ -12,11 +12,20 @@ import {
   // TextField,
 } from "@mui/material";
 import TextField from '@mui/material/TextField';
+//redux toolkit
+import { useDispatch, useSelector } from 'react-redux';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+
+
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({isThemeLight}): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+
+const state = useSelector(store => store.appState);
+const dispatch = useDispatch();
+console.log('state', state)
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
@@ -91,10 +100,11 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
       : inputNameClean;
     // add new component to state
-    dispatch({
-      type: 'ADD COMPONENT',
-      payload: { componentName: formattedName, root: isRoot }
-    });
+    // dispatch({
+    //   type: 'ADD COMPONENT',
+    //   payload: { componentName: formattedName, root: isRoot }
+    // });
+    dispatch(addComponent({ componentName: formattedName, root: isRoot }));
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field

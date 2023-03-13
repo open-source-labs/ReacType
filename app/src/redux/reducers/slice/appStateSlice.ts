@@ -1,9 +1,14 @@
 // Main slice for all the component state.
 import { createSlice } from '@reduxjs/toolkit';
 // Import Interfaces for State, and HTML Types
-import { State } from '../../../interfaces/Interfaces';
+import {   State,
+  Action,
+  Component,
+  ChildElement,
+  HTMLType } from '../../../interfaces/Interfaces';
 import HTMLTypes from '../../../context/HTMLTypes';
-
+import generateCode from '../../../helperFunctions/generateCode';
+import manageSeparators from '../../../helperFunctions/manageSeparators';
 const initialState: State = {
   name: '',
   isLoggedIn: false,
@@ -227,6 +232,69 @@ const appStateSlice = createSlice({
   name: 'appState',
   initialState,
   reducers: {
+    addComponent: (state,action) => {
+      if (
+        typeof action.payload.componentName !== 'string' ||
+        action.payload.componentName === ''
+      )
+        return state;
+      const components = [...state.components];
+      const newComponent = {
+        id: state.components.length + 1,
+        name: action.payload.componentName,
+        nextChildId: 1,
+        style: {},
+        attributes: {},
+        code: '',
+        children: [],
+        isPage: action.payload.root,
+        past: [],
+        future: [],
+        stateProps: [],
+        useStateCodes: [],
+        passedInProps: []
+      };
+      components.push(newComponent);
+      // functionality if the new component will become the root component
+      const rootComponents = [...state.rootComponents];
+      if (action.payload.root) rootComponents.push(newComponent.id);
+      // updates the focus to the new component, which redirects to the new blank canvas of said new component
+
+      // change canvas focus to just created component
+      // const canvasFocus = {
+      //   ...state.canvasFocus,
+      //   componentId: newComponent.id,
+      //   childId: null
+      // };
+      const nextComponentId = state.nextComponentId + 1;
+      newComponent.code = generateCode(
+        components,
+        newComponent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      // return {
+      //   ...state,
+      //   components,
+      //   rootComponents,
+      //   nextComponentId
+      //   // canvasFocus
+      // };
+      state.components = components;
+      state.rootComponents = rootComponents;
+      state.nextComponentId = nextComponentId
+
+    
+    },
+    // addChild: (state,action) => {
+      
+    // }
+
+
+
+
       changeFocus: (state, action) => {
       const { componentId, childId } = action.payload;
       if (childId < 1000) {
@@ -248,6 +316,6 @@ const appStateSlice = createSlice({
 });
 
 // Exports the action creator function to be used with useDispatch
-export const { changeFocus, resetAllState } = appStateSlice.actions;
+export const {addComponent, changeFocus, resetAllState } = appStateSlice.actions;
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;
