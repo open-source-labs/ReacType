@@ -1,4 +1,4 @@
-// Main slice for all the component state.
+// Main slice for all the component state.///
 import { createSlice } from '@reduxjs/toolkit';
 // Import Interfaces for State, and HTML Types
 import { State } from '../../../interfaces/Interfaces';

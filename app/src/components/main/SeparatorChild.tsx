@@ -8,6 +8,9 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+
 
 function DirectChildHTMLNestable({
   childId,
@@ -16,7 +19,9 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   const ref = useRef(null);
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -88,14 +93,15 @@ function DirectChildHTMLNestable({
     }
   });
 
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  };
+  // const changeFocus = (componentId: number, childId: number | null) => {
+  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  // };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    // changeFocus(state.canvasFocus.componentId, childId);
+    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

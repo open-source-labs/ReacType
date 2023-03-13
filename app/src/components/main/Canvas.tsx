@@ -13,9 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
-  const [state, dispatch] = useContext(StateContext);
-  const appState = useSelector(store => store.appState);
-  const dispatchTest = useDispatch();
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   // const [newComp, setNewComp] = useState(false);
   // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
   // const [copiedComp, setCopiedComp] = useState({});
@@ -83,7 +83,7 @@ function Canvas(props): JSX.Element {
   function onClickHandler(event) {
     event.stopPropagation();
     // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-    dispatchTest(changeFocus({ componentId: appState.canvasFocus.componentId, childId: null}));
+    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   };
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
