@@ -30,7 +30,7 @@ import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
 import { OutgoingMessage } from 'http';
 import {useDispatch, useSelector} from 'react-redux';
-import { changeTailwind, updateStateUsed, updateUseContext} from '../redux/reducers/slice/appStateSlice';
+import { changeTailwind, updateStateUsed, updateUseContext, updateAttributes, deleteChild, undo, redo} from '../redux/reducers/slice/appStateSlice';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -349,10 +349,11 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-    dispatch({
-      type: 'UPDATE ATTRIBUTES',
-      payload: { attributes: attributesObj }
-    });
+    // dispatch({
+    //   type: 'UPDATE ATTRIBUTES',
+    //   payload: { attributes: attributesObj }
+    // });
+    dispatch(updateAttributes({attributes: attributesObj}))
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
@@ -373,14 +374,17 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
-    dispatch({ type: 'UNDO', payload: {} });
+    // dispatch({ type: 'UNDO', payload: {} });
+    dispatch(undo({}));
   };
   const handleRedo = () => {
-    dispatch({ type: 'REDO', payload: {} });
+    // dispatch({ type: 'REDO', payload: {} });
+    dispatch(redo({}));
   };
   // placeholder for handling deleting instance
   const handleDelete = () => {
-    dispatch({ type: 'DELETE CHILD', payload: {} });
+    // dispatch({ type: 'DELETE CHILD', payload: {} });
+    dispatch(deleteChild({}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal

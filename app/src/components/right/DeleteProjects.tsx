@@ -17,6 +17,8 @@ import {
 import localforage from 'localforage';
 import StateContext from '../../context/context';
 import initialState from '../../context/initialState';
+import { useSelector, useDispatch } from 'react-redux';
+import { setInitialState } from '../../redux/reducers/slice/appStateSlice';
 export interface ProjectDialogProps {
   open: boolean;
   projects: Array<Object>;
@@ -26,7 +28,9 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -41,7 +45,8 @@ function ProjectsDialog(props: ProjectDialogProps) {
     )[0];
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
-    dispatch({ type: 'SET INITIAL STATE', payload: initialState });
+    // dispatch({ type: 'SET INITIAL STATE', payload: initialState });
+    dispatch(setInitialState({}))
     onClose();
   };
 
