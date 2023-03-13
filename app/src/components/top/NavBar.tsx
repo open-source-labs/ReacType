@@ -32,7 +32,6 @@ import logo from '../../public/icons/win/logo.png';
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
-
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

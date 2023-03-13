@@ -8,24 +8,25 @@ import AddContextForm from './components/AddContextForm';
 // import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
-import { addContext, addContextValues, deleteContext, getAllContext,  addComponentToContext} from '../../../redux/reducers/slice/contextReducer';
-import {useSelector, useDispatch } from 'react-redux';
+import { addContext, deleteContext } from '../../../redux/reducers/slice/contextReducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
   const allContext = useSelector(state => state.contextSlice);
- 
+
   const store = useStore();
   const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
-  const [stateContext, dispatchContext] = useContext(StateContext);
+  // const [stateContext, dispatchContext] = useContext(StateContext);
   const dispatch = useDispatch();
 
   //pulling data from redux store
   useEffect(() => {
-    console.log('allcon',allContext)
-   setState(allContext)
+    console.log('allcon', allContext)
+    setState(allContext)
     // setState(store.getState().contextSlice);
 
   }, [allContext]);
@@ -42,7 +43,7 @@ const CreateContainer = () => {
     }
     setContextInput('');
     dispatch(addContext(contextInput));
- 
+
     // setState(allContext);
   };
 
@@ -60,10 +61,12 @@ const CreateContainer = () => {
     setContextInput('');
     // setState(allContext);
     setTableState(defaultTableData);
-    dispatchContext({
-      type: 'DELETE ELEMENT',
-      payload: 'FAKE_ID'
-    });
+
+    dispatch(deleteElement('FAKE_ID'))
+    // dispatchContext({
+    //   type: 'DELETE ELEMENT',
+    //   payload: 'FAKE_ID'
+    // });
   };
 
   //re-render data table when there's new changes

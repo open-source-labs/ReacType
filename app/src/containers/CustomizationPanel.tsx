@@ -30,7 +30,7 @@ import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
 import { OutgoingMessage } from 'http';
 import {useDispatch, useSelector} from 'react-redux';
-import { changeTailwind, updateStateUsed, updateUseContext} from '../redux/reducers/slice/appStateSlice';
+import { changeTailwind, updateStateUsed, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage,  deleteReusableComponent} from '../redux/reducers/slice/appStateSlice';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -305,11 +305,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   ];
 
   const deleteEvent = selectedEvent => {
-    dispatch({
-      type: 'DELETE EVENT',
-      payload: { event: selectedEvent }
-    });
-  };
+    dispatch(deleteEventAction({ event: selectedEvent }))
+  //   dispatch({
+  //     type: 'DELETE EVENT',
+  //     payload: { event: selectedEvent }
+  //   });
+  // };
 
 
   const handleSave = (tailwind): Object => {
@@ -340,10 +341,11 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    dispatch({
-      type: 'UPDATE CSS',
-      payload: { style: styleObj }
-    });
+    dispatch(updateCss({ style: styleObj }))
+    // dispatch({
+    //   type: 'UPDATE CSS',
+    //   payload: { style: styleObj }
+    // });
 
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
@@ -356,10 +358,12 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-    dispatch({
-      type: 'UPDATE EVENTS',
-      payload: { events: eventsObj }
-    });
+    dispatch(updateEvents({ events: eventsObj }))
+    
+    // dispatch({
+    //   type: 'UPDATE EVENTS',
+    //   payload: { events: eventsObj }
+    // });
     return styleObj;
   };
   const handleTailwind = (): Object => {
@@ -387,7 +391,8 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
     isIndex()
       ? handleDialogError('index')
-      : dispatch({ type: 'DELETE PAGE', payload: { id } });
+      : dispatch(deletePage({ id }))
+      // dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
@@ -406,7 +411,8 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
       closeModal();
-      dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+      dispatch( deleteReusableComponent({}))
+      // dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
     // set modal options
     const children = (

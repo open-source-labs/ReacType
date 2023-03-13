@@ -13,12 +13,15 @@ import LoginButton from './LoginButton';
 import SaveProjectButton from './SaveProjectButton';
 import DeleteProjects from './DeleteProjects';
 import { styleContext } from '../../containers/AppContainer';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {resetState} from '../../redux/reducers/slice/appStateSlice'
 // ProjectManager function moved to NavBar.tsx
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  const dispatch = useDispatch();
+  // const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
   const { style, setStyle } = useContext(styleContext);
 
@@ -39,7 +42,8 @@ const ProjectManager = () => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
+      dispatch(resetState({}))
+      // dispatch({ type: 'RESET STATE', payload: {} });
     };
 
     // Set modal options

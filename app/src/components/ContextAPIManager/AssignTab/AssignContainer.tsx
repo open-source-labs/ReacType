@@ -9,8 +9,9 @@ import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 // import * as actions from '../../../redux/actions/actions';
 import StateContext from '../../../context/context';
-import {addComponentToContext}  from '../../../redux/reducers/slice/contextReducer'
-import {useSelector, useDispatch , useStore,} from 'react-redux';
+import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer'
+import { useSelector, useDispatch, useStore, } from 'react-redux';
+import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const AssignContainer = () => {
   const store = useStore();
@@ -22,7 +23,7 @@ const AssignContainer = () => {
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
-  const [stateContext, dispatchContext] = useContext(StateContext);
+  // const [stateContext, dispatchContext] = useContext(StateContext);
   const allContext = useSelector(state => state.contextSlice);
 
   //fetching data from redux store
@@ -67,16 +68,18 @@ const AssignContainer = () => {
     )
       return;
     dispatch(
-    addComponentToContext({
+      addComponentToContext({
         context: contextInput,
         component: componentInput
       })
     );
     //trigger generateCode(), update code preview tab
-    dispatchContext({
-      type: 'DELETE ELEMENT',
-      payload: 'FAKE_ID'
-    });
+    dispatch(deleteElement('FAKE_ID'))
+
+    // dispatchContext({
+    //   type: 'DELETE ELEMENT',
+    //   payload: 'FAKE_ID'
+    // });
 
     // setState(allContext);
     renderComponentTable(componentInput);

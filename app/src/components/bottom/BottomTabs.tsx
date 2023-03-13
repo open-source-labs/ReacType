@@ -17,11 +17,15 @@ import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
+import {useDispatch, useSelector} from 'react-redux';
+import { changeProjectType} from '../../redux/reducers/slice/appStateSlice';
+
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
-  const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
-  
+  // const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
+  const dispatch = useDispatch();
+  const state = useSelector(store => store.appState)
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
@@ -35,7 +39,8 @@ const BottomTabs = (props): JSX.Element => {
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
-    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+    dispatch(changeProjectType({projectType}))
+    // dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
   };
   const { components, HTMLTypes } = state;
 

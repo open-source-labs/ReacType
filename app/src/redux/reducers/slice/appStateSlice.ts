@@ -425,7 +425,7 @@ const appStateSlice = createSlice({
         });
       }
     },
-    updateStateUsed : (state, action) => {
+    updateStateUsed: (state, action) => {
       const { stateUsedObj } = action.payload;
       const components = [...state.components];
       const component = findComponent(
@@ -443,7 +443,7 @@ const appStateSlice = createSlice({
         state.tailwind
       );
       return { ...state, components };
-    }, 
+    },
     updateUseContext: (state, action) => {
       const { useContextObj } = action.payload;
       const components = [...state.components];
@@ -517,13 +517,230 @@ const appStateSlice = createSlice({
         state.tailwind
       );
       return { ...state, components, nextTopSeparatorId };
-    }
+    },
+
+    updateCss: (state, action) => {
+      const { style } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      targetChild.style = style;
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components };
+    },
+
+    updateEvents: (state, action) => {
+      const { events } = action.payload;
+      if (JSON.stringify(events) === '{}') return state;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      const event = Object.keys(events)[0];
+      const funcName = events[event];
+      targetChild.events[event] = funcName;
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components };
+    },
+
+    deleteEventAction: (state, action) => {
+      const { event } = action.payload;
+      const components = [...state.components];
+      const component = findComponent(
+        components,
+        state.canvasFocus.componentId
+      );
+      const targetChild = findChild(component, state.canvasFocus.childId);
+      delete targetChild.events[event];
+
+      component.code = generateCode(
+        components,
+        state.canvasFocus.componentId,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind
+      );
+      return { ...state, components };
+    },
+
+    deletePage: (state, action) => {
+      const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+      const components: Component[] = deleteById(id, name);
+      // rebuild rootComponents with correct page IDs
+      const rootComponents = updateRoots(components);
+      const canvasFocus = { componentId: 1, childId: null };
+      return { ...state, rootComponents, components, canvasFocus };
+    },
+
+    deleteReusableComponent: (state, action) => {
+      const id: number = state.canvasFocus.componentId;
+      const name: string = state.components[id - 1].name;
+      // updated list of components after deleting a component
+      const components: Component[] = deleteById(id, name);
+      const rootComponents: number[] = updateRoots(components);
+      // iterate over the length of the components array
+      for (let i = 0; i < components.length; i++) {
+        //if the component uses context from component being deleted
+        if (components[i].useContext && components[i].useContext[id]) {
+          // iterate over children to see where it is being used, then reset that compText/compLink/useState
+          for (let child of components[i].children) {
+            if (child.stateUsed) {
+              if (child.stateUsed.compTextProviderId === id) {
+                child.attributes.compText = '';
+                delete child.stateUsed.compText;
+                delete child.stateUsed.compTextProviderId;
+                delete child.stateUsed.compTextPropsId;
+              }
+              if (child.stateUsed.compLinkProviderId === id) {
+                child.attributes.compLink = '';
+                delete child.stateUsed.compLink;
+                delete child.stateUsed.compLinkProviderId;
+                delete child.stateUsed.compLinkPropsId;
+              }
+            }
+          }
+          delete components[i].useContext[id];
+        }
+
+        // for each component's code, run the generateCode function to
+        // update the code preview on the app
+        components[i].code = generateCode(
+          components,
+          components[i].id,
+          rootComponents,
+          state.projectType,
+          state.HTMLTypes,
+          state.tailwind
+        );
+      }
+      const canvasFocus = { componentId: 1, childId: null };
+      return {
+        ...state,
+        rootComponents,
+        components,
+        canvasFocus,
+        nextComponentId: id
+      };
+    },
+    setProjectName: (state, action) => {
+      return {
+        ...state,
+        name: action.payload
+      };
+    },
+    changeProjectType: (state, action) => {
+           // when a project type is changed, both change the project type in state and also regenerate the code for each component
+           const { projectType } = action.payload;
+ 
+           const components = [...state.components];
+           // also update the name of the root component of the application to fit classic React and next.js/gatsby conventions
+           if (projectType === 'Next.js' || projectType === 'Gatsby.js')
+             components[0]['name'] = 'index';
+           else components[0]['name'] = 'App';
+           components.forEach((component) => {
+             component.code = generateCode(
+               components,
+               component.id,
+               [...state.rootComponents],
+               projectType,
+               state.HTMLTypes,
+               state.tailwind
+             );
+           });
+           return { ...state, components, projectType };
+    },
+
+    resetState : (state, action) => {
+      const nextChildId = 1;
+      const nextTopSeparatorId = 1000;
+      const rootComponents = [1];
+      const nextComponentId = 2;
+      const canvasFocus = {
+        ...state.canvasFocus,
+        componentId: 1,
+        childId: null
+      };
+      const rootComponent = {
+        ...state.components[0],
+        code: '<div>Drag in a component or HTML element into the canvas!</div>',
+        children: [],
+        style: {}
+      };
+      const components = [rootComponent];
+      return {
+        ...state,
+        nextChildId,
+        nextTopSeparatorId,
+        rootComponents,
+        nextComponentId,
+        components,
+        canvasFocus
+      };
+    },
+    updateProjectName: (state, action) => {
+      const projectName = action.payload;
+      return {
+        ...state,
+        name: projectName
+      };
+    },
+    deleteElement: (state, action) => {
+      let name: string = '';
+      const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter((el) => {
+        if (el.id === action.payload) {
+          name = el.tag;
+        }
+        return el.id !== action.payload;
+      });
+      const components: Component[] = deleteById(action.payload, name);
+      const rootComponents: number[] = updateRoots(components);
+      const canvasFocus = { ...state.canvasFocus, childId: null };
+      components.forEach((el, i) => {
+        el.code = generateCode(
+          components,
+          components[i].id,
+          rootComponents,
+          state.projectType,
+          state.HTMLTypes,
+          state.tailwind
+        );
+      });
+      return {
+        ...state,
+        canvasFocus,
+        HTMLTypes
+      };
+    },
+
+
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
-export const { addComponent, addChild, changeFocus,changeTailwind,changePosition, updateStateUsed, resetAllState, updateUseContext } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement } = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;
