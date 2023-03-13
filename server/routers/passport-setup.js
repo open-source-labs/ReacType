@@ -17,8 +17,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: 'c8e71b09f18a095c4c1e',
-      clientSecret: '075c7b27061ccecd9258258e1d3749423309afa3',
+      clientID: process.env.GITHUB_CLIENT,
+      clientSecret: process.env.GITHUB_SECRET,
       callbackURL: `http://localhost:5656/auth/github/callback`
     },
     function(accessToken, refreshToken, profile, done) {
@@ -49,8 +49,8 @@ passport.use(
 passport.use(
   new GoogleStrategy(
     {
-      clientID: '374131547814-d5umgbo4d5ftof4ctk2h1rfvn5v3jr10.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientID: process.env.GOOGLE_CLIENT,
+      clientSecret: process.env.GOOGLE_SECRET,
       callbackURL: `http://localhost:5656/auth/google/callback`
     },
     function(accessToken, refreshToken, profile, done) {

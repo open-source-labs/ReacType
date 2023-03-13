@@ -1,18 +1,39 @@
-const { ApolloServer } = require('apollo-server-express');
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const GitHubStrategy = require('passport-github2').Strategy;
-const { DEV_PORT } = require('../config');
-const passportSetup = require('./routers/passport-setup.js')
+// const { ApolloServer } = require('@apollo/server');//changed for v4
+import { ApolloServer } from '@apollo/server';
 
-const path = require('path');
-const cors = require('cors');
-const userController = require('./controllers/userController');
-const cookieController = require('./controllers/cookieController');
-const sessionController = require('./controllers/sessionController');
-const projectController = require('./controllers/projectController');
-const mongoose = require('mongoose')
+//v4 Apollo imports
+import { expressMiddleware } from '@apollo/server/express4';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+const {json, urlencoded} = bodyParser;
+
+//possibly redundant
+// const {makeExecutableSchema} = require('@graphql-tools/schema');
+import { makeExecutableSchema } from '@graphql-tools/schema';
+
+// const express = require('express');
+// const cookieParser = require('cookie-parser');
+import express from 'express';
+import cookieParser from 'cookie-parser';
+
+//const passport = require('passport');
+//const GitHubStrategy = require('passport-github2').Strategy;
+
+// const { DEV_PORT } = require('../config');
+import DEV_PORT from '../config.js';
+
+// const path = require('path');
+import path from 'path';
+
+// const userController = require('./controllers/userController');
+// const cookieController = require('./controllers/cookieController');
+// const sessionController = require('./controllers/sessionController');
+// const projectController = require('./controllers/projectController');
+
+import userController from './controllers/userController.js';
+import cookieController from './controllers/cookieController.js';
+import sessionController from './controllers/sessionController.js';
+import projectController from './controllers/projectController.js';
 
 const app = express();
 
@@ -26,7 +47,8 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cookieParser());
 
 // Routes
-const stylesRouter = require('./routers/stylesRouter');
+// const stylesRouter = require('./routers/stylesRouter');
+import stylesRouter from './routers/stylesRouter.js';
 
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
@@ -44,11 +66,17 @@ app.use(
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
-const session = require('express-session');
-const authRoutes = require('./routers/auth.js')
+// const passport = require('passport');
+import passport from 'passport';
+// const passportSetup = require('./routers/passport-setup.js')
+import passportSetup from './routers/passport-setup.js'
+// const session = require('express-session');
+import session from 'express-session'
+// const authRoutes = require('./routers/auth.js')
+import authRoutes from './routers/auth.js'
 
 app.use(session({
-  secret: 'asdsidfhbos',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 24*60*60*1000 }
@@ -57,8 +85,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRoutes)
 // go to other files
+app.use('/auth', authRoutes)
 
 
 // for Oauth which is currently not working
@@ -95,9 +123,14 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-const Query = require('./graphQL/resolvers/query');
+// const Query = require('./graphQL/resolvers/query');
+import Query from './graphQL/resolvers/query.js';
+// const {Query} = query;
+
 // Mutation resolvers
-const Mutation = require('./graphQL/resolvers/mutation');
+// const Mutation = require('./graphQL/resolvers/mutation');
+import Mutation from './graphQL/resolvers/mutation.js';
+// const {Mutation} = mutation;
 
 // package resolvers into one variable to pass to Apollo Server
 const resolvers = {
@@ -114,17 +147,34 @@ const resolvers = {
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
-const typeDefs = require('./graphQL/schema/typeDefs.js');
-const { dirname } = require('node:path');
-const { Mongoose } = require('mongoose');
+
+// const typeDefs = require('./graphQL/schema/typeDefs.js');
+import typeDefs from './graphQL/schema/typeDefs.js';
+
+// const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
-const server = new ApolloServer({ typeDefs, resolvers });
-(async function() {
-  await server.start()
-  server.applyMiddleware({ app, path: '/graphql' });
-}());
+//use make exacutable schema to allow schema to be passed to new server
+const schema = makeExecutableSchema({typeDefs, resolvers});
+
+const server = new ApolloServer({schema});
+//V3 syntax
+// (async function() {
+//   await server.start()
+//   server.applyMiddleware({ app, path: '/graphql' });
+// }());
+
+//v4 syntax
+await server.start()
+app.use(
+  '/graphql',
+  cors(),
+  json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => ({ token: req.headers.token }),
+  }),
+);
 
 /** ****************************************************************** */
 
@@ -202,6 +252,7 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 if (isDev || isProd) {
-  app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+  app.listen(PORT.DEV_PORT, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
 }
 if (isTest) module.exports = app;
+// export default app;

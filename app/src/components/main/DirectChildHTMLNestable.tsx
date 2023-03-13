@@ -12,6 +12,7 @@ import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
+import { useSelector } from 'react-redux';
 
 import { styleContext } from '../../containers/AppContainer';
 
@@ -26,6 +27,7 @@ function DirectChildHTMLNestable({
 }: ChildElement) {
   const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
   const ref = useRef(null);
   // const [linkDisplayed, setLinkDisplayed] = useState('');
 
@@ -175,7 +177,7 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={ {color: isThemeLight ? 'black' : 'white'} }>{HTMLType.placeHolderShort}
+        <strong style={ {color: 'black' } }>{HTMLType.placeHolderShort}
         </strong>
         <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>

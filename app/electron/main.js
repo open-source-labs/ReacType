@@ -20,10 +20,10 @@ const {
 const { resolve } = require('app-root-path');
 
 // to install react dev tool extension
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS
-} = require('electron-devtools-installer');
+// const {
+//   default: installExtension,
+//   REACT_DEVELOPER_TOOLS
+// } = require('electron-devtools-installer');
 const debug = require('electron-debug');
 
 // import custom protocol in protocol.js
