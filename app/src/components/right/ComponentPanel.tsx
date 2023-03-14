@@ -25,7 +25,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 
 const state = useSelector(store => store.appState);
 const dispatch = useDispatch();
-console.log('state', state)
+
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);

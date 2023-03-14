@@ -12,16 +12,21 @@ import Cookies from 'js-cookie';
 //redux toolkit addition
 import { useSelector, useDispatch } from 'react-redux';
 import { setInitialState, toggleLoggedIn, configToggle } from '../redux/reducers/slice/appStateSlice';
+
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   // const [state, dispatch] = useReducer(reducer, initialState);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
+  console.log("loaded right away")
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
-  if (window.localStorage.getItem('ssid') !== 'guest') {
-    // state.isLoggedIn = true;
-    dispatch(toggleLoggedIn())
-  } 
+  useEffect(()=>{
+    if (window.localStorage.getItem('ssid') !== 'guest') {
+      // state.isLoggedIn = true;
+      dispatch(toggleLoggedIn())
+    } 
+  },[])
+
   // else {
   //   state.isLoggedIn = false;
   // }
@@ -63,7 +68,7 @@ export const App = (): JSX.Element => {
         }
       });
     }
-  }, []);
+  }, [state.isLoggedIn]);
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
     // if (state.config === undefined) {
