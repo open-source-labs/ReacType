@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   avatar: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     backgroundColor: '#3EC1AC'
   },
   form: {
