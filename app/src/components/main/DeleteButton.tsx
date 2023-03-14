@@ -3,7 +3,7 @@ import { DeleteButtons } from '../../interfaces/Interfaces';
 import Modal from '@mui/material/Modal';
 import StateContext from '../../context/context';
 import { useDispatch } from 'react-redux';
-import { changeFocus, addChild, deleteChild } from '../../redux/reducers/slice/appStateSlice';
+import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 
 function DeleteButton({ id, name }: DeleteButtons) {
   // const [state, dispatch] = useContext(StateContext);
