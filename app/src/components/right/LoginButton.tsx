@@ -32,7 +32,10 @@ export default function LoginButton() {
       window.location.href = '/index-prod.html'
     } else {
     window.location.href = 'http://localhost:8080/#/login';
-    dispatch(toggleLoggedIn())
+    if(state.isLoggedIn){
+      dispatch(toggleLoggedIn())
+    }
+   
     }
   }
   if (state.isLoggedIn) {
