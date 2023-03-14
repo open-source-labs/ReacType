@@ -16,7 +16,7 @@ import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
 import store from '../../redux/store';
 import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { store } from './../../index';
 const CodePreview: React.FC<{
   theme: string | null;
@@ -39,7 +39,8 @@ const CodePreview: React.FC<{
   const dimensions = useResizeObserver(wrapper);
   const { height } = dimensions || 0;
 
-  const [state] = useContext(StateContext);
+  // const [state] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId

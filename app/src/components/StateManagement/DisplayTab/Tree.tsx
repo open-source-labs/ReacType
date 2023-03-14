@@ -5,6 +5,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../../../context/context';
+import { useSelector } from 'react-redux';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -15,7 +16,8 @@ function usePrevious(value) {
 function Tree({
   data, currComponentState, setCurrComponentState, parentProps, setParentProps, setClickedComp,
 }) {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
   const svgRef = useRef();
   const wrapperRef = useRef();
   const xPosition = 50;

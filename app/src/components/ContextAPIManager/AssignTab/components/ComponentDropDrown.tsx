@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import StateContext from '../../../../context/context';
+import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
 
@@ -13,7 +14,8 @@ const ComponentDropDown = ({
   setComponentInput
 }) => {
   const { allContext } = contextStore;
-  const [componentList] = useContext(StateContext);
+  // const [componentList] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
 
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
@@ -77,7 +79,7 @@ const ComponentDropDown = ({
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
-          options={componentList.components || []}
+          options={state.components || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
           sx={{ width: 425 }}

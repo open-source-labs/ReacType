@@ -15,7 +15,7 @@ const HTMLTypes = [
     style: {},
     placeHolderShort: 'div',
     placeHolderLong: '',
-    icon: HeaderIcon,
+    // icon: HeaderIcon,
     framework: 'reactClassic',
     nestable: true
   },

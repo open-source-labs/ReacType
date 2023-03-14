@@ -6,14 +6,16 @@ import DirectChildHTMLNestable from '../components/main/DirectChildHTMLNestable'
 import SeparatorChild from '../components/main/SeparatorChild';
 import RouteLink from '../components/main/RouteLink';
 import StateContext from '../context/context';
+import { useSelector } from 'react-redux';
 
 // helper method to render all direct children of a component
 // direct children are clickable and draggable
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
-  const [state, dispatch] = useContext(StateContext);
-
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  
   return children.map((child: ChildElement, i: number) => {
     const { type, style, childId, children, attributes, name } = child;
     let { typeId } = child;

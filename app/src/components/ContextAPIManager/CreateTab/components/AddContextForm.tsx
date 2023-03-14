@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import StateContext from '../../../../context/context';
+import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
 
@@ -18,7 +19,8 @@ const AddContextForm = ({
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
 
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;

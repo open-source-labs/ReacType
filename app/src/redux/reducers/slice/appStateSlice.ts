@@ -237,9 +237,12 @@ const appStateSlice = createSlice({
       if (
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
-      )
-        return state;
-      const components = [...state.components];
+      ) {
+        // return state;
+        return
+      }
+        
+      // const components = [...state.components];
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -255,10 +258,10 @@ const appStateSlice = createSlice({
         useStateCodes: [],
         passedInProps: []
       };
-      components.push(newComponent);
+      state.components.push(newComponent);
       // functionality if the new component will become the root component
-      const rootComponents = [...state.rootComponents];
-      if (action.payload.root) rootComponents.push(newComponent.id);
+      // const rootComponents = [...state.rootComponents];
+      if (action.payload.root) state.rootComponents.push(newComponent.id);
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
 
       // change canvas focus to just created component
@@ -269,23 +272,24 @@ const appStateSlice = createSlice({
       // };
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
-        components,
+        state.components,
         newComponent.id,
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
         state.tailwind
       );
-      return {
-        ...state,
-        components,
-        rootComponents,
-        nextComponentId
+
+      // return {
+      //   ...state,
+      //   components,
+      //   rootComponents,
+      //   nextComponentId
         // canvasFocus
-      };
+    // },
       // state.components = components;
       // state.rootComponents = rootComponents;
-      // state.nextComponentId = nextComponentId
+      state.nextComponentId = nextComponentId
 
 
     },
