@@ -8,9 +8,13 @@ import ClearIcon from '@mui/icons-material/Clear';
 import StateContext from "../../../../context/context";
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
 
 const TableStateProps = props => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
@@ -84,10 +88,11 @@ const TableStateProps = props => {
         }
       }
     }
-    dispatch({
-      type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId, otherId: otherId.id }
-    });
+    // dispatch({
+    //   type: 'DELETE STATE',
+    //   payload: { stateProps: filtered, rowId: selectedId, otherId: otherId.id }
+    // });
+    dispatch(deletePassedInProps({stateProps: filtered, rowId: selectedId, otherId: otherId.id}))
   };
 
   useEffect(() => {
