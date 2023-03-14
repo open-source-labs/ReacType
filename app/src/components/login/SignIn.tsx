@@ -172,8 +172,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
-        window.api.github();
-        props.history.push('/');
+        // window.api.github();
+        window.location.assign('http://localhost:5656/auth/github');
     }
   const responseFacebook = response => {
     if (response.accessToken) {
@@ -283,6 +283,18 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
               onClick={e => handleGithubLogin(e)}
             >
               Sign In With Github
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              id="SignInWithGoogle"
+              onClick={(e)=>{
+                e.preventDefault();
+                window.location.assign('http://localhost:5656/auth/google');
+              }}
+            >
+              Sign in With Google
             </Button>
             <Button
               fullWidth

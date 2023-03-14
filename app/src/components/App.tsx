@@ -68,7 +68,7 @@ export const App = (): JSX.Element => {
         }
       });
     }
-  }, [state.isLoggedIn]);
+  }, []);
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
     // if (state.config === undefined) {

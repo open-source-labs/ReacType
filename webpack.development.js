@@ -12,6 +12,8 @@ module.exports = merge(base, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    historyApiFallback: true,
     host: 'localhost',
     port: '8080',
     hot: true, // Hot-reload this server if changes are detected
@@ -27,6 +29,9 @@ module.exports = merge(base, {
       },
       '/user-styles': {
         target: `http://localhost:${DEV_PORT}/`
+      },
+      '/auth/**': {
+        target: `http://localhost:5656/`
       }
     }
   },
