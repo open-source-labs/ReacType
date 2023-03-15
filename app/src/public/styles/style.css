@@ -116,18 +116,20 @@ LEFT COLUMN
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 235px;
+  width: 250px;
   min-width: 225px;
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
+  border-right: solid black 3px;
+  border-top: solid gray 2px;
 }
 
 .hide-show {
   position: absolute;
   height: 100%;
-  left: -237px;
+  left: -252px;
   /* opacity: 0; */
   transition: all 0.5s ease-in-out;
 }
@@ -143,20 +145,24 @@ LEFT COLUMN
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 100%;
+  width: 90%;
   flex-grow: 1;
+
+  border: 3px solid black;
+  border-radius: 10px;
 }
+
 #HTMLItemsTopHalf {
   height: 52vh;
   overflow-y: auto;
 }
+
 #CompBottomHalf {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 50%;
 }
 .HTMLElements {
-  margin: 0px 0px 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

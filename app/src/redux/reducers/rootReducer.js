@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   // Add desired slices here
   darkMode: darkModeReducer,
   codePreviewSlice: codePreviewReducer,
-  contextSlice: contextReducer
+  contextSlice: contextReducer,
 });
 
 export default rootReducer;

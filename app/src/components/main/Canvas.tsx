@@ -5,12 +5,15 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+import { useSelector } from 'react-redux'
 // Caret start
 import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 
 function Canvas(props): JSX.Element {
   const [state, dispatch] = useContext(StateContext);
+
+  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
   // const [newComp, setNewComp] = useState(false);
   // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
   // const [copiedComp, setCopiedComp] = useState({});
@@ -206,7 +209,7 @@ function Canvas(props): JSX.Element {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
   return (
-    <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
+    <div className={'componentContainer'} ref={drop} style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}
     </div>
   );
