@@ -22,7 +22,8 @@ const generateCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
-  tailwind: boolean
+  tailwind: boolean,
+  contextParam: any
 ) => {
   const code = generateUnformattedCode(
     components,
@@ -30,8 +31,8 @@ const generateCode = (
     rootComponents,
     projectType,
     HTMLTypes,
-    tailwind
-
+    tailwind,
+    contextParam
   );
   return formatCode(code);
 };
@@ -43,7 +44,8 @@ const generateUnformattedCode = (
   rootComponents: number[],
   projectType: string,
   HTMLTypes: HTMLType[],
-  tailwind: boolean
+  tailwind: boolean,
+  contextParam: any
 ) => {
   const components = [...comps];
   // find the component that we're going to generate code for
@@ -377,7 +379,9 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    const { allContext } = store.getState().contextSlice;
+    // const { allContext } = store.getState().contextSlice;
+    const { allContext } = contextParam;
+
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
     }
