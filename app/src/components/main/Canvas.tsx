@@ -10,7 +10,7 @@ import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 // Redux Toolkit test
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus, addChild } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, addChild,snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
   // const [state, dispatch] = useContext(StateContext);
@@ -89,10 +89,16 @@ function Canvas(props): JSX.Element {
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
   const snapShotFunc = () => {
     // make a deep clone of state
+
       const deepCopiedState = JSON.parse(JSON.stringify(state));
+ 
       const focusIndex = state.canvasFocus.componentId - 1;
+     console.log('about to dispatch snapshot')
       //pushes the last user action on the canvas into the past array of Component
-      state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+      // state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+    
+    dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
+    console.log('left snapshot dispatch moving on ')
   };
 
   // This hook will allow the user to drag items from the left panel on to the canvas
@@ -100,13 +106,17 @@ function Canvas(props): JSX.Element {
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
+    
       // takes a snapshot of state to be used in UNDO and REDO cases
+      console.log('about to snapshot')
       snapShotFunc();
+      console.log('achieved snopshopt')
       // returns false for direct drop target
+      console.log('diddrop', didDrop)
       if (didDrop) {
         return;
       }
-      console.log(currentComponent)
+  
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== "Component") {
    dispatch(addChild({

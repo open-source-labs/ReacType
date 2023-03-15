@@ -18,7 +18,6 @@ export const App = (): JSX.Element => {
   // const [state, dispatch] = useReducer(reducer, initialState);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
-
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(()=>{
     if (window.localStorage.getItem('ssid') !== 'guest') {
@@ -42,7 +41,7 @@ export const App = (): JSX.Element => {
           //   type: 'SET INITIAL STATE',
           //   payload: project
           // });
-          dispatch(setInitialState({project}))
+          dispatch(setInitialState(project))
         }
       });
     } else {
@@ -60,7 +59,7 @@ export const App = (): JSX.Element => {
           //   type: 'SET INITIAL STATE',
           //   payload: project
           // });
-          dispatch(setInitialState({project}))
+          dispatch(setInitialState(project))
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
