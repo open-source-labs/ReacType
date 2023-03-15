@@ -18,7 +18,7 @@ export const App = (): JSX.Element => {
   // const [state, dispatch] = useReducer(reducer, initialState);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
-  console.log("loaded right away")
+
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(()=>{
     if (window.localStorage.getItem('ssid') !== 'guest') {
