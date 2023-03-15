@@ -271,14 +271,16 @@ const appStateSlice = createSlice({
       //   childId: null
       // };
       const nextComponentId = state.nextComponentId + 1;
-      // newComponent.code = generateCode(
-      //   state.components,
-      //   newComponent.id,
-      //   [...state.rootComponents],
-      //   state.projectType,
-      //   state.HTMLTypes,
-      //   state.tailwind
-      // );
+      newComponent.code = generateCode(
+        state.components,
+        newComponent.id,
+        [...state.rootComponents],
+        state.projectType,
+        state.HTMLTypes,
+        state.tailwind,
+        action.payload.contextParam
+       
+      );
 
       // return {
       //   ...state,
@@ -424,6 +426,8 @@ const appStateSlice = createSlice({
     },
     changeFocus: (state, action) => {
       const { componentId, childId } = action.payload;
+      console.log('componentId:', componentId)
+      console.log('childId:', childId)
       if (childId < 1000) {
         // makes separators not selectable
         state.canvasFocus = { ...state.canvasFocus, componentId, childId };
@@ -448,7 +452,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },

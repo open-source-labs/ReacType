@@ -82,15 +82,16 @@ function Canvas(props): JSX.Element {
   );
 
   // changes focus of the canvas to a new component / child
-  // const changeFocus = (componentId?: number, childId?: number | null) => {
-  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  // };
+  const changeFocusFunction = (componentId?: number, childId?: number | null) => {
+    dispatch(changeFocus({ componentId, childId}));
+
+    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
-  };
+    changeFocusFunction(state.canvasFocus.componentId,null);
+  }
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
   const snapShotFunc = () => {

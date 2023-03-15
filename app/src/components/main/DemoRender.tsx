@@ -68,7 +68,7 @@ const DemoRender = (): JSX.Element => {
         return el.name.toLowerCase() === component.toLowerCase();
       }).id;
     componentId &&
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: null}));
+    dispatch(changeFocus({ componentId, childId: null}));
       // dispatch({
       //   type: 'CHANGE FOCUS',
       //   payload: { componentId, childId: null }

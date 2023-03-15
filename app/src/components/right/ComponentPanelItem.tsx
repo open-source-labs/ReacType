@@ -43,7 +43,7 @@ const ComponentPanelItem: React.FC<{
   // when a component is clicked in the left panel, change canvas focus to that component
   const handleClick = () => {
     //LEGACY PD
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: null}));
+    dispatch(changeFocus({ componentId: id, childId: null}));
     
   };
   return (

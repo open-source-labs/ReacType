@@ -32,21 +32,28 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
       isDragging: !!monitor.isDragging()
     })
   });
-  // const changeFocus = (componentId: number, childId: number | null) => {
-  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  // };
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+    dispatch(changeFocus({ componentId, childId}));
+
+  };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandlerFocus(event) {
     event.stopPropagation();
-    // changeFocus(state.canvasFocus.componentId, childId);
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
+    changeFocusFunction(state.canvasFocus.componentId, childId);
+    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
   //   the route handler will change the focus of the canvas to the component referenced in the route link when the text is selected
   function onClickHandlerRoute(event) {
     event.stopPropagation();
+<<<<<<< HEAD
     // changeFocus(typeId, null);
     // dispatch(changeFocus({ componentId:typeId, childId: null}));
     dispatch(changeFocus(typeId));
+=======
+    changeFocusFunction(typeId, null);
+    // dispatch(changeFocus({ componentId:typeId, childId: null}));
+>>>>>>> allstate
   }
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style for the routeLink component, and 3) default styling
