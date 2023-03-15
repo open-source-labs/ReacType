@@ -109,7 +109,8 @@ function DirectChildHTMLNestable({
   function onClickHandler(event) {
     event.stopPropagation();
     // changeFocus(state.canvasFocus.componentId, childId);
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
+    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
+    dispatch(changeFocus(state.canvasFocus.componentId));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

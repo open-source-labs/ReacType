@@ -45,7 +45,8 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
   function onClickHandlerRoute(event) {
     event.stopPropagation();
     // changeFocus(typeId, null);
-    dispatch(changeFocus({ componentId:typeId, childId: null}));
+    // dispatch(changeFocus({ componentId:typeId, childId: null}));
+    dispatch(changeFocus(typeId));
   }
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style for the routeLink component, and 3) default styling
