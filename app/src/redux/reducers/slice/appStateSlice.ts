@@ -271,14 +271,14 @@ const appStateSlice = createSlice({
       //   childId: null
       // };
       const nextComponentId = state.nextComponentId + 1;
-      newComponent.code = generateCode(
-        state.components,
-        newComponent.id,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind
-      );
+      // newComponent.code = generateCode(
+      //   state.components,
+      //   newComponent.id,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes,
+      //   state.tailwind
+      // );
 
       // return {
       //   ...state,
@@ -289,11 +289,13 @@ const appStateSlice = createSlice({
     // },
       // state.components = components;
       // state.rootComponents = rootComponents;
-      state.nextComponentId = nextComponentId
+      // state.nextComponentId = nextComponentId
 
 
     },
     addChild: (state, action) => {
+      console.log('entered the addchild1')
+     
       let parentComponentId: number;
       const {
         type,
@@ -305,9 +307,9 @@ const appStateSlice = createSlice({
       } else {
         parentComponentId = state.canvasFocus.componentId;
       }
-
+      
       const components = [...state.components];
-
+      
       const parentComponent = findComponent(components, parentComponentId);
       let componentName: string = '';
       let componentChildren: Object[] = [];
@@ -322,16 +324,16 @@ const appStateSlice = createSlice({
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
         if (childTypeExists('Component', parentComponentId, originalComponent))
-          return state;
+        return state;
       }
-
+      
       let newName = state.HTMLTypes.reduce((name, el) => {
         if (typeId === el.id) {
           name = type === 'Component' ? componentName : el.tag;
         }
         return name;
       }, '');
-
+      
       if (type === 'Route Link') {
         components.find((comp) => {
           if (comp.id === typeId) {
@@ -365,7 +367,7 @@ const appStateSlice = createSlice({
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
       if (newChild.name === 'input' && newChild.name === 'img')
-        delete newChild.children;
+      delete newChild.children;
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
@@ -392,31 +394,33 @@ const appStateSlice = createSlice({
       let addChildArray = components[canvasFocus.componentId - 1].children;
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
       if (directParent && directParent.name === 'separator')
-        nextTopSeparatorId = manageSeparators.handleSeparators(
-          addChildArray,
-          'add'
+      nextTopSeparatorId = manageSeparators.handleSeparators(
+        addChildArray,
+        'add'
         );
-      components[canvasFocus.componentId - 1].children = addChildArray;
-
-      // parentComponent.code = generateCode(
-      //   components,
-      //   parentComponentId,
-      //   [...state.rootComponents],
-      //   state.projectType,
-      //   state.HTMLTypes,
-      //   state.tailwind
-      // );
-
-      return {
-        ...state,
-        components,
-        nextChildId,
-        canvasFocus,
-        nextTopSeparatorId
-      };
-    },
-    changeTailwind: (state, action) => {
-      return { ...state, tailwind: action.payload }
+        components[canvasFocus.componentId - 1].children = addChildArray;
+      
+        
+        parentComponent.code = generateCode(
+            components,
+            parentComponentId,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes,
+            state.tailwind,
+            action.payload.contextParam
+          );
+          console.log('entered the addchild2')
+          // return {
+          //   ...state,
+          //   components,
+          //   nextChildId,
+          //   canvasFocus,
+          //   nextTopSeparatorId
+          // };
+        },
+        changeTailwind: (state, action) => {
+          return { ...state, tailwind: action.payload }
     },
     changeFocus: (state, action) => {
       const { componentId, childId } = action.payload;

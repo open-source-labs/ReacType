@@ -14,7 +14,13 @@ import { changeFocus, addChild,snapShotAction } from '../../redux/reducers/slice
 
 function Canvas(props): JSX.Element {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const {state} = useSelector(store => store.appState);
+  // const contextParam = useSelector(store => store.contextSlice)
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  
   const dispatch = useDispatch();
   // const [newComp, setNewComp] = useState(false);
   // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
@@ -89,16 +95,11 @@ function Canvas(props): JSX.Element {
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
   const snapShotFunc = () => {
     // make a deep clone of state
-
       const deepCopiedState = JSON.parse(JSON.stringify(state));
- 
       const focusIndex = state.canvasFocus.componentId - 1;
-     console.log('about to dispatch snapshot')
       //pushes the last user action on the canvas into the past array of Component
       // state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
-    
     dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
-    console.log('left snapshot dispatch moving on ')
   };
 
   // This hook will allow the user to drag items from the left panel on to the canvas
@@ -106,23 +107,21 @@ function Canvas(props): JSX.Element {
     accept: ItemTypes.INSTANCE,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
-    
       // takes a snapshot of state to be used in UNDO and REDO cases
-      console.log('about to snapshot')
       snapShotFunc();
-      console.log('achieved snopshopt')
       // returns false for direct drop target
       console.log('diddrop', didDrop)
       if (didDrop) {
         return;
       }
-  
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== "Component") {
    dispatch(addChild({
     type: item.instanceType,
     typeId: item.instanceTypeId,
-    childId: null
+    childId: null,
+    contextParam: contextParam
+
   }))
    
         // dispatch({
@@ -167,7 +166,8 @@ function Canvas(props): JSX.Element {
           dispatch(addChild({
             type: item.instanceType,
             typeId: item.instanceTypeId,
-            childId: null
+            childId: null,
+            contextParam: contextParam
           }))
           // dispatch({
           //   type: 'ADD CHILD',
