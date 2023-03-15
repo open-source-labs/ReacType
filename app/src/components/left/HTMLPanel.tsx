@@ -111,7 +111,7 @@ const HTMLPanel = (props): JSX.Element => {
     //   type: 'ADD ELEMENT',
     //   payload: newElement
     // });
-    dispatch(addElement({newElement}))
+    dispatch(addElement(newElement))
     setCurrentID(currentID + 1);
     setTag('');
     setName('');

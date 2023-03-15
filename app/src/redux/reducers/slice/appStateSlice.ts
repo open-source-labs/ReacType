@@ -398,14 +398,14 @@ const appStateSlice = createSlice({
         );
       components[canvasFocus.componentId - 1].children = addChildArray;
 
-      parentComponent.code = generateCode(
-        components,
-        parentComponentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind
-      );
+      // parentComponent.code = generateCode(
+      //   components,
+      //   parentComponentId,
+      //   [...state.rootComponents],
+      //   state.projectType,
+      //   state.HTMLTypes,
+      //   state.tailwind
+      // );
 
       return {
         ...state,
@@ -1204,13 +1204,16 @@ const appStateSlice = createSlice({
       saveTimer: !state.config.saveTimer
       };
     },
+    snapShotAction: (state,action) => {
+      state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
+    }
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
 
-export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle, snapShotAction } = appStateSlice.actions;
 
 
 // Exports so we can combine in rootReducer
