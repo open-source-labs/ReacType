@@ -23,7 +23,10 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   const classes = useStyles();
   // const [state, dispatch] = useContext(StateContext);
 
-const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
 const dispatch = useDispatch();
 
 
@@ -104,7 +107,7 @@ const dispatch = useDispatch();
     //   type: 'ADD COMPONENT',
     //   payload: { componentName: formattedName, root: isRoot }
     // });
-    dispatch(addComponent({ componentName: formattedName, root: isRoot }));
+    dispatch(addComponent({ componentName: formattedName, root: isRoot, contextParam: contextParam }));
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field

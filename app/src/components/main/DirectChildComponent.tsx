@@ -39,16 +39,18 @@ function DirectChildComponent({
       isDragging: !!monitor.isDragging()
     })
   });
-  // const changeFocus = (componentId: number, childId: number | null) => {
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    dispatch(changeFocus({ componentId, childId}));
+
     // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  // };
+  };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    // changeFocus(state.canvasFocus.componentId, childId);
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
+    changeFocusFunction(state.canvasFocus.componentId, childId);
   }
+   // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced component, and 3) default styling
   const interactiveStyle = {

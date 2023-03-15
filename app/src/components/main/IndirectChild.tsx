@@ -27,7 +27,7 @@ function IndirectChild({
     //   type: 'CHANGE FOCUS',
     //   payload: { componentId: linkId, childId: null }
     // });
-    dispatch(changeFocus({ componentId: linkId, childId: state.canvasFocus.childId}));
+    dispatch(changeFocus({ componentId: linkId, childId: null}));
   }
   let linkName: string;
   // if there's a link in this component, then include a link

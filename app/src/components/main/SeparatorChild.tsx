@@ -101,15 +101,17 @@ function DirectChildHTMLNestable({
     }
   });
 
-  // const changeFocus = (componentId: number, childId: number | null) => {
-  //   dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
-  // };
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+    dispatch(changeFocus({ componentId, childId}));
+
+  };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    // changeFocus(state.canvasFocus.componentId, childId);
-    dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
+    changeFocusFunction(state.canvasFocus.componentId, childId);
+    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
