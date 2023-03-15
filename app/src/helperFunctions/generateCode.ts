@@ -380,7 +380,10 @@ const generateUnformattedCode = (
     //string to store all imports string for context
     let contextImports = '';
     // const { allContext } = store.getState().contextSlice;
-    const { allContext } = contextParam;
+    
+  const { allContext } = contextParam;
+
+  
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
