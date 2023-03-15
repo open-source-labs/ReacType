@@ -147,8 +147,18 @@ LEFT COLUMN
   flex-wrap: wrap;
   width: 90%;
   flex-grow: 1;
-
   border: 3px solid black;
+  border-radius: 10px;
+}
+
+.HTMLItemsDark{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 90%;
+  flex-grow: 1;
+  border: 3px solid white;
   border-radius: 10px;
 }
 
@@ -603,19 +613,17 @@ a.nav_link:hover {
   right: 30px;
   z-index: 999;
 }
-.useState-btn {
-  color: rgb(241, 240, 240);
-  background-color: #0099e6;
-  font-family: Arial, Helvetica, sans-serif;
-}
+
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: #0099e6;
   border: 1px solid #186bb4;
-  border-radius: 3;
-  box-shadow: '0 0px 0px 2px #1a1a1a';
-  padding: 2px 2px 2px 2px;
+  border-radius: 3px;
+  box-shadow: '2px 2px 2px #1a1a1a';
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
 }
+
 .useState-position {
   display: flex;
   flex-direction: column;

@@ -9,6 +9,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
+import { useSelector } from 'react-redux'
+
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -18,16 +20,19 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
+  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
-
+  
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
+  const background_Color = isDarkMode ? '#21262b' : 'white'
+
   return (
     <React.Fragment>
-      <div className={classes.contextContainer}>
+      <div className={classes.contextContainer} style={{backgroundColor: background_Color}}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
