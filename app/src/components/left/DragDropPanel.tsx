@@ -24,9 +24,13 @@ const DragDropPanel = (props): JSX.Element => {
   // const { isThemeLight } = props;
   const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 const dispatch = useDispatch();
-const state = useSelector(store => store.appState)
+// const state = useSelector(store => store.appState)
+const { state, contextParam } = useSelector((store) => ({
+  state: store.appState,
+  contextParam: store.contextSlice,
+}));
   const handleDelete = (id: number): void => {
-    dispatch(deleteElement(id))
+    dispatch(deleteElement(id, contextParam))
     // dispatch({
     //   type: 'DELETE ELEMENT',
     //   payload: id

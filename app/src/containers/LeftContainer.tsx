@@ -4,7 +4,7 @@ import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
 import StateContext from '../context/context';
 import { styleContext } from './AppContainer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteChild } from '../redux/reducers/slice/appStateSlice';
 
 
@@ -12,11 +12,12 @@ import { deleteChild } from '../redux/reducers/slice/appStateSlice';
 const LeftContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
   // const [state, dispatch] = useContext(StateContext);
+  const contextParam = useSelector(store => store.contextSlice)
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     // dispatch({ type: 'DELETE CHILD', payload: {} });
-    dispatch(deleteChild({}))
+    dispatch(deleteChild({contextParam}))
   };
   const keyBindedFunc = useCallback(e => {
     if (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT") handleDelete();

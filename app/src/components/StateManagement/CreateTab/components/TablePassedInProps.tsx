@@ -14,7 +14,11 @@ import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSl
 
 const TablePassedInProps = props => {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
@@ -79,7 +83,7 @@ const TablePassedInProps = props => {
     //   type: 'DELETE PASSEDINPROPS',
     //   payload: { rowId: rowId }
     // });
-    dispatch(deletePassedInProps({rowId:rowId}))
+    dispatch(deletePassedInProps({rowId:rowId, contextParam: contextParam}))
   };
 
   useEffect(() => {

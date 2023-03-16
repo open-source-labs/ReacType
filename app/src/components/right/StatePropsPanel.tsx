@@ -40,7 +40,11 @@ declare module '@mui/styles/defaultTheme' {
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
@@ -102,7 +106,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
     //   type: 'ADD STATE',
     //   payload: {newState: newState}
     // }); 
-    dispatch(addState({newState: newState}))
+    dispatch(addState({newState: newState, contextParam: contextParam}))
     resetError();
     clearForm();
   };

@@ -13,7 +13,11 @@ import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice
 
 const TableParentProps = props => {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const classes = useStyles();
   const currentId = state.canvasFocus.componentId;
@@ -76,7 +80,7 @@ const TableParentProps = props => {
     //   type: 'ADD PASSEDINPROPS',
     //   payload: { passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent }
     // });
-    dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent}))
+    dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent, contextParam: contextParam}))
   };
 
   useEffect(() => {
