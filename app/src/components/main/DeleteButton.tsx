@@ -19,7 +19,7 @@ function DeleteButton({ id, name }: DeleteButtons) {
     //   type: 'DELETE CHILD',
     //   payload: { id }
     // });
-    dispatch(deleteChild({ id, contextParam }));
+    dispatch(deleteChild({ id:id, contextParam:contextParam }));
   };
 
   return (

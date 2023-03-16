@@ -70,7 +70,6 @@ const CodePreview: React.FC<{
    * @param {string} data - Code entered by the user
    */
   const handleChange = async (data) => {
-    // console.log('changed');
     setInput(data);
     dispatch(codePreviewInput(data));
     // store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });

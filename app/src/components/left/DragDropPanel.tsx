@@ -30,7 +30,7 @@ const { state, contextParam } = useSelector((store) => ({
   contextParam: store.contextSlice,
 }));
   const handleDelete = (id: number): void => {
-    dispatch(deleteElement(id, contextParam))
+    dispatch(deleteElement({id:id, contextParam: contextParam}))
     // dispatch({
     //   type: 'DELETE ELEMENT',
     //   payload: id

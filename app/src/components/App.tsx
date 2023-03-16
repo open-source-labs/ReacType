@@ -101,7 +101,7 @@ export const App = (): JSX.Element => {
     }
   }, [state]);
   // uncomment below to log state
-  // console.log('STATE!!!!: ', state);
+
   return (
     <div className="app">
       <DndProvider backend={HTML5Backend}>

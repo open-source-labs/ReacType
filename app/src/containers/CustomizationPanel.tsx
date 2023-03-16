@@ -39,19 +39,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
-<<<<<<< HEAD
-  const { state, contextParam } = useSelector((store) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-  }));  const [displayMode, setDisplayMode] = useState('');
-=======
   // const state = useSelector(store => store.appState)
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));
   const [displayMode, setDisplayMode] = useState('');
->>>>>>> a6df67bf5354414559521ddf2c55e2327870c7ee
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
@@ -400,7 +393,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
   // placeholder for handling deleting instance
   const handleDelete = () => {
     // dispatch({ type: 'DELETE CHILD', payload: {} });
-    dispatch(deleteChild({contextParam}));
+    dispatch(deleteChild({id:{},contextParam:contextParam}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal

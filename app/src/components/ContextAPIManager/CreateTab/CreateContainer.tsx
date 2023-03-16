@@ -62,7 +62,7 @@ const CreateContainer = () => {
     // setState(allContext);
     setTableState(defaultTableData);
 
-    dispatch(deleteElement('FAKE_ID'))
+    dispatch(deleteElement({id:'FAKE_ID', contextParam: allContext}))
     // dispatchContext({
     //   type: 'DELETE ELEMENT',
     //   payload: 'FAKE_ID'
