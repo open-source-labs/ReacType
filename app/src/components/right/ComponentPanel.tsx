@@ -107,15 +107,7 @@ const dispatch = useDispatch();
     //   type: 'ADD COMPONENT',
     //   payload: { componentName: formattedName, root: isRoot }
     // });
-<<<<<<< HEAD
-    
-    // dispatch(addComponent( { componentName: formattedName, root: isRoot }));
-    const component = addComponent({ componentName: formattedName, root: isRoot });
-    dispatch(component);
-    console.log('component:', component);
-=======
     dispatch(addComponent({ componentName: formattedName, root: isRoot, contextParam: contextParam }));
->>>>>>> allstate
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field

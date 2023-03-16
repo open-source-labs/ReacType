@@ -307,11 +307,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   const deleteEvent = selectedEvent => {
     dispatch(deleteEventAction({ event: selectedEvent }))
-  //   dispatch({
-  //     type: 'DELETE EVENT',
-  //     payload: { event: selectedEvent }
-  //   });
-  // };
+    // dispatch({
+    //   type: 'DELETE EVENT',
+    //   payload: { event: selectedEvent }
+    // });
+  };
 
 
   const handleSave = (tailwind): Object => {
@@ -1007,5 +1007,5 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
-};
+
 export default CustomizationPanel;
