@@ -17,19 +17,22 @@ const AssignContainer = () => {
   const store = useStore();
   const dispatch = useDispatch();
 
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
   const defaultTableData = [{ key: 'Key', value: 'Value' }];
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
   // const [stateContext, dispatchContext] = useContext(StateContext);
-  const allContext = useSelector(state => state.contextSlice);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
 
   //fetching data from redux store
-  useEffect(() => {
-    setState(allContext);
-  }, [allContext]);
+  // useEffect(() => {
+  //   setState(allContext);
+  // }, [allContext]);
 
   const renderTable = targetContext => {
     if (targetContext === null || !targetContext.values) {
@@ -74,7 +77,7 @@ const AssignContainer = () => {
       })
     );
     //trigger generateCode(), update code preview tab
-    dispatch(deleteElement('FAKE_ID'))
+    dispatch(deleteElement({id:'FAKE_ID', contextParam: contextParam}))
 
     // dispatchContext({
     //   type: 'DELETE ELEMENT',

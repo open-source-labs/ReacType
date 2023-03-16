@@ -17,7 +17,7 @@ const LeftContainer = (props): JSX.Element => {
 
   const handleDelete = () => {
     // dispatch({ type: 'DELETE CHILD', payload: {} });
-    dispatch(deleteChild({contextParam}))
+    dispatch(deleteChild({id:{},contextParam:contextParam}))
   };
   const keyBindedFunc = useCallback(e => {
     if (e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT") handleDelete();

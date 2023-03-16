@@ -393,7 +393,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
   // placeholder for handling deleting instance
   const handleDelete = () => {
     // dispatch({ type: 'DELETE CHILD', payload: {} });
-    dispatch(deleteChild({contextParam}));
+    dispatch(deleteChild({id:{},contextParam:contextParam}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal
