@@ -124,7 +124,7 @@ function DirectChildHTMLNestable({
           //     newParentChildId: childId
           //   }
           // });
-          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId}))
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
     },

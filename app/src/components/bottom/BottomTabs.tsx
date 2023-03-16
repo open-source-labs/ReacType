@@ -25,7 +25,11 @@ const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   // const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
   const dispatch = useDispatch();
-  const state = useSelector(store => store.appState)
+  // const state = useSelector(store => store.appState)
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
@@ -39,7 +43,7 @@ const BottomTabs = (props): JSX.Element => {
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
-    dispatch(changeProjectType({projectType}))
+    dispatch(changeProjectType({projectType, contextParam: contextParam}))
     // dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
   };
   const { components, HTMLTypes } = state;

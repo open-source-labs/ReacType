@@ -2,11 +2,15 @@ import React, { useRef, useState, useContext, useEffect } from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
 import Modal from '@mui/material/Modal';
 import StateContext from '../../context/context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 
 function DeleteButton({ id, name }: DeleteButtons) {
   // const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
 
   const dispatch = useDispatch();
 
@@ -15,7 +19,7 @@ function DeleteButton({ id, name }: DeleteButtons) {
     //   type: 'DELETE CHILD',
     //   payload: { id }
     // });
-    dispatch(deleteChild({ id }));
+    dispatch(deleteChild({ id, contextParam }));
   };
 
   return (

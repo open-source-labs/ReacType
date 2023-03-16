@@ -20,7 +20,11 @@ import TablePassedInProps from "./TablePassedInProps";
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
@@ -117,7 +121,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
     //   type: 'ADD STATE',
     //   payload: {newState: newState, setNewState: setNewState}
     // }); 
-    dispatch(addState({newState: newState, setNewState: setNewState}))
+    dispatch(addState({newState: newState, setNewState: setNewState, contextParam: contextParam}))
     setRows1([...rows1, newState])
     resetError();
     clearForm();
