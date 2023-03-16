@@ -481,7 +481,14 @@ const appStateSlice = createSlice({
     },
 
     resetAllState: (state) => {
+      if(state.isLoggedIn){
+        Object.assign(state, initialState);
+        state.isLoggedIn = true;
+        return;
+      }
       Object.assign(state, initialState);
+     
+     
     },
     changePosition: (state, action) => {
       const { currentChildId, newParentChildId } = action.payload;
