@@ -291,9 +291,7 @@ const appStateSlice = createSlice({
     // },
       // state.components = components;
       // state.rootComponents = rootComponents;
-      // state.nextComponentId = nextComponentId
-
-
+      state.nextComponentId = nextComponentId;
     },
     addChild: (state, action) => {
       console.log('entered the addchild1')
@@ -420,14 +418,16 @@ const appStateSlice = createSlice({
           //   canvasFocus,
           //   nextTopSeparatorId
           // };
+          state.components =components;
+          state.nextChildId = nextChildId;
+          state.canvasFocus = canvasFocus;
+          state.nextTopSeparatorId = nextTopSeparatorId;
         },
         changeTailwind: (state, action) => {
           return { ...state, tailwind: action.payload }
     },
     changeFocus: (state, action) => {
       const { componentId, childId } = action.payload;
-      console.log('componentId:', componentId)
-      console.log('childId:', childId)
       if (childId < 1000) {
         // makes separators not selectable
         state.canvasFocus = { ...state.canvasFocus, componentId, childId };
@@ -455,7 +455,8 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      return { ...state, components };
+      // return { ...state, components };
+      state.components = components;
     },
     updateUseContext: (state, action) => {
       const { useContextObj } = action.payload;
@@ -471,9 +472,12 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
+
       );
-      return { ...state, components };
+      // return { ...state, components };
+        state.components = components;
     },
 
     resetAllState: (state) => {

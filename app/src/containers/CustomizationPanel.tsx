@@ -39,8 +39,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
-  const state = useSelector(store => store.appState)
-  const [displayMode, setDisplayMode] = useState('');
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));  const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
@@ -322,7 +324,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       //   payload: false
       // })
     }
-    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj }))
+    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj}))
     // dispatch({
     //   type: 'UPDATE STATE USED',
     //   payload: { stateUsedObj: stateUsedObj }
