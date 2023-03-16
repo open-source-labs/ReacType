@@ -88,6 +88,30 @@ app.use(passport.session());
 // go to other files
 app.use('/auth', authRoutes)
 
+// attempt at websockets
+// const httpServer = require('http').createServer(app);
+import { createServer } from 'http'
+import { Server } from 'socket.io'
+
+const httpServer = createServer(app)
+// const io = require('socket.io')(httpServer)
+const io = new Server(httpServer, {
+  transports: ['websocket'],
+  cors: {
+    origin: ['http://localhost:8080']
+  }
+})
+
+io.on('connection', socket => {
+  console.log(socket.id)
+  socket.on('custom-event', (string, redux_store) => {
+    console.log(string)
+    console.log(redux_store)
+    socket.broadcast.emit('receive message', redux_store)
+  })
+})
+
+
 
 // for Oauth which is currently not working
 // app.get(
@@ -235,8 +259,11 @@ app.get('/', function(req, res) {
   res.send('Houston, Caret is in orbit!');
 });
 
+app.use('http://localhost:8080/*', (req, res) => {
+  res.status(404).send('not a valid page (404 page)')
+})
 // catch-all route handler
-app.use('*', (req, res) => res.status(404).send('Page not found'));
+app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -252,7 +279,7 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 if (isDev || isProd) {
-  app.listen(PORT.DEV_PORT, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
+  httpServer.listen(PORT.DEV_PORT, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
 }
 if (isTest) module.exports = app;
 // export default app;

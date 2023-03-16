@@ -39,7 +39,7 @@ const { state, contextParam } = useSelector((store) => ({
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
   return (
-    <div className="HTMLItems">
+    <div className={`${!isDarkMode ? 'HTMLItems' : 'HTMLItemsDark'}`}>
       <div id="HTMLItemsTopHalf">
         <Grid
           id="HTMLItemsGrid"

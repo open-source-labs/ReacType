@@ -513,6 +513,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                 <br />
                 <br />
                 <span className={classes.rootCompName}>{configTarget.name}</span>
+                <p style={{fontSize: '16px'}}>Drag and drop an html element (or focus one) to see what happens!</p>
               </h4>
             </div>
           </div>
@@ -845,6 +846,11 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                   }
                   onClick={handleTailwind}
                   id="tailwind"
+                  style={{
+                    marginTop: '20px',
+                    position: 'relative',
+                    left: '32px'
+                  }}
                 >
                   Tailwind
                 </Button>
