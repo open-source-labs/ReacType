@@ -9,12 +9,13 @@ function AddRoute({
 }: AddRoutes) {
   // const [, dispatch] = useContext(StateContext);
 const dispatch = useDispatch();
-
+const contextParam = useSelector(store => store.contextSlice)
   const handleClick = (id) => {
     dispatch(addChild({
       type: 'HTML Element',
       typeId: -1,
-      childId: id // this is the id of the parent to attach it to
+      childId: id, // this is the id of the parent to attach it to
+      contextParam: store.contextSlice
     }))
     // dispatch({
     //   type: 'ADD CHILD',

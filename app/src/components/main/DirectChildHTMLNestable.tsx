@@ -14,7 +14,7 @@ import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeFocus, changePosition,addChild } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
 import { styleContext } from '../../containers/AppContainer';
 
@@ -30,7 +30,11 @@ function DirectChildHTMLNestable({
   // const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
   const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const ref = useRef(null);
   // const [linkDisplayed, setLinkDisplayed] = useState('');
@@ -41,9 +45,9 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    state.components[focusIndex].past.push(
-      deepCopiedState.components[focusIndex].children
-    );
+    // state.components[focusIndex].past.push(
+    //   deepCopiedState.components[focusIndex].children
+    dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -96,7 +100,8 @@ function DirectChildHTMLNestable({
           dispatch(addChild({
             type: item.instanceType,
             typeId: item.instanceTypeId,
-            childId: childId
+            childId: childId,
+            contextParam: contextParam
           }))
           // dispatch({
           //   type: 'ADD CHILD',
@@ -119,7 +124,7 @@ function DirectChildHTMLNestable({
           //     newParentChildId: childId
           //   }
           // });
-          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId}))
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
     },

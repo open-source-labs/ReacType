@@ -10,7 +10,7 @@ import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeFocus, changePosition,addChild } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, changePosition, addChild } from '../../redux/reducers/slice/appStateSlice';
 
 
 
@@ -22,7 +22,11 @@ function DirectChildHTMLNestable({
   children
 }: ChildElement) {
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const ref = useRef(null);
 
@@ -67,6 +71,7 @@ function DirectChildHTMLNestable({
           type: item.instanceType,
           typeId: item.instanceTypeId,
           childId: childId,
+          contextParam: contextParam
         }))
           // dispatch({
           //   type: 'ADD CHILD',
@@ -89,7 +94,7 @@ function DirectChildHTMLNestable({
           //     newParentChildId: childId
           //   }
           // });
-          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId}))
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
     },

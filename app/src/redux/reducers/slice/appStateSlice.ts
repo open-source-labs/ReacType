@@ -291,7 +291,9 @@ const appStateSlice = createSlice({
     // },
       // state.components = components;
       // state.rootComponents = rootComponents;
-      state.nextComponentId = nextComponentId;
+      state.nextComponentId = nextComponentId
+
+
     },
     addChild: (state, action) => {
       console.log('entered the addchild1')
@@ -410,7 +412,7 @@ const appStateSlice = createSlice({
             state.tailwind,
             action.payload.contextParam
           );
-          console.log('entered the addchild2')
+          
           // return {
           //   ...state,
           //   components,
@@ -474,7 +476,6 @@ const appStateSlice = createSlice({
         state.HTMLTypes,
         state.tailwind,
         action.payload.contextParam
-
       );
       // return { ...state, components };
         state.components = components;
@@ -531,7 +532,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components, nextTopSeparatorId };
     },
@@ -546,7 +548,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },
@@ -569,7 +572,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },
@@ -594,7 +598,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },
@@ -615,7 +620,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },
@@ -668,7 +674,8 @@ const appStateSlice = createSlice({
           rootComponents,
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       }
       const canvasFocus = { componentId: 1, childId: null };
@@ -702,7 +709,8 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       });
       return { ...state, components, projectType };
@@ -760,7 +768,8 @@ const appStateSlice = createSlice({
           rootComponents,
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       });
       return {
@@ -812,7 +821,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     },
@@ -861,7 +871,8 @@ const appStateSlice = createSlice({
           state.rootComponents,
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       });
       return {
@@ -889,7 +900,8 @@ const appStateSlice = createSlice({
           state.rootComponents,
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
 
         );
       });
@@ -914,7 +926,8 @@ const appStateSlice = createSlice({
     [...state.rootComponents],
     state.projectType,
     state.HTMLTypes,
-    state.tailwind
+    state.tailwind,
+    action.payload.contextParam
     );
     return { ...state, components };
     },
@@ -966,7 +979,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       //update code preview for parent component (since we have added it to the children array)
       parent.code = generateCode(
@@ -975,7 +989,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
 
       return { ...state, components };
@@ -1029,7 +1044,8 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       };
       //delete from the components passedInProps array
@@ -1052,7 +1068,8 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
-            state.tailwind
+            state.tailwind,
+            action.payload.contextParam
           );
           return;
         }
@@ -1074,7 +1091,8 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       };
 
@@ -1087,7 +1105,8 @@ const appStateSlice = createSlice({
         [...state.rootComponents],
         state.projectType,
         state.HTMLTypes,
-        state.tailwind
+        state.tailwind,
+        action.payload.contextParam
       );
       return { ...state, components };
     },
@@ -1190,7 +1209,8 @@ const appStateSlice = createSlice({
             [...state.rootComponents],
             state.projectType,
             state.HTMLTypes,
-            state.tailwind
+            state.tailwind,
+            action.payload.contextParam
           );
         }
 
@@ -1201,7 +1221,8 @@ const appStateSlice = createSlice({
           [...state.rootComponents],
           state.projectType,
           state.HTMLTypes,
-          state.tailwind
+          state.tailwind,
+          action.payload.contextParam
         );
       });
       return { ...state, components };

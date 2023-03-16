@@ -39,10 +39,19 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
   // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));  const [displayMode, setDisplayMode] = useState('');
+=======
+  // const state = useSelector(store => store.appState)
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const [displayMode, setDisplayMode] = useState('');
+>>>>>>> a6df67bf5354414559521ddf2c55e2327870c7ee
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
   const [flexAlign, setFlexAlign] = useState('');
@@ -308,11 +317,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   ];
 
   const deleteEvent = selectedEvent => {
-    dispatch(deleteEventAction({ event: selectedEvent }))
-  //   dispatch({
-  //     type: 'DELETE EVENT',
-  //     payload: { event: selectedEvent }
-  //   });
+    dispatch(deleteEventAction({ event: selectedEvent, contextParam: contextParam }))
+    // dispatch({
+    //   type: 'DELETE EVENT',
+    //   payload: { event: selectedEvent }
+    // });
   };
 
 
@@ -324,13 +333,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       //   payload: false
       // })
     }
-    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj}))
+    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj, contextParam: contextParam }))
     // dispatch({
     //   type: 'UPDATE STATE USED',
     //   payload: { stateUsedObj: stateUsedObj }
     // })
 
-dispatch(updateUseContext({ useContextObj: useContextObj }))
+dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextParam }))
     // dispatch({
     //   type: 'UPDATE USE CONTEXT',
     //   payload: { useContextObj: useContextObj }
@@ -344,7 +353,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    dispatch(updateCss({ style: styleObj }))
+    dispatch(updateCss({ style: styleObj, contextParam: contextParam }))
     // dispatch({
     //   type: 'UPDATE CSS',
     //   payload: { style: styleObj }
@@ -358,11 +367,11 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     //   type: 'UPDATE ATTRIBUTES',
     //   payload: { attributes: attributesObj }
     // });
-    dispatch(updateAttributes({attributes: attributesObj}))
+    dispatch(updateAttributes({attributes: attributesObj, contextParam: contextParam}))
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-    dispatch(updateEvents({ events: eventsObj }))
+    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }))
     
     // dispatch({
     //   type: 'UPDATE EVENTS',
@@ -382,16 +391,16 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     // dispatch({ type: 'UNDO', payload: {} });
-    dispatch(undo({}));
+    dispatch(undo({contextParam}));
   };
   const handleRedo = () => {
     // dispatch({ type: 'REDO', payload: {} });
-    dispatch(redo({}));
+    dispatch(redo({contextParam}));
   };
   // placeholder for handling deleting instance
   const handleDelete = () => {
     // dispatch({ type: 'DELETE CHILD', payload: {} });
-    dispatch(deleteChild({}));
+    dispatch(deleteChild({contextParam}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal
@@ -418,7 +427,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj }))
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
       closeModal();
-      dispatch( deleteReusableComponent({}))
+      dispatch( deleteReusableComponent({contextParam: contextParam}))
       // dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
     // set modal options

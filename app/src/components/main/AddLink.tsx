@@ -14,7 +14,11 @@ import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
 function AddLink({ id, onClickHandler, linkDisplayed }) {
   const { isThemeLight } = useContext(styleContext);
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const dispatch = useDispatch();
   const [link, setLink] = useState('')
 
@@ -39,7 +43,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         state.childId = id;
         state.attributes.compLink = event.target.value;
         // dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
-        dispatch(updateAttributes({attributes: state}))
+        dispatch(updateAttributes(state, contextParam))
         return true;
       }
     });
