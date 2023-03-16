@@ -39,7 +39,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         state.childId = id;
         state.attributes.compLink = event.target.value;
         // dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
-        dispatch(updateAttributes({attributes: state}))
+        dispatch(updateAttributes(state))
         return true;
       }
     });

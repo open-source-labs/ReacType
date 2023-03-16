@@ -10,7 +10,7 @@ import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
 // Redux Toolkit test
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus, addChild,snapShotAction } from '../../redux/reducers/slice/appStateSlice';
+import { changeFocus, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
   // const [state, dispatch] = useContext(StateContext);
