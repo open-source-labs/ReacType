@@ -35,6 +35,13 @@ import cookieController from './controllers/cookieController.js';
 import sessionController from './controllers/sessionController.js';
 import projectController from './controllers/projectController.js';
 
+// docker stuff
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 
 const PORT = process.env.PORT || DEV_PORT;
@@ -243,21 +250,30 @@ app.delete(
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production'){
-  app.use('/dist', express.static(path.join(__dirname, '../dist')));
+  app.use('/dist', express.static(path.join(__dirname, '/app/dist')))
+};
 
 // serve index.html on the route '/'
-  app.get('/', (req, res) => {
-    return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+const isDocker = process.env.IS_DOCKER === 'true';
+
+app.get('/', (req, res) => {
+  return res.status(200).path.join(__dirname, '../index.html');
 });
+
+if (isDocker){
+  app.get('/bundle.js', (req, res) => {
+    return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
+  })
 }
 
 app.get('/test', (req, res) => {
   res.send('test request is working');
 })
 
-app.get('/', function(req, res) {
-  res.send('Houston, Caret is in orbit!');
-});
+// only for testing purposes in the dev environment
+// app.get('/', function(req, res) {
+//   res.send('Houston, Caret is in orbit!');
+// });
 
 app.use('http://localhost:8080/*', (req, res) => {
   res.status(404).send('not a valid page (404 page)')

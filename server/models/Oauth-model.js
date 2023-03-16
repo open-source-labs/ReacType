@@ -7,6 +7,6 @@ const userSchema = new Schema({
     googleId: { type: String, unique: true }
 })
 
-const User = mongoose.model('user', userSchema)
+const User = mongoose.model('OauthUsers', userSchema)
 
 module.exports = User;

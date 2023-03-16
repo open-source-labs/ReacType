@@ -79,7 +79,7 @@
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "jest --verbose",
     "server": "cross-env NODE_ENV=development nodemon server/server.js",
-    "start": "node server/server.js"
+    "start": "node server/server.mjs"
   },
   "repository": {
     "type": "git",

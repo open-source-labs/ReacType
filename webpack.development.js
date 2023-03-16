@@ -32,6 +32,9 @@ module.exports = merge(base, {
       },
       '/auth/**': {
         target: `http://localhost:5656/`
+      },
+      '/**': {
+        target: `http://localhost:5656/`
       }
     }
   },
