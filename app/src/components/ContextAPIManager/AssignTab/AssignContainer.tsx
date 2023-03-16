@@ -52,7 +52,7 @@ const AssignContainer = () => {
       targetComponent !== null &&
       targetComponent.name
     ) {
-      state.allContext.forEach(context => {
+      contextParam.allContext.forEach(context => {
         if (context.components.includes(targetComponent.name)) {
           listOfContexts.push(context.name);
         }
