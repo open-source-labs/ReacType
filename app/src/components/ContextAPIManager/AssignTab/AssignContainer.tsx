@@ -102,7 +102,7 @@ const AssignContainer = () => {
           >
             <Grid item>
               <ContextDropDown
-                contextStore={state}
+                contextStore={contextParam}
                 renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
@@ -131,7 +131,7 @@ const AssignContainer = () => {
             >
               <Grid item>
                 <ComponentDropDown
-                  contextStore={state}
+                  contextStore={contextParam}
                   renderComponentTable={renderComponentTable}
                   componentInput={componentInput}
                   setComponentInput={setComponentInput}

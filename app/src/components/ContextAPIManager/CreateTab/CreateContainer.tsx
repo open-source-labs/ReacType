@@ -14,22 +14,22 @@ import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
-  const allContext = useSelector(state => state.contextSlice);
+  const state = useSelector(store => store.contextSlice);
 
   const store = useStore();
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
   // const [stateContext, dispatchContext] = useContext(StateContext);
   const dispatch = useDispatch();
 
   //pulling data from redux store
-  useEffect(() => {
-    console.log('allcon', allContext)
-    setState(allContext)
-    // setState(store.getState().contextSlice);
+  // useEffect(() => {
 
-  }, [allContext]);
+  //   setState(allContext)
+  //   // setState(store.getState().contextSlice);
+
+  // }, [allContext]);
 
 
 
@@ -62,7 +62,7 @@ const CreateContainer = () => {
     // setState(allContext);
     setTableState(defaultTableData);
 
-    dispatch(deleteElement({id:'FAKE_ID', contextParam: allContext}))
+    dispatch(deleteElement({id:'FAKE_ID', contextParam: state}))
     // dispatchContext({
     //   type: 'DELETE ELEMENT',
     //   payload: 'FAKE_ID'

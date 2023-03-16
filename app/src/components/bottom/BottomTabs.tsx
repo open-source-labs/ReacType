@@ -43,7 +43,7 @@ const BottomTabs = (props): JSX.Element => {
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
-    dispatch(changeProjectType({projectType, contextParam: contextParam}))
+    dispatch(changeProjectType({projectType, contextParam}))
     // dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
   };
   const { components, HTMLTypes } = state;
