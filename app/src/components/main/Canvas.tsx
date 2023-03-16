@@ -5,7 +5,7 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import { useSelector } from 'react-redux'
+
 // Caret start
 import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';

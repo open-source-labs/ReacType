@@ -158,45 +158,45 @@ const generateUnformattedCode = (
       let { height, alignItems, backgroundColor, display, flexDirection, width, justifyContent } = childElement.style;
       let w, h, items, bg, d, flexDir, justCon, cssClasses;
       if (childElement.style.alignItems) {
-        if (alignItems === "center") items = "items-center, ";
-        else if (alignItems === "flex-start") items = "items-start, ";
-        else if (alignItems === "flex-end") items = "items-end, ";
-        else if (alignItems === "stretch") items = "items-stretch, ";
+        if (alignItems === "center") items = "items-center ";
+        else if (alignItems === "flex-start") items = "items-start ";
+        else if (alignItems === "flex-end") items = "items-end ";
+        else if (alignItems === "stretch") items = "items-stretch ";
       }
       if (childElement.style.backgroundColor) {
-        bg = `bg-[${backgroundColor}], `
+        bg = `bg-[${backgroundColor}] `
       }
       if (childElement.style.display) {
-        if (display === "flex") d = "flex, "
-        else if (display === "inline-block") d = "inline-block, "
-        else if (display === "block") d = "block, "
-        else if (display === "none") d = "hidden, "
+        if (display === "flex") d = "flex "
+        else if (display === "inline-block") d = "inline-block "
+        else if (display === "block") d = "block "
+        else if (display === "none") d = "hidden "
       }
       if (childElement.style.flexDirection) {
-        if (flexDirection === "column") flexDir = "flex-col, "
+        if (flexDirection === "column") flexDir = "flex-col "
       }
       if (childElement.style.height) {
-        if (height === "100%") h = "h-full, "
-        else if (height === "50%") h = "h-1/2, "
-        else if (height === "25%") h = "h-1/4, "
-        else if (height === "auto") h = "auto, "
+        if (height === "100%") h = "h-full "
+        else if (height === "50%") h = "h-1/2 "
+        else if (height === "25%") h = "h-1/4 "
+        else if (height === "auto") h = "auto "
       }
       if (childElement.style.justifyContent) {
-        if (justifyContent === "center") justCon = "justify-center, "
-        else if (justifyContent === "flex-start") justCon = "justify-start, "
-        else if (justifyContent === "space-between") justCon = "justify-between, "
-        else if (justifyContent === "space-around") justCon = "justify-around, "
-        else if (justifyContent === "flex-end") justCon = "justify-end, "
-        else if (justifyContent === "space-evenly") justCon = "justify-evenly, "
+        if (justifyContent === "center") justCon = "justify-center "
+        else if (justifyContent === "flex-start") justCon = "justify-start "
+        else if (justifyContent === "space-between") justCon = "justify-between "
+        else if (justifyContent === "space-around") justCon = "justify-around "
+        else if (justifyContent === "flex-end") justCon = "justify-end "
+        else if (justifyContent === "space-evenly") justCon = "justify-evenly "
       }
       if (childElement.style.width) {
-        if (width === "100%") w = "w-full, "
-        else if (width === "50%") w = "w-1/2, "
-        else if (width === "25%") w = "w-1/4, "
-        else if (width === "auto") w = "w-auto, "
+        if (width === "100%") w = "w-full "
+        else if (width === "50%") w = "w-1/2 "
+        else if (width === "25%") w = "w-1/4 "
+        else if (width === "auto") w = "w-auto "
       }
       if (childElement.attributes && childElement.attributes.cssClasses) {
-        cssClasses = `${childElement.attributes.cssClasses}, `
+        cssClasses = `${childElement.attributes.cssClasses} `
       }
       customizationDetails += ' ' + `className = "${cssClasses ? cssClasses : ''} ${w ? w : ''}${h ? h : ''}${justCon ? justCon : ''}${flexDir ? flexDir : ''}${d ? d : ''}${bg ? bg : ''}${items ? items : ''}"`;
     }
