@@ -311,7 +311,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   //     type: 'DELETE EVENT',
   //     payload: { event: selectedEvent }
   //   });
-  // };
+  };
 
 
   const handleSave = (tailwind): Object => {
@@ -1007,5 +1007,5 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
-};
+
 export default CustomizationPanel;
