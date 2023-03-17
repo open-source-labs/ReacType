@@ -9,8 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-import { useSelector } from 'react-redux'
-
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -20,26 +19,27 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
-  
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const background_Color = isDarkMode ? '#21262b' : 'white'
+  const backgroundColor = isDarkMode ? '#21262b' : 'white';
+  const color = isDarkMode ? 'lightgray' : 'black';
 
   return (
     <React.Fragment>
-      <div className={classes.contextContainer} style={{backgroundColor: background_Color}}>
+      <div className={classes.contextContainer} style={{ backgroundColor }}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
-                <Tab label="Create/Edit" value="1" />
-                <Tab label="Assign" value="2" />
-                <Tab label="Display" value="3" />
+                <Tab label="Create/Edit" value="1" style={{ color }} />
+                <Tab label="Assign" value="2" style={{ color }} />
+                <Tab label="Display" value="3" style={{ color }} />
               </TabList>
             </Box>
             <TabPanel value="1">

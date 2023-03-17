@@ -9,8 +9,8 @@ import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 // import * as actions from '../../../redux/actions/actions';
 import StateContext from '../../../context/context';
-import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer'
-import { useSelector, useDispatch, useStore, } from 'react-redux';
+import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
+import { useSelector, useDispatch, useStore } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const AssignContainer = () => {
@@ -26,7 +26,7 @@ const AssignContainer = () => {
   // const [stateContext, dispatchContext] = useContext(StateContext);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
-    contextParam: store.contextSlice,
+    contextParam: store.contextSlice
   }));
 
   //fetching data from redux store
@@ -34,7 +34,7 @@ const AssignContainer = () => {
   //   setState(allContext);
   // }, [allContext]);
 
-  const renderTable = targetContext => {
+  const renderTable = (targetContext) => {
     if (targetContext === null || !targetContext.values) {
       setTableState(defaultTableData);
     } else {
@@ -43,7 +43,7 @@ const AssignContainer = () => {
   };
 
   //construct data for table displaying component table
-  const renderComponentTable = targetComponent => {
+  const renderComponentTable = (targetComponent) => {
     //target Component is main
 
     const listOfContexts = [];
@@ -52,7 +52,7 @@ const AssignContainer = () => {
       targetComponent !== null &&
       targetComponent.name
     ) {
-      contextParam.allContext.forEach(context => {
+      contextParam.allContext.forEach((context) => {
         if (context.components.includes(targetComponent.name)) {
           listOfContexts.push(context.name);
         }
@@ -77,7 +77,7 @@ const AssignContainer = () => {
       })
     );
     //trigger generateCode(), update code preview tab
-    dispatch(deleteElement({id:'FAKE_ID', contextParam: contextParam}))
+    dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
 
     // dispatchContext({
     //   type: 'DELETE ELEMENT',

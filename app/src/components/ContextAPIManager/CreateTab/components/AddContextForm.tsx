@@ -20,7 +20,8 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
+  // const state = useSelector(store => store.appState)
+  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
@@ -50,7 +51,7 @@ const AddContextForm = ({
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some(option => inputValue === option.name);
+    const isExisting = options.some((option) => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -63,7 +64,7 @@ const AddContextForm = ({
     return filtered;
   };
 
-  const getOptionLabel = option => {
+  const getOptionLabel = (option) => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -77,13 +78,14 @@ const AddContextForm = ({
   };
 
   const renderOption = (props, option) => <li {...props}>{option.name}</li>;
+  const color = isDarkMode ? 'lightgray' : 'black';
 
   return (
     <Fragment>
-      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
+      <Typography style={{ color }} variant="h6" gutterBottom={true}>
         Context Input
       </Typography>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4, color }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
@@ -97,8 +99,14 @@ const AddContextForm = ({
           renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
-          renderInput={params => (
-            <TextField {...params} label="Create/Select Context" />
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label="Create/Select Context"
+              InputLabelProps={{ style: { color } }}
+              InputProps={{ style: { color } }}
+            />
           )}
         />
         <Button
