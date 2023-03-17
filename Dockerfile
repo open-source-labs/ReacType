@@ -2,10 +2,20 @@ FROM node:18
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
+
+COPY app/dist /app
+
+COPY .env .env
+
+COPY server ./server
+
+COPY config.js ./config.js
 
 RUN npm install
 
 EXPOSE 5656
 
-CMD ["npm", "run", "dev"]
+ENV IS_DOCKER true
+
+CMD [ "npm", "start" ]

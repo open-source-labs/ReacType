@@ -115,7 +115,11 @@ io.on('connection', socket => {
     console.log(string)
     console.log(redux_store)
     socket.broadcast.emit('receive message', redux_store)
-  })
+  });
+
+  socket.on('error', (error) => {
+    console.error(`Socket error: ${error}`);
+  });
 })
 
 
@@ -257,12 +261,21 @@ if (process.env.NODE_ENV == 'production'){
 const isDocker = process.env.IS_DOCKER === 'true';
 
 app.get('/', (req, res) => {
-  return res.status(200).path.join(__dirname, '../index.html');
+  const indexPath = isDocker
+    ? path.join(__dirname, '../index-prod.html')
+    : path.join(__dirname, '../index.html');
+  return res.status(200).sendFile(indexPath);
 });
 
 if (isDocker){
   app.get('/bundle.js', (req, res) => {
     return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
+  })
+}
+
+if (isDocker){
+  app.get('/main.css', (req, res) => {
+    return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
   })
 }
 
@@ -294,8 +307,7 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-if (isDev || isProd) {
-  httpServer.listen(PORT.DEV_PORT, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
-}
+httpServer.listen(5656, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
+
 if (isTest) module.exports = app;
 // export default app;
