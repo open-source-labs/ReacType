@@ -4,12 +4,14 @@ import { combineReducers } from 'redux';
 import darkModeReducer from './slice/darkModeSlice';
 import codePreviewReducer from './slice/codePreviewSlice';
 import contextReducer from './slice/contextReducer';
+import appStateReducer from './slice/appStateSlice.ts';
 
 const rootReducer = combineReducers({
   // Add desired slices here
   darkMode: darkModeReducer,
   codePreviewSlice: codePreviewReducer,
-  contextSlice: contextReducer
+  contextSlice: contextReducer,
+  appState: appStateReducer
 });
 
 export default rootReducer;

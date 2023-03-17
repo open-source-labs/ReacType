@@ -8,10 +8,18 @@ import { InputLabel } from '@mui/material';
 import { TextField } from '@mui/material';
 import { styleContext } from '../../containers/AppContainer';
 import { makeStyles } from '@mui/material/styles'
+import {useDispatch, useSelector} from 'react-redux';
+import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
 
 function AddLink({ id, onClickHandler, linkDisplayed }) {
   const { isThemeLight } = useContext(styleContext);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const [link, setLink] = useState('')
 
   //this function allows the link to be functional when it's nested
@@ -34,7 +42,8 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
         state.attributes.compLink = event.target.value;
-        dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
+        // dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
+        dispatch(updateAttributes(state, contextParam))
         return true;
       }
     });

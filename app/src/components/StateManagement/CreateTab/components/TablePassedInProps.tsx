@@ -8,9 +8,18 @@ import ClearIcon from '@mui/icons-material/Clear';
 import StateContext from "../../../../context/context";
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+
 
 const TablePassedInProps = props => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
@@ -55,7 +64,7 @@ const TablePassedInProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-                deletePassedInProps(params.id);
+                deleteProps(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -66,14 +75,15 @@ const TablePassedInProps = props => {
     }
   ];
 
-  const deletePassedInProps = (rowId) => {
+  const deleteProps = (rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    dispatch({
-      type: 'DELETE PASSEDINPROPS',
-      payload: { rowId: rowId }
-    });
+    // dispatch({
+    //   type: 'DELETE PASSEDINPROPS',
+    //   payload: { rowId: rowId }
+    // });
+    dispatch(deletePassedInProps({rowId:rowId, contextParam: contextParam}))
   };
 
   useEffect(() => {

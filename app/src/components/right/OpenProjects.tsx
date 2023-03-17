@@ -12,6 +12,8 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import { blue } from '@mui/material/colors';
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import StateContext from '../../context/context';
+import { useDispatch, useSelector } from 'react-redux';
+import { openProject } from '../../redux/reducers/slice/appStateSlice';
 
 export interface ProjectDialogProps {
   open: boolean;
@@ -22,7 +24,9 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [_, dispatch] = useContext(StateContext);
+  // const [_, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
     onClose();
@@ -32,7 +36,8 @@ function ProjectsDialog(props: ProjectDialogProps) {
     const selectedProject = projects.filter(
       (project: any) => project.name === value
     )[0];
-    dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
+    // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
+    dispatch(openProject(selectedProject))
     onClose();
   };
   return (

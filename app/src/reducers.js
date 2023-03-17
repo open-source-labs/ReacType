@@ -6,7 +6,7 @@ const rootReducer = (state = initialState, action) => {
     case 'ADD_CHILD':
       return { ...state, child: action.payload };
         case 'RESET_STATE':
-        return {...state, code: {} }
+        return {...state, code: {} };
     default:
       return state;
   }

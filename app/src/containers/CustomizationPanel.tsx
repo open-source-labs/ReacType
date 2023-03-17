@@ -29,11 +29,21 @@ import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
 import { OutgoingMessage } from 'http';
+import {useDispatch, useSelector} from 'react-redux';
+
+import { changeTailwind, updateStateUsed, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage,  deleteReusableComponent, updateAttributes, deleteChild, undo, redo} from '../redux/reducers/slice/appStateSlice';
+
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const dispatch = useDispatch();
+  // const state = useSelector(store => store.appState)
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -300,30 +310,33 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   ];
 
   const deleteEvent = selectedEvent => {
-    dispatch({
-      type: 'DELETE EVENT',
-      payload: { event: selectedEvent }
-    });
+    dispatch(deleteEventAction({ event: selectedEvent, contextParam: contextParam }))
+    // dispatch({
+    //   type: 'DELETE EVENT',
+    //   payload: { event: selectedEvent }
+    // });
   };
 
 
   const handleSave = (tailwind): Object => {
     if (tailwind !== true) {
-      dispatch({
-        type: 'CHANGE TAILWIND',
-        payload: false
-      })
+      dispatch(changeTailwind(false))
+      // dispatch({
+      //   type: 'CHANGE TAILWIND',
+      //   payload: false
+      // })
     }
-    dispatch({
-      type: 'UPDATE STATE USED',
-      payload: { stateUsedObj: stateUsedObj }
-    })
+    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj, contextParam: contextParam }))
+    // dispatch({
+    //   type: 'UPDATE STATE USED',
+    //   payload: { stateUsedObj: stateUsedObj }
+    // })
 
-
-    dispatch({
-      type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj }
-    })
+dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextParam }))
+    // dispatch({
+    //   type: 'UPDATE USE CONTEXT',
+    //   payload: { useContextObj: useContextObj }
+    // })
 
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -333,54 +346,62 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    dispatch({
-      type: 'UPDATE CSS',
-      payload: { style: styleObj }
-    });
+    dispatch(updateCss({ style: styleObj, contextParam: contextParam }))
+    // dispatch({
+    //   type: 'UPDATE CSS',
+    //   payload: { style: styleObj }
+    // });
 
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-    dispatch({
-      type: 'UPDATE ATTRIBUTES',
-      payload: { attributes: attributesObj }
-    });
+    // dispatch({
+    //   type: 'UPDATE ATTRIBUTES',
+    //   payload: { attributes: attributesObj }
+    // });
+    dispatch(updateAttributes({attributes: attributesObj, contextParam: contextParam}))
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-    dispatch({
-      type: 'UPDATE EVENTS',
-      payload: { events: eventsObj }
-    });
+    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }))
+    
+    // dispatch({
+    //   type: 'UPDATE EVENTS',
+    //   payload: { events: eventsObj }
+    // });
     return styleObj;
   };
   const handleTailwind = (): Object => {
-
-    dispatch({
-      type: 'CHANGE TAILWIND',
-      payload: true
-    });
+    dispatch(changeTailwind(true))
+    // dispatch({
+    //   type: 'CHANGE TAILWIND',
+    //   payload: true
+    // });
     handleSave(true)
   }
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
-    dispatch({ type: 'UNDO', payload: {} });
+    // dispatch({ type: 'UNDO', payload: {} });
+    dispatch(undo({contextParam}));
   };
   const handleRedo = () => {
-    dispatch({ type: 'REDO', payload: {} });
+    // dispatch({ type: 'REDO', payload: {} });
+    dispatch(redo({contextParam}));
   };
   // placeholder for handling deleting instance
   const handleDelete = () => {
-    dispatch({ type: 'DELETE CHILD', payload: {} });
+    // dispatch({ type: 'DELETE CHILD', payload: {} });
+    dispatch(deleteChild({id:{},contextParam:contextParam}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
     isIndex()
       ? handleDialogError('index')
-      : dispatch({ type: 'DELETE PAGE', payload: { id } });
+      : dispatch(deletePage({ id }))
+      // dispatch({ type: 'DELETE PAGE', payload: { id } });
   };
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
@@ -399,7 +420,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
       closeModal();
-      dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+      dispatch( deleteReusableComponent({contextParam: contextParam}))
+      // dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
     };
     // set modal options
     const children = (
@@ -491,6 +513,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 <br />
                 <br />
                 <span className={classes.rootCompName}>{configTarget.name}</span>
+                <p style={{fontSize: '16px'}}>Drag and drop an html element (or focus one) to see what happens!</p>
               </h4>
             </div>
           </div>
@@ -823,6 +846,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   }
                   onClick={handleTailwind}
                   id="tailwind"
+                  style={{
+                    marginTop: '20px',
+                    position: 'relative',
+                    left: '32px'
+                  }}
                 >
                   Tailwind
                 </Button>
@@ -989,4 +1017,5 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
+
 export default CustomizationPanel;

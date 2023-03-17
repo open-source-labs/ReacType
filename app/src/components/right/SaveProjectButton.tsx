@@ -8,11 +8,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
+import {useDispatch, useSelector} from 'react-redux'
+import {updateProjectName} from '../../redux/reducers/slice/appStateSlice';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-  const [state, dispatch] = useContext(StateContext);
-
+  // const [state, dispatch] = useContext(StateContext);
+const state = useSelector(store => store.appState);
+const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
   const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState(
@@ -30,7 +33,9 @@ export default function FormDialog() {
       // Needed to disable delete button
       // Switch to Thunk
       // If errors occur on the backend, the project name still gets updated
-      dispatch({ type: 'UPDATE PROJECT NAME', payload: projectName });
+
+      dispatch(updateProjectName(projectName))
+      // dispatch({ type: 'UPDATE PROJECT NAME', payload: projectName });
       saveProject(projectName, state);
       setOpen(false);
     } else {

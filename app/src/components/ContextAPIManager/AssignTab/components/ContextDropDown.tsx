@@ -4,6 +4,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
 
@@ -14,6 +15,7 @@ const ContextDropDown = ({
   setContextInput
 }) => {
   const { allContext } = contextStore;
+  const isDarkMode = useSelector((store) => store.darkMode.isDarkMode);
 
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
@@ -38,7 +40,7 @@ const ContextDropDown = ({
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some(option => inputValue === option.name);
+    const isExisting = options.some((option) => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -51,7 +53,7 @@ const ContextDropDown = ({
     return filtered;
   };
 
-  const getOptionLabel = option => {
+  const getOptionLabel = (option) => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -65,6 +67,7 @@ const ContextDropDown = ({
   };
 
   const renderOption = (props, option) => <li {...props}>{option.name}</li>;
+  const color = isDarkMode ? 'lightgray' : 'black';
 
   return (
     <Fragment>
@@ -82,8 +85,15 @@ const ContextDropDown = ({
           renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
-          renderInput={params => (
-            <TextField {...params} label="Select Context" helperText='Select a context you would like to assign'/>
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Select Context"
+              helperText="Select a context you would like to assign"
+              InputLabelProps={{ style: { color } }}
+              FormHelperTextProps={{ style: { color } }}
+              InputProps={{ style: { color } }}
+            />
           )}
         />
       </Box>

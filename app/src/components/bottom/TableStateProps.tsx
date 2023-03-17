@@ -9,9 +9,17 @@ import ClearIcon from '@mui/icons-material/Clear';
 import StateContext from '../../context/context';
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteState } from '../../redux/reducers/slice/appStateSlice';
 
 const TableStateProps = props => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
@@ -50,7 +58,7 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px` }}
             onClick={() => {
-              deleteState(params.id);
+              handleDeleteState(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -59,7 +67,7 @@ const TableStateProps = props => {
       }
     }
   ];
-  const deleteState = selectedId => {
+  const handleDeleteState = selectedId => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
@@ -68,10 +76,11 @@ const TableStateProps = props => {
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
-    dispatch({
-      type: 'DELETE STATE',
-      payload: { stateProps: filtered, rowId: selectedId }
-    });
+    // dispatch({
+    //   type: 'DELETE STATE',
+    //   payload: { stateProps: filtered, rowId: selectedId }
+    // });
+    dispatch(deleteState({stateProps: filtered, rowId: selectedId, contextParam: contextParam}))
   };
 
   useEffect(() => {

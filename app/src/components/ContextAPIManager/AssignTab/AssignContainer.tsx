@@ -9,28 +9,32 @@ import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 // import * as actions from '../../../redux/actions/actions';
 import StateContext from '../../../context/context';
-import {addComponentToContext}  from '../../../redux/reducers/slice/contextReducer'
-import {useSelector, useDispatch , useStore,} from 'react-redux';
+import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
+import { useSelector, useDispatch, useStore } from 'react-redux';
+import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const AssignContainer = () => {
   const store = useStore();
   const dispatch = useDispatch();
 
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
   const defaultTableData = [{ key: 'Key', value: 'Value' }];
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
-  const [stateContext, dispatchContext] = useContext(StateContext);
-  const allContext = useSelector(state => state.contextSlice);
+  // const [stateContext, dispatchContext] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice
+  }));
 
   //fetching data from redux store
-  useEffect(() => {
-    setState(allContext);
-  }, [allContext]);
+  // useEffect(() => {
+  //   setState(allContext);
+  // }, [allContext]);
 
-  const renderTable = targetContext => {
+  const renderTable = (targetContext) => {
     if (targetContext === null || !targetContext.values) {
       setTableState(defaultTableData);
     } else {
@@ -39,7 +43,7 @@ const AssignContainer = () => {
   };
 
   //construct data for table displaying component table
-  const renderComponentTable = targetComponent => {
+  const renderComponentTable = (targetComponent) => {
     //target Component is main
 
     const listOfContexts = [];
@@ -48,7 +52,7 @@ const AssignContainer = () => {
       targetComponent !== null &&
       targetComponent.name
     ) {
-      state.allContext.forEach(context => {
+      contextParam.allContext.forEach((context) => {
         if (context.components.includes(targetComponent.name)) {
           listOfContexts.push(context.name);
         }
@@ -67,16 +71,18 @@ const AssignContainer = () => {
     )
       return;
     dispatch(
-    addComponentToContext({
+      addComponentToContext({
         context: contextInput,
         component: componentInput
       })
     );
     //trigger generateCode(), update code preview tab
-    dispatchContext({
-      type: 'DELETE ELEMENT',
-      payload: 'FAKE_ID'
-    });
+    dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
+
+    // dispatchContext({
+    //   type: 'DELETE ELEMENT',
+    //   payload: 'FAKE_ID'
+    // });
 
     // setState(allContext);
     renderComponentTable(componentInput);
@@ -96,7 +102,7 @@ const AssignContainer = () => {
           >
             <Grid item>
               <ContextDropDown
-                contextStore={state}
+                contextStore={contextParam}
                 renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
@@ -125,7 +131,7 @@ const AssignContainer = () => {
             >
               <Grid item>
                 <ComponentDropDown
-                  contextStore={state}
+                  contextStore={contextParam}
                   renderComponentTable={renderComponentTable}
                   componentInput={componentInput}
                   setComponentInput={setComponentInput}

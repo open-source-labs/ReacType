@@ -5,12 +5,26 @@ import StateContext from '../../context/context';
 import { Component, DragItem } from '../../interfaces/Interfaces';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
+
 // Caret start
 import Arrow from './Arrow';
 import { getRowsStateFromCache } from '@mui/x-data-grid/hooks/features/rows/gridRowsUtils';
+// Redux Toolkit test
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
 function Canvas(props): JSX.Element {
-  const [state, dispatch] = useContext(StateContext);
+
+  // const [state, dispatch] = useContext(StateContext);
+  // const {state} = useSelector(store => store.appState);
+  // const contextParam = useSelector(store => store.contextSlice)
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const dispatch = useDispatch();
+
   // const [newComp, setNewComp] = useState(false);
   // const [copiedChildrenArr, setCopiedChildrenArr] = useState([]);
   // const [copiedComp, setCopiedComp] = useState({});
@@ -71,15 +85,16 @@ function Canvas(props): JSX.Element {
   );
 
   // changes focus of the canvas to a new component / child
-  const changeFocus = (componentId?: number, childId?: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocusFunction = (componentId?: number, childId?: number | null) => {
+    dispatch(changeFocus({ componentId, childId}));
+
+    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
   };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    // note: a null value for the child id means that we are focusing on the top-level component rather than any child
-    changeFocus(state.canvasFocus.componentId, null);
-  };
+    changeFocusFunction(state.canvasFocus.componentId,null);
+  }
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
   const snapShotFunc = () => {
@@ -87,7 +102,8 @@ function Canvas(props): JSX.Element {
       const deepCopiedState = JSON.parse(JSON.stringify(state));
       const focusIndex = state.canvasFocus.componentId - 1;
       //pushes the last user action on the canvas into the past array of Component
-      state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+      // state.components[focusIndex].past.push(deepCopiedState.components[focusIndex].children);
+    dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
   };
 
   // This hook will allow the user to drag items from the left panel on to the canvas
@@ -98,20 +114,28 @@ function Canvas(props): JSX.Element {
       // takes a snapshot of state to be used in UNDO and REDO cases
       snapShotFunc();
       // returns false for direct drop target
+      console.log('diddrop', didDrop)
       if (didDrop) {
         return;
       }
-      console.log(currentComponent)
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance && item.instanceType !== "Component") {
-        dispatch({
-          type: 'ADD CHILD',
-          payload: {
-            type: item.instanceType,
-            typeId: item.instanceTypeId,
-            childId: null
-          }
-        });
+   dispatch(addChild({
+    type: item.instanceType,
+    typeId: item.instanceTypeId,
+    childId: null,
+    contextParam: contextParam
+
+  }))
+   
+        // dispatch({
+        //   type: 'ADD CHILD',
+        //   payload: {
+        //     type: item.instanceType,
+        //     typeId: item.instanceTypeId,
+        //     childId: null
+        //   }
+        // });
       } else if (item.newInstance && item.instanceType === "Component") {
         let hasDiffParent = false;
         const components = state.components;
@@ -143,14 +167,20 @@ function Canvas(props): JSX.Element {
           }
         }
         // if (!hasDiffParent) {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: null
-            }
-          });
+          dispatch(addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          }))
+          // dispatch({
+          //   type: 'ADD CHILD',
+          //   payload: {
+          //     type: item.instanceType,
+          //     typeId: item.instanceTypeId,
+          //     childId: null
+          //   }
+          // });
           // comment out below, not sure what the previous team want to do for this
         // } else {
         //   alert('something is wrong');
@@ -206,7 +236,7 @@ function Canvas(props): JSX.Element {
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
   return (
-    <div className={'componentContainer'} ref={drop} style={props.isThemeLight ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
+    <div className={'componentContainer'} ref={drop} style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}
     </div>
   );

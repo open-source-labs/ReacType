@@ -4,6 +4,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 /*
 DESCRIPTION: This component is each box beneath the 'root components' and
   'reusable components' (in classic React mode) headings. Drag-and-drop
@@ -21,7 +23,9 @@ const ComponentPanelItem: React.FC<{
   isThemeLight: boolean;
 }> = ({ name, id, root, isFocus, isThemeLight }) => {
   const classes = useStyles();
-  const [, dispatch] = useContext(StateContext);
+ 
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({
     item: {
@@ -39,10 +43,8 @@ const ComponentPanelItem: React.FC<{
   // when a component is clicked in the left panel, change canvas focus to that component
   const handleClick = () => {
     //LEGACY PD
-    dispatch({
-      type: 'CHANGE FOCUS',
-      payload: { componentId: id, childId: null }
-    });
+    dispatch(changeFocus({ componentId: id, childId: null}));
+    
   };
   return (
     <Grid
@@ -90,3 +92,13 @@ const useStyles = makeStyles({
   }
 });
 export default ComponentPanelItem;
+
+// const [, dispatch] = useContext(StateContext);
+
+  // // when a component is clicked in the left panel, change canvas focus to that component
+  // const handleClick = () => {
+  //   //LEGACY PD
+  //   dispatch({
+  //     type: 'CHANGE FOCUS',
+  //     payload: { componentId: id, childId: null }
+  //   });

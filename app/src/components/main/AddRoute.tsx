@@ -1,21 +1,30 @@
 import { AddRoutes } from '../../interfaces/Interfaces'
 import React, { useContext } from 'react';
 import StateContext from '../../context/context';
+import {useDispatch, useSelector} from 'react-redux'
+import { addChild} from '../../redux/reducers/slice/appStateSlice';
 
 function AddRoute({
   id
 }: AddRoutes) {
-  const [, dispatch] = useContext(StateContext);
-
+  // const [, dispatch] = useContext(StateContext);
+const dispatch = useDispatch();
+const contextParam = useSelector(store => store.contextSlice)
   const handleClick = (id) => {
-    dispatch({
-      type: 'ADD CHILD',
-      payload: {
-        type: 'HTML Element',
-        typeId: -1,
-        childId: id // this is the id of the parent to attach it to
-      }
-    });
+    dispatch(addChild({
+      type: 'HTML Element',
+      typeId: -1,
+      childId: id, // this is the id of the parent to attach it to
+      contextParam: store.contextSlice
+    }))
+    // dispatch({
+    //   type: 'ADD CHILD',
+    //   payload: {
+    //     type: 'HTML Element',
+    //     typeId: -1,
+    //     childId: id // this is the id of the parent to attach it to
+    //   }
+    // });
   }
 
   return (

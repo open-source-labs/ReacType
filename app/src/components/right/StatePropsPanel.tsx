@@ -5,6 +5,8 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import withStyles from '@mui/styles/withStyles';
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from 'react-redux';
+import { addState } from "../../redux/reducers/slice/appStateSlice";
 import {
   Checkbox,
   FormControl,
@@ -37,7 +39,13 @@ declare module '@mui/styles/defaultTheme' {
 
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -94,10 +102,11 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       type: inputType,
     };
 
-    dispatch({
-      type: 'ADD STATE',
-      payload: {newState: newState}
-    }); 
+    // dispatch({
+    //   type: 'ADD STATE',
+    //   payload: {newState: newState}
+    // }); 
+    dispatch(addState({newState: newState, contextParam: contextParam}))
     resetError();
     clearForm();
   };

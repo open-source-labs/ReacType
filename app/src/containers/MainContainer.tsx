@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const MainContainer = (props): JSX.Element => {
   const { style } = useContext(styleContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 
   return (
     <div className="main-container" style={style} >

@@ -30,8 +30,8 @@ import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 // Imports for redux toolkit usage
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
-
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +62,7 @@ const StyledMenu = withStyles({
 })(props => (
   <Menu
     elevation={0}
-    getContentAnchorEl={null}
+    // getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'center'
@@ -93,9 +93,10 @@ const NavBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   // State for clear canvas button
   const [modal, setModal] = useState(null);
-  const [state, setReset] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const state = useSelector(store => store.appState);
 
    //NEW DARK MODE
    const handleDarkModeToggle = () => {
@@ -119,7 +120,7 @@ const NavBar = (props) => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      setReset({ type: 'RESET STATE', payload: {} });
+      dispatch(resetAllState());
     };
     // Set modal options
     const children = (

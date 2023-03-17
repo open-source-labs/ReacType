@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import StateContext from '../../context/context';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addElement } from '../../redux/reducers/slice/appStateSlice';
 
 import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -30,9 +31,11 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
   // const {isDarkMode} = props;
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -104,10 +107,11 @@ const HTMLPanel = (props): JSX.Element => {
       placeHolderLong: '',
       icon: null
     };
-    dispatch({
-      type: 'ADD ELEMENT',
-      payload: newElement
-    });
+    // dispatch({
+    //   type: 'ADD ELEMENT',
+    //   payload: newElement
+    // });
+    dispatch(addElement(newElement))
     setCurrentID(currentID + 1);
     setTag('');
     setName('');

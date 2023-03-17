@@ -8,8 +8,9 @@ import { useSelector } from 'react-redux';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state,] = useContext(StateContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  // const [state,] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };

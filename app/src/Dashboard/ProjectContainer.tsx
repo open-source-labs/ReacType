@@ -84,11 +84,11 @@ const TabPanelItem = (props: TabPanelProps): JSX.Element => {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
     display: 'flex'
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
+    // borderRight: `1px solid ${theme.palette.divider}`
   }
 }));
 // End of prefab code to generate a tab panel

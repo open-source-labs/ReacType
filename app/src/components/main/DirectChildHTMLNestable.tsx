@@ -12,7 +12,9 @@ import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
 import { styleContext } from '../../containers/AppContainer';
 
@@ -25,9 +27,15 @@ function DirectChildHTMLNestable({
   name,
   attributes
 }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
   const { isThemeLight } = useContext(styleContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const ref = useRef(null);
   // const [linkDisplayed, setLinkDisplayed] = useState('');
 
@@ -37,9 +45,9 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    state.components[focusIndex].past.push(
-      deepCopiedState.components[focusIndex].children
-    );
+    // state.components[focusIndex].past.push(
+    //   deepCopiedState.components[focusIndex].children
+    dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -89,27 +97,34 @@ function DirectChildHTMLNestable({
             )) ||
           item.instanceType !== 'Component'
         ) {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: childId
-            }
-          });
+          dispatch(addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: childId,
+            contextParam: contextParam
+          }))
+          // dispatch({
+          //   type: 'ADD CHILD',
+          //   payload: {
+          //     type: item.instanceType,
+          //     typeId: item.instanceTypeId,
+          //     childId: childId
+          //   }
+          // });
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch({
-            type: 'CHANGE POSITION',
-            payload: {
-              currentChildId: item.childId,
-              newParentChildId: childId
-            }
-          });
+          // dispatch({
+          //   type: 'CHANGE POSITION',
+          //   payload: {
+          //     currentChildId: item.childId,
+          //     newParentChildId: childId
+          //   }
+          // });
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
     },
@@ -121,14 +136,17 @@ function DirectChildHTMLNestable({
     }
   });
 
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+    dispatch(changeFocus({ componentId, childId}));
+
   };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    changeFocusFunction(state.canvasFocus.componentId, childId);
+    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

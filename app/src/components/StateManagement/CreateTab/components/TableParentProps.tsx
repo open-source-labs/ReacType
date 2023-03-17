@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   DataGrid,
   GridEditRowsModel,
@@ -8,9 +9,16 @@ import StateContext from "../../../../context/context";
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
+import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
 
 const TableParentProps = props => {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  // const state = useSelector(store => store.appState);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -54,7 +62,7 @@ const TableParentProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              addPassedInProps(params.row, params.id - 1);
+              addProps(params.row, params.id - 1);
             }}
           >
             <AddIcon style={{ width: `${15}px` }} />
@@ -64,14 +72,15 @@ const TableParentProps = props => {
       }
     }
   ];
-  const addPassedInProps = (parentComponentProps, rowId) => {
+  const addProps = (parentComponentProps, rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    dispatch({
-      type: 'ADD PASSEDINPROPS',
-      payload: { passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent }
-    });
+    // dispatch({
+    //   type: 'ADD PASSEDINPROPS',
+    //   payload: { passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent }
+    // });
+    dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent, contextParam: contextParam}))
   };
 
   useEffect(() => {

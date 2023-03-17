@@ -8,9 +8,11 @@ import Button from '@mui/material/Button';
 import exportProject from '../../utils/exportProject.util';
 import createModal from './createModal';
 import { styleContext } from '../../containers/AppContainer';
+import { useSelector } from 'react-redux';
 export default function ExportButton() {
   const [modal, setModal] = useState(null);
-  const [state] = useContext(StateContext);
+  // const [state] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
 
   const genOptions: string[] = [
     'Export components',
