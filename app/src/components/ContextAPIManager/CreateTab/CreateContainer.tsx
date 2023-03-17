@@ -10,7 +10,8 @@ import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
 import {
   addContext,
-  deleteContext
+  deleteContext,
+  addContextValues
 } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
@@ -53,7 +54,7 @@ const CreateContainer = () => {
 
   //update data store when user add new key-value pair to context
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
-    dispatch(addContext({ name, inputKey, inputValue }));
+    dispatch(addContextValues({ name, inputKey, inputValue }));
     // setState(allContext);
   };
 
