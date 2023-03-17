@@ -383,7 +383,7 @@ const generateUnformattedCode = (
     
   const { allContext } = contextParam;
 
-  
+ 
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -460,7 +460,7 @@ const generateUnformattedCode = (
     };
 
     let generatedCode = "import React, { useState, useEffect, useContext} from 'react';\n\n";
-    generatedCode += currComponent.name === 'APP' ? contextImports : '';
+    generatedCode += currComponent.name === 'App' ? contextImports : '';
     generatedCode += importReactRouter ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';\n` : ``;
     generatedCode += createContextImport() ? `${createContextImport()}\n` : '';
     generatedCode += importsMapped ? `${importsMapped}\n` : '';
