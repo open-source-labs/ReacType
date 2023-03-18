@@ -10,8 +10,9 @@ import { useSelector } from 'react-redux';
 const CreationPanel = (props): JSX.Element => {
   // const {style} = useContext(styleContext);
   const style = useSelector((store) => store.styleSlice);
+  console.log('style from creation',style)
   return (
-    <div className="creation-panel" style={style}>
+    <div className="creation-panel" style={style.style}>
       <ComponentPanel isThemeLight={props.isThemeLight}/>
       <HTMLPanel isThemeLight={props.isThemeLight}/>
     </div>

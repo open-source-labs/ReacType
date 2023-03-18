@@ -7,22 +7,20 @@ import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
-import StateManager from '../StateManagement/StateManagement'; 
+import StateManager from '../StateManagement/StateManagement';
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
-import {useDispatch, useSelector} from 'react-redux';
-import { changeProjectType} from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
-  // const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
   const dispatch = useDispatch();
-  // const state = useSelector(store => store.appState)
   const { state, contextParam, style } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -31,7 +29,6 @@ const BottomTabs = (props): JSX.Element => {
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
-  // const { style } = useContext(styleContext);
 
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
@@ -41,8 +38,7 @@ const BottomTabs = (props): JSX.Element => {
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
-    dispatch(changeProjectType({projectType, contextParam}))
-    // dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+    dispatch(changeProjectType({ projectType, contextParam }))
   };
   const { components, HTMLTypes } = state;
 

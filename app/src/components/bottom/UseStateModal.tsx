@@ -1,6 +1,5 @@
 import React, {useState, useContext, useRef} from 'react';
 import Modal from '@mui/material/Modal';
-import StateContext from '../../context/context';
 import TableStateProps from './TableStateProps';
 import { useSelector } from 'react-redux';
 

@@ -500,7 +500,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
 
   if (state.canvasFocus.childId === null) {
     return (
-      <div className="column right" id="rightContainer" style={style}>
+      <div className="column right" id="rightContainer" style={style.style}>
         <ProjectManager />
         <div className="rightPanelWrapper">
           <div>
@@ -526,7 +526,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
     )
   }
   return (
-    <div className="column right" id="rightContainer" style={style}>
+    <div className="column right" id="rightContainer" style={style.style}>
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
