@@ -10,6 +10,7 @@ import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
 import { useSelector } from 'react-redux';
+import store from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -19,7 +20,10 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const {isDarkMode, style} = useSelector((store) =>({
+isDarkMode: store.darkMode.isDarkMode,
+style: store.styleSlice
+  }) );
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 
@@ -32,7 +36,7 @@ const ContextManager = (props): JSX.Element => {
 
   return (
     <React.Fragment>
-      <div className={classes.contextContainer} style={{ backgroundColor }}>
+      <div className={classes.contextContainer} style={style.style}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

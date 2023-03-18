@@ -21,10 +21,11 @@ import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   const dispatch = useDispatch();
-  const { state, contextParam, style } = useSelector((store) => ({
+  const { state, contextParam, style, } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
     style: store.styleSlice,
+    isDarkMode: store.darkMode.isDarkMode
   }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();

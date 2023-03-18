@@ -1,10 +1,9 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, { useState} from 'react';
 import { ThemeProvider, Theme, StyledEngineProvider, useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useQuery } from '@apollo/client';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
 import Box from '@mui/material/Box';
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project';
