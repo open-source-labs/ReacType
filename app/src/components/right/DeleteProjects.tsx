@@ -15,8 +15,6 @@ import {
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
-import StateContext from '../../context/context';
-import initialState from '../../context/initialState';
 import { useSelector, useDispatch } from 'react-redux';
 import { setInitialState } from '../../redux/reducers/slice/appStateSlice';
 export interface ProjectDialogProps {

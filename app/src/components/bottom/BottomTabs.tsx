@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import StateContext from '../../context/context';
+// import StateContext from '../../context/context';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import CodePreview from './CodePreview';
@@ -13,7 +13,7 @@ import StateManager from '../StateManagement/StateManagement';
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
-import { styleContext } from '../../containers/AppContainer';
+// import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
@@ -26,14 +26,15 @@ const BottomTabs = (props): JSX.Element => {
   // const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
   const dispatch = useDispatch();
   // const state = useSelector(store => store.appState)
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam, style } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
+    style: store.styleSlice,
   }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
-  const { style } = useContext(styleContext);
+  // const { style } = useContext(styleContext);
 
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {

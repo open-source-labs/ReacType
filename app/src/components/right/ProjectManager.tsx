@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import StateContext from '../../context/context';
+// import StateContext from '../../context/context';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -23,7 +23,8 @@ const ProjectManager = () => {
   const dispatch = useDispatch();
   // const [state, dispatch] = useContext(StateContext);
   const classes = useStyles();
-  const { style, setStyle } = useContext(styleContext);
+  // const { style, setStyle } = useContext(styleContext);
+  
 
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components

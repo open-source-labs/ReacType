@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { GET_PROJECTS } from './gqlStrings';
 import Project from './Project';
 import NavBarDash from './NavbarDash';
-
+import { useSelector } from 'react-redux';
 import { theme1, theme2 } from '../public/styles/theme';
 
 
@@ -23,10 +23,10 @@ declare module '@mui/styles/defaultTheme' {
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
-export const styleContext = createContext({
-  style: null,
-  setStyle: null
-});
+// export const styleContext = createContext({
+//   style: null,
+//   setStyle: null
+// });
 
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
@@ -104,8 +104,9 @@ const ProjectContainer = (): JSX.Element => {
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
   const username = window.localStorage.getItem('username') || 'unavailable';
   const [isThemeLight, setTheme] = useState(true);
-  const initialStyle = useContext(styleContext);
-  const [style, setStyle] = useState(initialStyle);
+  // const initialStyle = useContext(styleContext);
+  // const [style, setStyle] = useState(initialStyle);
+  const style = useSelector(store => store.styleSlice)
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState('RATING');
   const sortByRating = projects => {
@@ -163,7 +164,7 @@ const ProjectContainer = (): JSX.Element => {
           <div className={'dashboardContainer'}>
             <NavBarDash
               setTheme={setTheme}
-              styles={[style, setStyle]}
+              // styles={[style]} 
               isThemeLight={isThemeLight}
               optionClicked={optionClicked}
             />

@@ -6,18 +6,19 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { InputLabel } from '@mui/material';
 import { TextField } from '@mui/material';
-import { styleContext } from '../../containers/AppContainer';
+// import { styleContext } from '../../containers/AppContainer';
 import { makeStyles } from '@mui/material/styles'
 import {useDispatch, useSelector} from 'react-redux';
 import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
 
 function AddLink({ id, onClickHandler, linkDisplayed }) {
-  const { isThemeLight } = useContext(styleContext);
+  // const { isThemeLight } = useContext(styleContext);
   // const [state, dispatch] = useContext(StateContext);
   // const state = useSelector(store => store.appState);
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam, isThemeLight } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
+    isThemeLight: store.styleSlice
   }));
   const dispatch = useDispatch();
   const [link, setLink] = useState('')

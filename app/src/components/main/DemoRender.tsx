@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
-import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
-
 import ReactDOMServer from 'react-dom/server';
 import { stat } from 'fs/promises';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,7 +59,8 @@ const DemoRender = (): JSX.Element => {
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
     if (event.data === undefined) return;
-    const component: string = event.data?.split('/').at(-1);
+    console.log('event data demo render',event.data)
+    const component: string = event.data.data?.split('/').at(-1);
     const componentId =
       component &&
       state.components?.find((el) => {
