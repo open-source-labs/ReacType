@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-// import StateContext from '../../context/context';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import CodePreview from './CodePreview';
@@ -9,11 +8,9 @@ import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
 import StateManager from '../StateManagement/StateManagement'; 
-
 import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
-// import { styleContext } from '../../containers/AppContainer';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
