@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:19
 
 WORKDIR /app
 
@@ -19,3 +19,6 @@ EXPOSE 5656
 ENV IS_DOCKER true
 
 CMD [ "npm", "start" ]
+
+# create docker image: docker build -t reactype-container .     Note: replace my-docker-image with a name (must be all lowercase)
+# run docker container: docker run -d -p 5656:5656 reactype-container

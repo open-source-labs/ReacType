@@ -39,6 +39,11 @@ import projectController from './controllers/projectController.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+
+// env file
+import dotenv from 'dotenv';
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -93,6 +98,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // go to other files
+// 8080 only for the container
 app.use('/auth', authRoutes)
 
 // attempt at websockets
@@ -105,7 +111,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
-    origin: ['http://localhost:8080']
+    origin: ['http://localhost:5656']
   }
 })
 

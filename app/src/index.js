@@ -58,8 +58,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
 
-const socket = io('http://localhost:5656', {
-  transports: ['websocket']
+// in dev environment
+// const socket = io('http://localhost:5656', {
+//   transports: ['websocket']
+// });
+
+// in docker container
+const socket = io(`http://${window.location.hostname}:5656`, {
+  transports: ['websocket'],
 });
 
 socket.on('connect', () => {

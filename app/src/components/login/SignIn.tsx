@@ -173,6 +173,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     ) => {
       e.preventDefault();
         // window.api.github();
+        // 8080 for container 5656 for dev
         window.location.assign('http://localhost:5656/auth/github');
     }
   const responseFacebook = response => {
