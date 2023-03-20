@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -26,7 +26,6 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
 
@@ -43,7 +42,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
     )[0];
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
-    // dispatch({ type: 'SET INITIAL STATE', payload: initialState });
     dispatch(setInitialState(initialState))
     onClose();
   };

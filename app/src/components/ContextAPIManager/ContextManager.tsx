@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
 import { useSelector } from 'react-redux';
-import store from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -20,10 +18,10 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const {isDarkMode, style} = useSelector((store) =>({
-isDarkMode: store.darkMode.isDarkMode,
-style: store.styleSlice
-  }) );
+  const { isDarkMode, style } = useSelector((store) => ({
+    isDarkMode: store.darkMode.isDarkMode,
+    style: store.styleSlice
+  }));
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 
@@ -31,7 +29,6 @@ style: store.styleSlice
     setValue(newValue);
   };
 
-  const backgroundColor = isDarkMode ? '#21262b' : 'white';
   const color = isDarkMode ? 'lightgray' : 'black';
 
   return (

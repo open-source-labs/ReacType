@@ -1,12 +1,8 @@
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import Modal from '@mui/material/Modal';
 import TableStateProps from './TableStateProps';
-import { useSelector } from 'react-redux';
-
 
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
-  // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
   const [open, setOpen] = useState(false);
   const [stateKey, setStateKey] = useState('');
   const [statePropsId, setStatePropsId] = useState(-1);

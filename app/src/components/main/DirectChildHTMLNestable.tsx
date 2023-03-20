@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-// import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
 import DeleteButton from './DeleteButton';
 import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
@@ -16,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
-// import { styleContext } from '../../containers/AppContainer';
 
 function DirectChildHTMLNestable({
   childId,
@@ -27,10 +24,7 @@ function DirectChildHTMLNestable({
   name,
   attributes
 }: ChildElement) {
-  // const [state, dispatch] = useContext(StateContext);
-  // const { isThemeLight } = useContext(styleContext);
-  // const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
-  // const state = useSelector(store => store.appState);
+
   const { state, contextParam, isThemeLight, isDarkMode } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -39,7 +33,6 @@ function DirectChildHTMLNestable({
   }));
   const dispatch = useDispatch();
   const ref = useRef(null);
-  // const [linkDisplayed, setLinkDisplayed] = useState('');
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
@@ -47,8 +40,6 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    // state.components[focusIndex].past.push(
-    //   deepCopiedState.components[focusIndex].children
     dispatch(snapShotAction({ focusIndex: focusIndex, deepCopiedState: deepCopiedState }))
   };
 
@@ -105,27 +96,12 @@ function DirectChildHTMLNestable({
             childId: childId,
             contextParam: contextParam
           }))
-          // dispatch({
-          //   type: 'ADD CHILD',
-          //   payload: {
-          //     type: item.instanceType,
-          //     typeId: item.instanceTypeId,
-          //     childId: childId
-          //   }
-          // });
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          // dispatch({
-          //   type: 'CHANGE POSITION',
-          //   payload: {
-          //     currentChildId: item.childId,
-          //     newParentChildId: childId
-          //   }
-          // });
           dispatch(changePosition({ currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam }))
         }
       }
@@ -139,7 +115,6 @@ function DirectChildHTMLNestable({
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
     dispatch(changeFocus({ componentId, childId }));
 
   };
@@ -148,7 +123,6 @@ function DirectChildHTMLNestable({
   function onClickHandler(event) {
     event.stopPropagation();
     changeFocusFunction(state.canvasFocus.componentId, childId);
-    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

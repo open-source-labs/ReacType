@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
-import { stat } from 'fs/promises';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
   let currentComponent = state.components.find(
@@ -68,10 +66,7 @@ const DemoRender = (): JSX.Element => {
       }).id;
     componentId &&
     dispatch(changeFocus({ componentId, childId: null}));
-      // dispatch({
-      //   type: 'CHANGE FOCUS',
-      //   payload: { componentId, childId: null }
-      // });
+  
   };
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo

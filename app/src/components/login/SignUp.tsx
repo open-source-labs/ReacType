@@ -6,28 +6,21 @@ import {
   RouteComponentProps
 } from 'react-router-dom';
 import { newUserIsCreated } from '../../helperFunctions/auth';
-
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import Container from '@mui/material/Container';
-import { element } from 'prop-types';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-// Imports for redux toolkit usage
+
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
-
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -204,9 +197,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
      //NEW DARK MODE
      const handleDarkModeToggle = () => {
       dispatch(toggleDarkMode());
-      // Add your logic to update the style and theme based on darkMode
-      // !isDarkMode ? setStyle(null) : setStyle({ backgroundColor: '#21262c' });
-      // props.setTheme(!isDarkMode);
+    
     };
 
   return (

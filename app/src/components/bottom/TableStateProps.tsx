@@ -6,15 +6,12 @@ import {
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
-import StateContext from '../../context/context';
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteState } from '../../redux/reducers/slice/appStateSlice';
 
 const TableStateProps = props => {
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -76,10 +73,6 @@ const TableStateProps = props => {
     const filtered = currentComponent.stateProps.filter(
       element => element.id !== selectedId
     );
-    // dispatch({
-    //   type: 'DELETE STATE',
-    //   payload: { stateProps: filtered, rowId: selectedId }
-    // });
     dispatch(deleteState({stateProps: filtered, rowId: selectedId, contextParam: contextParam}))
   };
 

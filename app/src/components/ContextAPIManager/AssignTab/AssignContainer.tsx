@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment, useEffect } from 'react';
+import React, { useState, Fragment } from 'react';
 import DataTable from '../CreateTab/components/DataTable';
 import ContextDropDown from './components/ContextDropDown';
 import ComponentDropDown from './components/ComponentDropDrown';
@@ -7,32 +7,23 @@ import Grid from '@mui/material/Grid';
 import ComponentTable from './components/ComponentTable';
 import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-// import * as actions from '../../../redux/actions/actions';
-import StateContext from '../../../context/context';
 import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch, useStore } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const AssignContainer = () => {
-  const store = useStore();
   const dispatch = useDispatch();
-
-  // const [state, setState] = useState([]);
   const defaultTableData = [{ key: 'Key', value: 'Value' }];
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
-  // const [stateContext, dispatchContext] = useContext(StateContext);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
 
-  //fetching data from redux store
-  // useEffect(() => {
-  //   setState(allContext);
-  // }, [allContext]);
+
 
   const renderTable = (targetContext) => {
     if (targetContext === null || !targetContext.values) {
@@ -78,13 +69,6 @@ const AssignContainer = () => {
     );
     //trigger generateCode(), update code preview tab
     dispatch(deleteElement({ id: 'FAKE_ID', contextParam: contextParam }));
-
-    // dispatchContext({
-    //   type: 'DELETE ELEMENT',
-    //   payload: 'FAKE_ID'
-    // });
-
-    // setState(allContext);
     renderComponentTable(componentInput);
   };
 

@@ -9,11 +9,8 @@ import {
   // TextField,
 } from "@mui/material";
 import TextField from '@mui/material/TextField';
-//redux toolkit
 import { useDispatch, useSelector } from 'react-redux';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
-
-
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {

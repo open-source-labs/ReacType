@@ -3,7 +3,6 @@ import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { SelectLight, SelectDark } from '../../public/styles/theme';
 
 const FormSelector = (props): JSX.Element => {
   const items = [];

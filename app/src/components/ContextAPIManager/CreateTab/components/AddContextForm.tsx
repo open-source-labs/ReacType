@@ -1,10 +1,9 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import StateContext from '../../../../context/context';
 import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
@@ -19,8 +18,6 @@ const AddContextForm = ({
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState)
   const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   const handleClick = () => {

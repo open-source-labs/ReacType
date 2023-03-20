@@ -1,8 +1,7 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import StateContext from '../../../../context/context';
 import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
@@ -13,8 +12,6 @@ const ComponentDropDown = ({
   componentInput,
   setComponentInput
 }) => {
-  const { allContext } = contextStore;
-  // const [componentList] = useContext(StateContext);
   const { state, isDarkMode } = useSelector((store) => ({
     state: store.appState,
     isDarkMode: store.darkMode.isDarkMode
