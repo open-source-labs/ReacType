@@ -13,13 +13,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { styleContext } from '../containers/AppContainer';
+// import { styleContext } from '../containers/AppContainer';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SortIcon from '@mui/icons-material/Sort';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import PersonIcon from '@mui/icons-material/Person';
 import greenLogo from '../public/icons/png/512x512.png';
+import {setStyle} from '../redux/reducers/slice/styleSlice'
+import { useSelector,useDispatch } from 'react-redux';
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -75,7 +77,9 @@ const StyledMenuItem = withStyles(theme => ({
 export default function NavBar(props) {
   // TO DO: import setStyle
   const classes = useStyles();
-  const { style, setStyle } = useContext(styleContext);
+  // const { style, setStyle } = useContext(styleContext);
+  const style = useSelector(store => store.styleSlice);
+  const dispatch = useDispatch();
   const toggling = () => setIsOpen(!isOpen);
   // toggle to open and close dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
@@ -143,11 +147,17 @@ export default function NavBar(props) {
             style={{minWidth: '113.97px'}}
             endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
-              !props.styles[0].backgroundColor
-                ? props.styles[1]({ backgroundColor: '#21262D' }) //dark mode color
-                : props.styles[1]({ backgroundColor: null })
+              !style.backgroundColor
+                ? dispatch(setStyle({ backgroundColor: '#21262D' })) //dark mode color
+                : dispatch(setStyle( null ))
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
+            // onClick={() => {
+            //   !props.styles[0].backgroundColor
+            //     ? props.styles[1]({ backgroundColor: '#21262D' }) //dark mode color
+            //     : props.styles[1]({ backgroundColor: null })
+            //   props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
+            // }}
           >
             {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
           </Button>  

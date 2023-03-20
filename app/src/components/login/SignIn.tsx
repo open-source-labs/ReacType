@@ -17,10 +17,8 @@ import Container from '@mui/material/Container';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { newUserIsCreated } from '../../helperFunctions/auth';
 import randomPassword from '../../helperFunctions/randomPassword';
-// Imports for redux toolkit usage
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
 import Brightness3Icon from '@mui/icons-material/Brightness3';

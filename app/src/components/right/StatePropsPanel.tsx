@@ -1,9 +1,7 @@
 
-import React, { useState, useContext, useCallback, useEffect } from "react";
-import { styled, Theme, createTheme, ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
-import createStyles from '@mui/styles/createStyles';
+import React, { useState } from "react";
+import { styled, Theme} from "@mui/material/styles";
 import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from 'react-redux';
 import { addState } from "../../redux/reducers/slice/appStateSlice";
@@ -20,7 +18,6 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import StateContext from "../../context/context";
 import TableStateProps from "./TableStateProps";
 
 
@@ -39,8 +36,7 @@ declare module '@mui/styles/defaultTheme' {
 
 
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState);
+
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -102,10 +98,7 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       type: inputType,
     };
 
-    // dispatch({
-    //   type: 'ADD STATE',
-    //   payload: {newState: newState}
-    // }); 
+  
     dispatch(addState({newState: newState, contextParam: contextParam}))
     resetError();
     clearForm();

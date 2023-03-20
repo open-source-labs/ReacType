@@ -1,8 +1,18 @@
 import { ChildElement } from '../interfaces/Interfaces';
-import initialState from '../context/initialState';
-const separator = initialState.HTMLTypes[1];
+
+const separator = {
+  id: 11,
+  tag: 'div',
+  name: 'Div',
+  style: {},
+  placeHolderShort: 'div',
+  placeHolderLong: '',
+  // icon: HeaderIcon,
+  framework: 'reactClassic',
+  nestable: true
+}
 const manageSeparators = {};
-manageSeparators.nextTopSeparatorId = initialState.nextTopSeparatorId;
+manageSeparators.nextTopSeparatorId = 1000;
 // this function checks for two separators in a row or missing separators and adds/removes as needed
 manageSeparators.handleSeparators = (arr: object[], str: string) => {
   if ((str === 'delete' || str === 'change position') && arr.length === 1 && arr[0].name === 'separator') {

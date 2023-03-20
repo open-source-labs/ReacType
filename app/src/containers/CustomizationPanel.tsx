@@ -22,10 +22,10 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import ClearIcon from '@mui/icons-material/Clear';
 import createModal from '../components/right/createModal';
-import { styleContext } from './AppContainer';
+// import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
-import StateContext from '../context/context';
+// import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
 import { OutgoingMessage } from 'http';
@@ -40,9 +40,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
   // const state = useSelector(store => store.appState)
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam, style } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
+    style: store.styleSlice
   }));
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
@@ -57,7 +58,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
-  const { style } = useContext(styleContext);
+  // const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
@@ -488,6 +489,8 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
             : '';
   }, []);
 
+  console.log('isthemelight in custimization', isThemeLight)
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
     return () => {
@@ -497,7 +500,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
 
   if (state.canvasFocus.childId === null) {
     return (
-      <div className="column right" id="rightContainer" style={style}>
+      <div className="column right" id="rightContainer" style={style.style}>
         <ProjectManager />
         <div className="rightPanelWrapper">
           <div>
@@ -523,7 +526,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
     )
   }
   return (
-    <div className="column right" id="rightContainer" style={style}>
+    <div className="column right" id="rightContainer" style={style.style}>
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">

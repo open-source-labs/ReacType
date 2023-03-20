@@ -1,3 +1,5 @@
+
+
 import React, { useContext } from 'react';
 import { makeStyles } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -9,7 +11,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import CreateContainer from './CreateTab/CreateContainer';
 import AssignContainer from './AssignTab/AssignContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
+
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -19,27 +22,29 @@ const useStyles = makeStyles({
 });
 
 const ContextManager = (props): JSX.Element => {
-  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
+  const { isDarkMode, style } = useSelector((store) => ({
+    isDarkMode: store.darkMode.isDarkMode,
+    style: store.styleSlice
+  }));
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
-
+  
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const backgroundColor = isDarkMode ? '#21262b' : 'white';
-  const color = isDarkMode ? 'lightgray' : 'black';
+  const background_Color = isDarkMode ? '#21262b' : 'white'
 
   return (
     <React.Fragment>
-      <div className={classes.contextContainer} style={{ backgroundColor }}>
+      <div className={classes.contextContainer} style={style.style}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true}>
-                <Tab label="Create/Edit" value="1" style={{ color }} />
-                <Tab label="Assign" value="2" style={{ color }} />
-                <Tab label="Display" value="3" style={{ color }} />
+                <Tab label="Create/Edit" value="1" />
+                <Tab label="Assign" value="2" />
+                <Tab label="Display" value="3" />
               </TabList>
             </Box>
             <TabPanel value="1">

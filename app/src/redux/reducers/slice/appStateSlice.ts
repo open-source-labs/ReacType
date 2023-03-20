@@ -8,10 +8,10 @@ import {
   ChildElement,
   HTMLType
 } from '../../../interfaces/Interfaces';
-import HTMLTypes from '../../../context/HTMLTypes';
+import HTMLTypes from '../../HTMLTypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
-const initialState: State = {
+export const initialState: State = {
   name: '',
   isLoggedIn: false,
   config: { saveFlag: true, saveTimer: false },

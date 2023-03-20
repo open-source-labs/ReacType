@@ -15,10 +15,7 @@ const ComponentDropDown = ({
 }) => {
   const { allContext } = contextStore;
   // const [componentList] = useContext(StateContext);
-  const { state, isDarkMode } = useSelector((store) => ({
-    state: store.appState,
-    isDarkMode: store.darkMode.isDarkMode
-  }));
+  const state = useSelector(store => store.appState)
 
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
@@ -43,7 +40,7 @@ const ComponentDropDown = ({
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some((option) => inputValue === option.name);
+    const isExisting = options.some(option => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -56,7 +53,7 @@ const ComponentDropDown = ({
     return filtered;
   };
 
-  const getOptionLabel = (option) => {
+  const getOptionLabel = option => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -70,7 +67,6 @@ const ComponentDropDown = ({
   };
 
   const renderOption = (props, option) => <li {...props}>{option.name}</li>;
-  const color = isDarkMode ? 'lightgray' : 'black';
 
   return (
     <Fragment>
@@ -88,15 +84,8 @@ const ComponentDropDown = ({
           renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select Component"
-              helperText="Select a component for your selected context to consume"
-              InputLabelProps={{ style: { color } }}
-              FormHelperTextProps={{ style: { color } }}
-              InputProps={{ style: { color } }}
-            />
+          renderInput={params => (
+            <TextField {...params} label="Select Component" helperText='Select a component for your selected context to consume' />
           )}
         />
       </Box>
