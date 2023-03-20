@@ -1,20 +1,19 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import adjustComponentColor from '../../helperFunctions/adjustComponentColor';
 import DeleteButton from './DeleteButton';
 import validateNewParent from '../../helperFunctions/changePositionValidation';
 import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { styleContext } from '../../containers/AppContainer';
+import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
+
 
 function DirectChildHTMLNestable({
   childId,
@@ -25,11 +24,15 @@ function DirectChildHTMLNestable({
   name,
   attributes
 }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
-  const { isThemeLight } = useContext(styleContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+
+  const { state, contextParam, isThemeLight, isDarkMode } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    isThemeLight: store.styleSlice,
+    isDarkMode: store.darkMode.isDarkMode
+  }));
+  const dispatch = useDispatch();
   const ref = useRef(null);
-  // const [linkDisplayed, setLinkDisplayed] = useState('');
 
   // takes a snapshot of state to be used in UNDO and REDO cases.  snapShotFunc is also invoked in Canvas.tsx
   const snapShotFunc = () => {
@@ -37,9 +40,7 @@ function DirectChildHTMLNestable({
     const deepCopiedState = JSON.parse(JSON.stringify(state));
     const focusIndex = state.canvasFocus.componentId - 1;
     //pushes the last user action on the canvas into the past array of Component
-    state.components[focusIndex].past.push(
-      deepCopiedState.components[focusIndex].children
-    );
+    dispatch(snapShotAction({ focusIndex: focusIndex, deepCopiedState: deepCopiedState }))
   };
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -89,27 +90,19 @@ function DirectChildHTMLNestable({
             )) ||
           item.instanceType !== 'Component'
         ) {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: childId
-            }
-          });
+          dispatch(addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: childId,
+            contextParam: contextParam
+          }))
         }
       }
       // if item is not a new instance, change position of element dragged inside div so that the div is the new parent
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch({
-            type: 'CHANGE POSITION',
-            payload: {
-              currentChildId: item.childId,
-              newParentChildId: childId
-            }
-          });
+          dispatch(changePosition({ currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam }))
         }
       }
     },
@@ -121,14 +114,15 @@ function DirectChildHTMLNestable({
     }
   });
 
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    dispatch(changeFocus({ componentId, childId }));
+
   };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    changeFocusFunction(state.canvasFocus.componentId, childId);
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
@@ -140,7 +134,7 @@ function DirectChildHTMLNestable({
         ? '3px solid #186BB4'
         : '1px solid grey'
   };
-  
+
   // interactive style to change color when nested element is hovered over
   if (isOver) defaultNestableStyle['yellow'];
   defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : defaultNestableStyle['backgroundColor'];
@@ -177,7 +171,7 @@ function DirectChildHTMLNestable({
       id={`canv${childId}`}
     >
       <span>
-        <strong style={ {color: 'black' } }>{HTMLType.placeHolderShort}
+        <strong style={{ color: 'black' }}>{HTMLType.placeHolderShort}
         </strong>
         <strong style={{ color: "#0099E6" }}>{attributes && attributes.compLink ? ` ${attributes.compLink}` : ''}
         </strong>

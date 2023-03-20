@@ -1,14 +1,14 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin()]
   },
 
   // since JS can be written for both server / browser, the "target" specifies what environment webpack should write for
@@ -26,8 +26,8 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   plugins: [
-    new Dotenv(),
-    new BundleAnalyzerPlugin(),
+    new Dotenv()
+    // new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [

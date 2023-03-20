@@ -1,8 +1,5 @@
 // Future developers: This file needs to move to right folder: src/components/right
-
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import StateContext from '../../context/context';
-import { styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import {
   Button,
@@ -12,11 +9,18 @@ import {
   // TextField,
 } from "@mui/material";
 import TextField from '@mui/material/TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
-const ComponentPanel = ({isThemeLight}): JSX.Element => {
+const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
+
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
@@ -64,14 +68,14 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
   };
 
   const checkIfRoot = (inputName: String): boolean => {
-    let rootDupe = false; 
+    let rootDupe = false;
     // checks to see if inputted comp name is equal to root component name. Want to prevent that
-    
-    //carly console logs 
-    const rootComponents = state.rootComponents; 
-    const allComponents = state.components; 
 
-     if (inputName.toLowerCase() === 'index'|| inputName.toLowerCase() === 'app') {
+    //carly console logs 
+    const rootComponents = state.rootComponents;
+    const allComponents = state.components;
+
+    if (inputName.toLowerCase() === 'index' || inputName.toLowerCase() === 'app') {
       rootDupe = true;
     }
     return rootDupe;
@@ -91,10 +95,7 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
       ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
       : inputNameClean;
     // add new component to state
-    dispatch({
-      type: 'ADD COMPONENT',
-      payload: { componentName: formattedName, root: isRoot }
-    });
+    dispatch(addComponent({ componentName: formattedName, root: isRoot, contextParam: contextParam }));
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field
@@ -132,88 +133,88 @@ const ComponentPanel = ({isThemeLight}): JSX.Element => {
 
   const keyBindCreateComponent = useCallback((e) => {
 
-    if(e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
+    if (e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
     }
   }, []);
-  
+
   useEffect(() => {
     document.addEventListener('keydown', keyBindCreateComponent);
     return () => {
       document.removeEventListener('keydown', keyBindCreateComponent)
     }
   }, []);
-
+  console.log(isThemeLight)
   return (
     <div className={`${classes.panelWrapper}`}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
-          <h4 
-            className={isThemeLight ? `${classes.newComponent} ${classes.lightThemeFontColor}` : `${classes.newComponent} ${classes.darkThemeFontColor}`}
+        <h4
+          className={isThemeLight ? `${classes.newComponent} ${classes.lightThemeFontColor}` : `${classes.newComponent} ${classes.darkThemeFontColor}`}
+        >
+          New Component
+        </h4>
+        {/* input for new component */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px', alignItems: 'baseline' }}>
+          <div style={{ alignSelf: 'center' }}>
+            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+              Name:
+            </InputLabel>
+            <div className={classes.inputWrapper}>
+              <TextField
+                // label='New Component Name'
+                color='primary'
+                variant="outlined"
+                className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
+                // inputprops and helpertext must be lowercase
+                inputProps={{ className: classes.input }}
+                value={compName}
+                // Doesn't accept boolean value needs to be a string
+                error={errorStatus}
+                // Updated
+                helperText={errorStatus ? errorMsg : ''}
+                onChange={handleNameInput}
+                style={{}}
+                InputProps={{
+                  style: {
+                    color: isThemeLight ? 'black' : 'white'
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          <div className={classes.btnGroup} id="checkboxContainer" style={{ marginBottom: '30px' }}>
+            <FormControlLabel
+              value="top"
+              control={
+                <Checkbox
+                  className={isThemeLight ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}` : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`}
+                  color="primary"
+                  checked={isRoot}
+                  onChange={toggleRootStatus}
+
+                />
+              }
+              label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
+              className={isThemeLight ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}` : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`}
+              labelPlacement="top"
+            />
+          </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <br />
+          <Button
+            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
+            color='primary'
+            variant='contained'
+            id="addComponentButton"
+            onClick={handleNameSubmit}
           >
-            New Component
-          </h4>
-          {/* input for new component */}
-          <div style={{display: 'flex', justifyContent:'center', marginTop: '20px', marginBottom: '20px',  alignItems:'baseline'}}>
-            <div style={{alignSelf:'center'}}>
-              <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
-                Name:
-              </InputLabel>
-                <div className={classes.inputWrapper}>
-                    <TextField
-                    // label='New Component Name'
-                    color='primary'
-                    variant="outlined"
-                    className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
-                    // inputprops and helpertext must be lowercase
-                    inputProps={{ className: classes.input }}
-                    value={compName}
-                    // Doesn't accept boolean value needs to be a string
-                    error={errorStatus}
-                    // Updated
-                    helperText={errorStatus ? errorMsg : ''}
-                    onChange={handleNameInput}
-                    style={{}}
-                    InputProps={{
-                      style: {
-                        color: isThemeLight ? 'black' : 'white'
-                      }
-                    }}
-              />
-              </div>
-            </div>
-           
-            <div className={classes.btnGroup} id="checkboxContainer" style={{marginBottom: '30px'}}>
-              <FormControlLabel
-                value="top"
-                control={
-                  <Checkbox
-                    className={isThemeLight ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}` : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`}
-                    color="primary"
-                    checked={isRoot}
-                    onChange={toggleRootStatus}
-                    
-                  />
-                }
-                label={state.projectType === 'Next.js'  || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
-                className={isThemeLight ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}` : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`}
-                labelPlacement="top"
-              />
-            </div>
-          </div>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-            <br/>
-            <Button
-              className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
-              color='primary'
-              variant='contained'
-              id="addComponentButton"
-              onClick={handleNameSubmit}
-            >
-              Create
-            </Button>
-          </div>
+            Create
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -243,9 +244,9 @@ const useStyles = makeStyles({
   },
   panelWrapper: {
     display: 'flex',
-    flexDirection:'column',
-    alignItems:'center',
-    flexGrow : 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    flexGrow: 1,
     color: '#000000',
   },
   addComponentWrapper: {
@@ -302,16 +303,6 @@ const useStyles = makeStyles({
     }
   }
 });
-// change to Button to make styling consistent
-// const CreateButton = styled(Button)({
-//   background: "#0099E6",
-//   border: 0,
-//   borderRadius: 3,
-//   boxShadow: "0 0px 0px 2px #1a1a1a",
-//   color: "white",
-//   height: 24,
-//   width: 60,
-//   padding: "0 30px",
-// });
+
 
 export default ComponentPanel;

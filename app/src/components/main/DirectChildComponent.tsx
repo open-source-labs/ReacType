@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Component, ChildElement } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import StateContext from '../../context/context';
 import DeleteButton from './DeleteButton';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 function DirectChildComponent({
   childId,
@@ -14,7 +15,9 @@ function DirectChildComponent({
   style,
   name
 }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
 
   // find the top-level component corresponding to this instance of the component
   // find the current component to render on the canvas
@@ -35,13 +38,14 @@ function DirectChildComponent({
       isDragging: !!monitor.isDragging()
     })
   });
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    dispatch(changeFocus({ componentId, childId}));
   };
+
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    changeFocusFunction(state.canvasFocus.componentId, childId);
   }
   // combine all styles so that higher priority style specifications overrule lower priority style specifications
   // priority order is 1) style directly set for this child (style), 2) style of the referenced component, and 3) default styling

@@ -1,19 +1,19 @@
-import { AddRoutes } from '../../interfaces/Interfaces'
-import React, { useContext, useState, useEffect } from 'react';
-import StateContext from '../../context/context';
+import React, {  useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { InputLabel } from '@mui/material';
-import { TextField } from '@mui/material';
-import { styleContext } from '../../containers/AppContainer';
-import { makeStyles } from '@mui/material/styles'
+import {useDispatch, useSelector} from 'react-redux';
+import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
 
 function AddLink({ id, onClickHandler, linkDisplayed }) {
-  const { isThemeLight } = useContext(styleContext);
-  const [state, dispatch] = useContext(StateContext);
-  const [link, setLink] = useState('')
 
+  const { state, contextParam, isThemeLight } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    isThemeLight: store.styleSlice
+  }));
+  const dispatch = useDispatch();
   //this function allows the link to be functional when it's nested
   function deepIterate(arr) {
     const output = [];
@@ -34,7 +34,7 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
         state.attributes.compLink = event.target.value;
-        dispatch({type: 'UPDATE ATTRIBUTES', payload: state})
+        dispatch(updateAttributes(state, contextParam))
         return true;
       }
     });

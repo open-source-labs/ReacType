@@ -1,26 +1,20 @@
-import React, { useState, useContext } from 'react';
-import StateContext from '../../context/context';
+import React, { useState} from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { withRouter, Link  } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import { withRouter } from 'react-router-dom';
 import exportProject from '../../utils/exportProject.util';
-import ProjectsFolder from './OpenProjects';
 import createModal from '../right/createModal';
-import LoginButton from './LoginButton';
-import SaveProjectButton from './SaveProjectButton';
-import DeleteProjects from './DeleteProjects';
-import { styleContext } from '../../containers/AppContainer';
-
+import {useDispatch, useSelector} from 'react-redux';
 // ProjectManager function moved to NavBar.tsx
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const { style, setStyle } = useContext(styleContext);
+  
 
   // State to keep track of how the user wants their components to be exported
   // GenOption = 0 --> export only components
@@ -39,7 +33,7 @@ const ProjectManager = () => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
+      dispatch(resetState({}))
     };
 
     // Set modal options

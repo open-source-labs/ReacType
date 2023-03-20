@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import Grid from '@mui/material/Grid';
-import StateContext from '../../context/context';
 import HTMLItem from './HTMLItem';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
 /*
 DESCRIPTION: This is the top half of the left panel, starting from the 'HTML
@@ -19,15 +19,15 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
-  // const { isThemeLight } = props;
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
-
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+const dispatch = useDispatch();
+const { state, contextParam } = useSelector((store) => ({
+  state: store.appState,
+  contextParam: store.contextSlice,
+}));
   const handleDelete = (id: number): void => {
-    dispatch({
-      type: 'DELETE ELEMENT',
-      payload: id
-    });
+    dispatch(deleteElement({id:id, contextParam: contextParam}))
+
   };
   // filter out separator so that it will not appear on the html panel
   const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');

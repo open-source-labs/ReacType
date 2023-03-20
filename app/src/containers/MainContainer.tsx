@@ -1,13 +1,16 @@
 import React, {  useContext } from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
-import { styleContext } from './AppContainer';
+// import { styleContext } from './AppContainer';
 import DemoRender from '../components/main/DemoRender';
 import { useSelector } from 'react-redux';
 
 const MainContainer = (props): JSX.Element => {
-  const { style } = useContext(styleContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  // const { style } = useContext(styleContext);
+  const {isDarkMode, style }= useSelector((store) =>({
+    isDarkMode: store.darkMode.isDarkMode,
+    style: store.styleSlice,
+      } ));
 
   return (
     <div className="main-container" style={style} >

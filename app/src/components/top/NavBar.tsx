@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { styleContext } from '../../containers/AppContainer';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import List from '@mui/material/List';
@@ -26,12 +25,12 @@ import SaveProjectButton from '../right/SaveProjectButton';
 import DeleteProjects from '../right/DeleteProjects';
 import ProjectsFolder from '../right/OpenProjects';
 import createModal from '../right/createModal';
-import StateContext from '../../context/context';
 import logo from '../../public/icons/win/logo.png';
 // Imports for redux toolkit usage
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { setStyle } from '../../redux/reducers/slice/styleSlice'
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +61,7 @@ const StyledMenu = withStyles({
 })(props => (
   <Menu
     elevation={0}
-    getContentAnchorEl={null}
+    // getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'center'
@@ -88,20 +87,26 @@ const StyledMenuItem = withStyles(theme => ({
 //export default function NavBar(props)
 const NavBar = (props) => {
   const classes = useStyles();
-  const { style, setStyle } = useContext(styleContext);
+  // const { style, setStyle } = useContext(styleContext);
+
   // State for export menu button
   const [anchorEl, setAnchorEl] = React.useState(null);
   // State for clear canvas button
   const [modal, setModal] = useState(null);
-  const [state, setReset] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const { state, style, isDarkMode } = useSelector(store => ({
+    state: store.appState,
+    style: store.style,
+    isDarkMode: store.darkMode.isDarkMode
 
-   //NEW DARK MODE
-   const handleDarkModeToggle = () => {
+  }));
+
+  //NEW DARK MODE
+  const handleDarkModeToggle = () => {
     dispatch(toggleDarkMode());
     // Add your logic to update the style and theme based on darkMode
-    isDarkMode ? setStyle(null) : setStyle({ backgroundColor: '#21262c' });
+    isDarkMode ? dispatch(setStyle(null)) : dispatch(setStyle({ backgroundColor: '#21262c' }));
     props.setTheme(isDarkMode);
   };
 
@@ -119,7 +124,7 @@ const NavBar = (props) => {
   const clearWorkspace = () => {
     // Reset state for project to initial state
     const resetState = () => {
-      setReset({ type: 'RESET STATE', payload: {} });
+      dispatch(resetAllState());
     };
     // Set modal options
     const children = (
@@ -163,28 +168,29 @@ const NavBar = (props) => {
           <Avatar src={logo}></Avatar>
           <Typography
             variant="h6"
-            style={{ 
+            style={{
               marginLeft: '1rem',
-            color: isDarkMode ? '#fff' : '#0d47a1' }}
+              color: isDarkMode ? '#fff' : '#0d47a1'
+            }}
             className={classes.title}
           >
             ReacType
           </Typography>
           <Link to="/tutorial" style={{ textDecoration: 'none' }} target='_blank'>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ minWidth: '137.69px' }}
-            className="navbarButton"
-            id="navbarButton"
-          >
-            Tutorial
-          </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ minWidth: '137.69px' }}
+              className="navbarButton"
+              id="navbarButton"
+            >
+              Tutorial
+            </Button>
           </Link>
           {/* ==================================Dashboard Button================================================== */}
           {state.isLoggedIn ? (
             <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-              <Button 
+              <Button
                 variant="contained"
                 color="secondary"
                 style={{ minWidth: '137.69px' }}
@@ -251,13 +257,13 @@ const NavBar = (props) => {
               className={classes.manageProject}
               onClick={handleClose}
             >
-              <SaveProjectButton/>
+              <SaveProjectButton />
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}
               onClick={handleClose}
             >
-              <ProjectsFolder/>
+              <ProjectsFolder />
             </StyledMenuItem>
             <StyledMenuItem
               className={classes.manageProject}

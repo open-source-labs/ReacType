@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
-import StateContext from '../../context/context';
-import { useSelector } from 'react-redux';
-
-import { styled } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
 import {
   Button,
@@ -30,9 +28,9 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const [state, dispatch] = useContext(StateContext);
-  // const {isDarkMode} = props;
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach(element => {
     if (element.id >= startingID) startingID = element.id;
@@ -104,10 +102,8 @@ const HTMLPanel = (props): JSX.Element => {
       placeHolderLong: '',
       icon: null
     };
-    dispatch({
-      type: 'ADD ELEMENT',
-      payload: newElement
-    });
+ 
+    dispatch(addElement(newElement))
     setCurrentID(currentID + 1);
     setTag('');
     setName('');
@@ -310,17 +306,7 @@ const useStyles = makeStyles({
   }
 });
 
-// changed to Button component to keep styling consistent
-// const AddElementButton = styled(Button)({
-//   background: "#0099E6",
-//   border: 0,
-//   borderRadius: 3,
-//   boxShadow: "0 0px 0px 2px #1a1a1a",
-//   color: "white",
-//   height: 24,
-//   width: 160,
-//   padding: "0px 30px",
-//   alignSelf: 'center',
-// });
+
+
 
 export default HTMLPanel;

@@ -1,4 +1,4 @@
-import { HTMLType } from '../interfaces/Interfaces';
+// import { HTMLType } from '../interfaces/Interfaces';
 import React from 'react';
 import ImageIcon from '@mui/icons-material/Image';
 import ParagraphIcon from '@mui/icons-material/LocalParking';
@@ -7,7 +7,7 @@ import HeaderIcon from '@mui/icons-material/TextFormat';
 import ButtonIcon from '@mui/icons-material/EditAttributes';
 import LinkIcon from '@mui/icons-material/Link';
 import ListIcon from '@mui/icons-material/List';
-const HTMLTypes: HTMLType[] = [
+const HTMLTypes = [
   {
     id: 11,
     tag: 'div',
@@ -15,7 +15,7 @@ const HTMLTypes: HTMLType[] = [
     style: {},
     placeHolderShort: 'div',
     placeHolderLong: '',
-    icon: HeaderIcon,
+    // icon: HeaderIcon,
     framework: 'reactClassic',
     nestable: true
   },

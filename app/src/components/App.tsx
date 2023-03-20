@@ -3,32 +3,42 @@ import '../public/styles/style.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
-import StateContext from '../context/context';
-import initialState from '../context/initialState';
-import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
 import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
+//redux toolkit addition
+import { useSelector, useDispatch } from 'react-redux';
+import { setInitialState, toggleLoggedIn, configToggle } from '../redux/reducers/slice/appStateSlice';
+
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
-  if (window.localStorage.getItem('ssid') !== 'guest') {
-    state.isLoggedIn = true;
-  } else {
-    state.isLoggedIn = false;
-  }
+  useEffect(()=>{
+    if (window.localStorage.getItem('ssid') !== 'guest') {
+      // state.isLoggedIn = true;
+      dispatch(toggleLoggedIn())
+    } 
+  },[])
+
+  // else {
+  //   state.isLoggedIn = false;
+  // }
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
-    if (state.isLoggedIn === false) {
+    // if (state.isLoggedIn === false) {
+      if (!state.isLoggedIn) {
       localforage.getItem('guestProject').then(project => {
         // if project exists, use dispatch to set initial state to that project
         if (project) {
-          dispatch({
-            type: 'SET INITIAL STATE',
-            payload: project
-          });
+          // dispatch({
+          //   type: 'SET INITIAL STATE',
+          //   payload: project
+          // });
+          dispatch(setInitialState(project))
         }
       });
     } else {
@@ -42,10 +52,11 @@ export const App = (): JSX.Element => {
       //also load user's last project, which was saved in localforage on logout
       localforage.getItem(userId).then(project => {
         if (project) {
-          dispatch({
-            type: 'SET INITIAL STATE',
-            payload: project
-          });
+          // dispatch({
+          //   type: 'SET INITIAL STATE',
+          //   payload: project
+          // });
+          dispatch(setInitialState(project))
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
@@ -56,35 +67,38 @@ export const App = (): JSX.Element => {
   }, []);
   useEffect(() => {
     // provide config properties to legacy projects so new edits can be auto saved
-    if (state.config === undefined) {
-      state.config = { saveFlag: true, saveTimer: false };
-    }
+    // if (state.config === undefined) {
+    //   state.config = { saveFlag: true, saveTimer: false };
+    // }
     // New project save configuration to optimize server load and minimize Ajax requests
     if (state.config.saveFlag) {
-      state.config.saveFlag = false;
-      state.config.saveTimer = true;
+      // state.config.saveFlag = false;
+      // state.config.saveTimer = true;
+      dispatch(configToggle())
+
       let userId;
       if (Cookies.get('ssid')) {
         userId = Cookies.get('ssid');
       } else {
         userId = window.localStorage.getItem('ssid');
       }
-      if (state.isLoggedIn === false) {
+      // if (state.isLoggedIn === false) {
+      if (!state.isLoggedIn) {
         localforage.setItem('guestProject', state);
       } else if (state.name !== '') {
         saveProject(state.name, state);
         localforage.setItem(userId, state);
       }
     }
-    if (state.config.saveTimer) {
-      state.config.saveTimer = false;
+    if (!state.config.saveTimer) {
+      // state.config.saveTimer = false;
       setTimeout(() => {
-        state.config.saveFlag = true;
+        // state.config.saveFlag = true;
       }, 15000);
     }
   }, [state]);
   // uncomment below to log state
-  // console.log('STATE!!!!: ', state);
+
   return (
     <div className="app">
       <DndProvider backend={HTML5Backend}>
@@ -93,9 +107,9 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-        <StateContext.Provider value = {[state, dispatch]}>
+   
           <AppContainer />
-        </StateContext.Provider>
+    
       </DndProvider>
     </div>
   );

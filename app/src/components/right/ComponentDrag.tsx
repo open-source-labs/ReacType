@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
-import StateContext from '../../context/context';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
-import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state,] = useContext(StateContext);
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const state = useSelector(store => store.appState)
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
