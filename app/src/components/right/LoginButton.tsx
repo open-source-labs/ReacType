@@ -12,8 +12,8 @@ export default function LoginButton() {
   const handleLogout = () => {
     window.localStorage.clear();
     if (process.env.NODE_ENV === 'production') {
-      window.api.delCookie();
-      window.location.href = '/index-prod.html'
+      document.cookie = 'ssid' + '=; Max-Age=0'
+      window.location.href = 'http://localhost:5656/'
     } else {
     window.location.href = 'http://localhost:8080/#/login';
     if(state.isLoggedIn){

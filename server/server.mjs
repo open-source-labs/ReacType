@@ -111,7 +111,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
-    origin: ['http://localhost:5656']
+    origin: ['http://localhost:5656', 'http://localhost:8080']
   }
 })
 
@@ -256,15 +256,14 @@ app.delete(
   projectController.deleteProject,
   (req, res) => res.status(200).json(res.locals.deleted)
 );
-
+// serve index.html on the route '/'
+const isDocker = process.env.IS_DOCKER === 'true';
+console.log('this is running on docker: ', isDocker)
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
 if (process.env.NODE_ENV == 'production'){
   app.use('/dist', express.static(path.join(__dirname, '/app/dist')))
-};
-
-// serve index.html on the route '/'
-const isDocker = process.env.IS_DOCKER === 'true';
+}
 
 app.get('/', (req, res) => {
   const indexPath = isDocker
@@ -273,11 +272,9 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(indexPath);
 });
 
-if (isDocker){
-  app.get('/bundle.js', (req, res) => {
-    return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
-  })
-}
+app.get('/bundle.js', (req, res) => {
+  return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
+})
 
 if (isDocker){
   app.get('/main.css', (req, res) => {
@@ -313,7 +310,7 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-httpServer.listen(5656, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`));
+httpServer.listen(5656, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`))
 
 if (isTest) module.exports = app;
 // export default app;
