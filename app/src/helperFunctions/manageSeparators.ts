@@ -1,14 +1,14 @@
 import { ChildElement } from '../interfaces/Interfaces';
 
-const separator = {
-  id: 11,
-  tag: 'div',
-  name: 'Div',
-  style: {},
-  placeHolderShort: 'div',
+const separator =  {
+  id: 1000,
+  tag: 'separator',
+  name: 'separator',
+  style: { border: 'none' },
+  placeHolderShort: '',
   placeHolderLong: '',
-  // icon: HeaderIcon,
-  framework: 'reactClassic',
+  icon: '',
+  framework: '',
   nestable: true
 }
 const manageSeparators = {};

@@ -49,7 +49,6 @@ function Canvas(props): JSX.Element {
       // takes a snapshot of state to be used in UNDO and REDO cases
       snapShotFunc();
       // returns false for direct drop target
-      console.log('diddrop', didDrop)
       if (didDrop) {
         return;
       }
@@ -131,6 +130,7 @@ function Canvas(props): JSX.Element {
 
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
+  console.log('canvas comp', currentComponent)
   return (
     <div className={'componentContainer'} ref={drop} style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}

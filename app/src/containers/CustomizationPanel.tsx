@@ -489,7 +489,6 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
             : '';
   }, []);
 
-  console.log('isthemelight in custimization', isThemeLight)
 
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);

@@ -57,7 +57,6 @@ const DemoRender = (): JSX.Element => {
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
     if (event.data === undefined) return;
-    console.log('event data demo render',event.data)
     const component: string = event.data.data?.split('/').at(-1);
     const componentId =
       component &&

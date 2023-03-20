@@ -37,7 +37,6 @@ style: store.styleSlice,
   // const initialStyle = useContext(styleContext);
   // const [style, setStyle] = useState(initialStyle);
   const [isThemeLight, setTheme] = useState(!isDarkMode);
-  console.log('isthemlight in app con',isThemeLight)
   const dispatch = useDispatch();
 
 
