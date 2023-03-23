@@ -568,8 +568,8 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-  } else if (process.env.NODE_ENV === 'production') {
-    return window.api.formatCode(code);
+  // } else if (process.env.NODE_ENV === 'production') {
+    // return window.api.formatCode(code);
   } else {
     return code;
   }

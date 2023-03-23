@@ -145,7 +145,6 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       document.removeEventListener('keydown', keyBindCreateComponent)
     }
   }, []);
-  console.log(isThemeLight)
   return (
     <div className={`${classes.panelWrapper}`}>
       {/* Add a new component*/}
