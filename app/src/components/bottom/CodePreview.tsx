@@ -1,5 +1,4 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import StateContext from '../../context/context';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -14,10 +13,9 @@ import useResizeObserver from '../../tree/useResizeObserver';
 import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
-import store from '../../redux/store';
 import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
 import { useDispatch, useSelector } from 'react-redux';
-// import { store } from './../../index';
+
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -38,8 +36,6 @@ const CodePreview: React.FC<{
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { height } = dimensions || 0;
-
-  // const [state] = useContext(StateContext);
   const state = useSelector(store => store.appState)
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
@@ -59,10 +55,6 @@ const CodePreview: React.FC<{
   useEffect(() => {
     setInput(currentComponent.code);
     dispatch(codePreviewInput(currentComponent.code));
-    // store.dispatch({
-    //   type: 'CODE_PREVIEW_INPUT',
-    //   payload: currentComponent.code
-    // });
   }, [currentComponent, state.components]);
 
   /**
@@ -72,7 +64,6 @@ const CodePreview: React.FC<{
   const handleChange = async (data) => {
     setInput(data);
     dispatch(codePreviewInput(data));
-    // store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
     if (!ref.current) {
       return;
     }
@@ -89,10 +80,6 @@ const CodePreview: React.FC<{
       }
     });
     dispatch(codePreviewSave(result.outputFiles[0].text))
-    // store.dispatch({
-    //   type: 'CODE_PREVIEW_SAVE',
-    //   payload: result.outputFiles[0].text
-    // });
   };
 
   return (

@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
-import StateContext from '../../context/context';
+import React, { useState, useCallback, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -13,7 +12,6 @@ import {updateProjectName} from '../../redux/reducers/slice/appStateSlice';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-  // const [state, dispatch] = useContext(StateContext);
 const state = useSelector(store => store.appState);
 const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
@@ -35,7 +33,6 @@ const dispatch = useDispatch();
       // If errors occur on the backend, the project name still gets updated
 
       dispatch(updateProjectName(projectName))
-      // dispatch({ type: 'UPDATE PROJECT NAME', payload: projectName });
       saveProject(projectName, state);
       setOpen(false);
     } else {

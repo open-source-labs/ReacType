@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
-import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
 import DeleteButton from './DeleteButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,18 +14,12 @@ function IndirectChild({
   childId,
   name
 }) {
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
   let combinedStyle = combineStyles(globalDefaultStyle, style);
   // when a user clicks a link, the focus should change to that component
   function onClickHandlerRoute(event) {
     event.stopPropagation();
-    // LEGACY PD CHANGED CHILDID from NULL TO CHILDID
-    // dispatch({
-    //   type: 'CHANGE FOCUS',
-    //   payload: { componentId: linkId, childId: null }
-    // });
     dispatch(changeFocus({ componentId: linkId, childId: null}));
   }
   let linkName: string;

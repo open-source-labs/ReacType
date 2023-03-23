@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
-
-import { styleContext } from '../../containers/AppContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
-  // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState);
+  const {state, isThemeLight }= useSelector(store =>({
+    state: store.appState,
+    isThemeLight: store.styleSlice
+  } ));
   const dispatch = useDispatch();
-  const { isThemeLight } = useContext(styleContext);
 
   // find the HTML element corresponding with this instance of an HTML element
   // find the current component to render on the canvas
@@ -38,7 +36,6 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
     dispatch(changeFocus({ componentId, childId}));
 
   };
@@ -58,30 +55,12 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
         : '1px solid grey'
   };
 
-  // if (state.components[0].children)
-  // console.log(globalDefaultStyle);
-
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, HTMLType.style), style),
     interactiveStyle
   );
 
-  // state.components.forEach(component => {
-  //   // console.log('state.components : ', state.components)
-  //     let color = 'rgb(63, 154,';
-  //     let counter = -10;
-  //     component.children?.forEach(obj => {
-  //     // if (obj['childId'] === childId) {
-  //       counter += 10;
-  //       color = color + counter.toString() + ')'
-  //       combinedStyle['backgroundColor'] = color;
-  //     // } else {
-  //     //   combinedStyle['backgroundColor'] = isOver ? 'yellow' : globalDefaultStyle['backgroundColor'];
-  //     // }
-  //   })
-  // });
 
-  // console.log(name[0].toLowerCase() + name.slice(1))
 
   return (
     <div

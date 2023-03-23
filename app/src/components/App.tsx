@@ -3,9 +3,6 @@ import '../public/styles/style.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppContainer from '../containers/AppContainer';
-import StateContext from '../context/context';
-import initialState from '../context/initialState';
-import reducer from '../reducers/componentReducer';
 import localforage from 'localforage';
 import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
@@ -110,9 +107,9 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-        <StateContext.Provider value = {[state, dispatch]}>
+   
           <AppContainer />
-        </StateContext.Provider>
+    
       </DndProvider>
     </div>
   );
