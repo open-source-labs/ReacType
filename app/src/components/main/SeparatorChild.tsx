@@ -1,8 +1,7 @@
-import React, { useContext, useRef } from 'react';
+import React, {  useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
@@ -21,8 +20,6 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement) {
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -73,27 +70,12 @@ function DirectChildHTMLNestable({
           childId: childId,
           contextParam: contextParam
         }))
-          // dispatch({
-          //   type: 'ADD CHILD',
-          //   payload: {
-          //     type: item.instanceType,
-          //     typeId: item.instanceTypeId,
-          //     childId: childId,
-          //   }
-          // });
         }
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          // dispatch({
-          //   type: 'CHANGE POSITION',
-          //   payload: {
-          //     currentChildId: item.childId,
-          //     newParentChildId: childId
-          //   }
-          // });
           dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
@@ -107,7 +89,6 @@ function DirectChildHTMLNestable({
   });
 
   const changeFocusFunction = (componentId: number, childId: number | null) => {
-    // dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
     dispatch(changeFocus({ componentId, childId}));
 
   };
@@ -116,7 +97,6 @@ function DirectChildHTMLNestable({
   function onClickHandler(event) {
     event.stopPropagation();
     changeFocusFunction(state.canvasFocus.componentId, childId);
-    // dispatch(changeFocus({ componentId: state.canvasFocus.componentId, childId: state.canvasFocus.childId}));
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

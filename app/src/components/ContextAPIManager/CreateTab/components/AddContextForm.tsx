@@ -4,7 +4,6 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import StateContext from '../../../../context/context';
 import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
@@ -20,7 +19,11 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   // const [state, dispatch] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
+  const { state, isDarkMode } = useSelector(store => ({
+    isDarkMode: store.darkMode.isDarkMode,
+    state: store.appState
+  }))
+const color = isDarkMode ? 'white' : 'black'
 
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
@@ -76,11 +79,11 @@ const AddContextForm = ({
     return option.name;
   };
 
-  const renderOption = (props, option) => <li {...props}>{option.name}</li>;
+  const renderOption = (props, option) => <li style={{ color: 'black' }} {...props}>{option.name}</li>;
 
   return (
     <Fragment>
-      <Typography style={{ color: 'black' }} variant="h6" gutterBottom={true}>
+      <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
         Context Input
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
@@ -95,10 +98,15 @@ const AddContextForm = ({
           options={allContext || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          sx={{ width: 425 }}
+          sx={{ width: 425, border: '1px solid black' }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Create/Select Context" />
+            <TextField {...params}  InputProps={{
+              ...params.InputProps,
+              style: { color: color },
+            }}  
+            variant='filled'
+            label="Create/Select Context" />
           )}
         />
         <Button

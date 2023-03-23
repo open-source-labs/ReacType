@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -11,7 +11,6 @@ import Dialog from '@mui/material/Dialog';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import { blue } from '@mui/material/colors';
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
-import StateContext from '../../context/context';
 import { useDispatch, useSelector } from 'react-redux';
 import { openProject } from '../../redux/reducers/slice/appStateSlice';
 
@@ -24,7 +23,6 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  // const [_, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
