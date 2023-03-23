@@ -1286,6 +1286,10 @@ const appStateSlice = createSlice({
     },
     snapShotAction: (state, action) => {
       state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
+    },
+    cooperative: (state, action) => {
+      console.log(action.payload);
+      return {...action.payload};
     }
   }
 });
@@ -1293,7 +1297,7 @@ const appStateSlice = createSlice({
 // Exports the action creator function to be used with useDispatch
 
 
-export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle, snapShotAction } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle, snapShotAction, cooperative } = appStateSlice.actions;
 
 
 // Exports so we can combine in rootReducer

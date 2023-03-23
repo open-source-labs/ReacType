@@ -57,6 +57,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // websocket front end starts here
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
+import { cooperative } from './redux/reducers/slice/appStateSlice.ts'
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']
@@ -89,6 +90,10 @@ socket.on('receive message', (event) => {
     console.log('stores do not match')
     if (currentStore.darkMode.isDarkMode!==event.darkMode.isDarkMode){
       store.dispatch(toggleDarkMode())
+    } 
+    if (currentStore.appState!==event.appState){
+      console.log(event.appState)
+      store.dispatch()
     }
   }
   console.log('updated user Store from another user: ', store.getState())
