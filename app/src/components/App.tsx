@@ -65,38 +65,38 @@ export const App = (): JSX.Element => {
       });
     }
   }, []);
-  useEffect(() => {
-    // provide config properties to legacy projects so new edits can be auto saved
-    // if (state.config === undefined) {
-    //   state.config = { saveFlag: true, saveTimer: false };
-    // }
-    // New project save configuration to optimize server load and minimize Ajax requests
-    if (state.config.saveFlag) {
-      // state.config.saveFlag = false;
-      // state.config.saveTimer = true;
-      dispatch(configToggle())
+  // useEffect(() => {
+  //   // provide config properties to legacy projects so new edits can be auto saved
+  //   // if (state.config === undefined) {
+  //   //   state.config = { saveFlag: true, saveTimer: false };
+  //   // }
+  //   // New project save configuration to optimize server load and minimize Ajax requests
+  //   if (state.config.saveFlag) {
+  //     // state.config.saveFlag = false;
+  //     // state.config.saveTimer = true;
+  //     // dispatch(configToggle())
 
-      let userId;
-      if (Cookies.get('ssid')) {
-        userId = Cookies.get('ssid');
-      } else {
-        userId = window.localStorage.getItem('ssid');
-      }
-      // if (state.isLoggedIn === false) {
-      if (!state.isLoggedIn) {
-        localforage.setItem('guestProject', state);
-      } else if (state.name !== '') {
-        saveProject(state.name, state);
-        localforage.setItem(userId, state);
-      }
-    }
-    if (!state.config.saveTimer) {
-      // state.config.saveTimer = false;
-      setTimeout(() => {
-        // state.config.saveFlag = true;
-      }, 15000);
-    }
-  }, [state]);
+  //     let userId;
+  //     if (Cookies.get('ssid')) {
+  //       userId = Cookies.get('ssid');
+  //     } else {
+  //       userId = window.localStorage.getItem('ssid');
+  //     }
+  //     // if (state.isLoggedIn === false) {
+  //     if (!state.isLoggedIn) {
+  //       localforage.setItem('guestProject', state);
+  //     } else if (state.name !== '') {
+  //       saveProject(state.name, state);
+  //       localforage.setItem(userId, state);
+  //     }
+  //   }
+  //   if (!state.config.saveTimer) {
+  //     state.config.saveTimer = false;
+  //     setTimeout(() => {
+  //       state.config.saveFlag = true;
+  //     }, 15000);
+  //   }
+  // }, [state]);
   // uncomment below to log state
 
   return (
@@ -113,5 +113,6 @@ export const App = (): JSX.Element => {
       </DndProvider>
     </div>
   );
-};
+}
+
 export default App;

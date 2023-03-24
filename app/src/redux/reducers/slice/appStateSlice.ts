@@ -1,5 +1,6 @@
 // Main slice for all the component state.///
 import { createSlice } from '@reduxjs/toolkit';
+import produce from 'immer';
 // Import Interfaces for State, and HTML Types
 import {
   State,
@@ -14,7 +15,7 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 export const initialState: State = {
   name: '',
   isLoggedIn: false,
-  config: { saveFlag: true, saveTimer: false },
+  // config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,
@@ -1277,19 +1278,18 @@ const appStateSlice = createSlice({
     toggleLoggedIn: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
-    configToggle: (state) => {
-      state.config = {
-        ...state.config,
-        saveFlag: !state.config.saveFlag,
-        saveTimer: !state.config.saveTimer
-      };
-    },
+    // configToggle: (state) => {
+    //   state.config = {
+    //     ...state.config,
+    //     saveFlag: !state.config.saveFlag,
+    //     saveTimer: !state.config.saveTimer
+    //   };
+    // },
     snapShotAction: (state, action) => {
       state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
     },
-    cooperative: (state, action) => {
-      console.log(action.payload);
-      return {...action.payload};
+    allCooperativeState: (state, action) => {
+      return Object.assign({}, state, action.payload)
     }
   }
 });
@@ -1297,7 +1297,14 @@ const appStateSlice = createSlice({
 // Exports the action creator function to be used with useDispatch
 
 
-export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle, snapShotAction, cooperative } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, 
+  changeTailwind, changePosition, updateStateUsed, 
+  resetAllState, updateUseContext, updateCss, updateEvents, 
+  deleteEventAction, deletePage, deleteReusableComponent, 
+  setProjectName, changeProjectType, resetState, updateProjectName, 
+  deleteElement, updateAttributes, deleteChild, setInitialState, openProject, 
+  addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, 
+  deleteState, toggleLoggedIn, configToggle, snapShotAction, allCooperativeState } = appStateSlice.actions;
 
 
 // Exports so we can combine in rootReducer
