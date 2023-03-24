@@ -41,7 +41,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // websocket front end starts here
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
-import { cooperative, addChild } from './redux/reducers/slice/appStateSlice.ts'
+import { addChild } from './redux/reducers/slice/appStateSlice.ts'
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']

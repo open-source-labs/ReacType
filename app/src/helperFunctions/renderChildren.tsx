@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 // direct children may also have their own indirect children (grandchildren, great-grandchildren, etc) which are not draggable and clickable
 // there are four types of direct children that can be rendered on the screen
 const renderChildren = (children: ChildElement[]) => {
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState)
   
   return children.map((child: ChildElement, i: number) => {
