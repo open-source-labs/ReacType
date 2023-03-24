@@ -11,7 +11,6 @@ function DisplayContainer({ data, props }) { // "data" is referring to component
   // grabbing intialized state from App using UseContext
   const [currComponentState, setCurrComponentState] = useState([]);
   const [parentProps, setParentProps] = useState([]);
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState)
   
   let root = '';

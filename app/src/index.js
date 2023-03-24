@@ -9,7 +9,6 @@ import 'babel-polyfill';
 import React from 'react';
 import store from './redux/store';
 import { Provider } from 'react-redux';
-// import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import App from './components/App.tsx';
@@ -24,22 +23,7 @@ const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-// const initialState = { code: ``, input: `` };
-// const rootReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case 'SAVE':
-//       return { ...state, code: action.payload };
-//     case 'INPUT':
-//       return { ...state, input: action.payload };
-//     default:
-//       return state;
-//   }
-// };
 
-// export const store = createStore(
-//   rootReducer,
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -57,7 +41,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // websocket front end starts here
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
-import { cooperative } from './redux/reducers/slice/appStateSlice.ts'
+import { cooperative, addChild } from './redux/reducers/slice/appStateSlice.ts'
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']
@@ -91,10 +75,12 @@ socket.on('receive message', (event) => {
     if (currentStore.darkMode.isDarkMode!==event.darkMode.isDarkMode){
       store.dispatch(toggleDarkMode())
     } 
-    if (currentStore.appState!==event.appState){
-      console.log(event.appState)
-      store.dispatch()
-    }
+
+      console.log("eventstate from precooperative",event.appState.components[0].children[1])
+      const {type, typeId, childId} = event.appState.components[0].children[1]
+      store.dispatch(addChild({type, typeId, childId}))
+    
+    
   }
   console.log('updated user Store from another user: ', store.getState())
 })

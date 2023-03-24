@@ -34,7 +34,6 @@ export default function DataTable(props) {
   const {
     currComponentState, parentProps, clickedComp, data,
   } = props;
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState)
 
   // determine if the current component is a root component

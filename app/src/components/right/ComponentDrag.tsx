@@ -54,22 +54,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
               );
             })}
         </Grid>
-        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
-        {/* {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
-          <React.Fragment>
-            <h4>Routing</h4>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <ComponentPanelRoutingItem key={'premadecomp-1'} />
-            </Grid>
-          </React.Fragment>
-        ) : (
-          ''
-        )} */}
+
       </div>
     </div>
   );

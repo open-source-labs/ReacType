@@ -1,15 +1,9 @@
-import { element } from 'prop-types';
-import store from '../redux/store.js';
+
 import {
   Component,
-  State,
   ChildElement,
   HTMLType
 } from '../interfaces/Interfaces';
-
-import initialState from '../context/initialState'
-// let tailwind = initialState.tailwind;
-
 declare global {
   interface Window {
     api: any;
@@ -379,11 +373,9 @@ const generateUnformattedCode = (
   if (projectType === 'Classic React') {
     //string to store all imports string for context
     let contextImports = '';
-    // const { allContext } = store.getState().contextSlice;
-    
-  const { allContext } = contextParam;
+    const { allContext } = contextParam;
 
- 
+
 
     for (const context of allContext) {
       contextImports += `import ${context.name}Provider from '../contexts/${context.name}.js'\n`;
@@ -568,7 +560,7 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-  // } else if (process.env.NODE_ENV === 'production') {
+    // } else if (process.env.NODE_ENV === 'production') {
     // return window.api.formatCode(code);
   } else {
     return code;

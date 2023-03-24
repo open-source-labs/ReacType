@@ -13,7 +13,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-// import { styleContext } from '../containers/AppContainer';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SortIcon from '@mui/icons-material/Sort';
@@ -77,7 +76,6 @@ const StyledMenuItem = withStyles(theme => ({
 export default function NavBar(props) {
   // TO DO: import setStyle
   const classes = useStyles();
-  // const { style, setStyle } = useContext(styleContext);
   const style = useSelector(store => store.styleSlice);
   const dispatch = useDispatch();
   const toggling = () => setIsOpen(!isOpen);
@@ -152,12 +150,6 @@ export default function NavBar(props) {
                 : dispatch(setStyle( null ))
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
-            // onClick={() => {
-            //   !props.styles[0].backgroundColor
-            //     ? props.styles[1]({ backgroundColor: '#21262D' }) //dark mode color
-            //     : props.styles[1]({ backgroundColor: null })
-            //   props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
-            // }}
           >
             {props.isThemeLight ? 'Dark Mode' : 'Light Mode'}
           </Button>  
