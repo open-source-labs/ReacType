@@ -13,10 +13,13 @@ const initialState = {
     reducers: {
         setStyle: (state, action) => {
             state.style = action.payload;
-        }
+        },
+        cooperativeStyle: (state, action) => {
+            return Object.assign({}, state, action.payload)
+        },
     }
     });
 
-    export const { setStyle } = styleSlice.actions;
+    export const { setStyle, cooperativeStyle } = styleSlice.actions;
 
     export default styleSlice.reducer;

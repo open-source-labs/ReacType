@@ -50,12 +50,15 @@ const contextReducerSlice = createSlice({
     },
     getAllContext: (state, action) => {
       state = state;
-    }
+    },
+    allContextCooperative: (state, action) => {
+      return Object.assign({}, state, action.payload)
+    },
 
   }
 })
 
-export const { addContext, addContextValues, deleteContext, getAllContext, addComponentToContext} = contextReducerSlice.actions
+export const { addContext, addContextValues, deleteContext, getAllContext, addComponentToContext, allContextCooperative } = contextReducerSlice.actions
 export default contextReducerSlice.reducer;
 
 // const contextReducer = (state = initialState, action) => {
