@@ -560,13 +560,8 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-<<<<<<< HEAD
-  // } else if (process.env.NODE_ENV === 'production') {
-  //   return window.api.formatCode(code);
-=======
     // } else if (process.env.NODE_ENV === 'production') {
     // return window.api.formatCode(code);
->>>>>>> dev
   } else {
     return code;
   }

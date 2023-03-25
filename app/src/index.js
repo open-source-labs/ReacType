@@ -45,16 +45,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
 
-<<<<<<< HEAD
-// in dev environment
-// const socket = io('http://localhost:5656', {
-//   transports: ['websocket']
-// });
-
-// in docker container
-const socket = io(`http://${window.location.hostname}:5656`, {
-  transports: ['websocket'],
-=======
 import { allCooperativeState } from './redux/reducers/slice/appStateSlice.ts'
 import { codePreviewCooperative } from './redux/reducers/slice/codePreviewSlice';
 import { allContextCooperative } from './redux/reducers/slice/contextReducer';
@@ -63,7 +53,6 @@ import { cooperativeStyle } from './redux/reducers/slice/styleSlice';
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']
->>>>>>> dev
 });
 
 socket.on('connect', () => {
@@ -100,19 +89,10 @@ socket.on('receive message', (event) => {
     } else if (currentStore.styleSlice!==event.styleSlice) {
       store.dispatch(cooperativeStyle(event.styleSlice))
     } 
-<<<<<<< HEAD
-
-      console.log("eventstate from precooperative",event.appState.components[0].children[1])
-      const {type, typeId, childId} = event.appState.components[0].children[1]
-      store.dispatch(addChild({type, typeId, childId}))
-    
-    
-=======
     // else {
     //   console.log('contextslice else if block is running: ', event.contextSlice.allContext[lastIndex])
     //   store.dispatch(allContextCooperative(event.contextSlice))
     // }
->>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
   }
   console.log('updated user Store from another user: ', store.getState())
 })
