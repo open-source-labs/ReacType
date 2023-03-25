@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';

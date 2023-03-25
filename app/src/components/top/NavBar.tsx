@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Theme } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
 import createStyles from '@mui/styles/createStyles';
@@ -87,13 +87,10 @@ const StyledMenuItem = withStyles(theme => ({
 //export default function NavBar(props)
 const NavBar = (props) => {
   const classes = useStyles();
-  // const { style, setStyle } = useContext(styleContext);
-
   // State for export menu button
   const [anchorEl, setAnchorEl] = React.useState(null);
   // State for clear canvas button
   const [modal, setModal] = useState(null);
-  // const [state, dispatch] = useContext(StateContext);
   const dispatch = useDispatch();
   const { state, style, isDarkMode } = useSelector(store => ({
     state: store.appState,

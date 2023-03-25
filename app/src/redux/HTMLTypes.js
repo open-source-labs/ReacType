@@ -1,5 +1,3 @@
-// import { HTMLType } from '../interfaces/Interfaces';
-import React from 'react';
 import ImageIcon from '@mui/icons-material/Image';
 import ParagraphIcon from '@mui/icons-material/LocalParking';
 import FormIcon from '@mui/icons-material/Description';

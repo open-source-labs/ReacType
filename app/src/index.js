@@ -9,7 +9,6 @@ import 'babel-polyfill';
 import React from 'react';
 import store from './redux/store';
 import { Provider } from 'react-redux';
-// import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
 import App from './components/App.tsx';
@@ -27,22 +26,7 @@ const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-// const initialState = { code: ``, input: `` };
-// const rootReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case 'SAVE':
-//       return { ...state, code: action.payload };
-//     case 'INPUT':
-//       return { ...state, input: action.payload };
-//     default:
-//       return state;
-//   }
-// };
 
-// export const store = createStore(
-//   rootReducer,
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -60,10 +44,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // websocket front end starts here
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
+
 import { allCooperativeState } from './redux/reducers/slice/appStateSlice.ts'
 import { codePreviewCooperative } from './redux/reducers/slice/codePreviewSlice';
 import { allContextCooperative } from './redux/reducers/slice/contextReducer';
 import { cooperativeStyle } from './redux/reducers/slice/styleSlice';
+
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']
@@ -103,10 +89,19 @@ socket.on('receive message', (event) => {
     } else if (currentStore.styleSlice!==event.styleSlice) {
       store.dispatch(cooperativeStyle(event.styleSlice))
     } 
+<<<<<<< HEAD
+
+      console.log("eventstate from precooperative",event.appState.components[0].children[1])
+      const {type, typeId, childId} = event.appState.components[0].children[1]
+      store.dispatch(addChild({type, typeId, childId}))
+    
+    
+=======
     // else {
     //   console.log('contextslice else if block is running: ', event.contextSlice.allContext[lastIndex])
     //   store.dispatch(allContextCooperative(event.contextSlice))
     // }
+>>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
   }
   console.log('updated user Store from another user: ', store.getState())
 })

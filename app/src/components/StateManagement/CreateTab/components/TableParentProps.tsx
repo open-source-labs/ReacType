@@ -12,8 +12,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
 
 const TableParentProps = props => {
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -76,10 +74,6 @@ const TableParentProps = props => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    // dispatch({
-    //   type: 'ADD PASSEDINPROPS',
-    //   payload: { passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent }
-    // });
     dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent, contextParam: contextParam}))
   };
 

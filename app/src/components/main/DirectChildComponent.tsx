@@ -12,10 +12,8 @@ function DirectChildComponent({
   childId,
   type,
   typeId,
-  style,
   name
 }: ChildElement) {
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
 
