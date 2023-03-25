@@ -19,6 +19,9 @@ import Tutorial from './tutorial/Tutorial.tsx';
 import TutorialPage from './tutorial/TutorialPage.tsx';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
+// for websockets
+import debounce from 'lodash/debounce'
+
 const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
@@ -41,7 +44,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 // websocket front end starts here
 import { io } from 'socket.io-client'
 import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
-import { addChild } from './redux/reducers/slice/appStateSlice.ts'
+
+import { allCooperativeState } from './redux/reducers/slice/appStateSlice.ts'
+import { codePreviewCooperative } from './redux/reducers/slice/codePreviewSlice';
+import { allContextCooperative } from './redux/reducers/slice/contextReducer';
+import { cooperativeStyle } from './redux/reducers/slice/styleSlice';
+
 
 const socket = io('http://localhost:5656', {
   transports: ['websocket']
@@ -55,35 +63,50 @@ console.log(store.getState())
 let previousState = store.getState();
 
 // sending info to backend whenever the redux store changes
-function handleStoreChange () {
-  socket.connect();
+const handleStoreChange = debounce(() => {
   const newState = store.getState();
   if (newState !== previousState){
-    socket.emit('custom-event', 'sent from front-end', store.getState())
+    console.log('before sending to server: ', newState)
+    socket.emit('custom-event', 'sent from front-end', JSON.stringify(newState))
     previousState = newState;
   }
-}
-
-store.subscribe(handleStoreChange)
+}, 100);
 
 // receiving the message from the back end
 socket.on('receive message', (event) => {
-  console.log('message from server: ', event);
-  const currentStore = store.getState();
+  // console.log('message from server: ', event);
+  let currentStore = JSON.stringify(store.getState())
   if (currentStore!==event){
+    currentStore = JSON.parse(currentStore);
+    event = JSON.parse(event);
     console.log('stores do not match')
     if (currentStore.darkMode.isDarkMode!==event.darkMode.isDarkMode){
       store.dispatch(toggleDarkMode())
+    } else if (currentStore.appState!==event.appState) {
+      store.dispatch(allCooperativeState(event.appState))
+    } else if (currentStore.codePreviewSlice!==event.codePreviewCooperative){
+      store.dispatch(codePreviewCooperative(event.codePreviewCooperative))
+    } else if (currentStore.styleSlice!==event.styleSlice) {
+      store.dispatch(cooperativeStyle(event.styleSlice))
     } 
+<<<<<<< HEAD
 
       console.log("eventstate from precooperative",event.appState.components[0].children[1])
       const {type, typeId, childId} = event.appState.components[0].children[1]
       store.dispatch(addChild({type, typeId, childId}))
     
     
+=======
+    // else {
+    //   console.log('contextslice else if block is running: ', event.contextSlice.allContext[lastIndex])
+    //   store.dispatch(allContextCooperative(event.contextSlice))
+    // }
+>>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
   }
   console.log('updated user Store from another user: ', store.getState())
 })
+
+store.subscribe(handleStoreChange)
 
 ReactDOM.render(
   <ApolloProvider client={client}>
