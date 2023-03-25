@@ -1,10 +1,5 @@
 // Main slice for all the component state.///
-<<<<<<< HEAD
 import { createSlice, current } from '@reduxjs/toolkit';
-=======
-import { createSlice } from '@reduxjs/toolkit';
-import produce from 'immer';
->>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
 // Import Interfaces for State, and HTML Types
 import {
   State,
