@@ -132,7 +132,7 @@ function navbarDropDown () {
         dispatch(toggleDarkMode());
         // Add your logic to update the style and theme based on darkMode
         isDarkMode ? dispatch(setStyle(null)) : dispatch(setStyle({ backgroundColor: '#21262c' }));
-        props.setTheme(isDarkMode);
+        // props.setTheme(isDarkMode);
       };
 
       const handleClose = () => {
