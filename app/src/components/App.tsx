@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import '../public/styles/style.css';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -12,32 +12,22 @@ import { setInitialState, toggleLoggedIn, configToggle } from '../redux/reducers
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  // const [state, dispatch] = useReducer(reducer, initialState);
   const state = useSelector(store => store.appState);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(()=>{
     if (window.localStorage.getItem('ssid') !== 'guest') {
-      // state.isLoggedIn = true;
       dispatch(toggleLoggedIn())
     } 
   },[])
 
-  // else {
-  //   state.isLoggedIn = false;
-  // }
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
-    // if (state.isLoggedIn === false) {
       if (!state.isLoggedIn) {
       localforage.getItem('guestProject').then(project => {
         // if project exists, use dispatch to set initial state to that project
         if (project) {
-          // dispatch({
-          //   type: 'SET INITIAL STATE',
-          //   payload: project
-          // });
           dispatch(setInitialState(project))
         }
       });
@@ -52,10 +42,7 @@ export const App = (): JSX.Element => {
       //also load user's last project, which was saved in localforage on logout
       localforage.getItem(userId).then(project => {
         if (project) {
-          // dispatch({
-          //   type: 'SET INITIAL STATE',
-          //   payload: project
-          // });
+    
           dispatch(setInitialState(project))
         } else {
           console.log(

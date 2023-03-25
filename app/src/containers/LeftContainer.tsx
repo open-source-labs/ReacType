@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import React, {  useEffect, useCallback } from 'react';
 import Grid from '@mui/material/Grid';
 import ComponentDrag from '../components/right/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
@@ -8,8 +8,7 @@ import { deleteChild } from '../redux/reducers/slice/appStateSlice';
 
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (props): JSX.Element => {
-  // const { style } = useContext(styleContext);
-  // const [state, dispatch] = useContext(StateContext);
+
   const{contextParam, style }  = useSelector(store =>({
     contextParam: store.contextSlice,
     style: store.styleSlice,
@@ -17,7 +16,6 @@ const LeftContainer = (props): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    // dispatch({ type: 'DELETE CHILD', payload: {} });
     dispatch(deleteChild({id:{},contextParam:contextParam}))
   };
   const keyBindedFunc = useCallback(e => {

@@ -22,10 +22,6 @@ declare module '@mui/styles/defaultTheme' {
 // 1) Impliment Apollo Provider in the top component in ./src/index.js, this allows children components access to the queried data
 // 2) useQuery hook will update the data stored in Apollo Client's cache and automatically trigger child components rendering
 
-// export const styleContext = createContext({
-//   style: null,
-//   setStyle: null
-// });
 
 // setting light and dark themes (navbar and background); linked to theme.ts
 const lightTheme = theme1;
@@ -103,8 +99,6 @@ const ProjectContainer = (): JSX.Element => {
   const userSSID = window.localStorage.getItem('ssid') || 'unavailable';
   const username = window.localStorage.getItem('username') || 'unavailable';
   const [isThemeLight, setTheme] = useState(true);
-  // const initialStyle = useContext(styleContext);
-  // const [style, setStyle] = useState(initialStyle);
   const style = useSelector(store => store.styleSlice)
   // hook for sorting menu
   const [selectedOption, setSelectedOption] = useState('RATING');

@@ -6,14 +6,9 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from 'react-redux';
 import { addState } from "../../redux/reducers/slice/appStateSlice";
 import {
-  Checkbox,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  FormLabel,
-  Grid,
   MenuItem,
-  Input,
   InputLabel,
   Select,
   TextField,

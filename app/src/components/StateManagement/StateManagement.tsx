@@ -5,13 +5,10 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import StateContext from '../../context/context';
 import { useSelector } from 'react-redux';
 
 import CreateContainer from './CreateTab/CreateContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
-
-
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -24,11 +21,10 @@ const useStyles = makeStyles({
 
 const StateManager = (props): JSX.Element => {
 
-  // const [state, dispatch] = useContext(StateContext);
   const state = useSelector(store => store.appState)
   const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
 
-  const { components, HTMLTypes } = state;
+  const { components } = state;
   const classes = useStyles();
   const [value, setValue] = React.useState<string>('1');
 

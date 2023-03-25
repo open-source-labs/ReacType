@@ -19,8 +19,6 @@ import TablePassedInProps from "./TablePassedInProps";
 
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
-  // const [state, dispatch] = useContext(StateContext);
-  // const state = useSelector(store => store.appState);
   const { state, contextParam } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
@@ -116,11 +114,6 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       value: '',
       type: 'func',
     };
-
-    // dispatch({
-    //   type: 'ADD STATE',
-    //   payload: {newState: newState, setNewState: setNewState}
-    // }); 
     dispatch(addState({newState: newState, setNewState: setNewState, contextParam: contextParam}))
     setRows1([...rows1, newState])
     resetError();
@@ -447,15 +440,5 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-// change to Button to keep styling consistent
-// const MyButton = styled(Button)({
-// background: "#0099E6",
-// border: 0,
-// borderRadius: 3,
-// boxShadow: "0 0px 0px 2px #1a1a1a",
-// color: "white",
-// height: 24,
-// width: 40,
-// padding: "0 30px",
-// });
+
 export default StatePropsPanel;
