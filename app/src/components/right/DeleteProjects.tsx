@@ -109,6 +109,7 @@ export default function ProjectsFolder() {
         color="primary"
         onClick={handleClickOpen}
         endIcon={<DeleteRoundedIcon />}
+        sx={{fontSize: '9px'}}
       >
         Delete Project
       </Button>

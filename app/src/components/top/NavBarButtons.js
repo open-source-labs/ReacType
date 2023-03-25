@@ -35,14 +35,16 @@ const useStyles = makeStyles((theme) =>
     },
     manageProject: {
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      width: '100px',
+      overflow: 'none',
     }
   })
 );
 
 const StyledMenu = withStyles({
     paper: {
-      border: '1px solid #d3d4d5'
+      border: '1px solid #d3d4d5',
     }
   })(props => (
     <Menu
@@ -132,7 +134,6 @@ function navbarDropDown () {
         dispatch(toggleDarkMode());
         // Add your logic to update the style and theme based on darkMode
         isDarkMode ? dispatch(setStyle(null)) : dispatch(setStyle({ backgroundColor: '#21262c' }));
-        props.setTheme(isDarkMode);
       };
 
       const handleClose = () => {
