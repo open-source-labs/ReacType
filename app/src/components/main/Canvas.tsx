@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { Component, DragItem } from '../../interfaces/Interfaces';
@@ -10,11 +10,11 @@ import { changeFocus, addChild, snapShotAction } from '../../redux/reducers/slic
 
 function Canvas(props): JSX.Element {
 
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam,isDarkMode } = useSelector((store) => ({
     state: store.appState,
     contextParam: store.contextSlice,
+    isDarkMode: store.darkMode.isDarkMode
   }));
-  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
   const dispatch = useDispatch();
 
   Arrow.deleteLines();
@@ -22,6 +22,7 @@ function Canvas(props): JSX.Element {
   const currentComponent: Component = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
+
 
   // changes focus of the canvas to a new component / child
   const changeFocusFunction = (componentId?: number, childId?: number | null) => {
@@ -49,7 +50,6 @@ function Canvas(props): JSX.Element {
       // takes a snapshot of state to be used in UNDO and REDO cases
       snapShotFunc();
       // returns false for direct drop target
-      console.log('diddrop', didDrop)
       if (didDrop) {
         return;
       }
@@ -131,6 +131,7 @@ function Canvas(props): JSX.Element {
 
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
   const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
+  console.log('canvas comp', currentComponent)
   return (
     <div className={'componentContainer'} ref={drop} style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
        {renderChildren(currentComponent.children)}

@@ -1,4 +1,3 @@
-// const { ApolloServer } = require('@apollo/server');//changed for v4
 import { ApolloServer } from '@apollo/server';
 
 //v4 Apollo imports
@@ -8,27 +7,16 @@ import bodyParser from 'body-parser';
 const {json, urlencoded} = bodyParser;
 
 //possibly redundant
-// const {makeExecutableSchema} = require('@graphql-tools/schema');
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
-// const express = require('express');
-// const cookieParser = require('cookie-parser');
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-//const passport = require('passport');
-//const GitHubStrategy = require('passport-github2').Strategy;
-
-// const { DEV_PORT } = require('../config');
 import DEV_PORT from '../config.js';
 
 // const path = require('path');
 import path from 'path';
 
-// const userController = require('./controllers/userController');
-// const cookieController = require('./controllers/cookieController');
-// const sessionController = require('./controllers/sessionController');
-// const projectController = require('./controllers/projectController');
 
 import userController from './controllers/userController.js';
 import cookieController from './controllers/cookieController.js';
@@ -80,11 +68,8 @@ app.use(
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
 // const passport = require('passport');
 import passport from 'passport';
-// const passportSetup = require('./routers/passport-setup.js')
 import passportSetup from './routers/passport-setup.js'
-// const session = require('express-session');
 import session from 'express-session'
-// const authRoutes = require('./routers/auth.js')
 import authRoutes from './routers/auth.js'
 
 app.use(session({
@@ -101,13 +86,10 @@ app.use(passport.session());
 // 8080 only for the container
 app.use('/auth', authRoutes)
 
-// attempt at websockets
-// const httpServer = require('http').createServer(app);
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 
 const httpServer = createServer(app)
-// const io = require('socket.io')(httpServer)
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
@@ -119,7 +101,7 @@ io.on('connection', socket => {
   console.log(socket.id)
   socket.on('custom-event', (string, redux_store) => {
     console.log(string)
-    console.log(redux_store)
+    // console.log(redux_store)
     socket.broadcast.emit('receive message', redux_store)
   });
 
@@ -130,33 +112,7 @@ io.on('connection', socket => {
 
 
 
-// for Oauth which is currently not working
-// app.get(
-//   '/github/callback',
-//   sessionController.gitHubResponse,
-//   sessionController.gitHubSendToken,
-//   userController.createUser,
-//   userController.verifyUser,
-//   cookieController.setSSIDCookie,
-//   sessionController.startSession,
-//   (req, res) => {
-//     if (isDev) {
-//       return res
-//         .status(200)
-//         .redirect(`http://localhost:8080?=${res.locals.ssid}`);
-//     } else {
-//       return res.status(200).redirect(`app://rse?=${res.locals.ssid}`);
-//     }
-//   }
-// );
 
-// app.get('/github/callback', passport.authenticate('github'), function(
-//   req,
-//   res
-// ) {
-//   console.log(req.user);
-//   res.redirect('http://localhost:8080');
-// });
 
 /*
 GraphQl Router
@@ -164,14 +120,10 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-// const Query = require('./graphQL/resolvers/query');
 import Query from './graphQL/resolvers/query.js';
-// const {Query} = query;
 
 // Mutation resolvers
-// const Mutation = require('./graphQL/resolvers/mutation');
 import Mutation from './graphQL/resolvers/mutation.js';
-// const {Mutation} = mutation;
 
 // package resolvers into one variable to pass to Apollo Server
 const resolvers = {
@@ -179,20 +131,15 @@ const resolvers = {
   Mutation
 };
 
-// app.use(
-//   '/demoRender',
-//   express.static(path.join(__dirname, './assets/renderDemo.css'))
-// );
+
 
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
 
-// const typeDefs = require('./graphQL/schema/typeDefs.js');
 import typeDefs from './graphQL/schema/typeDefs.js';
 
-// const { dirname } = require('node:path');
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
@@ -200,11 +147,7 @@ import typeDefs from './graphQL/schema/typeDefs.js';
 const schema = makeExecutableSchema({typeDefs, resolvers});
 
 const server = new ApolloServer({schema});
-//V3 syntax
-// (async function() {
-//   await server.start()
-//   server.applyMiddleware({ app, path: '/graphql' });
-// }());
+
 
 //v4 syntax
 await server.start()

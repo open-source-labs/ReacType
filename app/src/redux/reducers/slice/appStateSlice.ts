@@ -1,5 +1,10 @@
 // Main slice for all the component state.///
+<<<<<<< HEAD
+import { createSlice, current } from '@reduxjs/toolkit';
+=======
 import { createSlice } from '@reduxjs/toolkit';
+import produce from 'immer';
+>>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
 // Import Interfaces for State, and HTML Types
 import {
   State,
@@ -14,7 +19,7 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 export const initialState: State = {
   name: '',
   isLoggedIn: false,
-  config: { saveFlag: true, saveTimer: false },
+  // config: { saveFlag: true, saveTimer: false },
   components: [
     {
       id: 1,
@@ -113,9 +118,6 @@ const findChild = (component: Component, childId: number) => {
 const updateAllIds = (comp: Component[] | ChildElement[]) => {
   // put components' names and ids into an obj
   const obj = { spr: 1000, others: 1 };
-  // comp.forEach((el) => {
-  //   if (!obj[el.name]) obj[el.name] = el.id;
-  // });
   // for each of the components, if it has children, iterate through that children array
   comp.forEach((el) => {
     if (el.children.length > 0) {
@@ -127,10 +129,6 @@ const updateAllIds = (comp: Component[] | ChildElement[]) => {
           el.children[i].childId = obj['others']++;
         }
         // // if the child's name and id exists in the object
-        // if (obj[el.children[i].name]) {
-        //   // set the child's typeId to be the value in the object of the child's name key
-        //   el.children[i].typeId = obj[el.children[i].name];
-        // }
         // recursively call the updateAllIds function on the child's children array if
         // the child's children array is greater than 0
         if (el.children[i].children.length > 0) {
@@ -238,11 +236,9 @@ const appStateSlice = createSlice({
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
       ) {
-        // return state;
         return
       }
 
-      // const components = [...state.components];
       const newComponent = {
         id: state.components.length + 1,
         name: action.payload.componentName,
@@ -260,16 +256,11 @@ const appStateSlice = createSlice({
       };
       state.components.push(newComponent);
       // functionality if the new component will become the root component
-      // const rootComponents = [...state.rootComponents];
       if (action.payload.root) state.rootComponents.push(newComponent.id);
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
 
       // change canvas focus to just created component
-      // const canvasFocus = {
-      //   ...state.canvasFocus,
-      //   componentId: newComponent.id,
-      //   childId: null
-      // };
+ 
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
         state.components,
@@ -282,15 +273,7 @@ const appStateSlice = createSlice({
 
       );
 
-      // return {
-      //   ...state,
-      //   components,
-      //   rootComponents,
-      //   nextComponentId
-      // canvasFocus
-      // },
-      // state.components = components;
-      // state.rootComponents = rootComponents;
+ 
       state.nextComponentId = nextComponentId
 
 
@@ -410,14 +393,7 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-
-      // return {
-      //   ...state,
-      //   components,
-      //   nextChildId,
-      //   canvasFocus,
-      //   nextTopSeparatorId
-      // };
+      console.log('addchild state before update',current(state))
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
@@ -456,7 +432,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
     updateUseContext: (state, action) => {
@@ -476,7 +451,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
 
@@ -541,7 +515,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components, nextTopSeparatorId };
       state.components = components;
       state.nextTopSeparatorId = nextTopSeparatorId;
     },
@@ -566,7 +539,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
 
@@ -591,7 +563,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
 
@@ -618,7 +589,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
 
@@ -641,7 +611,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
 
@@ -652,7 +621,6 @@ const appStateSlice = createSlice({
       // rebuild rootComponents with correct page IDs
       const rootComponents = updateRoots(components);
       const canvasFocus = { componentId: 1, childId: null };
-      // return { ...state, rootComponents, components, canvasFocus };
       state.rootComponents = rootComponents;
       state.components = components;
       state.canvasFocus = canvasFocus;
@@ -701,13 +669,7 @@ const appStateSlice = createSlice({
         );
       }
       const canvasFocus = { componentId: 1, childId: null };
-      // return {
-      //   ...state,
-      //   rootComponents,
-      //   components,
-      //   canvasFocus,
-      //   nextComponentId: id
-      // };
+
       state.rootComponents = rootComponents;
       state.components = components;
       state.canvasFocus = canvasFocus;
@@ -715,10 +677,7 @@ const appStateSlice = createSlice({
 
     },
     setProjectName: (state, action) => {
-      // return {
-      //   ...state,
-      //   name: action.payload
-      // };
+
       state.name = action.payload;
     },
     changeProjectType: (state, action) => {
@@ -741,7 +700,6 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       });
-      // return { ...state, components, projectType };
       state.components = components;
       state.projectType = projectType;
     },
@@ -802,11 +760,7 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       });
-      // return {
-      //   ...state,
-      //   canvasFocus,
-      //   HTMLTypes
-      // };
+
       state.canvasFocus = canvasFocus;
       state.HTMLTypes = HTMLTypes;
     },
@@ -839,7 +793,6 @@ const appStateSlice = createSlice({
           JSON.stringify(action.payload.id) === '{}') // Ensuring deletion works for mouseclick OR using delete key, from 2 different dispatch sources
       ) {
         directParent.children.splice(childIndexValue, 1);
-        // const canvasFocus = { ...state.canvasFocus, childId: null };
         let nextTopSeparatorId = manageSeparators.handleSeparators(
           components[canvasFocus.componentId - 1].children,
           'delete'
@@ -856,7 +809,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components, canvasFocus, nextTopSeparatorId };
       state.components = components;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
@@ -870,24 +822,16 @@ const appStateSlice = createSlice({
         childId: null
       };
       convertToJSX(action.payload.HTMLTypes);
-      // return { ...action.payload, canvasFocus };
       state.canvasFocus = canvasFocus;
     },
     openProject: (state, action) => {
       convertToJSX(action.payload.HTMLTypes);
-      // return {
-      //   ...action.payload
-      // };
       state = action.payload;
 
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
       HTMLTypes.push(action.payload);
-      // return {
-      //   ...state,
-      //   HTMLTypes
-      // };
       state.HTMLTypes = HTMLTypes;
     },
     undo: (state, action) => {
@@ -915,9 +859,7 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       });
-      // return {
-      //   ...state
-      // };
+
       state = state;
     },
     redo: (state, action) => {
@@ -946,9 +888,6 @@ const appStateSlice = createSlice({
 
         );
       });
-      // return {
-      //   ...state
-      // };
       state = state;
     },
     addState: (state, action) => {
@@ -971,7 +910,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
     addPassedInProps: (state, action) => {
@@ -1152,7 +1090,6 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      // return { ...state, components };
       state.components = components;
     },
     deleteState: (state, action) => {
@@ -1270,30 +1207,40 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       });
-      // return { ...state, components };
       state.components = components;
     },
 
     toggleLoggedIn: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
-    configToggle: (state) => {
-      state.config = {
-        ...state.config,
-        saveFlag: !state.config.saveFlag,
-        saveTimer: !state.config.saveTimer
-      };
-    },
+    // configToggle: (state) => {
+    //   state.config = {
+    //     ...state.config,
+    //     saveFlag: !state.config.saveFlag,
+    //     saveTimer: !state.config.saveTimer
+    //   };
+    // },
     snapShotAction: (state, action) => {
       state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
+    },
+    allCooperativeState: (state, action) => {
+      return Object.assign({}, state, action.payload)
     }
+
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
 
-export const { addComponent, addChild, changeFocus, changeTailwind, changePosition, updateStateUsed, resetAllState, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage, deleteReusableComponent, setProjectName, changeProjectType, resetState, updateProjectName, deleteElement, updateAttributes, deleteChild, setInitialState, openProject, addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, deleteState, toggleLoggedIn, configToggle, snapShotAction } = appStateSlice.actions;
+export const { addComponent, addChild, changeFocus, 
+  changeTailwind, changePosition, updateStateUsed, 
+  resetAllState, updateUseContext, updateCss, updateEvents, 
+  deleteEventAction, deletePage, deleteReusableComponent, 
+  setProjectName, changeProjectType, resetState, updateProjectName, 
+  deleteElement, updateAttributes, deleteChild, setInitialState, openProject, 
+  addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, 
+  deleteState, toggleLoggedIn, configToggle, snapShotAction, allCooperativeState } = appStateSlice.actions;
 
 
 // Exports so we can combine in rootReducer

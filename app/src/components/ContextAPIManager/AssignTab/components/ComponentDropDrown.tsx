@@ -1,8 +1,10 @@
-import React, { Fragment, } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
+
 import { useSelector } from 'react-redux';
+import { Store } from 'redux';
 
 const filter = createFilterOptions();
 
@@ -12,11 +14,13 @@ const ComponentDropDown = ({
   componentInput,
   setComponentInput
 }) => {
-  const { state, isDarkMode } = useSelector((store) => ({
-    state: store.appState,
+  const { allContext } = contextStore;
+  // const [componentList] = useContext(StateContext);
+  const {state, isDarkMode} = useSelector(store =>({
+    state:  store.appState,
     isDarkMode: store.darkMode.isDarkMode
-  }));
-
+  } ))
+  const color = isDarkMode ? "white":"black"
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setComponentInput({
@@ -40,7 +44,7 @@ const ComponentDropDown = ({
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some((option) => inputValue === option.name);
+    const isExisting = options.some(option => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -53,7 +57,7 @@ const ComponentDropDown = ({
     return filtered;
   };
 
-  const getOptionLabel = (option) => {
+  const getOptionLabel = option => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -66,12 +70,11 @@ const ComponentDropDown = ({
     return option.name;
   };
 
-  const renderOption = (props, option) => <li {...props}>{option.name}</li>;
-  const color = isDarkMode ? 'lightgray' : 'black';
+  const renderOption = (props, option) => <li  style={{ color: "black", border: "1px solid black" }}  {...props}>{option.name}</li>;
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4}}>
         <Autocomplete
           id="autoCompleteContextField"
           value={componentInput}
@@ -83,17 +86,13 @@ const ComponentDropDown = ({
           options={state.components || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          sx={{ width: 425 }}
+          sx={{ width: 425, border: "1px solid black"  }}
           freeSolo
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Select Component"
-              helperText="Select a component for your selected context to consume"
-              InputLabelProps={{ style: { color } }}
-              FormHelperTextProps={{ style: { color } }}
-              InputProps={{ style: { color } }}
-            />
+          renderInput={params => (
+            <TextField {...params} InputProps={{
+              ...params.InputProps,
+              style: { color: color },
+            }}   label="Select Component" helperText='Select a component for your selected context to consume' />
           )}
         />
       </Box>

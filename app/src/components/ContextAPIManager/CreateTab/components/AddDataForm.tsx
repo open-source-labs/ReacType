@@ -1,22 +1,23 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux'
 
 const AddDataForm = ({ handleClickInputData, contextInput }) => {
-  const defaultInputData = { inputKey: '', inputValue: '' };
+  //const [contextInput, setContextInput] = React.useState(null);
+  const defaultInputData = {inputKey: '', inputValue: ''};
   const [dataContext, setDataContext] = React.useState(defaultInputData);
-  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
-
+const {isDarkMode} = useSelector(store=> store.darkMode.isDarkMode)
   const saveData = () => {
     setDataContext(defaultInputData);
-    handleClickInputData(contextInput, dataContext);
-  };
+    handleClickInputData(contextInput, dataContext)
+  }
+const color = isDarkMode ? 'white' : 'black';
 
-  const handleChange = (e) => {
-    setDataContext((prevDataContext) => {
+  const handleChange = e => {
+    setDataContext(prevDataContext => {
       return {
         ...prevDataContext,
         [e.target.name]: e.target.value
@@ -24,23 +25,21 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
     });
   };
 
-  const color = isDarkMode ? 'lightgray' : 'black';
-
   return (
     <Fragment>
-      <Typography style={{ color }} variant="h6" gutterBottom={true}>
-        Add context data
+      <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
+        Add context data 
       </Typography>
-      <Box sx={{ display: 'flex', gap: 2 }}>
+      <Box sx={{ display: 'flex', gap: 2, color:'black' }}>
         <TextField
           id="outlined-basic"
           label="Key"
           variant="outlined"
           value={dataContext.inputKey}
           name="inputKey"
-          onChange={(e) => handleChange(e)}
-          InputLabelProps={{ style: { color } }}
-          InputProps={{ style: { color, borderColor: color } }}
+          onChange={e => handleChange(e)}
+          InputProps={{style: { color: color }}}  
+          style={{border:'1px solid black'}}
         />
         <TextField
           id="outlined-basic"
@@ -48,11 +47,14 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
           variant="outlined"
           value={dataContext.inputValue}
           name="inputValue"
-          onChange={(e) => handleChange(e)}
-          InputLabelProps={{ style: { color } }}
-          InputProps={{ style: { color, borderColor: color } }}
+          onChange={e => handleChange(e)}
+          style={{border:'1px solid black'}}
+          InputProps={{ style: { color: color }}}  
         />
-        <Button variant="contained" onClick={saveData}>
+        <Button
+          variant="contained"
+          onClick={saveData}
+        >
           Save
         </Button>
       </Box>

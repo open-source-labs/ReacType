@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableFooter from '@mui/material/TableFooter';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,6 +40,7 @@ export default function DataTable({ target, contextInput }) {
         >
           <TableHead>
             <TableRow>
+              {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
                 {contextInput ? contextInput.name : 'Context Name'}
               </StyledTableCell>
@@ -54,6 +56,11 @@ export default function DataTable({ target, contextInput }) {
               </StyledTableRow>
             ))}
           </TableBody>
+          {/* <TableFooter>
+            <StyledTableCell align="center" colSpan={3}>
+              {contextInput ? contextInput.name : 'Context Name'}
+            </StyledTableCell>
+          </TableFooter> */}
         </Table>
       </TableContainer>
     </>

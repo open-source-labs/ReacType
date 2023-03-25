@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ComponentPanel from '../right/ComponentPanel'
 import HTMLPanel from '../left/HTMLPanel'
 import { useSelector } from 'react-redux';
@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 // This allows users to create all aspects of this application in one place.
 const CreationPanel = (props): JSX.Element => {
   const style = useSelector((store) => store.styleSlice);
-  console.log('style from creation',style)
   return (
     <div className="creation-panel" style={style.style}>
       <ComponentPanel isThemeLight={props.isThemeLight}/>

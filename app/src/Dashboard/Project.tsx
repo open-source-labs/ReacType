@@ -39,7 +39,6 @@ const Project = ({
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
   const [commentVal, setCommentVal] = useState('');
-  const [clicked, setClicked] = useState(false);
   const [modal, setModal] = useState(null);
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
