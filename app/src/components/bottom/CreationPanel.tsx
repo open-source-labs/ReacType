@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ComponentPanel from '../right/ComponentPanel'
 import HTMLPanel from '../left/HTMLPanel'
 import { useSelector } from 'react-redux';
