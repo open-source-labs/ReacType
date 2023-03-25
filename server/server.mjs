@@ -87,7 +87,7 @@ const io = new Server(httpServer, {
 io.on('connection', socket => {
   console.log(socket.id)
   socket.on('custom-event', (string, redux_store) => {
-    console.log(string)
+    // console.log(string)
     // console.log(redux_store)
     socket.broadcast.emit('receive message', redux_store)
   })

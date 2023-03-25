@@ -89,19 +89,10 @@ socket.on('receive message', (event) => {
     } else if (currentStore.styleSlice!==event.styleSlice) {
       store.dispatch(cooperativeStyle(event.styleSlice))
     } 
-<<<<<<< HEAD
-
-      console.log("eventstate from precooperative",event.appState.components[0].children[1])
-      const {type, typeId, childId} = event.appState.components[0].children[1]
-      store.dispatch(addChild({type, typeId, childId}))
-    
-    
-=======
     // else {
     //   console.log('contextslice else if block is running: ', event.contextSlice.allContext[lastIndex])
     //   store.dispatch(allContextCooperative(event.contextSlice))
     // }
->>>>>>> 41e7144c6d708703d21ec0f269f012deb75d4aaf
   }
   console.log('updated user Store from another user: ', store.getState())
 })
