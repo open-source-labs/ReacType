@@ -566,6 +566,11 @@ NAVBAR
   top: 45px;
   padding-top: 5px;
   padding-bottom: 5px;
+  display: hidden;
+}
+
+.hideNavDropDown{
+  display: none;
 }
 
 .navDropDown button{
@@ -578,6 +583,10 @@ NAVBAR
   border-radius: 5px;
   display: flex;
   align-items: center;
+}
+
+.navDropDown p{
+  margin: 3px 5%;
 }
 
 .navDropDown button:hover{

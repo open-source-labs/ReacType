@@ -18,6 +18,8 @@ import SaveProjectButton from '../right/SaveProjectButton.tsx';
 import ProjectsFolder from '../right/OpenProjects.tsx';
 import DeleteProjects from '../right/DeleteProjects.tsx';
 import Menu from '@mui/material/Menu';
+import { io } from 'socket.io-client'
+import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -35,14 +37,16 @@ const useStyles = makeStyles((theme) =>
     },
     manageProject: {
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      width: '100px',
+      overflow: 'none',
     }
   })
 );
 
 const StyledMenu = withStyles({
     paper: {
-      border: '1px solid #d3d4d5'
+      border: '1px solid #d3d4d5',
     }
   })(props => (
     <Menu
@@ -70,16 +74,21 @@ const StyledMenu = withStyles({
     }
   }))(MenuItem);
 
-function navbarDropDown () {
+
+// where the main function starts //
+function navbarDropDown (props) {
     
     const dispatch = useDispatch();
     const [modal, setModal] = React.useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [roomCode, setRoomCode] = React.useState('');
+    const [confirmRoom, setConfirmRoom] = React.useState('')
     const classes = useStyles();
 
-    const { isDarkMode, state } = useSelector(store=>({
+    const { isDarkMode, state, joinedRoom } = useSelector(store=>({
         isDarkMode: store.darkMode.isDarkMode,
         state: store.appState,
+        joinedRoom: store.roomCodeSlice.roomCode
         }
         ))
     const closeModal = () => setModal('');
@@ -132,12 +141,21 @@ function navbarDropDown () {
         dispatch(toggleDarkMode());
         // Add your logic to update the style and theme based on darkMode
         isDarkMode ? dispatch(setStyle(null)) : dispatch(setStyle({ backgroundColor: '#21262c' }));
-        props.setTheme(isDarkMode);
       };
 
       const handleClose = () => {
         setAnchorEl(null);
       };
+
+      React.useEffect(()=>{
+        console.log('joinedRoom: ', joinedRoom)
+      }, [joinedRoom])
+
+      function joinRoom () {
+        console.log(roomCode)
+        dispatch(changeRoom(roomCode))
+        setConfirmRoom(confirmRoom=>roomCode)
+      }
 
       const switchDark = isDarkMode ? 
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lightbulb" viewBox="0 0 16 16">
@@ -148,8 +166,10 @@ function navbarDropDown () {
             <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z"/>
         </svg>
 
+    const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown'
+
     return (
-        <div className="navDropDown">
+        <div className={showMenu}>
             <Link to="/tutorial" style={{ textDecoration: 'none' }} target='_blank'>
                 <button>Tutorial
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-book" viewBox="0 0 16 16">
@@ -169,6 +189,10 @@ function navbarDropDown () {
                     <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313ZM13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 5.698ZM14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13V4Zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A4.92 4.92 0 0 0 13 8.698Zm0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525Z"/>
                 </svg>
             </button>}
+            <input type="text" style={{ margin: '3px 5%', borderRadius: '5px', padding: '3px', width: '90%' }}
+            placeholder="Room Code" onChange={(e)=>setRoomCode(e.target.value)}></input>
+            <button onClick={()=>joinRoom()}>Join Room</button>
+            <p>In Room: {joinedRoom}</p>
             <LoginButton style={{marginLeft: '10%'}}/>
             <StyledMenu // Dropdown menu connected to Manage Project Button
               id="customized-menu"

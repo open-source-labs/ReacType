@@ -64,7 +64,7 @@ const dispatch = useDispatch();
       <Button
         color="primary"
         onClick={handleClickOpen}
-        endIcon={<SaveOutlinedIcon />}
+        endIcon={<SaveOutlinedIcon />} sx={{fontSize: '9px'}}
       >
         SAVE PROJECT AS
       </Button>
