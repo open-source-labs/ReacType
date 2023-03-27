@@ -87,8 +87,8 @@ jspm_packages/
 build/
 release-builds/
 
-.docker-compose.yml
-.Dockerfile-2stage
+.docker-compose-nginx.yml
+.Dockerfile-1stage
 .Dockerfile-nginx
 
 # TypeScript v1 declaration files
