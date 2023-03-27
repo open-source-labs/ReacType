@@ -83,7 +83,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-dist/
+# dist/
 build/
 release-builds/
 
