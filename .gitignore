@@ -87,6 +87,10 @@ jspm_packages/
 build/
 release-builds/
 
+.docker-compose.yml
+.Dockerfile-2stage
+.Dockerfile-nginx
+
 # TypeScript v1 declaration files
 typings/
 
@@ -495,5 +499,7 @@ server/RootCA.crt
 server/rootCA.key
 server/rootCA.pem
 server/RootCA.srl
+
+
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
