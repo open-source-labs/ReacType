@@ -12,7 +12,7 @@ COPY package*.json ./
 
 COPY app/dist /app
 
-COPY .env .env
+# COPY .env .env
 
 COPY server ./server
 
