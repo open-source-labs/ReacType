@@ -99,6 +99,7 @@ export default function ProjectsFolder(props) {
         id="openProject"
         onClick={handleClickOpen}
         endIcon={<FolderOpenIcon />}
+        sx={{fontSize: '9px'}}
       >
         Open Project
       </Button>

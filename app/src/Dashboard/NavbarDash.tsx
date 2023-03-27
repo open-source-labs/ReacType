@@ -46,7 +46,7 @@ const sortMethods = ['RATING', 'DATE', 'USER'];
 // Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
+    border: '1px solid #d3d4d5',
   }
 })(props => (
   <Menu

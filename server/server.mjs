@@ -4,7 +4,7 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-const {json, urlencoded} = bodyParser;
+const { json, urlencoded } = bodyParser;
 
 //possibly redundant
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -17,7 +17,6 @@ import DEV_PORT from '../config.js';
 // const path = require('path');
 import path from 'path';
 
-
 import userController from './controllers/userController.js';
 import cookieController from './controllers/cookieController.js';
 import sessionController from './controllers/sessionController.js';
@@ -26,7 +25,6 @@ import projectController from './controllers/projectController.js';
 // docker stuff
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
 
 // env file
 import dotenv from 'dotenv';
@@ -68,51 +66,52 @@ app.use(
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
 // const passport = require('passport');
 import passport from 'passport';
-import passportSetup from './routers/passport-setup.js'
-import session from 'express-session'
-import authRoutes from './routers/auth.js'
+import passportSetup from './routers/passport-setup.js';
+import session from 'express-session';
+import authRoutes from './routers/auth.js';
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 24*60*60*1000 }
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 // go to other files
 // 8080 only for the container
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes);
 
-import { createServer } from 'http'
-import { Server } from 'socket.io'
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
-const httpServer = createServer(app)
+const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
     origin: ['http://localhost:5656', 'http://localhost:8080']
   }
-})
+});
 
-io.on('connection', socket => {
-  console.log(socket.id)
-  socket.on('custom-event', (string, redux_store) => {
-    // console.log(string)
-    // console.log(redux_store)
-    socket.broadcast.emit('receive message', redux_store)
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  socket.on('custom-event', (string, redux_store, room) => {
+    console.log(room);
+    if (room) {
+      socket.to(room).emit('receive message', redux_store);
+    } else {
+      socket.broadcast.emit('receive message', redux_store);
+    }
   });
-
-  socket.on('error', (error) => {
-    console.error(`Socket error: ${error}`);
+  socket.on('room-code', (roomCode) => {
+    console.log('joined room: ', roomCode);
+    socket.join(roomCode);
   });
-})
-
-
-
-
+});
 
 /*
 GraphQl Router
@@ -131,8 +130,6 @@ const resolvers = {
   Mutation
 };
 
-
-
 // Re-direct to route handlers:
 app.use('/user-styles', stylesRouter);
 
@@ -140,24 +137,22 @@ app.use('/user-styles', stylesRouter);
 
 import typeDefs from './graphQL/schema/typeDefs.js';
 
-
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
 //use make exacutable schema to allow schema to be passed to new server
-const schema = makeExecutableSchema({typeDefs, resolvers});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const server = new ApolloServer({schema});
-
+const server = new ApolloServer({ schema });
 
 //v4 syntax
-await server.start()
+await server.start();
 app.use(
   '/graphql',
   cors(),
   json(),
   expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
-  }),
+    context: async ({ req }) => ({ token: req.headers.token })
+  })
 );
 
 /** ****************************************************************** */
@@ -201,11 +196,11 @@ app.delete(
 );
 // serve index.html on the route '/'
 const isDocker = process.env.IS_DOCKER === 'true';
-console.log('this is running on docker: ', isDocker)
+console.log('this is running on docker: ', isDocker);
 
 //if in production mode, statically serve everything in the build folder on the route '/dist'
-if (process.env.NODE_ENV == 'production'){
-  app.use('/dist', express.static(path.join(__dirname, '/app/dist')))
+if (process.env.NODE_ENV == 'production') {
+  app.use('/dist', express.static(path.join(__dirname, '/app/dist')));
 }
 
 app.get('/', (req, res) => {
@@ -217,17 +212,17 @@ app.get('/', (req, res) => {
 
 app.get('/bundle.js', (req, res) => {
   return res.status(200).sendFile(path.join(process.cwd(), 'bundle.js'));
-})
+});
 
-if (isDocker){
+if (isDocker) {
   app.get('/main.css', (req, res) => {
     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
-  })
+  });
 }
 
 app.get('/test', (req, res) => {
   res.send('test request is working');
-})
+});
 
 // only for testing purposes in the dev environment
 // app.get('/', function(req, res) {
@@ -235,8 +230,8 @@ app.get('/test', (req, res) => {
 // });
 
 app.use('http://localhost:8080/*', (req, res) => {
-  res.status(404).send('not a valid page (404 page)')
-})
+  res.status(404).send('not a valid page (404 page)');
+});
 // catch-all route handler
 app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
@@ -253,7 +248,9 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-httpServer.listen(5656, () => console.log(`Server listening on port: ${PORT.DEV_PORT}`))
+httpServer.listen(5656, () =>
+  console.log(`Server listening on port: ${PORT.DEV_PORT}`)
+);
 
 if (isTest) module.exports = app;
 // export default app;

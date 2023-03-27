@@ -65,9 +65,12 @@ let previousState = store.getState();
 // sending info to backend whenever the redux store changes
 const handleStoreChange = debounce(() => {
   const newState = store.getState();
+  if (store.getState().roomCodeSlice.roomCode!==''){
+    socket.emit('room-code', store.getState().roomCodeSlice.roomCode)
+  }
   if (newState !== previousState){
     console.log('before sending to server: ', newState)
-    socket.emit('custom-event', 'sent from front-end', JSON.stringify(newState))
+    socket.emit('custom-event', 'sent from front-end', JSON.stringify(newState), store.getState().roomCodeSlice.roomCode)
     previousState = newState;
   }
 }, 100);
