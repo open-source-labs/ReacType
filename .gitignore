@@ -83,14 +83,14 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-# dist/
+dist/
 build/
 release-builds/
 
-.docker-compose-nginx.yml
-.Dockerfile-1stage
-.Dockerfile-nginx
-.electron
+# .docker-compose-nginx.yml
+# .Dockerfile-1stage
+# .Dockerfile-nginx
+# .electron
 
 # TypeScript v1 declaration files
 typings/
