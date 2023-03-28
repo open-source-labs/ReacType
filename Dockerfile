@@ -11,7 +11,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --no-install-recommends --fetch-retry-maxtimeout 300000
+RUN npm install --no-install-recommends --fetch-retry-maxtimeout 500000
 
 COPY . .
 
@@ -22,7 +22,7 @@ WORKDIR /app
 
 COPY --from=build /app/package*.json ./
 
-RUN npm install --no-install-recommends --only=production --fetch-retry-maxtimeout 300000
+RUN npm install --no-install-recommends --only=production --fetch-retry-maxtimeout 500000
 
 # COPY --from=build /app/.env .env
 COPY --from=build /app/config.js ./config.js
