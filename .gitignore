@@ -90,6 +90,7 @@ release-builds/
 .docker-compose-nginx.yml
 .Dockerfile-1stage
 .Dockerfile-nginx
+.electron
 
 # TypeScript v1 declaration files
 typings/
