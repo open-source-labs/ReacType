@@ -87,6 +87,11 @@ dist/
 build/
 release-builds/
 
+# .docker-compose-nginx.yml
+# .Dockerfile-1stage
+# .Dockerfile-nginx
+# .electron
+
 # TypeScript v1 declaration files
 typings/
 
@@ -495,5 +500,7 @@ server/RootCA.crt
 server/rootCA.key
 server/rootCA.pem
 server/RootCA.srl
+
+
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn

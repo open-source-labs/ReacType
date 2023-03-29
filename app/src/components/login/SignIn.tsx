@@ -171,7 +171,8 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
     ) => {
       e.preventDefault();
         // window.api.github();
-        window.location.assign('http://localhost:5656/auth/github');
+        // 8080 for container 5656 for dev
+        window.location.assign('http://localhost:5656/auth/github')
     }
   const responseFacebook = response => {
     if (response.accessToken) {
@@ -303,7 +304,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = props => {
               id="SignInWithGoogle"
               onClick={(e)=>{
                 e.preventDefault();
-                window.location.assign('http://localhost:5656/auth/google');
+                window.location.assign('http://localhost:5656/auth/google')
               }}
               sx={{
                 marginBottom: '5px'

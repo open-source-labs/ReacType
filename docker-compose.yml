@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - '80:80'
+  api:
+    build:
+      context: .
+      target: build
+    ports:
+      - '5656:5656'

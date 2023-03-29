@@ -19,7 +19,8 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: `http://localhost:5656/auth/github/callback`
+      callbackURL: `http://localhost:5656/auth/github/callback`,
+      proxy: true,
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);
@@ -51,7 +52,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: `http://localhost:5656/auth/google/callback`
+      callbackURL: `http://localhost:5656/auth/google/callback`,
+      proxy: true,
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);
