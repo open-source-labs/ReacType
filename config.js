@@ -1,7 +1,3 @@
-// module.exports = {
-//   DEV_PORT: 5656
-// };
-
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
