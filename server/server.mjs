@@ -12,7 +12,8 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import DEV_PORT from '../config.js';
+import config from '../config.js';
+const { API_BASE_URL, DEV_PORT } = config;
 
 // const path = require('path');
 import path from 'path';
@@ -52,7 +53,7 @@ import stylesRouter from './routers/stylesRouter.js';
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
 app.use(
   cors({
-    origin: [`http://localhost:8080`, 'app://rse'],
+    origin: [`http://localhost:8080`, 'app://rse', API_BASE_URL],
     credentials: true
   })
 );
@@ -93,7 +94,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   transports: ['websocket'],
   cors: {
-    origin: ['http://localhost:5656', 'http://localhost:8080']
+    origin: ['http://localhost:5656', 'http://localhost:8080', API_BASE_URL]
   }
 });
 
@@ -229,9 +230,9 @@ app.get('/test', (req, res) => {
 //   res.send('Houston, Caret is in orbit!');
 // });
 
-app.use('http://localhost:8080/*', (req, res) => {
-  res.status(404).send('not a valid page (404 page)');
-});
+// app.use('http://localhost:8080/*', (req, res) => {
+//   res.status(404).send('not a valid page (404 page)');
+// });
 // catch-all route handler
 app.use('/*', (req, res) => res.status(404).send('Page not found'));
 
@@ -249,7 +250,7 @@ app.use((err, req, res, next) => {
 
 // starts server on PORT
 httpServer.listen(5656, () =>
-  console.log(`Server listening on port: ${PORT.DEV_PORT}`)
+  console.log(`Server listening on port: ${DEV_PORT}`)
 );
 
 if (isTest) module.exports = app;

@@ -20,13 +20,12 @@ import TutorialPage from './tutorial/TutorialPage.tsx';
 import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
 
 // for websockets
-import debounce from 'lodash/debounce'
+// import debounce from 'lodash/debounce';
 
 const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',
   cache: new InMemoryCache()
 });
-
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -41,66 +40,68 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-// websocket front end starts here
-import { io } from 'socket.io-client'
-import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice'
+// // websocket front end starts here
+// import { io } from 'socket.io-client';
+// import { toggleDarkMode } from './redux/reducers/slice/darkModeSlice';
 
-import { allCooperativeState } from './redux/reducers/slice/appStateSlice.ts'
-import { codePreviewCooperative } from './redux/reducers/slice/codePreviewSlice';
-import { allContextCooperative } from './redux/reducers/slice/contextReducer';
-import { cooperativeStyle } from './redux/reducers/slice/styleSlice';
+// import { allCooperativeState } from './redux/reducers/slice/appStateSlice.ts';
+// import { codePreviewCooperative } from './redux/reducers/slice/codePreviewSlice';
+// import { allContextCooperative } from './redux/reducers/slice/contextReducer';
+// import { cooperativeStyle } from './redux/reducers/slice/styleSlice';
+// import config from '../../config';
+// const { API_BASE_URL } = config;
 
+// const socket = io(API_BASE_URL, {
+//   transports: ['websocket']
+// });
 
-const socket = io('http://localhost:5656', {
-  transports: ['websocket']
-});
+// socket.on('connect', () => {
+//   console.log(`You connected with id: ${socket.id}`);
+// });
 
-socket.on('connect', () => {
-  console.log(`You connected with id: ${socket.id}`)
-})
+// console.log(store.getState());
+// let previousState = store.getState();
 
-console.log(store.getState())
-let previousState = store.getState();
+// // sending info to backend whenever the redux store changes
+// const handleStoreChange = debounce(() => {
+//   const newState = store.getState();
+//   if (store.getState().roomCodeSlice.roomCode !== '') {
+//     socket.emit('room-code', store.getState().roomCodeSlice.roomCode);
+//   }
+//   if (newState !== previousState) {
+//     console.log('before sending to server: ', newState);
+//     socket.emit(
+//       'custom-event',
+//       'sent from front-end',
+//       JSON.stringify(newState),
+//       store.getState().roomCodeSlice.roomCode
+//     );
+//     previousState = newState;
+//   }
+// }, 100);
 
-// sending info to backend whenever the redux store changes
-const handleStoreChange = debounce(() => {
-  const newState = store.getState();
-  if (store.getState().roomCodeSlice.roomCode!==''){
-    socket.emit('room-code', store.getState().roomCodeSlice.roomCode)
-  }
-  if (newState !== previousState){
-    console.log('before sending to server: ', newState)
-    socket.emit('custom-event', 'sent from front-end', JSON.stringify(newState), store.getState().roomCodeSlice.roomCode)
-    previousState = newState;
-  }
-}, 100);
+// // receiving the message from the back end
+// socket.on('receive message', (event) => {
+//   // console.log('message from server: ', event);
+//   let currentStore = JSON.stringify(store.getState());
+//   if (currentStore !== event) {
+//     currentStore = JSON.parse(currentStore);
+//     event = JSON.parse(event);
+//     console.log('stores do not match');
+//     if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
+//       store.dispatch(toggleDarkMode());
+//     } else if (currentStore.appState !== event.appState) {
+//       store.dispatch(allCooperativeState(event.appState));
+//     } else if (currentStore.codePreviewSlice !== event.codePreviewCooperative) {
+//       store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+//     } else if (currentStore.styleSlice !== event.styleSlice) {
+//       store.dispatch(cooperativeStyle(event.styleSlice));
+//     }
+//   }
+//   console.log('updated user Store from another user: ', store.getState());
+// });
 
-// receiving the message from the back end
-socket.on('receive message', (event) => {
-  // console.log('message from server: ', event);
-  let currentStore = JSON.stringify(store.getState())
-  if (currentStore!==event){
-    currentStore = JSON.parse(currentStore);
-    event = JSON.parse(event);
-    console.log('stores do not match')
-    if (currentStore.darkMode.isDarkMode!==event.darkMode.isDarkMode){
-      store.dispatch(toggleDarkMode())
-    } else if (currentStore.appState!==event.appState) {
-      store.dispatch(allCooperativeState(event.appState))
-    } else if (currentStore.codePreviewSlice!==event.codePreviewCooperative){
-      store.dispatch(codePreviewCooperative(event.codePreviewCooperative))
-    } else if (currentStore.styleSlice!==event.styleSlice) {
-      store.dispatch(cooperativeStyle(event.styleSlice))
-    } 
-    // else {
-    //   console.log('contextslice else if block is running: ', event.contextSlice.allContext[lastIndex])
-    //   store.dispatch(allContextCooperative(event.contextSlice))
-    // }
-  }
-  console.log('updated user Store from another user: ', store.getState())
-})
-
-store.subscribe(handleStoreChange)
+// store.subscribe(handleStoreChange);
 
 ReactDOM.render(
   <ApolloProvider client={client}>
