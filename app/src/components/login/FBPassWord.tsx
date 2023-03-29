@@ -1,27 +1,20 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, {  useState} from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
   withRouter,
-  useHistory,
   RouteComponentProps
 } from 'react-router-dom';
 import { newUserIsCreated } from '../../helperFunctions/auth';
-
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { element } from 'prop-types';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
 
 function Copyright() {
   return (
@@ -189,10 +182,8 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
             type="submit"
             fullWidth
             variant="contained"
-            color="default"
             className={classes.submit}
-            onClick={e => handleSignUp(e)}
-          >
+            onClick={e => handleSignUp(e)}>
             Sign Up
           </Button>+
           <Grid container justifyContent="flex-end">

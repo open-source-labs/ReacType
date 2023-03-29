@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 const base = require('./webpack.config');
 const path = require('path');
 const nonce = require('./app/src/utils/createNonce')();
-const {DEV_PORT} = require('./config');
+const { DEV_PORT } = require('./config');
 
 // merges webpack.config.js with development specific configs
 module.exports = merge(base, {
@@ -12,21 +12,29 @@ module.exports = merge(base, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    historyApiFallback: true,
     host: 'localhost',
     port: '8080',
     hot: true, // Hot-reload this server if changes are detected
     compress: true, // Compress (gzip) files that are served
-    contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from
-    watchContentBase: true, // Watch the content base for changes
-    watchOptions: {
-      ignored: /node_modules/
-    },
+    // contentBase: path.resolve(__dirname, 'app/dist'), // Where we serve the local dev server's files from, not valid devserver
+    // watchContentBase: true, // Watch the content base for changes , also not valid for dev server
+    // watchOptions: {
+    //   ignored: /node_modules/,
+    // }, //watchOptions not valid dev server config
     proxy: {
       '/demoRender': {
         target: `http://localhost:${DEV_PORT}/`
       },
       '/user-styles': {
         target: `http://localhost:${DEV_PORT}/`
+      },
+      '/auth/**': {
+        target: `http://localhost:5656/`
+      },
+      '/**': {
+        target: `http://localhost:5656/`
       }
     }
   },

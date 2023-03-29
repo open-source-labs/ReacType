@@ -1,27 +1,26 @@
 import React, { useState, useContext } from 'react';
-import {
-  withStyles, //added
-  createStyles,
-  makeStyles,
-  Theme,
-} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
-import Button from '@material-ui/core/Button';
-import EventNoteIcon from '@material-ui/icons/EventNote';
-import HomeIcon from '@material-ui/icons/Home';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { Theme } from '@mui/material/styles';
+import withStyles from '@mui/styles/withStyles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Brightness3Icon from '@mui/icons-material/Brightness3';
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import Button from '@mui/material/Button';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import HomeIcon from '@mui/icons-material/Home';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { styleContext } from '../containers/AppContainer';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import SortIcon from '@material-ui/icons/Sort';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import PersonIcon from '@material-ui/icons/Person';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import SortIcon from '@mui/icons-material/Sort';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import PersonIcon from '@mui/icons-material/Person';
 import greenLogo from '../public/icons/png/512x512.png';
+import {setStyle} from '../redux/reducers/slice/styleSlice'
+import { useSelector,useDispatch } from 'react-redux';
 
 // NavBar text and button styling
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -47,12 +46,12 @@ const sortMethods = ['RATING', 'DATE', 'USER'];
 // Drop down menu button for SORT PROJECTS
 const StyledMenu = withStyles({
   paper: {
-    border: '1px solid #d3d4d5'
+    border: '1px solid #d3d4d5',
   }
 })(props => (
   <Menu
     elevation={0}
-    getContentAnchorEl={null}
+    // getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'center'
@@ -77,7 +76,8 @@ const StyledMenuItem = withStyles(theme => ({
 export default function NavBar(props) {
   // TO DO: import setStyle
   const classes = useStyles();
-  const { style, setStyle } = useContext(styleContext);
+  const style = useSelector(store => store.styleSlice);
+  const dispatch = useDispatch();
   const toggling = () => setIsOpen(!isOpen);
   // toggle to open and close dropdown sorting menu
   const [isOpen, setIsOpen] = useState(false);
@@ -145,9 +145,9 @@ export default function NavBar(props) {
             style={{minWidth: '113.97px'}}
             endIcon={props.isThemeLight ? <Brightness3Icon/> : <Brightness5Icon/>}
             onClick={() => {
-              !props.styles[0].backgroundColor
-                ? props.styles[1]({ backgroundColor: '#21262D' }) //dark mode color
-                : props.styles[1]({ backgroundColor: null })
+              !style.backgroundColor
+                ? dispatch(setStyle({ backgroundColor: '#21262D' })) //dark mode color
+                : dispatch(setStyle( null ))
               props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
             }}
           >

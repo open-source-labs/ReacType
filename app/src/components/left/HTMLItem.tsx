@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import createModal from '../right/createModal';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -40,12 +41,11 @@ const HTMLItem : React.FC<{
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-  isThemeLight: boolean;
-}> = ({ name, id, Icon, handleDelete, isThemeLight }) => {
+}> = ({ name, id, Icon, handleDelete }) => {
 
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,
@@ -120,16 +120,16 @@ const HTMLItem : React.FC<{
   return ( // HTML Elements
     <Grid item xs={5} key={`html-g${name}`}>
       { id <= 20 &&
-        <div ref={drag} style={ { borderColor: isThemeLight? '#000' : '#fff' } } className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
+        <div ref={drag} style={ { borderColor: !isDarkMode ? '#000' : '#fff' } } className={!isDarkMode ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
           <h3>{name}</h3>
         </div>
       }
       { id > 20 &&
         <span id="customHTMLElement">
-          <div ref={drag} style={ { borderColor: isThemeLight? '#000' : '#fff' } } className={isThemeLight ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
+          <div ref={drag} style={ { borderColor: !isDarkMode ? '#000' : '#fff' } } className={!isDarkMode ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id="HTMLItem">
             <h3>{name}</h3>
           </div>
-          <button id="newElement" style={{color: isThemeLight ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
+          <button id="newElement" style={{color: !isDarkMode ? '#186BB4' : 'white' }} onClick={() => deleteAllInstances(id)} >X</button>
         </span>
       }
       {modal}

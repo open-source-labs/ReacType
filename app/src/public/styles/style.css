@@ -116,18 +116,20 @@ LEFT COLUMN
   padding: 0px;
   display: flex;
   height: 100%;
-  width: 235px;
+  width: 250px;
   min-width: 225px;
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
+  border-right: solid black 3px;
+  border-top: solid gray 2px;
 }
 
 .hide-show {
   position: absolute;
   height: 100%;
-  left: -237px;
+  left: -252px;
   /* opacity: 0; */
   transition: all 0.5s ease-in-out;
 }
@@ -143,20 +145,34 @@ LEFT COLUMN
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 100%;
+  width: 90%;
   flex-grow: 1;
+  border: 3px solid black;
+  border-radius: 10px;
 }
+
+.HTMLItemsDark{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 90%;
+  flex-grow: 1;
+  border: 3px solid white;
+  border-radius: 10px;
+}
+
 #HTMLItemsTopHalf {
   height: 52vh;
   overflow-y: auto;
 }
+
 #CompBottomHalf {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 50%;
 }
 .HTMLElements {
-  margin: 0px 0px 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -501,6 +517,90 @@ NAVBAR
 //////////////////////////////////////////
 */
 
+.main-navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 2vw;
+}
+
+.main-logo h1{
+  color: #013365;
+}
+
+.main-navbar svg{
+  width: 30px;
+  height: 30px;
+  color: gray;
+  margin-right: 2vw;
+  cursor: pointer;
+}
+
+.navbar-icon:hover{
+  animation: spinningWheel 2s infinite;
+}
+
+@keyframes spinningWheel {
+  0%{
+    transform: rotate(0deg)
+  }
+  100%{
+    transform: rotate(360deg)
+  }
+}
+
+.navDropDown{
+  position: absolute;
+  border: 1px solid black;
+  width: 20vw;
+  border-radius: 5px;
+  right: 1vw;
+  z-index: 10;
+  background-color: white;
+  top: 45px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: hidden;
+}
+
+.hideNavDropDown{
+  display: none;
+}
+
+.navDropDown button{
+  width: 90%;
+  margin: 3px 5%;
+  background-color: #009ae6;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.navDropDown p{
+  margin: 3px 5%;
+}
+
+.navDropDown button:hover{
+  cursor: pointer;
+  background-color: #007ab8
+}
+
+.navDropDown button svg{
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  color: white;
+}
+
 #navbarButton {
   color: white;
   margin: 0px 5px 0px 5px;
@@ -597,19 +697,17 @@ a.nav_link:hover {
   right: 30px;
   z-index: 999;
 }
-.useState-btn {
-  color: rgb(241, 240, 240);
-  background-color: #0099e6;
-  font-family: Arial, Helvetica, sans-serif;
-}
+
 .useState-btn {
   color: rgb(241, 240, 240);
   background-color: #0099e6;
   border: 1px solid #186bb4;
-  border-radius: 3;
-  box-shadow: '0 0px 0px 2px #1a1a1a';
-  padding: 2px 2px 2px 2px;
+  border-radius: 3px;
+  box-shadow: '2px 2px 2px #1a1a1a';
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
 }
+
 .useState-position {
   display: flex;
   flex-direction: column;

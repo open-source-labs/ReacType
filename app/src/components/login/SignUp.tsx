@@ -1,44 +1,31 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { LoginInt } from '../../interfaces/Interfaces';
 import {
   Link as RouteLink,
   withRouter,
-  useHistory,
   RouteComponentProps
 } from 'react-router-dom';
 import { newUserIsCreated } from '../../helperFunctions/auth';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { element } from 'prop-types';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions/actions.js';
-
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
 
-const mapDispatchToProps = (dispatch) => ({
-  darkModeToggle: () => {
-    dispatch(actions.darkModeToggle());
-  }
-});
-
-const mapStateToProps = (state) => {
-  return {
-    darkMode: state.darkModeSlice.darkMode
-  }
-};
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 function Copyright() {
   return (
@@ -52,21 +39,21 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    // marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   avatar: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    // marginTop: theme.spacing(3)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    // margin: theme.spacing(3, 0, 2)
   },
   root: {
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -77,6 +64,7 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -89,6 +77,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -205,127 +194,140 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
+     //NEW DARK MODE
+     const handleDarkModeToggle = () => {
+      dispatch(toggleDarkMode());
+    
+    };
+
   return (
-    <MuiThemeProvider theme={!props.darkMode ? SigninLight : SigninDark}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Button
-            color="primary"
-            style={{ 
-              minWidth: '113.97px',
-              top: 10,
-              right: 20,
-              position: "absolute"
-            }}
-            onClick={() => {
-              props.darkModeToggle();
-            }}
-          >
-            {`Dark Mode: ${props.darkMode}`}
-          </Button>
-          <Avatar className={classes.avatar}>
-            <AssignmentIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" color="textPrimary">
-            Sign up
-          </Typography>
-          <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={email}
-                  onChange={handleChange}
-                  helperText={invalidEmailMsg}
-                  error={invalidEmail}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  value={username}
-                  onChange={handleChange}
-                  helperText={invalidUsernameMsg}
-                  error={invalidUsername}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={handleChange}
-                  helperText={invalidPasswordMsg}
-                  error={invalidPassword}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  className={classes.root}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="passwordVerify"
-                  label="Verify Password"
-                  type="password"
-                  id="passwordVerify"
-                  autoComplete="verify-password"
-                  value={passwordVerify}
-                  onChange={handleChange}
-                  helperText={invalidVerifyPasswordMsg}
-                  error={invalidVerifyPassword}
-                />
-              </Grid>
-            </Grid>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
               color="primary"
-              className={classes.submit}
-              onClick={e => handleSignUp(e)}
+              style={{ 
+                minWidth: '113.97px',
+                top: 10,
+                right: 20,
+                position: "absolute"
+              }}
+              onClick={handleDarkModeToggle}
             >
-              Sign Up
+              {`Dark Mode: ${isDarkMode}`}
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <RouteLink style={{color: props.darkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
-                  Already have an account? Sign In
-                </RouteLink>
+            <Avatar className={classes.avatar} sx={{marginTop: '10vh'}}>
+              <AssignmentIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" color="textPrimary" sx={{marginBottom: '10px'}}>
+              Sign up
+            </Typography>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={handleChange}
+                    helperText={invalidEmailMsg}
+                    error={invalidEmail}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    value={username}
+                    onChange={handleChange}
+                    helperText={invalidUsernameMsg}
+                    error={invalidUsername}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={handleChange}
+                    helperText={invalidPasswordMsg}
+                    error={invalidPassword}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    className={classes.root}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="passwordVerify"
+                    label="Verify Password"
+                    type="password"
+                    id="passwordVerify"
+                    autoComplete="verify-password"
+                    value={passwordVerify}
+                    onChange={handleChange}
+                    helperText={invalidVerifyPasswordMsg}
+                    error={invalidVerifyPassword}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    </MuiThemeProvider>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={e => handleSignUp(e)}
+                sx={{
+                  marginTop: '15px',
+                  marginBottom: '5px'
+                }}
+              >
+                Sign Up
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16" style={{marginLeft: '5px'}}>
+                  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                  <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+                </svg>
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <RouteLink style={{color: isDarkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
+                    Already have an account? Sign In
+                  </RouteLink>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 
-// export default withRouter(SignUp);
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUp));
+export default withRouter(SignUp);

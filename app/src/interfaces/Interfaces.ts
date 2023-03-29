@@ -14,6 +14,7 @@ export interface State {
   nextBottomSeparatorId: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
+  tailwind: boolean;
 }
 
 export interface ChildElement {

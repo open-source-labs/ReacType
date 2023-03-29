@@ -1,22 +1,22 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
-import { blue } from '@material-ui/core/colors';
+import React, { useState, useCallback, useEffect } from 'react';
+import makeStyles from '@mui/styles/makeStyles';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemText from '@mui/material/ListItemText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { blue } from '@mui/material/colors';
 import {
   getProjects,
   deleteProject
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
-import StateContext from '../../context/context';
-import initialState from '../../context/initialState';
+import { useSelector, useDispatch } from 'react-redux';
+import { setInitialState } from '../../redux/reducers/slice/appStateSlice';
 export interface ProjectDialogProps {
   open: boolean;
   projects: Array<Object>;
@@ -26,7 +26,8 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
 
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {
@@ -41,7 +42,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     )[0];
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
-    dispatch({ type: 'SET INITIAL STATE', payload: initialState });
+    dispatch(setInitialState(initialState))
     onClose();
   };
 
@@ -108,6 +109,7 @@ export default function ProjectsFolder() {
         color="primary"
         onClick={handleClickOpen}
         endIcon={<DeleteRoundedIcon />}
+        sx={{fontSize: '9px'}}
       >
         Delete Project
       </Button>

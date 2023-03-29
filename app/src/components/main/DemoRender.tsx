@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 import cssRefresher from '../../helperFunctions/cssRefresh';
-import { useSelector } from 'react-redux';
-import StateContext from '../../context/context';
 import { Component } from '../../interfaces/Interfaces';
-
 import ReactDOMServer from 'react-dom/server';
-import { stat } from 'fs/promises';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState);
+  const dispatch = useDispatch();
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
@@ -58,17 +57,15 @@ const DemoRender = (): JSX.Element => {
   //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
     if (event.data === undefined) return;
-    const component: string = event.data?.split('/').at(-1);
+    const component: string = event.data.data?.split('/').at(-1);
     const componentId =
       component &&
       state.components?.find((el) => {
         return el.name.toLowerCase() === component.toLowerCase();
       }).id;
     componentId &&
-      dispatch({
-        type: 'CHANGE FOCUS',
-        payload: { componentId, childId: null }
-      });
+    dispatch(changeFocus({ componentId, childId: null}));
+  
   };
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo

@@ -3,9 +3,38 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 15.0.0 Changes**
+
+Changes:<br>
+
+- Developer Improvements:
+  - Redux Toolkit:
+    - Migrated state from a combination of useReducer/useContext and Redux to only using Redux Toolkit. This is the recommended modern approach to handling large state management in this sort of application. Enhances the developer experience by enabling the use of the Redux Devtools to debug, and see state/actions in real-time.
+  - Dependency Updates
+    - New developers can easily npm install without having to use an older version of node or using --legacy-peer-deps
+    - Updated to modern versions to take advantage of newer features
+- User Features:
+  - Websockets:
+    - Users can now join rooms to collaborate in realtime
+  - Tailwind CSS:
+    - In the customization panel users can now choose between inline CSS and Tailwind. These changes are reflected in the live code preview.
+  - OAuth:
+    - Users may now log in using OAuth which enhances security, and makes sign in a breeze.
+  - Deployed Website:
+    - Containerized and deployed a working version of the application. Instead of having to download an application users may now interact live.
+
+Recommendations for Future Enhancements:<br>
+
+- Continue working on State Management. There are some changes that can be made to make the application cleaner. Right now the appStateSlice is a large file which houses a lot of the reducer functions. We believe there is a way to further modularize this to make it simpler to read, and iterate upon in the future.
+- Convert to using Vite. While developing we ran into issues with webpack taking a long time to reflect changes. Vite is lightweight and enhances the developer experience.
+- Expand Testing Coverage. Making a large move of state management made a lot of the testing innefective since it was based upon old ways.
+- Refactor away from MUI. MUI is very opinionated and while creating components with it is easy it leaves a lot to be desired.
+- Residual Bugs. While migrating state there are a few lingering bugs within the application. This process should be easier now with Redux Devtools availability, but we did not have time to go through every action and conduct thorough testing.
+
 **Version 14.0.0 Changes**
 
 Changes:<br>
+
 - Added functionality & improvements:
   - Event listeners:
     - Added ability to assign event listeners to elements in the bottom customization tab
@@ -32,6 +61,7 @@ Changes:<br>
   - Reusable component: The drag-and-drop feature for reusable components is now functioning smoothly and without bugs
 
 Recommendations for Future Enhancements:<br>
+
 - Add function content in the current event listeners' function skeleton.
 - The code output formatting in generateCode.ts is currently difficult to read, and could be improved for better readability.
 - Currently, the project uses two sets of state management tools: useReducer/useContext and Redux. useReducer/useContext is used for handling the customization state, and Redux for managing the code preview, context manager, and dark mode reducer state. However, there seems to be some confusion around how to integrate these two tools effectively. For instance, both tools are used for managing the code preview state, and changing the useReducer/useContext state would replace the corresponding redux state. Need to clean up the logic and find a solution to solve this issue.
@@ -41,27 +71,32 @@ Recommendations for Future Enhancements:<br>
 **Version 13.0.0 Changes**
 
 New Functionality:<br>
+
 - Manage state locally: Users can now manage state dynamically within nested components using React Hooks within the state manager tab.
 - Add/delete props: For a selected component, users can see a list of available props from the parent, add props, and delete props in case they are not - required later on.
 - State/props flow: If state or props are deleted upstream, it will automatically update the state for its children components.
 - Visualize state/props flow: Within the display sub-tab of the state manager tab, users can visualize an interactive tree diagram depicting the state initialized in the current component and passed down props from the parent component.
 
 Enhancements:<br>
+
 - Live code preview: Live rendering of code based on any changes in the state and dragging and nesting of components.
 - Next.js & Gatsby compatibility: New state manager tab is now compatible with next.js and Gatsby.
 - Tutorial: Tutorial is functional and has the latest guides to navigate through the newly added state management tab.
 
 Deployment Updates:<br>
+
 - Electron app is now available for Windows users.
 - Web based version of the app is available on Heroku.
 
 Bug Fixes:<br>
+
 - User dashboard: The dashboard works now and shows private and shared projects with the ability for users to drop comments.
 - Login/logout: Users can now signup/login/logout now on both development and production environments.
 - Manage Projects: Github authenticated users are now able to create and save projects.
 - Customization: Use State works as expected now within HTML elements.
 
 What’s next:<br>
+
 - Adding on click functionality within components. Goal: Make a fully functional tic-tac-toe app.
 - Incorporating material ui into the components so that exported app has visually appealing components.
 - Enabling auto save functionality when dragging and dropping components, and amending component state.

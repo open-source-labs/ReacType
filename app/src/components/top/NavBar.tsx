@@ -1,286 +1,30 @@
-import React, { useState, useContext } from 'react';
-import {
-  withStyles,
-  createStyles,
-  makeStyles,
-  Theme
-} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
-import Brightness5Icon from '@material-ui/icons/Brightness5';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { styleContext } from '../../containers/AppContainer';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from 'react-router-dom';
-import LoginButton from '../right/LoginButton';
-import ExportButton from '../right/ExportButton';
-import SaveProjectButton from '../right/SaveProjectButton';
-import DeleteProjects from '../right/DeleteProjects';
-import ProjectsFolder from '../right/OpenProjects';
-import createModal from '../right/createModal';
-import StateContext from '../../context/context';
+import React from 'react';
+import Avatar from '@mui/material/Avatar';
 import logo from '../../public/icons/win/logo.png';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions/actions.js';
+import NavbarDropDown from './NavBarButtons';
+import { useSelector } from 'react-redux'
 
-const mapDispatchToProps = (dispatch) => ({
-  darkModeToggle: () => {
-    dispatch(actions.darkModeToggle());
-  }
-});
-
-const mapStateToProps = (state) => {
-  return {
-    darkMode: state.darkModeSlice.darkMode
-  }
-}
-
-// NavBar text and button styling
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      width: '100%'
-    },
-    menuButton: {
-      marginRight: theme.spacing(1),
-      color: 'white'
-    },
-    title: {
-      flexGrow: 1,
-      color: 'white'
-    },
-    manageProject: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
-  })
-);
-
-// Drop down menu button for export
-const StyledMenu = withStyles({
-  paper: {
-    border: '1px solid #d3d4d5'
-  }
-})(props => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center'
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center'
-    }}
-    {...props}
-  />
-));
-
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    '&:focus': {
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white
-      }
-    }
-  }
-}))(MenuItem);
-
-//export default function NavBar(props)
 const NavBar = (props) => {
-  const classes = useStyles();
+  
+  // for dropdown navbar
+  const [dropMenu, setDropMenu] = React.useState(false);
+  const isDarkMode = useSelector(state=>state.darkMode.isDarkMode)
 
-  const { style, setStyle } = useContext(styleContext);
-
-  // State for export menu button
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  // State for clear canvas button
-  const [modal, setModal] = useState(null);
-  const [state, dispatch] = useContext(StateContext);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  // ---Clear canvas functionality---
-  // Closes out the open modal
-  const closeModal = () => setModal('');
-  // Creates modal that asks if user wants to clear workspace
-  // If user clears their workspace, then their components are removed from state and the modal is closed
-  const clearWorkspace = () => {
-    // Reset state for project to initial state
-    const resetState = () => {
-      dispatch({ type: 'RESET STATE', payload: {} });
-    };
-    // Set modal options
-    const children = (
-      <List className="export-preference">
-        <ListItem
-          key={'clear'}
-          button
-          onClick={resetState}
-          style={{
-            border: '1px solid #3f51b5',
-            marginBottom: '2%',
-            marginTop: '5%'
-          }}
-        >
-          <ListItemText
-            primary={'Yes, delete all project data'}
-            style={{ textAlign: 'center' }}
-            onClick={closeModal}
-          />
-        </ListItem>
-      </List>
-    );
-    // Create modal
-    setModal(
-      createModal({
-        closeModal,
-        children,
-        message: 'Are you sure want to delete all data?',
-        primBtnLabel: null,
-        primBtnAction: null,
-        secBtnAction: null,
-        secBtnLabel: null,
-        open: true
-      })
-    );
-  };
   return (
-    <div className={classes.root} style={style}>
-      <AppBar position="static">
-        <Toolbar>
-          <Avatar src={logo}></Avatar>
-          <Typography
-            variant="h6"
-            style={{ marginLeft: '1rem' }}
-            className={classes.title}
-          >
-            ReacType
-          </Typography>
-          <Link to="/tutorial" style={{ textDecoration: 'none' }} target='_blank'>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ minWidth: '137.69px' }}
-            className="navbarButton"
-            id="navbarButton"
-          >
-            Tutorial
-          </Button>
-          </Link>
-          {/* ==================================Dashboard Button================================================== */}
-          {state.isLoggedIn ? (
-            <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-              <Button 
-                variant="contained"
-                color="secondary"
-                style={{ minWidth: '137.69px' }}
-                className="navbarButton"
-                endIcon={<DashboardIcon />}
-                id="navbarButton"
-              >
-                Dashboard
-              </Button>
-            </Link>
-          ) : (
-            <span></span>
-          )}
-          {/* ==================================Clear Canvas Button================================================== */}
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ minWidth: '137.69px' }}
-            onClick={clearWorkspace}
-            className="navbarButton"
-            id="navbarButton"
-            endIcon={<DeleteIcon />}
-          >
-            Clear Canvas
-          </Button>
-          <ExportButton />
-          <Button
-            className="navbarButton"
-            id="navbarButton"
-            color="secondary"
-            variant="contained"
-            style={{ minWidth: '113.97px' }}
-            endIcon={
-              props.isThemeLight ? <Brightness5Icon /> : <Brightness3Icon />
-            }
-            onClick={() => {
-              props.darkModeToggle();
-              //!style.backgroundColor // this changes the bottom and left background color/
-              !props.isThemeLight //this changes the bottom and left background color
-                ? setStyle(null) 
-                : setStyle({ backgroundColor: '#21262c' }); // dark mode color
-              props.isThemeLight ? props.setTheme(false) : props.setTheme(true); // this changes the draggable items font color
-            }}
-          >
-            {props.darkMode ? 'Dark Mode' : 'Light Mode'}
-          </Button>
-          {state.isLoggedIn ? ( // render Manage Project button/dropdown only if user is logged in
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleClick}
-              className="navbarButton"
-              id="navbarButton"
-              endIcon={<FilterListIcon />}
-            >
-              MANAGE PROJECT
-            </Button>
-          ) : (
-            <span></span>
-          )}
-          <LoginButton />
-          <StyledMenu // Dropdown menu connected to Manage Project Button
-            id="customized-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <StyledMenuItem
-              id="navbarButton"
-              className={classes.manageProject}
-              onClick={handleClose}
-            >
-              <SaveProjectButton/>
-            </StyledMenuItem>
-            <StyledMenuItem
-              className={classes.manageProject}
-              onClick={handleClose}
-            >
-              <ProjectsFolder/>
-            </StyledMenuItem>
-            <StyledMenuItem
-              className={classes.manageProject}
-              onClick={handleClose}
-            >
-              <DeleteProjects />
-            </StyledMenuItem>
-          </StyledMenu>
-        </Toolbar>
-      </AppBar>
-      {modal}
+  <nav className="main-navbar" style={isDarkMode ? {backgroundColor: '#013365'} : {backgroundColor: 'white'}}>
+    <div className="main-logo">
+      <Avatar src={logo}></Avatar>
+      <h1 style={isDarkMode ? {color: 'white'} : {color: '#013365'}}>ReacType</h1>
     </div>
-  );
+    <div onMouseLeave={()=>setDropMenu(false)}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gear-wide-connected navbar-icon" viewBox="0 0 16 16" 
+      onMouseOver={()=>setDropMenu(true)}>
+        <path d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"/>
+      </svg>
+      <NavbarDropDown dropMenu={dropMenu}></NavbarDropDown>
+    </div>
+  </nav>
+  )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

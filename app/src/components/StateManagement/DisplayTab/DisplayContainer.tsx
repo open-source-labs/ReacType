@@ -5,13 +5,14 @@ import { Typography } from '@mui/material';
 import DataTable from './DataTable';
 import Tree from './Tree';
 import StateContext from '../../../context/context';
+import { useSelector } from 'react-redux';
 
 function DisplayContainer({ data, props }) { // "data" is referring to components from state - passed in from StateManagement
   // grabbing intialized state from App using UseContext
   const [currComponentState, setCurrComponentState] = useState([]);
   const [parentProps, setParentProps] = useState([]);
-  const [state, dispatch] = useContext(StateContext);
-
+  const state = useSelector(store => store.appState)
+  
   let root = '';
 
   // check the canvasFocus

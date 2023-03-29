@@ -1,4 +1,5 @@
-const { gql } = require('apollo-server-express');
+// const { gql } = require('apollo-server-express');
+const { gql } = require('@apollo/client');
 
 // Link to defining a schema in Apollo:
 // https://www.apollographql.com/docs/apollo-server/schema/schema/

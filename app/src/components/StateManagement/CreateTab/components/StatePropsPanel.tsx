@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  makeStyles,
-  styled,
-  Theme
-} from "@material-ui/core/styles";
+import { styled, Theme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { addState } from "../../../../redux/reducers/slice/appStateSlice";
 import {
   FormControl,
   FormHelperText,
@@ -12,7 +11,7 @@ import {
   Select,
   TextField,
   Button
-} from "@material-ui/core";
+} from "@mui/material";
 import StateContext from "../../../../context/context";
 import TableStateProps from "./TableStateProps";
 import TableParentProps from "./TableParentProps";
@@ -20,7 +19,11 @@ import TablePassedInProps from "./TablePassedInProps";
 
 
 const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -111,11 +114,7 @@ const StatePropsPanel = ({ isThemeLight, data}): JSX.Element => {
       value: '',
       type: 'func',
     };
-
-    dispatch({
-      type: 'ADD STATE',
-      payload: {newState: newState, setNewState: setNewState}
-    }); 
+    dispatch(addState({newState: newState, setNewState: setNewState, contextParam: contextParam}))
     setRows1([...rows1, newState])
     resetError();
     clearForm();
@@ -441,15 +440,5 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-// change to Button to keep styling consistent
-// const MyButton = styled(Button)({
-  // background: "#0099E6",
-  // border: 0,
-  // borderRadius: 3,
-  // boxShadow: "0 0px 0px 2px #1a1a1a",
-  // color: "white",
-  // height: 24,
-  // width: 40,
-  // padding: "0 30px",
-// });
+
 export default StatePropsPanel;

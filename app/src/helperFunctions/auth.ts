@@ -1,29 +1,29 @@
 const fetch = require('node-fetch');
 const isDev = process.env.NODE_ENV === 'development';
-const {DEV_PORT} = require('../../../config');
-let serverURL = 'https://reactype-caret.herokuapp.com';
+const { DEV_PORT, API_BASE_URL } = require('../../../config');
+let serverURL = API_BASE_URL;
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
 export const sessionIsCreated = (
   username: string,
   password: string,
-  isFbOauth: boolean,
+  isFbOauth: boolean
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
     password,
-    isFbOauth,
+    isFbOauth
   });
   const result = fetch(`${serverURL}/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body,
+    body
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
@@ -34,28 +34,28 @@ export const sessionIsCreated = (
       }
       return data; // error message returned from userController.verifyUser
     })
-    .catch(err => 'Error');
+    .catch((err) => 'Error');
   return result;
 };
 export const newUserIsCreated = (
   username: string,
   email: string,
-  password: string,
+  password: string
 ): Promise<string> => {
   const body = JSON.stringify({
     username,
     email,
-    password,
+    password
   });
   const result = fetch(`${serverURL}/signup`, {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body,
+    body
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((data) => {
       if (data.sessionId && typeof data.sessionId === 'string') {
         // check that a session id was passed down
@@ -66,6 +66,6 @@ export const newUserIsCreated = (
       }
       return data; // response is either Email Taken or Username Taken, refer to userController.createUser
     })
-    .catch(err => 'Error');
+    .catch((err) => 'Error');
   return result;
 };
