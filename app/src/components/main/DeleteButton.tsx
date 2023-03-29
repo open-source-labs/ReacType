@@ -1,16 +1,20 @@
-import React, { useRef, useState, useContext, useEffect } from 'react';
+import React from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
-import Modal from '@material-ui/core/Modal';
-import StateContext from '../../context/context';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
 
 function DeleteButton({ id, name }: DeleteButtons) {
-  const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+
+  const dispatch = useDispatch();
 
   const deleteHTMLtype = (id: number) => {
-    dispatch({
-      type: 'DELETE CHILD',
-      payload: { id }
-    });
+  
+    dispatch(deleteChild({ id:id, contextParam:contextParam }));
   };
 
   return (

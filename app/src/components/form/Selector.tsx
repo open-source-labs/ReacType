@@ -1,9 +1,8 @@
 
 import React from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { SelectLight, SelectDark } from '../../public/styles/theme';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const FormSelector = (props): JSX.Element => {
   const items = [];

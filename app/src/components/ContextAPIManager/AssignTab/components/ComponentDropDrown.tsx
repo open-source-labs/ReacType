@@ -2,7 +2,9 @@ import React, { Fragment, useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import StateContext from '../../../../context/context';
+
+import { useSelector } from 'react-redux';
+import { Store } from 'redux';
 
 const filter = createFilterOptions();
 
@@ -13,8 +15,12 @@ const ComponentDropDown = ({
   setComponentInput
 }) => {
   const { allContext } = contextStore;
-  const [componentList] = useContext(StateContext);
-
+  // const [componentList] = useContext(StateContext);
+  const {state, isDarkMode} = useSelector(store =>({
+    state:  store.appState,
+    isDarkMode: store.darkMode.isDarkMode
+  } ))
+  const color = isDarkMode ? "white":"black"
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setComponentInput({
@@ -64,11 +70,11 @@ const ComponentDropDown = ({
     return option.name;
   };
 
-  const renderOption = (props, option) => <li {...props}>{option.name}</li>;
+  const renderOption = (props, option) => <li  style={{ color: "black", border: "1px solid black" }}  {...props}>{option.name}</li>;
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4}}>
         <Autocomplete
           id="autoCompleteContextField"
           value={componentInput}
@@ -77,13 +83,16 @@ const ComponentDropDown = ({
           selectOnFocus
           clearOnBlur
           handleHomeEndKeys
-          options={componentList.components || []}
+          options={state.components || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          sx={{ width: 425 }}
+          sx={{ width: 425, border: "1px solid black"  }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Select Component" helperText='Select a component for your selected context to consume' />
+            <TextField {...params} InputProps={{
+              ...params.InputProps,
+              style: { color: color },
+            }}   label="Select Component" helperText='Select a component for your selected context to consume' />
           )}
         />
       </Box>

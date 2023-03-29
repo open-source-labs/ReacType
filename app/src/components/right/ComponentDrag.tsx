@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import StateContext from '../../context/context';
-import Grid from '@material-ui/core/Grid';
+import React from 'react';
+import Grid from '@mui/material/Grid';
 import ComponentPanelItem from './ComponentPanelItem';
-import ComponentPanelRoutingItem from './ComponentPanelRoutingItem';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import { useSelector } from 'react-redux';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const [state,] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -18,7 +18,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
+        <h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           {state.components
             .filter(comp => state.rootComponents.includes(comp.id))
@@ -37,7 +37,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4 className={isThemeLight ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
+        <h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
         <Grid container direction="row" justifyContent="center" alignItems="center">
           {state.components
             .filter(comp => !state.rootComponents.includes(comp.id))
@@ -54,22 +54,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
               );
             })}
         </Grid>
-        {/* Display routing components - (only applies to next.js or gatsby.js which has routing built in) */}
-        {/* {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'? (
-          <React.Fragment>
-            <h4>Routing</h4>
-            <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <ComponentPanelRoutingItem key={'premadecomp-1'} />
-            </Grid>
-          </React.Fragment>
-        ) : (
-          ''
-        )} */}
+
       </div>
     </div>
   );

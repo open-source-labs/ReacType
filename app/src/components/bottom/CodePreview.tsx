@@ -1,5 +1,4 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import StateContext from '../../context/context';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
@@ -14,8 +13,9 @@ import useResizeObserver from '../../tree/useResizeObserver';
 import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
 import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
-import store from '../../redux/store';
-// import { store } from './../../index';
+import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
+import { useDispatch, useSelector } from 'react-redux';
+
 const CodePreview: React.FC<{
   theme: string | null;
   setTheme: any | null;
@@ -31,12 +31,12 @@ const CodePreview: React.FC<{
       wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
     });
   };
+  const dispatch = useDispatch();
 
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { height } = dimensions || 0;
-
-  const [state] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -54,10 +54,7 @@ const CodePreview: React.FC<{
 
   useEffect(() => {
     setInput(currentComponent.code);
-    store.dispatch({
-      type: 'CODE_PREVIEW_INPUT',
-      payload: currentComponent.code
-    });
+    dispatch(codePreviewInput(currentComponent.code));
   }, [currentComponent, state.components]);
 
   /**
@@ -65,9 +62,8 @@ const CodePreview: React.FC<{
    * @param {string} data - Code entered by the user
    */
   const handleChange = async (data) => {
-    // console.log('changed');
     setInput(data);
-    store.dispatch({ type: 'CODE_PREVIEW_INPUT', payload: data });
+    dispatch(codePreviewInput(data));
     if (!ref.current) {
       return;
     }
@@ -83,10 +79,7 @@ const CodePreview: React.FC<{
         global: 'window'
       }
     });
-    store.dispatch({
-      type: 'CODE_PREVIEW_SAVE',
-      payload: result.outputFiles[0].text
-    });
+    dispatch(codePreviewSave(result.outputFiles[0].text))
   };
 
   return (

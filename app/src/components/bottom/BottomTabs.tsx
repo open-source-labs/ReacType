@@ -1,31 +1,35 @@
-import React, { useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import StateContext from '../../context/context';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import React, { useState} from 'react';
+import makeStyles from '@mui/styles/makeStyles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import CodePreview from './CodePreview';
 import StylesEditor from './StylesEditor';
 import CustomizationPanel from '../../containers/CustomizationPanel';
 import CreationPanel from './CreationPanel';
 import ContextManager from '../ContextAPIManager/ContextManager';
-import StateManager from '../StateManagement/StateManagement'; 
-
-import Box from '@material-ui/core/Box';
+import StateManager from '../StateManagement/StateManagement';
+import Box from '@mui/material/Box';
 import Tree from '../../tree/TreeChart';
-import FormControl from '@material-ui/core/FormControl';
-import { styleContext } from '../../containers/AppContainer';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Arrow from '../main/Arrow';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
+
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
-  const [state, dispatch] = useContext(StateContext); //deconstructing properties from Context interface?
-  
+  const dispatch = useDispatch();
+  const { state, contextParam, style, } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    style: store.styleSlice,
+    isDarkMode: store.darkMode.isDarkMode
+  }));
   const [tab, setTab] = useState(0);
   const classes = useStyles();
   const [theme, setTheme] = useState('solarized_light');
-  const { style } = useContext(styleContext);
 
   // breaks if handleChange is commented out
   const handleChange = (event: React.ChangeEvent, value: number) => {
@@ -35,7 +39,7 @@ const BottomTabs = (props): JSX.Element => {
   // When a user changes the project type, the code of all components is rerendered
   const handleProjectChange = event => {
     const projectType = event.target.value;
-    dispatch({ type: 'CHANGE PROJECT TYPE', payload: { projectType } });
+    dispatch(changeProjectType({ projectType, contextParam }))
   };
   const { components, HTMLTypes } = state;
 
@@ -142,7 +146,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   padding: {
-    padding: `0 ${theme.spacing(2)}px`
+    padding: `0 ${theme.spacing(2)}`
   },
   switch: {
     marginRight: '10px',

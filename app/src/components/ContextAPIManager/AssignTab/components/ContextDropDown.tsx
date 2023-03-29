@@ -4,6 +4,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const filter = createFilterOptions();
 
@@ -15,6 +16,8 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
+  const isDarkMode = useSelector(store => store.darkMode.isDarkMode)
+const color = isDarkMode ? "white":"black"
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
@@ -64,11 +67,11 @@ const ContextDropDown = ({
     return option.name;
   };
 
-  const renderOption = (props, option) => <li {...props}>{option.name}</li>;
+  const renderOption = (props, option) => <li style={{ color:"black", border: "1px solid black" }} {...props}>{option.name}</li>;
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4, border:"1px black solid" }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
@@ -83,7 +86,12 @@ const ContextDropDown = ({
           sx={{ width: 425 }}
           freeSolo
           renderInput={params => (
-            <TextField {...params} label="Select Context" helperText='Select a context you would like to assign'/>
+            <TextField {...params}
+            InputProps={{
+              ...params.InputProps,
+              style: { color },
+            }}  
+            label="Select Context" helperText='Select a context you would like to assign'/>
           )}
         />
       </Box>

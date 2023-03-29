@@ -1,6 +1,9 @@
+import { letterSpacing } from '@mui/system';
+
 const isDev = process.env.NODE_ENV === 'development';
-const {DEV_PORT} = require('../../../config');
-let serverURL = 'https://reactype-caret.herokuapp.com';
+const { DEV_PORT, API_BASE_URL } = require('../../../config');
+let serverURL = API_BASE_URL;
+
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
@@ -16,11 +19,11 @@ export const getProjects = (): Promise<any> => {
     credentials: 'include',
     body
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     })
-    .catch(err => console.log(`Error getting project ${err}`));
+    .catch((err) => console.log(`Error getting project ${err}`));
   return projects;
 };
 
@@ -33,7 +36,7 @@ export const saveProject = (
     project: workspace,
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
-    comments: [],
+    comments: []
   });
   const project = fetch(`${serverURL}/saveProject`, {
     method: 'POST',
@@ -43,11 +46,11 @@ export const saveProject = (
     credentials: 'include',
     body
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data.project;
     })
-    .catch(err => console.log(`Error saving project ${err}`));
+    .catch((err) => console.log(`Error saving project ${err}`));
   return project;
 };
 
@@ -64,10 +67,10 @@ export const deleteProject = (project: any): Promise<Object> => {
     },
     body
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       return data;
     })
-    .catch(err => console.log(`Error deleting project ${err}`));
+    .catch((err) => console.log(`Error deleting project ${err}`));
   return deletedProject;
 };

@@ -7,15 +7,15 @@ import {
   PUBLISH_PROJECT,
   ADD_COMMENT,
 } from './gqlStrings';
-import CloseIcon from '@material-ui/icons/Close';
-import AddCommentIcon from '@material-ui/icons/AddComment';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import IconButton from '@material-ui/core/IconButton';
-import PublishIcon from '@material-ui/icons/Publish';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import CloseIcon from '@mui/icons-material/Close';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import IconButton from '@mui/material/IconButton';
+import PublishIcon from '@mui/icons-material/Publish';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import createModal from '../components/right/createModal';
 // Variable validation using typescript
 type props = {
@@ -39,7 +39,6 @@ const Project = ({
   // 1) schema change projId => id to allows Apollo Client cache auto-update. Only works with 'id'
   // 2) always request the 'id' in a mutation request
   const [commentVal, setCommentVal] = useState('');
-  const [clicked, setClicked] = useState(false);
   const [modal, setModal] = useState(null);
   const [addLike] = useMutation(ADD_LIKE);
   const [makeCopy] = useMutation(MAKE_COPY);
@@ -169,46 +168,62 @@ const Project = ({
   };
 
   return (
-  <div className = 'project'>
-    <div className = 'header'>
-    { currUsername === username ?
-      <IconButton tooltip = "Delete Project" onClick={ deleteProjectModal } style={{position: 'absolute', right: '0'}}>
-        <CloseIcon/>
-      </IconButton>
-      : '' }
-      <div className = 'projectInfo'>
-        <b>
-          <h2>Project: { name }</h2>
-          <h3>Author: { username }</h3>
-          <h3>Likes: { likes }</h3>
-        </b>
-      </div>
+    <div className = 'project'>
+      <div className = 'header'>
+      { currUsername === username ?
+        <IconButton
+          tooltip = "Delete Project"
+          onClick={ deleteProjectModal }
+          style={{position: 'absolute', right: '0'}}
+          size="large">
+          <CloseIcon/>
+        </IconButton>
+        : '' }
+        <div className = 'projectInfo'>
+          <b>
+            <h2>Project: { name }</h2>
+            <h3>Author: { username }</h3>
+            <h3>Likes: { likes }</h3>
+          </b>
+        </div>
 
-      <div className = "icons">
-          <IconButton tooltip="Like Template" style={noPointer} onClick = { handleLike }>
-            <ThumbUpAltIcon fontSize='Large'/>
-          </IconButton> 
-        { currUsername !== username ?
-          <IconButton tooltip ="Download Template" style={noPointer} onClick={ handleDownload }>
-            <GetAppIcon fontSize="large" className="download"/> 
-          </IconButton>       
-          : '' }
-        { currUsername === username ?
-          <IconButton tooltip ="Publish Template" style={noPointer} onClick={ handlePublish }>
-            <PublishIcon fontSize="large"/> 
-          </IconButton>
-          : '' }
+        <div className = "icons">
+            <IconButton
+              tooltip="Like Template"
+              style={noPointer}
+              onClick = { handleLike }
+              size="large">
+              <ThumbUpAltIcon fontSize='Large'/>
+            </IconButton> 
+          { currUsername !== username ?
+            <IconButton
+              tooltip ="Download Template"
+              style={noPointer}
+              onClick={ handleDownload }
+              size="large">
+              <GetAppIcon fontSize="large" className="download"/> 
+            </IconButton>       
+            : '' }
+          { currUsername === username ?
+            <IconButton
+              tooltip ="Publish Template"
+              style={noPointer}
+              onClick={ handlePublish }
+              size="large">
+              <PublishIcon fontSize="large"/> 
+            </IconButton>
+            : '' }
+        </div>
       </div>
+        <div className = "commentContainer">
+            {recentComments}
+        </div>
+        <div className = 'commentInput'>
+          <input type="text" placeholder="Add Comment" className="commentField" onChange={ handleChange }></input>
+          <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '8', top: '13'}}/>
+        </div>
+    {modal}
     </div>
-      <div className = "commentContainer">
-          {recentComments}
-      </div>
-      <div className = 'commentInput'>
-        <input type="text" placeholder="Add Comment" className="commentField" onChange={ handleChange }></input>
-        <AddCommentIcon className='commentBtn' fontSize='Large' onClick={ handleComment } style={{position: 'absolute', right: '8', top: '13'}}/>
-      </div>
-  {modal}
-  </div>
   );
 };
 export default Project;

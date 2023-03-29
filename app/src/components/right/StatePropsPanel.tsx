@@ -1,33 +1,42 @@
 
-import React, { useState, useContext, useCallback, useEffect } from "react";
+import React, { useState } from "react";
+import { styled, Theme} from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from 'react-redux';
+import { addState } from "../../redux/reducers/slice/appStateSlice";
 import {
-  createStyles,
-  makeStyles,
-  styled,
-  Theme,
-  createTheme,
-  ThemeProvider,
-  withStyles
-} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import {
-  Checkbox,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  FormLabel,
-  Grid,
   MenuItem,
-  Input,
   InputLabel,
   Select,
   TextField,
-} from "@material-ui/core";
-import StateContext from "../../context/context";
+} from "@mui/material";
 import TableStateProps from "./TableStateProps";
 
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
 const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
-  const [state, dispatch] = useContext(StateContext);
+
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [inputKey, setInputKey] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -84,10 +93,8 @@ const StatePropsPanel = ({ isThemeLight }): JSX.Element => {
       type: inputType,
     };
 
-    dispatch({
-      type: 'ADD STATE',
-      payload: {newState: newState}
-    }); 
+  
+    dispatch(addState({newState: newState, contextParam: contextParam}))
     resetError();
     clearForm();
   };

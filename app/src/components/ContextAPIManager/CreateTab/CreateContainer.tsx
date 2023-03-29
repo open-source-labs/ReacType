@@ -1,29 +1,37 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useStore } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
-import * as actions from '../../../redux/actions/actions';
+// import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
 import StateContext from '../../../context/context';
+import { addContext, deleteContext, addContextValues } from '../../../redux/reducers/slice/contextReducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
+  const state = useSelector(store => store.contextSlice);
+
   const store = useStore();
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);
-  const [stateContext, dispatchContext] = useContext(StateContext);
+  // const [stateContext, dispatchContext] = useContext(StateContext);
+  const dispatch = useDispatch();
 
   //pulling data from redux store
-  useEffect(() => {
-    setState(store.getState().contextSlice);
-  }, []);
+  // useEffect(() => {
 
-  const dispatch = useDispatch();
+  //   setState(allContext)
+  //   // setState(store.getState().contextSlice);
+
+  // }, [allContext]);
+
+
 
   //update data store when user adds a new context
   const handleClickSelectContext = () => {
@@ -34,28 +42,31 @@ const CreateContainer = () => {
       }
     }
     setContextInput('');
-    dispatch(actions.addContextActionCreator(contextInput));
-    setState(store.getState().contextSlice);
+    dispatch(addContext(contextInput));
+
+    // setState(allContext);
   };
 
   //update data store when user add new key-value pair to context
   const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
     dispatch(
-      actions.addContextValuesActionCreator({ name, inputKey, inputValue })
+      addContextValues({ name, inputKey, inputValue })
     );
-    setState(store.getState().contextSlice);
+    // setState(allContext);
   };
 
   //update data store when user deletes context
   const handleDeleteContextClick = () => {
-    dispatch(actions.deleteContext(contextInput));
+    dispatch(deleteContext(contextInput));
     setContextInput('');
-    setState(store.getState().contextSlice);
+    // setState(allContext);
     setTableState(defaultTableData);
-    dispatchContext({
-      type: 'DELETE ELEMENT',
-      payload: 'FAKE_ID'
-    });
+
+    dispatch(deleteElement({id:'FAKE_ID', contextParam: state}))
+    // dispatchContext({
+    //   type: 'DELETE ELEMENT',
+    //   payload: 'FAKE_ID'
+    // });
   };
 
   //re-render data table when there's new changes

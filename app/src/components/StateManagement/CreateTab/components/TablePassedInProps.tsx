@@ -1,22 +1,27 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DataGrid,
   GridEditRowsModel,
 } from '@mui/x-data-grid';
-import Button from '@material-ui/core/Button';
-import ClearIcon from '@material-ui/icons/Clear';
-import StateContext from "../../../../context/context";
-import { makeStyles } from '@material-ui/core/styles';
-import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
+import Button from '@mui/material/Button';
+import ClearIcon from '@mui/icons-material/Clear';
+import makeStyles from '@mui/styles/makeStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+
 
 const TablePassedInProps = props => {
-  const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [editRowsModel] = useState<GridEditRowsModel>({});
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index')? currentComponent.passedInProps : '';
+  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index') ? currentComponent.passedInProps : '';
 
   //formatting for data grid columns
   const columnTabs = [
@@ -53,27 +58,24 @@ const TablePassedInProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px`, color: 'black'}}
+            style={{ width: `${3}px`, color: 'black' }}
             onClick={() => {
-                deletePassedInProps(params.id);
+              deleteProps(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
           </Button>
-          
+
         );
       }
     }
   ];
 
-  const deletePassedInProps = (rowId) => {
+  const deleteProps = (rowId) => {
     // get the current focused component
     // remove the state that the button is clicked
     // send a dispatch to rerender the table
-    dispatch({
-      type: 'DELETE PASSEDINPROPS',
-      payload: { rowId: rowId }
-    });
+    dispatch(deletePassedInProps({ rowId: rowId, contextParam: contextParam }))
   };
 
   useEffect(() => {
@@ -86,21 +88,21 @@ const TablePassedInProps = props => {
     } else {
       setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
     }
-    
+
   }, [state.canvasFocus.componentId]);
 
   // fill data grid rows with all of the passed in props from parent component (if there are any)
   let rows = passedInProps?.slice();
-  
+
   return (
     <div className={'state-prop-grid'}>
-        <DataGrid
-          rows={rows}
-          columns={gridColumns}
-          pageSize={5}
-          editRowsModel={editRowsModel}
-          className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-        />
+      <DataGrid
+        rows={rows}
+        columns={gridColumns}
+        pageSize={5}
+        editRowsModel={editRowsModel}
+        className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+      />
     </div>
   );
 };

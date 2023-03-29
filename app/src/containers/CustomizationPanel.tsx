@@ -1,15 +1,13 @@
 import React, {
   useState,
-  useContext,
   useEffect,
   useMemo,
   useCallback
 } from 'react';
-import { DataGrid,  GridEditRowsModel } from '@mui/x-data-grid';
+import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
 import {
-  makeStyles,
   FormControl,
-  TextField, 
+  TextField,
   Button,
   Dialog,
   DialogActions,
@@ -19,21 +17,28 @@ import {
   List,
   ListItem,
   ListItemText,
- } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ClearIcon from '@mui/icons-material/Clear';
 import createModal from '../components/right/createModal';
-import { styleContext } from './AppContainer';
 import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
-import StateContext from '../context/context';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
-import { OutgoingMessage } from 'http';
+import {useDispatch, useSelector} from 'react-redux';
+
+import { changeTailwind, updateStateUsed, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage,  deleteReusableComponent, updateAttributes, deleteChild, undo, redo} from '../redux/reducers/slice/appStateSlice';
+
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
 const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles(isThemeLight);
-  const [state, dispatch] = useContext(StateContext);
+  const dispatch = useDispatch();
+  const { state, contextParam, style } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+    style: store.styleSlice
+  }));
   const [displayMode, setDisplayMode] = useState('');
   const [flexDir, setFlexDir] = useState('');
   const [flexJustify, setFlexJustify] = useState('');
@@ -47,7 +52,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const [deleteLinkedPageError, setDeleteLinkedPageError] = useState(false);
   const [deleteIndexError, setDeleteIndexError] = useState(false);
   const [deleteComponentError, setDeleteComponentError] = useState(false);
-  const { style } = useContext(styleContext);
   const [modal, setModal] = useState(null);
   const [useContextObj, setUseContextObj] = useState({});
   const [stateUsedObj, setStateUsedObj] = useState({});
@@ -56,13 +60,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
 
   const currFocus = getFocus().child;
 
-  useEffect( () => {
+  useEffect(() => {
     currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
     setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: [] = [];
-      for (const [event, funcName] of Object.entries(currFocus?.events)){
-        addedEvent.push({ id: event , funcName })
+      for (const [event, funcName] of Object.entries(currFocus?.events)) {
+        addedEvent.push({ id: event, funcName })
       }
       setEventRow(addedEvent);
     }
@@ -71,10 +75,10 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   //this function allows properties to persist and appear in nested divs
   function deepIterate(arr) {
     const output = [];
-    for(let i = 0; i < arr.length; i++) {
-      if(arr[i].typeId === 1000) continue;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].typeId === 1000) continue;
       output.push(arr[i]);
-      if(arr[i].children.length) {
+      if (arr[i].children.length) {
         output.push(...deepIterate(arr[i].children));
       }
     }
@@ -186,19 +190,19 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         if (currentChild.name !== 'input' && currentChild.name !== 'img')
           currentChild.children.forEach(child => searchArray.push(child));
       }
-      
+
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-            comp => comp.id === focusChild.typeId
-          ).name;
-          // if type is HTML Element, search through HTML types to find matching element's name
+          comp => comp.id === focusChild.typeId
+        ).name;
+        // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-            elem => elem.id === focusChild.typeId
-          ).name;
+          elem => elem.id === focusChild.typeId
+        ).name;
       }
     }
     return focusTarget;
@@ -232,28 +236,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey='') => {
+  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey = '') => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
     const currentComponent = state.components[state.canvasFocus.componentId - 1];
-    let newContextObj = {...currentComponent.useContext};
-    if(!newContextObj) {
+    let newContextObj = { ...currentComponent.useContext };
+    if (!newContextObj) {
       newContextObj = {};
     }
     if (!newContextObj[componentProviderId]) {
-      newContextObj[componentProviderId] = {statesFromProvider : new Set()};
+      newContextObj[componentProviderId] = { statesFromProvider: new Set() };
     }
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
-      setStateUsedObj({...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId});
+      setStateUsedObj({ ...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId });
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
 
     if (attributeName === 'compLink') {
       newContextObj[componentProviderId].compLink = statePropsId;
-      setStateUsedObj({...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId});
+      setStateUsedObj({ ...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId });
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
@@ -300,23 +304,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   ];
 
   const deleteEvent = selectedEvent => {
-    dispatch({
-      type: 'DELETE EVENT',
-      payload: { event: selectedEvent }
-    });
+    dispatch(deleteEventAction({ event: selectedEvent, contextParam: contextParam }))
   };
 
 
-  const handleSave = (): Object => {
-    dispatch({
-      type: 'UPDATE STATE USED',
-      payload: {stateUsedObj: stateUsedObj}
-    })
+  const handleSave = (tailwind): Object => {
+    if (tailwind !== true) {
+      dispatch(changeTailwind(false))
+    }
+    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj, contextParam: contextParam }))
 
-    dispatch({
-      type: 'UPDATE USE CONTEXT',
-      payload: { useContextObj: useContextObj}
-    })
+dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextParam }))
 
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -326,45 +324,45 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    dispatch({
-      type: 'UPDATE CSS',
-      payload: { style: styleObj }
-    });
+    dispatch(updateCss({ style: styleObj, contextParam: contextParam }))
 
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
-    dispatch({
-      type: 'UPDATE ATTRIBUTES',
-      payload: { attributes: attributesObj }
-    });
+ 
+    dispatch(updateAttributes({attributes: attributesObj, contextParam: contextParam}))
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-    dispatch({
-      type: 'UPDATE EVENTS',
-      payload: { events: eventsObj }
-    });
+    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }))
+    
+
     return styleObj;
   };
+  const handleTailwind = (): Object => {
+    dispatch(changeTailwind(true))
+
+    handleSave(true)
+  }
+
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
-    dispatch({ type: 'UNDO', payload: {} });
+    dispatch(undo({contextParam}));
   };
   const handleRedo = () => {
-    dispatch({ type: 'REDO', payload: {} });
+    dispatch(redo({contextParam}));
   };
   // placeholder for handling deleting instance
   const handleDelete = () => {
-    dispatch({ type: 'DELETE CHILD', payload: {} });
+    dispatch(deleteChild({id:{},contextParam:contextParam}));
   };
   const handlePageDelete = id => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
     isIndex()
       ? handleDialogError('index')
-      : dispatch({ type: 'DELETE PAGE', payload: { id } });
+      : dispatch(deletePage({ id }))
   };
   const handleDialogError = err => {
     if (err === 'index') setDeleteIndexError(true);
@@ -383,7 +381,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
       closeModal();
-      dispatch({ type: 'DELETE REUSABLE COMPONENT', payload: {} });
+      dispatch( deleteReusableComponent({contextParam: contextParam}))
     };
     // set modal options
     const children = (
@@ -434,21 +432,22 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // the || is for either Mac or Windows OS
     // Undo
     (e.key === 'z' && e.metaKey && !e.shiftKey) ||
-    (e.key === 'z' && e.ctrlKey && !e.shiftKey)
+      (e.key === 'z' && e.ctrlKey && !e.shiftKey)
       ? handleUndo()
       : // Redo
       (e.shiftKey && e.metaKey && e.key === 'z') ||
         (e.shiftKey && e.ctrlKey && e.key === 'z')
-      ? handleRedo()
-      : // Delete HTML tag off canvas
-      e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
-      ? handleDelete()
-      : // Save
-      (e.key === 's' && e.ctrlKey && e.shiftKey) ||
-        (e.key === 's' && e.metaKey && e.shiftKey)
-      ? handleSave()
-      : '';
+        ? handleRedo()
+        : // Delete HTML tag off canvas
+        e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
+          ? handleDelete()
+          : // Save
+          (e.key === 's' && e.ctrlKey && e.shiftKey) ||
+            (e.key === 's' && e.metaKey && e.shiftKey)
+            ? handleSave()
+            : '';
   }, []);
+
 
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
@@ -457,34 +456,35 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     };
   }, []);
 
-  if(state.canvasFocus.childId === null) {
+  if (state.canvasFocus.childId === null) {
     return (
-      <div className="column right" id="rightContainer" style={style}>
+      <div className="column right" id="rightContainer" style={style.style}>
         <ProjectManager />
-          <div className="rightPanelWrapper">
-            <div>
-              <div className={classes.rootConfigHeader}>
-                  <h4
-                    className={
-                      isThemeLight
-                        ? classes.lightThemeFontColor
-                        : classes.darkThemeFontColor
-                    }
-                  >
-                    Parent Component:
-                    <br />
-                    <br />
-                    <span className={classes.rootCompName}>{configTarget.name}</span>
-                  </h4>
-              </div>
+        <div className="rightPanelWrapper">
+          <div>
+            <div className={classes.rootConfigHeader}>
+              <h4
+                className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+              >
+                Parent Component:
+                <br />
+                <br />
+                <span className={classes.rootCompName}>{configTarget.name}</span>
+                <p style={{fontSize: '16px'}}>Drag and drop an html element (or focus one) to see what happens!</p>
+              </h4>
             </div>
           </div>
+        </div>
         <ProjectManager />
       </div>
     )
   }
   return (
-    <div className="column right" id="rightContainer" style={style}>
+    <div className="column right" id="rightContainer" style={style.style}>
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
@@ -584,7 +584,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 items={[
                   { value: '', text: 'default' },
                   { value: 'auto', text: 'auto' },
-                  { value: '100%', text: '100%'},
+                  { value: '100%', text: '100%' },
                   { value: '50%', text: '50%' },
                   { value: '25%', text: '25%' }
                 ]}
@@ -663,9 +663,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
                 <div>
                   <UseStateModal
-                  updateAttributeWithState={updateAttributeWithState}
-                  attributeToChange="compText"
-                  childId={state.canvasFocus.childId}/>
+                    updateAttributeWithState={updateAttributeWithState}
+                    attributeToChange="compText"
+                    childId={state.canvasFocus.childId} />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -697,8 +697,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                 </div>
                 <div>
                   <UseStateModal
-                  updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
-                  childId={state.canvasFocus.childId}/>
+                    updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
+                    childId={state.canvasFocus.childId} />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -744,9 +744,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     { value: 'onMouseOver', text: 'onMouseOver' },
                     { value: 'onKeyDown', text: 'onKeyDown' }
                   ]}
-                  />
+                />
               </div>
-              { eventAll[0] && (<div className={classes.configRow}>
+              {eventAll[0] && (<div className={classes.configRow}>
                 <div
                   className={
                     isThemeLight
@@ -770,8 +770,8 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                     placeholder="Function Name"
                   />
                 </FormControl>
-              </div> )}
-              { currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
+              </div>)}
+              {currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
                 <DataGrid
                   rows={eventRow}
                   columns={eventColumnTabs}
@@ -792,7 +792,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   onClick={handleSave}
                   id="saveButton"
                 >
-                  SAVE
+                  CSS
+                </Button>
+              </div>
+              <div >
+
+                <Button
+                  variant='contained'
+                  color="primary"
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleTailwind}
+                  id="tailwind"
+                  style={{
+                    marginTop: '20px',
+                    position: 'relative',
+                    left: '32px'
+                  }}
+                >
+                  Tailwind
                 </Button>
               </div>
               {configTarget.child ? (
@@ -957,4 +978,5 @@ const useStyles = makeStyles({
     color: '#fff'
   }
 });
+
 export default CustomizationPanel;

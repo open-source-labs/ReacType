@@ -1,13 +1,17 @@
-import React, { useContext, useRef } from 'react';
+import React, {  useRef } from 'react';
 import { ChildElement, HTMLType } from '../../interfaces/Interfaces';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
-import StateContext from '../../context/context';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
+import { useDispatch, useSelector } from 'react-redux';
+
+import { changeFocus, changePosition, addChild } from '../../redux/reducers/slice/appStateSlice';
+
+
 
 function DirectChildHTMLNestable({
   childId,
@@ -16,7 +20,11 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement) {
-  const [state, dispatch] = useContext(StateContext);
+  const { state, contextParam } = useSelector((store) => ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
   const ref = useRef(null);
 
   // find the HTML element corresponding with this instance of an HTML element
@@ -56,27 +64,19 @@ function DirectChildHTMLNestable({
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
       if (item.newInstance) {
         if ((item.instanceType === 'Component' && componentNest(state.components[item.instanceTypeId - 1].children, childId)) || item.instanceType !== 'Component') {
-          dispatch({
-            type: 'ADD CHILD',
-            payload: {
-              type: item.instanceType,
-              typeId: item.instanceTypeId,
-              childId: childId,
-            }
-          });
+        dispatch(addChild( {
+          type: item.instanceType,
+          typeId: item.instanceTypeId,
+          childId: childId,
+          contextParam: contextParam
+        }))
         }
       }
       // if item is not a new instance, change position of element dragged inside separator so that separator is new parent (until replacement)
       else {
         // check to see if the selected child is trying to nest within itself
         if (validateNewParent(state, item.childId, childId) === true) {
-          dispatch({
-            type: 'CHANGE POSITION',
-            payload: {
-              currentChildId: item.childId,
-              newParentChildId: childId
-            }
-          });
+          dispatch(changePosition({currentChildId: item.childId, newParentChildId: childId, contextParam: contextParam}))
         }
       }
     },
@@ -88,14 +88,15 @@ function DirectChildHTMLNestable({
     }
   });
 
-  const changeFocus = (componentId: number, childId: number | null) => {
-    dispatch({ type: 'CHANGE FOCUS', payload: { componentId, childId } });
+  const changeFocusFunction = (componentId: number, childId: number | null) => {
+    dispatch(changeFocus({ componentId, childId}));
+
   };
 
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocus(state.canvasFocus.componentId, childId);
+    changeFocusFunction(state.canvasFocus.componentId, childId);
   }
 
   // combine all styles so that higher priority style specifications overrule lower priority style specifications

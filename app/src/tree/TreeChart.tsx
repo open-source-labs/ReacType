@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import StateContext from '../context/context';
 import { element } from 'prop-types';
+import { useSelector } from 'react-redux';
 
 function usePrevious(value) {
   const ref = useRef(); // creates a ref obj w/ current: value
@@ -14,7 +15,9 @@ function usePrevious(value) {
 }
 
 function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
-  const [state, dispatch] = useContext(StateContext);
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
+  
   const canvasId = state.canvasFocus.componentId;
 
   const svgRef = useRef();

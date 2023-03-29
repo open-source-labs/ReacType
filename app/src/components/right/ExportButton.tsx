@@ -1,16 +1,15 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
-import StateContext from '../../context/context';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import Button from '@material-ui/core/Button';
+import React, { useState, useCallback, useEffect } from 'react';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import Button from '@mui/material/Button';
 import exportProject from '../../utils/exportProject.util';
 import createModal from './createModal';
-import { styleContext } from '../../containers/AppContainer';
+import { useSelector } from 'react-redux';
 export default function ExportButton() {
   const [modal, setModal] = useState(null);
-  const [state] = useContext(StateContext);
+  const state = useSelector(store => store.appState)
 
   const genOptions: string[] = [
     'Export components',
@@ -105,15 +104,12 @@ export default function ExportButton() {
   }, []);
   return (
     <div>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={showGenerateAppModal}
-        id="navbarButton"
-        endIcon={<GetAppIcon />}
-      >
-        EXPORT
-      </Button>
+      <button onClick={showGenerateAppModal}>Export Project
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-download" viewBox="0 0 16 16">
+          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+          <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+      </button>
       {modal}
     </div>
   );
