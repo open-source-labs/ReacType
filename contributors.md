@@ -56,7 +56,11 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Fredo Chen](https://www.linkedin.com/in/fredochen/) [@fredosauce](https://github.com/fredosauce)
 
+[Garrett Huston](https://www.linkedin.com/in/garrett-hutson/) [Github](https://github.com/GarrettHutson)
+
 [Huy Pham](https://www.linkedin.com/in/huypham048) [@huypham048](https://github.com/huypham048)
+
+[Ian Davis](https://www.linkedin.com/in/icdavis/) [Github](https://github.com/iancdavis)
 
 [Jonathan Calvo Ramirez](https://www.linkedin.com/in/jonathan-calvo/) [@jonocr](https://github.com/jonocr)
 
@@ -81,6 +85,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
 [Michael Ng](https://www.linkedin.com/in/michaelng2/) [@MikoGome](https://github.com/MikoGome)
+
+[Mike Dunnmon](https://www.linkedin.com/in/michaeldunnmon/) [Github](https://github.com/mdunnmon)
 
 [Miles Wright](https://www.linkedin.com/in/miles-m-wright) [@Miles818](https://github.com/Miles818)
 
@@ -127,5 +133,7 @@ Thomas Lukasiewicz [LinkedIn](https://www.linkedin.com/in/thomas-lukasiewicz-276
 [William Yoon](https://www.linkedin.com/in/williamdyoon/) [@williamdyoon](https://github.com/williamdyoon)
 
 [Xiao Wang](https://www.linkedin.com/in/xiao-wang-03183285/) [@wang9hu](https://github.com/wang9hu)
+
+[Yohan Jeon](https://www.linkedin.com/in/yohan-jeon1) [Github](https://github.com/Yoheze)
 
 [Yuanji Huang](https://www.linkedin.com/in/yuanjihuang/) [@kr1spybacon](https://github.com/kr1spybacon)
