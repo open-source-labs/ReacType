@@ -30,9 +30,13 @@
   <img width="1000" src="https://i.imgur.com/jR53ySV.png">
 </p>
 
+<p align="center">
+  <img width="1000" src="./resources/ReadMe.gif">
+</p>
+
 **ReacType** is a rapid prototyping tool built on Electron that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
-Visit [reactype.io](https://reactype.io/) to learn more about the product.
+Visit [reactype.io](https://reactype.dev) to learn more about the product.
 
 Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announcements.
 
