@@ -1,4 +1,5 @@
 import React from 'react';
+import store from '../../redux/store.js';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
@@ -8,7 +9,6 @@ import { resetAllState } from '../../redux/reducers/slice/appStateSlice.ts';
 import createModal from '../right/createModal.tsx';
 import ExportButton from '../right/ExportButton.tsx';
 import { setStyle } from '../../redux/reducers/slice/styleSlice';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import LoginButton from '../right/LoginButton.tsx';
 import withStyles from '@mui/styles/withStyles';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,8 +18,97 @@ import SaveProjectButton from '../right/SaveProjectButton.tsx';
 import ProjectsFolder from '../right/OpenProjects.tsx';
 import DeleteProjects from '../right/DeleteProjects.tsx';
 import Menu from '@mui/material/Menu';
-import { io } from 'socket.io-client';
 import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+// for websockets
+import debounce from 'lodash/debounce';
+// websocket front end starts here
+import { io } from 'socket.io-client';
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice.ts';
+import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
+import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
+import config from '../../../../config.js';
+const { API_BASE_URL } = config;
+
+let socket;
+
+function initSocketConnection(roomCode) {
+  if (socket) {
+    socket.disconnect();
+  }
+
+  socket = io(API_BASE_URL, {
+    transports: ['websocket']
+  });
+
+  socket.on('connect', () => {
+    console.log(`You connected with id: ${socket.id}`);
+    socket.emit('join-room', roomCode); // Join the room when connected
+  });
+
+  // Receiving the room state from the backend
+  socket.on('room-state-update', (stateFromServer) => {
+    const newState = JSON.parse(stateFromServer);
+    // Dispatch actions to update your Redux store with the received state
+    store.dispatch(allCooperativeState(newState.appState));
+    store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
+    store.dispatch(cooperativeStyle(newState.styleSlice));
+  });
+
+  // receiving the message from the back end
+  socket.on('receive message', (event) => {
+    // console.log('message from server: ', event);
+    let currentStore = JSON.stringify(store.getState());
+    if (currentStore !== event) {
+      currentStore = JSON.parse(currentStore);
+      event = JSON.parse(event);
+      console.log('stores do not match');
+      if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
+        store.dispatch(toggleDarkMode());
+      } else if (currentStore.appState !== event.appState) {
+        store.dispatch(allCooperativeState(event.appState));
+      } else if (
+        currentStore.codePreviewSlice !== event.codePreviewCooperative
+      ) {
+        store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+      } else if (currentStore.styleSlice !== event.styleSlice) {
+        store.dispatch(cooperativeStyle(event.styleSlice));
+      }
+    }
+    console.log('updated user Store from another user: ', store.getState());
+  });
+}
+
+function handleUserEnteredRoom(roomCode) {
+  initSocketConnection(roomCode);
+}
+
+console.log(store.getState());
+let previousState = store.getState();
+
+// sending info to backend whenever the redux store changes
+const handleStoreChange = debounce(() => {
+  const newState = store.getState();
+  const roomCode = newState.roomCodeSlice.roomCode;
+
+  if (roomCode !== '') {
+    // Emit the current room code
+    socket.emit('room-code', roomCode);
+  }
+
+  if (newState !== previousState) {
+    // Send the current state to the server
+    socket.emit(
+      'custom-event',
+      'sent from front-end',
+      JSON.stringify(newState),
+      roomCode
+    );
+    previousState = newState;
+  }
+}, 100);
+
+store.subscribe(handleStoreChange);
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -154,6 +243,9 @@ function navbarDropDown(props) {
     console.log(roomCode);
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
+
+    // Call handleUserEnteredRoom when joining a room
+    handleUserEnteredRoom(roomCode);
   }
 
   const switchDark = isDarkMode ? (
