@@ -108,7 +108,11 @@ const handleStoreChange = debounce(() => {
   }
 }, 100);
 
-store.subscribe(handleStoreChange);
+store.subscribe(() => {
+  if (socket) {
+    handleStoreChange();
+  }
+});
 
 const useStyles = makeStyles((theme) =>
   createStyles({
