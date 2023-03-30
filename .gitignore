@@ -1,6 +1,5 @@
 # Created by https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
 yarn.lock
-package-lock.json
 .prettierrc.json
 ### Linux ###
 *~
