@@ -30,7 +30,7 @@
   <img width="1000" src="./resources/ReadMe.gif">
 </p>
 
-**ReacType** is a rapid prototyping tool built on Electron that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
+**ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
 
 Visit [reactype.dev](https://reactype.dev) to learn more about the product.
 
@@ -39,16 +39,6 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 ### Documentation
 
 If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now.
-
-### Installing
-
-- **MacOS**
-  Download the latest [release](https://github.com/open-source-labs/ReacType/releases) <br>
-  After opening the dmg and dragging ReacType into your Applications folder, ctrl+click the icon and select 'Open' from the context menu to run the app. This extra step is necessary since we don't have an Apple developer license yet.
-  If you are given a warning that Apple could not scan the app. Please follow these [steps](https://support.apple.com/en-ca/HT202491)
-
-- **Windows**
-  Download the latest [release](https://github.com/open-source-labs/ReacType/releases)
 
 ## Changes with version 15.0.0
 
