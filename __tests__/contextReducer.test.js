@@ -21,9 +21,9 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_CONTEXT', () => {
+  describe('context/addContext', () => {
     const action = {
-      type: 'ADD_CONTEXT',
+      type: 'context/addContext',
       payload: {
         name: 'Theme Context'
       }
@@ -49,7 +49,36 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_CONTEXT_VALUES', () => {
+  //OLD ADD CONTEX TEST
+  // describe('ADD_CONTEXT', () => {
+  //   const action = {
+  //     type: 'ADD_CONTEXT',
+  //     payload: {
+  //       name: 'Theme Context'
+  //     }
+  //   };
+
+  //   it('adds a context', () => {
+  //     const { allContext } = subject(state, action);
+  //     expect(allContext[0]).toEqual({
+  //       name: 'Theme Context',
+  //       values: [],
+  //       components: []
+  //     });
+  //   });
+
+  //   it('returns a state object not strictly equal to the original', () => {
+  //     const newState = subject(state, action);
+  //     expect(newState).not.toBe(state);
+  //   });
+
+  //   it('should immutably update the nested state object', () => {
+  //     const { allContext } = subject(state, action);
+  //     expect(allContext).not.toBe(state.allContext);
+  //   });
+  // });
+
+  describe('context/addContextValues', () => {
     beforeEach(() => {
       state = {
         allContext: [
@@ -63,7 +92,7 @@ describe('Context Reducer', () => {
     });
 
     const action = {
-      type: 'ADD_CONTEXT_VALUES',
+      type: 'context/addContextValues',
       payload: {
         name: 'Theme Context',
         inputKey: 'Theme Color',
@@ -85,7 +114,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('DELETE CONTEXT', () => {
+  describe('context/deleteContext', () => {
     let action;
     beforeEach(() => {
       state = {
@@ -104,7 +133,7 @@ describe('Context Reducer', () => {
       };
 
       action = {
-        type: 'DELETE_CONTEXT',
+        type: 'context/deleteContext',
         payload: {
           name: 'Theme Context'
         }
@@ -124,7 +153,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_COMPONENT_TO_CONTEXT', () => {
+  describe('context/addComponentToContext', () => {
     beforeEach(() => {
       state = {
         allContext: [
@@ -138,7 +167,7 @@ describe('Context Reducer', () => {
     });
 
     const action = {
-      type: 'ADD_COMPONENT_TO_CONTEXT',
+      type: 'context/addComponentToContext',
       payload: {
         context: {
           name: 'Theme Context'
