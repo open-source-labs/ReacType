@@ -15,16 +15,15 @@
 xdescribe('User authentication tests', () => {
   let server;
 
-  beforeAll((done)=> {
+  beforeAll((done) => {
     server = http.createServer(app);
     server.listen(done);
   });
 
-  afterAll((done)=> {
+  afterAll((done) => {
     Mongoose.disconnect();
     server.close(done);
   });
-
 
   const num = Math.floor(Math.random() * 1000);
 
@@ -48,11 +47,11 @@ xdescribe('User authentication tests', () => {
           .send({
             username: `supertest${num}`,
             email: `test${num}@test.com`,
-            password: `${num}`,
+            password: `${num}`
           })
           .set('Content-Type', 'application/json')
           .expect(200)
-          .then(res => expect(typeof res.body).toBe('object'));
+          .then((res) => expect(typeof res.body).toBe('object'));
       });
       // if invalid signup input, should respond with status 400
       it('responds with status 400 and json string on invalid new user signup', () => {
@@ -62,7 +61,7 @@ xdescribe('User authentication tests', () => {
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(400)
-          .then(res => expect(typeof res.body).toBe('string'));
+          .then((res) => expect(typeof res.body).toBe('string'));
       });
     });
   });
@@ -86,7 +85,7 @@ xdescribe('User authentication tests', () => {
           .send(user)
           .expect(200)
           .expect('Content-Type', /json/)
-          .then(res => expect(res.body.sessionId).toEqual(user.userId));
+          .then((res) => expect(res.body.sessionId).toEqual(user.userId));
       });
       // if invalid username/password, should respond with status 400
       it('responds with status 400 and json string on invalid user login', () => {
@@ -101,25 +100,24 @@ xdescribe('User authentication tests', () => {
   });
 });
 
-// OAuth tests (currently inoperative)
+// // OAuth tests (currently inoperative)
 
-xdescribe('Github oauth tests', () => {
-  describe('/github/callback?code=', () => {
-    describe('GET', () => {
-      it('responds with status 400 and error message if no code received', () => {
-        return request(server)
-          .get('/github/callback?code=')
-          .expect(400)
-          .then((res) => {
-            return expect(res.text).toEqual('\"Undefined or no code received from github.com\"');
-          });
-      });
-      it('responds with status 400 if invalid code received', () => {
-        return request(server)
-          .get('/github/callback?code=123456')
-          .expect(400)
-      });
-    });
-  });
-});
-
+// xdescribe('Github oauth tests', () => {
+//   describe('/github/callback?code=', () => {
+//     describe('GET', () => {
+//       it('responds with status 400 and error message if no code received', () => {
+//         return request(server)
+//           .get('/github/callback?code=')
+//           .expect(400)
+//           .then((res) => {
+//             return expect(res.text).toEqual(
+//               '"Undefined or no code received from github.com"'
+//             );
+//           });
+//       });
+//       it('responds with status 400 if invalid code received', () => {
+//         return request(server).get('/github/callback?code=123456').expect(400);
+//       });
+//     });
+//   });
+// });

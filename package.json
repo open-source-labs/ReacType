@@ -205,6 +205,7 @@
     "@types/jest": "^28.1.6",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "apollo": "^2.34.0",
     "axios": "^0.27.2",
     "babel-eslint": "^10.1.0",

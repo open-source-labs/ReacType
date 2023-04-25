@@ -26,7 +26,7 @@ export const initialState: State = {
       past: [],
       future: [],
       stateProps: [],
-      useStateCodes: [], // array of strings for each useState codes
+      useStateCodes: [] // array of strings for each useState codes
     }
   ],
   projectType: 'Classic React',
@@ -65,9 +65,7 @@ const findParent = (component: Component, childId: number) => {
         }
       }
       // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach((node: ChildElement) =>
-        nodeArr.push(node)
-      );
+      currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
     }
   }
   // if no search is found return -1
@@ -85,8 +83,7 @@ const childTypeExists = (
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
-    if (currentNode.type === type && currentNode.typeId === typeId)
-      return true;
+    if (currentNode.type === type && currentNode.typeId === typeId) return true;
     // if child node isn't found add each of the current node's children to the search array
     currentNode.children.forEach((node) => nodeArr.push(node));
   }
@@ -146,8 +143,7 @@ const updateIds = (components: Component[]) => {
   components.forEach((page) => {
     if (page.isPage) {
       page.children.forEach((child) => {
-        if (child.type === 'Component')
-          child.typeId = componentIds[child.name];
+        if (child.type === 'Component') child.typeId = componentIds[child.name];
       });
     }
   });
@@ -204,10 +200,11 @@ const updateUseStateCodes = (currentComponent) => {
   currentComponent.stateProps
     .filter((n, i) => i % 2 === 0)
     .forEach((stateProp) => {
-      const useStateCode = `const [${stateProp.key}, set${stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-        }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
-          stateProp.value
-        )})`;
+      const useStateCode = `const [${stateProp.key}, set${
+        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
+      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
+        stateProp.value
+      )})`;
       localStateCode.push(useStateCode);
     });
   if (currentComponent.name !== 'App' && currentComponent.name !== 'Index') {
@@ -220,7 +217,6 @@ const updateUseStateCodes = (currentComponent) => {
   return localStateCode;
 };
 
-
 // Creates new slice for components with applicable reducers
 const appStateSlice = createSlice({
   name: 'appState',
@@ -231,7 +227,7 @@ const appStateSlice = createSlice({
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
       ) {
-        return
+        return;
       }
 
       const newComponent = {
@@ -255,7 +251,7 @@ const appStateSlice = createSlice({
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
 
       // change canvas focus to just created component
- 
+
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
         state.components,
@@ -265,13 +261,9 @@ const appStateSlice = createSlice({
         state.HTMLTypes,
         state.tailwind,
         action.payload.contextParam
-
       );
 
- 
-      state.nextComponentId = nextComponentId
-
-
+      state.nextComponentId = nextComponentId;
     },
     addChild: (state, action) => {
       let parentComponentId: number;
@@ -378,7 +370,6 @@ const appStateSlice = createSlice({
         );
       components[canvasFocus.componentId - 1].children = addChildArray;
 
-
       parentComponent.code = generateCode(
         components,
         parentComponentId,
@@ -388,11 +379,12 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      console.log('addchild state before update',current(state))
+      console.log('addchild state before update', current(state));
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
+      console.log('state components', state.components);
     },
     changeTailwind: (state, action) => {
       // return { ...state, tailwind: action.payload }
@@ -450,14 +442,12 @@ const appStateSlice = createSlice({
     },
 
     resetAllState: (state) => {
-      if(state.isLoggedIn){
+      if (state.isLoggedIn) {
         Object.assign(state, initialState);
         state.isLoggedIn = true;
         return;
       }
       Object.assign(state, initialState);
-     
-     
     },
     changePosition: (state, action) => {
       const { currentChildId, newParentChildId } = action.payload;
@@ -514,9 +504,7 @@ const appStateSlice = createSlice({
       state.nextTopSeparatorId = nextTopSeparatorId;
     },
 
-
     updateCss: (state, action) => {
-
       const { style } = action.payload;
       const components = [...state.components];
       const component = findComponent(
@@ -560,7 +548,6 @@ const appStateSlice = createSlice({
       );
       state.components = components;
     },
-
 
     updateEvents: (state, action) => {
       const { events } = action.payload;
@@ -669,10 +656,8 @@ const appStateSlice = createSlice({
       state.components = components;
       state.canvasFocus = canvasFocus;
       state.nextComponentId = id;
-
     },
     setProjectName: (state, action) => {
-
       state.name = action.payload;
     },
     changeProjectType: (state, action) => {
@@ -741,7 +726,11 @@ const appStateSlice = createSlice({
         }
         return el.id !== action.payload.id;
       });
-      const components: Component[] = deleteById(action.payload.id, name, state);
+      const components: Component[] = deleteById(
+        action.payload.id,
+        name,
+        state
+      );
       const rootComponents: number[] = updateRoots(components);
       const canvasFocus = { ...state.canvasFocus, childId: null };
       components.forEach((el, i) => {
@@ -807,7 +796,6 @@ const appStateSlice = createSlice({
       state.components = components;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
-
     },
     setInitialState: (state, action) => {
       // set the canvas focus to be the first component
@@ -822,7 +810,6 @@ const appStateSlice = createSlice({
     openProject: (state, action) => {
       convertToJSX(action.payload.HTMLTypes);
       state = action.payload;
-
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
@@ -836,7 +823,7 @@ const appStateSlice = createSlice({
       // the children array of the focused component will equal the last element of the past array
       state.components[focusIndex].children =
         state.components[focusIndex].past[
-        state.components[focusIndex].past.length - 1
+          state.components[focusIndex].past.length - 1
         ];
       // the last element of the past array gets popped off
       const poppedEl = state.components[focusIndex].past.pop();
@@ -864,7 +851,7 @@ const appStateSlice = createSlice({
       //the children array of the focused component will equal the last element of the future array
       state.components[focusIndex].children =
         state.components[focusIndex].future[
-        state.components[focusIndex].future.length - 1
+          state.components[focusIndex].future.length - 1
         ];
       //the last element of the future array gets pushed into the past
       const poppedEl = state.components[focusIndex].future.pop();
@@ -880,7 +867,6 @@ const appStateSlice = createSlice({
           state.HTMLTypes,
           state.tailwind,
           action.payload.contextParam
-
         );
       });
       state = state;
@@ -1216,27 +1202,54 @@ const appStateSlice = createSlice({
     //   };
     // },
     snapShotAction: (state, action) => {
-      state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
+      state.components[action.payload.focusIndex].past.push(
+        action.payload.deepCopiedState.components[action.payload.focusIndex]
+          .children
+      );
     },
     allCooperativeState: (state, action) => {
-      return Object.assign({}, state, action.payload)
+      return Object.assign({}, state, action.payload);
     }
-
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
-
-export const { addComponent, addChild, changeFocus, 
-  changeTailwind, changePosition, updateStateUsed, 
-  resetAllState, updateUseContext, updateCss, updateEvents, 
-  deleteEventAction, deletePage, deleteReusableComponent, 
-  setProjectName, changeProjectType, resetState, updateProjectName, 
-  deleteElement, updateAttributes, deleteChild, setInitialState, openProject, 
-  addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, 
-  deleteState, toggleLoggedIn, configToggle, snapShotAction, allCooperativeState } = appStateSlice.actions;
-
+export const {
+  addComponent,
+  addChild,
+  changeFocus,
+  changeTailwind,
+  changePosition,
+  updateStateUsed,
+  resetAllState,
+  updateUseContext,
+  updateCss,
+  updateEvents,
+  deleteEventAction,
+  deletePage,
+  deleteReusableComponent,
+  setProjectName,
+  changeProjectType,
+  resetState,
+  updateProjectName,
+  deleteElement,
+  updateAttributes,
+  deleteChild,
+  setInitialState,
+  openProject,
+  addElement,
+  undo,
+  redo,
+  addState,
+  addPassedInProps,
+  deletePassedInProps,
+  deleteState,
+  toggleLoggedIn,
+  configToggle,
+  snapShotAction,
+  allCooperativeState
+} = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;

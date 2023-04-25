@@ -9,9 +9,8 @@ const { projectToSave, state } = require('../mockData');
 // const app = require('../server/server.js');
 // const http = require('http');
 
-
 // save and get projects endpoint testing
-xdescribe('Project endpoints tests', () => {  
+xdescribe('Project endpoints tests', () => {
   let server;
   beforeAll((done) => {
     server = http.createServer(app);
