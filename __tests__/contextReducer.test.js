@@ -50,6 +50,7 @@ describe('Context Reducer', () => {
   });
 
   //OLD ADD CONTEX TEST
+
   // describe('ADD_CONTEXT', () => {
   //   const action = {
   //     type: 'ADD_CONTEXT',

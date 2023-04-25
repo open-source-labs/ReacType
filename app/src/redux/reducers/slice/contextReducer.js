@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 const initialState = {
-  allContext: [
-  ]
+  allContext: []
 };
 
 const contextReducerSlice = createSlice({
@@ -35,7 +33,7 @@ const contextReducerSlice = createSlice({
     },
     deleteContext: (state, action) => {
       const tempState = [...state.allContext];
-      const remains = tempState.filter(el => el.name !== action.payload.name);
+      const remains = tempState.filter((el) => el.name !== action.payload.name);
       state.allContext = remains;
     },
     addComponentToContext: (state, action) => {
@@ -45,18 +43,23 @@ const contextReducerSlice = createSlice({
           newTempState[i].components.push(action.payload.component.name);
         }
       }
-      state.allContext = newTempState
+      state.allContext = newTempState;
     },
     getAllContext: (state, action) => {
       state = state;
     },
     allContextCooperative: (state, action) => {
-      return Object.assign({}, state, action.payload)
-    },
-
+      return Object.assign({}, state, action.payload);
+    }
   }
-})
+});
 
-export const { addContext, addContextValues, deleteContext, getAllContext, addComponentToContext, allContextCooperative } = contextReducerSlice.actions
+export const {
+  addContext,
+  addContextValues,
+  deleteContext,
+  getAllContext,
+  addComponentToContext,
+  allContextCooperative
+} = contextReducerSlice.actions;
 export default contextReducerSlice.reducer;
-

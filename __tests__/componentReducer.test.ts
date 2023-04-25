@@ -3,6 +3,7 @@ import { State, Action } from '../app/src/interfaces/Interfaces';
 
 import { initialState } from '../app/src/redux/reducers/slice/appStateSlice'; //does not exist
 import { iterate } from 'localforage';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 describe('Testing componentReducer functionality', () => {
   let state: State = initialState;
@@ -14,7 +15,10 @@ describe('Testing componentReducer functionality', () => {
         type: 'appState/addComponent',
         payload: {
           componentName: 'TestRegular',
-          root: false
+          root: false,
+          contextParam: {
+            allContext: []
+          }
         }
       };
       state = reducer(state, action);
@@ -29,14 +33,17 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'ADD COMPONENT' with new root
-  describe('ADD COMPONENT reducer', () => {
+  describe('addComponent reducer', () => {
     it('should add new reuseable component to state as the new root', () => {
       const action: Action = {
         type: 'appState/addComponent',
         payload: {
           componentName: 'TestRootChange',
           id: 3,
-          root: true
+          root: true,
+          contextParam: {
+            allContext: []
+          }
         }
       };
       state = reducer(state, action);
@@ -52,18 +59,21 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'ADD CHILD'
-  xdescribe('ADD CHILD reducer', () => {
+  describe('addChild reducer', () => {
     it('should add child component and separator to top-level component', () => {
       const action: Action = {
-        type: 'ADD CHILD',
+        type: 'appState/addChild',
         payload: {
           type: 'Component',
           typeId: 2,
-          childId: null
+          childId: null,
+          contextParam: {
+            allContext: []
+          }
         }
       };
       // switch focus to very first root component
-      state.canvasFocus = { componentId: 1, childId: null };
+      // state.canvasFocus = { componentId: 1, childId: null };
       state = reducer(state, action);
       const newParent = state.components[0];
       // expect new parent's children array to have length 2 (component + separator)
@@ -81,25 +91,35 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE POSITION'
-  xdescribe('CHANGE POSITION reducer ', () => {
+  describe('CHANGE POSITION reducer ', () => {
     it('should move position of an instance', () => {
       const actionHtml: Action = {
-        type: 'ADD CHILD',
+        type: 'appState/addChild',
         payload: {
           type: 'HTML Element',
           typeId: 9,
-          childId: null
+          childId: null,
+          contextParam: {
+            allContext: []
+          }
         }
       };
       state = reducer(state, actionHtml);
       const actionChangePos: Action = {
-        type: 'CHANGE POSITION',
+        type: 'appState/changePosition',
         payload: {
           currentChildId: 1,
-          newParentChildId: null
+          newParentChildId: null,
+          contextParam: {
+            allContext: []
+          }
         }
       };
+
+      console.log('state.components', state.components);
       state = reducer(state, actionChangePos);
+      console.log('state.canvasfocus after reducer', state.canvasFocus);
+      console.log('state.components', state.components);
       const changeParent = state.components.find(
         (comp) => comp.id === state.canvasFocus.componentId
       );
@@ -116,11 +136,17 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'DELETE CHILD'
-  xdescribe('DELETE CHILD reducer', () => {
+  describe('DELETE CHILD reducer', () => {
     it('should delete child of focused top-level component', () => {
       // canvas still focused on childId: 2, which is an HTML element
       const action: Action = {
-        type: 'DELETE CHILD'
+        type: 'appState/deleteChild',
+        payload: {
+          id: 2,
+          contextParam: {
+            allContext: []
+          }
+        }
       };
       state = reducer(state, action);
       // expect only one remaining child
@@ -139,10 +165,10 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE FOCUS'
-  xdescribe('CHANGE FOCUS reducer', () => {
+  describe('CHANGE FOCUS reducer', () => {
     it('should change focus to specified component', () => {
       const action: Action = {
-        type: 'CHANGE FOCUS',
+        type: 'appState/changeFocus',
         payload: {
           componentId: 2,
           childId: null
@@ -155,13 +181,16 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UPDATE CSS'
-  xdescribe('UPDATE CSS reducer', () => {
+  describe('updateCss reducer', () => {
     it('should add style to focused component', () => {
       const action: Action = {
-        type: 'UPDATE CSS',
+        type: 'appState/updateCss',
         payload: {
           style: {
             backgroundColor: 'gray'
+          },
+          contextParam: {
+            allContext: []
           }
         }
       };
@@ -177,10 +206,10 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UPDATE PROJECT NAME'
-  xdescribe('UPDATE PROJECT NAME reducer', () => {
+  describe('updateProjectName reducer', () => {
     it('should update project with specified name', () => {
       const action: Action = {
-        type: 'UPDATE PROJECT NAME',
+        type: 'appState/updateProjectName',
         payload: 'TESTNAME'
       };
       state = reducer(state, action);
@@ -190,12 +219,15 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE PROJECT TYPE'
-  xdescribe('CHANGE PROJECT TYPE reducer', () => {
+  describe('changeProjectType reducer', () => {
     it('should change project type to specified type', () => {
       const action: Action = {
-        type: 'CHANGE PROJECT TYPE',
+        type: 'appState/changeProjectType',
         payload: {
-          projectType: 'Classic React'
+          projectType: 'Classic React',
+          contextParam: {
+            allContext: []
+          }
         }
       };
       state = reducer(state, action);
@@ -204,7 +236,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UNDO'
-  xdescribe('UNDO reducer', () => {
+  describe('undo reducer', () => {
     it('should remove the last element from the past array and push it to the future array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
       state.components[focusIndex].past = [];
@@ -220,7 +252,7 @@ describe('Testing componentReducer functionality', () => {
       };
 
       const actionHTML2: Action = {
-        type: 'ADD CHILD',
+        type: 'appState/addChild',
         payload: {
           type: 'HTML Element',
           typeId: 4,
@@ -232,7 +264,7 @@ describe('Testing componentReducer functionality', () => {
       snapShotFuncCopy();
 
       const actionUndo: Action = {
-        type: 'UNDO',
+        type: 'appState/undo',
         payload: {}
       };
       state = reducer(state, actionUndo);
@@ -242,11 +274,11 @@ describe('Testing componentReducer functionality', () => {
     });
   });
   // TEST 'REDO'
-  xdescribe('REDO reducer', () => {
+  describe('redo reducer', () => {
     it('should remove the last element from the future array and push it to the past array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
       const actionRedo: Action = {
-        type: 'REDO',
+        type: 'appState/redo',
         payload: {}
       };
       state = reducer(state, actionRedo);
@@ -255,10 +287,10 @@ describe('Testing componentReducer functionality', () => {
     });
   });
   // TEST 'RESET STATE'
-  xdescribe('RESET STATE reducer', () => {
+  describe('resetState reducer', () => {
     it('should reset project to initial state', () => {
       const action: Action = {
-        type: 'RESET STATE',
+        type: 'appState/resetState',
         payload: ''
       };
       state = reducer(state, action);
