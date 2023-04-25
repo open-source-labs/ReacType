@@ -1,26 +1,24 @@
-import React, { useReducer} from 'react';
+import React, { useReducer } from 'react';
 import '@testing-library/jest-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { render, fireEvent, cleanup, screen } from '@testing-library/react';
-import StateContext from '../app/src/context/context';
-import initialState from '../app/src/context/initialState';
-import reducer from '../app/src/reducers/componentReducer';
+// import StateContext from '../app/src/context/context';
+// import initialState from '../app/src/context/initialState';
+// import reducer from '../app/src/reducers/componentReducer';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
 function Test() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <DndProvider backend={HTML5Backend}>
-      <StateContext.Provider value={[state, dispatch]} >
-        <HTMLPanel />
-      </StateContext.Provider>
+      {/* <StateContext.Provider value={[state, dispatch]}> */}
+      <HTMLPanel />
+      {/* </StateContext.Provider> */}
     </DndProvider>
-  )
+  );
 }
 xtest('Renders HTMLPanel component properly', () => {
-  render(
-    <Test/>
-  );
+  render(<Test />);
   expect(screen.getAllByRole('textbox')).toHaveLength(2);
   expect(screen.getByText('Div')).toBeInTheDocument();
   expect(screen.getByText('Image')).toBeInTheDocument();
@@ -36,9 +34,7 @@ xtest('Renders HTMLPanel component properly', () => {
 });
 
 xtest('Adds new custom element', () => {
-  render(
-    <Test/>
-  );
+  render(<Test />);
   fireEvent.change(screen.getAllByRole('textbox')[0], {
     target: { value: 'Testing' }
   });
