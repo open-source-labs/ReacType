@@ -7,11 +7,13 @@ import Button from '@mui/material/Button';
 import exportProject from '../../utils/exportProject.util';
 import createModal from './createModal';
 import { useSelector } from 'react-redux';
-
+import { RootState } from '../../redux/store';
+const JSZip = require("jszip");
+import { saveAs } from 'file-saver';
 
 export default function ExportButton() {
   const [modal, setModal] = useState(null);
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store: RootState) => store.appState);
 
   const genOptions: string[] = [
     'Export components',
@@ -53,40 +55,21 @@ export default function ExportButton() {
 
       //This is exclusive to the electron app
       // window.api.chooseAppDir();
-      testchecked = document.getElementById('tests').checked;
-      console.log();
-      localStorage.setItem('myCat', 'Tom');
+      // testchecked = document.getElementById('tests').checked;
+
+      var zip = new JSZip();
+      let componentFolder = zip.folder('componentfolder')
+      for (let i in state.components){
+        componentFolder.file(`${state.components[i].name}.jsx`, state.components[i].code)
+      }
+      zip.generateAsync({type:"blob"})
+      .then(function(content) {
+          // see FileSaver.js
+          saveAs(content, "ReacTypeApp.zip");
+      });
+     
       closeModal();
     };
-
-    // const testerFunc = () => {
-    //   exportProject(
-    //     path,
-    //     state.name
-    //       ? state.name
-    //       : 'New_ReacType_Project_' + Math.ceil(Math.random() * 99).toString(),
-    //     genOption,
-    //     testchecked,
-    //     state.projectType,
-    //     state.components,
-    //     state.rootComponents
-    //   )
-    // }
-    
-    // const testerFunc2 = () => {
-    //   const myFile = new File([])
-    //   exportProject(
-    //     path,
-    //     state.name
-    //       ? state.name
-    //       : 'New_ReacType_Project_' + Math.ceil(Math.random() * 99).toString(),
-    //     genOption,
-    //     testchecked,
-    //     state.projectType,
-    //     state.components,
-    //     state.rootComponents
-    //   )
-    // }
 
     setModal(
       createModal({
