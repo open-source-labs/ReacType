@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
-import store from './redux/store';
+import store from './redux/store.ts';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
