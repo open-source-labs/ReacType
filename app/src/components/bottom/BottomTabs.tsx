@@ -172,9 +172,9 @@ const useStyles = makeStyles((theme) => ({
   tabRoot: {
     textTransform: 'initial',
     minWidth: 40,
-    fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing(2), // JZ: updated syntax as per deprecation warning
-    marginLeft: theme.spacing(2),
+    // fontWeight: theme.typography.fontWeightRegular,
+    // marginRight: theme.spacing(2), // JZ: updated syntax as per deprecation warning
+    // marginLeft: theme.spacing(2),
 
     fontFamily: [
       '-apple-system',
@@ -193,20 +193,20 @@ const useStyles = makeStyles((theme) => ({
       opacity: 1
     },
     '&$tabSelected': {
-      color: 'white',
-      fontWeight: theme.typography.fontWeightMedium
+      color: 'white'
+      // fontWeight: theme.typography.fontWeightMedium
     },
     '&:focus': {
       color: 'white'
     }
   },
   tabSelected: {},
-  typography: {
-    padding: theme.spacing(3)
-  },
-  padding: {
-    padding: `0 ${theme.spacing(2)}`
-  },
+  // typography: {
+  //   padding: theme.spacing(3)
+  // // },
+  // padding: {
+  //   padding: `0 ${theme.spacing(2)}`
+  // },
   switch: {
     marginRight: '10px',
     marginTop: '2px'

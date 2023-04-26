@@ -379,7 +379,7 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      console.log('addchild state before update', current(state));
+      // console.log('addchild state before update', current(state));
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
