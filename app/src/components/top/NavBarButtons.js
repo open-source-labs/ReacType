@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { resetAllState } from '../../redux/reducers/slice/appStateSlice.ts';
 import createModal from '../right/createModal.tsx';
 import ExportButton from '../right/ExportButton.tsx';
-import { setStyle } from '../../redux/reducers/slice/styleSlice';
+import { setStyle } from '../../redux/reducers/slice/styleSlice.ts';
 import LoginButton from '../right/LoginButton.tsx';
 import withStyles from '@mui/styles/withStyles';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,15 +18,15 @@ import SaveProjectButton from '../right/SaveProjectButton.tsx';
 import ProjectsFolder from '../right/OpenProjects.tsx';
 import DeleteProjects from '../right/DeleteProjects.tsx';
 import Menu from '@mui/material/Menu';
-import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice.ts';
 // for websockets
 import debounce from 'lodash/debounce';
 // websocket front end starts here
 import { io } from 'socket.io-client';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice.ts';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice.ts';
-import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
-import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
+import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice.ts';
+import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice.ts';
 import config from '../../../../config.js';
 const { API_BASE_URL } = config;
 
