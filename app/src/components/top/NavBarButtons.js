@@ -1,5 +1,5 @@
 import React from 'react';
-import store from '../../redux/store.js';
+import store from '../../redux/store.ts';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
