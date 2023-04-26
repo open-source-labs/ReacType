@@ -23,12 +23,13 @@ import LoginButton from '../app/src/components/right/LoginButton';
 import customizationPanel from '../app/src/containers/CustomizationPanel';
 import configureMockStore from 'redux-mock-store';
 
+
 const mockStore = configureMockStore();
 const store = mockStore({});
 
 configure({ adapter: new Adapter() });
 
-/* If there is an error with unmatched snapshots because of intentionally modified codes, delete the contents in enzyme.test.tsx.snap to record new codes as blueprints */
+// /* If there is an error with unmatched snapshots because of intentionally modified codes, delete the contents in enzyme.test.tsx.snap to record new codes as blueprints */
 
 xdescribe('Test the CanvasContainer component', () => {
   const target = shallow(
@@ -40,13 +41,13 @@ xdescribe('Test the CanvasContainer component', () => {
     expect(target).toMatchSnapshot();
   });
   // test if Canvas component is rendered
-  // it('Contains Canvas component', () => {
-  //   expect(
-  //     target.contains(
-  //         <Canvas />
-  //     )
-  //   ).toBe(true);
-  // });
+  it('Contains Canvas component', () => {
+    expect(
+      target.contains(
+          <Canvas />
+      )
+    ).toBe(true);
+  });
 });
 
 xdescribe('Test the MainContainer component', () => {

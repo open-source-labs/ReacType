@@ -1,76 +1,72 @@
-import reducer from '../app/src/reducers/componentReducer'; //does not exist
-//
-import initialState from '../app/src/context/initialState'; //does not exist
+import reducer from '../app/src/redux/reducers/slice/appStateSlice';
+import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
 
-xdescribe('Testing componentReducer functionality for stateManagement tab', () => {
+let state = JSON.parse(JSON.stringify(initialState));
+state.components = [
+  {
+    id: 1,
+    name: 'App',
+    style: {},
+    code: "import React, { useState, useEffect, useContext} from 'react';\n\n\n\nimport C1 from './C1'\nconst App = (props) => {\n\n\n      const [appState, setAppState] = useState<number | undefined>(1);\n\n  return(\n    <>\n<C1  id = \"1\" />\n    </>\n  );\n}\n\nexport default App\n",
+    children: [
+      {
+        type: 'HTML Element',
+        typeId: 1000,
+        name: 'separator',
+        childId: 1000,
+        style: { border: 'none' },
+        attributes: {},
+        children: []
+      },
+      {
+        type: 'Component',
+        typeId: 2,
+        name: 'C1',
+        childId: 1,
+        style: {},
+        attributes: {},
+        children: [],
+        stateProps: [],
+        passedInProps: []
+      }
+    ],
+    isPage: true,
+    past: [[]],
+    future: [],
+    stateProps: [],
+    useStateCodes: [
+      'const [appState, setAppState] = useState<number | undefined>(1)'
+    ]
+  },
+  {
+    id: 2,
+    name: 'C1',
+    nextChildId: 1,
+    style: {},
+    attributes: {},
+    code: "import React, { useState, useEffect, useContext} from 'react';\n\n\n\n\nconst C1 = (props) => {\n\n\n\n  return(\n    <>\n\n    </>\n  );\n}\n\nexport default C1\n",
+    children: [],
+    isPage: false,
+    past: [],
+    future: [],
+    stateProps: [],
+    useStateCodes: [],
+    passedInProps: []
+  }
+];
+
+describe('Testing componentReducer functionality for stateManagement tab', () => {
   const findComponent = (components, componentId) => {
     return components.find((elem) => elem.id === componentId);
   };
 
-  let state = initialState;
-
-  // setting up initial state
-  state.components = [
-    {
-      id: 1,
-      name: 'App',
-      style: {},
-      code: "import React, { useState, useEffect, useContext} from 'react';\n\n\n\nimport C1 from './C1'\nconst App = (props) => {\n\n\n      const [appState, setAppState] = useState<number | undefined>(1);\n\n  return(\n    <>\n<C1  id = \"1\" />\n    </>\n  );\n}\n\nexport default App\n",
-      children: [
-        {
-          type: 'HTML Element',
-          typeId: 1000,
-          name: 'separator',
-          childId: 1000,
-          style: { border: 'none' },
-          attributes: {},
-          children: []
-        },
-        {
-          type: 'Component',
-          typeId: 2,
-          name: 'C1',
-          childId: 1,
-          style: {},
-          attributes: {},
-          children: [],
-          stateProps: [],
-          passedInProps: []
-        }
-      ],
-      isPage: true,
-      past: [[]],
-      future: [],
-      stateProps: [],
-      useStateCodes: [
-        'const [appState, setAppState] = useState<number | undefined>(1)'
-      ]
-    },
-    {
-      id: 2,
-      name: 'C1',
-      nextChildId: 1,
-      style: {},
-      attributes: {},
-      code: "import React, { useState, useEffect, useContext} from 'react';\n\n\n\n\nconst C1 = (props) => {\n\n\n\n  return(\n    <>\n\n    </>\n  );\n}\n\nexport default C1\n",
-      children: [],
-      isPage: false,
-      past: [],
-      future: [],
-      stateProps: [],
-      useStateCodes: [],
-      passedInProps: []
-    }
-  ];
-
   // TEST 'ADD STATE'
-  describe('ADD STATE test', () => {
+  describe('addState test', () => {
     // setting canvas focus to root component (App)
-    state.canvasFocus.componentId = 1;
-
+    // state.canvasFocus.componentId = 1;
     // action dispatched to be tested
     const action = {
-      type: 'ADD STATE',
+      type: 'appState/addState',
       payload: {
         newState: {
           id: 'App-testAppState',
@@ -83,6 +79,9 @@ xdescribe('Testing componentReducer functionality for stateManagement tab', () =
           key: 'setTestAppState',
           type: 'func',
           value: ''
+        },
+        contextParam: {
+          allContext: []
         }
       }
     };
@@ -123,23 +122,28 @@ xdescribe('Testing componentReducer functionality for stateManagement tab', () =
   // TEST 'ADD PASSEDINPROPS'
   describe('ADD PASSEDINPROPS test', () => {
     // setting canvas focus to the child component
+    state = JSON.parse(JSON.stringify(state));
     state.canvasFocus.componentId = 2;
 
     // action dispatched to be tested
     const action = {
-      type: 'ADD PASSEDINPROPS',
+      type: 'appState/addPassedInProps',
       payload: {
         passedInProps: {
           id: 'App-testAppState',
           key: 'testAppState',
           type: 'number',
           value: 1
+        },
+        contextParam: {
+          allContext: []
         }
       }
     };
 
     // setting test state
     state = reducer(state, action);
+    console.log('state.components', state.components);
     const currComponent = findComponent(state.components, 2);
     const parentComponent = findComponent(state.components, 1);
 
@@ -184,12 +188,18 @@ xdescribe('Testing componentReducer functionality for stateManagement tab', () =
   describe('DELETE PASSEDINPROPS test', () => {
     it('should delete the state passed down from parent component in the child component', () => {
       // setting canvas focus to the child component
+      state = JSON.parse(JSON.stringify(state));
       state.canvasFocus.componentId = 2;
 
       // action dispatched to be tested
       const action = {
-        type: 'DELETE PASSEDINPROPS',
-        payload: { rowId: 'App-testAppState' }
+        type: 'appState/deletePassedInProps',
+        payload: {
+          rowId: 'App-testAppState',
+          contextParam: {
+            allContext: []
+          }
+        }
       };
 
       // setting test state
@@ -206,15 +216,19 @@ xdescribe('Testing componentReducer functionality for stateManagement tab', () =
   describe('DELETE STATE test', () => {
     it('should delete all instances of state from stateProps and passedInProps', () => {
       // setting canvas focus to root component
+      state = JSON.parse(JSON.stringify(state));
       state.canvasFocus.componentId = 1;
 
       // action dispatched to be tested
       const action = {
-        type: 'DELETE STATE',
+        type: 'appState/deleteState',
         payload: {
           stateProps: [],
           rowId: 'App-appState',
-          otherId: 'App-setAppState'
+          otherId: 'App-setAppState',
+          contextParam: {
+            allContext: []
+          }
         }
       };
 
