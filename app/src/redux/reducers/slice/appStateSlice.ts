@@ -26,7 +26,9 @@ export const initialState: State = {
       past: [],
       future: [],
       stateProps: [],
-      useStateCodes: [] // array of strings for each useState codes
+      useStateCodes: [], // array of strings for each useState codes
+      events: {}, // Add the missing 'events' property
+      passedInProps: [] // Add the missing 'passedInProps' property
     }
   ],
   projectType: 'Classic React',
@@ -35,7 +37,7 @@ export const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes,
+  HTMLTypes, // left as is for now
   tailwind: false
 };
 
@@ -57,6 +59,7 @@ const findParent = (component: Component, childId: number) => {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
     // try to find id of childNode in children
+    if (currentNode && currentNode.children ) {
     if (currentNode.name !== 'input' && currentNode.name !== 'img') {
       for (let i = 0; i <= currentNode.children.length - 1; i++) {
         // if match is found return object with both the parent and the index value of the child
@@ -67,6 +70,7 @@ const findParent = (component: Component, childId: number) => {
       // if child node isn't found add each of the current node's children to the search array
       currentNode.children.forEach((node: ChildElement) => nodeArr.push(node));
     }
+  }
   }
   // if no search is found return -1
   return { directParent: null, childIndexValue: null };
@@ -83,9 +87,11 @@ const childTypeExists = (
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
+    if (currentNode && currentNode.children ) {
     if (currentNode.type === type && currentNode.typeId === typeId) return true;
     // if child node isn't found add each of the current node's children to the search array
     currentNode.children.forEach((node) => nodeArr.push(node));
+    }
   }
   // if no match is found return false
   return false;
@@ -98,10 +104,12 @@ const findChild = (component: Component, childId: number) => {
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
+    if (currentNode && currentNode.children ) {
     if (currentNode.childId === childId) return currentNode;
     // if child node isn't found add each of the current node's children to the search array
     if (currentNode.name !== 'input' && currentNode.name !== 'img')
       currentNode.children.forEach((node) => nodeArr.push(node));
+    }
   }
   // if no match is found return false
   return;
@@ -149,16 +157,16 @@ const updateIds = (components: Component[]) => {
   });
   return components;
 };
-const updateRoots = (components: Component[]) => {
-  const roots = [];
-  // for each of the components in the passed in array of components, if the child component
-  // is a page, push its id into the roots array
+// updated compoment updateRoots with TS number type implemented
+const updateRoots = (components: Component[]): number[] => {
+  const roots: number[] = [];
   components.forEach((comp) => {
     if (comp.isPage) roots.push(comp.id);
   });
   return roots;
 };
-const deleteById = (id: number, name: string, state: object): Component[] => {
+// updated state property to state from object
+const deleteById = (id: number, name: string, state: State): Component[] => {
   // name of the component we want to delete
   const checkChildren = (child: Component[] | ChildElement[]) => {
     // for each of the components in the passed in components array, if the child
@@ -188,15 +196,17 @@ const deleteById = (id: number, name: string, state: object): Component[] => {
   const filteredArr = [...copyComp].filter((comp) => comp.id != id);
   return updateIds(filteredArr);
 };
+
 const convertToJSX = (arrayOfElements) => {
   // if id exists in state.HTMLTypes
   for (let i = 0; i < initialState.HTMLTypes.length; i += 1) {
     arrayOfElements[i] = initialState.HTMLTypes[i];
   }
 };
+
 const updateUseStateCodes = (currentComponent) => {
   // array of snippets of state prop codes
-  const localStateCode = [];
+  const localStateCode: string[]= []; // avoid never by assigning it to string
   currentComponent.stateProps
     .filter((n, i) => i % 2 === 0)
     .forEach((stateProp) => {
@@ -236,6 +246,7 @@ const appStateSlice = createSlice({
         nextChildId: 1,
         style: {},
         attributes: {},
+        events: {},
         code: '',
         children: [],
         isPage: action.payload.root,
@@ -293,8 +304,10 @@ const appStateSlice = createSlice({
       }
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
-        if (childTypeExists('Component', parentComponentId, originalComponent))
-          return state;
+        if (originalComponent) {
+          if (childTypeExists('Component', parentComponentId, originalComponent))
+            return state;
+        }
       }
 
       let newName = state.HTMLTypes.reduce((name, el) => {
@@ -320,10 +333,11 @@ const appStateSlice = createSlice({
         style: {},
         attributes: {},
         events: {},
-        children: componentChildren,
+        children: componentChildren, // work in progress possible solution // children: componentChildren as ChildElement[],
         stateProps: [], //legacy pd: added stateprops and passedinprops
         passedInProps: []
       };
+      // added missing properties
       const topSeparator: ChildElement = {
         type: 'HTML Element',
         typeId: separator.id,
@@ -331,20 +345,26 @@ const appStateSlice = createSlice({
         childId: state.nextTopSeparatorId,
         style: separator.style,
         attributes: {},
-        children: []
+        events: {}, // Added
+        children: [],
+        stateProps: [], // Added
+        passedInProps: [], // Added
       };
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
-      if (newChild.name === 'input' && newChild.name === 'img')
+      if (newChild.name === 'input' && newChild.name === 'img') // changin to || will breck the image and input
         delete newChild.children;
       let directParent;
       if (childId === null) {
+        if (parentComponent) {
         parentComponent.children.push(topSeparator);
         parentComponent.children.push(newChild);
+        }
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
+        if (parentComponent) {
         directParent = findChild(parentComponent, childId);
         //disable nesting a component inside a HTML element
         if (directParent.type === 'HTML Element' && type === 'HTML Element') {
@@ -354,6 +374,7 @@ const appStateSlice = createSlice({
           return { ...state };
         }
       }
+      }
       const canvasFocus = {
         ...state.canvasFocus,
         componentId: state.canvasFocus.componentId,
@@ -362,14 +383,15 @@ const appStateSlice = createSlice({
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
       let addChildArray = components[canvasFocus.componentId - 1].children;
-      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
+      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1); // merge separator needs interface and type
       if (directParent && directParent.name === 'separator')
-        nextTopSeparatorId = manageSeparators.handleSeparators(
+        nextTopSeparatorId = manageSeparators.handleSeparators( // handle separator needs interface and type
           addChildArray,
           'add'
         );
       components[canvasFocus.componentId - 1].children = addChildArray;
-
+      
+      if (parentComponent) {
       parentComponent.code = generateCode(
         components,
         parentComponentId,
@@ -379,6 +401,7 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
+      }
       // console.log('addchild state before update', current(state));
       state.components = components;
       state.nextChildId = nextChildId;
@@ -400,6 +423,7 @@ const appStateSlice = createSlice({
         });
       }
     },
+
     updateStateUsed: (state, action) => {
       const { stateUsedObj } = action.payload;
       const components = [...state.components];
@@ -407,8 +431,11 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      if (component) {
+        if (state.canvasFocus.childId !== null) {
       const targetChild = findChild(component, state.canvasFocus.childId);
-      targetChild.stateUsed = stateUsedObj;
+      if (targetChild) {
+      targetChild.stateUsed = stateUsedObj; 
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -419,7 +446,11 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
+      }
+      }
     },
+
     updateUseContext: (state, action) => {
       const { useContextObj } = action.payload;
       const components = [...state.components];
@@ -427,6 +458,7 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      if (component) {
       component.useContext = useContextObj;
       component.code = generateCode(
         components,
@@ -438,6 +470,7 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
     },
 
     resetAllState: (state) => {
