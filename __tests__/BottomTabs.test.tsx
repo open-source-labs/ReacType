@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';

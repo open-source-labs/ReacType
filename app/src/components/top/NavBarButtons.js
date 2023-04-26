@@ -83,7 +83,7 @@ function handleUserEnteredRoom(roomCode) {
   initSocketConnection(roomCode);
 }
 
-console.log(store.getState());
+// console.log(store.getState());
 let previousState = store.getState();
 
 // sending info to backend whenever the redux store changes

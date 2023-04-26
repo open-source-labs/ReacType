@@ -1,8 +1,6 @@
 import reducer from '../app/src/redux/reducers/slice/appStateSlice';
 import { State, Action } from '../app/src/interfaces/Interfaces';
 import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
-import { iterate } from 'localforage';
-import { ConstructionOutlined } from '@mui/icons-material';
 
 describe('Testing componentReducer functionality', () => {
   let state: State = initialState;
