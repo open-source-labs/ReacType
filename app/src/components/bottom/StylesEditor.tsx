@@ -40,6 +40,7 @@ const StylesEditor: React.FC<{
   }
 
   const saveFile = () => {
+    console.log(css)
     fetch(`${serverURL}/user-styles/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
