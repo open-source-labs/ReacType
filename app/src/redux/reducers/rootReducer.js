@@ -6,7 +6,7 @@ import codePreviewReducer from './slice/codePreviewSlice';
 import contextReducer from './slice/contextReducer';
 import appStateReducer from './slice/appStateSlice.ts';
 import styleReducer from './slice/styleSlice';
-import roomCodeReducer from './slice/roomCodeSlice'
+import roomCodeReducer from './slice/roomCodeSlice';
 
 const rootReducer = combineReducers({
   // Add desired slices here
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   contextSlice: contextReducer,
   appState: appStateReducer,
   styleSlice: styleReducer,
-  roomCodeSlice: roomCodeReducer,
+  roomCodeSlice: roomCodeReducer
 });
 
 export default rootReducer;
