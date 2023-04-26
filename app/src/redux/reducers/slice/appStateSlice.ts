@@ -379,12 +379,11 @@ const appStateSlice = createSlice({
         state.tailwind,
         action.payload.contextParam
       );
-      console.log('addchild state before update', current(state));
+      // console.log('addchild state before update', current(state));
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
-      console.log('state components', state.components);
     },
     changeTailwind: (state, action) => {
       // return { ...state, tailwind: action.payload }
@@ -816,10 +815,13 @@ const appStateSlice = createSlice({
       HTMLTypes.push(action.payload);
       state.HTMLTypes = HTMLTypes;
     },
+    //Undo & Redo functions are not working properly. Redo & Undo target the last component rather than last added HTML Element.
     undo: (state, action) => {
       const focusIndex = state.canvasFocus.componentId - 1;
       // if the past array is empty, return state
-      if (state.components[focusIndex].past.length === 0) return { ...state };
+      if (state.components[focusIndex].past.length <= 1) {
+        return { ...state };
+      }
       // the children array of the focused component will equal the last element of the past array
       state.components[focusIndex].children =
         state.components[focusIndex].past[

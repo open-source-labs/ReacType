@@ -5,19 +5,19 @@ import DemoRender from '../components/main/DemoRender';
 import { useSelector } from 'react-redux';
 
 const MainContainer = (props): JSX.Element => {
-  const {isDarkMode, style }= useSelector((store) =>({
+  const { isDarkMode, style } = useSelector((store) => ({
     isDarkMode: store.darkMode.isDarkMode,
-    style: store.styleSlice,
-      } ));
+    style: store.styleSlice
+  }));
 
   return (
-    <div className="main-container" style={style} >
+    <div className="main-container" style={style}>
       <div className="main">
-        <CanvasContainer isThemeLight={props.isThemeLight}/>
+        <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div className='bottom-hide'>
-        <BottomPanel isThemeLight={props.isThemeLight}/>
+      <div className="bottom-hide">
+        <BottomPanel isThemeLight={props.isThemeLight} />
       </div>
     </div>
   );
