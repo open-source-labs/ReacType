@@ -8,8 +8,7 @@ import exportProject from '../../utils/exportProject.util';
 import createModal from './createModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-const JSZip = require("jszip");
-import { saveAs } from 'file-saver';
+import zipFiles from '../../helperFunctions/zipFiles';
 
 export default function ExportButton() {
   const [modal, setModal] = useState(null);
@@ -56,17 +55,7 @@ export default function ExportButton() {
       //This is exclusive to the electron app
       // window.api.chooseAppDir();
       // testchecked = document.getElementById('tests').checked;
-
-      var zip = new JSZip();
-      let componentFolder = zip.folder('componentfolder')
-      for (let i in state.components){
-        componentFolder.file(`${state.components[i].name}.jsx`, state.components[i].code)
-      }
-      zip.generateAsync({type:"blob"})
-      .then(function(content) {
-          // see FileSaver.js
-          saveAs(content, "ReacTypeApp.zip");
-      });
+      zipFiles(state);
      
       closeModal();
     };
