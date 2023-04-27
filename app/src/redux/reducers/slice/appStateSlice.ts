@@ -493,7 +493,7 @@ const appStateSlice = createSlice({
       );
       // find the moved element's former parent
       // delete the element from it's former parent's children array
-
+      if (component) {
       const { directParent, childIndexValue } = findParent(
         component,
         currentChildId
@@ -501,17 +501,22 @@ const appStateSlice = createSlice({
       // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
       // Only run if the directParent exists
       if (directParent) {
+        if (directParent.children) {
         const child = { ...directParent.children[childIndexValue] };
         directParent.children.splice(childIndexValue, 1);
         // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
         if (newParentChildId === null) {
           component.children.push(child);
+        
         }
         // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
         else {
           const directParent = findChild(component, newParentChildId);
+          if (directParent?.children) {
           directParent.children.push(child);
+          }
         }
+      }
       }
       let nextTopSeparatorId = state.nextTopSeparatorId;
       components[state.canvasFocus.componentId - 1].children =
@@ -534,6 +539,8 @@ const appStateSlice = createSlice({
       );
       state.components = components;
       state.nextTopSeparatorId = nextTopSeparatorId;
+
+      }
     },
 
     updateCss: (state, action) => {
@@ -543,7 +550,10 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      // closed if statement at the end of the block
+      if (component && state.canvasFocus.childId) {
       const targetChild = findChild(component, state.canvasFocus.childId);
+      if(targetChild) {
       targetChild.style = style;
       component.code = generateCode(
         components,
@@ -555,6 +565,8 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
+      }
     },
 
     updateAttributes: (state, action) => {
@@ -565,8 +577,10 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      // closed if statement at the end of the block
+      if (component && state.canvasFocus.childId) {
       const targetChild = findChild(component, state.canvasFocus.childId);
-
+      if (targetChild) {
       targetChild.attributes = attributes;
 
       component.code = generateCode(
@@ -579,6 +593,8 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
+    }
     },
 
     updateEvents: (state, action) => {
