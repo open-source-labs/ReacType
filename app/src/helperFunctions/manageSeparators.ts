@@ -14,11 +14,11 @@ const separator = {
 const manageSeparators: ManageSeparators = {
   nextTopSeparatorId: 1000,
   // this function checks for two separators in a row or missing separators and adds/removes as needed
-  handleSeparators: (arr, str) => {
+  handleSeparators: (arr: ChildElement[], str?) => {
     if (
       (str === 'delete' || str === 'change position') &&
       arr.length === 1 &&
-      arr.slice(0,1).name === 'separator'
+      arr[0].name === 'separator'
     ) {
       arr.splice(0, 1);
     }
@@ -44,7 +44,12 @@ const manageSeparators: ManageSeparators = {
           name: 'separator',
           childId: manageSeparators.nextTopSeparatorId,
           style: separator.style,
-          children: []
+          attributes: {}, // Added
+          events: {}, // Added
+          stateProps: [], // Added
+          passedInProps: [], // Added
+          children: [],
+          
         };
         // add a topSeparator before the element that does not have one
         arr.splice(index, 0, topSeparator);
@@ -55,7 +60,7 @@ const manageSeparators: ManageSeparators = {
       if (
         arr[index].name !== 'input' &&
         arr[index].name !== 'img' &&
-        arr[index].children.length
+        arr[index].children?.length
       ) {
         // recursive call if children array
         str === 'delete' || str === 'change position'
@@ -67,22 +72,22 @@ const manageSeparators: ManageSeparators = {
   },
 
   // this function replaces separators onto which an element is dropped with the element itself
-  mergeSeparator: (arr: object[], index: number) => {
+  mergeSeparator: (arr: ChildElement[], index: number) => {
     return arr.map((child) => {
       // Added additional nested types for lists
       if (
         (child.name === 'div' ||
-          child.name === 'form' ||
-          child.name === 'ol' ||
-          child.name === 'ul') &&
-        child.children.length
+         child.name === 'form' ||
+         child.name === 'ol' ||
+         child.name === 'ul') &&
+         child?.children?.length
       ) {
         const divContents = manageSeparators.mergeSeparator(
           child.children,
           index
-        );
+        )
         return { ...child, children: divContents };
-      } else if (child.name === 'separator' && child.children.length) {
+      } else if (child.name === 'separator' && child?.children?.length) {
         return child.children[index];
       } else return child;
     });
