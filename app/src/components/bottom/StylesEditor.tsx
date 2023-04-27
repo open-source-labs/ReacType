@@ -12,7 +12,8 @@ import Fab from '@mui/material/Fab';
 import SaveIcon from '@mui/icons-material/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
-const serverURL = 'https://reactype-caret.herokuapp.com';
+//This was being used for the demo
+// const serverURL = 'https://reactype-caret.herokuapp.com';
 
 const StylesEditor: React.FC<{
   theme: string | null;
@@ -20,7 +21,7 @@ const StylesEditor: React.FC<{
 }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
   const [css, setCss] = useState();
-  
+  //now using variable and storing CSS in localStorage to retain CSS upon dismount of the component
   let currentCss = localStorage.getItem('css');
   
   //This was being used for the demo
