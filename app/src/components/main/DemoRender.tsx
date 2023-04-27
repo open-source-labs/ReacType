@@ -175,9 +175,9 @@ const DemoRender = (): JSX.Element => {
     }
   });
 
-  useEffect(() => {
-    cssRefresher();
-  }, []);
+  // useEffect(() => {
+  //   cssRefresher();
+  // }, []);
 
   useEffect(() => {
     iframe.current.contentWindow.postMessage(code, '*');
