@@ -2,17 +2,17 @@
  * @jest-environment node
  */
 
-// const { Mongoose } = require('mongoose');
-// const request = require('supertest');
-// const http = require('http');
-// const app = require('../server/server.js');
+const { Mongoose } = require('mongoose');
+const request = require('supertest');
+const http = require('http');
+const app = require('../server/server.mjs');
 
-// const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
+const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 
-// const { user } = require('../mockData');
+const { user } = require('../mockData');
 
 // tests user signup and login routes
-xdescribe('User authentication tests', () => {
+describe('User authentication tests', () => {
   let server;
 
   beforeAll((done) => {
