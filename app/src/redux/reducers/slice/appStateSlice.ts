@@ -11,6 +11,7 @@ import {
 import HTMLTypes from '../../HTMLTypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
+
 export const initialState: State = {
   name: '',
   isLoggedIn: false,
@@ -37,7 +38,7 @@ export const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes, // left as is for now
+  HTMLTypes: HTMLTypes, // left as is for now
   tailwind: false
 };
 
@@ -59,7 +60,7 @@ const findParent = (component: Component, childId: number) => {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
     // try to find id of childNode in children
-    if (currentNode && currentNode.children ) {
+    if (currentNode?.children ) {
     if (currentNode.name !== 'input' && currentNode.name !== 'img') {
       for (let i = 0; i <= currentNode.children.length - 1; i++) {
         // if match is found return object with both the parent and the index value of the child
@@ -87,7 +88,7 @@ const childTypeExists = (
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
-    if (currentNode && currentNode.children ) {
+    if (currentNode?.children ) {
     if (currentNode.type === type && currentNode.typeId === typeId) return true;
     // if child node isn't found add each of the current node's children to the search array
     currentNode.children.forEach((node) => nodeArr.push(node));
@@ -104,7 +105,7 @@ const findChild = (component: Component, childId: number) => {
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
-    if (currentNode && currentNode.children ) {
+    if (currentNode?.children ) {
     if (currentNode.childId === childId) return currentNode;
     // if child node isn't found add each of the current node's children to the search array
     if (currentNode.name !== 'input' && currentNode.name !== 'img')
@@ -293,7 +294,7 @@ const appStateSlice = createSlice({
 
       const parentComponent = findComponent(components, parentComponentId);
       let componentName: string = '';
-      let componentChildren: Object[] = [];
+      let componentChildren: ChildElement[] = [];
       if (type === 'Component') {
         components.forEach((comp) => {
           if (comp.id === typeId) {
@@ -353,8 +354,10 @@ const appStateSlice = createSlice({
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
-      if (newChild.name === 'input' && newChild.name === 'img') // changin to || will breck the image and input
-        delete newChild.children;
+      // if (newChild.name === 'input' && newChild.name === 'img') {
+      //   delete newChild.children;
+      // }
+       // changin to || will breck the image and input
       let directParent;
       if (childId === null) {
         if (parentComponent) {
