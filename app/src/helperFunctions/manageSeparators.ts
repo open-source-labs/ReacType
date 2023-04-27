@@ -31,7 +31,7 @@ const manageSeparators: ManageSeparators = {
       }
       // check for duplicated separator at the end of array and remove it if separator is at the last index
       if (arr[arr.length - 1].name === 'separator') arr.splice(arr.length - 1, 1);
-      // check for missing separators
+      // check for missing separators // cooment
       if (
         arr[index].name !== 'separator' &&
         (index === 0 || arr[index - 1].name !== 'separator')
