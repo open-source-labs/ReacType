@@ -1,6 +1,6 @@
 import subject from '../app/src/redux/reducers/slice/contextReducer';
 
-describe('Context Reducer', () => {
+describe('contextReducer test', () => {
   let state;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('context/addContext', () => {
+  describe('addContext', () => {
     const action = {
       type: 'context/addContext',
       payload: {
@@ -79,7 +79,7 @@ describe('Context Reducer', () => {
   //   });
   // });
 
-  describe('context/addContextValues', () => {
+  describe('addContextValues', () => {
     beforeEach(() => {
       state = {
         allContext: [
@@ -115,7 +115,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('context/deleteContext', () => {
+  describe('deleteContext', () => {
     let action;
     beforeEach(() => {
       state = {
@@ -154,7 +154,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('context/addComponentToContext', () => {
+  describe('addComponentToContext', () => {
     beforeEach(() => {
       state = {
         allContext: [

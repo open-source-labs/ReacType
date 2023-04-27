@@ -2,7 +2,7 @@ import reducer from '../app/src/redux/reducers/slice/appStateSlice';
 import { State, Action } from '../app/src/interfaces/Interfaces';
 import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
 
-describe('Testing componentReducer functionality', () => {
+describe('componentReducer Test', () => {
   let state: State = initialState;
 
   // TEST 'ADD COMPONENT'
@@ -30,7 +30,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'ADD COMPONENT' with new root
-  describe('addComponent reducer', () => {
+  describe('addComponent', () => {
     it('should add new reuseable component to state as the new root', () => {
       const action: Action = {
         type: 'appState/addComponent',
@@ -56,7 +56,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'ADD CHILD'
-  describe('addChild reducer', () => {
+  describe('addChild', () => {
     it('should add child component and separator to top-level component', () => {
       const action: Action = {
         type: 'appState/addChild',
@@ -88,7 +88,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE POSITION'
-  describe('CHANGE POSITION reducer ', () => {
+  describe('changePosition', () => {
     it('should move position of an instance', () => {
       const actionHtml: Action = {
         type: 'appState/addChild',
@@ -130,7 +130,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'DELETE CHILD'
-  describe('DELETE CHILD reducer', () => {
+  describe('deleteChild', () => {
     it('should delete child of focused top-level component', () => {
       // canvas still focused on childId: 2, which is an HTML element
       const action: Action = {
@@ -159,7 +159,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE FOCUS'
-  describe('CHANGE FOCUS reducer', () => {
+  describe('changeFocus', () => {
     it('should change focus to specified component', () => {
       const action: Action = {
         type: 'appState/changeFocus',
@@ -175,7 +175,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UPDATE CSS'
-  describe('updateCss reducer', () => {
+  describe('updateCss', () => {
     it('should add style to focused component', () => {
       const action: Action = {
         type: 'appState/updateCss',
@@ -200,7 +200,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UPDATE PROJECT NAME'
-  describe('updateProjectName reducer', () => {
+  describe('updateProjectName', () => {
     it('should update project with specified name', () => {
       const action: Action = {
         type: 'appState/updateProjectName',
@@ -213,7 +213,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'CHANGE PROJECT TYPE'
-  describe('changeProjectType reducer', () => {
+  describe('changeProjectType', () => {
     it('should change project type to specified type', () => {
       const action: Action = {
         type: 'appState/changeProjectType',
@@ -230,7 +230,7 @@ describe('Testing componentReducer functionality', () => {
   });
 
   // TEST 'UNDO'
-  xdescribe('undo reducer', () => {
+  xdescribe('undo', () => {
     it('should remove the last element from the past array and push it to the future array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
       state.components[focusIndex].past = [];
@@ -268,7 +268,7 @@ describe('Testing componentReducer functionality', () => {
     });
   });
   // TEST 'REDO'
-  xdescribe('redo reducer', () => {
+  xdescribe('redo', () => {
     it('should remove the last element from the future array and push it to the past array', () => {
       const focusIndex = state.canvasFocus.componentId - 1;
       const actionRedo: Action = {
@@ -281,7 +281,7 @@ describe('Testing componentReducer functionality', () => {
     });
   });
   // TEST 'RESET STATE'
-  describe('resetState reducer', () => {
+  describe('resetState', () => {
     it('should reset project to initial state', () => {
       const action: Action = {
         type: 'appState/resetState',

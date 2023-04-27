@@ -336,8 +336,8 @@ const appStateSlice = createSlice({
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
-      if (newChild.name === 'input' && newChild.name === 'img')
-        delete newChild.children;
+      // if (newChild.name === 'input' && newChild.name === 'img')
+      //   delete newChild.children;
       let directParent;
       if (childId === null) {
         parentComponent.children.push(topSeparator);
