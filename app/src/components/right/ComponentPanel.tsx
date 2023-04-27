@@ -1,13 +1,7 @@
 // Future developers: This file needs to move to right folder: src/components/right
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  InputLabel
-  // TextField,
-} from '@mui/material';
+import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
@@ -111,34 +105,26 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     setCompName('');
   };
 
-  // checks whether component name includes any non-alphanumeric chars
-  const alphanumeric = (input) => {
-    let letterNumber = /^[0-9a-zA-Z]+$/;
-    if (input.match(letterNumber)) return true;
-    return false;
-  };
-
   const handleNameSubmit = () => {
     // creates a component if no error conditions triggered
     let letters = /[a-zA-Z]/;
-    if (!compName.charAt(0).match(letters)) {
-      triggerError('letters');
-      return;
-    } else if (!alphanumeric(compName)) {
-      triggerError('symbolsDetected');
-      return;
-    } else if (compName.trim() === '') {
-      triggerError('empty');
-      return;
+    let error;
+    if (compName.trim() === '') {
+      error = 'empty';
+    } else if (!compName.charAt(0).match(letters)) {
+      error = 'letters';
+    } else if (!compName.match(/^[0-9a-zA-Z]+$/)) {
+      error = 'symbolsDetected';
     } else if (checkNameDupe(compName)) {
-      triggerError('dupe');
-      return;
+      error = 'dupe';
     } else if (checkIfRoot(compName)) {
-      triggerError('rootDupe');
+      error = 'rootDupe';
+    } else {
+      createOption(compName);
+      resetError();
       return;
     }
-    createOption(compName);
-    resetError();
+    triggerError(error);
   };
 
   const keyBindCreateComponent = useCallback((e) => {

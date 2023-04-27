@@ -117,15 +117,18 @@ const HTMLPanel = (props): JSX.Element => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let letters = /[a-zA-Z]/;
-    if (!tag.charAt(0).match(letters) || !name.charAt(0).match(letters)) {
+
+    if (tag.trim() === '' || name.trim() === '') {
+      triggerError('empty');
+      return;
+    } else if (
+      !tag.charAt(0).match(/[a-zA-Z]/) ||
+      !name.charAt(0).match(/[a-zA-Z]/)
+    ) {
       triggerError('letters');
       return;
     } else if (!alphanumeric(tag) || !alphanumeric(name)) {
       triggerError('symbolsDetected');
-      return;
-    } else if (tag.trim() === '' || name.trim() === '') {
-      triggerError('empty');
       return;
     } else if (checkNameDupe(tag) || checkNameDupe(name)) {
       triggerError('dupe');
@@ -168,6 +171,7 @@ const HTMLPanel = (props): JSX.Element => {
               New HTML Tag:{' '}
             </h4>
             <InputLabel
+              htmlFor="tag"
               className={
                 !isDarkMode
                   ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
@@ -177,7 +181,7 @@ const HTMLPanel = (props): JSX.Element => {
               Tag:
             </InputLabel>
             <TextField
-              // label='Tag'
+              id="tag"
               color="primary"
               variant="outlined"
               type="text"
@@ -215,6 +219,7 @@ const HTMLPanel = (props): JSX.Element => {
 
             <br></br>
             <InputLabel
+              htmlFor="elementName"
               className={
                 !isDarkMode
                   ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
@@ -224,6 +229,7 @@ const HTMLPanel = (props): JSX.Element => {
               Element Name:
             </InputLabel>
             <TextField
+              id="elementName"
               // label='Element Name'
               color="primary"
               variant="outlined"

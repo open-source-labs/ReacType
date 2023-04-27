@@ -96,16 +96,18 @@ state.components = [
 ];
 
 // renders a tree of the components in tester
-test('Test the tree functionality', () => {
-  render(
-    <Provider store={store}>
-      <TreeChart data={state.components} />
-    </Provider>
-  );
-  // elements that are not separators should appear in the tree
-  expect(screen.getByText('index')).toBeInTheDocument();
-  expect(screen.getByText('A')).toBeInTheDocument();
-  expect(screen.getByText('B')).toBeInTheDocument();
-  // tree should not include separators
-  expect(screen.queryByText('separator')).toBe(null);
+describe('Component Tree Render Test', () => {
+  test('should render full component tree based on state', () => {
+    render(
+      <Provider store={store}>
+        <TreeChart data={state.components} />
+      </Provider>
+    );
+    // elements that are not separators should appear in the tree
+    expect(screen.getByText('index')).toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('B')).toBeInTheDocument();
+    // tree should not include separators
+    expect(screen.queryByText('separator')).toBe(null);
+  });
 });
