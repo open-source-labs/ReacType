@@ -46,6 +46,7 @@ export interface Component {
   useStateCodes: string[];
   useContext?: object;
   passedInProps: StateProp[];
+  stateUsed?: object;
 }
 export interface StateProp {
   id: string;
@@ -106,7 +107,7 @@ export interface AddRoutes {
 }
 
 export interface ManageSeparators {
-  mergeSeparator: (arg1:[], arg2:number) => void;
-  handleSeparators: (arg1: [], arg2?: string) => void;
+  mergeSeparator: (arg1:[], arg2:number) => void; // fix the void
+  handleSeparators: (arg1: [], arg2?: string) => void; // fix the void
   nextTopSeparatorId: number
 }

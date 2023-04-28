@@ -69,6 +69,7 @@ const manageSeparators: ManageSeparators = {
       }
     }
     return manageSeparators.nextTopSeparatorId;
+
   },
 
   // this function replaces separators onto which an element is dropped with the element itself
