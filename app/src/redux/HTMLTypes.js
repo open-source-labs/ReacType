@@ -16,7 +16,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     // icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   // do not move this separator element out of index 1 in this array
   // in componentReducer.ts, separator is referenced as 'initialState.HTMLTypes[1]'
@@ -29,7 +29,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: '',
     framework: '',
-    nestable: true
+    nestable: true,
   },
   {
     id: 1,
@@ -40,7 +40,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ImageIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 2,
@@ -51,7 +51,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: FormIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 4,
@@ -62,7 +62,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ButtonIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 6,
@@ -73,7 +73,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: LinkIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 8,
@@ -84,7 +84,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ParagraphIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 9,
@@ -95,7 +95,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 10,
@@ -106,7 +106,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 5,
@@ -117,7 +117,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 12,
@@ -128,7 +128,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 13,
@@ -139,7 +139,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: HeaderIcon,
     framework: 'reactClassic',
-    nestable: false
+    nestable: false,
   },
   {
     id: 14,
@@ -150,7 +150,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 15,
@@ -161,7 +161,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 16,
@@ -172,7 +172,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 3,
@@ -183,7 +183,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 17,
@@ -194,7 +194,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: -1,
@@ -205,7 +205,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: LinkIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 18,
@@ -216,7 +216,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'reactClassic',
-    nestable: true
+    nestable: true,
   },
   {
     id: 19,
@@ -227,7 +227,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'nextjs',
-    nestable: true
+    nestable: true,
   },
   {
     id: 20,
@@ -238,7 +238,7 @@ const HTMLTypes = [
     placeHolderLong: '',
     icon: ListIcon,
     framework: 'nextjs',
-    nestable: false
-  }
+    nestable: false,
+  },
 ];
 export default HTMLTypes;
