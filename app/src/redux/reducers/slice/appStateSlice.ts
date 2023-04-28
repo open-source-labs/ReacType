@@ -608,11 +608,13 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      if (component && state.canvasFocus.childId) {
       const targetChild = findChild(component, state.canvasFocus.childId);
       const event = Object.keys(events)[0];
       const funcName = events[event];
+      if (targetChild) {
       targetChild.events[event] = funcName;
-
+      
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -623,6 +625,8 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
+    }
     },
 
     deleteEventAction: (state, action) => {
@@ -632,9 +636,11 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
+      if (component && state.canvasFocus.childId) {
       const targetChild = findChild(component, state.canvasFocus.childId);
+      if (targetChild) {
       delete targetChild.events[event];
-
+      
       component.code = generateCode(
         components,
         state.canvasFocus.componentId,
@@ -645,6 +651,8 @@ const appStateSlice = createSlice({
         action.payload.contextParam
       );
       state.components = components;
+      }
+      }
     },
 
     deletePage: (state, action) => {
@@ -827,11 +835,13 @@ const appStateSlice = createSlice({
         (state.canvasFocus.childId === childIdDeleteClicked ||
           JSON.stringify(action.payload.id) === '{}') // Ensuring deletion works for mouseclick OR using delete key, from 2 different dispatch sources
       ) {
+        if (directParent.children) {
         directParent.children.splice(childIndexValue, 1);
         let nextTopSeparatorId = manageSeparators.handleSeparators(
           components[canvasFocus.componentId - 1].children,
           'delete'
         );
+        }
       }
 
       //  ------------------------------------------- ALSO added code above  -------------------------------------------

@@ -107,7 +107,7 @@ export interface AddRoutes {
 }
 
 export interface ManageSeparators {
-  mergeSeparator: (arg1:[], arg2:number) => void; // fix the void
-  handleSeparators: (arg1: [], arg2?: string) => void; // fix the void
+  mergeSeparator: (arg1:any, arg2:any) => any;  // update specificity
+  handleSeparators: (arg1: any, arg2?: any) => any; // update specificity
   nextTopSeparatorId: number
 }
