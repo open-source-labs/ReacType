@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { styled, Theme } from '@mui/material/styles';
+import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { addState } from '../../../../redux/reducers/slice/appStateSlice';
@@ -12,7 +12,6 @@ import {
   TextField,
   Button
 } from '@mui/material';
-import StateContext from '../../../../context/context';
 import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
@@ -39,14 +38,14 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   const [propNum, setPropNum] = useState(1);
 
   // convert value to correct type based on user input
-  const typeConversion = (value, type) => {
+  const typeConversion = (value: string, type: string) => {
     switch (type) {
       case 'string':
         return String(value);
       case 'number':
         return Number(value);
       case 'boolean':
-        return value === 'true' ? true : false;
+        return value === 'true';
       case 'array':
         return JSON.parse(value);
       case 'object':
@@ -61,10 +60,6 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     setInputKey('');
     setInputValue('');
     setInputType('');
-  };
-  //reset error warning
-  const resetError = () => {
-    setErrorStatus(false);
   };
 
   // submit new stateProps entries to state context
@@ -123,7 +118,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       })
     );
     setRows1([...rows1, newState]);
-    resetError();
+    setErrorStatus(false);
     clearForm();
   };
 

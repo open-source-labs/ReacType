@@ -11,7 +11,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
-const mongoURI = process.env.MONGO_DB
+const mongoURI = process.env.MONGO_DB;
 const URI =
   process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB;
 
@@ -29,7 +29,7 @@ mongoose
     dbName: 'ReacType'
   })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 const { Schema } = mongoose;
 

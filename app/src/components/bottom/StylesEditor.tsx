@@ -12,7 +12,8 @@ import Fab from '@mui/material/Fab';
 import SaveIcon from '@mui/icons-material/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
 
-const serverURL = 'https://reactype-caret.herokuapp.com';
+//This was being used for the demo
+// const serverURL = 'https://reactype-caret.herokuapp.com';
 
 const StylesEditor: React.FC<{
   theme: string | null;
@@ -20,45 +21,50 @@ const StylesEditor: React.FC<{
 }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
   const [css, setCss] = useState();
+  //now using variable and storing CSS in localStorage to retain CSS upon dismount of the component
+  let currentCss = localStorage.getItem('css');
+  
+  //This was being used for the demo
 
-  useEffect(() => {
-    loadFile();  
-  }, []);
+  // useEffect(() => {
+  //   loadFile();  
+  // }, []);
 
-  const loadFile = () => {
-    const myHeaders = new Headers({
-      'Content-Type': 'text/css',
-      Accept: 'text/css',
-    });
-    fetch(`${serverURL}/demoRender`, {
-      headers: myHeaders,
-    })
-      .then(response => response.text())
-      .then((data) => {
-        setCss(data);
-      });
-  }
+  // const loadFile = () => {
+  //   const myHeaders = new Headers({
+  //     'Content-Type': 'text/css',
+  //     Accept: 'text/css',
+  //   });
+  //   fetch(`${serverURL}/demoRender`, {
+  //     headers: myHeaders,
+  //   })
+  //     .then(response => response.text())
+  //     .then((data) => {
+  //       setCss(data);
+  //     });
+  // }
 
-  const saveFile = () => {
-    console.log(css)
-    fetch(`${serverURL}/user-styles/save`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data: css }),
-    })
-      .then(response => response.text())
-      .then((data) => {
-        // Removes old link to css and creates a new stylesheet link on demo render
-        cssRefresher();
-      });
-  }
+  // const saveFile = () => {
+  //   fetch(`${serverURL}/user-styles/save`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ data: css }),
+  //   })
+  //     .then(response => response.text())
+  //     .then((data) => {
+  //       // Removes old link to css and creates a new stylesheet link on demo render
+  //       cssRefresher();
+  //     });
+  // }
+
+  //refactored this function to store the css on local storage rather than invoke saveFile()
   const saveCss = (e) => {
     e.preventDefault();
-    saveFile();
+    localStorage.setItem('css', currentCss)
   }
 
   const handleChange = (text) => {
-    setCss(text);
+    currentCss = text;
   }
 
   return (
@@ -77,7 +83,7 @@ const StylesEditor: React.FC<{
         width="100%"
         height="100%"
         onChange={handleChange}
-        value={css}
+        value={currentCss}
         name="Css_div"
         fontSize={16}
         tabSize={2}

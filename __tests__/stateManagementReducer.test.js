@@ -60,7 +60,7 @@ const findComponent = (components, componentId) => {
   return components.find((elem) => elem.id === componentId);
 };
 
-describe('Testing componentReducer functionality for stateManagement tab', () => {
+describe('stateManagementReducer test', () => {
   // TEST 'ADD STATE'
   describe('addState', () => {
     // setting canvas focus to root component (App)

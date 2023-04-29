@@ -2,21 +2,21 @@
  * @jest-environment node
  */
 
-// import {
-//   sessionIsCreated,
-//   newUserIsCreated
-// } from '../app/src/helperFunctions/auth';
+import {
+  sessionIsCreated,
+  newUserIsCreated
+} from '../app/src/helperFunctions/auth';
 
-// const { Mongoose } = require('mongoose');
+const { Mongoose } = require('mongoose');
 
-// const http = require('http');
-// const app = require('../server/server.js');
+const http = require('http');
+const app = require('../server/server.mjs');
 
-// let server;
+let server;
 
 // tests auth.ts helper function and associated server routes
 
-xdescribe('Login Tests', () => {
+describe('Login Tests', () => {
   jest.setTimeout(10000);
   let username;
   let password;
