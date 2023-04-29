@@ -1,8 +1,8 @@
 // middleware functions create a new user and verify users
-const { Users } = require('../models/reactypeModels');
+import { Users } from '../models/reactypeModels.mjs';
+import bcrypt from 'bcryptjs';
 
 const userController = {};
-const bcrypt = require('bcryptjs');
 
 // random password is subtituted when user uses Oauth and no new password is provided
 const randomPassword = () => {
@@ -67,8 +67,7 @@ userController.createUser = (req, res, next) => {
       return next({
         log: `Error in userController.createUser: ${err}`,
         message: {
-          err:
-            'Error in userController.createUser. Check server logs for details'
+          err: 'Error in userController.createUser. Check server logs for details'
         }
       });
     }
@@ -108,7 +107,7 @@ userController.verifyUser = (req, res, next) => {
     }
     if (user) {
       // bcrypt compare function checks input password against hashed password
-      bcrypt.compare(password, user.password).then(isMatch => {
+      bcrypt.compare(password, user.password).then((isMatch) => {
         if (isMatch) {
           // if password matches, save user id for following middleware
           res.locals.id = user.id;
@@ -123,4 +122,4 @@ userController.verifyUser = (req, res, next) => {
   });
 };
 
-module.exports = userController;
+export default userController;

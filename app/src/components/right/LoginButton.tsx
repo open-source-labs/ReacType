@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
-import config from '../../../../config';
+import config from '../../../../config.mjs';
 const { API_BASE_URL, API_BASE_URL2 } = config;
 
 export default function LoginButton() {

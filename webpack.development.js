@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 const base = require('./webpack.config');
 const path = require('path');
 const nonce = require('./app/src/utils/createNonce')();
-const { DEV_PORT } = require('./config');
+const { DEV_PORT } = import('./config.mjs');
 
 // merges webpack.config.js with development specific configs
 module.exports = merge(base, {

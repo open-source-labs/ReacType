@@ -1,6 +1,6 @@
 // const { gql } = require('apollo-server-express');
-const { gql } = require('@apollo/client');
-
+// const { gql } = require('@apollo/client');
+import { gql } from '@apollo/client/core/index.js';
 // Link to defining a schema in Apollo:
 // https://www.apollographql.com/docs/apollo-server/schema/schema/
 // The schema specifies which queries and mutations are available for clients
@@ -11,7 +11,6 @@ const { gql } = require('@apollo/client');
 
 // line 15, returns type Project from line 29
 const Project = gql`
-
   type Mutation {
     addLike(projId: ID!, likes: Int!): Project
     makeCopy(projId: ID!, userId: ID!, username: String!): Project
@@ -22,7 +21,7 @@ const Project = gql`
 
   type Comment {
     id: ID!
-    username: String! 
+    username: String!
     text: String!
     projectId: ID!
   }
@@ -44,4 +43,4 @@ const Project = gql`
   }
 `;
 
-module.exports = Project;
+export default Project;

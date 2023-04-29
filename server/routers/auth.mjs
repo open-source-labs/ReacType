@@ -1,7 +1,9 @@
-const router = require('express').Router();
-const passport = require('passport');
-const config = require('../../config');
+import express from 'express';
+import passport from 'passport';
+import config from '../../config.mjs';
+
 const { API_BASE_URL } = config;
+const router = express.Router();
 
 router.get(
   '/github',
@@ -30,4 +32,4 @@ router.get('/google/callback', passport.authenticate('google'), (req, res) => {
   return res.redirect(API_BASE_URL);
 });
 
-module.exports = router;
+export default router;

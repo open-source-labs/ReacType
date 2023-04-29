@@ -12,16 +12,16 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import config from '../config.js';
+import config from '../config.mjs';
 const { API_BASE_URL, DEV_PORT } = config;
 
 // const path = require('path');
 import path from 'path';
 
-import userController from './controllers/userController.js';
-import cookieController from './controllers/cookieController.js';
-import sessionController from './controllers/sessionController.js';
-import projectController from './controllers/projectController.js';
+import userController from './controllers/userController.mjs';
+import cookieController from './controllers/cookieController.mjs';
+import sessionController from './controllers/sessionController.mjs';
+import projectController from './controllers/projectController.mjs';
 
 // docker stuff
 import { fileURLToPath } from 'url';
@@ -47,7 +47,7 @@ app.use(cookieParser());
 
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
-import stylesRouter from './routers/stylesRouter.js';
+import stylesRouter from './routers/stylesRouter.mjs';
 
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
@@ -67,9 +67,9 @@ app.use(
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
 // const passport = require('passport');
 import passport from 'passport';
-import passportSetup from './routers/passport-setup.js';
+import passportSetup from './routers/passport-setup.mjs';
 import session from 'express-session';
-import authRoutes from './routers/auth.js';
+import authRoutes from './routers/auth.mjs';
 
 app.use(
   session({
@@ -120,10 +120,10 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-import Query from './graphQL/resolvers/query.js';
+import Query from './graphQL/resolvers/query.mjs';
 
 // Mutation resolvers
-import Mutation from './graphQL/resolvers/mutation.js';
+import Mutation from './graphQL/resolvers/mutation.mjs';
 
 // package resolvers into one variable to pass to Apollo Server
 const resolvers = {
@@ -136,7 +136,7 @@ app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
 
-import typeDefs from './graphQL/schema/typeDefs.js';
+import typeDefs from './graphQL/schema/typeDefs.mjs';
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
@@ -253,5 +253,5 @@ httpServer.listen(5656, () =>
   console.log(`Server listening on port: ${DEV_PORT}`)
 );
 
-if (isTest) module.exports = app;
+// if (isTest) module.exports = app;
 export default app;

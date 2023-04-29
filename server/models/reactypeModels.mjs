@@ -8,9 +8,12 @@
  team. we recommend that your team will create a mongoDB database to test in
  dev mode. the real database is deployed in heroku
  */
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import * as dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+dotenv.config();
+const Schema = mongoose.Schema;
+
 const mongoURI = process.env.MONGO_DB;
 const URI =
   process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB;
@@ -30,8 +33,6 @@ mongoose
   })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err));
-
-const { Schema } = mongoose;
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
@@ -94,14 +95,7 @@ const projectSchema = new Schema(
   { minimize: true }
 );
 
-const Users = mongoose.model('Users', userSchema);
-const Comments = mongoose.model('Comments', commentsSchema);
-const Sessions = mongoose.model('Sessions', sessionSchema);
-const Projects = mongoose.model('Projects', projectSchema);
-
-module.exports = {
-  Users,
-  Comments,
-  Sessions,
-  Projects
-};
+export const Users = mongoose.model('Users', userSchema);
+export const Comments = mongoose.model('Comments', commentsSchema);
+export const Sessions = mongoose.model('Sessions', sessionSchema);
+export const Projects = mongoose.model('Projects', projectSchema);

@@ -29,21 +29,21 @@ const store = mockStore({});
 configure({ adapter: new Adapter() });
 
 // /* If there is an error with unmatched snapshots because of intentionally modified codes, delete the contents in enzyme.test.tsx.snap to record new codes as blueprints */
-
-describe.skip('Test the CanvasContainer component', () => {
-  const target = shallow(
-    <Provider store={store}>
-      <CanvasContainer />
-    </Provider>
-  );
-  it('Matches snapshot', () => {
-    expect(target).toMatchSnapshot();
-  });
-  // test if Canvas component is rendered
-  it('Contains Canvas component', () => {
-    expect(target.contains(<Canvas />)).toBe(true);
-  });
-});
+//Commented out this first test on 4/29/23 to test other areas and declutter terminal
+// describe.skip('Test the CanvasContainer component', () => {
+//   const target = shallow(
+//     <Provider store={store}>
+//       <CanvasContainer />
+//     </Provider>
+//   );
+//   it('Matches snapshot', () => {
+//     expect(target).toMatchSnapshot();
+//   });
+//   // test if Canvas component is rendered
+//   it('Contains Canvas component', () => {
+//     expect(target.contains(<Canvas />)).toBe(true);
+//   });
+// });
 
 xdescribe('Test the MainContainer component', () => {
   const target = shallow(<MainContainer />);

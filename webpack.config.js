@@ -24,7 +24,7 @@ module.exports = {
   // If multiple files share the same name but have different extensions,
   // webpack will resolve the one with the extension listed first in the array and skip the rest.
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs']
   },
   plugins: [
     new Dotenv(),

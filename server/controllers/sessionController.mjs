@@ -1,7 +1,8 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+import { Sessions } from '../models/reactypeModels.mjs';
+import * as dotenv from 'dotenv';
 
-require('dotenv').config();
-const { Sessions } = require('../models/reactypeModels');
+dotenv.config();
 
 const sessionController = {};
 // isLoggedIn finds the right session, if the session is invalid in the database, the app redirect user straight to the root endpoint witht he login page, if not, continue session
@@ -19,8 +20,7 @@ sessionController.isLoggedIn = (req, res, next) => {
       return next({
         log: `Error in sessionController.isLoggedIn: ${err}`,
         message: {
-          err:
-            'Error in sessionController.isLoggedIn, check server logs for details'
+          err: 'Error in sessionController.isLoggedIn, check server logs for details'
         }
       });
     }
@@ -39,8 +39,7 @@ sessionController.startSession = (req, res, next) => {
       return next({
         log: `Error in sessionController.startSession find session: ${err}`,
         message: {
-          err:
-            'Error in sessionController.startSession find session, check server logs for details'
+          err: 'Error in sessionController.startSession find session, check server logs for details'
         }
       });
       // if session doesn't exist, create a session
@@ -52,8 +51,7 @@ sessionController.startSession = (req, res, next) => {
           return next({
             log: `Error in sessionController.startSession create session: ${err}`,
             message: {
-              err:
-                'Error in sessionController.startSession create session, check server logs for details'
+              err: 'Error in sessionController.startSession create session, check server logs for details'
             }
           });
         }
@@ -93,12 +91,12 @@ sessionController.gitHubResponse = (req, res, next) => {
       })
     }
   )
-    .then(res => res.json())
-    .then(token => {
+    .then((res) => res.json())
+    .then((token) => {
       res.locals.token = token['access_token'];
       return next();
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ message: `${err.message} in gitHubResponse` });
     });
 };
@@ -112,8 +110,8 @@ sessionController.gitHubSendToken = (req, res, next) => {
       Authorization: `token ${token}`
     }
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       res.locals.githubEmail = data[0]['email'];
       res.locals.signUpType = 'oauth';
       console.log(
@@ -124,7 +122,7 @@ sessionController.gitHubSendToken = (req, res, next) => {
       );
       return next();
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.message === `Cannot read property 'email' of undefined`) {
         return res
           .status(400)
@@ -170,4 +168,4 @@ sessionController.githubSession = (req, res, next) => {
   });
 };
 
-module.exports = sessionController;
+export default sessionController;

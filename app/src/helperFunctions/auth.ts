@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const isDev = process.env.NODE_ENV === 'development';
-const { DEV_PORT, API_BASE_URL } = require('../../../config');
+const { DEV_PORT, API_BASE_URL } = require('../../../config.mjs');
 let serverURL = API_BASE_URL;
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;

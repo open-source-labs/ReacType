@@ -7,10 +7,11 @@ import {
   newUserIsCreated
 } from '../app/src/helperFunctions/auth';
 
-const { Mongoose } = require('mongoose');
+import Mongoose from 'mongoose';
 
-const http = require('http');
-const app = require('../server/server.mjs');
+import http from 'http';
+
+import app from '../server/server.mjs';
 
 let server;
 
