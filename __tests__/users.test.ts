@@ -1,4 +1,4 @@
-/**
+ /**
  * @jest-environment node
  */
 import Mongoose from 'mongoose';
@@ -6,7 +6,6 @@ import request from 'supertest';
 // const http = require('http');
 import http from 'http';
 import app from '../server/server.mjs';
-
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
 import mockObj from '../mockData.js';
 const user = mockObj.user;
