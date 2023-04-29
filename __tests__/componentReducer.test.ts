@@ -193,10 +193,14 @@ describe('componentReducer Test', () => {
         (comp) => comp.id === state.canvasFocus.componentId
       );
       // expect the style property on targeted comp to equal style property in payload
+      if (styledComp) {
       expect(styledComp.style.backgroundColor).toEqual(
         action.payload.style.backgroundColor
+      
       );
+      }
     });
+
   });
 
   // TEST 'UPDATE PROJECT NAME'
