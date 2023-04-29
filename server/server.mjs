@@ -254,4 +254,4 @@ httpServer.listen(5656, () =>
 );
 
 if (isTest) module.exports = app;
-// export default app;
+export default app;

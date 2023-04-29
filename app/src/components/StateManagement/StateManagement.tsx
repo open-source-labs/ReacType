@@ -6,7 +6,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { useSelector } from 'react-redux';
-
 import CreateContainer from './CreateTab/CreateContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
 
