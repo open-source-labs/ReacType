@@ -192,6 +192,7 @@ describe('componentReducer Test', () => {
       const styledComp = state.components.find(
         (comp) => comp.id === state.canvasFocus.componentId
       );
+      console.log('state components', state.components, 'component id', state.canvasFocus.componentId)
       // expect the style property on targeted comp to equal style property in payload
       if (styledComp) {
       expect(styledComp.style.backgroundColor).toEqual(
