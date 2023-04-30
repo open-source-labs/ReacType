@@ -28,7 +28,7 @@ import {
 import Brightness3Icon from '@mui/icons-material/Brightness3';
 import Brightness5Icon from '@mui/icons-material/Brightness5';
 
-import config from '../../../../config.mjs';
+import config from '../../../../config.js';
 const { API_BASE_URL } = config;
 
 declare module '@mui/styles/defaultTheme' {

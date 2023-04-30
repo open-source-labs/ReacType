@@ -11,7 +11,7 @@ import Mongoose from 'mongoose';
 
 import http from 'http';
 
-import app from '../server/server.mjs';
+import app from '../server/server';
 
 let server;
 

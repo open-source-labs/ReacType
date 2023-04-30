@@ -1,8 +1,8 @@
 import passport from 'passport';
 import passportGithub2 from 'passport-github2';
-import user from '../models/Oauth-model.mjs';
+import user from '../models/Oauth-model';
 import GoogleStrategy from 'passport-google-oauth20';
-import config from '../../config.mjs';
+import config from '../../config';
 
 const GitHubStrategy = passportGithub2.Strategy;
 const { API_BASE_URL } = config;

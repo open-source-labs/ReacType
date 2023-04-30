@@ -1,6 +1,6 @@
 // const { gql } = require('apollo-server-express');
-// const { gql } = require('@apollo/client');
-import { gql } from '@apollo/client/core/index.js';
+const { gql } = require('@apollo/client');
+
 // Link to defining a schema in Apollo:
 // https://www.apollographql.com/docs/apollo-server/schema/schema/
 // The schema specifies which queries and mutations are available for clients

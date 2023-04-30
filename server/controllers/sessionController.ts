@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-import { Sessions } from '../models/reactypeModels.mjs';
-import * as dotenv from 'dotenv';
+import { Sessions } from '../models/reactypeModels';
+import dotenv from 'dotenv';
 
 dotenv.config();
 

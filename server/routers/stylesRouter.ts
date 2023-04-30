@@ -1,5 +1,5 @@
 import express from 'express';
-import userStylesController from '../controllers/userStylesController.mjs';
+import userStylesController from '../controllers/userStylesController';
 const router = express.Router();
 
 // save new css file

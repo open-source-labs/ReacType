@@ -1,5 +1,5 @@
 // middleware functions create a new user and verify users
-import { Users } from '../models/reactypeModels.mjs';
+import { Users } from '../models/reactypeModels';
 import bcrypt from 'bcryptjs';
 
 const userController = {};

@@ -1,38 +1,38 @@
-import { ApolloServer } from '@apollo/server';
+const { ApolloServer } = require('@apollo/server');
 
-//v4 Apollo imports
-import { expressMiddleware } from '@apollo/server/express4';
+// //v4 Apollo imports
+const { expressMiddleware } = require('@apollo/server/express4');
 import cors from 'cors';
 import bodyParser from 'body-parser';
 const { json, urlencoded } = bodyParser;
 
-//possibly redundant
-import { makeExecutableSchema } from '@graphql-tools/schema';
+// //possibly redundant
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 import express from 'express';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 
-import config from '../config.mjs';
+import config from '../config';
 const { API_BASE_URL, DEV_PORT } = config;
 
 // const path = require('path');
 import path from 'path';
 
-import userController from './controllers/userController.mjs';
-import cookieController from './controllers/cookieController.mjs';
-import sessionController from './controllers/sessionController.mjs';
-import projectController from './controllers/projectController.mjs';
+import userController from './controllers/userController';
+import cookieController from './controllers/cookieController';
+import sessionController from './controllers/sessionController';
+import projectController from './controllers/projectController';
 
-// docker stuff
+// // docker stuff
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-// env file
+// // env file
 import dotenv from 'dotenv';
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -43,11 +43,11 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
-import stylesRouter from './routers/stylesRouter.mjs';
+import stylesRouter from './routers/stylesRouter';
 
 // enable cors
 // options: origin: allows from localhost when in dev or the app://rse when using prod, credentials: allows credentials header from origin (needed to send cookies)
@@ -65,11 +65,10 @@ app.use(
 // NOTE from v13.0 team: GitHub OAuth works fine in Electron production app and the backend for Electron production app is deployed on Heroku at https://reactype-caret.herokuapp.com/ (get credentials from instructor )
 
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
-// const passport = require('passport');
-import passport from 'passport';
-import passportSetup from './routers/passport-setup.mjs';
-import session from 'express-session';
-import authRoutes from './routers/auth.mjs';
+const passport = require('passport');
+import passportSetup from './routers/passport-setup';
+const session = require('express-session');
+import authRoutes from './routers/auth';
 
 app.use(
   session({
@@ -120,10 +119,10 @@ GraphQl Router
 /* ******************************************************************* */
 
 // Query resolvers
-import Query from './graphQL/resolvers/query.mjs';
+import Query from './graphQL/resolvers/query';
 
 // Mutation resolvers
-import Mutation from './graphQL/resolvers/mutation.mjs';
+import Mutation from './graphQL/resolvers/mutation';
 
 // package resolvers into one variable to pass to Apollo Server
 const resolvers = {
@@ -136,25 +135,27 @@ app.use('/user-styles', stylesRouter);
 
 // schemas used for graphQL
 
-import typeDefs from './graphQL/schema/typeDefs.mjs';
+import typeDefs from './graphQL/schema/typeDefs';
 
 // instantiate Apollo server and attach to Express server, mounted at 'http://localhost:PORT/graphql'
 
 //use make exacutable schema to allow schema to be passed to new server
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const server = new ApolloServer({ schema });
+// const server = new ApolloServer({ schema });
 
-//v4 syntax
-await server.start();
-app.use(
-  '/graphql',
-  cors(),
-  json(),
-  expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token })
-  })
-);
+// //v4 syntax
+
+
+// await server.start();
+// app.use(
+//   '/graphql',
+//   cors(),
+//   json(),
+//   expressMiddleware(server, {
+//     context: async ({ req }) => ({ token: req.headers.token })
+//   })
+// );
 
 /** ****************************************************************** */
 

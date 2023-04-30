@@ -1,4 +1,4 @@
-import { Projects } from '../models/reactypeModels.mjs';
+import { Projects } from '../models/reactypeModels';
 
 const projectController = {};
 

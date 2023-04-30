@@ -4,7 +4,7 @@ import { ApolloServerErrorCode } from '@apollo/server/errors'; // v4 syntax
 // const ApolloServerErrorCode = require('@apollo/server/errors')
 //now using ApolloServerErrorCode.BAD_USER_INPUT in place of UserInputError
 
-import { Projects, Comments } from '../../models/reactypeModels.mjs';
+import { Projects, Comments } from '../../models/reactypeModels';
 // Link to Apollo Query Types:
 // https://www.apollographql.com/docs/apollo-server/data/resolvers/#defining-a-resolver
 

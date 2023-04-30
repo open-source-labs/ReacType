@@ -2,14 +2,14 @@
  * @jest-environment node
  */
 
-// const { Mongoose } = require('mongoose');
-// const request = require('supertest');
-// const http = require('http');
-// const app = require('../server/server.js');
-// const mock = require('../mockData');
+const { Mongoose } = require('mongoose');
+const request = require('supertest');
+const http = require('http');
+const app = require('../server/server');
+const mock = require('../mockData');
 
 // tests user signup and login routes
-xdescribe('GraphQL tests', () => {
+describe('GraphQL tests', () => {
   let server;
   // Mutation test variables
   const projectId = '62fd62c6d37748133a6fdc81'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId

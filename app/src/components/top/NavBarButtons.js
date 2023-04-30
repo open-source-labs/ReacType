@@ -27,7 +27,7 @@ import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice.ts';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice.ts';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice.ts';
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice.ts';
-import config from '../../../../config.mjs';
+import config from '../../../../config.js';
 const { API_BASE_URL } = config;
 
 let socket;

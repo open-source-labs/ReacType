@@ -9,7 +9,7 @@
  dev mode. the real database is deployed in heroku
  */
 import mongoose from 'mongoose';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 dotenv.config();
 const Schema = mongoose.Schema;

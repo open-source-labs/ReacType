@@ -1,6 +1,6 @@
 import express from 'express';
-import passport from 'passport';
-import config from '../../config.mjs';
+const passport = require('passport');
+import config from '../../config';
 
 const { API_BASE_URL } = config;
 const router = express.Router();
