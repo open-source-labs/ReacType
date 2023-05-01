@@ -53,7 +53,7 @@ const userController: UserController = {
     }
 
     // create user using username and password
-    Users.create({ username, password, email }, (err, newUser) => {
+    Users.create({ username, password, email }, (err:any, newUser) => {
       // handle error of creating a new user
       if (err) {
         if (res.locals.signUpType === 'oauth') {

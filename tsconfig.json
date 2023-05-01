@@ -14,8 +14,8 @@
     "strictFunctionTypes": false,
     "esModuleInterop": true,
     "typeRoots": ["node_modules/@types", "node_modules/@types/node"],
-    "noEmitOnError": true
+    "noEmitOnError": false
   },
   // only compile ts files in this directory
-  "include": [".app/src/**/*"]
+  "include": ["./app/src/**/*", "./server/**/*"]
 }

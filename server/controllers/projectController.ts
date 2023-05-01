@@ -1,9 +1,16 @@
 import { Projects } from '../models/reactypeModels';
+import { Request, Response, NextFunction } from 'express';
 
-const projectController = {};
+interface ProjectController {
+  saveProject: (req: Request, res: Response, next: NextFunction) => void;
+  getProjects: (req: Request, res: Response, next: NextFunction) => void;
+  deleteProject: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+const projectController: ProjectController = {
 
 // saveProject saves current workspace to database
-projectController.saveProject = (req, res, next) => {
+saveProject: (req, res, next) => {
   // pull project name and project itself from body
   const { name, project, userId, username, comments } = req.body;
   // create createdBy field for the document
@@ -31,10 +38,10 @@ projectController.saveProject = (req, res, next) => {
       return next();
     }
   );
-};
+},
 
 // gets all of current user's projects
-projectController.getProjects = (req, res, next) => {
+getProjects: (req, res, next) => {
   const { userId } = req.body;
   Projects.find({ userId }, (err, projects) => {
     if (err) {
@@ -49,10 +56,10 @@ projectController.getProjects = (req, res, next) => {
     res.locals.projects = projects.map((elem) => elem.project);
     return next();
   });
-};
+},
 
 // delete project from database **currently not integrated into app**
-projectController.deleteProject = (req, res, next) => {
+deleteProject: (req, res, next) => {
   // pull project name and userId from req.body
   const { name, userId } = req.body;
   Projects.findOneAndDelete({ name, userId }, (err, deleted) => {
@@ -67,6 +74,6 @@ projectController.deleteProject = (req, res, next) => {
     res.locals.deleted = deleted;
     return next();
   });
-};
-
+},
+}
 export default projectController;
