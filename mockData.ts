@@ -1,9 +1,9 @@
-module.exports =  {
+const mockObj = {
   user: {
     username: 'reactype123',
     email: 'reactype@gmail.com',
     password: 'Reactype123!@#',
-    userId: '604a552e9167c02198895823',
+    userId: '604a552e9167c02198895823'
   },
 
   state: {
@@ -15,14 +15,14 @@ module.exports =  {
         name: 'index',
         style: {},
         code: '<div>Drag in a component or HTML element into the canvas!</div>',
-        children: [],
-      },
+        children: []
+      }
     ],
     projectType: 'Next.js',
     rootComponents: [1],
     canvasFocus: { componentId: 1, childId: null },
     nextComponentId: 2,
-    nextChildId: 1,
+    nextChildId: 1
   },
 
   projectToSave: {
@@ -38,15 +38,15 @@ module.exports =  {
           name: 'index',
           style: {},
           code: '<div>Drag in a component or HTML element into the canvas!</div>',
-          children: [],
-        },
+          children: []
+        }
       ],
       projectType: 'Next.js',
       rootComponents: [1],
       canvasFocus: { componentId: 1, childId: null },
       nextComponentId: 2,
-      nextChildId: 1,
-    },
+      nextChildId: 1
+    }
   },
 
   GET_PROJECTS: `query GetAllProjects($userId: ID) {
@@ -90,5 +90,7 @@ module.exports =  {
     {
       id
     }
-  }`,
+  }`
 };
+
+export default mockObj;

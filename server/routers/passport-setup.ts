@@ -1,8 +1,10 @@
-const passport = require('passport');
-const GitHubStrategy = require('passport-github2').Strategy;
-const user = require('../models/Oauth-model');
-const GoogleStrategy = require('passport-google-oauth20');
-const config = require('../../config');
+import passport from 'passport';
+import passportGithub2 from 'passport-github2';
+import user from '../models/Oauth-model';
+import GoogleStrategy from 'passport-google-oauth20';
+import config from '../../config';
+
+const GitHubStrategy = passportGithub2.Strategy;
 const { API_BASE_URL } = config;
 
 passport.serializeUser((user, done) => {
@@ -88,3 +90,5 @@ passport.use(
     }
   )
 );
+
+export default passport;

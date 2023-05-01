@@ -4,7 +4,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 
 import { useSelector } from 'react-redux';
-import { Store } from 'redux';
+import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
@@ -16,7 +16,7 @@ const ComponentDropDown = ({
 }) => {
   const { allContext } = contextStore;
   // const [componentList] = useContext(StateContext);
-  const {state, isDarkMode} = useSelector(store =>({
+  const {state, isDarkMode} = useSelector((store:RootState) =>({
     state:  store.appState,
     isDarkMode: store.darkMode.isDarkMode
   } ))

@@ -13,14 +13,15 @@ import Tree from '../../tree/TreeChart';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Arrow from '../main/Arrow';
+import arrow from '../main/Arrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 const BottomTabs = (props): JSX.Element => {
   // state that controls which tab the user is on
   const dispatch = useDispatch();
-  const { state, contextParam, style } = useSelector((store) => ({
+  const { state, contextParam, style } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
     style: store.styleSlice,
@@ -47,7 +48,7 @@ const BottomTabs = (props): JSX.Element => {
   };
 
   // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
-  Arrow.renderArrow(state.canvasFocus?.childId);
+  arrow.renderArrow(state.canvasFocus?.childId);
 
   return (
     <div

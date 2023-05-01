@@ -67,7 +67,7 @@
   "scripts": {
     "postinstall": "set ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently -k \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development nodemon server/server.mjs --open\"",
+    "dev": "concurrently -k \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development nodemon server/server.ts --open\"",
     "electron-dev": "cross-env NODE_ENV=development electron .",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
@@ -78,8 +78,8 @@
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "jest --verbose",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js",
-    "start": "node server/server.mjs"
+    "server": "cross-env NODE_ENV=development nodemon server/server.ts",
+    "start": "node server/server.ts"
   },
   "repository": {
     "type": "git",
@@ -92,35 +92,6 @@
     "next.js"
   ],
   "license": "MIT",
-  "jest": {
-    "testEnvironment": "jsdom",
-    "bail": true,
-    "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js"
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest",
-      "^.+\\.js?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
-    ],
-    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "bugs": {
     "url": "https://github.com/open-source-labs/ReacType/issues"
   },
@@ -257,6 +228,35 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^4.2.2"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "bail": true,
+    "moduleNameMapper": {
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest",
+      "^.+\\.js?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+    ],
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false
+      }
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "engines": {
     "node": "19.x",

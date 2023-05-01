@@ -1,15 +1,14 @@
 /**
  * @jest-environment node
  */
-
-const { Mongoose } = require('mongoose');
-const request = require('supertest');
-const http = require('http');
-const app = require('../server/server.mjs');
-
+import Mongoose from 'mongoose';
+import request from 'supertest';
+// const http = require('http');
+import http from 'http';
+import app from '../server/server';
 const browser = 'http://localhost:8080'; // for checking endpoints accessed with hash router
-
-const { user } = require('../mockData');
+import mockObj from '../mockData';
+const user = mockObj.user;
 
 // tests user signup and login routes
 describe('User authentication tests', () => {

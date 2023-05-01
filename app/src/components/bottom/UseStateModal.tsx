@@ -34,7 +34,6 @@ function UseStateModal({ updateAttributeWithState, attributeToChange, childId })
                 setStatePropsId(-1);
                 setOpen(false);
             }}
-            deleteHandler={() => func()}
             isThemeLight={true}
           />
         </div>

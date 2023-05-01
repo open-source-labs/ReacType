@@ -8,9 +8,17 @@
  team. we recommend that your team will create a mongoDB database to test in
  dev mode. the real database is deployed in heroku
  */
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+dotenv.config();
+const Schema = mongoose.Schema;
+import { Document } from 'mongoose';
+
+interface UserDocument extends Document {
+  password: string;
+}
+
 const mongoURI = process.env.MONGO_DB;
 const URI =
   process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB;
@@ -31,8 +39,6 @@ mongoose
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err));
 
-const { Schema } = mongoose;
-
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: false, unique: true },
@@ -43,16 +49,14 @@ const userSchema = new Schema({
 // collection happens (user gets put into database)
 
 // cannot use arrow function here as context of 'this' is important
-userSchema.pre('save', function cb(next) {
+userSchema.pre<UserDocument>('save', function cb(next) {
   // within this context, 'this' refers to the document (new user) about to be saved,
   // in our case, it should have properties username, password, and projects array
   bcrypt.hash(this.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) {
       return next({
         log: `bcrypt password hashing error: ${err}`,
-        message: {
-          err: 'bcrypt hash error: check server logs for details.'
-        }
+        message: { err: 'bcrypt hash error: check server logs for details.' }
       });
     }
     this.password = hash;
@@ -94,14 +98,7 @@ const projectSchema = new Schema(
   { minimize: true }
 );
 
-const Users = mongoose.model('Users', userSchema);
-const Comments = mongoose.model('Comments', commentsSchema);
-const Sessions = mongoose.model('Sessions', sessionSchema);
-const Projects = mongoose.model('Projects', projectSchema);
-
-module.exports = {
-  Users,
-  Comments,
-  Sessions,
-  Projects
-};
+export const Users = mongoose.model('Users', userSchema);
+export const Comments = mongoose.model('Comments', commentsSchema);
+export const Sessions = mongoose.model('Sessions', sessionSchema);
+export const Projects = mongoose.model('Projects', projectSchema);
