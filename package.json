@@ -67,7 +67,7 @@
   "scripts": {
     "postinstall": "set ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder install-app-deps",
     "dev-server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js",
-    "dev": "concurrently -k \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development nodemon server/server --open\"",
+    "dev": "concurrently -k \"cross-env NODE_ENV=development webpack-dev-server --config ./webpack.development.js\" \"cross-env NODE_ENV=development nodemon server/server.ts --open\"",
     "electron-dev": "cross-env NODE_ENV=development electron .",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron . --no-sandbox",
@@ -78,7 +78,7 @@
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "jest --verbose",
-    "server": "cross-env NODE_ENV=development nodemon server/server.js",
+    "server": "cross-env NODE_ENV=development nodemon server/server.ts",
     "start": "node server/server.ts"
   },
   "repository": {
