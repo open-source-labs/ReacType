@@ -7,7 +7,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Context {
   name: string;
   values: Array<{ key: string; value: string }>;
-  components: Array<string>;
+  components: string[];
 }
 
 interface AddContextPayload {

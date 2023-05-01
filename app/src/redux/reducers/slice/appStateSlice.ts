@@ -1308,7 +1308,7 @@ export const {
   deletePassedInProps,
   deleteState,
   toggleLoggedIn,
-  configToggle,
+  //configToggle,
   snapShotAction,
   allCooperativeState
 } = appStateSlice.actions;
