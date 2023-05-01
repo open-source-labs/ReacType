@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
 const base = require('./webpack.config');
 const path = require('path');
-const nonce = require('./app/src/utils/createNonce')();
+const nonce = require('./app/src/utils/createNonce.ts')();
 
 // merges webpack.config.js with production specific configs
 module.exports = merge(base, {

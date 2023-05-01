@@ -7,17 +7,17 @@ import {
 } from 'react-router-dom';
 import 'babel-polyfill';
 import React from 'react';
-import store from './redux/store.ts';
+import store from './redux/store';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Cookies from 'js-cookie';
-import App from './components/App.tsx';
-import SignIn from './components/login/SignIn.tsx';
-import SignUp from './components/login/SignUp.tsx';
-import FBPassWord from './components/login/FBPassWord.tsx';
-import Tutorial from './tutorial/Tutorial.tsx';
-import TutorialPage from './tutorial/TutorialPage.tsx';
-import ProjectDashboard from './Dashboard/ProjectContainer.tsx';
+import App from './components/App';
+import SignIn from './components/login/SignIn';
+import SignUp from './components/login/SignUp';
+import FBPassWord from './components/login/FBPassWord';
+import Tutorial from './tutorial/Tutorial';
+import TutorialPage from './tutorial/TutorialPage';
+import ProjectDashboard from './Dashboard/ProjectContainer';
 
 const client = new ApolloClient({
   uri: 'https://reactype-caret.herokuapp.com/graphql',

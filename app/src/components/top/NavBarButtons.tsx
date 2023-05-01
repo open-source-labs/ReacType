@@ -1,33 +1,33 @@
 import React from 'react';
-import store from '../../redux/store.ts';
+import store from '../../redux/store';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice.ts';
-import createModal from '../right/createModal.tsx';
-import ExportButton from '../right/ExportButton.tsx';
-import { setStyle } from '../../redux/reducers/slice/styleSlice.ts';
-import LoginButton from '../right/LoginButton.tsx';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
+import createModal from '../right/createModal';
+import ExportButton from '../right/ExportButton';
+import { setStyle } from '../../redux/reducers/slice/styleSlice';
+import LoginButton from '../right/LoginButton';
 import withStyles from '@mui/styles/withStyles';
 import MenuItem from '@mui/material/MenuItem';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
-import SaveProjectButton from '../right/SaveProjectButton.tsx';
-import ProjectsFolder from '../right/OpenProjects.tsx';
-import DeleteProjects from '../right/DeleteProjects.tsx';
+import SaveProjectButton from '../right/SaveProjectButton';
+import ProjectsFolder from '../right/OpenProjects';
+import DeleteProjects from '../right/DeleteProjects';
 import Menu from '@mui/material/Menu';
-import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice.ts';
+import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
 // for websockets
 import debounce from 'lodash/debounce';
 // websocket front end starts here
 import { io } from 'socket.io-client';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice.ts';
-import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice.ts';
-import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice.ts';
-import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice.ts';
-import config from '../../../../config.js';
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
+import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
+import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
+import config from '../../../../config';
 const { API_BASE_URL } = config;
 
 let socket;

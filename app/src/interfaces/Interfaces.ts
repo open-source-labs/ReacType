@@ -34,7 +34,7 @@ export interface ChildElement {
 export interface Component {
   id: number;
   name: string;
-  style: object;
+  style: {};
   attributes?: object;
   events: object;
   code: string;
@@ -73,7 +73,7 @@ export interface HTMLType {
   id: number;
   tag: string;
   name: string;
-  style: object;
+  style: any;
   placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
   // ? == optional type part of icon, cant comment out icon and it works
