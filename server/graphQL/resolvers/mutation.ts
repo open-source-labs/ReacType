@@ -1,10 +1,8 @@
-// const { ApolloServerErrorCode.BAD_USER_INPUT } = require('apollo-server-express');
-
-import { ApolloServerErrorCode } from '@apollo/server/errors'; // v4 syntax
-
-//now using ApolloServerErrorCode.BAD_USER_INPUT in place of ApolloServerErrorCode.BAD_USER_INPUT
+const { ApolloServerErrorCode } = require('@apollo/server/errors');
 
 import { Projects, Users, Comments } from '../../models/reactypeModels';
+
+import { Document } from 'mongoose';
 
 /*
  * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests

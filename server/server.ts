@@ -146,7 +146,6 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 // //v4 syntax
 
-
 // await server.start();
 // app.use(
 //   '/graphql',

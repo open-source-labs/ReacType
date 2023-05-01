@@ -1,6 +1,9 @@
 import { Projects } from '../models/reactypeModels';
 import { Request, Response, NextFunction } from 'express';
 
+// array of objects, objects inside
+type Projects = {project: {}}[]
+
 interface ProjectController {
   saveProject: (req: Request, res: Response, next: NextFunction) => void;
   getProjects: (req: Request, res: Response, next: NextFunction) => void;
@@ -43,7 +46,7 @@ saveProject: (req, res, next) => {
 // gets all of current user's projects
 getProjects: (req, res, next) => {
   const { userId } = req.body;
-  Projects.find({ userId }, (err, projects) => {
+  Projects.find({ userId }, (err, projects: Projects) => {
     if (err) {
       return next({
         log: `Error in projectController.getProjects: ${err}`,
@@ -62,7 +65,7 @@ getProjects: (req, res, next) => {
 deleteProject: (req, res, next) => {
   // pull project name and userId from req.body
   const { name, userId } = req.body;
-  Projects.findOneAndDelete({ name, userId }, (err, deleted) => {
+  Projects.findOneAndDelete({ name, userId }, null, (err, deleted) => {
     if (err) {
       return next({
         log: `Error in projectController.deleteProject: ${err}`,

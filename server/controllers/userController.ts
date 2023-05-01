@@ -2,6 +2,14 @@
 import { Users } from '../models/reactypeModels';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
+import { NativeError } from 'mongoose';
+
+interface newUserError extends NativeError {
+  keyValue: {
+    email: string;
+    username: string;
+  };
+}
 
 type UserController = {
   createUser: (req: Request, res: Response, next: NextFunction) => void;
@@ -53,33 +61,36 @@ const userController: UserController = {
     }
 
     // create user using username and password
-    Users.create({ username, password, email }, (err:any, newUser) => {
-      // handle error of creating a new user
-      if (err) {
-        if (res.locals.signUpType === 'oauth') {
-          return next();
-        }
-        if (err.keyValue.email) {
-          return res.status(400).json('Email Taken');
-        }
-        if (err.keyValue.username && res.locals.signUpType === 'oauth') {
-          res.locals.githubPassword = password;
-          return next();
-        }
-        if (err.keyValue.username) {
-          return res.status(400).json('Username Taken');
-        }
-        return next({
-          log: `Error in userController.createUser: ${err}`,
-          message: {
-            err: 'Error in userController.createUser. Check server logs for details'
+    Users.create(
+      { username, password, email },
+      (err: newUserError, newUser) => {
+        // handle error of creating a new user
+        if (err) {
+          if (res.locals.signUpType === 'oauth') {
+            return next();
           }
-        });
+          if (err.keyValue.email) {
+            return res.status(400).json('Email Taken');
+          }
+          if (err.keyValue.username && res.locals.signUpType === 'oauth') {
+            res.locals.githubPassword = password;
+            return next();
+          }
+          if (err.keyValue.username) {
+            return res.status(400).json('Username Taken');
+          }
+          return next({
+            log: `Error in userController.createUser: ${err}`,
+            message: {
+              err: 'Error in userController.createUser. Check server logs for details'
+            }
+          });
+        }
+        // if no error found when creating a new user, send back user ID in res.locals
+        res.locals.id = newUser.id;
+        return next();
       }
-      // if no error found when creating a new user, send back user ID in res.locals
-      res.locals.id = newUser.id;
-      return next();
-    });
+    );
   },
 
   // verifyUser - Obtain username and password from the request body, locate

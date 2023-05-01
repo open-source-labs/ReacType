@@ -1,6 +1,6 @@
 // const { UserInputError } = require('apollo-server-express');//v3 syntax
-
-import { ApolloServerErrorCode } from '@apollo/server/errors'; // v4 syntax
+const { ApolloServerErrorCode } = require('@apollo/server/errors');
+// import { ApolloServerErrorCode } from '@apollo/server/errors'; // v4 syntax
 // const ApolloServerErrorCode = require('@apollo/server/errors')
 //now using ApolloServerErrorCode.BAD_USER_INPUT in place of UserInputError
 

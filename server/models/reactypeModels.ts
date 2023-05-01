@@ -13,6 +13,11 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 dotenv.config();
 const Schema = mongoose.Schema;
+import { Document } from 'mongoose';
+
+interface UserDocument extends Document {
+  password: string;
+}
 
 const mongoURI = process.env.MONGO_DB;
 const URI =
@@ -44,16 +49,14 @@ const userSchema = new Schema({
 // collection happens (user gets put into database)
 
 // cannot use arrow function here as context of 'this' is important
-userSchema.pre('save', function cb(next) {
+userSchema.pre<UserDocument>('save', function cb(next) {
   // within this context, 'this' refers to the document (new user) about to be saved,
   // in our case, it should have properties username, password, and projects array
   bcrypt.hash(this.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) {
       return next({
         log: `bcrypt password hashing error: ${err}`,
-        message: {
-          err: 'bcrypt hash error: check server logs for details.'
-        }
+        message: { err: 'bcrypt hash error: check server logs for details.' }
       });
     }
     this.password = hash;
