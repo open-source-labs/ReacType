@@ -28,6 +28,10 @@ const DemoRender = (): JSX.Element => {
   const html = `
     <html>
       <head>
+      <link
+      rel="stylesheet"
+      href="./fake.css"
+    />
       </head>
       <body>
         <div id="app">

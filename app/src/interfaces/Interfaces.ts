@@ -34,7 +34,7 @@ export interface ChildElement {
 export interface Component {
   id: number;
   name: string;
-  style: {backgroundColor: string};
+  style: {};
   attributes?: object;
   events: object;
   code: string;
