@@ -14,7 +14,7 @@ const separator = {
 const manageSeparators: ManageSeparators = {
   nextTopSeparatorId: 1000,
   // this function checks for two separators in a row or missing separators and adds/removes as needed
-  handleSeparators: (arr: ChildElement[], str?) => {
+  handleSeparators: (arr, str) => {
     if (
       (str === 'delete' || str === 'change position') &&
       arr.length === 1 &&
@@ -73,7 +73,7 @@ const manageSeparators: ManageSeparators = {
   },
 
   // this function replaces separators onto which an element is dropped with the element itself
-  mergeSeparator: (arr: ChildElement[], index: number) => {
+  mergeSeparator: (arr, index) => {
     return arr.map((child) => {
       // Added additional nested types for lists
       if (

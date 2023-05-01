@@ -23,11 +23,11 @@ export interface ChildElement {
   name: string;
   childId: number;
   style: object;
-  attributes: object;
+  attributes: Attributes;
   events: object;
   children?: ChildElement[];
   stateProps: StateProp[]; // state: [ { id, key, value, type }, ...]
-  stateUsed?: object;
+  stateUsed?: StateUsed;
   passedInProps: StateProp[];
 }
 
@@ -46,7 +46,7 @@ export interface Component {
   useStateCodes: string[];
   useContext?: object;
   passedInProps: StateProp[];
-  stateUsed?: object;
+  stateUsed?: StateUsed;
 }
 export interface StateProp {
   id: string;
@@ -107,7 +107,21 @@ export interface AddRoutes {
 }
 
 export interface ManageSeparators {
-  mergeSeparator: (arg1:any, arg2:any) => any;  // update specificity
-  handleSeparators: (arg1: any, arg2?: any) => any; // update specificity
+  mergeSeparator: (arg1:ChildElement[], arg2?:number) => any;  // update specificity
+  handleSeparators: (arg1: ChildElement[], arg2?: string) => number;
   nextTopSeparatorId: number
+}
+
+export interface StateUsed {
+  compTextProviderId: number;
+  compTextPropsId: number;
+  compText: string;
+  compLinkProviderId: number;
+  compLinkPropsId: number;
+  compLink: string;
+}
+
+export interface Attributes {
+  compText?: string;
+  compLink?: string;
 }
