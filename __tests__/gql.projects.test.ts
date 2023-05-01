@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 
-// const { Mongoose } = require('mongoose');
-// const request = require('supertest');
-// const http = require('http');
-// const app = require('../server/server.js');
-// const mock = require('../mockData');
+const { Mongoose } = require('mongoose');
+const request = require('supertest');
+const http = require('http');
+const app = require('../server/server');
+const mock = require('../mockData');
 
 // tests user signup and login routes
 xdescribe('GraphQL tests', () => {
@@ -27,7 +27,7 @@ xdescribe('GraphQL tests', () => {
   });
   // GraphQL Query
 
-  describe('Testing GraphQL query', () => {
+  xdescribe('Testing GraphQL query', () => {
     it('getAllProjects should return more than 1 project by default', () =>
       request(server)
         .post('/graphql')
@@ -58,7 +58,7 @@ xdescribe('GraphQL tests', () => {
   });
   // GraphQL Mutation
 
-  describe('Testing GraphQL mutation', () => {
+  xdescribe('Testing GraphQL mutation', () => {
     // Add likes
     it('addLike should update the "likes" field of the project document', () =>
       request(server)

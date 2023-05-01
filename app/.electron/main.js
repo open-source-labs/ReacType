@@ -5,7 +5,7 @@ const electron = require('electron');
 @actions: codes for Github Oauth has been commented out because of lack of functionality.
 */
 require('dotenv').config();
-const { DEV_PORT } = require('../../config');
+const { DEV_PORT } = require('../../config.js');
 const path = require('path');
 const {
   app,
@@ -79,7 +79,7 @@ async function createWindow() {
       enableRemoteModule: true,
       // path of preload script. preload is how the renderer page will have access to electron functionality
       preload: path.join(__dirname, 'preload.js'),
-      nativeWindowOpen: true,
+      nativeWindowOpen: true
     }
   });
 
@@ -159,13 +159,16 @@ async function createWindow() {
   // we could use this over _all_ urls
   ses
     .fromPartition(partition)
-    .webRequest.onBeforeRequest({ urls: ['http://localhost./*'] }, listener => {
-      if (listener.url.indexOf('http://') >= 0) {
-        listener.callback({
-          cancel: true
-        });
+    .webRequest.onBeforeRequest(
+      { urls: ['http://localhost./*'] },
+      (listener) => {
+        if (listener.url.indexOf('http://') >= 0) {
+          listener.callback({
+            cancel: true
+          });
+        }
       }
-    });
+    );
 }
 
 // Needs to be called before app is ready;
@@ -336,7 +339,7 @@ app.on('remote-get-current-web-contents', (event, webContents) => {
 // When a user selects "Export project", a function (chooseAppDir loaded via preload.js)
 // is triggered that sends a "choose_app_dir" message to the main process
 // when the "choose_app_dir" message is received it triggers this event listener
-ipcMain.on('choose_app_dir', event => {
+ipcMain.on('choose_app_dir', (event) => {
   // dialog displays the native system's dialogue for selecting files
   // once a directory is chosen send a message back to the renderer with the path of the directory
   dialog
@@ -344,11 +347,11 @@ ipcMain.on('choose_app_dir', event => {
       properties: ['openDirectory'],
       buttonLabel: 'Export'
     })
-    .then(directory => {
+    .then((directory) => {
       if (!directory) return;
       event.sender.send('app_dir_selected', directory.filePaths[0]);
     })
-    .catch(err => console.log('ERROR on "choose_app_dir" event: ', err));
+    .catch((err) => console.log('ERROR on "choose_app_dir" event: ', err));
 });
 
 // define serverURL for cookie and auth purposes based on environment
@@ -358,32 +361,32 @@ if (isDev) {
 }
 
 // // for github oauth login in production, since cookies are not accessible through document.cookie on local filesystem, we need electron to grab the cookie that is set from oauth, this listens for an set cookie event from the renderer process then sends back the cookie
-ipcMain.on('set_cookie', event => {
+ipcMain.on('set_cookie', (event) => {
   session.defaultSession.cookies
     .get({ url: serverUrl })
-    .then(cookie => {
+    .then((cookie) => {
       // this if statement is necessary or the setInterval on main app will constantly run and will emit this event.reply, causing a memory leak
       // checking for a cookie inside array will only emit reply when a cookie exists
       if (cookie[0]) {
         event.reply('give_cookie', cookie);
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('Error giving cookies in set_cookie:', error);
     });
 });
 
 // again for production, document.cookie is not accessible so we need this listener on main to delete the cookie on logout
-ipcMain.on('delete_cookie', event => {
+ipcMain.on('delete_cookie', (event) => {
   session.defaultSession.cookies
     .remove(serverUrl, 'ssid')
     // .then(removed => {
     // })
-    .catch(err => console.log('Error deleting cookie:', err));
+    .catch((err) => console.log('Error deleting cookie:', err));
 });
 
 // opens new window for github oauth when button on sign in page is clicked
-ipcMain.on('github', event => {
+ipcMain.on('github', (event) => {
   const githubURL = isDev
     ? `http://localhost:${DEV_PORT}/auth/github`
     : `https://reactype-caret.herokuapp.com/auth/github`;
@@ -409,7 +412,7 @@ ipcMain.on('github', event => {
 
   github.loadURL(githubURL);
   github.show();
-  const handleCallback = url => {
+  const handleCallback = (url) => {
     const raw_code = /code=([^&]\*)/.exec(url) || null;
     const code = raw_code && raw_code.length > 1 ? raw_code[1] : null;
     const error = /\?error=(.+)\$/.exec(url);
@@ -463,13 +466,13 @@ ipcMain.on('github', event => {
       github.close();
       win.webContents
         .executeJavaScript(`window.localStorage.setItem('ssid', '${ssid}')`)
-        .then(result => win.loadURL(`${redirectUrl}`))
-        .catch(err => console.log(err));
+        .then((result) => win.loadURL(`${redirectUrl}`))
+        .catch((err) => console.log(err));
     }
   });
 });
 
-ipcMain.on('tutorial', event => {
+ipcMain.on('tutorial', (event) => {
   // create new browser window object with size, title, security options
   const tutorial = new BrowserWindow({
     width: 800,
