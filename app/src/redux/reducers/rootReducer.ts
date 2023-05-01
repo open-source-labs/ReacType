@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 // Need to import each slice which will be combined in the rootReducer
-import darkModeReducer from './slice/darkModeSlice.ts';
-import codePreviewReducer from './slice/codePreviewSlice.ts';
-import contextReducer from './slice/contextReducer.ts';
-import appStateReducer from './slice/appStateSlice.ts';
-import styleReducer from './slice/styleSlice.ts';
-import roomCodeReducer from './slice/roomCodeSlice.ts';
+import darkModeReducer from './slice/darkModeSlice';
+import codePreviewReducer from './slice/codePreviewSlice';
+import contextReducer from './slice/contextReducer';
+import appStateReducer from './slice/appStateSlice';
+import styleReducer from './slice/styleSlice';
+import roomCodeReducer from './slice/roomCodeSlice';
 
 const rootReducer = combineReducers({
   // Add desired slices here

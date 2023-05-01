@@ -5,8 +5,11 @@ import HeaderIcon from '@mui/icons-material/TextFormat';
 import ButtonIcon from '@mui/icons-material/EditAttributes';
 import LinkIcon from '@mui/icons-material/Link';
 import ListIcon from '@mui/icons-material/List';
+import {
+  HTMLType
+} from '../interfaces/Interfaces';
 
-const HTMLTypes = [
+const HTMLTypes: HTMLType[] = [
   {
     id: 11,
     tag: 'div',
