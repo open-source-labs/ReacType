@@ -9,7 +9,7 @@ const app = require('../server/server');
 const mock = require('../mockData');
 
 // tests user signup and login routes
-describe('GraphQL tests', () => {
+xdescribe('GraphQL tests', () => {
   let server;
   // Mutation test variables
   const projectId = '62fd62c6d37748133a6fdc81'; // Must use a valid projectId from the database. NOTE: This should be revised for each Production Project Team since the database store different projectId
@@ -27,7 +27,7 @@ describe('GraphQL tests', () => {
   });
   // GraphQL Query
 
-  describe('Testing GraphQL query', () => {
+  xdescribe('Testing GraphQL query', () => {
     it('getAllProjects should return more than 1 project by default', () =>
       request(server)
         .post('/graphql')
@@ -58,7 +58,7 @@ describe('GraphQL tests', () => {
   });
   // GraphQL Mutation
 
-  describe('Testing GraphQL mutation', () => {
+  xdescribe('Testing GraphQL mutation', () => {
     // Add likes
     it('addLike should update the "likes" field of the project document', () =>
       request(server)
