@@ -7,11 +7,11 @@ export interface State {
   rootComponents: number[];
   projectType: string;
   config?: {};
-  separator: ChildElement;
+  separator?: ChildElement;
   canvasFocus: { componentId: number; childId: number | null };
   nextComponentId: number;
   nextTopSeparatorId: number;
-  nextBottomSeparatorId: number;
+  nextBottomSeparatorId?: number;
   nextChildId: number;
   HTMLTypes: HTMLType[];
   tailwind: boolean;
@@ -46,6 +46,7 @@ export interface Component {
   useStateCodes: string[];
   useContext?: object;
   passedInProps: StateProp[];
+  stateUsed?: object;
 }
 export interface StateProp {
   id: string;
@@ -75,7 +76,8 @@ export interface HTMLType {
   style: object;
   placeHolderShort: string | JSX.Element;
   placeHolderLong: string;
-  icon: any;
+  // ? == optional type part of icon, cant comment out icon and it works
+  icon?: any;
   framework: string;
   nestable: boolean;
 }
@@ -102,4 +104,10 @@ export interface StatePropsPanelProps {
 export interface AddRoutes {
   id: number;
   name: string;
+}
+
+export interface ManageSeparators {
+  mergeSeparator: (arg1:any, arg2:any) => any;  // update specificity
+  handleSeparators: (arg1: any, arg2?: any) => any; // update specificity
+  nextTopSeparatorId: number
 }

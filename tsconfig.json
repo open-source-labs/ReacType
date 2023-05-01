@@ -16,5 +16,5 @@
     "typeRoots": ["node_modules/@types", "node_modules/@types/node"]
   },
   // only compile ts files in this directory
-  "include": [".app/src/**/*"]
+  "include": ["app/src/**/*","server/**/*"],
 }

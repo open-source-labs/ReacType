@@ -1,11 +1,11 @@
-import subject from '../app/src/redux/reducers/slice/contextReducer';
+import subject from '../app/src/redux/reducers/slice/contextReducer.ts';
 
 describe('contextReducer test', () => {
   let state;
 
   beforeEach(() => {
     state = {
-      allContext: []
+      allContext: [],
     };
   });
 
@@ -25,8 +25,8 @@ describe('contextReducer test', () => {
     const action = {
       type: 'context/addContext',
       payload: {
-        name: 'Theme Context'
-      }
+        name: 'Theme Context',
+      },
     };
 
     it('adds a context', () => {
@@ -34,7 +34,7 @@ describe('contextReducer test', () => {
       expect(allContext[0]).toEqual({
         name: 'Theme Context',
         values: [],
-        components: []
+        components: [],
       });
     });
 
@@ -49,7 +49,7 @@ describe('contextReducer test', () => {
     });
   });
 
-  //OLD ADD CONTEX TEST
+  // OLD ADD CONTEX TEST
 
   // describe('ADD_CONTEXT', () => {
   //   const action = {
@@ -86,9 +86,9 @@ describe('contextReducer test', () => {
           {
             name: 'Theme Context',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
     });
 
@@ -97,8 +97,8 @@ describe('contextReducer test', () => {
       payload: {
         name: 'Theme Context',
         inputKey: 'Theme Color',
-        inputValue: 'Dark'
-      }
+        inputValue: 'Dark',
+      },
     };
 
     it('adds a key-value pair to values array of the specified context', () => {
@@ -123,21 +123,21 @@ describe('contextReducer test', () => {
           {
             name: 'Theme Context',
             values: [],
-            components: []
+            components: [],
           },
           {
             name: 'To be deleted',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
 
       action = {
         type: 'context/deleteContext',
         payload: {
-          name: 'Theme Context'
-        }
+          name: 'Theme Context',
+        },
       };
     });
 
@@ -161,9 +161,9 @@ describe('contextReducer test', () => {
           {
             name: 'Theme Context',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
     });
 
@@ -171,12 +171,12 @@ describe('contextReducer test', () => {
       type: 'context/addComponentToContext',
       payload: {
         context: {
-          name: 'Theme Context'
+          name: 'Theme Context',
         },
         component: {
-          name: 'Main Component'
-        }
-      }
+          name: 'Main Component',
+        },
+      },
     };
 
     it('adds a new component to the specified context', () => {
