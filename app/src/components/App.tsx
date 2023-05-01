@@ -8,7 +8,7 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 //redux toolkit addition
 import { useSelector, useDispatch } from 'react-redux';
-import { setInitialState, toggleLoggedIn, configToggle } from '../redux/reducers/slice/appStateSlice';
+import { setInitialState, toggleLoggedIn} from '../redux/reducers/slice/appStateSlice';
 
 import { RootState } from '../redux/store';
 
