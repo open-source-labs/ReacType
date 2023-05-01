@@ -8,7 +8,7 @@
     "sourceType": "module"
   },
   "plugins": ["import", "react", "jest", "jsx-a11y", "babel"],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "env": {
     "browser": true,
     "node": true,

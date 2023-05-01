@@ -15,10 +15,8 @@ export default function ExportButton() {
   const state = useSelector((store: RootState) => store.appState);
 
   const genOptions: string[] = [
-    'Export components',
-    'Export components with application files'
+    'Export components'
   ];
-  let genOption = 0;
 
   // Closes out the open modal
   const closeModal = () => setModal('');
@@ -29,7 +27,7 @@ export default function ExportButton() {
         {genOptions.map((option: string, i: number) => (
           <ListItem
             key={i}
-            onClick={() => chooseGenOptions(i)}
+            onClick={() => chooseGenOptions()}
             style={{
               border: '1px solid #3f51b5',
               marginBottom: '2%',
@@ -39,24 +37,11 @@ export default function ExportButton() {
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
         ))}
-        <ListItem>
-          <input type="checkbox" id="tests" name="tests"></input>
-          <label for="tests">Include Tests</label>
-        </ListItem>
       </List>
     );
-    let testchecked = 0;
-    // helper function called by showGenerateAppModal
-    // this function will prompt the user to choose an app directory once they've chosen their export option
-    const chooseGenOptions = (genOpt: number) => {
-      // set export option: 0 --> export only components, 1 --> export full project
-      genOption = genOpt;
 
-      //This is exclusive to the electron app
-      // window.api.chooseAppDir();
-      // testchecked = document.getElementById('tests').checked;
+    const chooseGenOptions = () => {
       zipFiles(state);
-     
       closeModal();
     };
 
@@ -64,7 +49,7 @@ export default function ExportButton() {
       createModal({
         closeModal,
         children,
-        message: 'Choose export preference:',
+        message: 'Click to download in zip file:',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -100,17 +85,10 @@ export default function ExportButton() {
   );
 }
 
-//The below code is exclusive to the Electron App's export function
+//The below code is exclusive to ReacType's Electron App
+//If you would like to deploy the app, please comment out the exportButton function above and uncomment the code below
 
-// import React, { useState, useCallback, useEffect } from 'react';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemText from '@mui/material/ListItemText';
-// import GetAppIcon from '@mui/icons-material/GetApp';
-// import Button from '@mui/material/Button';
-// import exportProject from '../../utils/exportProject.util';
-// import createModal from './createModal';
-// import { useSelector } from 'react-redux';
+
 // export default function ExportButton() {
 //   const [modal, setModal] = useState(null);
 //   const state = useSelector(store => store.appState)
