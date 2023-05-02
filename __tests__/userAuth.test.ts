@@ -11,7 +11,7 @@ const URI = process.env.MONGO_DB;
 beforeAll(() => {
   mongoose
     .connect(URI, { useNewUrlParser: true }, { useUnifiedTopology: true })
-    .then((res) => console.log('connected to test database'));
+    .then(() => console.log('connected to test database'));
 });
 
 afterAll(async () => {
@@ -20,7 +20,7 @@ afterAll(async () => {
 //for creating unqiue login credentials
 const num = Math.floor(Math.random() * 1000);
 
-xdescribe('User authentication tests', () => {
+describe('User authentication tests', () => {
   //test connection to server
   describe('initial connection test', () => {
     it('should connect to the server', async () => {
@@ -54,9 +54,9 @@ xdescribe('User authentication tests', () => {
     });
   });
 });
-xdescribe('/login', () => {
+describe('/login', () => {
   // tests whether existing login information permits user to log in
-  describe('POST', () => {
+  xdescribe('POST', () => {
     it('responds with status 200 and json object on verified user login', () => {
       return request(app)
         .post('/login')
@@ -87,7 +87,7 @@ xdescribe('/login', () => {
   });
 });
 
-xdescribe('sessionIsCreated', () => {
+describe('sessionIsCreated', () => {
   it("returns the message 'No Username Input' when no username is entered", () => {
     return request(app)
       .post('/login')
