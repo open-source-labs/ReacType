@@ -8,6 +8,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useSelector } from 'react-redux';
 import CreateContainer from './CreateTab/CreateContainer';
 import DisplayContainer from './DisplayTab/DisplayContainer';
+import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
@@ -20,8 +21,8 @@ const useStyles = makeStyles({
 
 const StateManager = (props): JSX.Element => {
 
-  const state = useSelector(store => store.appState)
-  const isDarkMode = useSelector(state => state.darkMode.isDarkMode);
+  const state = useSelector((store:RootState) => store.appState)
+  const isDarkMode = useSelector((state:RootState) => state.darkMode.isDarkMode);
 
   const { components } = state;
   const classes = useStyles();
