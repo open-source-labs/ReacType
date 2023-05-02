@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import DragDropPanel from '../app/src/components/left/DragDropPanel';
 import { Provider } from 'react-redux';
 import store from '../app/src/redux/store';
@@ -46,6 +46,19 @@ describe('Drag and Drop Side Panel', () => {
     expect(screen.getByText('Switch')).toBeInTheDocument();
     expect(screen.getByText('Route')).toBeInTheDocument();
     expect(screen.getByText('LinkTo')).toBeInTheDocument();
+  });
+
+  test('Drag and Drop', () => {
+    it('drags new element to component container', () => {
+      render(
+        <Provider store={store}>
+          <DndProvider backend={HTML5Backend}>
+            <DragDropPanel />
+          </DndProvider>
+        </Provider>
+      );
+      expect(document.querySelectorAll('.componentContainer')).toHaveLength(2);
+    });
   });
 
   // test('Adds new custom element', () => {
