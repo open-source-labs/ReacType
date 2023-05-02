@@ -8,6 +8,7 @@ import {
   // TextField,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { RootState } from '../../redux/store';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -28,8 +29,8 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const isDarkMode = useSelector((store) => store.darkMode.isDarkMode);
-  const state = useSelector((store) => store.appState);
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach((element) => {
@@ -166,7 +167,7 @@ const HTMLPanel = (props): JSX.Element => {
                   ? classes.lightThemeFontColor
                   : classes.darkThemeFontColor
               }
-              value="New HTML Tag"
+              //value="New HTML Tag"
             >
               New HTML Tag:{' '}
             </h4>

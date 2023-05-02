@@ -16,11 +16,11 @@ import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import Container from '@mui/material/Container';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
+import { RootState } from '../../redux/store';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -77,7 +77,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;

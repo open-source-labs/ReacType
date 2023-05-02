@@ -4,12 +4,13 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import {useSelector} from 'react-redux'
+import { RootState } from '../../../../redux/store';
 
 const AddDataForm = ({ handleClickInputData, contextInput }) => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = {inputKey: '', inputValue: ''};
   const [dataContext, setDataContext] = React.useState(defaultInputData);
-const {isDarkMode} = useSelector(store=> store.darkMode.isDarkMode)
+const { isDarkMode } = useSelector((store:RootState)=> store.darkMode)
   const saveData = () => {
     setDataContext(defaultInputData);
     handleClickInputData(contextInput, dataContext)

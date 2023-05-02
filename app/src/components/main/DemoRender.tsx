@@ -6,11 +6,12 @@ import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -28,10 +29,6 @@ const DemoRender = (): JSX.Element => {
   const html = `
     <html>
       <head>
-      <link
-      rel="stylesheet"
-      href="./fake.css"
-    />
       </head>
       <body>
         <div id="app">
@@ -74,7 +71,7 @@ const DemoRender = (): JSX.Element => {
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
   //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
-  const componentBuilder = (array: object, key: number = 0) => {
+  const componentBuilder = (array: any, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {

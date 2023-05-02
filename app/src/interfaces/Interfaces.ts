@@ -61,6 +61,7 @@ export interface Action {
 }
 
 export interface Payload {}
+
 export interface Reduce {
   state: Context;
   action: Action;
