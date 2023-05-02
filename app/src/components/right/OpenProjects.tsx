@@ -13,6 +13,7 @@ import { blue } from '@mui/material/colors';
 import { getProjects } from '../../helperFunctions/projectGetSaveDel';
 import { useDispatch, useSelector } from 'react-redux';
 import { openProject } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 export interface ProjectDialogProps {
   open: boolean;
@@ -23,7 +24,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
   const handleClose = () => {

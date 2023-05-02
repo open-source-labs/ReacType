@@ -5,6 +5,7 @@ import { Component } from '../../interfaces/Interfaces';
 import DeleteButton from './DeleteButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function IndirectChild({
   style,
@@ -14,7 +15,7 @@ function IndirectChild({
   childId,
   name
 }) {
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   let combinedStyle = combineStyles(globalDefaultStyle, style);
   // when a user clicks a link, the focus should change to that component

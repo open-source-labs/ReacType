@@ -5,14 +5,14 @@ import {
   GridEditRowsModel,
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import StateContext from "../../../../context/context";
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../../redux/store'
 
 const TableParentProps = props => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));

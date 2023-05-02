@@ -7,9 +7,10 @@ import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import DeleteButton from './DeleteButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
-  const {state, isThemeLight }= useSelector(store =>({
+  const {state, isThemeLight }= useSelector((store:RootState) =>({
     state: store.appState,
     isThemeLight: store.styleSlice
   } ));
