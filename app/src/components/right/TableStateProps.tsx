@@ -10,10 +10,11 @@ import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePassedInProps } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 const TableStateProps = props => {
 
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));
@@ -107,7 +108,7 @@ const TableStateProps = props => {
       let id=1;
       for (const key in displayObject) {
         // if key is a number make it a string with brackets aroung number
-        const newKey = isNaN(key) ? key : '[' + key + ']';
+        const newKey = isNaN(key as any) ? key : '[' + key + ']';
         const type = Array.isArray(displayObject[key]) ? 'array' : typeof (displayObject[key]);
         rows.push({ id: id++, key: newKey, value: displayObject[key], type: type});
       }

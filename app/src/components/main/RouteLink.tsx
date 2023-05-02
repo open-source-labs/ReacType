@@ -6,9 +6,10 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function RouteLink({ childId, type, typeId, style }: ChildElement) {
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the name of the Component corresponding with this link

@@ -11,6 +11,7 @@ import componentNest from '../../helperFunctions/componentNestValidation';
 import AddRoute from './AddRoute';
 import AddLink from './AddLink';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 import { changeFocus, changePosition, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
 
@@ -25,7 +26,7 @@ function DirectChildHTMLNestable({
   attributes
 }: ChildElement) {
 
-  const { state, contextParam, isThemeLight, isDarkMode } = useSelector((store) => ({
+  const { state, contextParam, isThemeLight, isDarkMode } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
     isThemeLight: store.styleSlice,
@@ -155,7 +156,6 @@ function DirectChildHTMLNestable({
       <AddLink
         id={childId}
         onClickHandler={onClickHandler}
-        name={name}
         linkDisplayed={
           attributes && attributes.compLink ? `${attributes.compLink}` : null
         }

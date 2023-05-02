@@ -15,9 +15,10 @@ import {
 import TableStateProps from './TableStateProps';
 import TableParentProps from './TableParentProps';
 import TablePassedInProps from './TablePassedInProps';
+import { RootState } from '../../../../redux/store';
 
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
@@ -234,7 +235,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                   : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`
               }
               value={inputType}
-              onChange={(event, index) => setInputType(index.props.value)}
+              onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={
                 isThemeLight

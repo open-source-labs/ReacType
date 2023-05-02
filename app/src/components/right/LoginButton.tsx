@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
 import config from '../../../../config.js';
+import { RootState } from '../../redux/store';
 const { API_BASE_URL, API_BASE_URL2 } = config;
 
 export default function LoginButton() {
-  const state = useSelector((store) => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
   const handleLogout = () => {

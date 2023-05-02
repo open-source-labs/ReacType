@@ -9,10 +9,11 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import {useDispatch, useSelector} from 'react-redux'
 import {updateProjectName} from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-const state = useSelector(store => store.appState);
+const state = useSelector((store:RootState) => store.appState);
 const dispatch = useDispatch();
   const [projectName, setProjectName] = useState('');
   const [invalidProjectName, setInvalidProjectName] = useState(false);
