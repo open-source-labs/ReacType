@@ -41,7 +41,6 @@ const userController: UserController = {
   createUser: (req, res, next) => {
     let email, username, password;
     // use this condition for Oauth login
-    console.log('this is the test body', req.body);
     if (res.locals.signUpType === 'oauth') {
       email = res.locals.githubEmail;
       username = email;
@@ -90,7 +89,6 @@ const userController: UserController = {
         }
         // if no error found when creating a new user, send back user ID in res.locals
         res.locals.id = newUser.id;
-        console.log('no error in test');
         return next();
       }
     );

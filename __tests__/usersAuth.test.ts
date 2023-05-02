@@ -5,15 +5,21 @@ import request from 'supertest';
 import app from '../server/server';
 import mockObj from '../mockData';
 const user = mockObj.user;
+import { sessionIsCreated } from '../app/src/helperFunctions/auth';
 
 //for creating unqiue login credentials
 const num = Math.floor(Math.random() * 1000);
+let username;
+let password;
+let isFbOauth;
 
 describe('User authentication tests', () => {
   //test connection to server
-  test('initial connection test', async () => {
-    const response = await request(app).get('/test');
-    expect(response.text).toEqual('test request is working');
+  describe('initial connection test', () => {
+    it('should connect to the server', async () => {
+      const response = await request(app).get('/test');
+      expect(response.text).toEqual('test request is working');
+    });
   });
   //navigating to signup page should serve
   describe('/', () => {
@@ -82,6 +88,64 @@ describe('User authentication tests', () => {
           .then((res) => expect(typeof res.body).toBe('string'));
       });
     });
+  });
+
+  describe('sessionIsCreated', () => {
+    it("returns the message 'No Username Input' when no username is entered", () => {
+      return request(app)
+        .post('/login')
+        .send({
+          username: '',
+          password: 'Reactype123!@#',
+          isFbOauth: false
+        })
+        .then((res) => expect(res.text).toBe('"No Username Input"'));
+    });
+
+    it("returns the message 'No Password Input' when no password is entered", () => {
+      return request(app)
+        .post('/login')
+        .send({
+          username: 'reactype123',
+          password: '',
+          isFbOauth: false
+        })
+        .then((res) => expect(res.text).toBe('"No Password Input"'));
+    });
+
+    it("returns the message 'Invalid Username' when username does not exist", () => {
+      return request(app)
+        .post('/login')
+        .send({
+          username: 'l!b',
+          password: 'test',
+          isFbOauth: false
+        })
+        .then((res) => expect(res.text).toBe('"Invalid Username"'));
+    });
+  });
+
+  it("returns the message 'Incorrect Password' when password does not match", () => {
+    return request(app)
+      .post('/login')
+      .send({
+        username: 'test',
+        password: 'test',
+        isFbOauth: false
+      })
+      .then((res) => expect(res.text).toBe('"Incorrect Password"'));
+  });
+  // note that the username and password in this test are kept in the heroku database
+  // DO NOT CHANGE unless you have access to the heroku database
+  it("returns the message 'Success' when the user passes all auth checks", () => {
+    return request(app)
+      .post('/login')
+      .send({
+        username: 'test',
+        password: 'password1!',
+        isFbOauth: false
+      })
+      .then((res) => expect(res.body).toHaveProperty('sessionId'));
   });
 });
 
