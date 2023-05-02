@@ -1,28 +1,9 @@
 import fetch from 'node-fetch';
 import { Sessions } from '../models/reactypeModels';
 import dotenv from 'dotenv';
-import { Request, Response, NextFunction } from 'express';
-import { Document } from 'mongoose';
+import { SessionController, SessionCookie } from '../interfaces';
 
 dotenv.config();
-
-interface RequestId extends Request {
-  user: {
-    id: string;
-  };
-}
-
-interface SessionCookie extends Document {
-  cookieId: string;
-}
-
-interface SessionController {
-  isLoggedIn: (req: RequestId, res: Response, next: NextFunction) => void;
-  startSession: (req: RequestId, res: Response, next: NextFunction) => void;
-  gitHubResponse: (req: RequestId, res: Response, next: NextFunction) => void;
-  gitHubSendToken: (req: RequestId, res: Response, next: NextFunction) => void;
-  githubSession: (req: RequestId, res: Response, next: NextFunction) => void;
-}
 
 const sessionController: SessionController = {
   // isLoggedIn finds the right session, if the session is invalid in the database, the app redirect user straight to the root endpoint witht he login page, if not, continue session
@@ -66,18 +47,21 @@ const sessionController: SessionController = {
         // if valid user logged in/signed up, res.locals.id should be user's id generated from mongodb, which we will set as this session's cookieId
       }
       if (!ses) {
-        Sessions.create({ cookieId: res.locals.id }, (error, session: SessionCookie) => {
-          if (error) {
-            return next({
-              log: `Error in sessionController.startSession create session: ${err}`,
-              message: {
-                err: 'Error in sessionController.startSession create session, check server logs for details'
-              }
-            });
+        Sessions.create(
+          { cookieId: res.locals.id },
+          (error, session: SessionCookie) => {
+            if (error) {
+              return next({
+                log: `Error in sessionController.startSession create session: ${err}`,
+                message: {
+                  err: 'Error in sessionController.startSession create session, check server logs for details'
+                }
+              });
+            }
+            res.locals.ssid = session.cookieId;
+            return next();
           }
-          res.locals.ssid = session.cookieId;
-          return next();
-        });
+        );
         // if session exists, move onto next middleware
       } else {
         res.locals.ssid = ses.cookieId;

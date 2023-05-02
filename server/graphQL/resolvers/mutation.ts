@@ -2,8 +2,6 @@ const { ApolloServerErrorCode } = require('@apollo/server/errors');
 
 import { Projects, Users, Comments } from '../../models/reactypeModels';
 
-import { Document } from 'mongoose';
-
 /*
  * resolvers are functions that handles graphQL requests. This file defines the logic for graphQL mutation requests
  * Link to Apollo Mutations:
