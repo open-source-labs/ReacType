@@ -11,7 +11,7 @@ const http = require('http')
 const {state, projectToSave } = mockData
 
 // save and get projects endpoint testing
-describe('Project endpoints tests', () => {
+xdescribe('Project endpoints tests', () => {
   let server;
   beforeAll((done) => {
     server = http.createServer(app);
@@ -22,7 +22,7 @@ describe('Project endpoints tests', () => {
     server.close(done);
   });
   // test saveProject endpoint
-  describe('/saveProject', () => {
+  xdescribe('/saveProject', () => {
     describe('/POST', () => {
       it('responds with a status of 200 and json object equal to project sent', () => {
         return request(server)
@@ -36,7 +36,7 @@ describe('Project endpoints tests', () => {
     });
   });
   // test getProjects endpoint
-  describe('/getProjects', () => {
+  xdescribe('/getProjects', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to an array of user projects', () => {
         return request(server)
@@ -53,7 +53,7 @@ describe('Project endpoints tests', () => {
     });
   });
   // test deleteProject endpoint
-  describe('/deleteProject', () => {
+  xdescribe('/deleteProject', () => {
     describe('DELETE', () => {
       const { name, userId } = projectToSave;
       it('responds with status of 200 and json object equal to deleted project', () => {

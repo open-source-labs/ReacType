@@ -34,7 +34,7 @@ mongoose
     // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
     useFindAndModify: false,
     // sets the name of the DB that our collections are part of
-    dbName: 'ReacType'
+    dbName: 'reactype'
   })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err));

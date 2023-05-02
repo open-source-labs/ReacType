@@ -12,7 +12,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 import express from 'express';
 // import cookieParser from 'cookie-parser';
 
-import config from '../config';
+import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
 
 // const path = require('path');
@@ -249,9 +249,11 @@ app.use((err, req, res, next) => {
 });
 
 // starts server on PORT
-httpServer.listen(5656, () =>
-  console.log(`Server listening on port: ${DEV_PORT}`)
-);
+if (!isTest) {
+  httpServer.listen(5656, () =>
+    console.log(`Server listening on port: ${DEV_PORT}`)
+  );
+}
 
 // if (isTest) module.exports = app;
 export default app;

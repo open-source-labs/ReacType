@@ -41,6 +41,7 @@ const userController: UserController = {
   createUser: (req, res, next) => {
     let email, username, password;
     // use this condition for Oauth login
+    console.log('this is the test body', req.body);
     if (res.locals.signUpType === 'oauth') {
       email = res.locals.githubEmail;
       username = email;
@@ -66,17 +67,18 @@ const userController: UserController = {
       (err: newUserError, newUser) => {
         // handle error of creating a new user
         if (err) {
+          console.log('there is a mongo error', err);
           if (res.locals.signUpType === 'oauth') {
             return next();
           }
-          if (err.keyValue.email) {
+          if (err.keyValue?.email) {
             return res.status(400).json('Email Taken');
           }
-          if (err.keyValue.username && res.locals.signUpType === 'oauth') {
+          if (err.keyValue?.username && res.locals.signUpType === 'oauth') {
             res.locals.githubPassword = password;
             return next();
           }
-          if (err.keyValue.username) {
+          if (err.keyValue?.username) {
             return res.status(400).json('Username Taken');
           }
           return next({
@@ -88,6 +90,7 @@ const userController: UserController = {
         }
         // if no error found when creating a new user, send back user ID in res.locals
         res.locals.id = newUser.id;
+        console.log('no error in test');
         return next();
       }
     );
