@@ -1,9 +1,11 @@
 const mockObj = {
+  //these user credentials were created via the signup page
+  //once connecting to new mongo cluster, you must create new login credentials to test
   user: {
-    username: 'reactype123',
-    email: 'reactype@gmail.com',
-    password: 'Reactype123!@#',
-    userId: '604a552e9167c02198895823'
+    username: 'test',
+    email: 'test@gmail.com',
+    password: 'password1!',
+    userId: '645034c673b402f5eb58f9a1'
   },
 
   state: {
