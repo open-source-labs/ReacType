@@ -11,13 +11,9 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
+import { UserDocument } from '../interfaces';
 dotenv.config();
 const Schema = mongoose.Schema;
-import { Document } from 'mongoose';
-
-interface UserDocument extends Document {
-  password: string;
-}
 
 const isTest = process.env.NODE_ENV === 'test';
 

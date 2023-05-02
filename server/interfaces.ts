@@ -40,3 +40,10 @@ export interface UserController {
   createUser: RequestHandler;
   verifyUser: RequestHandler;
 }
+
+export interface UserStylesController {
+  saveCssFile: RequestHandler;
+}
+export interface UserDocument extends Document {
+  password: string;
+}
