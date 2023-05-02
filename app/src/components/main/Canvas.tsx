@@ -7,10 +7,11 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import Arrow from './Arrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function Canvas(props): JSX.Element {
 
-  const { state, contextParam,isDarkMode } = useSelector((store) => ({
+  const { state, contextParam,isDarkMode } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
     isDarkMode: store.darkMode.isDarkMode
@@ -84,7 +85,7 @@ function Canvas(props): JSX.Element {
                 break;
               } else {
                 // if false
-                setCopiedComp(child);
+                // setCopiedComp(child);
                 hasDiffParent = true;
                 newChildName = child.name;
                 i = components.length;

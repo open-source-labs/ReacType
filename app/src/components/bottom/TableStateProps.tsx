@@ -10,9 +10,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteState } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 const TableStateProps = props => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));

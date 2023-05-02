@@ -1,10 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
@@ -16,7 +15,7 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode)
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode)
 const color = isDarkMode ? "white":"black"
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {

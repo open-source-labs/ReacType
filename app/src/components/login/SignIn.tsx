@@ -27,6 +27,7 @@ import {
 } from '../../../../app/src/public/styles/theme';
 import Brightness3Icon from '@mui/icons-material/Brightness3';
 import Brightness5Icon from '@mui/icons-material/Brightness5';
+import { RootState } from '../../redux/store';
 
 import config from '../../../../config.js';
 const { API_BASE_URL } = config;
@@ -79,7 +80,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const isDarkMode = useSelector((store) => store.darkMode.isDarkMode);
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
 
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
   const [invalidPassMsg, setInvalidPassMsg] = useState('');

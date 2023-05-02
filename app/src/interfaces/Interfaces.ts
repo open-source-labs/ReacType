@@ -61,6 +61,7 @@ export interface Action {
 }
 
 export interface Payload {}
+
 export interface Reduce {
   state: Context;
   action: Action;
@@ -124,4 +125,12 @@ export interface StateUsed {
 export interface Attributes {
   compText?: string;
   compLink?: string;
+}
+
+export interface Arrow {
+  renderArrow: (id: number) => any;
+  deleteLines: () => void;
+  lineDraw: (x1:number, y1:number,x2:number,y2:number) => void;
+  createHeadElement:(x:number, y:number,length:number,angle:number) => HTMLDivElement;
+  createLineElement: (x:number, y:number,length:number,angle:number) => HTMLDivElement;
 }

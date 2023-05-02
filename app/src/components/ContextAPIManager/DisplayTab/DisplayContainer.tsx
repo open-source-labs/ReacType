@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useStore } from 'react-redux';
+import React, { useEffect, useState} from 'react';
+import { useStore, useSelector } from 'react-redux';
 import { Chart } from 'react-google-charts';
 import Grid from '@mui/material/Grid';
+import { RootState } from '../../../redux/store';
 
 const DisplayContainer = () => {
-  const store = useStore();
-  const { allContext } = store.getState().contextSlice;
+  const allContext = useSelector((store:RootState) => store.contextSlice);
+  // const { allContext } = store.getState().contextSlice;
   const [contextData, setContextData] = useState([]);
 
   //build data for Google charts, tree rendering

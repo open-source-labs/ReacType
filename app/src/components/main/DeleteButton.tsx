@@ -1,11 +1,11 @@
 import React from 'react';
 import { DeleteButtons } from '../../interfaces/Interfaces';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteChild } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function DeleteButton({ id, name }: DeleteButtons) {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));

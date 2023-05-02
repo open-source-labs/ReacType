@@ -15,6 +15,7 @@ import { fetchPlugin } from '../../plugins/fetch-plugin';
 import * as esbuild from 'esbuild-wasm';
 import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const CodePreview: React.FC<{
   theme: string | null;
@@ -36,13 +37,13 @@ const CodePreview: React.FC<{
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { height } = dimensions || 0;
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store:RootState) => store.appState)
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
-  const [input, setInput] = useState();
+  const [input, setInput] = useState('');
 
   useEffect(() => {
     startService();

@@ -10,6 +10,7 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch, useStore } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../redux/store';
 
 const AssignContainer = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const AssignContainer = () => {
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));

@@ -7,16 +7,16 @@ import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
 // import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
-import StateContext from '../../../context/context';
 import { addContext, deleteContext, addContextValues } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../redux/store';
 
 const CreateContainer = () => {
   const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
-  const state = useSelector(store => store.contextSlice);
+  const state = useSelector((store:RootState) => store.contextSlice);
 
-  const store = useStore();
+  // const store = useStore();
   // const [state, setState] = useState([]);
   const [tableState, setTableState] = React.useState(defaultTableData);
   const [contextInput, setContextInput] = React.useState(null);

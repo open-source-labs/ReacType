@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
@@ -19,7 +20,7 @@ const AddContextForm = ({
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
   // const [state, dispatch] = useContext(StateContext);
-  const { state, isDarkMode } = useSelector(store => ({
+  const { state, isDarkMode } = useSelector((store:RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
   }))

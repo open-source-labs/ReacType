@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import createModal from '../right/createModal';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -45,7 +46,7 @@ const HTMLItem : React.FC<{
 
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
   const [{ isDragging }, drag] = useDrag({
     item: {
       type: ItemTypes.INSTANCE,
