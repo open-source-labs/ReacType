@@ -1,12 +1,12 @@
-/**
- * @jest-environment node
- */
+// /**
+//  * @jest-environment node
+//  */
 
-const { Mongoose } = require('mongoose');
-const request = require('supertest');
-const http = require('http');
-const app = require('../server/server');
-const mock = require('../mockData');
+// const { Mongoose } = require('mongoose');
+// const request = require('supertest');
+// const http = require('http');
+// const app = require('../server/server');
+// const mock = require('../mockData');
 
 // tests user signup and login routes
 xdescribe('GraphQL tests', () => {
