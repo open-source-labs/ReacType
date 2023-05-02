@@ -19,25 +19,29 @@ interface UserDocument extends Document {
   password: string;
 }
 
+const isTest = process.env.NODE_ENV === 'test';
+
 const mongoURI = process.env.MONGO_DB;
 const URI =
   process.env.NODE_ENV === 'production' ? mongoURI : process.env.MONGO_DB;
 
 const SALT_WORK_FACTOR = 10;
 // connect to mongo db
-mongoose
-  .connect(URI, {
-    // options for the connect method to parse the URI
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
-    useFindAndModify: false,
-    // sets the name of the DB that our collections are part of
-    dbName: 'reactype'
-  })
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
+if (!isTest) {
+  mongoose
+    .connect(URI, {
+      // options for the connect method to parse the URI
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      // stop deprecation warning for findOneAndUpdate and findOneAndDelete queries
+      useFindAndModify: false,
+      // sets the name of the DB that our collections are part of
+      dbName: 'reactype'
+    })
+    .then(() => console.log('Connected to Mongo DB.'))
+    .catch((err) => console.log(err));
+}
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },

@@ -53,7 +53,6 @@ const userController: UserController = {
       (err: newUserError, newUser) => {
         // handle error of creating a new user
         if (err) {
-          console.log('there is a mongo error', err);
           if (res.locals.signUpType === 'oauth') {
             return next();
           }
