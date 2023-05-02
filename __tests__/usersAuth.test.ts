@@ -5,13 +5,9 @@ import request from 'supertest';
 import app from '../server/server';
 import mockObj from '../mockData';
 const user = mockObj.user;
-import { sessionIsCreated } from '../app/src/helperFunctions/auth';
 
 //for creating unqiue login credentials
 const num = Math.floor(Math.random() * 1000);
-let username;
-let password;
-let isFbOauth;
 
 describe('User authentication tests', () => {
   //test connection to server
