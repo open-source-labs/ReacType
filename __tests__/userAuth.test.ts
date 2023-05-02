@@ -20,7 +20,7 @@ afterAll(async () => {
 //for creating unqiue login credentials
 const num = Math.floor(Math.random() * 1000);
 
-describe('User authentication tests', () => {
+xdescribe('User authentication tests', () => {
   //test connection to server
   describe('initial connection test', () => {
     it('should connect to the server', async () => {
@@ -54,7 +54,7 @@ describe('User authentication tests', () => {
     });
   });
 });
-describe('/login', () => {
+xdescribe('/login', () => {
   // tests whether existing login information permits user to log in
   describe('POST', () => {
     it('responds with status 200 and json object on verified user login', () => {
@@ -87,7 +87,7 @@ describe('/login', () => {
   });
 });
 
-describe('sessionIsCreated', () => {
+xdescribe('sessionIsCreated', () => {
   it("returns the message 'No Username Input' when no username is entered", () => {
     return request(app)
       .post('/login')

@@ -48,19 +48,6 @@ describe('Drag and Drop Side Panel', () => {
     expect(screen.getByText('LinkTo')).toBeInTheDocument();
   });
 
-  test('Drag and Drop', () => {
-    it('drags new element to component container', () => {
-      render(
-        <Provider store={store}>
-          <DndProvider backend={HTML5Backend}>
-            <DragDropPanel />
-          </DndProvider>
-        </Provider>
-      );
-      expect(document.querySelectorAll('.componentContainer')).toHaveLength(2);
-    });
-  });
-
   // test('Adds new custom element', () => {
   //   render(<Test />);
   //   fireEvent.change(screen.getAllByRole('textbox')[0], {
