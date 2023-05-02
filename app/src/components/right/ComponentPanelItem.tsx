@@ -5,6 +5,7 @@ import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 /*
 DESCRIPTION: This component is each box beneath the 'root components' and
   'reusable components' (in classic React mode) headings. Drag-and-drop
@@ -22,7 +23,7 @@ const ComponentPanelItem: React.FC<{
   isThemeLight: boolean;
 }> = ({ name, id, root, isFocus, isThemeLight }) => {
   const classes = useStyles();
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // useDrag hook allows components in left panel to be drag source
   const [{ isDragging }, drag] = useDrag({

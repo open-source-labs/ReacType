@@ -7,6 +7,7 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import globalDefaultStyle from '../../public/styles/globalDefaultStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function DirectChildComponent({
   childId,
@@ -14,7 +15,7 @@ function DirectChildComponent({
   typeId,
   name
 }: ChildElement) {
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
   // find the top-level component corresponding to this instance of the component
@@ -57,10 +58,7 @@ function DirectChildComponent({
   };
 
   const combinedStyle = combineStyles(
-    combineStyles(
-      combineStyles(globalDefaultStyle, referencedComponent.style)
-      // style
-    ),
+    combineStyles(globalDefaultStyle, referencedComponent.style),
     interactiveStyle
   );
   // Renders name and not children of subcomponents to clean up Canvas view when dragging components

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import makeStyles from '@mui/styles/makeStyles';
-import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import Select from '@mui/material/Select';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 // ------------------------------------------------
 import MenuItem from '@mui/material/MenuItem';
@@ -27,8 +27,7 @@ Dragging works in the same manner as in ComponentPanelItem.tsx
 // a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
   const classes = useStyles(); 's there, '
-  // const [state,] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store:RootState) => store.appState)
 
   // find the root components that can be associated with a route
   // These will be the components that are displayed in the dropdown adjacent to "Route Link"

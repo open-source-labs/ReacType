@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import StateContext from '../../../context/context';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,7 +34,7 @@ export default function DataTable(props) {
   const {
     currComponentState, parentProps, clickedComp, data,
   } = props;
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store:RootState) => store.appState)
 
   // determine if the current component is a root component
   let isRoot = false;

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+//these 3 lines below are for the electron version
 import GetAppIcon from '@mui/icons-material/GetApp';
 import Button from '@mui/material/Button';
 import exportProject from '../../utils/exportProject.util';

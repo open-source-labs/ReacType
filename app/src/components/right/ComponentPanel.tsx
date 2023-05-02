@@ -5,11 +5,12 @@ import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
@@ -186,7 +187,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                     : `${classes.inputField} ${classes.darkThemeFontColor}`
                 }
                 // inputprops and helpertext must be lowercase
-                inputProps={{ className: classes.input }}
+                // inputProps={{ className: classes.input }}
                 value={compName}
                 // Doesn't accept boolean value needs to be a string
                 error={errorStatus}
