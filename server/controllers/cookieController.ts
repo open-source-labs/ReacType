@@ -1,10 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-interface CookieController {
-  setSSIDCookie: (req: Request, res: Response, next: NextFunction) => void;
-}
+import { CookieController } from '../interfaces';
 
 const cookieController: CookieController = {
-
   // setSSIDCookie - store the user id from database in cookie
   setSSIDCookie: (req, res, next) => {
     // set cookie with key 'ssid' and value to user's id
@@ -15,6 +11,6 @@ const cookieController: CookieController = {
     });
     return next();
   }
-}
+};
 
 export default cookieController;

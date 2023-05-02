@@ -130,6 +130,28 @@ describe('componentReducer Test', () => {
     });
   });
 
+  // TEST 'UPDATE CSS'
+  describe('updateCss', () => {
+    it('should add style to focused component', () => {
+      const action: Action = {
+        type: 'appState/updateCss',
+        payload: {
+          style: {
+            backgroundColor: 'gray'
+          },
+          contextParam: {
+            allContext: []
+          }
+        }
+      };
+      state = reducer(state, action);
+      // expect the style property on targeted comp to equal style property in payload
+      expect(state.components[0].children[1].style).toEqual(
+        action.payload.style
+      );
+    });
+  });
+
   // TEST 'DELETE CHILD'
   describe('deleteChild', () => {
     it('should delete child of focused top-level component', () => {
@@ -172,34 +194,6 @@ describe('componentReducer Test', () => {
       state = reducer(state, action);
       expect(state.canvasFocus.componentId).toEqual(2);
       expect(state.canvasFocus.childId).toEqual(null);
-    });
-  });
-
-  // TEST 'UPDATE CSS'
-  xdescribe('updateCss', () => {
-    it('should add style to focused component', () => {
-      const action: Action = {
-        type: 'appState/updateCss',
-        payload: {
-          style: {
-            backgroundColor: 'gray',
-          },
-          contextParam: {
-            allContext: []
-          }
-        }
-      };
-      state = reducer(state, action);
-      const styledComp = state.components.find(
-        (comp) => comp.id === state.canvasFocus.componentId
-      );
-      console.log('styledcomp',styledComp)
-      // expect the style property on targeted comp to equal style property in payload
-      if (styledComp) {
-      expect(styledComp.style.backgroundColor).toEqual(
-        action.payload.style.backgroundColor
-      );
-      }
     });
   });
 
@@ -271,6 +265,7 @@ describe('componentReducer Test', () => {
       expect(state.components[focusIndex].future.length).toEqual(1);
     });
   });
+
   // TEST 'REDO'
   xdescribe('redo', () => {
     it('should remove the last element from the future array and push it to the past array', () => {
@@ -284,6 +279,7 @@ describe('componentReducer Test', () => {
       expect(state.components[focusIndex].past.length).toEqual(1);
     });
   });
+
   // TEST 'RESET STATE'
   describe('resetState', () => {
     it('should reset project to initial state', () => {

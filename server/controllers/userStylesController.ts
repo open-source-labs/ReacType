@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { Request, Response, NextFunction } from 'express';
+import { UserStylesController } from '../interfaces';
 
-const userStylesController = {
+const userStylesController: UserStylesController = {
   // Rewrite file
-  saveCssFile: (req: Request, res: Response, next: NextFunction) => {
+  saveCssFile: (req, res, next) => {
     const newText = req.body.data;
     fs.writeFile(
       path.join(__dirname, '../assets/renderDemo.css'),

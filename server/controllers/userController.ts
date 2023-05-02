@@ -1,20 +1,7 @@
 // middleware functions create a new user and verify users
 import { Users } from '../models/reactypeModels';
 import bcrypt from 'bcryptjs';
-import { Request, Response, NextFunction } from 'express';
-import { NativeError } from 'mongoose';
-
-interface newUserError extends NativeError {
-  keyValue: {
-    email: string;
-    username: string;
-  };
-}
-
-type UserController = {
-  createUser: (req: Request, res: Response, next: NextFunction) => void;
-  verifyUser: (req: Request, res: Response, next: NextFunction) => void;
-};
+import { newUserError, UserController } from '../interfaces';
 
 // random password is subtituted when user uses Oauth and no new password is provided
 const randomPassword = () => {
@@ -66,7 +53,6 @@ const userController: UserController = {
       (err: newUserError, newUser) => {
         // handle error of creating a new user
         if (err) {
-          console.log('there is a mongo error', err);
           if (res.locals.signUpType === 'oauth') {
             return next();
           }
