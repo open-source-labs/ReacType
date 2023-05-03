@@ -535,7 +535,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     );
   }
   return (
-    <div className="column right" id="rightContainer" style={style.style}>
+    <div
+      className="column right"
+      id="rightContainer"
+      style={style.style}
+      data-testid="customization"
+    >
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
