@@ -105,10 +105,4 @@ describe('invalid input test', () => {
       ).toHaveLength(2);
     });
   });
-
-  //test for edge cases
-  //trigger an event for each input
-  //value being empty string
-  //grab error message
-  //check if it matches what is expected
 });

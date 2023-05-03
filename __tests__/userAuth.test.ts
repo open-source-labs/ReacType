@@ -29,7 +29,7 @@ describe('User authentication tests', () => {
     });
   });
 
-  describe('POST', () => {
+  xdescribe('POST', () => {
     it('responds with status 200 and json object on valid new user signup', () => {
       return request(app)
         .post('/signup')

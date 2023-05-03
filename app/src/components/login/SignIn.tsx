@@ -80,7 +80,9 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
 
   const [invalidUserMsg, setInvalidUserMsg] = useState('');
   const [invalidPassMsg, setInvalidPassMsg] = useState('');
@@ -250,6 +252,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
               onChange={handleChange}
               helperText={invalidUserMsg}
               error={invalidUser}
+              data-testid="username-input"
             />
             <TextField
               className={classes.root}
@@ -266,6 +269,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
               onChange={handleChange}
               helperText={invalidPassMsg}
               error={invalidPass}
+              data-testid="password-input"
             />
 
             <Button
