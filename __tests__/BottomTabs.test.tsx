@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
+import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
 import store from '../app/src/redux/store';
 import ComponentPanel from '../app/src/components/right/ComponentPanel';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
@@ -25,8 +26,8 @@ describe('Bottom Panel Render Test', () => {
   });
 });
 
-describe('invalid input test', () => {
-  test('New Component should display correct warning on empty input', async () => {
+describe('Creation Panel', () => {
+  test('should invalidate empty field in New Component name', async () => {
     render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
@@ -42,7 +43,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('New Component should display correct warning when input contains symbols', async () => {
+  test('should invalidate New Component name containing symbols', async () => {
     render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
@@ -64,7 +65,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('html tag should display error if input is empty', async () => {
+  test('should invalidate empty field in HTML Tag tag', async () => {
     render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
@@ -78,7 +79,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('element name should display error if input starts with symbol', async () => {
+  test('should invalidate HTML Element name containing symbols', async () => {
     render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
@@ -104,5 +105,17 @@ describe('invalid input test', () => {
         screen.getAllByText('* Input must start with a letter. *')
       ).toHaveLength(2);
     });
+  });
+});
+
+describe('Context Manager', () => {
+  test('should contain all buttons and input fields', () => {
+    render(
+      <Provider store={store}>
+        <ContextManager />
+      </Provider>
+    );
+    expect(screen.getAllByRole('textbox')).toHaveLength(2);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
   });
 });
