@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import { useSelector } from 'react-redux';
 import { ChildElement } from '../../../interfaces/Interfaces';
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../redux/store';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -18,8 +18,11 @@ function Tree({
   data,  setCurrComponentState, setParentProps, setClickedComp,
 }) {
   const state = useSelector((store:RootState) => store.appState)
-  const svgRef = useRef();
-  const wrapperRef = useRef();
+  // Provide types for the refs.
+  // In this case HTMLDivElement for the wrapperRef and SVGSVGElement for the svgRef.
+  // create mutable ref objects with initial values of null
+  const svgRef = useRef<SVGSVGElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const xPosition = 50;
   const textAndBorderColor = '#bdbdbd';
   const dimensions = useResizeObserver(wrapperRef);
@@ -70,10 +73,8 @@ function Tree({
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
     
-    // if (wrapperRef.current) {
     const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
-    // }
 
     let root;
     let rootName;
