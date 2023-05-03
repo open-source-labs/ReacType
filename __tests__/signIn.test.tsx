@@ -38,7 +38,6 @@ describe('sign in page', () => {
   });
   test('should invalidate empty password field', () => {
     render(<TestSignIn />);
-    console.log(screen.getAllByRole('textbox'));
     fireEvent.change(screen.getByRole('textbox'), {
       target: {
         value: 'username'

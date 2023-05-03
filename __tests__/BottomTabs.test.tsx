@@ -7,6 +7,7 @@ import ContextManager from '../app/src/components/ContextAPIManager/ContextManag
 import store from '../app/src/redux/store';
 import ComponentPanel from '../app/src/components/right/ComponentPanel';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
+import StateManager from '../app/src/components/StateManagement/StateManagement';
 
 describe('Bottom Panel Render Test', () => {
   test('should render all seven tabs', () => {
@@ -109,7 +110,7 @@ describe('Creation Panel', () => {
 });
 
 describe('Context Manager', () => {
-  test('should contain all buttons and input fields', () => {
+  test('Create/Edit Tab should contain all buttons and input fields', () => {
     render(
       <Provider store={store}>
         <ContextManager />
@@ -117,5 +118,30 @@ describe('Context Manager', () => {
     );
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getByText('Context Name')).toBeInTheDocument();
+  });
+  test('Create/Edit Tab should contain all buttons and input fields', () => {
+    render(
+      <Provider store={store}>
+        <ContextManager />
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByText('Assign'));
+    expect(screen.getByText('Contexts Consumed')).toBeInTheDocument();
+  });
+});
+
+describe('State Manager', () => {
+  test('Should render all containers', () => {
+    render(
+      <Provider store={store}>
+        <StateManager isThemeLight={null} />
+      </Provider>
+    );
+    expect(screen.getAllByRole('heading')).toHaveLength(4);
+    expect(screen.getAllByRole('textbox')).toHaveLength(2);
+    expect(screen.getAllByRole('grid')).toHaveLength(3);
+    expect(screen.getAllByRole('column header')).toHaveLength(9);
   });
 });
