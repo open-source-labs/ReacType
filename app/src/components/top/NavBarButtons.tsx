@@ -29,6 +29,7 @@ import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSl
 import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
 import config from '../../../../config';
 const { API_BASE_URL } = config;
+import { RootState } from '../../redux/store';
 
 let socket;
 
@@ -58,7 +59,7 @@ function initSocketConnection(roomCode) {
   // receiving the message from the back end
   socket.on('receive message', (event) => {
     // console.log('message from server: ', event);
-    let currentStore = JSON.stringify(store.getState());
+    let currentStore: any = JSON.stringify(store.getState());
     if (currentStore !== event) {
       currentStore = JSON.parse(currentStore);
       event = JSON.parse(event);
@@ -153,6 +154,7 @@ const StyledMenu = withStyles({
       vertical: 'top',
       horizontal: 'center'
     }}
+    open={true}
     {...props}
   />
 ));
@@ -176,7 +178,7 @@ function navbarDropDown(props) {
   const [confirmRoom, setConfirmRoom] = React.useState('');
   const classes = useStyles();
 
-  const { isDarkMode, state, joinedRoom } = useSelector((store) => ({
+  const { isDarkMode, state, joinedRoom } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState,
     joinedRoom: store.roomCodeSlice.roomCode
@@ -340,7 +342,7 @@ function navbarDropDown(props) {
       ></input>
       <button onClick={() => joinRoom()}>Join Room</button>
       <p>In Room: {joinedRoom}</p>
-      <LoginButton style={{ marginLeft: '10%' }} />
+      <LoginButton/>
       <StyledMenu // Dropdown menu connected to Manage Project Button
         id="customized-menu"
         anchorEl={anchorEl}

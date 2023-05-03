@@ -1,14 +1,17 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
+//commenting out the line below breaks the app
 import logo from '../../public/icons/win/logo.png';
 import NavbarDropDown from './NavBarButtons';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+
 
 const NavBar = (props) => {
   
   // for dropdown navbar
   const [dropMenu, setDropMenu] = React.useState(false);
-  const isDarkMode = useSelector(state=>state.darkMode.isDarkMode)
+  const isDarkMode = useSelector((state:RootState)=>state.darkMode.isDarkMode)
 
   return (
   <nav className="main-navbar" style={isDarkMode ? {backgroundColor: '#013365'} : {backgroundColor: 'white'}}>
