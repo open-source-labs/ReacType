@@ -142,6 +142,6 @@ describe('State Manager', () => {
     expect(screen.getAllByRole('heading')).toHaveLength(4);
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getAllByRole('grid')).toHaveLength(3);
-    expect(screen.getAllByRole('column header')).toHaveLength(9);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(9);
   });
 });
