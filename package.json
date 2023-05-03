@@ -77,7 +77,7 @@
     "dist-linux": "electron-builder --linux",
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
-    "test": "NODE_ENV=test jest --verbose --detectOpenHandles --forceExit",
+    "test": "NODE_ENV=test jest --verbose --coverage",
     "server": "cross-env NODE_ENV=development nodemon server/server.ts",
     "start": "node server/server.ts"
   },

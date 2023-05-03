@@ -18,7 +18,7 @@ import TablePassedInProps from './TablePassedInProps';
 import { RootState } from '../../../../redux/store';
 
 const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
-  const { state, contextParam } = useSelector((store:RootState) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
@@ -526,11 +526,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: 'rgba(0,0,0,0.54)'
   },
   formControl: {
-    margin: theme.spacing(1),
+    margin: '8px',
     minWidth: 120
   },
   selectEmpty: {
-    marginTop: theme.spacing(2)
+    marginTop: '16px'
   },
   color: {
     color: '#fff'

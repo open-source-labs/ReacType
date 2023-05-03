@@ -1,5 +1,5 @@
-import passport from 'passport';
-import passportGithub2 from 'passport-github2';
+const passport = require('passport');
+const passportGithub2 = require('passport-github2');
 import user from '../models/Oauth-model';
 import GoogleStrategy from 'passport-google-oauth20';
 import config from '../../config';

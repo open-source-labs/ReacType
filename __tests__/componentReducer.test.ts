@@ -1,7 +1,6 @@
 import reducer from '../app/src/redux/reducers/slice/appStateSlice';
 import { State, Action } from '../app/src/interfaces/Interfaces';
 import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
-import styled from '@emotion/styled';
 
 describe('componentReducer Test', () => {
   let state: State = initialState;

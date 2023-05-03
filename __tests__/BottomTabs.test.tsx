@@ -3,9 +3,11 @@ import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
+import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
 import store from '../app/src/redux/store';
 import ComponentPanel from '../app/src/components/right/ComponentPanel';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
+import StateManager from '../app/src/components/StateManagement/StateManagement';
 
 describe('Bottom Panel Render Test', () => {
   test('should render all seven tabs', () => {
@@ -25,8 +27,8 @@ describe('Bottom Panel Render Test', () => {
   });
 });
 
-describe('invalid input test', () => {
-  test('New Component should display correct warning on empty input', async () => {
+describe('Creation Panel', () => {
+  test('should invalidate empty field in New Component name', async () => {
     render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
@@ -42,7 +44,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('New Component should display correct warning when input contains symbols', async () => {
+  test('should invalidate New Component name containing symbols', async () => {
     render(
       <Provider store={store}>
         <ComponentPanel isThemeLight={null} />
@@ -64,7 +66,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('html tag should display error if input is empty', async () => {
+  test('should invalidate empty field in HTML Tag tag', async () => {
     render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
@@ -78,7 +80,7 @@ describe('invalid input test', () => {
     });
   });
 
-  test('element name should display error if input starts with symbol', async () => {
+  test('should invalidate HTML Element name containing symbols', async () => {
     render(
       <Provider store={store}>
         <HTMLPanel isThemeLight={null} />
@@ -105,10 +107,41 @@ describe('invalid input test', () => {
       ).toHaveLength(2);
     });
   });
+});
 
-  //test for edge cases
-  //trigger an event for each input
-  //value being empty string
-  //grab error message
-  //check if it matches what is expected
+describe('Context Manager', () => {
+  test('Create/Edit Tab should contain all buttons and input fields', () => {
+    render(
+      <Provider store={store}>
+        <ContextManager />
+      </Provider>
+    );
+    expect(screen.getAllByRole('textbox')).toHaveLength(2);
+    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getByText('Context Name')).toBeInTheDocument();
+  });
+  test('Create/Edit Tab should contain all buttons and input fields', () => {
+    render(
+      <Provider store={store}>
+        <ContextManager />
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByText('Assign'));
+    expect(screen.getByText('Contexts Consumed')).toBeInTheDocument();
+  });
+});
+
+describe('State Manager', () => {
+  test('Should render all containers', () => {
+    render(
+      <Provider store={store}>
+        <StateManager isThemeLight={null} />
+      </Provider>
+    );
+    expect(screen.getAllByRole('heading')).toHaveLength(4);
+    expect(screen.getAllByRole('textbox')).toHaveLength(2);
+    expect(screen.getAllByRole('grid')).toHaveLength(3);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+  });
 });
