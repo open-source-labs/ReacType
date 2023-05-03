@@ -8,6 +8,40 @@ import store from '../app/src/redux/store';
 import ComponentPanel from '../app/src/components/right/ComponentPanel';
 import HTMLPanel from '../app/src/components/left/HTMLPanel';
 import StateManager from '../app/src/components/StateManagement/StateManagement';
+import CustomizationPanel from '../app/src/containers/CustomizationPanel';
+import { BrowserRouter } from 'react-router-dom';
+
+
+// newState.appState.components[0].children = [
+//   {
+//     type: 'HTML Element',
+//     typeId: 1000,
+//     name: 'separator',
+//     childId: 1000,
+//     style: {
+//       border: 'none'
+//     },
+//     attributes: {},
+//     events: {},
+//     children: [],
+//     stateProps: [],
+//     passedInProps: []
+//   },
+//   {
+//     type: 'HTML Element',
+//     typeId: 11,
+//     name: 'div',
+//     childId: 1,
+//     style: {},
+//     attributes: {},
+//     events: {},
+//     children: [],
+//     stateProps: [],
+//     passedInProps: []
+//   }
+// ];
+
+// newState.canvasFocus.childId = 1;
 
 describe('Bottom Panel Render Test', () => {
   test('should render all seven tabs', () => {
@@ -143,5 +177,25 @@ describe('State Manager', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getAllByRole('grid')).toHaveLength(3);
     expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+  });
+});
+
+describe('Customization Panel', () => {
+  test('Should render customization container with no elements added', () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <CustomizationPanel />
+        </BrowserRouter>
+      </Provider>
+    );
+    console.log(store.appState);
+    expect(screen.getByText('Parent Component:')).toBeInTheDocument();
+    expect(screen.getByText('App')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Drag and drop an html element (or focus one) to see what happens!'
+      )
+    ).toBeInTheDocument();
   });
 });
