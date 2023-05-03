@@ -66,7 +66,7 @@ app.use(
 
 // V.15 Team: Github Oauth and Google Oauth works! (starts here)
 const passport = require('passport');
-import passportSetup from './routers/passport-setup';
+const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
