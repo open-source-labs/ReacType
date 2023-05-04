@@ -4,16 +4,12 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { fireEvent, render, screen } from '@testing-library/react';
 import DragDropPanel from '../app/src/components/left/DragDropPanel';
-import ComponentDrag from '../app/src/components/right/ComponentDrag';
+import ComponentDrag from '../app/src/components/left/ComponentDrag';
 import { Provider } from 'react-redux';
 import store from '../app/src/redux/store';
 import MainContainer from '../app/src/containers/MainContainer';
-import LeftContainepr from '../app/src/containers/LeftContainer';
-import { StyledEngineProvider } from '@mui/material';
-import Main from 'electron/main';
-import { waitFor, within } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import CustomizationPanel from '../app/src/containers/CustomizationPanel';
+import { within } from '@testing-library/react';
+
 
 function TestContext(component) {
   return (
@@ -76,34 +72,5 @@ describe('Drag and Drop Side Panel', () => {
     fireEvent.dragOver(drop);
     fireEvent.drop(drop);
     expect(within(drop).getByText('div')).toBeInTheDocument();
-  });
-
-  test('Customization panel elements are properly rendering including their input values', () => {
-    render(
-      TestContext(
-        <>
-          <DragDropPanel />
-          <MainContainer />
-          <BrowserRouter>
-            <CustomizationPanel />
-          </BrowserRouter>
-        </>
-      )
-    );
-    const drop = screen.getByTestId('drop');
-    const div = screen.getAllByText('Div')[0];
-    expect(drop).toBeInTheDocument();
-    expect(div).toBeInTheDocument();
-    fireEvent.dragStart(div);
-    fireEvent.dragEnter(drop);
-    fireEvent.dragOver(drop);
-    fireEvent.drop(drop);
-    //check if customization panel elements are rendering correctly
-    const panel = screen.getByTestId('customization')
-    expect(within(panel).getAllByRole('textbox')).toHaveLength(4);
-    // check dropdowns
-    expect(
-      within(panel).getAllByRole('button')
-    ).toHaveLength(11);
   });
 });

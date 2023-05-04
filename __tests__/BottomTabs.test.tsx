@@ -1,7 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  within
+} from '@testing-library/react';
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
 import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
 import store from '../app/src/redux/store';
@@ -10,38 +16,10 @@ import HTMLPanel from '../app/src/components/left/HTMLPanel';
 import StateManager from '../app/src/components/StateManagement/StateManagement';
 import CustomizationPanel from '../app/src/containers/CustomizationPanel';
 import { BrowserRouter } from 'react-router-dom';
-
-
-// newState.appState.components[0].children = [
-//   {
-//     type: 'HTML Element',
-//     typeId: 1000,
-//     name: 'separator',
-//     childId: 1000,
-//     style: {
-//       border: 'none'
-//     },
-//     attributes: {},
-//     events: {},
-//     children: [],
-//     stateProps: [],
-//     passedInProps: []
-//   },
-//   {
-//     type: 'HTML Element',
-//     typeId: 11,
-//     name: 'div',
-//     childId: 1,
-//     style: {},
-//     attributes: {},
-//     events: {},
-//     children: [],
-//     stateProps: [],
-//     passedInProps: []
-//   }
-// ];
-
-// newState.canvasFocus.childId = 1;
+import DragDropPanel from '../app/src/components/left/DragDropPanel';
+import MainContainer from '../app/src/containers/MainContainer';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 describe('Bottom Panel Render Test', () => {
   test('should render all seven tabs', () => {
@@ -154,7 +132,7 @@ describe('Context Manager', () => {
     expect(screen.getAllByRole('button')).toHaveLength(3);
     expect(screen.getByText('Context Name')).toBeInTheDocument();
   });
-  test('Create/Edit Tab should contain all buttons and input fields', () => {
+  test('Assign Tab should contain all buttons and input fields', () => {
     render(
       <Provider store={store}>
         <ContextManager />
@@ -181,7 +159,7 @@ describe('State Manager', () => {
 });
 
 describe('Customization Panel', () => {
-  test('Should render customization container with no elements added', () => {
+  test('Should render customization container with no elements in Canvas', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -189,7 +167,6 @@ describe('Customization Panel', () => {
         </BrowserRouter>
       </Provider>
     );
-    console.log(store.appState);
     expect(screen.getByText('Parent Component:')).toBeInTheDocument();
     expect(screen.getByText('App')).toBeInTheDocument();
     expect(
@@ -197,5 +174,31 @@ describe('Customization Panel', () => {
         'Drag and drop an html element (or focus one) to see what happens!'
       )
     ).toBeInTheDocument();
+  });
+  test('Should render all buttons and inputs when Canvas has element', () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <DndProvider backend={HTML5Backend}>
+            <DragDropPanel />
+            <MainContainer />
+            <CustomizationPanel />
+          </DndProvider>
+        </BrowserRouter>
+      </Provider>
+    );
+    const drop = screen.getByTestId('drop');
+    const div = screen.getAllByText('Div')[0];
+    expect(drop).toBeInTheDocument();
+    expect(div).toBeInTheDocument();
+    fireEvent.dragStart(div);
+    fireEvent.dragEnter(drop);
+    fireEvent.dragOver(drop);
+    fireEvent.drop(drop);
+    //check if customization panel elements are rendering correctly
+    const panel = screen.getByTestId('customization');
+    expect(within(panel).getAllByRole('textbox')).toHaveLength(4);
+    // check dropdowns
+    expect(within(panel).getAllByRole('button')).toHaveLength(11);
   });
 });
