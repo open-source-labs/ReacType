@@ -87,8 +87,11 @@ const StylesEditor: React.FC<{
         name="Css_div"
         fontSize={16}
         tabSize={2}
-        enableBasicAutocompletion={true}
-        enableLiveAutocompletion={true}
+        setOptions={{
+          useWorker: false,
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true
+        }}
       />
       <Fab className='bttn' onClick={saveCss} color="secondary" aria-label="add">
         <SaveIcon />
