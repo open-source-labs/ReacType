@@ -1,35 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useStore, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Chart } from 'react-google-charts';
 import Grid from '@mui/material/Grid';
 import { RootState } from '../../../redux/store';
 
 const DisplayContainer = () => {
-  const allContext = useSelector((store: RootState) => store.contextSlice);
-  // const { allContext } = store.getState().contextSlice;
+  const allContext = useSelector(
+    (store: RootState) => store.contextSlice.allContext
+  );
   const [contextData, setContextData] = useState([]);
 
   //build data for Google charts, tree rendering
   useEffect(() => {
-    console.log('this is context data', allContext);
-    transformData(allContext);
+    transformData();
   }, []);
 
-  [
-    {
-      name: 'Test',
-      values: [
-        {
-          key: 'sdafasdasdfsd',
-          value: 'fasdfas'
-        }
-      ],
-      components: ['Dfasdfa']
-    }
-  ];
-
-  const transformData = (contexts) => {
-    const formattedData = contexts.allContext
+  const transformData = () => {
+    const formattedData = allContext
       .map((obj) => {
         return obj.components.map((component) => {
           return [`App ${obj.name} ${component}`];
@@ -46,8 +33,10 @@ const DisplayContainer = () => {
       word: 'App'
     }
   };
+
   return (
     <Grid container display="flex" justifyContent="center">
+      {contextData.length < 2 && <h2>No Contexts consumed</h2>}
       <Grid item>
         <Chart
           chartType="WordTree"
