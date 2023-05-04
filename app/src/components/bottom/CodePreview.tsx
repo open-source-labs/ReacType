@@ -103,6 +103,9 @@ const CodePreview: React.FC<{
         readOnly={false}
         fontSize={18}
         tabSize={2}
+        setOptions={{
+          useWorker: false
+        }}
       />
     </div>
   );
