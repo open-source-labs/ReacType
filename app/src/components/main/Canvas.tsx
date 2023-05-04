@@ -6,16 +6,21 @@ import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
 import Arrow from './Arrow';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus, addChild, snapShotAction } from '../../redux/reducers/slice/appStateSlice';
+import {
+  changeFocus,
+  addChild,
+  snapShotAction
+} from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 function Canvas(props): JSX.Element {
-
-  const { state, contextParam,isDarkMode } = useSelector((store:RootState) => ({
-    state: store.appState,
-    contextParam: store.contextSlice,
-    isDarkMode: store.darkMode.isDarkMode
-  }));
+  const { state, contextParam, isDarkMode } = useSelector(
+    (store: RootState) => ({
+      state: store.appState,
+      contextParam: store.contextSlice,
+      isDarkMode: store.darkMode.isDarkMode
+    })
+  );
   const dispatch = useDispatch();
 
   Arrow.deleteLines();
@@ -24,23 +29,30 @@ function Canvas(props): JSX.Element {
     (elem: Component) => elem.id === state.canvasFocus.componentId
   );
 
-
   // changes focus of the canvas to a new component / child
-  const changeFocusFunction = (componentId?: number, childId?: number | null) => {
-    dispatch(changeFocus({ componentId, childId}));
+  const changeFocusFunction = (
+    componentId?: number,
+    childId?: number | null
+  ) => {
+    dispatch(changeFocus({ componentId, childId }));
   };
   // onClickHandler is responsible for changing the focused component and child component
   function onClickHandler(event) {
     event.stopPropagation();
-    changeFocusFunction(state.canvasFocus.componentId,null);
+    changeFocusFunction(state.canvasFocus.componentId, null);
   }
 
   // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
   const snapShotFunc = () => {
     // make a deep clone of state
-      const deepCopiedState = JSON.parse(JSON.stringify(state));
-      const focusIndex = state.canvasFocus.componentId - 1;
-    dispatch(snapShotAction({focusIndex: focusIndex, deepCopiedState: deepCopiedState}))
+    const deepCopiedState = JSON.parse(JSON.stringify(state));
+    const focusIndex = state.canvasFocus.componentId - 1;
+    dispatch(
+      snapShotAction({
+        focusIndex: focusIndex,
+        deepCopiedState: deepCopiedState
+      })
+    );
   };
 
   // This hook will allow the user to drag items from the left panel on to the canvas
@@ -55,16 +67,16 @@ function Canvas(props): JSX.Element {
         return;
       }
       // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
-      if (item.newInstance && item.instanceType !== "Component") {
-   dispatch(addChild({
-    type: item.instanceType,
-    typeId: item.instanceTypeId,
-    childId: null,
-    contextParam: contextParam
-
-  }))
-   
-      } else if (item.newInstance && item.instanceType === "Component") {
+      if (item.newInstance && item.instanceType !== 'Component') {
+        dispatch(
+          addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          })
+        );
+      } else if (item.newInstance && item.instanceType === 'Component') {
         let hasDiffParent = false;
         const components = state.components;
         let newChildName = '';
@@ -95,15 +107,17 @@ function Canvas(props): JSX.Element {
           }
         }
         // if (!hasDiffParent) {
-          dispatch(addChild({
+        dispatch(
+          addChild({
             type: item.instanceType,
             typeId: item.instanceTypeId,
             childId: null,
             contextParam: contextParam
-          }))
+          })
+        );
       }
     },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isOver: !!monitor.isOver()
     })
   });
@@ -116,7 +130,7 @@ function Canvas(props): JSX.Element {
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
-    boxSizing: 'border-box',
+    boxSizing: 'border-box'
   };
 
   const darkCanvasStyle = {
@@ -124,17 +138,26 @@ function Canvas(props): JSX.Element {
     minHeight: '100%',
     backgroundColor: isOver ? '#4d4d4d' : '#21262c',
     border: '1px solid #FBFBF2',
-    borderStyle: isOver ? 'dotted' : 'solid',
+    borderStyle: isOver ? 'dotted' : 'solid'
   };
   // Combine the default styles of the canvas with the custom styles set by the user for that component
   // The render children function renders all direct children of a given component
   // Direct children are draggable/clickable
 
   const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
-  const darkCombinedCanvasStyle = combineStyles(darkCanvasStyle, currentComponent.style);
+  const darkCombinedCanvasStyle = combineStyles(
+    darkCanvasStyle,
+    currentComponent.style
+  );
   return (
-    <div className={'componentContainer'} ref={drop} style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle} onClick={onClickHandler}>
-       {renderChildren(currentComponent.children)}
+    <div
+      className={'componentContainer'}
+      ref={drop}
+      data-testid="drop"
+      style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
+      onClick={onClickHandler}
+    >
+      {renderChildren(currentComponent.children)}
     </div>
   );
 }

@@ -535,7 +535,12 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     );
   }
   return (
-    <div className="column right" id="rightContainer" style={style.style}>
+    <div
+      className="column right"
+      id="rightContainer"
+      style={style.style}
+      data-testid="customization"
+    >
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
@@ -841,6 +846,21 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
+                  style={{ backgroundColor: 'green' }}
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleSave}
+                  id="saveButton"
+                >
+                  SAVE
+                </Button>
+              </div>
+              <div className={classes.buttonRow}>
+                <Button
+                  variant="contained"
                   color="primary"
                   className={
                     isThemeLight
@@ -853,6 +873,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   CSS
                 </Button>
               </div>
+
               <div>
                 <Button
                   variant="contained"

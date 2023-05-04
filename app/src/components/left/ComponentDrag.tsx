@@ -1,14 +1,16 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import ComponentPanelItem from './ComponentPanelItem';
+import ComponentPanelItem from '../right/ComponentPanelItem';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const state = useSelector((store:RootState) => store.appState)
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
+  const state = useSelector((store: RootState) => store.appState);
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
   const isFocus = (targetId: Number) => {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -19,11 +21,26 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
       <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
-        <h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}>{state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Pages' : 'Root Components'}</h4>
-        <Grid container direction="row" justifyContent="center" alignItems="center">
+        <h4
+          className={
+            !isDarkMode
+              ? classes.lightThemeFontColor
+              : classes.darkThemeFontColor
+          }
+        >
+          {state.projectType === 'Next.js' || state.projectType === 'Gatsby.js'
+            ? 'Pages'
+            : 'Root Components'}
+        </h4>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
           {state.components
-            .filter(comp => state.rootComponents.includes(comp.id))
-            .map(comp => {
+            .filter((comp) => state.rootComponents.includes(comp.id))
+            .map((comp) => {
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -33,16 +50,28 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
                   root={true}
                   isThemeLight={isThemeLight}
                 />
-
               );
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}>Reusable Components</h4>
-        <Grid container direction="row" justifyContent="center" alignItems="center">
+        <h4
+          className={
+            !isDarkMode
+              ? classes.lightThemeFontColor
+              : classes.darkThemeFontColor
+          }
+        >
+          Reusable Components
+        </h4>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
           {state.components
-            .filter(comp => !state.rootComponents.includes(comp.id))
-            .map(comp => {
+            .filter((comp) => !state.rootComponents.includes(comp.id))
+            .map((comp) => {
               return (
                 <ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -55,7 +84,6 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
               );
             })}
         </Grid>
-
       </div>
     </div>
   );
@@ -67,7 +95,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    overflow: 'auto',
+    overflow: 'auto'
   },
   panelWrapperList: {
     minHeight: '120px',
@@ -77,7 +105,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    wordWrap: 'break-word',
+    wordWrap: 'break-word'
   },
   lightThemeFontColor: {
     color: '#155084'

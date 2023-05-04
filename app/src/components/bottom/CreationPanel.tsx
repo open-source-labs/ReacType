@@ -1,6 +1,6 @@
 import React from 'react';
-import ComponentPanel from '../right/ComponentPanel'
-import HTMLPanel from '../left/HTMLPanel'
+import ComponentPanel from '../right/ComponentPanel';
+import HTMLPanel from '../left/HTMLPanel';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -10,8 +10,8 @@ const CreationPanel = (props): JSX.Element => {
   const style = useSelector((store: RootState) => store.styleSlice);
   return (
     <div className="creation-panel" style={style.style}>
-      <ComponentPanel isThemeLight={props.isThemeLight}/>
-      <HTMLPanel isThemeLight={props.isThemeLight}/>
+      <ComponentPanel isThemeLight={props.isThemeLight} />
+      <HTMLPanel isThemeLight={props.isThemeLight} />
     </div>
   );
 };
