@@ -45,11 +45,13 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9)
 ];
-{/* <Table style={{ width: 400, margin: 'auto' }}></Table> */}
+{
+  /* <Table style={{ width: 400, margin: 'auto' }}></Table> */
+}
 export default function ContextTable() {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ width: '50%'}} aria-label="customized table">
+      <Table sx={{ width: '50%' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Context</StyledTableCell>
@@ -57,7 +59,7 @@ export default function ContextTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {rows.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.name}
