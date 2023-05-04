@@ -14,6 +14,8 @@ import { RootState } from '../../redux/store';
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
   Elements' header. The boxes containing each HTML element are rendered in
   HTMLItem, which itself is rendered by this component.
+ 
+  !!! TO NAME HTML ELEMENTS in the LEFT panel !!!
 
 Central state contains all available HTML elements (stored in the HTMLTypes property).
   The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in

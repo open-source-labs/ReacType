@@ -11,7 +11,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    color: 'theme.palette.common.white'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14
@@ -48,10 +48,16 @@ export default function DataTable({ target, contextInput }) {
           <TableBody>
             {target.map((data, index) => (
               <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell
+                  style={{ color: 'black' }}
+                  component="th"
+                  scope="row"
+                >
                   {data.key}
                 </StyledTableCell>
-                <StyledTableCell align="right">{data.value}</StyledTableCell>
+                <StyledTableCell style={{ color: 'black' }} align="right">
+                  {data.value}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
