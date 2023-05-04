@@ -10,11 +10,11 @@ const DisplayContainer = () => {
   );
   const [contextData, setContextData] = useState([]);
 
-  //build data for Google charts, tree rendering
   useEffect(() => {
     transformData();
   }, []);
 
+  //formats context data for use in react google charts
   const transformData = () => {
     const formattedData = allContext
       .map((obj) => {
@@ -23,10 +23,10 @@ const DisplayContainer = () => {
         });
       })
       .flat();
-    console.log(formattedData);
     setContextData([['Phrases'], ...formattedData]);
   };
 
+  //format options for google chart
   const options = {
     wordtree: {
       format: 'implicit',
