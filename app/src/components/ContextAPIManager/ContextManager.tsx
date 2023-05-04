@@ -42,7 +42,7 @@ const ContextManager = (props): JSX.Element => {
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true} sx={{color:color}}>
-                <Tab   style={ { color: color }}label="Create/Edit" value="1" />
+                <Tab   style={{ color: color }}label="Create/Edit" value="1" />
                 <Tab style={{ color: color }} label="Assign" value="2" />
                 <Tab style={{ color: color }} label="Display" value="3" />
               </TabList>
