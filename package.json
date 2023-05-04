@@ -1,11 +1,15 @@
 {
   "name": "reactype",
-  "version": "14.0.0",
+  "version": "16.0.0 by Adam Vanek, Matteo Diterlizzi, Rachel Kucharski and Sophia Bui",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Adam Vanek",
+    "Matteo Diterlizzi",
+    "Rachel Kucharski",
+    "Sophia Bui",
     "Brett Webster",
     "Lillian Wimberly",
     "Shirley Liu",
