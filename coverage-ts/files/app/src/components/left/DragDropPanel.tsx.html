@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/DragDropPanel.tsx</td><td class="">95.21%</td><td class="">80%</td><td class="">146</td><td class="">139</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useContext } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/DragDropPanel.tsx</td><td class="">95.17%</td><td class="">80%</td><td class="">145</td><td class="">138</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
 import Grid from &#x27;@mui/material/Grid&#x27;;
 import HTMLItem from &#x27;./HTMLItem&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
@@ -32,27 +32,34 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element =&gt; {
-  const isDarkMode = useSelector((store:RootState) =&gt; store.darkMode.isDarkMode);
-const dispatch = useDispatch();
-const { state, contextParam } = useSelector((store:RootState) =&gt; ({
-  state: store.appState,
-  contextParam: store.contextSlice,
-}));
+  const isDarkMode = useSelector(
+    (store: RootState) =&gt; store.darkMode.isDarkMode
+  );
+  const dispatch = useDispatch();
+  const { state, contextParam } = useSelector((store: RootState) =&gt; ({
+    state: store.appState,
+    contextParam: store.contextSlice
+  }));
   const handleDelete = (id: number): void =&gt; {
-    dispatch(deleteElement({id:id, contextParam: contextParam}))
-
+    dispatch(deleteElement({ id: id, contextParam: contextParam }));
   };
   // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type =&gt; type.name !== &#x27;separator&#x27;);
+  const htmlTypesToRender = state.HTMLTypes.filter(
+    (type) =&gt; type.name !== &#x27;separator&#x27;
+  );
   return (
     &lt;div className={`${!isDarkMode ? &#x27;HTMLItems&#x27; : &#x27;HTMLItemsDark&#x27;}`}&gt;
       &lt;div id=&quot;HTMLItemsTopHalf&quot;&gt;
-        &lt;Grid
-          id=&quot;HTMLItemsGrid&quot;
-        &gt;
-          &lt;h3 style={ {color: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27;} }&gt;HTML ELEMENTS&lt;/h3&gt;
-          {htmlTypesToRender.map(option =&gt; {
-            if (![&#x27;Switch&#x27;, &#x27;LinkTo&#x27;, &#x27;LinkHref&#x27;, &#x27;Image&#x27;, &#x27;Route&#x27;].includes(option.name)) {
+        &lt;Grid id=&quot;HTMLItemsGrid&quot;&gt;
+          &lt;h3 style={{ color: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; }}&gt;
+            HTML ELEMENTS
+          &lt;/h3&gt;
+          {htmlTypesToRender.map((option) =&gt; {
+            if (
+              ![&#x27;Switch&#x27;, &#x27;LinkTo&#x27;, &#x27;LinkHref&#x27;, &#x27;Image&#x27;, &#x27;Route&#x27;].includes(
+                option.name
+              )
+            ) {
               return (
                 &lt;HTMLItem
                   name={option.name}
@@ -60,15 +67,22 @@ const { state, contextParam } = useSelector((store:RootState) =&gt; ({
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  
                 /&gt;
               );
             }
-
           })}
-          {state.projectType === &quot;Classic React&quot; ? &lt;h3 style={ {color: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; } }&gt;REACT ROUTER&lt;/h3&gt; : null}
-          {htmlTypesToRender.map(option =&gt; {
-            if ((option.name === &#x27;Switch&#x27; || option.name === &#x27;LinkTo&#x27; || option.name === &#x27;Route&#x27;) &amp;&amp; state.projectType === &quot;Classic React&quot;) {
+          {state.projectType === &#x27;Classic React&#x27; ? (
+            &lt;h3 style={{ color: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; }}&gt;
+              REACT ROUTER
+            &lt;/h3&gt;
+          ) : null}
+          {htmlTypesToRender.map((option) =&gt; {
+            if (
+              (option.name === &#x27;Switch&#x27; ||
+                option.name === &#x27;LinkTo&#x27; ||
+                option.name === &#x27;Route&#x27;) &amp;&amp;
+              state.projectType === &#x27;Classic React&#x27;
+            ) {
               return (
                 &lt;HTMLItem
                   name={option.name}
@@ -76,26 +90,29 @@ const { state, contextParam } = useSelector((store:RootState) =&gt; ({
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  
                 /&gt;
               );
             }
           })}
 
-            {state.projectType === &quot;Next.js&quot; ? &lt;h3 style={ {color: !isDarkMode? &#x27;#000&#x27;: &quot;#fff&quot;} }&gt;Next.js&lt;/h3&gt; : null}
-            {htmlTypesToRender.map(option =&gt; {
-              if ((option.framework === &#x27;nextjs&#x27;) &amp;&amp; state.projectType === &quot;Next.js&quot;) {
-                return (
-                  &lt;HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                    
-                  /&gt;
-                );
-              }
+          {state.projectType === &#x27;Next.js&#x27; ? (
+            &lt;h3 style={{ color: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; }}&gt;Next.js&lt;/h3&gt;
+          ) : null}
+          {htmlTypesToRender.map((option) =&gt; {
+            if (
+              option.framework === &#x27;nextjs&#x27; &amp;&amp;
+              state.projectType === &#x27;Next.js&#x27;
+            ) {
+              return (
+                &lt;HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                /&gt;
+              );
+            }
           })}
         &lt;/Grid&gt;
       &lt;/div&gt;
@@ -104,8 +121,8 @@ const { state, contextParam } = useSelector((store:RootState) =&gt; ({
 };
 
 export default DragDropPanel;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:31,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:31,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:20,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:33,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:31,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:77,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:77,&quot;character&quot;:31,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/DragDropPanel.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:31,&quot;text&quot;:&quot;icon&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 04 May 2023 20:38:19 GMT</p>
     </body>
   </html>
   

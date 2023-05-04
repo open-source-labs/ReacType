@@ -11,17 +11,19 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ComponentDrag.tsx</td><td class="">99.34%</td><td class="">80%</td><td class="">152</td><td class="">151</td><td class="">1</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/ComponentDrag.tsx</td><td class="">99.34%</td><td class="">80%</td><td class="">152</td><td class="">151</td><td class="">1</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
 import Grid from &#x27;@mui/material/Grid&#x27;;
-import ComponentPanelItem from &#x27;./ComponentPanelItem&#x27;;
+import ComponentPanelItem from &#x27;../right/ComponentPanelItem&#x27;;
 import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
 import { useSelector } from &#x27;react-redux&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element =&gt; {
   const classes = useStyles();
-  const state = useSelector((store:RootState) =&gt; store.appState)
-  const isDarkMode = useSelector((store:RootState) =&gt; store.darkMode.isDarkMode);
+  const state = useSelector((store: RootState) =&gt; store.appState);
+  const isDarkMode = useSelector(
+    (store: RootState) =&gt; store.darkMode.isDarkMode
+  );
   const isFocus = (targetId: Number) =&gt; {
     return state.canvasFocus.componentId === targetId ? true : false;
   };
@@ -32,11 +34,26 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element =&gt; {
       {/* Font size for &#x27;index&#x27; in root components in .compPanelItem h3 style.css */}
       &lt;div className={classes.panelWrapperList}&gt;
         {/* Heading just below ADD button */}
-        &lt;h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}&gt;{state.projectType === &#x27;Next.js&#x27; || state.projectType === &#x27;Gatsby.js&#x27; ? &#x27;Pages&#x27; : &#x27;Root Components&#x27;}&lt;/h4&gt;
-        &lt;Grid container direction=&quot;row&quot; justifyContent=&quot;center&quot; alignItems=&quot;center&quot;&gt;
+        &lt;h4
+          className={
+            !isDarkMode
+              ? classes.lightThemeFontColor
+              : classes.darkThemeFontColor
+          }
+        &gt;
+          {state.projectType === &#x27;Next.js&#x27; || state.projectType === &#x27;Gatsby.js&#x27;
+            ? &#x27;Pages&#x27;
+            : &#x27;Root Components&#x27;}
+        &lt;/h4&gt;
+        &lt;Grid
+          container
+          direction=&quot;row&quot;
+          justifyContent=&quot;center&quot;
+          alignItems=&quot;center&quot;
+        &gt;
           {state.components
-            .filter(comp =&gt; state.rootComponents.includes(comp.id))
-            .map(comp =&gt; {
+            .filter((comp) =&gt; state.rootComponents.includes(comp.id))
+            .map((comp) =&gt; {
               return (
                 &lt;ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -46,16 +63,28 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element =&gt; {
                   root={true}
                   isThemeLight={isThemeLight}
                 /&gt;
-
               );
             })}
         &lt;/Grid&gt;
         {/* Display all reusable components */}
-        &lt;h4 className={!isDarkMode ? classes.lightThemeFontColor : classes.darkThemeFontColor}&gt;Reusable Components&lt;/h4&gt;
-        &lt;Grid container direction=&quot;row&quot; justifyContent=&quot;center&quot; alignItems=&quot;center&quot;&gt;
+        &lt;h4
+          className={
+            !isDarkMode
+              ? classes.lightThemeFontColor
+              : classes.darkThemeFontColor
+          }
+        &gt;
+          Reusable Components
+        &lt;/h4&gt;
+        &lt;Grid
+          container
+          direction=&quot;row&quot;
+          justifyContent=&quot;center&quot;
+          alignItems=&quot;center&quot;
+        &gt;
           {state.components
-            .filter(comp =&gt; !state.rootComponents.includes(comp.id))
-            .map(comp =&gt; {
+            .filter((comp) =&gt; !state.rootComponents.includes(comp.id))
+            .map((comp) =&gt; {
               return (
                 &lt;ComponentPanelItem
                   isFocus={isFocus(comp.id)}
@@ -68,7 +97,6 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element =&gt; {
               );
             })}
         &lt;/Grid&gt;
-
       &lt;/div&gt;
     &lt;/div&gt;
   );
@@ -80,7 +108,7 @@ const useStyles = makeStyles({
     flexDirection: &#x27;column&#x27;,
     alignItems: &#x27;center&#x27;,
     flexGrow: 1,
-    overflow: &#x27;auto&#x27;,
+    overflow: &#x27;auto&#x27;
   },
   panelWrapperList: {
     minHeight: &#x27;120px&#x27;,
@@ -90,7 +118,7 @@ const useStyles = makeStyles({
     display: &#x27;flex&#x27;,
     flexDirection: &#x27;column&#x27;,
     alignItems: &#x27;center&#x27;,
-    wordWrap: &#x27;break-word&#x27;,
+    wordWrap: &#x27;break-word&#x27;
   },
   lightThemeFontColor: {
     color: &#x27;#155084&#x27;
@@ -101,8 +129,8 @@ const useStyles = makeStyles({
 });
 
 export default ComponentDrag;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ComponentDrag.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/ComponentDrag.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 04 May 2023 20:38:19 GMT</p>
     </body>
   </html>
   

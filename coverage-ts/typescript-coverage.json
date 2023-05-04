@@ -7676,118 +7676,132 @@
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
       "line": 7,
+      "character": 2,
+      "text": "reacTypeApp",
+      "kind": 1
+    },
+    {
+      "file": "app/src/helperFunctions/zipFiles.ts",
+      "line": 7,
+      "character": 14,
+      "text": "file",
+      "kind": 1
+    },
+    {
+      "file": "app/src/helperFunctions/zipFiles.ts",
+      "line": 8,
       "character": 16,
       "text": "state",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 7,
+      "line": 8,
       "character": 22,
       "text": "components",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 4,
       "text": "componentFolder",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 20,
       "text": "file",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 28,
       "text": "state",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 34,
       "text": "components",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 48,
       "text": "name",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 60,
       "text": "state",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 66,
       "text": "components",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 8,
+      "line": 9,
       "character": 80,
       "text": "code",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 11,
+      "line": 12,
       "character": 4,
       "text": "reacTypeApp",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 11,
+      "line": 12,
       "character": 16,
       "text": "file",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 13,
+      "line": 14,
       "character": 2,
       "text": "zip",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 13,
+      "line": 14,
       "character": 6,
       "text": "generateAsync",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 14,
+      "line": 15,
       "character": 3,
       "text": "then",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 14,
+      "line": 15,
       "character": 17,
       "text": "content",
       "kind": 1
     },
     {
       "file": "app/src/helperFunctions/zipFiles.ts",
-      "line": 16,
+      "line": 17,
       "character": 11,
       "text": "content",
       "kind": 1
@@ -9018,7 +9032,7 @@
       "kind": 1
     },
     {
-      "file": "app/src/components/right/ComponentDrag.tsx",
+      "file": "app/src/components/left/ComponentDrag.tsx",
       "line": 7,
       "character": 25,
       "text": "isThemeLight",
@@ -9075,57 +9089,78 @@
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 47,
+      "line": 54,
       "character": 18,
       "text": "Icon",
       "kind": 1
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 47,
+      "line": 54,
       "character": 31,
       "text": "icon",
       "kind": 1
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 63,
+      "line": 77,
       "character": 18,
       "text": "Icon",
       "kind": 1
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 63,
+      "line": 77,
       "character": 31,
       "text": "icon",
       "kind": 1
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 79,
-      "character": 20,
+      "line": 97,
+      "character": 18,
       "text": "Icon",
       "kind": 1
     },
     {
       "file": "app/src/components/left/DragDropPanel.tsx",
-      "line": 79,
-      "character": 33,
+      "line": 97,
+      "character": 31,
       "text": "icon",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 9,
+      "line": 8,
       "character": 23,
       "text": "props",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
+      "line": 18,
+      "character": 37,
+      "text": "e",
+      "kind": 1
+    },
+    {
+      "file": "app/src/containers/LeftContainer.tsx",
       "line": 20,
-      "character": 36,
+      "character": 6,
+      "text": "e",
+      "kind": 1
+    },
+    {
+      "file": "app/src/containers/LeftContainer.tsx",
+      "line": 20,
+      "character": 8,
+      "text": "key",
+      "kind": 1
+    },
+    {
+      "file": "app/src/containers/LeftContainer.tsx",
+      "line": 21,
+      "character": 6,
       "text": "e",
       "kind": 1
     },
@@ -9133,76 +9168,55 @@
       "file": "app/src/containers/LeftContainer.tsx",
       "line": 21,
       "character": 8,
-      "text": "e",
-      "kind": 1
-    },
-    {
-      "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 10,
-      "text": "key",
-      "kind": 1
-    },
-    {
-      "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 33,
-      "text": "e",
-      "kind": 1
-    },
-    {
-      "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 35,
       "text": "target",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
       "line": 21,
-      "character": 42,
+      "character": 15,
       "text": "tagName",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 68,
+      "line": 22,
+      "character": 6,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 70,
+      "line": 22,
+      "character": 8,
       "text": "target",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 21,
-      "character": 77,
+      "line": 22,
+      "character": 15,
       "text": "tagName",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 37,
-      "character": 29,
+      "line": 40,
+      "character": 27,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 37,
-      "character": 43,
+      "line": 40,
+      "character": 41,
       "text": "props",
       "kind": 1
     },
     {
       "file": "app/src/containers/LeftContainer.tsx",
-      "line": 37,
-      "character": 49,
+      "line": 40,
+      "character": 47,
       "text": "isThemeLight",
       "kind": 1
     },
@@ -12680,287 +12694,294 @@
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 545,
+      "line": 550,
       "character": 15,
       "text": "configTarget",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 545,
+      "line": 550,
       "character": 28,
       "text": "child",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 545,
+      "line": 550,
       "character": 34,
       "text": "type",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 552,
+      "line": 557,
       "character": 18,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 557,
+      "line": 562,
       "character": 17,
       "text": "configTarget",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 557,
+      "line": 562,
       "character": 30,
       "text": "child",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 557,
+      "line": 562,
       "character": 36,
       "text": "name",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 565,
+      "line": 570,
       "character": 16,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 565,
+      "line": 570,
       "character": 30,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 582,
+      "line": 587,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 582,
+      "line": 587,
       "character": 34,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 595,
+      "line": 600,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 595,
+      "line": 600,
       "character": 34,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 612,
+      "line": 617,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 612,
+      "line": 617,
       "character": 34,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 629,
+      "line": 634,
       "character": 16,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 629,
+      "line": 634,
       "character": 30,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 644,
+      "line": 649,
       "character": 16,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 644,
+      "line": 649,
       "character": 30,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 660,
+      "line": 665,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 674,
+      "line": 679,
       "character": 35,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 690,
+      "line": 695,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 704,
+      "line": 709,
       "character": 35,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 725,
+      "line": 730,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 739,
+      "line": 744,
       "character": 35,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 760,
+      "line": 765,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 774,
+      "line": 779,
       "character": 35,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 788,
+      "line": 793,
       "character": 18,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 788,
+      "line": 793,
       "character": 32,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 806,
+      "line": 811,
       "character": 22,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 818,
+      "line": 823,
       "character": 35,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 829,
+      "line": 834,
       "character": 15,
       "text": "currFocus",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 829,
+      "line": 834,
       "character": 40,
       "text": "currFocus",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 829,
+      "line": 834,
       "character": 50,
       "text": "events",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 845,
+      "line": 850,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 860,
+      "line": 865,
       "character": 20,
       "text": "isThemeLight",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 875,
+      "line": 881,
+      "character": 20,
+      "text": "isThemeLight",
+      "kind": 1
+    },
+    {
+      "file": "app/src/containers/CustomizationPanel.tsx",
+      "line": 896,
       "character": 15,
       "text": "configTarget",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 875,
+      "line": 896,
       "character": 28,
       "text": "child",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 886,
+      "line": 907,
       "character": 25,
       "text": "configTarget",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 892,
+      "line": 913,
       "character": 46,
       "text": "configTarget",
       "kind": 1
     },
     {
       "file": "app/src/containers/CustomizationPanel.tsx",
-      "line": 892,
+      "line": 913,
       "character": 59,
       "text": "id",
       "kind": 1
@@ -13121,84 +13142,84 @@
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 25,
+      "line": 27,
       "character": 19,
       "text": "props",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 118,
+      "line": 120,
       "character": 24,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 119,
+      "line": 121,
       "character": 4,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 119,
+      "line": 121,
       "character": 6,
       "text": "preventDefault",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 144,
+      "line": 146,
       "character": 43,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 145,
+      "line": 147,
       "character": 8,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 145,
+      "line": 147,
       "character": 10,
       "text": "key",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 145,
+      "line": 147,
       "character": 29,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 145,
+      "line": 147,
       "character": 31,
       "text": "target",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 145,
+      "line": 147,
       "character": 38,
       "text": "tagName",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 146,
+      "line": 148,
       "character": 6,
       "text": "e",
       "kind": 1
     },
     {
       "file": "app/src/components/left/HTMLPanel.tsx",
-      "line": 146,
+      "line": 148,
       "character": 8,
       "text": "preventDefault",
       "kind": 1
@@ -13324,29 +13345,29 @@
     },
     {
       "file": "app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx",
-      "line": 51,
+      "line": 55,
       "character": 19,
       "text": "data",
       "kind": 1
     },
     {
       "file": "app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx",
-      "line": 51,
+      "line": 55,
       "character": 24,
       "text": "key",
       "kind": 1
     },
     {
       "file": "app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx",
-      "line": 53,
-      "character": 48,
+      "line": 58,
+      "character": 19,
       "text": "data",
       "kind": 1
     },
     {
       "file": "app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx",
-      "line": 53,
-      "character": 53,
+      "line": 58,
+      "character": 24,
       "text": "value",
       "kind": 1
     },
@@ -18994,50 +19015,50 @@
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 11,
+      "line": 15,
       "character": 16,
       "text": "props",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 32,
+      "line": 39,
       "character": 26,
       "text": "event",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 33,
+      "line": 40,
       "character": 4,
       "text": "event",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 33,
+      "line": 40,
       "character": 10,
       "text": "stopPropagation",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 40,
-      "character": 12,
+      "line": 47,
+      "character": 10,
       "text": "deepCopiedState",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 42,
-      "character": 53,
+      "line": 52,
+      "character": 8,
       "text": "deepCopiedState",
       "kind": 1
     },
     {
       "file": "app/src/components/main/Canvas.tsx",
-      "line": 42,
-      "character": 70,
+      "line": 52,
+      "character": 25,
       "text": "deepCopiedState",
       "kind": 1
     },
@@ -27855,8 +27876,8 @@
       "kind": 1
     }
   ],
-  "percentage": 83.28783233231131,
-  "total": 23809,
-  "covered": 19830,
-  "uncovered": 3979
+  "percentage": 83.29627920634255,
+  "total": 23839,
+  "covered": 19857,
+  "uncovered": 3982
 }
