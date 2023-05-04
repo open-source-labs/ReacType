@@ -1,0 +1,62 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Styling.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tutorial/Styling.tsx</td><td class="">71.72%</td><td class="">80%</td><td class="">99</td><td class="">71</td><td class="">28</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import lighting from &#x27;../../../resources/customizing_elements_images/Lighting.png&#x27;;
+import resize from &#x27;../../../resources/customizing_elements_images/Resize.gif&#x27;;
+import codeChange from &#x27;../../../resources/customizing_elements_images/CodeChange.png&#x27;;
+
+const Styling: React.FC&lt;{
+  classes: any;
+  setPage: Function;
+}&gt; = ({ classes, setPage }) =&gt; {
+  return (
+    &lt;div className={classes.wrapper}&gt;
+      &lt;h1 className={classes.title}&gt;Styling Features&lt;/h1&gt;
+      &lt;hr /&gt;
+      &lt;h2&gt;Dark Mode&lt;/h2&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={lighting} /&gt;
+      &lt;/div&gt;
+      &lt;p className={classes.text}&gt;
+        Spice up the app and ease the strian on your eyes by switching to DARK MODE. DARK
+        MODE will change the background and text colors of the app.
+      &lt;/p&gt;
+      &lt;hr /&gt;
+      &lt;h2&gt;Resize Code Preview and Component Tree&lt;/h2&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={resize} /&gt;
+      &lt;/div&gt;
+      &lt;p className={classes.text}&gt;
+        Hover over the line above the &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Code Preview&#x27;)} &gt;code preview&lt;/span&gt; and/or &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Component Tree&#x27;)} &gt;component tree&lt;/span&gt; to
+        resize the section. Simply click and drag up or down to resize.
+      &lt;/p&gt;
+      &lt;hr /&gt;
+      &lt;h2&gt;Customize Code Preview&lt;/h2&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={codeChange} /&gt;
+      &lt;/div&gt;
+      &lt;p className={classes.text}&gt;
+        You can manually change your code in the &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Code Preview&#x27;)} &gt;code preview&lt;/span&gt; before exporting and see the changes reflected in your exported
+        file!
+      &lt;/p&gt;
+      &lt;hr /&gt;
+    &lt;/div&gt;
+  );
+};
+export default Styling;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:2,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:8,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:28,&quot;text&quot;:&quot;wrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:55,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:63,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:157,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:165,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:66,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Styling.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:74,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

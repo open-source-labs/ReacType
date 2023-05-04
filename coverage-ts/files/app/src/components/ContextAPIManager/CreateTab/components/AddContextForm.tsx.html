@@ -1,0 +1,150 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AddContextForm.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx</td><td class="">69.19%</td><td class="">80%</td><td class="">172</td><td class="">119</td><td class="">53</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { Fragment, useState, useEffect, useContext } from &#x27;react&#x27;;
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import Autocomplete, { createFilterOptions } from &#x27;@mui/material/Autocomplete&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import Box from &#x27;@mui/material/Box&#x27;;
+import { Typography } from &#x27;@mui/material&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
+import { RootState } from &#x27;../../../../redux/store&#x27;;
+
+const filter = createFilterOptions();
+
+const AddContextForm = ({
+  contextStore,
+  handleClickSelectContext,
+  handleDeleteContextClick,
+  renderTable,
+  contextInput,
+  setContextInput
+}) =&gt; {
+  const { allContext } = contextStore;
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  // const [state, dispatch] = useContext(StateContext);
+  const { state, isDarkMode } = useSelector((store:RootState) =&gt; ({
+    isDarkMode: store.darkMode.isDarkMode,
+    state: store.appState
+  }))
+const color = isDarkMode ? &#x27;white&#x27; : &#x27;black&#x27;
+
+  const handleClick = () =&gt; {
+    if (contextInput === &#x27;&#x27; || contextInput === null) return;
+    handleClickSelectContext();
+  };
+
+  const onChange = (event, newValue) =&gt; {
+    if (typeof newValue === &#x27;string&#x27;) {
+      setContextInput({
+        name: newValue
+      });
+    } else if (newValue &amp;&amp; newValue.inputValue) {
+      // Create a new contextInput from the user input
+      setContextInput({
+        name: newValue.inputValue,
+        values: []
+      });
+      renderTable(newValue);
+    } else {
+      setContextInput(newValue);
+      renderTable(newValue);
+    }
+  };
+
+  const filterOptions = (options, params) =&gt; {
+    // setBtnDisabled(true);
+    const filtered = filter(options, params);
+    const { inputValue } = params;
+    // Suggest the creation of a new contextInput
+    const isExisting = options.some(option =&gt; inputValue === option.name);
+    if (inputValue !== &#x27;&#x27; &amp;&amp; !isExisting) {
+      filtered.push({
+        inputValue,
+        name: `Add &quot;${inputValue}&quot;`
+      });
+
+      // setBtnDisabled(false);
+    }
+
+    return filtered;
+  };
+
+  const getOptionLabel = option =&gt; {
+    // Value selected with enter, right from the input
+    if (typeof option === &#x27;string&#x27;) {
+      return option;
+    }
+    // Add &quot;xxx&quot; option created dynamically
+    if (option.inputValue) {
+      return option.inputValue;
+    }
+    // Regular option
+    return option.name;
+  };
+
+  const renderOption = (props, option) =&gt; &lt;li style={{ color: &#x27;black&#x27; }} {...props}&gt;{option.name}&lt;/li&gt;;
+
+  return (
+    &lt;Fragment&gt;
+      &lt;Typography style={{ color: color }} variant=&quot;h6&quot; gutterBottom={true}&gt;
+        Context Input
+      &lt;/Typography&gt;
+      &lt;Box sx={{ display: &#x27;flex&#x27;, gap: 2, mb: 4 }}&gt;
+        &lt;Autocomplete
+          id=&quot;autoCompleteContextField&quot;
+          value={contextInput}
+          onChange={onChange}
+          filterOptions={filterOptions}
+          selectOnFocus
+          clearOnBlur
+          handleHomeEndKeys
+          options={allContext || []}
+          getOptionLabel={getOptionLabel}
+          renderOption={renderOption}
+          sx={{ width: 425, border: &#x27;1px solid black&#x27; }}
+          freeSolo
+          renderInput={params =&gt; (
+            &lt;TextField {...params}  InputProps={{
+              ...params.InputProps,
+              style: { color: color },
+            }}  
+            variant=&#x27;filled&#x27;
+            label=&quot;Create/Select Context&quot; /&gt;
+          )}
+        /&gt;
+        &lt;Button
+          variant=&quot;contained&quot;
+          onClick={handleClick}
+          disabled={btnDisabled}
+        &gt;
+          Create
+        &lt;/Button&gt;
+        &lt;Button
+          color=&quot;error&quot;
+          variant=&quot;contained&quot;
+          onClick={handleDeleteContextClick}
+        &gt;
+          Delete
+        &lt;/Button&gt;
+        {/* &lt;Button variant=&quot;contained&quot;&gt;Delete&lt;/Button&gt; */}
+      &lt;/Box&gt;
+    &lt;/Fragment&gt;
+  );
+};
+
+export default AddContextForm;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:2,&quot;text&quot;:&quot;contextStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:2,&quot;text&quot;:&quot;handleClickSelectContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:2,&quot;text&quot;:&quot;handleDeleteContextClick&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:2,&quot;text&quot;:&quot;renderTable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:2,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:2,&quot;text&quot;:&quot;setContextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:10,&quot;text&quot;:&quot;allContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:8,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:31,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:4,&quot;text&quot;:&quot;handleClickSelectContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:20,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:27,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:15,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:6,&quot;text&quot;:&quot;setContextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:15,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:27,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:36,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:6,&quot;text&quot;:&quot;setContextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:8,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:14,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:23,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:6,&quot;text&quot;:&quot;renderTable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:18,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:6,&quot;text&quot;:&quot;setContextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:22,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:6,&quot;text&quot;:&quot;renderTable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:18,&quot;text&quot;:&quot;newValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:25,&quot;text&quot;:&quot;options&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:34,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:12,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:10,&quot;text&quot;:&quot;isExisting&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:23,&quot;text&quot;:&quot;options&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:31,&quot;text&quot;:&quot;some&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:36,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:46,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:61,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:68,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:8,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:30,&quot;text&quot;:&quot;isExisting&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:8,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:22,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:25,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:15,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:8,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:15,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:13,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:20,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:11,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:18,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:24,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:31,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:85,&quot;text&quot;:&quot;option&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/AddContextForm.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:92,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

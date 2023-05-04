@@ -1,0 +1,57 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>CSSEditor.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tutorial/CSSEditor.tsx</td><td class="">69.41%</td><td class="">80%</td><td class="">85</td><td class="">59</td><td class="">26</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import cssEditorTab from &#x27;../../../resources/csseditor_tutorial_images/CSSEditorTab.png&#x27;;
+import cssEdit from &#x27;../../../resources/csseditor_tutorial_images/DirectCSSEdit.gif&#x27;;
+import copyPaste from &#x27;../../../resources/csseditor_tutorial_images/CopyPasteCSS.gif&#x27;;
+
+const CSSEditor: React.FC&lt;{
+  classes: any;
+  setPage: Function;
+}&gt; = ({ classes, setPage }) =&gt; {
+  return (
+    &lt;div className={classes.wrapper}&gt;
+      &lt;h1 className={classes.title}&gt;CSS Editor&lt;/h1&gt;
+      &lt;hr /&gt;
+      &lt;p className={classes.text}&gt;The CSS editor tab is located in the bottom panel of the application and is where the CSS file&#x27;s
+      code is located.&lt;br/&gt;&lt;br/&gt;
+      You are able to freely edit the CSS code directly and have the changes reflected immediately in the demo render panel.
+      You can also copy and paste your own CSS code into the editor to take full control of custom CSS classes.&lt;br/&gt;
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={cssEditorTab}/&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+      &lt;h1 className={classes.title}&gt;Edit CSS code&lt;/h1&gt;
+      &lt;p className={classes.text}&gt;To edit the CSS code in the CSS editor, make the desired changes directly within the editor.&lt;br/&gt;
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.medImg} src={cssEdit}/&gt;
+      &lt;/div&gt;&lt;br/&gt;
+      &lt;p className={classes.text}&gt;Or copy and paste your own CSS code directly into the editor.
+      &lt;/p&gt;&lt;br/&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.medImg} src={copyPaste}/&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default CSSEditor;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:2,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:8,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:28,&quot;text&quot;:&quot;wrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:32,&quot;text&quot;:&quot;medImg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/CSSEditor.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:32,&quot;text&quot;:&quot;medImg&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

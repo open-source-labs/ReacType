@@ -1,0 +1,93 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>projectController.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">server/controllers/projectController.ts</td><td class="">77.32%</td><td class="">80%</td><td class="">97</td><td class="">75</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { ProjectController } from &#x27;../interfaces&#x27;;
+import { Projects } from &#x27;../models/reactypeModels&#x27;;
+
+// array of objects, objects inside
+type Projects = { project: {} }[];
+
+const projectController: ProjectController = {
+  // saveProject saves current workspace to database
+  saveProject: (req, res, next) =&gt; {
+    // pull project name and project itself from body
+    const { name, project, userId, username, comments } = req.body;
+    // create createdBy field for the document
+    const createdAt = Date.now();
+    // pull ssid from cookies for user id
+    Projects.findOneAndUpdate(
+      // looks in projects collection for project by user and name
+      { name, userId, username },
+      // update or insert the project
+      { project, createdAt, comments },
+      // Options:
+      // upsert: true - if none found, inserts new project, if found, updates project
+      // new: true - returns updated document not the original one
+      { upsert: true, new: true },
+      (err, result) =&gt; {
+        if (err) {
+          return next({
+            log: `Error in projectController.saveProject: ${err}`,
+            message: {
+              err: &#x27;Error in projectController.saveProject, check server logs for details&#x27;
+            }
+          });
+        }
+        res.locals.savedProject = result;
+        return next();
+      }
+    );
+  },
+
+  // gets all of current user&#x27;s projects
+  getProjects: (req, res, next) =&gt; {
+    const { userId } = req.body;
+    Projects.find({ userId }, (err, projects: Projects) =&gt; {
+      if (err) {
+        return next({
+          log: `Error in projectController.getProjects: ${err}`,
+          message: {
+            err: &#x27;Error in projectController.getProjects, check server logs for details&#x27;
+          }
+        });
+      }
+      // so it returns each project like it is in state, not the whole object in DB
+      res.locals.projects = projects.map((elem) =&gt; elem.project);
+      return next();
+    });
+  },
+
+  // delete project from database **currently not integrated into app**
+  deleteProject: (req, res, next) =&gt; {
+    // pull project name and userId from req.body
+    const { name, userId } = req.body;
+    Projects.findOneAndDelete({ name, userId }, null, (err, deleted) =&gt; {
+      if (err) {
+        return next({
+          log: `Error in projectController.deleteProject: ${err}`,
+          message: {
+            err: &#x27;Error in projectController.deleteProject, check server logs for details&#x27;
+          }
+        });
+      }
+      res.locals.deleted = deleted;
+      return next();
+    });
+  }
+};
+export default projectController;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:12,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:18,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:27,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:35,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:45,&quot;text&quot;:&quot;comments&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:62,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:16,&quot;character&quot;:8,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:16,&quot;character&quot;:14,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:16,&quot;character&quot;:22,&quot;text&quot;:&quot;username&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:18,&quot;character&quot;:8,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:18,&quot;character&quot;:28,&quot;text&quot;:&quot;comments&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:32,&quot;character&quot;:19,&quot;text&quot;:&quot;savedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:40,&quot;character&quot;:12,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:40,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:41,&quot;character&quot;:20,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:17,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:12,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:18,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:33,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:60,&quot;character&quot;:32,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:60,&quot;character&quot;:38,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/controllers/projectController.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:17,&quot;text&quot;:&quot;deleted&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

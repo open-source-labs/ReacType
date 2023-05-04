@@ -1,0 +1,187 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TreeChart.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tree/TreeChart.tsx</td><td class="">76.27%</td><td class="">80%</td><td class="">295</td><td class="">225</td><td class="">70</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useRef, useEffect, useContext, Children } from &#x27;react&#x27;;
+import { select, hierarchy, tree, linkHorizontal } from &#x27;d3&#x27;;
+import cloneDeep from &#x27;lodash/cloneDeep&#x27;;
+import useResizeObserver from &#x27;./useResizeObserver&#x27;;
+import StateContext from &#x27;../context/context&#x27;;
+import { element } from &#x27;prop-types&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
+
+function usePrevious(value) {
+  const ref = useRef(); // creates a ref obj w/ current: value
+  useEffect(() =&gt; {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
+function TreeChart({ data }) { // data is components from state - passed in from BottomTabs
+  // const [state, dispatch] = useContext(StateContext);
+  const state = useSelector(store =&gt; store.appState)
+  
+  const canvasId = state.canvasFocus.componentId;
+
+  const svgRef = useRef();
+  const wrapperRef = useRef();
+
+  const xPosition = 50;
+  const textAndBorderColor = &#x27;#bdbdbd&#x27;;
+  const dimensions = useResizeObserver(wrapperRef);
+  // we save data to see if it changed
+  const previouslyRenderedData = usePrevious(data);
+  // function to filter out separators to prevent render on tree chart
+
+  const removeSeparators = (arr: object[]) =&gt; {
+    // loop over array
+    for (let i = 0; i &lt; arr.length; i++) {
+      if(arr[i] === undefined) continue;
+      // if element is separator, remove it
+      if (arr[i].name === &#x27;separator&#x27;) {
+        arr.splice(i, 1);
+        i -= 1;
+      }
+      // if element has a children array and that array has length, recursive call
+      else if ((arr[i].name === &#x27;div&#x27; || arr[i].name === &#x27;form&#x27; || arr[i].type === &#x27;Component&#x27; || arr[i].name === &#x27;Link&#x27;
+        || arr[i].name === &#x27;Switch&#x27; || arr[i].name === &#x27;Route&#x27; || arr[i].name === &#x27;menu&#x27;
+        || arr[i].name === &#x27;ul&#x27; || arr[i].name === &#x27;ol&#x27; || arr[i].name === &#x27;li&#x27;) &amp;&amp; arr[i].children.length) {
+        // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
+        if (arr[i].type === &#x27;Component&#x27;) arr[i] = cloneDeep(data.find(component =&gt; component.name === arr[i].name));
+        removeSeparators(arr[i].children);
+      }
+    }
+    // return mutated array
+    return arr;
+  };
+  // create a deep clone of data to avoid mutating the actual children array in removing separators
+  const dataDeepClone = cloneDeep(data);
+  
+  //Miko left off
+  if(state.projectType === &#x27;Next.js&#x27;) {
+    dataDeepClone.forEach(element =&gt; {
+      element.children = sanitize(element.children).filter(element =&gt; !Array.isArray(element));
+    })
+
+    function sanitize(children) {
+      return children.map((child) =&gt; {
+        if(child.name === &#x27;Switch&#x27; || child.name === &#x27;Route&#x27;) {
+          return sanitize(child.children);
+        } else {
+          return child;
+        }
+      });
+    } 
+  }
+
+  // remove separators and update components to current versions
+  dataDeepClone.forEach(component =&gt; {
+    removeSeparators(component.children);
+  });
+  // will be called initially and on every data change
+  useEffect(() =&gt; {
+    const svg = select(svgRef.current);
+    // use dimensions from useResizeObserver,
+    // but use getBoundingClientRect on initial render
+    // (dimensions are null for the first render)
+    const { width, height } =
+      dimensions || wrapperRef.current.getBoundingClientRect();
+    // transform hierarchical data
+    const root = hierarchy(dataDeepClone[canvasId - 1]); // pass in clone here instead of data
+    const treeLayout = tree().size([height, width - 125]);
+    // Returns a new link generator with horizontal display.
+    // To visualize links in a tree diagram rooted on the left edge of the display
+    const linkGenerator = linkHorizontal()
+      .x(link =&gt; link.y)
+      .y(link =&gt; link.x);
+    // insert our data into the tree layout
+    treeLayout(root);
+    // node - each element in the tree
+    svg
+      .selectAll(&#x27;.node&#x27;)
+      .data(root.descendants())
+      .join(enter =&gt; enter.append(&#x27;circle&#x27;).attr(&#x27;opacity&#x27;, 0))
+      .attr(&#x27;class&#x27;, &#x27;node&#x27;)
+      /*
+        The cx, cy attributes are associated with the circle and ellipse elements and designate the centre of each shape. The coordinates are set from the top, left hand corner of the web page.
+        cx: The position of the centre of the element in the x axis measured from the left side of the screen.
+        cy: The position of the centre of the element in the y axis measured from the top of the screen.
+      */
+      // translate (x, y)
+      .attr(&#x27;cx&#x27;, node =&gt; node.y)
+      .attr(&#x27;cy&#x27;, node =&gt; node.x)
+      .attr(&#x27;r&#x27;, 4) // radius of circle
+      .attr(&#x27;opacity&#x27;, 1)
+      .style(&#x27;fill&#x27;, &#x27;white&#x27;)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`);
+    // link - lines that connect the nodes
+    const enteringAndUpdatingLinks = svg
+      .selectAll(&#x27;.link&#x27;)
+      .data(root.links())
+      .join(&#x27;path&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;link&#x27;)
+      .attr(&#x27;d&#x27;, linkGenerator)
+      .attr(&#x27;stroke&#x27;, &#x27;white&#x27;)
+      .attr(&#x27;fill&#x27;, &#x27;none&#x27;)
+      .attr(&#x27;opacity&#x27;, 1)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`);
+    if (data !== previouslyRenderedData) {
+      enteringAndUpdatingLinks
+        .attr(&#x27;stroke-dashoffset&#x27;, function () {
+          return this.length;
+        })
+        .attr(&#x27;stroke-dashoffset&#x27;, 0);
+    }
+    // label - the names of each html element (node)
+    svg
+      .selectAll(&#x27;.label&#x27;)
+      .data(root.descendants())
+      .join(enter =&gt; enter.append(&#x27;text&#x27;).attr(&#x27;opacity&#x27;, 0))
+      .attr(&#x27;class&#x27;, &#x27;label&#x27;)
+      .attr(&#x27;x&#x27;, node =&gt; node.y)
+      .attr(&#x27;y&#x27;, node =&gt; node.x - 12)
+      .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+      .attr(&#x27;font-size&#x27;, 18)
+      .style(&#x27;fill&#x27;, textAndBorderColor)
+      .text(node =&gt; node.data.name)
+      .attr(&#x27;opacity&#x27;, 1)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`);
+
+  }, [state.components, dimensions, previouslyRenderedData, canvasId]);
+  const treeStyles = {
+    height: &#x27;100%&#x27;,
+    width: `100%`,
+    margin: &#x27;10px 10px 10px 10px&#x27;,
+    overflow: &#x27;auto&#x27;
+  };
+  const wrapperStyles = {
+    border: `2px solid ${textAndBorderColor}`,
+    borderRadius: &#x27;8px&#x27;,
+    width: &#x27;100%&#x27;,
+    height: &#x27;90%&#x27;,
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    backgroundColor: &#x27;#42464C&#x27;,
+  };
+  return (
+    &lt;div ref={wrapperRef} style={wrapperStyles}&gt;
+      &lt;svg ref={svgRef} style={treeStyles}&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+  );
+}
+export default TreeChart;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:21,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:21,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:8,&quot;text&quot;:&quot;dimensions&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:45,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:60,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:65,&quot;text&quot;:&quot;find&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:70,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:83,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:93,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:34,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:26,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:6,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:14,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:34,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:42,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:52,&quot;text&quot;:&quot;filter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:59,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:85,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:22,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:13,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:22,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:27,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:11,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:17,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:38,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:44,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:26,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:32,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:17,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:24,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:21,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:31,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:12,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:19,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:36,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:44,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:9,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:17,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:22,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:92,&quot;character&quot;:9,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:92,&quot;character&quot;:17,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:92,&quot;character&quot;:22,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:12,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:21,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:27,&quot;text&quot;:&quot;append&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:44,&quot;text&quot;:&quot;attr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:18,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:26,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:31,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:18,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:26,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:31,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:8,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:17,&quot;text&quot;:&quot;this&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:22,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:12,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:21,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:27,&quot;text&quot;:&quot;append&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:42,&quot;text&quot;:&quot;attr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:17,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:25,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:30,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:138,&quot;character&quot;:17,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:138,&quot;character&quot;:25,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:138,&quot;character&quot;:30,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:12,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:20,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:25,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:30,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tree/TreeChart.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:24,&quot;text&quot;:&quot;dimensions&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

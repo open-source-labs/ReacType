@@ -1,0 +1,38 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>zipFiles.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/helperFunctions/zipFiles.ts</td><td class="">32.50%</td><td class="">80%</td><td class="">40</td><td class="">13</td><td class="">27</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { saveAs } from &#x27;file-saver&#x27;;
+const JSZip = require(&quot;jszip&quot;);
+
+const zipFiles = (state) =&gt; {
+  var zip = new JSZip();
+  let reacTypeApp = zip.folder(&#x27;ReacTypeApp&#x27;);
+  let componentFolder = reacTypeApp.folder(&#x27;componentfolder&#x27;);
+  for (let i in state.components){
+    componentFolder.file(`${state.components[i].name}.jsx`, state.components[i].code);
+  }
+  if(localStorage.getItem(&#x27;css&#x27;)){
+    reacTypeApp.file(&#x27;style.css&#x27;, localStorage.getItem(&#x27;css&#x27;));
+  }
+  zip.generateAsync({type:&quot;blob&quot;})
+  .then(function(content) {
+    // see FileSaver.js
+    saveAs(content, &quot;ReacTypeApp.zip&quot;);
+  });
+};
+
+export default zipFiles;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:1,&quot;character&quot;:6,&quot;text&quot;:&quot;JSZip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:3,&quot;character&quot;:18,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:4,&quot;character&quot;:6,&quot;text&quot;:&quot;zip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:4,&quot;character&quot;:16,&quot;text&quot;:&quot;JSZip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:5,&quot;character&quot;:6,&quot;text&quot;:&quot;reacTypeApp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:5,&quot;character&quot;:20,&quot;text&quot;:&quot;zip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:5,&quot;character&quot;:24,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:6,&quot;character&quot;:6,&quot;text&quot;:&quot;componentFolder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:6,&quot;character&quot;:24,&quot;text&quot;:&quot;reacTypeApp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:6,&quot;character&quot;:36,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:7,&quot;character&quot;:16,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:7,&quot;character&quot;:22,&quot;text&quot;:&quot;components&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:4,&quot;text&quot;:&quot;componentFolder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:20,&quot;text&quot;:&quot;file&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:28,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:34,&quot;text&quot;:&quot;components&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:48,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:60,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:66,&quot;text&quot;:&quot;components&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:80,&quot;text&quot;:&quot;code&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:4,&quot;text&quot;:&quot;reacTypeApp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:16,&quot;text&quot;:&quot;file&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:13,&quot;character&quot;:2,&quot;text&quot;:&quot;zip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:13,&quot;character&quot;:6,&quot;text&quot;:&quot;generateAsync&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:14,&quot;character&quot;:3,&quot;text&quot;:&quot;then&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:14,&quot;character&quot;:17,&quot;text&quot;:&quot;content&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/zipFiles.ts&quot;,&quot;line&quot;:16,&quot;character&quot;:11,&quot;text&quot;:&quot;content&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

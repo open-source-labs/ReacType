@@ -1,0 +1,37 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>changePositionValidation.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/helperFunctions/changePositionValidation.ts</td><td class="">67.92%</td><td class="">80%</td><td class="">53</td><td class="">36</td><td class="">17</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">// This function will evaluate the target destination when moving an element on the canvas
+// If the target destination is actually a nested component within its own children array
+// the new target parent is not a valid parent to change position
+const validateNewParent = (state: object, currentChildId: number, toTargetParentId: number) =&gt; {
+  const focusIndex = state.canvasFocus.componentId - 1;
+  const childrenArray = state.components[focusIndex].children;
+  // Checks to see if a Parent is trying to nest inside one of its children
+  const selfNestingCheck = (array, nestedChild = false, nestedParent = false) =&gt; {
+    for (const element of array) {
+      if (element.childId === toTargetParentId &amp;&amp; nestedChild === true) return nestedParent = true;
+      else if (element.childId === currentChildId &amp;&amp; element.children.length &gt; 0 &amp;&amp; nestedChild === false) nestedParent = selfNestingCheck(element.children, nestedChild = true, nestedParent);
+      else if (element.children.length &gt; 0 &amp;&amp; nestedChild === false) nestedParent = selfNestingCheck(element.children, nestedChild, nestedParent);
+    }
+    return nestedParent;
+  }
+  const parentNestingIntoChild = selfNestingCheck(childrenArray);
+  if (parentNestingIntoChild === true) return false;
+  return true;
+};
+export default validateNewParent;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:7,&quot;character&quot;:28,&quot;text&quot;:&quot;array&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:9,&quot;character&quot;:10,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:9,&quot;character&quot;:18,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:23,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:53,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:61,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:70,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:139,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:147,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:15,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:23,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:32,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:101,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:11,&quot;character&quot;:109,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/helperFunctions/changePositionValidation.ts&quot;,&quot;line&quot;:8,&quot;character&quot;:26,&quot;text&quot;:&quot;array&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

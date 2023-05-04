@@ -1,0 +1,118 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>contextReducer.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/redux/reducers/slice/contextReducer.ts</td><td class="">99.40%</td><td class="">80%</td><td class="">167</td><td class="">166</td><td class="">1</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { createSlice, PayloadAction } from &#x27;@reduxjs/toolkit&#x27;;
+// import type { RootState } from &#x27;../redux/store&#x27;;
+
+// -------------------------//
+// interfaces for all methods // calling actions payloads type referencss assigning type // typesccript
+//Defined Slice State and Action Types on this page
+interface Context {
+  name: string;
+  values: Array&lt;{ key: string; value: string }&gt;;
+  components: string[];
+}
+
+interface AddContextPayload {
+  name: string;
+}
+
+interface AddContextValuesPayload {
+  name: string;
+  inputKey: string;
+  inputValue: string;
+}
+
+interface DeleteContextPayload {
+  name: string;
+}
+
+interface AddComponentToContextPayload {
+  context: { name: string };
+  component: { name: string };
+}
+// did not do getall context and allcontext cooperative
+// most imprtant because it allows reference from the intial state to all the interfaces
+interface ContextState {
+  allContext: Context[];
+}
+// -------------------------//
+
+const initialState: ContextState = {
+  allContext: [],
+};
+
+const contextReducerSlice = createSlice({
+  name: &#x27;context&#x27;,
+  initialState,
+  reducers: {
+    addContext: (state, action:PayloadAction&lt;AddContextPayload&gt;) =&gt; {
+      let newName = action.payload.name.trim();
+      newName = newName.charAt(0).toUpperCase() + newName.slice(1);
+      const newContext = {
+        name: newName,
+        values: [],
+        components: []
+      };
+      state.allContext = [...state.allContext, newContext];
+    },
+    addContextValues: (state, action: PayloadAction&lt;AddContextValuesPayload&gt;) =&gt; {
+      const newAllContext = [...state.allContext];
+
+      for (let i = 0; i &lt; newAllContext.length; i += 1) {
+        if (newAllContext[i].name === action.payload.name) {
+          newAllContext[i].values.push({
+            key: action.payload.inputKey,
+            value: action.payload.inputValue
+          });
+        }
+      }
+      state.allContext = newAllContext;
+    },
+    deleteContext: (state, action: PayloadAction&lt;DeleteContextPayload&gt;) =&gt; {
+      const tempState = [...state.allContext];
+      const remains = tempState.filter((el) =&gt; el.name !== action.payload.name);
+      state.allContext = remains;
+    },
+    addComponentToContext: (state, action: PayloadAction&lt;AddComponentToContextPayload&gt;) =&gt; {
+      const newTempState = [...state.allContext];
+      for (let i = 0; i &lt; newTempState.length; i += 1) {
+        if (newTempState[i].name === action.payload.context.name) {
+          newTempState[i].components.push(action.payload.component.name);
+        }
+      }
+      state.allContext = newTempState;
+    },
+    getAllContext: (state,action) =&gt; {
+      state = state;
+    },
+    allContextCooperative: (state, action) =&gt; {
+      return Object.assign({}, state, action.payload);
+    }
+  }
+});
+
+export const {
+  addContext,
+  addContextValues,
+  deleteContext,
+  getAllContext,
+  addComponentToContext,
+  allContextCooperative
+} = contextReducerSlice.actions;
+export default contextReducerSlice.reducer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/redux/reducers/slice/contextReducer.ts&quot;,&quot;line&quot;:86,&quot;character&quot;:45,&quot;text&quot;:&quot;payload&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,192 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>NavbarDash.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/Dashboard/NavbarDash.tsx</td><td class="">88.44%</td><td class="">80%</td><td class="">225</td><td class="">199</td><td class="">26</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useContext } from &#x27;react&#x27;;
+import { Theme } from &#x27;@mui/material/styles&#x27;;
+import withStyles from &#x27;@mui/styles/withStyles&#x27;;
+import createStyles from &#x27;@mui/styles/createStyles&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import AppBar from &#x27;@mui/material/AppBar&#x27;;
+import Avatar from &#x27;@mui/material/Avatar&#x27;;
+import Brightness3Icon from &#x27;@mui/icons-material/Brightness3&#x27;;
+import Brightness5Icon from &#x27;@mui/icons-material/Brightness5&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import EventNoteIcon from &#x27;@mui/icons-material/EventNote&#x27;;
+import HomeIcon from &#x27;@mui/icons-material/Home&#x27;;
+import Toolbar from &#x27;@mui/material/Toolbar&#x27;;
+import Typography from &#x27;@mui/material/Typography&#x27;;
+import { Link } from &#x27;react-router-dom&#x27;;
+import Menu from &#x27;@mui/material/Menu&#x27;;
+import MenuItem from &#x27;@mui/material/MenuItem&#x27;;
+import SortIcon from &#x27;@mui/icons-material/Sort&#x27;;
+import StarBorderIcon from &#x27;@mui/icons-material/StarBorder&#x27;;
+import PersonIcon from &#x27;@mui/icons-material/Person&#x27;;
+import greenLogo from &#x27;../public/icons/png/512x512.png&#x27;;
+import {setStyle} from &#x27;../redux/reducers/slice/styleSlice&#x27;
+import { useSelector,useDispatch } from &#x27;react-redux&#x27;;
+
+// NavBar text and button styling
+const useStyles = makeStyles((theme: Theme) =&gt; createStyles({
+  root: {
+    flexGrow: 1, 
+    width: &#x27;100%&#x27;,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    color: &#x27;white&#x27;,
+  },
+  title: {
+    flexGrow: 1,
+    color: &#x27;white&#x27;,
+  },
+  manageProject: {
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+  },
+}));
+// sorting options
+const sortMethods = [&#x27;RATING&#x27;, &#x27;DATE&#x27;, &#x27;USER&#x27;];
+// Drop down menu button for SORT PROJECTS
+const StyledMenu = withStyles({
+  paper: {
+    border: &#x27;1px solid #d3d4d5&#x27;,
+  }
+})(props =&gt; (
+  &lt;Menu
+    elevation={0}
+    // getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: &#x27;bottom&#x27;,
+      horizontal: &#x27;center&#x27;
+    }}
+    transformOrigin={{
+      vertical: &#x27;top&#x27;,
+      horizontal: &#x27;center&#x27;
+    }}
+    {...props}
+  /&gt;
+));
+const StyledMenuItem = withStyles(theme =&gt; ({
+  root: {
+    &#x27;&amp;:focus&#x27;: {
+      &#x27;&amp; .MuiListItemIcon-root, &amp; .MuiListItemText-primary&#x27;: {
+        color: theme.palette.common.white
+      }
+    }
+  }
+}))(MenuItem);
+// TO DO: set types of props validation
+export default function NavBar(props) {
+  // TO DO: import setStyle
+  const classes = useStyles();
+  const style = useSelector(store =&gt; store.styleSlice);
+  const dispatch = useDispatch();
+  const toggling = () =&gt; setIsOpen(!isOpen);
+  // toggle to open and close dropdown sorting menu
+  const [isOpen, setIsOpen] = useState(false);
+  // State for sort projects button
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = event =&gt; {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () =&gt; {
+    setAnchorEl(null);
+  };
+  return (
+    &lt;div className={classes.root} style={style}&gt;
+      &lt;AppBar position=&#x27;static&#x27;&gt;
+        &lt;Toolbar&gt;
+          &lt;Avatar src={greenLogo}&gt;&lt;/Avatar&gt;
+          &lt;Typography variant=&quot;h6&quot; style={{ marginLeft: &#x27;1rem&#x27; }} className={classes.title}&gt;
+            ReacType
+          &lt;/Typography&gt;
+           &lt;div style ={ { textDecoration: &#x27;none&#x27; } }&gt;
+            &lt;Button
+            variant=&#x27;contained&#x27;
+            color=&#x27;primary&#x27;
+            onClick={handleClick}
+            className=&#x27;navbarButton&#x27;
+            id=&#x27;navbarButton&#x27;
+            endIcon={&lt;SortIcon/&gt;}
+          &gt;
+            SORT PROJECT
+          &lt;/Button&gt;
+          &lt;StyledMenu  // Dropdown menu connected to Manage Project Button
+            id=&#x27;customized-menus&#x27;
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          &gt;
+            {sortMethods.map((option, index) =&gt; (
+                    &lt;StyledMenuItem onClick={() =&gt; {
+                      props.optionClicked(option);
+                      toggling();
+                      handleClose();
+                    }}
+                      variant=&#x27;contained&#x27;
+                      color=&#x27;primary&#x27;
+                      style={{ minWidth: &#x27;137.69px&#x27; }}
+                      className={classes.manageProject}
+                      key={index}
+                      &gt; 
+                        &lt;Button
+                          color=&#x27;primary&#x27;
+                          endIcon={(option === &#x27;RATING&#x27;) ? &lt;StarBorderIcon/&gt; : (option === &#x27;DATE&#x27;) ? &lt;EventNoteIcon/&gt; : (option === &#x27;USER&#x27;) ? &lt;PersonIcon/&gt; : &#x27;&#x27;}
+                        &gt;
+                          {option} 
+                        &lt;/Button&gt;
+                    &lt;/StyledMenuItem&gt;
+                  ))}
+          &lt;/StyledMenu&gt;
+        &lt;/div&gt;
+        &lt;Button
+            className=&#x27;navbarButton&#x27;
+            id=&#x27;navbarDashButton&#x27;
+            color=&#x27;primary&#x27;
+            variant=&#x27;contained&#x27;
+            style={{minWidth: &#x27;113.97px&#x27;}}
+            endIcon={props.isThemeLight ? &lt;Brightness3Icon/&gt; : &lt;Brightness5Icon/&gt;}
+            onClick={() =&gt; {
+              !style.backgroundColor
+                ? dispatch(setStyle({ backgroundColor: &#x27;#21262D&#x27; })) //dark mode color
+                : dispatch(setStyle( null ))
+              props.isThemeLight ? props.setTheme(false) : props.setTheme(true);
+            }}
+          &gt;
+            {props.isThemeLight ? &#x27;Dark Mode&#x27; : &#x27;Light Mode&#x27;}
+          &lt;/Button&gt;  
+          &lt;div&gt;
+            &lt;Link to=&#x27;/&#x27; style={{textDecoration: &#x27;none&#x27;}}&gt;
+              &lt;Button
+                variant=&#x27;contained&#x27;
+                color=&#x27;primary&#x27;
+                style={{ minWidth: &#x27;137.69px&#x27;}}
+                className=&quot;navbarButton&quot;
+                id=&quot;ratingButton&quot;
+                endIcon={&lt;HomeIcon/&gt;}
+                &gt; 
+                HOME
+              &lt;/Button&gt;
+            &lt;/Link&gt;
+          &lt;/div&gt;
+        &lt;/Toolbar&gt;
+      &lt;/AppBar&gt;
+    &lt;/div&gt;
+  );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:34,&quot;text&quot;:&quot;theme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:8,&quot;text&quot;:&quot;color&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:15,&quot;text&quot;:&quot;theme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:21,&quot;text&quot;:&quot;palette&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:29,&quot;text&quot;:&quot;common&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:69,&quot;character&quot;:36,&quot;text&quot;:&quot;white&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:31,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:9,&quot;text&quot;:&quot;anchorEl&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:22,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:16,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:22,&quot;text&quot;:&quot;currentTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:12,&quot;text&quot;:&quot;anchorEl&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:22,&quot;text&quot;:&quot;anchorEl&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:26,&quot;text&quot;:&quot;anchorEl&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:22,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:28,&quot;text&quot;:&quot;optionClicked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:21,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:14,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:35,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:41,&quot;text&quot;:&quot;setTheme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:59,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:65,&quot;text&quot;:&quot;setTheme&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:13,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/Dashboard/NavbarDash.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:19,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,71 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Pages.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tutorial/Pages.tsx</td><td class="">72.09%</td><td class="">80%</td><td class="">86</td><td class="">62</td><td class="">24</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import pages from &#x27;../../../resources/pages_images/Pages.png&#x27;;
+import toggle from &#x27;../../../resources/pages_images/Toggle.png&#x27;;
+import deletePage from &#x27;../../../resources/pages_images/DeletePage.png&#x27;;
+import pagesPanel from &#x27;../../../resources/pages_images/PagesPanel.png&#x27;;
+import pageSwapping from &#x27;../../../resources/pages_images/PagesSwapping.gif&#x27;;
+
+const Pages: React.FC&lt;{
+  classes: any;
+  setPage: Function;
+}&gt; = ({ classes, setPage }) =&gt; {
+  return (
+    &lt;div className={classes.wrapper}&gt;
+      &lt;h1 className={classes.title}&gt;Pages&lt;/h1&gt;
+      &lt;hr /&gt;
+      &lt;p className={classes.text}&gt;
+        Start off by giving your page a name. Make sure to check the page box
+        next to the Name input. Then click the add button and it will show in
+        the Pages section below.
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={pages} /&gt;
+      &lt;/div&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={pagesPanel} /&gt;
+      &lt;/div&gt;
+      &lt;hr /&gt;
+      &lt;p className={classes.text}&gt;
+        Switch between pages by selecting the Page and customize it by dragging
+        the elements you want into the{&#x27; &#x27;}
+        &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Canvas&#x27;)}&gt;
+          canvas
+        &lt;/span&gt;{&#x27; &#x27;}
+        of the page you&#x27;re on. (Note the red dot next to the page name signals
+        which page you are currently on).
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={pageSwapping} className={classes.smallImg} /&gt;
+      &lt;/div&gt;
+      
+      &lt;hr /&gt;
+      &lt;p className={classes.text}&gt;
+        Delete the selected page by simply clicking the delete button below the style attribute dropdowns.
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={deletePage} /&gt;
+      &lt;/div&gt;
+      &lt;hr /&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Pages;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:2,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:8,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:28,&quot;text&quot;:&quot;wrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:25,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:33,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:43,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:51,&quot;text&quot;:&quot;smallImg&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Pages.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Wed, 03 May 2023 21:38:25 GMT</p>
+    </body>
+  </html>
+  
