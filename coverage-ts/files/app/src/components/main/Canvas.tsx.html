@@ -1,0 +1,183 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Canvas.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/main/Canvas.tsx</td><td class="">96.85%</td><td class="">80%</td><td class="">222</td><td class="">215</td><td class="">7</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect } from &#x27;react&#x27;;
+import { useDrop, DropTargetMonitor } from &#x27;react-dnd&#x27;;
+import { ItemTypes } from &#x27;../../constants/ItemTypes&#x27;;
+import { Component, DragItem } from &#x27;../../interfaces/Interfaces&#x27;;
+import { combineStyles } from &#x27;../../helperFunctions/combineStyles&#x27;;
+import renderChildren from &#x27;../../helperFunctions/renderChildren&#x27;;
+import Arrow from &#x27;./Arrow&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+import {
+  changeFocus,
+  addChild,
+  snapShotAction
+} from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+
+function Canvas(props): JSX.Element {
+  const { state, contextParam, isDarkMode } = useSelector(
+    (store: RootState) =&gt; ({
+      state: store.appState,
+      contextParam: store.contextSlice,
+      isDarkMode: store.darkMode.isDarkMode
+    })
+  );
+  const dispatch = useDispatch();
+
+  Arrow.deleteLines();
+  // find the current component to render on the canvas
+  const currentComponent: Component = state.components.find(
+    (elem: Component) =&gt; elem.id === state.canvasFocus.componentId
+  );
+
+  // changes focus of the canvas to a new component / child
+  const changeFocusFunction = (
+    componentId?: number,
+    childId?: number | null
+  ) =&gt; {
+    dispatch(changeFocus({ componentId, childId }));
+  };
+  // onClickHandler is responsible for changing the focused component and child component
+  function onClickHandler(event) {
+    event.stopPropagation();
+    changeFocusFunction(state.canvasFocus.componentId, null);
+  }
+
+  // stores a snapshot of state into the past array for UNDO. snapShotFunc is also invoked for nestable elements in DirectChildHTMLNestable.tsx
+  const snapShotFunc = () =&gt; {
+    // make a deep clone of state
+    const deepCopiedState = JSON.parse(JSON.stringify(state));
+    const focusIndex = state.canvasFocus.componentId - 1;
+    dispatch(
+      snapShotAction({
+        focusIndex: focusIndex,
+        deepCopiedState: deepCopiedState
+      })
+    );
+  };
+
+  // This hook will allow the user to drag items from the left panel on to the canvas
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.INSTANCE,
+    drop: (item: DragItem, monitor: DropTargetMonitor) =&gt; {
+      const didDrop = monitor.didDrop();
+      // takes a snapshot of state to be used in UNDO and REDO cases
+      snapShotFunc();
+      // returns false for direct drop target
+      if (didDrop) {
+        return;
+      }
+      // if item dropped is going to be a new instance (i.e. it came from the left panel), then create a new child component
+      if (item.newInstance &amp;&amp; item.instanceType !== &#x27;Component&#x27;) {
+        dispatch(
+          addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          })
+        );
+      } else if (item.newInstance &amp;&amp; item.instanceType === &#x27;Component&#x27;) {
+        let hasDiffParent = false;
+        const components = state.components;
+        let newChildName = &#x27;&#x27;;
+        // loop over componenets array
+        for (let i = 0; i &lt; components.length; i++) {
+          const comp = components[i];
+          //loop over each componenets child
+          for (let j = 0; j &lt; comp.children.length; j++) {
+            const child = comp.children[j];
+            if (child.name === &#x27;separator&#x27;) continue;
+            // check if the item.instanceTypeId matches and child ID
+            if (item.instanceTypeId === child.typeId) {
+              // check if the name of the parent matches the canvas focus name
+              // comp is the parent component
+              // currentComponent is the canvas.focus component
+              if (comp.name === currentComponent.name) {
+                i = components.length;
+                break;
+              } else {
+                // if false
+                // setCopiedComp(child);
+                hasDiffParent = true;
+                newChildName = child.name;
+                i = components.length;
+                break;
+              }
+            }
+          }
+        }
+        // if (!hasDiffParent) {
+        dispatch(
+          addChild({
+            type: item.instanceType,
+            typeId: item.instanceTypeId,
+            childId: null,
+            contextParam: contextParam
+          })
+        );
+      }
+    },
+    collect: (monitor) =&gt; ({
+      isOver: !!monitor.isOver()
+    })
+  });
+
+  // Styling for Canvas
+  const defaultCanvasStyle = {
+    width: &#x27;100%&#x27;,
+    minHeight: &#x27;100%&#x27;,
+    backgroundColor: isOver ? &#x27;#FAFED1&#x27; : &#x27;#FBFBFB&#x27;,
+    border: &#x27;1px solid #FBFBF2&#x27;,
+    borderStyle: isOver ? &#x27;dotted&#x27; : &#x27;solid&#x27;,
+    aspectRatio: &#x27;auto 774 / 1200&#x27;,
+    boxSizing: &#x27;border-box&#x27;
+  };
+
+  const darkCanvasStyle = {
+    width: &#x27;100%&#x27;,
+    minHeight: &#x27;100%&#x27;,
+    backgroundColor: isOver ? &#x27;#4d4d4d&#x27; : &#x27;#21262c&#x27;,
+    border: &#x27;1px solid #FBFBF2&#x27;,
+    borderStyle: isOver ? &#x27;dotted&#x27; : &#x27;solid&#x27;
+  };
+  // Combine the default styles of the canvas with the custom styles set by the user for that component
+  // The render children function renders all direct children of a given component
+  // Direct children are draggable/clickable
+
+  const canvasStyle = combineStyles(defaultCanvasStyle, currentComponent.style);
+  const darkCombinedCanvasStyle = combineStyles(
+    darkCanvasStyle,
+    currentComponent.style
+  );
+  return (
+    &lt;div
+      className={&#x27;componentContainer&#x27;}
+      ref={drop}
+      data-testid=&quot;drop&quot;
+      style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
+      onClick={onClickHandler}
+    &gt;
+      {renderChildren(currentComponent.children)}
+    &lt;/div&gt;
+  );
+}
+
+export default Canvas;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:16,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:26,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:4,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:10,&quot;text&quot;:&quot;stopPropagation&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:10,&quot;text&quot;:&quot;deepCopiedState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:8,&quot;text&quot;:&quot;deepCopiedState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/main/Canvas.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:25,&quot;text&quot;:&quot;deepCopiedState&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

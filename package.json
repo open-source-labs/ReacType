@@ -1,11 +1,15 @@
 {
   "name": "reactype",
-  "version": "14.0.0",
+  "version": "16.0.0 by Adam Vanek, Matteo Diterlizzi, Rachel Kucharski and Sophia Bui",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Adam Vanek",
+    "Matteo Diterlizzi",
+    "Rachel Kucharski",
+    "Sophia Bui",
     "Brett Webster",
     "Lillian Wimberly",
     "Shirley Liu",
@@ -79,7 +83,8 @@
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test": "NODE_ENV=test jest --verbose --coverage",
     "server": "cross-env NODE_ENV=development nodemon server/server.ts",
-    "start": "node server/server.ts"
+    "start": "node server/server.ts",
+    "ts-coverage": "typescript-coverage-report"
   },
   "repository": {
     "type": "git",
@@ -158,6 +163,7 @@
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
     "source-map-support": "^0.5.21",
+    "typescript-coverage-report": "^0.7.0",
     "uniqid": "^5.4.0",
     "use-debounce": "^8.0.3",
     "uuid": "^8.3.2"

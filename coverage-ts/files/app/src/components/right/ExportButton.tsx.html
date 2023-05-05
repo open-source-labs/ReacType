@@ -1,0 +1,223 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ExportButton.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ExportButton.tsx</td><td class="">90.29%</td><td class="">80%</td><td class="">103</td><td class="">93</td><td class="">10</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+import List from &#x27;@mui/material/List&#x27;;
+import ListItem from &#x27;@mui/material/ListItem&#x27;;
+import ListItemText from &#x27;@mui/material/ListItemText&#x27;;
+//these 3 lines below are for the electron version
+import GetAppIcon from &#x27;@mui/icons-material/GetApp&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import exportProject from &#x27;../../utils/exportProject.util&#x27;;
+import createModal from &#x27;./createModal&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+import zipFiles from &#x27;../../helperFunctions/zipFiles&#x27;;
+
+export default function ExportButton() {
+  const [modal, setModal] = useState(null);
+  const state = useSelector((store: RootState) =&gt; store.appState);
+
+  const genOptions: string[] = [
+    &#x27;Export components&#x27;
+  ];
+
+  // Closes out the open modal
+  const closeModal = () =&gt; setModal(&#x27;&#x27;);
+
+  const showGenerateAppModal = () =&gt; {
+    const children = (
+      &lt;List className=&quot;export-preference&quot;&gt;
+        {genOptions.map((option: string, i: number) =&gt; (
+          &lt;ListItem
+            key={i}
+            onClick={() =&gt; chooseGenOptions()}
+            style={{
+              border: &#x27;1px solid #3f51b5&#x27;,
+              marginBottom: &#x27;2%&#x27;,
+              marginTop: &#x27;5%&#x27;
+            }}
+          &gt;
+            &lt;ListItemText primary={option} style={{ textAlign: &#x27;center&#x27; }} /&gt;
+          &lt;/ListItem&gt;
+        ))}
+      &lt;/List&gt;
+    );
+
+    const chooseGenOptions = () =&gt; {
+      zipFiles(state);
+      closeModal();
+    };
+
+    setModal(
+      createModal({
+        closeModal,
+        children,
+        message: &#x27;Click to download in zip file:&#x27;,
+        primBtnLabel: null,
+        primBtnAction: null,
+        secBtnAction: null,
+        secBtnLabel: null,
+        open: true
+      })
+    );
+  };
+
+  const exportKeyBind = useCallback(e =&gt; {
+    //Export Project
+    (e.key === &#x27;e&#x27; &amp;&amp; e.metaKey) || (e.key === &#x27;e&#x27; &amp;&amp; e.ctrlKey)
+      ? showGenerateAppModal()
+      : &#x27;&#x27;;
+  }, []);
+
+  useEffect(() =&gt; {
+    document.addEventListener(&#x27;keydown&#x27;, exportKeyBind);
+    return () =&gt; {
+      document.removeEventListener(&#x27;keydown&#x27;, exportKeyBind);
+    };
+  }, []);
+  return (
+    &lt;div&gt;
+      &lt;button onClick={showGenerateAppModal}&gt;Export Project
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; className=&quot;bi bi-download&quot; viewBox=&quot;0 0 16 16&quot;&gt;
+          &lt;path d=&quot;M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z&quot;/&gt;
+          &lt;path d=&quot;M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z&quot;/&gt;
+        &lt;/svg&gt;
+      &lt;/button&gt;
+      {modal}
+    &lt;/div&gt;
+  );
+}
+
+//The below code is exclusive to ReacType&#x27;s Electron App
+//If you would like to deploy the app, please comment out the exportButton function above and uncomment the code below
+
+
+// export default function ExportButton() {
+//   const [modal, setModal] = useState(null);
+//   const state = useSelector(store =&gt; store.appState)
+
+//   const genOptions: string[] = [
+//     &#x27;Export components&#x27;,
+//     &#x27;Export components with application files&#x27;
+//   ];
+//   let genOption = 0;
+
+//   // Closes out the open modal
+//   const closeModal = () =&gt; setModal(&#x27;&#x27;);
+
+//   const showGenerateAppModal = () =&gt; {
+//     const children = (
+//       &lt;List className=&quot;export-preference&quot;&gt;
+//         {genOptions.map((option: string, i: number) =&gt; (
+//           &lt;ListItem
+//             key={i}
+//             // button
+//             onClick={() =&gt; chooseGenOptions(i)}
+//             style={{
+//               border: &#x27;1px solid #3f51b5&#x27;,
+//               marginBottom: &#x27;2%&#x27;,
+//               marginTop: &#x27;5%&#x27;
+//             }}
+//           &gt;
+//             &lt;ListItemText primary={option} style={{ textAlign: &#x27;center&#x27; }} /&gt;
+//           &lt;/ListItem&gt;
+//         ))}
+//         &lt;ListItem&gt;
+//           &lt;input type=&quot;checkbox&quot; id=&quot;tests&quot; name=&quot;tests&quot;&gt;&lt;/input&gt;
+//           &lt;label for=&quot;tests&quot;&gt;Include Tests&lt;/label&gt;
+//         &lt;/ListItem&gt;
+//       &lt;/List&gt;
+//     );
+//     let testchecked = 0;
+//     // helper function called by showGenerateAppModal
+//     // this function will prompt the user to choose an app directory once they&#x27;ve chosen their export option
+//     const chooseGenOptions = (genOpt: number) =&gt; {
+//       // set export option: 0 --&gt; export only components, 1 --&gt; export full project
+//       genOption = genOpt;
+
+//       //This is exclusive to the electron app
+//       window.api.chooseAppDir();
+//       testchecked = document.getElementById(&#x27;tests&#x27;).checked;
+//       testerFunc();
+//       closeModal();
+//     };
+
+//     // removes all listeners for the app_dir_selected event
+//     // this is important because otherwise listeners will pile up and events will trigger multiple events
+//     //This is exclusive to the electron app
+//     window.api.removeAllAppDirChosenListeners();
+
+//     // add listener for when an app directory is chosen
+//     // when a directory is chosen, the callback will export the project to the chosen folder
+//     // Note: this listener is imported from the main process via preload.js
+
+//     // This is exclusive to the electron app
+//     window.api.addAppDirChosenListener(path =&gt; {
+//       exportProject(
+//         path,
+//         state.name
+//           ? state.name
+//           : &#x27;New_ReacType_Project_&#x27; + Math.ceil(Math.random() * 99).toString(),
+//         genOption,
+//         testchecked,
+//         state.projectType,
+//         state.components,
+//         state.rootComponents
+//       );
+//     });
+
+//     setModal(
+//       createModal({
+//         closeModal,
+//         children,
+//         message: &#x27;Choose export preference:&#x27;,
+//         primBtnLabel: null,
+//         primBtnAction: null,
+//         secBtnAction: null,
+//         secBtnLabel: null,
+//         open: true
+//       })
+//     );
+//   };
+
+//   const exportKeyBind = useCallback(e =&gt; {
+//     //Export Project
+//     (e.key === &#x27;e&#x27; &amp;&amp; e.metaKey) || (e.key === &#x27;e&#x27; &amp;&amp; e.ctrlKey)
+//       ? showGenerateAppModal()
+//       : &#x27;&#x27;;
+//   }, []);
+
+//   useEffect(() =&gt; {
+//     document.addEventListener(&#x27;keydown&#x27;, exportKeyBind);
+//     return () =&gt; {
+//       document.removeEventListener(&#x27;keydown&#x27;, exportKeyBind);
+//     };
+//   }, []);
+//   return (
+//     &lt;div&gt;
+//       &lt;button onClick={showGenerateAppModal}&gt;Export Project
+//         &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; className=&quot;bi bi-download&quot; viewBox=&quot;0 0 16 16&quot;&gt;
+//           &lt;path d=&quot;M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z&quot;/&gt;
+//           &lt;path d=&quot;M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z&quot;/&gt;
+//         &lt;/svg&gt;
+//       &lt;/button&gt;
+//       {modal}
+//     &lt;/div&gt;
+//   );
+// }
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:39,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:54,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:56,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

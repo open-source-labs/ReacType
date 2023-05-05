@@ -1,0 +1,426 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>SignIn.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/login/SignIn.tsx</td><td class="">95.40%</td><td class="">80%</td><td class="">478</td><td class="">456</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+import { LoginInt } from &#x27;../../interfaces/Interfaces&#x27;;
+import { Link as RouteLink, RouteComponentProps } from &#x27;react-router-dom&#x27;;
+import { sessionIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
+import Avatar from &#x27;@mui/material/Avatar&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import CssBaseline from &#x27;@mui/material/CssBaseline&#x27;;
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import Grid from &#x27;@mui/material/Grid&#x27;;
+import Box from &#x27;@mui/material/Box&#x27;;
+import Typography from &#x27;@mui/material/Typography&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import Container from &#x27;@mui/material/Container&#x27;;
+import LockOutlinedIcon from &#x27;@mui/icons-material/LockOutlined&#x27;;
+import { newUserIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
+import randomPassword from &#x27;../../helperFunctions/randomPassword&#x27;;
+import { toggleDarkMode } from &#x27;../../redux/reducers/slice/darkModeSlice&#x27;;
+import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider
+} from &#x27;@mui/material/styles&#x27;;
+import {
+  SigninDark,
+  SigninLight
+} from &#x27;../../../../app/src/public/styles/theme&#x27;;
+import Brightness3Icon from &#x27;@mui/icons-material/Brightness3&#x27;;
+import Brightness5Icon from &#x27;@mui/icons-material/Brightness5&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+
+import config from &#x27;../../../../config.js&#x27;;
+const { API_BASE_URL } = config;
+
+declare module &#x27;@mui/styles/defaultTheme&#x27; {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+function Copyright() {
+  return (
+    &lt;Typography variant=&quot;body2&quot; color=&quot;textSecondary&quot; align=&quot;center&quot;&gt;
+      {&#x27;Copyright © ReacType &#x27;}
+      {new Date().getFullYear()}
+      {&#x27;.&#x27;}
+    &lt;/Typography&gt;
+  );
+}
+
+const useStyles = makeStyles((theme) =&gt; ({
+  paper: {
+    // marginTop: theme.spacing(8),
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    alignItems: &#x27;center&#x27;
+  },
+  avatar: {
+    // margin: theme.spacing(1),
+    backgroundColor: &#x27;#3EC1AC&#x27;
+  },
+  form: {
+    width: &#x27;100%&#x27; // Fix IE 11 issue.
+    // marginTop: theme.spacing(1)
+  },
+  submit: {
+    // margin: theme.spacing(1, 0, 1),
+    cursor: &#x27;pointer&#x27;
+  },
+  root: {
+    &#x27;&amp; .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline&#x27;: {
+      borderColor: &#x27;#3EC1AC&#x27;
+    }
+  }
+}));
+
+const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt; {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [username, setUsername] = useState(&#x27;&#x27;);
+  const [password, setPassword] = useState(&#x27;&#x27;);
+
+  const isDarkMode = useSelector(
+    (store: RootState) =&gt; store.darkMode.isDarkMode
+  );
+
+  const [invalidUserMsg, setInvalidUserMsg] = useState(&#x27;&#x27;);
+  const [invalidPassMsg, setInvalidPassMsg] = useState(&#x27;&#x27;);
+  const [invalidUser, setInvalidUser] = useState(false);
+  const [invalidPass, setInvalidPass] = useState(false);
+
+  useEffect(() =&gt; {
+    const githubCookie = setInterval(() =&gt; {
+      window.api?.setCookie();
+      window.api?.getCookie((cookie) =&gt; {
+        // if a cookie exists, set localstorage item with cookie data, clear interval, go back to &#x27;/&#x27; route to load app
+        if (cookie[0]) {
+          window.localStorage.setItem(&#x27;ssid&#x27;, cookie[0].value);
+          clearInterval(githubCookie);
+          props.history.push(&#x27;/&#x27;);
+          // if an item is already set in localstorage (guest option or normal login) clear interval needs to be run or else this will constantly run
+        } else if (window.localStorage.getItem(&#x27;ssid&#x27;)) {
+          clearInterval(githubCookie);
+        }
+      });
+    }, 2000);
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    let inputVal = e.target.value;
+
+    switch (e.target.name) {
+      case &#x27;username&#x27;:
+        setUsername(inputVal);
+        break;
+      case &#x27;password&#x27;:
+        setPassword(inputVal);
+        break;
+    }
+  };
+
+  const handleLogin = (e: React.MouseEvent&lt;HTMLButtonElement, MouseEvent&gt;) =&gt; {
+    e.preventDefault();
+    setInvalidUser(false);
+    setInvalidUserMsg(&#x27;&#x27;);
+    setInvalidPass(false);
+    setInvalidPassMsg(&#x27;&#x27;);
+    sessionIsCreated(username, password, false).then((loginStatus) =&gt; {
+      if (loginStatus === &#x27;Success&#x27;) {
+        props.history.push(&#x27;/&#x27;);
+      } else {
+        switch (loginStatus) {
+          case &#x27;No Username Input&#x27;:
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case &#x27;No Password Input&#x27;:
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+          case &#x27;Invalid Username&#x27;:
+            setInvalidUser(true);
+            setInvalidUserMsg(loginStatus);
+            break;
+          case &#x27;Incorrect Password&#x27;:
+            setInvalidPass(true);
+            setInvalidPassMsg(loginStatus);
+            break;
+        }
+      }
+    });
+  };
+
+  const keyBindSignIn = useCallback((e) =&gt; {
+    if (e.key === &#x27;Enter&#x27;) {
+      e.preventDefault();
+      document.getElementById(&#x27;SignIn&#x27;).click();
+    }
+  }, []);
+
+  useEffect(() =&gt; {
+    document.addEventListener(&#x27;keydown&#x27;, keyBindSignIn);
+    return () =&gt; {
+      document.removeEventListener(&#x27;keydown&#x27;, keyBindSignIn);
+    };
+  }, []);
+
+  // for users not wanting to make an account and use as guest
+  const handleLoginGuest = (
+    e: React.MouseEvent&lt;HTMLButtonElement, MouseEvent&gt;
+  ) =&gt; {
+    e.preventDefault();
+    // generate &quot;cookie&quot; in localStorage for guest users
+    window.localStorage.setItem(&#x27;ssid&#x27;, &#x27;guest&#x27;);
+    props.history.push(&#x27;/&#x27;);
+  };
+
+  const handleGithubLogin = (
+    e: React.MouseEvent&lt;HTMLButtonElement, MouseEvent&gt;
+  ) =&gt; {
+    e.preventDefault();
+    // window.api.github();
+    // 8080 for container 5656 for dev
+    window.location.assign(`${API_BASE_URL}/auth/github`);
+  };
+  const responseFacebook = (response) =&gt; {
+    if (response.accessToken) {
+      newUserIsCreated(response.email, response.email, randomPassword()).then(
+        (userCreated) =&gt; {
+          if (userCreated === &#x27;Success&#x27;) {
+            props.history.push(&#x27;/&#x27;);
+          } else {
+            sessionIsCreated(response.email, randomPassword(), true).then(
+              (loginStatus) =&gt; {
+                if (loginStatus === &#x27;Success&#x27;) {
+                  props.history.push(&#x27;/&#x27;);
+                }
+              }
+            );
+          }
+        }
+      );
+    }
+  };
+
+  //  NEW DARK MODE
+  const handleDarkModeToggle = () =&gt; {
+    dispatch(toggleDarkMode());
+  };
+
+  const classBtn =
+    &#x27;MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-fullWidth&#x27;;
+
+  return (
+    &lt;StyledEngineProvider injectFirst&gt;
+      &lt;ThemeProvider theme={!isDarkMode ? SigninLight : SigninDark}&gt;
+        &lt;Container component=&quot;main&quot; maxWidth=&quot;xs&quot;&gt;
+          &lt;CssBaseline /&gt;
+          &lt;div className={classes.paper}&gt;
+            &lt;Button
+              color=&quot;primary&quot;
+              style={{
+                minWidth: &#x27;113.97px&#x27;,
+                top: 10,
+                right: 20,
+                position: &#x27;absolute&#x27;
+              }}
+              // variant=&quot;contained&quot;
+              endIcon={!isDarkMode ? &lt;Brightness3Icon /&gt; : &lt;Brightness5Icon /&gt;}
+              onClick={handleDarkModeToggle}
+            &gt;
+              {isDarkMode ? `Light Mode` : `Dark Mode`}
+            &lt;/Button&gt;
+            &lt;Avatar className={classes.avatar} sx={{ marginTop: &#x27;10vh&#x27; }}&gt;
+              &lt;LockOutlinedIcon /&gt;
+            &lt;/Avatar&gt;
+            &lt;Typography component=&quot;h1&quot; variant=&quot;h5&quot; color=&quot;textPrimary&quot;&gt;
+              Sign in
+            &lt;/Typography&gt;
+            &lt;TextField
+              className={classes.root}
+              variant=&quot;outlined&quot;
+              margin=&quot;normal&quot;
+              required
+              fullWidth
+              id=&quot;username&quot;
+              label=&quot;Username&quot;
+              name=&quot;username&quot;
+              autoComplete=&quot;username&quot;
+              autoFocus
+              value={username}
+              onChange={handleChange}
+              helperText={invalidUserMsg}
+              error={invalidUser}
+              data-testid=&quot;username-input&quot;
+            /&gt;
+            &lt;TextField
+              className={classes.root}
+              variant=&quot;outlined&quot;
+              margin=&quot;normal&quot;
+              required
+              fullWidth
+              name=&quot;password&quot;
+              label=&quot;Password&quot;
+              type=&quot;password&quot;
+              id=&quot;password&quot;
+              autoComplete=&quot;current-password&quot;
+              value={password}
+              onChange={handleChange}
+              helperText={invalidPassMsg}
+              error={invalidPass}
+              data-testid=&quot;password-input&quot;
+            /&gt;
+
+            &lt;Button
+              fullWidth
+              id=&quot;SignIn&quot;
+              variant=&quot;contained&quot;
+              color=&quot;primary&quot;
+              className={classes.submit}
+              onClick={(e) =&gt; handleLogin(e)}
+              sx={{
+                marginBottom: &#x27;5px&#x27;,
+                marginTop: &#x27;20px&#x27;
+              }}
+            &gt;
+              Sign In
+              &lt;svg
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width=&quot;16&quot;
+                height=&quot;16&quot;
+                fill=&quot;currentColor&quot;
+                class=&quot;bi bi-person-check&quot;
+                viewBox=&quot;0 0 16 16&quot;
+                style={{ marginLeft: &#x27;5px&#x27; }}
+              &gt;
+                &lt;path d=&quot;M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z&quot; /&gt;
+                &lt;path d=&quot;M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z&quot; /&gt;
+              &lt;/svg&gt;
+            &lt;/Button&gt;
+            &lt;Button
+              fullWidth
+              id=&quot;SignInWithGithub&quot;
+              variant=&quot;contained&quot;
+              color=&quot;primary&quot;
+              className={classes.submit}
+              onClick={(e) =&gt; handleGithubLogin(e)}
+              sx={{
+                marginBottom: &#x27;5px&#x27;
+              }}
+            &gt;
+              Sign In With Github
+              &lt;svg
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width=&quot;16&quot;
+                height=&quot;16&quot;
+                fill=&quot;currentColor&quot;
+                class=&quot;bi bi-github&quot;
+                viewBox=&quot;0 0 16 16&quot;
+                style={{ marginLeft: &#x27;5px&#x27; }}
+              &gt;
+                &lt;path d=&quot;M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z&quot; /&gt;
+              &lt;/svg&gt;
+            &lt;/Button&gt;
+            &lt;Button
+              fullWidth
+              variant=&quot;contained&quot;
+              color=&quot;primary&quot;
+              id=&quot;SignInWithGoogle&quot;
+              onClick={(e) =&gt; {
+                e.preventDefault();
+                window.location.assign(`${API_BASE_URL}/auth/google`);
+              }}
+              sx={{
+                marginBottom: &#x27;5px&#x27;
+              }}
+            &gt;
+              Sign in With Google
+              &lt;svg
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width=&quot;16&quot;
+                height=&quot;16&quot;
+                fill=&quot;currentColor&quot;
+                class=&quot;bi bi-google&quot;
+                viewBox=&quot;0 0 16 16&quot;
+                style={{ marginLeft: &#x27;5px&#x27; }}
+              &gt;
+                &lt;path d=&quot;M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z&quot; /&gt;
+              &lt;/svg&gt;
+            &lt;/Button&gt;
+            &lt;Button
+              fullWidth
+              variant=&quot;contained&quot;
+              color=&quot;primary&quot;
+              className={classes.submit}
+              onClick={(e) =&gt; handleLoginGuest(e)}
+              sx={{
+                marginBottom: &#x27;5px&#x27;
+              }}
+            &gt;
+              Continue as Guest
+              &lt;svg
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width=&quot;16&quot;
+                height=&quot;16&quot;
+                fill=&quot;currentColor&quot;
+                class=&quot;bi bi-person-circle&quot;
+                viewBox=&quot;0 0 16 16&quot;
+                style={{ marginLeft: &#x27;5px&#x27; }}
+              &gt;
+                &lt;path d=&quot;M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z&quot; /&gt;
+                &lt;path
+                  fillRule=&quot;evenodd&quot;
+                  d=&quot;M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/Button&gt;
+            &lt;Grid container&gt;
+              &lt;Grid item xs&gt;
+                &lt;RouteLink
+                  style={{ color: isDarkMode ? &#x27;#aaaaaa&#x27; : &#x27;black&#x27; }}
+                  to={`/signup`}
+                  className=&quot;nav_link&quot;
+                &gt;
+                  Forgot password?
+                &lt;/RouteLink&gt;
+              &lt;/Grid&gt;
+              &lt;Grid item&gt;
+                &lt;RouteLink
+                  style={{ color: isDarkMode ? &#x27;#aaaaaa&#x27; : &#x27;black&#x27; }}
+                  to={`/signup`}
+                  className=&quot;nav_link&quot;
+                &gt;
+                  Don&#x27;t have an account? Sign Up
+                &lt;/RouteLink&gt;
+              &lt;/Grid&gt;
+            &lt;/Grid&gt;
+          &lt;/div&gt;
+          &lt;Box mt={8}&gt;
+            &lt;Copyright /&gt;
+          &lt;/Box&gt;
+        &lt;/Container&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/StyledEngineProvider&gt;
+  );
+};
+
+export default SignIn;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:18,&quot;text&quot;:&quot;setCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:18,&quot;text&quot;:&quot;getCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:29,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:12,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:46,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:56,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:185,&quot;character&quot;:28,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:8,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:17,&quot;text&quot;:&quot;accessToken&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:23,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:32,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:39,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:48,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:29,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:38,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

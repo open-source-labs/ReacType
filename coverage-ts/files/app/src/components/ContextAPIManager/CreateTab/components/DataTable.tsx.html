@@ -1,0 +1,91 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>DataTable.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx</td><td class="">84.88%</td><td class="">80%</td><td class="">86</td><td class="">73</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import Table from &#x27;@mui/material/Table&#x27;;
+import TableBody from &#x27;@mui/material/TableBody&#x27;;
+import TableContainer from &#x27;@mui/material/TableContainer&#x27;;
+import TableHead from &#x27;@mui/material/TableHead&#x27;;
+import TableRow from &#x27;@mui/material/TableRow&#x27;;
+import Paper from &#x27;@mui/material/Paper&#x27;;
+import { styled } from &#x27;@mui/material/styles&#x27;;
+import TableCell, { tableCellClasses } from &#x27;@mui/material/TableCell&#x27;;
+
+const StyledTableCell = styled(TableCell)(({ theme }) =&gt; ({
+  [`&amp;.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: &#x27;theme.palette.common.white&#x27;
+  },
+  [`&amp;.${tableCellClasses.body}`]: {
+    fontSize: 14
+  }
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) =&gt; ({
+  &#x27;&amp;:nth-of-type(odd)&#x27;: {
+    backgroundColor: theme.palette.action.hover
+  },
+  // hide last border
+  &#x27;&amp;:last-child td, &amp;:last-child th&#x27;: {
+    border: 0
+  }
+}));
+
+export default function DataTable({ target, contextInput }) {
+  return (
+    &lt;&gt;
+      &lt;TableContainer component={Paper} sx={{ maxHeight: &#x27;350px&#x27; }}&gt;
+        &lt;Table
+          sx={{ width: &#x27;510px&#x27; }}
+          aria-label=&quot;customized table&quot;
+          stickyHeader
+        &gt;
+          &lt;TableHead&gt;
+            &lt;TableRow&gt;
+              {/* &lt;StyledTableCell&gt;Key&lt;/StyledTableCell&gt; */}
+              &lt;StyledTableCell align=&quot;center&quot; colSpan={3}&gt;
+                {contextInput ? contextInput.name : &#x27;Context Name&#x27;}
+              &lt;/StyledTableCell&gt;
+            &lt;/TableRow&gt;
+          &lt;/TableHead&gt;
+          &lt;TableBody&gt;
+            {target.map((data, index) =&gt; (
+              &lt;StyledTableRow key={index}&gt;
+                &lt;StyledTableCell
+                  style={{ color: &#x27;black&#x27; }}
+                  component=&quot;th&quot;
+                  scope=&quot;row&quot;
+                &gt;
+                  {data.key}
+                &lt;/StyledTableCell&gt;
+                &lt;StyledTableCell style={{ color: &#x27;black&#x27; }} align=&quot;right&quot;&gt;
+                  {data.value}
+                &lt;/StyledTableCell&gt;
+              &lt;/StyledTableRow&gt;
+            ))}
+          &lt;/TableBody&gt;
+          {/* &lt;TableFooter&gt;
+            &lt;StyledTableCell align=&quot;center&quot; colSpan={3}&gt;
+              {contextInput ? contextInput.name : &#x27;Context Name&#x27;}
+            &lt;/StyledTableCell&gt;
+          &lt;/TableFooter&gt; */}
+        &lt;/Table&gt;
+      &lt;/TableContainer&gt;
+    &lt;/&gt;
+  );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:36,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:44,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:17,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:32,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:45,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:13,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:20,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:25,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:31,&quot;text&quot;:&quot;index&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:19,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:24,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:19,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/components/DataTable.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:24,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  
