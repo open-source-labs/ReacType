@@ -26,7 +26,10 @@ const AddContextForm = ({
   const color = isDarkMode ? 'white' : 'black';
 
   const handleClick = () => {
-    if (contextInput === '' || contextInput === null) return;
+    if (contextInput === '' || contextInput === null) {
+      window.alert('must enter context name');
+      return;
+    }
     handleClickSelectContext();
   };
 
