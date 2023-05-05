@@ -174,8 +174,8 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'initial',
     minWidth: 40,
     // fontWeight: theme.typography.fontWeightRegular,
-    // marginRight: theme.spacing(2), // JZ: updated syntax as per deprecation warning
-    // marginLeft: theme.spacing(2),
+    marginRight: '16px',
+    marginLeft: '16px',
 
     fontFamily: [
       '-apple-system',

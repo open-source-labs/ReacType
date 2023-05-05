@@ -199,6 +199,6 @@ describe('Customization Panel', () => {
     const panel = screen.getByTestId('customization');
     expect(within(panel).getAllByRole('textbox')).toHaveLength(4);
     // check dropdowns
-    expect(within(panel).getAllByRole('button')).toHaveLength(11);
+    expect(within(panel).getAllByRole('button')).toHaveLength(12);
   });
 });
