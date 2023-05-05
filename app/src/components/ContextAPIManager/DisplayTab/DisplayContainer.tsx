@@ -19,7 +19,7 @@ const DisplayContainer = () => {
     const formattedData = allContext
       .map((obj) => {
         return obj.components.map((component) => {
-          return [`App ${obj.name} ${component}`];
+          return [`App ⎯⎯ ${obj.name} ⎯⎯ ${component}`];
         });
       })
       .flat();
@@ -33,6 +33,8 @@ const DisplayContainer = () => {
       word: 'App'
     }
   };
+
+  console.log(contextData);
 
   return (
     <Grid container display="flex" justifyContent="center">
