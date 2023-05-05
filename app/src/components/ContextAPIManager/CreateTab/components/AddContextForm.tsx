@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { MenuItem, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
@@ -18,6 +20,7 @@ const AddContextForm = ({
   setContextInput
 }) => {
   const { allContext } = contextStore;
+  console.log('all contexts', allContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const { state, isDarkMode } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
@@ -88,10 +91,14 @@ const AddContextForm = ({
     </li>
   );
 
+  const contexts = allContext.map((context) => {
+    return <MenuItem style={{ color: 'black' }}>{context.name}</MenuItem>;
+  });
+
   return (
     <Fragment>
       <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
-        Context Input
+        Create Context
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <Autocomplete
@@ -134,6 +141,26 @@ const AddContextForm = ({
           Delete
         </Button>
       </Box>
+      <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
+        Select Context
+      </Typography>
+      <FormControl variant="filled">
+        <Select
+          style={{ border: '1px solid #0099e6', color: 'black' }}
+          value={''}
+          name={'test'}
+          displayEmpty
+          renderValue={() => 'no context selected'}
+          MenuProps={{ disablePortal: true }}
+
+          // value={props.selectValue}
+          // onChange={props.handleChange}
+
+          // inputProps={{ className: props.isThemeLight ? `${props.classes.selectInput} ${props.classes.lightThemeFontColor}` : `${props.classes.selectInput} ${props.classes.darkThemeFontColor}` }}
+        >
+          {contexts}
+        </Select>
+      </FormControl>
     </Fragment>
   );
 };
