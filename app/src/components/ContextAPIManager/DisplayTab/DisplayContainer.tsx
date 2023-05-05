@@ -34,8 +34,6 @@ const DisplayContainer = () => {
     }
   };
 
-  console.log(contextData);
-
   return (
     <Grid container display="flex" justifyContent="center">
       {contextData.length < 2 && <h2>No Contexts consumed</h2>}
