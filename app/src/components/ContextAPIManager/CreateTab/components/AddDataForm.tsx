@@ -13,6 +13,10 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
   const { isDarkMode } = useSelector((store: RootState) => store.darkMode);
   const saveData = () => {
     setDataContext(defaultInputData);
+    if (dataContext.inputKey === '' || dataContext.inputValue === '') {
+      window.alert('empty key or value');
+      return;
+    }
     handleClickInputData(contextInput, dataContext);
   };
   const color = isDarkMode ? 'white' : 'black';

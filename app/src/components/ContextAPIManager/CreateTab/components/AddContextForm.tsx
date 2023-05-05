@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -19,12 +19,11 @@ const AddContextForm = ({
 }) => {
   const { allContext } = contextStore;
   const [btnDisabled, setBtnDisabled] = useState(false);
-  // const [state, dispatch] = useContext(StateContext);
-  const { state, isDarkMode } = useSelector((store:RootState) => ({
+  const { state, isDarkMode } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
-  }))
-const color = isDarkMode ? 'white' : 'black'
+  }));
+  const color = isDarkMode ? 'white' : 'black';
 
   const handleClick = () => {
     if (contextInput === '' || contextInput === null) return;
@@ -54,7 +53,7 @@ const color = isDarkMode ? 'white' : 'black'
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some(option => inputValue === option.name);
+    const isExisting = options.some((option) => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -67,7 +66,7 @@ const color = isDarkMode ? 'white' : 'black'
     return filtered;
   };
 
-  const getOptionLabel = option => {
+  const getOptionLabel = (option) => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -80,7 +79,11 @@ const color = isDarkMode ? 'white' : 'black'
     return option.name;
   };
 
-  const renderOption = (props, option) => <li style={{ color: 'black' }} {...props}>{option.name}</li>;
+  const renderOption = (props, option) => (
+    <li style={{ color: 'black' }} {...props}>
+      {option.name}
+    </li>
+  );
 
   return (
     <Fragment>
@@ -101,13 +104,16 @@ const color = isDarkMode ? 'white' : 'black'
           renderOption={renderOption}
           sx={{ width: 425, border: '1px solid black' }}
           freeSolo
-          renderInput={params => (
-            <TextField {...params}  InputProps={{
-              ...params.InputProps,
-              style: { color: color },
-            }}  
-            variant='filled'
-            label="Create/Select Context" />
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                style: { color: color }
+              }}
+              variant="filled"
+              label="Create/Select Context"
+            />
           )}
         />
         <Button
@@ -124,7 +130,6 @@ const color = isDarkMode ? 'white' : 'black'
         >
           Delete
         </Button>
-        {/* <Button variant="contained">Delete</Button> */}
       </Box>
     </Fragment>
   );
