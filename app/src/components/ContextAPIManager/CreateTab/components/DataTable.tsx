@@ -28,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-export default function DataTable({ target, contextInput }) {
+export default function DataTable({ target, currentContext }) {
   return (
     <>
       <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
@@ -41,7 +41,7 @@ export default function DataTable({ target, contextInput }) {
             <TableRow>
               {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
-                {contextInput ? contextInput.name : 'Context Name'}
+                {currentContext ? currentContext : 'Context Name'}
               </StyledTableCell>
             </TableRow>
           </TableHead>
