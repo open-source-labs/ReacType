@@ -9,7 +9,9 @@ import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+import { deleteState } from '../../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../../redux/store'
+import { current } from '@reduxjs/toolkit';
 
 const TableStateProps = props => {
   const { state, contextParam } = useSelector((store:RootState) => ({
@@ -59,7 +61,7 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id, params.key);
+              handleDeleteState(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -69,27 +71,13 @@ const TableStateProps = props => {
     }
   ];
 
-  const deleteState = (selectedId, stateName) => {
-    // get the current focused component
-    // send a dispatch to rerender the table
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    // returns an array of the remaining props after deleting selected prop
-    const filtered = currentComponent.stateProps.slice();
-    let otherId;
-    for (let i = 0; i < filtered.length; i++) {
-      let curr = filtered[i];
-      if (curr.id === selectedId) {
-        if (i %2 ===0) {
-          otherId = filtered[i + 1];
-          filtered.splice(i, 2);
-        } else {
-          otherId = filtered[i - 1];
-          filtered.splice(i - 1, 2);
-        }
-      }
-    }
-    dispatch(deletePassedInProps({stateProps: filtered, rowId: selectedId, otherId: otherId.id, contextParam: contextParam}))
+  const handleDeleteState = (selectedId) => {
+      const currentId = state.canvasFocus.componentId;
+      const currentComponent = state.components[currentId - 1];
+      const filtered = currentComponent.stateProps.filter(
+        element => element.id !== selectedId
+      );
+      dispatch(deleteState({stateProps: filtered, rowId: selectedId, contextParam: contextParam}))
   };
 
   useEffect(() => {
