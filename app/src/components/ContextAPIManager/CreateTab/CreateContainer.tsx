@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useStore } from 'react-redux';
+import React from 'react';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import DataTable from './components/DataTable';
@@ -7,31 +6,23 @@ import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
 // import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
-import { addContext, deleteContext, addContextValues } from '../../../redux/reducers/slice/contextReducer';
+import {
+  addContext,
+  deleteContext,
+  addContextValues
+} from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../redux/store';
 
 const CreateContainer = () => {
-  const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
-  const state = useSelector((store:RootState) => store.contextSlice);
-
-  // const store = useStore();
-  // const [state, setState] = useState([]);
-  const [tableState, setTableState] = React.useState(defaultTableData);
+  const state = useSelector((store: RootState) => store.contextSlice);
   const [contextInput, setContextInput] = React.useState(null);
-  // const [stateContext, dispatchContext] = useContext(StateContext);
+  const [currentContext, setCurrentContext] = React.useState(null);
+  const currentKeyValues = state.allContext.find(
+    (obj) => obj.name === currentContext
+  )?.values || [{ key: 'Enter Key', value: 'Enter value' }];
   const dispatch = useDispatch();
-
-  //pulling data from redux store
-  // useEffect(() => {
-
-  //   setState(allContext)
-  //   // setState(store.getState().contextSlice);
-
-  // }, [allContext]);
-
-
 
   //update data store when user adds a new context
   const handleClickSelectContext = () => {
@@ -48,10 +39,8 @@ const CreateContainer = () => {
   };
 
   //update data store when user add new key-value pair to context
-  const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
-    dispatch(
-      addContextValues({ name, inputKey, inputValue })
-    );
+  const handleClickInputData = (name, { inputKey, inputValue }) => {
+    dispatch(addContextValues({ name, inputKey, inputValue }));
     // setState(allContext);
   };
 
@@ -62,7 +51,7 @@ const CreateContainer = () => {
     // setState(allContext);
     setTableState(defaultTableData);
 
-    dispatch(deleteElement({id:'FAKE_ID', contextParam: state}))
+    dispatch(deleteElement({ id: 'FAKE_ID', contextParam: state }));
     // dispatchContext({
     //   type: 'DELETE ELEMENT',
     //   payload: 'FAKE_ID'
@@ -70,7 +59,7 @@ const CreateContainer = () => {
   };
 
   //re-render data table when there's new changes
-  const renderTable = targetContext => {
+  const renderTable = (targetContext) => {
     if (
       targetContext === null ||
       targetContext === undefined ||
@@ -82,6 +71,7 @@ const CreateContainer = () => {
       setTableState(targetContext.values);
     }
   };
+  console.log('state.allContext', state.allContext);
   return (
     <>
       <Grid container display="flex" justifyContent="space-evenly">
@@ -102,6 +92,8 @@ const CreateContainer = () => {
                 renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
+                currentContext={currentContext}
+                setCurrentContext={setCurrentContext}
               />
             </Grid>
 
@@ -110,6 +102,7 @@ const CreateContainer = () => {
               <AddDataForm
                 handleClickInputData={handleClickInputData}
                 contextInput={contextInput}
+                currentContext={currentContext}
               />
             </Grid>
           </Grid>
@@ -123,7 +116,10 @@ const CreateContainer = () => {
           >
             Context Data Table
           </Typography>
-          <DataTable target={tableState} contextInput={contextInput} />
+          <DataTable
+            target={currentKeyValues}
+            currentContext={currentContext}
+          />
         </Grid>
       </Grid>
     </>

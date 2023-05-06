@@ -6,7 +6,11 @@ import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
-const AddDataForm = ({ handleClickInputData, contextInput }) => {
+const AddDataForm = ({
+  handleClickInputData,
+  contextInput,
+  currentContext
+}) => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);
@@ -17,7 +21,7 @@ const AddDataForm = ({ handleClickInputData, contextInput }) => {
       window.alert('empty key or value');
       return;
     }
-    handleClickInputData(contextInput, dataContext);
+    handleClickInputData(currentContext, dataContext);
   };
   const color = isDarkMode ? 'white' : 'black';
 
