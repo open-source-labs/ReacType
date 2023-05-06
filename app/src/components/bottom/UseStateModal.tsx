@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import Modal from '@mui/material/Modal';
-import TableStateProps from './TableStateProps';
+import TableStateProps from '../StateManagement/CreateTab/components/TableStateProps';
 
 function UseStateModal({ updateAttributeWithState, attributeToChange, childId }) {
   const [open, setOpen] = useState(false);
