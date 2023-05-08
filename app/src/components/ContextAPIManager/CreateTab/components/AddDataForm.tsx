@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -6,10 +6,7 @@ import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
-const AddDataForm = ({
-  handleClickInputData,
-  currentContext
-}) => {
+const AddDataForm = ({ handleClickInputData, currentContext }) => {
   //const [contextInput, setContextInput] = React.useState(null);
   const defaultInputData = { inputKey: '', inputValue: '' };
   const [dataContext, setDataContext] = React.useState(defaultInputData);
@@ -34,7 +31,7 @@ const AddDataForm = ({
   };
 
   return (
-    <Fragment>
+    <>
       <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
         Add context data
       </Typography>
@@ -63,7 +60,7 @@ const AddDataForm = ({
           Save
         </Button>
       </Box>
-    </Fragment>
+    </>
   );
 };
 
