@@ -37,6 +37,7 @@ const StateManager = (props): JSX.Element => {
   // then this will re-render the dataTable
 
   const background_Color = isDarkMode ? '#21262b' : 'white';
+  const color = isDarkMode ? 'white' : 'black';
 
   return (
     <React.Fragment>

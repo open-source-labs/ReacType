@@ -121,6 +121,12 @@ const TableParentProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',
+    '& button:hover':{
+      backgroundColor: 'LightGray'
+    },
+    '& button':{
+      color: 'black'
+    },
     '& .MuiTablePagination-root': {
       color: 'rbga(0,0,0,0.54)'
     }

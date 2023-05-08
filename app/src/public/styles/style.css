@@ -747,3 +747,7 @@ a.nav_link:hover {
   align-items: center;
 }
 
+li {
+  color: black !important;
+}
+
