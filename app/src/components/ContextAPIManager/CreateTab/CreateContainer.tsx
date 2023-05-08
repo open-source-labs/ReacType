@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
-// import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
 import {
   addContext,
@@ -12,13 +11,14 @@ import {
   addContextValues
 } from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../../redux/store';
 
 const CreateContainer = () => {
   const state = useSelector((store: RootState) => store.contextSlice);
   const [contextInput, setContextInput] = React.useState(null);
   const [currentContext, setCurrentContext] = React.useState(null);
+  const [errorMsg, setErrorMsg] = React.useState('');
+  const [errorStatus, setErrorStatus] = React.useState(false);
   const currentKeyValues = state.allContext.find(
     (obj) => obj.name === currentContext
   )?.values || [{ key: 'Enter Key', value: 'Enter value' }];
@@ -27,50 +27,57 @@ const CreateContainer = () => {
   //update data store when user adds a new context
   const handleClickSelectContext = () => {
     //prevent user from adding duplicate context
-    for (let i = 0; i < state.allContext.length; i += 1) {
-      if (state.allContext[i].name === contextInput.name) {
-        return;
-      }
+    let letters = /[a-zA-Z]/;
+    let error;
+    console.log(state.allContext, contextInput, 'error test');
+    if (!contextInput || contextInput.trim() === '') {
+      error = 'empty';
+    } else if (!contextInput.charAt(0).match(letters)) {
+      error = 'letters';
+    } else if (!contextInput.match(/^[0-9a-zA-Z]+$/)) {
+      error = 'symbolsDetected';
+    } else if (
+      state.allContext.some(
+        (context) => context.name.toLowerCase() === contextInput.toLowerCase()
+      )
+    ) {
+      error = 'dupe';
     }
-    setContextInput('');
-    dispatch(addContext(contextInput));
 
-    // setState(allContext);
+    if (error !== undefined) {
+      triggerError(error);
+      return;
+    }
+
+    dispatch(addContext({ name: contextInput }));
+    setContextInput('');
+  };
+
+  const triggerError = (type: String) => {
+    setErrorStatus(true);
+    if (type === 'empty') {
+      setErrorMsg('Context name cannot be blank.');
+    } else if (type === 'dupe') {
+      setErrorMsg('Context name already exists.');
+    } else if (type === 'letters') {
+      setErrorMsg('Context name must start with a letter.');
+    } else if (type === 'symbolsDetected') {
+      setErrorMsg('Context name must not contain symbols.');
+    }
   };
 
   //update data store when user add new key-value pair to context
   const handleClickInputData = (name, { inputKey, inputValue }) => {
     dispatch(addContextValues({ name, inputKey, inputValue }));
-    // setState(allContext);
   };
 
   //update data store when user deletes context
   const handleDeleteContextClick = () => {
-    dispatch(deleteContext(contextInput));
+    dispatch(deleteContext({ name: currentContext }));
     setContextInput('');
-    // setState(allContext);
-    setTableState(defaultTableData);
-
-    dispatch(deleteElement({ id: 'FAKE_ID', contextParam: state }));
-    // dispatchContext({
-    //   type: 'DELETE ELEMENT',
-    //   payload: 'FAKE_ID'
-    // });
+    setCurrentContext(null);
   };
 
-  //re-render data table when there's new changes
-  const renderTable = (targetContext) => {
-    if (
-      targetContext === null ||
-      targetContext === undefined ||
-      !targetContext.values
-    ) {
-      // if (targetContext === null || targetContext === undefined) {
-      setTableState(defaultTableData);
-    } else {
-      setTableState(targetContext.values);
-    }
-  };
   console.log('state.allContext', state.allContext);
   return (
     <>
@@ -89,11 +96,13 @@ const CreateContainer = () => {
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
                 handleDeleteContextClick={handleDeleteContextClick}
-                renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
                 currentContext={currentContext}
                 setCurrentContext={setCurrentContext}
+                errorStatus={errorStatus}
+                setErrorStatus={setErrorStatus}
+                errorMsg={errorMsg}
               />
             </Grid>
 
@@ -101,7 +110,6 @@ const CreateContainer = () => {
             <Grid item>
               <AddDataForm
                 handleClickInputData={handleClickInputData}
-                contextInput={contextInput}
                 currentContext={currentContext}
               />
             </Grid>

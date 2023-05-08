@@ -39,7 +39,6 @@ export default function DataTable({ target, currentContext }) {
         >
           <TableHead>
             <TableRow>
-              {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
                 {currentContext ? currentContext : 'Context Name'}
               </StyledTableCell>
@@ -61,11 +60,6 @@ export default function DataTable({ target, currentContext }) {
               </StyledTableRow>
             ))}
           </TableBody>
-          {/* <TableFooter>
-            <StyledTableCell align="center" colSpan={3}>
-              {contextInput ? contextInput.name : 'Context Name'}
-            </StyledTableCell>
-          </TableFooter> */}
         </Table>
       </TableContainer>
     </>
