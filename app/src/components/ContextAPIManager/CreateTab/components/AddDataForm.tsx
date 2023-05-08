@@ -8,7 +8,6 @@ import { RootState } from '../../../../redux/store';
 
 const AddDataForm = ({
   handleClickInputData,
-  contextInput,
   currentContext
 }) => {
   //const [contextInput, setContextInput] = React.useState(null);
