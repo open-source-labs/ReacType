@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   DataGrid,
-  GridEditRowsModel,
+  GridEditRowsModel
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -109,6 +109,7 @@ const TableStateProps = props => {
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        disableColumnMenu={false}
       />
     </div>
   );
@@ -117,8 +118,11 @@ const TableStateProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',
-    '& .MuiTablePagination-root': {
-      color: 'rbga(0,0,0,0.54)'
+    '& button:hover':{
+      backgroundColor: 'LightGray'
+    },
+    '& button':{
+      color: 'black'
     }
   },
   themeDark: {
