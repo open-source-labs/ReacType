@@ -8,6 +8,7 @@ const projectController: ProjectController = {
   // saveProject saves current workspace to database
   saveProject: (req, res, next) => {
     // pull project name and project itself from body
+    console.log('req body', req.body)
     const { name, project, userId, username, comments } = req.body;
     // create createdBy field for the document
     const createdAt = Date.now();
