@@ -14,7 +14,7 @@ const projectController: ProjectController = {
     // pull ssid from cookies for user id
     Projects.findOneAndUpdate(
       // looks in projects collection for project by user and name
-      { name, userId, username },
+      { name, userId, username},
       // update or insert the project
       { project, createdAt, comments },
       // Options:
