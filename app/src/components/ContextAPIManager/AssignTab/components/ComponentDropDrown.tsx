@@ -14,8 +14,6 @@ const ComponentDropDown = ({
   componentInput,
   setComponentInput
 }) => {
-  const { allContext } = contextStore;
-  // const [componentList] = useContext(StateContext);
   const { state, isDarkMode } = useSelector((store: RootState) => ({
     state: store.appState,
     isDarkMode: store.darkMode.isDarkMode
