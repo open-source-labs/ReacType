@@ -39,7 +39,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
         <TextField
           id="outlined-basic"
           label="Key"
-          variant="outlined"
+          variant="filled"
           value={dataContext.inputKey}
           name="inputKey"
           onChange={(e) => handleChange(e)}
@@ -49,7 +49,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
         <TextField
           id="outlined-basic"
           label="Value"
-          variant="outlined"
+          variant="filled"
           value={dataContext.inputValue}
           name="inputValue"
           onChange={(e) => handleChange(e)}

@@ -78,7 +78,7 @@ const ComponentDropDown = ({
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4, border: '1px solid black' }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={componentInput}
@@ -90,7 +90,7 @@ const ComponentDropDown = ({
           options={state.components || []}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          sx={{ width: 425, border: '1px solid black' }}
+          sx={{ width: 425 }}
           freeSolo
           renderInput={(params) => (
             <TextField
@@ -99,8 +99,8 @@ const ComponentDropDown = ({
                 ...params.InputProps,
                 style: { color: color }
               }}
+              variant="filled"
               label="Select Component"
-              helperText="Select a component for your selected context to consume"
             />
           )}
         />

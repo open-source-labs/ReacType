@@ -4,10 +4,9 @@ import Select from '@mui/material/Select';
 import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import FormControl from '@mui/material/FormControl';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { MenuItem, Typography } from '@mui/material';
+import { InputLabel, MenuItem, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
@@ -62,13 +61,17 @@ const AddContextForm = ({
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const contexts = allContext.map((context) => {
-    return (
-      <MenuItem style={{ color: 'black' }} value={context.name}>
-        {context.name}
-      </MenuItem>
-    );
-  });
+  const contexts = allContext.length ? (
+    allContext.map((context) => {
+      return (
+        <MenuItem style={{ color: color }} value={context.name}>
+          {context.name}
+        </MenuItem>
+      );
+    })
+  ) : (
+    <MenuItem disabled>No Contexts Created</MenuItem>
+  );
 
   return (
     <Fragment>
@@ -78,18 +81,18 @@ const AddContextForm = ({
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
         <TextField
           InputProps={{
-            style: { color: 'black' }
+            style: { color: color }
           }}
           onChange={handleChange}
           sx={{
             width: 425,
-            border: '1px solid black'
+            border: `1px solid ${color}`
           }}
-          variant="filled"
           label="Create Context"
           value={contextInput}
           helperText={errorStatus ? errorMsg : null}
           error={errorStatus}
+          variant="filled"
         />
         <Snackbar
           open={open && !errorStatus}
@@ -116,19 +119,22 @@ const AddContextForm = ({
         Select Context
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-        <Select
-          sx={{ width: 425 }}
-          style={{ border: '1px solid #0099e6', color: 'black' }}
-          value={currentContext}
-          label="Select Context"
-          MenuProps={{ disablePortal: true }}
-          onChange={(e) => {
-            console.log(e);
-            setCurrentContext(e.target.value);
-          }}
-        >
-          {contexts}
-        </Select>
+        <FormControl variant="filled">
+          <InputLabel style={{ color: color }}>Select Context</InputLabel>
+          <Select
+            required
+            sx={{ width: 425 }}
+            style={{ border: '1px solid #0099e6', color: color }}
+            value={currentContext}
+            label="Select Context"
+            MenuProps={{ disablePortal: true }}
+            onChange={(e) => {
+              setCurrentContext(e.target.value);
+            }}
+          >
+            {contexts}
+          </Select>
+        </FormControl>
         <Button
           color="error"
           variant="contained"
