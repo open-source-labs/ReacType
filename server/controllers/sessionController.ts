@@ -6,32 +6,31 @@ import { SessionController, SessionCookie } from '../interfaces';
 dotenv.config();
 
 const sessionController: SessionController = {
-  // isLoggedIn finds the right session, if the session is invalid in the database, the app redirect user straight to the root endpoint witht he login page, if not, continue session
-  isLoggedIn: (req, res, next) => {
+  isLoggedIn: async (req, res, next) => {
+  try {
     let cookieId;
-    if (req.cookies.ssid) {
+    if (req.cookies) {
       cookieId = req.cookies.ssid;
     } else {
       cookieId = req.body.userId;
     }
 
     // find session from request session ID in mongodb
-    Sessions.findOne({ cookieId }, (err, session) => {
-      if (err) {
-        return next({
-          log: `Error in sessionController.isLoggedIn: ${err}`,
-          message: {
-            err: 'Error in sessionController.isLoggedIn, check server logs for details'
-          }
-        });
-      }
-      if (!session) {
-        return res.redirect('/');
-      }
-      return next();
-    });
-  },
+    const session = await Sessions.findOne({ cookieId });
 
+    if (!session) {
+      return res.redirect('/');
+    }
+    return next();
+  } catch (err) {
+    return next({
+      log: `Error in sessionController.isLoggedIn: ${err}`,
+      message: {
+        err: 'Error in sessionController.isLoggedIn, check server logs for details'
+      }
+    });
+  }
+},
   // startSession - create and save a new session into the database
   startSession: (req, res, next) => {
     // first check if user is logged in already

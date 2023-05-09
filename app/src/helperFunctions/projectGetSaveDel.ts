@@ -33,7 +33,7 @@ export const saveProject = (
 ): Promise<Object> => {
   const body = JSON.stringify({
     name,
-    project: workspace,
+    project: { ...workspace, name },
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: []
