@@ -774,10 +774,7 @@ const appStateSlice = createSlice({
     },
     updateProjectName: (state, action) => {
       const projectName = action.payload;
-      return {
-        ...state,
-        name: projectName
-      };
+      state.name = projectName;
     },
     deleteElement: (state, action) => {
       let name: string = '';
@@ -867,12 +864,14 @@ const appStateSlice = createSlice({
         componentId: 1,
         childId: null
       };
-      convertToJSX(action.payload.HTMLTypes);
+      // convertToJSX(action.payload.HTMLTypes);
       state.canvasFocus = canvasFocus;
     },
-    openProject: (state, action) => {
-      convertToJSX(action.payload.HTMLTypes);
-      state = action.payload;
+    openProject: ( state, action) => {
+      // convertToJSX(action.payload.HTMLTypes);
+      
+      return action.payload
+
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
