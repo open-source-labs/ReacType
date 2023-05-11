@@ -227,6 +227,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               Type
             </InputLabel>
             <Select
+              data-testid="type-select"
               labelId="select-required-label"
               id="type-input"
               className={

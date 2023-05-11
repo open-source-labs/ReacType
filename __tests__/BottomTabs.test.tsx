@@ -122,15 +122,24 @@ describe('Creation Panel', () => {
 });
 
 describe('Context Manager', () => {
-  test('Create/Edit Tab should contain all buttons and input fields', () => {
+  test('should render Create/Edit, Assign, and Display tabs', () => {
     render(
       <Provider store={store}>
         <ContextManager />
       </Provider>
     );
-    expect(screen.getAllByRole('textbox')).toHaveLength(2);
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('tab')).toHaveLength(3);
+  });
+  test('Create/Edit Tab should contain all buttons, inputs field, and a data table', () => {
+    render(
+      <Provider store={store}>
+        <ContextManager />
+      </Provider>
+    );
+    expect(screen.getAllByRole('textbox')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
     expect(screen.getByText('Context Name')).toBeInTheDocument();
+    expect(screen.getByRole('table')).toBeInTheDocument();
   });
   test('Assign Tab should contain all buttons and input fields', () => {
     render(
@@ -141,6 +150,11 @@ describe('Context Manager', () => {
 
     fireEvent.click(screen.getByText('Assign'));
     expect(screen.getByText('Contexts Consumed')).toBeInTheDocument();
+    const dropdown = screen.getByLabelText('Select Component');
+    expect(dropdown).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(1);
+    expect(screen.getAllByRole('combobox')).toHaveLength(2);
+    expect(screen.getAllByRole('table')).toHaveLength(2);
   });
 });
 
@@ -155,6 +169,19 @@ describe('State Manager', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getAllByRole('grid')).toHaveLength(3);
     expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+  });
+
+  test('Display tab should render correct elements', () => {
+    render(
+      <Provider store={store}>
+        <StateManager isThemeLight={null} />
+      </Provider>
+    );
+    fireEvent.click(screen.getByText('Display'));
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(
+      screen.getByText('State Initialized in Current Component:')
+    ).toBeInTheDocument();
   });
 });
 

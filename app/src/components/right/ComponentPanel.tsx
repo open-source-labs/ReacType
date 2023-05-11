@@ -10,7 +10,7 @@ import { RootState } from '../../redux/store';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store:RootState) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
@@ -39,43 +39,9 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     }
   };
 
-  const resetError = () => {
-    setErrorStatus(false);
-  };
-
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    resetError();
+    setErrorStatus(false);
     setCompName(e.target.value);
-  };
-
-  // check if name of new component is the same as an existing component
-  const checkNameDupe = (inputName: String): boolean => {
-    let checkList = state.components.slice(); // makes copy of components array
-    let dupe = false;
-
-    // checks to see if inputted comp name already exists
-    checkList.forEach((comp) => {
-      if (comp.name.toLowerCase() === inputName.toLowerCase()) dupe = true;
-    });
-
-    return dupe;
-  };
-
-  const checkIfRoot = (inputName: String): boolean => {
-    let rootDupe = false;
-    // checks to see if inputted comp name is equal to root component name. Want to prevent that
-
-    //carly console logs
-    const rootComponents = state.rootComponents;
-    const allComponents = state.components;
-
-    if (
-      inputName.toLowerCase() === 'index' ||
-      inputName.toLowerCase() === 'app'
-    ) {
-      rootDupe = true;
-    }
-    return rootDupe;
   };
 
   // "Root" components are not draggable into the main canvas
@@ -116,13 +82,20 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       error = 'letters';
     } else if (!compName.match(/^[0-9a-zA-Z]+$/)) {
       error = 'symbolsDetected';
-    } else if (checkNameDupe(compName)) {
+    } else if (
+      state.components.some(
+        (comp) => comp.name.toLowerCase() === compName.toLowerCase()
+      )
+    ) {
       error = 'dupe';
-    } else if (checkIfRoot(compName)) {
+    } else if (
+      compName.toLowerCase() === 'index' ||
+      compName.toLowerCase() === 'app'
+    ) {
       error = 'rootDupe';
     } else {
       createOption(compName);
-      resetError();
+      setErrorStatus(false);
       return;
     }
     triggerError(error);
@@ -220,7 +193,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                   }
                   color="primary"
                   checked={isRoot}
-                  onChange={toggleRootStatus}
+                  onChange={() => setIsRoot(!isRoot)}
                 />
               }
               label={
