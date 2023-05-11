@@ -128,8 +128,8 @@ describe('Context Manager', () => {
         <ContextManager />
       </Provider>
     );
-    expect(screen.getAllByRole('textbox')).toHaveLength(2);
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('textbox')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(4);
     expect(screen.getByText('Context Name')).toBeInTheDocument();
   });
   test('Assign Tab should contain all buttons and input fields', () => {
