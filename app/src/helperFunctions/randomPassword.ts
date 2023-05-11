@@ -14,8 +14,8 @@ const randomPassword = () => {
   let password = '';
 
   for (let i = 0; i < 6; i += 1) {
-    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar(); 
+    password += getRandomLetter() + getRandomDigit() + getRandomSpecialChar();
   }
   return password;
-}
+};
 export default randomPassword;
