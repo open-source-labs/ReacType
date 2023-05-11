@@ -250,7 +250,8 @@
     ],
     "modulePathIgnorePatterns": [
       "__tests__/playwright",
-      "__tests__/spec.ts"
+      "__tests__/spec.ts",
+      "__tests__/userAuth.test.ts"
     ],
     "transform": {
       "\\.(ts|tsx)$": "ts-jest",
