@@ -41,11 +41,7 @@ const BottomTabs = (props): JSX.Element => {
     const projectType = event.target.value;
     dispatch(changeProjectType({ projectType, contextParam }));
   };
-  const { components, HTMLTypes } = state;
-
-  const changeTheme = (e) => {
-    setTheme(e.target.value);
-  };
+  const { components } = state;
 
   // Render's the highliting arrow feature that draws an arrow from the Canvas to the DemoRender
   arrow.renderArrow(state.canvasFocus?.childId);

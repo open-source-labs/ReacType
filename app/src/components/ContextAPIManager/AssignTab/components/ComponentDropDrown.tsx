@@ -2,14 +2,12 @@ import React, { Fragment } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
 const ComponentDropDown = ({
-  contextStore,
   renderComponentTable,
   componentInput,
   setComponentInput
