@@ -32,17 +32,20 @@ const AddContextForm = ({
   }));
   const color = isDarkMode ? 'white' : 'black';
 
-  const handleClick = () => {
+  //handler for submitting new context for creation
+  const handleSubmit = () => {
     handleClickSelectContext();
     setOpen(true);
   };
 
+  //form control for new context field
   const handleChange = (e) => {
     setErrorStatus(false);
     setOpen(false);
     setContextInput(e.target.value);
   };
 
+  //event handle for confirmation modal
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -61,6 +64,7 @@ const AddContextForm = ({
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  //creating options for context dropdown
   const contexts = allContext.length ? (
     allContext.map((context) => {
       return (
@@ -109,7 +113,7 @@ const AddContextForm = ({
         </Snackbar>
         <Button
           variant="contained"
-          onClick={handleClick}
+          onClick={handleSubmit}
           disabled={btnDisabled}
         >
           Create
