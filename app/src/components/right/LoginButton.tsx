@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
 import config from '../../../../config.js';
 import { RootState } from '../../redux/store';
+// note that API_BASE_URL is assigned to different pages on dev mode vs prod mode
 const { API_BASE_URL, API_BASE_URL2 } = config;
 
 export default function LoginButton() {
