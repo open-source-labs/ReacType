@@ -1,4 +1,3 @@
-// Future developers: This file needs to move to right folder: src/components/right
 import React, { useState, useEffect, useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';

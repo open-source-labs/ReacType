@@ -108,7 +108,7 @@ const TablePassedInProps = props => {
     </div>
   );
 };
-
+// colors of state mgmt modal
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',

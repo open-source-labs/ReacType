@@ -31,6 +31,7 @@ import config from '../../../../config';
 const { API_BASE_URL } = config;
 import { RootState } from '../../redux/store';
 
+// Part  - join room and room code functionality
 let socket;
 
 function initSocketConnection(roomCode) {
@@ -253,7 +254,7 @@ function navbarDropDown(props) {
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
-
+// Part - Dark Mode
   const switchDark = isDarkMode ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"

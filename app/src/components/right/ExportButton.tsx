@@ -86,6 +86,7 @@ export default function ExportButton() {
   );
 }
 
+// This code is commented out below for v16, it is export function for electron, which may be useful for future devs
 //The below code is exclusive to ReacType's Electron App
 //If you would like to deploy the app, please comment out the exportButton function above and uncomment the code below
 
