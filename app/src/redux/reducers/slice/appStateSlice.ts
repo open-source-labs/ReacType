@@ -1,9 +1,8 @@
 // Main slice for all the component state.///
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 // Import Interfaces for State, and HTML Types
 import {
   State,
-  Action,
   Component,
   ChildElement,
   HTMLType
@@ -199,13 +198,6 @@ const deleteById = (id: number, name: string, state: State): Component[] => {
   }
   const filteredArr = [...copyComp].filter((comp) => comp.id != id);
   return updateIds(filteredArr);
-};
-
-const convertToJSX = (arrayOfElements) => {
-  // if id exists in state.HTMLTypes
-  for (let i = 0; i < initialState.HTMLTypes.length; i += 1) {
-    arrayOfElements[i] = initialState.HTMLTypes[i];
-  }
 };
 
 const updateUseStateCodes = (currentComponent) => {
@@ -409,7 +401,6 @@ const appStateSlice = createSlice({
           action.payload.contextParam
         );
       }
-      // console.log('addchild state before update', current(state));
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
@@ -864,14 +855,11 @@ const appStateSlice = createSlice({
         componentId: 1,
         childId: null
       };
-      // convertToJSX(action.payload.HTMLTypes);
       state.canvasFocus = canvasFocus;
     },
+    //deleted 'convertToJSX' function, which threw errors upon opening
     openProject: ( state, action) => {
-      // convertToJSX(action.payload.HTMLTypes);
-      
       return action.payload
-
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
