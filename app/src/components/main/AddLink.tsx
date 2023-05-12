@@ -41,10 +41,8 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
     });
   }
 
-
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
   const dropDown = [<MenuItem style={{ color: '#000' }} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: '#000' }} value={comp.name}>{comp.name}</MenuItem>));
-
 
   return (
     <div style={{float: 'right'}}>
