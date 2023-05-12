@@ -26,10 +26,9 @@ const CreateContainer = () => {
 
   //update data store when user adds a new context
   const handleClickSelectContext = () => {
-    //prevent user from adding duplicate context
     let letters = /[a-zA-Z]/;
     let error;
-    console.log(state.allContext, contextInput, 'error test');
+    //checking for input error / setting error type
     if (!contextInput || contextInput.trim() === '') {
       error = 'empty';
     } else if (!contextInput.charAt(0).match(letters)) {

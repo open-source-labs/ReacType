@@ -5,6 +5,8 @@ const initialState = {
   input: ``
 };
 
+//realtime updates for the code preview
+
 const codePreviewSlice = createSlice({
   name: 'codePreview',
   initialState,

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import type { RootState } from '../redux/store';
 
 // -------------------------//
 // interfaces for all methods // calling actions payloads type referencss assigning type // typesccript

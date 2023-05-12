@@ -9,6 +9,8 @@ import {
   HTMLType
 } from '../interfaces/Interfaces';
 
+//properties for all HTML components
+
 const HTMLTypes: HTMLType[] = [
   {
     id: 11,
