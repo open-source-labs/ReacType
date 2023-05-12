@@ -7,6 +7,8 @@ const initialState = {
     isThemeLight: null,
   }
 
+//allows us to set style for themes
+
   const styleSlice = createSlice({
     name: 'style',
     initialState,

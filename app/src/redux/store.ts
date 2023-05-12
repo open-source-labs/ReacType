@@ -23,12 +23,7 @@ const store = configureStore({
 
     return getDefaultMiddleware({
       serializableCheck: {
-        // Ignore the `configToggle` action type
-        // ignoredActions: ['configToggle'],
-        // Ignore these field paths in all actions
-        // ignoredActionPaths: ['meta.arg', 'payload.timestamp'],
         // Ignore these paths in the state
-        // ignoredPaths: ignoredPaths,
         ignoredPaths
       }
     });

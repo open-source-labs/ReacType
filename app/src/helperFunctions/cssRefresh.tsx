@@ -1,4 +1,5 @@
 // Removes old link to css and creates a new stylesheet link on demo render
+// this is not currently being used for the website version
 const cssRefresher = () => {
   const oldStylesheet = document.getElementById('Render Stylesheet')
   console.log(oldStylesheet);

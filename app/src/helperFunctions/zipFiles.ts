@@ -1,17 +1,24 @@
 import { saveAs } from 'file-saver';
 const JSZip = require("jszip");
 
+//function to create a zip file for export in web app
 const zipFiles = (state) => {
+  //initializes zip
   var zip = new JSZip();
   let reacTypeApp = zip.folder('ReacTypeApp');
+  //creates component folder inside of zip folder
   let componentFolder = reacTypeApp.folder('componentfolder');
+  //writes a file with default index.html code
   reacTypeApp.file('index.html', '<!DOCTYPE html> <html>   <head>     <meta charset="UTF-8" />     <link rel="stylesheet" href="styles.css">     <title>ReacType App</title>   </head>   <body>     <div id="root"></div>   </body> </html>');
+  //writes each component as its own file in the component folder
   for (let i in state.components){
     componentFolder.file(`${state.components[i].name}.jsx`, state.components[i].code);
   }
+  //writes our css file if we have a css file stored in local storage
   if(localStorage.getItem('css')){
     reacTypeApp.file('style.css', localStorage.getItem('css'));
   }
+  //zips the file and saves to local machine
   zip.generateAsync({type:"blob"})
   .then(function(content) {
     // see FileSaver.js
