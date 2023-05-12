@@ -49,21 +49,17 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    // marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   avatar: {
-    // margin: theme.spacing(1),
     backgroundColor: '#3EC1AC'
   },
   form: {
     width: '100%' // Fix IE 11 issue.
-    // marginTop: theme.spacing(1)
   },
   submit: {
-    // margin: theme.spacing(1, 0, 1),
     cursor: 'pointer'
   },
   root: {
@@ -183,25 +179,26 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
     // 8080 for container 5656 for dev
     window.location.assign(`${API_BASE_URL}/auth/github`);
   };
-  const responseFacebook = (response) => {
-    if (response.accessToken) {
-      newUserIsCreated(response.email, response.email, randomPassword()).then(
-        (userCreated) => {
-          if (userCreated === 'Success') {
-            props.history.push('/');
-          } else {
-            sessionIsCreated(response.email, randomPassword(), true).then(
-              (loginStatus) => {
-                if (loginStatus === 'Success') {
-                  props.history.push('/');
-                }
-              }
-            );
-          }
-        }
-      );
-    }
-  };
+
+  // const responseFacebook = (response) => {
+  //   if (response.accessToken) {
+  //     newUserIsCreated(response.email, response.email, randomPassword()).then(
+  //       (userCreated) => {
+  //         if (userCreated === 'Success') {
+  //           props.history.push('/');
+  //         } else {
+  //           sessionIsCreated(response.email, randomPassword(), true).then(
+  //             (loginStatus) => {
+  //               if (loginStatus === 'Success') {
+  //                 props.history.push('/');
+  //               }
+  //             }
+  //           );
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   //  NEW DARK MODE
   const handleDarkModeToggle = () => {
@@ -225,7 +222,6 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 right: 20,
                 position: 'absolute'
               }}
-              // variant="contained"
               endIcon={!isDarkMode ? <Brightness3Icon /> : <Brightness5Icon />}
               onClick={handleDarkModeToggle}
             >

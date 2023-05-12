@@ -5,7 +5,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import {
   Button,
   InputLabel
-  // TextField,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { RootState } from '../../redux/store';
@@ -169,7 +168,6 @@ const HTMLPanel = (props): JSX.Element => {
                   ? classes.lightThemeFontColor
                   : classes.darkThemeFontColor
               }
-              //value="New HTML Tag"
             >
               New HTML Tag:{' '}
             </h4>
@@ -233,7 +231,6 @@ const HTMLPanel = (props): JSX.Element => {
             </InputLabel>
             <TextField
               id="elementName"
-              // label='Element Name'
               color="primary"
               variant="outlined"
               type="text"
@@ -321,8 +318,6 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     backgroundColor: 'rgba(255,255,255,0.15)',
     margin: '0px 0px 0px 0px',
-    // width: '200px',
-    // height: '75px',
     alignSelf: 'center',
     border: '2px solid grey'
   },
