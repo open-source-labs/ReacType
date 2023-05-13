@@ -54,14 +54,19 @@ const CreateContainer = () => {
 
   const triggerError = (type: String) => {
     setErrorStatus(true);
-    if (type === 'empty') {
-      setErrorMsg('Context name cannot be blank.');
-    } else if (type === 'dupe') {
-      setErrorMsg('Context name already exists.');
-    } else if (type === 'letters') {
-      setErrorMsg('Context name must start with a letter.');
-    } else if (type === 'symbolsDetected') {
-      setErrorMsg('Context name must not contain symbols.');
+    switch (type) {
+      case 'empty':
+        setErrorMsg('Context name cannot be blank.');
+        break;
+      case 'dupe':
+        setErrorMsg('Context name already exists.');
+        break;
+      case 'letters':
+        setErrorMsg('Context name must start with a letter.');
+        break;
+      case 'symbolsDetected':
+        setErrorMsg('Context name must not contain symbols.');
+        break;
     }
   };
 

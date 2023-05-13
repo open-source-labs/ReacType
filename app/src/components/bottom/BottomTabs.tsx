@@ -198,12 +198,12 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   tabSelected: {},
-  // typography: {
-  //   padding: theme.spacing(3)
-  // // },
-  // padding: {
-  //   padding: `0 ${theme.spacing(2)}`
-  // },
+  typography: {
+    padding: '24px'
+  },
+  padding: {
+    padding: `0 16px`
+  },
   switch: {
     marginRight: '10px',
     marginTop: '2px'
