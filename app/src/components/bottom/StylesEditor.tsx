@@ -11,6 +11,8 @@ import 'ace-builds/src-min-noconflict/ext-searchbox';
 import Fab from '@mui/material/Fab';
 import SaveIcon from '@mui/icons-material/Save';
 import cssRefresher from '../../helperFunctions/cssRefresh';
+import { updateStylesheet } from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch } from 'react-redux';
 
 //This was being used for the demo
 // const serverURL = 'https://reactype-caret.herokuapp.com';
@@ -23,11 +25,12 @@ const StylesEditor: React.FC<{
   const [css, setCss] = useState();
   //now using variable and storing CSS in localStorage to retain CSS upon dismount of the component
   let currentCss = localStorage.getItem('css');
-  
+  const dispatch = useDispatch();
+
   //This was being used for the demo
 
   // useEffect(() => {
-  //   loadFile();  
+  //   loadFile();
   // }, []);
 
   // const loadFile = () => {
@@ -60,21 +63,22 @@ const StylesEditor: React.FC<{
   //refactored this function to store the css on local storage rather than invoke saveFile()
   const saveCss = (e) => {
     e.preventDefault();
-    localStorage.setItem('css', currentCss)
-  }
+    dispatch(updateStylesheet(currentCss));
+    localStorage.setItem('css', currentCss);
+  };
 
   const handleChange = (text) => {
     currentCss = text;
-  }
+  };
 
   return (
     <div
-      className='text-editor'
+      className="text-editor"
       ref={wrapper}
       style={{
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}
     >
       <AceEditor
@@ -93,7 +97,12 @@ const StylesEditor: React.FC<{
           enableLiveAutocompletion: true
         }}
       />
-      <Fab className='bttn' onClick={saveCss} color="secondary" aria-label="add">
+      <Fab
+        className="bttn"
+        onClick={saveCss}
+        color="secondary"
+        aria-label="add"
+      >
         <SaveIcon />
       </Fab>
     </div>

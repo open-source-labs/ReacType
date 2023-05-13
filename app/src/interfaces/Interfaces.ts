@@ -15,6 +15,7 @@ export interface State {
   nextChildId: number;
   HTMLTypes: HTMLType[];
   tailwind: boolean;
+  stylesheet: string
 }
 
 export interface ChildElement {

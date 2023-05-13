@@ -38,7 +38,8 @@ export const initialState: State = {
   nextChildId: 1,
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
-  tailwind: false
+  tailwind: false,
+  stylesheet: ''
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -858,8 +859,8 @@ const appStateSlice = createSlice({
       state.canvasFocus = canvasFocus;
     },
     //deleted 'convertToJSX' function, which threw errors upon opening
-    openProject: ( state, action) => {
-      return action.payload
+    openProject: (state, action) => {
+      return action.payload;
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
@@ -1262,6 +1263,10 @@ const appStateSlice = createSlice({
     },
     allCooperativeState: (state, action) => {
       return Object.assign({}, state, action.payload);
+    },
+    updateStylesheet: (state, action) => {
+      console.log('stylesheet', state.stylesheet, 'action', action);
+      state.stylesheet = action.payload;
     }
   }
 });
@@ -1301,7 +1306,8 @@ export const {
   toggleLoggedIn,
   //configToggle,
   snapShotAction,
-  allCooperativeState
+  allCooperativeState,
+  updateStylesheet
 } = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer
