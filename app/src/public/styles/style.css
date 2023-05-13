@@ -121,6 +121,11 @@ LEFT COLUMN
   align-self: center;
 }
 
+span.material-symbols-outlined {
+  padding: 1px;
+  font-size: 18px;
+}
+
 .left {
   padding: 0px;
   display: flex;
@@ -328,15 +333,20 @@ h1 {
 }
 
 .export-preference div span {
-  transition: color 1s, background-color 1.5s, transform 2s;
+  transition: .5s
 }
 
-.export-preference div:hover {
+#export-modal {
+  transition: .5s
+}
+
+#export-modal:hover {
   background-color: #303f9f;
+  cursor: pointer;
 }
 
-.export-preference div:hover span {
-  color: white;
+#export-modal:hover span {
+  color: white
 }
 
 .info {
