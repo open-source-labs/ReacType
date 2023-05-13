@@ -3,6 +3,7 @@
 *::after {
   box-sizing: inherit;
 }
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
@@ -14,6 +15,7 @@ html {
   width: 100vw; */
   overflow: auto;
 }
+
 body {
   margin: 0;
   padding: 0;
@@ -24,10 +26,12 @@ body {
   height: 100vh;
   width: 100vw;
 }
+
 h4 {
   color: #155084;
   text-align: center;
 }
+
 .creation-panel {
   color: black;
   display: flex;
@@ -35,6 +39,7 @@ h4 {
   /* height: 100%; */
   background-color: #fff;
 }
+
 .customization-section {
   color: black;
   display: flex;
@@ -48,6 +53,7 @@ h4 {
   flex-direction: row;
   justify-content: space-evenly;
 }
+
 .state-prop-grid {
   height: 300px;
   width: 410px;
@@ -55,6 +61,7 @@ h4 {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .HTMLItemCreate {
   flex-grow: 1;
   justify-content: center;
@@ -83,6 +90,7 @@ header {
 .progress-bar {
   flex-grow: 1;
 }
+
 .column {
   background-color: #f9f9f9;
 }
@@ -99,6 +107,7 @@ LEFT COLUMN
 
 .left-container {
   display: flex;
+  z-index: 1;
 }
 
 .left-indicator {
@@ -110,6 +119,11 @@ LEFT COLUMN
   text-align: center;
   border-radius: 0 10px 10px 0;
   align-self: center;
+}
+
+span.material-symbols-outlined {
+  padding: 1px;
+  font-size: 18px;
 }
 
 .left {
@@ -151,7 +165,7 @@ LEFT COLUMN
   border-radius: 10px;
 }
 
-.HTMLItemsDark{
+.HTMLItemsDark {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -172,36 +186,44 @@ LEFT COLUMN
   overflow-y: auto;
   margin-bottom: 50%;
 }
+
 .HTMLElements {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
 }
+
 #HTMLItemsGrid {
   margin-left: 35px;
 }
+
 #HTMLItem {
   transition: 0.3s;
   border: 2px solid black;
   border-radius: 4px;
 }
+
 #HTMLItem:hover {
   background-color: #297ac2;
   color: white;
 }
+
 #submitButton {
   margin-left: 5px;
 }
+
 #submitButton:hover {
   background-color: #297ac2;
   color: white;
   border: none;
 }
+
 .lineDiv {
   width: 150%;
   margin-left: 0px;
 }
+
 .customForm {
   width: 100%;
   display: flex;
@@ -211,6 +233,7 @@ LEFT COLUMN
   color: white;
   font-size: 95%;
 }
+
 .customForm h5 {
   text-align: center;
   font-size: 100%;
@@ -218,6 +241,7 @@ LEFT COLUMN
   width: 125%;
   margin-left: -5px;
 }
+
 .customForm input {
   align-self: center;
   margin: 0px 0px;
@@ -233,6 +257,7 @@ LEFT COLUMN
   align-self: flex-start;
   width: 0.5em;
 }
+
 /* span container in HTMLItem.tsx */
 #customHTMLElement {
   display: flex;
@@ -240,9 +265,11 @@ LEFT COLUMN
   justify-content: center;
   width: 125px;
 }
+
 .component-input {
   bottom: 2.8%;
 }
+
 .clear-workspace {
   top: 96%;
   position: sticky !important;
@@ -306,15 +333,20 @@ h1 {
 }
 
 .export-preference div span {
-  transition: color 1s, background-color 1.5s, transform 2s;
+  transition: .5s
 }
 
-.export-preference div:hover {
+#export-modal {
+  transition: .5s
+}
+
+#export-modal:hover {
   background-color: #303f9f;
+  cursor: pointer;
 }
 
-.export-preference div:hover span {
-  color: white;
+#export-modal:hover span {
+  color: white
 }
 
 .info {
@@ -438,6 +470,8 @@ BOTTOM PANEL
   width: 100%;
   overflow-y: scroll;
   overflow-x: auto;
+  position: relative;
+  z-index: 0;
 }
 
 #resize-drag {
@@ -517,24 +551,24 @@ NAVBAR
 //////////////////////////////////////////
 */
 
-.main-navbar{
+.main-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.main-logo{
+.main-logo {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-left: 2vw;
 }
 
-.main-logo h1{
+.main-logo h1 {
   color: #013365;
 }
 
-.main-navbar svg{
+.main-navbar svg {
   width: 30px;
   height: 30px;
   color: gray;
@@ -542,20 +576,21 @@ NAVBAR
   cursor: pointer;
 }
 
-.navbar-icon:hover{
+.navbar-icon:hover {
   animation: spinningWheel 2s infinite;
 }
 
 @keyframes spinningWheel {
-  0%{
+  0% {
     transform: rotate(0deg)
   }
-  100%{
+
+  100% {
     transform: rotate(360deg)
   }
 }
 
-.navDropDown{
+.navDropDown {
   position: absolute;
   border: 1px solid black;
   width: 20vw;
@@ -569,11 +604,11 @@ NAVBAR
   display: hidden;
 }
 
-.hideNavDropDown{
+.hideNavDropDown {
   display: none;
 }
 
-.navDropDown button{
+.navDropDown button {
   width: 90%;
   margin: 3px 5%;
   background-color: #009ae6;
@@ -585,16 +620,16 @@ NAVBAR
   align-items: center;
 }
 
-.navDropDown p{
+.navDropDown p {
   margin: 3px 5%;
 }
 
-.navDropDown button:hover{
+.navDropDown button:hover {
   cursor: pointer;
   background-color: #007ab8
 }
 
-.navDropDown button svg{
+.navDropDown button svg {
   width: 20px;
   height: 20px;
   margin-left: 8px;
@@ -622,13 +657,14 @@ CANVAS WINDOW
   border-radius: 15px;
   font-size: 14px;
   color: rgb(32, 32, 32);
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%) 
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)
 }
 
 .delete-button-empty:hover {
   color: white;
   background-color: rgb(71, 123, 186);
 }
+
 .componentContainer {
   display: flex;
   flex-direction: column;
@@ -648,28 +684,35 @@ div.rst__rowContents {
   color: #eee;
   background-color: #333333;
 }
+
 .rst__rowContentsDragDisabled {
   background-color: #333333;
   background-color: rgba(37, 37, 38, 0.4);
 }
+
 .rst__moveHandle,
 .rst__loadingHandle {
   width: 40px;
 }
+
 .rst_tree {
   overflow: auto;
 }
+
 .rst__rowLabel {
   padding-right: 5px;
 }
+
 .closeIcon:hover {
   cursor: pointer;
 }
+
 a.nav_link {
   color: rgba(0, 0, 0, 0.87);
   cursor: pointer;
   text-decoration: none;
 }
+
 a.nav_link:hover {
   color: #3ec1ac;
   text-decoration: underline;
@@ -684,13 +727,16 @@ a.nav_link:hover {
   background-color: rgb(213, 80, 164);
   opacity: 0.75;
 }
+
 .inputName {
   margin-bottom: 35px;
   text-align: center;
 }
+
 .oauth-bttn:hover {
   background-color: #4e76c7;
 }
+
 .text-editor .bttn {
   position: absolute;
   bottom: 90px;
@@ -716,6 +762,7 @@ a.nav_link:hover {
   top: 30%;
   left: 30%;
 }
+
 .useState-header {
   font-size: 35px;
   background-color: #003366;
@@ -727,9 +774,11 @@ a.nav_link:hover {
   font-family: 'Open Sans', sans-serif;
   border-radius: 15px 15px 0px 0px;
 }
+
 .useState-dropdown {
   align-self: flex-start;
 }
+
 .useState-window {
   width: 600px;
   height: 400px;
@@ -750,4 +799,3 @@ a.nav_link:hover {
 li {
   color: black !important;
 }
-

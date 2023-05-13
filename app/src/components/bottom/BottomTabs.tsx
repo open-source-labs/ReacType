@@ -170,8 +170,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'initial',
     minWidth: 40,
     // fontWeight: theme.typography.fontWeightRegular,
-    marginRight: '16px',
-    marginLeft: '16px',
+    margin: '0 16px',
 
     fontFamily: [
       '-apple-system',
@@ -198,12 +197,12 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   tabSelected: {},
-  // typography: {
-  //   padding: theme.spacing(3)
-  // // },
-  // padding: {
-  //   padding: `0 ${theme.spacing(2)}`
-  // },
+  typography: {
+    padding: '24px'
+  },
+  padding: {
+    padding: `0 16px`
+  },
   switch: {
     marginRight: '10px',
     marginTop: '2px'

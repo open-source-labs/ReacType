@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-css';
 import 'ace-builds/src-noconflict/theme-monokai';
@@ -10,71 +10,42 @@ import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import Fab from '@mui/material/Fab';
 import SaveIcon from '@mui/icons-material/Save';
-import cssRefresher from '../../helperFunctions/cssRefresh';
-
-//This was being used for the demo
-// const serverURL = 'https://reactype-caret.herokuapp.com';
+import { updateStylesheet } from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const StylesEditor: React.FC<{
   theme: string | null;
   setTheme: any | null;
 }> = ({ theme, setTheme }) => {
   const wrapper = useRef();
-  const [css, setCss] = useState();
-  //now using variable and storing CSS in localStorage to retain CSS upon dismount of the component
-  let currentCss = localStorage.getItem('css');
-  
-  //This was being used for the demo
+  const stylesheet = useSelector(
+    (state: RootState) => state.appState.stylesheet
+  );
+  //sets state for what text is currently in the csseditor
+  const [css, setCss] = useState(stylesheet);
 
-  // useEffect(() => {
-  //   loadFile();  
-  // }, []);
+  const dispatch = useDispatch();
 
-  // const loadFile = () => {
-  //   const myHeaders = new Headers({
-  //     'Content-Type': 'text/css',
-  //     Accept: 'text/css',
-  //   });
-  //   fetch(`${serverURL}/demoRender`, {
-  //     headers: myHeaders,
-  //   })
-  //     .then(response => response.text())
-  //     .then((data) => {
-  //       setCss(data);
-  //     });
-  // }
-
-  // const saveFile = () => {
-  //   fetch(`${serverURL}/user-styles/save`, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ data: css }),
-  //   })
-  //     .then(response => response.text())
-  //     .then((data) => {
-  //       // Removes old link to css and creates a new stylesheet link on demo render
-  //       cssRefresher();
-  //     });
-  // }
-
-  //refactored this function to store the css on local storage rather than invoke saveFile()
+  //on save, updates the state based on above hook and rerenders the demo
   const saveCss = (e) => {
     e.preventDefault();
-    localStorage.setItem('css', currentCss)
-  }
+    dispatch(updateStylesheet(css));
+  };
 
+  //handles changes in the ace editor
   const handleChange = (text) => {
-    currentCss = text;
-  }
+    setCss(text);
+  };
 
   return (
     <div
-      className='text-editor'
+      className="text-editor"
       ref={wrapper}
       style={{
         height: '100%',
         maxWidth: '100%',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}
     >
       <AceEditor
@@ -83,7 +54,7 @@ const StylesEditor: React.FC<{
         width="100%"
         height="100%"
         onChange={handleChange}
-        value={currentCss}
+        value={css}
         name="Css_div"
         fontSize={16}
         tabSize={2}
@@ -93,7 +64,12 @@ const StylesEditor: React.FC<{
           enableLiveAutocompletion: true
         }}
       />
-      <Fab className='bttn' onClick={saveCss} color="secondary" aria-label="add">
+      <Fab
+        className="bttn"
+        onClick={saveCss}
+        color="secondary"
+        aria-label="add"
+      >
         <SaveIcon />
       </Fab>
     </div>

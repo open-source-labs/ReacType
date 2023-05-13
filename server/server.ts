@@ -31,9 +31,6 @@ import { dirname } from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
 const app = express();
 
 const PORT = process.env.PORT || DEV_PORT;
@@ -43,7 +40,6 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-// app.use(cookieParser());
 
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
