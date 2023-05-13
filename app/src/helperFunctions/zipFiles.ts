@@ -14,10 +14,8 @@ const zipFiles = (state) => {
   for (let i in state.components){
     componentFolder.file(`${state.components[i].name}.jsx`, state.components[i].code);
   }
-  //writes our css file if we have a css file stored in local storage
-  if(localStorage.getItem('css')){
-    reacTypeApp.file('style.css', localStorage.getItem('css'));
-  }
+  //writes our css file
+    reacTypeApp.file('style.css', state.stylesheet);
   //zips the file and saves to local machine
   zip.generateAsync({type:"blob"})
   .then(function(content) {

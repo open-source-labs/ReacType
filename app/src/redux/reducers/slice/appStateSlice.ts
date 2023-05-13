@@ -1248,13 +1248,7 @@ const appStateSlice = createSlice({
     toggleLoggedIn: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
-    // configToggle: (state) => {
-    //   state.config = {
-    //     ...state.config,
-    //     saveFlag: !state.config.saveFlag,
-    //     saveTimer: !state.config.saveTimer
-    //   };
-    // },
+
     snapShotAction: (state, action) => {
       state.components[action.payload.focusIndex].past.push(
         action.payload.deepCopiedState.components[action.payload.focusIndex]
@@ -1265,7 +1259,6 @@ const appStateSlice = createSlice({
       return Object.assign({}, state, action.payload);
     },
     updateStylesheet: (state, action) => {
-      console.log('stylesheet', state.stylesheet, 'action', action);
       state.stylesheet = action.payload;
     }
   }
