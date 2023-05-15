@@ -8,7 +8,7 @@ import renderChildren from '../../helperFunctions/renderChildren';
 import validateNewParent from '../../helperFunctions/changePositionValidation'
 import componentNest from '../../helperFunctions/componentNestValidation'
 import { useDispatch, useSelector } from 'react-redux';
-
+import { RootState } from '../../redux/store';
 import { changeFocus, changePosition, addChild } from '../../redux/reducers/slice/appStateSlice';
 
 
@@ -20,7 +20,7 @@ function DirectChildHTMLNestable({
   style,
   children
 }: ChildElement) {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));

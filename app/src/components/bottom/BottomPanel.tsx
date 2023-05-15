@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import BottomTabs from './BottomTabs';
 
 const BottomPanel = (props): JSX.Element => {
@@ -15,7 +15,7 @@ const BottomPanel = (props): JSX.Element => {
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
-  }
+  };
 
   const mouseMoveHandler = function (e: MouseEvent): void {
     // How far the mouse has been moved
@@ -26,19 +26,21 @@ const BottomPanel = (props): JSX.Element => {
   };
 
   const mouseUpHandler = function () {
-      // Remove the handlers of `mousemove` and `mouseup`
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+    // Remove the handlers of `mousemove` and `mouseup`
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
   };
 
   useEffect(() => {
     node.current.style.height = '50vh';
-  },[]);
+  }, []);
 
   return (
-    <div className="bottom-panel" id='resize' ref={node}>
-      <div id='resize-drag' onMouseDown={mouseDownHandler} tabIndex = {0} >......</div>
-      <BottomTabs isThemeLight={props.isThemeLight}/>
+    <div className="bottom-panel" id="resize" ref={node}>
+      <div id="resize-drag" onMouseDown={mouseDownHandler} tabIndex={0}>
+        ......
+      </div>
+      <BottomTabs isThemeLight={props.isThemeLight} />
     </div>
   );
 };

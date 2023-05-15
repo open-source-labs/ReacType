@@ -1,10 +1,14 @@
 const fetch = require('node-fetch');
 const isDev = process.env.NODE_ENV === 'development';
 const { DEV_PORT, API_BASE_URL } = require('../../../config');
+
 let serverURL = API_BASE_URL;
+
+//checks if we're in dev mode or not to reset the serverURL to localhost:8080
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
+
 export const sessionIsCreated = (
   username: string,
   password: string,
@@ -15,7 +19,7 @@ export const sessionIsCreated = (
     password,
     isFbOauth
   });
-  const result = fetch(`${serverURL}/login`, {
+  const result = fetch(`/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -37,6 +41,7 @@ export const sessionIsCreated = (
     .catch((err) => 'Error');
   return result;
 };
+
 export const newUserIsCreated = (
   username: string,
   email: string,
@@ -47,7 +52,7 @@ export const newUserIsCreated = (
     email,
     password
   });
-  const result = fetch(`${serverURL}/signup`, {
+  const result = fetch(`/signup`, {
     method: 'POST',
     credentials: 'include',
     headers: {

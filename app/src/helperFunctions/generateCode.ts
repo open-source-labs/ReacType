@@ -468,33 +468,8 @@ const generateUnformattedCode = (
   );`
     generatedCode += `\n}`;
     return generatedCode;
-    // return `${`import React, { useState, useEffect, useContext} from 'react';`}
-    // ${currComponent.name === 'App' ? contextImports : ''}
-    // ${
-    //   importReactRouter
-    //     ? `import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';`
-    //     : ``
-    // }
-    // ${createContextImport()}
-    // ${importsMapped}
-    // ${`const ${currComponent.name} = (props) => {`}
-    // ${createUseContextHook()}
-    // ${`${writeStateProps(currComponent.useStateCodes)}`}
-    // //  ------------------------------------------- added code below  -------------------------------------------
-    // ${createEventHandler()}
-    // //  ------------------------------------------- added code above  -------------------------------------------
-
-    //   return(
-    //     <>
-    // ${createRender()}
-    //     </>
-    //   );
-    // ${`}\n`}
-    // export default ${currComponent.name}
-    // `;
   }
-  //
-  // next.js component code
+  
   else if (projectType === 'Next.js') {
     return `
     import React, { useState } from 'react';
@@ -549,8 +524,6 @@ const generateUnformattedCode = (
 };
 // formats code with prettier linter
 const formatCode = (code: string) => {
-  // in test environment, window.api is not defined,
-  // so we reference original prettier format function instead
   if (process.env.NODE_ENV === 'test') {
     const { format } = require('prettier');
     return format(code, {
@@ -560,8 +533,6 @@ const formatCode = (code: string) => {
       jsxBracketSameLine: true,
       parser: 'babel'
     });
-    // } else if (process.env.NODE_ENV === 'production') {
-    // return window.api.formatCode(code);
   } else {
     return code;
   }

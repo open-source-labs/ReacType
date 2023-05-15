@@ -1,0 +1,105 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Arrow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/main/Arrow.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">167</td><td class="">167</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Arrow } from &#x27;../../interfaces/Interfaces&#x27;
+const arrow: Arrow = {
+  renderArrow: (id) =&gt; {
+    if(id != null) {
+      let canvasEle = document.getElementById(`canv${id}`)
+      let renderEle = document.getElementById(`rend${id}`)
+      if( canvasEle === null || renderEle === null) {
+        return;
+      } else {
+        let canvasElePosition = canvasEle.getBoundingClientRect();
+        let renderElePosition = renderEle.getBoundingClientRect();
+        const canvasEleX =  canvasElePosition.left + canvasElePosition.width;
+        const canvasEleY =  canvasElePosition.top + (canvasElePosition.height / 2);
+        const renderEleX =  renderElePosition.left;
+        const renderEleY =  renderElePosition.top;
+        arrow.lineDraw(canvasEleX, canvasEleY, renderEleX, renderEleY);
+      }
+    }
+  },
+
+  createLineElement: (x, y, length, angle) =&gt; {
+    let styles = &#x27;border: 1px solid black;&#x27;
+              + &#x27;width: &#x27; + length + &#x27;px;&#x27;
+              + &#x27;height: 0px;&#x27;
+              + &#x27;z-index: 9999999999;&#x27;
+              + &#x27;-moz-transform: rotate(&#x27; + angle + &#x27;rad);&#x27;
+              + &#x27;-webkit-transform: rotate(&#x27; + angle + &#x27;rad);&#x27;
+              + &#x27;-o-transform: rotate(&#x27; + angle + &#x27;rad);&#x27;  
+              + &#x27;-ms-transform: rotate(&#x27; + angle + &#x27;rad);&#x27;  
+              + &#x27;position: absolute;&#x27;
+              + &#x27;top: &#x27; + y + &#x27;px;&#x27;
+              + &#x27;left: &#x27; + x + &#x27;px;&#x27;;
+    let line = document.createElement(&quot;div&quot;);
+    line.setAttribute(&quot;class&quot;, &quot;line&quot;);
+    line.setAttribute(&#x27;style&#x27;, styles);  
+    return line;
+  },
+
+  createHeadElement: (x, y, length, angle) =&gt; {
+    let styles = &#x27;width: 13px;&#x27;
+              + &#x27;height: 13px;&#x27;
+              + &#x27;border: solid 2px;&#x27;
+              + &#x27;border-radius: 50%;&#x27;
+              + &#x27;z-index: 9999999999;&#x27;
+              + &#x27;background-color: #00FFFF;&#x27;
+              + &#x27;border-color: #bbb;&#x27; 
+              + &#x27;rotate: &#x27; + angle + &#x27;rad;&#x27;
+              + &#x27;position: absolute;&#x27;
+              + &#x27;top: &#x27; + -6.5 + &#x27;px;&#x27;
+              + &#x27;left: &#x27; + 0 + (length - 12) + &#x27;px;&#x27;;
+    let head = document.createElement(&quot;div&quot;);
+    head.setAttribute(&quot;class&quot;, &quot;head&quot;); 
+    head.setAttribute(&#x27;style&#x27;, styles);
+    return head;
+  },
+
+  lineDraw: (x1, y1, x2, y2) =&gt; {
+    let a = x1 - x2,
+        b = y1 - y2,
+        c = Math.sqrt(a * a + b * b);
+    let sx = (x1 + x2) / 2,
+        sy = (y1 + y2) / 2;
+    let x = sx - c / 2,
+        y = sy;
+    let alpha = Math.PI - Math.atan2(-b, a);
+    let line = arrow.createLineElement(x, y, c, alpha);
+    let head = arrow.createHeadElement(x, y, c, alpha);
+    arrow.deleteLines();
+    document.getElementsByClassName(&quot;main&quot;)[0].append(line);
+    document.getElementsByClassName(&quot;line&quot;)[0].append(head);
+  },
+
+  deleteLines: () =&gt; {
+    let lineArray = document.getElementsByClassName(&quot;line&quot;);
+    let lineArrayIterable = Array.from(lineArray);
+    let headArray = document.getElementsByClassName(&quot;head&quot;);
+    let headArrayIterable = Array.from(headArray);
+    for(const line of lineArrayIterable) {
+      line.remove();
+    }
+    for(const head of headArrayIterable) {
+      head.remove();
+    }
+  }
+}
+
+export default arrow;
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

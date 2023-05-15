@@ -1,16 +1,14 @@
 import TreeChart from '../app/src/tree/TreeChart';
-import React, { useReducer } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom';
-import {
-  render, screen,
-} from '@testing-library/react';
-import StateContext from '../app/src/context/context';
-import initialState from '../app/src/context/initialState';
-import reducer from '../app/src/reducers/componentReducer';
+import { render, screen } from '@testing-library/react';
+import { initialState } from '../app/src/redux/reducers/slice/appStateSlice';
+import { Provider } from 'react-redux';
+import store from '../app/src/redux/store';
 import 'd3';
 
-// tester populates the components array used for this testing suite
-const tester = [
+let state = JSON.parse(JSON.stringify(initialState));
+state.components = [
   {
     id: 1,
     name: 'index',
@@ -49,13 +47,13 @@ const tester = [
             name: 'A',
             style: {},
             type: 'Component',
-            typeId: 2,
-          },
+            typeId: 2
+          }
         ],
         name: 'div',
         style: {},
         type: 'HTML Element',
-        typeId: 11,
+        typeId: 11
       },
       {
         childId: 3,
@@ -66,16 +64,16 @@ const tester = [
             name: 'B',
             style: {},
             type: 'Component',
-            typeId: 3,
-          },
+            typeId: 3
+          }
         ],
         name: 'div',
         style: {},
         type: 'HTML Element',
-        typeId: 11,
-      },
+        typeId: 11
+      }
     ],
-    isPage: true,
+    isPage: true
   },
   {
     id: 2,
@@ -84,7 +82,7 @@ const tester = [
     style: {},
     code: '',
     children: [],
-    isPage: false,
+    isPage: false
   },
   {
     id: 3,
@@ -93,27 +91,23 @@ const tester = [
     style: {},
     code: '',
     children: [],
-    isPage: false,
-  },
+    isPage: false
+  }
 ];
 
 // renders a tree of the components in tester
-function Test() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  state.components = tester;
-  return (
-    <StateContext.Provider value={[state, dispatch]}>
-      <TreeChart data={state.components} />
-    </StateContext.Provider>
-  );
-}
-
-test('Test the tree functionality', () => {
-  render(<Test />);
-  // elements that are not separators should appear in the tree
-  expect(screen.getByText('index')).toBeInTheDocument();
-  expect(screen.getByText('A')).toBeInTheDocument();
-  expect(screen.getByText('B')).toBeInTheDocument();
-  // tree should not include separators
-  expect(screen.queryByText('separator')).toBe(null);
+describe('Component Tree Render Test', () => {
+  test('should render full component tree based on state', () => {
+    render(
+      <Provider store={store}>
+        <TreeChart data={state.components} />
+      </Provider>
+    );
+    // elements that are not separators should appear in the tree
+    expect(screen.getByText('index')).toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('B')).toBeInTheDocument();
+    // tree should not include separators
+    expect(screen.queryByText('separator')).toBe(null);
+  });
 });

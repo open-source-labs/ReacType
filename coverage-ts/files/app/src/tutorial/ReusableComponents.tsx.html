@@ -1,0 +1,57 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ReusableComponents.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tutorial/ReusableComponents.tsx</td><td class="">69.52%</td><td class="">80%</td><td class="">105</td><td class="">73</td><td class="">32</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import reusableComponents1 from &#x27;../../../resources/reusable_components_tutorial_images/reusablecomponents1.png&#x27;;
+import reusableComponents2 from &#x27;../../../resources/reusable_components_tutorial_images/reusablecomponents2.png&#x27;;
+import reusableComponents3 from &#x27;../../../resources/reusable_components_tutorial_images/reusablecomponents3.png&#x27;;
+
+const ReusableComponents: React.FC&lt;{
+  classes: any;
+  setPage: Function;
+}&gt; = ({ classes, setPage }) =&gt; {
+  return (
+    &lt;div className={classes.wrapper}&gt;
+      &lt;h1 className={classes.title}&gt;Reusable Components&lt;/h1&gt;
+      &lt;hr/&gt;
+      &lt;p className={classes.text}&gt;NOTE: As of version 13.0, each reusable component can only have one parent. Otherwise, you will be prompted to generate a new component to nest. 
+      &lt;br&gt;&lt;/br&gt;
+      &lt;br&gt;&lt;/br&gt;To add a Reusable Component, use the New Component input form in the Creation Panel to name a Component. Leave the Root/Page checkbox unchecked. Then click Create to add a new Reusable Component.&lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={reusableComponents1} /&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+      &lt;p className={classes.text}&gt;The Components you create will populate on the left panel under the section &#x27;Reusable Components&#x27;.&lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={reusableComponents2} /&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+      &lt;p className={classes.text}&gt;After creating the desired Component, you can now drag-n-drop to the Canvas.
+        If you&#x27;d like to know about about the drag-n-drop functionality, please locate the &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Canvas&#x27;)} &gt;Canvas Tutorial&lt;/span&gt; for more information on how it works.
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={reusableComponents3} /&gt;
+      &lt;/div&gt;
+      &lt;p className={classes.text}&gt;You can place a reusable component inside &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Pages&#x27;)} &gt;Pages&lt;/span&gt; and populate the component itself with other &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;HTML_Elements&#x27;)} &gt;HTML Elements&lt;/span&gt;.&lt;/p&gt;
+      &lt;hr/&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default ReusableComponents;
+
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:2,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:8,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:28,&quot;text&quot;:&quot;wrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:108,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:116,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:93,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:101,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:219,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/ReusableComponents.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:227,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

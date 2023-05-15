@@ -1,3 +1,4 @@
+//note for future developers - this may be electron specific - without signin working on the browser it is difficult to test
 import React, { useState} from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
@@ -7,11 +8,12 @@ import { withRouter } from 'react-router-dom';
 import exportProject from '../../utils/exportProject.util';
 import createModal from '../right/createModal';
 import {useDispatch, useSelector} from 'react-redux';
+import { RootState } from '../../redux/store';
 // ProjectManager function moved to NavBar.tsx
 const ProjectManager = () => {
   // state to keep track of whether a modal should display
   const [modal, setModal] = useState(null);
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store:RootState) => store.appState)
   const dispatch = useDispatch();
   const classes = useStyles();
   

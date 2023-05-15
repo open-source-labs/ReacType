@@ -5,10 +5,11 @@ import Select from '@mui/material/Select';
 import { InputLabel } from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import { updateAttributes } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 function AddLink({ id, onClickHandler, linkDisplayed }) {
 
-  const { state, contextParam, isThemeLight } = useSelector((store) => ({
+  const { state, contextParam, isThemeLight } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
     isThemeLight: store.styleSlice
@@ -34,20 +35,18 @@ function AddLink({ id, onClickHandler, linkDisplayed }) {
         const state = JSON.parse(JSON.stringify(element));
         state.childId = id;
         state.attributes.compLink = event.target.value;
-        dispatch(updateAttributes(state, contextParam))
+        dispatch(updateAttributes({attributes: state, contextParam: contextParam}))
         return true;
       }
     });
   }
 
-
   const pagesItems = state.components.filter(comp => state.rootComponents.includes(comp.id));
   const dropDown = [<MenuItem style={{ color: '#000' }} disabled hidden selected>Pages</MenuItem>].concat(pagesItems.map(comp => <MenuItem style={{ color: '#000' }} value={comp.name}>{comp.name}</MenuItem>));
 
-
   return (
     <div style={{float: 'right'}}>
-      <FormControl variant='outlined' focused='true' style={ {width: '100%'} }>
+      <FormControl variant='outlined' focused={true} style={ {width: '100%'} }>
       <InputLabel id='page-select-label' style={ {color: isThemeLight? '#000' : '#fff'} }>Pages</InputLabel>
           <Select 
             label='Pages'

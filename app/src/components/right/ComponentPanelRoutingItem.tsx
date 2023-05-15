@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import makeStyles from '@mui/styles/makeStyles';
-import StateContext from '../../context/context';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import Select from '@mui/material/Select';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 // ------------------------------------------------
 import MenuItem from '@mui/material/MenuItem';
@@ -26,15 +26,15 @@ Dragging works in the same manner as in ComponentPanelItem.tsx
 */
 // a component panel routing item is a Next.js component that allows the user to navigate between pages
 const ComponentPanelRoutingItem: React.FC<{}> = () => {
-  const classes = useStyles(); 's there, '
-  // const [state,] = useContext(StateContext);
-  const state = useSelector(store => store.appState)
+  const classes = useStyles();
+  ('s there, ');
+  const state = useSelector((store: RootState) => store.appState);
 
   // find the root components that can be associated with a route
   // These will be the components that are displayed in the dropdown adjacent to "Route Link"
   let navigableComponents = state.components
-    .filter(comp => state.rootComponents.includes(comp.id))
-    .map(comp => comp.name);
+    .filter((comp) => state.rootComponents.includes(comp.id))
+    .map((comp) => comp.name);
 
   // set state for the route currently selected in the dropdown
   const [route, setRoute] = useState(navigableComponents[0]);
@@ -42,7 +42,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
   let routeId;
   // check if the component in the drop down still references an existing component
   const referencedComponent = state.components.find(
-    comp => comp.name === route
+    (comp) => comp.name === route
   );
   // if so, set the route id for that component to the id of the referenced component
   if (referencedComponent) routeId = referencedComponent.id;
@@ -52,7 +52,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
     routeId = 1;
   }
   // on switching to another Page in the dropdown menu, update hook state
-  const handleRouteChange = event => {
+  const handleRouteChange = (event) => {
     setRoute(event.target.value);
   };
   // useDrag hook allows components in left panel to be drag source
@@ -96,7 +96,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
           onChange={handleRouteChange}
         >
           {/* each MenuItem is a Page in the dropdown menu  */}
-          {navigableComponents.map(page => (
+          {navigableComponents.map((page) => (
             <MenuItem key={'menu' + page} value={page}>
               {page}
             </MenuItem>
@@ -109,7 +109,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
 
 const useStyles = makeStyles({
   activeFocus: {
-    backgroundColor: '#808080',
+    backgroundColor: '#808080'
   },
   focusMark: {
     backgroundColor: '#808080',

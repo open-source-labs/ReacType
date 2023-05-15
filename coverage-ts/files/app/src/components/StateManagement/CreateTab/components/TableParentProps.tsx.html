@@ -1,0 +1,163 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TableParentProps.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx</td><td class="">77.11%</td><td class="">80%</td><td class="">166</td><td class="">128</td><td class="">38</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useContext, useEffect } from &#x27;react&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+import {
+  DataGrid,
+  GridEditRowsModel,
+} from &#x27;@mui/x-data-grid&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import { StatePropsPanelProps } from &#x27;../../../../interfaces/Interfaces&#x27;;
+import AddIcon from &#x27;@mui/icons-material/Add&#x27;;
+import { addPassedInProps } from &#x27;../../../../redux/reducers/slice/appStateSlice&#x27;;
+import { RootState } from &#x27;../../../../redux/store&#x27;
+
+const TableParentProps = props =&gt; {
+  const { state, contextParam } = useSelector((store:RootState) =&gt; ({
+    state: store.appState,
+    contextParam: store.contextSlice,
+  }));
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const currentId = state.canvasFocus.componentId;
+  const currentComponent = state.components[currentId - 1];
+  const [editRowsModel] = useState&lt;GridEditRowsModel&gt;({});
+  const [gridColumns, setGridColumns] = useState([]);
+  const parentProps = props.parentProps;
+  const parentPassedInProps = props.parentPassedInProps;
+  const parentComponent = props.parentComponent;
+  const columnTabs = [
+    {
+      field: &#x27;id&#x27;,
+      headerName: &#x27;ID&#x27;,
+      width: 30,
+      editable: false
+    },
+    {
+      field: &#x27;key&#x27;,
+      headerName: &#x27;Key&#x27;,
+      width: 90,
+      editable: true
+    },
+    {
+      field: &#x27;value&#x27;,
+      headerName: &#x27;Initial Value&#x27;,
+      width: 100,
+      editable: true
+    },
+    {
+      field: &#x27;type&#x27;,
+      headerName: &#x27;Type&#x27;,
+      width: 90,
+      editable: false
+    },
+    {
+      field: &#x27;delete&#x27;,
+      headerName: &#x27;+&#x27;,
+      width: 30,
+      editable: false,
+      renderCell: function renderCell(params: any) {
+        return (
+          &lt;Button
+            style={{ width: `${3}px`, color: &#x27;black&#x27;}}
+            onClick={() =&gt; {
+              addProps(params.row, params.id - 1);
+            }}
+          &gt;
+            &lt;AddIcon style={{ width: `${15}px` }} /&gt;
+          &lt;/Button&gt;
+          
+        );
+      }
+    }
+  ];
+  const addProps = (parentComponentProps, rowId) =&gt; {
+    // get the current focused component
+    // remove the state that the button is clicked
+    // send a dispatch to rerender the table
+    dispatch(addPassedInProps({ passedInProps: parentComponentProps, rowId: rowId, parentComponent: parentComponent, contextParam: contextParam}))
+  };
+
+  useEffect(() =&gt; {
+    setGridColumns(columnTabs);
+  }, [props.isThemeLight]);
+
+  // determine whether or not to include delete column in data grid 
+  useEffect(() =&gt; {
+    if (props.canDeleteState) {
+      setGridColumns(columnTabs);
+    } else {
+      setGridColumns(columnTabs.slice(0, gridColumns.length - 1));
+    }
+    
+  }, [state.canvasFocus.componentId]);
+  
+  
+  let rows;
+  
+  // check if current component is a root component-- if yes, it shouldn&#x27;t have any parent props
+  if (currentComponent.name === &#x27;App&#x27; || currentComponent.name === &#x27;index&#x27;) {rows = []}
+  else { 
+    if (parentProps) {
+      rows = parentProps;
+      if (parentPassedInProps) {
+        rows = [...rows, ...parentPassedInProps]
+      }
+  }
+  }
+
+  return (
+    &lt;div className={&#x27;state-prop-grid&#x27;}&gt; 
+      &lt;DataGrid
+        rows={rows}
+        columns={gridColumns}
+        pageSize={5}
+        editRowsModel={editRowsModel}
+        className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+      /&gt;
+    &lt;/div&gt;
+  );
+};
+
+const useStyles = makeStyles({
+  themeLight: {
+    color: &#x27;rgba(0,0,0,0.54)&#x27;,
+    &#x27;&amp; .MuiTablePagination-root&#x27;: {
+      color: &#x27;rbga(0,0,0,0.54)&#x27;
+    }
+  },
+  themeDark: {
+    color: &#x27;white&#x27;,
+    &#x27;&amp; .MuiTablePagination-root&#x27;: {
+      color: &#x27;white&#x27;
+    },
+    &#x27;&amp; .MuiIconButton-root&#x27;: {
+      color: &#x27;white&#x27;
+    },
+    &#x27;&amp; .MuiSvgIcon-root&#x27;: {
+      color: &#x27;white&#x27;
+    },
+    &#x27;&amp; .MuiDataGrid-window&#x27;: {
+      backgroundColor: &#x27;rgba(0,0,0,0.54)&#x27;
+    }
+  }
+});
+
+export default TableParentProps;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:25,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:8,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:22,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:28,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:8,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:30,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:36,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:8,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:26,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:32,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:38,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:23,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:30,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:35,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:42,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:20,&quot;text&quot;:&quot;parentComponentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:42,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:32,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:47,&quot;text&quot;:&quot;parentComponentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:69,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:76,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:83,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:100,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:6,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:8,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:14,&quot;text&quot;:&quot;canDeleteState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:6,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:77,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:8,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:6,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:13,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:10,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:8,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:19,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:28,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:19,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TableParentProps.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

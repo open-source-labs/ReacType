@@ -2,7 +2,7 @@
 import createFiles from './createFiles.util';
 import { Component } from '../interfaces/Interfaces';
 import createTestSuiteClassic from './createTestSuiteClassic.util';
-import store from '../redux/store.js';
+import store from '../redux/store.ts';
 
 const camelToKebab = (camel: string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();

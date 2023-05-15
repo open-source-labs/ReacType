@@ -1,18 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   DataGrid,
   GridEditRowsModel,
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import StateContext from "../../../../context/context";
 import makeStyles from '@mui/styles/makeStyles';
-import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import AddIcon from '@mui/icons-material/Add';
 import { addPassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../../redux/store'
 
 const TableParentProps = props => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));
@@ -121,6 +120,12 @@ const TableParentProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',
+    '& button:hover':{
+      backgroundColor: 'LightGray'
+    },
+    '& button':{
+      color: 'black'
+    },
     '& .MuiTablePagination-root': {
       color: 'rbga(0,0,0,0.54)'
     }

@@ -1,9 +1,8 @@
 // Main slice for all the component state.///
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 // Import Interfaces for State, and HTML Types
 import {
   State,
-  Action,
   Component,
   ChildElement,
   HTMLType
@@ -11,6 +10,7 @@ import {
 import HTMLTypes from '../../HTMLTypes';
 import generateCode from '../../../helperFunctions/generateCode';
 import manageSeparators from '../../../helperFunctions/manageSeparators';
+
 export const initialState: State = {
   name: '',
   isLoggedIn: false,
@@ -27,6 +27,8 @@ export const initialState: State = {
       future: [],
       stateProps: [],
       useStateCodes: [], // array of strings for each useState codes
+      events: {}, // Add the missing 'events' property
+      passedInProps: [] // Add the missing 'passedInProps' property
     }
   ],
   projectType: 'Classic React',
@@ -35,8 +37,9 @@ export const initialState: State = {
   nextComponentId: 2,
   nextChildId: 1,
   nextTopSeparatorId: 1000,
-  HTMLTypes,
-  tailwind: false
+  HTMLTypes: HTMLTypes, // left as is for now
+  tailwind: false,
+  stylesheet: ''
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -57,17 +60,19 @@ const findParent = (component: Component, childId: number) => {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
     // try to find id of childNode in children
-    if (currentNode.name !== 'input' && currentNode.name !== 'img') {
-      for (let i = 0; i <= currentNode.children.length - 1; i++) {
-        // if match is found return object with both the parent and the index value of the child
-        if (currentNode.children[i].childId === childId) {
-          return { directParent: currentNode, childIndexValue: i };
+    if (currentNode?.children) {
+      if (currentNode.name !== 'input' && currentNode.name !== 'img') {
+        for (let i = 0; i <= currentNode.children.length - 1; i++) {
+          // if match is found return object with both the parent and the index value of the child
+          if (currentNode.children[i].childId === childId) {
+            return { directParent: currentNode, childIndexValue: i };
+          }
         }
+        // if child node isn't found add each of the current node's children to the search array
+        currentNode.children.forEach((node: ChildElement) =>
+          nodeArr.push(node)
+        );
       }
-      // if child node isn't found add each of the current node's children to the search array
-      currentNode.children.forEach((node: ChildElement) =>
-        nodeArr.push(node)
-      );
     }
   }
   // if no search is found return -1
@@ -85,10 +90,12 @@ const childTypeExists = (
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
-    if (currentNode.type === type && currentNode.typeId === typeId)
-      return true;
-    // if child node isn't found add each of the current node's children to the search array
-    currentNode.children.forEach((node) => nodeArr.push(node));
+    if (currentNode?.children) {
+      if (currentNode.type === type && currentNode.typeId === typeId)
+        return true;
+      // if child node isn't found add each of the current node's children to the search array
+      currentNode.children.forEach((node) => nodeArr.push(node));
+    }
   }
   // if no match is found return false
   return false;
@@ -101,10 +108,12 @@ const findChild = (component: Component, childId: number) => {
   while (nodeArr.length > 0) {
     // shift off the first value and assign to an element
     const currentNode = nodeArr.shift();
-    if (currentNode.childId === childId) return currentNode;
-    // if child node isn't found add each of the current node's children to the search array
-    if (currentNode.name !== 'input' && currentNode.name !== 'img')
-      currentNode.children.forEach((node) => nodeArr.push(node));
+    if (currentNode?.children) {
+      if (currentNode.childId === childId) return currentNode;
+      // if child node isn't found add each of the current node's children to the search array
+      if (currentNode.name !== 'input' && currentNode.name !== 'img')
+        currentNode.children.forEach((node) => nodeArr.push(node));
+    }
   }
   // if no match is found return false
   return;
@@ -146,23 +155,22 @@ const updateIds = (components: Component[]) => {
   components.forEach((page) => {
     if (page.isPage) {
       page.children.forEach((child) => {
-        if (child.type === 'Component')
-          child.typeId = componentIds[child.name];
+        if (child.type === 'Component') child.typeId = componentIds[child.name];
       });
     }
   });
   return components;
 };
-const updateRoots = (components: Component[]) => {
-  const roots = [];
-  // for each of the components in the passed in array of components, if the child component
-  // is a page, push its id into the roots array
+// updated compoment updateRoots with TS number type implemented
+const updateRoots = (components: Component[]): number[] => {
+  const roots: number[] = [];
   components.forEach((comp) => {
     if (comp.isPage) roots.push(comp.id);
   });
   return roots;
 };
-const deleteById = (id: number, name: string, state: object): Component[] => {
+// updated state property to state from object
+const deleteById = (id: number, name: string, state: State): Component[] => {
   // name of the component we want to delete
   const checkChildren = (child: Component[] | ChildElement[]) => {
     // for each of the components in the passed in components array, if the child
@@ -192,22 +200,18 @@ const deleteById = (id: number, name: string, state: object): Component[] => {
   const filteredArr = [...copyComp].filter((comp) => comp.id != id);
   return updateIds(filteredArr);
 };
-const convertToJSX = (arrayOfElements) => {
-  // if id exists in state.HTMLTypes
-  for (let i = 0; i < initialState.HTMLTypes.length; i += 1) {
-    arrayOfElements[i] = initialState.HTMLTypes[i];
-  }
-};
+
 const updateUseStateCodes = (currentComponent) => {
   // array of snippets of state prop codes
-  const localStateCode = [];
+  const localStateCode: string[] = []; // avoid never by assigning it to string
   currentComponent.stateProps
     .filter((n, i) => i % 2 === 0)
     .forEach((stateProp) => {
-      const useStateCode = `const [${stateProp.key}, set${stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
-        }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
-          stateProp.value
-        )})`;
+      const useStateCode = `const [${stateProp.key}, set${
+        stateProp.key.charAt(0).toUpperCase() + stateProp.key.slice(1)
+      }] = useState<${stateProp.type} | undefined>(${JSON.stringify(
+        stateProp.value
+      )})`;
       localStateCode.push(useStateCode);
     });
   if (currentComponent.name !== 'App' && currentComponent.name !== 'Index') {
@@ -220,7 +224,6 @@ const updateUseStateCodes = (currentComponent) => {
   return localStateCode;
 };
 
-
 // Creates new slice for components with applicable reducers
 const appStateSlice = createSlice({
   name: 'appState',
@@ -231,7 +234,7 @@ const appStateSlice = createSlice({
         typeof action.payload.componentName !== 'string' ||
         action.payload.componentName === ''
       ) {
-        return
+        return;
       }
 
       const newComponent = {
@@ -240,6 +243,7 @@ const appStateSlice = createSlice({
         nextChildId: 1,
         style: {},
         attributes: {},
+        events: {},
         code: '',
         children: [],
         isPage: action.payload.root,
@@ -255,7 +259,7 @@ const appStateSlice = createSlice({
       // updates the focus to the new component, which redirects to the new blank canvas of said new component
 
       // change canvas focus to just created component
- 
+
       const nextComponentId = state.nextComponentId + 1;
       newComponent.code = generateCode(
         state.components,
@@ -265,13 +269,9 @@ const appStateSlice = createSlice({
         state.HTMLTypes,
         state.tailwind,
         action.payload.contextParam
-
       );
 
- 
-      state.nextComponentId = nextComponentId
-
-
+      state.nextComponentId = nextComponentId;
     },
     addChild: (state, action) => {
       let parentComponentId: number;
@@ -290,7 +290,7 @@ const appStateSlice = createSlice({
 
       const parentComponent = findComponent(components, parentComponentId);
       let componentName: string = '';
-      let componentChildren: Object[] = [];
+      let componentChildren: ChildElement[] = [];
       if (type === 'Component') {
         components.forEach((comp) => {
           if (comp.id === typeId) {
@@ -301,8 +301,12 @@ const appStateSlice = createSlice({
       }
       if (type === 'Component') {
         const originalComponent = findComponent(state.components, typeId);
-        if (childTypeExists('Component', parentComponentId, originalComponent))
-          return state;
+        if (originalComponent) {
+          if (
+            childTypeExists('Component', parentComponentId, originalComponent)
+          )
+            return state;
+        }
       }
 
       let newName = state.HTMLTypes.reduce((name, el) => {
@@ -328,10 +332,11 @@ const appStateSlice = createSlice({
         style: {},
         attributes: {},
         events: {},
-        children: componentChildren,
+        children: componentChildren, // work in progress possible solution // children: componentChildren as ChildElement[],
         stateProps: [], //legacy pd: added stateprops and passedinprops
         passedInProps: []
       };
+      // added missing properties
       const topSeparator: ChildElement = {
         type: 'HTML Element',
         typeId: separator.id,
@@ -339,27 +344,34 @@ const appStateSlice = createSlice({
         childId: state.nextTopSeparatorId,
         style: separator.style,
         attributes: {},
-        children: []
+        events: {}, // Added
+        children: [],
+        stateProps: [], // Added
+        passedInProps: [] // Added
       };
       // if the childId is null, this signifies that we are adding a child to the top-level component rather than another child element
       // we also add a separator before any new child
       // if the newChild Element is an input or img type, delete the children key/value pair
-      if (newChild.name === 'input' && newChild.name === 'img')
-        delete newChild.children;
+      // if (newChild.name === 'input' && newChild.name === 'img')
+      //   delete newChild.children;
       let directParent;
       if (childId === null) {
-        parentComponent.children.push(topSeparator);
-        parentComponent.children.push(newChild);
+        if (parentComponent) {
+          parentComponent.children.push(topSeparator);
+          parentComponent.children.push(newChild);
+        }
       }
       // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
       else {
-        directParent = findChild(parentComponent, childId);
-        //disable nesting a component inside a HTML element
-        if (directParent.type === 'HTML Element' && type === 'HTML Element') {
-          directParent.children.push(topSeparator);
-          directParent.children.push(newChild);
-        } else {
-          return { ...state };
+        if (parentComponent) {
+          directParent = findChild(parentComponent, childId);
+          //disable nesting a component inside a HTML element
+          if (directParent.type === 'HTML Element' && type === 'HTML Element') {
+            directParent.children.push(topSeparator);
+            directParent.children.push(newChild);
+          } else {
+            return { ...state };
+          }
         }
       }
       const canvasFocus = {
@@ -370,25 +382,26 @@ const appStateSlice = createSlice({
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
       let addChildArray = components[canvasFocus.componentId - 1].children;
-      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
+      addChildArray = manageSeparators.mergeSeparator(addChildArray, 1); // merge separator needs interface and type
       if (directParent && directParent.name === 'separator')
         nextTopSeparatorId = manageSeparators.handleSeparators(
+          // handle separator needs interface and type
           addChildArray,
           'add'
         );
       components[canvasFocus.componentId - 1].children = addChildArray;
 
-
-      parentComponent.code = generateCode(
-        components,
-        parentComponentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      console.log('addchild state before update',current(state))
+      if (parentComponent) {
+        parentComponent.code = generateCode(
+          components,
+          parentComponentId,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes,
+          state.tailwind,
+          action.payload.contextParam
+        );
+      }
       state.components = components;
       state.nextChildId = nextChildId;
       state.canvasFocus = canvasFocus;
@@ -409,6 +422,7 @@ const appStateSlice = createSlice({
         });
       }
     },
+
     updateStateUsed: (state, action) => {
       const { stateUsedObj } = action.payload;
       const components = [...state.components];
@@ -416,19 +430,26 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
-      const targetChild = findChild(component, state.canvasFocus.childId);
-      targetChild.stateUsed = stateUsedObj;
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+      if (component) {
+        if (state.canvasFocus.childId !== null) {
+          const targetChild = findChild(component, state.canvasFocus.childId);
+          if (targetChild) {
+            targetChild.stateUsed = stateUsedObj;
+            component.code = generateCode(
+              components,
+              state.canvasFocus.componentId,
+              [...state.rootComponents],
+              state.projectType,
+              state.HTMLTypes,
+              state.tailwind,
+              action.payload.contextParam
+            );
+            state.components = components;
+          }
+        }
+      }
     },
+
     updateUseContext: (state, action) => {
       const { useContextObj } = action.payload;
       const components = [...state.components];
@@ -436,28 +457,28 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
-      component.useContext = useContextObj;
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+      if (component) {
+        component.useContext = useContextObj;
+        component.code = generateCode(
+          components,
+          state.canvasFocus.componentId,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes,
+          state.tailwind,
+          action.payload.contextParam
+        );
+        state.components = components;
+      }
     },
 
     resetAllState: (state) => {
-      if(state.isLoggedIn){
+      if (state.isLoggedIn) {
         Object.assign(state, initialState);
         state.isLoggedIn = true;
         return;
       }
       Object.assign(state, initialState);
-     
-     
     },
     changePosition: (state, action) => {
       const { currentChildId, newParentChildId } = action.payload;
@@ -471,70 +492,78 @@ const appStateSlice = createSlice({
       );
       // find the moved element's former parent
       // delete the element from it's former parent's children array
-
-      const { directParent, childIndexValue } = findParent(
-        component,
-        currentChildId
-      );
-      // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
-      // Only run if the directParent exists
-      if (directParent) {
-        const child = { ...directParent.children[childIndexValue] };
-        directParent.children.splice(childIndexValue, 1);
-        // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
-        if (newParentChildId === null) {
-          component.children.push(child);
-        }
-        // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
-        else {
-          const directParent = findChild(component, newParentChildId);
-          directParent.children.push(child);
-        }
-      }
-      let nextTopSeparatorId = state.nextTopSeparatorId;
-      components[state.canvasFocus.componentId - 1].children =
-        manageSeparators.mergeSeparator(
-          components[state.canvasFocus.componentId - 1].children,
-          0
+      if (component) {
+        const { directParent, childIndexValue } = findParent(
+          component,
+          currentChildId
         );
-      nextTopSeparatorId = manageSeparators.handleSeparators(
-        components[state.canvasFocus.componentId - 1].children,
-        'change position'
-      );
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
-      state.nextTopSeparatorId = nextTopSeparatorId;
+        // BREAKING HERE during manipulation of positions. Sometimes get a null value when manipulating positions
+        // Only run if the directParent exists
+        if (directParent) {
+          if (directParent.children) {
+            const child = { ...directParent.children[childIndexValue] };
+            directParent.children.splice(childIndexValue, 1);
+            // if the childId is null, this signifies that we are adding a child to the top level component rather than another child element
+            if (newParentChildId === null) {
+              component.children.push(child);
+            }
+            // if there is a childId (childId here references the direct parent of the new child) find that child and a new child to its children array
+            else {
+              const directParent = findChild(component, newParentChildId);
+              if (directParent?.children) {
+                directParent.children.push(child);
+              }
+            }
+          }
+        }
+        let nextTopSeparatorId = state.nextTopSeparatorId;
+        components[state.canvasFocus.componentId - 1].children =
+          manageSeparators.mergeSeparator(
+            components[state.canvasFocus.componentId - 1].children,
+            0
+          );
+        nextTopSeparatorId = manageSeparators.handleSeparators(
+          components[state.canvasFocus.componentId - 1].children,
+          'change position'
+        );
+        component.code = generateCode(
+          components,
+          state.canvasFocus.componentId,
+          [...state.rootComponents],
+          state.projectType,
+          state.HTMLTypes,
+          state.tailwind,
+          action.payload.contextParam
+        );
+        state.components = components;
+        state.nextTopSeparatorId = nextTopSeparatorId;
+      }
     },
 
-
     updateCss: (state, action) => {
-
       const { style } = action.payload;
       const components = [...state.components];
       const component = findComponent(
         components,
         state.canvasFocus.componentId
       );
-      const targetChild = findChild(component, state.canvasFocus.childId);
-      targetChild.style = style;
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+      // closed if statement at the end of the block
+      if (component && state.canvasFocus.childId) {
+        const targetChild = findChild(component, state.canvasFocus.childId);
+        if (targetChild) {
+          targetChild.style = style;
+          component.code = generateCode(
+            components,
+            state.canvasFocus.componentId,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes,
+            state.tailwind,
+            action.payload.contextParam
+          );
+          state.components = components;
+        }
+      }
     },
 
     updateAttributes: (state, action) => {
@@ -545,22 +574,25 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
-      const targetChild = findChild(component, state.canvasFocus.childId);
+      // closed if statement at the end of the block
+      if (component && state.canvasFocus.childId) {
+        const targetChild = findChild(component, state.canvasFocus.childId);
+        if (targetChild) {
+          targetChild.attributes = attributes;
 
-      targetChild.attributes = attributes;
-
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+          component.code = generateCode(
+            components,
+            state.canvasFocus.componentId,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes,
+            state.tailwind,
+            action.payload.contextParam
+          );
+          state.components = components;
+        }
+      }
     },
-
 
     updateEvents: (state, action) => {
       const { events } = action.payload;
@@ -570,21 +602,25 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
-      const targetChild = findChild(component, state.canvasFocus.childId);
-      const event = Object.keys(events)[0];
-      const funcName = events[event];
-      targetChild.events[event] = funcName;
+      if (component && state.canvasFocus.childId) {
+        const targetChild = findChild(component, state.canvasFocus.childId);
+        const event = Object.keys(events)[0];
+        const funcName = events[event];
+        if (targetChild) {
+          targetChild.events[event] = funcName;
 
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+          component.code = generateCode(
+            components,
+            state.canvasFocus.componentId,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes,
+            state.tailwind,
+            action.payload.contextParam
+          );
+          state.components = components;
+        }
+      }
     },
 
     deleteEventAction: (state, action) => {
@@ -594,19 +630,23 @@ const appStateSlice = createSlice({
         components,
         state.canvasFocus.componentId
       );
-      const targetChild = findChild(component, state.canvasFocus.childId);
-      delete targetChild.events[event];
+      if (component && state.canvasFocus.childId) {
+        const targetChild = findChild(component, state.canvasFocus.childId);
+        if (targetChild) {
+          delete targetChild.events[event];
 
-      component.code = generateCode(
-        components,
-        state.canvasFocus.componentId,
-        [...state.rootComponents],
-        state.projectType,
-        state.HTMLTypes,
-        state.tailwind,
-        action.payload.contextParam
-      );
-      state.components = components;
+          component.code = generateCode(
+            components,
+            state.canvasFocus.componentId,
+            [...state.rootComponents],
+            state.projectType,
+            state.HTMLTypes,
+            state.tailwind,
+            action.payload.contextParam
+          );
+          state.components = components;
+        }
+      }
     },
 
     deletePage: (state, action) => {
@@ -669,10 +709,8 @@ const appStateSlice = createSlice({
       state.components = components;
       state.canvasFocus = canvasFocus;
       state.nextComponentId = id;
-
     },
     setProjectName: (state, action) => {
-
       state.name = action.payload;
     },
     changeProjectType: (state, action) => {
@@ -728,10 +766,7 @@ const appStateSlice = createSlice({
     },
     updateProjectName: (state, action) => {
       const projectName = action.payload;
-      return {
-        ...state,
-        name: projectName
-      };
+      state.name = projectName;
     },
     deleteElement: (state, action) => {
       let name: string = '';
@@ -741,7 +776,11 @@ const appStateSlice = createSlice({
         }
         return el.id !== action.payload.id;
       });
-      const components: Component[] = deleteById(action.payload.id, name, state);
+      const components: Component[] = deleteById(
+        action.payload.id,
+        name,
+        state
+      );
       const rootComponents: number[] = updateRoots(components);
       const canvasFocus = { ...state.canvasFocus, childId: null };
       components.forEach((el, i) => {
@@ -787,11 +826,13 @@ const appStateSlice = createSlice({
         (state.canvasFocus.childId === childIdDeleteClicked ||
           JSON.stringify(action.payload.id) === '{}') // Ensuring deletion works for mouseclick OR using delete key, from 2 different dispatch sources
       ) {
-        directParent.children.splice(childIndexValue, 1);
-        let nextTopSeparatorId = manageSeparators.handleSeparators(
-          components[canvasFocus.componentId - 1].children,
-          'delete'
-        );
+        if (directParent.children) {
+          directParent.children.splice(childIndexValue, 1);
+          let nextTopSeparatorId = manageSeparators.handleSeparators(
+            components[canvasFocus.componentId - 1].children,
+            'delete'
+          );
+        }
       }
 
       //  ------------------------------------------- ALSO added code above  -------------------------------------------
@@ -807,7 +848,6 @@ const appStateSlice = createSlice({
       state.components = components;
       state.canvasFocus = canvasFocus;
       state.nextTopSeparatorId = nextTopSeparatorId;
-
     },
     setInitialState: (state, action) => {
       // set the canvas focus to be the first component
@@ -816,27 +856,28 @@ const appStateSlice = createSlice({
         componentId: 1,
         childId: null
       };
-      convertToJSX(action.payload.HTMLTypes);
       state.canvasFocus = canvasFocus;
     },
+    //deleted 'convertToJSX' function, which threw errors upon opening
     openProject: (state, action) => {
-      convertToJSX(action.payload.HTMLTypes);
-      state = action.payload;
-
+      return action.payload;
     },
     addElement: (state, action) => {
       const HTMLTypes = [...state.HTMLTypes];
       HTMLTypes.push(action.payload);
       state.HTMLTypes = HTMLTypes;
     },
+    //Undo & Redo functions are not working properly. Redo & Undo target the last component rather than last added HTML Element.
     undo: (state, action) => {
       const focusIndex = state.canvasFocus.componentId - 1;
       // if the past array is empty, return state
-      if (state.components[focusIndex].past.length === 0) return { ...state };
+      if (state.components[focusIndex].past.length <= 1) {
+        return { ...state };
+      }
       // the children array of the focused component will equal the last element of the past array
       state.components[focusIndex].children =
         state.components[focusIndex].past[
-        state.components[focusIndex].past.length - 1
+          state.components[focusIndex].past.length - 1
         ];
       // the last element of the past array gets popped off
       const poppedEl = state.components[focusIndex].past.pop();
@@ -864,7 +905,7 @@ const appStateSlice = createSlice({
       //the children array of the focused component will equal the last element of the future array
       state.components[focusIndex].children =
         state.components[focusIndex].future[
-        state.components[focusIndex].future.length - 1
+          state.components[focusIndex].future.length - 1
         ];
       //the last element of the future array gets pushed into the past
       const poppedEl = state.components[focusIndex].future.pop();
@@ -880,7 +921,6 @@ const appStateSlice = createSlice({
           state.HTMLTypes,
           state.tailwind,
           action.payload.contextParam
-
         );
       });
       state = state;
@@ -1208,35 +1248,60 @@ const appStateSlice = createSlice({
     toggleLoggedIn: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
-    // configToggle: (state) => {
-    //   state.config = {
-    //     ...state.config,
-    //     saveFlag: !state.config.saveFlag,
-    //     saveTimer: !state.config.saveTimer
-    //   };
-    // },
+
     snapShotAction: (state, action) => {
-      state.components[action.payload.focusIndex].past.push(action.payload.deepCopiedState.components[action.payload.focusIndex].children);
+      state.components[action.payload.focusIndex].past.push(
+        action.payload.deepCopiedState.components[action.payload.focusIndex]
+          .children
+      );
     },
     allCooperativeState: (state, action) => {
-      return Object.assign({}, state, action.payload)
+      return Object.assign({}, state, action.payload);
+    },
+    updateStylesheet: (state, action) => {
+      state.stylesheet = action.payload;
     }
-
   }
 });
 
 // Exports the action creator function to be used with useDispatch
 
-
-export const { addComponent, addChild, changeFocus, 
-  changeTailwind, changePosition, updateStateUsed, 
-  resetAllState, updateUseContext, updateCss, updateEvents, 
-  deleteEventAction, deletePage, deleteReusableComponent, 
-  setProjectName, changeProjectType, resetState, updateProjectName, 
-  deleteElement, updateAttributes, deleteChild, setInitialState, openProject, 
-  addElement, undo, redo, addState, addPassedInProps, deletePassedInProps, 
-  deleteState, toggleLoggedIn, configToggle, snapShotAction, allCooperativeState } = appStateSlice.actions;
-
+export const {
+  addComponent,
+  addChild,
+  changeFocus,
+  changeTailwind,
+  changePosition,
+  updateStateUsed,
+  resetAllState,
+  updateUseContext,
+  updateCss,
+  updateEvents,
+  deleteEventAction,
+  deletePage,
+  deleteReusableComponent,
+  setProjectName,
+  changeProjectType,
+  resetState,
+  updateProjectName,
+  deleteElement,
+  updateAttributes,
+  deleteChild,
+  setInitialState,
+  openProject,
+  addElement,
+  undo,
+  redo,
+  addState,
+  addPassedInProps,
+  deletePassedInProps,
+  deleteState,
+  toggleLoggedIn,
+  //configToggle,
+  snapShotAction,
+  allCooperativeState,
+  updateStylesheet
+} = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer
 export default appStateSlice.reducer;

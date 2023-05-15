@@ -1,121 +1,144 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Select from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { InputLabel, MenuItem, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-
-const filter = createFilterOptions();
+import { RootState } from '../../../../redux/store';
 
 const AddContextForm = ({
   contextStore,
   handleClickSelectContext,
   handleDeleteContextClick,
-  renderTable,
   contextInput,
-  setContextInput
+  setContextInput,
+  currentContext,
+  setCurrentContext,
+  errorMsg,
+  errorStatus,
+  setErrorStatus
 }) => {
   const { allContext } = contextStore;
+  console.log('all contexts', allContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
-  // const [state, dispatch] = useContext(StateContext);
-  const { state, isDarkMode } = useSelector(store => ({
+  const [open, setOpen] = useState(false);
+  const { state, isDarkMode } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
-  }))
-const color = isDarkMode ? 'white' : 'black'
+  }));
+  const color = isDarkMode ? 'white' : 'black';
 
-  const handleClick = () => {
-    if (contextInput === '' || contextInput === null) return;
+  //handler for submitting new context for creation
+  const handleSubmit = () => {
     handleClickSelectContext();
+    setOpen(true);
   };
 
-  const onChange = (event, newValue) => {
-    if (typeof newValue === 'string') {
-      setContextInput({
-        name: newValue
-      });
-    } else if (newValue && newValue.inputValue) {
-      // Create a new contextInput from the user input
-      setContextInput({
-        name: newValue.inputValue,
-        values: []
-      });
-      renderTable(newValue);
-    } else {
-      setContextInput(newValue);
-      renderTable(newValue);
-    }
+  //form control for new context field
+  const handleChange = (e) => {
+    setErrorStatus(false);
+    setOpen(false);
+    setContextInput(e.target.value);
   };
 
-  const filterOptions = (options, params) => {
-    // setBtnDisabled(true);
-    const filtered = filter(options, params);
-    const { inputValue } = params;
-    // Suggest the creation of a new contextInput
-    const isExisting = options.some(option => inputValue === option.name);
-    if (inputValue !== '' && !isExisting) {
-      filtered.push({
-        inputValue,
-        name: `Add "${inputValue}"`
-      });
-
-      // setBtnDisabled(false);
+  //event handle for confirmation modal
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
     }
 
-    return filtered;
+    setOpen(false);
   };
 
-  const getOptionLabel = option => {
-    // Value selected with enter, right from the input
-    if (typeof option === 'string') {
-      return option;
-    }
-    // Add "xxx" option created dynamically
-    if (option.inputValue) {
-      return option.inputValue;
-    }
-    // Regular option
-    return option.name;
-  };
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
-  const renderOption = (props, option) => <li style={{ color: 'black' }} {...props}>{option.name}</li>;
+  //creating options for context dropdown
+  const contexts = allContext.length ? (
+    allContext.map((context) => {
+      return (
+        <MenuItem style={{ color: color }} value={context.name}>
+          {context.name}
+        </MenuItem>
+      );
+    })
+  ) : (
+    <MenuItem disabled>No Contexts Created</MenuItem>
+  );
 
   return (
     <Fragment>
       <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
-        Context Input
+        Create Context
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-        <Autocomplete
-          id="autoCompleteContextField"
+        <TextField
+          InputProps={{
+            style: { color: color }
+          }}
+          onChange={handleChange}
+          sx={{
+            width: 425,
+            border: `1px solid ${color}`
+          }}
+          label="Create Context"
           value={contextInput}
-          onChange={onChange}
-          filterOptions={filterOptions}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          options={allContext || []}
-          getOptionLabel={getOptionLabel}
-          renderOption={renderOption}
-          sx={{ width: 425, border: '1px solid black' }}
-          freeSolo
-          renderInput={params => (
-            <TextField {...params}  InputProps={{
-              ...params.InputProps,
-              style: { color: color },
-            }}  
-            variant='filled'
-            label="Create/Select Context" />
-          )}
+          helperText={errorStatus ? errorMsg : null}
+          error={errorStatus}
+          variant="filled"
         />
+        <Snackbar
+          open={open && !errorStatus}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Context Created
+          </Alert>
+        </Snackbar>
         <Button
           variant="contained"
-          onClick={handleClick}
+          onClick={handleSubmit}
           disabled={btnDisabled}
         >
           Create
         </Button>
+      </Box>
+      <Typography style={{ color: color }} variant="h6" gutterBottom={true}>
+        Select Context
+      </Typography>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+        <FormControl variant="filled">
+          <InputLabel style={{ color: color }}>Select Context</InputLabel>
+          <Select
+            required
+            sx={{ width: 425 }}
+            style={{ border: '1px solid #0099e6', color: color }}
+            value={currentContext}
+            label="Select Context"
+            MenuProps={{ disablePortal: true }}
+            onChange={(e) => {
+              setCurrentContext(e.target.value);
+            }}
+          >
+            {contexts}
+          </Select>
+        </FormControl>
         <Button
           color="error"
           variant="contained"
@@ -123,7 +146,6 @@ const color = isDarkMode ? 'white' : 'black'
         >
           Delete
         </Button>
-        {/* <Button variant="contained">Delete</Button> */}
       </Box>
     </Fragment>
   );
