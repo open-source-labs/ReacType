@@ -40,12 +40,14 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now.
 
-## Changes with version 15.0.0
+## Changes with version 16.0.0
 
-- **Consolidated State Management**: Reactype was using mutliple methods of State Management. We consolidated this all to the modern version of Redux Toolkit to enhance the developer experience and make it easier to debug.
-- **Major Dependency Updates**: No more workarounds required to get new developers up and running in the project. A simple npm install works as intended.
-- **Websockets**: Users can now join rooms to collaborate on a project together in real time!
-- **Fully Deployed Web Application**: To utilize these new features we have hosted the full application via AWS so users can easily use Reactype without a download.
+- **Improved Testing Coverage**: Testing coverage has now doubled since version 15, and now sits at just over 50% coverage. Version 16 introduces end-to-end testing with Playwright and adds additional unit testing with React Testing Library.
+- **Major Bug Fixes**: Manage Project Features now work as expected. State Manager now deletes state from parent components. Context Manager Display Tab and CSS Editor now rendering as expected.
+- **Typescript Conversion**: Typescript coverage has improved from 30% to 80% with additional interfaces added for quality improvements.
+- **Live CSS Demo Rendering**: CSS Editor changes now rendered visually in the demo page on save.
+- **Universal Exports on Web App**: Export feature on web app now allows users to download the current project as a zip file with modularized component folder, html, and css file included. Export feature is now available to all users including guests.
+- **UI Improvements**: Fixed multiple contrast issues with white text displaying on white background. Adjusted context manager interface for improved UX. Fixed border styling within modals and error messages.
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
 ## File Structure courtesy of Reactype version 14.0.0

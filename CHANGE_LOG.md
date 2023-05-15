@@ -3,6 +3,56 @@
   <h1 align="center">ReacType Change Log</h1>
 </p>
 
+**Version 16.0.0 Changes**
+
+Changes:<br>
+
+- Developer Improvements:
+  - Testing Coverage:
+    - Version 16 introduces end-to-end testing with Playwright and adds additional unit testing with React Testing Library.
+    - Testing coverage has now doubled since version 15, and now sits at just over 50% coverage.
+    - Transitioned away from Enzyme to maintain consistency with RTL and Jest.
+  - Typescript Conversion:
+    - Upped typescript coverage from 30% to 80%.
+    - Fixed multiple type errors in component files.
+  - Added CI pipeline for testing:
+    - Transitioned away from Travis CI to Github Actions for improved CI pipeline. Github Actions will now run all tests upon each pull request to dev.
+  - Updated OAuth and Sign In Features:
+    - Sign in feature now connected to the latest database version.
+    - Fixed bug that allowed only one OAuth user to sign in at a time.
+    - Github OAuth is now connected to Adam Vanek.
+  - Dev Bug Fixes:
+    - Debugged ‘worker error’ on code preview & style editor by refactoring Ace-Build components.
+    - Additional logic added for edge cases in inputs for context manager, state manager, and signup features.
+    - Cleaned up hundreds of lines of outdated code and deleted multiple unused and duplicate files
+  - Dependency Updates:
+    - All previously outdated dependencies are now updated. Time it takes for the app to bundle in dev is now cut in half.
+- User Features:
+  - Export Button:
+    - Export feature on the web app now allows users to download the current project as a zip file with modularized component folder, html, and css file included.
+    - Export feature is now available to all users including guests.
+  - CSS Live Rendering:
+    - CSS Editor changes now rendered visually in the demo page on save.
+  - UI Changes:
+    - Fixed multiple contrast issues with white text displaying on white background in State Manger Display tab tables, state management tables, table menu dropdowns, Context Manager tables, and Context Manager display.
+    - Adjusted context manager interface for improved UX when creating context and saving key/value pairs.
+    - Fixed border styling within modals and error messages that were cutting off inputs on focus.
+    - Added save button to customization tab.
+  - Bug Fixes:
+    - Manage project features for registered users now successfully saves, opens, and deletes projects.
+    - State Manager now successfully deletes state from parent components.
+    - Context Manager display chart renders correctly.
+    - CSS Editor contents now persist after rerender.
+
+Recommendations for Future Enhancements:<br>
+
+- Refactor away from MUI. MUI is very opinionated and while creating components with it is easy it leaves a lot to be desired. Dark Mode also needs to be improved as color contrast is very low.
+- Continue expanding testing coverage. Improve testing by adding additional unit tests, expanding end-to-end testing, and introducing integration testing.
+- Continue quality Typescript conversion. Continue to fix type errors within component files.
+- Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
+- Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.
+- Continue code cleanup. Continue cleanup of outdated and unused code and files
+
 **Version 15.0.0 Changes**
 
 Changes:<br>
