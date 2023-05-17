@@ -1,0 +1,390 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>HTMLPanel.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/HTMLPanel.tsx</td><td class="">97.34%</td><td class="">80%</td><td class="">451</td><td class="">439</td><td class="">12</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+import { addElement } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import {
+  Button,
+  InputLabel
+  // TextField,
+} from &#x27;@mui/material&#x27;;
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+
+/*
+DESCRIPTION: This is the bottom half of the left panel, starting from the &#x27;HTML
+  Elements&#x27; header. The boxes containing each HTML element are rendered in
+  HTMLItem, which itself is rendered by this component.
+ 
+  !!! TO NAME HTML ELEMENTS in the LEFT panel !!!
+
+Central state contains all available HTML elements (stored in the HTMLTypes property).
+  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
+  initialState.tsx.
+
+Hook state:
+  -tag: 
+*/
+
+const HTMLPanel = (props): JSX.Element =&gt; {
+  const classes = useStyles();
+  const [tag, setTag] = useState(&#x27;&#x27;);
+  const [name, setName] = useState(&#x27;&#x27;);
+  const [errorMsg, setErrorMsg] = useState(&#x27;&#x27;);
+  const [errorStatus, setErrorStatus] = useState(false);
+  const isDarkMode = useSelector((store:RootState) =&gt; store.darkMode.isDarkMode);
+  const state = useSelector((store:RootState) =&gt; store.appState);
+  const dispatch = useDispatch();
+  let startingID = 0;
+  state.HTMLTypes.forEach((element) =&gt; {
+    if (element.id &gt;= startingID) startingID = element.id;
+  });
+  startingID += 1;
+
+  const [currentID, setCurrentID] = useState(startingID);
+
+  const buttonClasses =
+    &#x27;MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-button-12 MuiButton-textPrimary&#x27;;
+
+  const handleTagChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    resetError();
+    setTag(e.target.value);
+  };
+
+  const handleNameChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+    resetError();
+    setName(e.target.value);
+  };
+
+  const checkNameDupe = (inputName: String): boolean =&gt; {
+    let checkList = state.HTMLTypes.slice();
+
+    // checks to see if inputted comp name already exists
+    let dupe = false;
+    checkList.forEach((HTMLTag) =&gt; {
+      if (
+        HTMLTag.name.toLowerCase() === inputName.toLowerCase() ||
+        HTMLTag.tag.toLowerCase() === inputName.toLowerCase()
+      ) {
+        dupe = true;
+      }
+    });
+    return dupe;
+  };
+
+  const triggerError = (type: String) =&gt; {
+    setErrorStatus(true);
+    if (type === &#x27;empty&#x27;) {
+      setErrorMsg(&#x27;* Input cannot be blank. *&#x27;);
+    } else if (type === &#x27;dupe&#x27;) {
+      setErrorMsg(&#x27;* Input already exists. *&#x27;);
+    } else if (type === &#x27;letters&#x27;) {
+      setErrorMsg(&#x27;* Input must start with a letter. *&#x27;);
+    } else if (type === &#x27;symbolsDetected&#x27;) {
+      setErrorMsg(&#x27;* Input must not contain symbols. *&#x27;);
+    } else if (type === &#x27;length&#x27;) {
+      setErrorMsg(&#x27;* Input cannot exceed 10 characters. *&#x27;);
+    }
+  };
+
+  const resetError = () =&gt; {
+    setErrorStatus(false);
+  };
+
+  const createOption = (inputTag: String, inputName: String) =&gt; {
+    // format name so first letter is capitalized and there are no whitespaces
+    let inputNameClean = inputName.replace(/\s+/g, &#x27;&#x27;);
+    const formattedName =
+      inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1);
+    // add new component to state
+    const newElement = {
+      id: currentID,
+      tag: inputTag,
+      name: formattedName,
+      style: {},
+      placeHolderShort: name,
+      placeHolderLong: &#x27;&#x27;,
+      icon: null
+    };
+
+    dispatch(addElement(newElement));
+    setCurrentID(currentID + 1);
+    setTag(&#x27;&#x27;);
+    setName(&#x27;&#x27;);
+  };
+
+  const alphanumeric = (input: string): boolean =&gt; {
+    let letterNumber = /^[0-9a-zA-Z]+$/;
+    if (input.match(letterNumber)) return true;
+    return false;
+  };
+
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+
+    if (tag.trim() === &#x27;&#x27; || name.trim() === &#x27;&#x27;) {
+      triggerError(&#x27;empty&#x27;);
+      return;
+    } else if (
+      !tag.charAt(0).match(/[a-zA-Z]/) ||
+      !name.charAt(0).match(/[a-zA-Z]/)
+    ) {
+      triggerError(&#x27;letters&#x27;);
+      return;
+    } else if (!alphanumeric(tag) || !alphanumeric(name)) {
+      triggerError(&#x27;symbolsDetected&#x27;);
+      return;
+    } else if (checkNameDupe(tag) || checkNameDupe(name)) {
+      triggerError(&#x27;dupe&#x27;);
+      return;
+    } else if (name.length &gt; 10) {
+      triggerError(&#x27;length&#x27;);
+      return;
+    }
+    createOption(tag, name);
+    resetError();
+  };
+
+  const handleCreateElement = useCallback((e) =&gt; {
+    if (e.key === &#x27;Enter&#x27; &amp;&amp; e.target.tagName !== &#x27;TEXTAREA&#x27;) {
+      e.preventDefault();
+      document.getElementById(&#x27;submitButton&#x27;).click();
+    }
+  }, []);
+
+  useEffect(() =&gt; {
+    document.addEventListener(&#x27;keydown&#x27;, handleCreateElement);
+    return () =&gt; {
+      document.removeEventListener(&#x27;keydown&#x27;, handleCreateElement);
+    };
+  }, []);
+
+  return (
+    &lt;div className=&quot;HTMLItemCreate&quot;&gt;
+      &lt;div className={classes.addComponentWrapper}&gt;
+        &lt;div className={classes.inputWrapper}&gt;
+          &lt;form onSubmit={handleSubmit} className=&quot;customForm&quot;&gt;
+            &lt;h4
+              className={
+                !isDarkMode
+                  ? classes.lightThemeFontColor
+                  : classes.darkThemeFontColor
+              }
+              //value=&quot;New HTML Tag&quot;
+            &gt;
+              New HTML Tag:{&#x27; &#x27;}
+            &lt;/h4&gt;
+            &lt;InputLabel
+              htmlFor=&quot;tag&quot;
+              className={
+                !isDarkMode
+                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
+                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
+              }
+            &gt;
+              Tag:
+            &lt;/InputLabel&gt;
+            &lt;TextField
+              id=&quot;tag&quot;
+              color=&quot;primary&quot;
+              variant=&quot;outlined&quot;
+              type=&quot;text&quot;
+              name=&quot;Tag&quot;
+              value={tag}
+              autoComplete=&quot;off&quot;
+              onChange={handleTagChange}
+              className={
+                !isDarkMode
+                  ? `${classes.input} ${classes.lightThemeFontColor}`
+                  : `${classes.input} ${classes.darkThemeFontColor}`
+              }
+              style={{ margin: &#x27;10px&#x27; }}
+              InputProps={{
+                style: {
+                  color: !isDarkMode ? &#x27;black&#x27; : &#x27;white&#x27;
+                }
+              }}
+            /&gt;
+
+            {(!tag.charAt(0).match(/[A-Za-z]/) ||
+              !alphanumeric(tag) ||
+              tag.trim() === &#x27;&#x27; ||
+              checkNameDupe(tag)) &amp;&amp; (
+              &lt;span
+                className={
+                  !isDarkMode
+                    ? `${classes.errorMessage} ${classes.errorMessageLight}`
+                    : `${classes.errorMessage} ${classes.errorMessageDark}`
+                }
+              &gt;
+                &lt;em&gt;{errorMsg}&lt;/em&gt;
+              &lt;/span&gt;
+            )}
+
+            &lt;br&gt;&lt;/br&gt;
+            &lt;InputLabel
+              htmlFor=&quot;elementName&quot;
+              className={
+                !isDarkMode
+                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
+                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
+              }
+            &gt;
+              Element Name:
+            &lt;/InputLabel&gt;
+            &lt;TextField
+              id=&quot;elementName&quot;
+              // label=&#x27;Element Name&#x27;
+              color=&quot;primary&quot;
+              variant=&quot;outlined&quot;
+              type=&quot;text&quot;
+              name=&quot;Tag Name&quot;
+              value={name}
+              onChange={handleNameChange}
+              autoComplete=&quot;off&quot;
+              className={
+                !isDarkMode
+                  ? `${classes.input} ${classes.lightThemeFontColor}`
+                  : `${classes.input} ${classes.darkThemeFontColor}`
+              }
+              style={{}}
+              InputProps={{
+                style: {
+                  color: !isDarkMode ? &#x27;black&#x27; : &#x27;white&#x27;
+                }
+              }}
+            /&gt;
+            {(!name.charAt(0).match(/[A-Za-z]/) ||
+              !alphanumeric(name) ||
+              name.trim() === &#x27;&#x27; ||
+              name.length &gt; 10 ||
+              checkNameDupe(name)) &amp;&amp; (
+              &lt;span
+                className={
+                  !isDarkMode
+                    ? `${classes.errorMessage} ${classes.errorMessageLight}`
+                    : `${classes.errorMessage} ${classes.errorMessageDark}`
+                }
+              &gt;
+                &lt;em&gt;{errorMsg}&lt;/em&gt;
+              &lt;/span&gt;
+            )}
+            &lt;br&gt;&lt;/br&gt;
+            &lt;Button
+              className={
+                !isDarkMode
+                  ? `${classes.addElementButton} ${classes.lightThemeFontColor}`
+                  : `${classes.addElementButton} ${classes.darkThemeFontColor}`
+              }
+              id=&quot;submitButton&quot;
+              type=&quot;submit&quot;
+              color=&quot;primary&quot;
+              variant=&quot;contained&quot;
+              value=&quot;Add Element&quot;
+            &gt;
+              Add Element
+            &lt;/Button&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+const useStyles = makeStyles({
+  inputField: {
+    marginTop: &#x27;10px&#x27;,
+    borderRadius: &#x27;5px&#x27;,
+    whiteSpace: &#x27;nowrap&#x27;,
+    overflowX: &#x27;hidden&#x27;,
+    textOverflow: &#x27;ellipsis&#x27;,
+    backgroundColor: &#x27;rgba(255,255,255,0.15)&#x27;,
+    margin: &#x27;0px 0px 0px 10px&#x27;,
+    width: &#x27;140px&#x27;,
+    height: &#x27;30px&#x27;
+  },
+  inputWrapper: {
+    textAlign: &#x27;center&#x27;,
+    display: &#x27;flex&#x27;,
+    alignItems: &#x27;center&#x27;,
+    justifyContent: &#x27;space-evenly&#x27;,
+    marginBottom: &#x27;15px&#x27;,
+    width: &#x27;100%&#x27;
+  },
+  addComponentWrapper: {
+    width: &#x27;100%&#x27;,
+    margin: &#x27;5px 0px 0px 0px&#x27;
+  },
+  input: {
+    borderRadius: &#x27;5px&#x27;,
+    whiteSpace: &#x27;nowrap&#x27;,
+    overflowX: &#x27;hidden&#x27;,
+    textOverflow: &#x27;ellipsis&#x27;,
+    backgroundColor: &#x27;rgba(255,255,255,0.15)&#x27;,
+    margin: &#x27;0px 0px 0px 0px&#x27;,
+    // width: &#x27;200px&#x27;,
+    // height: &#x27;75px&#x27;,
+    alignSelf: &#x27;center&#x27;,
+    border: &#x27;2px solid grey&#x27;
+  },
+  inputLabel: {
+    fontSize: &#x27;1em&#x27;,
+    marginLeft: &#x27;10px&#x27;
+  },
+  addElementButton: {
+    backgroundColor: &#x27;transparent&#x27;,
+    height: &#x27;40px&#x27;,
+    width: &#x27;200px&#x27;,
+    fontFamily: &#x27;Roboto, Raleway, sans-serif&#x27;,
+    fontSize: &#x27;85%&#x27;,
+    textAlign: &#x27;center&#x27;,
+    borderStyle: &#x27;none&#x27;,
+    transition: &#x27;0.3s&#x27;,
+    borderRadius: &#x27;4px&#x27;,
+    alignSelf: &#x27;center&#x27;
+  },
+  lightThemeFontColor: {
+    color: &#x27;#155084&#x27;,
+    &#x27;&amp; .MuiInputBase-root&#x27;: {
+      color: &#x27;rgba (0, 0, 0, 0.54)&#x27;
+    }
+  },
+  darkThemeFontColor: {
+    color: &#x27;#ffffff&#x27;,
+    &#x27;&amp; .MuiInputBase-root&#x27;: {
+      color: &#x27;#fff&#x27;
+    }
+  },
+  errorMessage: {
+    display: &#x27;flex&#x27;,
+    alignSelf: &#x27;center&#x27;,
+    fontSize: &#x27;11px&#x27;,
+    marginTop: &#x27;10px&#x27;,
+    width: &#x27;150px&#x27;
+  },
+  errorMessageLight: {
+    color: &#x27;#6B6B6B&#x27;
+  },
+  errorMessageDark: {
+    color: &#x27;white&#x27;
+  }
+});
+
+export default HTMLPanel;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:19,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:24,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:4,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:6,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:43,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:29,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:31,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:38,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:148,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLPanel.tsx&quot;,&quot;line&quot;:148,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

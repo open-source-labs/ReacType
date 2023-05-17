@@ -1,0 +1,150 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>CreateContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx</td><td class="">87.33%</td><td class="">80%</td><td class="">150</td><td class="">131</td><td class="">19</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useState, useContext } from &#x27;react&#x27;;
+import { useStore } from &#x27;react-redux&#x27;;
+import Divider from &#x27;@mui/material/Divider&#x27;;
+import Grid from &#x27;@mui/material/Grid&#x27;;
+import DataTable from &#x27;./components/DataTable&#x27;;
+import AddDataForm from &#x27;./components/AddDataForm&#x27;;
+import AddContextForm from &#x27;./components/AddContextForm&#x27;;
+// import * as actions from &#x27;../../../redux/actions/actions&#x27;;
+import { Typography } from &#x27;@mui/material&#x27;;
+import { addContext, deleteContext, addContextValues } from &#x27;../../../redux/reducers/slice/contextReducer&#x27;;
+import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
+import { deleteElement } from &#x27;../../../redux/reducers/slice/appStateSlice&#x27;;
+import { RootState } from &#x27;../../../redux/store&#x27;;
+
+const CreateContainer = () =&gt; {
+  const defaultTableData = [{ key: &#x27;Enter Key&#x27;, value: &#x27;Enter value&#x27; }];
+  const state = useSelector((store:RootState) =&gt; store.contextSlice);
+
+  // const store = useStore();
+  // const [state, setState] = useState([]);
+  const [tableState, setTableState] = React.useState(defaultTableData);
+  const [contextInput, setContextInput] = React.useState(null);
+  // const [stateContext, dispatchContext] = useContext(StateContext);
+  const dispatch = useDispatch();
+
+  //pulling data from redux store
+  // useEffect(() =&gt; {
+
+  //   setState(allContext)
+  //   // setState(store.getState().contextSlice);
+
+  // }, [allContext]);
+
+
+
+  //update data store when user adds a new context
+  const handleClickSelectContext = () =&gt; {
+    //prevent user from adding duplicate context
+    for (let i = 0; i &lt; state.allContext.length; i += 1) {
+      if (state.allContext[i].name === contextInput.name) {
+        return;
+      }
+    }
+    setContextInput(&#x27;&#x27;);
+    dispatch(addContext(contextInput));
+
+    // setState(allContext);
+  };
+
+  //update data store when user add new key-value pair to context
+  const handleClickInputData = ({ name }, { inputKey, inputValue }) =&gt; {
+    dispatch(
+      addContextValues({ name, inputKey, inputValue })
+    );
+    // setState(allContext);
+  };
+
+  //update data store when user deletes context
+  const handleDeleteContextClick = () =&gt; {
+    dispatch(deleteContext(contextInput));
+    setContextInput(&#x27;&#x27;);
+    // setState(allContext);
+    setTableState(defaultTableData);
+
+    dispatch(deleteElement({id:&#x27;FAKE_ID&#x27;, contextParam: state}))
+    // dispatchContext({
+    //   type: &#x27;DELETE ELEMENT&#x27;,
+    //   payload: &#x27;FAKE_ID&#x27;
+    // });
+  };
+
+  //re-render data table when there&#x27;s new changes
+  const renderTable = targetContext =&gt; {
+    if (
+      targetContext === null ||
+      targetContext === undefined ||
+      !targetContext.values
+    ) {
+      // if (targetContext === null || targetContext === undefined) {
+      setTableState(defaultTableData);
+    } else {
+      setTableState(targetContext.values);
+    }
+  };
+  return (
+    &lt;&gt;
+      &lt;Grid container display=&quot;flex&quot; justifyContent=&quot;space-evenly&quot;&gt;
+        &lt;Grid item&gt;
+          &lt;Grid
+            container
+            spacing={2}
+            display=&quot;flex&quot;
+            direction=&quot;column&quot;
+            justifyContent=&quot;center&quot;
+            alignItems=&quot;center&quot;
+          &gt;
+            &lt;Grid item&gt;
+              &lt;AddContextForm
+                contextStore={state}
+                handleClickSelectContext={handleClickSelectContext}
+                handleDeleteContextClick={handleDeleteContextClick}
+                renderTable={renderTable}
+                contextInput={contextInput}
+                setContextInput={setContextInput}
+              /&gt;
+            &lt;/Grid&gt;
+
+            &lt;Divider variant=&quot;middle&quot; /&gt;
+            &lt;Grid item&gt;
+              &lt;AddDataForm
+                handleClickInputData={handleClickInputData}
+                contextInput={contextInput}
+              /&gt;
+            &lt;/Grid&gt;
+          &lt;/Grid&gt;
+        &lt;/Grid&gt;
+        &lt;Divider orientation=&quot;vertical&quot; variant=&quot;middle&quot; flexItem /&gt;
+        &lt;Grid item&gt;
+          &lt;Typography
+            style={{ color: &#x27;black&#x27; }}
+            variant=&quot;h6&quot;
+            gutterBottom={true}
+          &gt;
+            Context Data Table
+          &lt;/Typography&gt;
+          &lt;DataTable target={tableState} contextInput={contextInput} /&gt;
+        &lt;/Grid&gt;
+      &lt;/Grid&gt;
+    &lt;/&gt;
+  );
+};
+
+export default CreateContainer;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:9,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:39,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:52,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:34,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:44,&quot;text&quot;:&quot;inputKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:54,&quot;text&quot;:&quot;inputValue&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:22,&quot;text&quot;:&quot;targetContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:6,&quot;text&quot;:&quot;targetContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:6,&quot;text&quot;:&quot;targetContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:7,&quot;text&quot;:&quot;targetContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:21,&quot;text&quot;:&quot;values&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:20,&quot;text&quot;:&quot;targetContext&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:34,&quot;text&quot;:&quot;values&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:16,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:30,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:16,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:30,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:41,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/CreateTab/CreateContainer.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:55,&quot;text&quot;:&quot;contextInput&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

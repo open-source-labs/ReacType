@@ -7,12 +7,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableFooter from '@mui/material/TableFooter';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
+    color: 'theme.palette.common.white'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14
@@ -29,7 +28,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-export default function DataTable({ target, contextInput }) {
+export default function DataTable({ target, currentContext }) {
   return (
     <>
       <TableContainer component={Paper} sx={{ maxHeight: '350px' }}>
@@ -40,27 +39,27 @@ export default function DataTable({ target, contextInput }) {
         >
           <TableHead>
             <TableRow>
-              {/* <StyledTableCell>Key</StyledTableCell> */}
               <StyledTableCell align="center" colSpan={3}>
-                {contextInput ? contextInput.name : 'Context Name'}
+                {currentContext ? currentContext : 'Context Name'}
               </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {target.map((data, index) => (
               <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell
+                  style={{ color: 'black' }}
+                  component="th"
+                  scope="row"
+                >
                   {data.key}
                 </StyledTableCell>
-                <StyledTableCell align="right">{data.value}</StyledTableCell>
+                <StyledTableCell style={{ color: 'black' }} align="right">
+                  {data.value}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
-          {/* <TableFooter>
-            <StyledTableCell align="center" colSpan={3}>
-              {contextInput ? contextInput.name : 'Context Name'}
-            </StyledTableCell>
-          </TableFooter> */}
         </Table>
       </TableContainer>
     </>

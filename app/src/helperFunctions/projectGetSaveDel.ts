@@ -1,12 +1,12 @@
-import { letterSpacing } from '@mui/system';
-
 const isDev = process.env.NODE_ENV === 'development';
-const { DEV_PORT, API_BASE_URL } = require('../../../config');
+const { DEV_PORT, API_BASE_URL } = require('../../../config.js');
 let serverURL = API_BASE_URL;
 
+//check if we're in dev mode
 if (isDev) {
   serverURL = `http://localhost:${DEV_PORT}`;
 }
+
 export const getProjects = (): Promise<any> => {
   let userId = window.localStorage.getItem('ssid');
   const body = JSON.stringify({ userId });
@@ -33,7 +33,7 @@ export const saveProject = (
 ): Promise<Object> => {
   const body = JSON.stringify({
     name,
-    project: workspace,
+    project: { ...workspace, name },
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: []

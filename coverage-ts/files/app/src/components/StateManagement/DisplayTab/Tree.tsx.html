@@ -1,0 +1,222 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Tree.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/StateManagement/DisplayTab/Tree.tsx</td><td class="">65.26%</td><td class="">80%</td><td class="">331</td><td class="">216</td><td class="">115</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useRef, useEffect} from &#x27;react&#x27;;
+import {
+  select, hierarchy, tree, linkHorizontal,
+} from &#x27;d3&#x27;;
+import cloneDeep from &#x27;lodash/cloneDeep&#x27;;
+import useResizeObserver from &#x27;./useResizeObserver&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
+import { ChildElement } from &#x27;../../../interfaces/Interfaces&#x27;;
+import { RootState } from &#x27;../../../redux/store&#x27;;
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() =&gt; ref.current = value);
+  return ref.current;
+}
+
+function Tree({
+  data,  setCurrComponentState, setParentProps, setClickedComp,
+}) {
+  const state = useSelector((store:RootState) =&gt; store.appState)
+  // Provide types for the refs.
+  // In this case HTMLDivElement for the wrapperRef and SVGSVGElement for the svgRef.
+  // create mutable ref objects with initial values of null
+  const svgRef = useRef&lt;SVGSVGElement&gt;(null);
+  const wrapperRef = useRef&lt;HTMLDivElement&gt;(null);
+  const xPosition = 50;
+  const textAndBorderColor = &#x27;#bdbdbd&#x27;;
+  const dimensions = useResizeObserver(wrapperRef);
+  // we save data to see if it changed
+  const previouslyRenderedData = usePrevious(data);
+  // function to filter out separators to prevent render on tree chart
+  const removeHTMLElements = (arr: ChildElement[]) =&gt; {
+    for (let i = 0; i &lt; arr.length; i++) {
+      if (arr[i] === undefined) continue;
+      // if element is separator, remove it
+      if (arr[i].type === &#x27;HTML Element&#x27;) {
+        arr.splice(i, 1);
+        i -= 1;
+      }
+      // if element has a children array and that array has length, recursive call
+      else if (arr[i].type === &#x27;Component&#x27; &amp;&amp; arr[i].children.length) {
+        // if element is a component, replace it with deep clone of latest version (to update with new HTML elements)
+        if (arr[i].type === &#x27;Component&#x27;) arr[i] = cloneDeep(data.find((component) =&gt; component.name === arr[i].name));
+        removeHTMLElements(arr[i].children);
+      }
+    }
+    return arr;
+  };
+
+  // create a deep clone of data to avoid mutating the actual children array in removing separators
+  const dataDeepClone = cloneDeep(data);
+
+  if (state.projectType === &#x27;Next.js&#x27;) {
+    dataDeepClone.forEach((element) =&gt; {
+      element.children = sanitize(element.children).filter((element) =&gt; !Array.isArray(element));
+    });
+
+    function sanitize(children) {
+      return children.map((child) =&gt; {
+        if (child.name === &#x27;Switch&#x27; || child.name === &#x27;Route&#x27;) return sanitize(child.children);
+        return child;
+      });
+    }
+  }
+
+  // remove separators and update components to current versions
+  dataDeepClone.forEach((component) =&gt; removeHTMLElements(component.children));
+
+  // will be called initially and on every data change
+  useEffect(() =&gt; {
+    const svg = select(svgRef.current);
+    // use dimensions from useResizeObserver,
+    // but use getBoundingClientRect on initial render
+    // (dimensions are null for the first render)
+    
+    const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
+    // transform hierarchical data
+
+    let root;
+    let rootName;
+
+    if (state.rootComponents.includes(state.canvasFocus.componentId)) {
+      // find out if canvasFocus is a root component
+      // if yes, set root of tree to be that canvasFocus component
+      // find that component inside dataDeepClone
+      for (let i = 0; i &lt; dataDeepClone.length; i++) {
+        if (dataDeepClone[i].id === state.canvasFocus.componentId) {
+          root = hierarchy(dataDeepClone[i]);
+          rootName = dataDeepClone[i].name;
+        }
+      }
+    } else {
+    // if no, set root of tree to be app/index
+      root = hierarchy(dataDeepClone[0]);
+      rootName = dataDeepClone[0].name;
+    }
+
+    setClickedComp(rootName);
+
+    const treeLayout = tree().size([height, width - 125]);
+    // Returns a new link generator with horizontal display.
+    // To visualize links in a tree diagram rooted on the left edge of the display
+    const linkGenerator = linkHorizontal()
+      .x((link) =&gt; link.y)
+      .y((link) =&gt; link.x);
+
+    // insert our data into the tree layout
+    treeLayout(root);
+
+    svg
+      .selectAll(&#x27;.node&#x27;)
+      .data(root.descendants())
+      .join((enter) =&gt; enter.append(&#x27;circle&#x27;).attr(&#x27;opacity&#x27;, 0))
+      .attr(&#x27;class&#x27;, &#x27;node&#x27;)
+      /*
+        The cx, cy attributes are associated with the circle and ellipse elements and designate the centre of each shape. The coordinates are set from the top, left hand corner of the web page.
+        cx: The position of the centre of the element in the x axis measured from the left side of the screen.
+        cy: The position of the centre of the element in the y axis measured from the top of the screen.
+      */
+      // translate (x, y)
+      .attr(&#x27;cx&#x27;, (node) =&gt; node.y)
+      .attr(&#x27;cy&#x27;, (node) =&gt; node.x)
+      .attr(&#x27;r&#x27;, 10)
+      .attr(&#x27;opacity&#x27;, 1)
+      .style(&#x27;fill&#x27;, &#x27;white&#x27;)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`)
+      .on(&#x27;click&#x27;, (element) =&gt; {
+        const nameOfClicked = element.srcElement.__data__.data.name;
+        let passedInProps;
+        let componentStateProps;
+
+        // iterate through data array to find stateProps and passedInProps
+        for (let i = 0; i &lt; data.length; i++) {
+          if (data[i].name === nameOfClicked) {
+            componentStateProps = data[i].stateProps;
+            passedInProps = data[i].passedInProps;
+          }
+        }
+        setCurrComponentState(componentStateProps);
+        setParentProps(passedInProps);
+        setClickedComp(nameOfClicked);
+      });
+
+    // link - lines that connect the nodes
+    const enteringAndUpdatingLinks = svg
+      .selectAll(&#x27;.link&#x27;)
+      .data(root.links())
+      .join(&#x27;path&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;link&#x27;)
+      .attr(&#x27;d&#x27;, linkGenerator)
+      .attr(&#x27;stroke&#x27;, &#x27;white&#x27;)
+      .attr(&#x27;fill&#x27;, &#x27;none&#x27;)
+      .attr(&#x27;opacity&#x27;, 1)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`);
+    if (data !== previouslyRenderedData) {
+      enteringAndUpdatingLinks
+        .attr(&#x27;stroke-dashoffset&#x27;, function () {
+          return this.length;
+        })
+        .attr(&#x27;stroke-dashoffset&#x27;, 0);
+    }
+
+    // label - the names of each html element (node)
+    svg
+      .selectAll(&#x27;.label&#x27;)
+      .data(root.descendants())
+      .join((enter) =&gt; enter.append(&#x27;text&#x27;).attr(&#x27;opacity&#x27;, 0))
+      .attr(&#x27;class&#x27;, &#x27;label&#x27;)
+      .attr(&#x27;x&#x27;, (node) =&gt; node.y)
+      .attr(&#x27;y&#x27;, (node) =&gt; node.x - 20)
+      .attr(&#x27;text-anchor&#x27;, &#x27;middle&#x27;)
+      .attr(&#x27;font-size&#x27;, 18)
+      .style(&#x27;fill&#x27;, textAndBorderColor)
+      .text((node) =&gt; node.data.name)
+      .attr(&#x27;opacity&#x27;, 1)
+      .attr(&#x27;transform&#x27;, `translate(${xPosition}, 0)`);
+  }, [data, dimensions, previouslyRenderedData]);
+
+  const treeStyles = {
+    height: &#x27;400px&#x27;,
+    width: &#x27;100%&#x27;,
+    margin: &#x27;10px 10px 10px 10px&#x27;,
+    overflow: &#x27;auto&#x27;,
+    alignItems: &#x27;center&#x27;,
+  };
+
+  const wrapperStyles = {
+    border: `2px solid ${textAndBorderColor}`,
+    borderRadius: &#x27;8px&#x27;,
+    width: &#x27;100%&#x27;,
+    height: &#x27;90%&#x27;,
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    backgroundColor: &#x27;#42464C&#x27;,
+  };
+
+  return (
+    &lt;div ref={wrapperRef} style={wrapperStyles}&gt;
+      &lt;svg ref={svgRef} style={treeStyles} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Tree;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:21,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:2,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:9,&quot;text&quot;:&quot;setCurrComponentState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:32,&quot;text&quot;:&quot;setParentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:48,&quot;text&quot;:&quot;setClickedComp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:8,&quot;text&quot;:&quot;dimensions&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:45,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:60,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:65,&quot;text&quot;:&quot;find&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:71,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:85,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:95,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:34,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:27,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:6,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:14,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:34,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:42,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:52,&quot;text&quot;:&quot;filter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:60,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:87,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:22,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:13,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:22,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:27,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:12,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:18,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:39,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:45,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:79,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:85,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:15,&quot;text&quot;:&quot;child&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:25,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:58,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:68,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:12,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:19,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:8,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:8,&quot;text&quot;:&quot;rootName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:10,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:10,&quot;text&quot;:&quot;rootName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:6,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:6,&quot;text&quot;:&quot;rootName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:4,&quot;text&quot;:&quot;setClickedComp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:19,&quot;text&quot;:&quot;rootName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:36,&quot;text&quot;:&quot;height&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:44,&quot;text&quot;:&quot;width&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:10,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:19,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:24,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:10,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:19,&quot;text&quot;:&quot;link&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:24,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:15,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:12,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:17,&quot;text&quot;:&quot;descendants&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:13,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:23,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:29,&quot;text&quot;:&quot;append&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:46,&quot;text&quot;:&quot;attr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:19,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:28,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:33,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:19,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:28,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:33,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:20,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:14,&quot;text&quot;:&quot;nameOfClicked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:30,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:38,&quot;text&quot;:&quot;srcElement&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:49,&quot;text&quot;:&quot;__data__&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:58,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:63,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:128,&quot;character&quot;:12,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:129,&quot;character&quot;:12,&quot;text&quot;:&quot;componentStateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:132,&quot;character&quot;:28,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:132,&quot;character&quot;:33,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:133,&quot;character&quot;:14,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:133,&quot;character&quot;:22,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:133,&quot;character&quot;:31,&quot;text&quot;:&quot;nameOfClicked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:12,&quot;text&quot;:&quot;componentStateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:34,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:42,&quot;text&quot;:&quot;stateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:12,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:28,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:36,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:138,&quot;character&quot;:8,&quot;text&quot;:&quot;setCurrComponentState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:138,&quot;character&quot;:30,&quot;text&quot;:&quot;componentStateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:8,&quot;text&quot;:&quot;setParentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:23,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:140,&quot;character&quot;:8,&quot;text&quot;:&quot;setClickedComp&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:140,&quot;character&quot;:23,&quot;text&quot;:&quot;nameOfClicked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:12,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:17,&quot;text&quot;:&quot;links&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:8,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:157,&quot;character&quot;:17,&quot;text&quot;:&quot;this&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:157,&quot;character&quot;:22,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:165,&quot;character&quot;:12,&quot;text&quot;:&quot;root&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:165,&quot;character&quot;:17,&quot;text&quot;:&quot;descendants&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:13,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:23,&quot;text&quot;:&quot;enter&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:29,&quot;text&quot;:&quot;append&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:44,&quot;text&quot;:&quot;attr&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:18,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:27,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:32,&quot;text&quot;:&quot;y&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:18,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:27,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:32,&quot;text&quot;:&quot;x&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:173,&quot;character&quot;:13,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:173,&quot;character&quot;:22,&quot;text&quot;:&quot;node&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:173,&quot;character&quot;:27,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:173,&quot;character&quot;:32,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:6,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/DisplayTab/Tree.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:12,&quot;text&quot;:&quot;dimensions&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

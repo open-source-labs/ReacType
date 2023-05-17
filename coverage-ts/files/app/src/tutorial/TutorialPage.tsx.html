@@ -1,0 +1,242 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TutorialPage.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/tutorial/TutorialPage.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">313</td><td class="">313</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState } from &#x27;react&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import { Link, withRouter, RouteComponentProps } from &#x27;react-router-dom&#x27;;
+import Pages from &#x27;./Pages&#x27;;
+import Customization from &#x27;./Customization&#x27;;
+import Canvas from &#x27;./Canvas&#x27;;
+import Styling from &#x27;./Styling&#x27;;
+import RouteLinks from &#x27;./RouteLinks&#x27;;
+import ReusableComponents from &#x27;./ReusableComponents&#x27;;
+import ComponentTree from &#x27;./ComponentTree&#x27;;
+import HTMLElements from &#x27;./HtmlElements&#x27;;
+import CodePreview from &#x27;./CodePreview&#x27;;
+import State from &#x27;./States&#x27;;
+import DemoRender from &#x27;./KeyboardShortcuts&#x27;;
+import CSSEditor from &#x27;./CSSEditor&#x27;;
+
+const useStyles = makeStyles({
+  title: {
+    color: &#x27;#14151f&#x27;,
+    fontSize: 54
+  },
+  text: {
+    color: &#x27;#2e2f3e&#x27;,
+    fontSize: 24,
+    maxWidth: &#x27;1065px&#x27;
+  },
+  wrapper: {
+    margin: &#x27;30px 30px 30px 30px&#x27;,
+    width: &#x27;auto&#x27;
+  },
+  img: {
+    borderRadius: &#x27;3px&#x27;,
+    width: &#x27;100%&#x27;
+  },
+  smallImg: {
+    borderRadius: &#x27;3px&#x27;,
+    height: &#x27;300px&#x27;,
+    marginRight: &#x27;20px&#x27;
+  },
+  medImg: {
+    borderRadius: &#x27;3px&#x27;,
+    height: &#x27;500px&#x27;,
+    marginRight: &#x27;20px&#x27;
+  },
+  imgWrapper: {
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;row&#x27;,
+    alignItems: &#x27;center&#x27;,
+    width: &#x27;auto&#x27;
+  },
+  notLink: {
+    color: &#x27;blue&#x27;,
+    textDecoration: &#x27;underline&#x27;,
+    cursor: &#x27;pointer&#x27;
+  },
+  sidebar: {
+    borderLeft: &#x27;2px solid lightgrey&#x27;,
+    width: &#x27;30%&#x27;,
+    minHeight: &#x27;100%&#x27;,
+    display: &#x27;flex&#x27;,
+    flexDirection: &#x27;column&#x27;,
+    justifyContent: &#x27;flex-start&#x27;,
+    alignItems: &#x27;center&#x27;,
+    fontSize: &#x27;1.5em&#x27;
+  }
+});
+
+const tutorialPageStyle = {
+  tutorial_page: {
+    display: &#x27;flex&#x27;,
+    justifyContent: &#x27;center&#x27;,
+    backgroundColor: &#x27;#f2f0f0&#x27;,
+    width: &#x27;100%&#x27;,
+    height: &#x27;100%&#x27;
+  },
+  main_tutorial: {
+    width: &#x27;70%&#x27;,
+    minHeight: &#x27;100%&#x27;
+  },
+  list: {
+    listStyle: &#x27;none&#x27;
+  },
+  listItem: {
+    margin: &#x27;1em&#x27;
+  },
+  tutHomeButton: {
+    padding: &#x27;4px 16px&#x27;,
+    fontSize: &#x27;1.2em&#x27;
+  }
+};
+
+const TutorialPage: React.FC&lt;RouteComponentProps&gt; = (props) =&gt; {
+  const classes = useStyles();
+  const [page, setPage] = useState(props.match.params.learn);
+
+  return (
+    &lt;div style={tutorialPageStyle.tutorial_page}&gt;
+      &lt;div style={tutorialPageStyle.main_tutorial}&gt;
+        {page === &#x27;Pages&#x27; &amp;&amp; &lt;Pages classes={classes} setPage={setPage} /&gt;}
+        {page === &#x27;Route Links&#x27; &amp;&amp; (
+          &lt;RouteLinks classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;Code Preview&#x27; &amp;&amp; (
+          &lt;CodePreview classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;Reusable Components&#x27; &amp;&amp; (
+          &lt;ReusableComponents classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;Canvas&#x27; &amp;&amp; &lt;Canvas classes={classes} setPage={setPage} /&gt;}
+        {page === &#x27;Component Tree&#x27; &amp;&amp; (
+          &lt;ComponentTree classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;HTML Elements&#x27; &amp;&amp; (
+          &lt;HTMLElements classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;Styling&#x27; &amp;&amp; &lt;Styling classes={classes} setPage={setPage} /&gt;}
+        {page === &#x27;Customization&#x27; &amp;&amp; (
+          &lt;Customization classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;States&#x27; &amp;&amp; &lt;State classes={classes} setPage={setPage} /&gt;}
+        {page === &#x27;CSS Editor&#x27; &amp;&amp; (
+          &lt;CSSEditor classes={classes} setPage={setPage} /&gt;
+        )}
+        {page === &#x27;Keyboard Shortcuts&#x27; &amp;&amp; (
+          &lt;DemoRender classes={classes} setPage={setPage} /&gt;
+        )}
+      &lt;/div&gt;
+      &lt;div className={classes.sidebar}&gt;
+        &lt;br /&gt;
+        &lt;Link to={`/tutorial`}&gt;
+          &lt;button style={tutorialPageStyle.tutHomeButton}&gt;Tutorial Home&lt;/button&gt;
+        &lt;/Link&gt;
+        &lt;ul style={tutorialPageStyle.list}&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Pages&#x27;)}
+          &gt;
+            Pages
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Route Links&#x27;)}
+          &gt;
+            Route Links
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Code Preview&#x27;)}
+          &gt;
+            Code Preview
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Reusable Components&#x27;)}
+          &gt;
+            Reusable Components
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Canvas&#x27;)}
+          &gt;
+            Canvas
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Component Tree&#x27;)}
+          &gt;
+            Component Tree
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;HTML Elements&#x27;)}
+          &gt;
+            HTML Elements
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Styling&#x27;)}
+          &gt;
+            Styling
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Customization&#x27;)}
+          &gt;
+            Customization
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;States&#x27;)}
+          &gt;
+            States
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;CSS Editor&#x27;)}
+          &gt;
+            CSS Editor
+          &lt;/li&gt;
+          &lt;li
+            style={tutorialPageStyle.listItem}
+            className={classes.notLink}
+            onClick={() =&gt; setPage(&#x27;Keyboard Shortcuts&#x27;)}
+          &gt;
+            Keyboard Shortcuts
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default withRouter(TutorialPage);
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

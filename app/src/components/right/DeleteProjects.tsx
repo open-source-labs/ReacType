@@ -16,7 +16,8 @@ import {
 } from '../../helperFunctions/projectGetSaveDel';
 import localforage from 'localforage';
 import { useSelector, useDispatch } from 'react-redux';
-import { setInitialState } from '../../redux/reducers/slice/appStateSlice';
+import { setInitialState, initialState } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 export interface ProjectDialogProps {
   open: boolean;
   projects: Array<Object>;
@@ -26,7 +27,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
   // If no projects selected, keep the name of the current displayed

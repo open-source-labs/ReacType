@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import StateContext from '../../../context/context';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -16,13 +16,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
+    color: theme.palette.common.black,
     fontSize: 14,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: theme.palette.action.hover
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -34,7 +35,7 @@ export default function DataTable(props) {
   const {
     currComponentState, parentProps, clickedComp, data,
   } = props;
-  const state = useSelector(store => store.appState)
+  const state = useSelector((store:RootState) => store.appState)
 
   // determine if the current component is a root component
   let isRoot = false;

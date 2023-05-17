@@ -1,26 +1,19 @@
-// Future developers: This file needs to move to right folder: src/components/right
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  InputLabel,
-  // TextField,
-} from "@mui/material";
+import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
-    contextParam: store.contextSlice,
+    contextParam: store.contextSlice
   }));
   const dispatch = useDispatch();
-
 
   //state hooks for inputted component name, component id and array of components
   const [errorStatus, setErrorStatus] = useState(false);
@@ -45,41 +38,10 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     }
   };
 
-  const resetError = () => {
-    setErrorStatus(false);
-  };
-
   const handleNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    resetError();
+    setErrorStatus(false);
     setCompName(e.target.value);
   };
-
-  // check if name of new component is the same as an existing component
-  const checkNameDupe = (inputName: String): boolean => {
-    let checkList = state.components.slice(); // makes copy of components array
-    let dupe = false;
-
-    // checks to see if inputted comp name already exists
-    checkList.forEach(comp => {
-      if (comp.name.toLowerCase() === inputName.toLowerCase()) dupe = true
-    });
-
-    return dupe;
-  };
-
-  const checkIfRoot = (inputName: String): boolean => {
-    let rootDupe = false;
-    // checks to see if inputted comp name is equal to root component name. Want to prevent that
-
-    //carly console logs 
-    const rootComponents = state.rootComponents;
-    const allComponents = state.components;
-
-    if (inputName.toLowerCase() === 'index' || inputName.toLowerCase() === 'app') {
-      rootDupe = true;
-    }
-    return rootDupe;
-  }
 
   // "Root" components are not draggable into the main canvas
   // If next.js or Gatsby.js mode is on, root components will be separate pages
@@ -91,49 +53,55 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const createOption = (inputName: String) => {
     // format name so first letter is capitalized and there are no white spaces
     let inputNameClean = inputName.replace(/\s+/g, ''); // removes spaces
-    const formattedName = state.projectType === 'Classic React'
-      ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
-      : inputNameClean;
+    const formattedName =
+      state.projectType === 'Classic React'
+        ? inputNameClean.charAt(0).toUpperCase() + inputNameClean.slice(1) // capitalizes first letter
+        : inputNameClean;
     // add new component to state
-    dispatch(addComponent({ componentName: formattedName, root: isRoot, contextParam: contextParam }));
+    dispatch(
+      addComponent({
+        componentName: formattedName,
+        root: isRoot,
+        contextParam: contextParam
+      })
+    );
     // reset root toggle back to default position
     setIsRoot(false);
     // reset name field
     setCompName('');
   };
 
-  // checks whether component name includes any non-alphanumeric chars
-  const alphanumeric = input => {
-    let letterNumber = /^[0-9a-zA-Z]+$/;
-    if (input.match(letterNumber)) return true;
-    return false;
-  };
-
-  const handleNameSubmit = () => { // creates a component if no error conditions triggered
+  const handleNameSubmit = () => {
+    // creates a component if no error conditions triggered
     let letters = /[a-zA-Z]/;
-    if (!compName.charAt(0).match(letters)) {
-      triggerError('letters');
-      return;
-    } else if (!alphanumeric(compName)) {
-      triggerError('symbolsDetected');
-      return;
-    } else if (compName.trim() === '') {
-      triggerError('empty');
-      return;
-    } else if (checkNameDupe(compName)) {
-      triggerError('dupe');
-      return;
-    } else if (checkIfRoot(compName)) {
-      triggerError('rootDupe');
+    let error;
+    if (compName.trim() === '') {
+      error = 'empty';
+    } else if (!compName.charAt(0).match(letters)) {
+      error = 'letters';
+    } else if (!compName.match(/^[0-9a-zA-Z]+$/)) {
+      error = 'symbolsDetected';
+    } else if (
+      state.components.some(
+        (comp) => comp.name.toLowerCase() === compName.toLowerCase()
+      )
+    ) {
+      error = 'dupe';
+    } else if (
+      compName.toLowerCase() === 'index' ||
+      compName.toLowerCase() === 'app'
+    ) {
+      error = 'rootDupe';
+    } else {
+      createOption(compName);
+      setErrorStatus(false);
       return;
     }
-    createOption(compName);
-    resetError();
+    triggerError(error);
   };
 
   const keyBindCreateComponent = useCallback((e) => {
-
-    if (e.key === 'Enter' && e.target.tagName !== "TEXTAREA") {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
       e.preventDefault();
       document.getElementById('addComponentButton').click();
     }
@@ -142,32 +110,56 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   useEffect(() => {
     document.addEventListener('keydown', keyBindCreateComponent);
     return () => {
-      document.removeEventListener('keydown', keyBindCreateComponent)
-    }
+      document.removeEventListener('keydown', keyBindCreateComponent);
+    };
   }, []);
   return (
     <div className={`${classes.panelWrapper}`}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
         <h4
-          className={isThemeLight ? `${classes.newComponent} ${classes.lightThemeFontColor}` : `${classes.newComponent} ${classes.darkThemeFontColor}`}
+          className={
+            isThemeLight
+              ? `${classes.newComponent} ${classes.lightThemeFontColor}`
+              : `${classes.newComponent} ${classes.darkThemeFontColor}`
+          }
         >
           New Component
         </h4>
         {/* input for new component */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px', alignItems: 'baseline' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px',
+            marginBottom: '20px',
+            alignItems: 'baseline'
+          }}
+        >
           <div style={{ alignSelf: 'center' }}>
-            <InputLabel className={isThemeLight ? `${classes.inputLabel} ${classes.lightThemeFontColor}` : `${classes.inputLabel} ${classes.darkThemeFontColor}`}>
+            <InputLabel
+              htmlFor="newcomponentid"
+              className={
+                isThemeLight
+                  ? `${classes.inputLabel} ${classes.lightThemeFontColor}`
+                  : `${classes.inputLabel} ${classes.darkThemeFontColor}`
+              }
+            >
               Name:
             </InputLabel>
             <div className={classes.inputWrapper}>
               <TextField
                 // label='New Component Name'
-                color='primary'
+                id="newcomponentid"
+                color="primary"
                 variant="outlined"
-                className={isThemeLight ? `${classes.inputField} ${classes.lightThemeFontColor}` : `${classes.inputField} ${classes.darkThemeFontColor}`}
+                className={
+                  isThemeLight
+                    ? `${classes.inputField} ${classes.lightThemeFontColor}`
+                    : `${classes.inputField} ${classes.darkThemeFontColor}`
+                }
                 // inputprops and helpertext must be lowercase
-                inputProps={{ className: classes.input }}
+                // inputProps={{ className: classes.input }}
                 value={compName}
                 // Doesn't accept boolean value needs to be a string
                 error={errorStatus}
@@ -184,20 +176,36 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
             </div>
           </div>
 
-          <div className={classes.btnGroup} id="checkboxContainer" style={{ marginBottom: '30px' }}>
+          <div
+            className={classes.btnGroup}
+            id="checkboxContainer"
+            style={{ marginBottom: '30px' }}
+          >
             <FormControlLabel
               value="top"
               control={
                 <Checkbox
-                  className={isThemeLight ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}` : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`}
+                  className={
+                    isThemeLight
+                      ? `${classes.rootCheckBox} ${classes.lightThemeFontColor}`
+                      : `${classes.rootCheckBox} ${classes.darkThemeFontColor}`
+                  }
                   color="primary"
                   checked={isRoot}
-                  onChange={toggleRootStatus}
-
+                  onChange={() => setIsRoot(!isRoot)}
                 />
               }
-              label={state.projectType === 'Next.js' || state.projectType === 'Gatsby.js' ? 'Page' : 'Root'} // name varies depending on mode
-              className={isThemeLight ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}` : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`}
+              label={
+                state.projectType === 'Next.js' ||
+                state.projectType === 'Gatsby.js'
+                  ? 'Page'
+                  : 'Root'
+              } // name varies depending on mode
+              className={
+                isThemeLight
+                  ? `${classes.rootCheckBoxLabel} ${classes.lightThemeFontColor}`
+                  : `${classes.rootCheckBoxLabel} ${classes.darkThemeFontColor}`
+              }
               labelPlacement="top"
             />
           </div>
@@ -205,9 +213,13 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <br />
           <Button
-            className={isThemeLight ? `${classes.addComponentButton} ${classes.lightThemeFontColor}` : `${classes.addComponentButton} ${classes.darkThemeFontColor}`}
-            color='primary'
-            variant='contained'
+            className={
+              isThemeLight
+                ? `${classes.addComponentButton} ${classes.lightThemeFontColor}`
+                : `${classes.addComponentButton} ${classes.darkThemeFontColor}`
+            }
+            color="primary"
+            variant="contained"
             id="addComponentButton"
             onClick={handleNameSubmit}
           >
@@ -239,20 +251,20 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: '15px',
+    marginBottom: '15px'
   },
   panelWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     flexGrow: 1,
-    color: '#000000',
+    color: '#000000'
   },
   addComponentWrapper: {
     padding: 'auto',
     marginLeft: '21px',
     display: 'inline-block',
-    width: '100%',
+    width: '100%'
   },
   rootCheckBox: {
     borderColor: '#186BB4',
@@ -272,7 +284,7 @@ const useStyles = makeStyles({
   },
   btnGroup: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   addComponentButton: {
     backgroundColor: 'transparent',
@@ -283,7 +295,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     borderStyle: 'none',
     transition: '0.3s',
-    borderRadius: '25px',
+    borderRadius: '25px'
   },
   rootToggle: {
     color: '#696969',
@@ -292,16 +304,15 @@ const useStyles = makeStyles({
   lightThemeFontColor: {
     color: '#155084',
     '& .MuiInputBase-root': {
-      color: 'rgba (0, 0, 0, 0.54)',
+      color: 'rgba (0, 0, 0, 0.54)'
     }
   },
   darkThemeFontColor: {
     color: '#fff',
     '& .MuiInputBase-root': {
-      color: '#fff',
+      color: '#fff'
     }
   }
 });
-
 
 export default ComponentPanel;

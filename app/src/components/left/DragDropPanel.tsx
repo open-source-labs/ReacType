@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
-
+import { RootState } from '../../redux/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
@@ -19,27 +19,34 @@ Hook state:
 */
 // Extracted the drag and drop functionality from HTMLPanel to make a modular component that can hang wherever the future designers may choose.
 const DragDropPanel = (props): JSX.Element => {
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
-const dispatch = useDispatch();
-const { state, contextParam } = useSelector((store) => ({
-  state: store.appState,
-  contextParam: store.contextSlice,
-}));
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
+  const dispatch = useDispatch();
+  const { state, contextParam } = useSelector((store: RootState) => ({
+    state: store.appState,
+    contextParam: store.contextSlice
+  }));
   const handleDelete = (id: number): void => {
-    dispatch(deleteElement({id:id, contextParam: contextParam}))
-
+    dispatch(deleteElement({ id: id, contextParam: contextParam }));
   };
   // filter out separator so that it will not appear on the html panel
-  const htmlTypesToRender = state.HTMLTypes.filter(type => type.name !== 'separator');
+  const htmlTypesToRender = state.HTMLTypes.filter(
+    (type) => type.name !== 'separator'
+  );
   return (
     <div className={`${!isDarkMode ? 'HTMLItems' : 'HTMLItemsDark'}`}>
       <div id="HTMLItemsTopHalf">
-        <Grid
-          id="HTMLItemsGrid"
-        >
-          <h3 style={ {color: !isDarkMode ? '#000' : '#fff'} }>HTML ELEMENTS</h3>
-          {htmlTypesToRender.map(option => {
-            if (!['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(option.name)) {
+        <Grid id="HTMLItemsGrid">
+          <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
+            HTML ELEMENTS
+          </h3>
+          {htmlTypesToRender.map((option) => {
+            if (
+              !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
+                option.name
+              )
+            ) {
               return (
                 <HTMLItem
                   name={option.name}
@@ -47,15 +54,22 @@ const { state, contextParam } = useSelector((store) => ({
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  
                 />
               );
             }
-
           })}
-          {state.projectType === "Classic React" ? <h3 style={ {color: !isDarkMode ? '#000' : '#fff' } }>REACT ROUTER</h3> : null}
-          {htmlTypesToRender.map(option => {
-            if ((option.name === 'Switch' || option.name === 'LinkTo' || option.name === 'Route') && state.projectType === "Classic React") {
+          {state.projectType === 'Classic React' ? (
+            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
+              REACT ROUTER
+            </h3>
+          ) : null}
+          {htmlTypesToRender.map((option) => {
+            if (
+              (option.name === 'Switch' ||
+                option.name === 'LinkTo' ||
+                option.name === 'Route') &&
+              state.projectType === 'Classic React'
+            ) {
               return (
                 <HTMLItem
                   name={option.name}
@@ -63,26 +77,29 @@ const { state, contextParam } = useSelector((store) => ({
                   id={option.id}
                   Icon={option.icon}
                   handleDelete={handleDelete}
-                  
                 />
               );
             }
           })}
 
-            {state.projectType === "Next.js" ? <h3 style={ {color: !isDarkMode? '#000': "#fff"} }>Next.js</h3> : null}
-            {htmlTypesToRender.map(option => {
-              if ((option.framework === 'nextjs') && state.projectType === "Next.js") {
-                return (
-                  <HTMLItem
-                    name={option.name}
-                    key={`html-${option.name}`}
-                    id={option.id}
-                    Icon={option.icon}
-                    handleDelete={handleDelete}
-                    
-                  />
-                );
-              }
+          {state.projectType === 'Next.js' ? (
+            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>Next.js</h3>
+          ) : null}
+          {htmlTypesToRender.map((option) => {
+            if (
+              option.framework === 'nextjs' &&
+              state.projectType === 'Next.js'
+            ) {
+              return (
+                <HTMLItem
+                  name={option.name}
+                  key={`html-${option.name}`}
+                  id={option.id}
+                  Icon={option.icon}
+                  handleDelete={handleDelete}
+                />
+              );
+            }
           })}
         </Grid>
       </div>

@@ -2,16 +2,16 @@
  * @jest-environment node
  */
 
-// const { Mongoose } = require('mongoose');
-// const request = require('supertest');
+const { Mongoose } = require('mongoose');
+const request = require('supertest');
 // initializes the project to be sent to server/DB
-const { projectToSave, state } = require('../mockData');
-// const app = require('../server/server.js');
-// const http = require('http');
-
+import mockData from '../mockData'
+import app from ('../server/server');
+const http = require('http')
+const {state, projectToSave } = mockData
 
 // save and get projects endpoint testing
-xdescribe('Project endpoints tests', () => {  
+xdescribe('Project endpoints tests', () => {
   let server;
   beforeAll((done) => {
     server = http.createServer(app);
@@ -22,7 +22,7 @@ xdescribe('Project endpoints tests', () => {
     server.close(done);
   });
   // test saveProject endpoint
-  describe('/saveProject', () => {
+  xdescribe('/saveProject', () => {
     describe('/POST', () => {
       it('responds with a status of 200 and json object equal to project sent', () => {
         return request(server)
@@ -36,7 +36,7 @@ xdescribe('Project endpoints tests', () => {
     });
   });
   // test getProjects endpoint
-  describe('/getProjects', () => {
+  xdescribe('/getProjects', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to an array of user projects', () => {
         return request(server)
@@ -53,7 +53,7 @@ xdescribe('Project endpoints tests', () => {
     });
   });
   // test deleteProject endpoint
-  describe('/deleteProject', () => {
+  xdescribe('/deleteProject', () => {
     describe('DELETE', () => {
       const { name, userId } = projectToSave;
       it('responds with status of 200 and json object equal to deleted project', () => {

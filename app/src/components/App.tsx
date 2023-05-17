@@ -8,11 +8,13 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 import Cookies from 'js-cookie';
 //redux toolkit addition
 import { useSelector, useDispatch } from 'react-redux';
-import { setInitialState, toggleLoggedIn, configToggle } from '../redux/reducers/slice/appStateSlice';
+import { setInitialState, toggleLoggedIn} from '../redux/reducers/slice/appStateSlice';
+
+import { RootState } from '../redux/store';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
-  const state = useSelector(store => store.appState);
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(()=>{

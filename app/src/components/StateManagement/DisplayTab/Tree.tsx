@@ -5,6 +5,8 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import useResizeObserver from './useResizeObserver';
 import { useSelector } from 'react-redux';
+import { ChildElement } from '../../../interfaces/Interfaces';
+import { RootState } from '../../../redux/store';
 
 function usePrevious(value) {
   const ref = useRef();
@@ -15,16 +17,19 @@ function usePrevious(value) {
 function Tree({
   data,  setCurrComponentState, setParentProps, setClickedComp,
 }) {
-  const state = useSelector(store => store.appState)
-  const svgRef = useRef();
-  const wrapperRef = useRef();
+  const state = useSelector((store:RootState) => store.appState)
+  // Provide types for the refs.
+  // In this case HTMLDivElement for the wrapperRef and SVGSVGElement for the svgRef.
+  // create mutable ref objects with initial values of null
+  const svgRef = useRef<SVGSVGElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const xPosition = 50;
   const textAndBorderColor = '#bdbdbd';
   const dimensions = useResizeObserver(wrapperRef);
   // we save data to see if it changed
   const previouslyRenderedData = usePrevious(data);
   // function to filter out separators to prevent render on tree chart
-  const removeHTMLElements = (arr: object[]) => {
+  const removeHTMLElements = (arr: ChildElement[]) => {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] === undefined) continue;
       // if element is separator, remove it
@@ -67,6 +72,7 @@ function Tree({
     // use dimensions from useResizeObserver,
     // but use getBoundingClientRect on initial render
     // (dimensions are null for the first render)
+    
     const { width, height } = dimensions || wrapperRef.current.getBoundingClientRect();
     // transform hierarchical data
 

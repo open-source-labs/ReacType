@@ -1,0 +1,62 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Canvas.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/tutorial/Canvas.tsx</td><td class="">71.43%</td><td class="">80%</td><td class="">105</td><td class="">75</td><td class="">30</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React from &#x27;react&#x27;;
+import canvas1 from &#x27;../../../resources/canvas_tutorial_images/canvas1.png&#x27;;
+import drag1 from &#x27;../../../resources/canvas_tutorial_images/drag1.gif&#x27;;
+import undoRedo from &#x27;../../../resources/canvas_tutorial_images/undoRedo.gif&#x27;;
+
+const Canvas: React.FC&lt;{
+  classes: any;
+  setPage: Function;
+}&gt; = ({ classes, setPage }) =&gt; {
+  return (
+    &lt;div className={classes.wrapper}&gt;
+      &lt;h1 className={classes.title}&gt;Canvas&lt;/h1&gt;
+      &lt;hr /&gt;
+      &lt;p className={classes.text}&gt;The canvas is located in the left center panel of the application and is where all 
+      the HTML elements and components of the prototype application are displayed. &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img className={classes.img} src={canvas1}/&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+      &lt;h1 className={classes.title}&gt;Drag-n-Drop&lt;/h1&gt;
+      &lt;p className={classes.text}&gt;The drag and drop functionality is used to populate the canvas with HTML elements and 
+      reusable components from the left panel.&lt;br/&gt;&lt;br/&gt;
+      To use the drag and drop functionality, select the desired &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;HTML Elements&#x27;)}&gt;
+      HTML element&lt;/span&gt;, custom &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;HTML Elements&#x27;)}&gt;HTML element&lt;/span&gt;, or 
+      &lt;span className={classes.notLink} onClick={() =&gt; setPage(&#x27;Reusable Components&#x27;)}&gt; reusable component&lt;/span&gt; then click and hold it 
+      to drag it onto the canvas. &lt;br/&gt;&lt;br/&gt;
+      HTML elements and reusable components can be placed within each other on the canvas to nest them.&lt;br/&gt;
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={drag1}/&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+      &lt;h1 className={classes.title}&gt;Undo and Redo&lt;/h1&gt;
+      &lt;p className={classes.text}&gt; The undo functionality is implemented to revert the user&#x27;s last action.  Redo will reperform the user&#x27;s last undid action.
+      &lt;/p&gt;
+      &lt;div className={classes.imgWrapper}&gt;
+        &lt;img src={undoRedo}/&gt;
+      &lt;/div&gt;
+      &lt;hr/&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Canvas;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:2,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:8,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:28,&quot;text&quot;:&quot;wrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:24,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:32,&quot;text&quot;:&quot;img&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:82,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:90,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:51,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:59,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:23,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:31,&quot;text&quot;:&quot;notLink&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:21,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:29,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:20,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:28,&quot;text&quot;:&quot;text&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:22,&quot;text&quot;:&quot;classes&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/tutorial/Canvas.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:30,&quot;text&quot;:&quot;imgWrapper&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+    </body>
+  </html>
+  

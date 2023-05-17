@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import createModal from '../right/createModal';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
@@ -41,12 +42,12 @@ const HTMLItem : React.FC<{
   id: number;
   Icon: any;
   handleDelete: (id: number) => void;
-}> = ({ name, id, Icon, handleDelete }) => {
+}> = ({ name, id, handleDelete }) => {
 
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode);
-  const [{ isDragging }, drag] = useDrag({
+  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
+  const [{ isDragging }, drag] = useDrag({  // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag} 
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: true,
@@ -69,7 +70,6 @@ const HTMLItem : React.FC<{
       <List className="export-preference">
         <ListItem
           key={`clear${deleteID}`}
-          button
           onClick={() => handleDelete(deleteID)}
           style={{
             border: '1px solid #3f51b5',
@@ -85,7 +85,6 @@ const HTMLItem : React.FC<{
         </ListItem>
         <ListItem
           key={`close${deleteID}`}
-          button
           onClick={closeModal}
           style={{
             border: '1px solid #3f51b5',

@@ -8,10 +8,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../../redux/store'
 
 
 const TablePassedInProps = props => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));
@@ -92,7 +93,8 @@ const TablePassedInProps = props => {
   }, [state.canvasFocus.componentId]);
 
   // fill data grid rows with all of the passed in props from parent component (if there are any)
-  let rows = passedInProps?.slice();
+  let rows: any = passedInProps?.slice();
+  //let rows: readonly StateProp[] = passedInProps?.slice() || [];
 
   return (
     <div className={'state-prop-grid'}>
@@ -106,10 +108,16 @@ const TablePassedInProps = props => {
     </div>
   );
 };
-
+// colors of state mgmt modal
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',
+    '& button:hover':{
+      backgroundColor: 'LightGray'
+    },
+    '& button':{
+      color: 'black'
+    },
     '& .MuiTablePagination-root': {
       color: 'rbga(0,0,0,0.54)'
     }

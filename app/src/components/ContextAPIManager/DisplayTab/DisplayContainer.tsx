@@ -1,37 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useStore } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Chart } from 'react-google-charts';
 import Grid from '@mui/material/Grid';
+import { RootState } from '../../../redux/store';
 
 const DisplayContainer = () => {
-  const store = useStore();
-  const { allContext } = store.getState().contextSlice;
+  const allContext = useSelector(
+    (store: RootState) => store.contextSlice.allContext
+  );
   const [contextData, setContextData] = useState([]);
 
-  //build data for Google charts, tree rendering
   useEffect(() => {
-    transformData(allContext);
+    transformData();
   }, []);
 
-  const transformData = contexts => {
-    const formattedData = contexts
-      .map(el => {
-        return el.components.map(component => {
-          return [`App - ${el.name} - ${component}`];
+  //formats context data for use in react google charts
+  const transformData = () => {
+    const formattedData = allContext
+      .map((obj) => {
+        return obj.components.map((component) => {
+          return [`App ⎯⎯ ${obj.name} ⎯⎯ ${component}`];
         });
       })
       .flat();
     setContextData([['Phrases'], ...formattedData]);
   };
 
+  //format options for google chart
   const options = {
     wordtree: {
       format: 'implicit',
       word: 'App'
     }
   };
+
   return (
     <Grid container display="flex" justifyContent="center">
+      {contextData.length < 2 && <h2>No Contexts consumed</h2>}
       <Grid item>
         <Chart
           chartType="WordTree"

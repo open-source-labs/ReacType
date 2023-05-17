@@ -1,10 +1,5 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback
-} from 'react';
-import { DataGrid, GridEditRowsModel } from '@mui/x-data-grid';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { DataGrid} from '@mui/x-data-grid';
 import {
   FormControl,
   TextField,
@@ -16,7 +11,7 @@ import {
   DialogTitle,
   List,
   ListItem,
-  ListItemText,
+  ListItemText
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -25,9 +20,22 @@ import ErrorMessages from '../constants/ErrorMessages';
 import ProjectManager from '../components/right/ProjectManager';
 import FormSelector from '../components/form/Selector';
 import UseStateModal from '../components/bottom/UseStateModal';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { changeTailwind, updateStateUsed, updateUseContext, updateCss, updateEvents, deleteEventAction, deletePage,  deleteReusableComponent, updateAttributes, deleteChild, undo, redo} from '../redux/reducers/slice/appStateSlice';
+import {
+  changeTailwind,
+  updateStateUsed,
+  updateUseContext,
+  updateCss,
+  updateEvents,
+  deleteEventAction,
+  deletePage,
+  deleteReusableComponent,
+  updateAttributes,
+  deleteChild,
+  undo,
+  redo
+} from '../redux/reducers/slice/appStateSlice';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -61,12 +69,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const currFocus = getFocus().child;
 
   useEffect(() => {
-    currFocus?.attributes?.compLink && setCompLink(currFocus.attributes.compLink);
+    currFocus?.attributes?.compLink &&
+      setCompLink(currFocus.attributes.compLink);
     setEventAll(['', '']);
     if (currFocus) {
       const addedEvent: [] = [];
       for (const [event, funcName] of Object.entries(currFocus?.events)) {
-        addedEvent.push({ id: event, funcName })
+        addedEvent.push({ id: event, funcName });
       }
       setEventRow(addedEvent);
     }
@@ -148,7 +157,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
         setCssClasses(inputVal);
         break;
       case 'event':
-        setEventAll(inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']);
+        setEventAll(
+          inputVal ? [inputVal, `handle${inputVal.slice(2)}`] : ['', '']
+        );
         break;
       case 'funcName':
         setEventAll([eventAll[0], inputVal]);
@@ -164,7 +175,9 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     // note: deep clone here to make sure we don't end up altering state
     const focusTarget = JSON.parse(
       JSON.stringify(
-        state.components.find(comp => comp.id === state.canvasFocus.componentId)
+        state.components.find(
+          (comp) => comp.id === state.canvasFocus.componentId
+        )
       )
     );
     delete focusTarget.child;
@@ -188,42 +201,42 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
           break;
         }
         if (currentChild.name !== 'input' && currentChild.name !== 'img')
-          currentChild.children.forEach(child => searchArray.push(child));
+          currentChild.children.forEach((child) => searchArray.push(child));
       }
 
       // if type is Component, use child's typeId to search through state components and find matching component's name
       if (focusChild.type === 'Component') {
         focusTarget.child.type = 'component';
         focusTarget.child.name = state.components.find(
-          comp => comp.id === focusChild.typeId
+          (comp) => comp.id === focusChild.typeId
         ).name;
         // if type is HTML Element, search through HTML types to find matching element's name
       } else if (focusChild.type === 'HTML Element') {
         focusTarget.child.type = 'HTML element';
         focusTarget.child.name = state.HTMLTypes.find(
-          elem => elem.id === focusChild.typeId
+          (elem) => elem.id === focusChild.typeId
         ).name;
       }
     }
     return focusTarget;
-  };
+  }
   // since determining the details of the focused component/child is an expensive operation, only perform this operation if the child/component have changed
-  configTarget = useMemo(() => getFocus(), [
-    state.canvasFocus.childId,
-    state.canvasFocus.componentId
-  ]);
+  configTarget = useMemo(
+    () => getFocus(),
+    [state.canvasFocus.childId, state.canvasFocus.componentId]
+  );
   const isPage = (configTarget): boolean => {
     const { components, rootComponents } = state;
     return components
-      .filter(component => rootComponents.includes(component.id))
-      .some(el => el.id === configTarget.id);
+      .filter((component) => rootComponents.includes(component.id))
+      .some((el) => el.id === configTarget.id);
   };
   const isIndex = (): boolean => configTarget.id === 1;
   const isLinkedTo = (): boolean => {
     const { id } = configTarget;
     const pageName = state.components[id - 1].name;
     let isLinked = false;
-    const searchNestedChildren = comps => {
+    const searchNestedChildren = (comps) => {
       if (comps.length === 0) return;
       comps.forEach((comp, i) => {
         if (comp.type === 'Route Link' && comp.name === pageName) {
@@ -236,10 +249,17 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     return isLinked;
   };
 
-  const updateAttributeWithState = (attributeName, componentProviderId, statePropsId, statePropsRow, stateKey = '') => {
+  const updateAttributeWithState = (
+    attributeName,
+    componentProviderId,
+    statePropsId,
+    statePropsRow,
+    stateKey = ''
+  ) => {
     const newInput = statePropsRow.value;
     // get the stateProps of the componentProvider
-    const currentComponent = state.components[state.canvasFocus.componentId - 1];
+    const currentComponent =
+      state.components[state.canvasFocus.componentId - 1];
     let newContextObj = { ...currentComponent.useContext };
     if (!newContextObj) {
       newContextObj = {};
@@ -250,18 +270,28 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     newContextObj[componentProviderId].statesFromProvider.add(statePropsId);
     if (attributeName === 'compText') {
       newContextObj[componentProviderId].compText = statePropsId;
-      setStateUsedObj({ ...stateUsedObj, compText: stateKey, compTextProviderId: componentProviderId, compTextPropsId: statePropsId });
+      setStateUsedObj({
+        ...stateUsedObj,
+        compText: stateKey,
+        compTextProviderId: componentProviderId,
+        compTextPropsId: statePropsId
+      });
       setCompText(newInput);
       setUseContextObj(newContextObj);
     }
 
     if (attributeName === 'compLink') {
       newContextObj[componentProviderId].compLink = statePropsId;
-      setStateUsedObj({ ...stateUsedObj, compLink: stateKey, compLinkProviderId: componentProviderId, compLinkPropsId: statePropsId });
+      setStateUsedObj({
+        ...stateUsedObj,
+        compLink: stateKey,
+        compLinkProviderId: componentProviderId,
+        compLinkPropsId: statePropsId
+      });
       setCompLink(newInput);
       setUseContextObj(newContextObj);
     }
-  }
+  };
 
   const eventColumnTabs = [
     {
@@ -270,7 +300,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       width: '40%',
       editable: false,
       flex: 1,
-      disableColumnMenu: true,
+      disableColumnMenu: true
     },
     {
       field: 'funcName',
@@ -278,7 +308,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       width: '50%',
       editable: false,
       flex: 1,
-      disableColumnMenu: true,
+      disableColumnMenu: true
     },
     {
       field: 'delete',
@@ -303,18 +333,29 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
     }
   ];
 
-  const deleteEvent = selectedEvent => {
-    dispatch(deleteEventAction({ event: selectedEvent, contextParam: contextParam }))
+  const deleteEvent = (selectedEvent) => {
+    dispatch(
+      deleteEventAction({ event: selectedEvent, contextParam: contextParam })
+    );
   };
-
 
   const handleSave = (tailwind): Object => {
     if (tailwind !== true) {
-      dispatch(changeTailwind(false))
+      dispatch(changeTailwind(false));
     }
-    dispatch(updateStateUsed({ stateUsedObj: stateUsedObj, contextParam: contextParam }))
+    dispatch(
+      updateStateUsed({
+        stateUsedObj: stateUsedObj,
+        contextParam: contextParam
+      })
+    );
 
-dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextParam }))
+    dispatch(
+      updateUseContext({
+        useContextObj: useContextObj,
+        contextParam: contextParam
+      })
+    );
 
     const styleObj: any = {};
     if (displayMode !== '') styleObj.display = displayMode;
@@ -324,47 +365,50 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
     if (compWidth !== '') styleObj.width = compWidth;
     if (compHeight !== '') styleObj.height = compHeight;
     if (BGColor !== '') styleObj.backgroundColor = BGColor;
-    dispatch(updateCss({ style: styleObj, contextParam: contextParam }))
+    dispatch(updateCss({ style: styleObj, contextParam: contextParam }));
 
     const attributesObj: any = {};
     if (compText !== '') attributesObj.compText = compText;
     if (compLink !== '') attributesObj.compLink = compLink;
     if (cssClasses !== '') attributesObj.cssClasses = cssClasses;
- 
-    dispatch(updateAttributes({attributes: attributesObj, contextParam: contextParam}))
+
+    dispatch(
+      updateAttributes({
+        attributes: attributesObj,
+        contextParam: contextParam
+      })
+    );
 
     const eventsObj: any = {};
     if (eventAll[0] !== '') eventsObj[eventAll[0]] = eventAll[1];
-    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }))
-    
+    dispatch(updateEvents({ events: eventsObj, contextParam: contextParam }));
 
     return styleObj;
   };
   const handleTailwind = (): Object => {
-    dispatch(changeTailwind(true))
+    dispatch(changeTailwind(true));
 
-    handleSave(true)
-  }
+    handleSave(true);
+  };
 
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
-    dispatch(undo({contextParam}));
+    dispatch(undo({ contextParam }));
+    console.log(contextParam);
   };
   const handleRedo = () => {
-    dispatch(redo({contextParam}));
+    dispatch(redo({ contextParam }));
   };
   // placeholder for handling deleting instance
   const handleDelete = () => {
-    dispatch(deleteChild({id:{},contextParam:contextParam}));
+    dispatch(deleteChild({ id: {}, contextParam: contextParam }));
   };
-  const handlePageDelete = id => () => {
+  const handlePageDelete = (id) => () => {
     // TODO: return modal
     if (isLinkedTo()) return setDeleteLinkedPageError(true);
-    isIndex()
-      ? handleDialogError('index')
-      : dispatch(deletePage({ id }))
+    isIndex() ? handleDialogError('index') : dispatch(deletePage({ id }));
   };
-  const handleDialogError = err => {
+  const handleDialogError = (err) => {
     if (err === 'index') setDeleteIndexError(true);
     else setDeleteComponentError(true);
   };
@@ -381,7 +425,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
     // Reset state for project to initial state
     const handleDeleteReusableComponent = (): void => {
       closeModal();
-      dispatch( deleteReusableComponent({contextParam: contextParam}))
+      dispatch(deleteReusableComponent({ contextParam: contextParam }));
     };
     // set modal options
     const children = (
@@ -428,26 +472,28 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
       })
     );
   };
-  const keyBindedFunc = useCallback(e => {
+  const keyBindedFunc = useCallback((e) => {
     // the || is for either Mac or Windows OS
     // Undo
+    console.log('keydown');
     (e.key === 'z' && e.metaKey && !e.shiftKey) ||
-      (e.key === 'z' && e.ctrlKey && !e.shiftKey)
+    (e.key === 'z' && e.ctrlKey && !e.shiftKey)
       ? handleUndo()
       : // Redo
       (e.shiftKey && e.metaKey && e.key === 'z') ||
         (e.shiftKey && e.ctrlKey && e.key === 'z')
-        ? handleRedo()
-        : // Delete HTML tag off canvas
-        e.key === 'Backspace' && e.target.tagName !== "TEXTAREA" && e.target.tagName !== "INPUT"
-          ? handleDelete()
-          : // Save
-          (e.key === 's' && e.ctrlKey && e.shiftKey) ||
-            (e.key === 's' && e.metaKey && e.shiftKey)
-            ? handleSave()
-            : '';
+      ? handleRedo()
+      : // Delete HTML tag off canvas
+      e.key === 'Backspace' &&
+        e.target.tagName !== 'TEXTAREA' &&
+        e.target.tagName !== 'INPUT'
+      ? handleDelete()
+      : // Save
+      (e.key === 's' && e.ctrlKey && e.shiftKey) ||
+        (e.key === 's' && e.metaKey && e.shiftKey)
+      ? handleSave()
+      : '';
   }, []);
-
 
   useEffect(() => {
     document.addEventListener('keydown', keyBindedFunc);
@@ -473,18 +519,28 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                 Parent Component:
                 <br />
                 <br />
-                <span className={classes.rootCompName}>{configTarget.name}</span>
-                <p style={{fontSize: '16px'}}>Drag and drop an html element (or focus one) to see what happens!</p>
+                <span className={classes.rootCompName}>
+                  {configTarget.name}
+                </span>
+                <p style={{ fontSize: '16px' }}>
+                  Drag and drop an html element (or focus one) to see what
+                  happens!
+                </p>
               </h4>
             </div>
           </div>
         </div>
         <ProjectManager />
       </div>
-    )
+    );
   }
   return (
-    <div className="column right" id="rightContainer" style={style.style}>
+    <div
+      className="column right"
+      id="rightContainer"
+      style={style.style}
+      data-testid="customization"
+    >
       <ProjectManager />
       {/* -----------------------------MOVED PROJECT MANAGER-------------------------------------- */}
       <div className="rightPanelWrapper">
@@ -665,7 +721,8 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                   <UseStateModal
                     updateAttributeWithState={updateAttributeWithState}
                     attributeToChange="compText"
-                    childId={state.canvasFocus.childId} />
+                    childId={state.canvasFocus.childId}
+                  />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -697,8 +754,10 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                 </div>
                 <div>
                   <UseStateModal
-                    updateAttributeWithState={updateAttributeWithState} attributeToChange="compLink"
-                    childId={state.canvasFocus.childId} />
+                    updateAttributeWithState={updateAttributeWithState}
+                    attributeToChange="compLink"
+                    childId={state.canvasFocus.childId}
+                  />
                 </div>
               </div>
               <div className={classes.configRow}>
@@ -746,43 +805,62 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                   ]}
                 />
               </div>
-              {eventAll[0] && (<div className={classes.configRow}>
-                <div
-                  className={
-                    isThemeLight
-                      ? `${classes.configType} ${classes.lightThemeFontColor}`
-                      : `${classes.configType} ${classes.darkThemeFontColor}`
-                  }
-                >
-                  <h3>Function Name:</h3>
+              {eventAll[0] && (
+                <div className={classes.configRow}>
+                  <div
+                    className={
+                      isThemeLight
+                        ? `${classes.configType} ${classes.lightThemeFontColor}`
+                        : `${classes.configType} ${classes.darkThemeFontColor}`
+                    }
+                  >
+                    <h3>Function Name:</h3>
+                  </div>
+                  <FormControl variant="filled">
+                    <TextField
+                      variant="filled"
+                      name="funcName"
+                      inputProps={{
+                        className: isThemeLight
+                          ? `${classes.selectInput} ${classes.lightThemeFontColor}`
+                          : `${classes.selectInput} ${classes.darkThemeFontColor}`
+                      }}
+                      value={eventAll[1]}
+                      onChange={handleChange}
+                      placeholder="Function Name"
+                    />
+                  </FormControl>
                 </div>
-                <FormControl variant="filled">
-                  <TextField
-                    variant="filled"
-                    name="funcName"
-                    inputProps={{
-                      className: isThemeLight
-                        ? `${classes.selectInput} ${classes.lightThemeFontColor}`
-                        : `${classes.selectInput} ${classes.darkThemeFontColor}`
-                    }}
-                    value={eventAll[1]}
-                    onChange={handleChange}
-                    placeholder="Function Name"
+              )}
+              {currFocus && Object.keys(currFocus.events).length !== 0 && (
+                <div className={'event-table'}>
+                  <DataGrid
+                    rows={eventRow}
+                    columns={eventColumnTabs}
+                    pageSize={5}
                   />
-                </FormControl>
-              </div>)}
-              {currFocus && Object.keys(currFocus.events).length !== 0 && (<div className={'event-table'}>
-                <DataGrid
-                  rows={eventRow}
-                  columns={eventColumnTabs}
-                  pageSize={5}
-                />
-              </div>)}
+                </div>
+              )}
             </div>
             <div>
               <div className={classes.buttonRow}>
                 <Button
-                  variant='contained'
+                  variant="contained"
+                  style={{ backgroundColor: 'green' }}
+                  className={
+                    isThemeLight
+                      ? `${classes.button} ${classes.saveButtonLight}`
+                      : `${classes.button} ${classes.saveButtonDark}`
+                  }
+                  onClick={handleSave}
+                  id="saveButton"
+                >
+                  SAVE
+                </Button>
+              </div>
+              <div className={classes.buttonRow}>
+                <Button
+                  variant="contained"
                   color="primary"
                   className={
                     isThemeLight
@@ -795,10 +873,10 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
                   CSS
                 </Button>
               </div>
-              <div >
 
+              <div>
                 <Button
-                  variant='contained'
+                  variant="contained"
                   color="primary"
                   className={
                     isThemeLight
@@ -819,7 +897,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     color="primary"
                     className={classes.button}
                     onClick={handleDelete}
@@ -830,7 +908,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
               ) : isPage(configTarget) ? (
                 <div className={classes.buttonRow}>
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     color="secondary"
                     className={classes.button}
                     onClick={handlePageDelete(configTarget.id)}
@@ -841,7 +919,7 @@ dispatch(updateUseContext({ useContextObj: useContextObj, contextParam: contextP
               ) : (
                 <div className={classes.buttonRow}>
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     color="secondary"
                     className={classes.button}
                     onClick={clearComps}
@@ -927,7 +1005,7 @@ const useStyles = makeStyles({
   configValue: {
     marginLeft: '20px'
   },
-  buttonRow: isThemeLight => ({
+  buttonRow: (isThemeLight) => ({
     textAlign: 'center',
     marginTop: '25px',
     '& > .MuiButton-textSecondary': {

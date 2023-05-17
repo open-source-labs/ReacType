@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
   DataGrid,
-  GridEditRowsModel,
+  GridEditRowsModel
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import makeStyles from '@mui/styles/makeStyles';
 import { StatePropsPanelProps } from '../../../../interfaces/Interfaces';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePassedInProps } from '../../../../redux/reducers/slice/appStateSlice';
+import { deleteState } from '../../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../../redux/store'
 
+// updates state mgmt boxes and data grid 
 const TableStateProps = props => {
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store:RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice,
   }));
@@ -58,7 +60,7 @@ const TableStateProps = props => {
           <Button
             style={{ width: `${3}px`, color: 'black'}}
             onClick={() => {
-              deleteState(params.id, params.key);
+              handleDeleteState(params.id);
             }}
           >
             <ClearIcon style={{ width: `${15}px` }} />
@@ -68,27 +70,13 @@ const TableStateProps = props => {
     }
   ];
 
-  const deleteState = (selectedId, stateName) => {
-    // get the current focused component
-    // send a dispatch to rerender the table
-    const currentId = state.canvasFocus.componentId;
-    const currentComponent = state.components[currentId - 1];
-    // returns an array of the remaining props after deleting selected prop
-    const filtered = currentComponent.stateProps.slice();
-    let otherId;
-    for (let i = 0; i < filtered.length; i++) {
-      let curr = filtered[i];
-      if (curr.id === selectedId) {
-        if (i %2 ===0) {
-          otherId = filtered[i + 1];
-          filtered.splice(i, 2);
-        } else {
-          otherId = filtered[i - 1];
-          filtered.splice(i - 1, 2);
-        }
-      }
-    }
-    dispatch(deletePassedInProps({stateProps: filtered, rowId: selectedId, otherId: otherId.id, contextParam: contextParam}))
+  const handleDeleteState = (selectedId) => {
+      const currentId = state.canvasFocus.componentId;
+      const currentComponent = state.components[currentId - 1];
+      const filtered = currentComponent.stateProps.filter(
+        element => element.id !== selectedId
+      );
+      dispatch(deleteState({stateProps: filtered, rowId: selectedId, contextParam: contextParam}))
   };
 
   useEffect(() => {
@@ -120,6 +108,7 @@ const TableStateProps = props => {
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        disableColumnMenu={false}
       />
     </div>
   );
@@ -128,8 +117,11 @@ const TableStateProps = props => {
 const useStyles = makeStyles({
   themeLight: {
     color: 'rgba(0,0,0,0.54)',
-    '& .MuiTablePagination-root': {
-      color: 'rbga(0,0,0,0.54)'
+    '& button:hover':{
+      backgroundColor: 'LightGray'
+    },
+    '& button':{
+      color: 'black'
     }
   },
   themeDark: {

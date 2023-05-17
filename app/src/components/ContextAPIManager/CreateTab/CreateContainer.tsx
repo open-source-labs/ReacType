@@ -1,87 +1,88 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useStore } from 'react-redux';
+import React from 'react';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import DataTable from './components/DataTable';
 import AddDataForm from './components/AddDataForm';
 import AddContextForm from './components/AddContextForm';
-// import * as actions from '../../../redux/actions/actions';
 import { Typography } from '@mui/material';
-import StateContext from '../../../context/context';
-import { addContext, deleteContext, addContextValues } from '../../../redux/reducers/slice/contextReducer';
+import {
+  addContext,
+  deleteContext,
+  addContextValues
+} from '../../../redux/reducers/slice/contextReducer';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../redux/store';
 
 const CreateContainer = () => {
-  const defaultTableData = [{ key: 'Enter Key', value: 'Enter value' }];
-  const state = useSelector(store => store.contextSlice);
-
-  const store = useStore();
-  // const [state, setState] = useState([]);
-  const [tableState, setTableState] = React.useState(defaultTableData);
+  const state = useSelector((store: RootState) => store.contextSlice);
   const [contextInput, setContextInput] = React.useState(null);
-  // const [stateContext, dispatchContext] = useContext(StateContext);
+  const [currentContext, setCurrentContext] = React.useState(null);
+  const [errorMsg, setErrorMsg] = React.useState('');
+  const [errorStatus, setErrorStatus] = React.useState(false);
+  const currentKeyValues = state.allContext.find(
+    (obj) => obj.name === currentContext
+  )?.values || [{ key: 'Enter Key', value: 'Enter value' }];
   const dispatch = useDispatch();
-
-  //pulling data from redux store
-  // useEffect(() => {
-
-  //   setState(allContext)
-  //   // setState(store.getState().contextSlice);
-
-  // }, [allContext]);
-
-
 
   //update data store when user adds a new context
   const handleClickSelectContext = () => {
-    //prevent user from adding duplicate context
-    for (let i = 0; i < state.allContext.length; i += 1) {
-      if (state.allContext[i].name === contextInput.name) {
-        return;
-      }
+    let letters = /[a-zA-Z]/;
+    let error;
+    //checking for input error / setting error type
+    if (!contextInput || contextInput.trim() === '') {
+      error = 'empty';
+    } else if (!contextInput.charAt(0).match(letters)) {
+      error = 'letters';
+    } else if (!contextInput.match(/^[0-9a-zA-Z]+$/)) {
+      error = 'symbolsDetected';
+    } else if (
+      state.allContext.some(
+        (context) => context.name.toLowerCase() === contextInput.toLowerCase()
+      )
+    ) {
+      error = 'dupe';
     }
-    setContextInput('');
-    dispatch(addContext(contextInput));
 
-    // setState(allContext);
+    if (error !== undefined) {
+      triggerError(error);
+      return;
+    }
+
+    dispatch(addContext({ name: contextInput }));
+    setContextInput('');
+  };
+
+  const triggerError = (type: String) => {
+    setErrorStatus(true);
+    switch (type) {
+      case 'empty':
+        setErrorMsg('Context name cannot be blank.');
+        break;
+      case 'dupe':
+        setErrorMsg('Context name already exists.');
+        break;
+      case 'letters':
+        setErrorMsg('Context name must start with a letter.');
+        break;
+      case 'symbolsDetected':
+        setErrorMsg('Context name must not contain symbols.');
+        break;
+    }
   };
 
   //update data store when user add new key-value pair to context
-  const handleClickInputData = ({ name }, { inputKey, inputValue }) => {
-    dispatch(
-      addContextValues({ name, inputKey, inputValue })
-    );
-    // setState(allContext);
+  const handleClickInputData = (name, { inputKey, inputValue }) => {
+    dispatch(addContextValues({ name, inputKey, inputValue }));
   };
 
   //update data store when user deletes context
   const handleDeleteContextClick = () => {
-    dispatch(deleteContext(contextInput));
+    dispatch(deleteContext({ name: currentContext }));
     setContextInput('');
-    // setState(allContext);
-    setTableState(defaultTableData);
-
-    dispatch(deleteElement({id:'FAKE_ID', contextParam: state}))
-    // dispatchContext({
-    //   type: 'DELETE ELEMENT',
-    //   payload: 'FAKE_ID'
-    // });
+    setCurrentContext(null);
   };
 
-  //re-render data table when there's new changes
-  const renderTable = targetContext => {
-    if (
-      targetContext === null ||
-      targetContext === undefined ||
-      !targetContext.values
-    ) {
-      // if (targetContext === null || targetContext === undefined) {
-      setTableState(defaultTableData);
-    } else {
-      setTableState(targetContext.values);
-    }
-  };
+  console.log('state.allContext', state.allContext);
   return (
     <>
       <Grid container display="flex" justifyContent="space-evenly">
@@ -99,9 +100,13 @@ const CreateContainer = () => {
                 contextStore={state}
                 handleClickSelectContext={handleClickSelectContext}
                 handleDeleteContextClick={handleDeleteContextClick}
-                renderTable={renderTable}
                 contextInput={contextInput}
                 setContextInput={setContextInput}
+                currentContext={currentContext}
+                setCurrentContext={setCurrentContext}
+                errorStatus={errorStatus}
+                setErrorStatus={setErrorStatus}
+                errorMsg={errorMsg}
               />
             </Grid>
 
@@ -109,7 +114,7 @@ const CreateContainer = () => {
             <Grid item>
               <AddDataForm
                 handleClickInputData={handleClickInputData}
-                contextInput={contextInput}
+                currentContext={currentContext}
               />
             </Grid>
           </Grid>
@@ -123,7 +128,10 @@ const CreateContainer = () => {
           >
             Context Data Table
           </Typography>
-          <DataTable target={tableState} contextInput={contextInput} />
+          <DataTable
+            target={currentKeyValues}
+            currentContext={currentContext}
+          />
         </Grid>
       </Grid>
     </>

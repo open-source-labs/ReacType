@@ -1,11 +1,11 @@
-import subject from '../app/src/redux/reducers/slice/contextReducer';
+import subject from '../app/src/redux/reducers/slice/contextReducer.ts';
 
-describe('Context Reducer', () => {
+describe('contextReducer test', () => {
   let state;
 
   beforeEach(() => {
     state = {
-      allContext: []
+      allContext: [],
     };
   });
 
@@ -21,12 +21,12 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_CONTEXT', () => {
+  describe('addContext', () => {
     const action = {
-      type: 'ADD_CONTEXT',
+      type: 'context/addContext',
       payload: {
-        name: 'Theme Context'
-      }
+        name: 'Theme Context',
+      },
     };
 
     it('adds a context', () => {
@@ -34,7 +34,7 @@ describe('Context Reducer', () => {
       expect(allContext[0]).toEqual({
         name: 'Theme Context',
         values: [],
-        components: []
+        components: [],
       });
     });
 
@@ -49,26 +49,56 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_CONTEXT_VALUES', () => {
+  // OLD ADD CONTEX TEST
+
+  // describe('ADD_CONTEXT', () => {
+  //   const action = {
+  //     type: 'ADD_CONTEXT',
+  //     payload: {
+  //       name: 'Theme Context'
+  //     }
+  //   };
+
+  //   it('adds a context', () => {
+  //     const { allContext } = subject(state, action);
+  //     expect(allContext[0]).toEqual({
+  //       name: 'Theme Context',
+  //       values: [],
+  //       components: []
+  //     });
+  //   });
+
+  //   it('returns a state object not strictly equal to the original', () => {
+  //     const newState = subject(state, action);
+  //     expect(newState).not.toBe(state);
+  //   });
+
+  //   it('should immutably update the nested state object', () => {
+  //     const { allContext } = subject(state, action);
+  //     expect(allContext).not.toBe(state.allContext);
+  //   });
+  // });
+
+  describe('addContextValues', () => {
     beforeEach(() => {
       state = {
         allContext: [
           {
             name: 'Theme Context',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
     });
 
     const action = {
-      type: 'ADD_CONTEXT_VALUES',
+      type: 'context/addContextValues',
       payload: {
         name: 'Theme Context',
         inputKey: 'Theme Color',
-        inputValue: 'Dark'
-      }
+        inputValue: 'Dark',
+      },
     };
 
     it('adds a key-value pair to values array of the specified context', () => {
@@ -85,7 +115,7 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('DELETE CONTEXT', () => {
+  describe('deleteContext', () => {
     let action;
     beforeEach(() => {
       state = {
@@ -93,21 +123,21 @@ describe('Context Reducer', () => {
           {
             name: 'Theme Context',
             values: [],
-            components: []
+            components: [],
           },
           {
             name: 'To be deleted',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
 
       action = {
-        type: 'DELETE_CONTEXT',
+        type: 'context/deleteContext',
         payload: {
-          name: 'Theme Context'
-        }
+          name: 'Theme Context',
+        },
       };
     });
 
@@ -124,29 +154,29 @@ describe('Context Reducer', () => {
     });
   });
 
-  describe('ADD_COMPONENT_TO_CONTEXT', () => {
+  describe('addComponentToContext', () => {
     beforeEach(() => {
       state = {
         allContext: [
           {
             name: 'Theme Context',
             values: [],
-            components: []
-          }
-        ]
+            components: [],
+          },
+        ],
       };
     });
 
     const action = {
-      type: 'ADD_COMPONENT_TO_CONTEXT',
+      type: 'context/addComponentToContext',
       payload: {
         context: {
-          name: 'Theme Context'
+          name: 'Theme Context',
         },
         component: {
-          name: 'Main Component'
-        }
-      }
+          name: 'Main Component',
+        },
+      },
     };
 
     it('adds a new component to the specified context', () => {

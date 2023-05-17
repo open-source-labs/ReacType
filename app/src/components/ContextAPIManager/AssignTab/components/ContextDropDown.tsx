@@ -1,10 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
 
 const filter = createFilterOptions();
 
@@ -16,8 +15,10 @@ const ContextDropDown = ({
 }) => {
   const { allContext } = contextStore;
 
-  const isDarkMode = useSelector(store => store.darkMode.isDarkMode)
-const color = isDarkMode ? "white":"black"
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
+  const color = isDarkMode ? 'white' : 'black';
   const onChange = (event, newValue) => {
     if (typeof newValue === 'string') {
       setContextInput({
@@ -41,7 +42,7 @@ const color = isDarkMode ? "white":"black"
     const filtered = filter(options, params);
     const { inputValue } = params;
     // Suggest the creation of a new contextInput
-    const isExisting = options.some(option => inputValue === option.name);
+    const isExisting = options.some((option) => inputValue === option.name);
     if (inputValue !== '' && !isExisting) {
       filtered.push({
         inputValue,
@@ -54,7 +55,7 @@ const color = isDarkMode ? "white":"black"
     return filtered;
   };
 
-  const getOptionLabel = option => {
+  const getOptionLabel = (option) => {
     // Value selected with enter, right from the input
     if (typeof option === 'string') {
       return option;
@@ -67,11 +68,15 @@ const color = isDarkMode ? "white":"black"
     return option.name;
   };
 
-  const renderOption = (props, option) => <li style={{ color:"black", border: "1px solid black" }} {...props}>{option.name}</li>;
+  const renderOption = (props, option) => (
+    <li style={{ color: 'black', border: '1px solid black' }} {...props}>
+      {option.name}
+    </li>
+  );
 
   return (
     <Fragment>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4, border:"1px black solid" }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4, border: '1px black solid' }}>
         <Autocomplete
           id="autoCompleteContextField"
           value={contextInput}
@@ -85,13 +90,16 @@ const color = isDarkMode ? "white":"black"
           renderOption={renderOption}
           sx={{ width: 425 }}
           freeSolo
-          renderInput={params => (
-            <TextField {...params}
-            InputProps={{
-              ...params.InputProps,
-              style: { color },
-            }}  
-            label="Select Context" helperText='Select a context you would like to assign'/>
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                style: { color }
+              }}
+              label="Select Context"
+              variant="filled"
+            />
           )}
         />
       </Box>

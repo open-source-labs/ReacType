@@ -8,8 +8,9 @@ import ComponentTable from './components/ComponentTable';
 import { Button } from '@mui/material';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { addComponentToContext } from '../../../redux/reducers/slice/contextReducer';
-import { useSelector, useDispatch, useStore } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../../redux/store';
 
 const AssignContainer = () => {
   const dispatch = useDispatch();
@@ -18,31 +19,21 @@ const AssignContainer = () => {
   const [contextInput, setContextInput] = React.useState(null);
   const [componentInput, setComponentInput] = React.useState(null);
   const [componentTable, setComponentTable] = useState([]);
-  const { state, contextParam } = useSelector((store) => ({
+  const { state, contextParam } = useSelector((store: RootState) => ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
 
-
-
+  //sets table data if it exists
   const renderTable = (targetContext) => {
-    if (targetContext === null || !targetContext.values) {
-      setTableState(defaultTableData);
-    } else {
-      setTableState(targetContext.values);
-    }
+    targetContext?.values && setTableState(targetContext.values);
   };
 
   //construct data for table displaying component table
   const renderComponentTable = (targetComponent) => {
     //target Component is main
-
     const listOfContexts = [];
-    if (
-      !Array.isArray(state) &&
-      targetComponent !== null &&
-      targetComponent.name
-    ) {
+    if (!Array.isArray(state) && targetComponent?.name) {
       contextParam.allContext.forEach((context) => {
         if (context.components.includes(targetComponent.name)) {
           listOfContexts.push(context.name);

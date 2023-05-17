@@ -1,20 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import cssRefresher from '../../helperFunctions/cssRefresh';
 import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
+import { RootState } from '../../redux/store';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
 const DemoRender = (): JSX.Element => {
-  const state = useSelector(store => store.appState);
-  const dispatch = useDispatch();
-  let currentComponent = state.components.find(
-    (elem: Component) => elem.id === state.canvasFocus.componentId
+  const state = useSelector((store: RootState) => store.appState);
+  const stylesheet = useSelector(
+    (store: RootState) => store.appState.stylesheet
   );
+  const dispatch = useDispatch();
 
   // Create React ref to inject transpiled code in inframe
   const iframe = useRef<any>();
@@ -31,7 +31,6 @@ const DemoRender = (): JSX.Element => {
       </head>
       <body>
         <div id="app">
-        
         </div>
         <script>
           window.addEventListener('message', (event) => {
@@ -41,7 +40,6 @@ const DemoRender = (): JSX.Element => {
                 element.addEventListener('click', (event) => {
                   event.preventDefault();
                   window.top.postMessage(event.currentTarget.href, '*');
-                  //document.body.style.backgroundColor = 'orange';
                 }, true)
               });
             } catch (err) {
@@ -63,14 +61,12 @@ const DemoRender = (): JSX.Element => {
       state.components?.find((el) => {
         return el.name.toLowerCase() === component.toLowerCase();
       }).id;
-    componentId &&
-    dispatch(changeFocus({ componentId, childId: null}));
-  
+    componentId && dispatch(changeFocus({ componentId, childId: null }));
   };
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
   //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
-  const componentBuilder = (array: object, key: number = 0) => {
+  const componentBuilder = (array: any, key: number = 0) => {
     const componentsToRender = [];
     for (const element of array) {
       if (element.name !== 'separator') {
@@ -162,11 +158,15 @@ const DemoRender = (): JSX.Element => {
     return componentsToRender;
   };
 
+  //initializes our 'code' which will be whats actually in the iframe in the demo render
+  //this will reset every time we make a change
   let code = '';
+
   const currComponent = state.components.find(
     (element) => element.id === state.canvasFocus.componentId
   );
 
+  //writes each component to the code
   componentBuilder(currComponent.children).forEach((element) => {
     try {
       code += ReactDOMServer.renderToString(element);
@@ -175,24 +175,26 @@ const DemoRender = (): JSX.Element => {
     }
   });
 
-  useEffect(() => {
-    cssRefresher();
-  }, []);
+  //writes our stylesheet from state to the code
+  code += `<style>${stylesheet}</style>`;
 
+  //adds the code into the iframe
   useEffect(() => {
     iframe.current.contentWindow.postMessage(code, '*');
   }, [code]);
 
   return (
-    <div id={'renderFocus'} style={demoContainerStyle}>
-      <iframe
-        ref={iframe}
-        sandbox="allow-scripts"
-        srcDoc={html}
-        width="100%"
-        height="100%"
-      />
-    </div>
+    <>
+      <div id={'renderFocus'} style={demoContainerStyle}>
+        <iframe
+          ref={iframe}
+          sandbox="allow-scripts"
+          srcDoc={html}
+          width="100%"
+          height="100%"
+        />
+      </div>
+    </>
   );
 };
 
