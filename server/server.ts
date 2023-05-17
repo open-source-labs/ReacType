@@ -201,7 +201,6 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 app.get('/', (req, res) => {
-  console.log('hit get', isDocker);
   const indexPath = isDocker
     ? path.join(__dirname, '../index-prod.html')
     : path.join(__dirname, '../index.html');
