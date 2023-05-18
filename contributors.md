@@ -1,5 +1,7 @@
 [Abeer Faizan](https://www.linkedin.com/in/abeerfaizan/) [@abeer-f](https://github.com/abeer-f)
 
+[Adam Vanek](https://www.linkedin.com/in/atvanek/) [@abeer-f](https://github.com/atvanek)
+
 Ahsan Rao [LinkedIn](https://www.linkedin.com/in/ahsan-rao/) [Github](https://github.com/ahsan-rao)
 
 [Alex Yu](https://www.linkedin.com/in/alexjihunyu/) [@buddhajjigae](https://github.com/buddhajjigae)
