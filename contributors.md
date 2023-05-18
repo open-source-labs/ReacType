@@ -86,6 +86,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Luke Madden](https://www.linkedin.com/in/lukemadden/) [@lukemadden](https://github.com/lukemadden)
 
+[Matteo Diterlizzi](https://www.linkedin.com/in/matteo-diterlizzi-564166107/)[@MatteoDiter](https://github.com/MatteoDiter)
+
 [Michael Ng](https://www.linkedin.com/in/michaelng2/) [@MikoGome](https://github.com/MikoGome)
 
 [Mike Dunnmon](https://www.linkedin.com/in/michaeldunnmon/) [Github](https://github.com/mdunnmon)
