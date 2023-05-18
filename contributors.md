@@ -98,6 +98,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
+[Rachel Kucharski] (https://www.linkedin.com/in/rachelkucharski/) [rachelk585] (https://github.com/rachelk585)
+
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
 [Salvatore Saluga](https://www.linkedin.com/in/salvatore-saluga) [@SalSaluga](https://github.com/SalSaluga)
