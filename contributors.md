@@ -100,7 +100,7 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 
 [Philip Hua](https://www.linkedin.com/in/philip-minh-hua) [@pmhua](https://github.com/pmhua)
 
-[Rachel Kucharski](https://www.linkedin.com/in/rachelkucharski/) [rachelk585](https://github.com/rachelk585)
+[Rachel Kucharski](https://www.linkedin.com/in/rachelkucharski/) [@rachelk585](https://github.com/rachelk585)
 
 [Ron Fu](https://www.linkedin.com/in/ronfu)[@rfvisuals](https://github.com/rfvisuals)
 
@@ -113,6 +113,8 @@ Darin Ngau [LinkedIn](https://www.linkedin.com/in/darin-ngau/) [Github](https://
 [Shirley Liu](https://www.linkedin.com/in/yijunliu/) [@yijunliu90](https://github.com/yijunliu90)
 
 [Shlomo Porges](https://linkedin.com/shlomoporges) [@shlomoporges](https://github.com/ShlomoPorges)
+
+[Sophia Bui](https://linkedin.com/in/sophiabui) [@sophia-bui](https://github.com/sophia-bui)
 
 [Sophia Huttner](https://www.linkedin.com/in/sophia-huttner-68315975/) [@sophjean](https://github.com/sophjean)
 
