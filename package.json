@@ -104,7 +104,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.10",
     "@apollo/federation": "^0.38.1",
-    "@apollo/server": "^4.4.1",
+    "@apollo/server": "^4.7.4",
     "@babel/cli": "^7.18.10",
     "@babel/register": "^7.18.9",
     "@graphql-tools/schema": "^9.0.17",
