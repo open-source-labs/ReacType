@@ -40,36 +40,30 @@ const StateManager = (props): JSX.Element => {
   const color = isDarkMode ? 'white' : 'black';
 
   return (
-    <React.Fragment>
-      <div
-        className={classes.contextContainer}
-        style={{ backgroundColor: background_Color }}
-      >
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} centered={true}>
-                <Tab
-                  label="Create/Edit"
-                  value="1"
-                  style={{ color: '#003366' }}
-                />
-                <Tab label="Display" value="2" style={{ color: '#003366' }} />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              <CreateContainer
-                data={components}
-                isThemeLight={props.isThemeLight}
-              />
-            </TabPanel>
-            <TabPanel value="2">
-              <DisplayContainer data={components} props={props.props} />
-            </TabPanel>
-          </TabContext>
-        </Box>
-      </div>
-    </React.Fragment>
+    <div
+      className={classes.contextContainer}
+      style={{ backgroundColor: background_Color }}
+    >
+      <Box sx={{ width: '100%', typography: 'body1' }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={handleChange} centered={true}>
+              <Tab label="Create/Edit" value="1" style={{ color: '#003366' }} />
+              <Tab label="Display" value="2" style={{ color: '#003366' }} />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <CreateContainer
+              data={components}
+              isThemeLight={props.isThemeLight}
+            />
+          </TabPanel>
+          <TabPanel value="2">
+            <DisplayContainer data={components} props={props.props} />
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </div>
   );
 };
 
