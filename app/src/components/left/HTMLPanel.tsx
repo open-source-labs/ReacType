@@ -2,27 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  Button,
-  InputLabel
-} from '@mui/material';
+import { Button, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { RootState } from '../../redux/store';
-
-/*
-DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
-  Elements' header. The boxes containing each HTML element are rendered in
-  HTMLItem, which itself is rendered by this component.
- 
-  !!! TO NAME HTML ELEMENTS in the LEFT panel !!!
-
-Central state contains all available HTML elements (stored in the HTMLTypes property).
-  The data for HTMLTypes is stored in HTMLTypes.tsx and is added to central state in
-  initialState.tsx.
-
-Hook state:
-  -tag: 
-*/
 
 const HTMLPanel = (props): JSX.Element => {
   const classes = useStyles();
@@ -30,8 +12,10 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
-  const state = useSelector((store:RootState) => store.appState);
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach((element) => {
