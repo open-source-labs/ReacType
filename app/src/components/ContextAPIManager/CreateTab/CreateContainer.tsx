@@ -82,7 +82,6 @@ const CreateContainer = () => {
     setCurrentContext(null);
   };
 
-  console.log('state.allContext', state.allContext);
   return (
     <>
       <Grid container display="flex" justifyContent="space-evenly">
