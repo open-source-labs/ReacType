@@ -142,7 +142,7 @@
     "jszip": "^3.10.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "mongoose": "^5.9.22",
+    "mongoose": "^5.13.20",
     "node-fetch": "^2.6.1",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
