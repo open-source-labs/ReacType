@@ -6,6 +6,11 @@
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Liam Roh",
+    "Ahnaf Khan",
+    "Raul Hernan Damazo",
+    "Victor Martins",
+    "Denton Wong",
     "Adam Vanek",
     "Matteo Diterlizzi",
     "Rachel Kucharski",

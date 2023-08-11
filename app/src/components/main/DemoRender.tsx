@@ -1,11 +1,12 @@
+import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 import { Component } from '../../interfaces/Interfaces';
 import ReactDOMServer from 'react-dom/server';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { changeFocus } from '../../redux/reducers/slice/appStateSlice';
 
 // DemoRender is the full sandbox demo of our user's custom built React components. DemoRender references the design specifications stored in state to construct
 // real react components that utilize hot module reloading to depict the user's prototype application.
@@ -53,16 +54,21 @@ const DemoRender = (): JSX.Element => {
   `;
 
   //Switch between components when clicking on a link in the live render
-  window.onmessage = (event) => {
-    if (event.data === undefined) return;
-    const component: string = event.data.data?.split('/').at(-1);
-    const componentId =
-      component &&
-      state.components?.find((el) => {
-        return el.name.toLowerCase() === component.toLowerCase();
-      }).id;
-    componentId && dispatch(changeFocus({ componentId, childId: null }));
-  };
+window.onmessage = (event) => {
+  if (event.data === undefined) return;
+
+  const data = event.data.data;
+  if (typeof data !== 'string') return; // Make sure data is a string
+
+  const component: string = data.split('/').at(-1);
+  const componentId =
+    component &&
+    state.components?.find((el) => {
+      return el.name.toLowerCase() === component.toLowerCase();
+    })?.id; // Use optional chaining for state.components
+  componentId && dispatch(changeFocus({ componentId, childId: null }));
+};
+
 
   //  This function is the heart of DemoRender it will take the array of components stored in state and dynamically construct the desired React component for the live demo
   //   Material UI is utilized to incorporate the apporpriate tags with specific configuration designs as necessitated by HTML standards.
