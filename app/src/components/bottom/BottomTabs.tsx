@@ -19,6 +19,7 @@ import { changeProjectType } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 const BottomTabs = (props): JSX.Element => {
+  console.log("TESTING HERNAN BRANCH")
   // state that controls which tab the user is on
   const dispatch = useDispatch();
   const { state, contextParam, style } = useSelector((store: RootState) => ({
