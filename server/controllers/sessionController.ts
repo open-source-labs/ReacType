@@ -4,14 +4,16 @@ import dotenv from 'dotenv';
 import { SessionController, SessionCookie } from '../interfaces';
 
 dotenv.config();
-
+// here we are cheching that the user making the request is login in and has a valid cookieId
 const sessionController: SessionController = {
   isLoggedIn: async (req, res, next) => {
   try {
     let cookieId;
     if (req.cookies) {
+      // if the request cookies exist then it assigns it to cookieId
       cookieId = req.cookies.ssid;
     } else {
+      // else it creates a new cookieId for the user based on the userId
       cookieId = req.body.userId;
     }
 

@@ -10,7 +10,7 @@ const { json, urlencoded } = bodyParser;
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 import express from 'express';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
@@ -22,6 +22,7 @@ import userController from './controllers/userController';
 import cookieController from './controllers/cookieController';
 import sessionController from './controllers/sessionController';
 import projectController from './controllers/projectController';
+import marketplaceController from './controllers/marketplaceController';
 
 // // docker stuff
 import { fileURLToPath } from 'url';
@@ -40,7 +41,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-
+app.use(cookieParser());//added cookie parser
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
 import stylesRouter from './routers/stylesRouter';
@@ -191,6 +192,31 @@ app.delete(
   projectController.deleteProject,
   (req, res) => res.status(200).json(res.locals.deleted)
 );
+
+//Publish to Marketplace
+app.post(
+  '/publishProject',
+  sessionController.isLoggedIn,
+  marketplaceController.publishProject,
+  (req, res) => res.status(200).json(res.locals.publishedProject)
+);
+
+//Unpublish from Marketplace
+app.patch(
+  '/unpublishProject',
+  sessionController.isLoggedIn,
+  marketplaceController.unpublishProject,
+  (req, res) => res.status(200).json(res.locals.unpublishedProject)
+);
+
+//Get from Marketplace
+app.get(
+  '/getMarketplaceProjects',
+  sessionController.isLoggedIn,
+  marketplaceController.getPublishedProjects,
+  (req, res) => res.status(200).json(res.locals.publishedProjects)
+);
+
 // serve index.html on the route '/'
 const isDocker = process.env.IS_DOCKER === 'true';
 console.log('this is running on docker: ', isDocker);
