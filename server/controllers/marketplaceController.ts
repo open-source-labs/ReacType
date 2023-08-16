@@ -33,8 +33,8 @@ const marketplaceController: MarketplaceController = {
   publishProject: (req, res, next) => {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
-   
     if (userId === req.cookies.ssid) {
+      console.log('inside');
       Projects.findOneAndUpdate(
         // looks in projects collection for project by Mongo id
         { _id },
@@ -58,13 +58,15 @@ const marketplaceController: MarketplaceController = {
         }
       );
     }
-    // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
-    return next({
-      log: 'Error in marketplaceController.publishProject', 
-      message: {
-        err: 'Error in marketplaceController.publishProject, check server logs for details'
-      }
-    })
+    else {
+      // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
+      return next({
+        log: 'Error in marketplaceController.publishProject', 
+        message: {
+          err: 'Error in marketplaceController.publishProject, check server logs for details'
+        }
+      })
+    }
   },
 
   /**
@@ -91,13 +93,16 @@ const marketplaceController: MarketplaceController = {
         return next();
       });
     }
-    // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
-    return next({
-      log: `Error in marketplaceController.unpublishProject`,
-      message: {
-        err: 'Error in marketplaceController.unpublishProject, userId of project does not match cookies.ssid'
-      }
-    })
+    else {
+      // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
+      return next({
+        log: `Error in marketplaceController.unpublishProject`,
+        message: {
+          err: 'Error in marketplaceController.unpublishProject, userId of project does not match cookies.ssid'
+        }
+      })
+
+    }
   }
 };
 export default marketplaceController;

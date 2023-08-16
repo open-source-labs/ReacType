@@ -10,7 +10,7 @@ const { json, urlencoded } = bodyParser;
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 import express from 'express';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
@@ -41,7 +41,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-
+app.use(cookieParser());//added cookie parser
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
 import stylesRouter from './routers/stylesRouter';
