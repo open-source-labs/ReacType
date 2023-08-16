@@ -1,12 +1,18 @@
-import React, { useEffect, useCallback } from 'react';
-import Grid from '@mui/material/Grid';
+import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import ComponentDrag from '../components/left/ComponentDrag';
 import DragDropPanel from '../components/left/DragDropPanel';
-import { useDispatch, useSelector } from 'react-redux';
+import FolderIcon from '@mui/icons-material/Folder';
+import Grid from '@mui/material/Grid';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { deleteChild } from '../redux/reducers/slice/appStateSlice';
 
 // Left-hand portion of the app, where component options are displayed
 const LeftContainer = (props): JSX.Element => {
+  const [selectedTab, setSelectedTab] = React.useState('files');
+
   const { contextParam, style } = useSelector((store) => ({
     contextParam: store.contextSlice,
     style: store.styleSlice
@@ -32,7 +38,7 @@ const LeftContainer = (props): JSX.Element => {
   }, []);
 
   return (
-    <div className="left-container hide-show">
+    <div className="left-container">
       <div className="column left" style={style.style}>
         <Grid container direction="column" alignItems="center">
           <h4>Drag and Drop</h4>
@@ -42,9 +48,9 @@ const LeftContainer = (props): JSX.Element => {
           </div>
         </Grid>
       </div>
-      <div className="left-indicator">
+      {/* <div className="left-indicator">
         <span className="material-symbols-outlined">eject</span>
-      </div>
+      </div> */}
     </div>
   );
 };
