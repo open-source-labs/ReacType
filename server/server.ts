@@ -22,7 +22,7 @@ import userController from './controllers/userController';
 import cookieController from './controllers/cookieController';
 import sessionController from './controllers/sessionController';
 import projectController from './controllers/projectController';
-import marketplaceController from './controllers/marketplaceController.js';
+import marketplaceController from './controllers/marketplaceController';
 
 // // docker stuff
 import { fileURLToPath } from 'url';
@@ -195,27 +195,28 @@ app.delete(
 
 //Publish to Marketplace
 app.post(
-  '/getProjects',
+  '/publishProject',
   sessionController.isLoggedIn,
   marketplaceController.publishProject,
-  (req, res) => res.status(200).json(res.locals.projects)
+  (req, res) => res.status(200).json(res.locals.publishedProject)
 );
 
 //Unpublish from Marketplace
-app.post(
-  '/getProjects',
+app.patch(
+  '/unpublishProject',
   sessionController.isLoggedIn,
-  projectController.getProjects,
-  (req, res) => res.status(200).json(res.locals.projects)
+  marketplaceController.unpublishProject,
+  (req, res) => res.status(200).json(res.locals.unpublishedProject)
 );
 
 //Get from Marketplace
-app.post(
-  '/getProjects',
+app.get(
+  '/getMarketplaceProjects',
   sessionController.isLoggedIn,
-  projectController.getProjects,
-  (req, res) => res.status(200).json(res.locals.projects)
+  marketplaceController.getPublishedProjects,
+  (req, res) => res.status(200).json(res.locals.publishedProjects)
 );
+
 // serve index.html on the route '/'
 const isDocker = process.env.IS_DOCKER === 'true';
 console.log('this is running on docker: ', isDocker);
