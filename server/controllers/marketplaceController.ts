@@ -34,7 +34,6 @@ const marketplaceController: MarketplaceController = {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
     if (userId === req.cookies.ssid) {
-      console.log('inside');
       Projects.findOneAndUpdate(
         // looks in projects collection for project by Mongo id
         { _id },
