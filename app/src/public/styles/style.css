@@ -500,18 +500,19 @@ BOTTOM PANEL
 }
 
 #resize-drag {
+
   cursor: row-resize;
-  background-color: silver;
-  height: 16px;
-  top: 0;
-  /* left: 50px; */
-  width: 100%;
-  border: 2px solid black;
-  border-radius: 8px;
+  height: 25px;
+  width: 75px;
+  background-color: rgb(0, 0, 0);
+  outline: 2px solid rgba(192, 192, 192, 0.5);
+  outline-offset: -5px;
   text-align: center;
-  line-height: 0px;
+  border-radius: 10px 10px 0 0;
+  align-self: center;
+  margin-top: -25px;
+  color: silver;
   user-select: none;
-  color: rgb(32, 32, 32);
   font-size: x-large;
 }
 
