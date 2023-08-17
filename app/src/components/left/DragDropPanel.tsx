@@ -1,8 +1,9 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
+import React from 'react';
 import { RootState } from '../../redux/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
 /*
@@ -38,7 +39,7 @@ const DragDropPanel = (props): JSX.Element => {
     <div className={`${!isDarkMode ? 'HTMLItems' : 'HTMLItemsDark'}`}>
       <div id="HTMLItemsTopHalf">
         <Grid id="HTMLItemsGrid">
-          <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
+          <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
             HTML ELEMENTS
           </h3>
           {htmlTypesToRender.map((option) => {
@@ -59,7 +60,7 @@ const DragDropPanel = (props): JSX.Element => {
             }
           })}
           {state.projectType === 'Classic React' ? (
-            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
+            <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
               REACT ROUTER
             </h3>
           ) : null}
@@ -83,7 +84,7 @@ const DragDropPanel = (props): JSX.Element => {
           })}
 
           {state.projectType === 'Next.js' ? (
-            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>Next.js</h3>
+            <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>Next.js</h3>
           ) : null}
           {htmlTypesToRender.map((option) => {
             if (
