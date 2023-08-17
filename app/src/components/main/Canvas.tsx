@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { ItemTypes } from '../../constants/ItemTypes';
 import { Component, DragItem } from '../../interfaces/Interfaces';
@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   changeFocus,
   addChild,
-  snapShotAction
+  snapShotAction,
+  toggleCodePreview
 } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
@@ -18,7 +19,7 @@ function Canvas(props): JSX.Element {
     (store: RootState) => ({
       state: store.appState,
       contextParam: store.contextSlice,
-      isDarkMode: store.darkMode.isDarkMode
+      isDarkMode: store.darkMode.isDarkMode, 
     })
   );
   const dispatch = useDispatch();
@@ -150,15 +151,15 @@ function Canvas(props): JSX.Element {
     currentComponent.style
   );
   return (
-    <div
-      className={'componentContainer'}
-      ref={drop}
-      data-testid="drop"
-      style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
-      onClick={onClickHandler}
-    >
-      {renderChildren(currentComponent.children)}
-    </div>
+      <div
+        className={'componentContainer'}
+        ref={drop} 
+        data-testid="drop"
+        style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
+        onClick={onClickHandler}
+      >
+        {renderChildren(currentComponent.children)}
+      </div>
   );
 }
 
