@@ -94,6 +94,7 @@ header {
 
 .column {
   background-color: #151515;
+  color: white;
 }
 
 /*
@@ -132,14 +133,13 @@ span.material-symbols-outlined {
   display: flex;
   height: 100%;
   width: 280px;
-  margin-left: 80px;
   min-width: 225px;
   flex-direction: column;
   align-content: center;
   position: relative;
   overflow-x: hidden;
-  border-right: solid black 3px;
-  border-top: solid gray 2px;
+  /* border-right: solid black 3px; */
+  border: solid gray 1px;
 }
 
 
@@ -581,6 +581,7 @@ NAVBAR
   justify-content: space-between;
   align-items: center;
   z-index: 9999;
+  border: solid gray 1px;
 }
 
 .main-logo {
