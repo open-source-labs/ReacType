@@ -53,7 +53,6 @@ const DemoRender = (): JSX.Element => {
     </html>
   `;
 
-  //Switch between components when clicking on a link in the live render
   window.onmessage = (event) => {
     // If event.data or event.data.data is undefined, return early
     if (!event.data || typeof event.data.data !== 'string') return;

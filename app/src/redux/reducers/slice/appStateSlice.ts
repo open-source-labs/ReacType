@@ -860,6 +860,7 @@ const appStateSlice = createSlice({
     },
     //deleted 'convertToJSX' function, which threw errors upon opening
     openProject: (state, action) => {
+      // returning the action.payload is a Redux shortcut that updates the entire app state at the same time
       return action.payload;
     },
     addElement: (state, action) => {
