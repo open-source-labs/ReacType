@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
+
+import MarketplaceContainer from './MarketplaceContainer';
 import NavBar from '../components/top/NavBar';
 import { RootState } from '../redux/store';
+
 import { setStyle } from '../redux/reducers/slice/styleSlice';
 import { useHistory } from 'react-router-dom';
 import MarketplaceContainer from './MarketplaceContainer';
@@ -58,6 +61,7 @@ const AppContainer = () => {
             </>
           }
         </div>
+        {/* <MarketplaceContainer /> */}
       </ThemeProvider>
     </StyledEngineProvider>
   );
