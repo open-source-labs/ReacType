@@ -473,7 +473,7 @@ BOTTOM PANEL
 */
 
 .bottom-hide {
-  max-height: 76px;
+  max-height: 64px;
   box-sizing: border-box;
   transition: all 0.5s ease-in-out;
 }
@@ -513,7 +513,7 @@ BOTTOM PANEL
   margin-top: -25px;
   color: silver;
   user-select: none;
-  font-size: x-large;
+
 }
 
 .bottom-panel {
