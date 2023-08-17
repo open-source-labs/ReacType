@@ -51,7 +51,7 @@ ReactDOM.render(
           <Route exact path="/password" component={FBPassWord} />
           <PrivateRoute exact path="/" component={App} />
           <Route exact path="/dashboard" component={ProjectDashboard} />
-          <Route exact path="/marketplace" component={MarketplaceButton} />
+          <Route exact path="/marketplace" component={App} />
           <Route exact path="/tutorial" component={Tutorial} />
           <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
         </Switch>

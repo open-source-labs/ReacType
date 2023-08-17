@@ -1,12 +1,10 @@
 import MarketplaceCardContainer from '../components/marketplace/MarketplaceCardContainer';
-import NavBar from '../components/top/NavBar';
 import React from 'react';
 import SearchBar from '../components/marketplace/Searchbar';
 
 const MarketplaceContainer = () => {
   return (
     <div style={containerStyles}>
-      <NavBar />
       <div style={contentStyles}>
         <h1 style={headingStyles}>Discover components built with ReacType</h1>
         <p style={subheadingStyles}>
@@ -23,7 +21,10 @@ const MarketplaceContainer = () => {
 const containerStyles: React.CSSProperties = {
   backgroundColor: '#111',
   minHeight: '100vh',
-  color: 'white'
+  width: '100vw',
+  color: 'white',
+  paddingBottom: '15vh',
+  overflow: 'auto',
 };
 
 const contentStyles: React.CSSProperties = {

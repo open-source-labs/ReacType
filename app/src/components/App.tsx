@@ -95,10 +95,8 @@ export const App = (): JSX.Element => {
           style={{ height: '40px', width: '100%', backgroundColor: 'white' }}
         >
           ReacType
-        </header>
-   
+        </header>    
           <AppContainer />
-    
       </DndProvider>
     </div>
   );
