@@ -1,27 +1,29 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { createSlice } from '@reduxjs/toolkit';
+type StyleState = {
+  style: any; // Replace with your specific type
+  isThemeLight: boolean;
+};
 
-const initialState = {
-    style: null,
-    setStyle: null,
-    isThemeLight: null,
-  }
+const initialState: StyleState = {
+  style: null,
+  isThemeLight: true
+};
 
-//allows us to set style for themes
-
-  const styleSlice = createSlice({
-    name: 'style',
-    initialState,
-    reducers: {
-        setStyle: (state, action) => {
-            state.style = action.payload;
-        },
-        cooperativeStyle: (state, action) => {
-            return Object.assign({}, state, action.payload)
-        },
+const styleSlice = createSlice({
+  name: 'style',
+  initialState,
+  reducers: {
+    setStyle: (state, action: PayloadAction<any>) => {
+      // Replace any with your specific type
+      state.style = action.payload;
+    },
+    cooperativeStyle: (state, action: PayloadAction<Partial<StyleState>>) => {
+      return { ...state, ...action.payload };
     }
-    });
+  }
+});
 
-    export const { setStyle, cooperativeStyle } = styleSlice.actions;
+export const { setStyle, cooperativeStyle } = styleSlice.actions;
 
-    export default styleSlice.reducer;
+export default styleSlice.reducer;
