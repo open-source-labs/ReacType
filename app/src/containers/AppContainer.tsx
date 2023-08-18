@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import LeftContainer from './LeftContainer';
 import MainContainer from './MainContainer';
+
+import MarketplaceContainer from './MarketplaceContainer';
 import NavBar from '../components/top/NavBar';
 import { RootState } from '../redux/store';
+
 import { setStyle } from '../redux/reducers/slice/styleSlice';
 
 declare module '@mui/styles/defaultTheme' {
@@ -24,6 +27,7 @@ const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 const AppContainer = () => {
   // setting state for changing light vs dark themes; linked to NavBar.tsx
+
 
   const { isDarkMode, style } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
@@ -50,6 +54,7 @@ const AppContainer = () => {
           <LeftContainer isThemeLight={isThemeLight} />
           <MainContainer isThemeLight={isThemeLight} />
         </div>
+        {/* <MarketplaceContainer /> */}
       </ThemeProvider>
     </StyledEngineProvider>
   );
