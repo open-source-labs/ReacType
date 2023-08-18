@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ value, setValue }) => {
       }}
       TabIndicatorProps={{
         style: {
-          backgroundColor: 'red'
+          backgroundColor: '#4A4A4A'
         }
       }}
       sx={{
