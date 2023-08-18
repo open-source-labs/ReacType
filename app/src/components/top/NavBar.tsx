@@ -1,33 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-//commenting out the line below breaks the app
 import logo from '../../public/icons/win/logo.png';
-import NavbarDropDown from './NavBarButtons';
+import NewExportButton from './NewExportButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import Button from '@mui/material/Button';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import NavBarButtons from './NavBarButtons';
 
+const NavBar = () => {
+  const [dropMenu, setDropMenu] = useState(false);
+  const isDarkMode = useSelector((state: RootState) => state.darkMode.isDarkMode);
 
-const NavBar = (props) => {
-  
-  // for dropdown navbar
-  const [dropMenu, setDropMenu] = React.useState(false);
-  const isDarkMode = useSelector((state:RootState)=>state.darkMode.isDarkMode)
+  const buttonContainerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#333',
+    border: 'none',
+    color: isDarkMode ? 'lightgray' : 'white',
+    fontSize: '12px',
+    padding: '8px 12px',
+    cursor: 'pointer',
+    marginRight: '10px',
+    marginLeft: '5px', 
+    borderRadius: '4px',
+  };
+
+  const moreVertButtonStyle = {
+    backgroundColor: '#333',
+    border: '1px solid #333',
+    padding: '0',
+    cursor: 'pointer',
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'flex-start', 
+    borderRadius: '4px',
+    width: '30px', 
+    minWidth: '20px',
+    marginLeft: '0px', 
+    marginRight: '10px',
+  };
 
   return (
-  <nav className="main-navbar" style={isDarkMode ? {backgroundColor: '#013365'} : {backgroundColor: 'white'}}>
-    <div className="main-logo">
-      <Avatar src={logo}></Avatar>
-      <h1 style={isDarkMode ? {color: 'white'} : {color: '#013365'}}>ReacType</h1>
-    </div>
-    <div onMouseLeave={()=>setDropMenu(false)}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gear-wide-connected navbar-icon" viewBox="0 0 16 16" 
-      onMouseOver={()=>setDropMenu(true)}>
-        <path d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"/>
-      </svg>
-      <NavbarDropDown dropMenu={dropMenu}></NavbarDropDown>
-    </div>
-  </nav>
-  )
-}
+    <nav className="main-navbar" style={isDarkMode ? { backgroundColor: '#013365' } : { backgroundColor: 'white' }}>
+      <div className="main-logo">
+        <Avatar src={logo}></Avatar>
+        <h1 style={isDarkMode ? { color: 'white' } : { color: '#013365' }}>ReacType</h1>
+      </div>
+      <div style={buttonContainerStyle}>
+        <button style={buttonStyle}>Share</button>
+        <NewExportButton />
+        <Button
+          style={moreVertButtonStyle}
+          variant="contained"
+          color="primary"
+          onClick={() => setDropMenu((prevDropMenu) => !prevDropMenu)}
+        >
+          <MoreVertIcon style={{ color: 'white' }} />
+        </Button>
+        <NavBarButtons dropMenu={dropMenu} setDropMenu={setDropMenu} style={{ color: 'white' }} />
+      </div>
+    </nav>
+  );
+};
 
 export default NavBar;

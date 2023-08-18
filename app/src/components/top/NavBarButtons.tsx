@@ -240,6 +240,7 @@ function navbarDropDown(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+    props.setDropMenu(false);
   };
 
   React.useEffect(() => {
