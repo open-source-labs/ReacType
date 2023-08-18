@@ -603,28 +603,15 @@ NAVBAR
   cursor: pointer;
 }
 
-.navbar-icon:hover {
-  animation: spinningWheel 2s infinite;
-}
-
-@keyframes spinningWheel {
-  0% {
-    transform: rotate(0deg)
-  }
-
-  100% {
-    transform: rotate(360deg)
-  }
-}
 
 .navDropDown {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid #555;
   width: 20vw;
   border-radius: 5px;
   right: 1vw;
   z-index: 10;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.9);
   top: 45px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -638,7 +625,7 @@ NAVBAR
 .navDropDown button {
   width: 90%;
   margin: 3px 5%;
-  background-color: #009ae6;
+  background-color: #333333;
   color: white;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -649,11 +636,12 @@ NAVBAR
 
 .navDropDown p {
   margin: 3px 5%;
+  color: whitesmoke
 }
 
 .navDropDown button:hover {
   cursor: pointer;
-  background-color: #007ab8
+  background-color: #555
 }
 
 .navDropDown button svg {
