@@ -174,7 +174,7 @@ span.material-symbols-outlined {
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  /* width: 90%; */
+  width: 90%;
   flex-grow: 1;
   /* border: 3px solid #C6C6C6; */
   /* border-radius: 10px; */
@@ -197,14 +197,32 @@ span.material-symbols-outlined {
   flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
-  width: 90%;
   flex-grow: 1;
   border: 3px solid white;
 }
 
 #HTMLItemsTopHalf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 20px;
+  justify-content: top;
   height: 52vh;
+  text-align: center;
+  overflow-x: hidden;
   overflow-y: auto;
+}
+
+#HTMLItemsTopHalf::-webkit-scrollbar {
+  width: .5rem;
+  height: .5rem;
+}
+
+#HTMLItemsTopHalf::-webkit-scrollbar-thumb {
+  transition: .3s ease all;
+  border-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 40;
 }
 
 #CompBottomHalf {
@@ -221,6 +239,8 @@ span.material-symbols-outlined {
 }
 
 #HTMLItemsGrid {
+  display: flex;
+
   /* margin-left: 35px; */
 }
 

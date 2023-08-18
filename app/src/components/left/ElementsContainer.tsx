@@ -1,4 +1,4 @@
-import { Drawer, List, ListItem, ListItemIcon } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon } from '@mui/material';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,13 +38,22 @@ const ElementsContainer = (props): JSX.Element => {
   }, []);
 
   return (
-    <Grid container direction="column" alignItems="center">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'top',
+        color: '#ffffff',
+        textAlign: 'center'
+      }}
+    >
       <h4>Drag and Drop</h4>
       <DragDropPanel />
       <div id={'CompBottomHalf'}>
         <ComponentDrag isThemeLight={props.isThemeLight} />
       </div>
-    </Grid>
+    </Box>
   );
 };
 

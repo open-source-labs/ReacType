@@ -1,55 +1,63 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { Tab, Tabs } from '@mui/material';
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ProfileIcon from '@mui/icons-material/Person';
+import { IoMdCube } from 'react-icons/io';
+import LanIcon from '@mui/icons-material/Lan';
+import PeopleIcon from '@mui/icons-material/People';
 import React from 'react';
-import SettingsIcon from '@mui/icons-material/Settings';
 
-const Sidebar: React.FC = () => {
-  const history = useHistory();
-  const location = useLocation();
+interface SidebarProps {
+  value: number | null;
+  setValue: React.Dispatch<React.SetStateAction<number | null>>;
+}
 
-  const navigate = (path: string) => {
-    if (location.pathname === path) {
-      history.push(path, { hideContent: true });
-    } else {
-      history.push(path, { hideContent: false });
-    }
-  };
-
+const Sidebar: React.FC<SidebarProps> = ({ value, setValue }) => {
   return (
-    <div
-      style={{
-        width: '65px',
+    <Tabs
+      orientation="vertical"
+      variant="scrollable"
+      value={value}
+      onChange={(_, newValue) => {
+        setValue(value === newValue ? null : newValue);
+      }}
+      TabIndicatorProps={{
+        style: {
+          backgroundColor: '#4A4A4A'
+        }
+      }}
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'top',
-        position: 'relative',
-        height: '100vh',
+        paddingTop: '15px',
+        gap: '50px',
+        width: 67,
         background: '#151515',
-        zIndex: 9999
+        height: '100vh'
       }}
     >
-      <AddBoxIcon
-        style={{ margin: '10px', color: 'white' }}
-        onClick={() => navigate('/elements')}
+      <Tab
+        sx={{ '&.Mui-selected': { color: 'red' } }}
+        icon={<AddBoxIcon sx={{ color: '#C6C6C6', fontSize: '36px' }} />}
+        value={0}
       />
-      <SettingsIcon
-        style={{ margin: '10px', color: 'white' }}
-        onClick={() => navigate('/reuseable')}
+      <Tab
+        sx={{ '&.Mui-selected': { color: 'red' } }}
+        icon={<IoMdCube style={{ color: '#C6C6C6', fontSize: '33px' }} />}
+        value={1}
       />
-      <ProfileIcon
-        style={{ margin: '10px', color: 'white' }}
-        onClick={() => navigate('/component-tree')}
+      <Tab
+        sx={{ '&.Mui-selected': { color: 'red' } }}
+        icon={<LanIcon sx={{ color: '#C6C6C6', fontSize: '36px' }} />}
+        value={2}
       />
-      <NotificationsIcon
-        style={{ margin: '10px', color: 'white' }}
-        onClick={() => navigate('/rooms')}
+      <Tab
+        sx={{ '&.Mui-selected': { color: 'red' } }}
+        icon={<PeopleIcon sx={{ color: '#C6C6C6', fontSize: '36px' }} />}
+        value={3}
       />
-    </div>
+    </Tabs>
   );
 };
 
