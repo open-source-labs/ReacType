@@ -49,7 +49,7 @@ const BottomTabs = (props): JSX.Element => {
   return (
     <div
       className={`${classes.root} ${classes.rootLight}`}
-      style={{ backgroundColor: '#003366' }}
+      style={{ backgroundColor: '#191919' }}
     >
       <Box
         display="flex"

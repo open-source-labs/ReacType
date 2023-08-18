@@ -546,7 +546,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
-            <h4>
+            <h4 
+            className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+                >
               Instance of
               {configTarget.child.type === 'component'
                 ? ' component'
@@ -846,7 +852,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: 'green' }}
+                  color="primary"
                   className={
                     isThemeLight
                       ? `${classes.button} ${classes.saveButtonLight}`
@@ -899,7 +905,11 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    className={classes.button}
+                    className={
+                      isThemeLight
+                        ? `${classes.button} ${classes.saveButtonLight}`
+                        : `${classes.button} ${classes.saveButtonDark}`
+                    }
                     onClick={handleDelete}
                   >
                     DELETE INSTANCE
@@ -1019,7 +1029,8 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #186BB4'
+    border: '1px solid #186BB4',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
     border: '1px solid #3F51B5'
@@ -1050,7 +1061,7 @@ const useStyles = makeStyles({
     }
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: 'white'
   },
   darkThemeFontColor: {
     color: '#fff'

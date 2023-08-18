@@ -122,7 +122,7 @@ const CreateContainer = () => {
         <Divider orientation="vertical" variant="middle" flexItem />
         <Grid item>
           <Typography
-            style={{ color: 'black' }}
+            style={{ color: 'white' }}
             variant="h6"
             gutterBottom={true}
           >

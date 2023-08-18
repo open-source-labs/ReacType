@@ -2,6 +2,7 @@ import { Button, InputLabel } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { BorderColor } from '@mui/icons-material';
 import { RootState } from '../../redux/store';
 import TextField from '@mui/material/TextField';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
@@ -332,13 +333,13 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '4px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    border: '1px solid #186BB4'
   },
   lightThemeFontColor: {
-    color: '#C6C6C6',
+    color: '#155084',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }
