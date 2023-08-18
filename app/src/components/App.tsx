@@ -1,36 +1,40 @@
-import React, {useEffect } from 'react';
 import '../public/styles/style.css';
+
+import React, { useEffect } from 'react';
+import {
+  setInitialState,
+  toggleLoggedIn
+} from '../redux/reducers/slice/appStateSlice';
+//redux toolkit addition
+import { useDispatch, useSelector } from 'react-redux';
+
+import AppContainer from '../containers/AppContainer';
+import Cookies from 'js-cookie';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import AppContainer from '../containers/AppContainer';
+import { RootState } from '../redux/store';
 import localforage from 'localforage';
 import { saveProject } from '../helperFunctions/projectGetSaveDel';
-import Cookies from 'js-cookie';
-//redux toolkit addition
-import { useSelector, useDispatch } from 'react-redux';
-import { setInitialState, toggleLoggedIn} from '../redux/reducers/slice/appStateSlice';
-
-import { RootState } from '../redux/store';
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
-  useEffect(()=>{
+  useEffect(() => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
-      dispatch(toggleLoggedIn())
-    } 
-  },[])
+      dispatch(toggleLoggedIn());
+    }
+  }, []);
 
   // following useEffect runs on first mount
   useEffect(() => {
     // if user is a guest, see if a project exists in localforage and retrieve it
-      if (!state.isLoggedIn) {
-      localforage.getItem('guestProject').then(project => {
+    if (!state.isLoggedIn) {
+      localforage.getItem('guestProject').then((project) => {
         // if project exists, use dispatch to set initial state to that project
         if (project) {
-          dispatch(setInitialState(project))
+          dispatch(setInitialState(project));
         }
       });
     } else {
@@ -42,10 +46,9 @@ export const App = (): JSX.Element => {
         userId = window.localStorage.getItem('ssid');
       }
       //also load user's last project, which was saved in localforage on logout
-      localforage.getItem(userId).then(project => {
+      localforage.getItem(userId).then((project) => {
         if (project) {
-    
-          dispatch(setInitialState(project))
+          dispatch(setInitialState(project));
         } else {
           console.log(
             'No user project found in localforage, setting initial state blank'
@@ -96,12 +99,11 @@ export const App = (): JSX.Element => {
         >
           ReacType
         </header>
-   
-          <AppContainer />
-    
+
+        <AppContainer />
       </DndProvider>
     </div>
   );
-}
+};
 
 export default App;

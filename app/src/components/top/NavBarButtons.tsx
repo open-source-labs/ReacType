@@ -1,35 +1,39 @@
-import React from 'react';
-import store from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Button } from '@mui/material';
+import DeleteProjects from '../right/DeleteProjects';
+import ExportButton from '../right/ExportButton';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
-import createModal from '../right/createModal';
-import ExportButton from '../right/ExportButton';
-import { setStyle } from '../../redux/reducers/slice/styleSlice';
 import LoginButton from '../right/LoginButton';
-import withStyles from '@mui/styles/withStyles';
-import MenuItem from '@mui/material/MenuItem';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-import SaveProjectButton from '../right/SaveProjectButton';
-import ProjectsFolder from '../right/OpenProjects';
-import DeleteProjects from '../right/DeleteProjects';
+import MarketplaceButton from '../right/MarketplaceButton';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ProjectsFolder from '../right/OpenProjects';
+import React from 'react';
+import { RootState } from '../../redux/store';
+import SaveProjectButton from '../right/SaveProjectButton';
+import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
 import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
+import config from '../../../../config';
+import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
+import createModal from '../right/createModal';
+import createStyles from '@mui/styles/createStyles';
 // for websockets
 import debounce from 'lodash/debounce';
 // websocket front end starts here
 import { io } from 'socket.io-client';
+import makeStyles from '@mui/styles/makeStyles';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
+import { setStyle } from '../../redux/reducers/slice/styleSlice';
+import store from '../../redux/store';
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
-import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
-import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
-import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
-import config from '../../../../config';
+import withStyles from '@mui/styles/withStyles';
+
 const { API_BASE_URL } = config;
-import { RootState } from '../../redux/store';
 
 // Part  - join room and room code functionality
 let socket;
@@ -139,11 +143,19 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
+interface StyledMenuProps extends React.PropsWithChildren<{}> {
+  id: string;
+  anchorEl: HTMLElement | null;
+  keepMounted: boolean;
+  open: boolean;
+  onClose: () => void;
+}
+
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5'
   }
-})((props) => (
+})((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     // getContentAnchorEl={null}
@@ -255,7 +267,7 @@ function navbarDropDown(props) {
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
-// Part - Dark Mode
+  // Part - Dark Mode
   const switchDark = isDarkMode ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -313,6 +325,7 @@ function navbarDropDown(props) {
         </svg>
       </button>
       {<ExportButton />}
+
       <button onClick={handleDarkModeToggle}>
         {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
       </button>
@@ -344,7 +357,8 @@ function navbarDropDown(props) {
       ></input>
       <button onClick={() => joinRoom()}>Join Room</button>
       <p>In Room: {joinedRoom}</p>
-      <LoginButton/>
+      <MarketplaceButton />
+      <LoginButton />
       <StyledMenu // Dropdown menu connected to Manage Project Button
         id="customized-menu"
         anchorEl={anchorEl}
