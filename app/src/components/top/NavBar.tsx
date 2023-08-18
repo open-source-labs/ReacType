@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store';
 //commenting out the line below breaks the app
 import logo from '../../public/icons/win/logo.png';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'; 
 
 const NavBar = (props) => {
   // for dropdown navbar
@@ -22,12 +23,14 @@ const NavBar = (props) => {
           : { backgroundColor: '#151515' }
       }
     >
+      <Link to="/" style={{textDecoration: 'none'}}> 
       <div className="main-logo">
         <Avatar src={logo}></Avatar>
         <h1 style={isDarkMode ? { color: '#C6C6C6' } : { color: '#C6C6C6' }}>
           ReacType
         </h1>
       </div>
+      </Link>  
       <div onMouseLeave={() => setDropMenu(false)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
