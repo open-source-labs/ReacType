@@ -126,7 +126,7 @@ function Canvas(props): JSX.Element {
   const defaultCanvasStyle = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
+    backgroundColor: isOver ? '#191919' : '#191919',
     border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',

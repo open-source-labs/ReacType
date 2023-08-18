@@ -30,7 +30,7 @@ const AddContextForm = ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
   }));
-  const color = isDarkMode ? 'white' : 'black';
+  const color = isDarkMode ? 'black' : 'white';
 
   //handler for submitting new context for creation
   const handleSubmit = () => {
@@ -113,6 +113,7 @@ const AddContextForm = ({
         </Snackbar>
         <Button
           variant="contained"
+          color="primary"
           onClick={handleSubmit}
           disabled={btnDisabled}
         >
@@ -140,7 +141,7 @@ const AddContextForm = ({
           </Select>
         </FormControl>
         <Button
-          color="error"
+          color="primary"
           variant="contained"
           onClick={handleDeleteContextClick}
         >
