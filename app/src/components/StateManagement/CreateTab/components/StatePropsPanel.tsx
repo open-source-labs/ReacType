@@ -510,7 +510,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
     borderStyle: 'none',
-    transition: '0.3s'
+    transition: '0.3s',
     // borderRadius: "25px",
   },
   rootToggle: {
@@ -518,7 +518,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '0.85rem'
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: 'white'
   },
   darkThemeFontColor: {
     color: '#fff'
@@ -575,7 +575,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   inputTextLight: {
     '& .MuiInputBase-input': {
-      color: 'rgba(0,0,0,0.54)'
+      color: 'white'
     }
   }
 }));

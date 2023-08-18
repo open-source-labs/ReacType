@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { RootState } from '../../redux/store';
+import { BorderColor } from '@mui/icons-material';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -332,13 +333,13 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '4px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    border: '1px solid #186BB4'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: 'white',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }
