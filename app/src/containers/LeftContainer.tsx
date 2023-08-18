@@ -1,14 +1,17 @@
+import React, { useState } from 'react';
+
 import ContentArea from '../components/left/ContentArea';
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Sidebar from '../components/left/Sidebar';
 
 function App() {
+  const [value, setValue] = useState<number | null>(null);
+
   return (
-    <Router>
-      <Sidebar />
-      <ContentArea />
-    </Router>
+    <div style={{ display: 'flex' }}>
+      <Sidebar value={value} setValue={setValue} />
+      <ContentArea value={value} />
+    </div>
   );
 }
 
