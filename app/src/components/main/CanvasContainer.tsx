@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import CodePreview from '../bottom/CodePreview';
 import { toggleCodePreview } from '../../redux/reducers/slice/appStateSlice';
+import { Button } from '@mui/material';
 
 // The CanvasContainer sets the boundaries on the width/height of the canvas
 function CanvasContainer(props): JSX.Element {
@@ -31,24 +32,24 @@ function CanvasContainer(props): JSX.Element {
   const codePreviewStyle = {
     position: 'absolute',
     width: 'max-content',
-    minHeight: '5%',
-    border: '1px solid #4a4a4a', 
-    top: '1vw', 
+    height: 'max-content',
+    bottom: '100px', 
     right: '51vw', 
     textAlign: 'center',
-    zIndex: 1,
+    color: '#ffffff', 
+    backgroundColor: '#151515'
   } as const;
 
   return (
     <div style={canvasContainerStyle}>
       {state.codePreview && <CodePreview theme={theme} setTheme={setTheme}/>}
       {!state.codePreview && <Canvas isThemeLight={props.isThemeLight}/>}
-      <div
+      <Button
         style={codePreviewStyle}
         onClick={onClickCodePreview}
       >
         Code Preview
-      </div>
+      </Button>
     </div>
   );
 }
