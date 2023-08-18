@@ -1,8 +1,11 @@
 import MarketplaceCardContainer from '../components/marketplace/MarketplaceCardContainer';
-import React from 'react';
 import SearchBar from '../components/marketplace/Searchbar';
+import React from 'react';
 
 const MarketplaceContainer = () => {
+
+
+  
   return (
     <div style={containerStyles}>
       <div style={contentStyles}>
