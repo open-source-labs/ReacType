@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+
 import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import makeStyles from '@mui/styles/makeStyles';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
@@ -274,7 +275,7 @@ const useStyles = makeStyles({
     borderColor: '#186BB4'
   },
   newComponent: {
-    color: '#155084',
+    color: '#C6C6C6',
     fontSize: '95%',
     marginBottom: '20px'
   },
@@ -302,7 +303,7 @@ const useStyles = makeStyles({
     fontSize: '0.85rem'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: '#C6C6C6',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }

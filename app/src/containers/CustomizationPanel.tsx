@@ -1,41 +1,41 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { DataGrid} from '@mui/x-data-grid';
 import {
-  FormControl,
-  TextField,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  TextField
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import ClearIcon from '@mui/icons-material/Clear';
-import createModal from '../components/right/createModal';
-import ErrorMessages from '../constants/ErrorMessages';
-import ProjectManager from '../components/right/ProjectManager';
-import FormSelector from '../components/form/Selector';
-import UseStateModal from '../components/bottom/UseStateModal';
-import { useDispatch, useSelector } from 'react-redux';
-
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   changeTailwind,
-  updateStateUsed,
-  updateUseContext,
-  updateCss,
-  updateEvents,
+  deleteChild,
   deleteEventAction,
   deletePage,
   deleteReusableComponent,
-  updateAttributes,
-  deleteChild,
+  redo,
   undo,
-  redo
+  updateAttributes,
+  updateCss,
+  updateEvents,
+  updateStateUsed,
+  updateUseContext
 } from '../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import ClearIcon from '@mui/icons-material/Clear';
+import { DataGrid } from '@mui/x-data-grid';
+import ErrorMessages from '../constants/ErrorMessages';
+import FormSelector from '../components/form/Selector';
+import ProjectManager from '../components/right/ProjectManager';
+import UseStateModal from '../components/bottom/UseStateModal';
+import createModal from '../components/right/createModal';
+import makeStyles from '@mui/styles/makeStyles';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -981,7 +981,7 @@ const useStyles = makeStyles({
   select: {
     fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: '#155084'
+      color: '#C6C6C6'
     }
   },
   selectInput: {

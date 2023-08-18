@@ -14,7 +14,7 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
   return <Box hidden={value !== index}>{value === index && children}</Box>;
 };
 
-function ContentArea({ value }: { value: number | null }) {
+const ContentArea: React.FC<{ value: number | null }> = ({ value }) => {
   if (value === null) {
     return null;
   }
@@ -37,6 +37,6 @@ function ContentArea({ value }: { value: number | null }) {
       </div>
     </div>
   );
-}
+};
 
 export default ContentArea;

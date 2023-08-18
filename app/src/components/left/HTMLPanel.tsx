@@ -1,13 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { Button, InputLabel } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  Button,
-  InputLabel
-} from '@mui/material';
-import TextField from '@mui/material/TextField';
-import { RootState } from '../../redux/store';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -30,8 +28,10 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
-  const state = useSelector((store:RootState) => store.appState);
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach((element) => {
@@ -338,7 +338,7 @@ const useStyles = makeStyles({
     alignSelf: 'center'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: '#C6C6C6',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }
