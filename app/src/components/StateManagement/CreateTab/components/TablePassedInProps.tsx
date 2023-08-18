@@ -111,12 +111,12 @@ const TablePassedInProps = props => {
 // colors of state mgmt modal
 const useStyles = makeStyles({
   themeLight: {
-    color: 'rgba(0,0,0,0.54)',
+    color: 'white',
     '& button:hover':{
       backgroundColor: 'LightGray'
     },
     '& button':{
-      color: 'black'
+      color: 'white'
     },
     '& .MuiTablePagination-root': {
       color: 'rbga(0,0,0,0.54)'

@@ -36,7 +36,7 @@ const StateManager = (props): JSX.Element => {
   // add hook here to access which component has been clicked
   // then this will re-render the dataTable
 
-  const background_Color = isDarkMode ? '#21262b' : 'white';
+  const background_Color = isDarkMode ? '#21262b' : '#191919';
   const color = isDarkMode ? 'white' : 'black';
 
   return (
@@ -52,9 +52,9 @@ const StateManager = (props): JSX.Element => {
                 <Tab
                   label="Create/Edit"
                   value="1"
-                  style={{ color: '#003366' }}
+                  style={{ color: 'white' }}
                 />
-                <Tab label="Display" value="2" style={{ color: '#003366' }} />
+                <Tab label="Display" value="2" style={{ color: 'white' }} />
               </TabList>
             </Box>
             <TabPanel value="1">

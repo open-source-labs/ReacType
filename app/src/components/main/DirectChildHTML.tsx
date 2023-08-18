@@ -52,8 +52,8 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
   const interactiveStyle = {
     border:
       state.canvasFocus.childId === childId
-        ? '3px solid #186BB4'
-        : '1px solid grey'
+        ? '4px solid #186BB4'
+        : '2px solid #4d8cc4'
   };
 
   const combinedStyle = combineStyles(
@@ -71,7 +71,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
       id={`canv${childId}`}
     >
       <span>
-        <strong style={{ color:'black'}}>
+        <strong style={{ color:'white'}}>
           {HTMLType.placeHolderShort}
         </strong>
         <DeleteButton

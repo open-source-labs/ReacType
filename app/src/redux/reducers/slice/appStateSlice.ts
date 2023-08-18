@@ -39,7 +39,8 @@ export const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
   tailwind: false,
-  stylesheet: ''
+  stylesheet: '', 
+  codePreview: false, 
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -1261,6 +1262,11 @@ const appStateSlice = createSlice({
     },
     updateStylesheet: (state, action) => {
       state.stylesheet = action.payload;
+    },
+
+    // toggles the active code preview editor for conditional rendering
+    toggleCodePreview: (state) => {
+      state.codePreview = !state.codePreview;
     }
   }
 });
@@ -1301,7 +1307,8 @@ export const {
   //configToggle,
   snapShotAction,
   allCooperativeState,
-  updateStylesheet
+  updateStylesheet, 
+  toggleCodePreview
 } = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer

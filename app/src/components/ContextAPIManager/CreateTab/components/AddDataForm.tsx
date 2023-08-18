@@ -19,7 +19,7 @@ const AddDataForm = ({ handleClickInputData, currentContext }) => {
     }
     handleClickInputData(currentContext, dataContext);
   };
-  const color = isDarkMode ? 'white' : 'black';
+  const color = isDarkMode ? 'black' : 'white';
 
   const handleChange = (e) => {
     setDataContext((prevDataContext) => {
