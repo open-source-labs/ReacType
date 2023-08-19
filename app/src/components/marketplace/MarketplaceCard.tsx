@@ -18,8 +18,20 @@ import React from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 
+interface Project {
+  comments: string[]
+  createdAt: Date
+  likes: number
+  name: string
+  project: object
+  published: boolean
+  userId: number
+  username: string
+  _id: number
+}
+
 const ITEM_HEIGHT = 48;
-const MarketplaceCard = () => {
+const MarketplaceCard = ({proj} :{proj: Project}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -58,8 +70,8 @@ const MarketplaceCard = () => {
               <MoreVert />
             </IconButton>
           }
-          title="Gradient Buttons"
-          subheader="Liam Rohn"
+          title={proj.name}
+          subheader={proj.username}
         />
         <Menu
           id="long-menu"

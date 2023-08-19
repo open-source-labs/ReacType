@@ -7,7 +7,8 @@ import {
   HashRouter as Router,
   Switch
 } from 'react-router-dom';
-
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import App from './components/App';
 import Cookies from 'js-cookie';
 import FBPassWord from './components/login/FBPassWord';
@@ -49,9 +50,11 @@ ReactDOM.render(
           <Route exact path="/login" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/password" component={FBPassWord} />
-          <PrivateRoute exact path="/" component={App} />
+          <DndProvider backend={HTML5Backend}>
+            <Route exact path="/marketplace" component={App} />
+            <PrivateRoute exact path="/" component={App} />
+          </DndProvider>
           <Route exact path="/dashboard" component={ProjectDashboard} />
-          <Route exact path="/marketplace" component={MarketplaceButton} />
           <Route exact path="/tutorial" component={Tutorial} />
           <Route exact path="/tutorialPage/:learn" component={TutorialPage} />
         </Switch>

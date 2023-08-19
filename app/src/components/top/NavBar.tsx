@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -58,12 +58,14 @@ const NavBar = () => {
           : { backgroundColor: '#151515' }
       }
     >
+      <Link to="/" style={{ textDecoration: 'none' }}>
       <div className="main-logo">
         <Avatar src={logo}></Avatar>
         <h1 style={isDarkMode ? { color: 'white' } : { color: 'white' }}>
           ReacType
         </h1>
       </div>
+      </Link>  
       <div style={buttonContainerStyle}>
         <button style={buttonStyle}>Share</button>
         <NewExportButton />

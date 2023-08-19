@@ -93,11 +93,13 @@ export default function NavBar(props) {
     <div className={classes.root} style={style}>
       <AppBar position='static'>
         <Toolbar>
-          <Avatar src={greenLogo}></Avatar>
-          <Typography variant="h6" style={{ marginLeft: '1rem' }} className={classes.title}>
-            ReacType
-          </Typography>
-           <div style ={ { textDecoration: 'none' } }>
+          <Link to="/" style={{display: 'inline-flex', justifyContent: 'center', textDecoration: 'none'}}>  
+            <Avatar src={greenLogo}></Avatar>
+            <Typography variant="h6" style={{ marginTop: '0.3rem', marginLeft: '0.5rem', color: 'silver' }} className={classes.title}>
+              ReacType
+            </Typography>
+          </Link> 
+           <div style ={ { marginLeft: '0.5rem', textDecoration: 'none' } }>
             <Button
             variant='contained'
             color='primary'

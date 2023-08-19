@@ -212,7 +212,7 @@ app.patch(
 //Get from Marketplace
 app.get(
   '/getMarketplaceProjects',
-  sessionController.isLoggedIn,
+  // sessionController.isLoggedIn, //Maybe don't need to check if they have a session since guests should still see?
   marketplaceController.getPublishedProjects,
   (req, res) => res.status(200).json(res.locals.publishedProjects)
 );

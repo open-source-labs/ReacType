@@ -93,7 +93,7 @@ export const App = (): JSX.Element => {
 
   return (
     <div className="app">
-      <DndProvider backend={HTML5Backend}>
+      
         <header
           style={{ height: '40px', width: '100%', backgroundColor: 'white' }}
         >
@@ -101,7 +101,7 @@ export const App = (): JSX.Element => {
         </header>
 
         <AppContainer />
-      </DndProvider>
+     
     </div>
   );
 };

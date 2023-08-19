@@ -25,31 +25,38 @@ function CanvasContainer(props): JSX.Element {
   const canvasContainerStyle = {
     width: '100%',
     backgroundColor: 'lightgrey',
-    border: '2px Solid grey',
-    overflow: 'auto',
+    border: '2px solid grey',
+    borderBottom: 'none',
+    overflow: 'auto',    
   };
 
   const codePreviewStyle = {
-    position: 'absolute',
+    position: 'fixed',
     width: 'max-content',
     height: 'max-content',
     bottom: '100px', 
     right: '51vw', 
     textAlign: 'center',
     color: '#ffffff', 
-    backgroundColor: '#151515'
+    backgroundColor: '#151515',
+    zIndex: 0
+ 
+    
+    
   } as const;
 
   return (
     <div style={canvasContainerStyle}>
       {state.codePreview && <CodePreview theme={theme} setTheme={setTheme}/>}
       {!state.codePreview && <Canvas isThemeLight={props.isThemeLight}/>}
+     
       <Button
         style={codePreviewStyle}
         onClick={onClickCodePreview}
       >
         Code Preview
       </Button>
+     
     </div>
   );
 }

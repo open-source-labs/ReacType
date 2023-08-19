@@ -12,6 +12,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ value, setValue }) => {
+  console.log('sidebar value', value);
   return (
     <Tabs
       orientation="vertical"
