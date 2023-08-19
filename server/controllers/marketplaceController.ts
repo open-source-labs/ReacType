@@ -115,6 +115,7 @@ const marketplaceController: MarketplaceController = {
     const { updatedProject } = req.body;
     updatedProject.userId = userId;
     updatedProject.username = username;
+    updatedProject.project.forked = true; // updated the forked tag
     delete updatedProject._id; // removes the old project id from the object
     updatedProject.createdAt = Date.now();
 
