@@ -12,11 +12,11 @@ const MainContainer = (props): JSX.Element => {
 
   return (
     <div className="main-container" style={style}>
-      <div className="main">
+      <div className="main" >
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div className="bottom-hide">
+      <div className="bottom-hide" >
         <BottomPanel isThemeLight={props.isThemeLight} />
       </div>
     </div>
