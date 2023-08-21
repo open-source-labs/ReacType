@@ -2,6 +2,7 @@ import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
   name: string;
+  forked: boolean;
   isLoggedIn: boolean;
   components: Component[];
   rootComponents: number[];

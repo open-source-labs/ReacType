@@ -79,6 +79,7 @@ const sessionSchema = new Schema({
 const projectSchema = new Schema(
   {
     name: String,
+    forked: String,
     likes: { type: Number, default: 0 },
     published: { type: Boolean, default: false },
     project: { type: Object, required: true },
