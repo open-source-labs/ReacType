@@ -339,7 +339,7 @@ const useStyles = makeStyles({
     border: '1px solid #186BB4'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: 'white',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }

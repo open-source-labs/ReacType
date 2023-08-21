@@ -18,6 +18,9 @@ import React from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux'
+import { RootState } from '../../redux/store';
+import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 
 interface Project {
   forked: String,
@@ -36,6 +39,8 @@ const ITEM_HEIGHT = 48;
 const MarketplaceCard = ({proj} :{proj: Project}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const state = useSelector((store:RootState) => store.appState);
+  console.log('HEY', state)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,7 +55,8 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
+
 
   return (
     <>
