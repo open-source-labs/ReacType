@@ -5,7 +5,7 @@ import React from 'react';
 const MarketplaceButton = () => {
   return (
     <Link to="/marketplace" style={{ textDecoration: 'none' }}>
-      <Button>Marketplace</Button>
+      <Button className="marketButton">Marketplace</Button>
     </Link>
   );
 };
