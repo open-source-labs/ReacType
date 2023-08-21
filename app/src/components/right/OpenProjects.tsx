@@ -24,6 +24,7 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
+  console.log(projects)
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
@@ -40,6 +41,14 @@ function ProjectsDialog(props: ProjectDialogProps) {
     dispatch(openProject(selectedProject))
     onClose();
   };
+  // these two filter between user projects and market projects
+  // const userProjects = projects.filter((project: any) => {
+  //   project.forked === undefined
+  // })
+  // const marketProjects = projects.filter((project: any) => {
+  //   project.forked !== undefined
+  // })
+
   return (
     <Dialog
       onClose={handleClose}
@@ -48,20 +57,44 @@ function ProjectsDialog(props: ProjectDialogProps) {
     >
       <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Open Project</DialogTitle>
       <List style={{ color: "#000" }}>
-        {projects.map((project: any, index: number) => (
-          <ListItem
-            button
-            onClick={() => handleListItemClick(project.name)}
-            key={index}
-          >
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <FolderOpenIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={project.name} />
-          </ListItem>
-        ))}
+      {projects.filter((project: any) => project.forked === undefined).map((project: any, index: number) => {
+  console.log("Logging something inside the map:", project.forked); // Add this line
+  return (
+    <ListItem
+      button
+      onClick={() => handleListItemClick(project.name)}
+      key={index}
+    >
+      <ListItemAvatar>
+        <Avatar className={classes.avatar}>
+          <FolderOpenIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={project.name} />
+    </ListItem>
+  );
+})}
+      </List>
+      {/* this section handles the projects cloned from the marketplace */}
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">MP Projects</DialogTitle>
+      <List style={{ color: "#000" }}>
+      {projects.filter((project: any) => project.forked !== undefined).map((project: any, index: number) => {
+  console.log("Logging something inside the second map:", project.forked); // Add this line
+  return (
+    <ListItem
+      button
+      onClick={() => handleListItemClick(project.name)}
+      key={index}
+    >
+      <ListItemAvatar>
+        <Avatar className={classes.avatar}>
+          <FolderOpenIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={project.name} />
+    </ListItem>
+  );
+})}
       </List>
     </Dialog>
   );
