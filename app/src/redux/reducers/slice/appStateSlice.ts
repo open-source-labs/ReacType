@@ -1248,8 +1248,8 @@ const appStateSlice = createSlice({
       state.components = components;
     },
 
-    toggleLoggedIn: (state) => {
-      state.isLoggedIn = !state.isLoggedIn;
+    toggleLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
 
     snapShotAction: (state, action) => {
