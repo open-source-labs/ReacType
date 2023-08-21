@@ -75,6 +75,9 @@ const userController: UserController = {
         }
         // if no error found when creating a new user, send back user ID in res.locals
         res.locals.id = newUser.id;
+        // send back username to store on cookies for forking projects
+        console.log(username);
+        res.locals.username = username;
         return next();
       }
     );
@@ -114,6 +117,7 @@ const userController: UserController = {
           if (isMatch) {
             // if password matches, save user id for following middleware
             res.locals.id = user.id;
+            res.locals.username = username;
             return next();
           }
           // if hashed password is not matched saved password in db, send 400 response

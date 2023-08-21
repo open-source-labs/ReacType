@@ -17,11 +17,13 @@ import { MoreVert } from '@mui/icons-material';
 import React from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
+import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 
 interface Project {
+  forked: String,
   comments: string[]
   createdAt: Date
   likes: number
@@ -41,6 +43,15 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   console.log('HEY', state)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleClone = async () => { // creates a copy of the project 
+    const updatedProject: Project = JSON.parse(JSON.stringify(proj)); // creates a deep copy
+    updatedProject.forked = `Forked from ${updatedProject.username}`;
+    await axios.post('/cloneProject', {
+      updatedProject
+    });
+    alert('Project cloned!');
+    setAnchorEl(null);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -97,7 +108,7 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
           }}
         >
           <MenuItem
-            onClick={handleClose}
+            onClick={handleClone}
             sx={{
               color: '#C6C6C6'
             }}
