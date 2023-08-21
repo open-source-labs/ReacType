@@ -1,5 +1,5 @@
 import { MarketplaceController } from '../interfaces';
-import { Projects } from '../models/reactypeModels';
+import { Projects, Users } from '../models/reactypeModels';
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
@@ -109,32 +109,45 @@ const marketplaceController: MarketplaceController = {
    * 
    */
   cloneProject: (req, res, next) => {
-    // pulls cookies from request
-    const userId = req.cookies.ssid;
-    const username = req.cookies.username;
     const { updatedProject } = req.body;
-    updatedProject.userId = userId;
-    updatedProject.username = username;
-    updatedProject.project.forked = true; // updated the forked tag
-    delete updatedProject._id; // removes the old project id from the object
-    updatedProject.createdAt = Date.now();
-
-    Projects.create(
-      // creates a copy of the project to the user's library
-      updatedProject,
-      (err, result) => {
-        if (err) {
-          return next({
-            log: `Error in marketplaceController.cloneProject: ${err}`,
-            message: {
-              err: 'Error in marketplaceController.cloneProject, check server logs for details'
-            }
-          });
-        }
-        res.locals.clonedProject = result;
-        return next();
+ 
+    // pulls cookies from request
+    const currentuserID = req.cookies.ssid
+    //getting the username based on the cookies ssid
+    Users.findOne({ _id: currentuserID }, (err, user) => {
+      if (err) {
+        return next({
+          log: `Error in marketplaceController.cloneProjects findUser: ${err}`,
+          message: {
+            err: 'Error in marketplaceController.cloneProjects findUser, check server logs for details'
+          }
+        });
       }
-    );
+      //adding the current user's username and userID since the project is now cloned
+      updatedProject.username = user.username;
+      updatedProject.userId = currentuserID;
+      updatedProject.project.forked = true; // updated the forked tag
+      delete updatedProject._id; // removes the old project id from the object
+      updatedProject.createdAt = Date.now();
+      updatedProject.published = false;
+
+      Projects.create(
+        // creates a copy of the project to the user's library with a new generated _id
+        updatedProject,
+        (err, result) => {
+          if (err) {
+            return next({
+              log: `Error in marketplaceController.cloneProject: ${err}`,
+              message: {
+                err: 'Error in marketplaceController.cloneProject, check server logs for details'
+              }
+            });
+          }
+          res.locals.clonedProject = result;
+          return next();
+        }
+      );
+    })
   },
 };
 export default marketplaceController;
