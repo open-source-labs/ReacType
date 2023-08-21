@@ -21,6 +21,7 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
+import _ from 'lodash';
 
 interface Project {
   forked: String,
@@ -45,7 +46,7 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () => { // creates a copy of the project 
-    const updatedProject: Project = JSON.parse(JSON.stringify(proj)); // creates a deep copy
+    const updatedProject = _.cloneDeep(proj);
     updatedProject.forked = `Forked from ${updatedProject.username}`;
     await axios.post('/cloneProject', {
       updatedProject
