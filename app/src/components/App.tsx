@@ -23,7 +23,7 @@ export const App = (): JSX.Element => {
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(() => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
-      dispatch(toggleLoggedIn());
+      dispatch(toggleLoggedIn(true));
     }
   }, []);
 

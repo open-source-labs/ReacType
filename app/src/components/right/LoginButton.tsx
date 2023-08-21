@@ -15,7 +15,7 @@ export default function LoginButton() {
     document.cookie = 'ssid' + '=; Max-Age=0';
 
     if (state.isLoggedIn) {
-      dispatch(toggleLoggedIn());
+      dispatch(toggleLoggedIn(false));
     }
 
     window.location.href = state.isLoggedIn
