@@ -10,6 +10,18 @@ const cookieController: CookieController = {
       secure: true
     });
     return next();
+  }, 
+
+  /**
+   * Stores the current user's username in cookie (for use in cloning projects)
+   */
+  setUserCookie: (req, res, next) => {
+    res.cookie('username', res.locals.username, {
+      httpOnly: true, 
+      sameSite: 'none', 
+      secure: true
+    });
+    return next();
   }
 };
 

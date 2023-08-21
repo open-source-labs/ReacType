@@ -159,6 +159,7 @@ app.post(
   '/signup',
   userController.createUser,
   cookieController.setSSIDCookie,
+  cookieController.setUserCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
@@ -167,6 +168,7 @@ app.post(
   '/login',
   userController.verifyUser,
   cookieController.setSSIDCookie,
+  cookieController.setUserCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
@@ -215,6 +217,13 @@ app.get(
   // sessionController.isLoggedIn, //Maybe don't need to check if they have a session since guests should still see?
   marketplaceController.getPublishedProjects,
   (req, res) => res.status(200).json(res.locals.publishedProjects)
+);
+
+// Clone from marketplace
+app.post(
+  '/cloneProject',
+  marketplaceController.cloneProject, 
+  (req, res) => res.status(200).json(res.locals.clonedProject)
 );
 
 // serve index.html on the route '/'

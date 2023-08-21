@@ -3,6 +3,7 @@ import { Document, NativeError } from 'mongoose';
 
 export interface CookieController {
   setSSIDCookie: RequestHandler;
+  setUserCookie: RequestHandler;
 }
 
 export interface ProjectController {
@@ -15,6 +16,7 @@ export interface MarketplaceController {
   publishProject: RequestHandler;
   getPublishedProjects: RequestHandler;
   unpublishProject: RequestHandler;
+  cloneProject: RequestHandler;
 }
 
 export interface RequestId extends Request {
