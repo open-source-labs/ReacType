@@ -26,7 +26,7 @@ export const App = (): JSX.Element => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
       dispatch(toggleLoggedIn(true));
     }
-    setToggleAttempt(!toggleAttempt);
+    //setToggleAttempt(!toggleAttempt);
   }, []);
 
   // following useEffect runs on first mount
@@ -61,7 +61,7 @@ export const App = (): JSX.Element => {
         }
       });
     }
-  }, [toggleAttempt]);
+  }, []);
   // useEffect(() => {
   //   // provide config properties to legacy projects so new edits can be auto saved
   //   // if (state.config === undefined) {

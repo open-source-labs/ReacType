@@ -52,7 +52,7 @@ const marketplaceController: MarketplaceController = {
               }
             });
           }
-          res.locals.publishedProject = result;
+          res.locals.publishedProject = result; //returns the entire document
           return next();
         }
       );

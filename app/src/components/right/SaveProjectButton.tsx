@@ -34,7 +34,7 @@ const dispatch = useDispatch();
       // If errors occur on the backend, the project name still gets updated
 
       dispatch(updateProjectName(projectName))
-      saveProject(projectName, state);
+      saveProject(projectName, state).then((project) => {console.log(project)})
       setOpen(false);
     } else {
       setInvalidProjectName(true);
