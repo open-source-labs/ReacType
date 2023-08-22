@@ -159,7 +159,6 @@ app.post(
   '/signup',
   userController.createUser,
   cookieController.setSSIDCookie,
-  cookieController.setUserCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
@@ -168,7 +167,6 @@ app.post(
   '/login',
   userController.verifyUser,
   cookieController.setSSIDCookie,
-  cookieController.setUserCookie,
   sessionController.startSession,
   (req, res) => res.status(200).json({ sessionId: res.locals.ssid })
 );
@@ -222,6 +220,7 @@ app.get(
 // Clone from marketplace
 app.post(
   '/cloneProject',
+  sessionController.isLoggedIn,
   marketplaceController.cloneProject, 
   (req, res) => res.status(200).json(res.locals.clonedProject)
 );

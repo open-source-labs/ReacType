@@ -20,7 +20,6 @@ import { red } from '@mui/material/colors';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from '../../redux/store';
-import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 
 interface Project {
   forked: String,
@@ -40,15 +39,15 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const state = useSelector((store:RootState) => store.appState);
-  console.log('HEY', state)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () => { // creates a copy of the project 
     const updatedProject: Project = JSON.parse(JSON.stringify(proj)); // creates a deep copy
     updatedProject.forked = `Forked from ${updatedProject.username}`;
+    const username = window.localStorage.getItem('username');
     await axios.post('/cloneProject', {
-      updatedProject
+      updatedProject, username: username //passing in the username from localstorage for verification, just in case someone altered local storage
     });
     alert('Project cloned!');
     setAnchorEl(null);

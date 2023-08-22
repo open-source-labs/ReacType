@@ -3,19 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleLoggedIn } from '../../redux/reducers/slice/appStateSlice';
 import config from '../../../../config.js';
 import { RootState } from '../../redux/store';
+import Cookies from 'js-cookie';
 // note that API_BASE_URL is assigned to different pages on dev mode vs prod mode
 const { API_BASE_URL, API_BASE_URL2 } = config;
 
 export default function LoginButton() {
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
-
+  // console.log('doc cookie 1', Cookies.get())
   const handleLogout = () => {
+    // console.log('doc cookie 2', Cookies.get('ssid'))
+    // // document.cookie = 'ssid' + '=; Max-Age=0';
+    // console.log('doc cookie 3', Cookies.get())
+
     window.localStorage.clear();
-    document.cookie = 'ssid' + '=; Max-Age=0';
 
     if (state.isLoggedIn) {
-      dispatch(toggleLoggedIn());
+      dispatch(toggleLoggedIn(false));
     }
 
     window.location.href = state.isLoggedIn

@@ -8,7 +8,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import LoginButton from '../right/LoginButton';
-import MarketplaceButton from '../right/MarketplaceButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ProjectsFolder from '../right/OpenProjects';
@@ -357,7 +356,7 @@ function navbarDropDown(props) {
       ></input>
       <button onClick={() => joinRoom()}>Join Room</button>
       <p>In Room: {joinedRoom}</p>
-      <Link to="/marketplace" style={{ textDecoration: 'none' }} target="_blank">
+      <Link to="/marketplace" style={{ textDecoration: 'none' }}>
         <button>
           Marketplace
           <svg
