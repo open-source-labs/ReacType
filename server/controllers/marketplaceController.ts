@@ -108,33 +108,46 @@ const marketplaceController: MarketplaceController = {
    * Middleware function that clones and saves project to user's library
    * 
    */
-  cloneProject: (req, res, next) => {
+  cloneProject: async (req, res, next) => {
     // pulls cookies from request
     const userId = req.cookies.ssid;
     const username = req.cookies.username;
-    const { updatedProject } = req.body;
-    updatedProject.userId = userId;
-    updatedProject.username = username;
-    updatedProject.project.forked = true; // updated the forked tag
-    delete updatedProject._id; // removes the old project id from the object
-    updatedProject.createdAt = Date.now();
 
-    Projects.create(
-      // creates a copy of the project to the user's library
-      updatedProject,
-      (err, result) => {
-        if (err) {
-          return next({
-            log: `Error in marketplaceController.cloneProject: ${err}`,
-            message: {
-              err: 'Error in marketplaceController.cloneProject, check server logs for details'
-            }
-          });
+    try { // trying to find project, update its userId and username to a new project, then save it
+      const updatedProject = await Projects.findOne({ _id: req.params.docId }).exec();
+      updatedProject.userId = userId;
+      updatedProject.project.forked = true; 
+      updatedProject.published = false;
+      updatedProject.forked = `Forked from ${updatedProject.username}`; // add forked tag with current project owner username
+      updatedProject.username = username; // then switch to the cloning username
+      delete updatedProject._id; // removes the old project id from the object
+      updatedProject.createdAt = Date.now();
+
+      Projects.create(
+        // creates a copy of the project to the user's library
+        updatedProject,
+        (err, result) => {
+          if (err) {
+            return next({
+              log: `Error in marketplaceController.cloneProject: ${err}`,
+              message: {
+                err: 'Error in marketplaceController.cloneProject, check server logs for details'
+              }
+            });
+          }
+          res.locals.clonedProject = result;
+          return next();
         }
-        res.locals.clonedProject = result;
-        return next();
-      }
-    );
+      );
+    }
+    catch (err) {
+      return next({
+        log: `Error in marketplaceController.cloneProject: ${err}`,
+        message: {
+          err: 'Error in marketplaceController.cloneProject, check server logs for details'
+        }
+      });
+    }
   },
 };
 export default marketplaceController;

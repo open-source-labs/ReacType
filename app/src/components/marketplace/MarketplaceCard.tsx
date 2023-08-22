@@ -21,7 +21,6 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
-import _ from 'lodash';
 
 interface Project {
   forked: String,
@@ -41,16 +40,12 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const state = useSelector((store:RootState) => store.appState);
-  console.log('HEY', state)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClone = async () => { // creates a copy of the project 
-    const updatedProject = _.cloneDeep(proj);
-    updatedProject.forked = `Forked from ${updatedProject.username}`;
-    await axios.post('/cloneProject', {
-      updatedProject
-    });
+    const docId = proj._id;
+    await axios.get(`/cloneProject/${docId}`);
     alert('Project cloned!');
     setAnchorEl(null);
   };
