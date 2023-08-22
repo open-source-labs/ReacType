@@ -32,7 +32,7 @@ export const App = (): JSX.Element => {
   // following useEffect runs on first mount
   useEffect(() => {
     console.log('state.isLoggedIn', state.isLoggedIn)
-    console.log('cookies.get in App', Cookies.get())
+    // console.log('cookies.get in App', Cookies.get())
     // if user is a guest, see if a project exists in localforage and retrieve it
     if (!state.isLoggedIn) {
       localforage.getItem('guestProject').then((project) => {

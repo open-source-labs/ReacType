@@ -10,11 +10,11 @@ const { API_BASE_URL, API_BASE_URL2 } = config;
 export default function LoginButton() {
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
-  console.log('doc cookie 1', Cookies.get())
+  // console.log('doc cookie 1', Cookies.get())
   const handleLogout = () => {
-    console.log('doc cookie 2', Cookies.get('ssid'))
-    // document.cookie = 'ssid' + '=; Max-Age=0';
-    console.log('doc cookie 3', Cookies.get())
+    // console.log('doc cookie 2', Cookies.get('ssid'))
+    // // document.cookie = 'ssid' + '=; Max-Age=0';
+    // console.log('doc cookie 3', Cookies.get())
 
     window.localStorage.clear();
 
