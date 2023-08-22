@@ -53,6 +53,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
+      <DialogTitle style={{ color: "#297ac2" }} id="project-dialog-title">DELETE PROJECTS</DialogTitle>
       <DialogTitle style={{ color: "#000" }} id="project-dialog-title">User Projects</DialogTitle>
       <List style={{ color: "#000" }}>
         {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
