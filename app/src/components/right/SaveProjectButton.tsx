@@ -8,8 +8,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import {useDispatch, useSelector} from 'react-redux'
-import {updateProjectName} from '../../redux/reducers/slice/appStateSlice';
+import {updateProjectName, updateProjectId} from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import { State } from '../../interfaces/Interfaces';
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,7 @@ const dispatch = useDispatch();
       // If errors occur on the backend, the project name still gets updated
 
       dispatch(updateProjectName(projectName))
-      saveProject(projectName, state).then((project) => {console.log(project)})
+      saveProject(projectName, state).then((project: State) => dispatch(updateProjectId(project._id)))//updates the slice with new _id from mongo
       setOpen(false);
     } else {
       setInvalidProjectName(true);
