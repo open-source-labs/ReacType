@@ -1,3 +1,4 @@
+import Project from '../graphQL/resolvers/query';
 import { MarketplaceController } from '../interfaces';
 import { Projects, Users } from '../models/reactypeModels';
 
@@ -19,8 +20,12 @@ const marketplaceController: MarketplaceController = {
           }
         });
       }
-      // returns the entire project document, including the id
-      res.locals.publishedProjects = projects;
+      // returns the entire project document as an array
+      // need to convert each project document to an object
+      const convertedProjects = projects.map((project) => {
+        return project.toObject({ minimize: false });
+      });
+      res.locals.publishedProjects = convertedProjects;
       return next();
     });
   },
@@ -108,53 +113,32 @@ const marketplaceController: MarketplaceController = {
    * Middleware function that clones and saves project to user's library
    * 
    */
-  cloneProject: (req, res, next) => {
-    const { updatedProject, username } = req.body;
-    console.log('username in cloneProject end', username);
+  cloneProject: async (req, res, next) => {
     // pulls cookies from request
-    const currentuserID = req.cookies.ssid
-    //getting the username based on the cookies ssid
-    Users.findOne({ _id: currentuserID }, (err, user) => {
-      if (err) {
-        return next({
-          log: `Error in marketplaceController.cloneProjects findUser: ${err}`,
-          message: {
-            err: 'Error in marketplaceController.cloneProjects findUser, check server logs for details'
-          }
-        });
-      }else if (user.username !== username){ //prevents users from editing their username to assign a different username to a cloned project
-        return next({
-          log: `Error in marketplaceController.cloneProjects. Window username did not match the corresponding db username: ${err}`,
-          message: {
-            err: 'Error in marketplaceController.cloneProjects. Window username did not match the corresponding db username, check server logs for details'
-          }
-        });
-      }
-      //adding the current user's username and userID since the project is now cloned
-      updatedProject.username = user.username;
-      updatedProject.userId = currentuserID;
-      updatedProject.project.forked = true; // updated the forked tag
+    const userId = req.cookies.ssid;
+    const username = req.cookies.username;
+    try { // trying to find project, update its userId and username to a new project, then save it
+      const originalProject = await Projects.findOne({ _id: req.params.docId }).exec();
+      const updatedProject = originalProject.toObject({ minimize: false }); // minimize false makes sure Mongoose / MongoDB does not remove nested properties with values of empty objects {}
+      updatedProject.userId = userId;
+      updatedProject.project.forked = true; 
+      updatedProject.published = false;
+      updatedProject.forked = `Forked from ${updatedProject.username}`; // add forked tag with current project owner username
+      updatedProject.username = username; // then switch to the cloning username
       delete updatedProject._id; // removes the old project id from the object
       updatedProject.createdAt = Date.now();
-      updatedProject.published = false;
-
-      Projects.create(
-        // creates a copy of the project to the user's library with a new generated _id
-        updatedProject,
-        (err, result) => {
-          if (err) {
-            return next({
-              log: `Error in marketplaceController.cloneProject: ${err}`,
-              message: {
-                err: 'Error in marketplaceController.cloneProject, check server logs for details'
-              }
-            });
-          }
-          res.locals.clonedProject = result;
-          return next();
+      const clonedProject = await Projects.create(updatedProject);
+      res.locals.clonedProject = clonedProject.toObject({ minimize: false }); // need to convert back to an object to send to frontend, again make sure minimize is false
+      return next();
+    }
+    catch (err) {
+      return next({
+        log: `Error in marketplaceController.cloneProject: ${err}`,
+        message: {
+          err: 'Error in marketplaceController.cloneProject, check server logs for details'
         }
-      );
-    })
+      });
+    }
   },
 };
 export default marketplaceController;

@@ -17,7 +17,6 @@ const MarketplaceContainer = () => {
           },
           withCredentials: true,
         });
-
         setMarketplaceProjects(response.data);
         setDisplayProjects(response.data);
     

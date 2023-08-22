@@ -76,7 +76,6 @@ const userController: UserController = {
         // if no error found when creating a new user, send back user ID in res.locals
         res.locals.id = newUser.id;
         // send back username to store on cookies for forking projects
-        console.log(username);
         res.locals.username = username;
         return next();
       }
