@@ -18,9 +18,11 @@ import React from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
+import { useHistory } from 'react-router-dom';
+import { openProject } from '../../redux/reducers/slice/appStateSlice';
 
 interface Project {
   forked: String,
@@ -37,6 +39,8 @@ interface Project {
 
 const ITEM_HEIGHT = 48;
 const MarketplaceCard = ({proj} :{proj: Project}) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const state = useSelector((store:RootState) => store.appState);
@@ -45,9 +49,17 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   };
   const handleClone = async () => { // creates a copy of the project 
     const docId = proj._id;
-    await axios.get(`/cloneProject/${docId}`);
+    const response = await axios.get(`/cloneProject/${docId}`);
+    const project = response.data.project;
     alert('Project cloned!');
     setAnchorEl(null);
+    return project;
+  };
+  
+  const handleCloneOpen = async() => {
+    const project = await handleClone();
+    history.push('/');
+    dispatch(openProject(project));
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -106,10 +118,18 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
           <MenuItem
             onClick={handleClone}
             sx={{
-              color: '#C6C6C6'
+              color: '#fff'
             }}
           >
             Clone
+          </MenuItem>
+          <MenuItem
+            onClick={handleCloneOpen}
+            sx={{
+              color: '#fff'
+            }}
+          >
+            Clone and open
           </MenuItem>
         </Menu>
       </Card>

@@ -1,5 +1,7 @@
+import Project from '../graphQL/resolvers/query';
 import { MarketplaceController } from '../interfaces';
 import { Projects } from '../models/reactypeModels';
+import _ from 'lodash';
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
@@ -19,8 +21,12 @@ const marketplaceController: MarketplaceController = {
           }
         });
       }
-      // returns the entire project document, including the id
-      res.locals.publishedProjects = projects;
+      // returns the entire project document as an array
+      // need to convert each project document to an object
+      const convertedProjects = projects.map((project) => {
+        return project.toObject({ minimize: false });
+      });
+      res.locals.publishedProjects = convertedProjects;
       return next();
     });
   },
@@ -112,9 +118,9 @@ const marketplaceController: MarketplaceController = {
     // pulls cookies from request
     const userId = req.cookies.ssid;
     const username = req.cookies.username;
-
     try { // trying to find project, update its userId and username to a new project, then save it
-      const updatedProject = await Projects.findOne({ _id: req.params.docId }).exec();
+      const originalProject = await Projects.findOne({ _id: req.params.docId }).exec();
+      const updatedProject = originalProject.toObject({ minimize: false }); // minimize false makes sure Mongoose / MongoDB does not remove nested properties with values of empty objects {}
       updatedProject.userId = userId;
       updatedProject.project.forked = true; 
       updatedProject.published = false;
@@ -122,23 +128,9 @@ const marketplaceController: MarketplaceController = {
       updatedProject.username = username; // then switch to the cloning username
       delete updatedProject._id; // removes the old project id from the object
       updatedProject.createdAt = Date.now();
-
-      Projects.create(
-        // creates a copy of the project to the user's library
-        updatedProject,
-        (err, result) => {
-          if (err) {
-            return next({
-              log: `Error in marketplaceController.cloneProject: ${err}`,
-              message: {
-                err: 'Error in marketplaceController.cloneProject, check server logs for details'
-              }
-            });
-          }
-          res.locals.clonedProject = result;
-          return next();
-        }
-      );
+      const clonedProject = await Projects.create(updatedProject);
+      res.locals.clonedProject = clonedProject.toObject({ minimize: false }); // need to convert back to an object to send to frontend, again make sure minimize is false
+      return next();
     }
     catch (err) {
       return next({

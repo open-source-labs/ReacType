@@ -19,7 +19,6 @@ function CanvasContainer(props): JSX.Element {
   // onClickCodePreview swaps the rendered component from the canvas to the code preview editor
   const onClickCodePreview = () => {
     dispatch(toggleCodePreview());
-    console.log(state.codePreview);
   }
 
   const canvasContainerStyle = {
