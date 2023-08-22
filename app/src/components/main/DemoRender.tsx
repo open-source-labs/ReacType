@@ -82,14 +82,6 @@ const DemoRender = (): JSX.Element => {
         const elementType = element.name;
         const childId = element.childId;
         const elementStyle = element.style;
-        // let innerText;
-        // console.log(element);
-        // if (element.attributes.compText) {
-        //   innerText = element.attributes.compText;
-        // }
-        // else {
-        //   innerText = '';
-        // }
         const innerText = element.attributes.compText; 
         const classRender = element.attributes.cssClasses;
         const activeLink = element.attributes.compLink;
