@@ -80,11 +80,11 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="CSS Editor"
           />
-          <Tab
+          {/* <Tab (there was no more need for this tab since we created an outside button for the codePreview)
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Code Preview"
-          />
+          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -129,7 +129,7 @@ const BottomTabs = (props): JSX.Element => {
         {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
         {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
         {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-        {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
+        {/* {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />} */}
         {tab === 4 && <Tree data={components} />}
         {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
         {tab === 6 && (

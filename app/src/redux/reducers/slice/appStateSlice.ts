@@ -13,6 +13,7 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 
 export const initialState: State = {
   name: '',
+  _id: '',
   forked: false,
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
@@ -770,6 +771,10 @@ const appStateSlice = createSlice({
       const projectName = action.payload;
       state.name = projectName;
     },
+    updateProjectId: (state, action) => {
+      const projectId = action.payload; //updates the slice with new _id
+      state._id = projectId;
+    },
     deleteElement: (state, action) => {
       let name: string = '';
       const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter((el) => {
@@ -1248,8 +1253,8 @@ const appStateSlice = createSlice({
       state.components = components;
     },
 
-    toggleLoggedIn: (state) => {
-      state.isLoggedIn = !state.isLoggedIn;
+    toggleLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
 
     snapShotAction: (state, action) => {
@@ -1292,6 +1297,7 @@ export const {
   changeProjectType,
   resetState,
   updateProjectName,
+  updateProjectId,
   deleteElement,
   updateAttributes,
   deleteChild,

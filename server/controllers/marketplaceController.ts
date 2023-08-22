@@ -1,7 +1,6 @@
 import Project from '../graphQL/resolvers/query';
 import { MarketplaceController } from '../interfaces';
-import { Projects } from '../models/reactypeModels';
-import _ from 'lodash';
+import { Projects, Users } from '../models/reactypeModels';
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
@@ -58,7 +57,7 @@ const marketplaceController: MarketplaceController = {
               }
             });
           }
-          res.locals.publishedProject = result;
+          res.locals.publishedProject = result; //returns the entire document
           return next();
         }
       );

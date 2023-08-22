@@ -29,8 +29,12 @@ const SearchBar = ({marketplaceProjects, updateDisplayProjects }):JSX.Element =>
       //a-zA-Z letters (lowercase and uppercase) and underscore symbol
       //All together: match either the start/end of a line/string or any character that is not a letter.
       //Looks for anything that has the searchText in between non-letter characters
+      const patternString2 = '(?:^|.)' + searchText.toLowerCase() + '(?:$|.)';
+      //Only difference is that (?:^|.) (?:$|.) look for anything that matches the string in between any other characters for the username search
+      //test3 and 1test) would both match for string 'test'
+
       const searchResults = marketplaceProjects.reduce((results, curr) => {
-        if(curr.name.match(patternString) || curr.username.match(patternString))
+        if(curr.name.match(patternString) || curr.username.match(patternString2))
           results.push(curr)
         return results;
       }, [])

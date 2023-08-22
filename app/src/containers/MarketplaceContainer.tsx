@@ -2,6 +2,7 @@ import MarketplaceCardContainer from '../components/marketplace/MarketplaceCardC
 import SearchBar from '../components/marketplace/Searchbar';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { CircularProgress } from '@mui/material';
 
 const MarketplaceContainer = () => {
 
@@ -27,11 +28,14 @@ const MarketplaceContainer = () => {
     
   }, []);
 
+
   const updateDisplayProjects = (searchResults) => {
 
     setDisplayProjects(searchResults);//have to pass this down as a prop so that the setting is done outside of Rendering otherwise callstack issues
 
   };
+
+  
 
   
   return (
@@ -45,9 +49,17 @@ const MarketplaceContainer = () => {
         <SearchBar marketplaceProjects = {marketplaceProjects} updateDisplayProjects = {updateDisplayProjects}/>
       </div>
         {displayProjects.length ? <MarketplaceCardContainer displayProjects = {displayProjects} /> : 
-          <h2 style={{textAlign: 'center'}}>
-              No Results Found!
-          </h2> 
+        
+          (/*while marketplaceProjects is length 0 means it is not done fetching.  Add loading...*/
+          marketplaceProjects.length  ? 
+            <h2 style={{textAlign: 'center'}}>
+                No Results Found!
+            </h2> 
+            :
+            <h2 style={{textAlign: 'center'}}> {/*added a circular progress bar*/}
+                Loading... <CircularProgress thickness={5.0}/>
+            </h2> 
+          )
         }
     </div>
   );
