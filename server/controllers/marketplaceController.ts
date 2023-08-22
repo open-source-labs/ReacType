@@ -109,8 +109,8 @@ const marketplaceController: MarketplaceController = {
    * 
    */
   cloneProject: (req, res, next) => {
-    const { updatedProject } = req.body;
- 
+    const { updatedProject, username } = req.body;
+    console.log('username in cloneProject end', username);
     // pulls cookies from request
     const currentuserID = req.cookies.ssid
     //getting the username based on the cookies ssid
@@ -120,6 +120,13 @@ const marketplaceController: MarketplaceController = {
           log: `Error in marketplaceController.cloneProjects findUser: ${err}`,
           message: {
             err: 'Error in marketplaceController.cloneProjects findUser, check server logs for details'
+          }
+        });
+      }else if (user.username !== username){ //prevents users from editing their username to assign a different username to a cloned project
+        return next({
+          log: `Error in marketplaceController.cloneProjects. Window username did not match the corresponding db username: ${err}`,
+          message: {
+            err: 'Error in marketplaceController.cloneProjects. Window username did not match the corresponding db username, check server logs for details'
           }
         });
       }

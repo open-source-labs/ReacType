@@ -24,7 +24,6 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  console.log(projects)
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
