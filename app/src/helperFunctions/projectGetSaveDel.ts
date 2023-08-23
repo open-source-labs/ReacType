@@ -58,6 +58,42 @@ export const saveProject = (
   return project;//returns _id in addition to the project object from the document
 };
 
+export const publishProject = (
+  projectData: State, 
+  projectName: string
+): Promise<Object> => {
+  const body = JSON.stringify({
+    _id: projectData._id, 
+    project: { ...projectData, name: projectName },
+    userId: window.localStorage.getItem('ssid'),
+    username: window.localStorage.getItem('username'),
+    comments: [],
+    name: projectName,
+  });
+
+  const response = fetch(`${serverURL}/publishProject`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body
+  });
+
+  const publishedProject = response
+    .then((res) => res.json())
+    .then((data) => {
+      return {_id: data._id, ...data.project};
+    })
+    .catch((err) => {
+      console.log(`Error publishing project ${err}`);
+      throw err;
+    });
+
+  return publishedProject;
+};
+
+
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
     name: project.name,

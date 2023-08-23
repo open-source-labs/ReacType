@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NavBarButtons from './NavBarButtons';
-import NavbarDropDown from './NavBarButtons';
 import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
 import logo from '../../public/icons/win/logo.png';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { publishProject } from '../../helperFunctions/projectGetSaveDel';
+import PublishModal from './PublishModal';
+
 
 const NavBar = () => {
   const [dropMenu, setDropMenu] = useState(false);
+  const state = useSelector((store: RootState) => store.appState);
+  const [publishModalOpen, setPublishModalOpen] = useState(false); 
+  const [projectName, setProjectName] = useState(state.name || '');
+  const [invalidProjectName, setInvalidProjectName] = useState(false);
+  const [invalidProjectNameMessage, setInvalidProjectNameMessage] = useState('');
   const isDarkMode = useSelector(
     (state: RootState) => state.darkMode.isDarkMode
   );
+
+  useEffect(()=>{
+    setProjectName(state.name)
+  }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -49,6 +60,27 @@ const NavBar = () => {
     marginRight: '10px'
   };
 
+  const handlePublish = () => {
+    console.log('projectName', projectName)
+    console.log('state.name', state.name)
+    if (state.isLoggedIn === true && projectName === '') {
+      setInvalidProjectName(true);
+      setPublishModalOpen(true);
+      return;
+    }
+    
+
+    publishProject(state, projectName)
+      .then((promise) => {
+        console.log('Project published successfully', promise);
+        setPublishModalOpen(false);
+      })
+      .catch((error) => {
+        console.error('Error publishing project:', error.message);
+      });
+      
+  };
+  
   return (
     <nav
       className="main-navbar"
@@ -59,15 +91,17 @@ const NavBar = () => {
       }
     >
       <Link to="/" style={{ textDecoration: 'none' }}>
-      <div className="main-logo">
-        <Avatar src={logo}></Avatar>
-        <h1 style={isDarkMode ? { color: 'white' } : { color: 'white' }}>
-          ReacType
-        </h1>
-      </div>
-      </Link>  
+        <div className="main-logo">
+          <Avatar src={logo}></Avatar>
+          <h1 style={isDarkMode ? { color: 'white' } : { color: 'white' }}>
+            ReacType
+          </h1>
+        </div>
+      </Link>
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}>Share</button>
+        <button style={buttonStyle} onClick={handlePublish}>
+          Publish
+        </button>
         <NewExportButton />
         <Button
           style={moreVertButtonStyle}
@@ -83,6 +117,15 @@ const NavBar = () => {
           style={{ color: 'white' }}
         />
       </div>
+      <PublishModal
+        open={publishModalOpen}
+        onClose={() => setPublishModalOpen(false)}
+        onSave={handlePublish}
+        projectName={projectName}
+        onChange={(e) => setProjectName(e.target.value)}
+        invalidProjectName={invalidProjectName}
+        invalidProjectNameMessage={invalidProjectNameMessage}
+      />
     </nav>
   );
 };
