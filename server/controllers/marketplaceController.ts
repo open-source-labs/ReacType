@@ -116,7 +116,7 @@ const marketplaceController: MarketplaceController = {
   cloneProject: async (req, res, next) => {
     // pulls cookies from request
     const userId = req.cookies.ssid;
-    const username = req.cookies.username;
+    const username = req.query.username;
     try { // trying to find project, update its userId and username to a new project, then save it
       const originalProject = await Projects.findOne({ _id: req.params.docId }).exec();
       const updatedProject = originalProject.toObject({ minimize: false }); // minimize false makes sure Mongoose / MongoDB does not remove nested properties with values of empty objects {}

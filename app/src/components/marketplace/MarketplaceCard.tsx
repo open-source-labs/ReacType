@@ -49,7 +49,7 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   };
   const handleClone = async () => { // creates a copy of the project 
     const docId = proj._id;
-    const response = await axios.get(`/cloneProject/${docId}`);
+    const response = await axios.get(`/cloneProject/${docId}`, { params: { username: window.localStorage.getItem('username') } });//passing in username as a query param is query params
     const project = response.data.project;
     alert('Project cloned!');
     setAnchorEl(null);
