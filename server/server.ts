@@ -67,17 +67,19 @@ const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//I don't believe this portion of the code is being used. It just creates a session cookie, but majority of the controllers right now use mongodb as a sessionController, not passport.
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 24 * 60 * 60 * 1000 }
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // go to other files
 // 8080 only for the container
