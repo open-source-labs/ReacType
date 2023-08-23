@@ -2,6 +2,7 @@ import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
   name: string;
+  _id: string;
   forked: boolean;
   _id: string;
   isLoggedIn: boolean;

@@ -12,7 +12,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import App from './components/App';
 import Cookies from 'js-cookie';
 import FBPassWord from './components/login/FBPassWord';
-import MarketplaceButton from './components/right/MarketplaceButton';
 import MarketplaceContainer from './containers/MarketplaceContainer';
 import ProjectDashboard from './Dashboard/ProjectContainer';
 import { Provider } from 'react-redux';

@@ -33,9 +33,11 @@ export const saveProject = (
   name: String,
   workspace: Object
 ): Promise<Object> => {
+  const newProject = { ...workspace}
+  delete newProject['_id']; //deleting the _id from the current state slice. We don't actually want it in the project object in the mongo db document
   const body = JSON.stringify({
     name,
-    project: { ...workspace, name },
+    project: { ...newProject, name },
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: []
@@ -50,10 +52,10 @@ export const saveProject = (
   })
     .then((res) => res.json())
     .then((data) => {
-      return data.project;
+      return {_id: data._id, ...data.project}; //passing up what is needed for the global appstateslice
     })
     .catch((err) => console.log(`Error saving project ${err}`));
-  return project;
+  return project;//returns _id in addition to the project object from the document
 };
 
 export const publishProject = (
