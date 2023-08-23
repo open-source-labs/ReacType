@@ -6,34 +6,32 @@ import RoomsContainer from './RoomsContainer';
 import TreeContainer from './TreeContainer';
 
 interface TabPanelProps {
-  value: number;
+  activeTab: number;
   index: number;
 }
 
-const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
-  return <Box hidden={value !== index}>{value === index && children}</Box>;
+const TabPanel: React.FC<TabPanelProps> = ({ children, activeTab, index }) => {
+  return (
+    <Box hidden={activeTab !== index}>{activeTab === index && children}</Box>
+  );
 };
 
-const ContentArea: React.FC<{ value: number | null }> = ({ value }) => {
-  if (value === null) {
-    return null;
-  }
+const panels = [
+  <ElementsContainer />,
+  <ComponentsContainer />,
+  <TreeContainer />,
+  <RoomsContainer />
+];
 
+const ContentArea: React.FC<{ activeTab: number | null }> = ({ activeTab }) => {
   return (
     <div className="left-container">
       <div className="column left">
-        <TabPanel value={value} index={0}>
-          <ElementsContainer />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <ComponentsContainer />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <TreeContainer />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <RoomsContainer />
-        </TabPanel>
+        {panels.map((panel, idx) => (
+          <TabPanel key={idx} activeTab={activeTab} index={idx}>
+            {panel}
+          </TabPanel>
+        ))}
       </div>
     </div>
   );

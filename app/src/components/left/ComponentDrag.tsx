@@ -1,9 +1,9 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
 import ComponentPanelItem from '../right/ComponentPanelItem';
+import Grid from '@mui/material/Grid';
+import React from 'react';
+import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -108,7 +108,7 @@ const useStyles = makeStyles({
     wordWrap: 'break-word'
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: '#fff'
   },
   darkThemeFontColor: {
     color: '#fff'

@@ -344,7 +344,7 @@ function navbarDropDown(props) {
           </svg>
         </button>
       )}
-      <input
+      {/* <input
         type="text"
         style={{
           margin: '3px 5%',
@@ -356,7 +356,7 @@ function navbarDropDown(props) {
         onChange={(e) => setRoomCode(e.target.value)}
       ></input>
       <button onClick={() => joinRoom()}>Join Room</button>
-      <p>In Room: {joinedRoom}</p>
+      <p>In Room: {joinedRoom}</p> */}
       <MarketplaceButton />
       <LoginButton />
       <StyledMenu // Dropdown menu connected to Manage Project Button

@@ -7,20 +7,24 @@ import PeopleIcon from '@mui/icons-material/People';
 import React from 'react';
 
 interface SidebarProps {
-  value: number | null;
-  setValue: React.Dispatch<React.SetStateAction<number | null>>;
+  activeTab: number | null;
+  setActiveTab: (value: number | null) => void;
 }
+const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    if (activeTab === newValue) {
+      setActiveTab(null);
+    } else {
+      setActiveTab(newValue);
+    }
+  };
 
-const Sidebar: React.FC<SidebarProps> = ({ value, setValue }) => {
-  console.log('sidebar value', value);
   return (
     <Tabs
       orientation="vertical"
       variant="scrollable"
-      value={value}
-      onChange={(_, newValue) => {
-        setValue(value === newValue ? null : newValue);
-      }}
+      value={activeTab}
+      onChange={handleTabChange}
       TabIndicatorProps={{
         style: {
           backgroundColor: '#4A4A4A'
