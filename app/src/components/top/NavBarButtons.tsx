@@ -183,7 +183,7 @@ const StyledMenuItem = withStyles((theme) => ({
 // where the main function starts //
 function navbarDropDown(props) {
   const dispatch = useDispatch();
-  const dropdownRef = useRef(null);
+
 
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -201,21 +201,7 @@ function navbarDropDown(props) {
     setAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        props.setDropMenu(false);
-      }
-    }
 
-    // Attach the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Clean up the event listener
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [props]);
 
 
   const clearWorkspace = () => {
@@ -309,10 +295,35 @@ function navbarDropDown(props) {
     </svg>
   );
 
-  const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  
+  //for closing the menu on clicks outside of it.
+  const useOutsideClick = (callback) => {
+    
+    const dropdownRef = useRef(null);
+    
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          callback();
+        }
+      }
+      document.addEventListener('click', handleClick, true);
+      
+      return () => {
+        document.removeEventListener('click', handleClick, true);//cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+      };
+    }, [dropdownRef]);
+
+    return dropdownRef
+    
+  }
+  
+  const ref = useOutsideClick(handleClose);
 
   return (
-    <div ref={dropdownRef} className={showMenu}>
+    // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
+    <div ref={ref} className={showMenu}> 
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial
