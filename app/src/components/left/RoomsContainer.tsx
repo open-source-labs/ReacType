@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import Button from '@mui/material/Button';
 import React from 'react';
 import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
 import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
 import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
@@ -91,7 +93,15 @@ const RoomsContainer = () => {
   return (
     <div>
       {' '}
-      <input
+      <TextField
+        hiddenLabel
+        id="filled-hidden-label-small"
+        defaultValue="0"
+        variant="filled"
+        size="small"
+        onChange={(e) => setRoomCode(e.target.value)}
+      />
+      {/* <input
         type="text"
         style={{
           margin: '3px 5%',
@@ -101,8 +111,23 @@ const RoomsContainer = () => {
         }}
         placeholder="Room Code"
         onChange={(e) => setRoomCode(e.target.value)}
-      ></input>
-      <button onClick={() => joinRoom()}>Join Room</button>
+      ></input> */}
+      <Button
+        variant="contained"
+        onClick={() => joinRoom()}
+        sx={{
+          backgroundColor: '#ffffff',
+          color: '#000000',
+          '&:hover': {
+            backgroundColor: '#0069d9',
+            borderColor: '#0062cc',
+            boxShadow: 'none'
+          }
+        }}
+      >
+        Join Room
+      </Button>
+      {/* <button onClick={() => joinRoom()}>Join Room</button> */}
       <p>In Room: {joinedRoom}</p>
     </div>
   );
