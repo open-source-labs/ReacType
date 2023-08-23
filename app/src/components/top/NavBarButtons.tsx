@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Button } from '@mui/material';
 import DeleteProjects from '../right/DeleteProjects';
 import ExportButton from '../right/ExportButton';
@@ -12,7 +11,7 @@ import MarketplaceButton from '../right/MarketplaceButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ProjectsFolder from '../right/OpenProjects';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
@@ -185,6 +184,8 @@ const StyledMenuItem = withStyles((theme) => ({
 // where the main function starts //
 function navbarDropDown(props) {
   const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
+
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [roomCode, setRoomCode] = React.useState('');
@@ -200,6 +201,23 @@ function navbarDropDown(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        props.setDropMenu(false);
+      }
+    }
+
+    // Attach the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [props]);
+
 
   const clearWorkspace = () => {
     // Reset state for project to initial state
@@ -295,7 +313,7 @@ function navbarDropDown(props) {
   const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
   return (
-    <div className={showMenu}>
+    <div ref={dropdownRef} className={showMenu}>
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial

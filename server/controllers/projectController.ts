@@ -39,7 +39,7 @@ const projectController: ProjectController = {
   // gets all of current user's projects
   getProjects: (req, res, next) => {
     const { userId } = req.body;
-    Projects.find({ userId }, (err, projects: Projects) => {
+    Projects.find({ userId }, (err, projects: Array<{_id: string; project: any }>) => {
       if (err) {
         return next({
           log: `Error in projectController.getProjects: ${err}`,
@@ -49,11 +49,15 @@ const projectController: ProjectController = {
         });
       }
       // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map((elem) => elem.project);
+      res.locals.projects = projects.map((elem) =>({
+        _id: elem._id,
+        ...elem.project
+      }));
       return next();
     });
   },
 
+  
   // delete project from database **currently not integrated into app**
   deleteProject: (req, res, next) => {
     // pull project name and userId from req.body

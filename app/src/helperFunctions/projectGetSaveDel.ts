@@ -1,3 +1,5 @@
+import { State } from "../interfaces/Interfaces";
+
 const isDev = process.env.NODE_ENV === 'development';
 const { DEV_PORT, API_BASE_URL } = require('../../../config.js');
 let serverURL = API_BASE_URL;
@@ -53,6 +55,42 @@ export const saveProject = (
     .catch((err) => console.log(`Error saving project ${err}`));
   return project;
 };
+
+export const publishProject = (
+  projectData: State, 
+  projectName: string
+): Promise<Object> => {
+  const body = JSON.stringify({
+    _id: projectData._id, 
+    project: { ...projectData, name: projectName },
+    userId: window.localStorage.getItem('ssid'),
+    username: window.localStorage.getItem('username'),
+    comments: [],
+    name: projectName,
+  });
+
+  const response = fetch(`${serverURL}/publishProject`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body
+  });
+
+  const publishedProject = response
+    .then((res) => res.json())
+    .then((data) => {
+      return data.project;
+    })
+    .catch((err) => {
+      console.log(`Error publishing project ${err}`);
+      throw err;
+    });
+
+  return publishedProject;
+};
+
 
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({

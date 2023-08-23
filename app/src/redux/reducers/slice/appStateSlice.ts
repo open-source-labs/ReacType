@@ -14,6 +14,7 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 export const initialState: State = {
   name: '',
   forked: false,
+  _id: '',
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
   components: [

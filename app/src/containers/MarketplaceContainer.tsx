@@ -34,7 +34,6 @@ const MarketplaceContainer = () => {
 
   };
 
-  
   return (
     <div style={containerStyles}>
       <div style={contentStyles}>
