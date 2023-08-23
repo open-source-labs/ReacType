@@ -1,6 +1,7 @@
 import Project from '../graphQL/resolvers/query';
 import { MarketplaceController } from '../interfaces';
 import { Projects, Users } from '../models/reactypeModels';
+import mongoose from 'mongoose';
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
@@ -33,36 +34,39 @@ const marketplaceController: MarketplaceController = {
   /**
    * 
    * Middleware function that publishes (and saves) a project to the database
-   * @return sends the updated project to the frontend
+   * @return sends the updated entire project document to the frontend
    */
-  publishProject: (req, res, next) => {
+  publishProject: async (req, res, next) => {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
+    console.log('Publish Project', _id, project, comments, userId, username, name )
+
     if (userId === req.cookies.ssid) {
-      Projects.findOneAndUpdate(
-        // looks in projects collection for project by Mongo id
-        { _id },
-        // update or insert the project
-        { project, createdAt, published: true, comments, name, userId, username },
-        // Options:
-        // upsert: true - if none found, inserts new project, otherwise updates it
-        // new: true - returns updated document not the original one
-        { upsert: true, new: true },
-        (err, result) => {
-          if (err) {
-            return next({
-              log: `Error in marketplaceController.publishProject: ${err}`,
-              message: {
-                err: 'Error in marketplaceController.publishProject, check server logs for details'
-              }
-            });
-          }
-          res.locals.publishedProject = result; //returns the entire document
-          return next();
-        }
-      );
+
+      if (mongoose.isValidObjectId(_id)) {
+        const publishedProject = await Projects.findOneAndUpdate
+          (        // looks in projects collection for project by Mongo id
+            { _id },
+            // update or insert the project
+            { project, createdAt, published: true, comments, name, userId, username },
+            // Options:
+            // upsert: true - if none found, inserts new project, otherwise updates it
+            // new: true - returns updated document not the original one
+            { upsert: true, new: true }
+          );
+        res.locals.publishedProject = publishedProject;
+        return next();
+      }else{
+        const noId = {...project};
+        delete noId._id; //removing the empty string _id from project
+        const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username });
+        res.locals.publishedProject = publishedProject.toObject({ minimize: false }); 
+        console.log('published backend new', res.locals.publishedProject)
+        return next();
+      }
     }
     else {
+      console.log('userId did not match')
       // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
       return next({
         log: 'Error in marketplaceController.publishProject', 

@@ -83,7 +83,7 @@ export const publishProject = (
   const publishedProject = response
     .then((res) => res.json())
     .then((data) => {
-      return data.project;
+      return {_id: data._id, ...data.project};
     })
     .catch((err) => {
       console.log(`Error publishing project ${err}`);

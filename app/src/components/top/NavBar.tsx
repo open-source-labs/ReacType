@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -22,6 +22,10 @@ const NavBar = () => {
   const isDarkMode = useSelector(
     (state: RootState) => state.darkMode.isDarkMode
   );
+
+  useEffect(()=>{
+    setProjectName(state.name)
+  }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -57,22 +61,24 @@ const NavBar = () => {
   };
 
   const handlePublish = () => {
+    console.log('projectName', projectName)
+    console.log('state.name', state.name)
     if (state.isLoggedIn === true && projectName === '') {
       setInvalidProjectName(true);
       setPublishModalOpen(true);
       return;
     }
     
-    if (state.name === '') { 
-      publishProject(state, projectName)
-        .then(() => {
-          console.log('Project published successfully');
-          setPublishModalOpen(false);
-        })
-        .catch((error) => {
-          console.error('Error publishing project:', error.message);
-        });
-      }
+
+    publishProject(state, projectName)
+      .then((promise) => {
+        console.log('Project published successfully', promise);
+        setPublishModalOpen(false);
+      })
+      .catch((error) => {
+        console.error('Error publishing project:', error.message);
+      });
+      
   };
   
   return (

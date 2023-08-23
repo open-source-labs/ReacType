@@ -15,7 +15,6 @@ export const initialState: State = {
   name: '',
   _id: '',
   forked: false,
-  _id: '',
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
   components: [
