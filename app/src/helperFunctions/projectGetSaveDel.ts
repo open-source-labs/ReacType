@@ -94,6 +94,36 @@ export const publishProject = (
   return publishedProject;
 };
 
+export const unpublishProject = (
+  projectData: State
+): Promise<Object> => {
+  const body = JSON.stringify({
+    _id: projectData._id,
+    userId: window.localStorage.getItem('ssid'),
+  });
+
+  const response = fetch(`${serverURL}/unpublishProject`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body,
+  });
+
+  const unpublishedProject = response
+    .then((res) => res.json())
+    .then((data) => {
+      console.log({_id: data._id, published: data.published, ...data.project});
+      return {_id: data._id, published: data.published, ...data.project};
+    })
+    .catch((err) => {
+      console.log(`Error unpublishing project ${err}`);
+      throw err;
+    });
+
+  return unpublishedProject;
+};
 
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
