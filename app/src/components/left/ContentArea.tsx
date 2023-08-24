@@ -5,12 +5,16 @@ import React from 'react';
 import RoomsContainer from './RoomsContainer';
 import TreeContainer from './TreeContainer';
 
-interface TabPanelProps {
-  activeTab: number;
-  index: number;
+interface ContentAreaProps {
+  activeTab: number | null;
+  isVisible: boolean;
 }
 
-const TabPanel: React.FC<TabPanelProps> = ({ children, activeTab, index }) => {
+const TabPanel: React.FC<{
+  children: React.ReactNode;
+  activeTab: number | null;
+  index: number;
+}> = ({ children, activeTab, index }) => {
   return (
     <Box hidden={activeTab !== index}>{activeTab === index && children}</Box>
   );
@@ -19,16 +23,17 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, activeTab, index }) => {
 const panels = [
   <ElementsContainer />,
   <ComponentsContainer />,
-  <TreeContainer />,
   <RoomsContainer />
 ];
-
-const ContentArea: React.FC<{ activeTab: number | null }> = ({ activeTab }) => {
+const ContentArea: React.FC<ContentAreaProps> = ({ activeTab, isVisible }) => {
   return (
-    <div className="left-container">
+    <div
+      className="left-container"
+      style={{ display: isVisible ? 'block' : 'none' }} // Visibility based on activeTab
+    >
       <div className="column left">
         {panels.map((panel, idx) => (
-          <TabPanel key={idx} activeTab={activeTab} index={idx}>
+          <TabPanel activeTab={activeTab} index={idx}>
             {panel}
           </TabPanel>
         ))}

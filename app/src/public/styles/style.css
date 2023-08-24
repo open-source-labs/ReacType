@@ -321,6 +321,10 @@ span.material-symbols-outlined {
   z-index: 1;
 }
 
+.hidden {
+  display: none;
+}
+
 /*
 /////////////////////////////////////////////////
 MAIN COLUMN
@@ -543,7 +547,7 @@ BOTTOM PANEL
   background-color: #003366;
   width: 100%;
   height: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
 
 }

@@ -22,7 +22,6 @@ const DemoRender = (): JSX.Element => {
   const demoContainerStyle = {
     width: '100%',
     backgroundColor: '#FBFBFB',
-    border: '2px Solid grey',
     borderBottom: 'none',
     overflow: 'auto'
   };

@@ -1,3 +1,4 @@
+import { Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@mui/material/Button';
@@ -92,16 +93,24 @@ const RoomsContainer = () => {
   }
   return (
     <div>
-      {' '}
-      <TextField
-        hiddenLabel
-        id="filled-hidden-label-small"
-        defaultValue="0"
-        variant="filled"
-        size="small"
-        onChange={(e) => setRoomCode(e.target.value)}
-      />
-      {/* <input
+      <Stack
+        spacing={2}
+        sx={{
+          paddingTop: '20px',
+          maxWidth: '230px',
+          alignItems: 'center',
+          margin: '0 auto 0 auto'
+        }}
+      >
+        {' '}
+        <TextField
+          hiddenLabel
+          id="filled-hidden-label-small"
+          variant="filled"
+          size="small"
+          onChange={(e) => setRoomCode(e.target.value)}
+        />
+        {/* <input
         type="text"
         style={{
           margin: '3px 5%',
@@ -112,23 +121,26 @@ const RoomsContainer = () => {
         placeholder="Room Code"
         onChange={(e) => setRoomCode(e.target.value)}
       ></input> */}
-      <Button
-        variant="contained"
-        onClick={() => joinRoom()}
-        sx={{
-          backgroundColor: '#ffffff',
-          color: '#000000',
-          '&:hover': {
-            backgroundColor: '#0069d9',
-            borderColor: '#0062cc',
-            boxShadow: 'none'
-          }
-        }}
-      >
-        Join Room
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => joinRoom()}
+          sx={{
+            backgroundColor: '#ffffff',
+            color: '#000000',
+            '&:hover': {
+              backgroundColor: '#C6C6C6',
+              borderColor: '#0062cc',
+              boxShadow: 'none'
+            }
+          }}
+        >
+          Join Room
+        </Button>
+        <Typography variant="h6" color={'white'}>
+          In Room: {joinedRoom}
+        </Typography>
+      </Stack>
       {/* <button onClick={() => joinRoom()}>Join Room</button> */}
-      <p>In Room: {joinedRoom}</p>
     </div>
   );
 };

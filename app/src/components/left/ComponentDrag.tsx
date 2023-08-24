@@ -54,7 +54,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4
+        {/* <h4
           className={
             !isDarkMode
               ? classes.lightThemeFontColor
@@ -83,7 +83,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
                 />
               );
             })}
-        </Grid>
+        </Grid> */}
       </div>
     </div>
   );
