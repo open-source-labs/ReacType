@@ -57,7 +57,7 @@ const TableParentProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px`, color: 'black'}}
+            style={{ width: `${3}px`, color: 'white'}}
             onClick={() => {
               addProps(params.row, params.id - 1);
             }}

@@ -70,7 +70,7 @@ function DirectChildComponent({
       ref={drag}
     >
         <span>
-          <strong>{name}</strong>
+          <strong style={{ color: 'white' }}>{name}</strong>
           <DeleteButton id={childId} name={name} />  
         </span>
 

@@ -130,9 +130,9 @@ const BottomTabs = (props): JSX.Element => {
         {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
         {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
         {/* {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />} */}
-        {tab === 4 && <Tree data={components} />}
-        {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-        {tab === 6 && (
+        {tab === 3 && <Tree data={components} />}
+        {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
+        {tab === 5 && (
           <StateManager
             theme={theme}
             setTheme={setTheme}

@@ -198,7 +198,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           />
           <TextField
             id="textfield-value"
-            label="initial value:"
+            label="initial value"
             variant="outlined"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -218,11 +218,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           >
             <InputLabel
               id="select-required-label"
-              className={
-                isThemeLight
-                  ? classes.greyThemeFontColor
-                  : classes.darkThemeFontColor
-              }
+              style={{color: 'black'}}
             >
               Type
             </InputLabel>
@@ -509,7 +505,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '90%',
     textAlign: 'center',
     margin: '-20px 0px 5px 150px',
-    borderStyle: 'none',
+    border: ' 1px solid #186BB4',
     transition: '0.3s',
     // borderRadius: "25px",
   },
@@ -524,7 +520,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: '#fff'
   },
   greyThemeFontColor: {
-    color: 'rgba(0,0,0,0.54)'
+    color: 'white'
   },
   formControl: {
     margin: '8px',
@@ -538,7 +534,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   rootLight: {
     '& .MuiFormLabel-root': {
-      color: 'rgba(0,0,0,0.54)'
+      color: 'white'
     }
   },
   rootDark: {
