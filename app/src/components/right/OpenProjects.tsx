@@ -24,7 +24,6 @@ export interface ProjectDialogProps {
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
   const { onClose, open, projects } = props;
-  console.log(projects)
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
@@ -55,11 +54,10 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Open Project</DialogTitle>
+      <DialogTitle style={{ color: "#297ac2" }} id="project-dialog-title">SAVED PROJECTS</DialogTitle>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">User Projects</DialogTitle>
       <List style={{ color: "#000" }}>
-      {projects.filter((project: any) => project.forked === undefined).map((project: any, index: number) => {
-  console.log("Logging something inside the map:", project.forked); // Add this line
-  return (
+      {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
     <ListItem
       button
       onClick={() => handleListItemClick(project.name)}
@@ -72,15 +70,13 @@ function ProjectsDialog(props: ProjectDialogProps) {
       </ListItemAvatar>
       <ListItemText primary={project.name} />
     </ListItem>
-  );
-})}
+  )
+)}
       </List>
       {/* this section handles the projects cloned from the marketplace */}
       <DialogTitle style={{ color: "#000" }} id="project-dialog-title">MP Projects</DialogTitle>
       <List style={{ color: "#000" }}>
-      {projects.filter((project: any) => project.forked !== undefined).map((project: any, index: number) => {
-  console.log("Logging something inside the second map:", project.forked); // Add this line
-  return (
+      {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => (
     <ListItem
       button
       onClick={() => handleListItemClick(project.name)}
@@ -93,8 +89,8 @@ function ProjectsDialog(props: ProjectDialogProps) {
       </ListItemAvatar>
       <ListItemText primary={project.name} />
     </ListItem>
-  );
-})}
+  )
+)}
       </List>
     </Dialog>
   );

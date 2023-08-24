@@ -53,9 +53,27 @@ function ProjectsDialog(props: ProjectDialogProps) {
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Delete Project</DialogTitle>
+      <DialogTitle style={{ color: "#297ac2" }} id="project-dialog-title">DELETE PROJECTS</DialogTitle>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">User Projects</DialogTitle>
       <List style={{ color: "#000" }}>
-        {projects.map((project: any, index: number) => (
+        {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
+          <ListItem
+            button
+            onClick={() => handleDelete(project.name)}
+            key={index}
+          >
+            <ListItemAvatar>
+              <Avatar className={classes.avatar}>
+                <DeleteRoundedIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={project.name} />
+          </ListItem>
+        ))}
+      </List>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title"> MP Projects</DialogTitle>
+      <List style={{ color: "#000" }}>
+        {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => (
           <ListItem
             button
             onClick={() => handleDelete(project.name)}

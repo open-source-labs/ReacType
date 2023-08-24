@@ -1,6 +1,6 @@
 import '../public/styles/style.css';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   setInitialState,
   toggleLoggedIn
@@ -19,16 +19,20 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
+  const [toggleAttempt, setToggleAttempt] = useState(false);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
   useEffect(() => {
     if (window.localStorage.getItem('ssid') !== 'guest') {
-      dispatch(toggleLoggedIn());
+      dispatch(toggleLoggedIn(true));
     }
+    //setToggleAttempt(!toggleAttempt);
   }, []);
 
   // following useEffect runs on first mount
   useEffect(() => {
+    console.log('state.isLoggedIn', state.isLoggedIn)
+    // console.log('cookies.get in App', Cookies.get())
     // if user is a guest, see if a project exists in localforage and retrieve it
     if (!state.isLoggedIn) {
       localforage.getItem('guestProject').then((project) => {
@@ -39,6 +43,7 @@ export const App = (): JSX.Element => {
       });
     } else {
       // otherwise if a user is logged in, use a fetch request to load user's projects from DB
+      
       let userId;
       if (Cookies.get('ssid')) {
         userId = Cookies.get('ssid');

@@ -2,7 +2,9 @@ import { DragObjectWithType } from 'react-dnd';
 
 export interface State {
   name: string;
+  _id: string;
   forked: boolean;
+  published: boolean;
   isLoggedIn: boolean;
   components: Component[];
   rootComponents: number[];
@@ -129,6 +131,12 @@ export interface Attributes {
   compText?: string;
   compLink?: string;
 }
+
+// interface PublishResponse {
+//   success: boolean; 
+//   error?: string;
+// }
+
 
 export interface Arrow {
   renderArrow: (id: number) => any;

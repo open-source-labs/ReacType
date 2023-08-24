@@ -13,7 +13,9 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 
 export const initialState: State = {
   name: '',
+  _id: '',
   forked: false,
+  published: false,
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
   components: [
@@ -770,6 +772,14 @@ const appStateSlice = createSlice({
       const projectName = action.payload;
       state.name = projectName;
     },
+    updateProjectId: (state, action) => {
+      const projectId = action.payload; //updates the slice with new _id
+      state._id = projectId;
+    },
+    updateProjectPublished: (state, action) => {
+      const projectPublished = action.payload; 
+      state.published = projectPublished;
+    },
     deleteElement: (state, action) => {
       let name: string = '';
       const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter((el) => {
@@ -1248,8 +1258,8 @@ const appStateSlice = createSlice({
       state.components = components;
     },
 
-    toggleLoggedIn: (state) => {
-      state.isLoggedIn = !state.isLoggedIn;
+    toggleLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
 
     snapShotAction: (state, action) => {
@@ -1292,6 +1302,8 @@ export const {
   changeProjectType,
   resetState,
   updateProjectName,
+  updateProjectId,
+  updateProjectPublished,
   deleteElement,
   updateAttributes,
   deleteChild,
