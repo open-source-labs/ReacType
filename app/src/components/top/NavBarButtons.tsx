@@ -1,4 +1,6 @@
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Button } from '@mui/material';
 import DeleteProjects from '../right/DeleteProjects';
 import ExportButton from '../right/ExportButton';
@@ -10,7 +12,6 @@ import LoginButton from '../right/LoginButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ProjectsFolder from '../right/OpenProjects';
-import React, { useEffect, useRef } from 'react';
 import { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
@@ -184,7 +185,6 @@ const StyledMenuItem = withStyles((theme) => ({
 function navbarDropDown(props) {
   const dispatch = useDispatch();
 
-
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [roomCode, setRoomCode] = React.useState('');
@@ -200,9 +200,6 @@ function navbarDropDown(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-
-
 
   const clearWorkspace = () => {
     // Reset state for project to initial state
@@ -296,34 +293,35 @@ function navbarDropDown(props) {
   );
 
   let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
-  
+
   //for closing the menu on clicks outside of it.
   const useOutsideClick = (callback) => {
-    
     const dropdownRef = useRef(null);
-    
+
     useEffect(() => {
       const handleClick = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
           callback();
         }
-      }
+      };
       document.addEventListener('click', handleClick, true);
-      
+
       return () => {
-        document.removeEventListener('click', handleClick, true);//cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+        document.removeEventListener('click', handleClick, true); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
       };
     }, [dropdownRef]);
 
-    return dropdownRef
-    
-  }
-  
+    return dropdownRef;
+  };
+
   const ref = useOutsideClick(handleClose);
 
   return (
     // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
-    <div ref={ref} className={showMenu}> 
+    <div ref={ref} className={showMenu}>
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial
@@ -352,7 +350,7 @@ function navbarDropDown(props) {
           <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
         </svg>
       </button>
-      {<ExportButton />}
+      {/* {<ExportButton />} */}
 
       <button onClick={handleDarkModeToggle}>
         {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
@@ -372,19 +370,6 @@ function navbarDropDown(props) {
           </svg>
         </button>
       )}
-      <input
-        type="text"
-        style={{
-          margin: '3px 5%',
-          borderRadius: '5px',
-          padding: '3px',
-          width: '90%'
-        }}
-        placeholder="Room Code"
-        onChange={(e) => setRoomCode(e.target.value)}
-      ></input>
-      <button onClick={() => joinRoom()}>Join Room</button>
-      <p>In Room: {joinedRoom}</p>
       <Link to="/marketplace" style={{ textDecoration: 'none' }}>
         <button>
           Marketplace
