@@ -103,11 +103,11 @@ function DirectChildHTMLNestable({
   // priority order is 1) style directly set for this child (style), 2) style of the referenced HTML element, and 3) default styling
   const defaultNestableStyle = { ...globalDefaultStyle };
   const separatorStyle = {
-    padding: '5px 10px',
+    padding: '2px 10px',
     margin: '1px 10px',
   };
 
-  defaultNestableStyle['backgroundColor'] = isOver ? 'yellow' : 'rgba(0, 0, 255, 0.0)';
+  defaultNestableStyle['backgroundColor'] = isOver ? '#cee2f5' : 'rgba(0, 0, 255, 0.0)';
 
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(defaultNestableStyle, HTMLType.style), style),
