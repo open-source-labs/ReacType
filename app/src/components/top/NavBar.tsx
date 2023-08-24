@@ -10,6 +10,7 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { publishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
+import html2canvas from 'html2canvas';
 
 
 const NavBar = () => {
@@ -68,6 +69,10 @@ const NavBar = () => {
       setPublishModalOpen(true);
       return;
     }
+
+    // need a way to grab the image and store the image in aws, tied to click of publish
+    // need to store a ref on the demorender component, maybe in redux?
+    // on publish, we need to find the component, take a screenshot, and store it in aws
     
 
     publishProject(state, projectName)

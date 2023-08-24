@@ -5,6 +5,8 @@ import React from 'react';
 
 
 const MarketplaceCardContainer = ({displayProjects}) => {
+  // need a function to get all images stored in aws images
+  // drill down the image as a variable
 
 
   return (
