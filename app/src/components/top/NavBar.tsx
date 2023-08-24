@@ -88,17 +88,6 @@ const NavBar = () => {
       
     };
 
-    useEffect(()=>{
-      console.log('stateName = ',state.name);
-      console.log('published =', state.published);   
-    }, [state.name, state.published])
-
-    // handleUnpublish = () => {
-    //   .then((project:State) => {
-    //     dispatch(updateProjectPublished(project.published(false));
-    //   })
-    // }
-
     const handleUnpublish = () => {
       unpublishProject(state)
         .then((unpublishedProject: State) => {
@@ -109,10 +98,6 @@ const NavBar = () => {
           console.error('Error unpublishing project:', error.message);
         });
     };
-  
-// In handlePublish pass in state 
-//check to see if user is logged the same way as in publish project for the most part
-// then somehow do dispatch(updateProjectPublished(newProject.published === false))
   
   return (
     <nav

@@ -39,7 +39,6 @@ const marketplaceController: MarketplaceController = {
   publishProject: async (req, res, next) => {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
-    console.log('Publish Project', _id, project, comments, userId, username, name )
 
     if (userId === req.cookies.ssid) {
 

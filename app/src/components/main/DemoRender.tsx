@@ -23,7 +23,8 @@ const DemoRender = (): JSX.Element => {
     width: '100%',
     backgroundColor: '#FBFBFB',
     borderBottom: 'none',
-    overflow: 'auto'
+    overflow: 'auto',
+ 
   };
 
   const html = `
@@ -48,6 +49,10 @@ const DemoRender = (): JSX.Element => {
               app.innerHTML = '<div style="color: red;"><h4>Syntax Error</h4>' + err + '</div>';
             }
           }, false);
+          const handleClickInsideIframe = () => {
+            window.parent.postMessage('iframeClicked', '*');
+          };
+          window.addEventListener('click', handleClickInsideIframe);
         </script>
       </body>
     </html>
@@ -200,6 +205,7 @@ const DemoRender = (): JSX.Element => {
           srcDoc={html}
           width="100%"
           height="100%"
+          style = {{zIndex: -30}}
         />
       </div>
     </>
