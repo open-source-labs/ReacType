@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Ref, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '@mui/material';
@@ -295,29 +295,39 @@ function navbarDropDown(props) {
   let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
 
   //for closing the menu on clicks outside of it.
-  const useOutsideClick = (callback) => {
+  const useOutsideClick = () => {
     const dropdownRef = useRef(null);
 
     useEffect(() => {
       const handleClick = (event) => {
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target)
+        if (event.type === "click" &&
+          (dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)) || event.type === "message" && event.data === 'iframeClicked'
         ) {
-          callback();
+          handleClose();
         }
       };
-      document.addEventListener('click', handleClick, true);
+      window.addEventListener('click', handleClick, true);
+      window.addEventListener('message', handleClick);//to capture clicks in the iframe
 
       return () => {
-        document.removeEventListener('click', handleClick, true); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+        window.removeEventListener('click', handleClick, true);
+        window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
       };
     }, [dropdownRef]);
 
     return dropdownRef;
   };
 
-  const ref = useOutsideClick(handleClose);
+  const ref = useOutsideClick();
+
+  // const handleMessage = (event) => {
+  //   if (event.data === 'iframeClicked') {
+  //     // Handle the click event here, e.g., close the dropdown menu
+  //     handleClose();
+  //   }
+  // };
+  // window.addEventListener('message', handleMessage);
 
   return (
     // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup

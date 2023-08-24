@@ -8,7 +8,7 @@ import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
 import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { publishProject } from '../../helperFunctions/projectGetSaveDel';
+import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
 import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
@@ -88,10 +88,16 @@ const NavBar = () => {
       
     };
 
-    useEffect(()=>{
-      console.log('stateName = ',state.name);
-      console.log('published =', state.published);   
-    }, [state.name, state.published])
+    const handleUnpublish = () => {
+      unpublishProject(state)
+        .then((unpublishedProject: State) => {
+          console.log('Project unpublished successfully', unpublishedProject);
+          dispatch(updateProjectPublished(false)); 
+        })
+        .catch((error) => {
+          console.error('Error unpublishing project:', error.message);
+        });
+    };
   
   return (
     <nav
@@ -111,9 +117,15 @@ const NavBar = () => {
         </div>
       </Link>
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle} onClick={handlePublish}>
-          Publish
-        </button>
+        {state.published ? (
+          <button style={buttonStyle} onClick={handleUnpublish}>
+            Unpublish
+          </button>
+        ) : (
+          <button style={buttonStyle} onClick={handlePublish}>
+            Publish
+          </button>
+        )}
         <NewExportButton />
         <Button
           style={moreVertButtonStyle}

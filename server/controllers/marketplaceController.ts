@@ -39,7 +39,6 @@ const marketplaceController: MarketplaceController = {
   publishProject: async (req, res, next) => {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
-    console.log('Publish Project', _id, project, comments, userId, username, name )
 
     if (userId === req.cookies.ssid) {
 
@@ -47,6 +46,7 @@ const marketplaceController: MarketplaceController = {
 
         const noPub = {...project}
         delete noPub.published;
+        delete noPub._id;
         const publishedProject = await Projects.findOneAndUpdate
           (        // looks in projects collection for project by Mongo id
             { _id },

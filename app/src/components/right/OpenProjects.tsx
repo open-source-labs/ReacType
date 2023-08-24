@@ -32,21 +32,15 @@ function ProjectsDialog(props: ProjectDialogProps) {
   };
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
+    console.log('hadleList value', value)
     const selectedProject = projects.filter(
-      (project: any) => project.name === value
+      (project: any) => project._id === value
     )[0];
     // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     console.log(selectedProject);
     dispatch(openProject(selectedProject))
     onClose();
   };
-  // these two filter between user projects and market projects
-  // const userProjects = projects.filter((project: any) => {
-  //   project.forked === undefined
-  // })
-  // const marketProjects = projects.filter((project: any) => {
-  //   project.forked !== undefined
-  // })
 
   return (
     <Dialog
@@ -60,7 +54,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
       {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
     <ListItem
       button
-      onClick={() => handleListItemClick(project.name)}
+      onClick={() => handleListItemClick(project._id)}
       key={index}
     >
       <ListItemAvatar>
@@ -76,10 +70,10 @@ function ProjectsDialog(props: ProjectDialogProps) {
       {/* this section handles the projects cloned from the marketplace */}
       <DialogTitle style={{ color: "#000" }} id="project-dialog-title">MP Projects</DialogTitle>
       <List style={{ color: "#000" }}>
-      {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => (
+      {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => ( 
     <ListItem
       button
-      onClick={() => handleListItemClick(project.name)}
+      onClick={() => handleListItemClick(project._id)}
       key={index}
     >
       <ListItemAvatar>
