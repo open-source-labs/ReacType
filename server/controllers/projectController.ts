@@ -1,5 +1,6 @@
 import { ProjectController } from '../interfaces';
 import { Projects } from '../models/reactypeModels';
+import { State} from '../../app/src/interfaces/Interfaces'
 
 // array of objects, objects inside
 type Projects = { project: {} }[];
@@ -7,8 +8,12 @@ type Projects = { project: {} }[];
 const projectController: ProjectController = {
   // saveProject saves current workspace to database
   saveProject: (req, res, next) => {
+    
     // pull project name and project itself from body
     const { name, project, userId, username, comments } = req.body;
+    //deleted published from project
+    const noPub = {...project};
+    delete noPub.published;
     // create createdBy field for the document
     const createdAt = Date.now();
     // pull ssid from cookies for user id
@@ -16,7 +21,7 @@ const projectController: ProjectController = {
       // looks in projects collection for project by user and name
       { name, userId, username},
       // update or insert the project
-      { project, createdAt, comments },
+      { project: noPub, createdAt, published: false, comments },
       // Options:
       // upsert: true - if none found, inserts new project, if found, updates project
       // new: true - returns updated document not the original one
@@ -39,7 +44,7 @@ const projectController: ProjectController = {
   // gets all of current user's projects
   getProjects: (req, res, next) => {
     const { userId } = req.body;
-    Projects.find({ userId }, (err, projects: Array<{_id: string; project: any }>) => {
+    Projects.find({ userId }, (err, projects: Array<{_id: string; published: boolean; project: object }>) => {
       if (err) {
         return next({
           log: `Error in projectController.getProjects: ${err}`,
@@ -49,8 +54,9 @@ const projectController: ProjectController = {
         });
       }
       // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map((elem) =>({
+      res.locals.projects = projects.map((elem: {_id: string; published: boolean; project: object } ) =>({
         _id: elem._id,
+        published: elem.published,
         ...elem.project
       }));
       return next();
