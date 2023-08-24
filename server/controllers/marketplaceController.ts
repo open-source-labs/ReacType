@@ -47,6 +47,7 @@ const marketplaceController: MarketplaceController = {
 
         const noPub = {...project}
         delete noPub.published;
+        delete noPub._id;
         const publishedProject = await Projects.findOneAndUpdate
           (        // looks in projects collection for project by Mongo id
             { _id },
