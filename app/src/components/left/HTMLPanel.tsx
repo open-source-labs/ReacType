@@ -199,7 +199,7 @@ const HTMLPanel = (props): JSX.Element => {
               style={{ margin: '10px' }}
               InputProps={{
                 style: {
-                  color: !isDarkMode ? 'black' : 'white'
+                  color: !isDarkMode ? 'white' : 'white'
                 }
               }}
             />
@@ -247,7 +247,7 @@ const HTMLPanel = (props): JSX.Element => {
               style={{}}
               InputProps={{
                 style: {
-                  color: !isDarkMode ? 'black' : 'white'
+                  color: !isDarkMode ? 'white' : 'white'
                 }
               }}
             />
