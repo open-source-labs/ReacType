@@ -44,11 +44,14 @@ const marketplaceController: MarketplaceController = {
     if (userId === req.cookies.ssid) {
 
       if (mongoose.isValidObjectId(_id)) {
+
+        const noPub = {...project}
+        delete noPub.published;
         const publishedProject = await Projects.findOneAndUpdate
           (        // looks in projects collection for project by Mongo id
             { _id },
             // update or insert the project
-            { project, createdAt, published: true, comments, name, userId, username },
+            { project: noPub, createdAt, published: true, comments, name, userId, username },
             // Options:
             // upsert: true - if none found, inserts new project, otherwise updates it
             // new: true - returns updated document not the original one
@@ -58,7 +61,8 @@ const marketplaceController: MarketplaceController = {
         return next();
       }else{
         const noId = {...project};
-        delete noId._id; //removing the empty string _id from project
+        delete noId._id;  //removing the empty string _id from project
+        delete noId.published;
         const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username });
         res.locals.publishedProject = publishedProject.toObject({ minimize: false }); 
         console.log('published backend new', res.locals.publishedProject)

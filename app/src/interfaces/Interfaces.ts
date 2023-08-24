@@ -4,7 +4,7 @@ export interface State {
   name: string;
   _id: string;
   forked: boolean;
-  _id: string;
+  published: boolean;
   isLoggedIn: boolean;
   components: Component[];
   rootComponents: number[];

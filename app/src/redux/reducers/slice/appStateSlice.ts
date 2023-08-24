@@ -15,6 +15,7 @@ export const initialState: State = {
   name: '',
   _id: '',
   forked: false,
+  published: false,
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
   components: [
@@ -775,6 +776,10 @@ const appStateSlice = createSlice({
       const projectId = action.payload; //updates the slice with new _id
       state._id = projectId;
     },
+    updateProjectPublished: (state, action) => {
+      const projectPublished = action.payload; 
+      state.published = projectPublished;
+    },
     deleteElement: (state, action) => {
       let name: string = '';
       const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter((el) => {
@@ -1298,6 +1303,7 @@ export const {
   resetState,
   updateProjectName,
   updateProjectId,
+  updateProjectPublished,
   deleteElement,
   updateAttributes,
   deleteChild,

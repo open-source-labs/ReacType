@@ -10,6 +10,8 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { publishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
+import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
+import { State } from '../../interfaces/Interfaces';
 
 
 const NavBar = () => {
@@ -22,6 +24,8 @@ const NavBar = () => {
   const isDarkMode = useSelector(
     (state: RootState) => state.darkMode.isDarkMode
   );
+
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     setProjectName(state.name)
@@ -71,15 +75,23 @@ const NavBar = () => {
     
 
     publishProject(state, projectName)
-      .then((promise) => {
-        console.log('Project published successfully', promise);
+      .then((newProject: State) => {
+        console.log('Project published successfully', newProject);
         setPublishModalOpen(false);
+        dispatch(updateProjectId(newProject._id))
+        dispatch(updateProjectName(newProject.name))
+        dispatch(updateProjectPublished(newProject.published))
       })
       .catch((error) => {
         console.error('Error publishing project:', error.message);
       });
       
-  };
+    };
+
+    useEffect(()=>{
+      console.log('stateName = ',state.name);
+      console.log('published =', state.published);   
+    }, [state.name, state.published])
   
   return (
     <nav

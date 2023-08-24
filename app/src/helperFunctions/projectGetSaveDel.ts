@@ -52,7 +52,7 @@ export const saveProject = (
   })
     .then((res) => res.json())
     .then((data) => {
-      return {_id: data._id, ...data.project}; //passing up what is needed for the global appstateslice
+      return {_id: data._id, published:data.published, ...data.project}; //passing up what is needed for the global appstateslice
     })
     .catch((err) => console.log(`Error saving project ${err}`));
   return project;//returns _id in addition to the project object from the document
@@ -83,7 +83,8 @@ export const publishProject = (
   const publishedProject = response
     .then((res) => res.json())
     .then((data) => {
-      return {_id: data._id, ...data.project};
+      console.log({_id: data._id, published: data.published, ...data.project});
+      return {_id: data._id, published: data.published, ...data.project};
     })
     .catch((err) => {
       console.log(`Error publishing project ${err}`);
