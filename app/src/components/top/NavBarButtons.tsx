@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Button } from '@mui/material';
 import DeleteProjects from '../right/DeleteProjects';
 import ExportButton from '../right/ExportButton';
@@ -8,11 +7,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import LoginButton from '../right/LoginButton';
-import MarketplaceButton from '../right/MarketplaceButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ProjectsFolder from '../right/OpenProjects';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { RootState } from '../../redux/store';
 import SaveProjectButton from '../right/SaveProjectButton';
 import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
@@ -185,6 +183,8 @@ const StyledMenuItem = withStyles((theme) => ({
 // where the main function starts //
 function navbarDropDown(props) {
   const dispatch = useDispatch();
+
+
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [roomCode, setRoomCode] = React.useState('');
@@ -200,6 +200,9 @@ function navbarDropDown(props) {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+
+
 
   const clearWorkspace = () => {
     // Reset state for project to initial state
@@ -292,10 +295,35 @@ function navbarDropDown(props) {
     </svg>
   );
 
-  const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  
+  //for closing the menu on clicks outside of it.
+  const useOutsideClick = (callback) => {
+    
+    const dropdownRef = useRef(null);
+    
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          callback();
+        }
+      }
+      document.addEventListener('click', handleClick, true);
+      
+      return () => {
+        document.removeEventListener('click', handleClick, true);//cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+      };
+    }, [dropdownRef]);
+
+    return dropdownRef
+    
+  }
+  
+  const ref = useOutsideClick(handleClose);
 
   return (
-    <div className={showMenu}>
+    // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
+    <div ref={ref} className={showMenu}> 
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial
@@ -357,7 +385,7 @@ function navbarDropDown(props) {
       ></input>
       <button onClick={() => joinRoom()}>Join Room</button>
       <p>In Room: {joinedRoom}</p>
-      <Link to="/marketplace" style={{ textDecoration: 'none' }} target="_blank">
+      <Link to="/marketplace" style={{ textDecoration: 'none' }}>
         <button>
           Marketplace
           <svg

@@ -1,3 +1,5 @@
+import { State } from "../interfaces/Interfaces";
+
 const isDev = process.env.NODE_ENV === 'development';
 const { DEV_PORT, API_BASE_URL } = require('../../../config.js');
 let serverURL = API_BASE_URL;
@@ -31,9 +33,11 @@ export const saveProject = (
   name: String,
   workspace: Object
 ): Promise<Object> => {
+  const newProject = { ...workspace}
+  delete newProject['_id']; //deleting the _id from the current state slice. We don't actually want it in the project object in the mongo db document
   const body = JSON.stringify({
     name,
-    project: { ...workspace, name },
+    project: { ...newProject, name },
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: []
@@ -48,11 +52,48 @@ export const saveProject = (
   })
     .then((res) => res.json())
     .then((data) => {
-      return data.project;
+      return {_id: data._id, published:data.published, ...data.project}; //passing up what is needed for the global appstateslice
     })
     .catch((err) => console.log(`Error saving project ${err}`));
-  return project;
+  return project;//returns _id in addition to the project object from the document
 };
+
+export const publishProject = (
+  projectData: State, 
+  projectName: string
+): Promise<Object> => {
+  const body = JSON.stringify({
+    _id: projectData._id, 
+    project: { ...projectData, name: projectName },
+    userId: window.localStorage.getItem('ssid'),
+    username: window.localStorage.getItem('username'),
+    comments: [],
+    name: projectName,
+  });
+
+  const response = fetch(`${serverURL}/publishProject`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body
+  });
+
+  const publishedProject = response
+    .then((res) => res.json())
+    .then((data) => {
+      console.log({_id: data._id, published: data.published, ...data.project});
+      return {_id: data._id, published: data.published, ...data.project};
+    })
+    .catch((err) => {
+      console.log(`Error publishing project ${err}`);
+      throw err;
+    });
+
+  return publishedProject;
+};
+
 
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({

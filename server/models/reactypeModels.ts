@@ -96,7 +96,7 @@ const projectSchema = new Schema(
       }
     ]
   },
-  { minimize: true }
+  { minimize: false }//changed to false -dw
 );
 
 export const Users = mongoose.model('Users', userSchema);
