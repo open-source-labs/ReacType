@@ -32,7 +32,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
   };
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
-    console.log('hadleList value', value)
     const selectedProject = projects.filter(
       (project: any) => project._id === value
     )[0];

@@ -14,7 +14,6 @@ const SearchBar = ({marketplaceProjects, updateDisplayProjects }):JSX.Element =>
 
   
   useEffect(()=>{
-           
     if(searchText === ''){
 
       updateDisplayProjects(marketplaceProjects)
@@ -34,7 +33,9 @@ const SearchBar = ({marketplaceProjects, updateDisplayProjects }):JSX.Element =>
       //test3 and 1test) would both match for string 'test'
 
       const searchResults = marketplaceProjects.reduce((results, curr) => {
-        if(curr.name.match(patternString) || curr.username.match(patternString2))
+        const lowName = curr.name.toLowerCase()
+        const lowUsername = curr.username.toLowerCase()
+        if(lowName.match(patternString) || lowUsername.match(patternString2))
           results.push(curr)
         return results;
       }, [])

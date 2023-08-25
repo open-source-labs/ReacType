@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 import { MoreVert } from '@mui/icons-material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import axios from 'axios';
@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
-import { openProject } from '../../redux/reducers/slice/appStateSlice';
+import { openProject, resetAllState } from '../../redux/reducers/slice/appStateSlice';
 
 interface Project {
   forked: String,
@@ -50,10 +50,11 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   const handleClone = async () => { // creates a copy of the project 
     const docId = proj._id;
     const response = await axios.get(`/cloneProject/${docId}`, { params: { username: window.localStorage.getItem('username') } });//passing in username as a query param is query params
-    const project = response.data.project;
+    const project = response.data;
+    console.log('handleClone project', response.data)
     alert('Project cloned!');
     setAnchorEl(null);
-    return project;
+    return {_id: project._id, name: project.name, published: project.published, ...project.project};
   };
   
   const handleCloneOpen = async() => {
@@ -64,6 +65,8 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
 
 
   return (

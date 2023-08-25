@@ -63,8 +63,8 @@ const marketplaceController: MarketplaceController = {
         const noId = {...project};
         delete noId._id;  //removing the empty string _id from project
         delete noId.published;
-        const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username });
-        res.locals.publishedProject = publishedProject.toObject({ minimize: false }); 
+        const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username })
+        res.locals.publishedProject = publishedProject.toObject({ minimize: false });
         console.log('published backend new', res.locals.publishedProject)
         return next();
       }
@@ -101,7 +101,7 @@ const marketplaceController: MarketplaceController = {
             }
           });
         }
-        res.locals.unpublishedProject = result;
+        res.locals.unpublishedProject = result.toObject({ minimize: false });
         return next();
       });
     }
