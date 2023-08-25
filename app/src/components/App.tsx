@@ -30,8 +30,6 @@ export const App = (): JSX.Element => {
     //setToggleAttempt(!toggleAttempt);
   }, []);
 
-  useEffect(()=>{console.log(state)}, [state])
-
   // following useEffect runs on first mount
   useEffect(() => {
     console.log('state.isLoggedIn', state.isLoggedIn)

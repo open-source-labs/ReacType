@@ -26,7 +26,7 @@ export const getProjects = (): Promise<any> => {
       return data;
     })
     .catch((err) => console.log(`Error getting project ${err}`));
-  return projects;
+  return projects;//returns an array of projects with _id, name, project
 };
 
 export const saveProject = (
@@ -53,7 +53,7 @@ export const saveProject = (
   })
     .then((res) => res.json())
     .then((data) => {
-      return {_id: data._id, name: data.name, published:data.published, ...data.project}; //passing up what is needed for the global appstateslice
+      return {_id: data._id, name: data.name, published: data.published, ...data.project}; //passing up what is needed for the global appstateslice
     })
     .catch((err) => console.log(`Error saving project ${err}`));
   return project;//returns _id in addition to the project object from the document
@@ -130,7 +130,7 @@ export const unpublishProject = (
 
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
-    name: project.name,
+    _id: project._id,
     userId: window.localStorage.getItem('ssid')
   });
   const deletedProject = fetch(`${serverURL}/deleteProject`, {
@@ -143,7 +143,7 @@ export const deleteProject = (project: any): Promise<Object> => {
   })
     .then((res) => res.json())
     .then((data) => {
-      return data;
+      return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => console.log(`Error deleting project ${err}`));
   return deletedProject;

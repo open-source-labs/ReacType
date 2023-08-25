@@ -65,8 +65,6 @@ const NavBar = () => {
   };
 
   const handlePublish = () => {
-    console.log('projectName', projectName)
-    console.log('state.name', state.name)
     if (state.isLoggedIn === true && projectName === '') {
       setInvalidProjectName(true);
       setPublishModalOpen(true);

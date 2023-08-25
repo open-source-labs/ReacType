@@ -68,8 +68,8 @@ const projectController: ProjectController = {
   // delete project from database **currently not integrated into app**
   deleteProject: (req, res, next) => {
     // pull project name and userId from req.body
-    const { name, userId } = req.body;
-    Projects.findOneAndDelete({ name, userId }, null, (err, deleted) => {
+    const { _id, userId } = req.body;
+    Projects.findOneAndDelete({ _id, userId }, null, (err, deleted) => {
       if (err) {
         return next({
           log: `Error in projectController.deleteProject: ${err}`,
