@@ -74,7 +74,7 @@ const NavBar = () => {
     }
     
 
-    publishProject(state, projectName)
+    publishProject(projectName, state)
       .then((newProject: State) => {
         console.log('Project published successfully', newProject);
         setPublishModalOpen(false);

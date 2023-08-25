@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
-import { openProject } from '../../redux/reducers/slice/appStateSlice';
+import { openProject, resetAllState } from '../../redux/reducers/slice/appStateSlice';
 
 interface Project {
   forked: String,

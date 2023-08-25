@@ -54,8 +54,9 @@ const projectController: ProjectController = {
         });
       }
       // so it returns each project like it is in state, not the whole object in DB
-      res.locals.projects = projects.map((elem: {_id: string; published: boolean; project: object } ) =>({
+      res.locals.projects = projects.map((elem: {_id: string; name: string; published: boolean; project: object } ) =>({
         _id: elem._id,
+        name: elem.name,
         published: elem.published,
         ...elem.project
       }));

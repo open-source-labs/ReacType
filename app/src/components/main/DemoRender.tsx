@@ -1,4 +1,4 @@
-import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Link, Route, BrowserRouter as Router, Switch, useHistory } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,6 +15,7 @@ const DemoRender = (): JSX.Element => {
   const stylesheet = useSelector(
     (store: RootState) => store.appState.stylesheet
   );
+  const backHome = useHistory();
   const dispatch = useDispatch();
 
   // Create React ref to inject transpiled code in inframe
@@ -193,7 +194,12 @@ const DemoRender = (): JSX.Element => {
 
   //adds the code into the iframe
   useEffect(() => {
+    //load the current state code when the iframe is loaded and when code changes
+    iframe.current.addEventListener('load', ()=>{
+      iframe.current.contentWindow.postMessage(code, '*');
+    })
     iframe.current.contentWindow.postMessage(code, '*');
+
   }, [code]);
 
   return (
