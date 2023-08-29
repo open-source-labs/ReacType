@@ -19,7 +19,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Display all root components */}
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
-      <div className={classes.panelWrapperList}>
+      <div className={classes.panelWrapperList} style={{minWidth: "100px"}}>
         {/* Heading just below ADD button */}
         <h4
           className={
@@ -37,6 +37,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))
@@ -99,13 +100,6 @@ const useStyles = makeStyles({
   },
   panelWrapperList: {
     minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    wordWrap: 'break-word'
   },
   lightThemeFontColor: {
     color: '#fff'

@@ -11,20 +11,27 @@ interface SidebarProps {
   toggleVisibility: (state: boolean) => void;
 }
 
+let oldValue = 0;
+
 const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
   toggleVisibility
 }) => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    if (activeTab === newValue) {
+    setActiveTab(newValue);
+    toggleVisibility(true);// Show the left-container when a different tab is clicked 
+    oldValue = newValue;//setting the oldvalue to match the new tab
+    console.log('oldValue change', oldValue)
+  };
+
+  const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
+    if (activeTab === oldValue) { //if the person is clicking the same tab, oldValue should match activeTab since it did not trigger an onChange
+      console.log('handleTabChange null', oldValue)
       setActiveTab(null);
       toggleVisibility(false); // Hide the left-container when the same tab is clicked again
-    } else {
-      setActiveTab(newValue);
-      toggleVisibility(true); // Show the left-container when another tab is activated
     }
-  };
+  }
 
   return (
     <Tabs
@@ -32,7 +39,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       orientation="vertical"
       variant="scrollable"
       value={activeTab}
-      onChange={handleTabChange}
+      onChange = {handleTabChange}
+      onClick = {(e: React.MouseEvent) => handleTabClick(e, oldValue)}
       TabIndicatorProps={{
         style: {
           backgroundColor: '#4A4A4A'
@@ -50,6 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         height: '100vh'
       }}
     >
+      <Tab sx={{position: 'absolute', visibility: "hidden"}} value={null}/>
       <Tab
         sx={{
           color: activeTab === 0 ? '#C6C6C6' : '#4A4A4A',
