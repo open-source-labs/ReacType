@@ -19,7 +19,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
     <div className={classes.panelWrapper}>
       {/* Display all root components */}
       {/* Font size for 'index' in root components in .compPanelItem h3 style.css */}
-      <div className={classes.panelWrapperList} style={{minWidth: "100px"}}>
+      <div className={classes.panelWrapperList}>
         {/* Heading just below ADD button */}
         <h4
           className={
