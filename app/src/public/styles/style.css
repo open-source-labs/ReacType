@@ -477,13 +477,14 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  word-wrap: break-word;
+      
 }
 
 .compPanelItem h3 {
   font-size: 1em;
   letter-spacing: 0.75px;
   padding: 5px 10px;
+  
 }
 
 .compPanelItem:hover {

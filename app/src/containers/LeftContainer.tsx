@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ContentArea from '../components/left/ContentArea';
 import { BrowserRouter as Router } from 'react-router-dom';
