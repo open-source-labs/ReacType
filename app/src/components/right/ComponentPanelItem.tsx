@@ -49,9 +49,9 @@ const ComponentPanelItem: React.FC<{
     <Grid
       item
       ref={drag}
-      xs={8}
+      xs= {8}
       style={{
-        display: 'grid',
+        // display: 'grid',
         color: isThemeLight ? 'black' : 'white',
         backgroundColor: 'transparent',
         // border: root
@@ -62,7 +62,9 @@ const ComponentPanelItem: React.FC<{
           : '2px solid white',
         borderRadius: '4px',
         borderColor: '#000000',
-        margin: '5px 0px'
+        margin: '5px 0px',
+        wordBreak: 'break-all',
+        width: '10rem'
       }}
     >
       {isFocus && <div className={classes.focusMark}></div>}  
@@ -82,6 +84,7 @@ const useStyles = makeStyles({
     width: '12px',
     height: '12px',
     borderRadius: '25px',
+    position: 'absolute'//so it doesn't cause the containing box to jiggle when selected due to change in size
   },
   lightTheme: {
     color: 'rgba (0, 0, 0, 0.54)'

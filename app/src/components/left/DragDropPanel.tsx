@@ -86,7 +86,7 @@ const DragDropPanel = (props): JSX.Element => {
               state.projectType === 'Classic React'
             ) {
               return (
-                <Grid item xs={2} sm={2} md={2}>
+                <Grid item xs={2} sm={2} md={2} key={option.name}>
                   <HTMLItem
                     name={option.name}
                     key={`html-${option.name}`}

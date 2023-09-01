@@ -33,7 +33,7 @@ const ContentArea: React.FC<ContentAreaProps> = ({ activeTab, isVisible }) => {
     >
       <div className="column left">
         {panels.map((panel, idx) => (
-          <TabPanel activeTab={activeTab} index={idx}>
+          <TabPanel activeTab={activeTab} index={idx} key={idx}>
             {panel}
           </TabPanel>
         ))}
