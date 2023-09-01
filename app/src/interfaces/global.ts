@@ -4,4 +4,5 @@ declare global {
     api: any;
   }
 }
+
 let api = window.api;

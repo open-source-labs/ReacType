@@ -12,52 +12,63 @@ import {
   Typography,
   styled
 } from '@mui/material';
+import React, { useEffect } from 'react';
+import {
+  openProject,
+  resetAllState
+} from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { MoreVert } from '@mui/icons-material';
-import React, { useEffect } from 'react';
+import { RootState } from '../../redux/store';
+import axios from 'axios';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux/store';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
-import { openProject, resetAllState } from '../../redux/reducers/slice/appStateSlice';
 
 interface Project {
-  forked: String,
-  comments: string[]
-  createdAt: Date
-  likes: number
-  name: string
-  project: object
-  published: boolean
-  userId: number
-  username: string
-  _id: number
+  forked: String;
+  comments: string[];
+  createdAt: Date;
+  likes: number;
+  name: string;
+  project: object;
+  published: boolean;
+  userId: number;
+  username: string;
+  _id: number;
 }
 
 const ITEM_HEIGHT = 48;
-const MarketplaceCard = ({proj} :{proj: Project}) => {
+const MarketplaceCard = ({ proj }: { proj: Project }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const state = useSelector((store:RootState) => store.appState);
+  const state = useSelector((store: RootState) => store.appState);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClone = async () => { // creates a copy of the project 
+  const handleClone = async () => {
+    // creates a copy of the project
     const docId = proj._id;
-    const response = await axios.get(`/cloneProject/${docId}`, { params: { username: window.localStorage.getItem('username') } });//passing in username as a query param is query params
+    const response = await axios.get(`/cloneProject/${docId}`, {
+      params: { username: window.localStorage.getItem('username') }
+    }); //passing in username as a query param is query params
     const project = response.data;
-    console.log('handleClone project', response.data)
+    console.log('handleClone project', response.data);
     alert('Project cloned!');
     setAnchorEl(null);
-    return {_id: project._id, name: project.name, published: project.published, ...project.project};
+    return {
+      _id: project._id,
+      name: project.name,
+      published: project.published,
+      ...project.project
+    };
   };
-  
-  const handleCloneOpen = async() => {
+
+  const handleCloneOpen = async () => {
     const project = await handleClone();
     history.push('/');
     dispatch(openProject(project));
@@ -65,9 +76,6 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
-
 
   return (
     <>
