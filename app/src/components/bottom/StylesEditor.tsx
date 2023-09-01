@@ -1,18 +1,22 @@
-import React, { useState, useRef } from 'react';
-import AceEditor from 'react-ace';
+import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-css';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/theme-solarized_dark';
 import 'ace-builds/src-noconflict/theme-solarized_light';
 import 'ace-builds/src-noconflict/theme-terminal';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
+import 'ace-builds/src-noconflict/ext-language_tools';
+
+import React, { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import AceEditor from 'react-ace';
 import Fab from '@mui/material/Fab';
+import { RootState } from '../../redux/store';
 import SaveIcon from '@mui/icons-material/Save';
 import { updateStylesheet } from '../../redux/reducers/slice/appStateSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 
 const StylesEditor: React.FC<{
   theme: string | null;
@@ -50,13 +54,13 @@ const StylesEditor: React.FC<{
     >
       <AceEditor
         mode="css"
-        theme={'monokai'}
+        theme="dracula"
         width="100%"
         height="100%"
         onChange={handleChange}
         value={css}
         name="Css_div"
-        fontSize={16}
+        fontSize={14}
         tabSize={2}
         setOptions={{
           useWorker: false,
