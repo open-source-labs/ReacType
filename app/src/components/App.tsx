@@ -19,6 +19,7 @@ import { saveProject } from '../helperFunctions/projectGetSaveDel';
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element => {
   const state = useSelector((store: RootState) => store.appState);
+  
   const [toggleAttempt, setToggleAttempt] = useState(false);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
@@ -34,11 +35,15 @@ export const App = (): JSX.Element => {
     console.log('state.isLoggedIn', state.isLoggedIn)
     // console.log('cookies.get in App', Cookies.get())
     // if user is a guest, see if a project exists in localforage and retrieve it
+    // v17 May not currently work yet
     if (!state.isLoggedIn) {
+      console.log('not state.islogged in')
       localforage.getItem('guestProject').then((project) => {
         // if project exists, use dispatch to set initial state to that project
+        console.log('guestProject', project)
         if (project) {
           dispatch(setInitialState(project));
+          console.log('project', project)
         }
       });
     } else {

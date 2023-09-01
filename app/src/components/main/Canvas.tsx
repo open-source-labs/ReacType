@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useDrop, DropTargetMonitor } from 'react-dnd';
-import { ItemTypes } from '../../constants/ItemTypes';
 import { Component, DragItem } from '../../interfaces/Interfaces';
-import { combineStyles } from '../../helperFunctions/combineStyles';
-import renderChildren from '../../helperFunctions/renderChildren';
-import Arrow from './Arrow';
-import { useDispatch, useSelector } from 'react-redux';
+import { DropTargetMonitor, useDrop } from 'react-dnd';
+import React, { useEffect, useState } from 'react';
 import {
-  changeFocus,
   addChild,
+  changeFocus,
   snapShotAction,
   // toggleCodePreview
 } from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Arrow from './Arrow';
+import { ItemTypes } from '../../constants/ItemTypes';
 import { RootState } from '../../redux/store';
+import { combineStyles } from '../../helperFunctions/combineStyles';
+import renderChildren from '../../helperFunctions/renderChildren';
 
 function Canvas(props): JSX.Element {
   const { state, contextParam, isDarkMode } = useSelector(
     (store: RootState) => ({
       state: store.appState,
       contextParam: store.contextSlice,
-      isDarkMode: store.darkMode.isDarkMode, 
+      isDarkMode: store.darkMode.isDarkMode
     })
   );
   const dispatch = useDispatch();
@@ -128,7 +129,7 @@ function Canvas(props): JSX.Element {
     width: '100%',
     minHeight: '100%',
     backgroundColor: isOver ? '#191919' : '#191919',
-    border: '1px solid #FBFBF2',
+    // border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'
@@ -151,15 +152,15 @@ function Canvas(props): JSX.Element {
     currentComponent.style
   );
   return (
-      <div
-        className={'componentContainer'}
-        ref={drop} 
-        data-testid="drop"
-        style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
-        onClick={onClickHandler}
-      >
-        {renderChildren(currentComponent.children)}
-      </div>
+    <div
+      className={'componentContainer'}
+      ref={drop}
+      data-testid="drop"
+      style={!isDarkMode ? canvasStyle : darkCombinedCanvasStyle}
+      onClick={onClickHandler}
+    >
+      {renderChildren(currentComponent.children)}
+    </div>
   );
 }
 

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 import { MoreVert } from '@mui/icons-material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import axios from 'axios';
@@ -56,7 +56,7 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
     const project = response.data.project;
     setAlertOpen(true);
     setAnchorEl(null);
-    return project;
+    return {_id: project._id, name: project.name, published: project.published, ...project.project};
   };
   
   const handleCloneOpen = async() => {

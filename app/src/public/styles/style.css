@@ -321,6 +321,10 @@ span.material-symbols-outlined {
   z-index: 1;
 }
 
+.hidden {
+  display: none;
+}
+
 /*
 /////////////////////////////////////////////////
 MAIN COLUMN
@@ -473,13 +477,14 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-content: center;
-  word-wrap: break-word;
+      
 }
 
 .compPanelItem h3 {
   font-size: 1em;
   letter-spacing: 0.75px;
   padding: 5px 10px;
+  
 }
 
 .compPanelItem:hover {
@@ -543,7 +548,7 @@ BOTTOM PANEL
   background-color: #003366;
   width: 100%;
   height: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
 
 }
