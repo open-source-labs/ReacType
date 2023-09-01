@@ -65,22 +65,35 @@ const projectController: ProjectController = {
   },
 
   
-  // delete project from database **currently not integrated into app**
-  deleteProject: (req, res, next) => {
+  // delete project from database
+  deleteProject: async (req, res, next) => {
     // pull project name and userId from req.body
     const { _id, userId } = req.body;
-    Projects.findOneAndDelete({ _id, userId }, null, (err, deleted) => {
-      if (err) {
-        return next({
-          log: `Error in projectController.deleteProject: ${err}`,
-          message: {
-            err: 'Error in projectController.deleteProject, check server logs for details'
-          }
-        });
-      }
-      res.locals.deleted = deleted;
-      return next();
-    });
+    try {
+      const response = await Projects.findOneAndDelete({ _id: _id, username: userId });
+      res.locals.deleted = response;
+      return next()
+    } catch (err) {
+      return next({
+        log: `Error in projectController.deleteProject: ${err}`,
+        message: {
+          err: 'Error in projectController.deleteProject, check server logs for details'
+        }
+      });
+    }
+    // @Denton, rewrote the above syntax for async await, would be good to test this further
+  //   Projects.findOneAndDelete({ _id, userId }, null, (err, deleted) => {
+  //     if (err) {
+  //       return next({
+  //         log: `Error in projectController.deleteProject: ${err}`,
+  //         message: {
+  //           err: 'Error in projectController.deleteProject, check server logs for details'
+  //         }
+  //       });
+  //     }
+  //     res.locals.deleted = deleted;
+  //     return next();
+  //   });
   }
 };
 export default projectController;
