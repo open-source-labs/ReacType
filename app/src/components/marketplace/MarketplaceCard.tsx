@@ -26,6 +26,9 @@ import imageSrc from '../../../../resources/marketplace_images/marketplace_image
 import { red } from '@mui/material/colors';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
+import { openProject } from '../../redux/reducers/slice/appStateSlice';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 interface Project {
   forked: String;
@@ -46,6 +49,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
   const state = useSelector((store: RootState) => store.appState);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,9 +60,8 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
     const response = await axios.get(`/cloneProject/${docId}`, {
       params: { username: window.localStorage.getItem('username') }
     }); //passing in username as a query param is query params
-    const project = response.data;
-    console.log('handleClone project', response.data);
-    alert('Project cloned!');
+    const project = response.data.project;
+    setAlertOpen(true);
     setAnchorEl(null);
     return {
       _id: project._id,
@@ -73,9 +76,28 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
     history.push('/');
     dispatch(openProject(project));
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAlertOpen(false);
+    setAnchorEl(null);
+  };
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
     <>
@@ -143,6 +165,19 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
             Clone and open
           </MenuItem>
         </Menu>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Project Cloned!
+          </Alert>
+        </Snackbar>
       </Card>
     </>
   );

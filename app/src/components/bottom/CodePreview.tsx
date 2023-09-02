@@ -1,21 +1,24 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
-import AceEditor from 'react-ace';
+import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-min-noconflict/ext-searchbox';
 import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/theme-github';
-import 'ace-builds/src-noconflict/theme-solarized_dark';
-import 'ace-builds/src-noconflict/theme-solarized_light';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-terminal';
-import { Component } from '../../interfaces/Interfaces';
-import useResizeObserver from '../../tree/useResizeObserver';
-import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
-import { fetchPlugin } from '../../plugins/fetch-plugin';
+
 import * as esbuild from 'esbuild-wasm';
-import {codePreviewSave, codePreviewInput} from "../../redux/reducers/slice/codePreviewSlice";
+
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import {
+  codePreviewInput,
+  codePreviewSave
+} from '../../redux/reducers/slice/codePreviewSlice';
 import { useDispatch, useSelector } from 'react-redux';
+
+import AceEditor from 'react-ace';
+import { Component } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
+import { fetchPlugin } from '../../plugins/fetch-plugin';
+import { unpkgPathPlugin } from '../../plugins/unpkg-path-plugin';
+import useResizeObserver from '../../tree/useResizeObserver';
 
 const CodePreview: React.FC<{
   theme: string | null;
@@ -37,7 +40,7 @@ const CodePreview: React.FC<{
   const wrapper = useRef();
   const dimensions = useResizeObserver(wrapper);
   const { height } = dimensions || 0;
-  const state = useSelector((store:RootState) => store.appState)
+  const state = useSelector((store: RootState) => store.appState);
   const [, setDivHeight] = useState(0);
   let currentComponent = state.components.find(
     (elem: Component) => elem.id === state.canvasFocus.componentId
@@ -80,7 +83,7 @@ const CodePreview: React.FC<{
         global: 'window'
       }
     });
-    dispatch(codePreviewSave(result.outputFiles[0].text))
+    dispatch(codePreviewSave(result.outputFiles[0].text));
   };
 
   return (
@@ -95,15 +98,16 @@ const CodePreview: React.FC<{
     >
       <AceEditor
         mode="javascript"
-        theme="monokai"
+        theme="dracula"
         width="100%"
         height="100%"
         onChange={handleChange}
         value={input}
         name="Code_div"
         readOnly={false}
-        fontSize={18}
+        fontSize={14}
         tabSize={2}
+        wrapEnabled={true}
         setOptions={{
           useWorker: false
         }}
