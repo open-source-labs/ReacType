@@ -12,6 +12,10 @@ import store from '../app/src/redux/store';
 
 // Mocking the axios module to avoid actual network calls
 jest.mock('axios');
+jest.mock(
+  'resources/marketplace_images/marketplace_image.png',
+  () => 'mock-image-url'
+);
 
 describe('MarketplaceCard Render Test', () => {
   const mockProject = {
@@ -72,9 +76,6 @@ describe('MarketplaceContainer', () => {
     expect(screen.getByText('Project 2')).toBeInTheDocument();
     expect(screen.getByText('user2')).toBeInTheDocument();
   });
-
-  // Additional tests can include: testing search bar functionality,
-  // loading states, and no results found message.
 });
 
 const mockProjects = [
