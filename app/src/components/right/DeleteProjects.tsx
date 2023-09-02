@@ -39,8 +39,9 @@ function ProjectsDialog(props: ProjectDialogProps) {
   // If new project selected, close and set value to new project name
   const handleDelete = (value: string) => {
     const selectedProject = projects.filter(
-      (project: any) => project.name === value
-    )[0];
+      (project: any) => project._id === value
+      )[0];
+    console.log('deleting this one', selectedProject)
     deleteProject(selectedProject);
     localforage.removeItem(window.localStorage.getItem('ssid'));
     dispatch(setInitialState(initialState))
@@ -59,7 +60,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
         {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
           <ListItem
             button
-            onClick={() => handleDelete(project.name)}
+            onClick={() => handleDelete(project._id)}
             key={index}
           >
             <ListItemAvatar>
@@ -76,7 +77,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
         {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => (
           <ListItem
             button
-            onClick={() => handleDelete(project.name)}
+            onClick={() => handleDelete(project._id)}
             key={index}
           >
             <ListItemAvatar>

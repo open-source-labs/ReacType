@@ -170,7 +170,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                 style={{}}
                 InputProps={{
                   style: {
-                    color: isThemeLight ? 'black' : 'white'
+                    color: isThemeLight ? 'white' : 'white'
                   }
                 }}
               />

@@ -39,7 +39,6 @@ const marketplaceController: MarketplaceController = {
   publishProject: async (req, res, next) => {
     const { _id, project, comments, userId, username, name } = req.body;
     const createdAt = Date.now();
-    console.log('Publish Project', _id, project, comments, userId, username, name )
 
     if (userId === req.cookies.ssid) {
 
@@ -47,6 +46,7 @@ const marketplaceController: MarketplaceController = {
 
         const noPub = {...project}
         delete noPub.published;
+        delete noPub._id;
         const publishedProject = await Projects.findOneAndUpdate
           (        // looks in projects collection for project by Mongo id
             { _id },
@@ -63,8 +63,8 @@ const marketplaceController: MarketplaceController = {
         const noId = {...project};
         delete noId._id;  //removing the empty string _id from project
         delete noId.published;
-        const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username });
-        res.locals.publishedProject = publishedProject.toObject({ minimize: false }); 
+        const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username })
+        res.locals.publishedProject = publishedProject.toObject({ minimize: false });
         console.log('published backend new', res.locals.publishedProject)
         return next();
       }
@@ -101,7 +101,7 @@ const marketplaceController: MarketplaceController = {
             }
           });
         }
-        res.locals.unpublishedProject = result;
+        res.locals.unpublishedProject = result.toObject({ minimize: false });
         return next();
       });
     }

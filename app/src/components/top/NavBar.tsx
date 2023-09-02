@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -8,7 +8,7 @@ import NewExportButton from './NewExportButton';
 import { RootState } from '../../redux/store';
 import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { publishProject } from '../../helperFunctions/projectGetSaveDel';
+import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
 import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
@@ -27,10 +27,13 @@ const NavBar = () => {
   );
 
   const dispatch = useDispatch();
+  const menuButtonRef = useRef(null);
 
   useEffect(()=>{
     setProjectName(state.name)
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
+
+
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -66,8 +69,6 @@ const NavBar = () => {
   };
 
   const handlePublish = () => {
-    console.log('projectName', projectName)
-    console.log('state.name', state.name)
     if (state.isLoggedIn === true && projectName === '') {
       setInvalidProjectName(true);
       setPublishModalOpen(true);
@@ -79,7 +80,7 @@ const NavBar = () => {
     // on publish, we need to find the component, take a screenshot, and store it in aws
     
 
-    publishProject(state, projectName)
+    publishProject(projectName, state)
       .then((newProject: State) => {
         console.log('Project published successfully', newProject);
         setPublishModalOpen(false);
@@ -93,10 +94,16 @@ const NavBar = () => {
       
     };
 
-    useEffect(()=>{
-      console.log('stateName = ',state.name);
-      console.log('published =', state.published);   
-    }, [state.name, state.published])
+    const handleUnpublish = () => {
+      unpublishProject(state)
+        .then((unpublishedProject: State) => {
+          console.log('Project unpublished successfully', unpublishedProject);
+          dispatch(updateProjectPublished(false)); 
+        })
+        .catch((error) => {
+          console.error('Error unpublishing project:', error.message);
+        });
+    };
   
   return (
     <nav
@@ -116,21 +123,29 @@ const NavBar = () => {
         </div>
       </Link>
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle} onClick={handlePublish}>
-          Publish
-        </button>
+        {state.published ? (
+          <button style={buttonStyle} onClick={handleUnpublish}>
+            Unpublish
+          </button>
+        ) : (
+          <button style={buttonStyle} onClick={handlePublish}>
+            Publish
+          </button>
+        )}
         <NewExportButton />
         <Button
           style={moreVertButtonStyle}
           variant="contained"
           color="primary"
-          onClick={() => setDropMenu((prevDropMenu) => !prevDropMenu)}
+          onClick={() => setDropMenu(!dropMenu)}
+          ref={menuButtonRef}
         >
           <MoreVertIcon style={{ color: 'white' }} />
         </Button>
         <NavBarButtons
           dropMenu={dropMenu}
           setDropMenu={setDropMenu}
+          menuButtonRef={menuButtonRef}
           style={{ color: 'white' }}
         />
       </div>

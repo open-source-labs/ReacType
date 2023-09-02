@@ -26,18 +26,19 @@ export const getProjects = (): Promise<any> => {
       return data;
     })
     .catch((err) => console.log(`Error getting project ${err}`));
-  return projects;
+  return projects;//returns an array of projects with _id, name, project
 };
 
 export const saveProject = (
-  name: String,
-  workspace: Object
+  name: string,
+  workspace: State
 ): Promise<Object> => {
   const newProject = { ...workspace}
-  delete newProject['_id']; //deleting the _id from the current state slice. We don't actually want it in the project object in the mongo db document
+  delete newProject._id;
+  delete newProject.name; //deleting the _id from the current state slice. We don't actually want it in the project object in the mongo db document
   const body = JSON.stringify({
     name,
-    project: { ...newProject, name },
+    project: { ...newProject},
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: []
@@ -52,23 +53,25 @@ export const saveProject = (
   })
     .then((res) => res.json())
     .then((data) => {
-      return {_id: data._id, published:data.published, ...data.project}; //passing up what is needed for the global appstateslice
+      return {_id: data._id, name: data.name, published: data.published, ...data.project}; //passing up what is needed for the global appstateslice
     })
     .catch((err) => console.log(`Error saving project ${err}`));
   return project;//returns _id in addition to the project object from the document
 };
 
 export const publishProject = (
-  projectData: State, 
-  projectName: string
+  name: string,
+  workspace: State
 ): Promise<Object> => {
+  const newProject = { ...workspace}
+  delete newProject.name; 
   const body = JSON.stringify({
-    _id: projectData._id, 
-    project: { ...projectData, name: projectName },
+    _id: workspace._id, 
+    name: name,
+    project: { ...newProject},
     userId: window.localStorage.getItem('ssid'),
     username: window.localStorage.getItem('username'),
     comments: [],
-    name: projectName,
   });
 
   const response = fetch(`${serverURL}/publishProject`, {
@@ -83,8 +86,8 @@ export const publishProject = (
   const publishedProject = response
     .then((res) => res.json())
     .then((data) => {
-      console.log({_id: data._id, published: data.published, ...data.project});
-      return {_id: data._id, published: data.published, ...data.project};
+      console.log({_id: data._id, name: data.name, published:data.published, ...data.project});
+      return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => {
       console.log(`Error publishing project ${err}`);
@@ -94,10 +97,40 @@ export const publishProject = (
   return publishedProject;
 };
 
+export const unpublishProject = (
+  projectData: State
+): Promise<Object> => {
+  const body = JSON.stringify({
+    _id: projectData._id,
+    userId: window.localStorage.getItem('ssid'),
+  });
+
+  const response = fetch(`${serverURL}/unpublishProject`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body,
+  });
+
+  const unpublishedProject = response
+    .then((res) => res.json())
+    .then((data) => {
+      console.log({_id: data._id, name: data.name, published:data.published, ...data.project});
+      return {_id: data._id, name: data.name, published:data.published, ...data.project};
+    })
+    .catch((err) => {
+      console.log(`Error unpublishing project ${err}`);
+      throw err;
+    });
+
+  return unpublishedProject;
+};
 
 export const deleteProject = (project: any): Promise<Object> => {
   const body = JSON.stringify({
-    name: project.name,
+    _id: project._id,
     userId: window.localStorage.getItem('ssid')
   });
   const deletedProject = fetch(`${serverURL}/deleteProject`, {
@@ -109,8 +142,8 @@ export const deleteProject = (project: any): Promise<Object> => {
     body
   })
     .then((res) => res.json())
-    .then((data) => {
-      return data;
+    .then((data) => { console.log(data)
+      return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => console.log(`Error deleting project ${err}`));
   return deletedProject;

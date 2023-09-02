@@ -48,7 +48,7 @@ const ElementsContainer = (props): JSX.Element => {
         textAlign: 'center'
       }}
     >
-      <h4>Drag and Drop</h4>
+      {' '}
       <DragDropPanel />
       <div id={'CompBottomHalf'}>
         <ComponentDrag isThemeLight={props.isThemeLight} />

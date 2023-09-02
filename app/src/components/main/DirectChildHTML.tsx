@@ -53,7 +53,7 @@ function DirectChildHTML({ childId, name, type, typeId, style }: ChildElement) {
     border:
       state.canvasFocus.childId === childId
         ? '4px solid #186BB4'
-        : '2px solid #4d8cc4'
+        : '1px solid grey'
   };
 
   const combinedStyle = combineStyles(

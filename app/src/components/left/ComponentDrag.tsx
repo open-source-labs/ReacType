@@ -1,9 +1,9 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
 import ComponentPanelItem from '../right/ComponentPanelItem';
+import Grid from '@mui/material/Grid';
+import React from 'react';
+import { RootState } from '../../redux/store';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentDrag = ({ isThemeLight }): JSX.Element => {
   const classes = useStyles();
@@ -37,6 +37,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
           direction="row"
           justifyContent="center"
           alignItems="center"
+          
         >
           {state.components
             .filter((comp) => state.rootComponents.includes(comp.id))
@@ -54,7 +55,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
             })}
         </Grid>
         {/* Display all reusable components */}
-        <h4
+        {/* <h4
           className={
             !isDarkMode
               ? classes.lightThemeFontColor
@@ -83,7 +84,7 @@ const ComponentDrag = ({ isThemeLight }): JSX.Element => {
                 />
               );
             })}
-        </Grid>
+        </Grid> */}
       </div>
     </div>
   );
@@ -99,16 +100,9 @@ const useStyles = makeStyles({
   },
   panelWrapperList: {
     minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    wordWrap: 'break-word'
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: '#fff'
   },
   darkThemeFontColor: {
     color: '#fff'
