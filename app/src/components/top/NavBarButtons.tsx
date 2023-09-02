@@ -362,10 +362,10 @@ function navbarDropDown(props) {
         </svg>
       </button>
       {/* {<ExportButton />} */}
-
+{/* 
       <button onClick={handleDarkModeToggle}>
         {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
-      </button>
+      </button> */}
       {state.isLoggedIn && (
         <button onClick={handleClick}>
           Manage Project
