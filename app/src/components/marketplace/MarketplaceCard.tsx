@@ -12,6 +12,7 @@ import {
   Typography,
   styled
 } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import React, { useEffect } from 'react';
 import {
   openProject,
@@ -21,14 +22,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MoreVert } from '@mui/icons-material';
 import { RootState } from '../../redux/store';
+import Snackbar from '@mui/material/Snackbar';
 import axios from 'axios';
 import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
-import { openProject } from '../../redux/reducers/slice/appStateSlice';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 
 interface Project {
   forked: String;
