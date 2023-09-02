@@ -113,9 +113,9 @@ export interface AddRoutes {
 }
 
 export interface ManageSeparators {
-  mergeSeparator: (arg1:ChildElement[], arg2?:number) => any;  // update specificity
+  mergeSeparator: (arg1: ChildElement[], arg2?: number) => any; // update specificity
   handleSeparators: (arg1: ChildElement[], arg2?: string) => number;
-  nextTopSeparatorId: number
+  nextTopSeparatorId: number;
 }
 
 export interface StateUsed {
@@ -133,15 +133,24 @@ export interface Attributes {
 }
 
 // interface PublishResponse {
-//   success: boolean; 
+//   success: boolean;
 //   error?: string;
 // }
-
 
 export interface Arrow {
   renderArrow: (id: number) => any;
   deleteLines: () => void;
-  lineDraw: (x1:number, y1:number,x2:number,y2:number) => void;
-  createHeadElement:(x:number, y:number,length:number,angle:number) => HTMLDivElement;
-  createLineElement: (x:number, y:number,length:number,angle:number) => HTMLDivElement;
+  lineDraw: (x1: number, y1: number, x2: number, y2: number) => void;
+  createHeadElement: (
+    x: number,
+    y: number,
+    length: number,
+    angle: number
+  ) => HTMLDivElement;
+  createLineElement: (
+    x: number,
+    y: number,
+    length: number,
+    angle: number
+  ) => HTMLDivElement;
 }
