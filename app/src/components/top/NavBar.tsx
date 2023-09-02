@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -26,10 +26,13 @@ const NavBar = () => {
   );
 
   const dispatch = useDispatch();
+  const menuButtonRef = useRef(null);
 
   useEffect(()=>{
     setProjectName(state.name)
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
+
+
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -129,13 +132,15 @@ const NavBar = () => {
           style={moreVertButtonStyle}
           variant="contained"
           color="primary"
-          onClick={() => setDropMenu((prevDropMenu) => !prevDropMenu)}
+          onClick={() => setDropMenu(!dropMenu)}
+          ref={menuButtonRef}
         >
           <MoreVertIcon style={{ color: 'white' }} />
         </Button>
         <NavBarButtons
           dropMenu={dropMenu}
           setDropMenu={setDropMenu}
+          menuButtonRef={menuButtonRef}
           style={{ color: 'white' }}
         />
       </div>

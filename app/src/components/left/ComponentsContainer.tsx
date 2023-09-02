@@ -29,9 +29,8 @@ const ComponentsContainer = () => {
           </h4>
           <Grid
             container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
+            direction="column"
+            alignContent={"center"}
           >
             {state.components
               .filter((comp) => !state.rootComponents.includes(comp.id))
@@ -63,13 +62,6 @@ const useStyles = makeStyles({
   },
   panelWrapperList: {
     minHeight: '120px',
-    marginLeft: '-15px',
-    marginRight: '-15px',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    wordWrap: 'break-word'
   },
   lightThemeFontColor: {
     color: '#fff'

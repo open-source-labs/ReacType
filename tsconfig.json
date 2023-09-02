@@ -17,5 +17,9 @@
     "noEmitOnError": false
   },
   // only compile ts files in this directory
-  "include": ["app/src/**/*","server/**/*"],
+  "include": [
+    "app/src/**/*",
+    "app/src/interfaces/declarations.d.ts",
+    "server/**/*"
+  ]
 }
