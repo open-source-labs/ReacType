@@ -218,7 +218,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           >
             <InputLabel
               id="select-required-label"
-              style={{color: 'black'}}
+              style={{color: 'white'}}
             >
               Type
             </InputLabel>
@@ -235,7 +235,16 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
               onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={
-                isThemeLight
+                {
+                  backgroundColor: 'gray',
+                  color: '#fff',
+                  border: '1px solid white',
+                  height: '28px',
+                  width: '200px'
+                }
+              }
+            >{/*originally in style: 
+            isThemeLight
                   ? {
                       backgroundColor: '#eef0f1',
                       color: '#000',
@@ -249,9 +258,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                       border: '1px solid white',
                       height: '28px',
                       width: '200px'
-                    }
-              }
-            >
+                    }*/} 
               <MenuItem value="" style={{ color: 'black' }}>
                 <em>Types</em>
               </MenuItem>
