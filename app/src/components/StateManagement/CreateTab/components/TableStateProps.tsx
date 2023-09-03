@@ -101,8 +101,8 @@ const TableStateProps = props => {
 
   // rows to show are either from current component or from a given provider
   let rows = [];
-  currentComponent.stateProps?.forEach((prop) =>{ console.log('prop', prop); rows.push(prop)}); 
-  console.log("what is in rows", rows)
+  currentComponent.stateProps?.forEach((prop) =>{ rows.push(prop)}); 
+
 
 
   return (

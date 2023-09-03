@@ -112,11 +112,11 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
 
  
   useEffect(()=>{
-    console.log("inputValue changed", inputValue)
+
     setNewVal(typeConversion(inputValue, inputType));
-    console.log("current newVal", newVal)
+
   }, [inputType, inputValue] ) 
-  console.log("current outside newVal", newVal)
+
   // submit new stateProps entries to state context
   const submitNewState = (e) => {
     e.preventDefault();
