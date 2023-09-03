@@ -14,6 +14,7 @@ module.exports = {
     '__tests__/playwright',
     '__tests__/spec.ts',
     '__tests__/userAuth.test.ts',
+    '__tests__/nodetest/projects.test.ts',
   ],
   testMatch: [
     '**/__tests__/nodetest/**/*.[jt]s?(x)', // Pattern for Node.js tests
