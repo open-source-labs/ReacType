@@ -87,7 +87,7 @@
     "dist-windows": "electron-builder --windows",
     "dist-all": "npm run prod-build && electron-builder --mac --linux --windows",
     "test:jest": "jest --config jest.config.js",
-    "test:jestNode": "jest --config jestNode.config.js",
+    "test:jestNode": "NODE_ENV=test jest --config jestNode.config.js",
     "test": "NODE_ENV=test npm run test:jest --verbose --coverage && NODE_ENV=test npm run test:jestNode --verbose --coverage",
     "server": "cross-env NODE_ENV=development nodemon server/server.ts",
     "start": "ts-node server/server.ts",

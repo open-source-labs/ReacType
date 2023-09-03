@@ -15,6 +15,9 @@ module.exports = {
     '__tests__/spec.ts',
     '__tests__/userAuth.test.ts',
   ],
+  testMatch: [
+    '**/__tests__/nodetest/**/*.[jt]s?(x)', // Pattern for Node.js tests
+  ],
   transform: {
     '\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.js?$': 'babel-jest',
@@ -22,7 +25,6 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)',
   ],
-  testRegex: '/__tests__/.*\\.(ts|tsx|js)$',
   globals: {
     'ts-jest': {
       diagnostics: false,

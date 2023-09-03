@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-const { Mongoose } = require('mongoose');
+const { mongoose } = require('mongoose');
 const request = require('supertest');
 // initializes the project to be sent to server/DB
 import mockData from '../../mockData'
@@ -18,8 +18,10 @@ describe('Project endpoints tests', () => {
     server.listen(done);
   });
   afterAll((done) => {
-    Mongoose.disconnect();
-    server.close(done);
+    mongoose.disconnect().then(() => {
+      // Close the HTTP server
+      server.close(done);
+    });
   });
   // test saveProject endpoint
   describe('/saveProject', () => {
