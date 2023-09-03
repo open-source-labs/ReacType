@@ -1,3 +1,8 @@
+/**
+ * @jest-environment node
+ */
+
+
 import marketplaceController from '../../server/controllers/marketplaceController'; 
 import app from '../../server/server';
 import mockData from '../../mockData';

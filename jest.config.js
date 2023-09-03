@@ -14,7 +14,6 @@ module.exports = {
     '__tests__/playwright',
     '__tests__/spec.ts',
     '__tests__/userAuth.test.ts',
-    '__tests__/nodetest',
   ],
   transform: {
     '\\.(ts|tsx)$': 'ts-jest',
