@@ -66,9 +66,9 @@ const AddContextForm = ({
 
   //creating options for context dropdown
   const contexts = allContext.length ? (
-    allContext.map((context) => {
+    allContext.map((context, index) => {
       return (
-        <MenuItem style={{ color: '#383838'}} value={context.name}>
+        <MenuItem style={{ color: '#383838'}} value={context.name} key={index}>
           {context.name}
         </MenuItem>
       );
