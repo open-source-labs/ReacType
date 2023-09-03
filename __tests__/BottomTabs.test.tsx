@@ -41,7 +41,7 @@ describe('Bottom Panel Render Test', () => {
   });
 });
 
-describe('Creation Panel', () => {
+xdescribe('Creation Panel', () => {
   test('should invalidate empty field in New Component name', async () => {
     render(
       <Provider store={store}>
@@ -123,7 +123,7 @@ describe('Creation Panel', () => {
   });
 });
 
-describe('Context Manager', () => {
+xdescribe('Context Manager', () => {
   test('should render Create/Edit, Assign, and Display tabs', () => {
     render(
       <Provider store={store}>

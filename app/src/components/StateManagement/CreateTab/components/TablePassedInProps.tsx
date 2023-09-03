@@ -22,7 +22,7 @@ const TablePassedInProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index') ? currentComponent.passedInProps : '';
+  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index') ? currentComponent.passedInProps : [];
 
   //formatting for data grid columns
   const columnTabs = [

@@ -3,9 +3,9 @@
  */
 
 
-import marketplaceController from '../../server/controllers/marketplaceController'; 
-import app from '../../server/server';
-import mockData from '../../mockData';
+import marketplaceController from '../server/controllers/marketplaceController'; 
+import app from '../server/server';
+import mockData from '../mockData';
 import { profileEnd } from 'console';
 const request = require('supertest');
 const mongoose = require('mongoose');

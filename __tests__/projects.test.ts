@@ -2,10 +2,10 @@
  * @jest-environment node
  */
 
-const { mongoose } = require('mongoose');
+const { Mongoose } = require('mongoose');
 const request = require('supertest');
 // initializes the project to be sent to server/DB
-import mockData from '../../mockData'
+import mockData from '../mockData'
 import app from ('../server/server');
 const http = require('http')
 const {state, projectToSave } = mockData
@@ -18,7 +18,7 @@ describe('Project endpoints tests', () => {
     server.listen(done);
   });
   afterAll((done) => {
-    mongoose.disconnect().then(() => {
+    Mongoose.disconnect().then(() => {
       // Close the HTTP server
       server.close(done);
     });
