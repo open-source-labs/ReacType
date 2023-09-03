@@ -42,7 +42,12 @@ const TableStateProps = props => {
       field: 'value',
       headerName: 'Initial Value',
       width: 100,
-      editable: true
+      editable: true,
+      valueGetter: (param) => { //to display the actual object or array instead of [object Object], leave undefined if it is setter function
+        if(param.row.type === 'func')
+          return;
+        return JSON.stringify(param.row.value)
+      }
     },
     {
       field: 'type',
@@ -96,7 +101,8 @@ const TableStateProps = props => {
 
   // rows to show are either from current component or from a given provider
   let rows = [];
-  currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
+  currentComponent.stateProps?.forEach((prop) =>{ console.log('prop', prop); rows.push(prop)}); 
+  console.log("what is in rows", rows)
 
 
   return (
