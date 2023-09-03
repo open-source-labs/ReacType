@@ -252,6 +252,7 @@ if (isDocker) {
   });
 }
 
+
 app.get('/test', (req, res) => {
   res.send('test request is working');
 });

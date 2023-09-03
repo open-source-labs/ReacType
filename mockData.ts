@@ -28,6 +28,7 @@ const mockObj = {
   },
 
   projectToSave: {
+    _id: '',
     name: 'super test project',
     userId: '64f11a47e77f99bf34b08979',
     username: 'test',
@@ -50,7 +51,7 @@ const mockObj = {
       nextChildId: 1
     }
   },
-
+//The following is for graphQL
   GET_PROJECTS: `query GetAllProjects($userId: ID) {
     getAllProjects(userId: $userId) { 
       name 

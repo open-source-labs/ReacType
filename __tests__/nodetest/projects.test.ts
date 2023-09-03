@@ -5,7 +5,7 @@
 const { Mongoose } = require('mongoose');
 const request = require('supertest');
 // initializes the project to be sent to server/DB
-import mockData from '../mockData'
+import mockData from '../../mockData'
 import app from ('../server/server');
 const http = require('http')
 const {state, projectToSave } = mockData

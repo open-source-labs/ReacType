@@ -1,6 +1,7 @@
-import marketplaceController from '../server/controllers/marketplaceController'; 
-import app from '../server/server';
-import mockData from '../mockData';
+import marketplaceController from '../../server/controllers/marketplaceController'; 
+import app from '../../server/server';
+import mockData from '../../mockData';
+import { profileEnd } from 'console';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
@@ -78,14 +79,14 @@ describe('Server endpoint tests', () => {
       it('responds with status of 200 and json object equal to deleted project', async () => {
         const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId });
         const _id: String = response.body[0]._id;
-        const userId: String = user.username;
+        const userId: String = user.userId;
         console.log(_id, userId);
         return request(app)
           .delete('/deleteProject')
           .set('Content-Type', 'application/json')
           .send({ _id, userId })
           .expect(200)
-          .then((res) => expect(res.body.name).toBe(projectToSave.name)); // @Denton might want to check more of these fields
+          .then((res) => expect(res.body._id).toBe(_id)); // @Denton might want to check more of these fields
       });
     });
   });
