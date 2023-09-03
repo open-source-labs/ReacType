@@ -201,6 +201,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             label="initial value"
             variant="outlined"
             value={inputValue}
+            error={errorStatus}
             onChange={(e) => setInputValue(e.target.value)}
             className={
               isThemeLight
@@ -215,6 +216,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                 ? `${classes.formControl} ${classes.lightThemeFontColor}`
                 : `${classes.formControl} ${classes.darkThemeFontColor}`
             }
+            error={errorStatus}
           >
             <InputLabel
               id="select-required-label"
