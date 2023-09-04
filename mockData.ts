@@ -1,3 +1,5 @@
+import HTMLTypes from "./app/src/redux/HTMLTypes";
+
 const mockObj = {
   //these user credentials were created via the signup page
   //once connecting to new mongo cluster, you must create new login credentials to test
@@ -24,7 +26,12 @@ const mockObj = {
     rootComponents: [1],
     canvasFocus: { componentId: 1, childId: null },
     nextComponentId: 2,
-    nextChildId: 1
+    nextChildId: 1,
+    nextTopSeparatorId: 1000,
+    HTMLTypes: HTMLTypes, // left as is for now
+    tailwind: false,
+    stylesheet: '', 
+    codePreview: false, 
   },
 
   projectToSave: {
@@ -48,7 +55,12 @@ const mockObj = {
       rootComponents: [1],
       canvasFocus: { componentId: 1, childId: null },
       nextComponentId: 2,
-      nextChildId: 1
+      nextChildId: 1,
+      nextTopSeparatorId: 1000,
+      HTMLTypes: HTMLTypes, // left as is for now
+      tailwind: false,
+      stylesheet: '', 
+      codePreview: false, 
     }
   },
 //The following is for graphQL

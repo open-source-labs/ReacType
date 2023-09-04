@@ -30,7 +30,6 @@ afterAll(async () => {
 });
 
 
-
 describe('Server endpoint tests', () => {
   it('should pass this test request', async () => {
     const response = await request(app).get('/test');
@@ -103,7 +102,7 @@ describe('Server endpoint tests', () => {
           .set('Content-Type', 'application/json')
           .send({ _id, userId })
           .expect(200)
-          .then((res) => expect(res.body._id).toBe(_id)); // @Denton might want to check more of these fields
+          .then((res) => expect(res.body._id).toBe(_id)); 
       });
     });
   });
@@ -118,7 +117,6 @@ describe('Server endpoint tests', () => {
           .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Accept', 'application/json')
           .send(projectToSave)
-          
         const _id: String = projObj.body._id;
         const project: String = projObj.body.project;
         const comments: String = projObj.body.comments;
@@ -136,11 +134,49 @@ describe('Server endpoint tests', () => {
             expect(res.body.published).toBe(true);
           }); 
       });
+      it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = projObj.body[0]._id;
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = projObj.body[0].username;
+        const name: String = projObj.body[0].name;
+        const userId: String = "ERROR";
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+      it('responds with status of 500 and error if _id was not a valid mongo ObjectId', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = 'ERROR';
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = user.username;
+        const name: String = projObj.body[0].name;
+        const userId: String = user.userId;
+        
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).not.toEqual(_id)
+          }); 
+      });
     });
   });
 
   //test getMarketplaceProjects endpoint
   describe('/getMarketplaceProjects', () => {//most recent project should be the one from publishProject
+
     describe('GET', () => {
       it('responds with status of 200 and json object equal to unpublished project', async () => {
         return request(app)
@@ -148,7 +184,6 @@ describe('Server endpoint tests', () => {
           .set('Content-Type', 'application/json')
           .expect(200)
           .then((res) => {
-
             expect(Array.isArray(res.body)).toBe(true);
             expect(res.body[0]._id).toBeTruthy;
           }); 
@@ -164,13 +199,7 @@ describe('Server endpoint tests', () => {
         const projObj = await request(app)
           .get('/getMarketplaceProjects')
           .set('Content-Type', 'application/json')
-        console.log(projObj.body)
-      //   const _id: String = projObj.body._id;
-      //   const project: String = projObj.body.project;
-      //   const comments: String = projObj.body.comments;
-      //   const username: String = projObj.body.username;
-      //   const name: String = projObj.body.name;
-      //   const userId: String = user.userId;
+
         return request(app)
           .get(`/cloneProject/${projObj.body[0]._id}`)
           .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
@@ -179,6 +208,21 @@ describe('Server endpoint tests', () => {
           .then((res) => {
             expect(res.body.forked).toBeTruthy;
             expect(res.body.username).toBe(user.username);
+          }); 
+      });
+      it('responds with status of 500 and error', async () => {
+
+        const projObj = await request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+
+        return request(app)
+          .get(`/cloneProject/${projObj.body[0]._id}`)
+          .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
+          .query({ username: [] })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
           }); 
       });
     });
@@ -195,12 +239,51 @@ describe('Server endpoint tests', () => {
           .patch('/unpublishProject')
           .set('Content-Type', 'application/json')
           .set('Cookie', [`ssid=${user.userId}`])
-          .send({ _id, userId })//_id, project, comments, userId, username, name 
+          .send({ _id, userId })
           .expect(200)
           .then((res) => {
             expect(res.body._id).toBe(_id)
             expect(res.body.published).toBe(false);
-          }); // @Denton might want to check more of these fields
+          }); 
+      });
+      it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = projObj.body[0]._id;
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = projObj.body[0].username;
+        const name: String = projObj.body[0].name;
+        let userId: String = user.userId;
+        await request(app)//publishing a project first
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })
+          
+        
+        userId = "ERROR";
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
+          .send({ _id, userId })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+      it('responds with status of 500 and error if _id was not a string', async () => {
+        const userId: String = user.userId;
+
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
+          .send({userId })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
       });
     });
   });
