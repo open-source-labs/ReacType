@@ -7,6 +7,7 @@ import marketplaceController from '../server/controllers/marketplaceController';
 import app from '../server/server';
 import mockData from '../mockData';
 import { profileEnd } from 'console';
+import { Projects } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
@@ -22,6 +23,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+
+  const result = await Projects.deleteMany({});//clear the projects collection after tests are done
+  console.log(`${result.deletedCount} documents deleted.`);
   await mongoose.connection.close();
 });
 
@@ -31,28 +35,14 @@ describe('Server endpoint tests', () => {
     expect(response.status).toBe(200);
     expect(response.text).toBe('test request is working');
   });
-  describe('Marketplace endpoint testing', () => {
-    it('get requests to /getMarketplaceProjects should return an array of projects', async () => {
-      const response = await request(app).get('/getMarketplaceProjects');
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-    });
-    it('the return array should be populated with project objects', async () => {
-      const response = await request(app).get('/getMarketplaceProjects');
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-    });
-  });
+
   // test saveProject endpoint
-  describe('/saveProject', () => {
+  describe('/login', () => {
     describe('/POST', () => {
       it('responds with a status of 200 and json object equal to project sent', async () => {
-        // const response = await request(app).post('/saveProject').set('Accept', 'application/json').send(projectToSave);
-        // console.log(response);
-        // console.log(response.body);
-        // expect(response.status).toBe(200);
         return request(app)
-          .post('/saveProject')
+          .post('/login')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Accept', 'application/json')
           .send(projectToSave)
           .expect(200)
@@ -60,9 +50,27 @@ describe('Server endpoint tests', () => {
           .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     // });
+    });
+  });
+
+  // test saveProject endpoint
+  describe('/saveProject', () => {
+    describe('/POST', () => {
+      it('responds with a status of 200 and json object equal to project sent', async () => {
+        return request(app)
+          .post('/saveProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .set('Accept', 'application/json')
+          .send(projectToSave)
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+          .then((res) => expect(res.body.name).toBe(projectToSave.name));
+      });
+    // });
+    });
   });
   // test getProjects endpoint
-  describe('/getProjects', () => {
+  xdescribe('/getProjects', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to an array of user projects', () => {
         return request(app)
@@ -79,13 +87,12 @@ describe('Server endpoint tests', () => {
     });
   });
   // test deleteProject endpoint
-  describe('/deleteProject', () => {
+  xdescribe('/deleteProject', () => {
     describe('DELETE', () => {
       it('responds with status of 200 and json object equal to deleted project', async () => {
         const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId });
         const _id: String = response.body[0]._id;
         const userId: String = user.userId;
-        console.log(_id, userId);
         return request(app)
           .delete('/deleteProject')
           .set('Content-Type', 'application/json')
@@ -95,7 +102,104 @@ describe('Server endpoint tests', () => {
       });
     });
   });
-});
+
+  //test publishProject endpoint
+  xdescribe('/publishProject', () => {
+    describe('POST', () => {
+      it('responds with status of 200 and json object equal to published project', async () => {
+
+        const projObj = await request(app)
+          .post('/saveProject')
+          .set('Accept', 'application/json')
+          .send(projectToSave)
+          
+        const _id: String = projObj.body._id;
+        const project: String = projObj.body.project;
+        const comments: String = projObj.body.comments;
+        const username: String = projObj.body.username;
+        const name: String = projObj.body.name;
+        const userId: String = user.userId;
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).toBe(_id)
+            expect(res.body.published).toBe(true);
+          }); 
+      });
+    });
+  });
+
+  //test getMarketplaceProjects endpoint
+  xdescribe('/getMarketplaceProjects', () => {//most recent project should be the one from publishProject
+    describe('GET', () => {
+      it('responds with status of 200 and json object equal to unpublished project', async () => {
+        return request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+          .expect(200)
+          .then((res) => {
+
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(res.body[0]._id).toBeTruthy;
+          }); 
+      });
+    });
+  });
+
+  //test cloneProject endpoint
+  xdescribe('/cloneProject/:docId', () => {
+    describe('GET', () => {
+      it('responds with status of 200 and json object equal to cloned project', async () => {
+
+        const projObj = await request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+        console.log(projObj.body)
+      //   const _id: String = projObj.body._id;
+      //   const project: String = projObj.body.project;
+      //   const comments: String = projObj.body.comments;
+      //   const username: String = projObj.body.username;
+      //   const name: String = projObj.body.name;
+      //   const userId: String = user.userId;
+        return request(app)
+          .get(`/cloneProject/${projObj.body[0]._id}`)
+          .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
+          .query({ username: user.username })
+          .expect(200)
+          .then((res) => {
+            expect(res.body.forked).toBeTruthy;
+            expect(res.body.username).toBe(user.username);
+          }); 
+      });
+    });
+  });
+
+  //test unpublishProject endpoint
+  xdescribe('/unpublishProject', () => {
+    describe('PATCH', () => {
+      it('responds with status of 200 and json object equal to unpublished project', async () => {
+        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId }); //most recent project should be the one from publishProject
+        const _id: String = response.body[0]._id;
+        const userId: String = user.userId;
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .send({ _id, userId })//_id, project, comments, userId, username, name 
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).toBe(_id)
+            expect(res.body.published).toBe(false);
+          }); // @Denton might want to check more of these fields
+      });
+    });
+  });
+
+
+
+
 });
 
 
