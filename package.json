@@ -257,7 +257,6 @@
     "modulePathIgnorePatterns": [
       "__tests__/playwright",
       "__tests__/spec.ts",
-      "__tests__/userAuth.test.ts",
       "__tests__/projects.test.ts"
     ],
     "transform": {

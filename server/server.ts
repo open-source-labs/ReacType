@@ -222,6 +222,7 @@ app.get(
 // Clone from marketplace
 app.get(
   '/cloneProject/:docId',
+  sessionController.isLoggedIn,
   marketplaceController.cloneProject, 
   (req, res) => res.status(200).json(res.locals.clonedProject)
 );

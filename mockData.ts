@@ -5,7 +5,7 @@ const mockObj = {
     username: 'test',
     email: 'test@gmail.com',
     password: 'password1!',
-    userId: '64f11a47e77f99bf34b08979'
+    userId: '64f551e5b28d5292975e08c8'
   },
 
   state: {
@@ -30,7 +30,7 @@ const mockObj = {
   projectToSave: {
     _id: '',
     name: 'super test project',
-    userId: '64f11a47e77f99bf34b08979',
+    userId: '64f551e5b28d5292975e08c8',
     username: 'test',
     project: {
       name: 'test',

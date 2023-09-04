@@ -29,33 +29,36 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
+
+
 describe('Server endpoint tests', () => {
   it('should pass this test request', async () => {
     const response = await request(app).get('/test');
     expect(response.status).toBe(200);
     expect(response.text).toBe('test request is working');
   });
+  
 
-  // test saveProject endpoint
-  describe('/login', () => {
-    describe('/POST', () => {
-      it('responds with a status of 200 and json object equal to project sent', async () => {
-        return request(app)
-          .post('/login')
-          .set('Cookie', [`ssid=${user.userId}`]) 
-          .set('Accept', 'application/json')
-          .send(projectToSave)
-          .expect(200)
-          .expect('Content-Type', /application\/json/)
-          .then((res) => expect(res.body.name).toBe(projectToSave.name));
-      });
-    // });
-    });
-  });
+  // // test saveProject endpoint
+  // describe('/login', () => {
+  //   describe('/POST', () => {
+  //     it('responds with a status of 200 and json object equal to project sent', async () => {
+  //       return request(app)
+  //         .post('/login')
+  //         .set('Cookie', [`ssid=${user.userId}`]) 
+  //         .set('Accept', 'application/json')
+  //         .send(projectToSave)
+  //         .expect(200)
+  //         .expect('Content-Type', /application\/json/)
+  //         .then((res) => expect(res.body.name).toBe(projectToSave.name));
+  //     });
+  //   // });
+  //   });
+  // });
 
   // test saveProject endpoint
   describe('/saveProject', () => {
-    describe('/POST', () => {
+    describe('POST', () => {
       it('responds with a status of 200 and json object equal to project sent', async () => {
         return request(app)
           .post('/saveProject')
@@ -70,12 +73,13 @@ describe('Server endpoint tests', () => {
     });
   });
   // test getProjects endpoint
-  xdescribe('/getProjects', () => {
+  describe('/getProjects', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to an array of user projects', () => {
         return request(app)
           .post('/getProjects')
           .set('Accept', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .send({ userId: projectToSave.userId })
           .expect(200)
           .expect('Content-Type', /json/)
@@ -87,14 +91,15 @@ describe('Server endpoint tests', () => {
     });
   });
   // test deleteProject endpoint
-  xdescribe('/deleteProject', () => {
+  describe('/deleteProject', () => {
     describe('DELETE', () => {
       it('responds with status of 200 and json object equal to deleted project', async () => {
-        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId });
+        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
         const _id: String = response.body[0]._id;
         const userId: String = user.userId;
         return request(app)
           .delete('/deleteProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Content-Type', 'application/json')
           .send({ _id, userId })
           .expect(200)
@@ -104,12 +109,13 @@ describe('Server endpoint tests', () => {
   });
 
   //test publishProject endpoint
-  xdescribe('/publishProject', () => {
+  describe('/publishProject', () => {
     describe('POST', () => {
       it('responds with status of 200 and json object equal to published project', async () => {
 
         const projObj = await request(app)
           .post('/saveProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Accept', 'application/json')
           .send(projectToSave)
           
@@ -122,6 +128,7 @@ describe('Server endpoint tests', () => {
         return request(app)
           .post('/publishProject')
           .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
           .expect(200)
           .then((res) => {
@@ -133,7 +140,7 @@ describe('Server endpoint tests', () => {
   });
 
   //test getMarketplaceProjects endpoint
-  xdescribe('/getMarketplaceProjects', () => {//most recent project should be the one from publishProject
+  describe('/getMarketplaceProjects', () => {//most recent project should be the one from publishProject
     describe('GET', () => {
       it('responds with status of 200 and json object equal to unpublished project', async () => {
         return request(app)
@@ -150,7 +157,7 @@ describe('Server endpoint tests', () => {
   });
 
   //test cloneProject endpoint
-  xdescribe('/cloneProject/:docId', () => {
+  describe('/cloneProject/:docId', () => {
     describe('GET', () => {
       it('responds with status of 200 and json object equal to cloned project', async () => {
 
@@ -178,15 +185,16 @@ describe('Server endpoint tests', () => {
   });
 
   //test unpublishProject endpoint
-  xdescribe('/unpublishProject', () => {
+  describe('/unpublishProject', () => {
     describe('PATCH', () => {
       it('responds with status of 200 and json object equal to unpublished project', async () => {
-        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId }); //most recent project should be the one from publishProject
+        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId }); //most recent project should be the one from publishProject
         const _id: String = response.body[0]._id;
         const userId: String = user.userId;
         return request(app)
           .patch('/unpublishProject')
           .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
           .send({ _id, userId })//_id, project, comments, userId, username, name 
           .expect(200)
           .then((res) => {
