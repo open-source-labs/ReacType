@@ -222,6 +222,7 @@ app.get(
 // Clone from marketplace
 app.get(
   '/cloneProject/:docId',
+  sessionController.isLoggedIn,
   marketplaceController.cloneProject, 
   (req, res) => res.status(200).json(res.locals.clonedProject)
 );
@@ -251,6 +252,7 @@ if (isDocker) {
     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
   });
 }
+
 
 app.get('/test', (req, res) => {
   res.send('test request is working');

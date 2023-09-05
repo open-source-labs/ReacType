@@ -41,9 +41,7 @@ const marketplaceController: MarketplaceController = {
     const createdAt = Date.now();
 
     if (userId === req.cookies.ssid) {
-
       if (mongoose.isValidObjectId(_id)) {
-
         const noPub = {...project}
         delete noPub.published;
         delete noPub._id;
@@ -60,6 +58,7 @@ const marketplaceController: MarketplaceController = {
         res.locals.publishedProject = publishedProject;
         return next();
       }else{
+
         const noId = {...project};
         delete noId._id;  //removing the empty string _id from project
         delete noId.published;
@@ -70,7 +69,7 @@ const marketplaceController: MarketplaceController = {
       }
     }
     else {
-      console.log('userId did not match')
+
       // we should not expect a user to be able to access another user's id, but included error handling for unexpected errors
       return next({
         log: 'Error in marketplaceController.publishProject', 
@@ -91,11 +90,11 @@ const marketplaceController: MarketplaceController = {
     const { _id, userId } = req.body;
     //check if req.cookies.ssid matches userId
     
-    if (userId === req.cookies.ssid) {
+    if (userId === req.cookies.ssid ) {
       Projects.findOneAndUpdate({ _id }, {published: false}, { new: true }, (err, result) => {
-        if (err) {
+        if (err || result === null) {
           return next({
-            log: `Error in marketplaceController.unpublishProject: ${err}`,
+            log: `Error in marketplaceController.unpublishProject: ${err || null}`,
             message: {
               err: 'Error in marketplaceController.unpublishProject, check server logs for details'
             }

@@ -110,6 +110,7 @@ const TableParentProps = props => {
         rows={rows}
         columns={gridColumns}
         pageSize={5}
+        rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />

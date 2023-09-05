@@ -1,11 +1,16 @@
 {
   "name": "reactype",
-  "version": "16.0.0 by Adam Vanek, Matteo Diterlizzi, Rachel Kucharski and Sophia Bui",
+  "version": "17.0.0 by Victor Martins, Liam Roh, Denton Wong, Ahnaf Khan, Hernan Damazo",
   "description": "Prototyping tool for React/Typescript Applications.",
   "private": true,
   "main": "app/electron/main.js",
   "author": "OS Labs",
   "contributors": [
+    "Victor Martins", 
+    "Liam Roh", 
+    "Denton Wong", 
+    "Ahnaf Khan", 
+    "Hernan Damazo",
     "Adam Vanek",
     "Matteo Diterlizzi",
     "Rachel Kucharski",
@@ -252,7 +257,7 @@
     "modulePathIgnorePatterns": [
       "__tests__/playwright",
       "__tests__/spec.ts",
-      "__tests__/userAuth.test.ts"
+      "__tests__/projects.test.ts"
     ],
     "transform": {
       "\\.(ts|tsx)$": "ts-jest",
