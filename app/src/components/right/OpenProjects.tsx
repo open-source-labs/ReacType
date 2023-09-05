@@ -16,6 +16,7 @@ import { openProject } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 export interface ProjectDialogProps {
+  openAlert: () => void;
   open: boolean;
   projects: Array<Object>;
   onClose: () => void;
@@ -23,7 +24,7 @@ export interface ProjectDialogProps {
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
-  const { onClose, open, projects } = props;
+  const { onClose, open, projects, openAlert } = props;
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
@@ -38,6 +39,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
     // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
     console.log(selectedProject);
     dispatch(openProject(selectedProject))
+    openAlert()
     onClose();
   };
 
@@ -127,7 +129,7 @@ export default function ProjectsFolder(props) {
       >
         Open Project
       </Button>
-      <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
+      <ProjectsDialog open={open} onClose={handleClose} projects={projects} openAlert={props.openAlert}/>
     </div>
   );
 }

@@ -68,7 +68,7 @@ const AddContextForm = ({
   const contexts = allContext.length ? (
     allContext.map((context) => {
       return (
-        <MenuItem style={{ color: color }} value={context.name}>
+        <MenuItem style={{ color: 'black' }} value={context.name}>
           {context.name}
         </MenuItem>
       );
@@ -100,7 +100,8 @@ const AddContextForm = ({
         />
         <Snackbar
           open={open && !errorStatus}
-          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          autoHideDuration={3000}
           onClose={handleClose}
         >
           <Alert

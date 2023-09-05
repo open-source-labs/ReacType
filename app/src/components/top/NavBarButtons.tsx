@@ -413,10 +413,10 @@ function navbarDropDown(props) {
           <SaveProjectButton />
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
-          <ProjectsFolder />
+          <ProjectsFolder openAlert={props.openAlert}/>
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
-          <DeleteProjects />
+          <DeleteProjects deleteAlert={props.deleteAlert} />
         </StyledMenuItem>
       </StyledMenu>
       {modal}

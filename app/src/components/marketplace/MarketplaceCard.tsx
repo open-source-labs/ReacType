@@ -158,6 +158,7 @@ const MarketplaceCard = ({proj} :{proj: Project}) => {
           <Snackbar
           open={alertOpen}
           autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
           onClose={handleAlertClose}
         >
           <Alert

@@ -12,6 +12,8 @@ import { publishProject, unpublishProject } from '../../helperFunctions/projectG
 import PublishModal from './PublishModal';
 import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 
 const NavBar = () => {
@@ -27,12 +29,23 @@ const NavBar = () => {
 
   const dispatch = useDispatch();
   const menuButtonRef = useRef(null);
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
+  const [alertOpen2, setAlertOpen2] = React.useState<boolean>(false)
+  const [deleteAlert, setDeleteAlert] = React.useState<boolean>(false)
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false)
 
   useEffect(()=>{
     setProjectName(state.name)
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
+  const deleteAlertOpen = () => {
+    console.log("I am hit")
+    setDeleteAlert(true);
+  }
 
+  const openProjectAlert = () => {
+    setOpenAlert(true)
+  }
 
   const buttonContainerStyle = {
     display: 'flex',
@@ -82,6 +95,7 @@ const NavBar = () => {
         dispatch(updateProjectId(newProject._id))
         dispatch(updateProjectName(newProject.name))
         dispatch(updateProjectPublished(newProject.published))
+        setAlertOpen(true)
       })
       .catch((error) => {
         console.error('Error publishing project:', error.message);
@@ -94,13 +108,36 @@ const NavBar = () => {
         .then((unpublishedProject: State) => {
           console.log('Project unpublished successfully', unpublishedProject);
           dispatch(updateProjectPublished(false)); 
+          setAlertOpen2(true);
         })
         .catch((error) => {
           console.error('Error unpublishing project:', error.message);
         });
     };
+
+    const handleAlertClose = (
+      event: React.SyntheticEvent | Event,
+      reason?: string
+      ) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setAlertOpen(false);  
+        setAlertOpen2(false);
+        setDeleteAlert(false);
+        setOpenAlert(false);
+      }
+  
+    const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+      props,
+      ref
+    ) {
+      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
   
   return (
+    <div>
     <nav
       className="main-navbar"
       style={
@@ -142,6 +179,8 @@ const NavBar = () => {
           setDropMenu={setDropMenu}
           menuButtonRef={menuButtonRef}
           style={{ color: 'white' }}
+          deleteAlert={deleteAlertOpen}
+          openAlert={openProjectAlert}
         />
       </div>
       <PublishModal
@@ -154,6 +193,65 @@ const NavBar = () => {
         invalidProjectNameMessage={invalidProjectNameMessage}
       />
     </nav>
+    <div>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Published Project!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={alertOpen2}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Unpublished Project!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={deleteAlert}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+             Project Deleted!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Opened Project!
+          </Alert>
+        </Snackbar>
+    </div>
+    </div>
   );
 };
 
