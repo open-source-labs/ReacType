@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import NavBar from '../app/src/components/top/NavBar';
+import navbarDropDown from '../app/src/components/top/navbarDropDown'
 import * as projectFunctions from '../app/src/helperFunctions/projectGetSaveDel';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -21,6 +23,12 @@ jest.mock('../../public/icons/win/logo.png', () => 'dummy-image-url');
 jest.mock('../app/src/helperFunctions/projectGetSaveDel', () => ({
   publishProject: jest.fn(),
   unpublishProject: jest.fn(),
+}));
+
+//mock the file saver library
+jest.mock('file-saver', () => ({
+  ...jest.requireActual('file-saver'),
+  saveAs: jest.fn(),
 }));
 
 const originalError = console.error;
@@ -156,4 +164,66 @@ describe('NavBar Component', () => {
       fireEvent.click(unpublishButton);
     }
   });
+
+  it('handles export correctly', async () => {
+    const store = configureStore({
+      reducer: rootReducer,
+      preloadedState: {
+        appState: {
+          ...appStateInitialState,
+          isLoggedIn: true,
+          name: 'Mock Project Name',
+        },
+      },
+    });
+
+    console.log('Before rendering NavBar');
+
+    const { getByText } = renderNavBar(store);
+
+    console.log('After rendering NavBar');
+
+    // Find and click the export button
+    const exportButton = getByText('< > Export');
+    fireEvent.click(exportButton);
+
+
+    await waitFor(() => {
+      const exportModal = getByText('Click to download in zip file:');
+      expect(exportModal).toBeInTheDocument();
+    });
+
+
+    const exportComponentsOption = getByText('Export components');
+    fireEvent.click(exportComponentsOption);
+
+  });
+
+
+
+it('handles dropdown menu correctly', () => {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: {
+      appState: {
+        ...appStateInitialState,
+        isLoggedIn: true,
+        name: 'Mock Project Name',
+      },
+    },
+  });
+
+  const { getByTestId } = renderNavBar(store);
+  const moreVertButton = getByTestId('more-vert-button');
+
+ 
+  expect(moreVertButton).toBeInTheDocument();
+
+
+  fireEvent.click(moreVertButton);
+
+
+});
+
+  
 });
