@@ -33,6 +33,7 @@ const NavBar = () => {
   const [alertOpen2, setAlertOpen2] = React.useState<boolean>(false)
   const [deleteAlert, setDeleteAlert] = React.useState<boolean>(false)
   const [openAlert, setOpenAlert] = React.useState<boolean>(false)
+  const [loginAlert, setLoginAlert] = React.useState<boolean>(false)
 
   useEffect(()=>{
     setProjectName(state.name)
@@ -85,23 +86,24 @@ const NavBar = () => {
       setInvalidProjectName(true);
       setPublishModalOpen(true);
       return;
-    }
-    
+    } else if(state.isLoggedIn === false) {
+      setLoginAlert(true);
+    } else {
 
-    publishProject(projectName, state)
-      .then((newProject: State) => {
-        console.log('Project published successfully', newProject);
-        setPublishModalOpen(false);
-        dispatch(updateProjectId(newProject._id))
-        dispatch(updateProjectName(newProject.name))
-        dispatch(updateProjectPublished(newProject.published))
-        setAlertOpen(true)
-      })
-      .catch((error) => {
-        console.error('Error publishing project:', error.message);
-      });
-      
-    };
+      publishProject(projectName, state)
+        .then((newProject: State) => {
+          console.log('Project published successfully', newProject);
+          setPublishModalOpen(false);
+          dispatch(updateProjectId(newProject._id))
+          dispatch(updateProjectName(newProject.name))
+          dispatch(updateProjectPublished(newProject.published))
+          setAlertOpen(true)
+        })
+        .catch((error) => {
+          console.error('Error publishing project:', error.message);
+        });     
+    }
+  };
 
     const handleUnpublish = () => {
       unpublishProject(state)
@@ -126,6 +128,7 @@ const NavBar = () => {
         setAlertOpen2(false);
         setDeleteAlert(false);
         setOpenAlert(false);
+        setLoginAlert(false);
       }
   
     const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -248,6 +251,20 @@ const NavBar = () => {
             sx={{ width: '100%', color: 'white' }}
           >
             Opened Project!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={loginAlert}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="error"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Login to Publish!
           </Alert>
         </Snackbar>
     </div>
