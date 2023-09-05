@@ -1,3 +1,5 @@
+import HTMLTypes from "./app/src/redux/HTMLTypes";
+
 const mockObj = {
   //these user credentials were created via the signup page
   //once connecting to new mongo cluster, you must create new login credentials to test
@@ -5,7 +7,7 @@ const mockObj = {
     username: 'test',
     email: 'test@gmail.com',
     password: 'password1!',
-    userId: '64f11a47e77f99bf34b08979'
+    userId: '64f551e5b28d5292975e08c8'
   },
 
   state: {
@@ -24,12 +26,18 @@ const mockObj = {
     rootComponents: [1],
     canvasFocus: { componentId: 1, childId: null },
     nextComponentId: 2,
-    nextChildId: 1
+    nextChildId: 1,
+    nextTopSeparatorId: 1000,
+    HTMLTypes: HTMLTypes, // left as is for now
+    tailwind: false,
+    stylesheet: '', 
+    codePreview: false, 
   },
 
   projectToSave: {
+    _id: '',
     name: 'super test project',
-    userId: '64f11a47e77f99bf34b08979',
+    userId: '64f551e5b28d5292975e08c8',
     username: 'test',
     project: {
       name: 'test',
@@ -47,10 +55,15 @@ const mockObj = {
       rootComponents: [1],
       canvasFocus: { componentId: 1, childId: null },
       nextComponentId: 2,
-      nextChildId: 1
+      nextChildId: 1,
+      nextTopSeparatorId: 1000,
+      HTMLTypes: HTMLTypes, // left as is for now
+      tailwind: false,
+      stylesheet: '', 
+      codePreview: false, 
     }
   },
-
+//The following is for graphQL
   GET_PROJECTS: `query GetAllProjects($userId: ID) {
     getAllProjects(userId: $userId) { 
       name 

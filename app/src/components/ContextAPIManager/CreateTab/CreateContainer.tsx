@@ -15,8 +15,8 @@ import { RootState } from '../../../redux/store';
 
 const CreateContainer = () => {
   const state = useSelector((store: RootState) => store.contextSlice);
-  const [contextInput, setContextInput] = React.useState(null);
-  const [currentContext, setCurrentContext] = React.useState(null);
+  const [contextInput, setContextInput] = React.useState('');
+  const [currentContext, setCurrentContext] = React.useState('');
   const [errorMsg, setErrorMsg] = React.useState('');
   const [errorStatus, setErrorStatus] = React.useState(false);
   const currentKeyValues = state.allContext.find(
@@ -79,7 +79,7 @@ const CreateContainer = () => {
   const handleDeleteContextClick = () => {
     dispatch(deleteContext({ name: currentContext }));
     setContextInput('');
-    setCurrentContext(null);
+    setCurrentContext('');
   };
 
   console.log('state.allContext', state.allContext);

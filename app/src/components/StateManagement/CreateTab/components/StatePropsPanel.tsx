@@ -28,6 +28,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   const [inputValue, setInputValue] = useState('');
   const [inputType, setInputType] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
+  const [inputTypeError, setInputTypeError] = useState('');
+  const [newVal, setNewVal] = useState('test');
   const [errorMsg, setErrorMsg] = useState('');
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -42,19 +44,64 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
   const typeConversion = (value: string, type: string) => {
     switch (type) {
       case 'string':
-        return String(value);
+        {
+          setInputTypeError('');
+          return String(value);
+        }
       case 'number':
-        return Number(value);
+        {
+          setInputTypeError('');
+          return Number(value);
+        }
       case 'boolean':
-        return value === 'true';
+        {
+          setInputTypeError('');
+          return value === 'true';
+        }
       case 'array':
-        return JSON.parse(value);
-      case 'object':
-        return JSON.parse(value);
+        try{
+          let retVal = JSON.parse(value);
+          if(Array.isArray(retVal)){
+            console.log('is this an array still', retVal)
+            setInputTypeError('');
+            return retVal
+          }else{
+
+            throw new Error('Input was not an array!');
+
+          }
+        }
+        catch{
+
+          setInputTypeError(type)
+          return null;
+        }
+      case 'object':{
+        try{
+          let retVal = JSON.parse(value);
+ 
+          if(typeof retVal === 'object' && !Array.isArray(retVal)){
+            setInputTypeError('');
+            return retVal
+          }else{
+            throw new Error('Input was not an object (excluding Arrays)!');
+          }
+        }
+        catch{
+
+          setInputTypeError(type)
+          return null;
+        }
+      }
       default:
-        return value;
+        {
+          setInputTypeError('');
+          return value;
+        }
     }
   };
+
+ 
 
   // clears the input key, value, and type on Form
   const clearForm = () => {
@@ -62,6 +109,13 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     setInputValue('');
     setInputType('');
   };
+
+ 
+  useEffect(()=>{
+
+    setNewVal(typeConversion(inputValue, inputType));
+
+  }, [inputType, inputValue] ) 
 
   // submit new stateProps entries to state context
   const submitNewState = (e) => {
@@ -91,17 +145,21 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
           setErrorMsg('Key name already in use.');
           return;
         }
+        else{
+          setErrorStatus(false);
+          setErrorMsg('');
+        }
       }
     }
-    setPropNum((prev) => prev + 1);
+    setPropNum((prev) => prev + 1);    
     const newState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-${inputKey}`,
       key: inputKey,
-      value: typeConversion(inputValue, inputType),
+      value: newVal,
       type: inputType
     };
-
+    
     const setNewState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-set${inputKey
@@ -111,16 +169,19 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
       value: '',
       type: 'func'
     };
-    dispatch(
-      addState({
-        newState: newState,
-        setNewState: setNewState,
-        contextParam: contextParam
-      })
-    );
-    setRows1([...rows1, newState]);
-    setErrorStatus(false);
-    clearForm();
+    if(!inputTypeError){
+      dispatch(
+        addState({
+          newState: newState,
+          setNewState: setNewState,
+          contextParam: contextParam
+        })
+      );
+      setRows1([...rows1, newState]);
+      setErrorStatus(false);
+      clearForm();
+
+    }
   };
 
   // find table row using its id and if it exists, populate form with its details
@@ -134,7 +195,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     if (exists) {
       setInputKey(table.row.key);
       setInputType(table.row.type);
-      setInputValue(table.row.value);
+      console.log("tablerowvalue", table.row.value);
+      setInputValue(table.row.value ? JSON.stringify(table.row.value) : '');
     } else clearForm();
   };
   //use effect to populate parent props table on load and every time canvas focus changes
@@ -201,6 +263,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
             label="initial value"
             variant="outlined"
             value={inputValue}
+            error={errorStatus}
             onChange={(e) => setInputValue(e.target.value)}
             className={
               isThemeLight
@@ -215,10 +278,11 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                 ? `${classes.formControl} ${classes.lightThemeFontColor}`
                 : `${classes.formControl} ${classes.darkThemeFontColor}`
             }
+            error={inputTypeError != '' || errorStatus }
           >
             <InputLabel
               id="select-required-label"
-              style={{color: 'black'}}
+              style={{color: 'white'}}
             >
               Type
             </InputLabel>
@@ -231,11 +295,20 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                   ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}`
                   : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`
               }
-              value={inputType}
+              value={inputType === 'func' ? '' : inputType}
               onChange={(event) => setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={
-                isThemeLight
+                {
+                  backgroundColor: 'gray',
+                  color: '#fff',
+                  border: '1px solid white',
+                  height: '28px',
+                  width: '200px'
+                }
+              }
+            >{/*originally in style: 
+            isThemeLight
                   ? {
                       backgroundColor: '#eef0f1',
                       color: '#000',
@@ -249,9 +322,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                       border: '1px solid white',
                       height: '28px',
                       width: '200px'
-                    }
-              }
-            >
+                    }*/} 
               <MenuItem value="" style={{ color: 'black' }}>
                 <em>Types</em>
               </MenuItem>
@@ -312,7 +383,10 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
                   : classes.darkThemeFontColor
               }
             >
-              Required
+              {
+               inputTypeError === 'object' ? 'JSON object form: {"key": value}' : 
+               inputTypeError === 'array' ? 'Array form: [value]' : 'Required'
+              }
             </FormHelperText>
           </FormControl>
           <br />

@@ -7,7 +7,8 @@ const cookieController: CookieController = {
     res.cookie('ssid', res.locals.id, {
       httpOnly: true,
       sameSite: 'none',
-      secure: true
+      secure: true,
+      maxAge: 2 * 60 * 60 * 1000//2 hr expiration
     });
     return next();
   }, 

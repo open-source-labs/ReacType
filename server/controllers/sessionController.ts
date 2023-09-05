@@ -7,10 +7,10 @@ dotenv.config();
 // here we are cheching that the user making the request is login in and has a valid cookieId
 const sessionController: SessionController = {
   isLoggedIn: async (req, res, next) => {
-    if (process.env.NODE_ENV === 'test') {
-      // Skip authentication checks in test environment
-      return next();
-    } else {
+    // if (process.env.NODE_ENV === 'test') {
+    //   // Skip authentication checks in test environment
+    //   return next();
+    // } else {
       try {
         let cookieId;
         if (req.cookies) {
@@ -36,7 +36,7 @@ const sessionController: SessionController = {
           }
         });
       }
-    }
+    
 },
   // startSession - create and save a new session into the database
   startSession: (req, res, next) => {
