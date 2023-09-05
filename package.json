@@ -188,7 +188,7 @@
     "@mui/styled-engine-sc": "^5.9.3",
     "@mui/x-data-grid": "^5.15.3",
     "@playwright/test": "^1.33.0",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.2",
     "@types/chai": "^4.3.1",
     "@types/jest": "^28.1.6",
