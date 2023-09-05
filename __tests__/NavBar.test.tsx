@@ -31,14 +31,14 @@ jest.mock('file-saver', () => ({
   saveAs: jest.fn(),
 }));
 
-const originalError = console.error;
-beforeAll(() => {
-  console.error = jest.fn();
-});
+// const originalError = console.error;
+// beforeAll(() => {
+//   console.error = jest.fn();
+// });
 
-afterAll(() => {
-  console.error = originalError;
-});
+// afterAll(() => {
+//   console.error = originalError;
+// });
 
 // Mocking the render
 const renderNavBar = (store) => {
