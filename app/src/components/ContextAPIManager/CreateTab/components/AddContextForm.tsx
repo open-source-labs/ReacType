@@ -100,7 +100,8 @@ const AddContextForm = ({
         />
         <Snackbar
           open={open && !errorStatus}
-          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          autoHideDuration={3000}
           onClose={handleClose}
         >
           <Alert

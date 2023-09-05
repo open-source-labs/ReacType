@@ -903,7 +903,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="primary"
                     className={
                       isThemeLight
@@ -941,6 +941,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               )}
               <div className={classes.buttonRow}>
                 <Button
+                  variant="contained"
                   color="primary"
                   className={classes.button}
                   onClick={handleUndo}
@@ -948,6 +949,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <i className="fas fa-undo"></i>
                 </Button>
                 <Button
+                  variant="contained"
                   color="primary"
                   className={classes.button}
                   onClick={handleRedo}

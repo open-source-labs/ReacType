@@ -38,7 +38,8 @@ function CanvasContainer(props): JSX.Element {
     textAlign: 'center',
     color: '#ffffff', 
     backgroundColor: '#151515',
-    zIndex: 0
+    zIndex: 0,
+    border: '2px solid #186BB4'
  
     
     

@@ -18,7 +18,10 @@ import localforage from 'localforage';
 import { useSelector, useDispatch } from 'react-redux';
 import { setInitialState, initialState } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 export interface ProjectDialogProps {
+  deleteAlert: () => void;
   open: boolean;
   projects: Array<Object>;
   onClose: () => void;
@@ -26,7 +29,7 @@ export interface ProjectDialogProps {
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
-  const { onClose, open, projects } = props;
+  const { onClose, open, projects, deleteAlert } = props;
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
 
@@ -41,14 +44,17 @@ function ProjectsDialog(props: ProjectDialogProps) {
     const selectedProject = projects.filter(
       (project: any) => project._id === value
       )[0];
-    console.log('deleting this one', selectedProject)
-    deleteProject(selectedProject);
-    localforage.removeItem(window.localStorage.getItem('ssid'));
-    dispatch(setInitialState(initialState))
-    onClose();
+      console.log('deleting this one', selectedProject)
+      deleteProject(selectedProject);
+      localforage.removeItem(window.localStorage.getItem('ssid'));
+      dispatch(setInitialState(initialState))
+      // handleAlertOpen()
+      deleteAlert()
+      onClose()
   };
-
+  
   return (
+    <>
     <Dialog
       onClose={handleClose}
       aria-labelledby="project-dialog-title"
@@ -90,10 +96,11 @@ function ProjectsDialog(props: ProjectDialogProps) {
         ))}
       </List>
     </Dialog>
+  </>
   );
 }
 
-export default function ProjectsFolder() {
+export default function ProjectsFolder(props) {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: 'cat' }]);
 
@@ -110,6 +117,7 @@ export default function ProjectsFolder() {
     setOpen(false);
   };
 
+
   const keyBindDeleteProject = useCallback((e) => {
     if(e.key === 'Backspace' && e.metaKey || e.key === 'Backspace' && e.ctrlKey) {
       e.preventDefault();
@@ -123,6 +131,7 @@ export default function ProjectsFolder() {
       document.removeEventListener('keydown', keyBindDeleteProject)
     }
   }, []);
+
   return (
     <div>
       <Button
@@ -133,7 +142,7 @@ export default function ProjectsFolder() {
       >
         Delete Project
       </Button>
-      <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
+      <ProjectsDialog open={open} onClose={handleClose} projects={projects} deleteAlert={props.deleteAlert}/>
     </div>
   );
 }

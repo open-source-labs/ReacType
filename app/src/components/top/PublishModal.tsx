@@ -36,6 +36,7 @@ const PublishModal = ({
           onChange={onChange}
           helperText={invalidProjectNameMessage}
           error={invalidProjectName}
+          autoComplete="off"
         />
       </DialogContent>
       <DialogActions>
