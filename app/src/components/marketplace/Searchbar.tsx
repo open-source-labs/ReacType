@@ -20,7 +20,8 @@ const SearchBar = ({marketplaceProjects, updateDisplayProjects }):JSX.Element =>
 
     }else{
 
-      const patternString = '(?:^|[^a-zA-Z])' + searchText.toLowerCase() + '(?:$|[^a-zA-Z])';
+      //more strict pattern not currently used
+      //const patternString = '(?:^|[^a-zA-Z])' + searchText.toLowerCase() + '(?:$|[^a-zA-Z])';
       //(?: [non-capturing group] means to ignore the items inside the parens in terms of looking for that string order in the target 
       //^ refers to the literal beginning of a start of a line or string
       //| pipe operator is an OR statement
@@ -35,7 +36,7 @@ const SearchBar = ({marketplaceProjects, updateDisplayProjects }):JSX.Element =>
       const searchResults = marketplaceProjects.reduce((results, curr) => {
         const lowName = curr.name.toLowerCase()
         const lowUsername = curr.username.toLowerCase()
-        if(lowName.match(patternString) || lowUsername.match(patternString2))
+        if(lowName.match(patternString2) || lowUsername.match(patternString2))
           results.push(curr)
         return results;
       }, [])
