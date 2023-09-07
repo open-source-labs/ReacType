@@ -332,7 +332,7 @@ function navbarDropDown(props) {
 
   return (
     // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
-    <div ref={ref} className={showMenu}>
+    <div data-testid="navDropDown" ref={ref} className={showMenu}>
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial
