@@ -30,8 +30,6 @@ Changes:<br>
   - Publish/Unpublish Button: 
     - Publish feature on the web app allows users to publish their saved project files into the Marketplace from the main app page
     - Dynamically switches between publish/unpublish depending on whether the loaded project is in the Marketplace
-  - Bug Fixes:
-    - 
 
 Recommendations for Future Enhancements:<br>
 
@@ -43,6 +41,7 @@ Recommendations for Future Enhancements:<br>
 - Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
 - Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.
 - Take a look at the join room functionality using web sockets in order to allow users to collaborate on the same project at the same time.
+- For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
 - Continue code cleanup. Continue cleanup of outdated and unused code and files
 
 **Version 16.0.0 Changes**
