@@ -265,31 +265,29 @@ describe('NavBar Component', () => {
     console.log('After rendering NavBar');
 
     await act(async () => { 
-      // Initially, the dropdown should have the "hideNavDropDown" class
+
       const dropdownMenu = getByTestId('navDropDown');
       expect(dropdownMenu).toHaveClass('hideNavDropDown');
 
-      // Find and click the button to open the dropdown
+
       const moreVertButton = getByTestId('more-vert-button');
       fireEvent.click(moreVertButton);
 
-      // After clicking, the dropdown should have the "navDropDown" class
+
       expect(dropdownMenu).toHaveClass('hideNavDropDown');
 
-      // Clear canvas click
+
       const clearCanvasMenuItem = getByText('Clear Canvas');
       fireEvent.click(clearCanvasMenuItem);
       expect(dropdownMenu).toHaveClass('hideNavDropDown');
 
-      // After clicking "Marketplace", it should remain open
+
       const marketplaceMenuItem = getByText('Marketplace');
       fireEvent.click(marketplaceMenuItem);
       expect(dropdownMenu).toHaveClass('hideNavDropDown');
 
-      // Close the dropdown by clicking the button again
       fireEvent.click(moreVertButton);
 
-      // After closing, the dropdown should have the "hideNavDropDown" class
       expect(dropdownMenu).toHaveClass('hideNavDropDown');
     });
   });
