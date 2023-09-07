@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../app/src/redux/reducers/rootReducer';
 import { initialState as appStateInitialState } from '../app/src/redux/reducers/slice/appStateSlice';
-
+import { act } from 'react-dom/test-utils';
 
 
 // Mock the non-serializable HTMLTypes
@@ -117,8 +117,11 @@ describe('NavBar Component', () => {
 
     console.log('After rendering NavBar');
 
-    const publishButton = getByText('Publish');
-    fireEvent.click(publishButton);
+    await act(async () => {
+      
+      const publishButton = getByText('Publish');
+      fireEvent.click(publishButton);
+    });
   });
 
   it('handles publish correctly with new project', async () => {
