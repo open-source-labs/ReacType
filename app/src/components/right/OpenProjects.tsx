@@ -69,7 +69,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
 )}
       </List>
       {/* this section handles the projects cloned from the marketplace */}
-      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">MP Projects</DialogTitle>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Marketplace Projects</DialogTitle>
       <List style={{ color: "#000" }}>
       {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => ( 
     <ListItem

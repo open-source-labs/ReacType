@@ -128,7 +128,7 @@ const useStyles = makeStyles({
       color: 'white'
     },
     '& .MuiTablePagination-root': {
-      color: 'rbga(0,0,0,0.54)'
+      color: 'white'
     }
   },
   themeDark: {
