@@ -23,7 +23,6 @@ const AddContextForm = ({
   setErrorStatus
 }) => {
   const { allContext } = contextStore;
-  console.log('all contexts', allContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
   const { state, isDarkMode } = useSelector((store: RootState) => ({

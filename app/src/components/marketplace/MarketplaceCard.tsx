@@ -58,9 +58,9 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
       try {
         const objId: string = proj._id.toString();
         // the below functions are commented out as not to incur too many charges
-        // const response: string = await Storage.get(objId);
+        const response: string = await Storage.get(objId);
         // const response: string = await Storage.get('test');
-        // setS3ImgURL(response);
+        setS3ImgURL(response);
       } catch (error) {
         console.error(`Error fetching image preview for ${proj._id}: `, error);
       }
