@@ -69,16 +69,6 @@ If you want to read about using ReacType, the [User Manual](https://reactype-1.h
 - **Marketplace Feature**: Implemented a dedicated area for developers to share their projects, 
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
-## Changes with version 16.0.0
-
-- **Improved Testing Coverage**: Testing coverage has now doubled since version 15, and now sits at just over 50% coverage. Version 16 introduces end-to-end testing with Playwright and adds additional unit testing with React Testing Library.
-- **Major Bug Fixes**: Manage Project Features now work as expected. State Manager now deletes state from parent components. Context Manager Display Tab and CSS Editor now rendering as expected.
-- **Typescript Conversion**: Typescript coverage has improved from 30% to 80% with additional interfaces added for quality improvements.
-- **Live CSS Demo Rendering**: CSS Editor changes now rendered visually in the demo page on save.
-- **Universal Exports on Web App**: Export feature on web app now allows users to download the current project as a zip file with modularized component folder, html, and css file included. Export feature is now available to all users including guests.
-- **UI Improvements**: Fixed multiple contrast issues with white text displaying on white background. Adjusted context manager interface for improved UX. Fixed border styling within modals and error messages.
-- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
-
 ## File Structure courtesy of Reactype version 14.0.0
 
 Here is the main file structure:
