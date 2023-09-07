@@ -62,7 +62,6 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         try{
           let retVal = JSON.parse(value);
           if(Array.isArray(retVal)){
-            console.log('is this an array still', retVal)
             setInputTypeError('');
             return retVal
           }else{
@@ -195,7 +194,6 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
     if (exists) {
       setInputKey(table.row.key);
       setInputType(table.row.type);
-      console.log("tablerowvalue", table.row.value);
       setInputValue(table.row.value ? JSON.stringify(table.row.value) : '');
     } else clearForm();
   };

@@ -47,8 +47,8 @@ const MainContainer = (props): JSX.Element => {
 
     async function checkStorageConnection() {
       try {
-        await Storage.list(''); // This is just a test operation
-        console.log('Connected to AWS S3 successfully.');
+        // await Storage.list(''); // This is just a test operation
+        // console.log('Connected to AWS S3 successfully.');
       } catch (error) {
         console.error('Error connecting to AWS S3:', error);
       }
@@ -60,7 +60,6 @@ const MainContainer = (props): JSX.Element => {
       await Storage.put(id, imgBuffer, {
         contentType: 'image/png',
       });
-      console.log('Screenshot uploaded to S3');
     } catch (error) {
       alert('Error uploading screenshot: ' + error);
     }

@@ -37,7 +37,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
       (project: any) => project._id === value
     )[0];
     // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
-    console.log(selectedProject);
     dispatch(openProject(selectedProject))
     openAlert()
     onClose();

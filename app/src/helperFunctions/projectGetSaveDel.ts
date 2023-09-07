@@ -86,7 +86,6 @@ export const publishProject = (
   const publishedProject = response
     .then((res) => res.json())
     .then((data) => {
-      console.log({_id: data._id, name: data.name, published:data.published, ...data.project});
       return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => {
@@ -117,7 +116,6 @@ export const unpublishProject = (
   const unpublishedProject = response
     .then((res) => res.json())
     .then((data) => {
-      console.log({_id: data._id, name: data.name, published:data.published, ...data.project});
       return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => {
@@ -142,7 +140,7 @@ export const deleteProject = (project: any): Promise<Object> => {
     body
   })
     .then((res) => res.json())
-    .then((data) => { console.log(data)
+    .then((data) => { 
       return {_id: data._id, name: data.name, published:data.published, ...data.project};
     })
     .catch((err) => console.log(`Error deleting project ${err}`));
