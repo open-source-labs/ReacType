@@ -4,10 +4,11 @@
 
 
 import marketplaceController from '../server/controllers/marketplaceController'; 
+import sessionController from '../server/controllers/sessionController';
 import app from '../server/server';
 import mockData from '../mockData';
 import { profileEnd } from 'console';
-import { Projects } from '../server/models/reactypeModels';
+import { Projects, Sessions} from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
@@ -288,10 +289,92 @@ describe('Server endpoint tests', () => {
     });
   });
 
+  xdescribe('SessionController tests', () => {
+    
 
+  
+    
+    afterEach(() => {
+      jest.resetAllMocks();
+    })
+    
+    xdescribe('isLoggedIn',() => {
+      // Mock Express request and response objects and next function
+      const mockReq: any = {
+        cookies: null,//trying to trigger if cookies was not assigned
+        body: {
+          userId: 'sampleUserId', // Set up a sample userId in the request body
+        },
+      } 
+      
+      const mockRes: any = {
+        json: jest.fn(),
+        status: jest.fn(),
+        redirect: jest.fn()
+      };
+    
+      const next = jest.fn();
+      it('Assign userId from request body to cookieId', async () => {
+        // Call isLoggedIn 
+        await sessionController.isLoggedIn(mockReq, mockRes, next);
+        expect(mockRes.redirect).toHaveBeenCalledWith('/');
+        // Ensure that next() was called
+      });
+  
+      it('Trigger a database query error for findOne', async () => {
+        jest.spyOn(mongoose.model('Sessions'), 'findOne').mockImplementation(() => {
+          throw new Error('Database query error');
+        });
+        // Call isLoggedIn
+        await sessionController.isLoggedIn(mockReq, mockRes, next);
+    
+        // Ensure that next() was called with the error
+        expect(next).toHaveBeenCalledWith(expect.objectContaining({
+          log: expect.stringMatching('Database query error'), // The 'i' flag makes it case-insensitive
+        }));
+      });
+    });
 
+    xdescribe('startSession',() => {
+      const mockReq: any = {
+        cookies: projectToSave.userId,//trying to trigger if cookies was not assigned
+        body: {
+          userId: 'sampleUserId', // Set up a sample userId in the request body
+        },
+      } 
+      
+      const mockRes: any = {
+        json: jest.fn(),
+        status: jest.fn(),
+        redirect: jest.fn()
+      };
+
+      jest.spyOn(mongoose.model('Sessions'), 'findOne').mockImplementation(() => {
+        throw new Error('Database query error');
+      });
+    
+      const next = jest.fn();
+
+      it('Trigger a database query error for findOne', async () => {
+
+        jest.spyOn(mongoose.model('Sessions'), 'findOne').mockImplementation(() => {
+          throw new Error('Database query error');
+        });
+        // Call startSession
+        await sessionController.startSession(mockReq, mockRes, next);
+    
+        // Ensure that next() was called with the error
+        expect(next).toHaveBeenCalledWith(expect.objectContaining({
+          log: expect.stringMatching('Database query error'), // The 'i' flag makes it case-insensitive
+        }));
+      });
+
+    });
+
+  });
 
 });
+
 
 
 

@@ -39,6 +39,9 @@ const mockObj = {
     name: 'super test project',
     userId: '64f551e5b28d5292975e08c8',
     username: 'test',
+    forked: false,
+    published: false,
+    isLoggedIn: false,
     project: {
       name: 'test',
       isLoggedIn: false,
