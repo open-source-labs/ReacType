@@ -23,7 +23,6 @@ const sessionController: SessionController = {
 
         // find session from request session ID in mongodb
         const session = await Sessions.findOne({ cookieId });
-
         if (!session) {
           return res.redirect('/');
         }

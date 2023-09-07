@@ -11,38 +11,39 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/login/SignIn.tsx</td><td class="">95.40%</td><td class="">80%</td><td class="">478</td><td class="">456</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
-import { LoginInt } from &#x27;../../interfaces/Interfaces&#x27;;
-import { Link as RouteLink, RouteComponentProps } from &#x27;react-router-dom&#x27;;
-import { sessionIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
-import Avatar from &#x27;@mui/material/Avatar&#x27;;
-import Button from &#x27;@mui/material/Button&#x27;;
-import CssBaseline from &#x27;@mui/material/CssBaseline&#x27;;
-import TextField from &#x27;@mui/material/TextField&#x27;;
-import Grid from &#x27;@mui/material/Grid&#x27;;
-import Box from &#x27;@mui/material/Box&#x27;;
-import Typography from &#x27;@mui/material/Typography&#x27;;
-import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
-import Container from &#x27;@mui/material/Container&#x27;;
-import LockOutlinedIcon from &#x27;@mui/icons-material/LockOutlined&#x27;;
-import { newUserIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
-import randomPassword from &#x27;../../helperFunctions/randomPassword&#x27;;
-import { toggleDarkMode } from &#x27;../../redux/reducers/slice/darkModeSlice&#x27;;
-import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
-import {
-  ThemeProvider,
-  Theme,
-  StyledEngineProvider
-} from &#x27;@mui/material/styles&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/login/SignIn.tsx</td><td class="">97.12%</td><td class="">80%</td><td class="">452</td><td class="">439</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useCallback, useEffect, useState } from &#x27;react&#x27;;
+import { RouteComponentProps, Link as RouteLink } from &#x27;react-router-dom&#x27;;
 import {
   SigninDark,
   SigninLight
 } from &#x27;../../../../app/src/public/styles/theme&#x27;;
+import {
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider
+} from &#x27;@mui/material/styles&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import Avatar from &#x27;@mui/material/Avatar&#x27;;
+import Box from &#x27;@mui/material/Box&#x27;;
 import Brightness3Icon from &#x27;@mui/icons-material/Brightness3&#x27;;
 import Brightness5Icon from &#x27;@mui/icons-material/Brightness5&#x27;;
+import Button from &#x27;@mui/material/Button&#x27;;
+import Container from &#x27;@mui/material/Container&#x27;;
+import CssBaseline from &#x27;@mui/material/CssBaseline&#x27;;
+import Grid from &#x27;@mui/material/Grid&#x27;;
+import LockOutlinedIcon from &#x27;@mui/icons-material/LockOutlined&#x27;;
+import { LoginInt } from &#x27;../../interfaces/Interfaces&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
-
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import Typography from &#x27;@mui/material/Typography&#x27;;
 import config from &#x27;../../../../config.js&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import { newUserIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
+import randomPassword from &#x27;../../helperFunctions/randomPassword&#x27;;
+import { sessionIsCreated } from &#x27;../../helperFunctions/auth&#x27;;
+import { toggleDarkMode } from &#x27;../../redux/reducers/slice/darkModeSlice&#x27;;
+
 const { API_BASE_URL } = config;
 
 declare module &#x27;@mui/styles/defaultTheme&#x27; {
@@ -62,21 +63,17 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) =&gt; ({
   paper: {
-    // marginTop: theme.spacing(8),
     display: &#x27;flex&#x27;,
     flexDirection: &#x27;column&#x27;,
     alignItems: &#x27;center&#x27;
   },
   avatar: {
-    // margin: theme.spacing(1),
     backgroundColor: &#x27;#3EC1AC&#x27;
   },
   form: {
     width: &#x27;100%&#x27; // Fix IE 11 issue.
-    // marginTop: theme.spacing(1)
   },
   submit: {
-    // margin: theme.spacing(1, 0, 1),
     cursor: &#x27;pointer&#x27;
   },
   root: {
@@ -196,25 +193,26 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
     // 8080 for container 5656 for dev
     window.location.assign(`${API_BASE_URL}/auth/github`);
   };
-  const responseFacebook = (response) =&gt; {
-    if (response.accessToken) {
-      newUserIsCreated(response.email, response.email, randomPassword()).then(
-        (userCreated) =&gt; {
-          if (userCreated === &#x27;Success&#x27;) {
-            props.history.push(&#x27;/&#x27;);
-          } else {
-            sessionIsCreated(response.email, randomPassword(), true).then(
-              (loginStatus) =&gt; {
-                if (loginStatus === &#x27;Success&#x27;) {
-                  props.history.push(&#x27;/&#x27;);
-                }
-              }
-            );
-          }
-        }
-      );
-    }
-  };
+
+  // const responseFacebook = (response) =&gt; {
+  //   if (response.accessToken) {
+  //     newUserIsCreated(response.email, response.email, randomPassword()).then(
+  //       (userCreated) =&gt; {
+  //         if (userCreated === &#x27;Success&#x27;) {
+  //           props.history.push(&#x27;/&#x27;);
+  //         } else {
+  //           sessionIsCreated(response.email, randomPassword(), true).then(
+  //             (loginStatus) =&gt; {
+  //               if (loginStatus === &#x27;Success&#x27;) {
+  //                 props.history.push(&#x27;/&#x27;);
+  //               }
+  //             }
+  //           );
+  //         }
+  //       }
+  //     );
+  //   }
+  // };
 
   //  NEW DARK MODE
   const handleDarkModeToggle = () =&gt; {
@@ -238,7 +236,6 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 right: 20,
                 position: &#x27;absolute&#x27;
               }}
-              // variant=&quot;contained&quot;
               endIcon={!isDarkMode ? &lt;Brightness3Icon /&gt; : &lt;Brightness5Icon /&gt;}
               onClick={handleDarkModeToggle}
             &gt;
@@ -303,7 +300,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 width=&quot;16&quot;
                 height=&quot;16&quot;
                 fill=&quot;currentColor&quot;
-                class=&quot;bi bi-person-check&quot;
+                className=&quot;bi bi-person-check&quot;
                 viewBox=&quot;0 0 16 16&quot;
                 style={{ marginLeft: &#x27;5px&#x27; }}
               &gt;
@@ -328,7 +325,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 width=&quot;16&quot;
                 height=&quot;16&quot;
                 fill=&quot;currentColor&quot;
-                class=&quot;bi bi-github&quot;
+                className=&quot;bi bi-github&quot;
                 viewBox=&quot;0 0 16 16&quot;
                 style={{ marginLeft: &#x27;5px&#x27; }}
               &gt;
@@ -354,7 +351,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 width=&quot;16&quot;
                 height=&quot;16&quot;
                 fill=&quot;currentColor&quot;
-                class=&quot;bi bi-google&quot;
+                className=&quot;bi bi-google&quot;
                 viewBox=&quot;0 0 16 16&quot;
                 style={{ marginLeft: &#x27;5px&#x27; }}
               &gt;
@@ -377,7 +374,7 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
                 width=&quot;16&quot;
                 height=&quot;16&quot;
                 fill=&quot;currentColor&quot;
-                class=&quot;bi bi-person-circle&quot;
+                className=&quot;bi bi-person-circle&quot;
                 viewBox=&quot;0 0 16 16&quot;
                 style={{ marginLeft: &#x27;5px&#x27; }}
               &gt;
@@ -419,8 +416,8 @@ const SignIn: React.FC&lt;LoginInt &amp; RouteComponentProps&gt; = (props) =&gt;
 };
 
 export default SignIn;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:18,&quot;text&quot;:&quot;setCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:18,&quot;text&quot;:&quot;getCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:29,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:12,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:46,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:56,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:185,&quot;character&quot;:28,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:8,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:17,&quot;text&quot;:&quot;accessToken&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:23,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:32,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:39,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:48,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:29,&quot;text&quot;:&quot;response&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:38,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:18,&quot;text&quot;:&quot;setCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:13,&quot;text&quot;:&quot;api&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:18,&quot;text&quot;:&quot;getCookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:29,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:12,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:46,&quot;text&quot;:&quot;cookie&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:56,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/login/SignIn.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

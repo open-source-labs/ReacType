@@ -11,41 +11,45 @@
 <link href="../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx</td><td class="">75.86%</td><td class="">80%</td><td class="">58</td><td class="">44</td><td class="">14</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useState} from &#x27;react&#x27;;
-import { useStore, useSelector } from &#x27;react-redux&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">60</td><td class="">60</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useState } from &#x27;react&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
 import { Chart } from &#x27;react-google-charts&#x27;;
 import Grid from &#x27;@mui/material/Grid&#x27;;
 import { RootState } from &#x27;../../../redux/store&#x27;;
 
 const DisplayContainer = () =&gt; {
-  const allContext = useSelector((store:RootState) =&gt; store.contextSlice);
-  // const { allContext } = store.getState().contextSlice;
+  const allContext = useSelector(
+    (store: RootState) =&gt; store.contextSlice.allContext
+  );
   const [contextData, setContextData] = useState([]);
 
-  //build data for Google charts, tree rendering
   useEffect(() =&gt; {
-    transformData(allContext);
+    transformData();
   }, []);
 
-  const transformData = contexts =&gt; {
-    const formattedData = contexts
-      .map(el =&gt; {
-        return el.components.map(component =&gt; {
-          return [`App - ${el.name} - ${component}`];
+  //formats context data for use in react google charts
+  const transformData = () =&gt; {
+    const formattedData = allContext
+      .map((obj) =&gt; {
+        return obj.components.map((component) =&gt; {
+          return [`App ⎯⎯ ${obj.name} ⎯⎯ ${component}`];
         });
       })
       .flat();
     setContextData([[&#x27;Phrases&#x27;], ...formattedData]);
   };
 
+  //format options for google chart
   const options = {
     wordtree: {
       format: &#x27;implicit&#x27;,
       word: &#x27;App&#x27;
     }
   };
+
   return (
     &lt;Grid container display=&quot;flex&quot; justifyContent=&quot;center&quot;&gt;
+      {contextData.length &lt; 2 &amp;&amp; &lt;h2&gt;No Contexts consumed&lt;/h2&gt;}
       &lt;Grid item&gt;
         &lt;Chart
           chartType=&quot;WordTree&quot;
@@ -58,8 +62,9 @@ const DisplayContainer = () =&gt; {
     &lt;/Grid&gt;
   );
 };
-export default DisplayContainer;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:24,&quot;text&quot;:&quot;contexts&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:10,&quot;text&quot;:&quot;formattedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:26,&quot;text&quot;:&quot;contexts&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:7,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:11,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:15,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:18,&quot;text&quot;:&quot;components&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:29,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:33,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:27,&quot;text&quot;:&quot;el&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:30,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:40,&quot;text&quot;:&quot;component&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:7,&quot;text&quot;:&quot;flat&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/ContextAPIManager/DisplayTab/DisplayContainer.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:36,&quot;text&quot;:&quot;formattedData&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+export default DisplayContainer;
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

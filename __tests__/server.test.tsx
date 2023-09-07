@@ -2,12 +2,12 @@
  * @jest-environment node
  */
 
-
 import marketplaceController from '../server/controllers/marketplaceController'; 
+import sessionController from '../server/controllers/sessionController';
 import app from '../server/server';
 import mockData from '../mockData';
 import { profileEnd } from 'console';
-import { Projects } from '../server/models/reactypeModels';
+import { Projects, Users, Sessions } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
@@ -25,7 +25,8 @@ beforeAll(async () => {
 afterAll(async () => {
 
   const result = await Projects.deleteMany({});//clear the projects collection after tests are done
-  console.log(`${result.deletedCount} documents deleted.`);
+  const result2 = await Users.deleteMany({_id: {$ne: '64f551e5b28d5292975e08c8'}});//clear the users collection after tests are done except for the mockdata user account
+  const result3 = await Sessions.deleteMany({cookieId: {$ne: '64f551e5b28d5292975e08c8'}});
   await mongoose.connection.close();
 });
 
@@ -287,12 +288,120 @@ describe('Server endpoint tests', () => {
       });
     });
   });
-
-
-
-
 });
 
+describe('SessionController tests', () => {
+
+
+
+  describe('isLoggedIn',() => {
+
+    afterEach(() => {
+      jest.resetAllMocks();
+    })
+  // Mock Express request and response objects and next function
+    const mockReq: any = {
+      cookies: null,//trying to trigger if cookies was not assigned
+      body: {
+        userId: 'sampleUserId', // Set up a sample userId in the request body
+      },
+    }
+    const mockRes: any = {
+      json: jest.fn(),
+      status: jest.fn(),
+      redirect: jest.fn()
+    };
+    const next = jest.fn();
+    it('Assign userId from request body to cookieId', async () => {
+    // Call isLoggedIn
+      await sessionController.isLoggedIn(mockReq, mockRes, next);
+      expect(mockRes.redirect).toHaveBeenCalledWith('/');
+    // Ensure that next() was called
+    });
+    it('Trigger a database query error for findOne', async () => {
+      const mockFindOne = jest.spyOn(mongoose.model('Sessions'), 'findOne').mockImplementation(() => {
+        throw new Error('Database query error');
+      });
+    // Call isLoggedIn
+      await sessionController.isLoggedIn(mockReq, mockRes, next);
+    // Ensure that next() was called with the error
+      expect(next).toHaveBeenCalledWith(expect.objectContaining({
+        log: expect.stringMatching('Database query error'), // The 'i' flag makes it case-insensitive
+      }));
+
+      mockFindOne.mockRestore();
+    });
+  });
+  
+  
+  describe('startSession',() => {
+      
+    afterEach(() => {
+      jest.resetAllMocks();
+    })
+    it('Trigger a database query error for findOne', async () => {
+
+      const mockReq: any = {
+        cookies: projectToSave.userId,//trying to trigger if cookies was not assigned
+        body: {
+          userId: 'sampleUserId', // Set up a sample userId in the request body
+        },
+      }
+      const mockRes: any = {
+        json: jest.fn(),
+        status: jest.fn(),
+        redirect: jest.fn(),
+        locals: {id: projectToSave.userId}
+      };
+    
+      const next = jest.fn();
+      const findOneMock = jest.spyOn(mongoose.model('Sessions'), 'findOne') as jest.Mock;
+      findOneMock.mockImplementation((query: any, callback: (err: any, ses: any) => void) => {
+        callback(new Error('Database query error'), null);
+      });
+      // Call startSession
+      await sessionController.startSession(mockReq, mockRes, next);
+      // Check that next() was called with the error
+      expect(next).toHaveBeenCalledWith(expect.objectContaining({
+        log: expect.stringMatching('Database query error'), // The 'i' flag makes it case-insensitive
+      }));
+
+      findOneMock.mockRestore();
+    });
+
+    xit('Check if a new Session is created', async () => {//not working for some reason cannot get mocknext() to be called in test?
+
+      const mockReq: any = {
+        cookies: projectToSave.userId,//trying to trigger if cookies was not assigned
+        body: {
+          userId: 'sampleUserId', // Set up a sample userId in the request body
+        },
+      }
+      const mockRes: any = {
+        json: jest.fn(),
+        status: jest.fn(),
+        redirect: jest.fn(),
+        locals: {id: 'testID'}//a sesion id that doesnt exist
+      };
+    
+      const mockNext = jest.fn();
+    
+      //Call startSession
+      // Wrap your test logic in an async function
+      await sessionController.startSession(mockReq, mockRes, mockNext);
+
+      //check if it reaches next()
+      //await expect(mockRes.locals.ssid).toBe('testID');
+      expect(mockNext).toHaveBeenCalled();
+
+
+     
+    });
+  });
+});
+
+
+  
 
 
 

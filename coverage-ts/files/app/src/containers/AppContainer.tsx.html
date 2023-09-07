@@ -11,17 +11,25 @@
 <link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/AppContainer.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">72</td><td class="">72</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useEffect } from &#x27;react&#x27;;
-import {  ThemeProvider, Theme, StyledEngineProvider } from &#x27;@mui/material/styles&#x27;;
-import NavBar from &#x27;../components/top/NavBar&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/AppContainer.tsx</td><td class="">96.47%</td><td class="">80%</td><td class="">85</td><td class="">82</td><td class="">3</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useState } from &#x27;react&#x27;;
+import {
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider
+} from &#x27;@mui/material/styles&#x27;;
+import { theme1, theme2 } from &#x27;../public/styles/theme&#x27;;
+// Imports for redux toolkit usage
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
 import LeftContainer from &#x27;./LeftContainer&#x27;;
 import MainContainer from &#x27;./MainContainer&#x27;;
-import { theme1, theme2 } from &#x27;../public/styles/theme&#x27;;
-import {setStyle} from &#x27;../redux/reducers/slice/styleSlice&#x27;;
-// Imports for redux toolkit usage
-import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
 
+import MarketplaceContainer from &#x27;./MarketplaceContainer&#x27;;
+import NavBar from &#x27;../components/top/NavBar&#x27;;
+import { RootState } from &#x27;../redux/store&#x27;;
 
+import { setStyle } from &#x27;../redux/reducers/slice/styleSlice&#x27;;
+import { useHistory } from &#x27;react-router-dom&#x27;;
 declare module &#x27;@mui/styles/defaultTheme&#x27; {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
@@ -31,42 +39,47 @@ declare module &#x27;@mui/styles/defaultTheme&#x27; {
 const lightTheme = theme1;
 const darkTheme = theme2; // dark mode color in theme.ts not reached
 const AppContainer = () =&gt; {
+  //useHistory hook to grab the url, if it is /marketplace then selectively render MarketplaceContainer
+  const urlAdd = useHistory();
+  const isMarketplace = urlAdd.location.pathname === &#x27;/marketplace&#x27;;
+
   // setting state for changing light vs dark themes; linked to NavBar.tsx
-  
-  const {isDarkMode, style }= useSelector((store) =&gt;({
-isDarkMode: store.darkMode.isDarkMode,
-style: store.styleSlice,
-  } ));
+  const { isDarkMode, style } = useSelector((store: RootState) =&gt; ({
+    isDarkMode: store.darkMode.isDarkMode,
+    style: store.styleSlice.style
+  }));
 
   const [isThemeLight, setTheme] = useState(!isDarkMode);
   const dispatch = useDispatch();
 
-
   // Set background color of left and bottom panel on the first render
   // Without this hook, the first render is always going to be white
   useEffect(() =&gt; {
-    if (!isDarkMode) dispatch(setStyle(null)) ;
+    if (!isDarkMode) dispatch(setStyle(null));
     else dispatch(setStyle({ backgroundColor: &#x27;#21262c&#x27; }));
   }, [isDarkMode]);
-
 
   return (
     &lt;StyledEngineProvider injectFirst&gt;
       &lt;ThemeProvider theme={!isDarkMode ? lightTheme : darkTheme}&gt;
         &lt;div&gt;
-          &lt;NavBar setTheme={setTheme} isThemeLight={isThemeLight}/&gt;
+          &lt;NavBar setTheme={setTheme} isThemeLight={isThemeLight} /&gt;
         &lt;/div&gt;
         &lt;div className=&quot;app-container&quot;&gt;
-              &lt;LeftContainer isThemeLight={isThemeLight}/&gt;
-              &lt;MainContainer isThemeLight={isThemeLight}/&gt;
+          {isMarketplace ? &lt;MarketplaceContainer/&gt; :
+            &lt;&gt;
+              &lt;LeftContainer isThemeLight={isThemeLight} /&gt;
+              &lt;MainContainer isThemeLight={isThemeLight} /&gt;
+            &lt;/&gt;
+          }
         &lt;/div&gt;
+        {/* &lt;MarketplaceContainer /&gt; */}
       &lt;/ThemeProvider&gt;
     &lt;/StyledEngineProvider&gt;
   );
 };
-export default AppContainer;
-</textarea><pre id="annotations" style="display:none">[]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+export default AppContainer;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/containers/AppContainer.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:22,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/AppContainer.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:4,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/AppContainer.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:28,&quot;text&quot;:&quot;style&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

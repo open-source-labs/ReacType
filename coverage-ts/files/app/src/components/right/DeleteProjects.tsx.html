@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/DeleteProjects.tsx</td><td class="">88.33%</td><td class="">80%</td><td class="">180</td><td class="">159</td><td class="">21</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/DeleteProjects.tsx</td><td class="">84.77%</td><td class="">80%</td><td class="">243</td><td class="">206</td><td class="">37</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
 import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
 import Button from &#x27;@mui/material/Button&#x27;;
 import Avatar from &#x27;@mui/material/Avatar&#x27;;
@@ -31,7 +31,10 @@ import localforage from &#x27;localforage&#x27;;
 import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
 import { setInitialState, initialState } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
+import MuiAlert, { AlertProps } from &#x27;@mui/material/Alert&#x27;;
+import Snackbar from &#x27;@mui/material/Snackbar&#x27;;
 export interface ProjectDialogProps {
+  deleteAlert: () =&gt; void;
   open: boolean;
   projects: Array&lt;Object&gt;;
   onClose: () =&gt; void;
@@ -39,7 +42,7 @@ export interface ProjectDialogProps {
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
-  const { onClose, open, projects } = props;
+  const { onClose, open, projects, deleteAlert } = props;
   const state = useSelector((store:RootState) =&gt; store.appState);
   const dispatch = useDispatch();
 
@@ -52,26 +55,48 @@ function ProjectsDialog(props: ProjectDialogProps) {
   // If new project selected, close and set value to new project name
   const handleDelete = (value: string) =&gt; {
     const selectedProject = projects.filter(
-      (project: any) =&gt; project.name === value
-    )[0];
-    deleteProject(selectedProject);
-    localforage.removeItem(window.localStorage.getItem(&#x27;ssid&#x27;));
-    dispatch(setInitialState(initialState))
-    onClose();
+      (project: any) =&gt; project._id === value
+      )[0];
+      console.log(&#x27;deleting this one&#x27;, selectedProject)
+      deleteProject(selectedProject);
+      localforage.removeItem(window.localStorage.getItem(&#x27;ssid&#x27;));
+      dispatch(setInitialState(initialState))
+      // handleAlertOpen()
+      deleteAlert()
+      onClose()
   };
-
+  
   return (
+    &lt;&gt;
     &lt;Dialog
       onClose={handleClose}
       aria-labelledby=&quot;project-dialog-title&quot;
       open={open}
     &gt;
-      &lt;DialogTitle style={{ color: &quot;#000&quot; }} id=&quot;project-dialog-title&quot;&gt;Delete Project&lt;/DialogTitle&gt;
+      &lt;DialogTitle style={{ color: &quot;#297ac2&quot; }} id=&quot;project-dialog-title&quot;&gt;DELETE PROJECTS&lt;/DialogTitle&gt;
+      &lt;DialogTitle style={{ color: &quot;#000&quot; }} id=&quot;project-dialog-title&quot;&gt;User Projects&lt;/DialogTitle&gt;
       &lt;List style={{ color: &quot;#000&quot; }}&gt;
-        {projects.map((project: any, index: number) =&gt; (
+        {projects.filter((project: any) =&gt; project.forked === undefined || project.forked === false).map((project: any, index: number) =&gt; (
           &lt;ListItem
             button
-            onClick={() =&gt; handleDelete(project.name)}
+            onClick={() =&gt; handleDelete(project._id)}
+            key={index}
+          &gt;
+            &lt;ListItemAvatar&gt;
+              &lt;Avatar className={classes.avatar}&gt;
+                &lt;DeleteRoundedIcon /&gt;
+              &lt;/Avatar&gt;
+            &lt;/ListItemAvatar&gt;
+            &lt;ListItemText primary={project.name} /&gt;
+          &lt;/ListItem&gt;
+        ))}
+      &lt;/List&gt;
+      &lt;DialogTitle style={{ color: &quot;#000&quot; }} id=&quot;project-dialog-title&quot;&gt; MP Projects&lt;/DialogTitle&gt;
+      &lt;List style={{ color: &quot;#000&quot; }}&gt;
+        {projects.filter((project: any) =&gt; project.forked === true).map((project: any, index: number) =&gt; (
+          &lt;ListItem
+            button
+            onClick={() =&gt; handleDelete(project._id)}
             key={index}
           &gt;
             &lt;ListItemAvatar&gt;
@@ -84,10 +109,11 @@ function ProjectsDialog(props: ProjectDialogProps) {
         ))}
       &lt;/List&gt;
     &lt;/Dialog&gt;
+  &lt;/&gt;
   );
 }
 
-export default function ProjectsFolder() {
+export default function ProjectsFolder(props) {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([{ hello: &#x27;cat&#x27; }]);
 
@@ -104,6 +130,7 @@ export default function ProjectsFolder() {
     setOpen(false);
   };
 
+
   const keyBindDeleteProject = useCallback((e) =&gt; {
     if(e.key === &#x27;Backspace&#x27; &amp;&amp; e.metaKey || e.key === &#x27;Backspace&#x27; &amp;&amp; e.ctrlKey) {
       e.preventDefault();
@@ -117,6 +144,7 @@ export default function ProjectsFolder() {
       document.removeEventListener(&#x27;keydown&#x27;, keyBindDeleteProject)
     }
   }, []);
+
   return (
     &lt;div&gt;
       &lt;Button
@@ -127,7 +155,7 @@ export default function ProjectsFolder() {
       &gt;
         Delete Project
       &lt;/Button&gt;
-      &lt;ProjectsDialog open={open} onClose={handleClose} projects={projects} /&gt;
+      &lt;ProjectsDialog open={open} onClose={handleClose} projects={projects} deleteAlert={props.deleteAlert}/&gt;
     &lt;/div&gt;
   );
 }
@@ -146,8 +174,8 @@ const useStyles = makeStyles({
     color: blue[600]
   }
 });
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:7,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:24,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:32,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:23,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:40,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:48,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:35,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:43,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:23,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:10,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:44,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:7,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:9,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:32,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:34,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:45,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:47,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:70,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:72,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:95,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:95,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:7,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:24,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:32,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:26,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:43,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:51,&quot;text&quot;:&quot;forked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:75,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:83,&quot;text&quot;:&quot;forked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:106,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:40,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:48,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:35,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:76,&quot;character&quot;:43,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:26,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:43,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:51,&quot;text&quot;:&quot;forked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:73,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:40,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:85,&quot;character&quot;:48,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:35,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:43,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:102,&quot;character&quot;:39,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:23,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:10,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:44,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:7,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:9,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:32,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:34,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:45,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:47,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:70,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:72,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:144,&quot;character&quot;:89,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/DeleteProjects.tsx&quot;,&quot;line&quot;:144,&quot;character&quot;:95,&quot;text&quot;:&quot;deleteAlert&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   
