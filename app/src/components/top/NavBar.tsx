@@ -94,10 +94,10 @@ const NavBar = () => {
         .then((newProject: State) => {
           console.log('Project published successfully', newProject);
           setPublishModalOpen(false);
+          dispatch(updateProjectId(newProject._id));
+          dispatch(updateProjectName(newProject.name));
+          dispatch(updateProjectPublished(newProject.published));
           dispatch(toggleScreenshotTrigger());
-          dispatch(updateProjectId(newProject._id))
-          dispatch(updateProjectName(newProject.name))
-          dispatch(updateProjectPublished(newProject.published))
           setAlertOpen(true)
         })
         .catch((error) => {

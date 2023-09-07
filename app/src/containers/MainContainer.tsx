@@ -13,6 +13,7 @@ import awsconfig from '../../../src/aws-exports';
 const MainContainer = (props): JSX.Element => {
   const dispatch = useDispatch();
   const screenshotTrigger = useSelector((store: RootState) => store.appState.screenshotTrigger); 
+  const id: string = useSelector((store: RootState) => store.appState._id); 
   const { isDarkMode, style } = useSelector((store) => ({
     isDarkMode: store.darkMode.isDarkMode,
     style: store.styleSlice, 
@@ -26,9 +27,6 @@ const MainContainer = (props): JSX.Element => {
         try {
           const canvas: HTMLCanvasElement = await html2canvas(containerRef.current);
           const screenshotURL: string = canvas.toDataURL('image/png');
-          // const canvasImg: HTMLImageElement = new Image();
-          // canvasImg.src = canvas.toDataURL();
-          // containerRef.current.appendChild(canvasImg);
           const imgBuffer: Buffer | void  = Buffer.from(screenshotURL.replace(/^data:image\/\w+;base64,/, ''), 'base64');
           dispatch(toggleScreenshotTrigger());
           return imgBuffer;
@@ -39,7 +37,6 @@ const MainContainer = (props): JSX.Element => {
     }
     handleScreenshot().then((imgBuffer: Buffer | void) => {
       if (imgBuffer) {
-        console.log('Screenshot URL:', imgBuffer);
         uploadScreenshotS3(imgBuffer); 
       }
     });
@@ -60,7 +57,7 @@ const MainContainer = (props): JSX.Element => {
     // Call this function to check the connection
     checkStorageConnection();
     try {
-      await Storage.put('test.png', imgBuffer, {
+      await Storage.put(id, imgBuffer, {
         contentType: 'image/png',
       });
       console.log('Screenshot uploaded to S3');

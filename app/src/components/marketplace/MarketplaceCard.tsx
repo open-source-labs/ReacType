@@ -19,15 +19,16 @@ import {
   resetAllState
 } from '../../redux/reducers/slice/appStateSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { MoreVert } from '@mui/icons-material';
 import { RootState } from '../../redux/store';
 import Snackbar from '@mui/material/Snackbar';
 import axios from 'axios';
-import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
+// import imageSrc from '../../../../resources/marketplace_images/marketplace_image.png';
 import { red } from '@mui/material/colors';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
+import { Amplify, Storage } from 'aws-amplify';
+import awsconfig from '../../../../src/aws-exports';
 
 interface Project {
   forked: String;
@@ -47,9 +48,27 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [s3ImgURL, setS3ImgURL] = React.useState<null | string>(null);
   const open = Boolean(anchorEl);
   const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
-  const state = useSelector((store: RootState) => store.appState);
+
+  useEffect(() => {
+    async function s3ImgFetch() {
+      Amplify.configure(awsconfig);
+      try {
+        const objId: string = proj._id.toString();
+        // the below functions are commented out as not to incur too many charges
+        // const response: string = await Storage.get(objId);
+        // const response: string = await Storage.get('test');
+        // setS3ImgURL(response);
+      } catch (error) {
+        console.error(`Error fetching image preview for ${proj._id}: `, error);
+      }
+    }
+    s3ImgFetch();
+  }, []);
+
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -107,8 +126,8 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
           sx={{ borderRadius: '12px', height: 200 }}
           component="img"
           height="194"
-          image={imageSrc}
-          alt="component buttons"
+          image={s3ImgURL}
+          alt="component preview"
         />
         <CardHeader
           avatar={
