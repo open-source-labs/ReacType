@@ -11,19 +11,21 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ComponentPanel.tsx</td><td class="">94.40%</td><td class="">80%</td><td class="">393</td><td class="">371</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">// Future developers: This file needs to move to right folder: src/components/right
-import React, { useState, useEffect, useCallback } from &#x27;react&#x27;;
-import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
-import { Button, Checkbox, FormControlLabel, InputLabel } from &#x27;@mui/material&#x27;;
-import TextField from &#x27;@mui/material/TextField&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ComponentPanel.tsx</td><td class="">94.70%</td><td class="">80%</td><td class="">415</td><td class="">393</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Button, Checkbox, FormControlLabel, InputLabel } from &#x27;@mui/material&#x27;;
+import React, { useCallback, useEffect, useState } from &#x27;react&#x27;;
 import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
-import { addComponent } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+
 import { RootState } from &#x27;../../redux/store&#x27;;
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import { addComponent } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import MuiAlert, { AlertProps } from &#x27;@mui/material/Alert&#x27;;
+import Snackbar from &#x27;@mui/material/Snackbar&#x27;;
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
   const classes = useStyles();
-  const { state, contextParam } = useSelector((store:RootState) =&gt; ({
+  const { state, contextParam } = useSelector((store: RootState) =&gt; ({
     state: store.appState,
     contextParam: store.contextSlice
   }));
@@ -35,6 +37,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
   const [errorMsg, setErrorMsg] = useState(&#x27;&#x27;);
   const [compName, setCompName] = useState(&#x27;&#x27;);
   const [isRoot, setIsRoot] = useState(false);
+  const [alertOpen, setAlertOpen] = React.useState&lt;boolean&gt;(false)
 
   // function to create error message for component name input
   const triggerError = (type: String) =&gt; {
@@ -52,43 +55,9 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
     }
   };
 
-  const resetError = () =&gt; {
-    setErrorStatus(false);
-  };
-
   const handleNameInput = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
-    resetError();
+    setErrorStatus(false);
     setCompName(e.target.value);
-  };
-
-  // check if name of new component is the same as an existing component
-  const checkNameDupe = (inputName: String): boolean =&gt; {
-    let checkList = state.components.slice(); // makes copy of components array
-    let dupe = false;
-
-    // checks to see if inputted comp name already exists
-    checkList.forEach((comp) =&gt; {
-      if (comp.name.toLowerCase() === inputName.toLowerCase()) dupe = true;
-    });
-
-    return dupe;
-  };
-
-  const checkIfRoot = (inputName: String): boolean =&gt; {
-    let rootDupe = false;
-    // checks to see if inputted comp name is equal to root component name. Want to prevent that
-
-    //carly console logs
-    const rootComponents = state.rootComponents;
-    const allComponents = state.components;
-
-    if (
-      inputName.toLowerCase() === &#x27;index&#x27; ||
-      inputName.toLowerCase() === &#x27;app&#x27;
-    ) {
-      rootDupe = true;
-    }
-    return rootDupe;
   };
 
   // &quot;Root&quot; components are not draggable into the main canvas
@@ -129,13 +98,21 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
       error = &#x27;letters&#x27;;
     } else if (!compName.match(/^[0-9a-zA-Z]+$/)) {
       error = &#x27;symbolsDetected&#x27;;
-    } else if (checkNameDupe(compName)) {
+    } else if (
+      state.components.some(
+        (comp) =&gt; comp.name.toLowerCase() === compName.toLowerCase()
+      )
+    ) {
       error = &#x27;dupe&#x27;;
-    } else if (checkIfRoot(compName)) {
+    } else if (
+      compName.toLowerCase() === &#x27;index&#x27; ||
+      compName.toLowerCase() === &#x27;app&#x27;
+    ) {
       error = &#x27;rootDupe&#x27;;
     } else {
       createOption(compName);
-      resetError();
+      setErrorStatus(false);
+      setAlertOpen(true)
       return;
     }
     triggerError(error);
@@ -154,7 +131,26 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
       document.removeEventListener(&#x27;keydown&#x27;, keyBindCreateComponent);
     };
   }, []);
+
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+    ) =&gt; {
+      if (reason === &#x27;clickaway&#x27;) {
+        return;
+      }
+      setAlertOpen(false);
+    }
+
+  const Alert = React.forwardRef&lt;HTMLDivElement, AlertProps&gt;(function Alert(
+    props,
+    ref
+  ) {
+    return &lt;MuiAlert elevation={6} ref={ref} variant=&quot;filled&quot; {...props} /&gt;;
+  });
+
   return (
+    &lt;&gt;
     &lt;div className={`${classes.panelWrapper}`}&gt;
       {/* Add a new component*/}
       &lt;div className={classes.addComponentWrapper}&gt;
@@ -210,7 +206,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
                 style={{}}
                 InputProps={{
                   style: {
-                    color: isThemeLight ? &#x27;black&#x27; : &#x27;white&#x27;
+                    color: isThemeLight ? &#x27;white&#x27; : &#x27;white&#x27;
                   }
                 }}
               /&gt;
@@ -233,7 +229,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
                   }
                   color=&quot;primary&quot;
                   checked={isRoot}
-                  onChange={toggleRootStatus}
+                  onChange={() =&gt; setIsRoot(!isRoot)}
                 /&gt;
               }
               label={
@@ -269,6 +265,23 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element =&gt; {
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
+    &lt;&gt;
+        &lt;Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: &#x27;top&#x27;, horizontal: &#x27;center&#x27; }} 
+          onClose={handleAlertClose}
+        &gt;
+          &lt;Alert
+            onClose={handleAlertClose}
+            severity=&quot;success&quot;
+            sx={{ width: &#x27;100%&#x27;, color: &#x27;white&#x27; }}
+          &gt;
+            Component Created!
+          &lt;/Alert&gt;
+        &lt;/Snackbar&gt;
+    &lt;/&gt;
+  &lt;/&gt;
   );
 };
 
@@ -315,7 +328,7 @@ const useStyles = makeStyles({
     borderColor: &#x27;#186BB4&#x27;
   },
   newComponent: {
-    color: &#x27;#155084&#x27;,
+    color: &#x27;#C6C6C6&#x27;,
     fontSize: &#x27;95%&#x27;,
     marginBottom: &#x27;20px&#x27;
   },
@@ -343,7 +356,7 @@ const useStyles = makeStyles({
     fontSize: &#x27;0.85rem&#x27;
   },
   lightThemeFontColor: {
-    color: &#x27;#155084&#x27;,
+    color: &#x27;white&#x27;,
     &#x27;&amp; .MuiInputBase-root&#x27;: {
       color: &#x27;rgba (0, 0, 0, 0.54)&#x27;
     }
@@ -357,8 +370,8 @@ const useStyles = makeStyles({
 });
 
 export default ComponentPanel;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:8,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:117,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:130,&quot;character&quot;:46,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:29,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:31,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:38,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:132,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:132,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:184,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:232,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:80,&quot;character&quot;:8,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:92,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:6,&quot;text&quot;:&quot;error&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:46,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:8,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:10,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:29,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:31,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:38,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:8,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:180,&quot;character&quot;:18,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:212,&quot;character&quot;:20,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:228,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ComponentPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

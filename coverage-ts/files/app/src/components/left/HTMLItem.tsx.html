@@ -11,21 +11,22 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/HTMLItem.tsx</td><td class="">96.84%</td><td class="">80%</td><td class="">190</td><td class="">184</td><td class="">6</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState } from &#x27;react&#x27;;
-import { useDrag } from &#x27;react-dnd&#x27;;
-import { ItemTypes } from &#x27;../../constants/ItemTypes&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/left/HTMLItem.tsx</td><td class="">97.34%</td><td class="">80%</td><td class="">188</td><td class="">183</td><td class="">5</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState } from &#x27;react&#x27;;
+
 import Grid from &#x27;@mui/material/Grid&#x27;;
-import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import { ItemTypes } from &#x27;../../constants/ItemTypes&#x27;;
 import List from &#x27;@mui/material/List&#x27;;
 import ListItem from &#x27;@mui/material/ListItem&#x27;;
 import ListItemText from &#x27;@mui/material/ListItemText&#x27;;
-import createModal from &#x27;../right/createModal&#x27;;
-import { useSelector } from &#x27;react-redux&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
+import createModal from &#x27;../right/createModal&#x27;;
+import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
+import { useDrag } from &#x27;react-dnd&#x27;;
+import { useSelector } from &#x27;react-redux&#x27;;
 
 const useStyles = makeStyles({
   HTMLPanelItem: {
-    color: &#x27;#186BB4&#x27;,
+    color: &#x27;#8F8F8F&#x27;,
     height: &#x27;35px&#x27;,
     width: &#x27;90px&#x27;,
     fontSize: &#x27;80%&#x27;,
@@ -35,32 +36,32 @@ const useStyles = makeStyles({
     textAlign: &#x27;center&#x27;,
     margin: &#x27;7px auto&#x27;,
     marginLeft: &#x27;30px&#x27;,
-    borderRadius: &#x27;25px&#x27;,
     cursor: &#x27;grab&#x27;,
     &#x27;&amp; &gt; h3&#x27;: {
-      display: &#x27;inline-block&#x27;,
+      display: &#x27;inline-block&#x27;
     }
   },
   lightThemeFontColor: {
-    color: &#x27;#292929&#x27;
+    color: &#x27;#8F8F8F&#x27;
   },
   darkThemeFontColor: {
-    color: &#x27;#fff&#x27;
+    color: &#x27;#8F8F8F&#x27;
   }
-
 });
 
-const HTMLItem : React.FC&lt;{
+const HTMLItem: React.FC&lt;{
   name: string;
   id: number;
   Icon: any;
   handleDelete: (id: number) =&gt; void;
-}&gt; = ({ name, id, Icon, handleDelete }) =&gt; {
-
+}&gt; = ({ name, id, handleDelete }) =&gt; {
   const classes = useStyles();
   const [modal, setModal] = useState(null);
-  const isDarkMode = useSelector((store:RootState) =&gt; store.darkMode.isDarkMode);
+  const isDarkMode = useSelector(
+    (store: RootState) =&gt; store.darkMode.isDarkMode
+  );
   const [{ isDragging }, drag] = useDrag({
+    // is dragging is never read, but if deleted adjustment in the ref are needed line 122/128 ref={drag} to {...drag}
     item: {
       type: ItemTypes.INSTANCE,
       newInstance: true,
@@ -82,11 +83,11 @@ const HTMLItem : React.FC&lt;{
     const children = (
       &lt;List className=&quot;export-preference&quot;&gt;
         &lt;ListItem
+          id=&quot;export-modal&quot;
           key={`clear${deleteID}`}
-          button
           onClick={() =&gt; handleDelete(deleteID)}
           style={{
-            border: &#x27;1px solid #3f51b5&#x27;,
+            border: &#x27;1px solid #C6C6C6&#x27;,
             marginBottom: &#x27;2%&#x27;,
             marginTop: &#x27;5%&#x27;
           }}
@@ -98,11 +99,11 @@ const HTMLItem : React.FC&lt;{
           /&gt;
         &lt;/ListItem&gt;
         &lt;ListItem
+          id=&quot;export-modal&quot;
           key={`close${deleteID}`}
-          button
           onClick={closeModal}
           style={{
-            border: &#x27;1px solid #3f51b5&#x27;,
+            border: &#x27;1px solid #C6C6C6&#x27;,
             marginBottom: &#x27;2%&#x27;,
             marginTop: &#x27;5%&#x27;
           }}
@@ -121,7 +122,8 @@ const HTMLItem : React.FC&lt;{
       createModal({
         closeModal,
         children,
-        message: &#x27;Deleting this element will delete all instances of this element within the application.\nDo you still wish to proceed?&#x27;,
+        message:
+          &#x27;Deleting this element will delete all instances of this element within the application.\nDo you still wish to proceed?&#x27;,
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -131,28 +133,54 @@ const HTMLItem : React.FC&lt;{
     );
   };
   // updated the id&#x27;s to reflect the new element types input and label
-  return ( // HTML Elements
+  return (
+    // HTML Elements
     &lt;Grid item xs={5} key={`html-g${name}`}&gt;
-      { id &lt;= 20 &amp;&amp;
-        &lt;div ref={drag} style={ { borderColor: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; } } className={!isDarkMode ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id=&quot;HTMLItem&quot;&gt;
+      {id &lt;= 20 &amp;&amp; (
+        &lt;div
+          ref={drag}
+          style={{ borderColor: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;#fff&#x27; }}
+          className={
+            !isDarkMode
+              ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
+              : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+          }
+          id=&quot;HTMLItem&quot;
+        &gt;
           &lt;h3&gt;{name}&lt;/h3&gt;
         &lt;/div&gt;
-      }
-      { id &gt; 20 &amp;&amp;
+      )}
+      {id &gt; 20 &amp;&amp; (
         &lt;span id=&quot;customHTMLElement&quot;&gt;
-          &lt;div ref={drag} style={ { borderColor: !isDarkMode ? &#x27;#000&#x27; : &#x27;#fff&#x27; } } className={!isDarkMode ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}` : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`} id=&quot;HTMLItem&quot;&gt;
+          &lt;div
+            ref={drag}
+            style={{ borderColor: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;#fff&#x27; }}
+            className={
+              !isDarkMode
+                ? `${classes.HTMLPanelItem} ${classes.lightThemeFontColor}`
+                : `${classes.HTMLPanelItem} ${classes.darkThemeFontColor}`
+            }
+            id=&quot;HTMLItem&quot;
+          &gt;
             &lt;h3&gt;{name}&lt;/h3&gt;
           &lt;/div&gt;
-          &lt;button id=&quot;newElement&quot; style={{color: !isDarkMode ? &#x27;#186BB4&#x27; : &#x27;white&#x27; }} onClick={() =&gt; deleteAllInstances(id)} &gt;X&lt;/button&gt;
+          &lt;button
+            id=&quot;newElement&quot;
+            style={{ color: !isDarkMode ? &#x27;#C6C6C6&#x27; : &#x27;white&#x27; }}
+            onClick={() =&gt; deleteAllInstances(id)}
+          &gt;
+            X
+          &lt;/button&gt;
         &lt;/span&gt;
-      }
+      )}
       {modal}
     &lt;/Grid&gt;
   );
-}
+};
 
-export default HTMLItem;</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:2,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:18,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:14,&quot;text&quot;:&quot;monitor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:20,&quot;text&quot;:&quot;monitor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:28,&quot;text&quot;:&quot;isDragging&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+export default HTMLItem;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:2,&quot;text&quot;:&quot;Icon&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:14,&quot;text&quot;:&quot;monitor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:20,&quot;text&quot;:&quot;monitor&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/HTMLItem.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:28,&quot;text&quot;:&quot;isDragging&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

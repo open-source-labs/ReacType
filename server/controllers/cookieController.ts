@@ -8,7 +8,8 @@ const cookieController: CookieController = {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
-      maxAge: 2 * 60 * 60 * 1000//2 hr expiration
+      //maxAge: 60 * 60 * 1000 * 24  //uncomment to set expiration of cookies, but make sure there is something in place to expire local storage info too
+
     });
     return next();
   }, 

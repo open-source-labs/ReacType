@@ -113,7 +113,7 @@ const MarketplaceCard = ({ proj }: { proj: Project }) => {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
+              {proj.username.slice(0,1).toUpperCase()}
             </Avatar>
           }
           action={

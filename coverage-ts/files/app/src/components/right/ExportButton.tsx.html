@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ExportButton.tsx</td><td class="">90.29%</td><td class="">80%</td><td class="">103</td><td class="">93</td><td class="">10</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/ExportButton.tsx</td><td class="">90.38%</td><td class="">80%</td><td class="">104</td><td class="">94</td><td class="">10</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
 import List from &#x27;@mui/material/List&#x27;;
 import ListItem from &#x27;@mui/material/ListItem&#x27;;
 import ListItemText from &#x27;@mui/material/ListItemText&#x27;;
@@ -28,9 +28,7 @@ export default function ExportButton() {
   const [modal, setModal] = useState(null);
   const state = useSelector((store: RootState) =&gt; store.appState);
 
-  const genOptions: string[] = [
-    &#x27;Export components&#x27;
-  ];
+  const genOptions: string[] = [&#x27;Export components&#x27;];
 
   // Closes out the open modal
   const closeModal = () =&gt; setModal(&#x27;&#x27;);
@@ -40,6 +38,7 @@ export default function ExportButton() {
       &lt;List className=&quot;export-preference&quot;&gt;
         {genOptions.map((option: string, i: number) =&gt; (
           &lt;ListItem
+            id=&quot;export-modal&quot;
             key={i}
             onClick={() =&gt; chooseGenOptions()}
             style={{
@@ -73,7 +72,7 @@ export default function ExportButton() {
     );
   };
 
-  const exportKeyBind = useCallback(e =&gt; {
+  const exportKeyBind = useCallback((e) =&gt; {
     //Export Project
     (e.key === &#x27;e&#x27; &amp;&amp; e.metaKey) || (e.key === &#x27;e&#x27; &amp;&amp; e.ctrlKey)
       ? showGenerateAppModal()
@@ -88,10 +87,18 @@ export default function ExportButton() {
   }, []);
   return (
     &lt;div&gt;
-      &lt;button onClick={showGenerateAppModal}&gt;Export Project
-        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; fill=&quot;currentColor&quot; className=&quot;bi bi-download&quot; viewBox=&quot;0 0 16 16&quot;&gt;
-          &lt;path d=&quot;M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z&quot;/&gt;
-          &lt;path d=&quot;M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z&quot;/&gt;
+      &lt;button onClick={showGenerateAppModal}&gt;
+        Export Project
+        &lt;svg
+          xmlns=&quot;http://www.w3.org/2000/svg&quot;
+          width=&quot;16&quot;
+          height=&quot;16&quot;
+          fill=&quot;currentColor&quot;
+          className=&quot;bi bi-download&quot;
+          viewBox=&quot;0 0 16 16&quot;
+        &gt;
+          &lt;path d=&quot;M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z&quot; /&gt;
+          &lt;path d=&quot;M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z&quot; /&gt;
         &lt;/svg&gt;
       &lt;/button&gt;
       {modal}
@@ -99,9 +106,9 @@ export default function ExportButton() {
   );
 }
 
+// This code is commented out below for v16, it is export function for electron, which may be useful for future devs
 //The below code is exclusive to ReacType&#x27;s Electron App
 //If you would like to deploy the app, please comment out the exportButton function above and uncomment the code below
-
 
 // export default function ExportButton() {
 //   const [modal, setModal] = useState(null);
@@ -216,8 +223,8 @@ export default function ExportButton() {
 //     &lt;/div&gt;
 //   );
 // }
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:39,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:54,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:64,&quot;character&quot;:56,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:9,&quot;text&quot;:&quot;modal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:39,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:54,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/ExportButton.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:56,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

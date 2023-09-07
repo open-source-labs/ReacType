@@ -1,0 +1,166 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>RoomsContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">app/src/components/left/RoomsContainer.tsx</td><td class="">72.46%</td><td class="">80%</td><td class="">207</td><td class="">150</td><td class="">57</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Stack, Typography } from &#x27;@mui/material&#x27;;
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import Button from &#x27;@mui/material/Button&#x27;;
+import React from &#x27;react&#x27;;
+import { RootState } from &#x27;../../redux/store&#x27;;
+import TextField from &#x27;@mui/material/TextField&#x27;;
+import { allCooperativeState } from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import { changeRoom } from &#x27;../../redux/reducers/slice/roomCodeSlice&#x27;;
+import { codePreviewCooperative } from &#x27;../../redux/reducers/slice/codePreviewSlice&#x27;;
+import config from &#x27;../../../../config&#x27;;
+import { cooperativeStyle } from &#x27;../../redux/reducers/slice/styleSlice&#x27;;
+// websocket front end starts here
+import { io } from &#x27;socket.io-client&#x27;;
+import store from &#x27;../../redux/store&#x27;;
+import { toggleDarkMode } from &#x27;../../redux/reducers/slice/darkModeSlice&#x27;;
+
+// for websockets
+// Part  - join room and room code functionality
+let socket;
+const { API_BASE_URL } = config;
+const RoomsContainer = () =&gt; {
+  const [roomCode, setRoomCode] = React.useState(&#x27;&#x27;);
+  const [confirmRoom, setConfirmRoom] = React.useState(&#x27;&#x27;);
+  const dispatch = useDispatch();
+  const { isDarkMode, state, joinedRoom } = useSelector((store: RootState) =&gt; ({
+    isDarkMode: store.darkMode.isDarkMode,
+    state: store.appState,
+    joinedRoom: store.roomCodeSlice.roomCode
+  }));
+  React.useEffect(() =&gt; {
+    console.log(&#x27;joinedRoom: &#x27;, joinedRoom);
+  }, [joinedRoom]);
+
+  function initSocketConnection(roomCode) {
+    if (socket) {
+      socket.disconnect();
+    }
+
+    socket = io(API_BASE_URL, {
+      transports: [&#x27;websocket&#x27;]
+    });
+
+    socket.on(&#x27;connect&#x27;, () =&gt; {
+      console.log(`You connected with id: ${socket.id}`);
+      socket.emit(&#x27;join-room&#x27;, roomCode); // Join the room when connected
+    });
+
+    // Receiving the room state from the backend
+    socket.on(&#x27;room-state-update&#x27;, (stateFromServer) =&gt; {
+      const newState = JSON.parse(stateFromServer);
+      // Dispatch actions to update your Redux store with the received state
+      store.dispatch(allCooperativeState(newState.appState));
+      store.dispatch(codePreviewCooperative(newState.codePreviewCooperative));
+      store.dispatch(cooperativeStyle(newState.styleSlice));
+    });
+
+    // receiving the message from the back end
+    socket.on(&#x27;receive message&#x27;, (event) =&gt; {
+      // console.log(&#x27;message from server: &#x27;, event);
+      let currentStore: any = JSON.stringify(store.getState());
+      if (currentStore !== event) {
+        currentStore = JSON.parse(currentStore);
+        event = JSON.parse(event);
+        console.log(&#x27;stores do not match&#x27;);
+        if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
+          store.dispatch(toggleDarkMode());
+        } else if (currentStore.appState !== event.appState) {
+          store.dispatch(allCooperativeState(event.appState));
+        } else if (
+          currentStore.codePreviewSlice !== event.codePreviewCooperative
+        ) {
+          store.dispatch(codePreviewCooperative(event.codePreviewCooperative));
+        } else if (currentStore.styleSlice !== event.styleSlice) {
+          store.dispatch(cooperativeStyle(event.styleSlice));
+        }
+      }
+      console.log(&#x27;updated user Store from another user: &#x27;, store.getState());
+    });
+  }
+
+  function handleUserEnteredRoom(roomCode) {
+    initSocketConnection(roomCode);
+  }
+
+  function joinRoom() {
+    console.log(roomCode);
+    dispatch(changeRoom(roomCode));
+    setConfirmRoom((confirmRoom) =&gt; roomCode);
+
+    // Call handleUserEnteredRoom when joining a room
+    handleUserEnteredRoom(roomCode);
+  }
+  return (
+    &lt;div&gt;
+      &lt;Stack
+        spacing={2}
+        sx={{
+          paddingTop: &#x27;20px&#x27;,
+          maxWidth: &#x27;230px&#x27;,
+          alignItems: &#x27;center&#x27;,
+          margin: &#x27;0 auto 0 auto&#x27;
+        }}
+      &gt;
+        {&#x27; &#x27;}
+        &lt;TextField
+          hiddenLabel
+          id=&quot;filled-hidden-label-small&quot;
+          variant=&quot;filled&quot;
+          size=&quot;small&quot;
+          onChange={(e) =&gt; setRoomCode(e.target.value)}
+        /&gt;
+        {/* &lt;input
+        type=&quot;text&quot;
+        style={{
+          margin: &#x27;3px 5%&#x27;,
+          borderRadius: &#x27;5px&#x27;,
+          padding: &#x27;3px&#x27;,
+          width: &#x27;90%&#x27;
+        }}
+        placeholder=&quot;Room Code&quot;
+        onChange={(e) =&gt; setRoomCode(e.target.value)}
+      &gt;&lt;/input&gt; */}
+        &lt;Button
+          variant=&quot;contained&quot;
+          onClick={() =&gt; joinRoom()}
+          sx={{
+            backgroundColor: &#x27;#ffffff&#x27;,
+            color: &#x27;#000000&#x27;,
+            &#x27;&amp;:hover&#x27;: {
+              backgroundColor: &#x27;#C6C6C6&#x27;,
+              borderColor: &#x27;#0062cc&#x27;,
+              boxShadow: &#x27;none&#x27;
+            }
+          }}
+        &gt;
+          Join Room
+        &lt;/Button&gt;
+        &lt;Typography variant=&quot;h6&quot; color={&#x27;white&#x27;}&gt;
+          In Room: {joinedRoom}
+        &lt;/Typography&gt;
+      &lt;/Stack&gt;
+      {/* &lt;button onClick={() =&gt; joinRoom()}&gt;Join Room&lt;/button&gt; */}
+    &lt;/div&gt;
+  );
+};
+
+export default RoomsContainer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:4,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:32,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:8,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:6,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:13,&quot;text&quot;:&quot;disconnect&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:4,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:4,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:11,&quot;text&quot;:&quot;on&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:44,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:51,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:6,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:13,&quot;text&quot;:&quot;emit&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:31,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:4,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:11,&quot;text&quot;:&quot;on&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:36,&quot;text&quot;:&quot;stateFromServer&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:12,&quot;text&quot;:&quot;newState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:41,&quot;text&quot;:&quot;newState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:50,&quot;text&quot;:&quot;appState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:44,&quot;text&quot;:&quot;newState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:53,&quot;text&quot;:&quot;codePreviewCooperative&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:38,&quot;text&quot;:&quot;newState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:47,&quot;text&quot;:&quot;styleSlice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:4,&quot;text&quot;:&quot;socket&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:11,&quot;text&quot;:&quot;on&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:34,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:10,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:10,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:27,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:8,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:8,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:12,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:25,&quot;text&quot;:&quot;darkMode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:34,&quot;text&quot;:&quot;isDarkMode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:49,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:55,&quot;text&quot;:&quot;darkMode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:64,&quot;text&quot;:&quot;isDarkMode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:19,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:32,&quot;text&quot;:&quot;appState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:45,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:51,&quot;text&quot;:&quot;appState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:45,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:68,&quot;character&quot;:51,&quot;text&quot;:&quot;appState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:70,&quot;character&quot;:10,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:70,&quot;character&quot;:23,&quot;text&quot;:&quot;codePreviewSlice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:70,&quot;character&quot;:44,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:70,&quot;character&quot;:50,&quot;text&quot;:&quot;codePreviewCooperative&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:48,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:54,&quot;text&quot;:&quot;codePreviewCooperative&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:19,&quot;text&quot;:&quot;currentStore&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:32,&quot;text&quot;:&quot;styleSlice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:47,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:53,&quot;text&quot;:&quot;styleSlice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:42,&quot;text&quot;:&quot;event&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:48,&quot;text&quot;:&quot;styleSlice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:33,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/left/RoomsContainer.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:25,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
+    </body>
+  </html>
+  

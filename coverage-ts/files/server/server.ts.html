@@ -11,7 +11,7 @@
 <link href="../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">server/server.ts</td><td class="">86.32%</td><td class="">80%</td><td class="">329</td><td class="">284</td><td class="">45</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">const { ApolloServer } = require(&#x27;@apollo/server&#x27;);
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">server/server.ts</td><td class="">87.98%</td><td class="">80%</td><td class="">366</td><td class="">322</td><td class="">44</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">const { ApolloServer } = require(&#x27;@apollo/server&#x27;);
 
 // //v4 Apollo imports
 const { expressMiddleware } = require(&#x27;@apollo/server/express4&#x27;);
@@ -23,7 +23,7 @@ const { json, urlencoded } = bodyParser;
 const { makeExecutableSchema } = require(&#x27;@graphql-tools/schema&#x27;);
 
 import express from &#x27;express&#x27;;
-// import cookieParser from &#x27;cookie-parser&#x27;;
+import cookieParser from &#x27;cookie-parser&#x27;;
 
 import config from &#x27;../config.js&#x27;;
 const { API_BASE_URL, DEV_PORT } = config;
@@ -35,6 +35,7 @@ import userController from &#x27;./controllers/userController&#x27;;
 import cookieController from &#x27;./controllers/cookieController&#x27;;
 import sessionController from &#x27;./controllers/sessionController&#x27;;
 import projectController from &#x27;./controllers/projectController&#x27;;
+import marketplaceController from &#x27;./controllers/marketplaceController&#x27;;
 
 // // docker stuff
 import { fileURLToPath } from &#x27;url&#x27;;
@@ -43,9 +44,6 @@ import { dirname } from &#x27;path&#x27;;
 // // env file
 import dotenv from &#x27;dotenv&#x27;;
 dotenv.config();
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -56,8 +54,7 @@ const isTest = process.env.NODE_ENV === &#x27;test&#x27;;
 
 app.use(express.json({ limit: &#x27;100mb&#x27; }));
 app.use(express.urlencoded({ limit: &#x27;100mb&#x27;, extended: true }));
-// app.use(cookieParser());
-
+app.use(cookieParser());//added cookie parser
 // Routes
 // const stylesRouter = require(&#x27;./routers/stylesRouter&#x27;);
 import stylesRouter from &#x27;./routers/stylesRouter&#x27;;
@@ -83,17 +80,19 @@ const passportSetup = require(&#x27;./routers/passport-setup&#x27;);
 const session = require(&#x27;express-session&#x27;);
 import authRoutes from &#x27;./routers/auth&#x27;;
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//I don&#x27;t believe this portion of the code is being used. It just creates a session cookie, but majority of the controllers right now use mongodb as a sessionController, not passport.
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 24 * 60 * 60 * 1000 }
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // go to other files
 // 8080 only for the container
@@ -208,6 +207,39 @@ app.delete(
   projectController.deleteProject,
   (req, res) =&gt; res.status(200).json(res.locals.deleted)
 );
+
+//Publish to Marketplace
+app.post(
+  &#x27;/publishProject&#x27;,
+  sessionController.isLoggedIn,
+  marketplaceController.publishProject,
+  (req, res) =&gt; res.status(200).json(res.locals.publishedProject)
+);
+
+//Unpublish from Marketplace
+app.patch(
+  &#x27;/unpublishProject&#x27;,
+  sessionController.isLoggedIn,
+  marketplaceController.unpublishProject,
+  (req, res) =&gt; res.status(200).json(res.locals.unpublishedProject)
+);
+
+//Get from Marketplace
+app.get(
+  &#x27;/getMarketplaceProjects&#x27;,
+  // sessionController.isLoggedIn, //Maybe don&#x27;t need to check if they have a session since guests should still see?
+  marketplaceController.getPublishedProjects,
+  (req, res) =&gt; res.status(200).json(res.locals.publishedProjects)
+);
+
+// Clone from marketplace
+app.get(
+  &#x27;/cloneProject/:docId&#x27;,
+  sessionController.isLoggedIn,
+  marketplaceController.cloneProject, 
+  (req, res) =&gt; res.status(200).json(res.locals.clonedProject)
+);
+
 // serve index.html on the route &#x27;/&#x27;
 const isDocker = process.env.IS_DOCKER === &#x27;true&#x27;;
 console.log(&#x27;this is running on docker: &#x27;, isDocker);
@@ -218,7 +250,6 @@ if (process.env.NODE_ENV == &#x27;production&#x27;) {
 }
 
 app.get(&#x27;/&#x27;, (req, res) =&gt; {
-  console.log(&#x27;hit get&#x27;, isDocker);
   const indexPath = isDocker
     ? path.join(__dirname, &#x27;../index-prod.html&#x27;)
     : path.join(__dirname, &#x27;../index.html&#x27;);
@@ -234,6 +265,7 @@ if (isDocker) {
     return res.status(200).sendFile(path.join(process.cwd(), &#x27;main.css&#x27;));
   });
 }
+
 
 app.get(&#x27;/test&#x27;, (req, res) =&gt; {
   res.send(&#x27;test request is working&#x27;);
@@ -271,8 +303,8 @@ if (!isTest) {
 
 // if (isTest) module.exports = app;
 export default app;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:0,&quot;character&quot;:8,&quot;text&quot;:&quot;ApolloServer&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:3,&quot;character&quot;:8,&quot;text&quot;:&quot;expressMiddleware&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:9,&quot;character&quot;:8,&quot;text&quot;:&quot;makeExecutableSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:38,&quot;character&quot;:6,&quot;text&quot;:&quot;PORT&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:67,&quot;character&quot;:6,&quot;text&quot;:&quot;passport&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:6,&quot;text&quot;:&quot;passportSetup&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:6,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:2,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:81,&quot;character&quot;:8,&quot;text&quot;:&quot;passport&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:81,&quot;character&quot;:17,&quot;text&quot;:&quot;initialize&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:82,&quot;character&quot;:8,&quot;text&quot;:&quot;passport&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:82,&quot;character&quot;:17,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:29,&quot;text&quot;:&quot;string&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:37,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:50,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:102,&quot;character&quot;:16,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:103,&quot;character&quot;:8,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:104,&quot;character&quot;:46,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:106,&quot;character&quot;:47,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:109,&quot;character&quot;:26,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:110,&quot;character&quot;:33,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:137,&quot;character&quot;:7,&quot;text&quot;:&quot;typeDefs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:142,&quot;character&quot;:6,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:142,&quot;character&quot;:15,&quot;text&quot;:&quot;makeExecutableSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:142,&quot;character&quot;:38,&quot;text&quot;:&quot;typeDefs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:165,&quot;character&quot;:39,&quot;text&quot;:&quot;sessionId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:165,&quot;character&quot;:61,&quot;text&quot;:&quot;ssid&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:173,&quot;character&quot;:39,&quot;text&quot;:&quot;sessionId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:173,&quot;character&quot;:61,&quot;text&quot;:&quot;ssid&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:181,&quot;character&quot;:48,&quot;text&quot;:&quot;savedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:188,&quot;character&quot;:48,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:195,&quot;character&quot;:48,&quot;text&quot;:&quot;deleted&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:9,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:14,&quot;text&quot;:&quot;req&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:19,&quot;text&quot;:&quot;res&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:24,&quot;text&quot;:&quot;next&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:247,&quot;character&quot;:8,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:247,&quot;character&quot;:49,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:9,&quot;text&quot;:&quot;res&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:13,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:20,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:29,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:37,&quot;text&quot;:&quot;json&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:42,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:248,&quot;character&quot;:51,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:0,&quot;character&quot;:8,&quot;text&quot;:&quot;ApolloServer&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:3,&quot;character&quot;:8,&quot;text&quot;:&quot;expressMiddleware&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:9,&quot;character&quot;:8,&quot;text&quot;:&quot;makeExecutableSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:6,&quot;text&quot;:&quot;PORT&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:64,&quot;character&quot;:6,&quot;text&quot;:&quot;passport&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:65,&quot;character&quot;:6,&quot;text&quot;:&quot;passportSetup&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:66,&quot;character&quot;:6,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:100,&quot;character&quot;:29,&quot;text&quot;:&quot;string&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:100,&quot;character&quot;:37,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:100,&quot;character&quot;:50,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:101,&quot;character&quot;:16,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:102,&quot;character&quot;:8,&quot;text&quot;:&quot;room&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:103,&quot;character&quot;:46,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:105,&quot;character&quot;:47,&quot;text&quot;:&quot;redux_store&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:108,&quot;character&quot;:26,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:109,&quot;character&quot;:33,&quot;text&quot;:&quot;roomCode&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:136,&quot;character&quot;:7,&quot;text&quot;:&quot;typeDefs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:141,&quot;character&quot;:6,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:141,&quot;character&quot;:15,&quot;text&quot;:&quot;makeExecutableSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:141,&quot;character&quot;:38,&quot;text&quot;:&quot;typeDefs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:164,&quot;character&quot;:39,&quot;text&quot;:&quot;sessionId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:164,&quot;character&quot;:61,&quot;text&quot;:&quot;ssid&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:172,&quot;character&quot;:39,&quot;text&quot;:&quot;sessionId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:172,&quot;character&quot;:61,&quot;text&quot;:&quot;ssid&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:180,&quot;character&quot;:48,&quot;text&quot;:&quot;savedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:187,&quot;character&quot;:48,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:194,&quot;character&quot;:48,&quot;text&quot;:&quot;deleted&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:202,&quot;character&quot;:48,&quot;text&quot;:&quot;publishedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:210,&quot;character&quot;:48,&quot;text&quot;:&quot;unpublishedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:218,&quot;character&quot;:48,&quot;text&quot;:&quot;publishedProjects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:226,&quot;character&quot;:48,&quot;text&quot;:&quot;clonedProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:272,&quot;character&quot;:9,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:272,&quot;character&quot;:14,&quot;text&quot;:&quot;req&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:272,&quot;character&quot;:19,&quot;text&quot;:&quot;res&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:272,&quot;character&quot;:24,&quot;text&quot;:&quot;next&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:279,&quot;character&quot;:8,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:279,&quot;character&quot;:49,&quot;text&quot;:&quot;err&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:9,&quot;text&quot;:&quot;res&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:13,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:20,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:29,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:37,&quot;text&quot;:&quot;json&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:42,&quot;text&quot;:&quot;errorObj&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;server/server.ts&quot;,&quot;line&quot;:280,&quot;character&quot;:51,&quot;text&quot;:&quot;message&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

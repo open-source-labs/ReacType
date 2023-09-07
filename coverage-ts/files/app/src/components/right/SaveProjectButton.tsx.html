@@ -11,7 +11,7 @@
 <link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/SaveProjectButton.tsx</td><td class="">91.10%</td><td class="">80%</td><td class="">146</td><td class="">133</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/right/SaveProjectButton.tsx</td><td class="">91.67%</td><td class="">80%</td><td class="">156</td><td class="">143</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useCallback, useEffect } from &#x27;react&#x27;;
 import Button from &#x27;@mui/material/Button&#x27;;
 import TextField from &#x27;@mui/material/TextField&#x27;;
 import Dialog from &#x27;@mui/material/Dialog&#x27;;
@@ -21,8 +21,9 @@ import DialogTitle from &#x27;@mui/material/DialogTitle&#x27;;
 import SaveOutlinedIcon from &#x27;@mui/icons-material/SaveOutlined&#x27;;
 import { saveProject } from &#x27;../../helperFunctions/projectGetSaveDel&#x27;;
 import {useDispatch, useSelector} from &#x27;react-redux&#x27;
-import {updateProjectName} from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
+import {updateProjectName, updateProjectId} from &#x27;../../redux/reducers/slice/appStateSlice&#x27;;
 import { RootState } from &#x27;../../redux/store&#x27;;
+import { State } from &#x27;../../interfaces/Interfaces&#x27;;
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
@@ -47,7 +48,7 @@ const dispatch = useDispatch();
       // If errors occur on the backend, the project name still gets updated
 
       dispatch(updateProjectName(projectName))
-      saveProject(projectName, state);
+      saveProject(projectName, state).then((project: State) =&gt; dispatch(updateProjectId(project._id)))//updates the slice with new _id from mongo
       setOpen(false);
     } else {
       setInvalidProjectName(true);
@@ -102,6 +103,7 @@ const dispatch = useDispatch();
             onChange={handleChange}
             helperText={invalidProjectNameMessage}
             error={invalidProjectName}
+            autoComplete=&quot;off&quot;
           /&gt;
         &lt;/DialogContent&gt;
         &lt;DialogActions&gt;
@@ -117,8 +119,8 @@ const dispatch = useDispatch();
   );
 }
 
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:35,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:38,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:50,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:52,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:67,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:69,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:81,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:83,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:35,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:5,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:7,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:22,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:24,&quot;text&quot;:&quot;metaKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:36,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:38,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:50,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:52,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:67,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:69,&quot;text&quot;:&quot;ctrlKey&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:81,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/right/SaveProjectButton.tsx&quot;,&quot;line&quot;:54,&quot;character&quot;:83,&quot;text&quot;:&quot;shiftKey&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

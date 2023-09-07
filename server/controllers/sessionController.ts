@@ -17,7 +17,6 @@ const sessionController: SessionController = {
           // if the request cookies exist then it assigns it to cookieId
           cookieId = req.cookies.ssid;
         } else {
-          console.log('reqcookies', 'was null')
           // else it creates a new cookieId for the user based on the userId
           cookieId = req.body.userId;
         }
@@ -25,7 +24,6 @@ const sessionController: SessionController = {
         // find session from request session ID in mongodb
         const session = await Sessions.findOne({ cookieId });
         if (!session) {
-          console.log('session', session)
           return res.redirect('/');
         }
         return next();
