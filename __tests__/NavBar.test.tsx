@@ -4,12 +4,49 @@ import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import NavBar from '../app/src/components/top/NavBar';
-import navbarDropDown from '../app/src/components/top/navbarDropDown'
+import navBarButtons from '../app/src/components/top/NavBarButtons';
 import * as projectFunctions from '../app/src/helperFunctions/projectGetSaveDel';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../app/src/redux/reducers/rootReducer';
 import { initialState as appStateInitialState } from '../app/src/redux/reducers/slice/appStateSlice';
+
+
+
+// Mock the non-serializable HTMLTypes
+const mockHTMLTypes = [
+  {
+    id: 11,
+    tag: 'div',
+    name: 'Div',
+    style: {},
+    placeHolderShort: 'div',
+    placeHolderLong: '',
+    framework: 'reactClassic',
+    nestable: true,
+  },
+  {
+    id: 1000,
+    tag: 'separator',
+    name: 'separator',
+    style: { border: 'none' },
+    placeHolderShort: '',
+    placeHolderLong: '',
+    framework: '',
+    nestable: true,
+  },
+  {
+    id: 1,
+    tag: 'img',
+    name: 'Img',
+    style: {},
+    placeHolderShort: 'image',
+    placeHolderLong: '',
+    framework: 'reactClassic',
+    nestable: false,
+  },
+];
+
 
 // Mocking the theme
 const theme = createTheme({
@@ -36,9 +73,9 @@ jest.mock('file-saver', () => ({
 //   console.error = jest.fn();
 // });
 
-// afterAll(() => {
-//   console.error = originalError;
-// });
+afterAll(() => {
+  jest.resetAllMocks();
+});
 
 // Mocking the render
 const renderNavBar = (store) => {
@@ -69,6 +106,7 @@ describe('NavBar Component', () => {
           ...appStateInitialState,
           isLoggedIn: true,
           name: 'Mock Project Name',
+          HTMLTypes: mockHTMLTypes,
         },
       },
     });
@@ -83,7 +121,7 @@ describe('NavBar Component', () => {
     fireEvent.click(publishButton);
   });
 
-  xit('handles publish correctly with new project', async () => {
+  it('handles publish correctly with new project', async () => {
     const publishProjectMock = jest.spyOn(projectFunctions, 'publishProject');
     publishProjectMock.mockResolvedValueOnce({
       _id: 'mockedId',
@@ -98,6 +136,7 @@ describe('NavBar Component', () => {
           ...appStateInitialState,
           isLoggedIn: true,
           name: '', 
+          HTMLTypes: mockHTMLTypes,
         },
       },
     });
@@ -129,7 +168,7 @@ describe('NavBar Component', () => {
     });
   
 
-  xit('handles unpublish correctly', async () => {
+  it('handles unpublish correctly', async () => {
     const unpublishProjectMock = jest.spyOn(projectFunctions, 'unpublishProject');
     unpublishProjectMock.mockResolvedValueOnce({
       _id: 'mockedId',
@@ -144,6 +183,7 @@ describe('NavBar Component', () => {
           ...appStateInitialState,
           isLoggedIn: true,
           name: 'Mock Project Name',
+          HTMLTypes: mockHTMLTypes,
         },
       },
     });
@@ -165,7 +205,7 @@ describe('NavBar Component', () => {
     }
   });
 
-  xit('handles export correctly', async () => {
+  it('handles export correctly', async () => {
     const store = configureStore({
       reducer: rootReducer,
       preloadedState: {
@@ -173,6 +213,7 @@ describe('NavBar Component', () => {
           ...appStateInitialState,
           isLoggedIn: true,
           name: 'Mock Project Name',
+          HTMLTypes: mockHTMLTypes,
         },
       },
     });
@@ -187,43 +228,64 @@ describe('NavBar Component', () => {
     const exportButton = getByText('< > Export');
     fireEvent.click(exportButton);
 
-
+    // Check if the modal for export options is displayed
     await waitFor(() => {
       const exportModal = getByText('Click to download in zip file:');
       expect(exportModal).toBeInTheDocument();
     });
 
-
+    // Simulate clicking the export components 
     const exportComponentsOption = getByText('Export components');
     fireEvent.click(exportComponentsOption);
 
   });
-
-
-
-xit('handles dropdown menu correctly', () => {
-  const store = configureStore({
-    reducer: rootReducer,
-    preloadedState: {
-      appState: {
-        ...appStateInitialState,
-        isLoggedIn: true,
-        name: 'Mock Project Name',
+  test('handles dropdown menu correctly', async () => {
+    const store = configureStore({
+      reducer: rootReducer,
+      preloadedState: {
+        appState: {
+          ...appStateInitialState,
+        },
       },
-    },
-  });
-
-  const { getByTestId } = renderNavBar(store);
-  const moreVertButton = getByTestId('more-vert-button');
-
- 
-  expect(moreVertButton).toBeInTheDocument();
-
-
-  fireEvent.click(moreVertButton);
-
-
-});
-
+    });
   
+    // Render component
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider theme={theme}>
+            <NavBar />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
+    );
+  
+    // Initially, the dropdown should have the "hideNavDropDown" class
+    const dropdownMenu = getByTestId('navDropDown');
+    expect(dropdownMenu).toHaveClass('hideNavDropDown');
+  
+    // Find and click the button to open the dropdown
+    const moreVertButton = getByTestId('more-vert-button');
+    fireEvent.click(moreVertButton);
+  
+    // After clicking, the dropdown should have the "navDropDown" class
+    expect(dropdownMenu).toHaveClass('navDropDown');
+  
+  
+    //clear canvas click
+    const clearCanvasMenuItem = getByText('Clear Canvas');
+    fireEvent.click(clearCanvasMenuItem);
+    expect(dropdownMenu).toHaveClass('navDropDown');
+  
+    // After clicking "Marketplace", it should remain open
+    const marketplaceMenuItem = getByText('Marketplace');
+    fireEvent.click(marketplaceMenuItem);
+    expect(dropdownMenu).toHaveClass('navDropDown');
+  
+    // Close the dropdown by clicking the button again
+    fireEvent.click(moreVertButton);
+  
+    // After closing, the dropdown should have the "hideNavDropDown" class
+    expect(dropdownMenu).toHaveClass('hideNavDropDown');
+  });
 });

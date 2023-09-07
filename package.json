@@ -262,6 +262,12 @@
       "__tests__/spec.ts",
       "__tests__/projects.test.ts"
     ],
+    "coveragePathIgnorePatterns": [
+      "server/graphQL"
+    ],
+    "testPathIgnorePatterns": [
+      "server/graphQL"
+    ],
     "transform": {
       "\\.(ts|tsx)$": "ts-jest",
       "^.+\\.js?$": "babel-jest"
