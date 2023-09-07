@@ -4,14 +4,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import NavBar from '../app/src/components/top/NavBar';
-import navBarButtons from '../app/src/components/top/NavBarButtons';
 import * as projectFunctions from '../app/src/helperFunctions/projectGetSaveDel';
 import { Provider } from 'react-redux';
+import { act } from 'react-dom/test-utils';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '../app/src/redux/reducers/rootReducer';
 import { initialState as appStateInitialState } from '../app/src/redux/reducers/slice/appStateSlice';
-
-
 
 // Mock the non-serializable HTMLTypes
 const mockHTMLTypes = [
@@ -46,7 +44,6 @@ const mockHTMLTypes = [
     nestable: false,
   },
 ];
-
 
 // Mocking the theme
 const theme = createTheme({
@@ -117,8 +114,10 @@ describe('NavBar Component', () => {
 
     console.log('After rendering NavBar');
 
-    const publishButton = getByText('Publish');
-    fireEvent.click(publishButton);
+    await act(async () => { 
+      const publishButton = getByText('Publish');
+      fireEvent.click(publishButton);
+    });
   });
 
   it('handles publish correctly with new project', async () => {
@@ -147,26 +146,27 @@ describe('NavBar Component', () => {
   
     console.log('After rendering NavBar');
   
-    // Check if the "Publish" button is present
-    const publishButton = queryByText('Publish');
+    await act(async () => { 
+      // Check if the "Publish" button is present
+      const publishButton = queryByText('Publish');
   
-    if (publishButton) {
-      fireEvent.click(publishButton);
-    } else {
-      // If "Publish" button is not found, look for the "Unpublish" button
-      const unpublishButton = getByText('Unpublish');
-      fireEvent.click(unpublishButton);
-    }
+      if (publishButton) {
+        fireEvent.click(publishButton);
+      } else {
+        // If "Publish" button is not found, look for the "Unpublish" button
+        const unpublishButton = getByText('Unpublish');
+        fireEvent.click(unpublishButton);
+      }
   
-    // Check if the modal for a new project is displayed
-    const projectNameInput = queryByTestId('project-name-input');
+      // Check if the modal for a new project is displayed
+      const projectNameInput = queryByTestId('project-name-input');
   
-    if (projectNameInput) {
-      // entering a project name in the modal
-      fireEvent.change(projectNameInput, { target: { value: 'My Project' } });
-    }
+      if (projectNameInput) {
+        // entering a project name in the modal
+        fireEvent.change(projectNameInput, { target: { value: 'My Project' } });
+      }
     });
-  
+  });
 
   it('handles unpublish correctly', async () => {
     const unpublishProjectMock = jest.spyOn(projectFunctions, 'unpublishProject');
@@ -239,7 +239,8 @@ describe('NavBar Component', () => {
     fireEvent.click(exportComponentsOption);
 
   });
-  test('handles dropdown menu correctly', async () => {
+
+  it('handles dropdown menu correctly', async () => {
     const store = configureStore({
       reducer: rootReducer,
       preloadedState: {
@@ -248,8 +249,9 @@ describe('NavBar Component', () => {
         },
       },
     });
-  
-    // Render component
+
+    console.log('Before rendering NavBar');
+
     const { getByTestId, getByText } = render(
       <Provider store={store}>
         <MemoryRouter>
@@ -259,33 +261,34 @@ describe('NavBar Component', () => {
         </MemoryRouter>
       </Provider>
     );
-  
-    // Initially, the dropdown should have the "hideNavDropDown" class
-    const dropdownMenu = getByTestId('navDropDown');
-    expect(dropdownMenu).toHaveClass('hideNavDropDown');
-  
-    // Find and click the button to open the dropdown
-    const moreVertButton = getByTestId('more-vert-button');
-    fireEvent.click(moreVertButton);
-  
-    // After clicking, the dropdown should have the "navDropDown" class
-    expect(dropdownMenu).toHaveClass('navDropDown');
-  
-  
-    //clear canvas click
-    const clearCanvasMenuItem = getByText('Clear Canvas');
-    fireEvent.click(clearCanvasMenuItem);
-    expect(dropdownMenu).toHaveClass('navDropDown');
-  
-    // After clicking "Marketplace", it should remain open
-    const marketplaceMenuItem = getByText('Marketplace');
-    fireEvent.click(marketplaceMenuItem);
-    expect(dropdownMenu).toHaveClass('navDropDown');
-  
-    // Close the dropdown by clicking the button again
-    fireEvent.click(moreVertButton);
-  
-    // After closing, the dropdown should have the "hideNavDropDown" class
-    expect(dropdownMenu).toHaveClass('hideNavDropDown');
+
+    console.log('After rendering NavBar');
+
+    await act(async () => { 
+
+      const dropdownMenu = getByTestId('navDropDown');
+      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+
+
+      const moreVertButton = getByTestId('more-vert-button');
+      fireEvent.click(moreVertButton);
+
+
+      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+
+
+      const clearCanvasMenuItem = getByText('Clear Canvas');
+      fireEvent.click(clearCanvasMenuItem);
+      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+
+
+      const marketplaceMenuItem = getByText('Marketplace');
+      fireEvent.click(marketplaceMenuItem);
+      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+
+      fireEvent.click(moreVertButton);
+
+      expect(dropdownMenu).toHaveClass('hideNavDropDown');
+    });
   });
-});
+})
