@@ -8,7 +8,7 @@ import { toggleScreenshotTrigger } from '../redux/reducers/slice/appStateSlice';
 import html2canvas from 'html2canvas';
 import { Buffer } from 'buffer';
 import { Amplify, Storage } from 'aws-amplify';
-import awsconfig from '../../../src/aws-exports';
+import awsconfig from '../../../src/custom-aws-exports';
 
 const MainContainer = (props): JSX.Element => {
   const dispatch = useDispatch();

@@ -28,7 +28,7 @@ import { red } from '@mui/material/colors';
 import { saveProject } from '../../helperFunctions/projectGetSaveDel';
 import { useHistory } from 'react-router-dom';
 import { Amplify, Storage } from 'aws-amplify';
-import awsconfig from '../../../../src/aws-exports';
+import awsconfig from '../../../../src/custom-aws-exports';
 
 interface Project {
   forked: String;
