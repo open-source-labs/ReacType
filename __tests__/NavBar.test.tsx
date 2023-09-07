@@ -121,7 +121,7 @@ describe('NavBar Component', () => {
     fireEvent.click(publishButton);
   });
 
-  xit('handles publish correctly with new project', async () => {
+  it('handles publish correctly with new project', async () => {
     const publishProjectMock = jest.spyOn(projectFunctions, 'publishProject');
     publishProjectMock.mockResolvedValueOnce({
       _id: 'mockedId',
@@ -168,7 +168,7 @@ describe('NavBar Component', () => {
     });
   
 
-  xit('handles unpublish correctly', async () => {
+  it('handles unpublish correctly', async () => {
     const unpublishProjectMock = jest.spyOn(projectFunctions, 'unpublishProject');
     unpublishProjectMock.mockResolvedValueOnce({
       _id: 'mockedId',
@@ -205,7 +205,7 @@ describe('NavBar Component', () => {
     }
   });
 
-  xit('handles export correctly', async () => {
+  it('handles export correctly', async () => {
     const store = configureStore({
       reducer: rootReducer,
       preloadedState: {
@@ -239,7 +239,6 @@ describe('NavBar Component', () => {
     fireEvent.click(exportComponentsOption);
 
   });
-
   test('handles dropdown menu correctly', async () => {
     const store = configureStore({
       reducer: rootReducer,
