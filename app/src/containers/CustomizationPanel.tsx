@@ -394,7 +394,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch(undo({ contextParam }));
-    console.log(contextParam);
   };
   const handleRedo = () => {
     dispatch(redo({ contextParam }));
@@ -475,7 +474,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const keyBindedFunc = useCallback((e) => {
     // the || is for either Mac or Windows OS
     // Undo
-    console.log('keydown');
     (e.key === 'z' && e.metaKey && !e.shiftKey) ||
     (e.key === 'z' && e.ctrlKey && !e.shiftKey)
       ? handleUndo()

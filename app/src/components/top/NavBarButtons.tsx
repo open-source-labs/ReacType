@@ -67,7 +67,6 @@ function initSocketConnection(roomCode) {
     if (currentStore !== event) {
       currentStore = JSON.parse(currentStore);
       event = JSON.parse(event);
-      console.log('stores do not match');
       if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
         store.dispatch(toggleDarkMode());
       } else if (currentStore.appState !== event.appState) {
@@ -260,7 +259,6 @@ function navbarDropDown(props) {
   }, [joinedRoom]);
 
   function joinRoom() {
-    console.log(roomCode);
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
 
