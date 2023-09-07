@@ -58,7 +58,16 @@ Follow [@ReacType](https://twitter.com/reactype) on Twitter for important announ
 
 ### Documentation
 
-If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now.
+If you want to read about using ReacType, the [User Manual](https://reactype-1.herokuapp.com/#/tutorial) is free and available online now. 
+<!-- NEED TO REPLACE THE TUTORIAL LINK -->
+
+## Changes with version 17.0.0
+
+- **Improved Testing Coverage**: Testing coverage now sits at XX%.
+- **Typescript Conversion**: Typescript coverage now sits at XX%.
+- **UI Overhaul**: Upgraded the UI of the application with a more modern style and better developer experience
+- **Marketplace Feature**: Implemented a dedicated area for developers to share their projects
+- **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
 ## Changes with version 16.0.0
 
