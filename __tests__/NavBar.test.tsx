@@ -114,8 +114,10 @@ describe('NavBar Component', () => {
 
     console.log('After rendering NavBar');
 
-    const publishButton = getByText('Publish');
-    fireEvent.click(publishButton);
+    await act(async () => { 
+      const publishButton = getByText('Publish');
+      fireEvent.click(publishButton);
+    });
   });
 
   it('handles publish correctly with new project', async () => {
