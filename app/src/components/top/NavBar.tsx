@@ -175,7 +175,7 @@ const NavBar = () => {
           onClick={() => setDropMenu(!dropMenu)}
           ref={menuButtonRef}
         >
-          <MoreVertIcon style={{ color: 'white' }} />
+          <MoreVertIcon style={{ color: 'white' }} data-testid="more-vert-button" />
         </Button>
         <NavBarButtons
           dropMenu={dropMenu}
