@@ -10,7 +10,7 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
-import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
@@ -94,9 +94,10 @@ const NavBar = () => {
         .then((newProject: State) => {
           console.log('Project published successfully', newProject);
           setPublishModalOpen(false);
-          dispatch(updateProjectId(newProject._id))
-          dispatch(updateProjectName(newProject.name))
-          dispatch(updateProjectPublished(newProject.published))
+          dispatch(updateProjectId(newProject._id));
+          dispatch(updateProjectName(newProject.name));
+          dispatch(updateProjectPublished(newProject.published));
+          dispatch(toggleScreenshotTrigger());
           setAlertOpen(true)
         })
         .catch((error) => {

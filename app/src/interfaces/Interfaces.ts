@@ -20,6 +20,7 @@ export interface State {
   tailwind: boolean;
   stylesheet: string;
   codePreview: boolean;
+  screenshotTrigger: boolean;
 }
 
 export interface ChildElement {

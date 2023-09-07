@@ -44,6 +44,7 @@ export const initialState: State = {
   tailwind: false,
   stylesheet: '', 
   codePreview: false, 
+  screenshotTrigger: false
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -1278,6 +1279,11 @@ const appStateSlice = createSlice({
     // toggles the active code preview editor for conditional rendering
     toggleCodePreview: (state) => {
       state.codePreview = !state.codePreview;
+    },
+
+    // toggles the state of the screenshot trigger to allow a child component to trigger the screenshot of the main component
+    toggleScreenshotTrigger: (state) => {
+      state.screenshotTrigger = !state.screenshotTrigger;
     }
   }
 });
@@ -1321,7 +1327,8 @@ export const {
   snapShotAction,
   allCooperativeState,
   updateStylesheet, 
-  toggleCodePreview
+  toggleCodePreview, 
+  toggleScreenshotTrigger
 } = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer
