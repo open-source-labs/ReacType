@@ -10,9 +10,8 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
-import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
-import html2canvas from 'html2canvas';
 
 
 const NavBar = () => {
@@ -75,24 +74,20 @@ const NavBar = () => {
       return;
     }
 
-    // need a way to grab the image and store the image in aws, tied to click of publish
-    // need to store a ref on the demorender component, maybe in redux?
-    // on publish, we need to find the component, take a screenshot, and store it in aws
-    
-
     publishProject(projectName, state)
       .then((newProject: State) => {
         console.log('Project published successfully', newProject);
         setPublishModalOpen(false);
-        dispatch(updateProjectId(newProject._id))
-        dispatch(updateProjectName(newProject.name))
-        dispatch(updateProjectPublished(newProject.published))
+        dispatch(toggleScreenshotTrigger());
+        dispatch(updateProjectId(newProject._id));
+        dispatch(updateProjectName(newProject.name));
+        dispatch(updateProjectPublished(newProject.published));
       })
       .catch((error) => {
         console.error('Error publishing project:', error.message);
       });
       
-    };
+  };
 
     const handleUnpublish = () => {
       unpublishProject(state)
