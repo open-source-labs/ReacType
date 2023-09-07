@@ -30,8 +30,6 @@ Changes:<br>
   - Publish/Unpublish Button: 
     - Publish feature on the web app allows users to publish their saved project files into the Marketplace from the main app page
     - Dynamically switches between publish/unpublish depending on whether the loaded project is in the Marketplace
-  - Bug Fixes:
-    - 
 
 Recommendations for Future Enhancements:<br>
 
