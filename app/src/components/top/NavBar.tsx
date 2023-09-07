@@ -40,7 +40,6 @@ const NavBar = () => {
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
   const deleteAlertOpen = () => {
-    console.log("I am hit")
     setDeleteAlert(true);
   }
 
@@ -92,7 +91,6 @@ const NavBar = () => {
 
       publishProject(projectName, state)
         .then((newProject: State) => {
-          console.log('Project published successfully', newProject);
           setPublishModalOpen(false);
           dispatch(updateProjectId(newProject._id));
           dispatch(updateProjectName(newProject.name));
@@ -109,7 +107,6 @@ const NavBar = () => {
     const handleUnpublish = () => {
       unpublishProject(state)
         .then((unpublishedProject: State) => {
-          console.log('Project unpublished successfully', unpublishedProject);
           dispatch(updateProjectPublished(false)); 
           setAlertOpen2(true);
         })

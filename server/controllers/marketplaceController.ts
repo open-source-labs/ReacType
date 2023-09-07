@@ -64,7 +64,6 @@ const marketplaceController: MarketplaceController = {
         delete noId.published;
         const publishedProject = await Projects.create( { project: noId, createdAt, published: true, comments, name, userId, username })
         res.locals.publishedProject = publishedProject.toObject({ minimize: false });
-        console.log('published backend new', res.locals.publishedProject)
         return next();
       }
     }

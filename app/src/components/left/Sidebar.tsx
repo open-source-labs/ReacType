@@ -22,12 +22,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     setActiveTab(newValue);
     toggleVisibility(true);// Show the left-container when a different tab is clicked 
     oldValue = newValue;//setting the oldvalue to match the new tab
-    console.log('oldValue change', oldValue)
   };
 
   const handleTabClick = (event: React.MouseEvent, oldValue: number) => {
     if (activeTab === oldValue) { //if the person is clicking the same tab, oldValue should match activeTab since it did not trigger an onChange
-      console.log('handleTabChange null', oldValue)
       setActiveTab(null);
       toggleVisibility(false); // Hide the left-container when the same tab is clicked again
     }

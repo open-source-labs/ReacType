@@ -2,7 +2,6 @@
 // this is not currently being used for the website version
 const cssRefresher = () => {
   const oldStylesheet = document.getElementById('stylesheet');
-  console.log(oldStylesheet);
   if (oldStylesheet !== null) oldStylesheet.remove();
   // const rando = Math.random() * 100000;
   const newStylesheet = document.createElement('LINK');
@@ -11,6 +10,5 @@ const cssRefresher = () => {
   newStylesheet.setAttribute('href', 'fake.css');
   newStylesheet.setAttribute('id', 'stylesheet');
   document.getElementById('renderFocus').append(newStylesheet);
-  console.log(newStylesheet);
 };
 export default cssRefresher;
