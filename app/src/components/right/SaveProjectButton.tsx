@@ -90,6 +90,7 @@ const dispatch = useDispatch();
             onChange={handleChange}
             helperText={invalidProjectNameMessage}
             error={invalidProjectName}
+            autoComplete="off"
           />
         </DialogContent>
         <DialogActions>

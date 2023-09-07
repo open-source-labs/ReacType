@@ -51,10 +51,11 @@ export default function DataTable({ target, currentContext }) {
                   style={{ color: 'black' }}
                   component="th"
                   scope="row"
+                  key={`${index}-key-${data.key}`}
                 >
                   {data.key}
                 </StyledTableCell>
-                <StyledTableCell style={{ color: 'black' }} align="right">
+                <StyledTableCell style={{ color: 'black' }} align="right" key={`${index}-value-${data.value}`}>
                   {data.value}
                 </StyledTableCell>
               </StyledTableRow>

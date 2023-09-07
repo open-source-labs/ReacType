@@ -18,8 +18,10 @@ describe('Project endpoints tests', () => {
     server.listen(done);
   });
   afterAll((done) => {
-    Mongoose.disconnect();
-    server.close(done);
+    Mongoose.disconnect().then(() => {
+      // Close the HTTP server
+      server.close(done);
+    });
   });
   // test saveProject endpoint
   describe('/saveProject', () => {

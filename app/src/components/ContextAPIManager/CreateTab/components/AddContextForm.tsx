@@ -66,9 +66,9 @@ const AddContextForm = ({
 
   //creating options for context dropdown
   const contexts = allContext.length ? (
-    allContext.map((context) => {
+    allContext.map((context, index) => {
       return (
-        <MenuItem style={{ color: color }} value={context.name}>
+        <MenuItem style={{ color: '#383838'}} value={context.name} key={index}>
           {context.name}
         </MenuItem>
       );
@@ -100,7 +100,8 @@ const AddContextForm = ({
         />
         <Snackbar
           open={open && !errorStatus}
-          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          autoHideDuration={3000}
           onClose={handleClose}
         >
           <Alert
@@ -129,7 +130,7 @@ const AddContextForm = ({
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #0099e6', color: color }}
+            style={{ border: '1px solid #0099e6', color: color}}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}

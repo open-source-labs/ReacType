@@ -1,6 +1,13 @@
+/**
+ * @jest-environment node
+ */
+
+
 import marketplaceController from '../server/controllers/marketplaceController'; 
 import app from '../server/server';
 import mockData from '../mockData';
+import { profileEnd } from 'console';
+import { Projects } from '../server/models/reactypeModels';
 const request = require('supertest');
 const mongoose = require('mongoose');
 const mockNext = jest.fn(); // Mock nextFunction
@@ -16,8 +23,12 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+
+  const result = await Projects.deleteMany({});//clear the projects collection after tests are done
+  console.log(`${result.deletedCount} documents deleted.`);
   await mongoose.connection.close();
 });
+
 
 describe('Server endpoint tests', () => {
   it('should pass this test request', async () => {
@@ -25,28 +36,32 @@ describe('Server endpoint tests', () => {
     expect(response.status).toBe(200);
     expect(response.text).toBe('test request is working');
   });
-  describe('Marketplace endpoint testing', () => {
-    it('get requests to /getMarketplaceProjects should return an array of projects', async () => {
-      const response = await request(app).get('/getMarketplaceProjects');
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-    });
-    it('the return array should be populated with project objects', async () => {
-      const response = await request(app).get('/getMarketplaceProjects');
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-    });
-  });
+  
+
+  // // test saveProject endpoint
+  // describe('/login', () => {
+  //   describe('/POST', () => {
+  //     it('responds with a status of 200 and json object equal to project sent', async () => {
+  //       return request(app)
+  //         .post('/login')
+  //         .set('Cookie', [`ssid=${user.userId}`]) 
+  //         .set('Accept', 'application/json')
+  //         .send(projectToSave)
+  //         .expect(200)
+  //         .expect('Content-Type', /application\/json/)
+  //         .then((res) => expect(res.body.name).toBe(projectToSave.name));
+  //     });
+  //   // });
+  //   });
+  // });
+
   // test saveProject endpoint
   describe('/saveProject', () => {
-    describe('/POST', () => {
+    describe('POST', () => {
       it('responds with a status of 200 and json object equal to project sent', async () => {
-        // const response = await request(app).post('/saveProject').set('Accept', 'application/json').send(projectToSave);
-        // console.log(response);
-        // console.log(response.body);
-        // expect(response.status).toBe(200);
         return request(app)
           .post('/saveProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Accept', 'application/json')
           .send(projectToSave)
           .expect(200)
@@ -54,6 +69,7 @@ describe('Server endpoint tests', () => {
           .then((res) => expect(res.body.name).toBe(projectToSave.name));
       });
     // });
+    });
   });
   // test getProjects endpoint
   describe('/getProjects', () => {
@@ -62,6 +78,7 @@ describe('Server endpoint tests', () => {
         return request(app)
           .post('/getProjects')
           .set('Accept', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .send({ userId: projectToSave.userId })
           .expect(200)
           .expect('Content-Type', /json/)
@@ -76,20 +93,204 @@ describe('Server endpoint tests', () => {
   describe('/deleteProject', () => {
     describe('DELETE', () => {
       it('responds with status of 200 and json object equal to deleted project', async () => {
-        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').send({ userId: projectToSave.userId });
+        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
         const _id: String = response.body[0]._id;
-        const userId: String = user.username;
-        console.log(_id, userId);
+        const userId: String = user.userId;
         return request(app)
           .delete('/deleteProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
           .set('Content-Type', 'application/json')
           .send({ _id, userId })
           .expect(200)
-          .then((res) => expect(res.body.name).toBe(projectToSave.name)); // @Denton might want to check more of these fields
+          .then((res) => expect(res.body._id).toBe(_id)); 
       });
     });
   });
-});
+
+  //test publishProject endpoint
+  describe('/publishProject', () => {
+    describe('POST', () => {
+      it('responds with status of 200 and json object equal to published project', async () => {
+
+        const projObj = await request(app)
+          .post('/saveProject')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .set('Accept', 'application/json')
+          .send(projectToSave)
+        const _id: String = projObj.body._id;
+        const project: String = projObj.body.project;
+        const comments: String = projObj.body.comments;
+        const username: String = projObj.body.username;
+        const name: String = projObj.body.name;
+        const userId: String = user.userId;
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).toBe(_id)
+            expect(res.body.published).toBe(true);
+          }); 
+      });
+      it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = projObj.body[0]._id;
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = projObj.body[0].username;
+        const name: String = projObj.body[0].name;
+        const userId: String = "ERROR";
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+      it('responds with status of 500 and error if _id was not a valid mongo ObjectId', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = 'ERROR';
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = user.username;
+        const name: String = projObj.body[0].name;
+        const userId: String = user.userId;
+        
+        return request(app)
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })//_id, project, comments, userId, username, name 
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).not.toEqual(_id)
+          }); 
+      });
+    });
+  });
+
+  //test getMarketplaceProjects endpoint
+  describe('/getMarketplaceProjects', () => {//most recent project should be the one from publishProject
+
+    describe('GET', () => {
+      it('responds with status of 200 and json object equal to unpublished project', async () => {
+        return request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+          .expect(200)
+          .then((res) => {
+            expect(Array.isArray(res.body)).toBe(true);
+            expect(res.body[0]._id).toBeTruthy;
+          }); 
+      });
+    });
+  });
+
+  //test cloneProject endpoint
+  describe('/cloneProject/:docId', () => {
+    describe('GET', () => {
+      it('responds with status of 200 and json object equal to cloned project', async () => {
+
+        const projObj = await request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+
+        return request(app)
+          .get(`/cloneProject/${projObj.body[0]._id}`)
+          .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
+          .query({ username: user.username })
+          .expect(200)
+          .then((res) => {
+            expect(res.body.forked).toBeTruthy;
+            expect(res.body.username).toBe(user.username);
+          }); 
+      });
+      it('responds with status of 500 and error', async () => {
+
+        const projObj = await request(app)
+          .get('/getMarketplaceProjects')
+          .set('Content-Type', 'application/json')
+
+        return request(app)
+          .get(`/cloneProject/${projObj.body[0]._id}`)
+          .set('Cookie', [`ssid=${user.userId}`]) // Set the cookie
+          .query({ username: [] })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+    });
+  });
+
+  //test unpublishProject endpoint
+  describe('/unpublishProject', () => {
+    describe('PATCH', () => {
+      it('responds with status of 200 and json object equal to unpublished project', async () => {
+        const response: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId }); //most recent project should be the one from publishProject
+        const _id: String = response.body[0]._id;
+        const userId: String = user.userId;
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
+          .send({ _id, userId })
+          .expect(200)
+          .then((res) => {
+            expect(res.body._id).toBe(_id)
+            expect(res.body.published).toBe(false);
+          }); 
+      });
+      it('responds with status of 500 and error if userId and cookie ssid do not match', async () => {
+        const projObj: Response = await request(app).post('/getProjects').set('Accept', 'application/json').set('Cookie', [`ssid=${user.userId}`]).send({ userId: projectToSave.userId });
+        const _id: String = projObj.body[0]._id;
+        const project: String = projObj.body[0].project;
+        const comments: String = projObj.body[0].comments;
+        const username: String = projObj.body[0].username;
+        const name: String = projObj.body[0].name;
+        let userId: String = user.userId;
+        await request(app)//publishing a project first
+          .post('/publishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`]) 
+          .send({ _id, project, comments, userId, username, name })
+          
+        
+        userId = "ERROR";
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
+          .send({ _id, userId })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+      it('responds with status of 500 and error if _id was not a string', async () => {
+        const userId: String = user.userId;
+
+        return request(app)
+          .patch('/unpublishProject')
+          .set('Content-Type', 'application/json')
+          .set('Cookie', [`ssid=${user.userId}`])
+          .send({userId })
+          .expect(500)
+          .then((res) => {
+            expect(res.body.err).not.toBeNull()
+          }); 
+      });
+    });
+  });
+
+
+
+
 });
 
 

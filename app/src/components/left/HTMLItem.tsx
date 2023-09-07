@@ -70,6 +70,7 @@ const HTMLItem: React.FC<{
     const children = (
       <List className="export-preference">
         <ListItem
+          id="export-modal"
           key={`clear${deleteID}`}
           onClick={() => handleDelete(deleteID)}
           style={{
@@ -85,6 +86,7 @@ const HTMLItem: React.FC<{
           />
         </ListItem>
         <ListItem
+          id="export-modal"
           key={`close${deleteID}`}
           onClick={closeModal}
           style={{

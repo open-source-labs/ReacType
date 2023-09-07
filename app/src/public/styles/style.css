@@ -259,9 +259,10 @@ span.material-symbols-outlined {
 }
 
 #submitButton:hover {
-  background-color: #C6C6C6;
+  background-color: #297ac2;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .lineDiv {
