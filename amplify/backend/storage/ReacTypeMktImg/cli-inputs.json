@@ -1,0 +1,16 @@
+{
+  "resourceName": "ReacTypeMktImg",
+  "policyUUID": "f87a3e6a",
+  "bucketName": "reactypemktimgs",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

@@ -10,7 +10,7 @@ import logo from '../../public/icons/win/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { publishProject, unpublishProject } from '../../helperFunctions/projectGetSaveDel';
 import PublishModal from './PublishModal';
-import { updateProjectId, updateProjectName, updateProjectPublished } from '../../redux/reducers/slice/appStateSlice';
+import { updateProjectId, updateProjectName, updateProjectPublished, toggleScreenshotTrigger } from '../../redux/reducers/slice/appStateSlice';
 import { State } from '../../interfaces/Interfaces';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
@@ -40,7 +40,6 @@ const NavBar = () => {
   }, [state.name])//update the ProjectName after state.name changes due to loading projects
 
   const deleteAlertOpen = () => {
-    console.log("I am hit")
     setDeleteAlert(true);
   }
 
@@ -92,11 +91,11 @@ const NavBar = () => {
 
       publishProject(projectName, state)
         .then((newProject: State) => {
-          console.log('Project published successfully', newProject);
           setPublishModalOpen(false);
-          dispatch(updateProjectId(newProject._id))
-          dispatch(updateProjectName(newProject.name))
-          dispatch(updateProjectPublished(newProject.published))
+          dispatch(updateProjectId(newProject._id));
+          dispatch(updateProjectName(newProject.name));
+          dispatch(updateProjectPublished(newProject.published));
+          dispatch(toggleScreenshotTrigger());
           setAlertOpen(true)
         })
         .catch((error) => {
@@ -108,7 +107,6 @@ const NavBar = () => {
     const handleUnpublish = () => {
       unpublishProject(state)
         .then((unpublishedProject: State) => {
-          console.log('Project unpublished successfully', unpublishedProject);
           dispatch(updateProjectPublished(false)); 
           setAlertOpen2(true);
         })

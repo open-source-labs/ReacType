@@ -26,6 +26,7 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+  background-color:white
 }
 
 h4 {
@@ -691,6 +692,8 @@ NAVBAR
 #customized-menu {
   width: 16%;
 }
+
+
 
 /*
 /////////////////////////////////////////////////

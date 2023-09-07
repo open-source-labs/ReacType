@@ -17,19 +17,19 @@ Changes:<br>
     - Cleaned up hundreds of lines of outdated code and archived multiple unused and duplicate files
 - User Features:
   - UI updated with a modern style for a better developer experience
-    - Added many user feedback alerts for better experience including alerts for when projects are published, cloned, deleted, context created, or custom component created.
+    - Added many user feedback alerts for better experience including alerts for when projects are published, cloned, deleted, HTML custom tags are created, context created, or custom component created.
+    - Built a specific buttons menu that individually display the HTML elements, reusable components created, and join room option.
+    - Redesigned the state manager panel option to be readable and functional. 
     - Drop down menu now closes only when the user clicks outside of the menu
   - Marketplace:
     - Implemented a dedicated area for developers to share their projects
     - Routing handled by React Router
-    - Projects can also be cloned to the user's account to be used and edited
+    - Projects can also be cloned to the user's account to be used and edited with the addition of a button
     - Added search functionality to search by username and project name
-    - Separate section in the Saved Projects and Delete Projects modal in the Manage Project menu for Downloaded Projects from the Marketplace
+    - Included a separate section in the Saved Projects and Delete Projects modal in the Manage Project menu for cloned projects from the Marketplace
   - Publish/Unpublish Button: 
     - Publish feature on the web app allows users to publish their saved project files into the Marketplace from the main app page
     - Dynamically switches between publish/unpublish depending on whether the loaded project is in the Marketplace
-  - Bug Fixes:
-    - 
 
 Recommendations for Future Enhancements:<br>
 
@@ -40,6 +40,8 @@ Recommendations for Future Enhancements:<br>
 - Continue quality Typescript conversion. Continue to fix type errors within component files.
 - Modularize appStateSlice file. Further modularization is needed for readability and maintainability.
 - Solve residual bugs. Undo & Redo buttons on customization page not functioning as expected. Backend bugs persist as seen in the console when running the dev environment. Resolve electron app functionality to coincide with web app functionality.
+- Take a look at the join room functionality using web sockets in order to allow users to collaborate on the same project at the same time.
+- For the state manager option in the data table there is a MuiData-menu that is not visible when clicking it and after the filter option is clicked it creates a white space in the bottom of the page.
 - Continue code cleanup. Continue cleanup of outdated and unused code and files
 
 **Version 16.0.0 Changes**

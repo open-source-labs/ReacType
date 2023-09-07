@@ -19,7 +19,6 @@ const MarketplaceContainer = () => {
         });
         setMarketplaceProjects(response.data);
         setDisplayProjects(response.data);
-    
       } catch (error) {
         console.error('Error fetching MP data:', error);
       }
@@ -30,13 +29,8 @@ const MarketplaceContainer = () => {
 
 
   const updateDisplayProjects = (searchResults) => {
-
     setDisplayProjects(searchResults);//have to pass this down as a prop so that the setting is done outside of Rendering otherwise callstack issues
-
   };
-
-  
-
   
   return (
     <div style={containerStyles}>

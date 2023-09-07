@@ -62,7 +62,6 @@ const RoomsContainer = () => {
       if (currentStore !== event) {
         currentStore = JSON.parse(currentStore);
         event = JSON.parse(event);
-        console.log('stores do not match');
         if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
           store.dispatch(toggleDarkMode());
         } else if (currentStore.appState !== event.appState) {
@@ -75,7 +74,6 @@ const RoomsContainer = () => {
           store.dispatch(cooperativeStyle(event.styleSlice));
         }
       }
-      console.log('updated user Store from another user: ', store.getState());
     });
   }
 
@@ -84,7 +82,6 @@ const RoomsContainer = () => {
   }
 
   function joinRoom() {
-    console.log(roomCode);
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
 

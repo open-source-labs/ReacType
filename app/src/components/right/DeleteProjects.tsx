@@ -44,7 +44,6 @@ function ProjectsDialog(props: ProjectDialogProps) {
     const selectedProject = projects.filter(
       (project: any) => project._id === value
       )[0];
-      console.log('deleting this one', selectedProject)
       deleteProject(selectedProject);
       localforage.removeItem(window.localStorage.getItem('ssid'));
       dispatch(setInitialState(initialState))
@@ -78,7 +77,7 @@ function ProjectsDialog(props: ProjectDialogProps) {
           </ListItem>
         ))}
       </List>
-      <DialogTitle style={{ color: "#000" }} id="project-dialog-title"> MP Projects</DialogTitle>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title"> Marketplace Projects</DialogTitle>
       <List style={{ color: "#000" }}>
         {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => (
           <ListItem
