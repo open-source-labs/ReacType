@@ -23,14 +23,13 @@ const AddContextForm = ({
   setErrorStatus
 }) => {
   const { allContext } = contextStore;
-  console.log('all contexts', allContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [open, setOpen] = useState(false);
   const { state, isDarkMode } = useSelector((store: RootState) => ({
     isDarkMode: store.darkMode.isDarkMode,
     state: store.appState
   }));
-  const color = isDarkMode ? 'white' : 'black';
+  const color = isDarkMode ? 'black' : 'white';
 
   //handler for submitting new context for creation
   const handleSubmit = () => {
@@ -66,9 +65,9 @@ const AddContextForm = ({
 
   //creating options for context dropdown
   const contexts = allContext.length ? (
-    allContext.map((context) => {
+    allContext.map((context, index) => {
       return (
-        <MenuItem style={{ color: color }} value={context.name}>
+        <MenuItem style={{ color: '#383838'}} value={context.name} key={index}>
           {context.name}
         </MenuItem>
       );
@@ -100,7 +99,8 @@ const AddContextForm = ({
         />
         <Snackbar
           open={open && !errorStatus}
-          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          autoHideDuration={3000}
           onClose={handleClose}
         >
           <Alert
@@ -113,6 +113,7 @@ const AddContextForm = ({
         </Snackbar>
         <Button
           variant="contained"
+          color="primary"
           onClick={handleSubmit}
           disabled={btnDisabled}
         >
@@ -128,7 +129,7 @@ const AddContextForm = ({
           <Select
             required
             sx={{ width: 425 }}
-            style={{ border: '1px solid #0099e6', color: color }}
+            style={{ border: '1px solid #0099e6', color: color}}
             value={currentContext}
             label="Select Context"
             MenuProps={{ disablePortal: true }}
@@ -140,7 +141,7 @@ const AddContextForm = ({
           </Select>
         </FormControl>
         <Button
-          color="error"
+          color="primary"
           variant="contained"
           onClick={handleDeleteContextClick}
         >

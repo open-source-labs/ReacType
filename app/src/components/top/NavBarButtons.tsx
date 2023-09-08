@@ -1,35 +1,38 @@
-import React from 'react';
-import store from '../../redux/store';
+import React, { Ref, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Button } from '@mui/material';
+import DeleteProjects from '../right/DeleteProjects';
+import ExportButton from '../right/ExportButton';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
-import createModal from '../right/createModal';
-import ExportButton from '../right/ExportButton';
-import { setStyle } from '../../redux/reducers/slice/styleSlice';
 import LoginButton from '../right/LoginButton';
-import withStyles from '@mui/styles/withStyles';
-import MenuItem from '@mui/material/MenuItem';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-import SaveProjectButton from '../right/SaveProjectButton';
-import ProjectsFolder from '../right/OpenProjects';
-import DeleteProjects from '../right/DeleteProjects';
 import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ProjectsFolder from '../right/OpenProjects';
+import { RootState } from '../../redux/store';
+import SaveProjectButton from '../right/SaveProjectButton';
+import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
 import { changeRoom } from '../../redux/reducers/slice/roomCodeSlice';
+import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
+import config from '../../../../config';
+import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
+import createModal from '../right/createModal';
+import createStyles from '@mui/styles/createStyles';
 // for websockets
 import debounce from 'lodash/debounce';
 // websocket front end starts here
 import { io } from 'socket.io-client';
+import makeStyles from '@mui/styles/makeStyles';
+import { resetAllState } from '../../redux/reducers/slice/appStateSlice';
+import { setStyle } from '../../redux/reducers/slice/styleSlice';
+import store from '../../redux/store';
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
-import { allCooperativeState } from '../../redux/reducers/slice/appStateSlice';
-import { codePreviewCooperative } from '../../redux/reducers/slice/codePreviewSlice';
-import { cooperativeStyle } from '../../redux/reducers/slice/styleSlice';
-import config from '../../../../config';
+import withStyles from '@mui/styles/withStyles';
+
 const { API_BASE_URL } = config;
-import { RootState } from '../../redux/store';
 
 // Part  - join room and room code functionality
 let socket;
@@ -64,7 +67,6 @@ function initSocketConnection(roomCode) {
     if (currentStore !== event) {
       currentStore = JSON.parse(currentStore);
       event = JSON.parse(event);
-      console.log('stores do not match');
       if (currentStore.darkMode.isDarkMode !== event.darkMode.isDarkMode) {
         store.dispatch(toggleDarkMode());
       } else if (currentStore.appState !== event.appState) {
@@ -139,11 +141,19 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
+interface StyledMenuProps extends React.PropsWithChildren<{}> {
+  id: string;
+  anchorEl: HTMLElement | null;
+  keepMounted: boolean;
+  open: boolean;
+  onClose: () => void;
+}
+
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5'
   }
-})((props) => (
+})((props: StyledMenuProps) => (
   <Menu
     elevation={0}
     // getContentAnchorEl={null}
@@ -173,6 +183,7 @@ const StyledMenuItem = withStyles((theme) => ({
 // where the main function starts //
 function navbarDropDown(props) {
   const dispatch = useDispatch();
+
   const [modal, setModal] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [roomCode, setRoomCode] = React.useState('');
@@ -240,6 +251,7 @@ function navbarDropDown(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+    props.setDropMenu(false);
   };
 
   React.useEffect(() => {
@@ -247,14 +259,13 @@ function navbarDropDown(props) {
   }, [joinedRoom]);
 
   function joinRoom() {
-    console.log(roomCode);
     dispatch(changeRoom(roomCode));
     setConfirmRoom((confirmRoom) => roomCode);
 
     // Call handleUserEnteredRoom when joining a room
     handleUserEnteredRoom(roomCode);
   }
-// Part - Dark Mode
+  // Part - Dark Mode
   const switchDark = isDarkMode ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -279,10 +290,47 @@ function navbarDropDown(props) {
     </svg>
   );
 
-  const showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+  let showMenu = props.dropMenu ? 'navDropDown' : 'hideNavDropDown';
+
+  //for closing the menu on clicks outside of it.
+  const useOutsideClick = () => {
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (event.type === "click" &&
+          (dropdownRef.current &&
+          !dropdownRef.current.contains(event.target) && !props.menuButtonRef.current.contains(event.target)) || event.type === "message" && event.data === 'iframeClicked'
+        ) {
+          //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
+          handleClose();
+        }
+      };
+      window.addEventListener('click', handleClick, true);
+      window.addEventListener('message', handleClick);//to capture clicks in the iframe
+
+      return () => {
+        window.removeEventListener('click', handleClick, true);
+        window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+      };
+    }, [dropdownRef]);
+
+    return dropdownRef;
+  };
+
+  const ref = useOutsideClick();
+
+  // const handleMessage = (event) => {
+  //   if (event.data === 'iframeClicked') {
+  //     // Handle the click event here, e.g., close the dropdown menu
+  //     handleClose();
+  //   }
+  // };
+  // window.addEventListener('message', handleMessage);
 
   return (
-    <div className={showMenu}>
+    // <div ref={dropdownRef} className={showMenu}> dropdownRef making the menu fly off and anchorel messingup
+    <div data-testid="navDropDown" ref={ref} className={showMenu}>
       <Link to="/tutorial" style={{ textDecoration: 'none' }} target="_blank">
         <button>
           Tutorial
@@ -311,10 +359,11 @@ function navbarDropDown(props) {
           <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
         </svg>
       </button>
-      {<ExportButton />}
+      {/* {<ExportButton />} */}
+{/* 
       <button onClick={handleDarkModeToggle}>
         {isDarkMode ? 'Light' : 'Dark'} Mode {switchDark}
-      </button>
+      </button> */}
       {state.isLoggedIn && (
         <button onClick={handleClick}>
           Manage Project
@@ -330,20 +379,23 @@ function navbarDropDown(props) {
           </svg>
         </button>
       )}
-      <input
-        type="text"
-        style={{
-          margin: '3px 5%',
-          borderRadius: '5px',
-          padding: '3px',
-          width: '90%'
-        }}
-        placeholder="Room Code"
-        onChange={(e) => setRoomCode(e.target.value)}
-      ></input>
-      <button onClick={() => joinRoom()}>Join Room</button>
-      <p>In Room: {joinedRoom}</p>
-      <LoginButton/>
+      <Link to="/marketplace" style={{ textDecoration: 'none' }}>
+        <button>
+          Marketplace
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-bag-check"
+            viewBox="0 0 16 16"
+          >
+            <path fillRule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+          </svg>
+        </button>
+      </Link>
+      <LoginButton />
       <StyledMenu // Dropdown menu connected to Manage Project Button
         id="customized-menu"
         anchorEl={anchorEl}
@@ -359,10 +411,10 @@ function navbarDropDown(props) {
           <SaveProjectButton />
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
-          <ProjectsFolder />
+          <ProjectsFolder openAlert={props.openAlert}/>
         </StyledMenuItem>
         <StyledMenuItem className={classes.manageProject} onClick={handleClose}>
-          <DeleteProjects />
+          <DeleteProjects deleteAlert={props.deleteAlert} />
         </StyledMenuItem>
       </StyledMenu>
       {modal}

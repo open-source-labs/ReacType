@@ -42,7 +42,12 @@ const TableStateProps = props => {
       field: 'value',
       headerName: 'Initial Value',
       width: 100,
-      editable: true
+      editable: true,
+      valueGetter: (param) => { //to display the actual object or array instead of [object Object], leave undefined if it is setter function
+        if(param.row.type === 'func')
+          return;
+        return JSON.stringify(param.row.value)
+      }
     },
     {
       field: 'type',
@@ -96,7 +101,8 @@ const TableStateProps = props => {
 
   // rows to show are either from current component or from a given provider
   let rows = [];
-  currentComponent.stateProps?.forEach((prop) => rows.push(prop)); 
+  currentComponent.stateProps?.forEach((prop) =>{ rows.push(prop)}); 
+
 
 
   return (
@@ -105,6 +111,7 @@ const TableStateProps = props => {
         rows={rows}
         columns={gridColumns}
         pageSize={5}
+        rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
@@ -116,12 +123,12 @@ const TableStateProps = props => {
 
 const useStyles = makeStyles({
   themeLight: {
-    color: 'rgba(0,0,0,0.54)',
+    color: 'white',
     '& button:hover':{
       backgroundColor: 'LightGray'
     },
     '& button':{
-      color: 'black'
+      color: 'white'
     }
   },
   themeDark: {

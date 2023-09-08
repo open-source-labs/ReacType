@@ -10,7 +10,7 @@ const { json, urlencoded } = bodyParser;
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 import express from 'express';
-// import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 import config from '../config.js';
 const { API_BASE_URL, DEV_PORT } = config;
@@ -22,6 +22,7 @@ import userController from './controllers/userController';
 import cookieController from './controllers/cookieController';
 import sessionController from './controllers/sessionController';
 import projectController from './controllers/projectController';
+import marketplaceController from './controllers/marketplaceController';
 
 // // docker stuff
 import { fileURLToPath } from 'url';
@@ -40,7 +41,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
-
+app.use(cookieParser());//added cookie parser
 // Routes
 // const stylesRouter = require('./routers/stylesRouter');
 import stylesRouter from './routers/stylesRouter';
@@ -66,17 +67,19 @@ const passportSetup = require('./routers/passport-setup');
 const session = require('express-session');
 import authRoutes from './routers/auth';
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//I don't believe this portion of the code is being used. It just creates a session cookie, but majority of the controllers right now use mongodb as a sessionController, not passport.
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 24 * 60 * 60 * 1000 }
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // go to other files
 // 8080 only for the container
@@ -191,6 +194,39 @@ app.delete(
   projectController.deleteProject,
   (req, res) => res.status(200).json(res.locals.deleted)
 );
+
+//Publish to Marketplace
+app.post(
+  '/publishProject',
+  sessionController.isLoggedIn,
+  marketplaceController.publishProject,
+  (req, res) => res.status(200).json(res.locals.publishedProject)
+);
+
+//Unpublish from Marketplace
+app.patch(
+  '/unpublishProject',
+  sessionController.isLoggedIn,
+  marketplaceController.unpublishProject,
+  (req, res) => res.status(200).json(res.locals.unpublishedProject)
+);
+
+//Get from Marketplace
+app.get(
+  '/getMarketplaceProjects',
+  // sessionController.isLoggedIn, //Maybe don't need to check if they have a session since guests should still see?
+  marketplaceController.getPublishedProjects,
+  (req, res) => res.status(200).json(res.locals.publishedProjects)
+);
+
+// Clone from marketplace
+app.get(
+  '/cloneProject/:docId',
+  sessionController.isLoggedIn,
+  marketplaceController.cloneProject, 
+  (req, res) => res.status(200).json(res.locals.clonedProject)
+);
+
 // serve index.html on the route '/'
 const isDocker = process.env.IS_DOCKER === 'true';
 console.log('this is running on docker: ', isDocker);
@@ -216,6 +252,7 @@ if (isDocker) {
     return res.status(200).sendFile(path.join(process.cwd(), 'main.css'));
   });
 }
+
 
 app.get('/test', (req, res) => {
   res.send('test request is working');

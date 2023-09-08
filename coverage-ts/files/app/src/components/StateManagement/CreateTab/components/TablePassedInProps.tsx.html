@@ -11,7 +11,7 @@
 <link href="../../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx</td><td class="">90.41%</td><td class="">80%</td><td class="">146</td><td class="">132</td><td class="">14</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useEffect } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx</td><td class="">90.60%</td><td class="">80%</td><td class="">149</td><td class="">135</td><td class="">14</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useEffect } from &#x27;react&#x27;;
 import {
   DataGrid,
   GridEditRowsModel,
@@ -35,7 +35,7 @@ const TablePassedInProps = props =&gt; {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const passedInProps = (currentComponent.name !== &#x27;App&#x27; &amp;&amp; currentComponent.name !== &#x27;index&#x27;) ? currentComponent.passedInProps : &#x27;&#x27;;
+  const passedInProps = (currentComponent.name !== &#x27;App&#x27; &amp;&amp; currentComponent.name !== &#x27;index&#x27;) ? currentComponent.passedInProps : [];
 
   //formatting for data grid columns
   const columnTabs = [
@@ -115,16 +115,23 @@ const TablePassedInProps = props =&gt; {
         rows={rows}
         columns={gridColumns}
         pageSize={5}
+        rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       /&gt;
     &lt;/div&gt;
   );
 };
-
+// colors of state mgmt modal
 const useStyles = makeStyles({
   themeLight: {
-    color: &#x27;rgba(0,0,0,0.54)&#x27;,
+    color: &#x27;white&#x27;,
+    &#x27;&amp; button:hover&#x27;:{
+      backgroundColor: &#x27;LightGray&#x27;
+    },
+    &#x27;&amp; button&#x27;:{
+      color: &#x27;white&#x27;
+    },
     &#x27;&amp; .MuiTablePagination-root&#x27;: {
       color: &#x27;rbga(0,0,0,0.54)&#x27;
     }
@@ -147,8 +154,8 @@ const useStyles = makeStyles({
 });
 
 export default TablePassedInProps;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:27,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:38,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:26,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:33,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:23,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:35,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:42,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:6,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:8,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:14,&quot;text&quot;:&quot;canDeleteState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:95,&quot;character&quot;:6,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:19,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:27,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:58,&quot;character&quot;:38,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:26,&quot;text&quot;:&quot;params&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:33,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:23,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:35,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:42,&quot;text&quot;:&quot;rowId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:6,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:8,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:86,&quot;character&quot;:14,&quot;text&quot;:&quot;canDeleteState&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:95,&quot;character&quot;:6,&quot;text&quot;:&quot;rows&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:106,&quot;character&quot;:19,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/TablePassedInProps.tsx&quot;,&quot;line&quot;:106,&quot;character&quot;:25,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

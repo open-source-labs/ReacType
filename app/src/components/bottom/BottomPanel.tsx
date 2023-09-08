@@ -36,12 +36,13 @@ const BottomPanel = (props): JSX.Element => {
   }, []);
 
   return (
+    <>
     <div className="bottom-panel" id="resize" ref={node}>
       <div id="resize-drag" onMouseDown={mouseDownHandler} tabIndex={0}>
         ......
       </div>
       <BottomTabs isThemeLight={props.isThemeLight} />
-    </div>
+    </div></>
   );
 };
 

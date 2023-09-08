@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 import { Button, Checkbox, FormControlLabel, InputLabel } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+
 import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
+import { addComponent } from '../../redux/reducers/slice/appStateSlice';
+import makeStyles from '@mui/styles/makeStyles';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 // The component panel section of the left panel displays all components and has the ability to add new components
 const ComponentPanel = ({ isThemeLight }): JSX.Element => {
@@ -21,6 +24,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
   const [errorMsg, setErrorMsg] = useState('');
   const [compName, setCompName] = useState('');
   const [isRoot, setIsRoot] = useState(false);
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
 
   // function to create error message for component name input
   const triggerError = (type: String) => {
@@ -95,6 +99,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
     } else {
       createOption(compName);
       setErrorStatus(false);
+      setAlertOpen(true)
       return;
     }
     triggerError(error);
@@ -113,7 +118,26 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
       document.removeEventListener('keydown', keyBindCreateComponent);
     };
   }, []);
+
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+    ) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setAlertOpen(false);
+    }
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   return (
+    <>
     <div className={`${classes.panelWrapper}`}>
       {/* Add a new component*/}
       <div className={classes.addComponentWrapper}>
@@ -169,7 +193,7 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
                 style={{}}
                 InputProps={{
                   style: {
-                    color: isThemeLight ? 'black' : 'white'
+                    color: isThemeLight ? 'white' : 'white'
                   }
                 }}
               />
@@ -228,6 +252,23 @@ const ComponentPanel = ({ isThemeLight }): JSX.Element => {
         </div>
       </div>
     </div>
+    <>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: '100%', color: 'white' }}
+          >
+            Component Created!
+          </Alert>
+        </Snackbar>
+    </>
+  </>
   );
 };
 
@@ -274,7 +315,7 @@ const useStyles = makeStyles({
     borderColor: '#186BB4'
   },
   newComponent: {
-    color: '#155084',
+    color: '#C6C6C6',
     fontSize: '95%',
     marginBottom: '20px'
   },
@@ -302,7 +343,7 @@ const useStyles = makeStyles({
     fontSize: '0.85rem'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: 'white',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }

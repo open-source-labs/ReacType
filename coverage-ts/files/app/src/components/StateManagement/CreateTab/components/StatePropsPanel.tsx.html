@@ -11,7 +11,7 @@
 <link href="../../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx</td><td class="">89.40%</td><td class="">80%</td><td class="">698</td><td class="">624</td><td class="">74</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useContext, useEffect } from &#x27;react&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx</td><td class="">88.87%</td><td class="">80%</td><td class="">746</td><td class="">663</td><td class="">83</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useEffect } from &#x27;react&#x27;;
 import { Theme } from &#x27;@mui/material/styles&#x27;;
 import makeStyles from &#x27;@mui/styles/makeStyles&#x27;;
 import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
@@ -41,6 +41,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
   const [inputValue, setInputValue] = useState(&#x27;&#x27;);
   const [inputType, setInputType] = useState(&#x27;&#x27;);
   const [errorStatus, setErrorStatus] = useState(false);
+  const [inputTypeError, setInputTypeError] = useState(&#x27;&#x27;);
+  const [newVal, setNewVal] = useState(&#x27;test&#x27;);
   const [errorMsg, setErrorMsg] = useState(&#x27;&#x27;);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
@@ -55,19 +57,64 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
   const typeConversion = (value: string, type: string) =&gt; {
     switch (type) {
       case &#x27;string&#x27;:
-        return String(value);
+        {
+          setInputTypeError(&#x27;&#x27;);
+          return String(value);
+        }
       case &#x27;number&#x27;:
-        return Number(value);
+        {
+          setInputTypeError(&#x27;&#x27;);
+          return Number(value);
+        }
       case &#x27;boolean&#x27;:
-        return value === &#x27;true&#x27;;
+        {
+          setInputTypeError(&#x27;&#x27;);
+          return value === &#x27;true&#x27;;
+        }
       case &#x27;array&#x27;:
-        return JSON.parse(value);
-      case &#x27;object&#x27;:
-        return JSON.parse(value);
+        try{
+          let retVal = JSON.parse(value);
+          if(Array.isArray(retVal)){
+            console.log(&#x27;is this an array still&#x27;, retVal)
+            setInputTypeError(&#x27;&#x27;);
+            return retVal
+          }else{
+
+            throw new Error(&#x27;Input was not an array!&#x27;);
+
+          }
+        }
+        catch{
+
+          setInputTypeError(type)
+          return null;
+        }
+      case &#x27;object&#x27;:{
+        try{
+          let retVal = JSON.parse(value);
+ 
+          if(typeof retVal === &#x27;object&#x27; &amp;&amp; !Array.isArray(retVal)){
+            setInputTypeError(&#x27;&#x27;);
+            return retVal
+          }else{
+            throw new Error(&#x27;Input was not an object (excluding Arrays)!&#x27;);
+          }
+        }
+        catch{
+
+          setInputTypeError(type)
+          return null;
+        }
+      }
       default:
-        return value;
+        {
+          setInputTypeError(&#x27;&#x27;);
+          return value;
+        }
     }
   };
+
+ 
 
   // clears the input key, value, and type on Form
   const clearForm = () =&gt; {
@@ -75,6 +122,13 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
     setInputValue(&#x27;&#x27;);
     setInputType(&#x27;&#x27;);
   };
+
+ 
+  useEffect(()=&gt;{
+
+    setNewVal(typeConversion(inputValue, inputType));
+
+  }, [inputType, inputValue] ) 
 
   // submit new stateProps entries to state context
   const submitNewState = (e) =&gt; {
@@ -104,17 +158,21 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
           setErrorMsg(&#x27;Key name already in use.&#x27;);
           return;
         }
+        else{
+          setErrorStatus(false);
+          setErrorMsg(&#x27;&#x27;);
+        }
       }
     }
-    setPropNum((prev) =&gt; prev + 1);
+    setPropNum((prev) =&gt; prev + 1);    
     const newState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-${inputKey}`,
       key: inputKey,
-      value: typeConversion(inputValue, inputType),
+      value: newVal,
       type: inputType
     };
-
+    
     const setNewState = {
       // id name of state will be the parent component name concated with propNum. it will start at 1 and increase by 1 for each new state added
       id: `${currentComponent.name}-set${inputKey
@@ -124,16 +182,19 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
       value: &#x27;&#x27;,
       type: &#x27;func&#x27;
     };
-    dispatch(
-      addState({
-        newState: newState,
-        setNewState: setNewState,
-        contextParam: contextParam
-      })
-    );
-    setRows1([...rows1, newState]);
-    setErrorStatus(false);
-    clearForm();
+    if(!inputTypeError){
+      dispatch(
+        addState({
+          newState: newState,
+          setNewState: setNewState,
+          contextParam: contextParam
+        })
+      );
+      setRows1([...rows1, newState]);
+      setErrorStatus(false);
+      clearForm();
+
+    }
   };
 
   // find table row using its id and if it exists, populate form with its details
@@ -147,7 +208,8 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
     if (exists) {
       setInputKey(table.row.key);
       setInputType(table.row.type);
-      setInputValue(table.row.value);
+      console.log(&quot;tablerowvalue&quot;, table.row.value);
+      setInputValue(table.row.value ? JSON.stringify(table.row.value) : &#x27;&#x27;);
     } else clearForm();
   };
   //use effect to populate parent props table on load and every time canvas focus changes
@@ -211,9 +273,10 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
           /&gt;
           &lt;TextField
             id=&quot;textfield-value&quot;
-            label=&quot;initial value:&quot;
+            label=&quot;initial value&quot;
             variant=&quot;outlined&quot;
             value={inputValue}
+            error={errorStatus}
             onChange={(e) =&gt; setInputValue(e.target.value)}
             className={
               isThemeLight
@@ -228,18 +291,16 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
                 ? `${classes.formControl} ${classes.lightThemeFontColor}`
                 : `${classes.formControl} ${classes.darkThemeFontColor}`
             }
+            error={inputTypeError != &#x27;&#x27; || errorStatus }
           &gt;
             &lt;InputLabel
               id=&quot;select-required-label&quot;
-              className={
-                isThemeLight
-                  ? classes.greyThemeFontColor
-                  : classes.darkThemeFontColor
-              }
+              style={{color: &#x27;white&#x27;}}
             &gt;
               Type
             &lt;/InputLabel&gt;
             &lt;Select
+              data-testid=&quot;type-select&quot;
               labelId=&quot;select-required-label&quot;
               id=&quot;type-input&quot;
               className={
@@ -247,11 +308,20 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
                   ? `${classes.selectEmpty} ${classes.rootUnderlineLight} ${classes.inputTextLight}`
                   : `${classes.selectEmpty} ${classes.rootUnderlineDark} ${classes.inputTextDark}`
               }
-              value={inputType}
+              value={inputType === &#x27;func&#x27; ? &#x27;&#x27; : inputType}
               onChange={(event) =&gt; setInputType(event.target.value)}
               MenuProps={{ disablePortal: true }}
               style={
-                isThemeLight
+                {
+                  backgroundColor: &#x27;gray&#x27;,
+                  color: &#x27;#fff&#x27;,
+                  border: &#x27;1px solid white&#x27;,
+                  height: &#x27;28px&#x27;,
+                  width: &#x27;200px&#x27;
+                }
+              }
+            &gt;{/*originally in style: 
+            isThemeLight
                   ? {
                       backgroundColor: &#x27;#eef0f1&#x27;,
                       color: &#x27;#000&#x27;,
@@ -265,9 +335,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
                       border: &#x27;1px solid white&#x27;,
                       height: &#x27;28px&#x27;,
                       width: &#x27;200px&#x27;
-                    }
-              }
-            &gt;
+                    }*/} 
               &lt;MenuItem value=&quot;&quot; style={{ color: &#x27;black&#x27; }}&gt;
                 &lt;em&gt;Types&lt;/em&gt;
               &lt;/MenuItem&gt;
@@ -328,7 +396,10 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element =&gt; {
                   : classes.darkThemeFontColor
               }
             &gt;
-              Required
+              {
+               inputTypeError === &#x27;object&#x27; ? &#x27;JSON object form: {&quot;key&quot;: value}&#x27; : 
+               inputTypeError === &#x27;array&#x27; ? &#x27;Array form: [value]&#x27; : &#x27;Required&#x27;
+              }
             &lt;/FormHelperText&gt;
           &lt;/FormControl&gt;
           &lt;br /&gt;
@@ -521,8 +592,8 @@ const useStyles = makeStyles((theme: Theme) =&gt; ({
     fontSize: &#x27;90%&#x27;,
     textAlign: &#x27;center&#x27;,
     margin: &#x27;-20px 0px 5px 150px&#x27;,
-    borderStyle: &#x27;none&#x27;,
-    transition: &#x27;0.3s&#x27;
+    border: &#x27; 1px solid #186BB4&#x27;,
+    transition: &#x27;0.3s&#x27;,
     // borderRadius: &quot;25px&quot;,
   },
   rootToggle: {
@@ -530,13 +601,13 @@ const useStyles = makeStyles((theme: Theme) =&gt; ({
     fontSize: &#x27;0.85rem&#x27;
   },
   lightThemeFontColor: {
-    color: &#x27;#155084&#x27;
+    color: &#x27;white&#x27;
   },
   darkThemeFontColor: {
     color: &#x27;#fff&#x27;
   },
   greyThemeFontColor: {
-    color: &#x27;rgba(0,0,0,0.54)&#x27;
+    color: &#x27;white&#x27;
   },
   formControl: {
     margin: &#x27;8px&#x27;,
@@ -550,7 +621,7 @@ const useStyles = makeStyles((theme: Theme) =&gt; ({
   },
   rootLight: {
     &#x27;&amp; .MuiFormLabel-root&#x27;: {
-      color: &#x27;rgba(0,0,0,0.54)&#x27;
+      color: &#x27;white&#x27;
     }
   },
   rootDark: {
@@ -587,14 +658,14 @@ const useStyles = makeStyles((theme: Theme) =&gt; ({
   },
   inputTextLight: {
     &#x27;&amp; .MuiInputBase-input&#x27;: {
-      color: &#x27;rgba(0,0,0,0.54)&#x27;
+      color: &#x27;white&#x27;
     }
   }
 }));
 
 export default StatePropsPanel;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:41,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:26,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:4,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:6,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:6,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:28,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:130,&quot;character&quot;:27,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:130,&quot;character&quot;:33,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:130,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:18,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:24,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:28,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:19,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:25,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:29,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:20,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:26,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:30,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:143,&quot;character&quot;:30,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:144,&quot;character&quot;:29,&quot;text&quot;:&quot;parentName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:34,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:38,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:22,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:24,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:29,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:10,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:26,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:26,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:40,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:49,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:12,&quot;text&quot;:&quot;currChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:24,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:38,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:156,&quot;character&quot;:12,&quot;text&quot;:&quot;currChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:156,&quot;character&quot;:22,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:156,&quot;character&quot;:33,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:157,&quot;character&quot;:16,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:157,&quot;character&quot;:62,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:12,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:25,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:160,&quot;character&quot;:43,&quot;text&quot;:&quot;stateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:12,&quot;text&quot;:&quot;parentName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:24,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:42,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:162,&quot;character&quot;:12,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:162,&quot;character&quot;:29,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:163,&quot;character&quot;:12,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:163,&quot;character&quot;:33,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:163,&quot;character&quot;:51,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:205,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:213,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:221,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:232,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:240,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:312,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:327,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:342,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:355,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:355,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:356,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:356,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:363,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:377,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:377,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:378,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:378,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:406,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:417,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:417,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:418,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:418,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:41,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:14,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:27,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:80,&quot;character&quot;:14,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:20,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:58,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:19,&quot;text&quot;:&quot;retVal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:120,&quot;character&quot;:26,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:4,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:6,&quot;text&quot;:&quot;preventDefault&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:28,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:27,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:33,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:18,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:24,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:28,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:196,&quot;character&quot;:19,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:196,&quot;character&quot;:25,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:196,&quot;character&quot;:29,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:35,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:41,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:45,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:20,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:26,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:30,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:53,&quot;text&quot;:&quot;table&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:59,&quot;text&quot;:&quot;row&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:63,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:205,&quot;character&quot;:30,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:206,&quot;character&quot;:29,&quot;text&quot;:&quot;parentName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:207,&quot;character&quot;:34,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:208,&quot;character&quot;:38,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:211,&quot;character&quot;:22,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:214,&quot;character&quot;:24,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:214,&quot;character&quot;:29,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:215,&quot;character&quot;:10,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:215,&quot;character&quot;:26,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:26,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:40,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:49,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:217,&quot;character&quot;:12,&quot;text&quot;:&quot;currChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:217,&quot;character&quot;:24,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:217,&quot;character&quot;:38,&quot;text&quot;:&quot;children&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:218,&quot;character&quot;:12,&quot;text&quot;:&quot;currChild&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:218,&quot;character&quot;:22,&quot;text&quot;:&quot;typeId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:218,&quot;character&quot;:33,&quot;text&quot;:&quot;childId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:219,&quot;character&quot;:16,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:219,&quot;character&quot;:62,&quot;text&quot;:&quot;currComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:222,&quot;character&quot;:12,&quot;text&quot;:&quot;parentProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:222,&quot;character&quot;:25,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:222,&quot;character&quot;:43,&quot;text&quot;:&quot;stateProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:223,&quot;character&quot;:12,&quot;text&quot;:&quot;parentName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:223,&quot;character&quot;:24,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:223,&quot;character&quot;:42,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:224,&quot;character&quot;:12,&quot;text&quot;:&quot;parentComponent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:224,&quot;character&quot;:29,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:225,&quot;character&quot;:12,&quot;text&quot;:&quot;parentPassedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:225,&quot;character&quot;:33,&quot;text&quot;:&quot;currComponentCopy&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:225,&quot;character&quot;:51,&quot;text&quot;:&quot;passedInProps&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:239,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:255,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:268,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:276,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:293,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:380,&quot;character&quot;:16,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:398,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:413,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:426,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:426,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:427,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:427,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:434,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:448,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:448,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:449,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:449,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:477,&quot;character&quot;:14,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:488,&quot;character&quot;:12,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:488,&quot;character&quot;:26,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:489,&quot;character&quot;:12,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/StateManagement/CreateTab/components/StatePropsPanel.tsx&quot;,&quot;line&quot;:489,&quot;character&quot;:18,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

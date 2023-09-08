@@ -57,7 +57,7 @@ const TableParentProps = props => {
       renderCell: function renderCell(params: any) {
         return (
           <Button
-            style={{ width: `${3}px`, color: 'black'}}
+            style={{ width: `${3}px`, color: 'white'}}
             onClick={() => {
               addProps(params.row, params.id - 1);
             }}
@@ -110,6 +110,7 @@ const TableParentProps = props => {
         rows={rows}
         columns={gridColumns}
         pageSize={5}
+        rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
@@ -119,15 +120,15 @@ const TableParentProps = props => {
 
 const useStyles = makeStyles({
   themeLight: {
-    color: 'rgba(0,0,0,0.54)',
+    color: 'white',
     '& button:hover':{
       backgroundColor: 'LightGray'
     },
     '& button':{
-      color: 'black'
+      color: 'white'
     },
     '& .MuiTablePagination-root': {
-      color: 'rbga(0,0,0,0.54)'
+      color: 'white'
     }
   },
   themeDark: {

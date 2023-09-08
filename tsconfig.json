@@ -13,9 +13,13 @@
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
     "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types", "node_modules/@types/node"],
+    "typeRoots": ["node_modules/@types", "node_modules/@types/node", "@aws-amplify/core"],
     "noEmitOnError": false
   },
   // only compile ts files in this directory
-  "include": ["app/src/**/*","server/**/*"],
+  "include": [
+    "app/src/**/*",
+    "app/src/interfaces/declarations.d.ts",
+    "server/**/*"
+  ]
 }

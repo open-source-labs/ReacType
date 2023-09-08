@@ -1,35 +1,36 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { LoginInt } from '../../interfaces/Interfaces';
-import { Link as RouteLink, RouteComponentProps } from 'react-router-dom';
-import { sessionIsCreated } from '../../helperFunctions/auth';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { newUserIsCreated } from '../../helperFunctions/auth';
-import randomPassword from '../../helperFunctions/randomPassword';
-import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  ThemeProvider,
-  Theme,
-  StyledEngineProvider
-} from '@mui/material/styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import { RouteComponentProps, Link as RouteLink } from 'react-router-dom';
 import {
   SigninDark,
   SigninLight
 } from '../../../../app/src/public/styles/theme';
+import {
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider
+} from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Brightness3Icon from '@mui/icons-material/Brightness3';
 import Brightness5Icon from '@mui/icons-material/Brightness5';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { LoginInt } from '../../interfaces/Interfaces';
 import { RootState } from '../../redux/store';
-
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import config from '../../../../config.js';
+import makeStyles from '@mui/styles/makeStyles';
+import { newUserIsCreated } from '../../helperFunctions/auth';
+import randomPassword from '../../helperFunctions/randomPassword';
+import { sessionIsCreated } from '../../helperFunctions/auth';
+import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
+
 const { API_BASE_URL } = config;
 
 declare module '@mui/styles/defaultTheme' {
@@ -286,7 +287,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-person-check"
+                className="bi bi-person-check"
                 viewBox="0 0 16 16"
                 style={{ marginLeft: '5px' }}
               >
@@ -311,7 +312,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-github"
+                className="bi bi-github"
                 viewBox="0 0 16 16"
                 style={{ marginLeft: '5px' }}
               >
@@ -337,7 +338,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-google"
+                className="bi bi-google"
                 viewBox="0 0 16 16"
                 style={{ marginLeft: '5px' }}
               >
@@ -360,7 +361,7 @@ const SignIn: React.FC<LoginInt & RouteComponentProps> = (props) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-person-circle"
+                className="bi bi-person-circle"
                 viewBox="0 0 16 16"
                 style={{ marginLeft: '5px' }}
               >

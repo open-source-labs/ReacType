@@ -37,7 +37,7 @@ function DisplayContainer({ data, props }) { // "data" is referring to component
       <Divider orientation="vertical" variant="middle" flexItem />
       <Grid item>
         <Typography
-          style={{ color: 'black' }}
+          style={{ color: 'white' }}
           variant="subtitle2"
           gutterBottom
           align="center"
@@ -45,7 +45,7 @@ function DisplayContainer({ data, props }) { // "data" is referring to component
           Click on a component in the graph to see its state!
         </Typography>
         <Typography
-          style={{ color: 'black' }}
+          style={{ color: 'white' }}
           variant="h6"
           gutterBottom
           align="center"

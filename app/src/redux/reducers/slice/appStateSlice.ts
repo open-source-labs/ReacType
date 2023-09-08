@@ -13,6 +13,9 @@ import manageSeparators from '../../../helperFunctions/manageSeparators';
 
 export const initialState: State = {
   name: '',
+  _id: '',
+  forked: false,
+  published: false,
   isLoggedIn: false,
   // config: { saveFlag: true, saveTimer: false },
   components: [
@@ -39,7 +42,9 @@ export const initialState: State = {
   nextTopSeparatorId: 1000,
   HTMLTypes: HTMLTypes, // left as is for now
   tailwind: false,
-  stylesheet: ''
+  stylesheet: '', 
+  codePreview: false, 
+  screenshotTrigger: false
 };
 
 let separator = initialState.HTMLTypes[1];
@@ -768,6 +773,14 @@ const appStateSlice = createSlice({
       const projectName = action.payload;
       state.name = projectName;
     },
+    updateProjectId: (state, action) => {
+      const projectId = action.payload; //updates the slice with new _id
+      state._id = projectId;
+    },
+    updateProjectPublished: (state, action) => {
+      const projectPublished = action.payload; 
+      state.published = projectPublished;
+    },
     deleteElement: (state, action) => {
       let name: string = '';
       const HTMLTypes: HTMLType[] = [...state.HTMLTypes].filter((el) => {
@@ -860,6 +873,7 @@ const appStateSlice = createSlice({
     },
     //deleted 'convertToJSX' function, which threw errors upon opening
     openProject: (state, action) => {
+      // returning the action.payload is a Redux shortcut that updates the entire app state at the same time
       return action.payload;
     },
     addElement: (state, action) => {
@@ -1245,8 +1259,8 @@ const appStateSlice = createSlice({
       state.components = components;
     },
 
-    toggleLoggedIn: (state) => {
-      state.isLoggedIn = !state.isLoggedIn;
+    toggleLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
     },
 
     snapShotAction: (state, action) => {
@@ -1260,6 +1274,16 @@ const appStateSlice = createSlice({
     },
     updateStylesheet: (state, action) => {
       state.stylesheet = action.payload;
+    },
+
+    // toggles the active code preview editor for conditional rendering
+    toggleCodePreview: (state) => {
+      state.codePreview = !state.codePreview;
+    },
+
+    // toggles the state of the screenshot trigger to allow a child component to trigger the screenshot of the main component
+    toggleScreenshotTrigger: (state) => {
+      state.screenshotTrigger = !state.screenshotTrigger;
     }
   }
 });
@@ -1284,6 +1308,8 @@ export const {
   changeProjectType,
   resetState,
   updateProjectName,
+  updateProjectId,
+  updateProjectPublished,
   deleteElement,
   updateAttributes,
   deleteChild,
@@ -1300,7 +1326,9 @@ export const {
   //configToggle,
   snapShotAction,
   allCooperativeState,
-  updateStylesheet
+  updateStylesheet, 
+  toggleCodePreview, 
+  toggleScreenshotTrigger
 } = appStateSlice.actions;
 
 // Exports so we can combine in rootReducer

@@ -4,32 +4,38 @@ import dotenv from 'dotenv';
 import { SessionController, SessionCookie } from '../interfaces';
 
 dotenv.config();
-
+// here we are cheching that the user making the request is login in and has a valid cookieId
 const sessionController: SessionController = {
   isLoggedIn: async (req, res, next) => {
-  try {
-    let cookieId;
-    if (req.cookies) {
-      cookieId = req.cookies.ssid;
-    } else {
-      cookieId = req.body.userId;
-    }
+    // if (process.env.NODE_ENV === 'test') {
+    //   // Skip authentication checks in test environment
+    //   return next();
+    // } else {
+      try {
+        let cookieId;
+        if (req.cookies) {
+          // if the request cookies exist then it assigns it to cookieId
+          cookieId = req.cookies.ssid;
+        } else {
+          // else it creates a new cookieId for the user based on the userId
+          cookieId = req.body.userId;
+        }
 
-    // find session from request session ID in mongodb
-    const session = await Sessions.findOne({ cookieId });
-
-    if (!session) {
-      return res.redirect('/');
-    }
-    return next();
-  } catch (err) {
-    return next({
-      log: `Error in sessionController.isLoggedIn: ${err}`,
-      message: {
-        err: 'Error in sessionController.isLoggedIn, check server logs for details'
+        // find session from request session ID in mongodb
+        const session = await Sessions.findOne({ cookieId });
+        if (!session) {
+          return res.redirect('/');
+        }
+        return next();
+      } catch (err) {
+        return next({
+          log: `Error in sessionController.isLoggedIn: ${err}`,
+          message: {
+            err: 'Error in sessionController.isLoggedIn, check server logs for details'
+          }
+        });
       }
-    });
-  }
+    
 },
   // startSession - create and save a new session into the database
   startSession: (req, res, next) => {

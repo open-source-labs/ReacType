@@ -56,7 +56,7 @@ function RouteLink({ childId, type, typeId, style }: ChildElement) {
         ? '3px solid #a7cced'
         : '1px Solid grey',
     boxShadow:
-      state.canvasFocus.childId === childId ? '1px 1px 3px rgb(11,212,112)' : ''
+      state.canvasFocus.childId === childId ? '1px 5px 3px rgb(11,212,112)' : ''
   };
   const combinedStyle = combineStyles(
     combineStyles(combineStyles(globalDefaultStyle, routeStyle), style),

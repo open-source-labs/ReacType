@@ -1,52 +1,27 @@
-import React, { useEffect, useCallback } from 'react';
-import Grid from '@mui/material/Grid';
-import ComponentDrag from '../components/left/ComponentDrag';
-import DragDropPanel from '../components/left/DragDropPanel';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteChild } from '../redux/reducers/slice/appStateSlice';
+import React, { useState, useEffect } from 'react';
 
-// Left-hand portion of the app, where component options are displayed
-const LeftContainer = (props): JSX.Element => {
-  const { contextParam, style } = useSelector((store) => ({
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
-  const dispatch = useDispatch();
+import ContentArea from '../components/left/ContentArea';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Sidebar from '../components/left/Sidebar';
 
-  const handleDelete = () => {
-    dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+function App() {
+  const [activeTab, setActiveTab] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false); // State to manage visibility
+
+  const toggleVisibility = (state: boolean) => {
+    setIsVisible(state);
   };
-  const keyBindedFunc = useCallback((e) => {
-    if (
-      e.key === 'Backspace' &&
-      e.target.tagName !== 'TEXTAREA' &&
-      e.target.tagName !== 'INPUT'
-    )
-      handleDelete();
-  }, []);
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindedFunc);
-    return () => {
-      document.removeEventListener('keydown', keyBindedFunc);
-    };
-  }, []);
 
   return (
-    <div className="left-container hide-show">
-      <div className="column left" style={style.style}>
-        <Grid container direction="column" alignItems="center">
-          <h4>Drag and Drop</h4>
-          <DragDropPanel />
-          <div id={'CompBottomHalf'}>
-            <ComponentDrag isThemeLight={props.isThemeLight} />
-          </div>
-        </Grid>
-      </div>
-      <div className="left-indicator">
-        <span className="material-symbols-outlined">eject</span>
-      </div>
+    <div style={{ display: 'flex' }}>
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        toggleVisibility={toggleVisibility}
+      />
+      <ContentArea activeTab={activeTab} isVisible={isVisible} />
     </div>
   );
-};
+}
 
-export default LeftContainer;
+export default App;

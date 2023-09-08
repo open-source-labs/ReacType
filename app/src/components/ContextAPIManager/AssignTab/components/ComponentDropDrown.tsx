@@ -67,7 +67,7 @@ const ComponentDropDown = ({
   };
 
   const renderOption = (props, option) => (
-    <li style={{ color: 'black', border: '1px solid black' }} {...props}>
+    <li style={{ color: 'black', backgroundColor: 'none'}} {...props}>
       {option.name}
     </li>
   );
@@ -93,7 +93,7 @@ const ComponentDropDown = ({
               {...params}
               InputProps={{
                 ...params.InputProps,
-                style: { color: color }
+                style: { color: 'white' }
               }}
               variant="filled"
               label="Select Component"

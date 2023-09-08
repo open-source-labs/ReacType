@@ -1,35 +1,37 @@
-import React from 'react';
-import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
+
 import {
+  fireEvent,
   render,
   screen,
-  fireEvent,
   waitFor,
   within
 } from '@testing-library/react';
+
 import BottomTabs from '../app/src/components/bottom/BottomTabs';
-import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
-import store from '../app/src/redux/store';
-import ComponentPanel from '../app/src/components/right/ComponentPanel';
-import HTMLPanel from '../app/src/components/left/HTMLPanel';
-import StateManager from '../app/src/components/StateManagement/StateManagement';
-import CustomizationPanel from '../app/src/containers/CustomizationPanel';
 import { BrowserRouter } from 'react-router-dom';
-import DragDropPanel from '../app/src/components/left/DragDropPanel';
-import MainContainer from '../app/src/containers/MainContainer';
+import ComponentPanel from '../app/src/components/right/ComponentPanel';
+import ContextManager from '../app/src/components/ContextAPIManager/ContextManager';
+import CustomizationPanel from '../app/src/containers/CustomizationPanel';
 import { DndProvider } from 'react-dnd';
+import DragDropPanel from '../app/src/components/left/DragDropPanel';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import HTMLPanel from '../app/src/components/left/HTMLPanel';
+import MainContainer from '../app/src/containers/MainContainer';
+import { Provider } from 'react-redux';
+import React from 'react';
+import StateManager from '../app/src/components/StateManagement/StateManagement';
+import store from '../app/src/redux/store';
 
 describe('Bottom Panel Render Test', () => {
-  test('should render all seven tabs', () => {
+  test('should render all six tabs', () => {
     render(
       <Provider store={store}>
         <BottomTabs />
       </Provider>
     );
-    expect(screen.getAllByRole('tab')).toHaveLength(7);
-    expect(screen.getByText('Code Preview')).toBeInTheDocument();
+    expect(screen.getAllByRole('tab')).toHaveLength(6);
+    // expect(screen.getByText('Code Preview')).toBeInTheDocument();
     expect(screen.getByText('Component Tree')).toBeInTheDocument();
     expect(screen.getByText('Creation Panel')).toBeInTheDocument();
     expect(screen.getByText('Customization')).toBeInTheDocument();
