@@ -47,7 +47,7 @@
 
 
 <p align="center">
-  <img width="1000" src="./resources/demo.gif">
+  <img width="1000" src="./resources/reactype17.png">
 </p>
 
 **ReacType** is a rapid prototyping tool that allows users _visualize_ their application architecture dynamically, employing a _drag-and-drop canvas display_ and an interactive, _real-time component code preview_ that can be exported as a **React** app for developers employing React component architecture alongside the comprehensive type-checking of **TypeScript**. In other words, **you can draw prototypes and export React / TypeScript code!**
