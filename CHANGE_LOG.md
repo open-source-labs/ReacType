@@ -10,8 +10,8 @@ Changes:<br>
 - Developer Improvements:
   - Testing Coverage:
     - Version 17 added testing for the added marketplace related components
-    - Testing coverage sits at XX%
-  - Typescript continued and now sits at XX%
+    - Testing coverage sits at ~60%
+  - Typescript continued and now sits at ~80%
   - Dev Bug Fixes:
     - Additional logic added for edge cases in inputs for state manager (passing in non-Arrays/non-Objects as Array type and Object type).
     - Cleaned up hundreds of lines of outdated code and archived multiple unused and duplicate files
