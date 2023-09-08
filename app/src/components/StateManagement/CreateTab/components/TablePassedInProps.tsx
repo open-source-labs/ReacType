@@ -22,7 +22,7 @@ const TablePassedInProps = props => {
   const [gridColumns, setGridColumns] = useState([]);
   const currentId = state.canvasFocus.componentId;
   const currentComponent = state.components[currentId - 1];
-  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index') ? currentComponent.passedInProps : '';
+  const passedInProps = (currentComponent.name !== 'App' && currentComponent.name !== 'index') ? currentComponent.passedInProps : [];
 
   //formatting for data grid columns
   const columnTabs = [
@@ -102,6 +102,7 @@ const TablePassedInProps = props => {
         rows={rows}
         columns={gridColumns}
         pageSize={5}
+        rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
       />
@@ -111,12 +112,12 @@ const TablePassedInProps = props => {
 // colors of state mgmt modal
 const useStyles = makeStyles({
   themeLight: {
-    color: 'rgba(0,0,0,0.54)',
+    color: 'white',
     '& button:hover':{
       backgroundColor: 'LightGray'
     },
     '& button':{
-      color: 'black'
+      color: 'white'
     },
     '& .MuiTablePagination-root': {
       color: 'rbga(0,0,0,0.54)'

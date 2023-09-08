@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
-import { LoginInt } from '../../interfaces/Interfaces';
 import {
+  RouteComponentProps,
   Link as RouteLink,
-  withRouter,
-  RouteComponentProps
+  withRouter
 } from 'react-router-dom';
-import { newUserIsCreated } from '../../helperFunctions/auth';
+import {
+  SigninDark,
+  SigninLight
+} from '../../../../app/src/public/styles/theme';
+import {
+  StyledEngineProvider,
+  Theme,
+  ThemeProvider
+} from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
+
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import { LoginInt } from '../../interfaces/Interfaces';
+import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import { newUserIsCreated } from '../../helperFunctions/auth';
 import { toggleDarkMode } from '../../redux/reducers/slice/darkModeSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
-import { SigninDark, SigninLight } from '../../../../app/src/public/styles/theme';
-import { RootState } from '../../redux/store';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -37,7 +45,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -47,10 +55,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#3EC1AC'
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%' // Fix IE 11 issue.
   },
-  submit: {
-  },
+  submit: {},
   root: {
     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: '#3EC1AC'
@@ -58,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
+const SignUp: React.FC<LoginInt & RouteComponentProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -73,7 +80,9 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidVerifyPassword, setInvalidVerifyPassword] = useState(false);
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputVal = e.target.value;
@@ -172,7 +181,7 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
       setInvalidVerifyPassword(false);
     }
 
-    newUserIsCreated(username, email, password).then(userCreated => {
+    newUserIsCreated(username, email, password).then((userCreated) => {
       if (userCreated === 'Success') {
         props.history.push('/');
       } else {
@@ -190,11 +199,10 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
     });
   };
 
-     //NEW DARK MODE
-     const handleDarkModeToggle = () => {
-      dispatch(toggleDarkMode());
-    
-    };
+  //NEW DARK MODE
+  const handleDarkModeToggle = () => {
+    dispatch(toggleDarkMode());
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -204,20 +212,25 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
           <div className={classes.paper}>
             <Button
               color="primary"
-              style={{ 
+              style={{
                 minWidth: '113.97px',
                 top: 10,
                 right: 20,
-                position: "absolute"
+                position: 'absolute'
               }}
               onClick={handleDarkModeToggle}
             >
               {`Dark Mode: ${isDarkMode}`}
             </Button>
-            <Avatar className={classes.avatar} sx={{marginTop: '10vh'}}>
+            <Avatar className={classes.avatar} sx={{ marginTop: '10vh' }}>
               <AssignmentIcon />
             </Avatar>
-            <Typography component="h1" variant="h5" color="textPrimary" sx={{marginBottom: '10px'}}>
+            <Typography
+              component="h1"
+              variant="h5"
+              color="textPrimary"
+              sx={{ marginBottom: '10px' }}
+            >
               Sign up
             </Typography>
             <form className={classes.form} noValidate>
@@ -296,21 +309,33 @@ const SignUp: React.FC<LoginInt & RouteComponentProps> = props => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={e => handleSignUp(e)}
+                onClick={(e) => handleSignUp(e)}
                 sx={{
                   marginTop: '15px',
                   marginBottom: '5px'
                 }}
               >
                 Sign Up
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16" style={{marginLeft: '5px'}}>
-                  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-                  <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-person-add"
+                  viewBox="0 0 16 16"
+                  style={{ marginLeft: '5px' }}
+                >
+                  <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                  <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
                 </svg>
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <RouteLink style={{color: isDarkMode ? '#aaaaaa' : 'black'}} to={`/login`} className="nav_link">
+                  <RouteLink
+                    style={{ color: isDarkMode ? '#aaaaaa' : 'black' }}
+                    to={`/login`}
+                    className="nav_link"
+                  >
                     Already have an account? Sign In
                   </RouteLink>
                 </Grid>

@@ -11,6 +11,13 @@ export interface ProjectController {
   deleteProject: RequestHandler;
 }
 
+export interface MarketplaceController {
+  publishProject: RequestHandler;
+  getPublishedProjects: RequestHandler;
+  unpublishProject: RequestHandler;
+  cloneProject: RequestHandler;
+}
+
 export interface RequestId extends Request {
   user: {
     id: string;

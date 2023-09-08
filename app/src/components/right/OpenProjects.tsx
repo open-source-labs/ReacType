@@ -16,6 +16,7 @@ import { openProject } from '../../redux/reducers/slice/appStateSlice';
 import { RootState } from '../../redux/store';
 
 export interface ProjectDialogProps {
+  openAlert: () => void;
   open: boolean;
   projects: Array<Object>;
   onClose: () => void;
@@ -23,7 +24,7 @@ export interface ProjectDialogProps {
 // The options to be rendered when dialog is open
 function ProjectsDialog(props: ProjectDialogProps) {
   const classes = useStyles();
-  const { onClose, open, projects } = props;
+  const { onClose, open, projects, openAlert } = props;
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
   // If no projects selected, keep the name of the current displayed
@@ -33,35 +34,57 @@ function ProjectsDialog(props: ProjectDialogProps) {
   // If new project selected, close and set value to new project name
   const handleListItemClick = (value: string) => {
     const selectedProject = projects.filter(
-      (project: any) => project.name === value
+      (project: any) => project._id === value
     )[0];
     // dispatch({ type: 'OPEN PROJECT', payload: selectedProject });
-    console.log(selectedProject);
     dispatch(openProject(selectedProject))
+    openAlert()
     onClose();
   };
+
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="project-dialog-title"
       open={open}
     >
-      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Open Project</DialogTitle>
+      <DialogTitle style={{ color: "#297ac2" }} id="project-dialog-title">SAVED PROJECTS</DialogTitle>
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">User Projects</DialogTitle>
       <List style={{ color: "#000" }}>
-        {projects.map((project: any, index: number) => (
-          <ListItem
-            button
-            onClick={() => handleListItemClick(project.name)}
-            key={index}
-          >
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <FolderOpenIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={project.name} />
-          </ListItem>
-        ))}
+      {projects.filter((project: any) => project.forked === undefined || project.forked === false).map((project: any, index: number) => (
+    <ListItem
+      button
+      onClick={() => handleListItemClick(project._id)}
+      key={index}
+    >
+      <ListItemAvatar>
+        <Avatar className={classes.avatar}>
+          <FolderOpenIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={project.name} />
+    </ListItem>
+  )
+)}
+      </List>
+      {/* this section handles the projects cloned from the marketplace */}
+      <DialogTitle style={{ color: "#000" }} id="project-dialog-title">Marketplace Projects</DialogTitle>
+      <List style={{ color: "#000" }}>
+      {projects.filter((project: any) => project.forked === true).map((project: any, index: number) => ( 
+    <ListItem
+      button
+      onClick={() => handleListItemClick(project._id)}
+      key={index}
+    >
+      <ListItemAvatar>
+        <Avatar className={classes.avatar}>
+          <FolderOpenIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={project.name} />
+    </ListItem>
+  )
+)}
       </List>
     </Dialog>
   );
@@ -105,7 +128,7 @@ export default function ProjectsFolder(props) {
       >
         Open Project
       </Button>
-      <ProjectsDialog open={open} onClose={handleClose} projects={projects} />
+      <ProjectsDialog open={open} onClose={handleClose} projects={projects} openAlert={props.openAlert}/>
     </div>
   );
 }

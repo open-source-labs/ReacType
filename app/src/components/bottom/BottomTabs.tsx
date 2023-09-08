@@ -49,7 +49,7 @@ const BottomTabs = (props): JSX.Element => {
   return (
     <div
       className={`${classes.root} ${classes.rootLight}`}
-      style={{ backgroundColor: '#003366' }}
+      style={{ backgroundColor: '#191919' , zIndex: 1, borderTop: '2px solid grey'}}
     >
       <Box
         display="flex"
@@ -80,11 +80,11 @@ const BottomTabs = (props): JSX.Element => {
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="CSS Editor"
           />
-          <Tab
+          {/* <Tab (there was no more need for this tab since we created an outside button for the codePreview)
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Code Preview"
-          />
+          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -129,10 +129,10 @@ const BottomTabs = (props): JSX.Element => {
         {tab === 0 && <CreationPanel isThemeLight={props.isThemeLight} />}
         {tab === 1 && <CustomizationPanel isThemeLight={props.isThemeLight} />}
         {tab === 2 && <StylesEditor theme={theme} setTheme={setTheme} />}
-        {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />}
-        {tab === 4 && <Tree data={components} />}
-        {tab === 5 && <ContextManager theme={theme} setTheme={setTheme} />}
-        {tab === 6 && (
+        {/* {tab === 3 && <CodePreview theme={theme} setTheme={setTheme} />} */}
+        {tab === 3 && <Tree data={components} />}
+        {tab === 4 && <ContextManager theme={theme} setTheme={setTheme} />}
+        {tab === 5 && (
           <StateManager
             theme={theme}
             setTheme={setTheme}

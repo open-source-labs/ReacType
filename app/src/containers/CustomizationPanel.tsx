@@ -1,41 +1,41 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { DataGrid} from '@mui/x-data-grid';
 import {
-  FormControl,
-  TextField,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControl,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  TextField
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import ClearIcon from '@mui/icons-material/Clear';
-import createModal from '../components/right/createModal';
-import ErrorMessages from '../constants/ErrorMessages';
-import ProjectManager from '../components/right/ProjectManager';
-import FormSelector from '../components/form/Selector';
-import UseStateModal from '../components/bottom/UseStateModal';
-import { useDispatch, useSelector } from 'react-redux';
-
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   changeTailwind,
-  updateStateUsed,
-  updateUseContext,
-  updateCss,
-  updateEvents,
+  deleteChild,
   deleteEventAction,
   deletePage,
   deleteReusableComponent,
-  updateAttributes,
-  deleteChild,
+  redo,
   undo,
-  redo
+  updateAttributes,
+  updateCss,
+  updateEvents,
+  updateStateUsed,
+  updateUseContext
 } from '../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import ClearIcon from '@mui/icons-material/Clear';
+import { DataGrid } from '@mui/x-data-grid';
+import ErrorMessages from '../constants/ErrorMessages';
+import FormSelector from '../components/form/Selector';
+import ProjectManager from '../components/right/ProjectManager';
+import UseStateModal from '../components/bottom/UseStateModal';
+import createModal from '../components/right/createModal';
+import makeStyles from '@mui/styles/makeStyles';
 
 // Previously named rightContainer, Renamed to Customizationpanel this now hangs on BottomTabs
 // need to pass in props to use the useHistory feature of react router
@@ -394,7 +394,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   // UNDO/REDO functionality--onClick these functions will be invoked.
   const handleUndo = () => {
     dispatch(undo({ contextParam }));
-    console.log(contextParam);
   };
   const handleRedo = () => {
     dispatch(redo({ contextParam }));
@@ -475,7 +474,6 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
   const keyBindedFunc = useCallback((e) => {
     // the || is for either Mac or Windows OS
     // Undo
-    console.log('keydown');
     (e.key === 'z' && e.metaKey && !e.shiftKey) ||
     (e.key === 'z' && e.ctrlKey && !e.shiftKey)
       ? handleUndo()
@@ -546,7 +544,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
       <div className="rightPanelWrapper">
         <div>
           <div className={classes.configHeader}>
-            <h4>
+            <h4 
+            className={
+                  isThemeLight
+                    ? classes.lightThemeFontColor
+                    : classes.darkThemeFontColor
+                }
+                >
               Instance of
               {configTarget.child.type === 'component'
                 ? ' component'
@@ -846,7 +850,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               <div className={classes.buttonRow}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: 'green' }}
+                  color="primary"
                   className={
                     isThemeLight
                       ? `${classes.button} ${classes.saveButtonLight}`
@@ -897,9 +901,13 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               {configTarget.child ? (
                 <div className={classes.buttonRow}>
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     color="primary"
-                    className={classes.button}
+                    className={
+                      isThemeLight
+                        ? `${classes.button} ${classes.saveButtonLight}`
+                        : `${classes.button} ${classes.saveButtonDark}`
+                    }
                     onClick={handleDelete}
                   >
                     DELETE INSTANCE
@@ -931,6 +939,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
               )}
               <div className={classes.buttonRow}>
                 <Button
+                  variant="contained"
                   color="primary"
                   className={classes.button}
                   onClick={handleUndo}
@@ -938,6 +947,7 @@ const CustomizationPanel = ({ isThemeLight }): JSX.Element => {
                   <i className="fas fa-undo"></i>
                 </Button>
                 <Button
+                  variant="contained"
                   color="primary"
                   className={classes.button}
                   onClick={handleRedo}
@@ -981,7 +991,7 @@ const useStyles = makeStyles({
   select: {
     fontSize: '1em',
     '> .MuiSelect-icon': {
-      color: '#155084'
+      color: '#C6C6C6'
     }
   },
   selectInput: {
@@ -1019,7 +1029,8 @@ const useStyles = makeStyles({
     paddingRight: '20px'
   },
   saveButtonLight: {
-    border: '1px solid #186BB4'
+    border: '1px solid #186BB4',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
   saveButtonDark: {
     border: '1px solid #3F51B5'
@@ -1050,7 +1061,7 @@ const useStyles = makeStyles({
     }
   },
   lightThemeFontColor: {
-    color: '#155084'
+    color: 'white'
   },
   darkThemeFontColor: {
     color: '#fff'

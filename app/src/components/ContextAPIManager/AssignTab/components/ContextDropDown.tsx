@@ -69,7 +69,7 @@ const ContextDropDown = ({
   };
 
   const renderOption = (props, option) => (
-    <li style={{ color: 'black', border: '1px solid black' }} {...props}>
+    <li style={{ color: 'black' }} {...props}>
       {option.name}
     </li>
   );
@@ -95,7 +95,7 @@ const ContextDropDown = ({
               {...params}
               InputProps={{
                 ...params.InputProps,
-                style: { color }
+                style: { color: 'white' }
               }}
               label="Select Context"
               variant="filled"

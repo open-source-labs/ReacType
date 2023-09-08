@@ -1,13 +1,14 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { Button, InputLabel } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { BorderColor } from '@mui/icons-material';
+import { RootState } from '../../redux/store';
+import TextField from '@mui/material/TextField';
 import { addElement } from '../../redux/reducers/slice/appStateSlice';
 import makeStyles from '@mui/styles/makeStyles';
-import {
-  Button,
-  InputLabel
-} from '@mui/material';
-import TextField from '@mui/material/TextField';
-import { RootState } from '../../redux/store';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 /*
 DESCRIPTION: This is the bottom half of the left panel, starting from the 'HTML
@@ -30,8 +31,11 @@ const HTMLPanel = (props): JSX.Element => {
   const [name, setName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const isDarkMode = useSelector((store:RootState) => store.darkMode.isDarkMode);
-  const state = useSelector((store:RootState) => store.appState);
+  const [alertOpen, setAlertOpen] = React.useState<boolean>(false)
+  const isDarkMode = useSelector(
+    (store: RootState) => store.darkMode.isDarkMode
+  );
+  const state = useSelector((store: RootState) => store.appState);
   const dispatch = useDispatch();
   let startingID = 0;
   state.HTMLTypes.forEach((element) => {
@@ -157,7 +161,29 @@ const HTMLPanel = (props): JSX.Element => {
     };
   }, []);
 
+  const handleAlertOpen = () => {
+    setAlertOpen(true)
+  }
+
+  const handleAlertClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+    ) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setAlertOpen(false);
+    }
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
   return (
+  <>
     <div className="HTMLItemCreate">
       <div className={classes.addComponentWrapper}>
         <div className={classes.inputWrapper}>
@@ -198,7 +224,7 @@ const HTMLPanel = (props): JSX.Element => {
               style={{ margin: '10px' }}
               InputProps={{
                 style: {
-                  color: !isDarkMode ? 'black' : 'white'
+                  color: !isDarkMode ? 'white' : 'white'
                 }
               }}
             />
@@ -246,7 +272,7 @@ const HTMLPanel = (props): JSX.Element => {
               style={{}}
               InputProps={{
                 style: {
-                  color: !isDarkMode ? 'black' : 'white'
+                  color: !isDarkMode ? 'white' : 'white'
                 }
               }}
             />
@@ -267,6 +293,7 @@ const HTMLPanel = (props): JSX.Element => {
             )}
             <br></br>
             <Button
+              onClick={handleAlertOpen}
               className={
                 !isDarkMode
                   ? `${classes.addElementButton} ${classes.lightThemeFontColor}`
@@ -284,6 +311,23 @@ const HTMLPanel = (props): JSX.Element => {
         </div>
       </div>
     </div>
+    <>
+    <Snackbar
+      open={alertOpen}
+      autoHideDuration={3000}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+      onClose={handleAlertClose}
+    >
+      <Alert
+        onClose={handleAlertClose}
+        severity="success"
+        sx={{ width: '100%', color: 'white' }}
+      >
+        HTML Tag Created!
+      </Alert>
+    </Snackbar>
+    </>
+ </>
   );
 };
 
@@ -332,13 +376,13 @@ const useStyles = makeStyles({
     fontFamily: 'Roboto, Raleway, sans-serif',
     fontSize: '85%',
     textAlign: 'center',
-    borderStyle: 'none',
     transition: '0.3s',
     borderRadius: '4px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    border: '1px solid #186BB4'
   },
   lightThemeFontColor: {
-    color: '#155084',
+    color: 'white',
     '& .MuiInputBase-root': {
       color: 'rgba (0, 0, 0, 0.54)'
     }

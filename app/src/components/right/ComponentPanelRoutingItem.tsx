@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import Grid from '@mui/material/Grid';
-import makeStyles from '@mui/styles/makeStyles';
-import { useDrag } from 'react-dnd';
-import { ItemTypes } from '../../constants/ItemTypes';
-import Select from '@mui/material/Select';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 
+import Grid from '@mui/material/Grid';
+import { ItemTypes } from '../../constants/ItemTypes';
 // ------------------------------------------------
 import MenuItem from '@mui/material/MenuItem';
+import { RootState } from '../../redux/store';
+import Select from '@mui/material/Select';
+import makeStyles from '@mui/styles/makeStyles';
+import { useDrag } from 'react-dnd';
+import { useSelector } from 'react-redux';
+
 // ------------------------------------------------
 
 /*
@@ -75,7 +76,7 @@ const ComponentPanelRoutingItem: React.FC<{}> = () => {
       ref={drag}
       xs={8}
       style={{
-        color: '#155084',
+        color: '#C6C6C6',
         backgroundColor: 'transparent',
         height: '75px',
         marginBottom: '15px',

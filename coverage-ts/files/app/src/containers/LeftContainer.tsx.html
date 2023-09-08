@@ -11,60 +11,35 @@
 <link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/LeftContainer.tsx</td><td class="">83.95%</td><td class="">80%</td><td class="">81</td><td class="">68</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useEffect, useCallback } from &#x27;react&#x27;;
-import Grid from &#x27;@mui/material/Grid&#x27;;
-import ComponentDrag from &#x27;../components/left/ComponentDrag&#x27;;
-import DragDropPanel from &#x27;../components/left/DragDropPanel&#x27;;
-import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
-import { deleteChild } from &#x27;../redux/reducers/slice/appStateSlice&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/containers/LeftContainer.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">35</td><td class="">35</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useState, useEffect } from &#x27;react&#x27;;
 
-// Left-hand portion of the app, where component options are displayed
-const LeftContainer = (props): JSX.Element =&gt; {
-  const { contextParam, style } = useSelector((store) =&gt; ({
-    contextParam: store.contextSlice,
-    style: store.styleSlice
-  }));
-  const dispatch = useDispatch();
+import ContentArea from &#x27;../components/left/ContentArea&#x27;;
+import { BrowserRouter as Router } from &#x27;react-router-dom&#x27;;
+import Sidebar from &#x27;../components/left/Sidebar&#x27;;
 
-  const handleDelete = () =&gt; {
-    dispatch(deleteChild({ id: {}, contextParam: contextParam }));
+function App() {
+  const [activeTab, setActiveTab] = useState&lt;number | null&gt;(null);
+  const [isVisible, setIsVisible] = useState(false); // State to manage visibility
+
+  const toggleVisibility = (state: boolean) =&gt; {
+    setIsVisible(state);
   };
-  const keyBindedFunc = useCallback((e) =&gt; {
-    if (
-      e.key === &#x27;Backspace&#x27; &amp;&amp;
-      e.target.tagName !== &#x27;TEXTAREA&#x27; &amp;&amp;
-      e.target.tagName !== &#x27;INPUT&#x27;
-    )
-      handleDelete();
-  }, []);
-  useEffect(() =&gt; {
-    document.addEventListener(&#x27;keydown&#x27;, keyBindedFunc);
-    return () =&gt; {
-      document.removeEventListener(&#x27;keydown&#x27;, keyBindedFunc);
-    };
-  }, []);
 
   return (
-    &lt;div className=&quot;left-container hide-show&quot;&gt;
-      &lt;div className=&quot;column left&quot; style={style.style}&gt;
-        &lt;Grid container direction=&quot;column&quot; alignItems=&quot;center&quot;&gt;
-          &lt;h4&gt;Drag and Drop&lt;/h4&gt;
-          &lt;DragDropPanel /&gt;
-          &lt;div id={&#x27;CompBottomHalf&#x27;}&gt;
-            &lt;ComponentDrag isThemeLight={props.isThemeLight} /&gt;
-          &lt;/div&gt;
-        &lt;/Grid&gt;
-      &lt;/div&gt;
-      &lt;div className=&quot;left-indicator&quot;&gt;
-        &lt;span className=&quot;material-symbols-outlined&quot;&gt;eject&lt;/span&gt;
-      &lt;/div&gt;
+    &lt;div style={{ display: &#x27;flex&#x27; }}&gt;
+      &lt;Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        toggleVisibility={toggleVisibility}
+      /&gt;
+      &lt;ContentArea activeTab={activeTab} isVisible={isVisible} /&gt;
     &lt;/div&gt;
   );
-};
+}
 
-export default LeftContainer;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:23,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:37,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:8,&quot;text&quot;:&quot;key&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:8,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:15,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:6,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:8,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:15,&quot;text&quot;:&quot;tagName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:27,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:41,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/containers/LeftContainer.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:47,&quot;text&quot;:&quot;isThemeLight&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+export default App;
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

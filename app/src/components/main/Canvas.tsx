@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDrop, DropTargetMonitor } from 'react-dnd';
-import { ItemTypes } from '../../constants/ItemTypes';
 import { Component, DragItem } from '../../interfaces/Interfaces';
+import { DropTargetMonitor, useDrop } from 'react-dnd';
+import React, { useEffect, useState } from 'react';
+import {
+  addChild,
+  changeFocus,
+  snapShotAction,
+  // toggleCodePreview
+} from '../../redux/reducers/slice/appStateSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Arrow from './Arrow';
+import { ItemTypes } from '../../constants/ItemTypes';
+import { RootState } from '../../redux/store';
 import { combineStyles } from '../../helperFunctions/combineStyles';
 import renderChildren from '../../helperFunctions/renderChildren';
-import Arrow from './Arrow';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeFocus,
-  addChild,
-  snapShotAction
-} from '../../redux/reducers/slice/appStateSlice';
-import { RootState } from '../../redux/store';
 
 function Canvas(props): JSX.Element {
   const { state, contextParam, isDarkMode } = useSelector(
@@ -126,8 +128,8 @@ function Canvas(props): JSX.Element {
   const defaultCanvasStyle = {
     width: '100%',
     minHeight: '100%',
-    backgroundColor: isOver ? '#FAFED1' : '#FBFBFB',
-    border: '1px solid #FBFBF2',
+    backgroundColor: isOver ? '#191919' : '#191919',
+    // border: '1px solid #FBFBF2',
     borderStyle: isOver ? 'dotted' : 'solid',
     aspectRatio: 'auto 774 / 1200',
     boxSizing: 'border-box'

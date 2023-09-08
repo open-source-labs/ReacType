@@ -1,8 +1,9 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Grid from '@mui/material/Grid';
 import HTMLItem from './HTMLItem';
+import React from 'react';
 import { RootState } from '../../redux/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { deleteElement } from '../../redux/reducers/slice/appStateSlice';
 
 /*
@@ -37,10 +38,15 @@ const DragDropPanel = (props): JSX.Element => {
   return (
     <div className={`${!isDarkMode ? 'HTMLItems' : 'HTMLItemsDark'}`}>
       <div id="HTMLItemsTopHalf">
-        <Grid id="HTMLItemsGrid">
-          <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
-            HTML ELEMENTS
-          </h3>
+        <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
+          HTML Elements
+        </h3>
+        <Grid
+          container
+          spacing={{ xs: 0.5, md: 0.5 }}
+          columns={{ xs: 4, sm: 4, md: 4 }}
+          justifyContent="center"
+        >
           {htmlTypesToRender.map((option) => {
             if (
               !['Switch', 'LinkTo', 'LinkHref', 'Image', 'Route'].includes(
@@ -48,21 +54,30 @@ const DragDropPanel = (props): JSX.Element => {
               )
             ) {
               return (
-                <HTMLItem
-                  name={option.name}
-                  key={`html-${option.name}`}
-                  id={option.id}
-                  Icon={option.icon}
-                  handleDelete={handleDelete}
-                />
+                <Grid item xs={2} sm={2} md={2} key={option.name}>
+                  <HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                </Grid>
               );
             }
           })}
-          {state.projectType === 'Classic React' ? (
-            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>
-              REACT ROUTER
-            </h3>
-          ) : null}
+        </Grid>
+        {state.projectType === 'Classic React' ? (
+          <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>
+            React Router
+          </h3>
+        ) : null}
+        <Grid
+          container
+          spacing={{ xs: 0.5, md: 0.5 }}
+          columns={{ xs: 4, sm: 4, md: 4 }}
+          justifyContent="center"
+        >
           {htmlTypesToRender.map((option) => {
             if (
               (option.name === 'Switch' ||
@@ -71,37 +86,39 @@ const DragDropPanel = (props): JSX.Element => {
               state.projectType === 'Classic React'
             ) {
               return (
-                <HTMLItem
-                  name={option.name}
-                  key={`html-${option.name}`}
-                  id={option.id}
-                  Icon={option.icon}
-                  handleDelete={handleDelete}
-                />
-              );
-            }
-          })}
-
-          {state.projectType === 'Next.js' ? (
-            <h3 style={{ color: !isDarkMode ? '#000' : '#fff' }}>Next.js</h3>
-          ) : null}
-          {htmlTypesToRender.map((option) => {
-            if (
-              option.framework === 'nextjs' &&
-              state.projectType === 'Next.js'
-            ) {
-              return (
-                <HTMLItem
-                  name={option.name}
-                  key={`html-${option.name}`}
-                  id={option.id}
-                  Icon={option.icon}
-                  handleDelete={handleDelete}
-                />
+                <Grid item xs={2} sm={2} md={2} key={option.name}>
+                  <HTMLItem
+                    name={option.name}
+                    key={`html-${option.name}`}
+                    id={option.id}
+                    Icon={option.icon}
+                    handleDelete={handleDelete}
+                  />
+                </Grid>
               );
             }
           })}
         </Grid>
+
+        {state.projectType === 'Next.js' ? (
+          <h3 style={{ color: !isDarkMode ? '#C6C6C6' : '#fff' }}>Next.js</h3>
+        ) : null}
+        {htmlTypesToRender.map((option) => {
+          if (
+            option.framework === 'nextjs' &&
+            state.projectType === 'Next.js'
+          ) {
+            return (
+              <HTMLItem
+                name={option.name}
+                key={`html-${option.name}`}
+                id={option.id}
+                Icon={option.icon}
+                handleDelete={handleDelete}
+              />
+            );
+          }
+        })}
       </div>
     </div>
   );

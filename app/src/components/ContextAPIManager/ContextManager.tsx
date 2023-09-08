@@ -15,8 +15,8 @@ import { RootState } from '../../redux/store';
 
 const useStyles = makeStyles({
   contextContainer: {
-    backgroundColor: 'white',
-    height: 'fit-content'
+    backgroundColor: '#191919',
+    height: 'fit-content',
   }
 });
 
@@ -33,7 +33,7 @@ const ContextManager = (props): JSX.Element => {
   };
 
   const background_Color = isDarkMode ? '#21262b' : 'white'
-  const color = isDarkMode ? 'white' : 'black'
+  const color = isDarkMode ? 'white' : 'white'
 
   return (
     <React.Fragment>
@@ -42,7 +42,7 @@ const ContextManager = (props): JSX.Element => {
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} centered={true} sx={{color:color}}>
-                <Tab   style={{ color: color }}label="Create/Edit" value="1" />
+                <Tab style={{ color: color }} label="Create/Edit" value="1" />
                 <Tab style={{ color: color }} label="Assign" value="2" />
                 <Tab style={{ color: color }} label="Display" value="3" />
               </TabList>

@@ -11,43 +11,57 @@
 <link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
     </head>
     <body>
-    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/App.tsx</td><td class="">96.10%</td><td class="">80%</td><td class="">77</td><td class="">74</td><td class="">3</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, {useEffect } from &#x27;react&#x27;;
-import &#x27;../public/styles/style.css&#x27;;
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">app/src/components/App.tsx</td><td class="">96.63%</td><td class="">80%</td><td class="">89</td><td class="">86</td><td class="">3</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import &#x27;../public/styles/style.css&#x27;;
+
+import React, { useEffect, useState } from &#x27;react&#x27;;
+import {
+  setInitialState,
+  toggleLoggedIn
+} from &#x27;../redux/reducers/slice/appStateSlice&#x27;;
+//redux toolkit addition
+import { useDispatch, useSelector } from &#x27;react-redux&#x27;;
+
+import AppContainer from &#x27;../containers/AppContainer&#x27;;
+import Cookies from &#x27;js-cookie&#x27;;
 import { DndProvider } from &#x27;react-dnd&#x27;;
 import { HTML5Backend } from &#x27;react-dnd-html5-backend&#x27;;
-import AppContainer from &#x27;../containers/AppContainer&#x27;;
+import { RootState } from &#x27;../redux/store&#x27;;
 import localforage from &#x27;localforage&#x27;;
 import { saveProject } from &#x27;../helperFunctions/projectGetSaveDel&#x27;;
-import Cookies from &#x27;js-cookie&#x27;;
-//redux toolkit addition
-import { useSelector, useDispatch } from &#x27;react-redux&#x27;;
-import { setInitialState, toggleLoggedIn} from &#x27;../redux/reducers/slice/appStateSlice&#x27;;
-
-import { RootState } from &#x27;../redux/store&#x27;;
 
 // Intermediary component to wrap main App component with higher order provider components
 export const App = (): JSX.Element =&gt; {
   const state = useSelector((store: RootState) =&gt; store.appState);
+  
+  const [toggleAttempt, setToggleAttempt] = useState(false);
   const dispatch = useDispatch();
   // checks if user is signed in as guest or actual user and changes loggedIn boolean accordingly
-  useEffect(()=&gt;{
+  useEffect(() =&gt; {
     if (window.localStorage.getItem(&#x27;ssid&#x27;) !== &#x27;guest&#x27;) {
-      dispatch(toggleLoggedIn())
-    } 
-  },[])
+      dispatch(toggleLoggedIn(true));
+    }
+    //setToggleAttempt(!toggleAttempt);
+  }, []);
 
   // following useEffect runs on first mount
   useEffect(() =&gt; {
+    console.log(&#x27;state.isLoggedIn&#x27;, state.isLoggedIn)
+    // console.log(&#x27;cookies.get in App&#x27;, Cookies.get())
     // if user is a guest, see if a project exists in localforage and retrieve it
-      if (!state.isLoggedIn) {
-      localforage.getItem(&#x27;guestProject&#x27;).then(project =&gt; {
+    // v17 May not currently work yet
+    if (!state.isLoggedIn) {
+      console.log(&#x27;not state.islogged in&#x27;)
+      localforage.getItem(&#x27;guestProject&#x27;).then((project) =&gt; {
         // if project exists, use dispatch to set initial state to that project
+        console.log(&#x27;guestProject&#x27;, project)
         if (project) {
-          dispatch(setInitialState(project))
+          dispatch(setInitialState(project));
+          console.log(&#x27;project&#x27;, project)
         }
       });
     } else {
       // otherwise if a user is logged in, use a fetch request to load user&#x27;s projects from DB
+      
       let userId;
       if (Cookies.get(&#x27;ssid&#x27;)) {
         userId = Cookies.get(&#x27;ssid&#x27;);
@@ -55,10 +69,9 @@ export const App = (): JSX.Element =&gt; {
         userId = window.localStorage.getItem(&#x27;ssid&#x27;);
       }
       //also load user&#x27;s last project, which was saved in localforage on logout
-      localforage.getItem(userId).then(project =&gt; {
+      localforage.getItem(userId).then((project) =&gt; {
         if (project) {
-    
-          dispatch(setInitialState(project))
+          dispatch(setInitialState(project));
         } else {
           console.log(
             &#x27;No user project found in localforage, setting initial state blank&#x27;
@@ -103,23 +116,22 @@ export const App = (): JSX.Element =&gt; {
 
   return (
     &lt;div className=&quot;app&quot;&gt;
-      &lt;DndProvider backend={HTML5Backend}&gt;
+      
         &lt;header
           style={{ height: &#x27;40px&#x27;, width: &#x27;100%&#x27;, backgroundColor: &#x27;white&#x27; }}
         &gt;
           ReacType
         &lt;/header&gt;
-   
-          &lt;AppContainer /&gt;
-    
-      &lt;/DndProvider&gt;
+
+        &lt;AppContainer /&gt;
+     
     &lt;/div&gt;
   );
-}
+};
 
 export default App;
-</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:10,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1}]</pre></div>
-    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Fri, 05 May 2023 01:51:04 GMT</p>
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:10,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;app/src/components/App.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:8,&quot;text&quot;:&quot;userId&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 07 Sep 2023 18:28:49 GMT</p>
     </body>
   </html>
   

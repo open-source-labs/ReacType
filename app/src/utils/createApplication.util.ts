@@ -1,8 +1,8 @@
+import { Component } from '../interfaces/Interfaces';
 // Create all files necessary to run a classic react application
 import createFiles from './createFiles.util';
-import { Component } from '../interfaces/Interfaces';
 import createTestSuiteClassic from './createTestSuiteClassic.util';
-import store from '../redux/store.ts';
+import store from '../redux/store';
 
 const camelToKebab = (camel: string) => {
   return camel.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
@@ -13,7 +13,7 @@ const compToCSS = (component: Component) => {
   let cssClass = `
   .${name} {
     `;
-  Object.keys(styleObj).forEach(property => {
+  Object.keys(styleObj).forEach((property) => {
     let cssStyle = `${camelToKebab(property)}: ${styleObj[property]};
     `;
     cssClass += cssStyle;
@@ -56,7 +56,7 @@ function createIndexHtml(path, appName) {
   </body>
 </html>
   `;
-  window.api.writeFileSync(filePath, data, err => {
+  window.api.writeFileSync(filePath, data, (err) => {
     if (err) {
       console.log('index.html error:', err.message);
     } else {
@@ -72,7 +72,7 @@ import App from './components/App';
 import './default.css';
 ReactDOM.render(<App />, document.getElementById('root'));
   `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('index.tsx error:', err.message);
     } else {
@@ -91,10 +91,10 @@ export const createDefaultCSS = (path, appName, components) => {
   font-family: Helvetica, Arial;
 }
 `;
-  components.forEach(comp => {
+  components.forEach((comp) => {
     data += compToCSS(comp);
   });
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('default.css error:', err.message);
     } else {
@@ -172,7 +172,7 @@ export const createPackage = (path, appName, test) => {
   }
 }
   `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('package.json error:', err.message);
     } else {
@@ -226,7 +226,7 @@ module.exports = {
   },
 };
   `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('webpack error:', err.message);
     } else {
@@ -240,7 +240,7 @@ export const createBabel = (path, appName) => {
   "presets": ["@babel/env", "@babel/react", "@babel/typescript"]
 }
 `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('babelrc error:', err.message);
     } else {
@@ -265,7 +265,7 @@ export const createTsConfig = (path, appName) => {
   "include": ["./src/**/*"]
 }
 `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -294,7 +294,7 @@ export const createTsLint = (path, appName) => {
   }
 }
 `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('TSLint error:', err.message);
     } else {
@@ -320,7 +320,7 @@ app.listen(8080, () => {
   console.log('listening on port 8080');
 }); //listens on port 8080 -> http://localhost:8080/
 `;
-  window.api.writeFile(filePath, data, err => {
+  window.api.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('server file error:', err.message);
     } else {
@@ -356,7 +356,7 @@ return (
 );
 export default ${context.name}Provider   
 `;
-    window.api.writeFileSync(filePath, data, err => {
+    window.api.writeFileSync(filePath, data, (err) => {
       if (err) {
         console.log('server file error:', err.message);
       } else {
