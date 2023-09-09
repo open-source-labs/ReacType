@@ -24,7 +24,7 @@ COPY --from=build /app/package*.json ./
 
 RUN npm install --no-install-recommends --only=production --fetch-retry-maxtimeout 500000
 
-COPY --from=build /app/.env .env
+# COPY --from=build /app/.env .env
 COPY --from=build /app/config.js ./config.js
 COPY --from=build /app/server ./server
 COPY --from=build /app/app/dist /app

@@ -41,6 +41,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>

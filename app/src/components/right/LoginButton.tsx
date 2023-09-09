@@ -10,6 +10,7 @@ const { API_BASE_URL, API_BASE_URL2 } = config;
 export default function LoginButton() {
   const state = useSelector((store:RootState) => store.appState);
   const dispatch = useDispatch();
+
   const handleLogout = () => {
   
     window.localStorage.clear();
