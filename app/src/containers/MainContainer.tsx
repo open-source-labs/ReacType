@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState} from 'react';
 import BottomPanel from '../components/bottom/BottomPanel';
 import CanvasContainer from '../components/main/CanvasContainer';
 import DemoRender from '../components/main/DemoRender';
@@ -11,6 +11,7 @@ import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from '../../../src/custom-aws-exports';
 
 const MainContainer = (props): JSX.Element => {
+  const [bottomShow, setBottomShow] = useState(false)
   const dispatch = useDispatch();
   const screenshotTrigger = useSelector((store: RootState) => store.appState.screenshotTrigger); 
   const id: string = useSelector((store: RootState) => store.appState._id); 
@@ -65,13 +66,46 @@ const MainContainer = (props): JSX.Element => {
     }
   }
 
+  //Logic to close the bottompanel when clicking outside of it
+  const useOutsideClick = () => {
+    const bottomPanelRef = useRef(null);
+
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (event.type === "click" &&
+          (bottomPanelRef.current &&
+          !bottomPanelRef.current.contains(event.target)) || (event.type === "message" && event.data === 'iframeClicked')) {
+          //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
+          handleClose();
+        }
+      };
+      window.addEventListener('click', handleClick, true);
+      window.addEventListener('message', handleClick);//to capture clicks in the iframe
+
+      return () => {
+        window.removeEventListener('click', handleClick, true);
+        window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+      };
+    }, [bottomPanelRef]);
+
+    return bottomPanelRef;
+  };
+
+  const ref = useOutsideClick();
+
+  const handleClose = () => {
+    setBottomShow(false);
+  };
+
+  let showPanel = bottomShow ? 'bottom-show' : 'bottom-hide';
+
   return (
     <div className="main-container" style={style} ref={containerRef}>
       <div className="main" >
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div className="bottom-hide" >
+      <div onMouseOver={()=>setBottomShow(true)} className={showPanel} ref={ref}>
         <BottomPanel isThemeLight={props.isThemeLight} />
       </div>
     </div>

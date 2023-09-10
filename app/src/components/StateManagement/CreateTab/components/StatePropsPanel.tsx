@@ -405,7 +405,7 @@ const StatePropsPanel = ({ isThemeLight, data }): JSX.Element => {
         </FormControl>
       </div>
       <br />
-      <div style={{ display: 'flex', overflowX: 'scroll' }}>
+      <div style={{ display: 'flex'}}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h4
             className={

@@ -507,6 +507,7 @@ BOTTOM PANEL
 
 .bottom-show {
   max-height: 100%;
+  transition: all 0.5s ease-in-out;
 }
 
 .bottom-hide:focus-within {
@@ -525,6 +526,11 @@ BOTTOM PANEL
   position: relative;
   z-index: 0;
   background-color: #191919;
+}
+
+.MuiDataGrid-menuList {
+
+  background-color: #333333
 }
 
 #resize-drag {
