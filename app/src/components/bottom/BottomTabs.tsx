@@ -50,6 +50,7 @@ const BottomTabs = (props): JSX.Element => {
     <div
       className={`${classes.root} ${classes.rootLight}`}
       style={{ backgroundColor: '#191919' , zIndex: 1, borderTop: '2px solid grey'}}
+      onMouseOver={()=>{props.setBottomShow(true)}}
     >
       <Box
         display="flex"

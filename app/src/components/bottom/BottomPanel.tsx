@@ -22,7 +22,10 @@ const BottomPanel = (props): JSX.Element => {
     const dy = y - e.clientY;
 
     // Adjust the dimension of element
-    node.current.style.height = `${h + dy}px`;
+    const newVal = h + dy;
+    const styles = window.getComputedStyle(node.current);
+    const min = parseInt(styles.minHeight, 10);
+    node.current.style.height = newVal > min ? `${h + dy}px` : `${min}px`;
   };
 
   const mouseUpHandler = function () {
@@ -33,6 +36,7 @@ const BottomPanel = (props): JSX.Element => {
 
   useEffect(() => {
     node.current.style.height = '50vh';
+    node.current.style.minHeight = '50vh';
   }, []);
 
   return (
@@ -41,7 +45,7 @@ const BottomPanel = (props): JSX.Element => {
       <div id="resize-drag" onMouseDown={mouseDownHandler} tabIndex={0}>
         ......
       </div>
-      <BottomTabs isThemeLight={props.isThemeLight} />
+      <BottomTabs setBottomShow = {props.setBottomShow} isThemeLight={props.isThemeLight} />
     </div></>
   );
 };
