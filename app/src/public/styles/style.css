@@ -513,10 +513,10 @@ BOTTOM PANEL
 .bottom-hide:focus-within {
   max-height: 100%;
 }
-
+/* 
 .bottom-hide:hover {
   max-height: 100%;
-}
+} */
 
 .tab-content {
   height: calc(100% - 76px);
@@ -528,10 +528,17 @@ BOTTOM PANEL
   background-color: #191919;
 }
 
-.MuiDataGrid-menuList {
+.MuiDataGrid-menuList, .MuiDataGrid-columnsPanel, .MuiDataGrid-filterForm {
 
   background-color: #333333
 }
+.MuiDataGrid-panelHeader, .MuiDataGrid-panelFooter {
+
+  background-color: #252525
+
+}
+
+
 
 #resize-drag {
 

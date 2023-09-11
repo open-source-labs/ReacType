@@ -72,9 +72,11 @@ const MainContainer = (props): JSX.Element => {
 
     useEffect(() => {
       const handleClick = (event) => {
+        console.log(event.target)
+        
         if (event.type === "click" &&
           (bottomPanelRef.current &&
-          !bottomPanelRef.current.contains(event.target)) || (event.type === "message" && event.data === 'iframeClicked')) {
+          !bottomPanelRef.current.contains(event.target) && event.target.getAttribute("role") != "menu" && !event.target.classList.contains('MuiInput-input')) || (event.type === "message" && event.data === 'iframeClicked')) {
           //menuButtonRef is to ensure that handleClose does not get invoked when the user clicks on the menu dropdown button
           handleClose();
         }
@@ -105,8 +107,8 @@ const MainContainer = (props): JSX.Element => {
         <CanvasContainer isThemeLight={props.isThemeLight} />
         <DemoRender />
       </div>
-      <div onMouseOver={()=>setBottomShow(true)} className={showPanel} ref={ref}>
-        <BottomPanel isThemeLight={props.isThemeLight} />
+      <div className={showPanel} ref = {ref}>
+        <BottomPanel setBottomShow = {setBottomShow} isThemeLight={props.isThemeLight} />
       </div>
     </div>
   );
