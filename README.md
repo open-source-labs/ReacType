@@ -69,14 +69,16 @@ If you want to read about using ReacType, the [User Manual](https://reactype-1.h
 - **Marketplace Feature**: Implemented a dedicated area for developers to share their projects, 
 - **And more:** See [change log](https://github.com/open-source-labs/ReacType/blob/master/CHANGE_LOG.md) for more details on what was changed from the previous versions as well as plans for upcoming features!
 
-## File Structure courtesy of Reactype version 14.0.0
+## File Structure of ReacType version 17.0.0
 
 Here is the main file structure:
 
 <p align="center">
-  <img width="1000" src="https://i.imgur.com/RdK8QzW.jpg">
+  <img width="1000" src="https://i.imgur.com/uUzyHwW.png">
 </p>
-Please refer to the link: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w for more details.
+Provided to us by our friends over at React Relay.  
+
+Please refer to the link for a detailed exalidraw provided by ReacType 14.0 for more details: https://excalidraw.com/#json=JKwzVD5qx6lsfiHW1_pQ9,XJ6uDoehVu-1bsx0SMlC6w 
 
 ## Run ReacType using CLI
 
