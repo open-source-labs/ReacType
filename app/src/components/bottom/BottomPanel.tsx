@@ -25,10 +25,7 @@ const BottomPanel = (props): JSX.Element => {
     const newVal = h + dy;
     const styles = window.getComputedStyle(node.current);
     const min = parseInt(styles.minHeight, 10);
-    console.log('is newVal > min newVal', newVal)
-    console.log('is newVal > min min', min)
     node.current.style.height = newVal > min ? `${h + dy}px` : `${min}px`;
-    console.log('mousemove', node.current.style.height)
   };
 
   const mouseUpHandler = function () {

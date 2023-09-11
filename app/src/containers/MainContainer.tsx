@@ -71,9 +71,7 @@ const MainContainer = (props): JSX.Element => {
     const bottomPanelRef = useRef(null);
 
     useEffect(() => {
-      const handleClick = (event) => {
-        console.log(event.target)
-        
+      const handleClick = (event) => {        
         if (event.type === "click" &&
           (bottomPanelRef.current &&
           !bottomPanelRef.current.contains(event.target) && event.target.getAttribute("role") != "menu" && !event.target.classList.contains('MuiInput-input')) || (event.type === "message" && event.data === 'iframeClicked')) {

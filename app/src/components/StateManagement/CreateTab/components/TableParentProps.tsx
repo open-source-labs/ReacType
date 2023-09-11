@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   DataGrid,
-  GridEditRowsModel,
+  GridEditRowsModel
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import makeStyles from '@mui/styles/makeStyles';
@@ -104,6 +104,7 @@ const TableParentProps = props => {
   }
   }
 
+
   return (
     <div className={'state-prop-grid'}> 
       <DataGrid
@@ -113,6 +114,7 @@ const TableParentProps = props => {
         rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        disableColumnMenu={true}
       />
     </div>
   );

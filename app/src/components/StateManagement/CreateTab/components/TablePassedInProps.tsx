@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   DataGrid,
-  GridEditRowsModel,
+  GridEditRowsModel
 } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -96,6 +96,7 @@ const TablePassedInProps = props => {
   let rows: any = passedInProps?.slice();
   //let rows: readonly StateProp[] = passedInProps?.slice() || [];
 
+
   return (
     <div className={'state-prop-grid'}>
       <DataGrid
@@ -105,6 +106,7 @@ const TablePassedInProps = props => {
         rowsPerPageOptions={[5]}
         editRowsModel={editRowsModel}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
+        disableColumnMenu={true}
       />
     </div>
   );

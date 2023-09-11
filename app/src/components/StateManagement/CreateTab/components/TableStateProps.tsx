@@ -103,8 +103,6 @@ const TableStateProps = props => {
   let rows = [];
   currentComponent.stateProps?.forEach((prop) =>{ rows.push(prop)}); 
 
-
-
   return (
     <div className={'state-prop-grid'}>
       <DataGrid
@@ -115,7 +113,7 @@ const TableStateProps = props => {
         editRowsModel={editRowsModel}
         onRowClick={selectHandler}
         className={props.isThemeLight ? classes.themeLight : classes.themeDark}
-        disableColumnMenu={false}
+        disableColumnMenu={true}
       />
     </div>
   );
