@@ -311,7 +311,7 @@ function navbarDropDown(props) {
 
       return () => {
         window.removeEventListener('click', handleClick, true);
-        window.addEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
+        window.removeEventListener('message', handleClick); //cleanup for memory purposes. ensures handleclick isn't called after the component is no longer rendered
       };
     }, [dropdownRef]);
 

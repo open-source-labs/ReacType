@@ -4,7 +4,6 @@ import BottomTabs from './BottomTabs';
 const BottomPanel = (props): JSX.Element => {
   let y: number = 0;
   let h: number = 0;
-
   const node = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const mouseDownHandler = (e): void => {
@@ -13,12 +12,25 @@ const BottomPanel = (props): JSX.Element => {
     const styles = window.getComputedStyle(node.current);
     h = parseInt(styles.height, 10);
 
+    //Start listeners when the user clicks the bottom panel tab
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
+    window.addEventListener('message', handleIframeMessage);//listens for messages from the iframe when the mouse is over it
   };
+  
+  //Interpret the messages from the iframe
+  const handleIframeMessage = (e) => {
+    if (e.data === 'iframeMouseUp') {
+      mouseUpHandler();
+    }else if(e.data.type === 'iframeMouseMove'){
+      mouseMoveHandler(e.data)
+    }
+  }    
+
 
   const mouseMoveHandler = function (e: MouseEvent): void {
     // How far the mouse has been moved
+
     const dy = y - e.clientY;
 
     // Adjust the dimension of element
@@ -32,6 +44,7 @@ const BottomPanel = (props): JSX.Element => {
     // Remove the handlers of `mousemove` and `mouseup`
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
+    window.removeEventListener('message', handleIframeMessage);
   };
 
   useEffect(() => {
