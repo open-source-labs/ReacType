@@ -53,7 +53,21 @@ const DemoRender = (): JSX.Element => {
           const handleClickInsideIframe = () => {
             window.parent.postMessage('iframeClicked', '*');
           };
+          const handleMouseUpInsideIframe = () => {
+            window.parent.postMessage('iframeMouseUp', '*');
+          };
+          const handleMouseMoveInsideIframe = (e) => {
+            const msgData = {
+              type: 'iframeMouseMove',
+              clientY: e.clientY + 70 //change the 70 to the value of the height of the navbar
+            }
+            window.parent.postMessage(msgData, '*');
+          };
           window.addEventListener('click', handleClickInsideIframe);
+          window.addEventListener('mouseup', handleMouseUpInsideIframe);
+          window.addEventListener('mousemove', handleMouseMoveInsideIframe);
+         
+          
         </script>
       </body>
     </html>
